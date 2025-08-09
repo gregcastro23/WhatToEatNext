@@ -525,28 +525,28 @@
   transition: all 0.2s ease;
 }
 
-.form-actions button[type="button"] {
+.form-actions button[type='button'] {
   background: white;
   color: #374151;
   border: 1px solid #d1d5db;
 }
 
-.form-actions button[type="button"]:hover {
+.form-actions button[type='button']:hover {
   background: #f3f4f6;
   border-color: #9ca3af;
 }
 
-.form-actions button[type="submit"] {
+.form-actions button[type='submit'] {
   background: #ef4444;
   color: white;
   border: none;
 }
 
-.form-actions button[type="submit"]:hover:not(:disabled) {
+.form-actions button[type='submit']:hover:not(:disabled) {
   background: #dc2626;
 }
 
-.form-actions button[type="submit"]:disabled {
+.form-actions button[type='submit']:disabled {
   background: #9ca3af;
   cursor: not-allowed;
 }
@@ -556,59 +556,59 @@
   .conflict-resolution-panel {
     padding: 1rem;
   }
-  
+
   .panel-header {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
   }
-  
+
   .conflict-filters {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .summary-stats {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
-  
+
   .conflict-header {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
   }
-  
+
   .conflict-badges {
     order: 2;
   }
-  
+
   .conflict-time {
     order: 1;
     align-self: flex-end;
   }
-  
+
   .conflict-details {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .info-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .strategy-details {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .resolution-actions {
     flex-direction: column;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }
-  
+
   .conflict-details-modal,
   .manual-override-modal {
     width: 95%;
@@ -621,21 +621,21 @@
   .manual-override-overlay {
     padding: 0.5rem;
   }
-  
+
   .conflict-details-modal,
   .manual-override-modal {
     width: 100%;
     margin: 0;
   }
-  
+
   .modal-header {
     padding: 1rem;
   }
-  
+
   .modal-content {
     padding: 1rem;
   }
-  
+
   .summary-stats {
     grid-template-columns: 1fr;
   }

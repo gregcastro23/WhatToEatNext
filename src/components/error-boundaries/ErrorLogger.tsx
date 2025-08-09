@@ -29,7 +29,12 @@ export interface ErrorRecoveryMetrics {
 
 interface ErrorLoggerContextType {
   errorLog: ErrorLogEntry[];
-  logError: (error: Error, context: string, componentName?: string, severity?: ErrorLogEntry['severity']) => string;
+  logError: (
+    error: Error,
+    context: string,
+    componentName?: string,
+    severity?: ErrorLogEntry['severity'],
+  ) => string;
   markErrorResolved: (errorId: string) => void;
   clearErrorLog: () => void;
   getMetrics: () => ErrorRecoveryMetrics;
@@ -52,71 +57,71 @@ export function ErrorLoggerProvider({ children, maxLogSize = 100 }: ErrorLoggerP
 
   // Clean up old errors periodically
   useEffect(() => {
-    const cleanup = setInterval(() => {
-      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-      setErrorLog(prevLog =>
-        prevLog.filter(entry => entry.timestamp > oneHourAgo)
-      );
-    }, 5 * 60 * 1000); // Clean up every 5 minutes
+    const cleanup = setInterval(
+      () => {
+        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+        setErrorLog(prevLog => prevLog.filter(entry => entry.timestamp > oneHourAgo));
+      },
+      5 * 60 * 1000,
+    ); // Clean up every 5 minutes
 
     return () => clearInterval(cleanup);
   }, []);
 
-  const logError = useCallback((
-    error: Error,
-    context: string,
-    componentName?: string,
-    severity: ErrorLogEntry['severity'] = 'medium'
-  ): string => {
-    const errorId = `error-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  const logError = useCallback(
+    (
+      error: Error,
+      context: string,
+      componentName?: string,
+      severity: ErrorLogEntry['severity'] = 'medium',
+    ): string => {
+      const errorId = `error-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-    const logEntry: ErrorLogEntry = {
-      id: errorId,
-      timestamp: new Date(),
-      error,
-      context,
-      componentName,
-      severity,
-      resolved: false,
-      retryCount: 0,
-    };
-
-    setErrorLog(prevLog => {
-      const newLog = [logEntry, ...prevLog];
-      // Keep log size manageable
-      return newLog.slice(0, maxLogSize);
-    });
-
-    // Log to external error handler
-    ErrorHandler.log(error, {
-      context,
-      data: {
-        errorId,
+      const logEntry: ErrorLogEntry = {
+        id: errorId,
+        timestamp: new Date(),
+        error,
+        context,
         componentName,
         severity,
-        timestamp: logEntry.timestamp.toISOString(),
-      },
-      isFatal: severity === 'critical',
-    });
+        resolved: false,
+        retryCount: 0,
+      };
 
-    logger.error('Error logged', {
-      errorId,
-      context,
-      componentName,
-      severity,
-      message: error.message,
-    });
+      setErrorLog(prevLog => {
+        const newLog = [logEntry, ...prevLog];
+        // Keep log size manageable
+        return newLog.slice(0, maxLogSize);
+      });
 
-    return errorId;
-  }, [maxLogSize]);
+      // Log to external error handler
+      ErrorHandler.log(error, {
+        context,
+        data: {
+          errorId,
+          componentName,
+          severity,
+          timestamp: logEntry.timestamp.toISOString(),
+        },
+        isFatal: severity === 'critical',
+      });
+
+      logger.error('Error logged', {
+        errorId,
+        context,
+        componentName,
+        severity,
+        message: error.message,
+      });
+
+      return errorId;
+    },
+    [maxLogSize],
+  );
 
   const markErrorResolved = useCallback((errorId: string) => {
     setErrorLog(prevLog =>
-      prevLog.map(entry =>
-        entry.id === errorId
-          ? { ...entry, resolved: true }
-          : entry
-      )
+      prevLog.map(entry => (entry.id === errorId ? { ...entry, resolved: true } : entry)),
     );
 
     logger.info('Error marked as resolved', { errorId });
@@ -136,15 +141,18 @@ export function ErrorLoggerProvider({ children, maxLogSize = 100 }: ErrorLoggerP
     const averageRetryCount = totalErrors > 0 ? totalRetries / totalErrors : 0;
 
     // Find most problematic component
-    const componentErrorCounts = errorLog.reduce((counts, entry) => {
-      if (entry.componentName) {
-        counts[entry.componentName] = (counts[entry.componentName] || 0) + 1;
-      }
-      return counts;
-    }, {} as Record<string, number>);
+    const componentErrorCounts = errorLog.reduce(
+      (counts, entry) => {
+        if (entry.componentName) {
+          counts[entry.componentName] = (counts[entry.componentName] || 0) + 1;
+        }
+        return counts;
+      },
+      {} as Record<string, number>,
+    );
 
-    const mostProblematicComponent = Object.entries(componentErrorCounts)
-      .sort(([, a], [, b]) => b - a)[0]?.[0] || 'None';
+    const mostProblematicComponent =
+      Object.entries(componentErrorCounts).sort(([, a], [, b]) => b - a)[0]?.[0] || 'None';
 
     // Calculate error rate (errors per minute in last 10 minutes)
     const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
@@ -161,10 +169,13 @@ export function ErrorLoggerProvider({ children, maxLogSize = 100 }: ErrorLoggerP
     };
   }, [errorLog]);
 
-  const getRecentErrors = useCallback((minutes: number = 30): ErrorLogEntry[] => {
-    const cutoffTime = new Date(Date.now() - minutes * 60 * 1000);
-    return errorLog.filter(entry => entry.timestamp > cutoffTime);
-  }, [errorLog]);
+  const getRecentErrors = useCallback(
+    (minutes: number = 30): ErrorLogEntry[] => {
+      const cutoffTime = new Date(Date.now() - minutes * 60 * 1000);
+      return errorLog.filter(entry => entry.timestamp > cutoffTime);
+    },
+    [errorLog],
+  );
 
   const contextValue: ErrorLoggerContextType = {
     errorLog,
@@ -175,11 +186,7 @@ export function ErrorLoggerProvider({ children, maxLogSize = 100 }: ErrorLoggerP
     getRecentErrors,
   };
 
-  return (
-    <ErrorLoggerContext.Provider value={contextValue}>
-      {children}
-    </ErrorLoggerContext.Provider>
-  );
+  return <ErrorLoggerContext.Provider value={contextValue}>{children}</ErrorLoggerContext.Provider>;
 }
 
 /**
@@ -199,57 +206,58 @@ export function useErrorLogger(): ErrorLoggerContextType {
 export function useComponentErrorLogger(componentName: string) {
   const { logError, markErrorResolved } = useErrorLogger();
 
-  const logComponentError = useCallback((
-    error: Error,
-    context?: string,
-    severity?: ErrorLogEntry['severity']
-  ): string => {
-    return logError(error, context || componentName, componentName, severity);
-  }, [logError, componentName]);
+  const logComponentError = useCallback(
+    (error: Error, context?: string, severity?: ErrorLogEntry['severity']): string => {
+      return logError(error, context || componentName, componentName, severity);
+    },
+    [logError, componentName],
+  );
 
-  const handleAsyncError = useCallback(async (
-    asyncFn: () => Promise<unknown>,
-    context?: string,
-    fallbackValue?: unknown
-  ): Promise<unknown | undefined> => {
-    try {
-      return await asyncFn();
-    } catch (error) {
-      logComponentError(
-        error instanceof Error ? error : new Error(String(error)),
-        context || 'async operation',
-        'medium'
-      );
+  const handleAsyncError = useCallback(
+    async (
+      asyncFn: () => Promise<unknown>,
+      context?: string,
+      fallbackValue?: unknown,
+    ): Promise<unknown | undefined> => {
+      try {
+        return await asyncFn();
+      } catch (error) {
+        logComponentError(
+          error instanceof Error ? error : new Error(String(error)),
+          context || 'async operation',
+          'medium',
+        );
 
-      if (fallbackValue !== undefined) {
-        return fallbackValue;
+        if (fallbackValue !== undefined) {
+          return fallbackValue;
+        }
+
+        return undefined;
       }
+    },
+    [logComponentError],
+  );
 
-      return undefined;
-    }
-  }, [logComponentError]);
+  const handleSyncError = useCallback(
+    (syncFn: () => unknown, context?: string, fallbackValue?: unknown): unknown => {
+      try {
+        return syncFn();
+      } catch (error) {
+        logComponentError(
+          error instanceof Error ? error : new Error(String(error)),
+          context || 'sync operation',
+          'medium',
+        );
 
-  const handleSyncError = useCallback((
-    syncFn: () => unknown,
-    context?: string,
-    fallbackValue?: unknown
-  ): unknown => {
-    try {
-      return syncFn();
-    } catch (error) {
-      logComponentError(
-        error instanceof Error ? error : new Error(String(error)),
-        context || 'sync operation',
-        'medium'
-      );
+        if (fallbackValue !== undefined) {
+          return fallbackValue;
+        }
 
-      if (fallbackValue !== undefined) {
-        return fallbackValue;
+        return undefined;
       }
-
-      return undefined;
-    }
-  }, [logComponentError]);
+    },
+    [logComponentError],
+  );
 
   return {
     logError: logComponentError,

@@ -2,12 +2,12 @@
 
 /**
  * Safe Unused Import Removal System
- * 
+ *
  * This script safely removes unused import statements while preserving:
  * - Imports used in type annotations or JSX
  * - Dynamic imports and conditional imports
  * - Imports that may be used in complex expressions
- * 
+ *
  * Requirements: 3.2, 4.1
  */
 
@@ -42,7 +42,7 @@ class SafeUnusedImportRemover {
     '/utils/planetaryConsistencyCheck',
     'astrological',
     'planetary',
-    'elemental'
+    'elemental',
   ];
 
   private campaignSystemFiles = [
@@ -51,7 +51,7 @@ class SafeUnusedImportRemover {
     '/services/MLIntelligenceService',
     '/services/PredictiveIntelligenceService',
     'Campaign',
-    'Intelligence'
+    'Intelligence',
   ];
 
   private preservePatterns = [
@@ -64,7 +64,7 @@ class SafeUnusedImportRemover {
     // Dynamic imports
     /import\(/,
     // Conditional imports
-    /require\(/
+    /require\(/,
   ];
 
   /**
@@ -81,7 +81,7 @@ class SafeUnusedImportRemover {
       totalUnusedImports: unusedImports.length,
       safeToRemove: [],
       requiresManualReview: [],
-      preserved: []
+      preserved: [],
     };
 
     // Categorize each unused import
@@ -103,7 +103,7 @@ class SafeUnusedImportRemover {
    */
   public removeSafeUnusedImports(dryRun: boolean = true): void {
     const analysis = this.analyzeUnusedImports();
-    
+
     console.log(`📊 Import Analysis Results:`);
     console.log(`Total unused imports: ${analysis.totalUnusedImports}`);
     console.log(`Safe to remove: ${analysis.safeToRemove.length}`);
@@ -123,10 +123,10 @@ class SafeUnusedImportRemover {
 
     console.log('🚀 Removing safe unused imports...\n');
     this.performImportRemoval(analysis.safeToRemove);
-    
+
     // Organize imports after removal
     this.organizeImports();
-    
+
     console.log('✅ Safe unused import removal completed!');
   }
 
@@ -135,9 +135,9 @@ class SafeUnusedImportRemover {
    */
   private getLintOutput(): string {
     try {
-      return execSync('yarn lint --format=compact 2>&1', { 
+      return execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024 // 10MB buffer
+        maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
     } catch (error: any) {
       // ESLint returns non-zero exit code when there are errors
@@ -153,13 +153,16 @@ class SafeUnusedImportRemover {
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
-      if (line.includes('@typescript-eslint/no-unused-vars') && 
-          (line.includes('is defined but never used') || line.includes('is imported but never used'))) {
-        
-        const match = line.match(/^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/);
+      if (
+        line.includes('@typescript-eslint/no-unused-vars') &&
+        (line.includes('is defined but never used') || line.includes('is imported but never used'))
+      ) {
+        const match = line.match(
+          /^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
+        );
         if (match) {
           const [, filePath, lineNum, colNum, message] = match;
-          
+
           // Extract import name from message
           const importNameMatch = message.match(/'([^']+)'/);
           const importName = importNameMatch ? importNameMatch[1] : '';
@@ -172,7 +175,7 @@ class SafeUnusedImportRemover {
             message,
             isTypeImport: message.includes('type'),
             isDefaultImport: !message.includes('{'),
-            isNamespaceImport: message.includes('* as')
+            isNamespaceImport: message.includes('* as'),
           });
         }
       }
@@ -224,7 +227,7 @@ class SafeUnusedImportRemover {
       'planetary',
       'elemental',
       'astrological',
-      'campaign'
+      'campaign',
     ];
 
     if (preserveNames.some(name => importName.toLowerCase().includes(name.toLowerCase()))) {
@@ -246,17 +249,18 @@ class SafeUnusedImportRemover {
     }
 
     // Safe to remove obvious unused imports
-    if (message.includes('is defined but never used') && 
-        !message.includes('type') &&
-        !file.includes('.d.ts')) {
-      
+    if (
+      message.includes('is defined but never used') &&
+      !message.includes('type') &&
+      !file.includes('.d.ts')
+    ) {
       // Check if it's a simple utility import
       const utilityPatterns = [
-        /^[a-z][a-zA-Z]*$/,  // camelCase function names
-        /^[A-Z_]+$/,         // CONSTANT names
-        /Utils?$/,           // Utility functions
-        /Helper$/,           // Helper functions
-        /Config$/            // Configuration objects
+        /^[a-z][a-zA-Z]*$/, // camelCase function names
+        /^[A-Z_]+$/, // CONSTANT names
+        /Utils?$/, // Utility functions
+        /Helper$/, // Helper functions
+        /Config$/, // Configuration objects
       ];
 
       if (utilityPatterns.some(pattern => pattern.test(importName))) {
@@ -282,11 +286,14 @@ class SafeUnusedImportRemover {
    * Display imports that would be removed
    */
   private displayImportsToRemove(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce((acc, imp) => {
-      if (!acc[imp.file]) acc[imp.file] = [];
-      acc[imp.file].push(imp);
-      return acc;
-    }, {} as Record<string, UnusedImport[]>);
+    const groupedByFile = imports.reduce(
+      (acc, imp) => {
+        if (!acc[imp.file]) acc[imp.file] = [];
+        acc[imp.file].push(imp);
+        return acc;
+      },
+      {} as Record<string, UnusedImport[]>,
+    );
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
       console.log(`📄 ${file.replace(process.cwd(), '')}:`);
@@ -302,11 +309,14 @@ class SafeUnusedImportRemover {
    */
   private performImportRemoval(imports: UnusedImport[]): void {
     // Group by file for efficient processing
-    const groupedByFile = imports.reduce((acc, imp) => {
-      if (!acc[imp.file]) acc[imp.file] = [];
-      acc[imp.file].push(imp);
-      return acc;
-    }, {} as Record<string, UnusedImport[]>);
+    const groupedByFile = imports.reduce(
+      (acc, imp) => {
+        if (!acc[imp.file]) acc[imp.file] = [];
+        acc[imp.file].push(imp);
+        return acc;
+      },
+      {} as Record<string, UnusedImport[]>,
+    );
 
     let totalRemoved = 0;
 
@@ -314,18 +324,18 @@ class SafeUnusedImportRemover {
       try {
         const content = fs.readFileSync(filePath, 'utf8');
         const lines = content.split('\n');
-        
+
         // Sort by line number in descending order to avoid index shifting
         const sortedImports = fileImports.sort((a, b) => b.line - a.line);
-        
+
         for (const imp of sortedImports) {
           const lineIndex = imp.line - 1;
           if (lineIndex >= 0 && lineIndex < lines.length) {
             const line = lines[lineIndex];
-            
+
             // Remove the specific import from the line
             const updatedLine = this.removeImportFromLine(line, imp.importName);
-            
+
             if (updatedLine !== line) {
               if (updatedLine.trim() === '' || updatedLine.match(/^import\s*{\s*}\s*from/)) {
                 // Remove entire line if it becomes empty
@@ -338,11 +348,12 @@ class SafeUnusedImportRemover {
             }
           }
         }
-        
+
         // Write the updated content back
         fs.writeFileSync(filePath, lines.join('\n'));
-        console.log(`✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`);
-        
+        console.log(
+          `✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`,
+        );
       } catch (error) {
         console.error(`❌ Error processing ${filePath}:`, error);
       }
@@ -356,31 +367,31 @@ class SafeUnusedImportRemover {
    */
   private removeImportFromLine(line: string, importName: string): string {
     // Handle different import patterns
-    
+
     // Default import: import ImportName from 'module'
     if (line.includes(`import ${importName} from`)) {
       return '';
     }
-    
+
     // Named import: import { ImportName } from 'module'
     if (line.includes(`{ ${importName} }`)) {
       return line.replace(`{ ${importName} }`, '{}');
     }
-    
+
     // Named import with others: import { ImportName, Other } from 'module'
     if (line.includes(`{ ${importName},`)) {
       return line.replace(`${importName}, `, '');
     }
-    
+
     if (line.includes(`, ${importName}`)) {
       return line.replace(`, ${importName}`, '');
     }
-    
+
     // Namespace import: import * as ImportName from 'module'
     if (line.includes(`* as ${importName}`)) {
       return '';
     }
-    
+
     return line;
   }
 
@@ -389,11 +400,11 @@ class SafeUnusedImportRemover {
    */
   private organizeImports(): void {
     console.log('\n📋 Organizing imports...');
-    
+
     try {
-      execSync('yarn lint --fix --rule "import/order: error"', { 
+      execSync('yarn lint --fix --rule "import/order: error"', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
       console.log('✅ Import organization completed');
     } catch (error) {
@@ -406,11 +417,11 @@ class SafeUnusedImportRemover {
    */
   public validateChanges(): boolean {
     console.log('\n🔍 Validating changes...');
-    
+
     try {
-      execSync('yarn build', { 
+      execSync('yarn build', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
       console.log('✅ Build validation passed');
       return true;
@@ -424,16 +435,16 @@ class SafeUnusedImportRemover {
 // CLI interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const remover = new SafeUnusedImportRemover();
-  
+
   const args = process.argv.slice(2);
   const dryRun = !args.includes('--execute');
-  
+
   if (dryRun) {
     console.log('🔍 Running in DRY RUN mode. Use --execute to actually remove imports.\n');
   }
-  
+
   remover.removeSafeUnusedImports(dryRun);
-  
+
   if (!dryRun) {
     const isValid = remover.validateChanges();
     if (!isValid) {

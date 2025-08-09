@@ -1,6 +1,6 @@
 /**
  * Campaign Workflow Builder Component
- * 
+ *
  * Provides a guided interface for creating, configuring, and managing
  * campaign workflows with templates, validation, and dry-run capabilities.
  */
@@ -14,7 +14,7 @@ import type {
   WorkflowStep,
   ValidationResult,
   DryRunResult,
-  CampaignVersion
+  CampaignVersion,
 } from '../../services/CampaignWorkflowManager';
 
 interface CampaignWorkflowBuilderProps {
@@ -26,7 +26,7 @@ interface CampaignWorkflowBuilderProps {
 export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = ({
   className = '',
   onWorkflowCreated,
-  onWorkflowExecuted
+  onWorkflowExecuted,
 }) => {
   const [templates, setTemplates] = useState<CampaignTemplate[]>([]);
   const [workflows, setWorkflows] = useState<CampaignWorkflow[]>([]);
@@ -43,7 +43,7 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
     const loadData = () => {
       const availableTemplates = campaignWorkflowManager.getTemplates();
       const existingWorkflows = campaignWorkflowManager.getAllWorkflows();
-      
+
       setTemplates(availableTemplates);
       setWorkflows(existingWorkflows);
     };
@@ -55,14 +55,17 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
     try {
       setLoading(true);
       const workflowName = `${template.name} - ${new Date().toLocaleDateString()}`;
-      const workflowId = await campaignWorkflowManager.createWorkflowFromTemplate(template.id, workflowName);
-      
+      const workflowId = await campaignWorkflowManager.createWorkflowFromTemplate(
+        template.id,
+        workflowName,
+      );
+
       const workflow = campaignWorkflowManager.getWorkflow(workflowId);
       setCurrentWorkflow(workflow);
       setSelectedTemplate(template);
       setShowTemplateSelector(false);
       setShowWorkflowBuilder(true);
-      
+
       onWorkflowCreated?.(workflowId);
     } catch (error) {
       console.error('Failed to create workflow:', error);
@@ -77,15 +80,15 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
       const workflowName = `Custom Campaign - ${new Date().toLocaleDateString()}`;
       const workflowId = await campaignWorkflowManager.createCustomWorkflow(
         workflowName,
-        'Custom campaign workflow created from scratch'
+        'Custom campaign workflow created from scratch',
       );
-      
+
       const workflow = campaignWorkflowManager.getWorkflow(workflowId);
       setCurrentWorkflow(workflow);
       setSelectedTemplate(null);
       setShowTemplateSelector(false);
       setShowWorkflowBuilder(true);
-      
+
       onWorkflowCreated?.(workflowId);
     } catch (error) {
       console.error('Failed to create custom workflow:', error);
@@ -101,7 +104,7 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
       setLoading(true);
       const validation = await campaignWorkflowManager.validateWorkflowConfig(currentWorkflow.id);
       setValidationResults(validation);
-      
+
       if (validation.success) {
         await campaignWorkflowManager.completeWorkflowStep(currentWorkflow.id);
         const updatedWorkflow = campaignWorkflowManager.getWorkflow(currentWorkflow.id);
@@ -121,7 +124,7 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
       setLoading(true);
       const dryRun = await campaignWorkflowManager.performDryRun(currentWorkflow.id);
       setDryRunResults(dryRun);
-      
+
       if (dryRun.safetyScore >= 0.7) {
         await campaignWorkflowManager.completeWorkflowStep(currentWorkflow.id);
         const updatedWorkflow = campaignWorkflowManager.getWorkflow(currentWorkflow.id);
@@ -153,7 +156,7 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
       setLoading(true);
       // This would integrate with the campaign execution system
       onWorkflowExecuted?.(currentWorkflow.id);
-      
+
       await campaignWorkflowManager.completeWorkflowStep(currentWorkflow.id);
       const updatedWorkflow = campaignWorkflowManager.getWorkflow(currentWorkflow.id);
       setCurrentWorkflow(updatedWorkflow);
@@ -203,13 +206,10 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
   return (
     <div className={`campaign-workflow-builder ${className}`}>
       {/* Header */}
-      <div className="builder-header">
+      <div className='builder-header'>
         <h2>Campaign Workflow Builder</h2>
-        <div className="header-actions">
-          <button
-            className="new-workflow-btn"
-            onClick={() => setShowTemplateSelector(true)}
-          >
+        <div className='header-actions'>
+          <button className='new-workflow-btn' onClick={() => setShowTemplateSelector(true)}>
             Create New Workflow
           </button>
         </div>
@@ -217,22 +217,19 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
 
       {/* Template Selector Modal */}
       {showTemplateSelector && (
-        <div className="template-selector-overlay">
-          <div className="template-selector-modal">
-            <div className="modal-header">
+        <div className='template-selector-overlay'>
+          <div className='template-selector-modal'>
+            <div className='modal-header'>
               <h3>Choose Campaign Template</h3>
-              <button
-                className="close-btn"
-                onClick={() => setShowTemplateSelector(false)}
-              >
+              <button className='close-btn' onClick={() => setShowTemplateSelector(false)}>
                 ×
               </button>
             </div>
-            
-            <div className="template-options">
-              <div className="template-categories">
+
+            <div className='template-options'>
+              <div className='template-categories'>
                 <h4>Template Categories</h4>
-                <div className="templates-grid">
+                <div className='templates-grid'>
                   {templates.map(template => (
                     <TemplateCard
                       key={template.id}
@@ -242,15 +239,13 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
                   ))}
                 </div>
               </div>
-              
-              <div className="custom-option">
+
+              <div className='custom-option'>
                 <h4>Custom Workflow</h4>
-                <div className="custom-card">
+                <div className='custom-card'>
                   <h5>Create from Scratch</h5>
                   <p>Build a completely custom campaign workflow</p>
-                  <button onClick={handleCreateCustomWorkflow}>
-                    Create Custom Workflow
-                  </button>
+                  <button onClick={handleCreateCustomWorkflow}>Create Custom Workflow</button>
                 </div>
               </div>
             </div>
@@ -260,10 +255,10 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
 
       {/* Workflow Builder */}
       {showWorkflowBuilder && currentWorkflow && (
-        <div className="workflow-builder">
-          <div className="workflow-header">
+        <div className='workflow-builder'>
+          <div className='workflow-header'>
             <h3>{currentWorkflow.name}</h3>
-            <div className="workflow-status">
+            <div className='workflow-status'>
               <span className={`status-badge ${currentWorkflow.status}`}>
                 {currentWorkflow.status.toUpperCase()}
               </span>
@@ -271,8 +266,8 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
           </div>
 
           {/* Progress Steps */}
-          <div className="workflow-progress">
-            <div className="steps-container">
+          <div className='workflow-progress'>
+            <div className='steps-container'>
               {currentWorkflow.steps.map((step, index) => (
                 <WorkflowStepCard
                   key={step.id}
@@ -287,26 +282,23 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
 
           {/* Current Step Details */}
           {getCurrentStep() && (
-            <div className="current-step-details">
+            <div className='current-step-details'>
               <h4>Current Step: {getCurrentStep()?.name}</h4>
               <p>{getCurrentStep()?.description}</p>
-              
+
               {/* Step-specific content */}
               {getCurrentStep()?.type === 'configuration' && (
-                <ConfigurationStep
-                  workflow={currentWorkflow}
-                  template={selectedTemplate}
-                />
+                <ConfigurationStep workflow={currentWorkflow} template={selectedTemplate} />
               )}
-              
+
               {getCurrentStep()?.type === 'validation' && validationResults && (
                 <ValidationResults results={validationResults} />
               )}
-              
+
               {getCurrentStep()?.type === 'dry_run' && dryRunResults && (
                 <DryRunResults results={dryRunResults} />
               )}
-              
+
               {getCurrentStep()?.type === 'approval' && (
                 <ApprovalStep
                   workflow={currentWorkflow}
@@ -316,7 +308,7 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
               )}
 
               {/* Step Actions */}
-              <div className="step-actions">
+              <div className='step-actions'>
                 {(() => {
                   const currentStep = getCurrentStep();
                   return currentStep && getStepActions(currentStep);
@@ -328,15 +320,15 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
       )}
 
       {/* Existing Workflows */}
-      <div className="existing-workflows">
+      <div className='existing-workflows'>
         <h3>Existing Workflows ({workflows.length})</h3>
         {workflows.length === 0 ? (
-          <div className="no-workflows">
+          <div className='no-workflows'>
             <p>No workflows created yet</p>
             <p>Create your first campaign workflow to get started</p>
           </div>
         ) : (
-          <div className="workflows-list">
+          <div className='workflows-list'>
             {workflows.map(workflow => (
               <WorkflowCard
                 key={workflow.id}
@@ -361,40 +353,44 @@ const TemplateCard: React.FC<{
 }> = ({ template, onSelect }) => {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'beginner': return '#10b981';
-      case 'intermediate': return '#f59e0b';
-      case 'advanced': return '#ef4444';
-      default: return '#6b7280';
+      case 'beginner':
+        return '#10b981';
+      case 'intermediate':
+        return '#f59e0b';
+      case 'advanced':
+        return '#ef4444';
+      default:
+        return '#6b7280';
     }
   };
 
   return (
-    <div className="template-card">
-      <div className="template-header">
+    <div className='template-card'>
+      <div className='template-header'>
         <h5>{template.name}</h5>
-        <div className="template-badges">
-          <span 
-            className="difficulty-badge"
+        <div className='template-badges'>
+          <span
+            className='difficulty-badge'
             style={{ backgroundColor: getDifficultyColor(template.difficulty) }}
           >
             {template.difficulty}
           </span>
-          <span className="category-badge">{template.category}</span>
+          <span className='category-badge'>{template.category}</span>
         </div>
       </div>
-      
-      <p className="template-description">{template.description}</p>
-      
-      <div className="template-details">
-        <div className="detail">
+
+      <p className='template-description'>{template.description}</p>
+
+      <div className='template-details'>
+        <div className='detail'>
           <span>Duration: ~{template.estimatedDuration} min</span>
         </div>
-        <div className="detail">
+        <div className='detail'>
           <span>Phases: {template.phases.length}</span>
         </div>
       </div>
-      
-      <div className="template-outcomes">
+
+      <div className='template-outcomes'>
         <h6>Expected Outcomes:</h6>
         <ul>
           {template.expectedOutcomes.slice(0, 3).map((outcome, index) => (
@@ -402,8 +398,8 @@ const TemplateCard: React.FC<{
           ))}
         </ul>
       </div>
-      
-      <button className="select-template-btn" onClick={onSelect}>
+
+      <button className='select-template-btn' onClick={onSelect}>
         Use This Template
       </button>
     </div>
@@ -418,9 +414,11 @@ const WorkflowStepCard: React.FC<{
   stepNumber: number;
 }> = ({ step, isActive, isCompleted, stepNumber }) => {
   return (
-    <div className={`workflow-step-card ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}>
-      <div className="step-number">{stepNumber}</div>
-      <div className="step-content">
+    <div
+      className={`workflow-step-card ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
+    >
+      <div className='step-number'>{stepNumber}</div>
+      <div className='step-content'>
         <h5>{step.name}</h5>
         <p>{step.description}</p>
         <div className={`step-status ${step.status}`}>
@@ -437,18 +435,23 @@ const ConfigurationStep: React.FC<{
   template: CampaignTemplate | null;
 }> = ({ workflow, template }) => {
   return (
-    <div className="configuration-step">
+    <div className='configuration-step'>
       <h5>Campaign Configuration</h5>
       {template ? (
-        <div className="template-config">
-          <p>Configuration based on template: <strong>{template.name}</strong></p>
-          <div className="config-summary">
+        <div className='template-config'>
+          <p>
+            Configuration based on template: <strong>{template.name}</strong>
+          </p>
+          <div className='config-summary'>
             <div>Phases: {workflow.config.phases?.length || 0}</div>
-            <div>Safety Level: {workflow.config.safetySettings?.automaticRollbackEnabled ? 'High' : 'Medium'}</div>
+            <div>
+              Safety Level:{' '}
+              {workflow.config.safetySettings?.automaticRollbackEnabled ? 'High' : 'Medium'}
+            </div>
           </div>
         </div>
       ) : (
-        <div className="custom-config">
+        <div className='custom-config'>
           <p>Custom configuration - configure phases and settings manually</p>
         </div>
       )}
@@ -461,29 +464,33 @@ const ValidationResults: React.FC<{
   results: ValidationResult;
 }> = ({ results }) => {
   return (
-    <div className="validation-results">
+    <div className='validation-results'>
       <h5>Validation Results</h5>
       <div className={`validation-status ${results.success ? 'success' : 'failed'}`}>
         {results.success ? 'Configuration Valid' : 'Validation Failed'}
       </div>
-      
+
       {results.errors.length > 0 && (
-        <div className="validation-errors">
+        <div className='validation-errors'>
           <h6>Errors:</h6>
           <ul>
             {results.errors.map((error, index) => (
-              <li key={index} className="error">{error}</li>
+              <li key={index} className='error'>
+                {error}
+              </li>
             ))}
           </ul>
         </div>
       )}
-      
+
       {results.warnings.length > 0 && (
-        <div className="validation-warnings">
+        <div className='validation-warnings'>
           <h6>Warnings:</h6>
           <ul>
             {results.warnings.map((warning, index) => (
-              <li key={index} className="warning">{warning}</li>
+              <li key={index} className='warning'>
+                {warning}
+              </li>
             ))}
           </ul>
         </div>
@@ -497,22 +504,22 @@ const DryRunResults: React.FC<{
   results: DryRunResult;
 }> = ({ results }) => {
   return (
-    <div className="dry-run-results">
+    <div className='dry-run-results'>
       <h5>Dry Run Results</h5>
-      <div className="results-summary">
-        <div className="result-item">
+      <div className='results-summary'>
+        <div className='result-item'>
           <span>Files to Process: {results.wouldProcess.length}</span>
         </div>
-        <div className="result-item">
+        <div className='result-item'>
           <span>Estimated Changes: {results.estimatedChanges}</span>
         </div>
-        <div className="result-item">
+        <div className='result-item'>
           <span>Safety Score: {(results.safetyScore * 100).toFixed(1)}%</span>
         </div>
       </div>
-      
+
       {results.potentialIssues.length > 0 && (
-        <div className="potential-issues">
+        <div className='potential-issues'>
           <h6>Potential Issues:</h6>
           <ul>
             {results.potentialIssues.map((issue, index) => (
@@ -532,27 +539,28 @@ const ApprovalStep: React.FC<{
   dryRunResults: DryRunResult | null;
 }> = ({ workflow, validationResults, dryRunResults }) => {
   return (
-    <div className="approval-step">
+    <div className='approval-step'>
       <h5>Campaign Approval</h5>
       <p>Review the campaign configuration and results before execution:</p>
-      
-      <div className="approval-checklist">
+
+      <div className='approval-checklist'>
         <div className={`checklist-item ${validationResults?.success ? 'passed' : 'failed'}`}>
           <span>✓ Configuration Validation</span>
           <span>{validationResults?.success ? 'Passed' : 'Failed'}</span>
         </div>
-        
-        <div className={`checklist-item ${dryRunResults && dryRunResults.safetyScore >= 0.7 ? 'passed' : 'warning'}`}>
+
+        <div
+          className={`checklist-item ${dryRunResults && dryRunResults.safetyScore >= 0.7 ? 'passed' : 'warning'}`}
+        >
           <span>✓ Dry Run Safety Check</span>
           <span>
-            {dryRunResults 
+            {dryRunResults
               ? `${(dryRunResults.safetyScore * 100).toFixed(1)}% Safe`
-              : 'Not Performed'
-            }
+              : 'Not Performed'}
           </span>
         </div>
-        
-        <div className="checklist-item passed">
+
+        <div className='checklist-item passed'>
           <span>✓ Rollback Plan</span>
           <span>Available</span>
         </div>
@@ -567,27 +575,27 @@ const WorkflowCard: React.FC<{
   onSelect: () => void;
 }> = ({ workflow, onSelect }) => {
   return (
-    <div className="workflow-card" onClick={onSelect}>
-      <div className="workflow-header">
+    <div className='workflow-card' onClick={onSelect}>
+      <div className='workflow-header'>
         <h5>{workflow.name}</h5>
-        <div className={`status-badge ${workflow.status}`}>
-          {workflow.status.toUpperCase()}
-        </div>
+        <div className={`status-badge ${workflow.status}`}>{workflow.status.toUpperCase()}</div>
       </div>
-      
-      <p className="workflow-description">{workflow.description}</p>
-      
-      <div className="workflow-progress-summary">
-        <span>Step {workflow.currentStep + 1} of {workflow.steps.length}</span>
-        <div className="progress-bar">
-          <div 
-            className="progress-fill"
+
+      <p className='workflow-description'>{workflow.description}</p>
+
+      <div className='workflow-progress-summary'>
+        <span>
+          Step {workflow.currentStep + 1} of {workflow.steps.length}
+        </span>
+        <div className='progress-bar'>
+          <div
+            className='progress-fill'
             style={{ width: `${((workflow.currentStep + 1) / workflow.steps.length) * 100}%` }}
           />
         </div>
       </div>
-      
-      <div className="workflow-timestamps">
+
+      <div className='workflow-timestamps'>
         <span>Created: {workflow.createdAt.toLocaleDateString()}</span>
         <span>Updated: {workflow.updatedAt.toLocaleDateString()}</span>
       </div>

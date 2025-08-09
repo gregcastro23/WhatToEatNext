@@ -38,9 +38,9 @@ export function handleApiError(error: unknown): NextResponse {
   return NextResponse.json(
     {
       error: message,
-      ...(details ? { details } : {})
+      ...(details ? { details } : {}),
     },
-    { status: statusCode }
+    { status: statusCode },
   );
 }
 
@@ -64,7 +64,7 @@ export function notFoundError(message: string): NextResponse {
 }
 
 export function handleServerError(error: unknown) {
-  console.error('Server error:', error)
+  console.error('Server error:', error);
   return new NextResponse(
     JSON.stringify({
       error: 'Internal Server Error',
@@ -75,6 +75,6 @@ export function handleServerError(error: unknown) {
       headers: {
         'Content-Type': 'application/json',
       },
-    }
-  )
+    },
+  );
 }

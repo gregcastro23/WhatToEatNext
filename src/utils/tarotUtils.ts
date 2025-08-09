@@ -10,7 +10,7 @@ export const getElementalAlignmentFromTarot = (tarot: {
   Air: number;
 } => {
   const alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  
+
   // Major arcana influences
   tarot.majorArcana.forEach(card => {
     const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element;
@@ -47,22 +47,22 @@ const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalPrope
   'The Hierophant': { element: 'Earth' },
   'The Lovers': { element: 'Air' },
   'The Chariot': { element: 'Fire' },
-  'Strength': { element: 'Fire' },
+  Strength: { element: 'Fire' },
   'The Hermit': { element: 'Earth' },
   'Wheel of Fortune': { element: 'Air' },
-  'Justice': { element: 'Air' },
+  Justice: { element: 'Air' },
   'The Hanged Man': { element: 'Water' },
-  'Death': { element: 'Water' },
-  'Temperance': { element: 'Water' },
+  Death: { element: 'Water' },
+  Temperance: { element: 'Water' },
   'The Devil': { element: 'Earth' },
   'The Tower': { element: 'Fire' },
   'The Star': { element: 'Air' },
   'The Moon': { element: 'Water' },
   'The Sun': { element: 'Fire' },
-  'Judgement': { element: 'Fire' },
+  Judgement: { element: 'Fire' },
   'The World': { element: 'Earth' },
-  'Cups': { element: 'Water' },
-  'Wands': { element: 'Fire' },
-  'Swords': { element: 'Air' },
-  'Pentacles': { element: 'Earth' }
-}; 
+  Cups: { element: 'Water' },
+  Wands: { element: 'Fire' },
+  Swords: { element: 'Air' },
+  Pentacles: { element: 'Earth' },
+};

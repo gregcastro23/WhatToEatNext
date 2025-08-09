@@ -5,7 +5,13 @@ import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryEl
 import { RulingPlanet } from '../constants/planets';
 import { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
-import { AlchemicalItem , LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
+import {
+  AlchemicalItem,
+  LunarPhase,
+  LunarPhaseWithSpaces,
+  ZodiacSign,
+  PlanetaryAspect,
+} from '../types/alchemy';
 
 export interface UseAlchemicalRecommendationsProps {
   ingredients: ElementalItem[];
@@ -40,7 +46,7 @@ interface AlchemicalRecommendationResults {
 
 /**
  * Hook to get alchemical recommendations based on planetary positions
- * 
+ *
  * @returns Recommendations, transformed data, loading state, and any errors
  */
 export const useAlchemicalRecommendations = ({
@@ -56,7 +62,7 @@ export const useAlchemicalRecommendations = ({
   lunarPhase,
   tarotElementBoosts,
   tarotPlanetaryBoosts,
-  aspects = []
+  aspects = [],
 }: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -64,19 +70,16 @@ export const useAlchemicalRecommendations = ({
   const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([]);
   const [transformedMethods, setTransformedMethods] = useState<AlchemicalItem[]>([]);
   const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([]);
-  const [energeticProfile, setEnergeticProfile] = useState<AlchemicalRecommendationResults['energeticProfile']>();
-  
+  const [energeticProfile, setEnergeticProfile] =
+    useState<AlchemicalRecommendationResults['energeticProfile']>();
+
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
         setLoading(true);
 
         // Configure an adapter for alchemical transformations
-        const adapter = new RecommendationAdapter(
-          ingredients,
-          cookingMethods,
-          cuisines
-        );
+        const adapter = new RecommendationAdapter(ingredients, cookingMethods, cuisines);
 
         // Initialize with planetary data and context
         adapter.initialize(
@@ -86,7 +89,7 @@ export const useAlchemicalRecommendations = ({
           lunarPhase || null,
           tarotElementBoosts,
           tarotPlanetaryBoosts,
-          aspects || []
+          aspects || [],
         );
 
         // Get recommendations
@@ -94,17 +97,18 @@ export const useAlchemicalRecommendations = ({
           topIngredients: adapter.getRecommendedIngredients(count || 5).items,
           topMethods: adapter.getRecommendedCookingMethods(count || 3).items,
           topCuisines: adapter.getRecommendedCuisines(count || 3).items,
-          dominantElement: (adapter.getDominantElement() || 'Fire'),
-          dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() || 'Spirit') as AlchemicalProperty,
+          dominantElement: adapter.getDominantElement() || 'Fire',
+          dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() ||
+            'Spirit') as AlchemicalProperty,
           heat: adapter.getHeatIndex() || 0.5,
           entropy: adapter.getEntropyIndex() || 0.5,
           reactivity: adapter.getReactivityIndex() || 0.5,
-          gregsEnergy: adapter.getGregsEnergyIndex() || 0.5
+          gregsEnergy: adapter.getGregsEnergyIndex() || 0.5,
         };
 
         // Store the recommendations with unified type conversion for cross-import compatibility
         setRecommendations(recs);
-        
+
         // Apply deep type conversion to resolve cross-import conflicts
         const convertToLocalAlchemicalItem = (items: any[]): AlchemicalItem[] => {
           return items.map(item => {
@@ -112,10 +116,21 @@ export const useAlchemicalRecommendations = ({
             const convertedItem = {
               ...item,
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-              alchemicalProperties: item.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+              elementalProperties: item.elementalProperties || {
+                Fire: 0.25,
+                Water: 0.25,
+                Earth: 0.25,
+                Air: 0.25,
+              },
+              alchemicalProperties: item.alchemicalProperties || {
+                Spirit: 0.25,
+                Essence: 0.25,
+                Matter: 0.25,
+                Substance: 0.25,
+              },
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: item.transformedElementalProperties || item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              transformedElementalProperties: item.transformedElementalProperties ||
+                item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
               heat: item.heat || 0.5,
               entropy: item.entropy || 0.5,
               reactivity: item.reactivity || 0.5,
@@ -128,13 +143,13 @@ export const useAlchemicalRecommendations = ({
                 heat: item.heat || 0.5,
                 entropy: item.entropy || 0.5,
                 reactivity: item.reactivity || 0.5,
-                gregsEnergy: item.gregsEnergy || item.energy || 0.5
-              }
+                gregsEnergy: item.gregsEnergy || item.energy || 0.5,
+              },
             };
             return convertedItem as AlchemicalItem;
           });
         };
-        
+
         setTransformedIngredients(adapter.getAllTransformedIngredients() as AlchemicalItem[]);
         setTransformedMethods(adapter.getAllTransformedMethods() as AlchemicalItem[]);
         setTransformedCuisines(adapter.getAllTransformedCuisines() as AlchemicalItem[]);
@@ -151,36 +166,44 @@ export const useAlchemicalRecommendations = ({
             Fire: 0,
             Water: 0,
             Earth: 0,
-            Air: 0
+            Air: 0,
           },
           alchemicalProperties: {
             Spirit: 0,
             Essence: 0,
             Matter: 0,
-            Substance: 0
-          }
+            Substance: 0,
+          },
         };
 
         // Calculate average elemental values from top ingredients
         if (recs.topIngredients.length > 0) {
           recs.topIngredients.forEach(item => {
             if (item.elementalProperties) {
-              profile.elementalBalance.Fire += (item.elementalProperties.Fire || 0) / recs.topIngredients.length;
-              profile.elementalBalance.Water += (item.elementalProperties.Water || 0) / recs.topIngredients.length;
-              profile.elementalBalance.Earth += (item.elementalProperties.Earth || 0) / recs.topIngredients.length;
-              profile.elementalBalance.Air += (item.elementalProperties.Air || 0) / recs.topIngredients.length;
+              profile.elementalBalance.Fire +=
+                (item.elementalProperties.Fire || 0) / recs.topIngredients.length;
+              profile.elementalBalance.Water +=
+                (item.elementalProperties.Water || 0) / recs.topIngredients.length;
+              profile.elementalBalance.Earth +=
+                (item.elementalProperties.Earth || 0) / recs.topIngredients.length;
+              profile.elementalBalance.Air +=
+                (item.elementalProperties.Air || 0) / recs.topIngredients.length;
             }
-            
+
             // Extract alchemical properties if available
             if (item.alchemicalProperties) {
-              profile.alchemicalProperties.Spirit += (item.alchemicalProperties.Spirit || 0) / recs.topIngredients.length;
-              profile.alchemicalProperties.Essence += (item.alchemicalProperties.Essence || 0) / recs.topIngredients.length;
-              profile.alchemicalProperties.Matter += (item.alchemicalProperties.Matter || 0) / recs.topIngredients.length;
-              profile.alchemicalProperties.Substance += (item.alchemicalProperties.Substance || 0) / recs.topIngredients.length;
+              profile.alchemicalProperties.Spirit +=
+                (item.alchemicalProperties.Spirit || 0) / recs.topIngredients.length;
+              profile.alchemicalProperties.Essence +=
+                (item.alchemicalProperties.Essence || 0) / recs.topIngredients.length;
+              profile.alchemicalProperties.Matter +=
+                (item.alchemicalProperties.Matter || 0) / recs.topIngredients.length;
+              profile.alchemicalProperties.Substance +=
+                (item.alchemicalProperties.Substance || 0) / recs.topIngredients.length;
             }
           });
         }
-        
+
         setEnergeticProfile(profile);
       } catch (err) {
         setError(err instanceof Error ? err : new Error('Unknown error occurred'));
@@ -188,7 +211,7 @@ export const useAlchemicalRecommendations = ({
         setLoading(false);
       }
     };
-    
+
     void fetchRecommendations();
   }, [
     ingredients,
@@ -201,9 +224,9 @@ export const useAlchemicalRecommendations = ({
     tarotElementBoosts,
     tarotPlanetaryBoosts,
     aspects,
-    count
+    count,
   ]);
-  
+
   return {
     recommendations: recommendations || {
       topIngredients: [],
@@ -214,13 +237,13 @@ export const useAlchemicalRecommendations = ({
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5
+      gregsEnergy: 0.5,
     },
     transformedIngredients,
     transformedMethods,
     transformedCuisines,
     loading,
     error,
-    energeticProfile
+    energeticProfile,
   };
-}; 
+};

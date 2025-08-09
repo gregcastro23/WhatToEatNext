@@ -2,7 +2,8 @@
 
 ## Node.js Version Management
 
-This project requires **Node.js 20.18.0** or higher. To avoid version conflicts, we recommend using one of these approaches:
+This project requires **Node.js 20.18.0** or higher. To avoid version conflicts,
+we recommend using one of these approaches:
 
 ### Option 1: Use the Safe Development Script (Recommended)
 
@@ -22,16 +23,19 @@ Or run the script directly:
 ### Option 2: Install and Configure nvm (Node Version Manager)
 
 1. **Install nvm** (if not already installed):
+
    ```bash
    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
    ```
 
 2. **Restart your terminal** or source your profile:
+
    ```bash
    source ~/.bashrc  # or ~/.zshrc if using zsh
    ```
 
 3. **Install and use the correct Node.js version**:
+
    ```bash
    nvm install 20.18.0
    nvm use 20.18.0
@@ -47,19 +51,21 @@ Or run the script directly:
 #### Using direnv (Recommended for automatic switching)
 
 1. **Install direnv**:
+
    ```bash
    # macOS with Homebrew
    brew install direnv
-   
+
    # Ubuntu/Debian
    sudo apt install direnv
    ```
 
 2. **Add direnv to your shell**:
+
    ```bash
    # For bash
    echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
-   
+
    # For zsh
    echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
    ```
@@ -69,7 +75,8 @@ Or run the script directly:
    direnv allow
    ```
 
-Now whenever you `cd` into the project directory, it will automatically switch to the correct Node.js version!
+Now whenever you `cd` into the project directory, it will automatically switch
+to the correct Node.js version!
 
 #### Using nvm with shell hooks
 
@@ -113,11 +120,13 @@ That's it! The script will handle everything automatically.
 
 ### "nvm: command not found"
 
-If you get this error, nvm is not installed or not properly configured. Follow Option 2 above.
+If you get this error, nvm is not installed or not properly configured. Follow
+Option 2 above.
 
 ### "Node.js version incompatible"
 
-If you see this error when running `yarn dev`, use `yarn dev:safe` instead, which will automatically fix the version issue.
+If you see this error when running `yarn dev`, use `yarn dev:safe` instead,
+which will automatically fix the version issue.
 
 ### Manual Version Check
 
@@ -135,12 +144,14 @@ And verify it meets the requirement (20.18.0 or higher).
 - `.envrc` - Used by direnv for automatic version switching
 - `scripts/dev.sh` - Safe development script that handles version switching
 - `scripts/use-correct-node.sh` - Manual version switching script
-- `scripts/check-node-version.cjs` - Version validation script (runs automatically)
+- `scripts/check-node-version.cjs` - Version validation script (runs
+  automatically)
 
 ## Development Commands
 
-- `yarn dev:safe` - Start development server with automatic Node.js version handling
+- `yarn dev:safe` - Start development server with automatic Node.js version
+  handling
 - `yarn dev` - Start development server (requires correct Node.js version)
 - `yarn build` - Build for production
 - `yarn lint` - Run linting
-- `yarn test` - Run tests 
+- `yarn test` - Run tests

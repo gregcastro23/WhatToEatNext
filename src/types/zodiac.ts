@@ -1,16 +1,16 @@
 // Zodiac Signs
-export type ZodiacSign = 
-  | 'aries' 
-  | 'taurus' 
-  | 'gemini' 
-  | 'cancer' 
-  | 'leo' 
-  | 'virgo' 
-  | 'libra' 
-  | 'scorpio' 
-  | 'sagittarius' 
-  | 'capricorn' 
-  | 'aquarius' 
+export type ZodiacSign =
+  | 'aries'
+  | 'taurus'
+  | 'gemini'
+  | 'cancer'
+  | 'leo'
+  | 'virgo'
+  | 'libra'
+  | 'scorpio'
+  | 'sagittarius'
+  | 'capricorn'
+  | 'aquarius'
   | 'pisces';
 
 // Elemental Properties
@@ -22,7 +22,10 @@ export type ElementalProperties = {
 };
 
 // Zodiac Date Ranges
-export const zodiacDateRanges: Record<ZodiacSign, { startMonth: number; startDay: number; endMonth: number; endDay: number }> = {
+export const zodiacDateRanges: Record<
+  ZodiacSign,
+  { startMonth: number; startDay: number; endMonth: number; endDay: number }
+> = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
   taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
   gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
@@ -34,7 +37,7 @@ export const zodiacDateRanges: Record<ZodiacSign, { startMonth: number; startDay
   sagittarius: { startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 },
   capricorn: { startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 },
   aquarius: { startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
-  pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 }
+  pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 },
 };
 
 // Zodiac Elements
@@ -50,7 +53,7 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
   aquarius: 'Air',
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water'
+  pisces: 'Water',
 };
 
 // Helper Functions
@@ -60,11 +63,8 @@ export const getZodiacSign = (date: Date): ZodiacSign => {
 
   for (const [sign, range] of Object.entries(zodiacDateRanges)) {
     const { startMonth, startDay, endMonth, endDay } = range;
-    
-    if (
-      (month === startMonth && day >= startDay) ||
-      (month === endMonth && day <= endDay)
-    ) {
+
+    if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {
       return sign as ZodiacSign;
     }
   }
@@ -78,42 +78,48 @@ export const getElementalAffinity = (sign: ZodiacSign): keyof ElementalPropertie
 };
 
 // Elemental Compatibility
-export const elementalCompatibility: Record<keyof ElementalProperties, {
-  compatible: Array<keyof ElementalProperties>;
-  incompatible: Array<keyof ElementalProperties>;
-}> = {
+export const elementalCompatibility: Record<
+  keyof ElementalProperties,
+  {
+    compatible: Array<keyof ElementalProperties>;
+    incompatible: Array<keyof ElementalProperties>;
+  }
+> = {
   Fire: {
     compatible: ['Fire'],
-    incompatible: ['Air','Water','Earth']
+    incompatible: ['Air', 'Water', 'Earth'],
   },
   Earth: {
     compatible: ['Earth'],
-    incompatible: ['Fire','Air','Water']
+    incompatible: ['Fire', 'Air', 'Water'],
   },
   Air: {
     compatible: ['Air'],
-    incompatible: ['Earth','Water','Fire']
+    incompatible: ['Earth', 'Water', 'Fire'],
   },
   Water: {
     compatible: ['Water'],
-    incompatible: ['Fire','Air','Earth']
-  }
+    incompatible: ['Fire', 'Air', 'Earth'],
+  },
 };
 
 // Element Characteristics
-export const elementalCharacteristics: Record<keyof ElementalProperties, {
-  qualities: string[];
-  keywords: string[];
-  foods: string[];
-  cookingTechniques: string[];
-  flavorProfiles: string[];
-  seasonalAssociations: string[];
-  healthBenefits: string[];
-  complementaryIngredients: string[];
-  moodEffects: string[];
-  culinaryHerbs: string[];
-  timeOfDay: string[];
-}> = {
+export const elementalCharacteristics: Record<
+  keyof ElementalProperties,
+  {
+    qualities: string[];
+    keywords: string[];
+    foods: string[];
+    cookingTechniques: string[];
+    flavorProfiles: string[];
+    seasonalAssociations: string[];
+    healthBenefits: string[];
+    complementaryIngredients: string[];
+    moodEffects: string[];
+    culinaryHerbs: string[];
+    timeOfDay: string[];
+  }
+> = {
   Fire: {
     qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
     keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],
@@ -125,7 +131,7 @@ export const elementalCharacteristics: Record<keyof ElementalProperties, {
     complementaryIngredients: ['Chilis', 'Garlic', 'Onions', 'Mustard seeds', 'Black pepper'],
     moodEffects: ['Energizing', 'Stimulating', 'Uplifting', 'Motivating', 'Passionate'],
     culinaryHerbs: ['Cayenne', 'Chili', 'Mustard', 'Cumin', 'Peppercorn'],
-    timeOfDay: ['Noon', 'Early afternoon']
+    timeOfDay: ['Noon', 'Early afternoon'],
   },
   Earth: {
     qualities: ['Cool', 'Dry', 'Stable', 'Solid', 'Grounding'],
@@ -138,20 +144,26 @@ export const elementalCharacteristics: Record<keyof ElementalProperties, {
     complementaryIngredients: ['Mushrooms', 'Potatoes', 'Lentils', 'Brown rice', 'Squash'],
     moodEffects: ['Stabilizing', 'Grounding', 'Comforting', 'Satisfying', 'Nourishing'],
     culinaryHerbs: ['Thyme', 'Rosemary', 'Sage', 'Bay leaf', 'Black truffle'],
-    timeOfDay: ['Late afternoon', 'Early evening']
+    timeOfDay: ['Late afternoon', 'Early evening'],
   },
   Air: {
     qualities: ['Warm', 'Moist', 'Mobile', 'Light', 'Communicative'],
     keywords: ['Intellectual', 'Communication', 'Social', 'Movement', 'Connection'],
     foods: ['Light', 'Raw', 'Fresh', 'Salads', 'Sprouts', 'Herbs'],
-    cookingTechniques: ['Quick steaming', 'Flash cooking', 'Raw preparations', 'Infusing', 'Whipping'],
+    cookingTechniques: [
+      'Quick steaming',
+      'Flash cooking',
+      'Raw preparations',
+      'Infusing',
+      'Whipping',
+    ],
     flavorProfiles: ['Light', 'Aromatic', 'Herbaceous', 'Bright', 'Fresh'],
     seasonalAssociations: ['Spring', 'Dawn'],
     healthBenefits: ['Mental clarity', 'Respiratory support', 'Digestive lightness'],
     complementaryIngredients: ['Fresh herbs', 'Citrus', 'Sprouts', 'Greens', 'Aromatics'],
     moodEffects: ['Uplifting', 'Clarifying', 'Refreshing', 'Invigorating', 'Inspiring'],
     culinaryHerbs: ['Mint', 'Basil', 'Cilantro', 'Dill', 'Lemongrass'],
-    timeOfDay: ['Morning', 'Sunrise']
+    timeOfDay: ['Morning', 'Sunrise'],
   },
   Water: {
     qualities: ['Cool', 'Moist', 'Flowing', 'Adaptable', 'Receptive'],
@@ -164,8 +176,8 @@ export const elementalCharacteristics: Record<keyof ElementalProperties, {
     complementaryIngredients: ['Berries', 'Melon', 'Cucumber', 'Coconut', 'Seaweed'],
     moodEffects: ['Calming', 'Soothing', 'Introspective', 'Healing', 'Nurturing'],
     culinaryHerbs: ['Lavender', 'Chamomile', 'Fennel', 'Dill', 'Cucumber'],
-    timeOfDay: ['Evening', 'Night', 'Twilight']
-  }
+    timeOfDay: ['Evening', 'Night', 'Twilight'],
+  },
 };
 
 export type ElementalType = 'Fire' | 'Earth' | 'Air' | 'Water';

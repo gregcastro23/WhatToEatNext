@@ -33,29 +33,34 @@ export function useIngredientMapping() {
   /**
    * Find recipes matching the given criteria
    */
-  const findMatchingRecipes = useCallback((options: {
-    elementalTarget?: ElementalProperties;
-    requiredIngredients?: string[];
-    excludedIngredients?: string[];
-    dietaryRestrictions?: string[];
-    emphasizedIngredients?: string[];
-    cuisineType?: string;
-    mealType?: string;
-    season?: string;
-  } = {}) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const result = ingredientMappingService.findMatchingRecipes(options);
-      return result;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
-      setError(errorMessage);
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const findMatchingRecipes = useCallback(
+    (
+      options: {
+        elementalTarget?: ElementalProperties;
+        requiredIngredients?: string[];
+        excludedIngredients?: string[];
+        dietaryRestrictions?: string[];
+        emphasizedIngredients?: string[];
+        cuisineType?: string;
+        mealType?: string;
+        season?: string;
+      } = {},
+    ) => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const result = ingredientMappingService.findMatchingRecipes(options);
+        return result;
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+        setError(errorMessage);
+        return [];
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
 
   /**
    * Suggest alternative ingredients with similar properties
@@ -64,7 +69,10 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.suggestAlternativeIngredients(ingredientName, options);
+      const result = ingredientMappingService.suggestAlternativeIngredients(
+        ingredientName,
+        options,
+      );
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -72,7 +80,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        suggestions: []
+        suggestions: [],
       };
     } finally {
       setIsLoading(false);
@@ -94,7 +102,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        compatibility: 0
+        compatibility: 0,
       };
     } finally {
       setIsLoading(false);
@@ -116,7 +124,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        mappingQuality: 0
+        mappingQuality: 0,
       };
     } finally {
       setIsLoading(false);
@@ -130,6 +138,6 @@ export function useIngredientMapping() {
     findMatchingRecipes,
     suggestAlternatives,
     calculateCompatibility,
-    analyzeRecipeCombinations
+    analyzeRecipeCombinations,
   };
-} 
+}

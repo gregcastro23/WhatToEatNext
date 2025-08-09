@@ -8,14 +8,14 @@ describe('elementalUtils', () => {
     Fire: 0.25,
     Water: 0.25,
     Air: 0.25,
-    Earth: 0.25
+    Earth: 0.25,
   };
 
   const invalidProps: ElementalProperties = {
     Fire: 0.5,
     Water: 0.5,
     Air: 0.5,
-    Earth: 0.5  // Sum > 1
+    Earth: 0.5, // Sum > 1
   };
 
   describe('validateProperties', () => {
@@ -31,7 +31,7 @@ describe('elementalUtils', () => {
   describe('normalizeProperties', () => {
     it('should normalize properties to sum to 1', () => {
       const normalized = elementalUtils.normalizeProperties(invalidProps);
-      const sum = Object.values(normalized).reduce((acc, val) => acc + (val ), 0);
+      const sum = Object.values(normalized).reduce((acc, val) => acc + val, 0);
       expect(Math.abs(sum - 1)).toBeLessThan(0.000001);
     });
 
@@ -40,7 +40,7 @@ describe('elementalUtils', () => {
         Fire: 0,
         Water: 0,
         Air: 0,
-        Earth: 0
+        Earth: 0,
       };
       const normalized = elementalUtils.normalizeProperties(emptyProps);
       expect(normalized.Fire).toBe(0.25);

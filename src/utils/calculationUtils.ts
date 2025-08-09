@@ -9,7 +9,7 @@ export const calculationUtils = {
       Fire: 0,
       Air: 0,
       Water: 0,
-      Earth: 0
+      Earth: 0,
     };
 
     if (temp < 0) {
@@ -34,17 +34,17 @@ export const calculationUtils = {
 
   adjustForSeason(props: ElementalProperties, season: string): ElementalProperties {
     const seasonalModifiers: Record<string, ElementalProperties> = {
-      'spring': { Air: 0.3, Water: 0.3, Fire: 0.2, Earth: 0.2 },
-      'summer': { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
-      'autumn': { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
-      'winter': { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+      spring: { Air: 0.3, Water: 0.3, Fire: 0.2, Earth: 0.2 },
+      summer: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+      autumn: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+      winter: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     };
 
     const modifier = seasonalModifiers[season.toLowerCase()];
     if (!modifier) return props;
 
     return elementalUtils.combineProperties(props, modifier);
-  }
+  },
 };
 
 export default calculationUtils;

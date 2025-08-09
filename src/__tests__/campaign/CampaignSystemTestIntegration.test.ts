@@ -6,12 +6,19 @@
  */
 
 import {
-    SafetyEventType
-    // Note: SafetyEventSeverity and PhaseStatus imported but not currently used
+  SafetyEventType,
+  // Note: SafetyEventSeverity and PhaseStatus imported but not currently used
 } from '../../types/campaign';
 import { campaignTestController } from '../utils/CampaignTestController';
 import {
-    campaignTestAssertions, campaignTestData, cleanupCampaignTest, createMockCampaignConfig, executeCampaignTestScenario, setupCampaignTest, validateCampaignTestIsolation, withCampaignTestIsolation
+  campaignTestAssertions,
+  campaignTestData,
+  cleanupCampaignTest,
+  createMockCampaignConfig,
+  executeCampaignTestScenario,
+  setupCampaignTest,
+  validateCampaignTestIsolation,
+  withCampaignTestIsolation,
 } from '../utils/campaignTestUtils';
 
 describe('Campaign System Test Integration', () => {
@@ -36,7 +43,7 @@ describe('Campaign System Test Integration', () => {
       const context = await setupCampaignTest({
         testName: 'mock-initialization-test',
         preventActualBuilds: true,
-        preventGitOperations: true
+        preventGitOperations: true,
       });
 
       try {
@@ -64,7 +71,6 @@ describe('Campaign System Test Integration', () => {
         // Verify no actual build processes were triggered
         expect(result.filesProcessed).toBeGreaterThan(0); // Mock processing
         expect(result.errorsFixed).toBeGreaterThan(0); // Mock fixes
-
       } finally {
         cleanupCampaignTest('mock-initialization-test');
       }
@@ -73,7 +79,7 @@ describe('Campaign System Test Integration', () => {
     it('should prevent actual TypeScript compilation during tests', async () => {
       const context = await setupCampaignTest({
         testName: 'prevent-tsc-test',
-        preventActualBuilds: true
+        preventActualBuilds: true,
       });
 
       try {
@@ -91,7 +97,6 @@ describe('Campaign System Test Integration', () => {
         // (This is ensured by the mock implementation)
         expect(breakdown['TS2352']).toBeDefined();
         expect(breakdown['TS2339']).toBeDefined();
-
       } finally {
         cleanupCampaignTest('prevent-tsc-test');
       }
@@ -100,7 +105,7 @@ describe('Campaign System Test Integration', () => {
     it('should prevent actual git operations during tests', async () => {
       const context = await setupCampaignTest({
         testName: 'prevent-git-test',
-        preventGitOperations: true
+        preventGitOperations: true,
       });
 
       try {
@@ -121,7 +126,6 @@ describe('Campaign System Test Integration', () => {
         const safetyEvents = context.safety.getSafetyEvents();
         expect(safetyEvents.length).toBeGreaterThan(0);
         expect(safetyEvents.some(e => e.type === SafetyEventType.CHECKPOINT_CREATED)).toBe(true);
-
       } finally {
         cleanupCampaignTest('prevent-git-test');
       }
@@ -133,7 +137,7 @@ describe('Campaign System Test Integration', () => {
       const context = await setupCampaignTest({
         testName: 'memory-safe-tracking-test',
         enableMemoryMonitoring: true,
-        mockProgressTracking: true
+        mockProgressTracking: true,
       });
 
       try {
@@ -145,14 +149,17 @@ describe('Campaign System Test Integration', () => {
 
           // Simulate multiple progress updates
           for (let i = 0; i < 10; i++) {
-            context.testSafeTracker.updateMetrics({
-              typeScriptErrors: {
-                current: 86 - (i * 5),
-                target: 0,
-                reduction: i * 5,
-                percentage: Math.round((i * 5 / 86) * 100)
-              }
-            }, `update-${i}`);
+            context.testSafeTracker.updateMetrics(
+              {
+                typeScriptErrors: {
+                  current: 86 - i * 5,
+                  target: 0,
+                  reduction: i * 5,
+                  percentage: Math.round(((i * 5) / 86) * 100),
+                },
+              },
+              `update-${i}`,
+            );
           }
 
           // Get progress history
@@ -169,7 +176,6 @@ describe('Campaign System Test Integration', () => {
           // Stop tracking
           await context.testSafeTracker.stopTracking('memory-test');
         }
-
       } finally {
         cleanupCampaignTest('memory-safe-tracking-test');
       }
@@ -178,7 +184,7 @@ describe('Campaign System Test Integration', () => {
     it('should simulate realistic progress over time', async () => {
       const context = await setupCampaignTest({
         testName: 'progress-simulation-test',
-        mockProgressTracking: true
+        mockProgressTracking: true,
       });
 
       try {
@@ -187,7 +193,7 @@ describe('Campaign System Test Integration', () => {
           // Simulate progress to target metrics
           const targetMetrics = {
             typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
-            lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 }
+            lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
           };
 
           context.testSafeTracker.simulateProgress(targetMetrics, 1000, 'simulation-test');
@@ -198,7 +204,6 @@ describe('Campaign System Test Integration', () => {
           expect(finalMetrics.typeScriptErrors.current).toBeLessThanOrEqual(initialMetrics.typeScriptErrors.current);
           expect(finalMetrics.lintingWarnings.current).toBeLessThanOrEqual(initialMetrics.lintingWarnings.current);
         }
-
       } finally {
         cleanupCampaignTest('progress-simulation-test');
       }
@@ -207,7 +212,7 @@ describe('Campaign System Test Integration', () => {
     it('should generate comprehensive progress reports', async () => {
       const context = await setupCampaignTest({
         testName: 'progress-report-test',
-        mockProgressTracking: true
+        mockProgressTracking: true,
       });
 
       try {
@@ -233,7 +238,6 @@ describe('Campaign System Test Integration', () => {
         expect(Array.isArray(phase.achievements)).toBe(true);
         expect(Array.isArray(phase.issues)).toBe(true);
         expect(Array.isArray(phase.recommendations)).toBe(true);
-
       } finally {
         cleanupCampaignTest('progress-report-test');
       }
@@ -243,7 +247,7 @@ describe('Campaign System Test Integration', () => {
   describe('Campaign Pause/Resume Functionality', () => {
     it('should pause campaign operations for test isolation', async () => {
       const context = await setupCampaignTest({
-        testName: 'pause-resume-test'
+        testName: 'pause-resume-test',
       });
 
       try {
@@ -263,7 +267,6 @@ describe('Campaign System Test Integration', () => {
         // Should be able to execute phase after resume
         const result = await context.controller.executePhase(mockPhase);
         expect(result.success).toBe(true);
-
       } finally {
         cleanupCampaignTest('pause-resume-test');
       }
@@ -272,23 +275,25 @@ describe('Campaign System Test Integration', () => {
     it('should maintain test isolation across multiple tests', async () => {
       // First test
       const context1 = await setupCampaignTest({
-        testName: 'isolation-test-1'
+        testName: 'isolation-test-1',
       });
 
       try {
-        context1.testController.updateMockMetrics({
-          typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 }
-        }, 'isolation-test-1');
+        context1.testController.updateMockMetrics(
+          {
+            typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 },
+          },
+          'isolation-test-1',
+        );
         const metrics1 = await context1.tracker.getProgressMetrics();
         expect(metrics1.typeScriptErrors.current).toBe(10);
-
       } finally {
         cleanupCampaignTest('isolation-test-1');
       }
 
       // Second test should have clean state
       const context2 = await setupCampaignTest({
-        testName: 'isolation-test-2'
+        testName: 'isolation-test-2',
       });
 
       try {
@@ -296,7 +301,6 @@ describe('Campaign System Test Integration', () => {
         // Should not have the modified metrics from test 1
         expect(metrics2.typeScriptErrors.current).not.toBe(10);
         expect(metrics2.typeScriptErrors.current).toBeGreaterThan(10); // Should be initial value
-
       } finally {
         cleanupCampaignTest('isolation-test-2');
       }
@@ -307,23 +311,29 @@ describe('Campaign System Test Integration', () => {
       // and doesn't cause conflicts between concurrent test setups
 
       const testPromises = [
-        withCampaignTestIsolation('concurrent-test-1', async (context) => {
-          context.testController.updateMockMetrics({
-            typeScriptErrors: { current: 20, target: 0, reduction: 66, percentage: 77 }
-          }, 'concurrent-test-1');
+        withCampaignTestIsolation('concurrent-test-1', async context => {
+          context.testController.updateMockMetrics(
+            {
+              typeScriptErrors: { current: 20, target: 0, reduction: 66, percentage: 77 },
+            },
+            'concurrent-test-1',
+          );
           const metrics = await context.tracker.getProgressMetrics();
           expect(metrics.typeScriptErrors.current).toBe(20);
           return 'test-1-complete';
         }),
 
-        withCampaignTestIsolation('concurrent-test-2', async (context) => {
-          context.testController.updateMockMetrics({
-            typeScriptErrors: { current: 30, target: 0, reduction: 56, percentage: 65 }
-          }, 'concurrent-test-2');
+        withCampaignTestIsolation('concurrent-test-2', async context => {
+          context.testController.updateMockMetrics(
+            {
+              typeScriptErrors: { current: 30, target: 0, reduction: 56, percentage: 65 },
+            },
+            'concurrent-test-2',
+          );
           const metrics = await context.tracker.getProgressMetrics();
           expect(metrics.typeScriptErrors.current).toBe(30);
           return 'test-2-complete';
-        })
+        }),
       ];
 
       const results = await Promise.all(testPromises);
@@ -335,7 +345,7 @@ describe('Campaign System Test Integration', () => {
     it('should prevent memory leaks during campaign operations', async () => {
       const context = await setupCampaignTest({
         testName: 'memory-leak-prevention-test',
-        enableMemoryMonitoring: true
+        enableMemoryMonitoring: true,
       });
 
       try {
@@ -345,9 +355,12 @@ describe('Campaign System Test Integration', () => {
           await context.controller.executePhase(mockPhase);
 
           // Update metrics
-          context.testController.updateMockMetrics({
-            typeScriptErrors: { current: 86 - i, target: 0, reduction: i, percentage: Math.round((i / 86) * 100) }
-          }, `iteration-${i}`);
+          context.testController.updateMockMetrics(
+            {
+              typeScriptErrors: { current: 86 - i, target: 0, reduction: i, percentage: Math.round((i / 86) * 100) },
+            },
+            `iteration-${i}`,
+          );
 
           // Create safety checkpoints
           await context.safety.createStash(`Checkpoint ${i}`, 'test-phase');
@@ -359,7 +372,6 @@ describe('Campaign System Test Integration', () => {
         // Verify that safety events are properly managed (not accumulating indefinitely)
         const safetyEvents = await context.controller.getSafetyEvents();
         expect(safetyEvents.length).toBeLessThan(100); // Should be limited to prevent memory issues
-
       } finally {
         cleanupCampaignTest('memory-leak-prevention-test');
       }
@@ -369,7 +381,7 @@ describe('Campaign System Test Integration', () => {
       // Setup and use campaign test
       const context = await setupCampaignTest({
         testName: 'resource-cleanup-test',
-        enableMemoryMonitoring: true
+        enableMemoryMonitoring: true,
       });
 
       // Perform some operations
@@ -378,9 +390,12 @@ describe('Campaign System Test Integration', () => {
 
       if (context.testSafeTracker) {
         await context.testSafeTracker.startTracking('cleanup-test');
-        context.testSafeTracker.updateMetrics({
-          typeScriptErrors: { current: 50, target: 0, reduction: 50, percentage: 50 }
-        }, 'cleanup-test');
+        context.testSafeTracker.updateMetrics(
+          {
+            typeScriptErrors: { current: 50, target: 0, reduction: 50, percentage: 50 },
+          },
+          'cleanup-test',
+        );
       }
 
       // Cleanup
@@ -403,7 +418,12 @@ describe('Campaign System Test Integration', () => {
     it('should execute TypeScript error reduction scenario', async () => {
       const scenario = campaignTestData.typeScriptErrorReduction();
       const _config = createMockCampaignConfig();
-      const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario(scenario, _config);
+      const {
+        context: _context,
+        results,
+        finalMetrics,
+        safetyEvents: _safetyEvents,
+      } = await executeCampaignTestScenario(scenario, _config);
       try {
         // Verify phase execution
         expect(results.length).toBe(1);
@@ -416,8 +436,9 @@ describe('Campaign System Test Integration', () => {
         campaignTestAssertions.safetyEventsRecorded(_safetyEvents, scenario.expectedSafetyEvents);
 
         // Verify final state
-        expect(finalMetrics.typeScriptErrors.current).toBeLessThanOrEqual(scenario.initialMetrics.typeScriptErrors.current);
-
+        expect(finalMetrics.typeScriptErrors.current).toBeLessThanOrEqual(
+          scenario.initialMetrics.typeScriptErrors.current,
+        );
       } finally {
         cleanupCampaignTest(scenario.name);
       }
@@ -426,7 +447,12 @@ describe('Campaign System Test Integration', () => {
     it('should execute linting warning cleanup scenario', async () => {
       const scenario = campaignTestData.lintingWarningCleanup();
       const _config = createMockCampaignConfig();
-      const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario(scenario, _config);
+      const {
+        context: _context,
+        results,
+        finalMetrics,
+        safetyEvents: _safetyEvents,
+      } = await executeCampaignTestScenario(scenario, _config);
       try {
         // Verify phase execution
         expect(results.length).toBe(1);
@@ -436,8 +462,9 @@ describe('Campaign System Test Integration', () => {
         void campaignTestAssertions.progressImproved(scenario.initialMetrics, finalMetrics);
 
         // Verify linting-specific improvements
-        expect(finalMetrics.lintingWarnings.current).toBeLessThanOrEqual(scenario.initialMetrics.lintingWarnings.current);
-
+        expect(finalMetrics.lintingWarnings.current).toBeLessThanOrEqual(
+          scenario.initialMetrics.lintingWarnings.current,
+        );
       } finally {
         cleanupCampaignTest(scenario.name);
       }
@@ -445,7 +472,7 @@ describe('Campaign System Test Integration', () => {
 
     it('should handle campaign failures gracefully', async () => {
       const context = await setupCampaignTest({
-        testName: 'failure-handling-test'
+        testName: 'failure-handling-test',
       });
 
       try {
@@ -453,8 +480,8 @@ describe('Campaign System Test Integration', () => {
         const failingPhase = {
           ...createMockCampaignConfig().phases[0],
           successCriteria: {
-            typeScriptErrors: -1 // Impossible criteria
-          }
+            typeScriptErrors: -1, // Impossible criteria
+          },
         };
 
         // Mock the controller to simulate failure
@@ -466,7 +493,6 @@ describe('Campaign System Test Integration', () => {
         // Verify safety events were recorded for the failure
         const safetyEvents = context.controller.getSafetyEvents();
         expect(safetyEvents.length).toBeGreaterThan(0);
-
       } finally {
         cleanupCampaignTest('failure-handling-test');
       }
@@ -480,7 +506,7 @@ describe('Campaign System Test Integration', () => {
         enableMemoryMonitoring: true,
         preventActualBuilds: true,
         preventGitOperations: true,
-        mockProgressTracking: true
+        mockProgressTracking: true,
       });
 
       try {
@@ -498,9 +524,12 @@ describe('Campaign System Test Integration', () => {
 
         // 2. Track progress
         const initialMetrics = await context.tracker.getProgressMetrics();
-        context.testController.updateMockMetrics({
-          typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 }
-        }, 'integration-test');
+        context.testController.updateMockMetrics(
+          {
+            typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 },
+          },
+          'integration-test',
+        );
         const updatedMetrics = await context.tracker.getProgressMetrics();
         void campaignTestAssertions.progressImproved(initialMetrics, updatedMetrics);
 
@@ -520,10 +549,7 @@ describe('Campaign System Test Integration', () => {
         // 6. Verify all safety events
         const safetyEvents = context.controller.getSafetyEvents();
         expect(safetyEvents.length).toBeGreaterThan(0);
-        campaignTestAssertions.safetyEventsRecorded(safetyEvents, [
-          SafetyEventType.CHECKPOINT_CREATED
-        ]);
-
+        campaignTestAssertions.safetyEventsRecorded(safetyEvents, [SafetyEventType.CHECKPOINT_CREATED]);
       } finally {
         cleanupCampaignTest('integration-validation-test');
       }

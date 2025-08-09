@@ -1,6 +1,6 @@
 /**
  * Test Memory Monitor Utility
- * 
+ *
  * Provides memory monitoring and management capabilities for test environments.
  * Used in comprehensive validation testing to ensure memory usage stays within limits.
  */
@@ -43,11 +43,11 @@ export class TestMemoryMonitor {
   constructor(limits?: Partial<TestMemoryMonitor['memoryLimits']>) {
     this.startTime = Date.now();
     this.memoryLimits = {
-      heapUsed: 200 * 1024 * 1024,   // 200MB
-      heapTotal: 300 * 1024 * 1024,  // 300MB
-      external: 50 * 1024 * 1024,    // 50MB
-      rss: 400 * 1024 * 1024,        // 400MB
-      ...limits
+      heapUsed: 200 * 1024 * 1024, // 200MB
+      heapTotal: 300 * 1024 * 1024, // 300MB
+      external: 50 * 1024 * 1024, // 50MB
+      rss: 400 * 1024 * 1024, // 400MB
+      ...limits,
     };
   }
 
@@ -63,10 +63,10 @@ export class TestMemoryMonitor {
    */
   static createForCI(): TestMemoryMonitor {
     return new TestMemoryMonitor({
-      heapUsed: 150 * 1024 * 1024,   // 150MB
-      heapTotal: 200 * 1024 * 1024,  // 200MB
-      external: 30 * 1024 * 1024,    // 30MB
-      rss: 250 * 1024 * 1024,        // 250MB
+      heapUsed: 150 * 1024 * 1024, // 150MB
+      heapTotal: 200 * 1024 * 1024, // 200MB
+      external: 30 * 1024 * 1024, // 30MB
+      rss: 250 * 1024 * 1024, // 250MB
     });
   }
 
@@ -82,7 +82,7 @@ export class TestMemoryMonitor {
       heapTotal: usage.heapTotal,
       external: usage.external,
       arrayBuffers: usage.arrayBuffers,
-      rss: usage.rss
+      rss: usage.rss,
     };
 
     this.snapshots.push(snapshot);
@@ -106,30 +106,40 @@ export class TestMemoryMonitor {
 
     // Check against limits
     if (currentUsage.heapUsed > this.memoryLimits.heapUsed * 0.8) {
-      warnings.push(`Heap usage approaching limit: ${(currentUsage.heapUsed / 1024 / 1024).toFixed(2)}MB`);
+      warnings.push(
+        `Heap usage approaching limit: ${(currentUsage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
+      );
     }
 
     if (currentUsage.heapUsed > this.memoryLimits.heapUsed) {
-      errors.push(`Heap usage exceeded limit: ${(currentUsage.heapUsed / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.heapUsed / 1024 / 1024).toFixed(2)}MB`);
+      errors.push(
+        `Heap usage exceeded limit: ${(currentUsage.heapUsed / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.heapUsed / 1024 / 1024).toFixed(2)}MB`,
+      );
     }
 
     if (currentUsage.heapTotal > this.memoryLimits.heapTotal) {
-      errors.push(`Heap total exceeded limit: ${(currentUsage.heapTotal / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.heapTotal / 1024 / 1024).toFixed(2)}MB`);
+      errors.push(
+        `Heap total exceeded limit: ${(currentUsage.heapTotal / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.heapTotal / 1024 / 1024).toFixed(2)}MB`,
+      );
     }
 
     if (currentUsage.external > this.memoryLimits.external) {
-      errors.push(`External memory exceeded limit: ${(currentUsage.external / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.external / 1024 / 1024).toFixed(2)}MB`);
+      errors.push(
+        `External memory exceeded limit: ${(currentUsage.external / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.external / 1024 / 1024).toFixed(2)}MB`,
+      );
     }
 
     if (currentUsage.rss > this.memoryLimits.rss) {
-      errors.push(`RSS exceeded limit: ${(currentUsage.rss / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.rss / 1024 / 1024).toFixed(2)}MB`);
+      errors.push(
+        `RSS exceeded limit: ${(currentUsage.rss / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.rss / 1024 / 1024).toFixed(2)}MB`,
+      );
     }
 
     return {
       isWithinLimits: errors.length === 0,
       currentUsage,
       warnings,
-      errors
+      errors,
     };
   }
 
@@ -144,7 +154,7 @@ export class TestMemoryMonitor {
         currentMemory: current.heapUsed / 1024 / 1024,
         peakMemory: current.heapUsed / 1024 / 1024,
         totalIncrease: 0,
-        testDuration: Date.now() - this.startTime
+        testDuration: Date.now() - this.startTime,
       };
     }
 
@@ -157,7 +167,7 @@ export class TestMemoryMonitor {
       currentMemory: currentUsage.heapUsed / 1024 / 1024,
       peakMemory: peakMemory / 1024 / 1024,
       totalIncrease: (currentUsage.heapUsed - initialSnapshot.heapUsed) / 1024 / 1024,
-      testDuration: Date.now() - this.startTime
+      testDuration: Date.now() - this.startTime,
     };
   }
 
@@ -173,7 +183,7 @@ export class TestMemoryMonitor {
       return {
         isIncreasing: false,
         averageIncrease: 0,
-        concerningTrend: false
+        concerningTrend: false,
       };
     }
 
@@ -192,7 +202,7 @@ export class TestMemoryMonitor {
     return {
       isIncreasing,
       averageIncrease: averageIncrease / 1024 / 1024, // Convert to MB
-      concerningTrend
+      concerningTrend,
     };
   }
 
@@ -232,7 +242,7 @@ export class TestMemoryMonitor {
       if (jest) {
         jest.clearAllMocks();
         actions.push('Cleared Jest mocks');
-        
+
         if (jest.resetModules) {
           jest.resetModules();
           actions.push('Reset Jest modules');
@@ -248,14 +258,14 @@ export class TestMemoryMonitor {
       return {
         success: true,
         freedMemory: `${freedMemory.toFixed(2)}MB`,
-        actions
+        actions,
       };
     } catch (error) {
       console.error('Memory cleanup failed:', error);
       return {
         success: false,
         freedMemory: '0MB',
-        actions: [...actions, `Cleanup failed: ${(error as Error).message}`]
+        actions: [...actions, `Cleanup failed: ${(error as Error).message}`],
       };
     }
   }
@@ -294,7 +304,7 @@ export class TestMemoryMonitor {
       summary,
       trend,
       snapshots: this.snapshots,
-      recommendations
+      recommendations,
     };
   }
 
@@ -324,10 +334,10 @@ export class TestMemoryMonitor {
         startTime: this.startTime,
         endTime: Date.now(),
         duration: Date.now() - this.startTime,
-        snapshotCount: this.snapshots.length
+        snapshotCount: this.snapshots.length,
       },
       snapshots: this.snapshots,
-      summary: this.getMemorySummary()
+      summary: this.getMemorySummary(),
     };
   }
 }

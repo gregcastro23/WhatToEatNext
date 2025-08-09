@@ -2,7 +2,7 @@
 
 /**
  * CLI script to test Explicit-Any Elimination System
- * 
+ *
  * Usage:
  *   node src/services/campaign/test-explicit-any-elimination.js [options]
  */
@@ -21,21 +21,20 @@ class ExplicitAnyEliminationSystem {
 
   async executeExplicitAnyFixer(options = {}) {
     const startTime = Date.now();
-    
+
     console.log('🎯 Starting Explicit-Any Elimination System...');
-    
+
     const initialCount = await this.getCurrentExplicitAnyCount();
     const args = this.buildFixerArguments(options);
-    
+
     try {
       const result = await this.runFixerCommand(args);
       const finalCount = await this.getCurrentExplicitAnyCount();
       const explicitAnyFixed = Math.max(0, initialCount - finalCount);
       const buildValidationPassed = await this.validateBuild();
-      const reductionPercentage = initialCount > 0 ? 
-        ((explicitAnyFixed / initialCount) * 100) : 0;
+      const reductionPercentage = initialCount > 0 ? (explicitAnyFixed / initialCount) * 100 : 0;
       const executionTime = Date.now() - startTime;
-      
+
       return {
         success: result.success,
         filesProcessed: result.filesProcessed,
@@ -46,12 +45,11 @@ class ExplicitAnyEliminationSystem {
         executionTime,
         safetyScore: result.safetyScore,
         warnings: result.warnings,
-        errors: result.errors
+        errors: result.errors,
       };
-      
     } catch (error) {
       console.error('❌ Explicit-Any Elimination execution failed:', error);
-      
+
       return {
         success: false,
         filesProcessed: 0,
@@ -61,42 +59,42 @@ class ExplicitAnyEliminationSystem {
         buildValidationPassed: false,
         executionTime: Date.now() - startTime,
         warnings: [],
-        errors: [error instanceof Error ? error.message : String(error)]
+        errors: [error instanceof Error ? error.message : String(error)],
       };
     }
   }
 
   buildFixerArguments(options) {
     const args = [];
-    
+
     if (options.maxFiles) {
       args.push(`--max-files=${options.maxFiles}`);
     }
-    
+
     if (options.autoFix) {
       args.push('--auto-fix');
     }
-    
+
     if (options.dryRun) {
       args.push('--dry-run');
     }
-    
+
     if (options.aggressive) {
       args.push('--aggressive');
     }
-    
+
     if (options.validateSafety) {
       args.push('--validate-safety');
     }
-    
+
     if (options.silent) {
       args.push('--silent');
     }
-    
+
     if (options.json) {
       args.push('--json');
     }
-    
+
     return args;
   }
 
@@ -104,40 +102,40 @@ class ExplicitAnyEliminationSystem {
     return new Promise((resolve, reject) => {
       const command = 'node';
       const fullArgs = [this.EXPLICIT_ANY_FIXER_PATH, ...args];
-      
+
       console.log(`🔧 Executing: ${command} ${fullArgs.join(' ')}`);
-      
+
       const child = spawn(command, fullArgs, {
         stdio: ['pipe', 'pipe', 'pipe'],
-        cwd: process.cwd()
+        cwd: process.cwd(),
       });
-      
+
       let stdout = '';
       let stderr = '';
-      
-      child.stdout?.on('data', (data) => {
+
+      child.stdout?.on('data', data => {
         stdout += data.toString();
         if (!args.includes('--silent')) {
           process.stdout.write(data);
         }
       });
-      
-      child.stderr?.on('data', (data) => {
+
+      child.stderr?.on('data', data => {
         stderr += data.toString();
         if (!args.includes('--silent')) {
           process.stderr.write(data);
         }
       });
-      
-      child.on('close', (code) => {
+
+      child.on('close', code => {
         const success = code === 0;
         const output = stdout + stderr;
-        
+
         const result = this.parseFixerOutput(output, success);
         resolve(result);
       });
-      
-      child.on('error', (error) => {
+
+      child.on('error', error => {
         reject(error);
       });
     });
@@ -146,57 +144,56 @@ class ExplicitAnyEliminationSystem {
   parseFixerOutput(output, success) {
     const warnings = [];
     const errors = [];
-    
+
     let filesProcessed = 0;
     let safetyScore;
-    
+
     // Parse files processed
     const filesMatch = output.match(/(?:processed|fixed)\s+(\d+)\s+files?/i);
     if (filesMatch) {
       filesProcessed = parseInt(filesMatch[1]);
     }
-    
+
     // Parse safety score
     const safetyMatch = output.match(/safety\s+score[:\s]+(\d+(?:\.\d+)?)/i);
     if (safetyMatch) {
       safetyScore = parseFloat(safetyMatch[1]);
     }
-    
+
     // Extract warnings
     const warningMatches = output.match(/⚠️[^\n]*/g);
     if (warningMatches) {
       warnings.push(...warningMatches);
     }
-    
+
     // Extract errors
     const errorMatches = output.match(/❌[^\n]*/g);
     if (errorMatches) {
       errors.push(...errorMatches);
     }
-    
+
     return {
       success,
       filesProcessed,
       safetyScore,
       warnings,
-      errors
+      errors,
     };
   }
 
   async validateBuild() {
     try {
       console.log('🔍 Validating build...');
-      
+
       const startTime = Date.now();
-      execSync('yarn build', { 
+      execSync('yarn build', {
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       });
-      
+
       const buildTime = Date.now() - startTime;
       console.log(`✅ Build validation passed (${buildTime}ms)`);
       return true;
-      
     } catch (error) {
       console.log('❌ Build validation failed');
       if (error instanceof Error) {
@@ -208,9 +205,9 @@ class ExplicitAnyEliminationSystem {
 
   async getCurrentExplicitAnyCount() {
     try {
-      const output = execSync('yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any"', { 
+      const output = execSync('yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -223,24 +220,26 @@ class ExplicitAnyEliminationSystem {
       if (fs.existsSync(this.PROGRESS_FILE)) {
         const data = await fs.promises.readFile(this.PROGRESS_FILE, 'utf8');
         const progress = JSON.parse(data);
-        
+
         const currentCount = await this.getCurrentExplicitAnyCount();
         const reductionAchieved = progress.totalExplicitAnyStart - currentCount;
-        const reductionPercentage = progress.totalExplicitAnyStart > 0 ? 
-          (reductionAchieved / progress.totalExplicitAnyStart) * 100 : 0;
-        
+        const reductionPercentage =
+          progress.totalExplicitAnyStart > 0
+            ? (reductionAchieved / progress.totalExplicitAnyStart) * 100
+            : 0;
+
         return {
           ...progress,
           totalExplicitAnyRemaining: currentCount,
           reductionAchieved,
           reductionPercentage,
-          isTargetMet: reductionPercentage >= this.CAMPAIGN_TARGET_PERCENTAGE
+          isTargetMet: reductionPercentage >= this.CAMPAIGN_TARGET_PERCENTAGE,
         };
       }
     } catch (error) {
       console.log(`⚠️  Could not load campaign progress: ${error}`);
     }
-    
+
     const currentCount = await this.getCurrentExplicitAnyCount();
     return {
       totalExplicitAnyStart: currentCount,
@@ -248,13 +247,13 @@ class ExplicitAnyEliminationSystem {
       reductionAchieved: 0,
       reductionPercentage: 0,
       campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE,
-      isTargetMet: false
+      isTargetMet: false,
     };
   }
 
   async showCampaignProgress() {
     const progress = await this.loadCampaignProgress();
-    
+
     console.log('\n📊 EXPLICIT-ANY ELIMINATION CAMPAIGN PROGRESS');
     console.log('=============================================');
     console.log(`🎯 Campaign Target: ${progress.campaignTarget}% reduction`);
@@ -263,14 +262,16 @@ class ExplicitAnyEliminationSystem {
     console.log(`🔢 Starting Count: ${progress.totalExplicitAnyStart}`);
     console.log(`🔢 Current Count: ${progress.totalExplicitAnyRemaining}`);
     console.log(`🔧 Total Fixed: ${progress.reductionAchieved}`);
-    
+
     if (progress.isTargetMet) {
       console.log(`🎉 Congratulations! Campaign target achieved!`);
     } else {
-      const remaining = Math.ceil((progress.campaignTarget / 100) * progress.totalExplicitAnyStart) - progress.reductionAchieved;
+      const remaining =
+        Math.ceil((progress.campaignTarget / 100) * progress.totalExplicitAnyStart) -
+        progress.reductionAchieved;
       console.log(`🎯 Need to fix ${remaining} more to reach target`);
     }
-    
+
     return progress;
   }
 
@@ -288,7 +289,7 @@ class ExplicitAnyEliminationSystem {
 
 async function main() {
   const args = process.argv.slice(2);
-  
+
   if (args.includes('--help')) {
     console.log(`
 Explicit-Any Elimination System Test CLI
@@ -347,7 +348,8 @@ Examples:
     }
 
     // Default test execution
-    const maxFiles = parseInt(args.find(arg => arg.startsWith('--max-files='))?.split('=')[1]) || 25;
+    const maxFiles =
+      parseInt(args.find(arg => arg.startsWith('--max-files='))?.split('=')[1]) || 25;
     const dryRun = args.includes('--dry-run');
     const aggressive = args.includes('--aggressive');
 
@@ -361,7 +363,7 @@ Examples:
       autoFix: !dryRun,
       dryRun,
       aggressive,
-      validateSafety: true
+      validateSafety: true,
     });
 
     console.log('\n📊 Test Results:');
@@ -372,16 +374,16 @@ Examples:
     console.log(`   Reduction: ${result.reductionPercentage.toFixed(1)}%`);
     console.log(`   Build Validation: ${result.buildValidationPassed ? '✅' : '❌'}`);
     console.log(`   Execution Time: ${result.executionTime}ms`);
-    
+
     if (result.safetyScore !== undefined) {
       console.log(`   Safety Score: ${result.safetyScore}`);
     }
-    
+
     if (result.warnings.length > 0) {
       console.log('\n⚠️  Warnings:');
       result.warnings.forEach(warning => console.log(`   ${warning}`));
     }
-    
+
     if (result.errors.length > 0) {
       console.log('\n❌ Errors:');
       result.errors.forEach(error => console.log(`   ${error}`));
@@ -390,7 +392,6 @@ Examples:
     // Show updated campaign progress
     console.log('\n📊 Updated Campaign Progress:');
     await system.showCampaignProgress();
-
   } catch (error) {
     console.error('❌ Test failed:', error);
     process.exit(1);

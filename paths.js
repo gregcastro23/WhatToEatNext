@@ -20,7 +20,7 @@ const pathMap = {
   '@providers': path.resolve(projectRoot, 'src/providers'),
   '@constants': path.resolve(projectRoot, 'src/constants'),
   '@data': path.resolve(projectRoot, 'src/data'),
-  '@lib': path.resolve(projectRoot, 'src/lib')
+  '@lib': path.resolve(projectRoot, 'src/lib'),
 };
 
 // Function to resolve a path with aliases
@@ -34,4 +34,4 @@ function resolvePath(pathWithAlias) {
 }
 
 export { pathMap, resolvePath };
-export default { pathMap, resolvePath }; 
+export default { pathMap, resolvePath };

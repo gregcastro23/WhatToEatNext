@@ -1,6 +1,5 @@
 'use client';
 
-
 export interface TarotElementalInfluences {
   Fire: number;
   Water: number;
@@ -21,4 +20,4 @@ export interface TarotContextType {
   tarotElementalInfluences: TarotElementalInfluences;
   setTarotCard: (card: TarotCard | null) => void;
   setTarotElementalInfluences: (influences: TarotElementalInfluences) => void;
-} 
+}

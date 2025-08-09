@@ -6,7 +6,11 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
-import { DependencySecurityMonitor, DEFAULT_DEPENDENCY_SECURITY_CONFIG, DependencySecurityConfig } from './DependencySecurityMonitor';
+import {
+  DependencySecurityMonitor,
+  DEFAULT_DEPENDENCY_SECURITY_CONFIG,
+  DependencySecurityConfig,
+} from './DependencySecurityMonitor';
 
 // Mock dependencies
 jest.mock('fs');
@@ -24,10 +28,10 @@ describe('DependencySecurityMonitor', () => {
     testConfig = {
       ...DEFAULT_DEPENDENCY_SECURITY_CONFIG,
       maxDependenciesPerBatch: 5,
-      safetyValidationEnabled: true
+      safetyValidationEnabled: true,
     };
     dependencyMonitor = new DependencySecurityMonitor(testConfig);
-    
+
     // Reset mocks
     jest.clearAllMocks();
   });
@@ -36,31 +40,35 @@ describe('DependencySecurityMonitor', () => {
     test('detects and categorizes security vulnerabilities', async () => {
       const auditOutput = JSON.stringify({
         vulnerabilities: {
-          'lodash': {
+          lodash: {
             severity: 'high',
-            via: [{
-              source: 'CVE-2021-23337',
-              title: 'Command Injection in lodash',
-              range: '>=1.0.0 <4.17.21'
-            }],
+            via: [
+              {
+                source: 'CVE-2021-23337',
+                title: 'Command Injection in lodash',
+                range: '>=1.0.0 <4.17.21',
+              },
+            ],
             range: '>=1.0.0 <4.17.21',
             fixAvailable: {
-              version: '4.17.21'
-            }
+              version: '4.17.21',
+            },
           },
-          'axios': {
+          axios: {
             severity: 'critical',
-            via: [{
-              source: 'CVE-2021-3749',
-              title: 'Regular Expression Denial of Service in axios',
-              range: '>=0.8.1 <0.21.2'
-            }],
+            via: [
+              {
+                source: 'CVE-2021-3749',
+                title: 'Regular Expression Denial of Service in axios',
+                range: '>=0.8.1 <0.21.2',
+              },
+            ],
             range: '>=0.8.1 <0.21.2',
             fixAvailable: {
-              version: '0.21.2'
-            }
-          }
-        }
+              version: '0.21.2',
+            },
+          },
+        },
       });
 
       mockExecSync.mockReturnValue(auditOutput);
@@ -71,7 +79,7 @@ describe('DependencySecurityMonitor', () => {
       expect(securityReport.summary.critical).toBe(1);
       expect(securityReport.summary.high).toBe(1);
       expect(securityReport.summary.total).toBe(2);
-      
+
       const lodashVuln = securityReport.vulnerabilities.find(v => v.packageName === 'lodash');
       expect(lodashVuln).toBeDefined();
       expect(lodashVuln?.severity).toBe('high');
@@ -88,7 +96,9 @@ describe('DependencySecurityMonitor', () => {
 
       expect(securityReport.vulnerabilities).toHaveLength(0);
       expect(securityReport.summary.total).toBe(0);
-      expect(securityReport.recommendations).toContain('Failed to scan for vulnerabilities. Please run npm audit manually.');
+      expect(securityReport.recommendations).toContain(
+        'Failed to scan for vulnerabilities. Please run npm audit manually.',
+      );
     });
 
     test('generates appropriate security recommendations', async () => {
@@ -97,9 +107,9 @@ describe('DependencySecurityMonitor', () => {
           'test-package': {
             severity: 'critical',
             via: [{ source: 'CVE-2021-0001', title: 'Test vulnerability' }],
-            fixAvailable: { version: '2.0.0' }
-          }
-        }
+            fixAvailable: { version: '2.0.0' },
+          },
+        },
       });
 
       mockExecSync.mockReturnValue(auditOutput);
@@ -107,10 +117,10 @@ describe('DependencySecurityMonitor', () => {
       const securityReport = await dependencyMonitor.scanSecurityVulnerabilities();
 
       expect(securityReport.recommendations).toContain(
-        expect.stringContaining('1 critical vulnerabilities found - immediate action required')
+        expect.stringContaining('1 critical vulnerabilities found - immediate action required'),
       );
       expect(securityReport.recommendations).toContain(
-        expect.stringContaining('1 vulnerabilities have patches available')
+        expect.stringContaining('1 vulnerabilities have patches available'),
       );
     });
   });
@@ -118,18 +128,18 @@ describe('DependencySecurityMonitor', () => {
   describe('checkDependencyUpdates', () => {
     test('detects available dependency updates', async () => {
       const outdatedOutput = JSON.stringify({
-        'lodash': {
+        lodash: {
           current: '4.17.20',
           wanted: '4.17.21',
           latest: '4.17.21',
-          location: 'node_modules/lodash'
+          location: 'node_modules/lodash',
         },
-        'react': {
+        react: {
           current: '17.0.0',
           wanted: '17.0.2',
           latest: '18.0.0',
-          location: 'node_modules/react'
-        }
+          location: 'node_modules/react',
+        },
       });
 
       const error = new Error('npm outdated found updates') as any;
@@ -142,7 +152,7 @@ describe('DependencySecurityMonitor', () => {
 
       expect(updateReport.availableUpdates).toHaveLength(2);
       expect(updateReport.summary.total).toBe(2);
-      
+
       const lodashUpdate = updateReport.availableUpdates.find(u => u.packageName === 'lodash');
       expect(lodashUpdate).toBeDefined();
       expect(lodashUpdate?.updateType).toBe('patch');
@@ -171,8 +181,8 @@ describe('DependencySecurityMonitor', () => {
         autoUpdateEnabled: true,
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true
-        }
+          autoFixCritical: true,
+        },
       };
       const monitor = new DependencySecurityMonitor(config);
 
@@ -185,8 +195,8 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true
-        }
+          patchAvailable: true,
+        },
       ];
 
       mockExecSync.mockReturnValue('');
@@ -196,10 +206,7 @@ describe('DependencySecurityMonitor', () => {
       expect(appliedUpdates).toHaveLength(1);
       expect(appliedUpdates[0].packageName).toBe('lodash');
       expect(appliedUpdates[0].securityFix).toBe(true);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'npm install lodash@4.17.21',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('npm install lodash@4.17.21', expect.any(Object));
     });
 
     test('skips excluded packages', async () => {
@@ -209,8 +216,8 @@ describe('DependencySecurityMonitor', () => {
         excludedPackages: ['lodash'],
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true
-        }
+          autoFixCritical: true,
+        },
       };
       const monitor = new DependencySecurityMonitor(config);
 
@@ -223,8 +230,8 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true
-        }
+          patchAvailable: true,
+        },
       ];
 
       const appliedUpdates = await monitor.applySecurityPatches(vulnerabilities);
@@ -240,8 +247,8 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: false,
-          autoFixHigh: false
-        }
+          autoFixHigh: false,
+        },
       };
       const monitor = new DependencySecurityMonitor(config);
 
@@ -254,8 +261,8 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true
-        }
+          patchAvailable: true,
+        },
       ];
 
       const appliedUpdates = await monitor.applySecurityPatches(vulnerabilities);
@@ -268,7 +275,7 @@ describe('DependencySecurityMonitor', () => {
     test('applies safe patch updates', async () => {
       const config = {
         ...testConfig,
-        autoUpdateEnabled: true
+        autoUpdateEnabled: true,
       };
       const monitor = new DependencySecurityMonitor(config);
 
@@ -280,8 +287,8 @@ describe('DependencySecurityMonitor', () => {
           updateType: 'patch' as const,
           breakingChanges: false,
           securityFix: false,
-          testingRequired: false
-        }
+          testingRequired: false,
+        },
       ];
 
       mockExecSync.mockReturnValue('');
@@ -289,10 +296,7 @@ describe('DependencySecurityMonitor', () => {
       const appliedUpdates = await monitor.applySafeUpdates(availableUpdates);
 
       expect(appliedUpdates).toHaveLength(1);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'npm install lodash@4.17.21',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('npm install lodash@4.17.21', expect.any(Object));
     });
 
     test('skips major updates requiring manual approval', async () => {
@@ -306,9 +310,9 @@ describe('DependencySecurityMonitor', () => {
             pattern: /.*/,
             updateType: 'minor' as const,
             requiresManualApproval: true,
-            testingRequired: false
-          }
-        ]
+            testingRequired: false,
+          },
+        ],
       };
       const monitor = new DependencySecurityMonitor(config);
 
@@ -320,8 +324,8 @@ describe('DependencySecurityMonitor', () => {
           updateType: 'major' as const,
           breakingChanges: true,
           securityFix: false,
-          testingRequired: true
-        }
+          testingRequired: true,
+        },
       ];
 
       const appliedUpdates = await monitor.applySafeUpdates(availableUpdates);
@@ -329,7 +333,7 @@ describe('DependencySecurityMonitor', () => {
       expect(appliedUpdates).toHaveLength(0);
       expect(mockExecSync).not.toHaveBeenCalledWith(
         expect.stringContaining('npm install react@18.0.0'),
-        expect.any(Object)
+        expect.any(Object),
       );
     });
   });
@@ -348,7 +352,8 @@ describe('DependencySecurityMonitor', () => {
     test('returns false when tests fail', async () => {
       mockExecSync
         .mockReturnValueOnce('') // Build succeeds
-        .mockImplementationOnce(() => { // Test fails
+        .mockImplementationOnce(() => {
+          // Test fails
           throw new Error('Tests failed');
         });
 
@@ -372,14 +377,14 @@ describe('DependencySecurityMonitor', () => {
     test('executes complete monitoring workflow', async () => {
       const packageJson = {
         dependencies: { lodash: '4.17.20' },
-        devDependencies: { jest: '29.0.0' }
+        devDependencies: { jest: '29.0.0' },
       };
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson));
-      
+
       // Mock npm audit (no vulnerabilities)
       mockExecSync.mockReturnValueOnce(JSON.stringify({ vulnerabilities: {} }));
-      
+
       // Mock npm outdated (no updates)
       mockExecSync.mockReturnValueOnce('{}');
 
@@ -397,13 +402,13 @@ describe('DependencySecurityMonitor', () => {
         autoUpdateEnabled: true,
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true
-        }
+          autoFixCritical: true,
+        },
       };
       const monitor = new DependencySecurityMonitor(config);
 
       const packageJson = {
-        dependencies: { lodash: '4.17.20' }
+        dependencies: { lodash: '4.17.20' },
       };
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson));
@@ -411,24 +416,26 @@ describe('DependencySecurityMonitor', () => {
       // Mock npm audit with vulnerability
       const auditOutput = JSON.stringify({
         vulnerabilities: {
-          'lodash': {
+          lodash: {
             severity: 'critical',
             via: [{ source: 'CVE-2021-23337', title: 'Test vuln' }],
-            fixAvailable: { version: '4.17.21' }
-          }
-        }
+            fixAvailable: { version: '4.17.21' },
+          },
+        },
       });
       mockExecSync.mockReturnValueOnce(auditOutput);
 
       // Mock npm outdated
       const outdatedError = new Error('Updates available') as any;
       outdatedError.stdout = JSON.stringify({
-        'lodash': {
+        lodash: {
           current: '4.17.20',
-          latest: '4.17.21'
-        }
+          latest: '4.17.21',
+        },
       });
-      mockExecSync.mockImplementationOnce(() => { throw outdatedError; });
+      mockExecSync.mockImplementationOnce(() => {
+        throw outdatedError;
+      });
 
       // Mock security patch application
       mockExecSync.mockReturnValueOnce(''); // npm install for security patch
@@ -460,10 +467,10 @@ describe('DependencySecurityMonitor', () => {
   describe('update type determination', () => {
     test('correctly identifies major updates', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
-      
+
       // Access private method through any cast for testing
       const determineUpdateType = (monitor as any).determineUpdateType;
-      
+
       expect(determineUpdateType('1.0.0', '2.0.0')).toBe('major');
       expect(determineUpdateType('17.0.0', '18.0.0')).toBe('major');
     });
@@ -471,7 +478,7 @@ describe('DependencySecurityMonitor', () => {
     test('correctly identifies minor updates', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
       const determineUpdateType = (monitor as any).determineUpdateType;
-      
+
       expect(determineUpdateType('1.0.0', '1.1.0')).toBe('minor');
       expect(determineUpdateType('17.0.0', '17.1.0')).toBe('minor');
     });
@@ -479,7 +486,7 @@ describe('DependencySecurityMonitor', () => {
     test('correctly identifies patch updates', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
       const determineUpdateType = (monitor as any).determineUpdateType;
-      
+
       expect(determineUpdateType('1.0.0', '1.0.1')).toBe('patch');
       expect(determineUpdateType('17.0.0', '17.0.1')).toBe('patch');
     });
@@ -505,9 +512,9 @@ describe('DependencySecurityMonitor', () => {
           moderate: 0,
           low: 0,
           autoFixCritical: false,
-          autoFixHigh: false
+          autoFixHigh: false,
         },
-        excludedPackages: ['react', 'next']
+        excludedPackages: ['react', 'next'],
       };
 
       const monitor = new DependencySecurityMonitor(customConfig);

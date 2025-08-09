@@ -3,7 +3,9 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: #f4f4f9;
   color: #333;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .app-container {
@@ -72,4 +74,4 @@ body {
 
 .hover\:bg-primary:hover {
   background-color: var(--color-primary);
-} 
+}

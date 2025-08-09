@@ -17,7 +17,7 @@ import {
   BarChart3,
   PieChart,
   Activity,
-  Zap
+  Zap,
 } from 'lucide-react';
 
 // Interfaces for unused state variables that need activation
@@ -78,9 +78,8 @@ export default function RecommendationsDisplaySystem({
   initialRecommendations,
   onRecommendationSelect,
   enableLiveUpdates = true,
-  showAdvancedMetrics = false
+  showAdvancedMetrics = false,
 }: RecommendationsDisplaySystemProps) {
-  
   // Activate unused state variables by creating comprehensive state management
   const [recommendations, setRecommendations] = useState<RecommendationsState>({
     topIngredients: [],
@@ -91,32 +90,34 @@ export default function RecommendationsDisplaySystem({
     heat: 0.5,
     entropy: 0.5,
     reactivity: 0.5,
-    gregsEnergy: 0.5
+    gregsEnergy: 0.5,
   });
-  
+
   const [transformationData, setTransformationData] = useState<TransformationData>({
     transformedIngredients: [],
     transformedMethods: [],
-    transformedCuisines: []
+    transformedCuisines: [],
   });
-  
+
   const [loadingStates, setLoadingStates] = useState<LoadingStates>({
     recommendations: true,
     transformations: false,
-    error: null
+    error: null,
   });
-  
+
   const [filterStates, setFilterStates] = useState<FilterStates>({
     elementFilter: 'all',
     modalityFilter: 'all',
     scoreThreshold: 0.5,
     showDetails: false,
     sortBy: 'score',
-    sortOrder: 'desc'
+    sortOrder: 'desc',
   });
 
   const [activeDisplayMode, setActiveDisplayMode] = useState<'grid' | 'list' | 'chart'>('grid');
-  const [selectedCategory, setSelectedCategory] = useState<'ingredients' | 'methods' | 'cuisines'>('ingredients');
+  const [selectedCategory, setSelectedCategory] = useState<'ingredients' | 'methods' | 'cuisines'>(
+    'ingredients',
+  );
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [errorNotification, setErrorNotification] = useState<string | null>(null);
@@ -135,11 +136,11 @@ export default function RecommendationsDisplaySystem({
 
   const generateSampleRecommendations = async () => {
     setLoadingStates(prev => ({ ...prev, recommendations: true, error: null }));
-    
+
     try {
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       const sampleIngredients: RecommendationItem[] = [
         {
           id: 'ing-1',
@@ -150,7 +151,7 @@ export default function RecommendationsDisplaySystem({
           astrological_influence: 'Mars in Aries',
           elemental_properties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
           modality: 'Cardinal',
-          tags: ['herb', 'warming', 'protective']
+          tags: ['herb', 'warming', 'protective'],
         },
         {
           id: 'ing-2',
@@ -161,7 +162,7 @@ export default function RecommendationsDisplaySystem({
           astrological_influence: 'Moon in Cancer',
           elemental_properties: { Water: 0.5, Earth: 0.4, Air: 0.1, Fire: 0.0 },
           modality: 'Fixed',
-          tags: ['mineral', 'purifying', 'grounding']
+          tags: ['mineral', 'purifying', 'grounding'],
         },
         {
           id: 'ing-3',
@@ -172,8 +173,8 @@ export default function RecommendationsDisplaySystem({
           astrological_influence: 'Sun in Leo',
           elemental_properties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
           modality: 'Mutable',
-          tags: ['root', 'warming', 'digestive']
-        }
+          tags: ['root', 'warming', 'digestive'],
+        },
       ];
 
       const sampleMethods: RecommendationItem[] = [
@@ -186,7 +187,7 @@ export default function RecommendationsDisplaySystem({
           astrological_influence: 'Saturn in Capricorn',
           elemental_properties: { Earth: 0.5, Fire: 0.4, Air: 0.1, Water: 0.0 },
           modality: 'Cardinal',
-          tags: ['transformation', 'patience', 'depth']
+          tags: ['transformation', 'patience', 'depth'],
         },
         {
           id: 'method-2',
@@ -197,8 +198,8 @@ export default function RecommendationsDisplaySystem({
           astrological_influence: 'Neptune in Pisces',
           elemental_properties: { Water: 0.6, Fire: 0.2, Air: 0.2, Earth: 0.0 },
           modality: 'Mutable',
-          tags: ['gentle', 'preserving', 'cleansing']
-        }
+          tags: ['gentle', 'preserving', 'cleansing'],
+        },
       ];
 
       const sampleCuisines: RecommendationItem[] = [
@@ -211,8 +212,8 @@ export default function RecommendationsDisplaySystem({
           astrological_influence: 'Venus in Libra',
           elemental_properties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
           modality: 'Cardinal',
-          tags: ['balanced', 'harmonious', 'solar']
-        }
+          tags: ['balanced', 'harmonious', 'solar'],
+        },
       ];
 
       setRecommendations({
@@ -224,7 +225,7 @@ export default function RecommendationsDisplaySystem({
         heat: Math.random() * 1.0,
         entropy: Math.random() * 1.0,
         reactivity: Math.random() * 1.0,
-        gregsEnergy: Math.random() * 1.0
+        gregsEnergy: Math.random() * 1.0,
       });
 
       // Generate transformation data
@@ -233,20 +234,20 @@ export default function RecommendationsDisplaySystem({
           ...item,
           id: `transformed-${item.id}`,
           score: item.score * 0.85, // Simulate transformation effect
-          confidence: Math.min(item.confidence * 1.1, 1.0)
+          confidence: Math.min(item.confidence * 1.1, 1.0),
         })),
         transformedMethods: sampleMethods,
-        transformedCuisines: sampleCuisines
+        transformedCuisines: sampleCuisines,
       });
 
       setSuccessNotification('Recommendations loaded successfully!');
       setTimeout(() => setSuccessNotification(null), 3000);
-      
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load recommendations';
-      setLoadingStates(prev => ({ 
-        ...prev, 
-        error: error instanceof Error ? error : new Error(errorMessage)
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to load recommendations';
+      setLoadingStates(prev => ({
+        ...prev,
+        error: error instanceof Error ? error : new Error(errorMessage),
       }));
       setErrorNotification(errorMessage);
       setTimeout(() => setErrorNotification(null), 5000);
@@ -287,42 +288,45 @@ export default function RecommendationsDisplaySystem({
     }
   };
 
-  const filteredData = getCurrentData().filter(item => {
-    if (filterStates.elementFilter !== 'all') {
-      const dominantElement = Object.entries(item.elemental_properties)
-        .reduce((a, b) => a[1] > b[1] ? a : b)[0];
-      if (dominantElement !== filterStates.elementFilter) return false;
-    }
-    if (filterStates.modalityFilter !== 'all' && item.modality !== filterStates.modalityFilter) {
-      return false;
-    }
-    if (item.score < filterStates.scoreThreshold) return false;
-    return true;
-  }).sort((a, b) => {
-    const factor = filterStates.sortOrder === 'asc' ? 1 : -1;
-    switch (filterStates.sortBy) {
-      case 'score':
-        return (a.score - b.score) * factor;
-      case 'confidence':
-        return (a.confidence - b.confidence) * factor;
-      case 'name':
-        return a.name.localeCompare(b.name) * factor;
-      default:
-        return 0;
-    }
-  });
+  const filteredData = getCurrentData()
+    .filter(item => {
+      if (filterStates.elementFilter !== 'all') {
+        const dominantElement = Object.entries(item.elemental_properties).reduce((a, b) =>
+          a[1] > b[1] ? a : b,
+        )[0];
+        if (dominantElement !== filterStates.elementFilter) return false;
+      }
+      if (filterStates.modalityFilter !== 'all' && item.modality !== filterStates.modalityFilter) {
+        return false;
+      }
+      if (item.score < filterStates.scoreThreshold) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      const factor = filterStates.sortOrder === 'asc' ? 1 : -1;
+      switch (filterStates.sortBy) {
+        case 'score':
+          return (a.score - b.score) * factor;
+        case 'confidence':
+          return (a.confidence - b.confidence) * factor;
+        case 'name':
+          return a.name.localeCompare(b.name) * factor;
+        default:
+          return 0;
+      }
+    });
 
   const renderNotifications = () => (
-    <div className="fixed top-4 right-4 z-50 space-y-2">
+    <div className='fixed right-4 top-4 z-50 space-y-2'>
       {successNotification && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded flex items-center gap-2">
-          <CheckCircle className="w-4 h-4" />
+        <div className='flex items-center gap-2 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700'>
+          <CheckCircle className='h-4 w-4' />
           {successNotification}
         </div>
       )}
       {errorNotification && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center gap-2">
-          <AlertCircle className="w-4 h-4" />
+        <div className='flex items-center gap-2 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700'>
+          <AlertCircle className='h-4 w-4' />
           {errorNotification}
         </div>
       )}
@@ -330,22 +334,22 @@ export default function RecommendationsDisplaySystem({
   );
 
   const renderGridView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {filteredData.map((item) => (
-        <div 
-          key={item.id} 
-          className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer"
+    <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
+      {filteredData.map(item => (
+        <div
+          key={item.id}
+          className='cursor-pointer rounded-lg bg-white p-4 shadow-md transition-shadow hover:shadow-lg'
           onClick={() => onRecommendationSelect?.(item)}
         >
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-lg">{item.name}</h3>
-            <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 text-yellow-500" />
-              <span className="text-sm font-medium">{item.score.toFixed(2)}</span>
+          <div className='mb-2 flex items-center justify-between'>
+            <h3 className='text-lg font-semibold'>{item.name}</h3>
+            <div className='flex items-center gap-1'>
+              <Star className='h-4 w-4 text-yellow-500' />
+              <span className='text-sm font-medium'>{item.score.toFixed(2)}</span>
             </div>
           </div>
-          
-          <div className="text-sm text-gray-600 mb-3">
+
+          <div className='mb-3 text-sm text-gray-600'>
             <p>Confidence: {(item.confidence * 100).toFixed(0)}%</p>
             <p>Influence: {item.astrological_influence}</p>
             {item.modality && <p>Modality: {item.modality}</p>}
@@ -353,24 +357,24 @@ export default function RecommendationsDisplaySystem({
 
           {filterStates.showDetails && (
             <>
-              <div className="mb-3">
-                <h4 className="text-xs font-medium text-gray-700 mb-1">Elemental Properties:</h4>
-                <div className="grid grid-cols-2 gap-1 text-xs">
+              <div className='mb-3'>
+                <h4 className='mb-1 text-xs font-medium text-gray-700'>Elemental Properties:</h4>
+                <div className='grid grid-cols-2 gap-1 text-xs'>
                   {Object.entries(item.elemental_properties).map(([element, value]) => (
-                    <div key={element} className="flex justify-between">
+                    <div key={element} className='flex justify-between'>
                       <span>{element}:</span>
                       <span>{(value * 100).toFixed(0)}%</span>
                     </div>
                   ))}
                 </div>
               </div>
-              
+
               {item.tags && item.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1">
+                <div className='flex flex-wrap gap-1'>
                   {item.tags.map((tag, index) => (
-                    <span 
+                    <span
                       key={index}
-                      className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded"
+                      className='rounded bg-blue-100 px-2 py-1 text-xs text-blue-700'
                     >
                       {tag}
                     </span>
@@ -385,30 +389,30 @@ export default function RecommendationsDisplaySystem({
   );
 
   const renderListView = () => (
-    <div className="space-y-2">
-      {filteredData.map((item) => (
-        <div 
+    <div className='space-y-2'>
+      {filteredData.map(item => (
+        <div
           key={item.id}
-          className="bg-white rounded-lg shadow-sm p-4 flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer"
+          className='flex cursor-pointer items-center justify-between rounded-lg bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
           onClick={() => onRecommendationSelect?.(item)}
         >
-          <div className="flex items-center gap-4">
-            <div className="flex-shrink-0">
-              {selectedCategory === 'ingredients' && <ChefHat className="w-6 h-6 text-green-600" />}
-              {selectedCategory === 'methods' && <Utensils className="w-6 h-6 text-blue-600" />}
-              {selectedCategory === 'cuisines' && <Globe className="w-6 h-6 text-purple-600" />}
+          <div className='flex items-center gap-4'>
+            <div className='flex-shrink-0'>
+              {selectedCategory === 'ingredients' && <ChefHat className='h-6 w-6 text-green-600' />}
+              {selectedCategory === 'methods' && <Utensils className='h-6 w-6 text-blue-600' />}
+              {selectedCategory === 'cuisines' && <Globe className='h-6 w-6 text-purple-600' />}
             </div>
             <div>
-              <h3 className="font-medium">{item.name}</h3>
-              <p className="text-sm text-gray-600">{item.astrological_influence}</p>
+              <h3 className='font-medium'>{item.name}</h3>
+              <p className='text-sm text-gray-600'>{item.astrological_influence}</p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <div className="font-medium">{item.score.toFixed(2)}</div>
-              <div className="text-sm text-gray-500">{(item.confidence * 100).toFixed(0)}%</div>
+          <div className='flex items-center gap-4'>
+            <div className='text-right'>
+              <div className='font-medium'>{item.score.toFixed(2)}</div>
+              <div className='text-sm text-gray-500'>{(item.confidence * 100).toFixed(0)}%</div>
             </div>
-            <Star className="w-5 h-5 text-yellow-500" />
+            <Star className='h-5 w-5 text-yellow-500' />
           </div>
         </div>
       ))}
@@ -416,24 +420,24 @@ export default function RecommendationsDisplaySystem({
   );
 
   const renderChartView = () => (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="font-semibold mb-4 flex items-center gap-2">
-        <BarChart3 className="w-5 h-5" />
+    <div className='rounded-lg bg-white p-6 shadow-md'>
+      <h3 className='mb-4 flex items-center gap-2 font-semibold'>
+        <BarChart3 className='h-5 w-5' />
         Recommendation Scores
       </h3>
-      <div className="space-y-4">
-        {filteredData.map((item) => (
-          <div key={item.id} className="flex items-center gap-4">
-            <div className="w-24 text-sm font-medium truncate">{item.name}</div>
-            <div className="flex-1">
-              <div className="bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-500 h-2 rounded-full"
+      <div className='space-y-4'>
+        {filteredData.map(item => (
+          <div key={item.id} className='flex items-center gap-4'>
+            <div className='w-24 truncate text-sm font-medium'>{item.name}</div>
+            <div className='flex-1'>
+              <div className='h-2 rounded-full bg-gray-200'>
+                <div
+                  className='h-2 rounded-full bg-blue-500'
                   style={{ width: `${item.score * 100}%` }}
                 />
               </div>
             </div>
-            <div className="w-16 text-right text-sm">{item.score.toFixed(2)}</div>
+            <div className='w-16 text-right text-sm'>{item.score.toFixed(2)}</div>
           </div>
         ))}
       </div>
@@ -442,10 +446,10 @@ export default function RecommendationsDisplaySystem({
 
   if (loadingStates.recommendations) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <Loader className="w-8 h-8 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading recommendations...</p>
+      <div className='flex items-center justify-center py-12'>
+        <div className='text-center'>
+          <Loader className='mx-auto mb-4 h-8 w-8 animate-spin' />
+          <p className='text-gray-600'>Loading recommendations...</p>
         </div>
       </div>
     );
@@ -453,13 +457,13 @@ export default function RecommendationsDisplaySystem({
 
   if (loadingStates.error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-        <AlertCircle className="w-8 h-8 text-red-600 mx-auto mb-4" />
-        <h3 className="font-semibold text-red-900 mb-2">Error Loading Recommendations</h3>
-        <p className="text-red-700 mb-4">{loadingStates.error.message}</p>
+      <div className='rounded-lg border border-red-200 bg-red-50 p-6 text-center'>
+        <AlertCircle className='mx-auto mb-4 h-8 w-8 text-red-600' />
+        <h3 className='mb-2 font-semibold text-red-900'>Error Loading Recommendations</h3>
+        <p className='mb-4 text-red-700'>{loadingStates.error.message}</p>
         <button
           onClick={handleRefresh}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          className='rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700'
           disabled={isRefreshing}
         >
           {isRefreshing ? 'Retrying...' : 'Retry'}
@@ -469,44 +473,48 @@ export default function RecommendationsDisplaySystem({
   }
 
   return (
-    <div className="recommendations-display-system">
+    <div className='recommendations-display-system'>
       {renderNotifications()}
-      
+
       {/* Header Controls */}
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <h2 className="text-xl font-bold flex items-center gap-2">
-            <TrendingUp className="w-6 h-6" />
+      <div className='mb-6 rounded-lg bg-white p-4 shadow-sm'>
+        <div className='flex flex-wrap items-center justify-between gap-4'>
+          <h2 className='flex items-center gap-2 text-xl font-bold'>
+            <TrendingUp className='h-6 w-6' />
             Recommendations Display System
           </h2>
-          
-          <div className="flex items-center gap-2">
+
+          <div className='flex items-center gap-2'>
             <button
               onClick={handleRefresh}
               disabled={isRefreshing}
-              className="flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 disabled:opacity-50"
+              className='flex items-center gap-2 rounded bg-blue-100 px-3 py-2 text-blue-700 hover:bg-blue-200 disabled:opacity-50'
             >
-              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
               Refresh
             </button>
-            
+
             <button
               onClick={() => setFilterStates(prev => ({ ...prev, showDetails: !prev.showDetails }))}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+              className='flex items-center gap-2 rounded bg-gray-100 px-3 py-2 text-gray-700 hover:bg-gray-200'
             >
-              {filterStates.showDetails ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {filterStates.showDetails ? (
+                <EyeOff className='h-4 w-4' />
+              ) : (
+                <Eye className='h-4 w-4' />
+              )}
               {filterStates.showDetails ? 'Hide' : 'Show'} Details
             </button>
           </div>
         </div>
 
         {/* Category Selection */}
-        <div className="flex gap-2 mt-4">
-          {(['ingredients', 'methods', 'cuisines'] as const).map((category) => (
+        <div className='mt-4 flex gap-2'>
+          {(['ingredients', 'methods', 'cuisines'] as const).map(category => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg font-medium capitalize ${
+              className={`rounded-lg px-4 py-2 font-medium capitalize ${
                 selectedCategory === category
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -518,12 +526,12 @@ export default function RecommendationsDisplaySystem({
         </div>
 
         {/* View Mode Selection */}
-        <div className="flex gap-2 mt-4">
-          {(['grid', 'list', 'chart'] as const).map((mode) => (
+        <div className='mt-4 flex gap-2'>
+          {(['grid', 'list', 'chart'] as const).map(mode => (
             <button
               key={mode}
               onClick={() => setActiveDisplayMode(mode)}
-              className={`px-3 py-2 rounded font-medium capitalize ${
+              className={`rounded px-3 py-2 font-medium capitalize ${
                 activeDisplayMode === mode
                   ? 'bg-green-500 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -537,106 +545,121 @@ export default function RecommendationsDisplaySystem({
 
       {/* Advanced Metrics Panel */}
       {showAdvancedMetrics && (
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <h3 className="font-semibold mb-3 flex items-center gap-2">
-            <Activity className="w-5 h-5" />
+        <div className='mb-6 rounded-lg bg-white p-4 shadow-sm'>
+          <h3 className='mb-3 flex items-center gap-2 font-semibold'>
+            <Activity className='h-5 w-5' />
             Advanced Metrics
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-red-600">{recommendations.heat.toFixed(2)}</div>
-              <div className="text-sm text-gray-600">Heat</div>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+            <div className='text-center'>
+              <div className='text-2xl font-bold text-red-600'>
+                {recommendations.heat.toFixed(2)}
+              </div>
+              <div className='text-sm text-gray-600'>Heat</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">{recommendations.entropy.toFixed(2)}</div>
-              <div className="text-sm text-gray-600">Entropy</div>
+            <div className='text-center'>
+              <div className='text-2xl font-bold text-blue-600'>
+                {recommendations.entropy.toFixed(2)}
+              </div>
+              <div className='text-sm text-gray-600'>Entropy</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">{recommendations.reactivity.toFixed(2)}</div>
-              <div className="text-sm text-gray-600">Reactivity</div>
+            <div className='text-center'>
+              <div className='text-2xl font-bold text-green-600'>
+                {recommendations.reactivity.toFixed(2)}
+              </div>
+              <div className='text-sm text-gray-600'>Reactivity</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">{recommendations.gregsEnergy.toFixed(2)}</div>
-              <div className="text-sm text-gray-600">Greg's Energy</div>
+            <div className='text-center'>
+              <div className='text-2xl font-bold text-purple-600'>
+                {recommendations.gregsEnergy.toFixed(2)}
+              </div>
+              <div className='text-sm text-gray-600'>Greg's Energy</div>
             </div>
           </div>
         </div>
       )}
 
       {/* Filter Controls */}
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className='mb-6 rounded-lg bg-white p-4 shadow-sm'>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
           <div>
-            <label className="block text-sm font-medium mb-1">Element Filter</label>
+            <label className='mb-1 block text-sm font-medium'>Element Filter</label>
             <select
               value={filterStates.elementFilter}
-              onChange={(e) => setFilterStates(prev => ({ ...prev, elementFilter: e.target.value }))}
-              className="w-full p-2 border rounded"
+              onChange={e => setFilterStates(prev => ({ ...prev, elementFilter: e.target.value }))}
+              className='w-full rounded border p-2'
             >
-              <option value="all">All Elements</option>
-              <option value="Fire">Fire</option>
-              <option value="Water">Water</option>
-              <option value="Earth">Earth</option>
-              <option value="Air">Air</option>
+              <option value='all'>All Elements</option>
+              <option value='Fire'>Fire</option>
+              <option value='Water'>Water</option>
+              <option value='Earth'>Earth</option>
+              <option value='Air'>Air</option>
             </select>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium mb-1">Modality Filter</label>
+            <label className='mb-1 block text-sm font-medium'>Modality Filter</label>
             <select
               value={filterStates.modalityFilter}
-              onChange={(e) => setFilterStates(prev => ({ ...prev, modalityFilter: e.target.value }))}
-              className="w-full p-2 border rounded"
+              onChange={e => setFilterStates(prev => ({ ...prev, modalityFilter: e.target.value }))}
+              className='w-full rounded border p-2'
             >
-              <option value="all">All Modalities</option>
-              <option value="Cardinal">Cardinal</option>
-              <option value="Fixed">Fixed</option>
-              <option value="Mutable">Mutable</option>
+              <option value='all'>All Modalities</option>
+              <option value='Cardinal'>Cardinal</option>
+              <option value='Fixed'>Fixed</option>
+              <option value='Mutable'>Mutable</option>
             </select>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium mb-1">Score Threshold</label>
+            <label className='mb-1 block text-sm font-medium'>Score Threshold</label>
             <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.1"
+              type='range'
+              min='0'
+              max='1'
+              step='0.1'
               value={filterStates.scoreThreshold}
-              onChange={(e) => setFilterStates(prev => ({ ...prev, scoreThreshold: parseFloat(e.target.value) }))}
-              className="w-full"
+              onChange={e =>
+                setFilterStates(prev => ({ ...prev, scoreThreshold: parseFloat(e.target.value) }))
+              }
+              className='w-full'
             />
-            <div className="text-xs text-gray-500 mt-1">{filterStates.scoreThreshold.toFixed(1)}</div>
+            <div className='mt-1 text-xs text-gray-500'>
+              {filterStates.scoreThreshold.toFixed(1)}
+            </div>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium mb-1">Sort By</label>
+            <label className='mb-1 block text-sm font-medium'>Sort By</label>
             <select
               value={`${filterStates.sortBy}-${filterStates.sortOrder}`}
-              onChange={(e) => {
-                const [sortBy, sortOrder] = e.target.value.split('-') as [typeof filterStates.sortBy, typeof filterStates.sortOrder];
+              onChange={e => {
+                const [sortBy, sortOrder] = e.target.value.split('-') as [
+                  typeof filterStates.sortBy,
+                  typeof filterStates.sortOrder,
+                ];
                 setFilterStates(prev => ({ ...prev, sortBy, sortOrder }));
               }}
-              className="w-full p-2 border rounded"
+              className='w-full rounded border p-2'
             >
-              <option value="score-desc">Score (High to Low)</option>
-              <option value="score-asc">Score (Low to High)</option>
-              <option value="confidence-desc">Confidence (High to Low)</option>
-              <option value="confidence-asc">Confidence (Low to High)</option>
-              <option value="name-asc">Name (A to Z)</option>
-              <option value="name-desc">Name (Z to A)</option>
+              <option value='score-desc'>Score (High to Low)</option>
+              <option value='score-asc'>Score (Low to High)</option>
+              <option value='confidence-desc'>Confidence (High to Low)</option>
+              <option value='confidence-asc'>Confidence (Low to High)</option>
+              <option value='name-asc'>Name (A to Z)</option>
+              <option value='name-desc'>Name (Z to A)</option>
             </select>
           </div>
         </div>
       </div>
 
       {/* Main Content Display */}
-      <div className="mb-6">
+      <div className='mb-6'>
         {filteredData.length === 0 ? (
-          <div className="bg-gray-50 rounded-lg p-8 text-center">
-            <Filter className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">No Results Found</h3>
-            <p className="text-gray-600">Try adjusting your filters to see more recommendations.</p>
+          <div className='rounded-lg bg-gray-50 p-8 text-center'>
+            <Filter className='mx-auto mb-4 h-12 w-12 text-gray-400' />
+            <h3 className='mb-2 text-lg font-semibold text-gray-700'>No Results Found</h3>
+            <p className='text-gray-600'>Try adjusting your filters to see more recommendations.</p>
           </div>
         ) : (
           <>
@@ -648,14 +671,14 @@ export default function RecommendationsDisplaySystem({
       </div>
 
       {/* Summary Statistics */}
-      <div className="bg-gray-50 rounded-lg p-4">
-        <div className="flex items-center justify-between text-sm text-gray-600">
+      <div className='rounded-lg bg-gray-50 p-4'>
+        <div className='flex items-center justify-between text-sm text-gray-600'>
           <span>
             Showing {filteredData.length} of {getCurrentData().length} {selectedCategory}
           </span>
           <span>
-            Dominant Element: {recommendations.dominantElement} | 
-            Property: {recommendations.dominantAlchemicalProperty}
+            Dominant Element: {recommendations.dominantElement} | Property:{' '}
+            {recommendations.dominantAlchemicalProperty}
           </span>
         </div>
       </div>

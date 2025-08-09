@@ -1,26 +1,31 @@
 # 🍽️ INGREDIENT SEARCH FUNCTIONALITY INVENTORY
+
 ## WhatToEatNext - Complete Ingredient Search System
 
 **Created:** July 2025  
 **Status:** Comprehensive Inventory of Ingredient Search Capabilities  
-**Scope:** All files related to ingredient search, filtering, and recommendation functionality
+**Scope:** All files related to ingredient search, filtering, and recommendation
+functionality
 
 ---
 
 ## 📋 **CORE SEARCH SERVICES**
 
 ### **Primary Ingredient Services**
+
 1. **`src/services/IngredientService.ts`**
    - Main ingredient service with search functionality
    - `getIngredientByName()` - Direct name lookup
    - `filterIngredients()` - Multi-criteria filtering
-   - `applySearchFilterUnified()` - Text-based search across name, tags, health benefits, preparation methods, description
+   - `applySearchFilterUnified()` - Text-based search across name, tags, health
+     benefits, preparation methods, description
 
 2. **`src/services/UnifiedIngredientService.ts`**
    - Unified ingredient service with enhanced search
    - `getIngredientByName()` - Normalized name search
    - `filterIngredients()` - Comprehensive filtering system
-   - `applySearchFilter()` - Search across name, description, category, subcategory, tags
+   - `applySearchFilter()` - Search across name, description, category,
+     subcategory, tags
 
 3. **`src/services/ConsolidatedIngredientService.ts`**
    - Consolidated service with advanced search capabilities
@@ -30,13 +35,17 @@
 4. **`src/services/IngredientFilterService.ts`**
    - Dedicated filtering service
    - `filterIngredients()` - Category-based filtering
-   - `applySearchFilter()` - Query-based search with preparation notes and affinities
+   - `applySearchFilter()` - Query-based search with preparation notes and
+     affinities
 
 ### **Enhanced Search Services**
+
 5. **`src/data/unified/enhancedIngredients.ts`**
    - Enhanced ingredient system with advanced search
    - `searchIngredients()` - Criteria-based search
-   - Supports: category, subcategory, elemental focus, Kalchm range, seasonal alignment, planetary ruler, cooking methods, nutritional focus, flavor profile, origin, qualities
+   - Supports: category, subcategory, elemental focus, Kalchm range, seasonal
+     alignment, planetary ruler, cooking methods, nutritional focus, flavor
+     profile, origin, qualities
 
 6. **`src/services/adapters/UnifiedDataAdapter.ts`**
    - Adapter for enhanced ingredient search
@@ -47,6 +56,7 @@
 ## 🎯 **SEARCH COMPONENTS & UI**
 
 ### **Main Search Components**
+
 7. **`src/components/IngredientRecommender.tsx`**
    - Primary ingredient recommendation component
    - Astrological and chakra-based recommendations
@@ -68,6 +78,7 @@
     - Compatibility analysis for searched ingredients
 
 ### **Recommendation Components**
+
 11. **`src/components/Header/FoodRecommender/IngredientRecommendations.tsx`**
     - Header-based ingredient recommendations
     - Top ingredient matches display
@@ -94,6 +105,7 @@
     - Astrological integration
 
 ### **Display & Debug Components**
+
 16. **`src/components/IngredientDisplay.tsx`**
     - Ingredient display with recommendations
     - Cooking method and pairing recommendations
@@ -117,6 +129,7 @@
 ## 🔧 **UTILITIES & HELPERS**
 
 ### **Search Utilities**
+
 20. **`src/utils/recipe/recipeFiltering.ts`**
     - Recipe filtering with ingredient search
     - `calculateSearchRelevance()` - Search relevance scoring
@@ -138,6 +151,7 @@
     - Recommendation scoring and ranking
 
 ### **Data Enhancement**
+
 24. **`src/data/unified/recipes.ts`**
     - Recipe enhancer with ingredient search
     - `findUnifiedIngredient()` - Fuzzy ingredient matching
@@ -152,6 +166,7 @@
 ## 🎛️ **HOOKS & STATE MANAGEMENT**
 
 ### **Custom Hooks**
+
 26. **`src/hooks/useIngredientRecommendations.ts`**
     - Hook for ingredient recommendations
     - Criteria-based recommendation fetching
@@ -169,19 +184,23 @@
 ## 📊 **TYPES & INTERFACES**
 
 ### **Type Definitions**
+
 29. **`src/types/ingredients.ts`**
     - `IngredientSearchCriteria` - Comprehensive search parameters
-    - Elements, seasons, categories, nutritional requirements, cooking methods, sustainability, regional origins
+    - Elements, seasons, categories, nutritional requirements, cooking methods,
+      sustainability, regional origins
 
 30. **`src/types/alchemy.ts`**
     - `IngredientSearchCriteria` - Alchemical search criteria
-    - Elements, seasons, categories, nutritional requirements, flavor profile, cooking methods, availability
+    - Elements, seasons, categories, nutritional requirements, flavor profile,
+      cooking methods, availability
 
 ---
 
 ## 🔗 **INTEGRATION SERVICES**
 
 ### **Recipe Integration**
+
 31. **`src/services/LocalRecipeService.ts`**
     - Recipe search with ingredient filtering
     - `searchRecipes()` - Query-based recipe search
@@ -201,12 +220,14 @@
 ## 🎨 **UI COMPONENTS & PAGES**
 
 ### **Search Pages**
+
 34. **`src/app/nutritional-data/page.tsx`**
     - Nutritional data search page
     - Ingredient search interface
     - Multiple ingredient displays
 
 ### **Grid & Display Components**
+
 35. **`src/components/recipes/RecipeGrid.tsx`**
     - Recipe grid with search functionality
     - Search placeholder for recipes, ingredients, cuisines
@@ -220,13 +241,18 @@
 ## 🏗️ **ARCHITECTURE OVERVIEW**
 
 ### **Search Flow**
-1. **User Input** → Search components (IngredientRecommender, NutritionalDisplay, etc.)
-2. **Query Processing** → Service layer (IngredientService, UnifiedIngredientService, etc.)
+
+1. **User Input** → Search components (IngredientRecommender,
+   NutritionalDisplay, etc.)
+2. **Query Processing** → Service layer (IngredientService,
+   UnifiedIngredientService, etc.)
 3. **Filtering** → Filter services (IngredientFilterService, enhanced search)
 4. **Results** → Display components with recommendations and compatibility
 
 ### **Key Features**
-- **Multi-criteria search**: Name, category, elemental properties, nutritional values
+
+- **Multi-criteria search**: Name, category, elemental properties, nutritional
+  values
 - **Fuzzy matching**: Normalized name matching with fallbacks
 - **Real-time filtering**: Live search with autocomplete
 - **Astrological integration**: Planetary and zodiac-based recommendations
@@ -234,6 +260,7 @@
 - **Nutritional analysis**: Health benefits and nutritional profile search
 
 ### **Search Capabilities**
+
 - **Text Search**: Name, description, tags, preparation methods
 - **Categorical Search**: Category, subcategory, cuisine type
 - **Elemental Search**: Fire, Water, Earth, Air properties
@@ -247,12 +274,14 @@
 ## 📈 **PERFORMANCE & OPTIMIZATION**
 
 ### **Caching & Performance**
+
 - **Ingredient caching** in services for fast lookups
 - **Normalized search** with case-insensitive matching
 - **Batch processing** for large ingredient sets
 - **Lazy loading** for recommendation components
 
 ### **Search Optimization**
+
 - **Indexed lookups** for direct name matching
 - **Fuzzy matching** for approximate searches
 - **Relevance scoring** for result ranking
@@ -263,6 +292,7 @@
 ## 🎯 **USAGE EXAMPLES**
 
 ### **Basic Search**
+
 ```typescript
 // Direct name lookup
 const ingredient = ingredientService.getIngredientByName("spinach");
@@ -274,6 +304,7 @@ const results = ingredientService.filterIngredients({
 ```
 
 ### **Advanced Search**
+
 ```typescript
 // Multi-criteria search
 const results = enhancedIngredientsSystem.searchIngredients({
@@ -285,6 +316,7 @@ const results = enhancedIngredientsSystem.searchIngredients({
 ```
 
 ### **Recipe Search**
+
 ```typescript
 // Recipe search with ingredients
 const recipes = LocalRecipeService.searchRecipes("chicken");
@@ -296,6 +328,7 @@ const recipes = LocalRecipeService.searchRecipes("chicken");
 ## 🚀 **FUTURE ENHANCEMENTS**
 
 ### **Planned Improvements**
+
 - **AI-powered search** with semantic understanding
 - **Voice search** integration
 - **Image-based search** for ingredient recognition
@@ -303,6 +336,7 @@ const recipes = LocalRecipeService.searchRecipes("chicken");
 - **Search analytics** for user behavior tracking
 
 ### **Integration Opportunities**
+
 - **External APIs** for expanded ingredient databases
 - **Barcode scanning** for packaged ingredients
 - **OCR integration** for recipe text recognition
@@ -310,4 +344,6 @@ const recipes = LocalRecipeService.searchRecipes("chicken");
 
 ---
 
-*This inventory represents the comprehensive ingredient search ecosystem in WhatToEatNext, providing multiple layers of search functionality from basic text search to advanced astrological and nutritional filtering.* 
+_This inventory represents the comprehensive ingredient search ecosystem in
+WhatToEatNext, providing multiple layers of search functionality from basic text
+search to advanced astrological and nutritional filtering._

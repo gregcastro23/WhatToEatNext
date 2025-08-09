@@ -1,10 +1,13 @@
 # 🌍 Cultural Sensitivity Guidelines
 
-This guide provides comprehensive guidelines for maintaining cultural sensitivity and respectful practices when working with diverse culinary traditions and astrological systems in the WhatToEatNext project.
+This guide provides comprehensive guidelines for maintaining cultural
+sensitivity and respectful practices when working with diverse culinary
+traditions and astrological systems in the WhatToEatNext project.
 
 ## 🎯 Core Principles
 
 ### Fundamental Values
+
 ```typescript
 interface CulturalSensitivityPrinciples {
   respect: 'Honor all cultural traditions and practices';
@@ -17,6 +20,7 @@ interface CulturalSensitivityPrinciples {
 ```
 
 ### Cultural Sensitivity Checklist
+
 ```
 □ Research authentic sources for cultural practices
 □ Consult with cultural practitioners and experts
@@ -35,6 +39,7 @@ interface CulturalSensitivityPrinciples {
 ### Respectful Ingredient Representation
 
 #### Guidelines for Ingredient Names and Descriptions
+
 ```typescript
 // GOOD: Respectful ingredient representation
 interface IngredientCulturalInfo {
@@ -64,21 +69,22 @@ const turmericInfo: IngredientCulturalInfo = {
 ```
 
 #### Avoiding Cultural Appropriation
+
 ```typescript
 // AVOID: Appropriative language and claims
 const problematicExamples = {
   // Don't claim ownership of traditional knowledge
   wrong: "Our unique discovery of turmeric's healing properties",
   right: "Turmeric's traditional healing properties, recognized in Ayurveda for centuries",
-  
+
   // Don't oversimplify complex traditions
   wrong: "Ancient secret superfood",
   right: "Traditional ingredient with documented historical uses in various cultures",
-  
+
   // Don't use sacred terms inappropriately
   wrong: "Chakra-cleansing smoothie",
   right: "Smoothie inspired by Ayurvedic principles of balance",
-  
+
   // Don't make unsubstantiated spiritual claims
   wrong: "Mystical energy-boosting elixir",
   right: "Traditional preparation known for its energizing properties"
@@ -88,6 +94,7 @@ const problematicExamples = {
 ### Cuisine Representation Guidelines
 
 #### Authentic Cuisine Classification
+
 ```typescript
 interface CuisineRepresentation {
   name: string;
@@ -106,7 +113,7 @@ const indianCuisine: CuisineRepresentation = {
   name: "Indian Cuisine",
   region: "Indian Subcontinent",
   subRegions: [
-    "North Indian", "South Indian", "Bengali", "Gujarati", 
+    "North Indian", "South Indian", "Bengali", "Gujarati",
     "Punjabi", "Tamil", "Kerala", "Rajasthani"
   ],
   keyCharacteristics: [
@@ -130,6 +137,7 @@ const indianCuisine: CuisineRepresentation = {
 ```
 
 #### Avoiding Cuisine Stereotypes
+
 ```typescript
 // Guidelines for avoiding stereotypes
 const cuisineStereotypesToAvoid = {
@@ -137,17 +145,17 @@ const cuisineStereotypesToAvoid = {
     wrong: "All Asian food is spicy",
     right: "Asian cuisines encompass diverse flavor profiles, from mild to intensely spiced"
   },
-  
+
   generalization: {
     wrong: "Mexican food is just tacos and burritos",
     right: "Mexican cuisine includes diverse regional specialties with complex flavor traditions"
   },
-  
+
   exoticization: {
     wrong: "Mysterious ancient Eastern flavors",
     right: "Traditional flavor combinations with documented culinary history"
   },
-  
+
   healthWashing: {
     wrong: "All Mediterranean food is automatically healthy",
     right: "Mediterranean cuisine emphasizes fresh ingredients and balanced nutrition"
@@ -160,6 +168,7 @@ const cuisineStereotypesToAvoid = {
 ### Respectful Astrological System Integration
 
 #### Multiple Astrological Traditions
+
 ```typescript
 interface AstrologicalTradition {
   name: string;
@@ -183,7 +192,7 @@ const astrologicalTraditions: AstrologicalTradition[] = [
     modernAdaptations: ["Psychological astrology", "Evolutionary astrology"],
     respectfulUsage: ["Acknowledge historical development", "Credit ancient sources"]
   },
-  
+
   {
     name: "Vedic Astrology (Jyotisha)",
     culturalOrigin: "Ancient Indian tradition",
@@ -194,7 +203,7 @@ const astrologicalTraditions: AstrologicalTradition[] = [
     modernAdaptations: ["Integration with Ayurveda", "Psychological counseling"],
     respectfulUsage: ["Use Sanskrit terms correctly", "Acknowledge sacred nature", "Consult with practitioners"]
   },
-  
+
   {
     name: "Chinese Astrology",
     culturalOrigin: "Ancient Chinese civilization",
@@ -209,6 +218,7 @@ const astrologicalTraditions: AstrologicalTradition[] = [
 ```
 
 #### Avoiding Astrological Appropriation
+
 ```typescript
 // Guidelines for respectful astrological integration
 const astrologicalSensitivityGuidelines = {
@@ -220,7 +230,7 @@ const astrologicalSensitivityGuidelines = {
       incorrect: "Indian moon sign"
     }
   },
-  
+
   attribution: {
     do: "Credit the cultural tradition and acknowledge its depth",
     dont: "Present ancient knowledge as modern discovery",
@@ -229,7 +239,7 @@ const astrologicalSensitivityGuidelines = {
       incorrect: "Our innovative astrological algorithm"
     }
   },
-  
+
   complexity: {
     do: "Acknowledge the complexity and depth of traditional systems",
     dont: "Oversimplify for convenience",
@@ -238,7 +248,7 @@ const astrologicalSensitivityGuidelines = {
       incorrect: "Easy astrology made simple"
     }
   },
-  
+
   sacred_elements: {
     do: "Treat sacred symbols and concepts with reverence",
     dont: "Use sacred symbols as mere decoration",
@@ -253,6 +263,7 @@ const astrologicalSensitivityGuidelines = {
 ### Inclusive Astrological Practices
 
 #### Gender-Inclusive Language
+
 ```typescript
 // Use inclusive language in astrological descriptions
 const inclusiveAstrologicalLanguage = {
@@ -260,17 +271,17 @@ const inclusiveAstrologicalLanguage = {
     avoid: "Mars makes men aggressive and women assertive",
     use: "Mars energy can manifest as assertiveness and drive in all individuals"
   },
-  
+
   relationship_astrology: {
     avoid: "Venus in women shows how they attract men",
     use: "Venus placement indicates how individuals express and attract love"
   },
-  
+
   career_guidance: {
     avoid: "Saturn is good for men in business",
     use: "Saturn energy supports disciplined approach to career goals"
   },
-  
+
   elemental_descriptions: {
     avoid: "Fire signs are naturally masculine",
     use: "Fire signs embody dynamic, active energy"
@@ -279,6 +290,7 @@ const inclusiveAstrologicalLanguage = {
 ```
 
 #### Cultural Accessibility
+
 ```typescript
 interface CulturalAccessibility {
   multipleLanguages: boolean;
@@ -304,6 +316,7 @@ const accessibilityGuidelines: CulturalAccessibility = {
 ### Expert Consultation Process
 
 #### Identifying Cultural Experts
+
 ```typescript
 interface CulturalExpert {
   name: string;
@@ -323,21 +336,21 @@ const expertConsultationProcess = {
     "Look for published authors and practitioners",
     "Consider academic and traditional knowledge holders"
   ],
-  
+
   approach: [
     "Reach out respectfully with clear project description",
     "Explain how their expertise would be valued",
     "Offer appropriate compensation for their time",
     "Be transparent about project goals and usage"
   ],
-  
+
   collaboration: [
     "Provide drafts for review and feedback",
     "Ask specific questions about accuracy and sensitivity",
     "Request guidance on appropriate terminology",
     "Seek advice on cultural context and significance"
   ],
-  
+
   attribution: [
     "Credit experts appropriately in documentation",
     "Acknowledge their contributions publicly",
@@ -348,6 +361,7 @@ const expertConsultationProcess = {
 ```
 
 #### Community Feedback Mechanisms
+
 ```typescript
 interface CommunityFeedback {
   feedbackChannels: string[];
@@ -364,13 +378,13 @@ const communityFeedbackSystem: CommunityFeedback = {
     "Social media monitoring",
     "Direct outreach to cultural organizations"
   ],
-  
+
   responseTimeframe: "Acknowledge within 48 hours, detailed response within 1 week",
-  
+
   reviewProcess: "Internal review with cultural sensitivity team, expert consultation if needed",
-  
+
   implementationPlan: "Prioritize feedback, create implementation timeline, communicate changes",
-  
+
   followUpProtocol: "Follow up with feedback providers, document changes made, thank contributors"
 };
 ```
@@ -378,6 +392,7 @@ const communityFeedbackSystem: CommunityFeedback = {
 ### Ongoing Cultural Sensitivity Maintenance
 
 #### Regular Review Process
+
 ```typescript
 // Cultural sensitivity review schedule
 const culturalReviewSchedule = {
@@ -387,14 +402,14 @@ const culturalReviewSchedule = {
     "Update terminology based on evolving standards",
     "Monitor for any cultural appropriation concerns"
   ],
-  
+
   quarterly: [
     "Comprehensive review of all cultural content",
     "Expert consultation on major features",
     "Community survey on cultural representation",
     "Update cultural sensitivity guidelines"
   ],
-  
+
   annually: [
     "Full cultural audit of entire platform",
     "Engage new cultural experts and communities",
@@ -405,6 +420,7 @@ const culturalReviewSchedule = {
 ```
 
 #### Cultural Sensitivity Training
+
 ```typescript
 interface CulturalSensitivityTraining {
   teamTraining: string[];
@@ -420,21 +436,21 @@ const trainingProgram: CulturalSensitivityTraining = {
     "Inclusive language guidelines",
     "Community engagement best practices"
   ],
-  
+
   ongoingEducation: [
     "Monthly cultural sensitivity updates",
     "Reading recommendations from cultural experts",
     "Attendance at cultural events and workshops",
     "Participation in diversity and inclusion training"
   ],
-  
+
   expertSessions: [
     "Quarterly sessions with cultural practitioners",
     "Workshops on specific cultural traditions",
     "Q&A sessions with community representatives",
     "Collaborative review sessions"
   ],
-  
+
   communityEngagement: [
     "Participation in cultural community events",
     "Volunteer work with cultural organizations",
@@ -449,6 +465,7 @@ const trainingProgram: CulturalSensitivityTraining = {
 ### Issue Identification and Response
 
 #### Recognizing Cultural Sensitivity Issues
+
 ```typescript
 interface CulturalSensitivityIssue {
   type: 'appropriation' | 'misrepresentation' | 'stereotyping' | 'exclusion' | 'insensitivity';
@@ -476,7 +493,7 @@ const commonIssues = {
       "Implementation of preventive measures"
     ]
   },
-  
+
   misrepresentation: {
     signs: [
       "Inaccurate cultural information",
@@ -491,7 +508,7 @@ const commonIssues = {
       "Enhanced review processes"
     ]
   },
-  
+
   exclusion: {
     signs: [
       "Lack of diverse cultural representation",
@@ -510,6 +527,7 @@ const commonIssues = {
 ```
 
 #### Response Protocol
+
 ```typescript
 // Cultural sensitivity issue response protocol
 const responseProtocol = {
@@ -522,7 +540,7 @@ const responseProtocol = {
       "Begin internal investigation"
     ]
   },
-  
+
   shortTerm: {
     timeframe: "Within 1 week",
     actions: [
@@ -532,7 +550,7 @@ const responseProtocol = {
       "Communicate transparently with community"
     ]
   },
-  
+
   longTerm: {
     timeframe: "Within 1 month",
     actions: [
@@ -542,7 +560,7 @@ const responseProtocol = {
       "Establish ongoing community relationships"
     ]
   },
-  
+
   ongoing: {
     timeframe: "Continuous",
     actions: [
@@ -560,6 +578,7 @@ const responseProtocol = {
 ### Cultural Sensitivity Resources
 
 #### Educational Resources
+
 ```typescript
 const culturalSensitivityResources = {
   books: [
@@ -567,19 +586,19 @@ const culturalSensitivityResources = {
     "The Cultural Nature of Human Development by Barbara Rogoff",
     "Respectful Collection of Traditional Knowledge by various indigenous authors"
   ],
-  
+
   organizations: [
     "Cultural Survival International",
     "Indigenous Wellness Research Institute",
     "International Association for Cross-Cultural Psychology"
   ],
-  
+
   guidelines: [
     "UNESCO Guidelines for Safeguarding Intangible Cultural Heritage",
     "UN Declaration on the Rights of Indigenous Peoples",
     "Protocols for Consultation and Negotiation with First Nations"
   ],
-  
+
   onlineResources: [
     "Cultural Appropriation vs. Cultural Appreciation guides",
     "Inclusive language style guides",
@@ -589,6 +608,7 @@ const culturalSensitivityResources = {
 ```
 
 #### Expert Networks
+
 ```typescript
 interface ExpertNetwork {
   culinaryExperts: string[];
@@ -606,28 +626,28 @@ const expertNetwork: ExpertNetwork = {
     "Cultural cooking instructors",
     "Community cookbook authors"
   ],
-  
+
   astrologicalPractitioners: [
     "Traditional Vedic astrologers",
     "Chinese astrology practitioners",
     "Indigenous astronomical knowledge keepers",
     "Academic researchers in cultural astronomy"
   ],
-  
+
   culturalAnthropologists: [
     "Specialists in food culture",
     "Researchers in traditional knowledge systems",
     "Experts in cultural appropriation",
     "Community-based participatory researchers"
   ],
-  
+
   communityLeaders: [
     "Cultural organization representatives",
     "Religious and spiritual leaders",
     "Community elders and knowledge keepers",
     "Cultural preservation advocates"
   ],
-  
+
   academicInstitutions: [
     "Universities with strong anthropology programs",
     "Cultural studies departments",
@@ -640,6 +660,7 @@ const expertNetwork: ExpertNetwork = {
 ## ✅ Cultural Sensitivity Validation
 
 ### Pre-Release Cultural Review Checklist
+
 ```
 Cultural Content Review Checklist:
 
@@ -681,6 +702,7 @@ Legal and Ethical:
 ```
 
 ### Ongoing Monitoring
+
 ```typescript
 // Continuous cultural sensitivity monitoring
 const ongoingMonitoring = {
@@ -689,19 +711,19 @@ const ongoingMonitoring = {
     monitoring: "Daily review of feedback channels",
     response: "Acknowledge within 24 hours, address within 1 week"
   },
-  
+
   expertReview: {
     frequency: "Quarterly review with cultural experts",
     scope: "New content and ongoing features",
     documentation: "Maintain records of expert feedback and implementations"
   },
-  
+
   selfAssessment: {
     frequency: "Monthly team review",
     focus: "Recent content and community interactions",
     improvement: "Identify areas for enhancement and training"
   },
-  
+
   externalAudit: {
     frequency: "Annual comprehensive review",
     scope: "Entire platform and all cultural content",
@@ -712,4 +734,8 @@ const ongoingMonitoring = {
 
 ---
 
-**Remember**: Cultural sensitivity is an ongoing journey, not a destination. Approach all cultural content with humility, respect, and a commitment to continuous learning. When in doubt, consult with cultural experts and community members. The goal is to honor and celebrate cultural diversity while avoiding harm or appropriation. 🌍
+**Remember**: Cultural sensitivity is an ongoing journey, not a destination.
+Approach all cultural content with humility, respect, and a commitment to
+continuous learning. When in doubt, consult with cultural experts and community
+members. The goal is to honor and celebrate cultural diversity while avoiding
+harm or appropriation. 🌍

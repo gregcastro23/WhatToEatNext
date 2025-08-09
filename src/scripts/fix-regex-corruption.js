@@ -2,13 +2,13 @@
 
 /**
  * Regex Corruption and Duplication Fixer
- * 
+ *
  * This script identifies and fixes:
  * - Duplicated import statements and code lines
  * - Corrupted regex patterns in campaign system files
  * - Redundant type definitions and interface duplications
  * - Validates all regex patterns for proper syntax and escaping
- * 
+ *
  * Requirements: 3.2, 4.1, 5.1
  */
 
@@ -23,7 +23,7 @@ class RegexCorruptionFixer {
     this.regexPatternsFixed = 0;
     this.errors = [];
     this.warnings = [];
-    
+
     // Critical files that need special handling
     this.criticalFiles = [
       'src/calculations/',
@@ -33,7 +33,7 @@ class RegexCorruptionFixer {
       'src/services/campaign/',
       'src/services/AdvancedAnalyticsIntelligenceService',
       'src/services/MLIntelligenceService',
-      'src/services/PredictiveIntelligenceService'
+      'src/services/PredictiveIntelligenceService',
     ];
   }
 
@@ -42,7 +42,7 @@ class RegexCorruptionFixer {
    */
   async fixRegexCorruption(dryRun = true, batchSize = 50) {
     console.log('🔧 Starting Regex Corruption and Duplication Fix...\n');
-    
+
     if (dryRun) {
       console.log('🔍 Running in DRY RUN mode. Use --execute to apply fixes.\n');
     }
@@ -59,7 +59,7 @@ class RegexCorruptionFixer {
       for (let i = 0; i < batches.length; i++) {
         const batch = batches[i];
         console.log(`🔄 Processing batch ${i + 1}/${batches.length} (${batch.length} files)...`);
-        
+
         // Analyze each file in the batch
         for (const file of batch) {
           await this.analyzeFile(file, dryRun);
@@ -82,7 +82,6 @@ class RegexCorruptionFixer {
 
       // Step 3: Report results
       this.generateReport();
-
     } catch (error) {
       console.error('❌ Error during regex corruption fix:', error);
       this.errors.push(`Main execution error: ${error.message}`);
@@ -105,10 +104,16 @@ class RegexCorruptionFixer {
    */
   getAllSourceFiles() {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx"', {
-        encoding: 'utf8'
-      });
-      return output.trim().split('\n').filter(file => file.trim());
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx"',
+        {
+          encoding: 'utf8',
+        },
+      );
+      return output
+        .trim()
+        .split('\n')
+        .filter(file => file.trim());
     } catch (error) {
       console.error('Error finding source files:', error);
       return [];
@@ -122,13 +127,13 @@ class RegexCorruptionFixer {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n');
-      
+
       let hasChanges = false;
       const issues = {
         duplicatedLines: [],
         duplicatedImports: [],
         corruptedRegex: [],
-        redundantTypes: []
+        redundantTypes: [],
       };
 
       // Check for duplicated lines
@@ -178,7 +183,6 @@ class RegexCorruptionFixer {
           await this.fixFileIssues(filePath, content, issues);
         }
       }
-
     } catch (error) {
       this.errors.push(`Error analyzing ${filePath}: ${error.message}`);
     }
@@ -190,7 +194,7 @@ class RegexCorruptionFixer {
   findDuplicatedLines(lines) {
     const duplicates = [];
     const lineCount = new Map();
-    
+
     // Count occurrences of each non-empty line
     lines.forEach((line, index) => {
       const trimmedLine = line.trim();
@@ -208,7 +212,7 @@ class RegexCorruptionFixer {
         duplicates.push({
           line,
           indices,
-          count: indices.length
+          count: indices.length,
         });
       }
     }
@@ -222,7 +226,7 @@ class RegexCorruptionFixer {
   findDuplicatedImports(lines) {
     const duplicates = [];
     const importLines = [];
-    
+
     lines.forEach((line, index) => {
       const trimmedLine = line.trim();
       if (trimmedLine.startsWith('import ') && !trimmedLine.includes('//')) {
@@ -249,7 +253,7 @@ class RegexCorruptionFixer {
         duplicates.push({
           source,
           imports,
-          count: imports.length
+          count: imports.length,
         });
       }
     }
@@ -262,15 +266,15 @@ class RegexCorruptionFixer {
    */
   findCorruptedRegex(lines) {
     const corrupted = [];
-    
+
     lines.forEach((line, index) => {
       // Look for regex patterns
       const regexPatterns = [
-        /\/[^\/\n]*\/[gimuy]*/g,  // Literal regex
-        /new RegExp\([^)]*\)/g,   // RegExp constructor
-        /\.match\([^)]*\)/g,      // String.match()
-        /\.replace\([^)]*\)/g,    // String.replace()
-        /\.test\([^)]*\)/g        // RegExp.test()
+        /\/[^\/\n]*\/[gimuy]*/g, // Literal regex
+        /new RegExp\([^)]*\)/g, // RegExp constructor
+        /\.match\([^)]*\)/g, // String.match()
+        /\.replace\([^)]*\)/g, // String.replace()
+        /\.test\([^)]*\)/g, // RegExp.test()
       ];
 
       regexPatterns.forEach(pattern => {
@@ -283,7 +287,7 @@ class RegexCorruptionFixer {
                 line: index + 1,
                 content: line.trim(),
                 pattern: match,
-                issue: this.getRegexIssue(match)
+                issue: this.getRegexIssue(match),
               });
             }
           });
@@ -300,11 +304,11 @@ class RegexCorruptionFixer {
   isCorruptedRegex(pattern) {
     // Check for common corruption patterns
     const corruptionPatterns = [
-      /\\[^nrtbfv\\\/]/,           // Invalid escape sequences
-      /\/[^\/]*[^\\]\/[gimuy]*$/,  // Unescaped forward slashes
-      /\[[^\]]*$/,                 // Unclosed character classes
-      /\([^)]*$/,                  // Unclosed groups
-      /\{[^}]*$/                   // Unclosed quantifiers
+      /\\[^nrtbfv\\\/]/, // Invalid escape sequences
+      /\/[^\/]*[^\\]\/[gimuy]*$/, // Unescaped forward slashes
+      /\[[^\]]*$/, // Unclosed character classes
+      /\([^)]*$/, // Unclosed groups
+      /\{[^}]*$/, // Unclosed quantifiers
     ];
 
     return corruptionPatterns.some(corruptPattern => corruptPattern.test(pattern));
@@ -335,15 +339,15 @@ class RegexCorruptionFixer {
   findRedundantTypes(lines) {
     const redundant = [];
     const typeDefinitions = new Map();
-    
+
     lines.forEach((line, index) => {
       const trimmedLine = line.trim();
-      
+
       // Look for type definitions
       const typePatterns = [
         /^(export\s+)?interface\s+(\w+)/,
         /^(export\s+)?type\s+(\w+)/,
-        /^(export\s+)?enum\s+(\w+)/
+        /^(export\s+)?enum\s+(\w+)/,
       ];
 
       typePatterns.forEach(pattern => {
@@ -356,7 +360,7 @@ class RegexCorruptionFixer {
           typeDefinitions.get(typeName).push({
             line: index + 1,
             content: trimmedLine,
-            isExported: !!match[1]
+            isExported: !!match[1],
           });
         }
       });
@@ -368,7 +372,7 @@ class RegexCorruptionFixer {
         redundant.push({
           typeName,
           definitions,
-          count: definitions.length
+          count: definitions.length,
         });
       }
     }
@@ -387,7 +391,7 @@ class RegexCorruptionFixer {
       // Fix duplicated lines (remove duplicates, keep first occurrence)
       if (issues.duplicatedLines.length > 0) {
         const linesToRemove = new Set();
-        
+
         issues.duplicatedLines.forEach(duplicate => {
           // Keep first occurrence, mark others for removal
           duplicate.indices.slice(1).forEach(index => {
@@ -401,7 +405,7 @@ class RegexCorruptionFixer {
           lines.splice(index, 1);
           this.duplicatesRemoved++;
         });
-        
+
         changesMade = true;
       }
 
@@ -413,7 +417,7 @@ class RegexCorruptionFixer {
             // Replace first import with merged version
             const firstImportIndex = duplicate.imports[0].index;
             lines[firstImportIndex] = mergedImport;
-            
+
             // Remove other imports
             duplicate.imports.slice(1).forEach(imp => {
               const lineIndex = lines.findIndex(line => line.trim() === imp.line);
@@ -421,7 +425,7 @@ class RegexCorruptionFixer {
                 lines.splice(lineIndex, 1);
               }
             });
-            
+
             changesMade = true;
           }
         });
@@ -443,12 +447,12 @@ class RegexCorruptionFixer {
       // Fix redundant type definitions (remove duplicates)
       if (issues.redundantTypes.length > 0) {
         const linesToRemove = new Set();
-        
+
         issues.redundantTypes.forEach(redundant => {
           // Keep the exported version if available, otherwise keep first
           const exportedDef = redundant.definitions.find(def => def.isExported);
           const keepDef = exportedDef || redundant.definitions[0];
-          
+
           redundant.definitions.forEach(def => {
             if (def !== keepDef) {
               linesToRemove.add(def.line - 1);
@@ -461,7 +465,7 @@ class RegexCorruptionFixer {
         sortedIndices.forEach(index => {
           lines.splice(index, 1);
         });
-        
+
         changesMade = true;
       }
 
@@ -472,7 +476,6 @@ class RegexCorruptionFixer {
         this.fixedFiles.push(filePath);
         console.log(`✅ Fixed issues in ${filePath}`);
       }
-
     } catch (error) {
       this.errors.push(`Error fixing ${filePath}: ${error.message}`);
     }
@@ -492,7 +495,7 @@ class RegexCorruptionFixer {
 
       imports.forEach(imp => {
         const line = imp.line;
-        
+
         // Check for default import
         const defaultMatch = line.match(/import\s+(\w+)\s*,?\s*(?:\{[^}]*\})?\s*from/);
         if (defaultMatch && !line.includes('{')) {
@@ -534,7 +537,6 @@ class RegexCorruptionFixer {
 
       mergedImport += parts.join(', ') + ` from '${source}';`;
       return mergedImport;
-
     } catch (error) {
       this.warnings.push(`Could not merge imports: ${error.message}`);
       return null;
@@ -557,7 +559,6 @@ class RegexCorruptionFixer {
 
       // Replace the corrupted pattern in the line
       return line.replace(corruptedPattern, fixedPattern);
-
     } catch (error) {
       this.warnings.push(`Could not fix regex pattern: ${corruptedPattern}`);
       return line;
@@ -604,11 +605,11 @@ class RegexCorruptionFixer {
    */
   async validateChanges() {
     console.log('\n🔍 Validating changes...');
-    
+
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck', { 
+      execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
       console.log('✅ TypeScript validation passed');
       return true;

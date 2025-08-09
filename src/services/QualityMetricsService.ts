@@ -88,7 +88,8 @@ class QualityMetricsService {
   private predictions: QualityPrediction[] = [];
   private goals: QualityGoal[] = [];
   private reports: QualityReport[] = [];
-  private subscribers: Set<(data: QualityInsight | QualityReport | TechnicalDebtItem) => void> = new Set();
+  private subscribers: Set<(data: QualityInsight | QualityReport | TechnicalDebtItem) => void> =
+    new Set();
 
   constructor() {
     this.loadHistoricalData();
@@ -125,7 +126,7 @@ class QualityMetricsService {
         technicalDebt: this.technicalDebt.slice(-50),
         predictions: this.predictions.slice(-20),
         goals: this.goals,
-        reports: this.reports.slice(-12) // Keep last 12 reports
+        reports: this.reports.slice(-12), // Keep last 12 reports
       };
 
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
@@ -136,19 +137,25 @@ class QualityMetricsService {
 
   private startPeriodicAnalysis() {
     // Generate insights every 15 minutes
-    setInterval(() => {
-      this.generateInsights();
-      this.updatePredictions();
-      this.analyzeTechnicalDebt();
-      this.updateGoalProgress();
-      this.saveHistoricalData();
-      this.notifySubscribers();
-    }, 15 * 60 * 1000);
+    setInterval(
+      () => {
+        this.generateInsights();
+        this.updatePredictions();
+        this.analyzeTechnicalDebt();
+        this.updateGoalProgress();
+        this.saveHistoricalData();
+        this.notifySubscribers();
+      },
+      15 * 60 * 1000,
+    );
 
     // Generate weekly reports
-    setInterval(() => {
-      this.generateWeeklyReport();
-    }, 7 * 24 * 60 * 60 * 1000);
+    setInterval(
+      () => {
+        this.generateWeeklyReport();
+      },
+      7 * 24 * 60 * 60 * 1000,
+    );
   }
 
   private initializeDefaultGoals() {
@@ -169,16 +176,16 @@ class QualityMetricsService {
               name: 'Reduce to under 500 errors',
               targetValue: 500,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-              completed: false
+              completed: false,
             },
             {
               id: 'ts-milestone-2',
               name: 'Reduce to under 100 errors',
               targetValue: 100,
               targetDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
-              completed: false
-            }
-          ]
+              completed: false,
+            },
+          ],
         },
         {
           id: 'code-quality-score',
@@ -195,16 +202,16 @@ class QualityMetricsService {
               name: 'Achieve 70% quality score',
               targetValue: 70,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-              completed: false
+              completed: false,
             },
             {
               id: 'quality-milestone-2',
               name: 'Achieve 80% quality score',
               targetValue: 80,
               targetDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
-              completed: false
-            }
-          ]
+              completed: false,
+            },
+          ],
         },
         {
           id: 'build-performance',
@@ -221,10 +228,10 @@ class QualityMetricsService {
               name: 'Achieve sub-60s builds',
               targetValue: 60,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-              completed: false
-            }
-          ]
-        }
+              completed: false,
+            },
+          ],
+        },
       ];
 
       this.goals = defaultGoals;
@@ -252,13 +259,13 @@ class QualityMetricsService {
           'Enable TypeScript incremental compilation',
           'Optimize webpack configuration',
           'Implement build caching',
-          'Analyze bundle composition'
+          'Analyze bundle composition',
         ],
         metrics: {
           currentBuildTime: buildSummary.averageBuildTime,
           targetBuildTime: 30000,
-          regressionPercentage: ((buildSummary.averageBuildTime - 30000) / 30000) * 100
-        }
+          regressionPercentage: ((buildSummary.averageBuildTime - 30000) / 30000) * 100,
+        },
       });
     }
 
@@ -276,13 +283,13 @@ class QualityMetricsService {
           'Prioritize fixing high-frequency error patterns',
           'Implement automated error fixing campaigns',
           'Focus on files with multiple errors',
-          'Add stricter TypeScript configuration'
+          'Add stricter TypeScript configuration',
         ],
         metrics: {
           totalErrors: errorSummary.totalActiveErrors,
           criticalErrors: errorSummary.criticalIssues,
-          automationOpportunities: errorSummary.automationOpportunities
-        }
+          automationOpportunities: errorSummary.automationOpportunities,
+        },
       });
     }
 
@@ -300,13 +307,13 @@ class QualityMetricsService {
           'Address high-priority error patterns',
           'Implement code review guidelines',
           'Add automated quality checks',
-          'Refactor complex components'
+          'Refactor complex components',
         ],
         metrics: {
           currentScore: qualityMetrics.codeQualityScore,
           targetScore: 70,
-          technicalDebt: qualityMetrics.technicalDebtScore
-        }
+          technicalDebt: qualityMetrics.technicalDebtScore,
+        },
       });
     }
 
@@ -324,12 +331,12 @@ class QualityMetricsService {
           'Schedule technical debt reduction sprints',
           'Prioritize refactoring high-impact areas',
           'Implement automated code cleanup',
-          'Establish debt prevention guidelines'
+          'Establish debt prevention guidelines',
         ],
         metrics: {
           debtScore: qualityMetrics.technicalDebtScore,
-          maintainabilityIndex: qualityMetrics.maintainabilityIndex
-        }
+          maintainabilityIndex: qualityMetrics.maintainabilityIndex,
+        },
       });
     }
 
@@ -347,13 +354,14 @@ class QualityMetricsService {
           'Run automated error fixing campaigns',
           'Schedule batch processing for automatable errors',
           'Implement continuous automation',
-          'Monitor automation success rates'
+          'Monitor automation success rates',
         ],
         metrics: {
           automatableErrors: errorSummary.automationOpportunities,
           totalErrors: errorSummary.totalActiveErrors,
-          automationPotential: (errorSummary.automationOpportunities / errorSummary.totalActiveErrors) * 100
-        }
+          automationPotential:
+            (errorSummary.automationOpportunities / errorSummary.totalActiveErrors) * 100,
+        },
       });
     }
 
@@ -376,7 +384,7 @@ class QualityMetricsService {
       const recentTimes = buildHistory.slice(-5).map(b => b.totalBuildTime);
       const trend = this.calculateTrend(recentTimes);
       const currentAvg = recentTimes.reduce((sum, time) => sum + time, 0) / recentTimes.length;
-      const predictedTime = Math.max(0, currentAvg + (trend * 7)); // 1 week prediction
+      const predictedTime = Math.max(0, currentAvg + trend * 7); // 1 week prediction
 
       newPredictions.push({
         metric: 'Build Time',
@@ -388,13 +396,16 @@ class QualityMetricsService {
           'Recent build performance trends',
           'Code complexity changes',
           'Dependency updates',
-          'Cache efficiency'
+          'Cache efficiency',
         ],
-        recommendations: predictedTime > currentAvg * 1.2 ? [
-          'Investigate performance regressions',
-          'Optimize build configuration',
-          'Review recent code changes'
-        ] : []
+        recommendations:
+          predictedTime > currentAvg * 1.2
+            ? [
+                'Investigate performance regressions',
+                'Optimize build configuration',
+                'Review recent code changes',
+              ]
+            : [],
       });
     }
 
@@ -403,7 +414,7 @@ class QualityMetricsService {
       const recentScores = qualityHistory.slice(-5).map(q => q.codeQualityScore);
       const trend = this.calculateTrend(recentScores);
       const currentAvg = recentScores.reduce((sum, score) => sum + score, 0) / recentScores.length;
-      const predictedScore = Math.max(0, Math.min(100, currentAvg + (trend * 7)));
+      const predictedScore = Math.max(0, Math.min(100, currentAvg + trend * 7));
 
       newPredictions.push({
         metric: 'Code Quality Score',
@@ -415,20 +426,23 @@ class QualityMetricsService {
           'Error resolution rate',
           'New error introduction rate',
           'Code review effectiveness',
-          'Automated fixing success'
+          'Automated fixing success',
         ],
-        recommendations: predictedScore < currentAvg * 0.9 ? [
-          'Increase error fixing efforts',
-          'Implement stricter code review',
-          'Run quality improvement campaigns'
-        ] : []
+        recommendations:
+          predictedScore < currentAvg * 0.9
+            ? [
+                'Increase error fixing efforts',
+                'Implement stricter code review',
+                'Run quality improvement campaigns',
+              ]
+            : [],
       });
     }
 
     // Error count prediction
     const currentErrors = errorSummary.totalActiveErrors;
     const errorReductionRate = this.estimateErrorReductionRate();
-    const predictedErrors = Math.max(0, currentErrors - (errorReductionRate * 7));
+    const predictedErrors = Math.max(0, currentErrors - errorReductionRate * 7);
 
     newPredictions.push({
       metric: 'Active Errors',
@@ -440,13 +454,16 @@ class QualityMetricsService {
         'Historical error resolution rate',
         'Automation effectiveness',
         'Development team capacity',
-        'Error complexity distribution'
+        'Error complexity distribution',
       ],
-      recommendations: predictedErrors > currentErrors * 0.8 ? [
-        'Increase error fixing capacity',
-        'Focus on high-impact errors',
-        'Implement more automation'
-      ] : []
+      recommendations:
+        predictedErrors > currentErrors * 0.8
+          ? [
+              'Increase error fixing capacity',
+              'Focus on high-impact errors',
+              'Implement more automation',
+            ]
+          : [],
     });
 
     this.predictions = newPredictions;
@@ -458,8 +475,8 @@ class QualityMetricsService {
     const n = values.length;
     const sumX = (n * (n - 1)) / 2;
     const sumY = values.reduce((sum, val) => sum + val, 0);
-    const sumXY = values.reduce((sum, val, index) => sum + (index * val), 0);
-    const sumX2 = values.reduce((sum, _, index) => sum + (index * index), 0);
+    const sumXY = values.reduce((sum, val, index) => sum + index * val, 0);
+    const sumX2 = values.reduce((sum, _, index) => sum + index * index, 0);
 
     const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
     return slope;
@@ -509,7 +526,7 @@ class QualityMetricsService {
           files: pattern.files,
           estimatedHours: this.estimateEffort(pattern),
           priority: this.calculateDebtPriority(pattern.priority, pattern.frequency),
-          automatable: pattern.automatable
+          automatable: pattern.automatable,
         });
       }
     }
@@ -523,9 +540,12 @@ class QualityMetricsService {
           impact: bottleneck.errorCount > 10 ? 'high' : 'medium',
           effort: bottleneck.complexity > 200 ? 'high' : 'medium',
           files: [bottleneck.file],
-          estimatedHours: Math.min(40, Math.max(2, bottleneck.errorCount * 0.5 + bottleneck.complexity * 0.1)),
+          estimatedHours: Math.min(
+            40,
+            Math.max(2, bottleneck.errorCount * 0.5 + bottleneck.complexity * 0.1),
+          ),
           priority: bottleneck.errorCount * 2 + bottleneck.complexity * 0.1,
-          automatable: false
+          automatable: false,
         });
       }
     }
@@ -536,30 +556,37 @@ class QualityMetricsService {
     this.technicalDebt = debtItems.slice(0, 50);
   }
 
-  private estimateEffort(pattern: { type?: string; priority?: string; frequency?: number; automatable?: boolean }): number {
+  private estimateEffort(pattern: {
+    type?: string;
+    priority?: string;
+    frequency?: number;
+    automatable?: boolean;
+  }): number {
     if (pattern.automatable) {
       return Math.min(8, pattern?.frequency * 0.1); // 0.1 hours per occurrence for automatable
     }
 
-    const baseEffort = {
-      'critical': 2,
-      'high': 1.5,
-      'medium': 1,
-      'low': 0.5
-    }[pattern.priority] || 1;
+    const baseEffort =
+      {
+        critical: 2,
+        high: 1.5,
+        medium: 1,
+        low: 0.5,
+      }[pattern.priority] || 1;
 
     return Math.min(40, pattern?.frequency * baseEffort);
   }
 
   private calculateDebtPriority(priority: string, frequency: number): number {
-    const priorityWeight = {
-      'critical': 100,
-      'high': 75,
-      'medium': 50,
-      'low': 25
-    }[priority] || 50;
+    const priorityWeight =
+      {
+        critical: 100,
+        high: 75,
+        medium: 50,
+        low: 25,
+      }[priority] || 50;
 
-    return priorityWeight + (frequency * 2);
+    return priorityWeight + frequency * 2;
   }
 
   private updateGoalProgress() {
@@ -588,7 +615,10 @@ class QualityMetricsService {
       if (goal.id === 'typescript-errors' || goal.id === 'build-performance') {
         // For metrics where lower is better
         const initialValue = goal.targetValue === 0 ? 5000 : goal.targetValue * 3; // Estimate initial value
-        goal.progress = Math.max(0, Math.min(100, ((initialValue - currentValue) / initialValue) * 100));
+        goal.progress = Math.max(
+          0,
+          Math.min(100, ((initialValue - currentValue) / initialValue) * 100),
+        );
       } else {
         // For metrics where higher is better
         goal.progress = Math.max(0, Math.min(100, (currentValue / goal.targetValue) * 100));
@@ -603,9 +633,10 @@ class QualityMetricsService {
       // Update milestones
       for (const milestone of goal.milestones) {
         if (!milestone.completed) {
-          const milestoneReached = goal.id === 'typescript-errors' || goal.id === 'build-performance'
-            ? currentValue <= milestone.targetValue
-            : currentValue >= milestone.targetValue;
+          const milestoneReached =
+            goal.id === 'typescript-errors' || goal.id === 'build-performance'
+              ? currentValue <= milestone.targetValue
+              : currentValue >= milestone.targetValue;
 
           if (milestoneReached) {
             milestone.completed = true;
@@ -630,46 +661,61 @@ class QualityMetricsService {
         overallScore: this.calculateOverallScore(buildSummary, errorSummary, qualityMetrics),
         improvement: this.calculateWeeklyImprovement(),
         keyAchievements: this.getKeyAchievements(),
-        majorIssues: this.getMajorIssues()
+        majorIssues: this.getMajorIssues(),
       },
       metrics: {
         codeQuality: qualityMetrics?.codeQualityScore || 0,
         performance: buildSummary.performanceScore,
         maintainability: qualityMetrics?.maintainabilityIndex || 0,
-        technicalDebt: qualityMetrics?.technicalDebtScore || 0
+        technicalDebt: qualityMetrics?.technicalDebtScore || 0,
       },
       trends: {
         errorReduction: this.calculateErrorReductionTrend(),
         performanceImprovement: this.calculatePerformanceImprovementTrend(),
-        debtReduction: this.calculateDebtReductionTrend()
+        debtReduction: this.calculateDebtReductionTrend(),
       },
       insights: this.insights.slice(-10),
       predictions: this.predictions,
-      recommendations: this.generateWeeklyRecommendations()
+      recommendations: this.generateWeeklyRecommendations(),
     };
 
     this.reports.push(report);
   }
 
-  private calculateOverallScore(buildSummary: Record<string, unknown>, errorSummary: Record<string, unknown>, qualityMetrics: Record<string, unknown>): number {
+  private calculateOverallScore(
+    buildSummary: Record<string, unknown>,
+    errorSummary: Record<string, unknown>,
+    qualityMetrics: Record<string, unknown>,
+  ): number {
     const weights = {
       codeQuality: 0.3,
       performance: 0.25,
       maintainability: 0.25,
-      technicalDebt: 0.2
+      technicalDebt: 0.2,
     };
 
-    const scores: { codeQuality: number; performance: number; maintainability: number; technicalDebt: number } = {
+    const scores: {
+      codeQuality: number;
+      performance: number;
+      maintainability: number;
+      technicalDebt: number;
+    } = {
       codeQuality: (qualityMetrics as Record<string, number>)?.codeQualityScore || 0,
       performance: (buildSummary as Record<string, number>).performanceScore || 0,
       maintainability: (qualityMetrics as Record<string, number>)?.maintainabilityIndex || 0,
-      technicalDebt: Math.max(0, 100 - ((qualityMetrics as Record<string, number>)?.technicalDebtScore || 0))
+      technicalDebt: Math.max(
+        0,
+        100 - ((qualityMetrics as Record<string, number>)?.technicalDebtScore || 0),
+      ),
     };
 
-    return (Object.entries(weights) as Array<[keyof typeof weights, number]>).reduce((total, [key, weight]) => {
-      const value = (scores as Record<string, number>)[key as keyof typeof scores] || 0;
-      return total + (value * weight);
-    }, 0);
+    return (Object.entries(weights) as Array<[keyof typeof weights, number]>).reduce(
+      (total, [key, weight]) => {
+        const value = (scores as Record<string, number>)[key as keyof typeof scores] || 0;
+        return total + value * weight;
+      },
+      0,
+    );
   }
 
   private calculateWeeklyImprovement(): number {
@@ -688,17 +734,22 @@ class QualityMetricsService {
     // Check completed milestones
     for (const goal of this.goals) {
       for (const milestone of goal.milestones) {
-        if (milestone.completed && milestone.completedDate &&
-            (Date.now() - milestone.completedDate.getTime()) < 7 * 24 * 60 * 60 * 1000) {
+        if (
+          milestone.completed &&
+          milestone.completedDate &&
+          Date.now() - milestone.completedDate.getTime() < 7 * 24 * 60 * 60 * 1000
+        ) {
           achievements.push(`Completed milestone: ${milestone.name}`);
         }
       }
     }
 
     // Check significant improvements
-    const recentInsights = this.insights.filter(i =>
-      (Date.now() - new Date(i.timeframe).getTime()) < 7 * 24 * 60 * 60 * 1000 &&
-      i.type === 'trend' && i.severity === 'info'
+    const recentInsights = this.insights.filter(
+      i =>
+        Date.now() - new Date(i.timeframe).getTime() < 7 * 24 * 60 * 60 * 1000 &&
+        i.type === 'trend' &&
+        i.severity === 'info',
     );
 
     achievements.push(...recentInsights.map(i => i.title));
@@ -753,7 +804,8 @@ class QualityMetricsService {
     if (recent.length === 0 || previous.length === 0) return 0;
 
     const recentAvg = recent.reduce((sum, h) => sum + h.technicalDebtScore, 0) / recent.length;
-    const previousAvg = previous.reduce((sum, h) => sum + h.technicalDebtScore, 0) / previous.length;
+    const previousAvg =
+      previous.reduce((sum, h) => sum + h.technicalDebtScore, 0) / previous.length;
 
     return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0;
   }
@@ -780,7 +832,9 @@ class QualityMetricsService {
     // Add goal-based recommendations
     const offTrackGoals = this.goals.filter(g => !g.onTrack);
     for (const goal of offTrackGoals.slice(0, 2)) {
-      recommendations.push(`Focus on ${goal.name} - currently ${Math.round(goal.progress)}% complete`);
+      recommendations.push(
+        `Focus on ${goal.name} - currently ${Math.round(goal.progress)}% complete`,
+      );
     }
 
     return [...new Set(recommendations)].slice(0, 8); // Remove duplicates and limit
@@ -799,8 +853,8 @@ class QualityMetricsService {
         totalDebtItems: this.technicalDebt.length,
         automatableDebt: this.technicalDebt.filter(d => d.automatable).length,
         goalsOnTrack: this.goals.filter(g => g.onTrack).length,
-        totalGoals: this.goals.length
-      }
+        totalGoals: this.goals.length,
+      },
     };
 
     this.subscribers.forEach(callback => {
@@ -854,7 +908,7 @@ class QualityMetricsService {
       ...goal,
       id,
       progress: 0,
-      onTrack: true
+      onTrack: true,
     };
 
     this.goals.push(newGoal);
@@ -886,15 +940,17 @@ class QualityMetricsService {
   public generateCustomReport(startDate: Date, endDate: Date): QualityReport {
     // This would generate a custom report for the specified date range
     // For now, return the latest report as a placeholder
-    return this.reports.slice(-1)[0] || {
-      period: `${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}`,
-      summary: { overallScore: 0, improvement: 0, keyAchievements: [], majorIssues: [] },
-      metrics: { codeQuality: 0, performance: 0, maintainability: 0, technicalDebt: 0 },
-      trends: { errorReduction: 0, performanceImprovement: 0, debtReduction: 0 },
-      insights: [],
-      predictions: [],
-      recommendations: []
-    };
+    return (
+      this.reports.slice(-1)[0] || {
+        period: `${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}`,
+        summary: { overallScore: 0, improvement: 0, keyAchievements: [], majorIssues: [] },
+        metrics: { codeQuality: 0, performance: 0, maintainability: 0, technicalDebt: 0 },
+        trends: { errorReduction: 0, performanceImprovement: 0, debtReduction: 0 },
+        insights: [],
+        predictions: [],
+        recommendations: [],
+      }
+    );
   }
 
   public reset() {

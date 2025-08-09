@@ -1,6 +1,6 @@
 /**
  * Agent Hooks for Automated Quality Assurance
- * 
+ *
  * This module provides React hooks that integrate with Kiro's agent hook system
  * for automatic planetary data validation, ingredient consistency checking,
  * and campaign trigger management.
@@ -8,12 +8,12 @@
 
 import { useEffect, useCallback, useState, useRef } from 'react';
 
-import { 
-  getAutomatedQualityAssurance, 
-  ValidationResult, 
-  CampaignTrigger, 
+import {
+  getAutomatedQualityAssurance,
+  ValidationResult,
+  CampaignTrigger,
   QualityMetrics,
-  QualityAssuranceConfig 
+  QualityAssuranceConfig,
 } from '@/utils/automatedQualityAssurance';
 import { logger } from '@/utils/logger';
 import { ElementalProperties } from '@/utils/steeringFileIntelligence';
@@ -43,18 +43,18 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
     enableIngredientValidation: true,
     enableCampaignTriggers: true,
     enablePerformanceMonitoring: true,
-    validationInterval: 5 // 5 minutes
+    validationInterval: 5, // 5 minutes
   };
 
   const finalConfig = { ...defaultConfig, ...config };
   const qa = getAutomatedQualityAssurance();
-  
+
   const [hookState, setHookState] = useState<AgentHookState>({
     isActive: false,
     lastValidation: 0,
     validationResults: {},
     campaignTriggers: [],
-    qualityMetrics: qa.getQualityMetrics()
+    qualityMetrics: qa.getQualityMetrics(),
   });
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -64,46 +64,49 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
     if (hookState.isActive) return;
 
     setHookState(prev => ({ ...prev, isActive: true }));
-    
+
     // Set up validation interval
-    intervalRef.current = setInterval(() => {
-      void (async () => {
-        try {
-          const results: Record<string, ValidationResult> = {};
-          
-          // Planetary data validation
-          if (finalConfig.enablePlanetaryValidation) {
-            const planetaryResult = await qa.validatePlanetaryData();
-            results.planetary = planetaryResult;
-            
-            if (!planetaryResult.isValid) {
-              logger.warn('Planetary data validation failed:', planetaryResult.issues);
+    intervalRef.current = setInterval(
+      () => {
+        void (async () => {
+          try {
+            const results: Record<string, ValidationResult> = {};
+
+            // Planetary data validation
+            if (finalConfig.enablePlanetaryValidation) {
+              const planetaryResult = await qa.validatePlanetaryData();
+              results.planetary = planetaryResult;
+
+              if (!planetaryResult.isValid) {
+                logger.warn('Planetary data validation failed:', planetaryResult.issues);
+              }
             }
-          }
 
-          // TypeScript error threshold check
-          if (finalConfig.enableCampaignTriggers) {
-            const trigger = await qa.checkTypeScriptErrorThreshold();
-            if (trigger?.triggered) {
-              logger.warn('TypeScript campaign trigger activated:', trigger);
+            // TypeScript error threshold check
+            if (finalConfig.enableCampaignTriggers) {
+              const trigger = await qa.checkTypeScriptErrorThreshold();
+              if (trigger?.triggered) {
+                logger.warn('TypeScript campaign trigger activated:', trigger);
+              }
             }
+
+            // Update state
+            setHookState(prev => ({
+              ...prev,
+              lastValidation: Date.now(),
+              validationResults: { ...prev.validationResults, ...results },
+              campaignTriggers: qa.getActiveCampaignTriggers(),
+              qualityMetrics: qa.getQualityMetrics(),
+            }));
+
+            logger.debug('Agent hooks validation cycle completed');
+          } catch (error) {
+            logger.error('Error in agent hooks validation cycle:', error);
           }
-
-          // Update state
-          setHookState(prev => ({
-            ...prev,
-            lastValidation: Date.now(),
-            validationResults: { ...prev.validationResults, ...results },
-            campaignTriggers: qa.getActiveCampaignTriggers(),
-            qualityMetrics: qa.getQualityMetrics()
-          }));
-
-          logger.debug('Agent hooks validation cycle completed');
-        } catch (error) {
-          logger.error('Error in agent hooks validation cycle:', error);
-        }
-      })();
-    }, finalConfig.validationInterval * 60 * 1000);
+        })();
+      },
+      finalConfig.validationInterval * 60 * 1000,
+    );
 
     logger.info('Agent hooks started with config:', finalConfig);
   }, [finalConfig, hookState.isActive, qa]);
@@ -114,44 +117,47 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    
+
     setHookState(prev => ({ ...prev, isActive: false }));
     logger.info('Agent hooks stopped');
   }, []);
 
   // Manual validation trigger
-  const triggerValidation = useCallback(async (type?: 'planetary' | 'ingredient' | 'typescript' | 'all') => {
-    try {
-      const results: Record<string, ValidationResult> = {};
-      
-      if (!type || type === 'all' || type === 'planetary') {
-        results.planetary = await qa.validatePlanetaryData();
-      }
-      
-      if (!type || type === 'all' || type === 'typescript') {
-        const trigger = await qa.checkTypeScriptErrorThreshold();
-        if (trigger) {
-          setHookState(prev => ({
-            ...prev,
-            campaignTriggers: [...prev.campaignTriggers, trigger]
-          }));
+  const triggerValidation = useCallback(
+    async (type?: 'planetary' | 'ingredient' | 'typescript' | 'all') => {
+      try {
+        const results: Record<string, ValidationResult> = {};
+
+        if (!type || type === 'all' || type === 'planetary') {
+          results.planetary = await qa.validatePlanetaryData();
         }
+
+        if (!type || type === 'all' || type === 'typescript') {
+          const trigger = await qa.checkTypeScriptErrorThreshold();
+          if (trigger) {
+            setHookState(prev => ({
+              ...prev,
+              campaignTriggers: [...prev.campaignTriggers, trigger],
+            }));
+          }
+        }
+
+        setHookState(prev => ({
+          ...prev,
+          lastValidation: Date.now(),
+          validationResults: { ...prev.validationResults, ...results },
+          qualityMetrics: qa.getQualityMetrics(),
+        }));
+
+        logger.debug('Manual validation triggered:', { type, results });
+        return results;
+      } catch (error) {
+        logger.error('Error in manual validation:', error);
+        throw error;
       }
-
-      setHookState(prev => ({
-        ...prev,
-        lastValidation: Date.now(),
-        validationResults: { ...prev.validationResults, ...results },
-        qualityMetrics: qa.getQualityMetrics()
-      }));
-
-      logger.debug('Manual validation triggered:', { type, results });
-      return results;
-    } catch (error) {
-      logger.error('Error in manual validation:', error);
-      throw error;
-    }
-  }, [qa]);
+    },
+    [qa],
+  );
 
   // Cleanup on unmount
   useEffect(() => {
@@ -165,7 +171,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
     startAgentHooks,
     stopAgentHooks,
     triggerValidation,
-    isActive: hookState.isActive
+    isActive: hookState.isActive,
   };
 }
 
@@ -177,31 +183,36 @@ export function usePlanetaryDataValidationHook(autoStart: boolean = true) {
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
 
-  const validatePlanetaryData = useCallback(async (date?: Date) => {
-    setIsValidating(true);
-    try {
-      const result = await qa.validatePlanetaryData(date);
-      setValidationResult(result);
-      
-      if (!result.isValid) {
-        logger.warn('Planetary data validation hook detected issues:', result.issues);
-        
-        // Dispatch event for external systems
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('planetary-validation-failed', {
-            detail: result
-          }));
+  const validatePlanetaryData = useCallback(
+    async (date?: Date) => {
+      setIsValidating(true);
+      try {
+        const result = await qa.validatePlanetaryData(date);
+        setValidationResult(result);
+
+        if (!result.isValid) {
+          logger.warn('Planetary data validation hook detected issues:', result.issues);
+
+          // Dispatch event for external systems
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(
+              new CustomEvent('planetary-validation-failed', {
+                detail: result,
+              }),
+            );
+          }
         }
+
+        return result;
+      } catch (error) {
+        logger.error('Error in planetary data validation hook:', error);
+        throw error;
+      } finally {
+        setIsValidating(false);
       }
-      
-      return result;
-    } catch (error) {
-      logger.error('Error in planetary data validation hook:', error);
-      throw error;
-    } finally {
-      setIsValidating(false);
-    }
-  }, [qa]);
+    },
+    [qa],
+  );
 
   // Auto-start validation
   useEffect(() => {
@@ -214,7 +225,7 @@ export function usePlanetaryDataValidationHook(autoStart: boolean = true) {
     validationResult,
     isValidating,
     validatePlanetaryData,
-    isValid: validationResult?.isValid ?? null
+    isValid: validationResult?.isValid ?? null,
   };
 }
 
@@ -226,45 +237,52 @@ export function useIngredientConsistencyHook() {
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
 
-  const validateIngredients = useCallback(async (ingredients: Array<{
-    name: string;
-    elementalProperties: ElementalProperties;
-    category?: string;
-  }>) => {
-    if (ingredients.length === 0) {
-      return null;
-    }
-
-    setIsValidating(true);
-    try {
-      const result = qa.validateIngredientConsistency(ingredients);
-      setValidationResult(result);
-      
-      if (!result.isValid) {
-        logger.warn('Ingredient consistency validation detected issues:', result.issues);
-        
-        // Dispatch event for external systems
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('ingredient-validation-failed', {
-            detail: { result, ingredients }
-          }));
-        }
+  const validateIngredients = useCallback(
+    async (
+      ingredients: Array<{
+        name: string;
+        elementalProperties: ElementalProperties;
+        category?: string;
+      }>,
+    ) => {
+      if (ingredients.length === 0) {
+        return null;
       }
-      
-      return result;
-    } catch (error) {
-      logger.error('Error in ingredient consistency validation:', error);
-      throw error;
-    } finally {
-      setIsValidating(false);
-    }
-  }, [qa]);
+
+      setIsValidating(true);
+      try {
+        const result = qa.validateIngredientConsistency(ingredients);
+        setValidationResult(result);
+
+        if (!result.isValid) {
+          logger.warn('Ingredient consistency validation detected issues:', result.issues);
+
+          // Dispatch event for external systems
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(
+              new CustomEvent('ingredient-validation-failed', {
+                detail: { result, ingredients },
+              }),
+            );
+          }
+        }
+
+        return result;
+      } catch (error) {
+        logger.error('Error in ingredient consistency validation:', error);
+        throw error;
+      } finally {
+        setIsValidating(false);
+      }
+    },
+    [qa],
+  );
 
   return {
     validationResult,
     isValidating,
     validateIngredients,
-    isValid: validationResult?.isValid ?? null
+    isValid: validationResult?.isValid ?? null,
   };
 }
 
@@ -281,18 +299,20 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
     try {
       const trigger = await qa.checkTypeScriptErrorThreshold();
       setCampaignTrigger(trigger);
-      
+
       if (trigger?.triggered) {
         logger.warn('TypeScript campaign trigger activated:', trigger);
-        
+
         // Dispatch event for campaign system integration
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('typescript-campaign-trigger', {
-            detail: trigger
-          }));
+          window.dispatchEvent(
+            new CustomEvent('typescript-campaign-trigger', {
+              detail: trigger,
+            }),
+          );
         }
       }
-      
+
       return trigger;
     } catch (error) {
       logger.error('Error checking TypeScript error threshold:', error);
@@ -306,7 +326,7 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
   useEffect(() => {
     if (autoCheck) {
       checkErrorThreshold();
-      
+
       // Check every 10 minutes
       const interval = setInterval(() => void checkErrorThreshold(), 10 * 60 * 1000);
       return () => clearInterval(interval);
@@ -317,7 +337,7 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
     campaignTrigger,
     isChecking,
     checkErrorThreshold,
-    isTriggered: campaignTrigger?.triggered ?? false
+    isTriggered: campaignTrigger?.triggered ?? false,
   };
 }
 
@@ -329,49 +349,55 @@ export function useBuildQualityMonitoringHook() {
   const [qualityResult, setQualityResult] = useState<ValidationResult | null>(null);
   const [isMonitoring, setIsMonitoring] = useState(false);
 
-  const monitorBuildQuality = useCallback(async (buildMetrics: {
-    buildTime?: number;
-    bundleSize?: number;
-    memoryUsage?: number;
-    errorCount?: number;
-  }) => {
-    setIsMonitoring(true);
-    try {
-      const result = qa.monitorBuildQuality(buildMetrics);
-      setQualityResult(result);
-      
-      if (!result.isValid) {
-        logger.warn('Build quality monitoring detected issues:', result.issues);
-        
-        // Dispatch event for external systems
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('build-quality-issues', {
-            detail: { result, buildMetrics }
-          }));
+  const monitorBuildQuality = useCallback(
+    async (buildMetrics: {
+      buildTime?: number;
+      bundleSize?: number;
+      memoryUsage?: number;
+      errorCount?: number;
+    }) => {
+      setIsMonitoring(true);
+      try {
+        const result = qa.monitorBuildQuality(buildMetrics);
+        setQualityResult(result);
+
+        if (!result.isValid) {
+          logger.warn('Build quality monitoring detected issues:', result.issues);
+
+          // Dispatch event for external systems
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(
+              new CustomEvent('build-quality-issues', {
+                detail: { result, buildMetrics },
+              }),
+            );
+          }
         }
+
+        return result;
+      } catch (error) {
+        logger.error('Error in build quality monitoring:', error);
+        throw error;
+      } finally {
+        setIsMonitoring(false);
       }
-      
-      return result;
-    } catch (error) {
-      logger.error('Error in build quality monitoring:', error);
-      throw error;
-    } finally {
-      setIsMonitoring(false);
-    }
-  }, [qa]);
+    },
+    [qa],
+  );
 
   return {
     qualityResult,
     isMonitoring,
     monitorBuildQuality,
-    isQualityGood: qualityResult?.isValid ?? null
+    isQualityGood: qualityResult?.isValid ?? null,
   };
 }
 
 /**
  * Agent hook for comprehensive quality metrics monitoring
  */
-export function useQualityMetricsHook(updateInterval: number = 30000) { // 30 seconds
+export function useQualityMetricsHook(updateInterval: number = 30000) {
+  // 30 seconds
   const qa = getAutomatedQualityAssurance();
   const [metrics, setMetrics] = useState<QualityMetrics>(qa.getQualityMetrics());
   const [lastUpdate, setLastUpdate] = useState(Date.now());
@@ -391,7 +417,7 @@ export function useQualityMetricsHook(updateInterval: number = 30000) { // 30 se
   return {
     metrics,
     lastUpdate,
-    updateMetrics
+    updateMetrics,
   };
 }
 
@@ -400,11 +426,14 @@ export function useQualityMetricsHook(updateInterval: number = 30000) { // 30 se
  */
 export function useAgentHookConfiguration() {
   const qa = getAutomatedQualityAssurance();
-  
-  const updateConfiguration = useCallback((config: Partial<QualityAssuranceConfig>) => {
-    qa.updateConfig(config);
-    logger.info('Agent hook configuration updated:', config);
-  }, [qa]);
+
+  const updateConfiguration = useCallback(
+    (config: Partial<QualityAssuranceConfig>) => {
+      qa.updateConfig(config);
+      logger.info('Agent hook configuration updated:', config);
+    },
+    [qa],
+  );
 
   const getActiveTriggers = useCallback(() => {
     return qa.getActiveCampaignTriggers();
@@ -412,6 +441,6 @@ export function useAgentHookConfiguration() {
 
   return {
     updateConfiguration,
-    getActiveTriggers
+    getActiveTriggers,
   };
 }

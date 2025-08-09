@@ -1,3 +1,3 @@
 // TODO: Fix import - was: import from "./PlanetaryHoursDisplay.ts";
 
-export default PlanetaryHoursDisplay; 
+export default PlanetaryHoursDisplay;

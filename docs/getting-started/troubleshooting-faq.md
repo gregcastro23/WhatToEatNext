@@ -1,10 +1,12 @@
 # 🔧 Troubleshooting and FAQ Guide
 
-This comprehensive guide addresses common issues, questions, and solutions for the WhatToEatNext project.
+This comprehensive guide addresses common issues, questions, and solutions for
+the WhatToEatNext project.
 
 ## 🚨 Quick Problem Resolution
 
 ### Emergency Fixes
+
 ```bash
 # Build is broken
 npm run campaign:emergency-stop     # Stop all campaigns
@@ -24,9 +26,11 @@ yarn dev                        # Restart server
 ## 🏗️ Setup and Installation Issues
 
 ### Q: Node.js version conflicts
+
 **Problem**: Getting version compatibility errors
 
 **Solutions**:
+
 ```bash
 # Check current version
 node --version
@@ -43,9 +47,11 @@ direnv allow
 ```
 
 ### Q: Dependencies won't install
+
 **Problem**: npm/yarn installation failures
 
 **Solutions**:
+
 ```bash
 # Clear caches
 npm cache clean --force
@@ -62,9 +68,11 @@ node --version  # Should be 20.18.0+
 ```
 
 ### Q: Development server fails to start
+
 **Problem**: `npm run dev` throws errors
 
 **Solutions**:
+
 ```bash
 # Check port availability
 lsof -i :3000                     # Check if port 3000 is in use
@@ -84,9 +92,11 @@ npm run type-check
 ## 🌟 Astrological Feature Issues
 
 ### Q: Planetary position calculations failing
+
 **Problem**: Getting "Invalid planetary positions" errors
 
 **Solutions**:
+
 ```typescript
 // Check API connectivity
 const positions = await getReliablePlanetaryPositions();
@@ -102,15 +112,18 @@ console.log('Validation result:', isValid);
 ```
 
 **Common Causes**:
+
 - API timeout or connectivity issues
 - Invalid date format passed to calculation
 - Missing fallback data
 - Validation function too strict
 
 ### Q: Elemental compatibility calculations incorrect
+
 **Problem**: Getting compatibility scores below 0.7
 
 **Solutions**:
+
 ```typescript
 // Verify elemental properties structure
 interface ElementalProperties {
@@ -124,26 +137,29 @@ interface ElementalProperties {
 function calculateCompatibility(source: ElementalProperties, target: ElementalProperties): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
-  
+
   // Same elements: 0.9+ compatibility
   if (sourceDominant === targetDominant) {
     return Math.max(0.9, baseCompatibility);
   }
-  
+
   // Different elements: 0.7+ compatibility
   return Math.max(0.7, baseCompatibility);
 }
 ```
 
 **Red Flags to Avoid**:
+
 - Opposition logic (Fire vs Water)
 - Compatibility scores below 0.7
 - Complex balancing that reduces elemental strength
 
 ### Q: Transit date validation errors
+
 **Problem**: "Invalid transit date" warnings
 
 **Solutions**:
+
 ```bash
 # Check transit data files
 ls src/data/planets/              # Verify planet files exist
@@ -156,6 +172,7 @@ node -e "console.log(require('./src/data/planets/mars.js'))"
 ```
 
 **Data Structure**:
+
 ```typescript
 interface TransitDates {
   [sign: string]: {
@@ -175,9 +192,11 @@ interface TransitDates {
 ## 🎯 Kiro-Specific Issues
 
 ### Q: Kiro steering files not loading
+
 **Problem**: Kiro doesn't seem to understand project context
 
 **Solutions**:
+
 ```bash
 # Verify steering files exist
 ls .kiro/steering/                # Should show all steering files
@@ -193,9 +212,11 @@ grep -r "inclusion:" .kiro/steering/
 ```
 
 ### Q: Agent hooks not triggering
+
 **Problem**: File changes don't trigger automated hooks
 
 **Solutions**:
+
 ```bash
 # Check hook configurations
 ls .kiro/hooks/                   # Verify hook files exist
@@ -211,9 +232,11 @@ ls .kiro/hooks/                   # Verify hook files exist
 ```
 
 ### Q: MCP servers not connecting
+
 **Problem**: MCP servers show as disconnected
 
 **Solutions**:
+
 ```bash
 # Check Python/uv installation
 uv --version
@@ -232,9 +255,11 @@ uvx mcp-servers/astrology-server.py
 ```
 
 ### Q: Campaign system not working
+
 **Problem**: Campaigns fail to run or complete
 
 **Solutions**:
+
 ```bash
 # Check campaign status
 npm run campaign:status
@@ -256,9 +281,11 @@ node --version                    # Should be 20.18.0+
 ## 🧪 Testing and Quality Issues
 
 ### Q: Tests failing after changes
+
 **Problem**: Test suite has failures
 
 **Solutions**:
+
 ```bash
 # Run specific test categories
 npm run test:unit                 # Unit tests only
@@ -276,9 +303,11 @@ npm test -- --updateSnapshot
 ```
 
 ### Q: TypeScript errors overwhelming
+
 **Problem**: Too many TypeScript errors to fix manually
 
 **Solutions**:
+
 ```bash
 # Check current error count
 npm run type-check 2>&1 | grep -c "error TS"
@@ -294,9 +323,11 @@ npm run type-check 2>&1 | grep "error TS" | head -20
 ```
 
 ### Q: Linting warnings excessive
+
 **Problem**: ESLint warnings over 10,000
 
 **Solutions**:
+
 ```bash
 # Check current warning count
 npm run lint 2>&1 | grep -c "warning"
@@ -314,9 +345,11 @@ npx eslint src/path/to/file.ts
 ## 🌍 Cultural and Accessibility Issues
 
 ### Q: Cultural sensitivity concerns
+
 **Problem**: Worried about cultural appropriation
 
 **Solutions**:
+
 1. **Research First**: Always research authentic sources
 2. **Consult Experts**: Work with cultural practitioners
 3. **Respectful Integration**: Add cosmic timing without claiming ownership
@@ -324,6 +357,7 @@ npx eslint src/path/to/file.ts
 5. **Proper Attribution**: Credit traditional knowledge
 
 **Review Checklist**:
+
 - [ ] Authentic ingredient names used
 - [ ] Traditional preparation methods respected
 - [ ] Cultural context provided
@@ -331,9 +365,11 @@ npx eslint src/path/to/file.ts
 - [ ] Community feedback sought
 
 ### Q: Accessibility compliance
+
 **Problem**: Ensuring inclusive design
 
 **Solutions**:
+
 ```bash
 # Run accessibility tests
 npm run test:a11y
@@ -349,6 +385,7 @@ npm run test:a11y
 ```
 
 **Accessibility Checklist**:
+
 - [ ] Keyboard navigable
 - [ ] Screen reader compatible
 - [ ] Color blind friendly
@@ -358,9 +395,11 @@ npm run test:a11y
 ## ⚡ Performance Issues
 
 ### Q: Slow astrological calculations
+
 **Problem**: Calculations taking longer than 2 seconds
 
 **Solutions**:
+
 ```typescript
 // Profile calculation performance
 console.time('astrological-calculation');
@@ -379,9 +418,11 @@ const memoizedCalculation = useMemo(() => {
 ```
 
 ### Q: Large bundle size
+
 **Problem**: Application bundle exceeding 5MB
 
 **Solutions**:
+
 ```bash
 # Analyze bundle
 npm run analyze:bundle
@@ -398,9 +439,11 @@ npm run optimize:images
 ```
 
 ### Q: Memory leaks
+
 **Problem**: Application memory usage growing over time
 
 **Solutions**:
+
 ```typescript
 // Check for memory leaks in calculations
 useEffect(() => {
@@ -420,9 +463,11 @@ console.log('Memory usage:', process.memoryUsage());
 ## 🔌 API and Integration Issues
 
 ### Q: External API failures
+
 **Problem**: Astrological APIs not responding
 
 **Solutions**:
+
 ```typescript
 // Check API status
 const testConnection = async () => {
@@ -444,9 +489,11 @@ console.log('Cache age (hours):', cacheAge / (1000 * 60 * 60));
 ```
 
 ### Q: Rate limiting issues
+
 **Problem**: API rate limits exceeded
 
 **Solutions**:
+
 ```typescript
 // Implement intelligent caching
 const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours for astronomical data
@@ -462,9 +509,11 @@ console.log('Rate limit remaining:', getRateLimitRemaining());
 ## 🎯 Common Error Messages
 
 ### "Cannot find name" TypeScript errors
+
 **Error**: `TS2304: Cannot find name 'ElementalProperties'`
 
 **Solution**:
+
 ```typescript
 // Add proper import
 import { ElementalProperties } from '@/types/elemental';
@@ -479,9 +528,11 @@ export interface ElementalProperties {
 ```
 
 ### "Property does not exist" errors
+
 **Error**: `TS2339: Property 'fire' does not exist on type`
 
 **Solution**:
+
 ```typescript
 // Ensure proper type definition
 interface Ingredient {
@@ -495,9 +546,12 @@ const properties = ingredient.elementalProperties as ElementalProperties;
 ```
 
 ### "Argument of type X is not assignable" errors
-**Error**: `TS2345: Argument of type 'string' is not assignable to parameter of type 'Element'`
+
+**Error**:
+`TS2345: Argument of type 'string' is not assignable to parameter of type 'Element'`
 
 **Solution**:
+
 ```typescript
 // Use proper type definitions
 type Element = 'fire' | 'water' | 'earth' | 'air';
@@ -516,18 +570,23 @@ if (isElement(userInput)) {
 ## 📚 Additional Resources
 
 ### Documentation Links
+
 - **[Architecture Guide](architecture-guide.md)** - System design and patterns
-- **[Development Workflows](development-workflows.md)** - Common development tasks
+- **[Development Workflows](development-workflows.md)** - Common development
+  tasks
 - **[Kiro Setup Guide](kiro-setup-guide.md)** - Kiro configuration and usage
-- **[Campaign System Docs](../../src/services/campaign/README.md)** - Quality improvement system
+- **[Campaign System Docs](../../src/services/campaign/README.md)** - Quality
+  improvement system
 
 ### Community Support
+
 - **GitHub Issues**: Report bugs and request features
 - **Discussions**: Community Q&A and general discussion
 - **Code Review**: Learn from others' implementations
 - **Documentation**: Contribute improvements to guides
 
 ### Emergency Contacts
+
 - **Build Issues**: Check campaign system status first
 - **Security Concerns**: Report immediately through proper channels
 - **Cultural Sensitivity**: Consult with cultural experts
@@ -536,6 +595,7 @@ if (isElement(userInput)) {
 ## 🎉 Success Indicators
 
 ### You're on the right track when:
+
 - ✅ All tests pass consistently
 - ✅ TypeScript errors under 100
 - ✅ Astrological calculations complete under 2 seconds
@@ -545,6 +605,7 @@ if (isElement(userInput)) {
 - ✅ Kiro providing helpful contextual assistance
 
 ### Red flags to address:
+
 - ❌ Compatibility scores below 0.7
 - ❌ Opposition logic in elemental calculations
 - ❌ Cultural appropriation concerns
@@ -555,6 +616,10 @@ if (isElement(userInput)) {
 
 ---
 
-**This troubleshooting guide covers the most common issues you'll encounter. When in doubt, start with the basics: clean installation, verify configuration, and check the logs.** 🌟
+**This troubleshooting guide covers the most common issues you'll encounter.
+When in doubt, start with the basics: clean installation, verify configuration,
+and check the logs.** 🌟
 
-*Can't find your issue here? Check the [GitHub Issues](https://github.com/your-org/WhatToEatNext/issues) or create a new issue with detailed information about your problem.*
+_Can't find your issue here? Check the
+[GitHub Issues](https://github.com/your-org/WhatToEatNext/issues) or create a
+new issue with detailed information about your problem._

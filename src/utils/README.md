@@ -1,6 +1,8 @@
 # Centralized Logging Module
 
-This directory contains a centralized logging module (`logger.ts`) that provides standardized logging across the application. The logger supports component-specific prefixing, log levels, and environment-aware logging.
+This directory contains a centralized logging module (`logger.ts`) that provides
+standardized logging across the application. The logger supports
+component-specific prefixing, log levels, and environment-aware logging.
 
 ## Basic Usage
 
@@ -40,9 +42,11 @@ logger.error('Operation failed', new Error('Detailed error'));
 
 ## Benefits
 
-1. **Consistent Formatting**: All logs follow the same format with timestamps and component prefixes.
+1. **Consistent Formatting**: All logs follow the same format with timestamps
+   and component prefixes.
 2. **Environment-Aware**: Debug logs only appear in development environments.
-3. **Component Identification**: Easily identify which component generated each log message.
+3. **Component Identification**: Easily identify which component generated each
+   log message.
 4. **Error Tracking**: All errors are stored and can be retrieved for reporting.
 5. **Centralized Configuration**: Change logging behavior in one place.
 
@@ -55,7 +59,8 @@ logger.error('Operation failed', new Error('Detailed error'));
 
 ## Best Practices
 
-1. **Be Descriptive**: Include enough context in log messages to understand what happened.
+1. **Be Descriptive**: Include enough context in log messages to understand what
+   happened.
 2. **Use Appropriate Levels**: Don't use error for non-error conditions.
 3. **Structure Additional Data**: When logging objects, make them easy to read.
 4. **Include One Logger Per File**: Create one logger per component/module.
@@ -72,7 +77,7 @@ const logger = createLogger('UserProfile');
 
 const UserProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -84,10 +89,10 @@ const UserProfile = ({ userId }) => {
         logger.error('Failed to load user data', error);
       }
     }
-    
+
     fetchUser();
   }, [userId]);
-  
+
   // Rest of component...
 };
-``` 
+```

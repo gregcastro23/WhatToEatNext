@@ -6,27 +6,27 @@
  */
 
 import {
-    VALIDATION_CONSTANTS,
-    quickValidate,
-    validateAstrologicalCalculation,
-    validateMathematicalConstants,
-    validatePlanetaryPositions
+  VALIDATION_CONSTANTS,
+  quickValidate,
+  validateAstrologicalCalculation,
+  validateMathematicalConstants,
+  validatePlanetaryPositions,
 } from './astrologicalValidation';
 import {
-    ELEMENTAL_CONSTANTS,
-    calculateElementalHarmony,
-    enhanceDominantElement,
-    getDominantElement,
-    normalizeElementalProperties,
-    validateElementalProperties,
-    validateSelfReinforcement
+  ELEMENTAL_CONSTANTS,
+  calculateElementalHarmony,
+  enhanceDominantElement,
+  getDominantElement,
+  normalizeElementalProperties,
+  validateElementalProperties,
+  validateSelfReinforcement,
 } from './elementalValidation';
 import {
-    TRANSIT_CONSTANTS,
-    getCurrentTransitSign,
-    validateAllTransitDates,
-    validateRetrogradePhase,
-    validateTransitDate
+  TRANSIT_CONSTANTS,
+  getCurrentTransitSign,
+  validateAllTransitDates,
+  validateRetrogradePhase,
+  validateTransitDate,
 } from './transitValidation';
 
 describe('Astrological Validation Utilities', () => {
@@ -35,7 +35,7 @@ describe('Astrological Validation Utilities', () => {
       const validPositions = {
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
-        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
       };
 
       const result = validatePlanetaryPositions(validPositions);
@@ -45,7 +45,7 @@ describe('Astrological Validation Utilities', () => {
 
     test('should detect missing required planets', () => {
       const incompletePositions = {
-        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         // Missing moon, mercury, venus, mars, jupiter, saturn
       };
 
@@ -58,7 +58,7 @@ describe('Astrological Validation Utilities', () => {
     test('should detect invalid planetary position structure', () => {
       const invalidPositions = {
         sun: { sign: 'aries', degree: 8.5 }, // Missing exactLongitude and isRetrograde
-        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
       };
 
       const result = validatePlanetaryPositions(invalidPositions);
@@ -69,7 +69,7 @@ describe('Astrological Validation Utilities', () => {
     test('should validate degree ranges', () => {
       const invalidDegreePositions = {
         sun: { sign: 'aries', degree: 35, exactLongitude: 35, isRetrograde: false }, // Degree too high
-        moon: { sign: 'aries', degree: -5, exactLongitude: -5, isRetrograde: false } // Degree too low
+        moon: { sign: 'aries', degree: -5, exactLongitude: -5, isRetrograde: false }, // Degree too low
       };
 
       const result = validatePlanetaryPositions(invalidDegreePositions, { strictMode: true });
@@ -80,13 +80,15 @@ describe('Astrological Validation Utilities', () => {
 
     test('should auto-correct invalid values when requested', () => {
       const invalidPositions = {
-        sun: { sign: 'aries', degree: 35, exactLongitude: 370, isRetrograde: false }
+        sun: { sign: 'aries', degree: 35, exactLongitude: 370, isRetrograde: false },
       };
 
       const result = validatePlanetaryPositions(invalidPositions, { autoCorrect: true });
       expect(result.correctedData).toBeDefined();
       expect((result.correctedData as unknown as { sun?: { degree?: number } })?.sun?.degree).toBeLessThan(30);
-      expect((result.correctedData as unknown as { sun?: { exactLongitude?: number } })?.sun?.exactLongitude).toBeLessThan(360);
+      expect(
+        (result.correctedData as unknown as { sun?: { exactLongitude?: number } })?.sun?.exactLongitude,
+      ).toBeLessThan(360);
     });
   });
 
@@ -96,7 +98,7 @@ describe('Astrological Validation Utilities', () => {
         Fire: 0.7,
         Water: 0.1,
         Earth: 0.1,
-        Air: 0.1
+        Air: 0.1,
       };
 
       expect(validateElementalProperties(validProperties)).toBe(true);
@@ -105,7 +107,7 @@ describe('Astrological Validation Utilities', () => {
     test('should reject missing elements', () => {
       const incompleteProperties = {
         Fire: 0.8,
-        Water: 0.2
+        Water: 0.2,
         // Missing Earth and Air
       };
 
@@ -117,7 +119,7 @@ describe('Astrological Validation Utilities', () => {
         Fire: 1.5, // Too high
         Water: -0.1, // Too low
         Earth: 0.3,
-        Air: 0.2
+        Air: 0.2,
       };
 
       expect(validateElementalProperties(invalidProperties)).toBe(false);
@@ -126,7 +128,7 @@ describe('Astrological Validation Utilities', () => {
     test('should normalize elemental properties', () => {
       const partialProperties = {
         Fire: 0.8,
-        Water: 0.2
+        Water: 0.2,
       };
 
       const normalized = normalizeElementalProperties(partialProperties);
@@ -172,8 +174,8 @@ describe('Astrological Validation Utilities', () => {
       aries: { Start: '2024-03-20', End: '2024-04-19' },
       taurus: { Start: '2024-04-20', End: '2024-05-20' },
       RetrogradePhases: {
-        'phase1': { Start: '2024-04-01', End: '2024-04-15' }
-      }
+        phase1: { Start: '2024-04-01', End: '2024-04-15' },
+      },
     };
 
     test('should validate transit dates correctly', () => {
@@ -183,13 +185,19 @@ describe('Astrological Validation Utilities', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for validation testing
-      expect(validateTransitDate('mars', ariesDate, 'aries', mockTransitDates as unknown as typeof mockTransitDates)).toBe(true);
+      expect(
+        validateTransitDate('mars', ariesDate, 'aries', mockTransitDates as unknown as typeof mockTransitDates),
+      ).toBe(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for validation testing
-      expect(validateTransitDate('mars', taurusDate, 'taurus', mockTransitDates as unknown as typeof mockTransitDates)).toBe(true);
+      expect(
+        validateTransitDate('mars', taurusDate, 'taurus', mockTransitDates as unknown as typeof mockTransitDates),
+      ).toBe(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for validation testing
-      expect(validateTransitDate('mars', invalidDate, 'aries', mockTransitDates as unknown as typeof mockTransitDates)).toBe(false);
+      expect(
+        validateTransitDate('mars', invalidDate, 'aries', mockTransitDates as unknown as typeof mockTransitDates),
+      ).toBe(false);
     });
 
     test('should get current transit sign', () => {
@@ -198,10 +206,14 @@ describe('Astrological Validation Utilities', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for transit sign testing
-      expect(getCurrentTransitSign('mars', ariesDate, mockTransitDates as unknown as typeof mockTransitDates)).toBe('aries');
+      expect(getCurrentTransitSign('mars', ariesDate, mockTransitDates as unknown as typeof mockTransitDates)).toBe(
+        'aries',
+      );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for transit sign testing
-      expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates as unknown as typeof mockTransitDates)).toBe('taurus');
+      expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates as unknown as typeof mockTransitDates)).toBe(
+        'taurus',
+      );
     });
 
     test('should validate retrograde phases', () => {
@@ -210,10 +222,18 @@ describe('Astrological Validation Utilities', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for retrograde testing
-      const retrogradeResult = validateRetrogradePhase('mercury', retrogradeDate, mockTransitDates as unknown as typeof mockTransitDates);
+      const retrogradeResult = validateRetrogradePhase(
+        'mercury',
+        retrogradeDate,
+        mockTransitDates as unknown as typeof mockTransitDates,
+      );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for retrograde testing
-      const directResult = validateRetrogradePhase('mercury', directDate, mockTransitDates as unknown as typeof mockTransitDates);
+      const directResult = validateRetrogradePhase(
+        'mercury',
+        directDate,
+        mockTransitDates as unknown as typeof mockTransitDates,
+      );
 
       expect(retrogradeResult.isRetrograde).toBe(true);
       expect(retrogradeResult.phase).toBe('phase1');
@@ -223,12 +243,12 @@ describe('Astrological Validation Utilities', () => {
     test('should validate all transit dates for consistency', () => {
       const validTransitDates = {
         aries: { Start: '2024-03-20', End: '2024-04-19' },
-        taurus: { Start: '2024-04-20', End: '2024-05-20' }
+        taurus: { Start: '2024-04-20', End: '2024-05-20' },
       };
 
       const invalidTransitDates = {
         aries: { Start: '2024-03-20', End: '2024-04-19' },
-        taurus: { Start: '2024-04-15', End: '2024-05-20' } // Overlaps with aries
+        taurus: { Start: '2024-04-15', End: '2024-05-20' }, // Overlaps with aries
       };
 
       const validResult = validateAllTransitDates(validTransitDates);
@@ -245,7 +265,7 @@ describe('Astrological Validation Utilities', () => {
         DEGREES_PER_SIGN: 30,
         SIGNS_PER_CIRCLE: 12,
         MAX_LONGITUDE: 360,
-        SELF_REINFORCEMENT_THRESHOLD: 0.3
+        SELF_REINFORCEMENT_THRESHOLD: 0.3,
       };
 
       const result = validateMathematicalConstants(validConstants);
@@ -256,7 +276,7 @@ describe('Astrological Validation Utilities', () => {
     test('should warn about unexpected constant values', () => {
       const unexpectedConstants = {
         DEGREES_PER_SIGN: 25, // Should be 30
-        SIGNS_PER_CIRCLE: 10  // Should be 12
+        SIGNS_PER_CIRCLE: 10, // Should be 12
       };
 
       const result = validateMathematicalConstants(unexpectedConstants);
@@ -268,7 +288,7 @@ describe('Astrological Validation Utilities', () => {
     test('should error on invalid constant values', () => {
       const invalidConstants = {
         DEGREES_PER_SIGN: NaN,
-        MAX_LONGITUDE: Infinity
+        MAX_LONGITUDE: Infinity,
       };
 
       const result = validateMathematicalConstants(invalidConstants);
@@ -282,19 +302,19 @@ describe('Astrological Validation Utilities', () => {
       const validInput = {
         planetaryPositions: {
           sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-          moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
+          moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
         },
         elementalProperties: {
           Fire: 0.7,
           Water: 0.1,
           Earth: 0.1,
-          Air: 0.1
+          Air: 0.1,
         },
         constants: {
           DEGREES_PER_SIGN: 30,
-          MAX_LONGITUDE: 360
+          MAX_LONGITUDE: 360,
         },
-        date: new Date('2024-04-01')
+        date: new Date('2024-04-01'),
       };
 
       const result = validateAstrologicalCalculation(validInput);
@@ -304,16 +324,16 @@ describe('Astrological Validation Utilities', () => {
     test('should collect all validation errors and warnings', async () => {
       const invalidInput = {
         planetaryPositions: {
-          sun: { sign: 'aries', degree: 8.5 } // Missing properties
+          sun: { sign: 'aries', degree: 8.5 }, // Missing properties
         },
         elementalProperties: {
           Fire: 1.5, // Invalid value
-          Water: 0.1
+          Water: 0.1,
           // Missing elements
         },
         constants: {
-          DEGREES_PER_SIGN: NaN // Invalid constant
-        }
+          DEGREES_PER_SIGN: NaN, // Invalid constant
+        },
       };
 
       const result = validateAstrologicalCalculation(invalidInput);
@@ -326,7 +346,7 @@ describe('Astrological Validation Utilities', () => {
   describe('Quick Validation Functions', () => {
     test('should provide quick validation for different data types', () => {
       const validPlanetary = {
-        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
       };
       const validElemental = { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 };
       const validConstants = { DEGREES_PER_SIGN: 30 };
@@ -354,12 +374,8 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should have consistent constants across modules', () => {
-      expect(ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD).toBe(
-        VALIDATION_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD
-      );
-      expect(TRANSIT_CONSTANTS.DEGREES_PER_SIGN).toBe(
-        VALIDATION_CONSTANTS.DEGREES_PER_SIGN
-      );
+      expect(ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD).toBe(VALIDATION_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD);
+      expect(TRANSIT_CONSTANTS.DEGREES_PER_SIGN).toBe(VALIDATION_CONSTANTS.DEGREES_PER_SIGN);
     });
   });
 
@@ -374,7 +390,7 @@ describe('Astrological Validation Utilities', () => {
     test('should handle malformed data structures', () => {
       const malformedPlanetary = {
         sun: 'not an object',
-        moon: { sign: 123, degree: 'invalid' }
+        moon: { sign: 123, degree: 'invalid' },
       };
 
       const result = validatePlanetaryPositions(malformedPlanetary);
@@ -401,7 +417,7 @@ describe('Astrological Validation Utilities', () => {
           sign: 'aries',
           degree: i % 30,
           exactLongitude: i % 360,
-          isRetrograde: i % 2 === 0
+          isRetrograde: i % 2 === 0,
         };
       }
 

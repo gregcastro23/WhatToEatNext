@@ -47,12 +47,18 @@
 
 ## Challenges Encountered
 
-- The calculation module (src/calculations/alchemicalEngine.ts) has unusual parameter type declarations (e.g., `export function alchemize(bi: anyr: anyt:, anyh:, anyI:, anyn:, anyf:, anyo: BirthInfo`)
+- The calculation module (src/calculations/alchemicalEngine.ts) has unusual
+  parameter type declarations (e.g.,
+  `export function alchemize(bi: anyr: anyt:, anyh:, anyI:, anyn:, anyf:, anyo: BirthInfo`)
 - Many commas have been replaced with semicolons in object properties
-- String properties are sometimes wrapped in single quotes but missing their type declarations
+- String properties are sometimes wrapped in single quotes but missing their
+  type declarations
 
 ## Successful Patterns
 
-- The app facade (src/app/alchemicalEngine.ts) was fixed successfully with minimal changes
-- Using targeted fixes for parameter type declarations seems more effective than general syntax fixes
-- Creating a type definition file for testing-library__jest-dom helped resolve import errors
+- The app facade (src/app/alchemicalEngine.ts) was fixed successfully with
+  minimal changes
+- Using targeted fixes for parameter type declarations seems more effective than
+  general syntax fixes
+- Creating a type definition file for testing-library\_\_jest-dom helped resolve
+  import errors

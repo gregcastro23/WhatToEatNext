@@ -41,19 +41,21 @@ export function SafetyWrapper({
     }
   };
 
-  const customFallback = fallbackMessage ? (error: Error, reset: () => void) => (
-    <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-      <div className="text-center">
-        <p className="text-gray-700 mb-3">{fallbackMessage}</p>
-        <button
-          onClick={reset}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-        >
-          Try Again
-        </button>
-      </div>
-    </div>
-  ) : undefined;
+  const customFallback = fallbackMessage
+    ? (error: Error, reset: () => void) => (
+        <div className='rounded-lg border border-gray-200 bg-gray-50 p-4'>
+          <div className='text-center'>
+            <p className='mb-3 text-gray-700'>{fallbackMessage}</p>
+            <button
+              onClick={reset}
+              className='rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600'
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )
+    : undefined;
 
   return (
     <ComponentErrorBoundary
@@ -74,51 +76,66 @@ export function SafetyWrapper({
 /**
  * Pre-configured safety wrappers for common component types
  */
-export const CuisineSafetyWrapper = ({ children, ...props }: Omit<SafetyWrapperProps, 'errorType'>) => (
+export const CuisineSafetyWrapper = ({
+  children,
+  ...props
+}: Omit<SafetyWrapperProps, 'errorType'>) => (
   <SafetyWrapper
     {...props}
-    errorType="cuisine"
-    fallbackMessage="Unable to load cuisine recommendations. Please try again."
+    errorType='cuisine'
+    fallbackMessage='Unable to load cuisine recommendations. Please try again.'
   >
     {children}
   </SafetyWrapper>
 );
 
-export const IngredientSafetyWrapper = ({ children, ...props }: Omit<SafetyWrapperProps, 'errorType'>) => (
+export const IngredientSafetyWrapper = ({
+  children,
+  ...props
+}: Omit<SafetyWrapperProps, 'errorType'>) => (
   <SafetyWrapper
     {...props}
-    errorType="ingredient"
-    fallbackMessage="Unable to load ingredient recommendations. Please try again."
+    errorType='ingredient'
+    fallbackMessage='Unable to load ingredient recommendations. Please try again.'
   >
     {children}
   </SafetyWrapper>
 );
 
-export const CookingSafetyWrapper = ({ children, ...props }: Omit<SafetyWrapperProps, 'errorType'>) => (
+export const CookingSafetyWrapper = ({
+  children,
+  ...props
+}: Omit<SafetyWrapperProps, 'errorType'>) => (
   <SafetyWrapper
     {...props}
-    errorType="cooking"
-    fallbackMessage="Unable to load cooking methods. Please try again."
+    errorType='cooking'
+    fallbackMessage='Unable to load cooking methods. Please try again.'
   >
     {children}
   </SafetyWrapper>
 );
 
-export const RecipeSafetyWrapper = ({ children, ...props }: Omit<SafetyWrapperProps, 'errorType'>) => (
+export const RecipeSafetyWrapper = ({
+  children,
+  ...props
+}: Omit<SafetyWrapperProps, 'errorType'>) => (
   <SafetyWrapper
     {...props}
-    errorType="recipe"
-    fallbackMessage="Unable to load recipe builder. Please try again."
+    errorType='recipe'
+    fallbackMessage='Unable to load recipe builder. Please try again.'
   >
     {children}
   </SafetyWrapper>
 );
 
-export const DebugSafetyWrapper = ({ children, ...props }: Omit<SafetyWrapperProps, 'errorType'>) => (
+export const DebugSafetyWrapper = ({
+  children,
+  ...props
+}: Omit<SafetyWrapperProps, 'errorType'>) => (
   <SafetyWrapper
     {...props}
-    errorType="debug"
-    fallbackMessage="Debug panel encountered an error."
+    errorType='debug'
+    fallbackMessage='Debug panel encountered an error.'
     autoRetry={false}
     maxRetries={1}
   >

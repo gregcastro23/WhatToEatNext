@@ -2,11 +2,14 @@
 
 ## 📋 **Overview**
 
-This document provides comprehensive knowledge about the astrological system implemented in WhatToEatNext. It serves as the authoritative guide for understanding astrological calculations, planetary influences, elemental systems, and testing approaches used throughout the codebase.
+This document provides comprehensive knowledge about the astrological system
+implemented in WhatToEatNext. It serves as the authoritative guide for
+understanding astrological calculations, planetary influences, elemental
+systems, and testing approaches used throughout the codebase.
 
 **Last Updated**: January 27, 2025  
 **Version**: 2.0  
-**Status**: Production Ready  
+**Status**: Production Ready
 
 ---
 
@@ -15,13 +18,15 @@ This document provides comprehensive knowledge about the astrological system imp
 ### **1. Planetary System**
 
 #### **Supported Planets (12 Total)**
+
 ```typescript
-type Planet = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 
-              'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' | 
+type Planet = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' |
+              'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' |
               'Pluto' | 'northNode' | 'southNode';
 ```
 
 #### **Planetary Weights & Influences**
+
 ```typescript
 const PLANETARY_WEIGHTS = {
   sun: 2.5,      // Most important - represents core identity
@@ -42,30 +47,32 @@ const PLANETARY_WEIGHTS = {
 ### **2. Zodiac System**
 
 #### **Zodiac Signs (12 Total)**
+
 ```typescript
-type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 
-                  'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 
+type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' |
+                  'virgo' | 'libra' | 'scorpio' | 'sagittarius' |
                   'capricorn' | 'aquarius' | 'pisces';
 ```
 
 #### **Elemental Associations**
+
 ```typescript
 const ZODIAC_ELEMENTS: Record<ZodiacSign, ElementType> = {
   // Fire Signs (Cardinal, Fixed, Mutable)
   aries: 'Fire',       // Cardinal Fire
-  leo: 'Fire',         // Fixed Fire  
+  leo: 'Fire',         // Fixed Fire
   sagittarius: 'Fire', // Mutable Fire
-  
+
   // Earth Signs (Cardinal, Fixed, Mutable)
   taurus: 'Earth',     // Fixed Earth
   virgo: 'Earth',      // Mutable Earth
   capricorn: 'Earth',  // Cardinal Earth
-  
+
   // Air Signs (Cardinal, Fixed, Mutable)
   gemini: 'Air',       // Mutable Air
   libra: 'Air',        // Cardinal Air
   aquarius: 'Air',     // Fixed Air
-  
+
   // Water Signs (Cardinal, Fixed, Mutable)
   cancer: 'Water',     // Cardinal Water
   scorpio: 'Water',    // Fixed Water
@@ -76,17 +83,20 @@ const ZODIAC_ELEMENTS: Record<ZodiacSign, ElementType> = {
 ### **3. Elemental System**
 
 #### **Core Elements (4 Total)**
+
 ```typescript
 type ElementType = 'Fire' | 'Water' | 'Earth' | 'Air';
 ```
 
 #### **Elemental Properties**
+
 - **Fire**: Spirit, energy, transformation, passion
-- **Water**: Essence, emotion, intuition, flow  
+- **Water**: Essence, emotion, intuition, flow
 - **Earth**: Matter, stability, grounding, nourishment
 - **Air**: Substance, intellect, communication, movement
 
 #### **CRITICAL: Elemental Logic Principles**
+
 ```typescript
 // ✅ CORRECT: Elements work best with themselves
 const elementCompatibility = {
@@ -103,11 +113,13 @@ const elementCompatibility = {
 ### **4. Alchemical Properties**
 
 #### **Core Alchemical Properties (4 Total)**
+
 ```typescript
 type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
 ```
 
 #### **Planetary Alchemical Mappings**
+
 ```typescript
 const PLANETARY_ALCHEMICAL_MAPPINGS = {
   Sun: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
@@ -128,6 +140,7 @@ const PLANETARY_ALCHEMICAL_MAPPINGS = {
 ## 🔮 **Planetary Position Calculations**
 
 ### **1. Data Source Hierarchy**
+
 ```typescript
 // Priority order for planetary position calculations
 const DATA_SOURCE_HIERARCHY = {
@@ -139,6 +152,7 @@ const DATA_SOURCE_HIERARCHY = {
 ```
 
 ### **2. Position Data Structure**
+
 ```typescript
 interface PlanetaryPosition {
   sign: string;           // Zodiac sign (lowercase)
@@ -165,6 +179,7 @@ interface PlanetaryPositions {
 ```
 
 ### **3. Calculation Implementation**
+
 ```typescript
 // Primary calculation function
 async function calculateCurrentPlanetaryPositions(): Promise<PlanetaryPositions> {
@@ -195,15 +210,17 @@ async function calculateCurrentPlanetaryPositions(): Promise<PlanetaryPositions>
 ## 🌙 **Lunar Phase Calculations**
 
 ### **1. Lunar Phase Types**
+
 ```typescript
-type LunarPhase = 'new moon' | 'waxing crescent' | 'first quarter' | 
-                  'waxing gibbous' | 'full moon' | 'waning gibbous' | 
+type LunarPhase = 'new moon' | 'waxing crescent' | 'first quarter' |
+                  'waxing gibbous' | 'full moon' | 'waning gibbous' |
                   'last quarter' | 'waning crescent';
 ```
 
 ### **2. Calculation Methods**
 
 #### **Method 1: Angular Distance (Most Accurate)**
+
 ```typescript
 async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
   try {
@@ -214,10 +231,10 @@ async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
 
     // Calculate angular distance between Sun and Moon
     let angularDistance = positions.Moon.exactLongitude - positions.Sun.exactLongitude;
-    
+
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
-    
+
     // Convert to phase percentage (0-1)
     return angularDistance / 360;
   } catch (error) {
@@ -227,6 +244,7 @@ async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
 ```
 
 #### **Method 2: Synodic Period (Fallback)**
+
 ```typescript
 function calculateLunarPhaseFallback(date: Date): string {
   const synodicPeriod = 29.53588853; // days
@@ -247,6 +265,7 @@ function calculateLunarPhaseFallback(date: Date): string {
 ```
 
 ### **3. Lunar Phase Modifiers**
+
 ```typescript
 const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ElementalProperties> = {
   'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
@@ -265,6 +284,7 @@ const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ElementalProperties> = {
 ## ⚗️ **Alchemical Calculations**
 
 ### **1. Thermodynamic Metrics**
+
 ```typescript
 interface ThermodynamicMetrics {
   heat: number;           // Based on Spirit + Fire elements
@@ -277,6 +297,7 @@ interface ThermodynamicMetrics {
 ```
 
 ### **2. Calculation Formulas**
+
 ```typescript
 function calculateThermodynamicMetrics(
   alchemicalCounts: Record<AlchemicalProperty, number>,
@@ -291,14 +312,14 @@ function calculateThermodynamicMetrics(
   const heat = heatNum / heatDen;
 
   // Entropy calculation
-  const entropyNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) + 
+  const entropyNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) +
                      Math.pow(Fire, 2) + Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
   const entropy = entropyNum / entropyDen;
 
   // Reactivity calculation
-  const reactivityNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) + 
-                        Math.pow(Essence, 2) + Math.pow(Fire, 2) + 
+  const reactivityNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) +
+                        Math.pow(Essence, 2) + Math.pow(Fire, 2) +
                         Math.pow(Air, 2) + Math.pow(Water, 2);
   const reactivityDen = Math.pow(Matter + Earth, 2);
   const reactivity = reactivityNum / reactivityDen;
@@ -328,6 +349,7 @@ function calculateThermodynamicMetrics(
 ## 🧪 **Elemental Calculations**
 
 ### **1. Elemental Balance Calculation**
+
 ```typescript
 function calculateElementalBalance(planetaryPositions: PlanetaryPositions): ElementalProperties {
   const elements: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -342,7 +364,7 @@ function calculateElementalBalance(planetaryPositions: PlanetaryPositions): Elem
     // Weight by planet importance
     let weight = 1.0;
     const planetLower = planet.toLowerCase();
-    
+
     if (planetLower === 'sun' || planetLower === 'moon') {
       weight = 2.5;
     } else if (['mercury', 'venus', 'mars'].includes(planetLower)) {
@@ -364,19 +386,20 @@ function calculateElementalBalance(planetaryPositions: PlanetaryPositions): Elem
 ```
 
 ### **2. Planetary Dignity System**
+
 ```typescript
 const PLANETARY_DIGNITIES = {
-  Sun: { 
-    rulership: ['leo'], 
-    exaltation: ['aries'], 
-    detriment: ['aquarius'], 
-    fall: ['libra'] 
+  Sun: {
+    rulership: ['leo'],
+    exaltation: ['aries'],
+    detriment: ['aquarius'],
+    fall: ['libra']
   },
-  Moon: { 
-    rulership: ['cancer'], 
-    exaltation: ['taurus'], 
-    detriment: ['capricorn'], 
-    fall: ['scorpio'] 
+  Moon: {
+    rulership: ['cancer'],
+    exaltation: ['taurus'],
+    detriment: ['capricorn'],
+    fall: ['scorpio']
   },
   // ... other planets
 };
@@ -386,12 +409,12 @@ function getDignityModifier(planet: string, sign: string): number {
   if (!planetData) return 1.0;
 
   const signKey = sign.toLowerCase();
-  
+
   if (planetData.rulership?.includes(signKey)) return 1.5;
   if (planetData.exaltation?.includes(signKey)) return 1.3;
   if (planetData.detriment?.includes(signKey)) return 0.7;
   if (planetData.fall?.includes(signKey)) return 0.5;
-  
+
   return 1.0;
 }
 ```
@@ -401,11 +424,12 @@ function getDignityModifier(planet: string, sign: string): number {
 ## 🧪 **Testing Approaches**
 
 ### **1. Planetary Position Testing**
+
 ```typescript
 describe('Planetary Position Calculations', () => {
   test('should calculate accurate Sun position', async () => {
     const positions = await calculateCurrentPlanetaryPositions();
-    
+
     // Validate Sun position
     expect(positions.sun).toBeDefined();
     expect(positions.sun.sign).toMatch(/^(aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces)$/);
@@ -418,9 +442,9 @@ describe('Planetary Position Calculations', () => {
   test('should handle API failures gracefully', async () => {
     // Mock API failure
     jest.spyOn(global, 'fetch').mockRejectedValue(new Error('API Error'));
-    
+
     const positions = await calculateCurrentPlanetaryPositions();
-    
+
     // Should return fallback data
     expect(positions).toBeDefined();
     expect(Object.keys(positions)).toHaveLength(12);
@@ -429,6 +453,7 @@ describe('Planetary Position Calculations', () => {
 ```
 
 ### **2. Lunar Phase Testing**
+
 ```typescript
 describe('Lunar Phase Calculations', () => {
   test('should calculate correct lunar phase for known dates', () => {
@@ -459,12 +484,13 @@ describe('Lunar Phase Calculations', () => {
 ```
 
 ### **3. Elemental Calculation Testing**
+
 ```typescript
 describe('Elemental Calculations', () => {
   test('should normalize elemental properties correctly', () => {
     const unbalanced = { Fire: 2, Water: 1, Earth: 1, Air: 0 };
     const normalized = normalizeElementalProperties(unbalanced);
-    
+
     const sum = Object.values(normalized).reduce((a, b) => a + b, 0);
     expect(sum).toBeCloseTo(1.0, 3);
     expect(normalized.Fire).toBeGreaterThan(normalized.Water);
@@ -484,14 +510,15 @@ describe('Elemental Calculations', () => {
 ```
 
 ### **4. Alchemical Calculation Testing**
+
 ```typescript
 describe('Alchemical Calculations', () => {
   test('should calculate thermodynamic metrics correctly', () => {
     const alchemicalCounts = { Spirit: 2, Essence: 1, Matter: 1, Substance: 0 };
     const elementalCounts = { Fire: 2, Water: 1, Earth: 1, Air: 0 };
-    
+
     const metrics = calculateThermodynamicMetrics(alchemicalCounts, elementalCounts);
-    
+
     expect(metrics.heat).toBeGreaterThan(0);
     expect(metrics.entropy).toBeGreaterThan(0);
     expect(metrics.reactivity).toBeGreaterThan(0);
@@ -502,9 +529,9 @@ describe('Alchemical Calculations', () => {
   test('should handle edge cases gracefully', () => {
     const zeroCounts = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     const zeroElements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    
+
     const metrics = calculateThermodynamicMetrics(zeroCounts, zeroElements);
-    
+
     // Should not throw errors and should return reasonable defaults
     expect(metrics.heat).toBeGreaterThanOrEqual(0);
     expect(metrics.entropy).toBeGreaterThanOrEqual(0);
@@ -518,17 +545,18 @@ describe('Alchemical Calculations', () => {
 ## 🔧 **Implementation Patterns**
 
 ### **1. Safe Property Access Pattern**
+
 ```typescript
 // ✅ CORRECT: Safe property access with type guards
 function processPlanetaryData(data: unknown): PlanetaryPosition | null {
   if (!data || typeof data !== 'object') return null;
-  
+
   const position = data as Record<string, unknown>;
-  
+
   if (!position.sign || typeof position.sign !== 'string') return null;
   if (!position.degree || typeof position.degree !== 'number') return null;
   if (!position.exactLongitude || typeof position.exactLongitude !== 'number') return null;
-  
+
   return {
     sign: position.sign.toLowerCase(),
     degree: position.degree,
@@ -539,13 +567,14 @@ function processPlanetaryData(data: unknown): PlanetaryPosition | null {
 ```
 
 ### **2. Fallback Pattern**
+
 ```typescript
 // ✅ CORRECT: Always provide fallbacks
 async function getAstrologicalState(): Promise<AstrologicalState> {
   try {
     const positions = await calculateCurrentPlanetaryPositions();
     const lunarPhase = await calculateLunarPhase();
-    
+
     return {
       sunSign: positions.sun?.sign || 'aries',
       moonSign: positions.moon?.sign || 'cancer',
@@ -555,7 +584,7 @@ async function getAstrologicalState(): Promise<AstrologicalState> {
     };
   } catch (error) {
     logger.error('Astrological calculation failed', error);
-    
+
     // Return default state
     return {
       sunSign: 'aries',
@@ -569,19 +598,20 @@ async function getAstrologicalState(): Promise<AstrologicalState> {
 ```
 
 ### **3. Validation Pattern**
+
 ```typescript
 // ✅ CORRECT: Validate all inputs and outputs
 function validateElementalProperties(properties: unknown): properties is ElementalProperties {
   if (!properties || typeof properties !== 'object') return false;
-  
+
   const props = properties as Record<string, unknown>;
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
-  
+
   for (const element of requiredElements) {
     if (typeof props[element] !== 'number') return false;
     if (props[element] < 0 || props[element] > 1) return false;
   }
-  
+
   const sum = requiredElements.reduce((total, element) => total + (props[element] as number), 0);
   return Math.abs(sum - 1) < 0.001; // Allow for floating point error
 }
@@ -592,6 +622,7 @@ function validateElementalProperties(properties: unknown): properties is Element
 ## 🚫 **Common Pitfalls & Anti-Patterns**
 
 ### **1. Elemental Logic Violations**
+
 ```typescript
 // ❌ FORBIDDEN: Opposing elements
 const opposingElements = {
@@ -607,6 +638,7 @@ function balanceElements(fire: number, water: number) {
 ```
 
 ### **2. Type Safety Violations**
+
 ```typescript
 // ❌ FORBIDDEN: Unsafe type casting
 const data = response as any;
@@ -619,6 +651,7 @@ function processData(data: unknown) {
 ```
 
 ### **3. Calculation Errors**
+
 ```typescript
 // ❌ FORBIDDEN: Hardcoded values
 function getLunarPhase() {
@@ -637,23 +670,29 @@ async function getPlanetaryPositions() {
 ## 📚 **Key Files & Functions**
 
 ### **Core Calculation Files**
+
 - `src/calculations/alchemicalEngine.ts` - Main alchemical calculations
-- `src/calculations/core/elementalCalculations.ts` - Elemental balance calculations
-- `src/calculations/core/planetaryInfluences.ts` - Planetary influence calculations
+- `src/calculations/core/elementalCalculations.ts` - Elemental balance
+  calculations
+- `src/calculations/core/planetaryInfluences.ts` - Planetary influence
+  calculations
 - `src/calculations/culinaryAstrology.ts` - Culinary astrology integration
 - `src/utils/reliableAstronomy.ts` - Reliable planetary position calculations
 
 ### **Type Definitions**
+
 - `src/types/alchemy.ts` - Alchemical type definitions
 - `src/types/celestial.ts` - Celestial type definitions
 - `src/types/astrology.ts` - Astrological type definitions
 
 ### **Data Files**
+
 - `src/data/planets/` - Planetary transit data
 - `src/data/transits/` - Transit date mappings
 - `src/constants/planetaryElements.ts` - Planetary element mappings
 
 ### **Testing Files**
+
 - `src/__tests__/alchemicalPillars.test.ts` - Core alchemical tests
 - `src/__tests__/astrologize-integration.test.ts` - API integration tests
 - `src/__tests__/culinaryAstrology.test.ts` - Culinary astrology tests
@@ -685,4 +724,5 @@ async function getPlanetaryPositions() {
 
 ---
 
-*This knowledge base should be updated whenever new astrological features are added or existing calculations are modified.*
+_This knowledge base should be updated whenever new astrological features are
+added or existing calculations are modified._

@@ -80,7 +80,7 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
  */
 export function validatePlanetaryPositions(
   positions: Record<string, PlanetPosition>,
-  date: Date = new Date()
+  date: Date = new Date(),
 ): Record<string, PlanetPosition> {
   // Clone the positions to avoid mutating the original
   const validatedPositions = { ...positions };
@@ -95,13 +95,14 @@ export function validatePlanetaryPositions(
     // If the calculated sign doesn't match the transit sign, update it
     if (position.sign !== transitSign) {
       log.info(`Correcting ${planet} sign from ${position.sign} to ${transitSign}`);
-      
+
       // Keep the original degree but update the sign and recalculate longitude
       validatedPositions[planet] = {
         ...position,
         sign: transitSign,
         // Recalculate exact longitude based on new sign
-        exactLongitude: getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0)
+        exactLongitude:
+          getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0),
       };
     }
   }
@@ -114,10 +115,20 @@ export function validatePlanetaryPositions(
  */
 function getBaseSignLongitude(sign: ZodiacSign): number {
   const signs: ZodiacSign[] = [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
-  
+
   const index = signs.indexOf(sign);
   return index * 30;
 }
@@ -131,7 +142,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   const positions: Record<string, PlanetPosition> = {};
 
   // Current planetary positions (May 16, 2024) from user input
-  const hardcodedPositions: Record<string, {sign: ZodiacSign, degree: number, minute: number}> = {
+  const hardcodedPositions: Record<string, { sign: ZodiacSign; degree: number; minute: number }> = {
     Sun: { sign: 'taurus', degree: 27, minute: 12 },
     Moon: { sign: 'capricorn', degree: 25, minute: 36 },
     Mercury: { sign: 'taurus', degree: 13, minute: 17 },
@@ -148,10 +159,10 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   // Use the hardcoded positions from May 16, 2024
   for (const [planet, data] of Object.entries(hardcodedPositions)) {
     const { sign, degree, minute } = data;
-    
+
     // Calculate exact longitude
-    const exactLongitude = getBaseSignLongitude(sign) + degree + (minute / 60);
-    
+    const exactLongitude = getBaseSignLongitude(sign) + degree + minute / 60;
+
     positions[planet] = {
       sign,
       degree,
@@ -162,4 +173,4 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   }
 
   return positions;
-} 
+}

@@ -4,7 +4,9 @@ import FoodBalanceTracker from '@/components/FoodRecommender/components/FoodBala
 const HeaderFoodBalanceTracker = (props: Record<string, unknown> = {}) => {
   // Only spread props if it's a valid object
   const safeProps = props && typeof props === 'object' ? props : {};
-  return <FoodBalanceTracker showCuisineSelection={true} showElementalFeatures={false} {...safeProps} />;
+  return (
+    <FoodBalanceTracker showCuisineSelection={true} showElementalFeatures={false} {...safeProps} />
+  );
 };
 
-export default HeaderFoodBalanceTracker; 
+export default HeaderFoodBalanceTracker;

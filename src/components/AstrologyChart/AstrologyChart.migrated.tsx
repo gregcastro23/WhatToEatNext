@@ -5,7 +5,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./AstrologyChart.module.css.ts"
 
-
 interface AstrologyChartProps {
   size?: number;
   showAspects?: boolean;
@@ -15,20 +14,16 @@ interface AstrologyChartProps {
 const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
   size = 400,
   showAspects = true,
-  title = "Current Astrological Chart"
+  title = 'Current Astrological Chart',
 }) => {
   // Replace context hooks with services hook
-  const {
-    isLoading,
-    error,
-    astrologyService
-  } = useServices();
+  const { isLoading, error, astrologyService } = useServices();
 
   // State for chart data
   const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, number>>({});
   const [aspectsData, _setAspectsData] = useState<any[]>([]);
   const [risingDegree, setRisingDegree] = useState<number>(0);
-  const [_isDaytime, _setIsDaytime] = useState<boolean>(true);
+  const [isDaytime, setIsDaytime] = useState<boolean>(true);
 
   // Chart constants
   const centerX = size / 2;
@@ -48,7 +43,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
     { name: 'Sagittarius', symbol: '♐', start: 240, element: 'Fire' },
     { name: 'Capricorn', symbol: '♑', start: 270, element: 'Earth' },
     { name: 'Aquarius', symbol: '♒', start: 300, element: 'Air' },
-    { name: 'Pisces', symbol: '♓', start: 330, element: 'Water' }
+    { name: 'Pisces', symbol: '♓', start: 330, element: 'Water' },
   ];
 
   const planetSymbols: Record<string, string> = {
@@ -62,14 +57,14 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
     Uranus: '♅',
     Neptune: '♆',
     Pluto: '♇',
-    Rising: 'ASC'
+    Rising: 'ASC',
   };
 
   const elementColors: Record<string, string> = {
     Fire: '#ff6b6b',
     Earth: '#51c23b',
     Air: '#4dabf7',
-    Water: '#339af0'
+    Water: '#339af0',
   };
 
   // Helper functions
@@ -77,7 +72,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
     const radians = (degree - 90) * (Math.PI / 180);
     return {
       x: centerX + r * Math.cos(radians),
-      y: centerY + r * Math.sin(radians)
+      y: centerY + r * Math.sin(radians),
     };
   };
 
@@ -106,7 +101,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
           Venus: 95,
           Mars: 200,
           Jupiter: 180,
-          Saturn: 310
+          Saturn: 310,
         });
         setRisingDegree(15);
         setIsDaytime(new Date().getHours() >= 6 && new Date().getHours() < 18);
@@ -125,7 +120,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
         Fire: 25,
         Water: 25,
         Earth: 25,
-        Air: 25
+        Air: 25,
       };
     } catch (err) {
       console.error('Error calculating elemental balance:', err);
@@ -139,7 +134,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25
+      Substance: 0.25,
     };
   }, []);
 
@@ -148,42 +143,68 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
     if (!aspectsData || !Array.isArray(aspectsData)) {
       return [];
     }
-    return (aspectsData || []).filter(aspect =>
-      aspect?.type &&
-      ['conjunction', 'opposition', 'trine', 'square'].includes(aspect.type) &&
-      aspect.planet1 && aspect.planet2 &&
-      ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Rising'].includes(aspect.planet1) &&
-      ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Rising'].includes(aspect.planet2)
+    return (aspectsData || []).filter(
+      aspect =>
+        aspect?.type &&
+        ['conjunction', 'opposition', 'trine', 'square'].includes(aspect.type) &&
+        aspect.planet1 &&
+        aspect.planet2 &&
+        [
+          'Sun',
+          'Moon',
+          'Mercury',
+          'Venus',
+          'Mars',
+          'Jupiter',
+          'Saturn',
+          'Uranus',
+          'Neptune',
+          'Pluto',
+          'Rising',
+        ].includes(aspect.planet1) &&
+        [
+          'Sun',
+          'Moon',
+          'Mercury',
+          'Venus',
+          'Mars',
+          'Jupiter',
+          'Saturn',
+          'Uranus',
+          'Neptune',
+          'Pluto',
+          'Rising',
+        ].includes(aspect.planet2),
     );
   }, [aspectsData]);
 
   // Component render logic
   if (isLoading) {
     return (
-      <div className="text-center p-6">
+      <div className='p-6 text-center'>
         <h3>{title}</h3>
-        <div className="animate-pulse h-4 bg-gray-200 rounded w-3/4 mx-auto mb-4"></div>
-        <div className="animate-pulse h-96 bg-gray-100 rounded-full w-96 mx-auto"></div>
+        <div className='mx-auto mb-4 h-4 w-3/4 animate-pulse rounded bg-gray-200'></div>
+        <div className='mx-auto h-96 w-96 animate-pulse rounded-full bg-gray-100'></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-red-500 text-center p-4 border border-red-200 rounded bg-red-50">
+      <div className='rounded border border-red-200 bg-red-50 p-4 text-center text-red-500'>
         <h3>{title}</h3>
-        <p className="font-medium">Error Loading Astrological Data</p>
-        <p className="text-sm mt-1">{error.message}</p>
+        <p className='font-medium'>Error Loading Astrological Data</p>
+        <p className='mt-1 text-sm'>{error.message}</p>
       </div>
     );
   }
 
   if (Object.keys(planetaryPositions).length === 0) {
     return (
-      <div className="text-center p-4 border border-gray-200 rounded bg-gray-50">
+      <div className='rounded border border-gray-200 bg-gray-50 p-4 text-center'>
         <h3>{title}</h3>
-        <p className="font-medium">No Astrological Data Available</p>
-        <p className="text-sm mt-1">Loading chart data...</p>
+        <p className='font-medium'>No Astrological Data Available</p>
+        <p className='mt-1 text-sm'>Loading chart data...</p>
       </div>
     );
   }
@@ -195,17 +216,36 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
   }
 
   return (
-    <div className="astroChartContainer">
+    <div className='astroChartContainer'>
       <h3>{title}</h3>
 
-      <div className="chartWithInfo">
-        <div className="chartSvgContainer">
-          <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} xmlns="http://www.w3.org/2000/svg">
+      <div className='chartWithInfo'>
+        <div className='chartSvgContainer'>
+          <svg
+            width={size}
+            height={size}
+            viewBox={`0 0 ${size} ${size}`}
+            xmlns='http://www.w3.org/2000/svg'
+          >
             {/* Outer circle */}
-            <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="#ccc" strokeWidth="1" />
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r={radius}
+              fill='none'
+              stroke='#ccc'
+              strokeWidth='1'
+            />
 
             {/* Middle circle for planets */}
-            <circle cx={centerX} cy={centerY} r={radius - 20} fill="none" stroke="#eee" strokeWidth="0.5" />
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r={radius - 20}
+              fill='none'
+              stroke='#eee'
+              strokeWidth='0.5'
+            />
 
             {/* Zodiac sign divisions (every 30 degrees) */}
             {(zodiacSigns || []).map(sign => {
@@ -217,15 +257,15 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
                     y1={centerY}
                     x2={startPos.x}
                     y2={startPos.y}
-                    stroke="#ddd"
-                    strokeWidth="0.5"
+                    stroke='#ddd'
+                    strokeWidth='0.5'
                   />
                   <text
                     x={calculatePosition(sign.start + 15, radius + 20).x}
                     y={calculatePosition(sign.start + 15, radius + 20).y}
-                    fontSize="12"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
+                    fontSize='12'
+                    textAnchor='middle'
+                    dominantBaseline='middle'
                     fill={elementColors[sign.element]}
                   >
                     {sign.symbol}
@@ -235,54 +275,55 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
             })}
 
             {/* Aspects (only major ones) */}
-            {showAspects && (majorAspects || []).map((aspect, index) => {
-              if (!planetaryPositions[aspect.planet1] || !planetaryPositions[aspect.planet2]) {
-                return null;
-              }
+            {showAspects &&
+              (majorAspects || []).map((aspect, index) => {
+                if (!planetaryPositions[aspect.planet1] || !planetaryPositions[aspect.planet2]) {
+                  return null;
+                }
 
-              const pos1 = calculatePosition(planetaryPositions[aspect.planet1], radius - 40);
-              const pos2 = calculatePosition(planetaryPositions[aspect.planet2], radius - 40);
+                const pos1 = calculatePosition(planetaryPositions[aspect.planet1], radius - 40);
+                const pos2 = calculatePosition(planetaryPositions[aspect.planet2], radius - 40);
 
-              let strokeColor = "#aaa";
-              let strokeWidth = 0.5;
-              let strokeDasharray = "";
+                let strokeColor = '#aaa';
+                let strokeWidth = 0.5;
+                let strokeDasharray = '';
 
-              // Style based on aspect type
-              switch (aspect.type) {
-                case 'conjunction':
-                  strokeColor = "#66bb6a"; // Green
-                  strokeWidth = 1;
-                  break;
-                case 'opposition':
-                  strokeColor = "#ef5350"; // Red
-                  strokeWidth = 1;
-                  strokeDasharray = "2 2";
-                  break;
-                case 'trine':
-                  strokeColor = "#42a5f5"; // Blue
-                  strokeWidth = 1;
-                  break;
-                case 'square':
-                  strokeColor = "#ff9800"; // Orange
-                  strokeWidth = 1;
-                  strokeDasharray = "5 2";
-                  break;
-              }
+                // Style based on aspect type
+                switch (aspect.type) {
+                  case 'conjunction':
+                    strokeColor = '#66bb6a'; // Green
+                    strokeWidth = 1;
+                    break;
+                  case 'opposition':
+                    strokeColor = '#ef5350'; // Red
+                    strokeWidth = 1;
+                    strokeDasharray = '2 2';
+                    break;
+                  case 'trine':
+                    strokeColor = '#42a5f5'; // Blue
+                    strokeWidth = 1;
+                    break;
+                  case 'square':
+                    strokeColor = '#ff9800'; // Orange
+                    strokeWidth = 1;
+                    strokeDasharray = '5 2';
+                    break;
+                }
 
-              return (
-                <line
-                  key={`aspect-${index}`}
-                  x1={pos1.x}
-                  y1={pos1.y}
-                  x2={pos2.x}
-                  y2={pos2.y}
-                  stroke={strokeColor}
-                  strokeWidth={strokeWidth}
-                  strokeDasharray={strokeDasharray}
-                  opacity={0.6}
-                />
-              );
-            })}
+                return (
+                  <line
+                    key={`aspect-${index}`}
+                    x1={pos1.x}
+                    y1={pos1.y}
+                    x2={pos2.x}
+                    y2={pos2.y}
+                    stroke={strokeColor}
+                    strokeWidth={strokeWidth}
+                    strokeDasharray={strokeDasharray}
+                    opacity={0.6}
+                  />
+                );
+              })}
 
             {/* Planets */}
             {Object.entries(allPositions).map(([planet, degree]) => {
@@ -295,18 +336,18 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
                   <circle
                     cx={planetPos.x}
                     cy={planetPos.y}
-                    r="10"
-                    fill="white"
+                    r='10'
+                    fill='white'
                     stroke={signColor}
-                    strokeWidth="1.5"
+                    strokeWidth='1.5'
                   />
                   <text
                     x={planetPos.x}
                     y={planetPos.y}
-                    fontSize="10"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fontFamily="Arial Unicode MS, sans-serif"
+                    fontSize='10'
+                    textAnchor='middle'
+                    dominantBaseline='middle'
+                    fontFamily='Arial Unicode MS, sans-serif'
                     fill={planet === 'Rising' ? '#ff6b6b' : '#333'}
                   >
                     {planetSymbols[planet] || planet.charAt(0)}
@@ -316,7 +357,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
                   <circle
                     cx={calculatePosition(degree).x}
                     cy={calculatePosition(degree).y}
-                    r="2"
+                    r='2'
                     fill={signColor}
                   />
                 </g>
@@ -324,38 +365,40 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
             })}
 
             {/* Center point */}
-            <circle cx={centerX} cy={centerY} r="3" fill="#333" />
+            <circle cx={centerX} cy={centerY} r='3' fill='#333' />
           </svg>
         </div>
 
-        <div className="chartInfo">
-          <div className="infoSection">
+        <div className='chartInfo'>
+          <div className='infoSection'>
             <h4>Elemental Balance</h4>
-            <div className="elementalBars">
-              {Object.entries({ Fire: 25, Water: 25, Earth: 25, Air: 25 }).map(([element, percentage]) => (
-                <div key={element} className="elementBarWrapper">
-                  <div className="elementLabel">
-                    <span>{element}</span>
+            <div className='elementalBars'>
+              {Object.entries({ Fire: 25, Water: 25, Earth: 25, Air: 25 }).map(
+                ([element, percentage]) => (
+                  <div key={element} className='elementBarWrapper'>
+                    <div className='elementLabel'>
+                      <span>{element}</span>
+                    </div>
+                    <div className='elementBarContainer'>
+                      <div
+                        className='elementBar'
+                        style={{ width: `${percentage}%`, backgroundColor: elementColors[element] }}
+                      />
+                      <span className='elementPercentage'>{percentage}%</span>
+                    </div>
                   </div>
-                  <div className="elementBarContainer">
-                    <div
-                      className="elementBar"
-                      style={{ width: `${percentage}%`, backgroundColor: elementColors[element ] }}
-                    />
-                    <span className="elementPercentage">{percentage}%</span>
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
           </div>
 
-          <div className="infoSection">
+          <div className='infoSection'>
             <h4>Alchemical Principles</h4>
-            <div className="alchemicalGrid">
+            <div className='alchemicalGrid'>
               {Object.entries(alchemicalPrinciples).map(([principle, value]) => (
-                <div key={principle} className="alchemicalItem">
-                  <div className="alchemicalName">{principle}</div>
-                  <div className="alchemicalValue">{value}</div>
+                <div key={principle} className='alchemicalItem'>
+                  <div className='alchemicalName'>{principle}</div>
+                  <div className='alchemicalValue'>{value}</div>
                 </div>
               ))}
             </div>
@@ -364,19 +407,19 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="chartLegend">
+      <div className='chartLegend'>
         {Object.entries(allPositions).map(([planet, degree]) => {
           const sign = getSignForDegree(degree);
           const signDegree = getDegreeInSign(degree);
           return (
             <div
               key={planet}
-              className="legendItem"
+              className='legendItem'
               style={{ '--element-color': elementColors[sign.element] } as React.CSSProperties}
             >
-              <span className="planetSymbol">{planetSymbols[planet] || planet.charAt(0)}</span>
-              <span className="planetName">{planet}</span>
-              <span className="planetPosition">
+              <span className='planetSymbol'>{planetSymbols[planet] || planet.charAt(0)}</span>
+              <span className='planetName'>{planet}</span>
+              <span className='planetPosition'>
                 {sign.symbol} {signDegree}° ({sign.name})
               </span>
             </div>

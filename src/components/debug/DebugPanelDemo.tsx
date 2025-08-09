@@ -10,14 +10,14 @@ import ConsolidatedDebugInfo from './ConsolidatedDebugInfo';
  */
 const DebugPanelDemo: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Debug Panel Demo</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Features</h2>
-            <ul className="space-y-2 text-gray-600">
+    <div className='min-h-screen bg-gray-100 p-8'>
+      <div className='mx-auto max-w-4xl'>
+        <h1 className='mb-8 text-3xl font-bold text-gray-800'>Debug Panel Demo</h1>
+
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+          <div className='rounded-lg bg-white p-6 shadow-md'>
+            <h2 className='mb-4 text-xl font-semibold'>Features</h2>
+            <ul className='space-y-2 text-gray-600'>
               <li>✅ Real-time performance metrics tracking</li>
               <li>✅ Astrological data display</li>
               <li>✅ Component state monitoring</li>
@@ -29,9 +29,9 @@ const DebugPanelDemo: React.FC = () => {
             </ul>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Usage Instructions</h2>
-            <ol className="space-y-2 text-gray-600">
+          <div className='rounded-lg bg-white p-6 shadow-md'>
+            <h2 className='mb-4 text-xl font-semibold'>Usage Instructions</h2>
+            <ol className='space-y-2 text-gray-600'>
               <li>1. The debug panel appears in the bottom-right corner</li>
               <li>2. Click and drag the header to reposition</li>
               <li>3. Use the collapse button (▲/▼) to minimize</li>
@@ -41,12 +41,12 @@ const DebugPanelDemo: React.FC = () => {
             </ol>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Performance Metrics</h2>
-            <p className="text-gray-600 mb-4">
+          <div className='rounded-lg bg-white p-6 shadow-md'>
+            <h2 className='mb-4 text-xl font-semibold'>Performance Metrics</h2>
+            <p className='mb-4 text-gray-600'>
               The debug panel tracks various performance metrics:
             </p>
-            <ul className="space-y-1 text-sm text-gray-600">
+            <ul className='space-y-1 text-sm text-gray-600'>
               <li>• Render count and timing</li>
               <li>• Memory usage (if available)</li>
               <li>• Error count and recent errors</li>
@@ -55,12 +55,10 @@ const DebugPanelDemo: React.FC = () => {
             </ul>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Astrological Data</h2>
-            <p className="text-gray-600 mb-4">
-              Real-time astrological information includes:
-            </p>
-            <ul className="space-y-1 text-sm text-gray-600">
+          <div className='rounded-lg bg-white p-6 shadow-md'>
+            <h2 className='mb-4 text-xl font-semibold'>Astrological Data</h2>
+            <p className='mb-4 text-gray-600'>Real-time astrological information includes:</p>
+            <ul className='space-y-1 text-sm text-gray-600'>
               <li>• Current sun sign</li>
               <li>• Lunar phase</li>
               <li>• Planetary hour</li>
@@ -71,11 +69,12 @@ const DebugPanelDemo: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-yellow-800 mb-2">Note</h3>
-          <p className="text-yellow-700">
-            The debug panel is designed to be non-intrusive and can be easily hidden or repositioned. 
-            All settings are automatically saved to localStorage and will persist across browser sessions.
+        <div className='mt-8 rounded-lg border border-yellow-200 bg-yellow-50 p-4'>
+          <h3 className='mb-2 text-lg font-semibold text-yellow-800'>Note</h3>
+          <p className='text-yellow-700'>
+            The debug panel is designed to be non-intrusive and can be easily hidden or
+            repositioned. All settings are automatically saved to localStorage and will persist
+            across browser sessions.
           </p>
         </div>
       </div>

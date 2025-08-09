@@ -1,24 +1,34 @@
-import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
+import {
+  getCurrentPlanetaryPositions,
+  getPlanetaryPositionsForDateTime,
+} from '@/services/astrologizeApi';
 import { log } from '@/services/LoggingService';
-import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
+import {
+  PlanetaryAlignment,
+  AstrologicalState,
+  CelestialPosition,
+  ZodiacSign,
+  Planet,
+  LunarPhase,
+} from '@/types/celestial';
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 
 /**
  * AstrologyService
- * 
+ *
  * Core service for astrological calculations and planetary positions.
- * This service consolidates all astrology-related functionality into a single, 
+ * This service consolidates all astrology-related functionality into a single,
  * standardized interface following a consistent singleton pattern.
  */
 export class AstrologyService {
   private static instance: AstrologyService;
-  
+
   private currentState: AstrologicalState = {
     currentZodiac: 'aries',
     moonPhase: 'new moon',
     currentPlanetaryAlignment: {},
     loading: false,
-    isReady: false
+    isReady: false,
   };
 
   private constructor() {}
@@ -36,26 +46,28 @@ export class AstrologyService {
   /**
    * Get current planetary positions
    */
-  async getCurrentPlanetaryPositions(forceRefresh = false): Promise<Record<Planet, CelestialPosition>> {
+  async getCurrentPlanetaryPositions(
+    forceRefresh = false,
+  ): Promise<Record<Planet, CelestialPosition>> {
     try {
       // Use astrologize API for real planetary positions
       const rawPositions = await getCurrentPlanetaryPositions();
       const positions = normalizePlanetaryPositions(rawPositions);
-      
+
       // Convert to CelestialPosition format
       const celestialPositions = {} as Record<Planet, CelestialPosition>;
-      
+
       Object.entries(positions).forEach(([planet, position]) => {
         celestialPositions[planet as Planet] = {
           sign: position.sign,
-          degree: position.degree
+          degree: position.degree,
         };
       });
-      
+
       // Update cached state
       this.currentState.currentPlanetaryAlignment = celestialPositions;
       this.currentState.isReady = true;
-      
+
       return celestialPositions;
     } catch (error) {
       console.warn('Astrologize API failed, using cached data:', error);
@@ -130,26 +142,22 @@ export class AstrologyService {
     // Calculate all 24 planetary hours for the given date
     const hours: Planet[] = [];
     const dayOfWeek = date.getDay();
-    
+
     // Planetary day rulers
-    const dayRulers: Planet[] = [
-      'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'
-    ];
-    
+    const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+
     // Planet order for hours
-    const hourRulers: Planet[] = [
-      'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'
-    ];
-    
+    const hourRulers: Planet[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+
     const planetOfDay = dayRulers[dayOfWeek];
     const startIndex = hourRulers.indexOf(planetOfDay);
-    
+
     // Generate 24 hours
     for (let hour = 0; hour < 24; hour++) {
       const hourIndex = (startIndex + hour) % 7;
       hours.push(hourRulers[hourIndex]);
     }
-    
+
     return hours;
   }
 
@@ -159,12 +167,10 @@ export class AstrologyService {
   async getCurrentPlanetaryDay(): Promise<Planet> {
     const currentDate = new Date();
     const dayOfWeek = currentDate.getDay();
-    
+
     // Planetary day rulers
-    const dayRulers: Planet[] = [
-      'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'
-    ];
-    
+    const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+
     return dayRulers[dayOfWeek];
   }
 
@@ -180,31 +186,31 @@ export class AstrologyService {
    */
   private async refreshAstrologicalState(): Promise<void> {
     this.currentState.loading = true;
-    
+
     try {
       const currentDate = new Date();
-      
+
       // Try to get real planetary positions from astrologize API
       let planetaryAlignment: PlanetaryAlignment;
       try {
         const rawPositions = await getCurrentPlanetaryPositions();
         const positions = normalizePlanetaryPositions(rawPositions);
-        
+
         // Convert to our format
         planetaryAlignment = {};
         Object.entries(positions).forEach(([planet, position]) => {
           planetaryAlignment[planet as Planet] = {
             sign: position.sign,
-            degree: position.degree
+            degree: position.degree,
           };
         });
-        
+
         log.info('🌟 Using real astrologize API data for astrological state');
       } catch (apiError) {
         console.warn('Astrologize API failed, using fallback calculations:', apiError);
         planetaryAlignment = this.calculatePlanetaryPositions(currentDate);
       }
-      
+
       const state: AstrologicalState = {
         currentZodiac: this.calculateZodiacSign(currentDate),
         moonPhase: this.calculateLunarPhase(currentDate),
@@ -213,12 +219,12 @@ export class AstrologyService {
         planetaryHour: this.calculatePlanetaryHour(currentDate),
         loading: false,
         isReady: true,
-        sunSign: 'aries'
+        sunSign: 'aries',
       };
-      
+
       this.currentState = state;
     } catch (error) {
-      console.error("Failed to refresh astrological state", error);
+      console.error('Failed to refresh astrological state', error);
     } finally {
       this.currentState.loading = false;
       this.currentState.isReady = true;
@@ -229,7 +235,7 @@ export class AstrologyService {
   private calculateZodiacSign(date: Date): ZodiacSign {
     const month = date.getMonth();
     const day = date.getDate();
-    
+
     // Very simplified calculation
     if ((month === 2 && day >= 21) || (month === 3 && day <= 19)) return 'aries';
     if ((month === 3 && day >= 20) || (month === 4 && day <= 20)) return 'taurus';
@@ -248,7 +254,7 @@ export class AstrologyService {
   private calculateLunarPhase(date: Date): LunarPhase {
     // Very simplified calculation - in real implementation this would be more accurate
     const dayOfMonth = date.getDate();
-    
+
     if (dayOfMonth <= 3) return 'new moon';
     if (dayOfMonth <= 7) return 'waxing crescent';
     if (dayOfMonth <= 10) return 'first quarter';
@@ -274,21 +280,17 @@ export class AstrologyService {
     // Simplified calculation
     const dayOfWeek = date.getDay();
     const hour = date.getHours() % 12;
-    
+
     // Planetary day rulers
-    const dayRulers: Planet[] = [
-      'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'
-    ];
-    
+    const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+
     // Planet order for hours
-    const hourRulers: Planet[] = [
-      'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'
-    ];
-    
+    const hourRulers: Planet[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+
     // Simplified calculation
     const planetOfDay = dayRulers[dayOfWeek];
     const hourIndex = (hourRulers.indexOf(planetOfDay) + hour) % 7;
-    
+
     return hourRulers[hourIndex];
   }
 }
@@ -297,4 +299,4 @@ export class AstrologyService {
 export const astrologyService = AstrologyService.getInstance();
 
 // Export default for compatibility with existing code
-export default astrologyService; 
+export default astrologyService;

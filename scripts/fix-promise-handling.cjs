@@ -8,7 +8,15 @@ const { execSync } = require('child_process');
 const CONFIG = {
   sourceDir: './src',
   extensions: ['.ts', '.tsx', '.js', '.jsx'],
-  excludePatterns: ['node_modules', '.next', 'dist', 'build', '*.test.ts', '*.test.tsx', '*.spec.ts'],
+  excludePatterns: [
+    'node_modules',
+    '.next',
+    'dist',
+    'build',
+    '*.test.ts',
+    '*.test.tsx',
+    '*.spec.ts',
+  ],
   preservePatterns: {
     // Fire-and-forget logging patterns
     logging: [
@@ -17,7 +25,7 @@ const CONFIG = {
       /tracking\.(track|event|metric)/,
       /analytics\.(track|page|identify)/,
       /monitoring\.(record|report|metric)/,
-      /telemetry\.(send|record|track)/
+      /telemetry\.(send|record|track)/,
     ],
     // Astronomical calculation patterns
     astronomical: [
@@ -26,7 +34,7 @@ const CONFIG = {
       /celestial.*position/i,
       /orbital.*mechanics/i,
       /ephemeris.*update/i,
-      /transit.*calculation/i
+      /transit.*calculation/i,
     ],
     // Background operations
     background: [
@@ -35,11 +43,11 @@ const CONFIG = {
       /worker\.(post|send)/,
       /cache\.(set|update|invalidate)/,
       /indexedDB\.(put|add|delete)/,
-      /localStorage\.setItem/
-    ]
+      /localStorage\.setItem/,
+    ],
   },
   maxFilesPerRun: 30,
-  dryRun: false
+  dryRun: false,
 };
 
 // Track metrics
@@ -56,8 +64,8 @@ const metrics = {
     thenWithoutCatch: 0,
     asyncInLoop: 0,
     promiseAll: 0,
-    errorHandling: 0
-  }
+    errorHandling: 0,
+  },
 };
 
 // Promise-related patterns
@@ -75,33 +83,35 @@ const PROMISE_PATTERNS = [
         /send|post|put|patch/i,
         /process|handle|execute|run/i,
         /wait|delay|timeout|sleep/i,
-        /connect|disconnect|sync/i
+        /connect|disconnect|sync/i,
       ];
-      
-      return asyncPatterns.some(pattern => pattern.test(functionName)) ||
-             functionName.startsWith('async') ||
-             line.includes('.then(') ||
-             line.includes('.catch(');
+
+      return (
+        asyncPatterns.some(pattern => pattern.test(functionName)) ||
+        functionName.startsWith('async') ||
+        line.includes('.then(') ||
+        line.includes('.catch(')
+      );
     },
     fix: (match, indent, prefix, functionName) => {
       return `${indent}await ${prefix}${functionName}`;
     },
-    description: 'Add missing await to promise-returning functions'
+    description: 'Add missing await to promise-returning functions',
   },
-  
+
   // Pattern 2: Void returns in async functions
   {
     name: 'voidReturn',
     pattern: /^(\s*)return\s+(\w+)\s*\([^)]*\)\s*;?\s*$/gm,
-    isPromiseCall: (line) => {
+    isPromiseCall: line => {
       return !line.includes('await');
     },
     fix: (match, indent, functionCall) => {
       return `${indent}return await ${functionCall}`;
     },
-    description: 'Add await to returned promise calls'
+    description: 'Add await to returned promise calls',
   },
-  
+
   // Pattern 3: .then() without .catch()
   {
     name: 'thenWithoutCatch',
@@ -109,37 +119,39 @@ const PROMISE_PATTERNS = [
     fix: (match, promiseChain) => {
       return `${match.trimEnd()}\n    .catch(error => console.error('Promise error:', error));`;
     },
-    description: 'Add error handling to promise chains'
+    description: 'Add error handling to promise chains',
   },
-  
+
   // Pattern 4: Async operations in loops without proper handling
   {
     name: 'asyncInLoop',
     pattern: /for\s*\([^)]+\)\s*{[^}]*?(\w+)\s*\([^)]*\)[^}]*?}/gs,
-    isAsyncLoop: (block) => {
-      return /\b(fetch|api|save|load|update|delete)\b/.test(block) && 
-             !block.includes('await') && 
-             !block.includes('Promise.all');
+    isAsyncLoop: block => {
+      return (
+        /\b(fetch|api|save|load|update|delete)\b/.test(block) &&
+        !block.includes('await') &&
+        !block.includes('Promise.all')
+      );
     },
-    fix: (match) => {
+    fix: match => {
       // This is complex - just mark for manual review
       return match;
     },
-    description: 'Async operations in loops need proper handling'
+    description: 'Async operations in loops need proper handling',
   },
-  
+
   // Pattern 5: Array of promises that should use Promise.all
   {
     name: 'promiseAll',
     pattern: /(\w+)\s*=\s*(\w+)\.map\s*\([^)]+\)\s*;(?!\s*await)/gm,
-    isPromiseMap: (line) => {
+    isPromiseMap: line => {
       return /\b(async|fetch|api|Promise)\b/.test(line);
     },
     fix: (match, variable, array) => {
       return `${variable} = await Promise.all(${array}.map`;
     },
-    description: 'Use Promise.all for arrays of promises'
-  }
+    description: 'Use Promise.all for arrays of promises',
+  },
 ];
 
 // TypeScript-specific misused promise patterns
@@ -148,28 +160,27 @@ const MISUSED_PROMISE_PATTERNS = [
   {
     name: 'conditionalPromise',
     pattern: /if\s*\(\s*(\w+(?:\.\w+)*(?:\([^)]*\))?)\s*\)/g,
-    isPromise: (expression) => {
-      return /\.(then|catch|finally)\s*\(/.test(expression) ||
-             /Promise\s*</.test(expression);
+    isPromise: expression => {
+      return /\.(then|catch|finally)\s*\(/.test(expression) || /Promise\s*</.test(expression);
     },
     fix: (match, expression) => {
       return `if (await ${expression})`;
     },
-    description: 'Await promises in conditionals'
+    description: 'Await promises in conditionals',
   },
-  
+
   // Pattern 2: Property access on promises
   {
     name: 'promiseProperty',
     pattern: /(\w+(?:\.\w+)*\([^)]*\))\.(\w+)(?!\s*\()/g,
-    isPromiseCall: (call) => {
+    isPromiseCall: call => {
       return /\b(fetch|api|get|load|find)\b/.test(call);
     },
     fix: (match, call, property) => {
       return `(await ${call}).${property}`;
     },
-    description: 'Await promise before property access'
-  }
+    description: 'Await promise before property access',
+  },
 ];
 
 /**
@@ -194,16 +205,16 @@ function shouldPreservePromise(line, context) {
 function isInAsyncContext(content, index) {
   // Look backwards for function declaration
   const before = content.substring(Math.max(0, index - 500), index);
-  
+
   // Check for async function patterns
   const asyncPatterns = [
     /async\s+function/,
     /async\s+\(/,
     /async\s+\w+\s*\(/,
     /=\s*async/,
-    /:\s*async/
+    /:\s*async/,
   ];
-  
+
   return asyncPatterns.some(pattern => pattern.test(before));
 }
 
@@ -213,22 +224,22 @@ function isInAsyncContext(content, index) {
 function processFloatingPromises(content, filePath) {
   let modifiedContent = content;
   const fixes = [];
-  
+
   PROMISE_PATTERNS.forEach(patternConfig => {
     const pattern = new RegExp(patternConfig.pattern.source, patternConfig.pattern.flags);
     let match;
-    
+
     while ((match = pattern.exec(content)) !== null) {
       const fullMatch = match[0];
       const lineStart = content.lastIndexOf('\n', match.index) + 1;
       const lineEnd = content.indexOf('\n', match.index);
       const line = content.substring(lineStart, lineEnd === -1 ? content.length : lineEnd);
-      
+
       // Skip if should be preserved
       if (shouldPreservePromise(line, fullMatch)) {
         continue;
       }
-      
+
       // Check if this is actually a promise call
       let isPromise = false;
       if (patternConfig.isPromiseCall) {
@@ -240,16 +251,16 @@ function processFloatingPromises(content, filePath) {
       } else {
         isPromise = true; // Default for patterns like .then without .catch
       }
-      
+
       if (!isPromise) continue;
-      
+
       // Check if we're in async context for await fixes
       if (patternConfig.name === 'missingAwait' || patternConfig.name === 'voidReturn') {
         if (!isInAsyncContext(content, match.index)) {
           continue; // Can't use await outside async function
         }
       }
-      
+
       // Apply the fix
       const fixed = patternConfig.fix(...match);
       if (fixed !== fullMatch) {
@@ -257,26 +268,29 @@ function processFloatingPromises(content, filePath) {
           original: fullMatch,
           fixed: fixed,
           index: match.index,
-          pattern: patternConfig.name
+          pattern: patternConfig.name,
         });
         metrics.patterns[patternConfig.name]++;
         metrics.floatingPromisesFixed++;
       }
     }
   });
-  
+
   // Apply fixes in reverse order to maintain indices
   fixes.reverse().forEach(({ original, fixed, index }) => {
-    modifiedContent = modifiedContent.substring(0, index) + 
-                     fixed + 
-                     modifiedContent.substring(index + original.length);
+    modifiedContent =
+      modifiedContent.substring(0, index) +
+      fixed +
+      modifiedContent.substring(index + original.length);
   });
-  
+
   if (fixes.length > 0 && !CONFIG.dryRun) {
     console.log(`  Fixed ${fixes.length} floating promises`);
-    fixes.forEach(fix => console.log(`    ${fix.pattern}: ${fix.original.trim()} → ${fix.fixed.trim()}`));
+    fixes.forEach(fix =>
+      console.log(`    ${fix.pattern}: ${fix.original.trim()} → ${fix.fixed.trim()}`),
+    );
   }
-  
+
   return modifiedContent;
 }
 
@@ -286,14 +300,14 @@ function processFloatingPromises(content, filePath) {
 function processMisusedPromises(content, filePath) {
   let modifiedContent = content;
   const fixes = [];
-  
+
   MISUSED_PROMISE_PATTERNS.forEach(patternConfig => {
     const pattern = new RegExp(patternConfig.pattern.source, patternConfig.pattern.flags);
     let match;
-    
+
     while ((match = pattern.exec(content)) !== null) {
       const fullMatch = match[0];
-      
+
       // Check if this is actually a promise
       if (patternConfig.isPromise && !patternConfig.isPromise(match[1])) {
         continue;
@@ -301,17 +315,17 @@ function processMisusedPromises(content, filePath) {
       if (patternConfig.isPromiseCall && !patternConfig.isPromiseCall(match[1])) {
         continue;
       }
-      
+
       // Skip if should be preserved
       if (shouldPreservePromise(fullMatch, fullMatch)) {
         continue;
       }
-      
+
       // Check if we're in async context
       if (!isInAsyncContext(content, match.index)) {
         continue;
       }
-      
+
       // Apply the fix
       const fixed = patternConfig.fix(...match);
       if (fixed !== fullMatch) {
@@ -319,25 +333,26 @@ function processMisusedPromises(content, filePath) {
           original: fullMatch,
           fixed: fixed,
           index: match.index,
-          pattern: patternConfig.name
+          pattern: patternConfig.name,
         });
         metrics.misusedPromisesFixed++;
       }
     }
   });
-  
+
   // Apply fixes in reverse order
   fixes.reverse().forEach(({ original, fixed, index }) => {
-    modifiedContent = modifiedContent.substring(0, index) + 
-                     fixed + 
-                     modifiedContent.substring(index + original.length);
+    modifiedContent =
+      modifiedContent.substring(0, index) +
+      fixed +
+      modifiedContent.substring(index + original.length);
   });
-  
+
   if (fixes.length > 0 && !CONFIG.dryRun) {
     console.log(`  Fixed ${fixes.length} misused promises`);
     fixes.forEach(fix => console.log(`    ${fix.pattern}: ${fix.original} → ${fix.fixed}`));
   }
-  
+
   return modifiedContent;
 }
 
@@ -346,42 +361,45 @@ function processMisusedPromises(content, filePath) {
  */
 function addErrorHandling(content) {
   let modifiedContent = content;
-  
+
   // Pattern: async functions without try-catch
-  const asyncFunctionPattern = /async\s+(?:function\s+)?(\w+)?\s*\([^)]*\)\s*(?::\s*[^{]+)?\s*{([^}]+)}/gs;
+  const asyncFunctionPattern =
+    /async\s+(?:function\s+)?(\w+)?\s*\([^)]*\)\s*(?::\s*[^{]+)?\s*{([^}]+)}/gs;
   let match;
-  
+
   while ((match = asyncFunctionPattern.exec(content)) !== null) {
     const functionBody = match[2];
-    
+
     // Check if it already has try-catch
     if (functionBody.includes('try') && functionBody.includes('catch')) {
       continue;
     }
-    
+
     // Check if it's a simple one-liner or logging function
-    if (functionBody.trim().split('\n').length <= 2 || 
-        shouldPreservePromise(functionBody, functionBody)) {
+    if (
+      functionBody.trim().split('\n').length <= 2 ||
+      shouldPreservePromise(functionBody, functionBody)
+    ) {
       continue;
     }
-    
+
     // Add try-catch wrapper
     const lines = functionBody.split('\n');
     const indentMatch = lines[1]?.match(/^(\s*)/);
     const indent = indentMatch ? indentMatch[1] : '  ';
-    
+
     const wrappedBody = `
 ${indent}try {${functionBody}
 ${indent}} catch (error) {
 ${indent}  console.error('Error in async function:', error);
 ${indent}  throw error;
 ${indent}}`;
-    
+
     const newFunction = match[0].replace(functionBody, wrappedBody);
     modifiedContent = modifiedContent.replace(match[0], newFunction);
     metrics.patterns.errorHandling++;
   }
-  
+
   return modifiedContent;
 }
 
@@ -392,16 +410,16 @@ function processFile(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
     let modifiedContent = content;
-    
+
     // Process floating promises
     modifiedContent = processFloatingPromises(modifiedContent, filePath);
-    
+
     // Process misused promises
     modifiedContent = processMisusedPromises(modifiedContent, filePath);
-    
+
     // Add error handling (optional - can be aggressive)
     // modifiedContent = addErrorHandling(modifiedContent);
-    
+
     // Write the file if modified
     if (modifiedContent !== content && !CONFIG.dryRun) {
       fs.writeFileSync(filePath, modifiedContent, 'utf8');
@@ -410,7 +428,6 @@ function processFile(filePath) {
     } else if (modifiedContent !== content && CONFIG.dryRun) {
       console.log(`Would fix promise handling in ${filePath}`);
     }
-    
   } catch (error) {
     metrics.errors.push({ file: filePath, error: error.message });
     console.error(`❌ Error processing ${filePath}: ${error.message}`);
@@ -453,27 +470,29 @@ function createSafetyStash() {
  */
 function getFilesToProcess() {
   const files = [];
-  
+
   function scanDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         if (!CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
           scanDirectory(fullPath);
         }
       } else if (stat.isFile()) {
-        if (CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
-            !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
+          !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))
+        ) {
           files.push(fullPath);
         }
       }
     }
   }
-  
+
   scanDirectory(CONFIG.sourceDir);
   return files;
 }
@@ -484,38 +503,38 @@ function getFilesToProcess() {
 function main() {
   console.log('🚀 WhatToEatNext - Promise Handling Fixer');
   console.log('=========================================');
-  
+
   // Parse command line arguments
   const args = process.argv.slice(2);
   if (args.includes('--dry-run')) {
     CONFIG.dryRun = true;
     console.log('🔍 Running in DRY RUN mode - no files will be modified');
   }
-  
+
   if (args.includes('--max-files')) {
     const maxIndex = args.indexOf('--max-files');
     CONFIG.maxFilesPerRun = parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
   }
-  
+
   // Create safety stash if not in dry run
   let stashTimestamp = null;
   if (!CONFIG.dryRun) {
     stashTimestamp = createSafetyStash();
   }
-  
+
   // Get files to process
   const files = getFilesToProcess();
   console.log(`\n📁 Found ${files.length} files to analyze`);
-  
+
   // Process files with limit
   const filesToProcess = files.slice(0, CONFIG.maxFilesPerRun);
   console.log(`\n🔧 Processing ${filesToProcess.length} files...\n`);
-  
+
   filesToProcess.forEach(file => {
     metrics.filesScanned++;
     processFile(file);
   });
-  
+
   // Report results
   console.log('\n📊 Fix Summary:');
   console.log('================');
@@ -530,14 +549,14 @@ function main() {
       console.log(`  ${pattern}: ${count}`);
     }
   });
-  
+
   if (metrics.errors.length > 0) {
     console.log(`\n⚠️  Errors encountered: ${metrics.errors.length}`);
     metrics.errors.forEach(err => {
       console.log(`  - ${err.file}: ${err.error}`);
     });
   }
-  
+
   // Validate build if changes were made
   if (metrics.filesModified > 0 && !CONFIG.dryRun) {
     const buildValid = validateBuildAfterFix();
@@ -546,7 +565,7 @@ function main() {
       console.log(`git stash apply stash^{/promise-handling-fix-${stashTimestamp}}`);
     }
   }
-  
+
   // Suggest next steps
   console.log('\n📌 Next Steps:');
   if (CONFIG.dryRun) {
@@ -558,9 +577,11 @@ function main() {
     console.log('3. Run tests to ensure async behavior preserved');
     console.log('4. Commit changes if all tests pass');
   }
-  
+
   if (files.length > filesToProcess.length) {
-    console.log(`\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`);
+    console.log(
+      `\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`,
+    );
   }
 }
 

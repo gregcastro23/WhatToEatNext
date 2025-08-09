@@ -12,16 +12,22 @@ export interface ChartData {
   planetaryPositions: Record<string, unknown>;
   ascendant?: string;
   midheaven?: string;
-  planets: Record<string, {
-    sign: string;
-    degree: number;
-    isRetrograde?: boolean;
-    exactLongitude?: number;
-  }>;
-  houses?: Record<number, {
-    sign: string;
-    degree: number;
-  }>;
+  planets: Record<
+    string,
+    {
+      sign: string;
+      degree: number;
+      isRetrograde?: boolean;
+      exactLongitude?: number;
+    }
+  >;
+  houses?: Record<
+    number,
+    {
+      sign: string;
+      degree: number;
+    }
+  >;
 }
 
 export interface CurrentChart {
@@ -44,4 +50,4 @@ export interface ChartContextType {
     ascendantSign: string;
     svgContent: string;
   };
-} 
+}

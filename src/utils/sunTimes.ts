@@ -26,11 +26,11 @@ interface SunTimes {
 export function calculateSunTimes(
   date: Date = new Date(),
   latitude = 40.7128, // Default to New York
-  longitude = -74.0060
+  longitude = -74.006,
 ): SunTimes {
   try {
     const times = SunCalc.getTimes(date, latitude, longitude);
-    
+
     return {
       sunrise: times.sunrise || null,
       sunset: times.sunset || null,
@@ -43,7 +43,7 @@ export function calculateSunTimes(
       nauticalDusk: times.nauticalDusk || null,
       nightEnd: times.nightEnd || null,
       night: times.night || null,
-      nadir: times.nadir || null
+      nadir: times.nadir || null,
     };
   } catch (error) {
     console.error('Error calculating sun times:', error);
@@ -59,7 +59,7 @@ export function calculateSunTimes(
       nauticalDusk: null,
       nightEnd: null,
       night: null,
-      nadir: null
+      nadir: null,
     };
   }
 }
@@ -69,11 +69,11 @@ export function calculateSunTimes(
  */
 export function formatSunTime(date: Date | null): string {
   if (!date) return 'Unknown';
-  
+
   return date.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: true
+    hour12: true,
   });
 }
 
@@ -83,15 +83,15 @@ export function formatSunTime(date: Date | null): string {
  * @param longitude The location longitude
  * @returns Boolean indicating if it's currently daytime
  */
-export function isDaytime(
-  latitude = 40.7128,
-  longitude = -74.0060
-): boolean {
+export function isDaytime(latitude = 40.7128, longitude = -74.006): boolean {
   const now = new Date();
   const times = calculateSunTimes(now, latitude, longitude);
-  
+
   // Check if current time is between sunrise and sunset
-  return Boolean(times.sunrise && times.sunset && 
-         now.getTime() >= times.sunrise.getTime() && 
-         now.getTime() <= times.sunset.getTime());
-} 
+  return Boolean(
+    times.sunrise &&
+      times.sunset &&
+      now.getTime() >= times.sunrise.getTime() &&
+      now.getTime() <= times.sunset.getTime(),
+  );
+}

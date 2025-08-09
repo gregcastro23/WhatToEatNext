@@ -1,6 +1,6 @@
 /**
  * Service Layer Type Definitions
- * 
+ *
  * Comprehensive interfaces for service layer operations to replace
  * Record<string, any> patterns with structured, domain-specific types
  */
@@ -8,7 +8,11 @@
 // Campaign and workflow service types
 export interface CampaignConfig {
   campaignId: string;
-  campaignType: 'typescript-fixes' | 'linting-improvements' | 'explicit-any-reduction' | 'build-optimization';
+  campaignType:
+    | 'typescript-fixes'
+    | 'linting-improvements'
+    | 'explicit-any-reduction'
+    | 'build-optimization';
   priority: 'low' | 'medium' | 'high' | 'critical';
   targetFiles?: string[];
   maxFiles?: number;

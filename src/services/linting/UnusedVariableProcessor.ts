@@ -1,6 +1,6 @@
 /**
  * Automated Unused Variable Processing System
- * 
+ *
  * This service systematically processes unused variable warnings while:
  * - Preserving critical astrological calculation variables
  * - Safely prefixing intentionally unused variables with underscore
@@ -41,35 +41,35 @@ export class UnusedVariableProcessor {
     /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/i,
     /transit|retrograde|conjunction|opposition|trine|square/i,
     /lunar|solar|eclipse|equinox|solstice/i,
-    
+
     // Campaign system patterns
     /campaign|progress|metrics|intelligence|safety/i,
     /validation|rollback|checkpoint|threshold/i,
-    
+
     // Mathematical constants
     /PI|EULER|GOLDEN_RATIO|PHI|SQRT/i,
     /DEGREE|RADIAN|MINUTE|SECOND/i,
-    
+
     // Fallback data patterns
     /fallback|default|backup|cache/i,
-    /positions|coordinates|ephemeris/i
+    /positions|coordinates|ephemeris/i,
   ];
 
   private testPatterns = [
     /mock|stub|test|spec|fixture/i,
-    /describe|it|expect|beforeEach|afterEach/i
+    /describe|it|expect|beforeEach|afterEach/i,
   ];
 
   async processUnusedVariables(): Promise<ProcessingResult> {
     log.info('🔍 Analyzing unused variable warnings...');
-    
+
     const issues = await this.detectUnusedVariables();
     const result: ProcessingResult = {
       totalIssues: issues.length,
       processed: 0,
       skipped: 0,
       errors: [],
-      preservedCritical: []
+      preservedCritical: [],
     };
 
     log.info(`Found ${issues.length} unused variable issues`);
@@ -93,11 +93,11 @@ export class UnusedVariableProcessor {
 
   private async detectUnusedVariables(): Promise<UnusedVariableIssue[]> {
     try {
-      const lintOutput = execSync('yarn lint --format=json', { 
+      const lintOutput = execSync('yarn lint --format=json', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       const lintResults = JSON.parse(lintOutput);
       const issues: UnusedVariableIssue[] = [];
 
@@ -125,7 +125,7 @@ export class UnusedVariableProcessor {
     try {
       const lintOutput = execSync('yarn lint 2>&1 | grep "no-unused-vars"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       const lines = lintOutput.split('\n').filter(line => line.trim());
@@ -146,7 +146,9 @@ export class UnusedVariableProcessor {
   }
 
   private parseUnusedVariableMessage(filePath: string, message: any): UnusedVariableIssue | null {
-    const variableMatch = message.message.match(/'([^']+)' is (?:defined but never used|assigned a value but never used)/);
+    const variableMatch = message.message.match(
+      /'([^']+)' is (?:defined but never used|assigned a value but never used)/,
+    );
     if (!variableMatch) return null;
 
     const variableName = variableMatch[1];
@@ -161,7 +163,7 @@ export class UnusedVariableProcessor {
       type: this.determineVariableType(message.message),
       context: message.message,
       isCritical,
-      canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
+      canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName)),
     };
   }
 
@@ -182,19 +184,19 @@ export class UnusedVariableProcessor {
       type: this.determineVariableType(context),
       context,
       isCritical,
-      canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
+      canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName)),
     };
   }
 
   private isCriticalVariable(variableName: string, filePath: string): boolean {
     // Check if variable matches critical patterns
-    const isCriticalName = this.criticalPatterns.some(pattern => 
-      pattern.test(variableName) || pattern.test(filePath)
+    const isCriticalName = this.criticalPatterns.some(
+      pattern => pattern.test(variableName) || pattern.test(filePath),
     );
 
     // Check if it's in astrological calculation files
     const isAstrologicalFile = /calculations|astro|planetary|elemental/i.test(filePath);
-    
+
     // Check if it's a mathematical constant
     const isMathConstant = /^[A-Z_]+$/.test(variableName) && variableName.length > 2;
 
@@ -202,18 +204,20 @@ export class UnusedVariableProcessor {
   }
 
   private isTestFile(filePath: string): boolean {
-    return /\.(test|spec)\.(ts|tsx|js|jsx)$/.test(filePath) || 
-           /__tests__/.test(filePath) ||
-           /test/.test(filePath);
+    return (
+      /\.(test|spec)\.(ts|tsx|js|jsx)$/.test(filePath) ||
+      /__tests__/.test(filePath) ||
+      /test/.test(filePath)
+    );
   }
 
   private canSafelyPrefix(variableName: string): boolean {
     // Don't prefix if already prefixed
     if (variableName.startsWith('_')) return false;
-    
+
     // Don't prefix React hooks or special patterns
     if (variableName.startsWith('use') || variableName.startsWith('handle')) return false;
-    
+
     // Don't prefix component names
     if (/^[A-Z]/.test(variableName)) return false;
 
@@ -229,7 +233,7 @@ export class UnusedVariableProcessor {
 
   private groupIssuesByFile(issues: UnusedVariableIssue[]): Record<string, UnusedVariableIssue[]> {
     const grouped: Record<string, UnusedVariableIssue[]> = {};
-    
+
     for (const issue of issues) {
       if (!grouped[issue.file]) {
         grouped[issue.file] = [];
@@ -240,7 +244,10 @@ export class UnusedVariableProcessor {
     return grouped;
   }
 
-  private async processFileIssues(filePath: string, issues: UnusedVariableIssue[]): Promise<{
+  private async processFileIssues(
+    filePath: string,
+    issues: UnusedVariableIssue[],
+  ): Promise<{
     fixed: number;
     skipped: number;
     preserved: string[];
@@ -279,7 +286,7 @@ export class UnusedVariableProcessor {
 
       const originalLine = lines[lineIndex];
       const modifiedLine = this.prefixUnusedVariable(originalLine, issue);
-      
+
       if (modifiedLine !== originalLine) {
         lines[lineIndex] = modifiedLine;
         modified = true;
@@ -318,7 +325,7 @@ export class UnusedVariableProcessor {
     // Handle function parameters: (param) => or function(param)
     const patterns = [
       new RegExp(`\\b${paramName}\\b(?=\\s*[,)])`, 'g'),
-      new RegExp(`\\b${paramName}\\b(?=\\s*:)`, 'g')
+      new RegExp(`\\b${paramName}\\b(?=\\s*:)`, 'g'),
     ];
 
     for (const pattern of patterns) {
@@ -336,7 +343,7 @@ export class UnusedVariableProcessor {
       new RegExp(`\\b(const|let|var)\\s+${varName}\\b`, 'g'),
       new RegExp(`\\b${varName}\\b(?=\\s*=)`, 'g'),
       new RegExp(`\\{\\s*${varName}\\s*\\}`, 'g'), // Destructuring
-      new RegExp(`\\[\\s*${varName}\\s*\\]`, 'g')  // Array destructuring
+      new RegExp(`\\[\\s*${varName}\\s*\\]`, 'g'), // Array destructuring
     ];
 
     for (const pattern of patterns) {
@@ -353,7 +360,7 @@ export class UnusedVariableProcessor {
     const patterns = [
       new RegExp(`\\{\\s*${importName}\\s*\\}`, 'g'),
       new RegExp(`import\\s+${importName}\\b`, 'g'),
-      new RegExp(`\\b${importName}\\s*,`, 'g')
+      new RegExp(`\\b${importName}\\s*,`, 'g'),
     ];
 
     for (const pattern of patterns) {
@@ -369,7 +376,7 @@ export class UnusedVariableProcessor {
     // Handle type definitions: type Name = or interface Name
     const patterns = [
       new RegExp(`\\b(type|interface)\\s+${typeName}\\b`, 'g'),
-      new RegExp(`\\b${typeName}\\b(?=\\s*=)`, 'g')
+      new RegExp(`\\b${typeName}\\b(?=\\s*=)`, 'g'),
     ];
 
     for (const pattern of patterns) {
@@ -384,15 +391,15 @@ export class UnusedVariableProcessor {
   async validateChanges(): Promise<boolean> {
     try {
       log.info('🔍 Validating changes...');
-      
+
       // Check if TypeScript compilation still works
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
       log.info('  ✓ TypeScript compilation successful');
-      
+
       // Check if build still works
       execSync('yarn build', { stdio: 'pipe' });
       log.info('  ✓ Build successful');
-      
+
       return true;
     } catch (error) {
       console.error('❌ Validation failed:', (error as Error).message);
@@ -407,7 +414,7 @@ export class UnusedVariableProcessor {
     log.info(`Successfully processed: ${result.processed}`);
     log.info(`Skipped (safe): ${result.skipped}`);
     log.info(`Critical variables preserved: ${result.preservedCritical.length}`);
-    
+
     if (result.errors.length > 0) {
       log.info(`\n❌ Errors encountered: ${result.errors.length}`);
       result.errors.forEach(error => log.info(`  - ${error}`));
@@ -421,10 +428,9 @@ export class UnusedVariableProcessor {
       }
     }
 
-    const reductionPercentage = result.totalIssues > 0 
-      ? ((result.processed / result.totalIssues) * 100).toFixed(1)
-      : '0';
-    
+    const reductionPercentage =
+      result.totalIssues > 0 ? ((result.processed / result.totalIssues) * 100).toFixed(1) : '0';
+
     log.info(`\n✨ Reduction achieved: ${reductionPercentage}%`);
   }
 }

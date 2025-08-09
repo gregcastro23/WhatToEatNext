@@ -19,7 +19,7 @@ const userService = {
   },
   saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => {
     return { userId: profile.userId || 'mock', ...profile } as UserProfile;
-  }
+  },
 };
 
 interface UserContextType {
@@ -64,12 +64,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       if (!currentUser) {
         throw new Error('No user profile loaded');
       }
-      
+
       const updatedProfile = await userService.saveUserProfile({
         ...data,
-        userId: currentUser.userId
+        userId: currentUser.userId,
       });
-      
+
       setCurrentUser(updatedProfile);
       return updatedProfile;
     } catch (err) {
@@ -89,20 +89,16 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     void loadProfile();
   }, []);
 
-  const value = { 
-    currentUser, 
-    isLoading, 
-    error, 
-    loadProfile, 
-    updateProfile, 
-    logout 
+  const value = {
+    currentUser,
+    isLoading,
+    error,
+    loadProfile,
+    updateProfile,
+    logout,
   };
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = (): UserContextType => {

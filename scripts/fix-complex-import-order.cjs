@@ -29,7 +29,6 @@ class ComplexImportOrderFixer {
       await this.generateReport();
 
       console.log('✅ Complex Import Order Fix Complete!');
-
     } catch (error) {
       console.error('❌ Fix failed:', error.message);
       await this.rollback();
@@ -46,7 +45,7 @@ class ComplexImportOrderFixer {
 
     try {
       execSync('git add -A && git stash push -m "complex-import-order-fix-backup"', {
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       console.log('   Git stash backup created');
     } catch (error) {
@@ -61,7 +60,7 @@ class ComplexImportOrderFixer {
       // Get current import order violations
       const output = execSync('yarn lint --format=compact 2>&1 | grep "import/order"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       const lines = output.split('\n').filter(line => line.trim());
@@ -76,7 +75,6 @@ class ComplexImportOrderFixer {
 
       this.complexFiles = Array.from(fileSet);
       console.log(`   Found ${this.complexFiles.length} files with import order issues`);
-
     } catch (error) {
       console.log('   No import order issues found');
       this.complexFiles = [];
@@ -94,7 +92,9 @@ class ComplexImportOrderFixer {
     // Process files in batches
     for (let i = 0; i < this.complexFiles.length; i += this.batchSize) {
       const batch = this.complexFiles.slice(i, i + this.batchSize);
-      console.log(`\n   Processing batch ${Math.floor(i / this.batchSize) + 1}/${Math.ceil(this.complexFiles.length / this.batchSize)} (${batch.length} files)...`);
+      console.log(
+        `\n   Processing batch ${Math.floor(i / this.batchSize) + 1}/${Math.ceil(this.complexFiles.length / this.batchSize)} (${batch.length} files)...`,
+      );
 
       for (const file of batch) {
         if (fs.existsSync(file)) {
@@ -108,7 +108,7 @@ class ComplexImportOrderFixer {
       }
 
       // Validate after each batch
-      if (!await this.validateBatch()) {
+      if (!(await this.validateBatch())) {
         console.log('   ❌ Batch validation failed, stopping');
         break;
       }
@@ -131,14 +131,13 @@ class ComplexImportOrderFixer {
         this.fixes.push({
           file: path.basename(filePath),
           type: 'complex_import_fix',
-          approach: 'sophisticated_parsing'
+          approach: 'sophisticated_parsing',
         });
 
         return true;
       }
 
       return false;
-
     } catch (error) {
       console.log(`     Error processing ${path.basename(filePath)}: ${error.message}`);
       return false;
@@ -215,7 +214,7 @@ class ComplexImportOrderFixer {
               line: lines[i],
               index: i,
               isType: lines[i].includes('import type'),
-              module: this.extractModuleName(lines[i])
+              module: this.extractModuleName(lines[i]),
             });
           }
           i++;
@@ -262,7 +261,7 @@ class ComplexImportOrderFixer {
           imports.push({
             line: lines[i],
             module: module,
-            category: this.categorizeImport(module)
+            category: this.categorizeImport(module),
           });
           i++;
         }
@@ -292,10 +291,12 @@ class ComplexImportOrderFixer {
   }
 
   isImportLine(line) {
-    return line.startsWith('import ') ||
-           line.startsWith('export ') ||
-           line.includes('from \'') ||
-           line.includes('from "');
+    return (
+      line.startsWith('import ') ||
+      line.startsWith('export ') ||
+      line.includes("from '") ||
+      line.includes('from "')
+    );
   }
 
   extractModuleName(line) {
@@ -350,16 +351,15 @@ class ComplexImportOrderFixer {
       this.validationResults = {
         currentCount,
         typescriptSuccess: true,
-        filesFixed: this.fixedFiles.size
+        filesFixed: this.fixedFiles.size,
       };
-
     } catch (error) {
       console.log('   ❌ Validation failed');
       this.validationResults = {
         currentCount: 999,
         typescriptSuccess: false,
         filesFixed: this.fixedFiles.size,
-        error: error.message
+        error: error.message,
       };
       throw error;
     }
@@ -369,7 +369,7 @@ class ComplexImportOrderFixer {
     try {
       const output = execSync('yarn lint 2>&1 | grep -c "import/order" || echo "0"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -400,8 +400,8 @@ class ComplexImportOrderFixer {
       strategies: [
         'Fixed empty lines within import groups',
         'Reordered type imports',
-        'Applied simple category-based sorting'
-      ]
+        'Applied simple category-based sorting',
+      ],
     };
 
     fs.writeFileSync('complex-import-order-fix-report.json', JSON.stringify(report, null, 2));

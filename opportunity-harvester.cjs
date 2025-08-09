@@ -26,12 +26,12 @@ class OpportunityHarvester {
       'no-unnecessary-type-assertion': 0,
       'no-floating-promises': 0,
       'no-misused-promises': 0,
-      'no-non-null-assertion': 0
+      'no-non-null-assertion': 0,
     };
     this.analysisResults = {
       contextualPatterns: [],
       typeRelationships: [],
-      complexPromises: []
+      complexPromises: [],
     };
   }
 
@@ -42,38 +42,42 @@ class OpportunityHarvester {
     try {
       console.log('🔍 Performing comprehensive analysis of remaining opportunities...');
 
-      const lintOutput = execSync(
-        'yarn lint --max-warnings=10000 --format=json',
-        { encoding: 'utf8', stdio: 'pipe' }
-      );
+      const lintOutput = execSync('yarn lint --max-warnings=10000 --format=json', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
 
       const lintResults = JSON.parse(lintOutput);
       const opportunityFiles = new Map();
 
       for (const result of lintResults) {
         const filePath = result.filePath;
-        const targetMessages = result.messages.filter(msg =>
-          msg.ruleId && [
-            '@typescript-eslint/prefer-optional-chain',
-            '@typescript-eslint/no-unnecessary-type-assertion',
-            '@typescript-eslint/no-floating-promises',
-            '@typescript-eslint/no-misused-promises',
-            '@typescript-eslint/no-non-null-assertion'
-          ].includes(msg.ruleId)
+        const targetMessages = result.messages.filter(
+          msg =>
+            msg.ruleId &&
+            [
+              '@typescript-eslint/prefer-optional-chain',
+              '@typescript-eslint/no-unnecessary-type-assertion',
+              '@typescript-eslint/no-floating-promises',
+              '@typescript-eslint/no-misused-promises',
+              '@typescript-eslint/no-non-null-assertion',
+            ].includes(msg.ruleId),
         );
 
         if (targetMessages.length > 0) {
           opportunityFiles.set(filePath, {
             messages: targetMessages,
             issueCount: targetMessages.length,
-            categories: [...new Set(targetMessages.map(m => m.ruleId?.replace('@typescript-eslint/', '')))]
+            categories: [
+              ...new Set(targetMessages.map(m => m.ruleId?.replace('@typescript-eslint/', ''))),
+            ],
           });
         }
       }
 
       // Sort by issue count and category diversity for maximum impact
       const sortedFiles = Array.from(opportunityFiles.entries())
-        .sort(([,a], [,b]) => {
+        .sort(([, a], [, b]) => {
           // Prioritize files with multiple categories and high counts
           const aScore = a.issueCount * a.categories.length;
           const bScore = b.issueCount * b.categories.length;
@@ -85,11 +89,12 @@ class OpportunityHarvester {
       console.log(`📈 Top opportunity files:`);
       sortedFiles.slice(0, 8).forEach(([file, data], index) => {
         const shortPath = file.replace(process.cwd(), '.');
-        console.log(`   ${index + 1}. ${shortPath} (${data.issueCount} issues, ${data.categories.length} categories)`);
+        console.log(
+          `   ${index + 1}. ${shortPath} (${data.issueCount} issues, ${data.categories.length} categories)`,
+        );
       });
 
       return sortedFiles;
-
     } catch (error) {
       console.warn('⚠️ Could not get comprehensive analysis, using fallback approach');
       return this.getFallbackOpportunityFiles();
@@ -108,7 +113,7 @@ class OpportunityHarvester {
       'src/services/CurrentMomentManager.ts',
       'src/utils/astrologyUtils.ts',
       'src/utils/ingredientRecommender.ts',
-      'src/components/IngredientRecommender.tsx'
+      'src/components/IngredientRecommender.tsx',
     ];
 
     return knownOpportunityFiles
@@ -199,7 +204,7 @@ class OpportunityHarvester {
     if (patterns.length > 0) {
       this.analysisResults.contextualPatterns.push({
         file: filePath,
-        patterns: patterns
+        patterns: patterns,
       });
     }
 
@@ -215,16 +220,19 @@ class OpportunityHarvester {
     const relationships = [];
 
     // Pattern 1: Redundant string assertions
-    const stringPattern = /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+string\)/g;
+    const stringPattern =
+      /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+string\)/g;
     const stringMatches = [...modifiedContent.matchAll(stringPattern)];
     for (const match of stringMatches) {
       const [fullMatch, variable] = match;
       // Check if variable name or context suggests it's already a string
-      if (variable.toLowerCase().includes('str') ||
-          variable.toLowerCase().includes('text') ||
-          variable.toLowerCase().includes('name') ||
-          variable.toLowerCase().includes('title') ||
-          variable.toLowerCase().includes('message')) {
+      if (
+        variable.toLowerCase().includes('str') ||
+        variable.toLowerCase().includes('text') ||
+        variable.toLowerCase().includes('name') ||
+        variable.toLowerCase().includes('title') ||
+        variable.toLowerCase().includes('message')
+      ) {
         modifiedContent = modifiedContent.replace(fullMatch, variable);
         fixes++;
         relationships.push(`String: ${variable} (name-based inference)`);
@@ -232,15 +240,18 @@ class OpportunityHarvester {
     }
 
     // Pattern 2: Redundant number assertions
-    const numberPattern = /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+number\)/g;
+    const numberPattern =
+      /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+number\)/g;
     const numberMatches = [...modifiedContent.matchAll(numberPattern)];
     for (const match of numberMatches) {
       const [fullMatch, variable] = match;
-      if (variable.toLowerCase().includes('num') ||
-          variable.toLowerCase().includes('count') ||
-          variable.toLowerCase().includes('index') ||
-          variable.toLowerCase().includes('length') ||
-          variable.toLowerCase().includes('size')) {
+      if (
+        variable.toLowerCase().includes('num') ||
+        variable.toLowerCase().includes('count') ||
+        variable.toLowerCase().includes('index') ||
+        variable.toLowerCase().includes('length') ||
+        variable.toLowerCase().includes('size')
+      ) {
         modifiedContent = modifiedContent.replace(fullMatch, variable);
         fixes++;
         relationships.push(`Number: ${variable} (name-based inference)`);
@@ -248,16 +259,19 @@ class OpportunityHarvester {
     }
 
     // Pattern 3: Redundant boolean assertions
-    const booleanPattern = /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+boolean\)/g;
+    const booleanPattern =
+      /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+boolean\)/g;
     const booleanMatches = [...modifiedContent.matchAll(booleanPattern)];
     for (const match of booleanMatches) {
       const [fullMatch, variable] = match;
-      if (variable.toLowerCase().startsWith('is') ||
-          variable.toLowerCase().startsWith('has') ||
-          variable.toLowerCase().startsWith('can') ||
-          variable.toLowerCase().startsWith('should') ||
-          variable.toLowerCase().includes('enabled') ||
-          variable.toLowerCase().includes('visible')) {
+      if (
+        variable.toLowerCase().startsWith('is') ||
+        variable.toLowerCase().startsWith('has') ||
+        variable.toLowerCase().startsWith('can') ||
+        variable.toLowerCase().startsWith('should') ||
+        variable.toLowerCase().includes('enabled') ||
+        variable.toLowerCase().includes('visible')
+      ) {
         modifiedContent = modifiedContent.replace(fullMatch, variable);
         fixes++;
         relationships.push(`Boolean: ${variable} (name-based inference)`);
@@ -265,14 +279,17 @@ class OpportunityHarvester {
     }
 
     // Pattern 4: Redundant array assertions
-    const arrayPattern = /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+[^)]*\[\]\)/g;
+    const arrayPattern =
+      /\(([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)\s+as\s+[^)]*\[\]\)/g;
     const arrayMatches = [...modifiedContent.matchAll(arrayPattern)];
     for (const match of arrayMatches) {
       const [fullMatch, variable] = match;
-      if (variable.toLowerCase().includes('list') ||
-          variable.toLowerCase().includes('array') ||
-          variable.toLowerCase().includes('items') ||
-          variable.toLowerCase().endsWith('s')) {
+      if (
+        variable.toLowerCase().includes('list') ||
+        variable.toLowerCase().includes('array') ||
+        variable.toLowerCase().includes('items') ||
+        variable.toLowerCase().endsWith('s')
+      ) {
         modifiedContent = modifiedContent.replace(fullMatch, variable);
         fixes++;
         relationships.push(`Array: ${variable} (name-based inference)`);
@@ -280,13 +297,18 @@ class OpportunityHarvester {
     }
 
     // Pattern 5: Object property assertions that are clearly redundant
-    const objectPropPattern = /\(([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*)\s+as\s+[^)]+\)/g;
+    const objectPropPattern =
+      /\(([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*)\s+as\s+[^)]+\)/g;
     const objectPropMatches = [...modifiedContent.matchAll(objectPropPattern)];
     for (const match of objectPropMatches) {
       const [fullMatch, property] = match;
       // Only remove if the property name strongly suggests the type
-      if (property.includes('.id') || property.includes('.name') ||
-          property.includes('.title') || property.includes('.message')) {
+      if (
+        property.includes('.id') ||
+        property.includes('.name') ||
+        property.includes('.title') ||
+        property.includes('.message')
+      ) {
         modifiedContent = modifiedContent.replace(fullMatch, property);
         fixes++;
         relationships.push(`Object property: ${property} (property-based inference)`);
@@ -296,7 +318,7 @@ class OpportunityHarvester {
     if (relationships.length > 0) {
       this.analysisResults.typeRelationships.push({
         file: filePath,
-        relationships: relationships
+        relationships: relationships,
       });
     }
 
@@ -319,8 +341,14 @@ class OpportunityHarvester {
       const originalLine = line;
 
       // Pattern 1: Complex async method chains
-      if (/^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\)\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\);?\s*$/.test(line) &&
-          !line.includes('await') && !line.includes('void') && !line.includes('return')) {
+      if (
+        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\)\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\);?\s*$/.test(
+          line,
+        ) &&
+        !line.includes('await') &&
+        !line.includes('void') &&
+        !line.includes('return')
+      ) {
         line = line.replace(/^(\s*)(.+);?\s*$/, '$1void $2;');
         if (line !== originalLine) {
           fixes++;
@@ -329,8 +357,12 @@ class OpportunityHarvester {
       }
 
       // Pattern 2: Promise.all/race/allSettled calls
-      else if (/^\s*Promise\.(all|race|allSettled)\s*\(/.test(line) &&
-               !line.includes('await') && !line.includes('return') && !line.includes('=')) {
+      else if (
+        /^\s*Promise\.(all|race|allSettled)\s*\(/.test(line) &&
+        !line.includes('await') &&
+        !line.includes('return') &&
+        !line.includes('=')
+      ) {
         line = line.replace(/^(\s*)(Promise\..*)$/, '$1void $2');
         if (line !== originalLine) {
           fixes++;
@@ -339,8 +371,12 @@ class OpportunityHarvester {
       }
 
       // Pattern 3: Fetch calls without await
-      else if (/^\s*fetch\s*\(/.test(line) &&
-               !line.includes('await') && !line.includes('return') && !line.includes('=')) {
+      else if (
+        /^\s*fetch\s*\(/.test(line) &&
+        !line.includes('await') &&
+        !line.includes('return') &&
+        !line.includes('=')
+      ) {
         line = line.replace(/^(\s*)(fetch.*)$/, '$1void $2');
         if (line !== originalLine) {
           fixes++;
@@ -349,8 +385,7 @@ class OpportunityHarvester {
       }
 
       // Pattern 4: setTimeout/setInterval with promises
-      else if (/^\s*(setTimeout|setInterval)\s*\(\s*async/.test(line) &&
-               !line.includes('void')) {
+      else if (/^\s*(setTimeout|setInterval)\s*\(\s*async/.test(line) && !line.includes('void')) {
         line = line.replace(/^(\s*)(setTimeout|setInterval)(\s*\(\s*async.*)$/, '$1void $2$3');
         if (line !== originalLine) {
           fixes++;
@@ -359,8 +394,10 @@ class OpportunityHarvester {
       }
 
       // Pattern 5: Event listener async callbacks
-      else if (/addEventListener\s*\(\s*['"][^'"]*['"],\s*async/.test(line) &&
-               !line.includes('void')) {
+      else if (
+        /addEventListener\s*\(\s*['"][^'"]*['"],\s*async/.test(line) &&
+        !line.includes('void')
+      ) {
         line = line.replace(/(addEventListener\s*\(\s*['"][^'"]*['"],\s*)(async)/, '$1void $2');
         if (line !== originalLine) {
           fixes++;
@@ -374,7 +411,7 @@ class OpportunityHarvester {
     if (complexPatterns.length > 0) {
       this.analysisResults.complexPromises.push({
         file: filePath,
-        patterns: complexPatterns
+        patterns: complexPatterns,
       });
     }
 
@@ -405,8 +442,15 @@ class OpportunityHarvester {
     const ternaryMatches = [...modifiedContent.matchAll(ternaryPromisePattern)];
     for (const match of matches) {
       const [fullMatch, condition, promiseCall] = match;
-      if (promiseCall.includes('async') || promiseCall.includes('Promise') || promiseCall.includes('fetch')) {
-        modifiedContent = modifiedContent.replace(fullMatch, `${condition} ? await ${promiseCall} :`);
+      if (
+        promiseCall.includes('async') ||
+        promiseCall.includes('Promise') ||
+        promiseCall.includes('fetch')
+      ) {
+        modifiedContent = modifiedContent.replace(
+          fullMatch,
+          `${condition} ? await ${promiseCall} :`,
+        );
         fixes++;
       }
     }
@@ -416,8 +460,15 @@ class OpportunityHarvester {
     const logicalMatches = [...modifiedContent.matchAll(logicalPromisePattern)];
     for (const match of logicalMatches) {
       const [fullMatch, leftSide, operator, promiseCall] = match;
-      if (promiseCall.includes('async') || promiseCall.includes('Promise') || promiseCall.includes('fetch')) {
-        modifiedContent = modifiedContent.replace(fullMatch, `${leftSide} ${operator} await ${promiseCall}`);
+      if (
+        promiseCall.includes('async') ||
+        promiseCall.includes('Promise') ||
+        promiseCall.includes('fetch')
+      ) {
+        modifiedContent = modifiedContent.replace(
+          fullMatch,
+          `${leftSide} ${operator} await ${promiseCall}`,
+        );
         fixes++;
       }
     }
@@ -432,7 +483,9 @@ class OpportunityHarvester {
     try {
       const shortPath = filePath.replace(process.cwd(), '.');
       console.log(`\n🎯 Harvesting opportunities: ${shortPath}`);
-      console.log(`   Categories: ${fileData.categories.join(', ')} (${fileData.issueCount} issues)`);
+      console.log(
+        `   Categories: ${fileData.categories.join(', ')} (${fileData.issueCount} issues)`,
+      );
 
       const content = fs.readFileSync(filePath, 'utf8');
       let modifiedContent = content;
@@ -479,7 +532,7 @@ class OpportunityHarvester {
         fs.writeFileSync(filePath, modifiedContent, 'utf8');
 
         const harvestSummary = Object.entries(harvestDetails)
-          .filter(([,count]) => count > 0)
+          .filter(([, count]) => count > 0)
           .map(([type, count]) => `${type}(${count})`)
           .join(', ');
 
@@ -490,7 +543,6 @@ class OpportunityHarvester {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`   ❌ Error harvesting ${filePath}:`, error.message);
     }
@@ -536,7 +588,9 @@ class OpportunityHarvester {
    */
   async run() {
     console.log('🚀 Starting Comprehensive Opportunity Harvesting');
-    console.log('🎯 Targeting remaining high-value opportunities with advanced pattern recognition');
+    console.log(
+      '🎯 Targeting remaining high-value opportunities with advanced pattern recognition',
+    );
 
     const opportunityFiles = await this.getComprehensiveFileAnalysis();
 

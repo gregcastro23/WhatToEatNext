@@ -11,8 +11,8 @@ const defaultChart: CurrentChart = {
   currentSeason: '',
   lastUpdated: new Date(),
   stelliums: {},
-  houseEffects: {}
+  houseEffects: {},
 };
 
 // Create the context with default values
-export const ChartContext = createContext<ChartContextType | null>(null); 
+export const ChartContext = createContext<ChartContextType | null>(null);

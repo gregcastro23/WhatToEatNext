@@ -3,13 +3,13 @@ import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatc
 import { ElementalCharacter } from '@/constants/planetaryElements';
 import astrologizeCache from '@/services/AstrologizeApiCache';
 import type {
-    AlchemicalItem,
-    ElementalItem,
-    ElementalProperties,
-    LunarPhaseWithSpaces,
-    PlanetaryAspect,
-    PlanetaryPosition,
-    StandardizedAlchemicalResult
+  AlchemicalItem,
+  ElementalItem,
+  ElementalProperties,
+  LunarPhaseWithSpaces,
+  PlanetaryAspect,
+  PlanetaryPosition,
+  StandardizedAlchemicalResult,
 } from '@/types/alchemy';
 import { AstrologicalState } from '@/types/alchemy';
 import { Recipe, ScoredRecipe } from '@/types/recipe';
@@ -19,7 +19,6 @@ import { calculatePlanetaryPositions, normalizePlanetaryPositions } from '../uti
 import { calculateLunarPhase, transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
 import createError from '../utils/errorHandling';
 import { logger } from '../utils/logger';
-
 
 /**
  * Interface for recommendation criteria
@@ -42,7 +41,7 @@ interface RecommendationCriteria {
  * Interface for transformation item
  */
 interface TransformedItem extends AlchemicalItem {
-  elementalProperties: { Fire: number; Water: number; Earth: number; Air: number; };
+  elementalProperties: { Fire: number; Water: number; Earth: number; Air: number };
   id: string;
 }
 
@@ -84,7 +83,7 @@ export class RecommendationService {
   private constructor(
     ingredients: ElementalItem[] = [],
     methods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = []
+    cuisines: ElementalItem[] = [],
   ) {
     this.ingredients = ingredients;
     this.methods = methods;
@@ -101,12 +100,10 @@ export class RecommendationService {
   public static getInstance(
     ingredients: ElementalItem[] = [],
     methods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = []
+    cuisines: ElementalItem[] = [],
   ): RecommendationService {
     if (!RecommendationService.instance) {
-      RecommendationService.instance = new RecommendationService(
-        ingredients, methods, cuisines
-      );
+      RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines);
     }
     return RecommendationService.instance;
   }
@@ -123,7 +120,7 @@ export class RecommendationService {
     lunarPhase: LunarPhaseWithSpaces | null = null,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: { [key: string]: number },
-    aspects: PlanetaryAspect[] = []
+    aspects: PlanetaryAspect[] = [],
   ): RecommendationService {
     // Normalize planetary positions for robust, type-safe access
     this.planetaryPositions = normalizePlanetaryPositions(planetaryPositions);
@@ -149,11 +146,11 @@ export class RecommendationService {
           this.convertedPositions[planet] = {
             sign: data.sign || '',
             degree: data.degree || 0,
-            ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
+            ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {}),
           };
         } else if (typeof data === 'number') {
           this.convertedPositions[planet] = {
-            degree: data
+            degree: data,
           };
         }
       });
@@ -184,12 +181,7 @@ export class RecommendationService {
       const sunPosition = positions['Sun'];
       const currentZodiac = sunPosition.sign || null;
       // Initialize with calculated values
-      this.initialize(
-        positions,
-        isDaytime,
-        currentZodiac,
-        lunarPhaseFormatted
-      );
+      this.initialize(positions, isDaytime, currentZodiac, lunarPhaseFormatted);
       logger.info('Initialized service with current planetary positions');
       return this;
     } catch (error) {
@@ -237,7 +229,7 @@ export class RecommendationService {
         this.ingredients,
         this.planetaryPositions,
         this.isDaytime,
-        this.currentZodiac || undefined
+        this.currentZodiac || undefined,
       );
 
       // Transform cooking methods
@@ -245,7 +237,7 @@ export class RecommendationService {
         this.methods,
         this.planetaryPositions,
         this.isDaytime,
-        this.currentZodiac || undefined
+        this.currentZodiac || undefined,
       );
 
       // Transform cuisines
@@ -253,7 +245,7 @@ export class RecommendationService {
         this.cuisines,
         this.planetaryPositions,
         this.isDaytime,
-        this.currentZodiac || undefined
+        this.currentZodiac || undefined,
       );
 
       // Apply tarot element boosts if available
@@ -279,21 +271,24 @@ export class RecommendationService {
     if (!this.tarotElementBoosts) return;
 
     // Apply boosts to each ingredient
-    this.transformedIngredients = this.transformedIngredients  || [].map(item => {
-      const properties = (item as Record<string, unknown>).elementalState as ElementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0  };
+    this.transformedIngredients =
+      this.transformedIngredients ||
+      [].map(item => {
+        const properties = ((item as Record<string, unknown>)
+          .elementalState as ElementalProperties) || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
-      // Apply boosts to each element
-      Object.entries(this.tarotElementBoosts || []).forEach(([element, boost]) => {
-        if (element in properties) {
-          properties[element as keyof typeof properties] += boost;
-        }
+        // Apply boosts to each element
+        Object.entries(this.tarotElementBoosts || []).forEach(([element, boost]) => {
+          if (element in properties) {
+            properties[element as keyof typeof properties] += boost;
+          }
+        });
+
+        return {
+          ...(item as Record<string, unknown>),
+          elementalProperties: properties,
+        };
       });
-
-      return {
-        ...(item as Record<string, unknown>),
-        elementalProperties: properties
-      };
-    });
 
     // Similarly apply to methods and cuisines
     // (Implementation similar to ingredients)
@@ -339,7 +334,10 @@ export class RecommendationService {
     return [...items]
       .sort((a, b) => {
         // Sort by compatibility score (higher is better) - safe property access
-        return ((b as { compatibilityScore?: number }).compatibilityScore || 0) - ((a as { compatibilityScore?: number }).compatibilityScore || 0);
+        return (
+          ((b as { compatibilityScore?: number }).compatibilityScore || 0) -
+          ((a as { compatibilityScore?: number }).compatibilityScore || 0)
+        );
       })
       .slice(0, limit);
   }
@@ -386,31 +384,34 @@ export class RecommendationService {
     return this.cuisines.find(item => item.id === id);
   }
 
-
   /**
    * Recommend recipes based on current planetary and elemental influences
    */
   async recommendRecipes(
     recipes: Recipe[],
-    criteria: RecommendationCriteria = {}
+    criteria: RecommendationCriteria = {},
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || (recipes || []).length === 0) {
-        throw new (createError as unknown as new(message: string, details?: Record<string, unknown>) => Error)('INVALID_REQUEST', { context: 'Empty recipe list' });
+        throw new (createError as unknown as new (
+          message: string,
+          details?: Record<string, unknown>,
+        ) => Error)('INVALID_REQUEST', { context: 'Empty recipe list' });
       }
 
       // If celestial influence not provided, calculate from current settings
       const celestialInfluence = criteria.celestialInfluence || this.getCurrentElementalInfluence();
 
       // Score and sort recipes
-      const scoredRecipes = (recipes || []).map(recipe => ({
-        ...recipe,
-        score: this.calculateRecipeScore(recipe, {
-          ...criteria,
-          celestialInfluence
-        })
-      }))
-      .sort((a, b) => b.score - a.score);
+      const scoredRecipes = (recipes || [])
+        .map(recipe => ({
+          ...recipe,
+          score: this.calculateRecipeScore(recipe, {
+            ...criteria,
+            celestialInfluence,
+          }),
+        }))
+        .sort((a, b) => b.score - a.score);
 
       // Always ensure at least one recommendation
       if ((scoredRecipes || []).length === 0) {
@@ -436,10 +437,7 @@ export class RecommendationService {
   /**
    * Calculates a numeric score for how well a recipe fits the given criteria
    */
-  private calculateRecipeScore(
-    recipe: Recipe,
-    criteria: RecommendationCriteria
-  ): number {
+  private calculateRecipeScore(recipe: Recipe, criteria: RecommendationCriteria): number {
     let score = 0.5; // Start with neutral score
 
     // Enhanced alchemical score calculation using the current state and location
@@ -447,23 +445,26 @@ export class RecommendationService {
       const alchemicalScore = this.calculateEnhancedAlchemicalScore(
         recipe,
         criteria.astrologicalState,
-        criteria.currentLocation
+        criteria.currentLocation,
       );
       score += alchemicalScore * 0.4; // 40% weight for alchemical compatibility
     } else if (criteria.astrologicalState) {
       // Fallback without location
-      const fallbackLocation = { lat: 40.7128, lng: -74.0060 }; // Default to NYC
+      const fallbackLocation = { lat: 40.7128, lng: -74.006 }; // Default to NYC
       const alchemicalScore = this.calculateEnhancedAlchemicalScore(
         recipe,
         criteria.astrologicalState,
-        fallbackLocation
+        fallbackLocation,
       );
       score += alchemicalScore * 0.35; // Slightly lower weight without location
     } else if (criteria.astrologicalState) {
       // Basic compatibility check using simple elemental matching
       const currentElements = this.getCurrentElementalInfluence();
       const recipeElements = recipe.elementalProperties || {
-        Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
       };
       const elementalMatch = this.calculateElementalMatch(recipeElements, currentElements);
       score += elementalMatch * 0.3; // 30% weight for basic elemental matching
@@ -518,7 +519,7 @@ export class RecommendationService {
   private calculateEnhancedAlchemicalScore(
     recipe: Recipe,
     astrologicalState: AstrologicalState,
-    location: { lat: number; lng: number }
+    location: { lat: number; lng: number },
   ): number {
     try {
       // Get recipe elemental properties, defaulting if not available
@@ -526,7 +527,7 @@ export class RecommendationService {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       };
 
       // Get current moment's elemental influence
@@ -534,14 +535,16 @@ export class RecommendationService {
         currentZodiac?: string;
         lunarPhase?: string;
         activePlanets?: string[];
-        [key: string]: unknown
+        [key: string]: unknown;
       };
-      const currentMomentElements: ElementalProperties =
-        (astroStateData.elementalProperties && Object.keys(astroStateData.elementalProperties).length > 0
+      const currentMomentElements: ElementalProperties = (
+        astroStateData.elementalProperties &&
+        Object.keys(astroStateData.elementalProperties).length > 0
           ? astroStateData.elementalProperties
           : astroStateData.elementalState && Object.keys(astroStateData.elementalState).length > 0
-          ? astroStateData.elementalState
-          : { Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
+            ? astroStateData.elementalState
+            : { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+      ) as ElementalProperties;
 
       // Calculate elemental compatibility
       const elementalScore = this.calculateElementalMatch(recipeElements, currentMomentElements);
@@ -558,30 +561,39 @@ export class RecommendationService {
             Spirit: 0.25,
             Essence: 0.25,
             Matter: 0.25,
-            Substance: 0.25
+            Substance: 0.25,
           },
           elementalValues: currentMomentElements,
-          thermodynamics: { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5, kalchm: 1.0, monicaConstant: 1.0 },
+          thermodynamics: {
+            heat: 0.5,
+            entropy: 0.5,
+            reactivity: 0.5,
+            gregsEnergy: 0.5,
+            kalchm: 1.0,
+            monicaConstant: 1.0,
+          },
           dominantElement: 'Fire' as const,
           dominantProperty: 'Spirit' as const,
-          timestamp: Date.now().toString()
+          timestamp: Date.now().toString(),
         };
-        const compatibilityResult = calculateRecipeCompatibility(
-          recipeElements,
-          mockKalchmResult
-        );
+        const compatibilityResult = calculateRecipeCompatibility(recipeElements, mockKalchmResult);
         // Extract numerical score from the result object
-        advancedScore = typeof compatibilityResult === 'number'
-          ? compatibilityResult
-          : (compatibilityResult as { score?: number; compatibility?: number }).score ||
-            (compatibilityResult as { score?: number; compatibility?: number }).compatibility || 0.5;
+        advancedScore =
+          typeof compatibilityResult === 'number'
+            ? compatibilityResult
+            : (compatibilityResult as { score?: number; compatibility?: number }).score ||
+              (compatibilityResult as { score?: number; compatibility?: number }).compatibility ||
+              0.5;
       } catch (error) {
-        logger.warn('Advanced compatibility calculation failed, using basic elemental match:', error);
+        logger.warn(
+          'Advanced compatibility calculation failed, using basic elemental match:',
+          error,
+        );
         advancedScore = elementalScore;
       }
 
       // Combine scores with weighted average
-      const combinedScore = (elementalScore * 0.4) + (advancedScore * 0.6);
+      const combinedScore = elementalScore * 0.4 + advancedScore * 0.6;
 
       return Math.max(0, Math.min(1, combinedScore));
     } catch (error) {
@@ -596,23 +608,25 @@ export class RecommendationService {
    */
   private calculateElementalMatch(
     recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties
+    currentMomentElements: ElementalProperties,
   ): number {
     // Calculate absolute elemental similarity
-    const absoluteMatch = this.calculateAbsoluteElementalMatch(recipeElements, currentMomentElements);
+    const absoluteMatch = this.calculateAbsoluteElementalMatch(
+      recipeElements,
+      currentMomentElements,
+    );
 
     // Calculate relative elemental similarity
-    const relativeMatch = this.calculateRelativeElementalMatch(recipeElements, currentMomentElements);
+    const relativeMatch = this.calculateRelativeElementalMatch(
+      recipeElements,
+      currentMomentElements,
+    );
 
     // Calculate dominant element compatibility
     const dominantMatch = this.calculateDominantElementMatch(recipeElements, currentMomentElements);
 
     // Weighted combination
-    return (
-      absoluteMatch * 0.4 +
-      relativeMatch * 0.35 +
-      dominantMatch * 0.25
-    );
+    return absoluteMatch * 0.4 + relativeMatch * 0.35 + dominantMatch * 0.25;
   }
 
   /**
@@ -620,7 +634,7 @@ export class RecommendationService {
    */
   private calculateAbsoluteElementalMatch(
     recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties
+    currentMomentElements: ElementalProperties,
   ): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
     let totalSimilarity = 0;
@@ -648,7 +662,7 @@ export class RecommendationService {
    */
   private calculateRelativeElementalMatch(
     recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties
+    currentMomentElements: ElementalProperties,
   ): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
     let totalSimilarity = 0;
@@ -659,10 +673,17 @@ export class RecommendationService {
       const otherElements = elements.filter(e => e !== element);
 
       const recipeOthersSum = otherElements.reduce((sum, e) => sum + (recipeElements[e] || 0), 0);
-      const currentMomentOthersSum = otherElements.reduce((sum, e) => sum + (currentMomentElements[e] || 0), 0);
+      const currentMomentOthersSum = otherElements.reduce(
+        (sum, e) => sum + (currentMomentElements[e] || 0),
+        0,
+      );
 
-      const recipeRelative = recipeOthersSum > 0 ? (recipeElements[element] || 0) / recipeOthersSum : 0;
-      const currentMomentRelative = currentMomentOthersSum > 0 ? (currentMomentElements[element] || 0) / currentMomentOthersSum : 0;
+      const recipeRelative =
+        recipeOthersSum > 0 ? (recipeElements[element] || 0) / recipeOthersSum : 0;
+      const currentMomentRelative =
+        currentMomentOthersSum > 0
+          ? (currentMomentElements[element] || 0) / currentMomentOthersSum
+          : 0;
 
       // Calculate similarity between relative values
       const maxRelative = Math.max(recipeRelative, currentMomentRelative, 0.1); // Prevent division by zero
@@ -680,7 +701,7 @@ export class RecommendationService {
    */
   private calculateDominantElementMatch(
     recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties
+    currentMomentElements: ElementalProperties,
   ): number {
     // Get dominant elements
     const recipeDominant = this.getDominantElement(recipeElements);
@@ -693,10 +714,10 @@ export class RecommendationService {
 
     // Check elemental harmony (elements that work well together)
     const elementalHarmony = {
-      'Fire': ['Air', 'Fire'], // Fire enhances with Air
-      'Water': ['Earth', 'Water'], // Water nourishes Earth
-      'Earth': ['Water', 'Earth'], // Earth grounds Water
-      'Air': ['Fire', 'Air'] // Air feeds Fire
+      Fire: ['Air', 'Fire'], // Fire enhances with Air
+      Water: ['Earth', 'Water'], // Water nourishes Earth
+      Earth: ['Water', 'Earth'], // Earth grounds Water
+      Air: ['Fire', 'Air'], // Air feeds Fire
     };
 
     const isHarmonious = elementalHarmony[recipeDominant]?.includes(currentMomentDominant) || false;
@@ -708,9 +729,10 @@ export class RecommendationService {
    */
   private getDominantElement(elements: ElementalProperties): keyof ElementalProperties {
     const entries = Object.entries(elements) as [keyof ElementalProperties, number][];
-    return entries.reduce((dominant, [element, value]) =>
-      value > (elements[dominant] || 0) ? element : dominant
-    , 'Fire');
+    return entries.reduce(
+      (dominant, [element, value]) => (value > (elements[dominant] || 0) ? element : dominant),
+      'Fire',
+    );
   }
 
   /**
@@ -736,7 +758,7 @@ export class RecommendationService {
     lng: number,
     astrologicalState: AstrologicalState,
     alchemicalResult: StandardizedAlchemicalResult,
-    planetaryPositions: Record<string, PlanetaryPosition>
+    planetaryPositions: Record<string, PlanetaryPosition>,
   ): void {
     try {
       astrologizeCache.store(
@@ -745,7 +767,7 @@ export class RecommendationService {
         new Date(),
         astrologicalState,
         alchemicalResult,
-        planetaryPositions
+        planetaryPositions,
       );
     } catch (error) {
       logger.error('Error storing recommendation result in cache:', error);
@@ -767,7 +789,7 @@ export class RecommendationService {
           amount: 2,
           unit: 'cups',
           category: 'vegetable',
-          elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 }
+          elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 },
         },
         {
           id: 'protein-choice',
@@ -775,7 +797,7 @@ export class RecommendationService {
           amount: 4,
           unit: 'oz',
           category: 'protein',
-          elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 }
+          elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
         },
         {
           id: 'whole-grains',
@@ -783,7 +805,7 @@ export class RecommendationService {
           amount: 0.5,
           unit: 'cup',
           category: 'grain',
-          elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }
+          elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 },
         },
         {
           id: 'healthy-fats',
@@ -791,32 +813,29 @@ export class RecommendationService {
           amount: 1,
           unit: 'tbsp',
           category: 'oil',
-          elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.3, Air: 0.4 }
-        }
+          elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.3, Air: 0.4 },
+        },
       ],
       instructions: [
         'Combine all ingredients in a balanced way.',
         'Cook using your preferred method.',
-        'Season to taste with herbs and spices.'
+        'Season to taste with herbs and spices.',
       ],
       cookingMethod: ['balanced', 'flexible'],
-      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-       },
+      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       score: 0.5,
       mealType: 'any',
       season: 'any',
       difficulty: 'medium',
       preparationTime: 30,
-      servings: 2
+      servings: 2,
     };
   }
 
   /**
    * Get Spoonacular recommendations as a fallback
    */
-  private async getSpoonacularRecommendations(
-    criteria: RecommendationCriteria
-  ): Promise<Recipe[]> {
+  private async getSpoonacularRecommendations(criteria: RecommendationCriteria): Promise<Recipe[]> {
     try {
       // This would be implemented to call Spoonacular API
       // For example: using SpoonacularService

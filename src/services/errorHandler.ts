@@ -23,7 +23,7 @@ export enum ErrorType {
   DATA = 'DATA',
   NETWORK = 'NETWORK',
   ASTROLOGY = 'ASTROLOGY',
-  UNKNOWN = 'UNKNOWN'
+  UNKNOWN = 'UNKNOWN',
 }
 
 // Error severity levels
@@ -32,7 +32,7 @@ export enum ErrorSeverity {
   WARNING = 'WARNING',
   ERROR = 'ERROR',
   CRITICAL = 'CRITICAL',
-  FATAL = 'FATAL'
+  FATAL = 'FATAL',
 }
 
 // Options for the error handler
@@ -68,7 +68,7 @@ class ErrorHandlerService {
       context = {},
       data = {},
       isFatal = false,
-      silent = false
+      silent = false,
     } = options;
 
     const errorDetails = this.prepareErrorDetails(error, options);
@@ -85,7 +85,11 @@ class ErrorHandlerService {
         case ErrorSeverity.ERROR:
         case ErrorSeverity.CRITICAL:
         case ErrorSeverity.FATAL:
-          logError(`[${severity}][${type}][${component}] ${errorDetails.message}`, { error, context, data });
+          logError(`[${severity}][${type}][${component}] ${errorDetails.message}`, {
+            error,
+            context,
+            data,
+          });
           break;
       }
     }
@@ -98,7 +102,7 @@ class ErrorHandlerService {
       type,
       severity,
       timestamp: new Date().toISOString(),
-      handled: true
+      handled: true,
     };
   }
 
@@ -111,7 +115,7 @@ class ErrorHandlerService {
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
-      context: options.context || {}
+      context: options.context || {},
     });
     return error;
   }
@@ -148,7 +152,7 @@ class ErrorHandlerService {
     this.log(error, {
       context: (context as string) || 'unknown',
       type: ErrorType.UNKNOWN,
-      severity: ErrorSeverity.ERROR
+      severity: ErrorSeverity.ERROR,
     });
   }
 
@@ -204,17 +208,17 @@ export const errorHandler = ErrorHandler;
  * Use this to validate critical values before using them
  */
 export function safeValue<T>(
-  value: T | null | undefined, 
-  fallback: T, 
+  value: T | null | undefined,
+  fallback: T,
   context: string,
-  variableName: string
+  variableName: string,
 ): T {
   if (value === null || value === undefined) {
     // Use standalone warnNullValue function since it's not a method on ErrorHandler
     warnNullValue(variableName, context, value);
-    return fallback
+    return fallback;
   }
-  return value
+  return value;
 }
 
 /**
@@ -228,7 +232,7 @@ export function safePropertyAccess<T>(
   obj: unknown,
   properties: string[],
   defaultValue: T,
-  context: string
+  context: string,
 ): T {
   if (obj === null || obj === undefined) {
     warnNullValue(properties.join('.'), context);
@@ -260,11 +264,7 @@ export function safePropertyAccess<T>(
  * @param defaultValue Default value to return if function throws
  * @param context Context for error logging
  */
-export function safeExecuteWithContext<T>(
-  fn: () => T,
-  defaultValue: T,
-  context: string
-): T {
+export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context: string): T {
   try {
     return fn();
   } catch (error) {
@@ -277,60 +277,70 @@ export function safeExecuteWithContext<T>(
  * Log a warning about a potentially undefined or null value
  */
 export function warnNullValue(variableName: string, context: string, value?: unknown): void {
-  logWarning(
-    `Potential null / (undefined || 1) value: ${variableName} in ${context}`, 
-    { value, timestamp: new Date().toISOString() }
-  )
+  logWarning(`Potential null / (undefined || 1) value: ${variableName} in ${context}`, {
+    value,
+    timestamp: new Date().toISOString(),
+  });
 }
 
 /**
  * Detect issues with runtime type mismatches
  */
-export function validateType(value: unknown, expectedType: string, context: string, variableName: string): boolean {
-  const actualType = value === null ? 'null' : typeof value
-  
+export function validateType(
+  value: unknown,
+  expectedType: string,
+  context: string,
+  variableName: string,
+): boolean {
+  const actualType = value === null ? 'null' : typeof value;
+
   // Handle array type special case
   if (expectedType === 'array' && Array.isArray(value)) {
-    return true
+    return true;
   }
-  
+
   // Handle object type special case (but not null)
   if (expectedType === 'object' && actualType === 'object' && value !== null) {
-    return true
+    return true;
   }
-  
+
   // Basic type checking
   if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {
     logWarning(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
-      { value }
-    )
-    return false
+      { value },
+    );
+    return false;
   }
-  
-  return true
+
+  return true;
 }
 
 /**
  * Handle property access errors with detailed reporting
  * Use this when accessing potentially undefined nested properties
  */
-export function handlePropertyAccessError(error: unknown, propertyPath: string, context: string): void {
-  let message = "Property access error";
-  if (error instanceof TypeError && (
-    error.message.includes("Cannot read properties of undefined") ||
-    error.message.includes("Cannot read properties of null") ||
-    error.message.includes("is not a function") ||
-    error.message.includes("is not iterable")
-  )) {
+export function handlePropertyAccessError(
+  error: unknown,
+  propertyPath: string,
+  context: string,
+): void {
+  let message = 'Property access error';
+  if (
+    error instanceof TypeError &&
+    (error.message.includes('Cannot read properties of undefined') ||
+      error.message.includes('Cannot read properties of null') ||
+      error.message.includes('is not a function') ||
+      error.message.includes('is not iterable'))
+  ) {
     message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`;
   } else if (error instanceof Error) {
     message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
   }
-  
+
   ErrorHandler.log(error, {
     context,
-    data: { propertyPath }
+    data: { propertyPath },
   });
 }
 
@@ -347,6 +357,6 @@ export function trackExecution(functionName: string, step: string, data?: unknow
 export function logTypeError(error: unknown, context: string, operation: string): void {
   ErrorHandler.log(error, {
     context: `TypeScript:${context}`,
-    data: { operation }
+    data: { operation },
   });
-} 
+}

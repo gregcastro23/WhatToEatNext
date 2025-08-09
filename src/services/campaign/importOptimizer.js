@@ -62,7 +62,6 @@ class ImportOptimizer {
         await this.cleanupBackup(filePath);
         return true;
       }
-
     } catch (error) {
       console.error('❌ Error optimizing imports:', error.message);
       await this.restoreBackup(filePath);
@@ -75,17 +74,18 @@ class ImportOptimizer {
       imports: [],
       usage: new Set(),
       typeUsage: new Set(),
-      preservedImports: new Set()
+      preservedImports: new Set(),
     };
 
     // Extract all import statements
-    const importRegex = /^import\s+(?:(?:(?:type\s+)?(?:\{[^}]*\}|\*\s+as\s+\w+|\w+)(?:\s*,\s*(?:\{[^}]*\}|\*\s+as\s+\w+|\w+))*)\s+from\s+)?['"`]([^'"`]+)['"`];?$/gm;
-    
+    const importRegex =
+      /^import\s+(?:(?:(?:type\s+)?(?:\{[^}]*\}|\*\s+as\s+\w+|\w+)(?:\s*,\s*(?:\{[^}]*\}|\*\s+as\s+\w+|\w+))*)\s+from\s+)?['"`]([^'"`]+)['"`];?$/gm;
+
     let match;
     while ((match = importRegex.exec(content)) !== null) {
       const importStatement = match[0];
       const modulePath = match[1];
-      
+
       analysis.imports.push({
         statement: importStatement,
         module: modulePath,
@@ -93,19 +93,19 @@ class ImportOptimizer {
         isTypeOnly: importStatement.includes('import type'),
         namedImports: this.extractNamedImports(importStatement),
         defaultImport: this.extractDefaultImport(importStatement),
-        namespaceImport: this.extractNamespaceImport(importStatement)
+        namespaceImport: this.extractNamespaceImport(importStatement),
       });
     }
 
     // Find usage patterns in the code (excluding import statements)
     const codeWithoutImports = content.replace(importRegex, '');
-    
+
     // Find all identifiers used in the code
     const identifierRegex = /\b([A-Za-z_$][A-Za-z0-9_$]*)\b/g;
     let identifierMatch;
     while ((identifierMatch = identifierRegex.exec(codeWithoutImports)) !== null) {
       const identifier = identifierMatch[1];
-      
+
       // Skip common keywords and built-ins
       if (!this.isReservedWord(identifier)) {
         analysis.usage.add(identifier);
@@ -132,7 +132,7 @@ class ImportOptimizer {
   extractNamedImports(importStatement) {
     const namedMatch = importStatement.match(/\{([^}]+)\}/);
     if (!namedMatch) return [];
-    
+
     return namedMatch[1]
       .split(',')
       .map(item => item.trim())
@@ -142,13 +142,15 @@ class ImportOptimizer {
         const parts = item.split(/\s+as\s+/);
         return {
           imported: parts[0].trim(),
-          local: parts[1] ? parts[1].trim() : parts[0].trim()
+          local: parts[1] ? parts[1].trim() : parts[0].trim(),
         };
       });
   }
 
   extractDefaultImport(importStatement) {
-    const defaultMatch = importStatement.match(/import\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*(?:,|\s+from)/);
+    const defaultMatch = importStatement.match(
+      /import\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*(?:,|\s+from)/,
+    );
     return defaultMatch ? defaultMatch[1] : null;
   }
 
@@ -159,7 +161,11 @@ class ImportOptimizer {
 
   shouldPreserveImport(importInfo) {
     // Preserve side-effect imports (no named imports)
-    if (!importInfo.namedImports.length && !importInfo.defaultImport && !importInfo.namespaceImport) {
+    if (
+      !importInfo.namedImports.length &&
+      !importInfo.defaultImport &&
+      !importInfo.namespaceImport
+    ) {
       return true;
     }
 
@@ -169,12 +175,7 @@ class ImportOptimizer {
     }
 
     // Preserve certain critical modules
-    const criticalModules = [
-      'react',
-      'next',
-      '@testing-library',
-      'jest'
-    ];
+    const criticalModules = ['react', 'next', '@testing-library', 'jest'];
 
     return criticalModules.some(module => importInfo.module.includes(module));
   }
@@ -208,24 +209,23 @@ class ImportOptimizer {
       // Check named imports usage
       if (importInfo.namedImports.length > 0) {
         const usedNamedImports = importInfo.namedImports.filter(namedImport => {
-          const isUsed = analysis.usage.has(namedImport.local) || 
-                        analysis.typeUsage.has(namedImport.local);
+          const isUsed =
+            analysis.usage.has(namedImport.local) || analysis.typeUsage.has(namedImport.local);
           return isUsed;
         });
 
         if (usedNamedImports.length > 0) {
           shouldRemove = false;
-          
+
           // If only some named imports are used, modify the import
           if (usedNamedImports.length < importInfo.namedImports.length) {
             const usedImportsStr = usedNamedImports
-              .map(imp => imp.imported === imp.local ? imp.imported : `${imp.imported} as ${imp.local}`)
+              .map(imp =>
+                imp.imported === imp.local ? imp.imported : `${imp.imported} as ${imp.local}`,
+              )
               .join(', ');
-            
-            modifiedImport = importInfo.statement.replace(
-              /\{[^}]+\}/,
-              `{ ${usedImportsStr} }`
-            );
+
+            modifiedImport = importInfo.statement.replace(/\{[^}]+\}/, `{ ${usedImportsStr} }`);
           }
         }
       }
@@ -256,7 +256,7 @@ class ImportOptimizer {
       imports.push({
         statement: match[0],
         index: match.index,
-        module: this.extractModulePath(match[0])
+        module: this.extractModulePath(match[0]),
       });
     }
 
@@ -265,8 +265,9 @@ class ImportOptimizer {
     // Remove all imports from content
     let contentWithoutImports = content;
     imports.reverse().forEach(imp => {
-      contentWithoutImports = contentWithoutImports.substring(0, imp.index) + 
-                             contentWithoutImports.substring(imp.index + imp.statement.length);
+      contentWithoutImports =
+        contentWithoutImports.substring(0, imp.index) +
+        contentWithoutImports.substring(imp.index + imp.statement.length);
     });
 
     // Categorize imports
@@ -300,8 +301,12 @@ class ImportOptimizer {
 
     // Combine organized imports with the rest of the content
     const firstNonImportLine = contentWithoutImports.search(/\S/);
-    const beforeContent = firstNonImportLine > 0 ? contentWithoutImports.substring(0, firstNonImportLine) : '';
-    const afterContent = firstNonImportLine > 0 ? contentWithoutImports.substring(firstNonImportLine) : contentWithoutImports;
+    const beforeContent =
+      firstNonImportLine > 0 ? contentWithoutImports.substring(0, firstNonImportLine) : '';
+    const afterContent =
+      firstNonImportLine > 0
+        ? contentWithoutImports.substring(firstNonImportLine)
+        : contentWithoutImports;
 
     return beforeContent + organizedImports.join('\n') + '\n\n' + afterContent.trim() + '\n';
   }
@@ -310,7 +315,7 @@ class ImportOptimizer {
     const categorized = {
       external: [],
       internal: [],
-      relative: []
+      relative: [],
     };
 
     imports.forEach(imp => {
@@ -338,16 +343,78 @@ class ImportOptimizer {
 
   isReservedWord(word) {
     const reserved = [
-      'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default',
-      'delete', 'do', 'else', 'export', 'extends', 'finally', 'for', 'function',
-      'if', 'import', 'in', 'instanceof', 'new', 'return', 'super', 'switch',
-      'this', 'throw', 'try', 'typeof', 'var', 'void', 'while', 'with', 'yield',
-      'let', 'static', 'enum', 'implements', 'interface', 'package', 'private',
-      'protected', 'public', 'abstract', 'boolean', 'byte', 'char', 'double',
-      'final', 'float', 'goto', 'int', 'long', 'native', 'short', 'synchronized',
-      'throws', 'transient', 'volatile', 'true', 'false', 'null', 'undefined',
-      'console', 'window', 'document', 'process', 'global', 'require', 'module',
-      'exports', '__dirname', '__filename'
+      'break',
+      'case',
+      'catch',
+      'class',
+      'const',
+      'continue',
+      'debugger',
+      'default',
+      'delete',
+      'do',
+      'else',
+      'export',
+      'extends',
+      'finally',
+      'for',
+      'function',
+      'if',
+      'import',
+      'in',
+      'instanceof',
+      'new',
+      'return',
+      'super',
+      'switch',
+      'this',
+      'throw',
+      'try',
+      'typeof',
+      'var',
+      'void',
+      'while',
+      'with',
+      'yield',
+      'let',
+      'static',
+      'enum',
+      'implements',
+      'interface',
+      'package',
+      'private',
+      'protected',
+      'public',
+      'abstract',
+      'boolean',
+      'byte',
+      'char',
+      'double',
+      'final',
+      'float',
+      'goto',
+      'int',
+      'long',
+      'native',
+      'short',
+      'synchronized',
+      'throws',
+      'transient',
+      'volatile',
+      'true',
+      'false',
+      'null',
+      'undefined',
+      'console',
+      'window',
+      'document',
+      'process',
+      'global',
+      'require',
+      'module',
+      'exports',
+      '__dirname',
+      '__filename',
     ];
 
     return reserved.includes(word);
@@ -382,11 +449,11 @@ class ImportOptimizer {
         // Write temporary file for validation
         const tempPath = `${filePath}.temp`;
         fs.writeFileSync(tempPath, newContent);
-        
+
         try {
           const { execSync } = require('child_process');
           execSync(`yarn tsc --noEmit --skipLibCheck "${tempPath}"`, {
-            stdio: 'pipe'
+            stdio: 'pipe',
           });
           fs.unlinkSync(tempPath);
           return true;
@@ -396,7 +463,7 @@ class ImportOptimizer {
           return false;
         }
       }
-      
+
       return true;
     } catch (error) {
       console.log('⚠️ Validation error:', error.message);
@@ -410,7 +477,7 @@ class ImportOptimizer {
       filePath: path.relative(process.cwd(), filePath),
       totalImports: analysis.imports.length,
       preservedImports: analysis.preservedImports.size,
-      action: 'import-optimization'
+      action: 'import-optimization',
     };
 
     const logPath = path.join(process.cwd(), 'logs', 'import-optimizations.log');
@@ -427,7 +494,7 @@ class ImportOptimizer {
 // Main execution function
 async function optimizeImports() {
   const filePath = process.env.KIRO_FILE_PATH;
-  
+
   if (!filePath) {
     console.log('⚠️ No file path provided');
     return false;
@@ -437,7 +504,7 @@ async function optimizeImports() {
     preserveTypeImports: true,
     organizeImports: true,
     removeUnused: true,
-    safeMode: true
+    safeMode: true,
   });
 
   return await optimizer.optimizeFile(filePath);

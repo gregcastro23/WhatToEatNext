@@ -2,12 +2,12 @@
 
 /**
  * Safe Unused Import Removal System
- * 
+ *
  * This script safely removes unused import statements while preserving:
  * - Imports used in type annotations or JSX
  * - Dynamic imports and conditional imports
  * - Imports that may be used in complex expressions
- * 
+ *
  * Requirements: 3.2, 4.1
  */
 
@@ -24,7 +24,7 @@ class SafeUnusedImportRemover {
       '/utils/planetaryConsistencyCheck',
       'astrological',
       'planetary',
-      'elemental'
+      'elemental',
     ];
 
     this.campaignSystemFiles = [
@@ -33,7 +33,7 @@ class SafeUnusedImportRemover {
       '/services/MLIntelligenceService',
       '/services/PredictiveIntelligenceService',
       'Campaign',
-      'Intelligence'
+      'Intelligence',
     ];
 
     this.preservePatterns = [
@@ -46,7 +46,7 @@ class SafeUnusedImportRemover {
       // Dynamic imports
       /import\(/,
       // Conditional imports
-      /require\(/
+      /require\(/,
     ];
   }
 
@@ -64,7 +64,7 @@ class SafeUnusedImportRemover {
       totalUnusedImports: unusedImports.length,
       safeToRemove: [],
       requiresManualReview: [],
-      preserved: []
+      preserved: [],
     };
 
     // Categorize each unused import
@@ -86,7 +86,7 @@ class SafeUnusedImportRemover {
    */
   removeSafeUnusedImports(dryRun = true) {
     const analysis = this.analyzeUnusedImports();
-    
+
     console.log(`📊 Import Analysis Results:`);
     console.log(`Total unused imports: ${analysis.totalUnusedImports}`);
     console.log(`Safe to remove: ${analysis.safeToRemove.length}`);
@@ -106,10 +106,10 @@ class SafeUnusedImportRemover {
 
     console.log('🚀 Removing safe unused imports...\n');
     this.performImportRemoval(analysis.safeToRemove);
-    
+
     // Organize imports after removal
     this.organizeImports();
-    
+
     console.log('✅ Safe unused import removal completed!');
   }
 
@@ -118,9 +118,9 @@ class SafeUnusedImportRemover {
    */
   getLintOutput() {
     try {
-      return execSync('yarn lint --format=compact 2>&1', { 
+      return execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024 // 10MB buffer
+        maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
     } catch (error) {
       // ESLint returns non-zero exit code when there are errors
@@ -136,13 +136,16 @@ class SafeUnusedImportRemover {
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
-      if (line.includes('@typescript-eslint/no-unused-vars') && 
-          (line.includes('is defined but never used') || line.includes('is imported but never used'))) {
-        
-        const match = line.match(/^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/);
+      if (
+        line.includes('@typescript-eslint/no-unused-vars') &&
+        (line.includes('is defined but never used') || line.includes('is imported but never used'))
+      ) {
+        const match = line.match(
+          /^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
+        );
         if (match) {
           const [, filePath, lineNum, colNum, message] = match;
-          
+
           // Extract import name from message
           const importNameMatch = message.match(/'([^']+)'/);
           const importName = importNameMatch ? importNameMatch[1] : '';
@@ -155,7 +158,7 @@ class SafeUnusedImportRemover {
             message,
             isTypeImport: message.includes('type'),
             isDefaultImport: !message.includes('{'),
-            isNamespaceImport: message.includes('* as')
+            isNamespaceImport: message.includes('* as'),
           });
         }
       }
@@ -207,7 +210,7 @@ class SafeUnusedImportRemover {
       'planetary',
       'elemental',
       'astrological',
-      'campaign'
+      'campaign',
     ];
 
     if (preserveNames.some(name => importName.toLowerCase().includes(name.toLowerCase()))) {
@@ -229,17 +232,18 @@ class SafeUnusedImportRemover {
     }
 
     // Safe to remove obvious unused imports
-    if (message.includes('is defined but never used') && 
-        !message.includes('type') &&
-        !file.includes('.d.ts')) {
-      
+    if (
+      message.includes('is defined but never used') &&
+      !message.includes('type') &&
+      !file.includes('.d.ts')
+    ) {
       // Check if it's a simple utility import
       const utilityPatterns = [
-        /^[a-z][a-zA-Z]*$/,  // camelCase function names
-        /^[A-Z_]+$/,         // CONSTANT names
-        /Utils?$/,           // Utility functions
-        /Helper$/,           // Helper functions
-        /Config$/            // Configuration objects
+        /^[a-z][a-zA-Z]*$/, // camelCase function names
+        /^[A-Z_]+$/, // CONSTANT names
+        /Utils?$/, // Utility functions
+        /Helper$/, // Helper functions
+        /Config$/, // Configuration objects
       ];
 
       if (utilityPatterns.some(pattern => pattern.test(importName))) {
@@ -285,12 +289,12 @@ class SafeUnusedImportRemover {
    */
   performImportRemoval(imports) {
     console.log('🚀 Using ESLint auto-fix for safe import removal...\n');
-    
+
     try {
       // Use ESLint's auto-fix capability for unused imports
-      execSync('yarn lint --fix --rule "@typescript-eslint/no-unused-vars: error"', { 
+      execSync('yarn lint --fix --rule "@typescript-eslint/no-unused-vars: error"', {
         stdio: 'inherit',
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
       console.log('✅ ESLint auto-fix completed');
     } catch (error) {
@@ -303,11 +307,11 @@ class SafeUnusedImportRemover {
    */
   organizeImports() {
     console.log('\n📋 Organizing imports...');
-    
+
     try {
-      execSync('yarn lint --fix --rule "import/order: error"', { 
+      execSync('yarn lint --fix --rule "import/order: error"', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
       console.log('✅ Import organization completed');
     } catch (error) {
@@ -320,11 +324,11 @@ class SafeUnusedImportRemover {
    */
   validateChanges() {
     console.log('\n🔍 Validating changes...');
-    
+
     try {
-      execSync('yarn build', { 
+      execSync('yarn build', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
       console.log('✅ Build validation passed');
       return true;

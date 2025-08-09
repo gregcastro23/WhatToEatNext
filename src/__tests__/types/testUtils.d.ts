@@ -26,7 +26,10 @@ export interface MemoryUsageFn {
 }
 
 // Jest mock-compatible memory usage function type for tests
-export type MockableMemoryUsageFn = MemoryUsageFn | jest.Mock<MemoryUsage, []> | jest.Mock<unknown, unknown[]>;
+export type MockableMemoryUsageFn =
+  | MemoryUsageFn
+  | jest.Mock<MemoryUsage, []>
+  | jest.Mock<unknown, unknown[]>;
 
 // Git operations mock interface - comprehensive implementation
 export interface GitOperationsMock {
@@ -86,7 +89,10 @@ export interface ScriptExecutionMock {
 export interface CoreTestUtils {
   waitForAsync: (ms?: number) => Promise<void>;
   createMockFunction: (returnValue?: unknown) => jest.MockedFunction<() => unknown>;
-  createMockComponent: (name: string, testId?: string) => React.ComponentType<Record<string, unknown>>;
+  createMockComponent: (
+    name: string,
+    testId?: string,
+  ) => React.ComponentType<Record<string, unknown>>;
   checkMemory: () => MemoryUsage;
   cleanupMemory: () => any;
 }
@@ -171,4 +177,4 @@ declare global {
   }
 }
 
-export { };
+export {};

@@ -19,11 +19,7 @@ const Clock = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <div className="text-center py-2 bg-gray-800 text-white font-mono text-xl">
-      {time}
-    </div>
-  );
+  return <div className='bg-gray-800 py-2 text-center font-mono text-xl text-white'>{time}</div>;
 };
 
-export default Clock; 
+export default Clock;

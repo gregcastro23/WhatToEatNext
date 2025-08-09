@@ -1,12 +1,12 @@
 import type {
-    AspectType,
-    AstrologicalState,
-    Element,
-    LunarPhase,
-    PlanetName,
-    PlanetaryAspect,
-    ZodiacSign
-} from "@/types/alchemy";
+  AspectType,
+  AstrologicalState,
+  Element,
+  LunarPhase,
+  PlanetName,
+  PlanetaryAspect,
+  ZodiacSign,
+} from '@/types/alchemy';
 import { CelestialPosition } from '@/types/celestial';
 /**
  * A utility function for logging debug information
@@ -55,8 +55,10 @@ interface UNUSED_PlanetDataWithTransits {
  */
 export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosition } {
   // Check cache first
-  if (reliablePositionsCache?.timestamp &&
-      Date.now() - reliablePositionsCache.timestamp < 5 * 60 * 1000) {
+  if (
+    reliablePositionsCache?.timestamp &&
+    Date.now() - reliablePositionsCache.timestamp < 5 * 60 * 1000
+  ) {
     return reliablePositionsCache.data;
   }
 
@@ -118,10 +120,10 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
     },
     Pluto: {
       sign: 'aquarius',
-      degree: 3.70,
-      exactLongitude: 303.70,
+      degree: 3.7,
+      exactLongitude: 303.7,
       isRetrograde: true,
-    }
+    },
   };
 
   // Cache the results
@@ -148,7 +150,10 @@ export function calculateLunarPhase(): number {
 
     return cyclePosition;
   } catch (error) {
-    errorLog('Error in safe calculateLunarPhase:', error instanceof Error ? error.message : String(error));
+    errorLog(
+      'Error in safe calculateLunarPhase:',
+      error instanceof Error ? error.message : String(error),
+    );
     return 0; // Default to new Moon
   }
 }
@@ -184,10 +189,13 @@ export function getmoonIllumination(): number {
     if (phase <= 0.5) {
       return phase * 2; // Waxing
     } else {
-      return 2 - (phase * 2); // Waning
+      return 2 - phase * 2; // Waning
     }
   } catch (error) {
-    errorLog('Error in safe getmoonIllumination:', error instanceof Error ? error.message : String(error));
+    errorLog(
+      'Error in safe getmoonIllumination:',
+      error instanceof Error ? error.message : String(error),
+    );
     return 0.5; // Default to 50%
   }
 }
@@ -224,12 +232,22 @@ export function calculateSunSign(date: Date = new Date()): ZodiacSign {
  */
 export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): number {
   const signs: ZodiacSign[] = [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
 
   const signIndex = signs.indexOf(sign);
-  return (signIndex * 30) + degree;
+  return signIndex * 30 + degree;
 }
 
 /**
@@ -237,7 +255,9 @@ export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): nu
  * @param positions Planetary positions
  * @returns Array of planetary aspects
  */
-export function calculatePlanetaryAspects(positions: { [key: string]: CelestialPosition }): PlanetaryAspect[] {
+export function calculatePlanetaryAspects(positions: {
+  [key: string]: CelestialPosition;
+}): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions);
 
@@ -274,14 +294,15 @@ export function calculatePlanetaryAspects(positions: { [key: string]: CelestialP
         // Calculate aspect strength (0-1) based on orb
         const strength = calculateAspectStrength(aspect.type, aspect.orb);
 
-        if (strength > 0.2) { // Only include significant aspects
+        if (strength > 0.2) {
+          // Only include significant aspects
           aspects.push({
             planet1,
             planet2,
             type: aspect.type,
             orb: aspect.orb,
             strength,
-            planets: [planet1, planet2]
+            planets: [planet1, planet2],
           });
         }
       }
@@ -296,20 +317,20 @@ export function calculatePlanetaryAspects(positions: { [key: string]: CelestialP
  * @param angleDiff Angle difference in degrees
  * @returns Aspect type and orb, or null if not a recognized aspect
  */
-export function identifyAspect(angleDiff: number): { type: AspectType, orb: number } | null {
+export function identifyAspect(angleDiff: number): { type: AspectType; orb: number } | null {
   // Define aspect angles and allowed orbs
-  const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
-    'conjunction': { angle: 0, maxOrb: 8 },
-    'opposition': { angle: 180, maxOrb: 8 },
-    'trine': { angle: 120, maxOrb: 7 },
-    'square': { angle: 90, maxOrb: 7 },
-    'sextile': { angle: 60, maxOrb: 6 },
-    'quincunx': { angle: 150, maxOrb: 5 },
-    'semisextile': { angle: 30, maxOrb: 4 },
-    'semisquare': { angle: 45, maxOrb: 4 },
-    'sesquisquare': { angle: 135, maxOrb: 4 },
-    'quintile': { angle: 72, maxOrb: 3 },
-    'biquintile': { angle: 144, maxOrb: 3 }
+  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb: number }> = {
+    conjunction: { angle: 0, maxOrb: 8 },
+    opposition: { angle: 180, maxOrb: 8 },
+    trine: { angle: 120, maxOrb: 7 },
+    square: { angle: 90, maxOrb: 7 },
+    sextile: { angle: 60, maxOrb: 6 },
+    quincunx: { angle: 150, maxOrb: 5 },
+    semisextile: { angle: 30, maxOrb: 4 },
+    semisquare: { angle: 45, maxOrb: 4 },
+    sesquisquare: { angle: 135, maxOrb: 4 },
+    quintile: { angle: 72, maxOrb: 3 },
+    biquintile: { angle: 144, maxOrb: 3 },
   };
 
   // Check each aspect type
@@ -332,32 +353,32 @@ export function identifyAspect(angleDiff: number): { type: AspectType, orb: numb
 export function calculateAspectStrength(type: AspectType, orb: number): number {
   // Define base strength for each aspect type
   const baseStrength: Record<AspectType, number> = {
-    'conjunction': 1.0,
-    'opposition': 0.9,
-    'trine': 0.8,
-    'square': 0.8,
-    'sextile': 0.7,
-    'quincunx': 0.6,
-    'semisextile': 0.5,
-    'semisquare': 0.5,
-    'sesquisquare': 0.5,
-    'quintile': 0.4,
-    'biquintile': 0.4
+    conjunction: 1.0,
+    opposition: 0.9,
+    trine: 0.8,
+    square: 0.8,
+    sextile: 0.7,
+    quincunx: 0.6,
+    semisextile: 0.5,
+    semisquare: 0.5,
+    sesquisquare: 0.5,
+    quintile: 0.4,
+    biquintile: 0.4,
   };
 
   // Get max orb for this aspect type
-  const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
-    'conjunction': { angle: 0, maxOrb: 8 },
-    'opposition': { angle: 180, maxOrb: 8 },
-    'trine': { angle: 120, maxOrb: 7 },
-    'square': { angle: 90, maxOrb: 7 },
-    'sextile': { angle: 60, maxOrb: 6 },
-    'quincunx': { angle: 150, maxOrb: 5 },
-    'semisextile': { angle: 30, maxOrb: 4 },
-    'semisquare': { angle: 45, maxOrb: 4 },
-    'sesquisquare': { angle: 135, maxOrb: 4 },
-    'quintile': { angle: 72, maxOrb: 3 },
-    'biquintile': { angle: 144, maxOrb: 3 }
+  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb: number }> = {
+    conjunction: { angle: 0, maxOrb: 8 },
+    opposition: { angle: 180, maxOrb: 8 },
+    trine: { angle: 120, maxOrb: 7 },
+    square: { angle: 90, maxOrb: 7 },
+    sextile: { angle: 60, maxOrb: 6 },
+    quincunx: { angle: 150, maxOrb: 5 },
+    semisextile: { angle: 30, maxOrb: 4 },
+    semisquare: { angle: 45, maxOrb: 4 },
+    sesquisquare: { angle: 135, maxOrb: 4 },
+    quintile: { angle: 72, maxOrb: 3 },
+    biquintile: { angle: 144, maxOrb: 3 },
   };
 
   const maxOrb = aspectDefinitions[type].maxOrb;
@@ -386,7 +407,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const dominantElement = getDominantElement(elementCounts) as Element;
 
     // Map planets to names
-    const activePlanets = Object.keys(positions || {}).filter(p => !['northNode', 'southNode', 'Chiron', 'Ascendant', 'MC'].includes(p)
+    const activePlanets = Object.keys(positions || {}).filter(
+      p => !['northNode', 'southNode', 'Chiron', 'Ascendant', 'MC'].includes(p),
     ) as PlanetName[];
 
     // Format lunar phase
@@ -394,8 +416,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
 
     // Provide Sun and Moon signs
-    const sunSign = positions.Sun.sign as ZodiacSign || 'aries';
-    const moonSign = positions.moon.sign as ZodiacSign || 'cancer';
+    const sunSign = (positions.Sun.sign as ZodiacSign) || 'aries';
+    const moonSign = (positions.moon.sign as ZodiacSign) || 'cancer';
 
     // Return formatted state
     return {
@@ -408,7 +430,10 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18,
     };
   } catch (error) {
-    errorLog('Error in getCurrentAstrologicalState:', error instanceof Error ? error.message : String(error));
+    errorLog(
+      'Error in getCurrentAstrologicalState:',
+      error instanceof Error ? error.message : String(error),
+    );
 
     // Fallback default state
     return {
@@ -433,12 +458,25 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
 
   // Check if it's a valid sign
   const validSigns: ZodiacSign[] = [
-    'aries', 'taurus', 'gemini', 'cancer',
-    'leo', 'virgo', 'libra', 'scorpio',
-    'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
 
-  if (Array.isArray(validSigns) ? validSigns.includes(normalizedSign as ZodiacSign) : validSigns === normalizedSign as ZodiacSign) {
+  if (
+    Array.isArray(validSigns)
+      ? validSigns.includes(normalizedSign as ZodiacSign)
+      : validSigns === (normalizedSign as ZodiacSign)
+  ) {
     return normalizedSign as ZodiacSign;
   }
 
@@ -481,7 +519,10 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
     // No data for this planet
     return null;
   } catch (error) {
-    errorLog('Error in getCurrentTransitSign:', error instanceof Error ? error.message : String(error));
+    errorLog(
+      'Error in getCurrentTransitSign:',
+      error instanceof Error ? error.message : String(error),
+    );
     return null;
   }
 }
@@ -506,7 +547,10 @@ export function validatePlanetaryPositions(
   let isValid = true;
 
   for (const planet of requiredPlanets) {
-    if (!(positions as Record<string, unknown>)[planet] || !(positions as Record<string, unknown>)[planet].sign) {
+    if (
+      !(positions as Record<string, unknown>)[planet] ||
+      !(positions as Record<string, unknown>)[planet].sign
+    ) {
       isValid = false;
       break;
     }
@@ -526,7 +570,7 @@ export function validatePlanetaryPositions(
         sign: String(src.sign || ''),
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
-        isRetrograde: Boolean(src.isRetrograde)
+        isRetrograde: Boolean(src.isRetrograde),
       };
 
       // Convert sign to lowercase if it exists
@@ -548,9 +592,18 @@ export function validatePlanetaryPositions(
  */
 export function getBaseSignLongitude(sign: ZodiacSign): number {
   const signs: ZodiacSign[] = [
-    'aries', 'taurus', 'gemini', 'cancer',
-    'leo', 'virgo', 'libra', 'scorpio',
-    'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
 
   const index = signs.indexOf(sign);
@@ -561,7 +614,9 @@ export function getBaseSignLongitude(sign: ZodiacSign): number {
  * Get current transit positions
  * @returns Current planetary positions
  */
-export function getCurrentTransitPositions(): { [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean } } {
+export function getCurrentTransitPositions(): {
+  [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean };
+} {
   // First try to get reliable positions
   const positions = getReliablePlanetaryPositions();
 
@@ -622,9 +677,18 @@ function calculateApproximatemoonSign(dayOfYear: number): ZodiacSign {
   // This is a very rough approximation
   const moonCycle = Math.floor((dayOfYear % 29.5) / 2.5);
   const signs: ZodiacSign[] = [
-    'aries', 'taurus', 'gemini', 'cancer',
-    'leo', 'virgo', 'libra', 'scorpio',
-    'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
 
   return signs[moonCycle % 12];
@@ -645,10 +709,18 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
 
   // Map signs to elements
   const signElements: { [key: string]: string } = {
-    aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
-    taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
-    gemini: 'Air', libra: 'Air', aquarius: 'Air',
-    cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+    aries: 'Fire',
+    leo: 'Fire',
+    sagittarius: 'Fire',
+    taurus: 'Earth',
+    virgo: 'Earth',
+    capricorn: 'Earth',
+    gemini: 'Air',
+    libra: 'Air',
+    aquarius: 'Air',
+    cancer: 'Water',
+    scorpio: 'Water',
+    pisces: 'Water',
   };
 
   // Count elements

@@ -6,5 +6,5 @@ module.exports = {
     'postcss-custom-properties': {},
     tailwindcss: {},
     autoprefixer: {},
-  }
-} 
+  },
+};

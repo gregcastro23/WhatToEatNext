@@ -1,26 +1,12 @@
 /**
  * Unified Type Definitions
- * 
+ *
  * Comprehensive type definitions to resolve missing types and
  * provide consistent interfaces across the application.
  */
 
 // Import and re-export commonly used types from other modules
-import type { 
-  ElementalProperties,
-  AlchemicalProperties,
-  ZodiacSign,
-  Element,
-  AstrologicalState,
-  StandardizedAlchemicalResult,
-  Season,
-  LunarPhase,
-  AlchemicalResult
-} from '@/types/alchemy';
-import type { CookingMethod } from '@/types/cooking';
-
-// Re-export for convenience
-export type { 
+import type {
   ElementalProperties,
   AlchemicalProperties,
   ZodiacSign,
@@ -30,7 +16,21 @@ export type {
   Season,
   LunarPhase,
   AlchemicalResult,
-  CookingMethod
+} from '@/types/alchemy';
+import type { CookingMethod } from '@/types/cooking';
+
+// Re-export for convenience
+export type {
+  ElementalProperties,
+  AlchemicalProperties,
+  ZodiacSign,
+  Element,
+  AstrologicalState,
+  StandardizedAlchemicalResult,
+  Season,
+  LunarPhase,
+  AlchemicalResult,
+  CookingMethod,
 };
 
 // Ingredient types - Unified interface consolidating all ingredient definitions
@@ -39,34 +39,36 @@ export interface Ingredient {
   name: string;
   category: string;
   subCategory?: string;
-  
+
   // Core properties
   elementalProperties: ElementalProperties;
   astrologicalProfile?: AstrologicalProfile;
   nutritionalData?: NutritionalData;
   description?: string;
   aliases?: string[];
-  
+
   // Additional properties from various interfaces
   qualities?: string[];
-  storage?: string | {
-    container?: string;
-    duration: string;
-    temperature?: string;
-    humidity?: string;
-    light?: string;
-  };
-  
+  storage?:
+    | string
+    | {
+        container?: string;
+        duration: string;
+        temperature?: string;
+        humidity?: string;
+        light?: string;
+      };
+
   // Preparation and usage
   preparationMethods?: string[];
   cookingMethods?: string[];
   preparationNotes?: string;
-  
+
   // Seasonality and origins
   seasonality?: Season[];
   regionalOrigins?: string[];
   availability?: string[];
-  
+
   // Flavor and culinary properties
   flavorProfile?: {
     spicy?: number;
@@ -76,16 +78,16 @@ export interface Ingredient {
     salty?: number;
     umami?: number;
   };
-  
+
   // Astrological properties
   zodiacInfluences?: ZodiacSign[];
   planetaryInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
-  
+
   // Alchemical properties
   alchemicalProperties?: AlchemicalResult;
   affinities?: string[];
-  
+
   // Metadata
   source?: string;
   validationStatus?: 'validated' | 'pending' | 'error';
@@ -212,28 +214,28 @@ export interface Recipe {
   difficulty?: 'easy' | 'medium' | 'hard';
   cuisine?: string;
   tags?: string[];
-  
+
   // Standardized elemental properties (not elementalBalance)
   elementalProperties: ElementalProperties;
-  
+
   // Astrological and thermodynamic properties
   astrologicalTiming?: AstrologicalTiming;
   thermodynamicProperties?: ThermodynamicProperties;
-  
+
   // Nutritional information
   nutritionalInfo?: NutritionalData;
-  
+
   // Additional properties from various interfaces
   season?: Season[];
   seasonality?: Season | 'all' | Season[];
   mealType?: string[];
   source?: string;
   category?: string;
-  
+
   // Compatibility properties
   monicaCompatibility?: number;
   alchemicalScore?: number;
-  
+
   // Optional metadata
   createdAt?: Date;
   updatedAt?: Date;
@@ -244,28 +246,28 @@ export interface RecipeIngredient {
   id?: string;
   ingredientId?: string;
   name: string;
-  amount: number;  // Standardized to 'amount' not 'quantity'
+  amount: number; // Standardized to 'amount' not 'quantity'
   unit: string;
   preparation?: string;
   optional?: boolean;
   substitutes?: string[];
-  
+
   // Additional properties from various interfaces
   category?: string;
   notes?: string;
   function?: string;
   cookingPoint?: string;
   timing?: 'early' | 'middle' | 'late';
-  
+
   // Elemental and astrological properties
   elementalProperties?: ElementalProperties;
   zodiacInfluences?: ZodiacSign[];
   planetaryInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
-  
+
   // Nutritional data
   nutritionalContent?: NutritionalData;
-  
+
   // Seasonal and regional data
   seasonality?: string[];
   regionalOrigins?: string[];
@@ -445,7 +447,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
-  Air: 0.25
+  Air: 0.25,
 };
 
 export const DEFAULT_NUTRITIONAL_DATA: NutritionalData = {
@@ -457,45 +459,51 @@ export const DEFAULT_NUTRITIONAL_DATA: NutritionalData = {
   vitamins: {},
   minerals: {},
   servingSize: '1',
-  servingUnit: 'serving'
+  servingUnit: 'serving',
 };
 
 export const DEFAULT_TIME_RANGE: TimeRange = {
   min: 0,
   max: 60,
-  unit: 'minutes'
+  unit: 'minutes',
 };
 
 export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange = {
   min: 20,
   max: 200,
-  unit: 'celsius'
+  unit: 'celsius',
 };
 
 // Type guards
 export const isIngredient = (value: unknown): value is Ingredient => {
-  return typeof value === 'object' && 
-         value !== null && 
-         'id' in value && 
-         'name' in value && 
-         'elementalProperties' in value;
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    'name' in value &&
+    'elementalProperties' in value
+  );
 };
 
 export const isRecipe = (value: unknown): value is Recipe => {
-  return typeof value === 'object' && 
-         value !== null && 
-         'id' in value && 
-         'name' in value && 
-         'ingredients' in value && 
-         'instructions' in value;
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    'name' in value &&
+    'ingredients' in value &&
+    'instructions' in value
+  );
 };
 
 export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {
-  return typeof value === 'object' && 
-         value !== null && 
-         'id' in value && 
-         'name' in value && 
-         'elementalEffect' in value;
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    'name' in value &&
+    'elementalEffect' in value
+  );
 };
 
 export default {
@@ -505,5 +513,5 @@ export default {
   DEFAULT_TEMPERATURE_RANGE,
   isIngredient,
   isRecipe,
-  isCookingMethodExtended
+  isCookingMethodExtended,
 };

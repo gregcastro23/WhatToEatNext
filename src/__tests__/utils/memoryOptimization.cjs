@@ -2,7 +2,7 @@
 
 /**
  * Memory Optimization Script for Test Environment (JavaScript version)
- * 
+ *
  * This script provides comprehensive memory optimization utilities
  * for the WhatToEatNext test infrastructure.
  */
@@ -68,12 +68,11 @@ class MemoryOptimizer {
         memoryFreed,
         optimizationsApplied,
         warnings,
-        errors
+        errors,
       };
 
       this.logOptimizationResult(result);
       return result;
-
     } catch (error) {
       errors.push(`Optimization failed: ${error.message}`);
       return {
@@ -81,7 +80,7 @@ class MemoryOptimizer {
         memoryFreed: 0,
         optimizationsApplied,
         warnings,
-        errors
+        errors,
       };
     }
   }
@@ -130,14 +129,12 @@ class MemoryOptimizer {
     try {
       // Fix 4: Clear require cache for test files
       if (require.cache) {
-        const testFiles = Object.keys(require.cache).filter(key => 
-          key.includes('__tests__') || 
-          key.includes('.test.') || 
-          key.includes('.spec.')
+        const testFiles = Object.keys(require.cache).filter(
+          key => key.includes('__tests__') || key.includes('.test.') || key.includes('.spec.'),
         );
-        
+
         testFiles.forEach(key => delete require.cache[key]);
-        
+
         if (testFiles.length > 0) {
           fixed.push(`Cleared ${testFiles.length} test files from require cache`);
         }
@@ -154,7 +151,7 @@ class MemoryOptimizer {
    */
   async optimizeJestConfiguration() {
     const jestConfigPath = path.join(process.cwd(), 'jest.config.js');
-    
+
     if (!fs.existsSync(jestConfigPath)) {
       console.log('⚠️ Jest config not found, skipping Jest optimization');
       return;
@@ -163,11 +160,13 @@ class MemoryOptimizer {
     try {
       // Read current config
       const configContent = fs.readFileSync(jestConfigPath, 'utf8');
-      
+
       // Check if already optimized
-      if (configContent.includes('workerIdleMemoryLimit') && 
-          configContent.includes('logHeapUsage') &&
-          configContent.includes('detectOpenHandles')) {
+      if (
+        configContent.includes('workerIdleMemoryLimit') &&
+        configContent.includes('logHeapUsage') &&
+        configContent.includes('detectOpenHandles')
+      ) {
         console.log('✅ Jest configuration already optimized');
         return;
       }
@@ -178,7 +177,7 @@ class MemoryOptimizer {
         "workerIdleMemoryLimit: '512MB'",
         'logHeapUsage: true',
         'detectOpenHandles: true',
-        'forceExit: true'
+        'forceExit: true',
       ];
 
       let modified = false;
@@ -196,7 +195,6 @@ class MemoryOptimizer {
       } else {
         console.log('✅ Jest configuration appears to be optimized');
       }
-
     } catch (error) {
       console.warn('Failed to optimize Jest configuration:', error.message);
     }
@@ -232,12 +230,10 @@ class MemoryOptimizer {
 
     // Clear require cache for test files
     if (require.cache) {
-      const testFiles = Object.keys(require.cache).filter(key => 
-        key.includes('__tests__') || 
-        key.includes('.test.') || 
-        key.includes('.spec.')
+      const testFiles = Object.keys(require.cache).filter(
+        key => key.includes('__tests__') || key.includes('.test.') || key.includes('.spec.'),
       );
-      
+
       testFiles.forEach(key => delete require.cache[key]);
       if (testFiles.length > 0) {
         cleaned++;
@@ -306,7 +302,7 @@ class MemoryOptimizer {
     console.log(`Success: ${result.success ? '✅' : '❌'}`);
     console.log(`Memory freed: ${result.memoryFreed.toFixed(2)}MB`);
     console.log(`Optimizations applied: ${result.optimizationsApplied.length}`);
-    
+
     if (result.optimizationsApplied.length > 0) {
       console.log('\nOptimizations applied:');
       result.optimizationsApplied.forEach((opt, index) => {
@@ -342,24 +338,24 @@ class MemoryOptimizer {
    */
   static emergencyCleanup() {
     console.log('🚨 Running emergency memory cleanup...');
-    
+
     const optimizer = new MemoryOptimizer();
     const fixes = optimizer.applyAutomaticFixes();
-    
+
     // Force garbage collection
     const gcResult = optimizer.forceGarbageCollection();
     if (gcResult) {
       fixes.fixed.push('Forced garbage collection');
     }
-    
+
     console.log(`Emergency cleanup completed:`);
     console.log(`- Fixed: ${fixes.fixed.length} issues`);
     console.log(`- Failed: ${fixes.failed.length} issues`);
-    
+
     if (fixes.fixed.length > 0) {
       console.log('Fixed issues:', fixes.fixed);
     }
-    
+
     if (fixes.failed.length > 0) {
       console.log('Failed issues:', fixes.failed);
     }
@@ -375,12 +371,13 @@ class MemoryOptimizer {
 // CLI interface
 if (require.main === module) {
   const args = process.argv.slice(2);
-  
+
   if (args.includes('--emergency')) {
     MemoryOptimizer.emergencyCleanup();
   } else {
     const optimizer = new MemoryOptimizer();
-    optimizer.runOptimization()
+    optimizer
+      .runOptimization()
       .then(result => {
         process.exit(result.success ? 0 : 1);
       })

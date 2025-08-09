@@ -10,45 +10,45 @@ declare global {
   namespace Astrology {
     // Zodiac signs with enhanced documentation
     type ZodiacSign =
-      | 'aries'      // ♈ Fire - Cardinal - Mars
-      | 'taurus'     // ♉ Earth - Fixed - Venus
-      | 'gemini'     // ♊ Air - Mutable - Mercury
-      | 'cancer'     // ♋ Water - Cardinal - Moon
-      | 'leo'        // ♌ Fire - Fixed - Sun
-      | 'virgo'      // ♍ Earth - Mutable - Mercury
-      | 'libra'      // ♎ Air - Cardinal - Venus
-      | 'scorpio'    // ♏ Water - Fixed - Mars/Pluto
-      | 'sagittarius'// ♐ Fire - Mutable - Jupiter
-      | 'capricorn'  // ♑ Earth - Cardinal - Saturn
-      | 'aquarius'   // ♒ Air - Fixed - Saturn/Uranus
-      | 'pisces';    // ♓ Water - Mutable - Jupiter/Neptune
+      | 'aries' // ♈ Fire - Cardinal - Mars
+      | 'taurus' // ♉ Earth - Fixed - Venus
+      | 'gemini' // ♊ Air - Mutable - Mercury
+      | 'cancer' // ♋ Water - Cardinal - Moon
+      | 'leo' // ♌ Fire - Fixed - Sun
+      | 'virgo' // ♍ Earth - Mutable - Mercury
+      | 'libra' // ♎ Air - Cardinal - Venus
+      | 'scorpio' // ♏ Water - Fixed - Mars/Pluto
+      | 'sagittarius' // ♐ Fire - Mutable - Jupiter
+      | 'capricorn' // ♑ Earth - Cardinal - Saturn
+      | 'aquarius' // ♒ Air - Fixed - Saturn/Uranus
+      | 'pisces'; // ♓ Water - Mutable - Jupiter/Neptune
 
     // Planetary bodies with enhanced documentation
     type Planet =
-      | 'sun'        // ☉ Vitality, ego, life force
-      | 'moon'       // ☽ Emotions, intuition, cycles
-      | 'mercury'    // ☿ Communication, intellect, travel
-      | 'venus'      // ♀ Love, beauty, harmony, values
-      | 'mars'       // ♂ Action, energy, desire, conflict
-      | 'jupiter'    // ♃ Expansion, wisdom, abundance
-      | 'saturn'     // ♄ Structure, discipline, limitation
-      | 'uranus'     // ♅ Innovation, rebellion, sudden change
-      | 'neptune'    // ♆ Dreams, illusion, spirituality
-      | 'pluto'      // ♇ Transformation, power, regeneration
-      | 'northNode'  // ☊ Karmic path, soul's purpose
+      | 'sun' // ☉ Vitality, ego, life force
+      | 'moon' // ☽ Emotions, intuition, cycles
+      | 'mercury' // ☿ Communication, intellect, travel
+      | 'venus' // ♀ Love, beauty, harmony, values
+      | 'mars' // ♂ Action, energy, desire, conflict
+      | 'jupiter' // ♃ Expansion, wisdom, abundance
+      | 'saturn' // ♄ Structure, discipline, limitation
+      | 'uranus' // ♅ Innovation, rebellion, sudden change
+      | 'neptune' // ♆ Dreams, illusion, spirituality
+      | 'pluto' // ♇ Transformation, power, regeneration
+      | 'northNode' // ☊ Karmic path, soul's purpose
       | 'southNode'; // ☋ Past life karma, talents to release
 
     // Elements with enhanced documentation
     type Element =
-      | 'Fire'   // Energy, enthusiasm, action, creativity
-      | 'Water'  // Emotion, intuition, flow, healing
-      | 'Earth'  // Stability, practicality, material, grounding
-      | 'Air';   // Intellect, communication, ideas, movement
+      | 'Fire' // Energy, enthusiasm, action, creativity
+      | 'Water' // Emotion, intuition, flow, healing
+      | 'Earth' // Stability, practicality, material, grounding
+      | 'Air'; // Intellect, communication, ideas, movement
 
     // Modalities with enhanced documentation
     type Modality =
       | 'Cardinal' // Initiation, leadership, new beginnings
-      | 'Fixed'    // Stability, persistence, determination
+      | 'Fixed' // Stability, persistence, determination
       | 'Mutable'; // Adaptability, flexibility, change
 
     // Planetary positions with comprehensive type safety
@@ -98,8 +98,15 @@ declare global {
       /** Dominant element based on current positions */
       dominantElement: Element;
       /** Current lunar phase */
-      lunarPhase: 'new' | 'waxing_crescent' | 'first_quarter' | 'waxing_gibbous' |
-                  'full' | 'waning_gibbous' | 'last_quarter' | 'waning_crescent';
+      lunarPhase:
+        | 'new'
+        | 'waxing_crescent'
+        | 'first_quarter'
+        | 'waxing_gibbous'
+        | 'full'
+        | 'waning_gibbous'
+        | 'last_quarter'
+        | 'waning_crescent';
       /** Current planetary hour */
       planetaryHour: Planet;
       /** Whether it's currently daytime */
@@ -152,7 +159,10 @@ declare global {
     // Compatibility calculation utilities
     interface CompatibilityCalculator {
       /** Calculate elemental compatibility (0.7-1.0 range, self-reinforcement principle) */
-      calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number;
+      calculateElementalCompatibility(
+        source: ElementalProperties,
+        target: ElementalProperties,
+      ): number;
       /** Calculate planetary compatibility based on aspects */
       calculatePlanetaryCompatibility(planet1: Planet, planet2: Planet): number;
       /** Calculate overall astrological compatibility */
@@ -335,11 +345,7 @@ export type ElementalProperties = Astrology.ElementalProperties;
 export type AstrologicalState = Astrology.AstrologicalState;
 export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData;
 
-export type {
-    EnhancedCookingMethod,
-    EnhancedCuisineProfile, EnhancedIngredient,
-    EnhancedRecipe
-};
+export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe };
 
 // Utility type for component props that use astrological data
 export type WithAstrologicalData<T = {}> = T & {

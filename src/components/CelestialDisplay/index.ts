@@ -1,2 +1,2 @@
 // Export CelestialDisplay component
-export { default } from './CelestialDisplay'; 
+export { default } from './CelestialDisplay';

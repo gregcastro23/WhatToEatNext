@@ -2,7 +2,10 @@
 
 ## Overview
 
-This document describes the comprehensive integration of Swiss Ephemeris data into the WhatToEatNext astrological food recommendation system. The integration provides highly accurate astronomical data with detailed transit information for enhanced culinary recommendations.
+This document describes the comprehensive integration of Swiss Ephemeris data
+into the WhatToEatNext astrological food recommendation system. The integration
+provides highly accurate astronomical data with detailed transit information for
+enhanced culinary recommendations.
 
 ## Architecture
 
@@ -22,12 +25,14 @@ The system uses a layered approach to ensure maximum accuracy and reliability:
 Provides highly accurate astronomical data using Swiss Ephemeris calculations.
 
 **Key Features:**
+
 - Comprehensive ephemeris data for multiple years (2024-2025+)
 - Precise planetary positions with retrograde detection
 - Sidereal time calculations
 - Caching system for performance optimization
 
 **Usage:**
+
 ```typescript
 import { swissEphemerisService } from '@/services/SwissEphemerisService';
 
@@ -43,9 +48,11 @@ const isAvailable = swissEphemerisService.isDataAvailable(new Date());
 
 #### 2. Enhanced Astrology Service (`src/services/EnhancedAstrologyService.ts`)
 
-Orchestrates multiple data sources to provide the most accurate astronomical information.
+Orchestrates multiple data sources to provide the most accurate astronomical
+information.
 
 **Key Features:**
+
 - Multi-source data integration
 - Automatic fallback mechanisms
 - Confidence scoring
@@ -53,6 +60,7 @@ Orchestrates multiple data sources to provide the most accurate astronomical inf
 - Transit analysis
 
 **Usage:**
+
 ```typescript
 import { enhancedAstrologyService } from '@/services/EnhancedAstrologyService';
 
@@ -71,6 +79,7 @@ const transitAnalysis = await enhancedAstrologyService.getTransitAnalysis();
 Provides detailed transit information for multiple years with seasonal mappings.
 
 **Key Features:**
+
 - 12 seasons per year with detailed breakdowns
 - Planetary placements and aspects
 - Seasonal themes and culinary influences
@@ -78,6 +87,7 @@ Provides detailed transit information for multiple years with seasonal mappings.
 - Retrograde periods and eclipse seasons
 
 **Usage:**
+
 ```typescript
 import { getTransitForDate, getSeasonalAnalysis } from '@/data/transits/comprehensiveTransitDatabase';
 
@@ -93,15 +103,18 @@ const analysis = getSeasonalAnalysis(
 
 #### 4. Ephemeris Parser (`src/utils/ephemerisParser.ts`)
 
-TypeScript conversion of the Python ephemeris parser for parsing Swiss Ephemeris data.
+TypeScript conversion of the Python ephemeris parser for parsing Swiss Ephemeris
+data.
 
 **Key Features:**
+
 - Astronomical position string parsing
 - Aspect calculations
 - Elemental analysis
 - Data validation
 
 **Usage:**
+
 ```typescript
 import { ephemerisParser } from '@/utils/ephemerisParser';
 
@@ -176,32 +189,46 @@ interface TransitSeason {
 The system provides detailed analysis for each of the 12 zodiac seasons:
 
 #### Fire Seasons (Dynamic Energy)
+
 - **Aries (March 20 - April 19)**: New beginnings, bold flavors, spicy dishes
-- **Leo (July 23 - August 22)**: Creative expression, rich flavors, dramatic presentation
-- **Sagittarius (November 22 - December 21)**: Adventurous cuisine, international flavors
+- **Leo (July 23 - August 22)**: Creative expression, rich flavors, dramatic
+  presentation
+- **Sagittarius (November 22 - December 21)**: Adventurous cuisine,
+  international flavors
 
 #### Earth Seasons (Stable Energy)
+
 - **Taurus (April 20 - May 20)**: Comfort foods, rich sauces, slow cooking
-- **Virgo (August 23 - September 22)**: Precise preparation, healthy ingredients, attention to detail
-- **Capricorn (December 22 - January 19)**: Traditional methods, hearty dishes, structured approach
+- **Virgo (August 23 - September 22)**: Precise preparation, healthy
+  ingredients, attention to detail
+- **Capricorn (December 22 - January 19)**: Traditional methods, hearty dishes,
+  structured approach
 
 #### Air Seasons (Intellectual Energy)
+
 - **Gemini (May 21 - June 20)**: Variety, light dishes, quick preparation
-- **Libra (September 23 - October 22)**: Balanced flavors, elegant presentation, harmonious combinations
-- **Aquarius (January 20 - February 18)**: Innovative approaches, experimental cuisine, unique combinations
+- **Libra (September 23 - October 22)**: Balanced flavors, elegant presentation,
+  harmonious combinations
+- **Aquarius (January 20 - February 18)**: Innovative approaches, experimental
+  cuisine, unique combinations
 
 #### Water Seasons (Emotional Energy)
-- **Cancer (June 21 - July 22)**: Nurturing comfort foods, family recipes, emotional nourishment
-- **Scorpio (October 23 - November 21)**: Deep, complex flavors, transformative cooking methods
-- **Pisces (February 19 - March 19)**: Intuitive cooking, dreamy flavors, spiritual nourishment
+
+- **Cancer (June 21 - July 22)**: Nurturing comfort foods, family recipes,
+  emotional nourishment
+- **Scorpio (October 23 - November 21)**: Deep, complex flavors, transformative
+  cooking methods
+- **Pisces (February 19 - March 19)**: Intuitive cooking, dreamy flavors,
+  spiritual nourishment
 
 ### Elemental Dominance Patterns
 
-Each season has specific elemental dominance that influences culinary recommendations:
+Each season has specific elemental dominance that influences culinary
+recommendations:
 
 ```typescript
 // Example: Early Aries (March 20 - April 19)
-dominantElements: { 
+dominantElements: {
   Fire: 0.45,    // Dynamic, bold energy
   Air: 0.25,     // Intellectual stimulation
   Earth: 0.20,   // Grounding stability
@@ -214,21 +241,25 @@ dominantElements: {
 ### Element-Based Cuisine Suggestions
 
 #### Fire Element (Dynamic, Bold)
+
 - **Cuisines**: Mexican, Thai, Indian, Korean
 - **Cooking Methods**: Grilling, stir-frying, high-heat roasting
 - **Characteristics**: Spicy, bold flavors, quick preparation
 
 #### Earth Element (Stable, Comforting)
+
 - **Cuisines**: Italian, French, Mediterranean, Southern US
 - **Cooking Methods**: Slow cooking, braising, stewing, baking
 - **Characteristics**: Rich, comforting, traditional
 
 #### Air Element (Light, Intellectual)
+
 - **Cuisines**: Japanese, Vietnamese, Greek, Middle Eastern
 - **Cooking Methods**: Steaming, light sautéing, fresh preparation
 - **Characteristics**: Light, varied, quick, fresh
 
 #### Water Element (Nurturing, Emotional)
+
 - **Cuisines**: Seafood-focused, Nordic, Coastal Mediterranean
 - **Cooking Methods**: Poaching, soups and stews, gentle simmering
 - **Characteristics**: Nurturing, comforting, emotional
@@ -241,7 +272,7 @@ Each season provides specific culinary themes:
 // Example: Early Gemini Season
 seasonalThemes: [
   'Communication',
-  'Variety', 
+  'Variety',
   'Light dishes',
   'Fresh ingredients',
   'Social dining'
@@ -259,12 +290,16 @@ culinaryInfluences: [
 
 ### Enhanced Food Recommendations
 
-The Swiss Ephemeris integration enhances the existing food recommendation system by:
+The Swiss Ephemeris integration enhances the existing food recommendation system
+by:
 
-1. **Improved Accuracy**: More precise planetary positions for better alchemical calculations
-2. **Seasonal Context**: Detailed seasonal analysis for contextually appropriate recommendations
+1. **Improved Accuracy**: More precise planetary positions for better alchemical
+   calculations
+2. **Seasonal Context**: Detailed seasonal analysis for contextually appropriate
+   recommendations
 3. **Transit Awareness**: Knowledge of current transits for enhanced timing
-4. **Elemental Balance**: Better understanding of elemental influences on food choices
+4. **Elemental Balance**: Better understanding of elemental influences on food
+   choices
 
 ### Alchemical Calculations
 
@@ -360,6 +395,12 @@ console.log('Sidereal Time:', siderealTime);
 
 ## Conclusion
 
-The Swiss Ephemeris integration significantly enhances the accuracy and depth of the astrological food recommendation system. By combining multiple data sources and providing detailed seasonal analysis, the system can offer more precise and contextually appropriate culinary recommendations.
+The Swiss Ephemeris integration significantly enhances the accuracy and depth of
+the astrological food recommendation system. By combining multiple data sources
+and providing detailed seasonal analysis, the system can offer more precise and
+contextually appropriate culinary recommendations.
 
-The comprehensive transit database ensures that users receive recommendations that are not only astronomically accurate but also seasonally and thematically appropriate, creating a more holistic and effective food recommendation experience. 
+The comprehensive transit database ensures that users receive recommendations
+that are not only astronomically accurate but also seasonally and thematically
+appropriate, creating a more holistic and effective food recommendation
+experience.

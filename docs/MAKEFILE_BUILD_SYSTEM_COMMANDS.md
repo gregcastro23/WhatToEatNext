@@ -2,7 +2,9 @@
 
 ## Overview
 
-The Makefile has been enhanced with comprehensive build system repair commands that integrate with the build system repair utilities. These commands provide easy access to validation, repair, and monitoring functionality.
+The Makefile has been enhanced with comprehensive build system repair commands
+that integrate with the build system repair utilities. These commands provide
+easy access to validation, repair, and monitoring functionality.
 
 ## Build System Repair Commands
 
@@ -50,31 +52,37 @@ make build-safe
 ## Command Details
 
 ### `make build-validate`
+
 - **Purpose**: Validates build system and checks for issues
 - **Output**: Reports missing files, corrupted files, and validation status
 - **Use Case**: Quick check before builds or deployments
 
 ### `make build-repair`
+
 - **Purpose**: Repairs missing or corrupted manifest files
 - **Output**: Creates missing files with minimal valid content
 - **Use Case**: Fix build issues without full rebuild
 
 ### `make build-health`
+
 - **Purpose**: Comprehensive health check with metrics
 - **Output**: Build existence, manifest validity, size, and last build time
 - **Use Case**: Regular monitoring and troubleshooting
 
 ### `make build-comprehensive`
+
 - **Purpose**: Full build system repair including config optimization
 - **Output**: Step-by-step repair process with rebuild
 - **Use Case**: Major build issues or after significant changes
 
 ### `make build-emergency`
+
 - **Purpose**: Emergency recovery with clean rebuild
 - **Output**: Cleans build directory and performs fresh build
 - **Use Case**: Critical build failures or corruption
 
 ### `make build-workflow`
+
 - **Purpose**: Complete workflow for build system maintenance
 - **Steps**:
   1. Health check
@@ -84,11 +92,13 @@ make build-safe
 - **Use Case**: Regular maintenance or CI/CD integration
 
 ### `make build-status`
+
 - **Purpose**: Comprehensive status report
 - **Output**: Health report, validation results, and recent build activity
 - **Use Case**: Debugging and status reporting
 
 ### `make build-safe`
+
 - **Purpose**: Safe build with integrated repair
 - **Steps**:
   1. Pre-build health check
@@ -133,6 +143,7 @@ make build-validate      # Confirm fix
 ## Error Scenarios and Solutions
 
 ### Scenario 1: Missing Manifest Files
+
 ```bash
 # Symptoms: Build fails with missing manifest errors
 # Solution:
@@ -140,6 +151,7 @@ make build-repair
 ```
 
 ### Scenario 2: Corrupted Build Directory
+
 ```bash
 # Symptoms: Build exists but validation fails
 # Solution:
@@ -147,6 +159,7 @@ make build-comprehensive
 ```
 
 ### Scenario 3: Critical Build Failure
+
 ```bash
 # Symptoms: Build completely broken
 # Solution:
@@ -154,6 +167,7 @@ make build-emergency
 ```
 
 ### Scenario 4: Unknown Build Issues
+
 ```bash
 # Diagnostic workflow:
 make build-status        # Get comprehensive status
@@ -164,6 +178,7 @@ make build-comprehensive # Apply comprehensive fix
 ## Monitoring and Maintenance
 
 ### Regular Health Checks
+
 ```bash
 # Daily health check
 make build-health
@@ -173,6 +188,7 @@ make build-workflow
 ```
 
 ### Pre-deployment Validation
+
 ```bash
 # Before important deployments
 make build-status
@@ -180,6 +196,7 @@ make build-safe
 ```
 
 ### Development Environment Setup
+
 ```bash
 # After git pull or environment changes
 make build-validate
@@ -189,6 +206,7 @@ make build-repair  # if needed
 ## Output Examples
 
 ### Healthy Build System
+
 ```bash
 $ make build-health
 🏥 Checking build system health...
@@ -201,6 +219,7 @@ $ make build-health
 ```
 
 ### Build System with Issues
+
 ```bash
 $ make build-validate
 🔍 Validating build system...
@@ -215,6 +234,7 @@ $ make build-validate
 ```
 
 ### Successful Repair
+
 ```bash
 $ make build-repair
 🔧 Repairing build system...
@@ -227,21 +247,25 @@ Created build-manifest.json
 ## Best Practices
 
 ### 1. Regular Monitoring
+
 - Run `make build-health` daily
 - Include `make build-validate` in pre-commit hooks
 - Use `make build-workflow` for comprehensive checks
 
 ### 2. Proactive Repair
+
 - Run `make build-repair` after major changes
 - Use `make build-comprehensive` monthly
 - Include build validation in CI/CD pipelines
 
 ### 3. Emergency Preparedness
+
 - Know when to use `make build-emergency`
 - Keep `make build-status` handy for debugging
 - Document build issues and solutions
 
 ### 4. Integration with Development
+
 - Use `make build-safe` for production builds
 - Include build health in development workflow
 - Monitor build size and performance metrics
@@ -249,6 +273,7 @@ Created build-manifest.json
 ## Troubleshooting
 
 ### Command Not Found
+
 ```bash
 # Ensure you're in the project root directory
 pwd  # Should show project root
@@ -256,12 +281,14 @@ make help  # Should show all available commands
 ```
 
 ### Permission Issues
+
 ```bash
 # Ensure proper file permissions
 chmod +x scripts/build-system-repair.cjs
 ```
 
 ### Node.js/Yarn Issues
+
 ```bash
 # Ensure dependencies are installed
 make install
@@ -287,4 +314,5 @@ The enhanced Makefile provides comprehensive build system management through:
 - **CI/CD ready commands** for automation
 - **Detailed status reporting** for debugging
 
-These commands ensure build system reliability and provide developers with powerful tools for maintaining a stable build environment.
+These commands ensure build system reliability and provide developers with
+powerful tools for maintaining a stable build environment.

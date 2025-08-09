@@ -10,8 +10,8 @@ jest.mock('@/utils/logger', () => ({
     info: jest.fn(),
     debug: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn()
-  }
+    error: jest.fn(),
+  },
 }));
 
 describe('RecipeBuilderSimple', () => {
@@ -38,7 +38,7 @@ describe('RecipeBuilderSimple', () => {
         initialMethods={['sauté']}
         onRecipeComplete={mockOnRecipeComplete}
         onSave={mockOnSave}
-      />
+      />,
     );
 
     expect(screen.getByDisplayValue('')).toBeInTheDocument(); // Recipe name input
@@ -194,12 +194,7 @@ describe('RecipeBuilderSimple', () => {
 
   it('calls onSave and onRecipeComplete when recipe is saved', async () => {
     const user = userEvent.setup();
-    render(
-      <RecipeBuilderSimple
-        onSave={mockOnSave}
-        onRecipeComplete={mockOnRecipeComplete}
-      />
-    );
+    render(<RecipeBuilderSimple onSave={mockOnSave} onRecipeComplete={mockOnRecipeComplete} />);
 
     // Create a valid recipe
     const nameInput = screen.getByLabelText('Recipe Name');
@@ -226,21 +221,21 @@ describe('RecipeBuilderSimple', () => {
         name: 'Test Recipe',
         ingredients: expect.arrayContaining([
           expect.objectContaining({
-            name: 'Tomatoes'
-          })
+            name: 'Tomatoes',
+          }),
         ]),
         steps: expect.arrayContaining([
           expect.objectContaining({
-            instruction: 'Cook the tomatoes'
-          })
-        ])
-      })
+            instruction: 'Cook the tomatoes',
+          }),
+        ]),
+      }),
     );
 
     expect(mockOnRecipeComplete).toHaveBeenCalledWith(
       expect.objectContaining({
-        name: 'Test Recipe'
-      })
+        name: 'Test Recipe',
+      }),
     );
   });
 

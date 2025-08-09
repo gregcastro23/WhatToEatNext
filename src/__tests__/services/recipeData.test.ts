@@ -93,7 +93,7 @@ describe('RecipeData Service', () => {
   it('should provide a fallback recipe when no recipes are loaded', async () => {
     try {
       // Force the service to return the fallback recipe
-      const recipes = recipeData.getAllRecipes();
+      const recipes = await recipeData.getAllRecipes();
 
       // Should at least return one recipe
       expect(recipes.length).toBeGreaterThan(0);
@@ -136,9 +136,7 @@ describe('RecipeData Service', () => {
             Earth: 0.3,
             Air: 0.1,
           },
-          ingredients: [
-            { name: 'Test', amount: 1, unit: 'cup', category: 'test' },
-          ],
+          ingredients: [{ name: 'Test', amount: 1, unit: 'cup', category: 'test' }],
           instructions: ['Test'],
           timeToMake: '30 minutes',
           numberOfServings: 4,
@@ -159,9 +157,7 @@ describe('RecipeData Service', () => {
             Earth: 0.2,
             Air: 0.3,
           },
-          ingredients: [
-            { name: 'Test', amount: 1, unit: 'cup', category: 'test' },
-          ],
+          ingredients: [{ name: 'Test', amount: 1, unit: 'cup', category: 'test' }],
           instructions: ['Test'],
           timeToMake: '45 minutes',
           numberOfServings: 2,
@@ -170,82 +166,73 @@ describe('RecipeData Service', () => {
 
       // Mock filterRecipes to isolate test from implementation details
       const originalFilterRecipes = recipeData.filterRecipes;
-      recipeData.filterRecipes = jest
-        .fn()
-        .mockImplementation(async (filters) => {
-          if (filters.cuisine === 'Italian') {
-            return [
-              {
-                id: 'recipe1',
-                name: 'Test Recipe 1',
-                cuisine: 'Italian',
-                // other properties
-              },
-            ];
-          } else if (filters.mealType && filters.mealType.includes('lunch')) {
-            return [
-              {
-                id: 'recipe2',
-                name: 'Test Recipe 2',
-                cuisine: 'Japanese',
-                // other properties
-              },
-            ];
-          } else if (filters.season && filters.season.includes('summer')) {
-            return [
-              {
-                id: 'recipe1',
-                name: 'Test Recipe 1',
-                cuisine: 'Italian',
-                // other properties
-              },
-            ];
-          } else if (filters.isVegetarian === true) {
-            return [
-              {
-                id: 'recipe1',
-                name: 'Test Recipe 1',
-                cuisine: 'Italian',
-                // other properties
-              },
-            ];
-          } else if (
-            filters.mealType &&
-            filters.mealType.includes('dinner') &&
-            filters.isGlutenFree === true
-          ) {
-            return [
-              {
-                id: 'recipe1',
-                name: 'Test Recipe 1',
-                cuisine: 'Italian',
-                // other properties
-              },
-            ];
-          } else if (
-            filters.cuisine === 'Mexican' &&
-            filters.isVegan === true
-          ) {
-            return [
-              {
-                id: 'fallback-recipe',
-                name: 'Fallback Recipe',
-                cuisine: 'international',
-                // other properties
-              },
-            ];
-          } else {
-            // Return some default
-            return [
-              {
-                id: 'fallback-recipe',
-                name: 'Fallback Recipe',
-                cuisine: 'international',
-                // other properties
-              },
-            ];
-          }
-        });
+      recipeData.filterRecipes = jest.fn().mockImplementation(async filters => {
+        if (filters.cuisine === 'Italian') {
+          return [
+            {
+              id: 'recipe1',
+              name: 'Test Recipe 1',
+              cuisine: 'Italian',
+              // other properties
+            },
+          ];
+        } else if (filters.mealType && filters.mealType.includes('lunch')) {
+          return [
+            {
+              id: 'recipe2',
+              name: 'Test Recipe 2',
+              cuisine: 'Japanese',
+              // other properties
+            },
+          ];
+        } else if (filters.season && filters.season.includes('summer')) {
+          return [
+            {
+              id: 'recipe1',
+              name: 'Test Recipe 1',
+              cuisine: 'Italian',
+              // other properties
+            },
+          ];
+        } else if (filters.isVegetarian === true) {
+          return [
+            {
+              id: 'recipe1',
+              name: 'Test Recipe 1',
+              cuisine: 'Italian',
+              // other properties
+            },
+          ];
+        } else if (filters.mealType && filters.mealType.includes('dinner') && filters.isGlutenFree === true) {
+          return [
+            {
+              id: 'recipe1',
+              name: 'Test Recipe 1',
+              cuisine: 'Italian',
+              // other properties
+            },
+          ];
+        } else if (filters.cuisine === 'Mexican' && filters.isVegan === true) {
+          return [
+            {
+              id: 'fallback-recipe',
+              name: 'Fallback Recipe',
+              cuisine: 'international',
+              // other properties
+            },
+          ];
+        } else {
+          // Return some default
+          return [
+            {
+              id: 'fallback-recipe',
+              name: 'Fallback Recipe',
+              cuisine: 'international',
+              // other properties
+            },
+          ];
+        }
+      });
 
       // Test filtering by cuisine
       const italianRecipes = await recipeData.filterRecipes({
@@ -335,24 +322,19 @@ describe('RecipeData Service', () => {
 
     // Mock standardizeRecipe to normalize the elemental properties
     const originalStandardizeRecipe = recipeElementalService.standardizeRecipe;
-    recipeElementalService.standardizeRecipe = jest
-      .fn()
-      .mockReturnValue(normalizedRecipe);
+    recipeElementalService.standardizeRecipe = jest.fn().mockReturnValue(normalizedRecipe);
 
     // Mock getAllRecipes to return our non-normalized test recipe
     recipeData.getAllRecipes = jest.fn().mockResolvedValue([normalizedRecipe]);
 
     // Get the recipes
-      const recipes = recipeData.getAllRecipes();
+    const recipes = await recipeData.getAllRecipes();
 
     // There should be one recipe
     expect(recipes.length).toBe(1);
 
     // The elemental properties should be normalized (sum to 1)
-    const sum = Object.values(recipes[0].elementalProperties).reduce(
-      (a: number, b: number) => a + b,
-      0
-    );
+    const sum = Object.values(recipes[0].elementalProperties).reduce((a: number, b: number) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
 
     // All elementalProperties values should be equal since we started with equal values

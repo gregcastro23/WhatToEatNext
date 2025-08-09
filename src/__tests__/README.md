@@ -1,10 +1,13 @@
 # Memory Management System for Tests
 
-This directory contains a comprehensive memory management system designed to prevent memory issues, detect leaks, and optimize test performance.
+This directory contains a comprehensive memory management system designed to
+prevent memory issues, detect leaks, and optimize test performance.
 
 ## Overview
 
-The memory management system addresses critical test infrastructure issues including:
+The memory management system addresses critical test infrastructure issues
+including:
+
 - Memory exhaustion (JavaScript heap out of memory)
 - Test timeouts and worker crashes
 - Memory leaks in long-running test suites
@@ -15,6 +18,7 @@ The memory management system addresses critical test infrastructure issues inclu
 ### 1. TestMemoryMonitor (`utils/TestMemoryMonitor.ts`)
 
 A comprehensive memory monitoring class that provides:
+
 - **Memory Snapshots**: Track memory usage at specific points
 - **Leak Detection**: Identify potential memory leaks between snapshots
 - **Threshold Monitoring**: Alert when memory usage exceeds limits
@@ -50,11 +54,11 @@ monitor.cleanup('test-cleanup');
 Utility functions for writing memory-efficient tests:
 
 ```typescript
-import { 
-  itWithMemoryCleanup, 
+import {
+  itWithMemoryCleanup,
   itMemoryIntensive,
   withMemoryTracking,
-  TEST_TIMEOUTS 
+  TEST_TIMEOUTS
 } from '../utils/memoryTestHelpers';
 
 // Memory-safe test with automatic cleanup
@@ -159,14 +163,14 @@ it('test name', () => {
 itMemoryIntensive('process large dataset', async () => {
   const monitor = new TestMemoryMonitor();
   monitor.takeSnapshot('start');
-  
+
   const result = await processLargeDataset();
-  
+
   const memoryCheck = monitor.checkMemoryUsage('end');
   if (!memoryCheck.isWithinLimits) {
     console.warn('High memory usage detected');
   }
-  
+
   monitor.cleanup('test-cleanup');
 });
 ```
@@ -211,6 +215,7 @@ const results = await processBatchWithMemoryManagement(
 If you encounter "JavaScript heap out of memory" errors:
 
 1. **Use memory-safe test scripts**:
+
    ```bash
    yarn test:memory
    ```
@@ -230,6 +235,7 @@ If tests are timing out:
 
 1. **Check if using reduced timeouts** (15s for integration tests)
 2. **Use appropriate timeout constants**:
+
    ```typescript
    it('test', async () => {
      // test implementation
@@ -243,6 +249,7 @@ If tests are timing out:
 If memory usage keeps increasing:
 
 1. **Use TestMemoryMonitor** to identify leak sources:
+
    ```typescript
    const monitor = new TestMemoryMonitor();
    const leakAnalysis = monitor.detectMemoryLeaks();
@@ -279,6 +286,7 @@ The system provides comprehensive monitoring:
 - **Performance metrics** and cleanup effectiveness
 
 Example memory report:
+
 ```
 Memory Usage Report
 ==================
@@ -294,6 +302,8 @@ No significant memory leaks detected.
 
 ## Integration with Campaign System
 
-The memory management system integrates with the existing campaign system to ensure that automated quality improvements don't interfere with test execution and memory management.
+The memory management system integrates with the existing campaign system to
+ensure that automated quality improvements don't interfere with test execution
+and memory management.
 
 For more information, see the individual component documentation and test files.

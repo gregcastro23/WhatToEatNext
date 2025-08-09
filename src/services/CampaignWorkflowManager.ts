@@ -1,6 +1,6 @@
 /**
  * Campaign Workflow Manager
- * 
+ *
  * Provides guided workflows for campaign creation, configuration templates,
  * validation, testing capabilities, and versioning for campaign management
  * within the Kiro environment.
@@ -15,7 +15,7 @@ import {
   ValidationResult,
   DryRunResult,
   SafetySettings,
-  ToolConfiguration
+  ToolConfiguration,
 } from '../types/campaign';
 
 import { CampaignController } from './campaign/CampaignController';
@@ -90,7 +90,13 @@ export interface WorkflowStep {
   id: string;
   name: string;
   description: string;
-  type: 'template_selection' | 'configuration' | 'validation' | 'dry_run' | 'approval' | 'execution';
+  type:
+    | 'template_selection'
+    | 'configuration'
+    | 'validation'
+    | 'dry_run'
+    | 'approval'
+    | 'execution';
   status: 'pending' | 'in_progress' | 'completed' | 'skipped' | 'failed';
   data?: Record<string, unknown>;
   validationRules?: ValidationRule[];
@@ -172,7 +178,7 @@ export class CampaignWorkflowManager {
       validationResults: [],
       dryRunResults: [],
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     this.workflows.set(workflowId, workflow);
@@ -195,7 +201,7 @@ export class CampaignWorkflowManager {
       validationResults: [],
       dryRunResults: [],
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     this.workflows.set(workflowId, workflow);
@@ -221,7 +227,10 @@ export class CampaignWorkflowManager {
   /**
    * Update workflow configuration
    */
-  async updateWorkflowConfig(workflowId: string, configUpdates: Partial<CampaignConfig>): Promise<boolean> {
+  async updateWorkflowConfig(
+    workflowId: string,
+    configUpdates: Partial<CampaignConfig>,
+  ): Promise<boolean> {
     const workflow = this.workflows.get(workflowId);
     if (!workflow) return false;
 
@@ -260,7 +269,10 @@ export class CampaignWorkflowManager {
   /**
    * Complete current workflow step
    */
-  async completeWorkflowStep(workflowId: string, stepData?: Record<string, unknown>): Promise<boolean> {
+  async completeWorkflowStep(
+    workflowId: string,
+    stepData?: Record<string, unknown>,
+  ): Promise<boolean> {
     const workflow = this.workflows.get(workflowId);
     if (!workflow) return false;
 
@@ -296,7 +308,7 @@ export class CampaignWorkflowManager {
       return {
         success: false,
         errors: ['Workflow not found'],
-        warnings: []
+        warnings: [],
       };
     }
 
@@ -335,7 +347,7 @@ export class CampaignWorkflowManager {
     return {
       success: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   }
 
@@ -349,7 +361,7 @@ export class CampaignWorkflowManager {
         wouldProcess: [],
         estimatedChanges: 0,
         potentialIssues: ['Invalid workflow configuration'],
-        safetyScore: 0
+        safetyScore: 0,
       };
     }
 
@@ -374,7 +386,7 @@ export class CampaignWorkflowManager {
       wouldProcess,
       estimatedChanges,
       potentialIssues,
-      safetyScore
+      safetyScore,
     };
 
     // Store dry run results
@@ -393,11 +405,11 @@ export class CampaignWorkflowManager {
     campaignId: string,
     config: CampaignConfig,
     description: string,
-    createdBy: string = 'system'
+    createdBy: string = 'system',
   ): Promise<string> {
     const versions = this.versions.get(campaignId) || [];
     const versionNumber = `v${versions.length + 1}.0`;
-    
+
     const version: CampaignVersion = {
       id: `${campaignId}_${versionNumber}`,
       campaignId,
@@ -407,7 +419,7 @@ export class CampaignWorkflowManager {
       createdBy,
       description,
       status: 'draft',
-      parentVersion: versions.length > 0 ? versions[versions.length - 1].version : undefined
+      parentVersion: versions.length > 0 ? versions[versions.length - 1].version : undefined,
     };
 
     versions.push(version);
@@ -429,7 +441,7 @@ export class CampaignWorkflowManager {
   async createRollbackPlan(campaignId: string, targetVersion: string): Promise<RollbackPlan> {
     const versions = this.versions.get(campaignId) || [];
     const targetVersionObj = versions.find(v => v.version === targetVersion);
-    
+
     if (!targetVersionObj) {
       throw new Error(`Version ${targetVersion} not found for campaign ${campaignId}`);
     }
@@ -440,29 +452,29 @@ export class CampaignWorkflowManager {
         description: 'Create backup of current state',
         action: 'restore_files',
         parameters: { createBackup: true },
-        estimatedDuration: 2
+        estimatedDuration: 2,
       },
       {
         id: 'revert_config',
         description: `Revert configuration to ${targetVersion}`,
         action: 'revert_config',
         parameters: { targetVersion },
-        estimatedDuration: 1
+        estimatedDuration: 1,
       },
       {
         id: 'rebuild_project',
         description: 'Rebuild project with reverted configuration',
         action: 'rebuild',
         parameters: {},
-        estimatedDuration: 5
+        estimatedDuration: 5,
       },
       {
         id: 'validate_rollback',
         description: 'Validate rollback success',
         action: 'validate',
         parameters: { runTests: true },
-        estimatedDuration: 3
-      }
+        estimatedDuration: 3,
+      },
     ];
 
     const totalDuration = rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0);
@@ -473,7 +485,7 @@ export class CampaignWorkflowManager {
       rollbackSteps,
       estimatedDuration: totalDuration,
       riskAssessment: 'Low risk - configuration rollback with validation',
-      approvalRequired: true
+      approvalRequired: true,
     };
   }
 
@@ -484,7 +496,7 @@ export class CampaignWorkflowManager {
     try {
       for (const step of rollbackPlan.rollbackSteps) {
         log.info(`Executing rollback step: ${step.description}`);
-        
+
         switch (step.action) {
           case 'restore_files':
             await this.restoreFiles(step.parameters);
@@ -553,20 +565,35 @@ export class CampaignWorkflowManager {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               description: 'Advanced TypeScript error fixing with safety protocols',
               parameters: {
-                maxFiles: { type: 'number', description: 'Maximum files to process', defaultValue: 15, required: true },
-                autoFix: { type: 'boolean', description: 'Enable automatic fixes', defaultValue: true, required: false },
-                validateSafety: { type: 'boolean', description: 'Enable safety validation', defaultValue: true, required: false }
+                maxFiles: {
+                  type: 'number',
+                  description: 'Maximum files to process',
+                  defaultValue: 15,
+                  required: true,
+                },
+                autoFix: {
+                  type: 'boolean',
+                  description: 'Enable automatic fixes',
+                  defaultValue: true,
+                  required: false,
+                },
+                validateSafety: {
+                  type: 'boolean',
+                  description: 'Enable safety validation',
+                  defaultValue: true,
+                  required: false,
+                },
               },
               batchSize: 15,
-              safetyLevel: 'MAXIMUM'
-            }
+              safetyLevel: 'MAXIMUM',
+            },
           ],
           successCriteria: {
-            typeScriptErrors: 0
+            typeScriptErrors: 0,
           },
           estimatedDuration: 30,
-          riskLevel: 'medium'
-        }
+          riskLevel: 'medium',
+        },
       ],
       safetySettings: {
         maxFilesPerBatch: 15,
@@ -574,10 +601,14 @@ export class CampaignWorkflowManager {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       },
       prerequisites: ['TypeScript project', 'Git repository'],
-      expectedOutcomes: ['Zero TypeScript compilation errors', 'Improved code quality', 'Better IDE support']
+      expectedOutcomes: [
+        'Zero TypeScript compilation errors',
+        'Improved code quality',
+        'Better IDE support',
+      ],
     });
 
     // Linting Excellence Template
@@ -599,19 +630,29 @@ export class CampaignWorkflowManager {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               description: 'Remove explicit any types systematically',
               parameters: {
-                maxFiles: { type: 'number', description: 'Maximum files to process', defaultValue: 25, required: true },
-                continueFrom: { type: 'string', description: 'Continue from percentage', defaultValue: '0%', required: false }
+                maxFiles: {
+                  type: 'number',
+                  description: 'Maximum files to process',
+                  defaultValue: 25,
+                  required: true,
+                },
+                continueFrom: {
+                  type: 'string',
+                  description: 'Continue from percentage',
+                  defaultValue: '0%',
+                  required: false,
+                },
               },
               batchSize: 25,
-              safetyLevel: 'HIGH'
-            }
+              safetyLevel: 'HIGH',
+            },
           ],
           successCriteria: {
-            lintingWarnings: 0
+            lintingWarnings: 0,
           },
           estimatedDuration: 20,
-          riskLevel: 'low'
-        }
+          riskLevel: 'low',
+        },
       ],
       safetySettings: {
         maxFilesPerBatch: 25,
@@ -619,10 +660,14 @@ export class CampaignWorkflowManager {
         testValidationFrequency: 15,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       },
       prerequisites: ['ESLint configuration', 'TypeScript project'],
-      expectedOutcomes: ['Zero linting warnings', 'Consistent code style', 'Better maintainability']
+      expectedOutcomes: [
+        'Zero linting warnings',
+        'Consistent code style',
+        'Better maintainability',
+      ],
     });
 
     // Comprehensive Quality Template
@@ -644,15 +689,20 @@ export class CampaignWorkflowManager {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               description: 'Advanced TypeScript error fixing',
               parameters: {
-                maxFiles: { type: 'number', description: 'Maximum files to process', defaultValue: 15, required: true }
+                maxFiles: {
+                  type: 'number',
+                  description: 'Maximum files to process',
+                  defaultValue: 15,
+                  required: true,
+                },
               },
               batchSize: 15,
-              safetyLevel: 'MAXIMUM'
-            }
+              safetyLevel: 'MAXIMUM',
+            },
           ],
           successCriteria: { typeScriptErrors: 0 },
           estimatedDuration: 30,
-          riskLevel: 'medium'
+          riskLevel: 'medium',
         },
         {
           id: 'linting-cleanup',
@@ -664,15 +714,20 @@ export class CampaignWorkflowManager {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               description: 'Remove explicit any types',
               parameters: {
-                maxFiles: { type: 'number', description: 'Maximum files to process', defaultValue: 25, required: true }
+                maxFiles: {
+                  type: 'number',
+                  description: 'Maximum files to process',
+                  defaultValue: 25,
+                  required: true,
+                },
               },
               batchSize: 25,
-              safetyLevel: 'HIGH'
-            }
+              safetyLevel: 'HIGH',
+            },
           ],
           successCriteria: { lintingWarnings: 0 },
           estimatedDuration: 20,
-          riskLevel: 'low'
+          riskLevel: 'low',
         },
         {
           id: 'performance-optimization',
@@ -684,16 +739,21 @@ export class CampaignWorkflowManager {
               scriptPath: 'scripts/performance/optimize-build.js',
               description: 'Optimize build configuration and performance',
               parameters: {
-                analyzeBundle: { type: 'boolean', description: 'Analyze bundle size', defaultValue: true, required: false }
+                analyzeBundle: {
+                  type: 'boolean',
+                  description: 'Analyze bundle size',
+                  defaultValue: true,
+                  required: false,
+                },
               },
               batchSize: 10,
-              safetyLevel: 'MEDIUM'
-            }
+              safetyLevel: 'MEDIUM',
+            },
           ],
           successCriteria: { buildTime: 10 },
           estimatedDuration: 40,
-          riskLevel: 'medium'
-        }
+          riskLevel: 'medium',
+        },
       ],
       safetySettings: {
         maxFilesPerBatch: 15,
@@ -701,15 +761,15 @@ export class CampaignWorkflowManager {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 14
+        stashRetentionDays: 14,
       },
       prerequisites: ['TypeScript project', 'ESLint configuration', 'Build system'],
       expectedOutcomes: [
         'Zero TypeScript errors',
         'Zero linting warnings',
         'Optimized build performance',
-        'Enterprise-ready codebase'
-      ]
+        'Enterprise-ready codebase',
+      ],
     });
   }
 
@@ -721,7 +781,7 @@ export class CampaignWorkflowManager {
         description: `Selected template: ${template.name}`,
         type: 'template_selection',
         status: 'completed',
-        data: { templateId: template.id }
+        data: { templateId: template.id },
       },
       {
         id: 'configuration',
@@ -734,38 +794,38 @@ export class CampaignWorkflowManager {
             field: 'phases',
             rule: 'required',
             message: 'At least one phase is required',
-            severity: 'error'
-          }
-        ]
+            severity: 'error',
+          },
+        ],
       },
       {
         id: 'validation',
         name: 'Validation',
         description: 'Validate campaign configuration',
         type: 'validation',
-        status: 'pending'
+        status: 'pending',
       },
       {
         id: 'dry_run',
         name: 'Dry Run',
         description: 'Test campaign execution without making changes',
         type: 'dry_run',
-        status: 'pending'
+        status: 'pending',
       },
       {
         id: 'approval',
         name: 'Approval',
         description: 'Review and approve campaign for execution',
         type: 'approval',
-        status: 'pending'
+        status: 'pending',
       },
       {
         id: 'execution',
         name: 'Execution',
         description: 'Execute the campaign',
         type: 'execution',
-        status: 'pending'
-      }
+        status: 'pending',
+      },
     ];
   }
 
@@ -776,55 +836,61 @@ export class CampaignWorkflowManager {
         name: 'Configuration',
         description: 'Configure campaign from scratch',
         type: 'configuration',
-        status: 'in_progress'
+        status: 'in_progress',
       },
       {
         id: 'validation',
         name: 'Validation',
         description: 'Validate campaign configuration',
         type: 'validation',
-        status: 'pending'
+        status: 'pending',
       },
       {
         id: 'dry_run',
         name: 'Dry Run',
         description: 'Test campaign execution',
         type: 'dry_run',
-        status: 'pending'
+        status: 'pending',
       },
       {
         id: 'approval',
         name: 'Approval',
         description: 'Review and approve campaign',
         type: 'approval',
-        status: 'pending'
+        status: 'pending',
       },
       {
         id: 'execution',
         name: 'Execution',
         description: 'Execute the campaign',
         type: 'execution',
-        status: 'pending'
-      }
+        status: 'pending',
+      },
     ];
   }
 
   private templateToConfig(template: CampaignTemplate): Partial<CampaignConfig> {
-    const phases: CampaignPhase[] = template.phases.map(phaseTemplate => ({
-      id: phaseTemplate.id,
-      name: phaseTemplate.name,
-      description: phaseTemplate.description,
-      tools: phaseTemplate.tools.map(toolTemplate => ({
-        scriptPath: toolTemplate.scriptPath,
-        parameters: Object.fromEntries(
-          Object.entries(toolTemplate.parameters).map(([key, param]) => [key, param.defaultValue])
-        ),
-        batchSize: toolTemplate.batchSize,
-        safetyLevel: toolTemplate.safetyLevel as string
-      })),
-      successCriteria: phaseTemplate.successCriteria,
-      safetyCheckpoints: []
-    } as CampaignPhase));
+    const phases: CampaignPhase[] = template.phases.map(
+      phaseTemplate =>
+        ({
+          id: phaseTemplate.id,
+          name: phaseTemplate.name,
+          description: phaseTemplate.description,
+          tools: phaseTemplate.tools.map(toolTemplate => ({
+            scriptPath: toolTemplate.scriptPath,
+            parameters: Object.fromEntries(
+              Object.entries(toolTemplate.parameters).map(([key, param]) => [
+                key,
+                param.defaultValue,
+              ]),
+            ),
+            batchSize: toolTemplate.batchSize,
+            safetyLevel: toolTemplate.safetyLevel as string,
+          })),
+          successCriteria: phaseTemplate.successCriteria,
+          safetyCheckpoints: [],
+        }) as CampaignPhase,
+    );
 
     return {
       phases,
@@ -833,14 +899,14 @@ export class CampaignWorkflowManager {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200
+        enterpriseSystems: 200,
       },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
   }
 
@@ -855,7 +921,7 @@ export class CampaignWorkflowManager {
       files: [`src/file1.ts`, `src/file2.ts`],
       changes: 10,
       issues: [],
-      safetyScore: 0.9
+      safetyScore: 0.9,
     };
   }
 
@@ -888,20 +954,20 @@ export class CampaignWorkflowManager {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200
+        enterpriseSystems: 200,
       },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
   }
 }

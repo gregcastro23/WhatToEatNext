@@ -38,27 +38,32 @@ export class MemoryLeakDetector {
       {
         name: 'Excessive Event Listeners',
         detector: () => {
-          if (typeof window !== 'undefined' && (window as unknown as { _eventListeners?: Record<string, unknown[]> })._eventListeners) {
-            const totalListeners = Object.values((window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners)
-              .reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0);
+          if (
+            typeof window !== 'undefined' &&
+            (window as unknown as { _eventListeners?: Record<string, unknown[]> })._eventListeners
+          ) {
+            const totalListeners = Object.values(
+              (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners,
+            ).reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0);
             return totalListeners > 50;
           }
           return false;
         },
         description: 'Too many event listeners attached to DOM elements',
         fix: 'Remove event listeners in test cleanup or use cleanup utilities',
-        severity: 'high'
+        severity: 'high',
       },
       {
         name: 'Unclosed Timers',
         detector: () => {
           // Check for active timers (this is a simplified check)
-          const activeTimers = (global as unknown as { _activeTimers?: unknown[] })._activeTimers || [];
+          const activeTimers =
+            (global as unknown as { _activeTimers?: unknown[] })._activeTimers || [];
           return activeTimers.length > 10;
         },
         description: 'Active timers not cleared after tests',
         fix: 'Clear all timers in afterEach hooks using clearTimeout/clearInterval',
-        severity: 'medium'
+        severity: 'medium',
       },
       {
         name: 'Large Test Cache',
@@ -70,7 +75,7 @@ export class MemoryLeakDetector {
         },
         description: 'Test cache has grown too large',
         fix: 'Clear test cache regularly or implement cache size limits',
-        severity: 'medium'
+        severity: 'medium',
       },
       {
         name: 'Memory Growth Pattern',
@@ -81,7 +86,7 @@ export class MemoryLeakDetector {
         },
         description: 'Significant memory growth detected during test execution',
         fix: 'Review test setup/teardown and ensure proper cleanup',
-        severity: 'critical'
+        severity: 'critical',
       },
       {
         name: 'Jest Module Cache Bloat',
@@ -94,7 +99,7 @@ export class MemoryLeakDetector {
         },
         description: 'Jest module cache has grown excessively large',
         fix: 'Use jest.resetModules() in test cleanup',
-        severity: 'medium'
+        severity: 'medium',
       },
       {
         name: 'DOM Node Accumulation',
@@ -107,7 +112,7 @@ export class MemoryLeakDetector {
         },
         description: 'Too many DOM nodes accumulated during testing',
         fix: 'Clear document.body.innerHTML in afterEach hooks',
-        severity: 'high'
+        severity: 'high',
       },
       {
         name: 'Global Reference Accumulation',
@@ -119,8 +124,8 @@ export class MemoryLeakDetector {
         },
         description: 'Too many global test references accumulated',
         fix: 'Clear global.__TEST_REFS__ in test cleanup',
-        severity: 'medium'
-      }
+        severity: 'medium',
+      },
     ];
   }
 
@@ -148,9 +153,9 @@ export class MemoryLeakDetector {
       memoryUsage: {
         current: currentMemory / (1024 * 1024), // MB
         baseline: this.baseline / (1024 * 1024), // MB
-        increase: memoryIncrease / (1024 * 1024) // MB
+        increase: memoryIncrease / (1024 * 1024), // MB
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -195,15 +200,24 @@ export class MemoryLeakDetector {
   /**
    * Apply automatic fixes for detected leaks
    */
-  applyAutomaticFixes(): { fixed: string[], failed: string[] } {
+  applyAutomaticFixes(): { fixed: string[]; failed: string[] } {
     const fixed: string[] = [];
     const failed: string[] = [];
 
     try {
       // Fix 1: Clear excessive event listeners
-      if (typeof window !== 'undefined' && (window as unknown as { _eventListeners?: Record<string, ((event: Event) => void)[]> })._eventListeners) {
-        Object.keys((window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })._eventListeners).forEach(eventType => {
-          const listeners = (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })._eventListeners[eventType] || [];
+      if (
+        typeof window !== 'undefined' &&
+        (window as unknown as { _eventListeners?: Record<string, ((event: Event) => void)[]> })
+          ._eventListeners
+      ) {
+        Object.keys(
+          (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })
+            ._eventListeners,
+        ).forEach(eventType => {
+          const listeners =
+            (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })
+              ._eventListeners[eventType] || [];
           listeners.forEach((listener: (event: Event) => void) => {
             try {
               window.removeEventListener(eventType, listener);
@@ -212,7 +226,9 @@ export class MemoryLeakDetector {
             }
           });
         });
-        (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })._eventListeners = {};
+        (
+          window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> }
+        )._eventListeners = {};
         fixed.push('Cleared excessive event listeners');
       }
     } catch (error) {
@@ -331,7 +347,7 @@ Memory Usage:
   /**
    * Static method to apply emergency fixes
    */
-  static emergencyCleanup(): { fixed: string[], failed: string[] } {
+  static emergencyCleanup(): { fixed: string[]; failed: string[] } {
     const detector = new MemoryLeakDetector();
     return detector.applyAutomaticFixes();
   }

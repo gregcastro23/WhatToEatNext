@@ -23,8 +23,8 @@ jest.mock('next/navigation', () => ({
     back: jest.fn(),
     forward: jest.fn(),
     refresh: jest.fn(),
-    replace: jest.fn()
-  })
+    replace: jest.fn(),
+  }),
 }));
 
 void jest.mock('@/contexts/AlchemicalContext/hooks');
@@ -34,8 +34,8 @@ jest.mock('@/utils/logger', () => ({
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn()
-  }
+    error: jest.fn(),
+  },
 }));
 
 // Mock realistic component behaviors for E2E testing
@@ -48,7 +48,7 @@ jest.mock('@/components/CuisineRecommender', () => {
       { name: 'Italian', score: 95, recipes: ['Pasta Marinara', 'Risotto', 'Pizza Margherita'] },
       { name: 'Chinese', score: 88, recipes: ['Fried Rice', 'Sweet and Sour Pork', 'Kung Pao Chicken'] },
       { name: 'Mexican', score: 82, recipes: ['Tacos', 'Enchiladas', 'Guacamole'] },
-      { name: 'Indian', score: 79, recipes: ['Curry', 'Biryani', 'Naan'] }
+      { name: 'Indian', score: 79, recipes: ['Curry', 'Biryani', 'Naan'] },
     ];
 
     const handleCuisineSelect = (cuisine: any) => {
@@ -57,40 +57,38 @@ jest.mock('@/components/CuisineRecommender', () => {
     };
 
     return (
-      <div data-testid="cuisine-recommender">
+      <div data-testid='cuisine-recommender'>
         <h3>Cuisine Recommendations</h3>
-        <div className="cuisine-grid">
+        <div className='cuisine-grid'>
           {cuisines.map(cuisine => (
-            <div
-              key={cuisine.name}
-              className="cuisine-card"
-              data-testid={`cuisine-card-${cuisine.name.toLowerCase()}`}
-            >
+            <div key={cuisine.name} className='cuisine-card' data-testid={`cuisine-card-${cuisine.name.toLowerCase()}`}>
               <button
                 onClick={() => handleCuisineSelect(cuisine)}
                 className={selectedCuisine === cuisine.name ? 'selected' : ''}
                 data-testid={`cuisine-${cuisine.name.toLowerCase()}`}
               >
                 <h4>{cuisine.name}</h4>
-                <div className="score">Match: {cuisine.score}%</div>
+                <div className='score'>Match: {cuisine.score}%</div>
               </button>
             </div>
           ))}
         </div>
 
         {showRecipes && selectedCuisine && (
-          <div data-testid="recipe-recommendations" className="recipe-section">
+          <div data-testid='recipe-recommendations' className='recipe-section'>
             <h4>Recommended {selectedCuisine} Recipes</h4>
-            <div className="recipe-list">
-              {cuisines.find(c => c.name === selectedCuisine)?.recipes.map(recipe => (
-                <button
-                  key={recipe}
-                  data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="recipe-button"
-                >
-                  {recipe}
-                </button>
-              ))}
+            <div className='recipe-list'>
+              {cuisines
+                .find(c => c.name === selectedCuisine)
+                ?.recipes.map(recipe => (
+                  <button
+                    key={recipe}
+                    data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g, '-')}`}
+                    className='recipe-button'
+                  >
+                    {recipe}
+                  </button>
+                ))}
             </div>
           </div>
         )}
@@ -112,31 +110,29 @@ jest.mock('@/components/IngredientRecommender', () => {
       { name: 'Olive Oil', category: 'Oils', properties: ['Rich', 'Fruity', 'Smooth'] },
       { name: 'Cheese', category: 'Dairy', properties: ['Creamy', 'Salty', 'Rich'] },
       { name: 'Pasta', category: 'Grains', properties: ['Neutral', 'Filling', 'Versatile'] },
-      { name: 'Chicken', category: 'Proteins', properties: ['Lean', 'Mild', 'Versatile'] }
+      { name: 'Chicken', category: 'Proteins', properties: ['Lean', 'Mild', 'Versatile'] },
     ];
 
     const displayedIngredients = ingredients.slice(0, maxDisplayed);
 
     const toggleIngredient = (ingredient: string) => {
       setSelectedIngredients(prev =>
-        void prev.includes(ingredient)
-          ? prev.filter(i => i !== ingredient)
-          : [...prev, ingredient]
+        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],
       );
     };
 
     const toggleExpanded = (ingredient: string) => {
-      setExpandedIngredient(prev => prev === ingredient ? null : ingredient);
+      setExpandedIngredient(prev => (prev === ingredient ? null : ingredient));
     };
 
     return (
-      <div data-testid="ingredient-recommender">
+      <div data-testid='ingredient-recommender'>
         <h3>Ingredient Recommendations</h3>
-        <div className="ingredient-grid">
+        <div className='ingredient-grid'>
           {displayedIngredients.map(ingredient => (
             <div
               key={ingredient.name}
-              className="ingredient-card"
+              className='ingredient-card'
               data-testid={`ingredient-card-${ingredient.name.toLowerCase()}`}
             >
               <button
@@ -149,13 +145,13 @@ jest.mock('@/components/IngredientRecommender', () => {
               <button
                 onClick={() => toggleExpanded(ingredient.name)}
                 data-testid={`expand-${ingredient.name.toLowerCase()}`}
-                className="expand-button"
+                className='expand-button'
               >
                 {expandedIngredient === ingredient.name ? '▼' : '▶'}
               </button>
 
               {expandedIngredient === ingredient.name && (
-                <div data-testid={`details-${ingredient.name.toLowerCase()}`} className="ingredient-details">
+                <div data-testid={`details-${ingredient.name.toLowerCase()}`} className='ingredient-details'>
                   <div>Category: {ingredient.category}</div>
                   <div>Properties: {ingredient.properties.join(', ')}</div>
                 </div>
@@ -165,7 +161,7 @@ jest.mock('@/components/IngredientRecommender', () => {
         </div>
 
         {selectedIngredients.length > 0 && (
-          <div data-testid="selected-ingredients-summary" className="selection-summary">
+          <div data-testid='selected-ingredients-summary' className='selection-summary'>
             <h4>Selected Ingredients ({selectedIngredients.length})</h4>
             <div>{selectedIngredients.join(', ')}</div>
           </div>
@@ -178,7 +174,7 @@ jest.mock('@/components/IngredientRecommender', () => {
 jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection({
     maxDisplayed = 6,
-    onViewMore
+    onViewMore,
   }: {
     maxDisplayed?: number;
     onViewMore?: () => void;
@@ -191,35 +187,31 @@ jest.mock('@/components/CookingMethodsSection', () => {
       { name: 'Grill', time: '10-20 min', difficulty: 'Medium', description: 'Cooking over direct heat' },
       { name: 'Steam', time: '10-15 min', difficulty: 'Easy', description: 'Cooking with steam heat' },
       { name: 'Braise', time: '60-120 min', difficulty: 'Hard', description: 'Slow cooking with liquid' },
-      { name: 'Stir-fry', time: '5-8 min', difficulty: 'Medium', description: 'Quick cooking while stirring' }
+      { name: 'Stir-fry', time: '5-8 min', difficulty: 'Medium', description: 'Quick cooking while stirring' },
     ];
 
     const displayedMethods = methods.slice(0, maxDisplayed);
 
     return (
-      <div data-testid="cooking-methods">
+      <div data-testid='cooking-methods'>
         <h3>Cooking Methods</h3>
-        <div className="methods-grid">
+        <div className='methods-grid'>
           {displayedMethods.map(method => (
-            <div
-              key={method.name}
-              className="method-card"
-              data-testid={`method-card-${method.name.toLowerCase()}`}
-            >
+            <div key={method.name} className='method-card' data-testid={`method-card-${method.name.toLowerCase()}`}>
               <button
                 onClick={() => setSelectedMethod(method.name)}
                 className={selectedMethod === method.name ? 'selected' : ''}
                 data-testid={`method-${method.name.toLowerCase()}`}
               >
                 <h4>{method.name}</h4>
-                <div className="method-info">
+                <div className='method-info'>
                   <div>Time: {method.time}</div>
                   <div>Difficulty: {method.difficulty}</div>
                 </div>
               </button>
 
               {selectedMethod === method.name && (
-                <div data-testid={`method-details-${method.name.toLowerCase()}`} className="method-details">
+                <div data-testid={`method-details-${method.name.toLowerCase()}`} className='method-details'>
                   <p>{method.description}</p>
                 </div>
               )}
@@ -227,11 +219,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
           ))}
         </div>
 
-        <button
-          onClick={onViewMore}
-          data-testid="view-more-methods"
-          className="view-more-button"
-        >
+        <button onClick={onViewMore} data-testid='view-more-methods' className='view-more-button'>
           View All Cooking Methods
         </button>
       </div>
@@ -242,8 +230,8 @@ jest.mock('@/components/CookingMethodsSection', () => {
 jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
   return function MockRecipeBuilderSimple() {
     const [recipeName, setRecipeName] = React.useState('');
-    const [ingredients, setIngredients] = React.useState<Array<{name: string, quantity: string}>>([]);
-    const [steps, setSteps] = React.useState<Array<{instruction: string, timing: string}>>([]);
+    const [ingredients, setIngredients] = React.useState<Array<{ name: string; quantity: string }>>([]);
+    const [steps, setSteps] = React.useState<Array<{ instruction: string; timing: string }>>([]);
     const [servings, setServings] = React.useState(4);
     const [prepTime, setPrepTime] = React.useState(15);
     const [cookTime, setCookTime] = React.useState(30);
@@ -253,9 +241,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
     };
 
     const updateIngredient = (index: number, field: 'name' | 'quantity', value: string) => {
-      setIngredients(prev => prev.map((ing, i) =>
-        i === index ? { ...ing, [field]: value } : ing
-      ));
+      setIngredients(prev => prev.map((ing, i) => (i === index ? { ...ing, [field]: value } : ing)));
     };
 
     const removeIngredient = (index: number) => {
@@ -267,133 +253,120 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
     };
 
     const updateStep = (index: number, field: 'instruction' | 'timing', value: string) => {
-      setSteps(prev => prev.map((step, i) =>
-        i === index ? { ...step, [field]: value } : step
-      ));
+      setSteps(prev => prev.map((step, i) => (i === index ? { ...step, [field]: value } : step)));
     };
 
     const removeStep = (index: number) => {
       setSteps(prev => prev.filter((_, i) => i !== index));
     };
 
-    const canSave = recipeName.trim() &&
-                   ingredients.some(ing => ing.name.trim()) &&
-                   void steps.some(step => step.instruction.trim());
+    const canSave =
+      recipeName.trim() && ingredients.some(ing => ing.name.trim()) && void steps.some(step => step.instruction.trim());
 
     const totalTime = prepTime + cookTime;
 
     return (
-      <div data-testid="recipe-builder">
+      <div data-testid='recipe-builder'>
         <h3>Recipe Builder</h3>
 
-        <div className="recipe-form">
-          <div className="recipe-header">
+        <div className='recipe-form'>
+          <div className='recipe-header'>
             <input
-              type="text"
-              placeholder="Recipe Name"
+              type='text'
+              placeholder='Recipe Name'
               value={recipeName}
-              onChange={(e) => setRecipeName(e.target.value)}
-              data-testid="recipe-name-input"
+              onChange={e => setRecipeName(e.target.value)}
+              data-testid='recipe-name-input'
             />
 
-            <div className="recipe-meta">
+            <div className='recipe-meta'>
               <input
-                type="number"
+                type='number'
                 value={servings}
-                onChange={(e) => setServings(parseInt(e.target.value) || 1)}
-                data-testid="servings-input"
-                min="1"
+                onChange={e => setServings(parseInt(e.target.value) || 1)}
+                data-testid='servings-input'
+                min='1'
               />
               <input
-                type="number"
+                type='number'
                 value={prepTime}
-                onChange={(e) => setPrepTime(parseInt(e.target.value) || 0)}
-                data-testid="prep-time-input"
-                min="0"
+                onChange={e => setPrepTime(parseInt(e.target.value) || 0)}
+                data-testid='prep-time-input'
+                min='0'
               />
               <input
-                type="number"
+                type='number'
                 value={cookTime}
-                onChange={(e) => setCookTime(parseInt(e.target.value) || 0)}
-                data-testid="cook-time-input"
-                min="0"
+                onChange={e => setCookTime(parseInt(e.target.value) || 0)}
+                data-testid='cook-time-input'
+                min='0'
               />
             </div>
           </div>
 
-          <div className="ingredients-section">
+          <div className='ingredients-section'>
             <h4>Ingredients</h4>
-            <button onClick={addIngredient} data-testid="add-ingredient">
+            <button onClick={addIngredient} data-testid='add-ingredient'>
               Add Ingredient
             </button>
 
             {ingredients.map((ingredient, index) => (
-              <div key={index} className="ingredient-row" data-testid={`ingredient-row-${index}`}>
+              <div key={index} className='ingredient-row' data-testid={`ingredient-row-${index}`}>
                 <input
-                  type="text"
-                  placeholder="Quantity"
+                  type='text'
+                  placeholder='Quantity'
                   value={ingredient.quantity}
-                  onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
+                  onChange={e => updateIngredient(index, 'quantity', e.target.value)}
                   data-testid={`ingredient-quantity-${index}`}
                 />
                 <input
-                  type="text"
-                  placeholder="Ingredient name"
+                  type='text'
+                  placeholder='Ingredient name'
                   value={ingredient.name}
-                  onChange={(e) => updateIngredient(index, 'name', e.target.value)}
+                  onChange={e => updateIngredient(index, 'name', e.target.value)}
                   data-testid={`ingredient-name-${index}`}
                 />
-                <button
-                  onClick={() => removeIngredient(index)}
-                  data-testid={`remove-ingredient-${index}`}
-                >
+                <button onClick={() => removeIngredient(index)} data-testid={`remove-ingredient-${index}`}>
                   Remove
                 </button>
               </div>
             ))}
 
-            <div data-testid="ingredients-count">,
-  Ingredients: {ingredients.length}
-            </div>
+            <div data-testid='ingredients-count'>, Ingredients: {ingredients.length}</div>
           </div>
 
-          <div className="steps-section">
+          <div className='steps-section'>
             <h4>Instructions</h4>
-            <button onClick={addStep} data-testid="add-step">
+            <button onClick={addStep} data-testid='add-step'>
               Add Step
             </button>
 
             {steps.map((step, index) => (
-              <div key={index} className="step-row" data-testid={`step-row-${index}`}>
-                <span className="step-number">{index + 1}</span>
+              <div key={index} className='step-row' data-testid={`step-row-${index}`}>
+                <span className='step-number'>{index + 1}</span>
                 <textarea
-                  placeholder="Describe this step..."
+                  placeholder='Describe this step...'
                   value={step.instruction}
-                  onChange={(e) => updateStep(index, 'instruction', e.target.value)}
+                  onChange={e => updateStep(index, 'instruction', e.target.value)}
                   data-testid={`step-instruction-${index}`}
                 />
                 <input
-                  type="text"
-                  placeholder="Timing"
+                  type='text'
+                  placeholder='Timing'
                   value={step.timing}
-                  onChange={(e) => updateStep(index, 'timing', e.target.value)}
+                  onChange={e => updateStep(index, 'timing', e.target.value)}
                   data-testid={`step-timing-${index}`}
                 />
-                <button
-                  onClick={() => removeStep(index)}
-                  data-testid={`remove-step-${index}`}
-                >
+                <button onClick={() => removeStep(index)} data-testid={`remove-step-${index}`}>
                   Remove
                 </button>
               </div>
             ))}
 
-            <div data-testid="steps-count">,
-  Steps: {steps.length}
-            </div>
+            <div data-testid='steps-count'>, Steps: {steps.length}</div>
           </div>
 
-          <div className="recipe-summary" data-testid="recipe-summary">
+          <div className='recipe-summary' data-testid='recipe-summary'>
             <h4>Recipe Summary</h4>
             <div>Name: {recipeName || 'Untitled Recipe'}</div>
             <div>Servings: {servings}</div>
@@ -402,11 +375,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
             <div>Steps: {steps.length}</div>
           </div>
 
-          <button
-            disabled={!canSave}
-            data-testid="save-recipe"
-            className={canSave ? 'enabled' : 'disabled'}
-          >
+          <button disabled={!canSave} data-testid='save-recipe' className={canSave ? 'enabled' : 'disabled'}>
             Save Recipe
           </button>
         </div>
@@ -418,20 +387,20 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
 describe('Main Page E2E Workflows', () => {
   const mockAlchemicalContext = {
     state: {
-  astrologicalState: { sunSign: 'aries' },
-      elementalState: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
+      astrologicalState: { sunSign: 'aries' },
+      elementalState: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     },
     planetaryPositions: { sun: { sign: 'aries' } },
-    isDaytime: true
+    isDaytime: true,
   };
 
   const mockNavigationState = {
-  saveState: jest.fn(),
-    getState: jest.fn(() => ({}))
+    saveState: jest.fn(),
+    getState: jest.fn(() => ({})),
   };
 
   const mockScrollPreservation = {
-  restoreScrollPosition: jest.fn()
+    restoreScrollPosition: jest.fn(),
   };
 
   beforeEach(() => {
@@ -444,11 +413,14 @@ describe('Main Page E2E Workflows', () => {
 
     // Mock DOM methods
     void Object.defineProperty(window, 'scrollY', { value: 0, writable: true });
-    jest.spyOn(document, 'getElementById').mockImplementation(() => ({
-  scrollIntoView: jest.fn(),
-      style: {},
-      classList: { add: jest.fn(), remove: jest.fn() }
-    } as any));
+    jest.spyOn(document, 'getElementById').mockImplementation(
+      () =>
+        ({
+          scrollIntoView: jest.fn(),
+          style: {},
+          classList: { add: jest.fn(), remove: jest.fn() },
+        }) as any,
+    );
   });
 
   afterEach(() => {
@@ -523,16 +495,10 @@ describe('Main Page E2E Workflows', () => {
     void user.click(addStepButton);
     void user.click(addStepButton);
 
-    user.type(
-      screen.getByTestId('step-instruction-0'),
-      'Heat olive oil in a large pan over medium heat'
-    );
+    user.type(screen.getByTestId('step-instruction-0'), 'Heat olive oil in a large pan over medium heat');
     void user.type(screen.getByTestId('step-timing-0'), '2 min');
 
-    user.type(
-      screen.getByTestId('step-instruction-1'),
-      'Add tomatoes and basil, sauté until tender'
-    );
+    user.type(screen.getByTestId('step-instruction-1'), 'Add tomatoes and basil, sauté until tender');
     void user.type(screen.getByTestId('step-timing-1'), '8 min');
 
     // Verify recipe can be saved
@@ -660,7 +626,7 @@ describe('Main Page E2E Workflows', () => {
       { quantity: '2 lbs', name: 'Chicken Breast' },
       { quantity: '1 cup', name: 'Cherry Tomatoes' },
       { quantity: '1/2 cup', name: 'Kalamata Olives' },
-      { quantity: '1/4 cup', name: 'Olive Oil' }
+      { quantity: '1/4 cup', name: 'Olive Oil' },
     ];
 
     for (let i = 0; i < ingredients.length; i++) {
@@ -676,7 +642,7 @@ describe('Main Page E2E Workflows', () => {
     const steps = [
       { instruction: 'Preheat oven to 375°F and prepare chicken', timing: '5 min' },
       { instruction: 'Sear chicken in olive oil until golden', timing: '10 min' },
-      { instruction: 'Add tomatoes and olives, bake until done', timing: '30 min' }
+      { instruction: 'Add tomatoes and olives, bake until done', timing: '30 min' },
     ];
 
     for (let i = 0; i < steps.length; i++) {

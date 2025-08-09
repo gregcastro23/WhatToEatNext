@@ -10,7 +10,7 @@ interface IngredientRecommendationsProps {
 }
 
 const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
-  astrologicalState
+  astrologicalState,
 }) => {
   const recommendedIngredients = useMemo(() => {
     return getTopIngredientMatches(astrologicalState, 5);
@@ -27,7 +27,7 @@ const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
         {recommendedIngredients.map(ingredient => (
           <li key={ingredient.name} className={styles.item}>
             <div className={styles.name}>{ingredient.name}</div>
-            
+
             {/* Show elemental properties if available */}
             {ingredient.elementalProperties && (
               <div className={styles.elementalProperties}>
@@ -41,7 +41,7 @@ const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
                   .map(([element, value]) => (
                     <div key={element} className={styles.elementalProperty}>
                       <span className={styles.elementName}>{element}</span>
-                      <div 
+                      <div
                         className={styles.elementBar}
                         style={{ width: `${Math.round((Number(value) || 0) * 100)}%` }}
                       />
@@ -52,29 +52,35 @@ const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
                   ))}
               </div>
             )}
-            
+
             {/* Show energy metrics if available */}
             {ingredient.heat !== undefined && (
               <div className={styles.energyMetrics}>
                 <div className={styles.metric}>
                   <span className={styles.metricLabel}>Heat:</span>
-                  <span className={styles.metricValue}>{Math.round((Number(ingredient.heat) || 0) * 100)}%</span>
+                  <span className={styles.metricValue}>
+                    {Math.round((Number(ingredient.heat) || 0) * 100)}%
+                  </span>
                 </div>
                 {ingredient.entropy !== undefined && (
                   <div className={styles.metric}>
                     <span className={styles.metricLabel}>Entropy:</span>
-                    <span className={styles.metricValue}>{Math.round((Number(ingredient.entropy) || 0) * 100)}%</span>
+                    <span className={styles.metricValue}>
+                      {Math.round((Number(ingredient.entropy) || 0) * 100)}%
+                    </span>
                   </div>
                 )}
                 {ingredient.reactivity !== undefined && (
                   <div className={styles.metric}>
                     <span className={styles.metricLabel}>Reactivity:</span>
-                    <span className={styles.metricValue}>{Math.round((Number(ingredient.reactivity) || 0) * 100)}%</span>
+                    <span className={styles.metricValue}>
+                      {Math.round((Number(ingredient.reactivity) || 0) * 100)}%
+                    </span>
                   </div>
                 )}
               </div>
             )}
-            
+
             <div className={styles.details}>
               <div>Element: {ingredient.astrologicalProfile.elementalAffinity.base}</div>
               <div>Planets: {ingredient.astrologicalProfile.rulingPlanets.join(', ')}</div>
@@ -86,4 +92,4 @@ const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
   );
 };
 
-export default IngredientRecommendations; 
+export default IngredientRecommendations;

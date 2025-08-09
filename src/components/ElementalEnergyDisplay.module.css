@@ -102,7 +102,10 @@
 }
 
 /* Element section styles */
-.elementSection, .modalitySection, .alchemicalSection, .energySection {
+.elementSection,
+.modalitySection,
+.alchemicalSection,
+.energySection {
   margin-bottom: 1.5rem;
   padding: 1rem;
   border-radius: 8px;
@@ -117,19 +120,25 @@
 }
 
 /* Element bars */
-.elementBars, .alchemicalBars, .energyBars {
+.elementBars,
+.alchemicalBars,
+.energyBars {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.elementBar, .alchemicalBar, .energyBar {
+.elementBar,
+.alchemicalBar,
+.energyBar {
   display: flex;
   align-items: center;
   width: 100%;
 }
 
-.elementLabel, .alchemicalLabel, .energyLabel {
+.elementLabel,
+.alchemicalLabel,
+.energyLabel {
   display: flex;
   align-items: center;
   width: 80px;
@@ -139,7 +148,8 @@
   font-weight: 500;
 }
 
-.elementIcon, .energyIcon {
+.elementIcon,
+.energyIcon {
   margin-right: 0.5rem;
 }
 
@@ -311,7 +321,7 @@
   border-radius: 4px;
   z-index: 10;
   margin-bottom: 0.5rem;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Modality header styling for the repositioned dominant quality section */
@@ -370,9 +380,9 @@
   .modalityHeader {
     flex-direction: column;
   }
-  
+
   .modalityHeader .dominantModality {
     width: 100%;
     margin-top: 1rem;
   }
-} 
+}

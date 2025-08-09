@@ -1,11 +1,10 @@
-
 import type { Ingredient } from '@/types';
 import { UnifiedIngredient } from '@/types/unified';
 import { standardizeIngredient } from '@/utils/dataStandardization';
 import {
-    calculateAlchemicalProperties,
-    calculateThermodynamicProperties,
-    determineIngredientModality,
+  calculateAlchemicalProperties,
+  calculateThermodynamicProperties,
+  determineIngredientModality,
 } from '@/utils/ingredientUtils';
 
 import { fruits } from './fruits';
@@ -39,19 +38,23 @@ export const proteins = {
   ...meatsData,
   ...poultryData,
   ...seafoodData,
-  ...plantBasedData
+  ...plantBasedData,
 };
 
 // Calculate elemental properties from astrological data
 const calculateElementalProperties = (
-  ingredientData: Ingredient | UnifiedIngredient
+  ingredientData: Ingredient | UnifiedIngredient,
 ): Record<string, number> => {
   // Use actual elemental properties if they exist
-  if (ingredientData.elementalProperties &&
-      Object.keys(ingredientData.elementalProperties).length > 0) {
-
+  if (
+    ingredientData.elementalProperties &&
+    Object.keys(ingredientData.elementalProperties).length > 0
+  ) {
     const props = ingredientData.elementalProperties;
-    const sum = Object.values(props).reduce((acc: number, val: unknown) => acc + (Number(val) || 0), 0);
+    const sum = Object.values(props).reduce(
+      (acc: number, val: unknown) => acc + (Number(val) || 0),
+      0,
+    );
 
     if (sum > 0) {
       return {
@@ -107,16 +110,16 @@ const calculateElementalProperties = (
 // Helper function to get planetary element
 function getPlanetaryElement(planet: string): string | null {
   const planetElements: Record<string, string> = {
-    'Sun': 'Fire',
-    'Mars': 'Fire',
-    'Jupiter': 'Fire',
-    'Moon': 'Water',
-    'Venus': 'Water',
-    'Neptune': 'Water',
-    'Mercury': 'Air',
-    'Uranus': 'Air',
-    'Saturn': 'Earth',
-    'Pluto': 'Earth'
+    Sun: 'Fire',
+    Mars: 'Fire',
+    Jupiter: 'Fire',
+    Moon: 'Water',
+    Venus: 'Water',
+    Neptune: 'Water',
+    Mercury: 'Air',
+    Uranus: 'Air',
+    Saturn: 'Earth',
+    Pluto: 'Earth',
   };
   return planetElements[planet] || null;
 }
@@ -124,10 +127,18 @@ function getPlanetaryElement(planet: string): string | null {
 // Helper function to get zodiac element
 function getZodiacElement(sign: string): string | null {
   const signElements: Record<string, string> = {
-    'aries': 'Fire', 'leo': 'Fire', 'sagittarius': 'Fire',
-    'taurus': 'Earth', 'virgo': 'Earth', 'capricorn': 'Earth',
-    'gemini': 'Air', 'libra': 'Air', 'aquarius': 'Air',
-    'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
+    aries: 'Fire',
+    leo: 'Fire',
+    sagittarius: 'Fire',
+    taurus: 'Earth',
+    virgo: 'Earth',
+    capricorn: 'Earth',
+    gemini: 'Air',
+    libra: 'Air',
+    aquarius: 'Air',
+    cancer: 'Water',
+    scorpio: 'Water',
+    pisces: 'Water',
   };
   return signElements[sign.toLowerCase()] || null;
 }
@@ -135,15 +146,15 @@ function getZodiacElement(sign: string): string | null {
 // Helper function to calculate elemental properties from category
 function calculateElementalPropertiesFromCategory(category: string): Record<string, number> {
   const categoryElements: Record<string, Record<string, number>> = {
-    'spice': { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
-    'culinary_herb': { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
-    'protein': { Fire: 0.4, Earth: 0.4, Water: 0.2, Air: 0.0 },
-    'oil': { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
-    'grain': { Earth: 0.7, Air: 0.2, Water: 0.1, Fire: 0.0 },
-    'vegetable': { Earth: 0.5, Water: 0.3, Air: 0.2, Fire: 0.0 },
-    'fruit': { Water: 0.5, Air: 0.3, Earth: 0.2, Fire: 0.0 },
-    'vinegar': { Fire: 0.2, Water: 0.4, Air: 0.3, Earth: 0.1 },
-    'seasoning': { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+    spice: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
+    culinary_herb: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
+    protein: { Fire: 0.4, Earth: 0.4, Water: 0.2, Air: 0.0 },
+    oil: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
+    grain: { Earth: 0.7, Air: 0.2, Water: 0.1, Fire: 0.0 },
+    vegetable: { Earth: 0.5, Water: 0.3, Air: 0.2, Fire: 0.0 },
+    fruit: { Water: 0.5, Air: 0.3, Earth: 0.2, Fire: 0.0 },
+    vinegar: { Fire: 0.2, Water: 0.4, Air: 0.3, Earth: 0.1 },
+    seasoning: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
   };
 
   return categoryElements[category] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -174,10 +185,11 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   const standardized = standardizeIngredient({
     name: name,
     category: ingredientData.category || 'culinary_herb',
-    elementalProperties: calculateElementalProperties(ingredientData as unknown as Ingredient | UnifiedIngredient),
+    elementalProperties: calculateElementalProperties(
+      ingredientData as unknown as Ingredient | UnifiedIngredient,
+    ),
     qualities: Array.isArray(ingredientData.qualities) ? ingredientData.qualities : [],
-    lunarPhaseModifiers:
-      ingredientData.lunarPhaseModifiers || defaultLunarPhaseModifiers,
+    lunarPhaseModifiers: ingredientData.lunarPhaseModifiers || defaultLunarPhaseModifiers,
     storage: ingredientData.storage || { duration: 'unknown' },
     elementalTransformation: ingredientData.elementalTransformation || {
       whenCooked: { Fire: 0.1, Air: 0.05 },
@@ -190,58 +202,83 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 
 // Process a collection of ingredients with the new properties
 const processIngredientCollection = (
-  collection: Record<string, unknown>
+  collection: Record<string, unknown>,
 ): Record<string, Ingredient> => {
-  return Object.entries(collection).reduce((acc, [key, value]) => {
-    try {
-      const processedIngredient = processIngredient(value  as Record<string, unknown>, key);
+  return Object.entries(collection).reduce(
+    (acc, [key, value]) => {
+      try {
+        const processedIngredient = processIngredient(value as Record<string, unknown>, key);
 
-      // Add alchemical and thermodynamic properties
-      const alchemicalProps =
-        calculateAlchemicalProperties(processedIngredient as unknown as Ingredient);
-      const thermodynamicProps = calculateThermodynamicProperties(
-        alchemicalProps,
-        (processedIngredient as unknown as Record<string, unknown>).elementalProperties as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-      );
+        // Add alchemical and thermodynamic properties
+        const alchemicalProps = calculateAlchemicalProperties(
+          processedIngredient as unknown as Ingredient,
+        );
+        const thermodynamicProps = calculateThermodynamicProperties(
+          alchemicalProps,
+          ((processedIngredient as unknown as Record<string, unknown>)
+            .elementalProperties as ElementalProperties) || {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25,
+          },
+        );
 
-      // Determine modality
-      const modality = determineIngredientModality(
-        (processedIngredient as unknown as Record<string, unknown>).qualities as string[] || [],
-        (processedIngredient as unknown as Record<string, unknown>).elementalProperties as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-      );
+        // Determine modality
+        const modality = determineIngredientModality(
+          ((processedIngredient as unknown as Record<string, unknown>).qualities as string[]) || [],
+          ((processedIngredient as unknown as Record<string, unknown>)
+            .elementalProperties as ElementalProperties) || {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25,
+          },
+        );
 
-      // Create elementalSignature (dominant elements in order)
-      const elementalSignature = Object.entries(
-        (processedIngredient as unknown as Record<string, unknown>).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-      )
-        .sort((a, b) => {
-          // Pattern KK-10: Final Arithmetic Elimination for data processing
-          const numericA = Number(a[1]) || 0;
-          const numericB = Number(b[1]) || 0;
-          return numericB - numericA;
-        })
-        .map(([element, value]) => [element, Number(value) || 0] as [string, number]);
+        // Create elementalSignature (dominant elements in order)
+        const elementalSignature = Object.entries(
+          (processedIngredient as unknown as Record<string, unknown>).elementalProperties || {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25,
+          },
+        )
+          .sort((a, b) => {
+            // Pattern KK-10: Final Arithmetic Elimination for data processing
+            const numericA = Number(a[1]) || 0;
+            const numericB = Number(b[1]) || 0;
+            return numericB - numericA;
+          })
+          .map(([element, value]) => [element, Number(value) || 0] as [string, number]);
 
-      acc[key] = {
-        ...processedIngredient,
-        alchemicalProperties: alchemicalProps,
-        thermodynamicProperties: thermodynamicProps,
-        modality,
-        elementalSignature:
-          elementalSignature.length > 0 ? elementalSignature : undefined,
-        // Process other enhanced properties if they exist
-        astrologicalCorrespondence:
-          (processedIngredient as unknown as Record<string, unknown>).astrologicalCorrespondence || undefined,
-        pairingRecommendations:
-          (processedIngredient as unknown as Record<string, unknown>).pairingRecommendations || undefined,
-        celestialBoost: (processedIngredient as unknown as Record<string, unknown>).celestialBoost || undefined,
-        planetaryInfluence: (processedIngredient as unknown as Record<string, unknown>).planetaryInfluence || undefined,
-      } as unknown as Ingredient;
-    } catch (error) {
-      console.warn(`Skipping invalid ingredient ${key}:`, error);
-    }
-    return acc;
-  }, {} as Record<string, Ingredient>);
+        acc[key] = {
+          ...processedIngredient,
+          alchemicalProperties: alchemicalProps,
+          thermodynamicProperties: thermodynamicProps,
+          modality,
+          elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined,
+          // Process other enhanced properties if they exist
+          astrologicalCorrespondence:
+            (processedIngredient as unknown as Record<string, unknown>)
+              .astrologicalCorrespondence || undefined,
+          pairingRecommendations:
+            (processedIngredient as unknown as Record<string, unknown>).pairingRecommendations ||
+            undefined,
+          celestialBoost:
+            (processedIngredient as unknown as Record<string, unknown>).celestialBoost || undefined,
+          planetaryInfluence:
+            (processedIngredient as unknown as Record<string, unknown>).planetaryInfluence ||
+            undefined,
+        } as unknown as Ingredient;
+      } catch (error) {
+        console.warn(`Skipping invalid ingredient ${key}:`, error);
+      }
+      return acc;
+    },
+    {} as Record<string, Ingredient>,
+  );
 };
 
 // Create comprehensive collections that combine all available sources
@@ -290,7 +327,8 @@ export const allIngredients = (() => {
 
   // Helper function to normalize ingredient name for comparison
   const normalizeIngredientName = (name: string): string => {
-    return name.toLowerCase()
+    return name
+      .toLowerCase()
       .trim()
       .replace(/\s+/g, '_')
       .replace(/[^a-z0-9_]/g, '');
@@ -309,7 +347,7 @@ export const allIngredients = (() => {
     { source: processedPoultry, priority: 9 },
     { source: processedSeafood, priority: 10 },
     { source: processedHerbs, priority: 11 },
-    { source: processedSpices, priority: 12 } // Highest priority
+    { source: processedSpices, priority: 12 }, // Highest priority
   ];
 
   // Sort collections by priority
@@ -351,9 +389,7 @@ export const ingredientsMap = { ...allIngredients };
 
 // Function to get all ingredients of a specific category
 export function getAllIngredientsByCategory(category: string): Ingredient[] {
-  return Object.values(allIngredients).filter(
-    (ingredient) => ingredient.category === category
-  );
+  return Object.values(allIngredients).filter(ingredient => ingredient.category === category);
 }
 
 // Function to get all vegetable ingredients

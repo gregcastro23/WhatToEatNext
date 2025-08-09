@@ -13,107 +13,107 @@ class StrategicTypeFixer {
   constructor() {
     this.fixedCount = 0;
     this.filesModified = new Set();
-    
+
     // Specific fixes for known issues
     this.fixes = [
       {
         name: 'Fix elementalUtils methods array',
         file: 'src/utils/elementalUtils.ts',
-        fix: (content) => {
+        fix: content => {
           // Change methods array type from string[] to proper type
           return content.replace(
             /const methods: string\[\] = \[\];/g,
-            'const methods: Array<{ name: string; potency: number }> = [];'
+            'const methods: Array<{ name: string; potency: number }> = [];',
           );
-        }
+        },
       },
-      
+
       {
         name: 'Fix CookingMethods empty object assignments',
         file: 'src/components/CookingMethods.tsx',
-        fix: (content) => {
+        fix: content => {
           // Fix empty objects being assigned to string
           return content
             .replace(/selectedMethod: \{\}/g, "selectedMethod: ''")
             .replace(/hoveredMethod: \{\}/g, "hoveredMethod: ''");
-        }
+        },
       },
-      
+
       {
         name: 'Fix ReactNode assignments',
-        files: ['src/components/CuisineRecommender/index.tsx', 'src/components/CuisineSection/index.tsx'],
-        fix: (content) => {
+        files: [
+          'src/components/CuisineRecommender/index.tsx',
+          'src/components/CuisineSection/index.tsx',
+        ],
+        fix: content => {
           // Cast unknown to ReactNode where needed
-          return content.replace(
-            /\{(error|loading|children)\}/g,
-            '{$1 as React.ReactNode}'
-          );
-        }
+          return content.replace(/\{(error|loading|children)\}/g, '{$1 as React.ReactNode}');
+        },
       },
-      
+
       {
         name: 'Fix test mock type issues',
         file: 'src/services/campaign/__tests__/performance/MemoryUsage.test.ts',
-        fix: (content) => {
+        fix: content => {
           // Fix mock return value types
-          return content.replace(
-            /mockReturnValue\((\d+)\)/g,
-            'mockReturnValue($1 as any)'
-          );
-        }
+          return content.replace(/mockReturnValue\((\d+)\)/g, 'mockReturnValue($1 as any)');
+        },
       },
-      
+
       {
         name: 'Fix recipe type assignments',
-        files: ['src/components/Header/FoodRecommender/index.tsx', 'src/components/FoodRecommender/NutritionalRecommender.tsx'],
-        fix: (content) => {
+        files: [
+          'src/components/Header/FoodRecommender/index.tsx',
+          'src/components/FoodRecommender/NutritionalRecommender.tsx',
+        ],
+        fix: content => {
           // Add proper typing to recipe-related assignments
-          return content.replace(
-            /matchingRecipes: \[\]/g,
-            'matchingRecipes: [] as Recipe[]'
-          );
-        }
+          return content.replace(/matchingRecipes: \[\]/g, 'matchingRecipes: [] as Recipe[]');
+        },
       },
-      
+
       {
         name: 'Fix Planet/Element string literals',
         files: ['src/**/*.ts', 'src/**/*.tsx'],
-        pattern: /(["'])(Sun|Moon|Mercury|Venus|Mars|Jupiter|Saturn|Uranus|Neptune|Pluto)\1(?!\s*as\s*Planet)/g,
+        pattern:
+          /(["'])(Sun|Moon|Mercury|Venus|Mars|Jupiter|Saturn|Uranus|Neptune|Pluto)\1(?!\s*as\s*Planet)/g,
         replacement: '$1$2$1 as Planet',
-        errorPattern: /Argument of type 'string' is not assignable to parameter of type 'Planet'/
+        errorPattern: /Argument of type 'string' is not assignable to parameter of type 'Planet'/,
       },
-      
+
       {
         name: 'Fix Season type casts',
         files: ['src/**/*.ts', 'src/**/*.tsx'],
         pattern: /\.includes\(([^)]+)\)/g,
-        check: (line) => line.includes('season') && !line.includes('as Season'),
-        replacement: (match, arg) => `.includes(${arg} as Season)`
-      }
+        check: line => line.includes('season') && !line.includes('as Season'),
+        replacement: (match, arg) => `.includes(${arg} as Season)`,
+      },
     ];
   }
 
   async run() {
     console.log('🎯 STRATEGIC TYPE FIXER');
     console.log('Applying targeted fixes for known issues...\n');
-    
+
     const initialErrors = this.getErrorCount();
     console.log(`Initial error count: ${initialErrors}\n`);
-    
+
     // Apply each fix
     for (const fix of this.fixes) {
       await this.applyFix(fix);
     }
-    
+
     // Run additional targeted fixes based on error analysis
     await this.fixCommonPatterns();
-    
+
     const finalErrors = this.getErrorCount();
-    
+
     console.log('\n📊 RESULTS:');
     console.log(`Files modified: ${this.filesModified.size}`);
     console.log(`Fixes applied: ${this.fixedCount}`);
-    console.log(`Errors reduced: ${initialErrors - finalErrors} (${((initialErrors - finalErrors) / initialErrors * 100).toFixed(1)}%)`);
+    console.log(
+      `Errors reduced: ${initialErrors - finalErrors} (${(((initialErrors - finalErrors) / initialErrors) * 100).toFixed(1)}%)`,
+    );
     console.log(`Final error count: ${finalErrors}`);
   }
 
@@ -121,7 +121,7 @@ class StrategicTypeFixer {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
         encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe']
+        stdio: ['pipe', 'pipe', 'pipe'],
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -131,16 +131,16 @@ class StrategicTypeFixer {
 
   async applyFix(fix) {
     console.log(`🔧 ${fix.name}`);
-    
-    const files = fix.file ? [fix.file] : (fix.files || []);
-    
+
+    const files = fix.file ? [fix.file] : fix.files || [];
+
     for (const file of files) {
       try {
         if (!fs.existsSync(file)) continue;
-        
+
         const content = fs.readFileSync(file, 'utf8');
         const newContent = fix.fix(content);
-        
+
         if (newContent !== content) {
           fs.writeFileSync(file, newContent);
           this.filesModified.add(file);
@@ -155,19 +155,19 @@ class StrategicTypeFixer {
 
   async fixCommonPatterns() {
     console.log('\n🔍 Analyzing and fixing TS2345 argument type errors...');
-    
+
     // Get only TS2345 errors
     const ts2345Errors = await this.getTS2345Errors();
     console.log(`Found ${ts2345Errors.length} TS2345 errors`);
-    
+
     // Group by file for batch processing
     const errorsByFile = this.groupByFile(ts2345Errors);
     const sortedFiles = Object.entries(errorsByFile)
       .sort(([, a], [, b]) => b.length - a.length)
       .slice(0, 8); // Process top 8 files
-    
+
     console.log(`\nProcessing ${sortedFiles.length} files with most TS2345 errors:`);
-    
+
     for (const [file, fileErrors] of sortedFiles) {
       console.log(`\n📁 ${file} (${fileErrors.length} errors)`);
       await this.fixTS2345InFile(file, fileErrors);
@@ -178,22 +178,26 @@ class StrategicTypeFixer {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "TS2345"', {
         encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+        maxBuffer: 10 * 1024 * 1024,
       });
-      
-      return output.trim().split('\n').map(line => {
-        const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/);
-        if (match) {
-          return {
-            file: match[1],
-            line: parseInt(match[2]),
-            column: parseInt(match[3]),
-            code: match[4],
-            message: match[5]
-          };
-        }
-        return null;
-      }).filter(Boolean);
+
+      return output
+        .trim()
+        .split('\n')
+        .map(line => {
+          const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/);
+          if (match) {
+            return {
+              file: match[1],
+              line: parseInt(match[2]),
+              column: parseInt(match[3]),
+              code: match[4],
+              message: match[5],
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
     } catch (error) {
       return [];
     }
@@ -204,16 +208,16 @@ class StrategicTypeFixer {
       let content = fs.readFileSync(file, 'utf8');
       const lines = content.split('\n');
       let modified = false;
-      
+
       // Sort errors by line number in reverse
       errors.sort((a, b) => b.line - a.line);
-      
+
       for (const error of errors) {
         const lineIndex = error.line - 1;
         if (lineIndex >= 0 && lineIndex < lines.length) {
           const originalLine = lines[lineIndex];
           let fixedLine = originalLine;
-          
+
           // Apply specific TS2345 fixes based on error message
           if (error.message.includes("is not assignable to parameter of type 'Season'")) {
             fixedLine = this.fixSeasonArgument(originalLine);
@@ -221,27 +225,37 @@ class StrategicTypeFixer {
             fixedLine = this.fixPlanetArgument(originalLine);
           } else if (error.message.includes("is not assignable to parameter of type 'Element'")) {
             fixedLine = this.fixElementArgument(originalLine);
-          } else if (error.message.includes("'string | undefined' is not assignable to parameter of type 'string'")) {
+          } else if (
+            error.message.includes(
+              "'string | undefined' is not assignable to parameter of type 'string'",
+            )
+          ) {
             fixedLine = this.fixUndefinedString(originalLine);
           } else if (error.message.includes("'unknown' is not assignable to parameter")) {
             fixedLine = this.fixUnknownType(originalLine, error.message);
           } else if (error.message.includes("'Record<string, unknown>' is not assignable")) {
             fixedLine = this.fixRecordType(originalLine, error.message);
-          } else if (error.message.includes("is not assignable to parameter of type 'SetStateAction")) {
+          } else if (
+            error.message.includes("is not assignable to parameter of type 'SetStateAction")
+          ) {
             fixedLine = this.fixSetStateAction(originalLine);
           }
-          
+
           if (fixedLine !== originalLine) {
             lines[lineIndex] = fixedLine;
             modified = true;
             this.fixedCount++;
-            console.log(`  ✅ Fixed line ${error.line}: ${originalLine.trim().substring(0, 60)}...`);
+            console.log(
+              `  ✅ Fixed line ${error.line}: ${originalLine.trim().substring(0, 60)}...`,
+            );
           } else {
-            console.log(`  ⚠️  No fix for line ${error.line}: ${error.message.substring(0, 60)}...`);
+            console.log(
+              `  ⚠️  No fix for line ${error.line}: ${error.message.substring(0, 60)}...`,
+            );
           }
         }
       }
-      
+
       if (modified) {
         fs.writeFileSync(file, lines.join('\n'));
         this.filesModified.add(file);
@@ -256,16 +270,33 @@ class StrategicTypeFixer {
     // Fix season arguments
     const seasonValues = ['spring', 'summer', 'fall', 'autumn', 'winter'];
     for (const season of seasonValues) {
-      line = line.replace(new RegExp(`(['"])(${season})\\1(?!\\s*as\\s*Season)`, 'g'), '$1$2$1 as Season');
+      line = line.replace(
+        new RegExp(`(['"])(${season})\\1(?!\\s*as\\s*Season)`, 'g'),
+        '$1$2$1 as Season',
+      );
     }
     return line;
   }
 
   fixPlanetArgument(line) {
     // Fix planet arguments
-    const planetValues = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+    const planetValues = [
+      'Sun',
+      'Moon',
+      'Mercury',
+      'Venus',
+      'Mars',
+      'Jupiter',
+      'Saturn',
+      'Uranus',
+      'Neptune',
+      'Pluto',
+    ];
     for (const planet of planetValues) {
-      line = line.replace(new RegExp(`(['"])(${planet})\\1(?!\\s*as\\s*Planet)`, 'g'), '$1$2$1 as Planet');
+      line = line.replace(
+        new RegExp(`(['"])(${planet})\\1(?!\\s*as\\s*Planet)`, 'g'),
+        '$1$2$1 as Planet',
+      );
     }
     return line;
   }
@@ -274,7 +305,10 @@ class StrategicTypeFixer {
     // Fix element arguments
     const elementValues = ['Fire', 'Water', 'Earth', 'Air'];
     for (const element of elementValues) {
-      line = line.replace(new RegExp(`(['"])(${element})\\1(?!\\s*as\\s*Element)`, 'g'), '$1$2$1 as Element');
+      line = line.replace(
+        new RegExp(`(['"])(${element})\\1(?!\\s*as\\s*Element)`, 'g'),
+        '$1$2$1 as Element',
+      );
     }
     return line;
   }
@@ -329,12 +363,12 @@ class StrategicTypeFixer {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+        maxBuffer: 10 * 1024 * 1024,
       });
-      
+
       const errors = [];
       const lines = output.split('\n');
-      
+
       for (const line of lines) {
         const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/);
         if (match) {
@@ -343,11 +377,11 @@ class StrategicTypeFixer {
             line: parseInt(match[2]),
             column: parseInt(match[3]),
             code: match[4],
-            message: match[5]
+            message: match[5],
           });
         }
       }
-      
+
       return errors;
     } catch (error) {
       // TypeScript exits with error code when there are errors
@@ -357,12 +391,12 @@ class StrategicTypeFixer {
 
   async fixEmptyObjectToString(errors) {
     const fileGroups = this.groupByFile(errors);
-    
+
     for (const [file, fileErrors] of Object.entries(fileGroups)) {
       try {
         let content = fs.readFileSync(file, 'utf8');
         const lines = content.split('\n');
-        
+
         // Fix each error line
         fileErrors.forEach(error => {
           const lineIndex = error.line - 1;
@@ -371,7 +405,7 @@ class StrategicTypeFixer {
             this.fixedCount++;
           }
         });
-        
+
         fs.writeFileSync(file, lines.join('\n'));
         this.filesModified.add(file);
         console.log(`    ✅ Fixed ${fileErrors.length} occurrences in ${file}`);
@@ -383,22 +417,22 @@ class StrategicTypeFixer {
 
   async fixSeasonType(errors) {
     const fileGroups = this.groupByFile(errors);
-    
+
     for (const [file, fileErrors] of Object.entries(fileGroups)) {
       try {
         let content = fs.readFileSync(file, 'utf8');
-        
+
         // Add Season import if not present
-        if (!content.includes("import type { Season }") && !content.includes("import { Season }")) {
+        if (!content.includes('import type { Season }') && !content.includes('import { Season }')) {
           content = `import type { Season } from '@/types/alchemy';\n` + content;
         }
-        
+
         // Fix season comparisons
         content = content.replace(
           /\.includes\(([^)]+)\s+as\s+Season\)/g,
-          '.includes($1 as Season)'
+          '.includes($1 as Season)',
         );
-        
+
         fs.writeFileSync(file, content);
         this.filesModified.add(file);
         console.log(`    ✅ Fixed Season types in ${file}`);
@@ -410,18 +444,29 @@ class StrategicTypeFixer {
 
   async fixPlanetType(errors) {
     const fileGroups = this.groupByFile(errors);
-    
+
     for (const [file, fileErrors] of Object.entries(fileGroups)) {
       try {
         let content = fs.readFileSync(file, 'utf8');
-        
+
         // Fix planet string literals
-        const planetNames = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+        const planetNames = [
+          'Sun',
+          'Moon',
+          'Mercury',
+          'Venus',
+          'Mars',
+          'Jupiter',
+          'Saturn',
+          'Uranus',
+          'Neptune',
+          'Pluto',
+        ];
         planetNames.forEach(planet => {
           const regex = new RegExp(`(['"])(${planet})\\1(?!\\s*as\\s*Planet)`, 'g');
           content = content.replace(regex, `$1$2$1 as Planet`);
         });
-        
+
         fs.writeFileSync(file, content);
         this.filesModified.add(file);
         console.log(`    ✅ Fixed Planet types in ${file}`);

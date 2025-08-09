@@ -27,8 +27,8 @@ interface AstrologyUtilsModule {
   getLunarPhaseName: (phase: number) => string;
   getMoonIllumination: (date?: Date) => Promise<number>;
   calculateSunSign: (date?: Date) => string;
-  calculateLunarNodes: (date?: Date) => { northNode: number; isRetrograde: boolean; };
-  getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean; };
+  calculateLunarNodes: (date?: Date) => { northNode: number; isRetrograde: boolean };
+  getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean };
   getCurrentAstrologicalState: (date?: Date) => {
     zodiacSign: string;
     lunarPhase: string;
@@ -54,15 +54,27 @@ interface SafeAstrologyModule {
 }
 
 interface MoonTimesModule {
-  calculateMoonTimes: (date: Date, latitude: number, longitude: number) => { rise?: Date; set?: Date; };
+  calculateMoonTimes: (
+    date: Date,
+    latitude: number,
+    longitude: number,
+  ) => { rise?: Date; set?: Date };
 }
 
 interface CuisineCalculationsModule {
-  getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: unknown) => unknown[];
+  getCuisineRecommendations: (
+    zodiacSign?: string,
+    lunarPhase?: string,
+    planetaryAlignment?: unknown,
+  ) => unknown[];
 }
 
 interface SunTimesModule {
-  calculateSunTimes: (date: Date, latitude: number, longitude: number) => {
+  calculateSunTimes: (
+    date: Date,
+    latitude: number,
+    longitude: number,
+  ) => {
     sunrise: Date;
     sunset: Date;
     solarNoon: Date;
@@ -71,7 +83,11 @@ interface SunTimesModule {
 }
 
 interface SolarPositionsModule {
-  getSunPosition: (date: Date, latitude: number, longitude: number) => {
+  getSunPosition: (
+    date: Date,
+    latitude: number,
+    longitude: number,
+  ) => {
     azimuth: number;
     altitude: number;
   };
@@ -79,13 +95,18 @@ interface SolarPositionsModule {
 
 // Module map for type-safe imports
 const MODULE_MAP = {
-  '@/utils/astrologyUtils': () => import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
-  '@/utils/accurateAstronomy': () => import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>,
-  '@/utils/safeAstrology': () => import('@/utils/safeAstrology') as unknown as Promise<SafeAstrologyModule>,
+  '@/utils/astrologyUtils': () =>
+    import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
+  '@/utils/accurateAstronomy': () =>
+    import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>,
+  '@/utils/safeAstrology': () =>
+    import('@/utils/safeAstrology') as unknown as Promise<SafeAstrologyModule>,
   '@/utils/moonTimes': () => import('@/utils/moonTimes') as unknown as Promise<MoonTimesModule>,
-  '@/lib/cuisineCalculations': () => import('@/lib/cuisineCalculations') as unknown as Promise<CuisineCalculationsModule>,
+  '@/lib/cuisineCalculations': () =>
+    import('@/lib/cuisineCalculations') as unknown as Promise<CuisineCalculationsModule>,
   '@/utils/sunTimes': () => import('@/utils/sunTimes') as unknown as Promise<SunTimesModule>,
-  '@/utils/solarPositions': () => import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>,
+  '@/utils/solarPositions': () =>
+    import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>,
   '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations'),
   '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy'),
   // astronomia removed from dependencies
@@ -100,7 +121,7 @@ type KnownModulePath = keyof typeof MODULE_MAP;
 export async function safeImportAndExecuteKnown<R, A extends unknown[] = unknown[]>(
   path: KnownModulePath,
   functionName: string,
-  _args: A
+  _args: A,
 ): Promise<R | null> {
   try {
     if (!MODULE_MAP[path]) {
@@ -130,7 +151,7 @@ export async function safeImportAndExecuteKnown<R, A extends unknown[] = unknown
  */
 export async function safeImportFunctionKnown<T extends (...args: unknown[]) => unknown>(
   path: KnownModulePath,
-  functionName: string
+  functionName: string,
 ): Promise<T | null> {
   try {
     if (!MODULE_MAP[path]) {
@@ -171,7 +192,7 @@ import * as safeAstrology from '@/utils/safeAstrology';
 export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
   path: string,
   functionName: string,
-  _args: A
+  _args: A,
 ): Promise<R | null> {
   try {
     // Use static imports for known modules
@@ -215,7 +236,10 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
 
     // Return default values for known functions
-    if (path === '@/calculations/alchemicalCalculations' && functionName === 'calculateAlchemicalProperties') {
+    if (
+      path === '@/calculations/alchemicalCalculations' &&
+      functionName === 'calculateAlchemicalProperties'
+    ) {
       const calculatedResults = {} as R;
 
       // Fix TS2339: Property does not exist on type 'R'
@@ -227,7 +251,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
           Fire: 0.32,
           Water: 0.28,
           Earth: 0.18,
-          Air: 0.22
+          Air: 0.22,
         };
       }
 
@@ -236,7 +260,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
           Spirit: 0.29,
           Essence: 0.28,
           Matter: 0.21,
-          Substance: 0.22
+          Substance: 0.22,
         };
       }
 
@@ -252,7 +276,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
  */
 export async function safeImportFunction<T extends (...args: unknown[]) => unknown>(
   path: string,
-  functionName: string
+  functionName: string,
 ): Promise<T | null> {
   try {
     // For known paths, use the typed version
@@ -281,7 +305,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
 
 export async function dynamicImport<T, F = null>(
   importFn: () => Promise<T>,
-  fallbackFn: (() => F) | null = null
+  fallbackFn: (() => F) | null = null,
 ): Promise<T | F | null> {
   debugLog('dynamicImport is deprecated, use safeImportFunction instead');
   try {
@@ -292,11 +316,10 @@ export async function dynamicImport<T, F = null>(
   }
 }
 
-export async function dynamicImportFunction<T extends (...args: unknown[]) => unknown, F extends (...args: unknown[]) => unknown = T>(
-  path: string,
-  functionName: string,
-  _fallbackFn: F | null = null
-): Promise<T | F | null> {
+export async function dynamicImportFunction<
+  T extends (...args: unknown[]) => unknown,
+  F extends (...args: unknown[]) => unknown = T,
+>(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {
   debugLog('dynamicImportFunction is deprecated, use safeImportFunction instead');
   return safeImportFunction<T>(path, functionName);
 }
@@ -305,7 +328,7 @@ export async function dynamicImportAndExecute<R, A extends unknown[] = unknown[]
   path: string,
   functionName: string,
   _args: A,
-  _fallbackFn: ((...args: A) => F) | null = null
+  _fallbackFn: ((...args: A) => F) | null = null,
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
   return safeImportAndExecute<R, A>(path, functionName, _args);

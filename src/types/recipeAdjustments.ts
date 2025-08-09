@@ -1,6 +1,6 @@
 /**
  * Recipe Adjustment Type Definitions
- * 
+ *
  * Specific interfaces for recipe building adjustments to replace any types
  * in recipeBuilding.ts and related recipe processing systems.
  */

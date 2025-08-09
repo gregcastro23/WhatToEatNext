@@ -9,7 +9,10 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { autoFixDependencyIssues, generateDependencyReport } from '../src/utils/dependencyValidation';
+import {
+  autoFixDependencyIssues,
+  generateDependencyReport,
+} from '../src/utils/dependencyValidation';
 
 async function main() {
   const projectRoot = path.resolve(__dirname, '..');
@@ -54,7 +57,7 @@ async function main() {
       const glob = require('glob');
       const tsFiles = glob.sync('src/**/*.{ts,tsx}', {
         cwd: projectRoot,
-        ignore: ['node_modules/**', 'dist/**', '.next/**']
+        ignore: ['node_modules/**', 'dist/**', '.next/**'],
       });
 
       let fixedFiles = 0;
@@ -86,7 +89,6 @@ async function main() {
     if (report.invalidFiles > 0 || report.circularDependencies.length > 0) {
       process.exit(1);
     }
-
   } catch (error) {
     console.error('❌ Failed to validate dependencies:', error);
     process.exit(1);

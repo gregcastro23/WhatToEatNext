@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { PlanetaryPosition } from "@/types/celestial";
+import { PlanetaryPosition } from '@/types/celestial';
 
 import { useServices } from './useServices';
 
 /**
- * A bridge hook that allows components to work with both legacy AlchemicalContext 
+ * A bridge hook that allows components to work with both legacy AlchemicalContext
  * and new service-based architecture during the transition period.
- * 
+ *
  * This hook merges data from both sources, prioritizing services when available,
  * and falling back to context data when needed.
  */
@@ -16,12 +16,8 @@ export function useAlchemicalBridge() {
   // Get data from both legacy context and new services
   const { planetaryPositions: contextPositions, state: contextState } = useAlchemical();
   const serviceData = useServices();
-  const { 
-    isLoading, 
-    error, 
-    astrologyService
-  } = serviceData;
-  
+  const { isLoading, error, astrologyService } = serviceData;
+
   const elementalCalculator = (serviceData as any)?.elementalCalculator;
   const chakraService = (serviceData as any)?.chakraService;
 
@@ -37,7 +33,7 @@ export function useAlchemicalBridge() {
           // Get planetary positions from service
           const positions = await astrologyService.getCurrentPlanetaryPositions();
           setServicePositions(positions);
-          
+
           // Get daytime information
           const isDaytime = await astrologyService.isDaytime();
           setDaytime(isDaytime);
@@ -45,7 +41,7 @@ export function useAlchemicalBridge() {
           console.error('Error in useAlchemicalBridge:', err);
         }
       };
-      
+
       void fetchData();
     }
   }, [isLoading, error, astrologyService]);
@@ -53,29 +49,29 @@ export function useAlchemicalBridge() {
   // Merge data from both sources, prioritizing services when available
   const mergedPositions = {
     ...contextPositions,
-    ...servicePositions
+    ...servicePositions,
   };
 
   return {
     // Basic status flags from services
     isLoading,
     error,
-    
+
     // Merged and individual data sources
     planetaryPositions: mergedPositions,
     contextPositions,
     servicePositions,
-    
+
     // State information
     isDaytime: daytime !== undefined ? daytime : (contextState as any)?.isDaytime,
-    
+
     // Service references for direct access
     astrologyService,
     elementalCalculator,
     chakraService,
-    
+
     // Flag indicating if services are ready to use
-    servicesReady: !isLoading && !error && !!astrologyService
+    servicesReady: !isLoading && !error && !!astrologyService,
   };
 }
 
@@ -86,13 +82,10 @@ export function useAlchemicalBridge() {
 export function useChakraBridge() {
   // Get services
   const chakraServiceData = useServices();
-  const { 
-    isLoading, 
-    error
-  } = chakraServiceData;
-  
+  const { isLoading, error } = chakraServiceData;
+
   const chakraService = (chakraServiceData as any)?.chakraService;
-  
+
   // State for chakra data
   const [chakras, setChakras] = useState<Record<string, any>>({});
   const [activeChakra, setActiveChakra] = useState<string | null>(null);
@@ -105,14 +98,14 @@ export function useChakraBridge() {
           const allChakras = await chakraService.getAllChakras();
           // ✅ Pattern MM-1: Ensure object type for setChakras state setter
           setChakras(typeof allChakras === 'object' && allChakras !== null ? allChakras : {});
-          
+
           const active = await chakraService.getActiveChakra();
           setActiveChakra(active);
         } catch (err) {
           console.error('Error in useChakraBridge:', err);
         }
       };
-      
+
       void fetchChakraData();
     }
   }, [isLoading, error, chakraService]);
@@ -123,7 +116,7 @@ export function useChakraBridge() {
     chakras,
     activeChakra,
     chakraService,
-    servicesReady: !isLoading && !error && !!chakraService
+    servicesReady: !isLoading && !error && !!chakraService,
   };
 }
 
@@ -131,12 +124,8 @@ export function useChakraBridge() {
  * A bridge hook that provides planetary hour data from both legacy context and new services
  */
 export function usePlanetaryHoursBridge() {
-  const { 
-    isLoading, 
-    error, 
-    astrologyService 
-  } = useServices();
-  
+  const { isLoading, error, astrologyService } = useServices();
+
   // State for planetary hours data
   const [currentHour, setCurrentHour] = useState<Record<string, any> | null>(null);
   const [currentDay, setCurrentDay] = useState<string | null>(null);
@@ -149,12 +138,14 @@ export function usePlanetaryHoursBridge() {
         try {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour();
           // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
-          setCurrentHour(typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo });
-          
+          setCurrentHour(
+            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo },
+          );
+
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay();
           // ✅ Pattern MM-1: Ensure string type for setCurrentDay
           setCurrentDay(typeof dayPlanet === 'string' ? dayPlanet : String(dayPlanet));
-          
+
           const hours = await astrologyService.getDailyPlanetaryHours(new Date());
           // ✅ Pattern MM-1: Convert Planet[] to Map<number, string> for setDailyHours
           if (Array.isArray(hours)) {
@@ -172,9 +163,9 @@ export function usePlanetaryHoursBridge() {
           console.error('Error in usePlanetaryHoursBridge:', err);
         }
       };
-      
+
       void fetchPlanetaryHoursData();
-      
+
       // Update every minute
       const interval = setInterval(() => void fetchPlanetaryHoursData(), 60000);
       return () => clearInterval(interval);
@@ -188,28 +179,28 @@ export function usePlanetaryHoursBridge() {
     currentDay,
     dailyHours,
     astrologyService,
-    servicesReady: !isLoading && !error && !!astrologyService
+    servicesReady: !isLoading && !error && !!astrologyService,
   };
 }
 
 /**
  * A general adapter that creates a custom bridge hook for any service
- * 
+ *
  * @param serviceName The name of the service to bridge
  * @param fetchFunction The function to fetch data when the service is ready
  * @returns A hook with status, data, and service reference
  */
 export function createServiceBridge<T, S>(
-  serviceName: string, 
-  fetchFunction: (service: S) => Promise<T>
+  serviceName: string,
+  fetchFunction: (service: S) => Promise<T>,
 ) {
   return function useCustomBridge() {
     const { isLoading, error, ...services } = useServices();
     const service = services[serviceName as keyof typeof services] as S;
-    
+
     const [data, setData] = useState<T | null>(null);
     const [fetchError, setFetchError] = useState<Error | null>(null);
-    
+
     useEffect(() => {
       if (!isLoading && !error && service) {
         const fetchData = async () => {
@@ -221,17 +212,17 @@ export function createServiceBridge<T, S>(
             setFetchError(err instanceof Error ? err : new Error(String(err)));
           }
         };
-        
+
         void fetchData();
       }
     }, [isLoading, error, service]);
-    
+
     return {
       isLoading: isLoading || (!data && !fetchError && !error),
       error: error || fetchError,
       data,
       service,
-      servicesReady: !isLoading && !error && !!service
+      servicesReady: !isLoading && !error && !!service,
     };
   };
 }
@@ -240,5 +231,5 @@ export default {
   useAlchemicalBridge,
   useChakraBridge,
   usePlanetaryHoursBridge,
-  createServiceBridge
-}; 
+  createServiceBridge,
+};

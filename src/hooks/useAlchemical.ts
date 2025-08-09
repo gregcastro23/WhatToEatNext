@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { PlanetaryPosition } from "@/types/celestial";
+import { PlanetaryPosition } from '@/types/celestial';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 
 export interface AlchemicalState {
@@ -15,36 +15,36 @@ export function useAlchemical() {
     planetaryPositions: {},
     isDaytime: true,
     isLoading: true,
-    error: null
+    error: null,
   });
 
   const fetchPlanetaryPositions = useCallback(async () => {
     try {
       setState(prev => ({ ...prev, isLoading: true, error: null }));
-      
+
       const response = await fetch('/api/planetary-positions');
       if (!response.ok) {
         throw new Error(`Failed to fetch planetary positions: ${response.statusText}`);
       }
-      
+
       const data = await response.json();
-      
+
       // Determine if it's daytime (simplified - you might want to use more sophisticated logic)
       const now = new Date();
       const hour = now.getHours();
       const isDaytime = hour >= 6 && hour < 18;
-      
+
       setState({
         planetaryPositions: data.positions || {},
         isDaytime,
         isLoading: false,
-        error: null
+        error: null,
       });
     } catch (error) {
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       }));
     }
   }, []);
@@ -55,6 +55,6 @@ export function useAlchemical() {
 
   return {
     ...state,
-    refresh: fetchPlanetaryPositions
+    refresh: fetchPlanetaryPositions,
   };
-} 
+}

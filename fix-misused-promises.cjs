@@ -22,8 +22,8 @@ const CONFIG = {
     // Preserve astronomical calculations
     /planetary|astronomical|astrological|ephemeris/i,
     // Preserve campaign system patterns
-    /campaign|metrics|progress|safety/i
-  ]
+    /campaign|metrics|progress|safety/i,
+  ],
 };
 
 class MisusedPromisesFixer {
@@ -96,7 +96,11 @@ class MisusedPromisesFixer {
       const eventHandlerPattern = /(on\w+)=\{([a-zA-Z_$][a-zA-Z0-9_$]*)\}/g;
       line = line.replace(eventHandlerPattern, (match, eventName, functionName) => {
         // Only fix if it looks like an async function
-        if (functionName.includes('async') || functionName.includes('handle') || functionName.includes('submit')) {
+        if (
+          functionName.includes('async') ||
+          functionName.includes('handle') ||
+          functionName.includes('submit')
+        ) {
           fixes++;
           return `${eventName}={() => void ${functionName}()}`;
         }
@@ -108,7 +112,11 @@ class MisusedPromisesFixer {
       const conditionalPattern = /if\s*\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*\)/g;
       line = line.replace(conditionalPattern, (match, functionCall) => {
         // Only fix if it looks like it returns a Promise
-        if (functionCall.includes('async') || functionCall.includes('fetch') || functionCall.includes('Promise')) {
+        if (
+          functionCall.includes('async') ||
+          functionCall.includes('fetch') ||
+          functionCall.includes('Promise')
+        ) {
           fixes++;
           return `if (await ${functionCall})`;
         }
@@ -120,7 +128,11 @@ class MisusedPromisesFixer {
       const ternaryPattern = /(\w+)\s*\?\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*:/g;
       line = line.replace(ternaryPattern, (match, condition, functionCall) => {
         // Only fix if it looks like it returns a Promise
-        if (functionCall.includes('async') || functionCall.includes('fetch') || functionCall.includes('Promise')) {
+        if (
+          functionCall.includes('async') ||
+          functionCall.includes('fetch') ||
+          functionCall.includes('Promise')
+        ) {
           fixes++;
           return `${condition} ? await ${functionCall} :`;
         }
@@ -132,7 +144,11 @@ class MisusedPromisesFixer {
       const logicalPattern = /(\w+)\s*(&&|\|\|)\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))/g;
       line = line.replace(logicalPattern, (match, leftSide, operator, functionCall) => {
         // Only fix if it looks like it returns a Promise
-        if (functionCall.includes('async') || functionCall.includes('fetch') || functionCall.includes('Promise')) {
+        if (
+          functionCall.includes('async') ||
+          functionCall.includes('fetch') ||
+          functionCall.includes('Promise')
+        ) {
           fixes++;
           return `${leftSide} ${operator} await ${functionCall}`;
         }
@@ -179,7 +195,6 @@ class MisusedPromisesFixer {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
       this.errors.push({ file: filePath, error: error.message });

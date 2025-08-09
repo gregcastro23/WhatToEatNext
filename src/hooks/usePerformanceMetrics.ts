@@ -33,7 +33,7 @@ export const usePerformanceMetrics = (componentName?: string) => {
     lastUpdated: new Date(),
     averageRenderTime: 0,
     peakMemoryUsage: 0,
-    totalErrors: 0
+    totalErrors: 0,
   });
 
   const renderStartTime = useRef<number>(Date.now());
@@ -57,57 +57,58 @@ export const usePerformanceMetrics = (componentName?: string) => {
       renderTimes.current.shift();
     }
 
-    const averageRenderTime = renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length;
+    const averageRenderTime =
+      renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length;
 
     setMetrics(prev => ({
       ...prev,
       renderTime,
       componentRenderCount: renderCountRef.current,
       averageRenderTime,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     }));
   }, []);
 
   // Track data fetch performance
-  const trackDataFetch = useCallback(async <T>(
-    fetchFunction: () => Promise<T>,
-    operationName?: string
-  ): Promise<T> => {
-    const startTime = performance.now();
-    
-    try {
-      const result = await fetchFunction();
-      const fetchTime = performance.now() - startTime;
-      
-      setMetrics(prev => ({
-        ...prev,
-        dataFetchTime: fetchTime,
-        lastUpdated: new Date()
-      }));
-      
-      return result;
-    } catch (error) {
-      const fetchTime = performance.now() - startTime;
-      errorCountRef.current += 1;
-      
-      setMetrics(prev => ({
-        ...prev,
-        dataFetchTime: fetchTime,
-        errorCount: errorCountRef.current,
-        totalErrors: prev.totalErrors + 1,
-        lastUpdated: new Date()
-      }));
-      
-      throw error;
-    }
-  }, []);
+  const trackDataFetch = useCallback(
+    async <T>(fetchFunction: () => Promise<T>, operationName?: string): Promise<T> => {
+      const startTime = performance.now();
+
+      try {
+        const result = await fetchFunction();
+        const fetchTime = performance.now() - startTime;
+
+        setMetrics(prev => ({
+          ...prev,
+          dataFetchTime: fetchTime,
+          lastUpdated: new Date(),
+        }));
+
+        return result;
+      } catch (error) {
+        const fetchTime = performance.now() - startTime;
+        errorCountRef.current += 1;
+
+        setMetrics(prev => ({
+          ...prev,
+          dataFetchTime: fetchTime,
+          errorCount: errorCountRef.current,
+          totalErrors: prev.totalErrors + 1,
+          lastUpdated: new Date(),
+        }));
+
+        throw error;
+      }
+    },
+    [],
+  );
 
   // Track memory usage
   const updateMemoryUsage = useCallback(() => {
     if ('memory' in performance) {
       const memInfo = (performance as any).memory;
       const currentMemory = memInfo.usedJSHeapSize / 1024 / 1024; // Convert to MB
-      
+
       if (currentMemory > peakMemoryRef.current) {
         peakMemoryRef.current = currentMemory;
       }
@@ -116,25 +117,28 @@ export const usePerformanceMetrics = (componentName?: string) => {
         ...prev,
         memoryUsage: currentMemory,
         peakMemoryUsage: peakMemoryRef.current,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       }));
     }
   }, []);
 
   // Track errors
-  const trackError = useCallback((error: Error | string) => {
-    errorCountRef.current += 1;
-    
-    setMetrics(prev => ({
-      ...prev,
-      errorCount: errorCountRef.current,
-      totalErrors: prev.totalErrors + 1,
-      lastUpdated: new Date()
-    }));
+  const trackError = useCallback(
+    (error: Error | string) => {
+      errorCountRef.current += 1;
 
-    // Log error for debugging
-    console.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error:`, error);
-  }, [componentName]);
+      setMetrics(prev => ({
+        ...prev,
+        errorCount: errorCountRef.current,
+        totalErrors: prev.totalErrors + 1,
+        lastUpdated: new Date(),
+      }));
+
+      // Log error for debugging
+      console.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error:`, error);
+    },
+    [componentName],
+  );
 
   // Auto-track render performance
   useEffect(() => {
@@ -148,7 +152,7 @@ export const usePerformanceMetrics = (componentName?: string) => {
   useEffect(() => {
     updateMemoryUsage(); // Initial measurement
     const interval = setInterval(updateMemoryUsage, 5000); // Update every 5 seconds
-    
+
     return () => clearInterval(interval);
   }, [updateMemoryUsage]);
 
@@ -177,7 +181,7 @@ export const usePerformanceMetrics = (componentName?: string) => {
     renderCountRef.current = 0;
     errorCountRef.current = 0;
     peakMemoryRef.current = 0;
-    
+
     setMetrics({
       renderTime: 0,
       dataFetchTime: 0,
@@ -187,7 +191,7 @@ export const usePerformanceMetrics = (componentName?: string) => {
       lastUpdated: new Date(),
       averageRenderTime: 0,
       peakMemoryUsage: 0,
-      totalErrors: 0
+      totalErrors: 0,
     });
   }, []);
 
@@ -198,7 +202,7 @@ export const usePerformanceMetrics = (componentName?: string) => {
       isPerformant: metrics.averageRenderTime < 16, // 60fps threshold
       hasMemoryLeaks: metrics.memoryUsage > metrics.peakMemoryUsage * 0.8,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
-      recommendations: []
+      recommendations: [],
     };
   }, [componentName, metrics]);
 
@@ -210,6 +214,6 @@ export const usePerformanceMetrics = (componentName?: string) => {
     trackError,
     updateMemoryUsage,
     resetMetrics,
-    getPerformanceSummary
+    getPerformanceSummary,
   };
 };

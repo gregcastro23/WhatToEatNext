@@ -6,11 +6,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
-import {
-    Milestone,
-    PhaseStatus,
-    ProgressMetrics
-} from '../../../types/campaign';
+import { Milestone, PhaseStatus, ProgressMetrics } from '../../../types/campaign';
 import { ProgressTracker } from '../ProgressTracker';
 
 // Mock dependencies
@@ -54,7 +50,7 @@ describe('ProgressTracker', () => {
       expect(count).toBe(5);
       expect(mockExecSync).toHaveBeenCalledWith(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
-        expect.any(Object)
+        expect.any(Object),
       );
     });
 
@@ -134,10 +130,7 @@ describe('ProgressTracker', () => {
       const count = await progressTracker.getLintingWarningCount();
 
       expect(count).toBe(42);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'yarn lint 2>&1 | grep -c "warning"',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c "warning"', expect.any(Object));
     });
 
     it('should return 0 when no warnings found', async () => {
@@ -211,10 +204,7 @@ describe('ProgressTracker', () => {
       const buildTime = await progressTracker.getBuildTime();
 
       expect(buildTime).toBeGreaterThan(0);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'yarn build',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object));
     });
 
     it('should return -1 on build failure', async () => {
@@ -235,10 +225,7 @@ describe('ProgressTracker', () => {
       const count = await progressTracker.getEnterpriseSystemCount();
 
       expect(count).toBe(25);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l', expect.any(Object));
     });
 
     it('should return 0 when no systems found', async () => {
@@ -287,7 +274,7 @@ describe('ProgressTracker', () => {
         heapTotal: 100 * 1024 * 1024,
         external: 0,
         rss: 60 * 1024 * 1024,
-        arrayBuffers: 0
+        arrayBuffers: 0,
       }) as any;
 
       const memory = await progressTracker.getMemoryUsage();
@@ -313,11 +300,11 @@ describe('ProgressTracker', () => {
 
   describe('getBundleSize', () => {
     it('should calculate bundle size from build directories', async () => {
-      mockFs.existsSync.mockImplementation((path) => {
+      mockFs.existsSync.mockImplementation(path => {
         return path === '.next' || path === 'dist';
       });
 
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk .next')) {
           return '300';
         }
@@ -419,7 +406,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 42 },
-        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 },
       });
     });
 
@@ -460,7 +447,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { current: 5, target: 0, reduction: 81, percentage: 94 },
         lintingWarnings: { current: 100, target: 0, reduction: 4406, percentage: 98 },
         buildPerformance: { currentTime: 12, targetTime: 10, cacheHitRate: 0.6, memoryUsage: 60 },
-        enterpriseSystems: { current: 150, target: 200, transformedExports: 150 }
+        enterpriseSystems: { current: 150, target: 200, transformedExports: 150 },
       });
 
       const tsErrors = await progressTracker.validateMilestone('zero-typescript-errors');
@@ -486,7 +473,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 },
         lintingWarnings: { current: 1000, target: 0, reduction: 3506, percentage: 78 },
         buildPerformance: { currentTime: 9, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 150, target: 200, transformedExports: 150 }
+        enterpriseSystems: { current: 150, target: 200, transformedExports: 150 },
       });
     });
 
@@ -527,7 +514,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTime: 8, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 },
       });
 
       const report = await progressTracker.generateProgressReport();
@@ -549,7 +536,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 12, targetTime: 10, cacheHitRate: 0.7, memoryUsage: 60 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       });
       await progressTracker.getProgressMetrics();
 
@@ -558,7 +545,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
         lintingWarnings: { current: 3000, target: 0, reduction: 1506, percentage: 33 },
         buildPerformance: { currentTime: 9, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 100, target: 200, transformedExports: 100 }
+        enterpriseSystems: { current: 100, target: 200, transformedExports: 100 },
       });
       await progressTracker.getProgressMetrics();
 
@@ -588,7 +575,7 @@ describe('ProgressTracker', () => {
         phases: [],
         currentMetrics: {} as ProgressMetrics,
         targetMetrics: {} as ProgressMetrics,
-        estimatedCompletion: new Date()
+        estimatedCompletion: new Date(),
       });
     });
 
@@ -598,7 +585,7 @@ describe('ProgressTracker', () => {
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         'test-metrics.json',
         expect.stringContaining('"campaignId": "perfect-codebase-campaign"'),
-        undefined
+        undefined,
       );
     });
 
@@ -618,7 +605,7 @@ describe('ProgressTracker', () => {
       });
 
       await expect(progressTracker.exportMetrics('test-metrics.json')).rejects.toThrow(
-        'Failed to export metrics: Write failed'
+        'Failed to export metrics: Write failed',
       );
     });
   });

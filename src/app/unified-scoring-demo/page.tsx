@@ -6,5 +6,6 @@ export default function UnifiedScoringDemoPage() {
 
 export const metadata = {
   title: 'Unified Scoring System Demo',
-  description: 'Experience the comprehensive astrological-alchemical scoring system for culinary recommendations'
-}; 
+  description:
+    'Experience the comprehensive astrological-alchemical scoring system for culinary recommendations',
+};

@@ -9,4 +9,4 @@ export interface FoodAssociation {
     hourOfDay?: number[];
   };
   [key: string]: unknown; // Allow additional properties
-} 
+}

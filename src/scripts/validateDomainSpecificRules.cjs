@@ -2,13 +2,13 @@
 
 /**
  * Domain-Specific Rule Validation and Optimization Script
- * 
+ *
  * This script validates and optimizes the domain-specific ESLint rules for:
  * - Astrological calculation files (mathematical constants and planetary variables)
  * - Campaign system files (enterprise patterns and extensive logging)
  * - Test files (appropriate relaxations for mock variables)
  * - Configuration files (dynamic requires and build tools)
- * 
+ *
  * Requirements: 4.1, 4.2, 4.3, 4.4
  */
 
@@ -27,8 +27,8 @@ class DomainSpecificRuleValidator {
       overall: {
         passed: false,
         score: 0,
-        summary: ''
-      }
+        summary: '',
+      },
     };
   }
 
@@ -39,7 +39,7 @@ class DomainSpecificRuleValidator {
       details: [],
       errors: [],
       warnings: [],
-      recommendations: []
+      recommendations: [],
     };
   }
 
@@ -75,20 +75,24 @@ class DomainSpecificRuleValidator {
    */
   async validateAstrologicalFiles() {
     console.log('🌟 Validating Astrological Calculation File Rules...');
-    
+
     const astroResult = this.results.astrologicalFiles;
-    
+
     try {
       // Test mathematical constants preservation
       const constantsTest = await this.testMathematicalConstantsPreservation();
-      astroResult.details.push(`Mathematical constants preservation: ${constantsTest.passed ? '✅' : '❌'}`);
+      astroResult.details.push(
+        `Mathematical constants preservation: ${constantsTest.passed ? '✅' : '❌'}`,
+      );
       if (!constantsTest.passed) {
         astroResult.errors.push(...constantsTest.errors);
       }
 
       // Test planetary variable patterns
       const planetaryTest = await this.testPlanetaryVariablePatterns();
-      astroResult.details.push(`Planetary variable patterns: ${planetaryTest.passed ? '✅' : '❌'}`);
+      astroResult.details.push(
+        `Planetary variable patterns: ${planetaryTest.passed ? '✅' : '❌'}`,
+      );
       if (!planetaryTest.passed) {
         astroResult.errors.push(...planetaryTest.errors);
       }
@@ -101,14 +105,13 @@ class DomainSpecificRuleValidator {
       }
 
       astroResult.passed = astroResult.errors.length === 0;
-      
+
       if (astroResult.passed) {
         console.log('✅ Astrological file rules validation passed');
       } else {
         console.log('❌ Astrological file rules validation failed');
         astroResult.errors.forEach(error => console.log(`   - ${error}`));
       }
-
     } catch (error) {
       astroResult.errors.push(`Validation error: ${error}`);
       console.error('❌ Astrological validation error:', error);
@@ -121,9 +124,9 @@ class DomainSpecificRuleValidator {
    */
   async validateCampaignSystemFiles() {
     console.log('🚀 Validating Campaign System File Rules...');
-    
+
     const campaignResult = this.results.campaignSystemFiles;
-    
+
     try {
       // Test enterprise patterns allowance
       const enterpriseTest = await this.testEnterprisePatterns();
@@ -141,20 +144,21 @@ class DomainSpecificRuleValidator {
 
       // Test campaign variable patterns
       const variableTest = await this.testCampaignVariablePatterns();
-      campaignResult.details.push(`Campaign variable patterns: ${variableTest.passed ? '✅' : '❌'}`);
+      campaignResult.details.push(
+        `Campaign variable patterns: ${variableTest.passed ? '✅' : '❌'}`,
+      );
       if (!variableTest.passed) {
         campaignResult.errors.push(...variableTest.errors);
       }
 
       campaignResult.passed = campaignResult.errors.length === 0;
-      
+
       if (campaignResult.passed) {
         console.log('✅ Campaign system file rules validation passed');
       } else {
         console.log('❌ Campaign system file rules validation failed');
         campaignResult.errors.forEach(error => console.log(`   - ${error}`));
       }
-
     } catch (error) {
       campaignResult.errors.push(`Validation error: ${error}`);
       console.error('❌ Campaign system validation error:', error);
@@ -167,9 +171,9 @@ class DomainSpecificRuleValidator {
    */
   async validateTestFiles() {
     console.log('🧪 Validating Test File Rules...');
-    
+
     const testResult = this.results.testFiles;
-    
+
     try {
       // Test mock variable relaxations
       const mockTest = await this.testMockVariableRelaxations();
@@ -193,14 +197,13 @@ class DomainSpecificRuleValidator {
       }
 
       testResult.passed = testResult.errors.length === 0;
-      
+
       if (testResult.passed) {
         console.log('✅ Test file rules validation passed');
       } else {
         console.log('❌ Test file rules validation failed');
         testResult.errors.forEach(error => console.log(`   - ${error}`));
       }
-
     } catch (error) {
       testResult.errors.push(`Validation error: ${error}`);
       console.error('❌ Test file validation error:', error);
@@ -213,9 +216,9 @@ class DomainSpecificRuleValidator {
    */
   async validateConfigurationFiles() {
     console.log('⚙️ Validating Configuration File Rules...');
-    
+
     const configResult = this.results.configurationFiles;
-    
+
     try {
       // Test dynamic require allowances
       const requireTest = await this.testDynamicRequireAllowances();
@@ -233,20 +236,21 @@ class DomainSpecificRuleValidator {
 
       // Test configuration-specific relaxations
       const configRelaxationTest = await this.testConfigurationRelaxations();
-      configResult.details.push(`Configuration relaxations: ${configRelaxationTest.passed ? '✅' : '❌'}`);
+      configResult.details.push(
+        `Configuration relaxations: ${configRelaxationTest.passed ? '✅' : '❌'}`,
+      );
       if (!configRelaxationTest.passed) {
         configResult.errors.push(...configRelaxationTest.errors);
       }
 
       configResult.passed = configResult.errors.length === 0;
-      
+
       if (configResult.passed) {
         console.log('✅ Configuration file rules validation passed');
       } else {
         console.log('❌ Configuration file rules validation failed');
         configResult.errors.forEach(error => console.log(`   - ${error}`));
       }
-
     } catch (error) {
       configResult.errors.push(`Validation error: ${error}`);
       console.error('❌ Configuration file validation error:', error);
@@ -258,12 +262,12 @@ class DomainSpecificRuleValidator {
    */
   async testMathematicalConstantsPreservation() {
     const errors = [];
-    
+
     try {
       // Check if astrological files exist and have proper rule application
       const astroFiles = [
         'src/calculations/culinary/culinaryAstrology.ts',
-        'src/utils/reliableAstronomy.ts'
+        'src/utils/reliableAstronomy.ts',
       ];
 
       let hasAstroFiles = false;
@@ -291,9 +295,9 @@ class DomainSpecificRuleValidator {
         try {
           execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs`, {
             stdio: 'pipe',
-            cwd: this.projectRoot
+            cwd: this.projectRoot,
           });
-          
+
           // If no error, constants are properly preserved
         } catch (eslintError) {
           const output = eslintError.stderr?.toString() || '';
@@ -323,7 +327,7 @@ class DomainSpecificRuleValidator {
    */
   async testPlanetaryVariablePatterns() {
     const errors = [];
-    
+
     try {
       // Test that planetary variable patterns are recognized
       const testContent = `
@@ -338,19 +342,25 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(msg => 
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            (msg.message.includes('planet') || msg.message.includes('position') || msg.message.includes('longitude'))
+          const unusedVarErrors = result[0].messages.filter(
+            msg =>
+              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg.message.includes('planet') ||
+                msg.message.includes('position') ||
+                msg.message.includes('longitude')),
           );
-          
+
           if (unusedVarErrors.length > 0) {
             errors.push('Planetary variable patterns not properly ignored by unused-vars rule');
           }
@@ -360,11 +370,14 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(msg => 
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('planet') || msg.message.includes('position') || msg.message.includes('longitude'))
+            const unusedVarErrors = result[0].messages.filter(
+              msg =>
+                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg.message.includes('planet') ||
+                  msg.message.includes('position') ||
+                  msg.message.includes('longitude')),
             );
-            
+
             if (unusedVarErrors.length > 0) {
               errors.push('Planetary variable patterns not properly ignored by unused-vars rule');
             }
@@ -389,7 +402,7 @@ class DomainSpecificRuleValidator {
    */
   async testAstrologicalConsoleAllowance() {
     const errors = [];
-    
+
     try {
       // Test that astrological files allow console statements
       const testContent = `
@@ -406,18 +419,21 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter(msg => 
-            msg.ruleId === 'no-console' && msg.severity === 2 // error level
+          const consoleErrors = result[0].messages.filter(
+            msg => msg.ruleId === 'no-console' && msg.severity === 2, // error level
           );
-          
+
           if (consoleErrors.length > 0) {
             errors.push('Astrological files should allow console statements for debugging');
           }
@@ -427,10 +443,10 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter(msg => 
-              msg.ruleId === 'no-console' && msg.severity === 2
+            const consoleErrors = result[0].messages.filter(
+              msg => msg.ruleId === 'no-console' && msg.severity === 2,
             );
-            
+
             if (consoleErrors.length > 0) {
               errors.push('Astrological files should allow console statements for debugging');
             }
@@ -454,34 +470,38 @@ class DomainSpecificRuleValidator {
    */
   async testEnterprisePatterns() {
     const errors = [];
-    
+
     try {
       // Test that campaign files allow enterprise patterns
       const campaignFiles = [
         'src/services/campaign/CampaignController.ts',
-        'src/services/campaign/ProgressTracker.ts'
+        'src/services/campaign/ProgressTracker.ts',
       ];
 
       let hasCampaignFiles = false;
       for (const file of campaignFiles) {
         if (existsSync(join(this.projectRoot, file))) {
           hasCampaignFiles = true;
-          
+
           try {
-            const output = execSync(`npx eslint "${file}" --no-eslintrc --config eslint.config.cjs --format json`, {
-              encoding: 'utf8',
-              cwd: this.projectRoot
-            });
+            const output = execSync(
+              `npx eslint "${file}" --no-eslintrc --config eslint.config.cjs --format json`,
+              {
+                encoding: 'utf8',
+                cwd: this.projectRoot,
+              },
+            );
 
             const result = JSON.parse(output);
-            
+
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter(msg => 
-                (msg.ruleId === 'complexity' && msg.severity === 2) || // error level complexity
-                (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2)
+              const restrictiveErrors = result[0].messages.filter(
+                msg =>
+                  (msg.ruleId === 'complexity' && msg.severity === 2) || // error level complexity
+                  (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
+                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
               );
-              
+
               if (restrictiveErrors.length > 0) {
                 errors.push(`${file} has overly restrictive rules for enterprise patterns`);
               }
@@ -491,12 +511,13 @@ class DomainSpecificRuleValidator {
             if (output) {
               const result = JSON.parse(output);
               if (result.length > 0 && result[0].messages) {
-                const restrictiveErrors = result[0].messages.filter(msg => 
-                  (msg.ruleId === 'complexity' && msg.severity === 2) ||
-                  (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2)
+                const restrictiveErrors = result[0].messages.filter(
+                  msg =>
+                    (msg.ruleId === 'complexity' && msg.severity === 2) ||
+                    (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
+                    (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
                 );
-                
+
                 if (restrictiveErrors.length > 0) {
                   errors.push(`${file} has overly restrictive rules for enterprise patterns`);
                 }
@@ -522,7 +543,7 @@ class DomainSpecificRuleValidator {
    */
   async testExtensiveLogging() {
     const errors = [];
-    
+
     try {
       // Test that campaign files allow console statements
       const testContent = `
@@ -537,18 +558,21 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter(msg => 
-            msg.ruleId === 'no-console' && msg.severity === 2 // error level
+          const consoleErrors = result[0].messages.filter(
+            msg => msg.ruleId === 'no-console' && msg.severity === 2, // error level
           );
-          
+
           if (consoleErrors.length > 0) {
             errors.push('Campaign files should allow extensive console logging');
           }
@@ -558,10 +582,10 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter(msg => 
-              msg.ruleId === 'no-console' && msg.severity === 2
+            const consoleErrors = result[0].messages.filter(
+              msg => msg.ruleId === 'no-console' && msg.severity === 2,
             );
-            
+
             if (consoleErrors.length > 0) {
               errors.push('Campaign files should allow extensive console logging');
             }
@@ -585,7 +609,7 @@ class DomainSpecificRuleValidator {
    */
   async testCampaignVariablePatterns() {
     const errors = [];
-    
+
     try {
       // Test that campaign variable patterns are recognized
       const testContent = `
@@ -600,20 +624,26 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(msg => 
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            (msg.message.includes('campaign') || msg.message.includes('progress') || 
-             msg.message.includes('metrics') || msg.message.includes('safety'))
+          const unusedVarErrors = result[0].messages.filter(
+            msg =>
+              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg.message.includes('campaign') ||
+                msg.message.includes('progress') ||
+                msg.message.includes('metrics') ||
+                msg.message.includes('safety')),
           );
-          
+
           if (unusedVarErrors.length > 0) {
             errors.push('Campaign variable patterns not properly ignored by unused-vars rule');
           }
@@ -623,12 +653,15 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(msg => 
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('campaign') || msg.message.includes('progress') || 
-               msg.message.includes('metrics') || msg.message.includes('safety'))
+            const unusedVarErrors = result[0].messages.filter(
+              msg =>
+                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg.message.includes('campaign') ||
+                  msg.message.includes('progress') ||
+                  msg.message.includes('metrics') ||
+                  msg.message.includes('safety')),
             );
-            
+
             if (unusedVarErrors.length > 0) {
               errors.push('Campaign variable patterns not properly ignored by unused-vars rule');
             }
@@ -652,7 +685,7 @@ class DomainSpecificRuleValidator {
    */
   async testMockVariableRelaxations() {
     const errors = [];
-    
+
     try {
       // Test that test files allow mock variables
       const testContent = `
@@ -666,20 +699,25 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(msg => 
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            (msg.message.includes('mockFunction') || msg.message.includes('stubValue') || 
-             msg.message.includes('testData'))
+          const unusedVarErrors = result[0].messages.filter(
+            msg =>
+              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg.message.includes('mockFunction') ||
+                msg.message.includes('stubValue') ||
+                msg.message.includes('testData')),
           );
-          
+
           if (unusedVarErrors.length > 0) {
             errors.push('Mock variable patterns not properly ignored in test files');
           }
@@ -689,12 +727,14 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(msg => 
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('mockFunction') || msg.message.includes('stubValue') || 
-               msg.message.includes('testData'))
+            const unusedVarErrors = result[0].messages.filter(
+              msg =>
+                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg.message.includes('mockFunction') ||
+                  msg.message.includes('stubValue') ||
+                  msg.message.includes('testData')),
             );
-            
+
             if (unusedVarErrors.length > 0) {
               errors.push('Mock variable patterns not properly ignored in test files');
             }
@@ -718,7 +758,7 @@ class DomainSpecificRuleValidator {
    */
   async testTestSpecificRelaxations() {
     const errors = [];
-    
+
     try {
       // Test that test files have appropriate rule relaxations
       const testContent = `
@@ -731,20 +771,24 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter(msg => 
-            (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-            (msg.ruleId === 'no-console' && msg.severity === 2) ||
-            (msg.ruleId === 'no-magic-numbers' && msg.severity === 2)
+          const restrictiveErrors = result[0].messages.filter(
+            msg =>
+              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+              (msg.ruleId === 'no-console' && msg.severity === 2) ||
+              (msg.ruleId === 'no-magic-numbers' && msg.severity === 2),
           );
-          
+
           if (restrictiveErrors.length > 0) {
             errors.push('Test files should have relaxed rules for testing patterns');
           }
@@ -754,12 +798,13 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter(msg => 
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === 'no-magic-numbers' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              msg =>
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                (msg.ruleId === 'no-magic-numbers' && msg.severity === 2),
             );
-            
+
             if (restrictiveErrors.length > 0) {
               errors.push('Test files should have relaxed rules for testing patterns');
             }
@@ -783,7 +828,7 @@ class DomainSpecificRuleValidator {
    */
   async testJestGlobalsAvailability() {
     const errors = [];
-    
+
     try {
       // Test that Jest globals are available in test files
       const testContent = `
@@ -802,20 +847,26 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const undefErrors = result[0].messages.filter(msg => 
-            msg.ruleId === 'no-undef' &&
-            (msg.message.includes('describe') || msg.message.includes('it') || 
-             msg.message.includes('expect') || msg.message.includes('jest'))
+          const undefErrors = result[0].messages.filter(
+            msg =>
+              msg.ruleId === 'no-undef' &&
+              (msg.message.includes('describe') ||
+                msg.message.includes('it') ||
+                msg.message.includes('expect') ||
+                msg.message.includes('jest')),
           );
-          
+
           if (undefErrors.length > 0) {
             errors.push('Jest globals not properly defined in test files');
           }
@@ -825,12 +876,15 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter(msg => 
-              msg.ruleId === 'no-undef' &&
-              (msg.message.includes('describe') || msg.message.includes('it') || 
-               msg.message.includes('expect') || msg.message.includes('jest'))
+            const undefErrors = result[0].messages.filter(
+              msg =>
+                msg.ruleId === 'no-undef' &&
+                (msg.message.includes('describe') ||
+                  msg.message.includes('it') ||
+                  msg.message.includes('expect') ||
+                  msg.message.includes('jest')),
             );
-            
+
             if (undefErrors.length > 0) {
               errors.push('Jest globals not properly defined in test files');
             }
@@ -854,7 +908,7 @@ class DomainSpecificRuleValidator {
    */
   async testDynamicRequireAllowances() {
     const errors = [];
-    
+
     try {
       // Test that config files allow dynamic requires
       const testContent = `
@@ -867,18 +921,21 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const requireErrors = result[0].messages.filter(msg => 
-            msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
+          const requireErrors = result[0].messages.filter(
+            msg => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
           );
-          
+
           if (requireErrors.length > 0) {
             errors.push('Configuration files should allow dynamic requires');
           }
@@ -888,10 +945,10 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const requireErrors = result[0].messages.filter(msg => 
-              msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
+            const requireErrors = result[0].messages.filter(
+              msg => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
             );
-            
+
             if (requireErrors.length > 0) {
               errors.push('Configuration files should allow dynamic requires');
             }
@@ -915,35 +972,35 @@ class DomainSpecificRuleValidator {
    */
   async testBuildToolPatterns() {
     const errors = [];
-    
+
     try {
       // Check existing config files for proper rule application
-      const configFiles = [
-        'next.config.js',
-        'tailwind.config.js',
-        'jest.config.js'
-      ];
+      const configFiles = ['next.config.js', 'tailwind.config.js', 'jest.config.js'];
 
       let hasConfigFiles = false;
       for (const file of configFiles) {
         if (existsSync(join(this.projectRoot, file))) {
           hasConfigFiles = true;
-          
+
           try {
-            const output = execSync(`npx eslint "${file}" --no-eslintrc --config eslint.config.cjs --format json`, {
-              encoding: 'utf8',
-              cwd: this.projectRoot
-            });
+            const output = execSync(
+              `npx eslint "${file}" --no-eslintrc --config eslint.config.cjs --format json`,
+              {
+                encoding: 'utf8',
+                cwd: this.projectRoot,
+              },
+            );
 
             const result = JSON.parse(output);
-            
+
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter(msg => 
-                (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                (msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2)
+              const restrictiveErrors = result[0].messages.filter(
+                msg =>
+                  (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                  (msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2),
               );
-              
+
               if (restrictiveErrors.length > 0) {
                 errors.push(`${file} has overly restrictive rules for build tool patterns`);
               }
@@ -953,12 +1010,13 @@ class DomainSpecificRuleValidator {
             if (output) {
               const result = JSON.parse(output);
               if (result.length > 0 && result[0].messages) {
-                const restrictiveErrors = result[0].messages.filter(msg => 
-                  (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                  (msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2)
+                const restrictiveErrors = result[0].messages.filter(
+                  msg =>
+                    (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                    (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                    (msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2),
                 );
-                
+
                 if (restrictiveErrors.length > 0) {
                   errors.push(`${file} has overly restrictive rules for build tool patterns`);
                 }
@@ -984,7 +1042,7 @@ class DomainSpecificRuleValidator {
    */
   async testConfigurationRelaxations() {
     const errors = [];
-    
+
     try {
       // Test that config files have appropriate relaxations
       const testContent = `
@@ -997,20 +1055,24 @@ class DomainSpecificRuleValidator {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: this.projectRoot
-        });
+        const output = execSync(
+          `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
+          {
+            encoding: 'utf8',
+            cwd: this.projectRoot,
+          },
+        );
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter(msg => 
-            (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-            (msg.ruleId === 'no-console' && msg.severity === 2) ||
-            (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+          const restrictiveErrors = result[0].messages.filter(
+            msg =>
+              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+              (msg.ruleId === 'no-console' && msg.severity === 2) ||
+              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
           );
-          
+
           if (restrictiveErrors.length > 0) {
             errors.push('Configuration files should have relaxed rules for build patterns');
           }
@@ -1020,12 +1082,13 @@ class DomainSpecificRuleValidator {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter(msg => 
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              msg =>
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
             );
-            
+
             if (restrictiveErrors.length > 0) {
               errors.push('Configuration files should have relaxed rules for build patterns');
             }
@@ -1052,17 +1115,18 @@ class DomainSpecificRuleValidator {
       this.results.astrologicalFiles,
       this.results.campaignSystemFiles,
       this.results.testFiles,
-      this.results.configurationFiles
+      this.results.configurationFiles,
     ];
 
     const passedCategories = categories.filter(cat => cat.passed).length;
     const totalCategories = categories.length;
-    
+
     this.results.overall.score = Math.round((passedCategories / totalCategories) * 100);
     this.results.overall.passed = passedCategories === totalCategories;
-    
+
     if (this.results.overall.passed) {
-      this.results.overall.summary = '✅ All domain-specific rules are properly configured and validated';
+      this.results.overall.summary =
+        '✅ All domain-specific rules are properly configured and validated';
     } else {
       const failedCategories = categories.filter(cat => !cat.passed).map(cat => cat.category);
       this.results.overall.summary = `❌ Failed categories: ${failedCategories.join(', ')}`;
@@ -1076,7 +1140,7 @@ class DomainSpecificRuleValidator {
     console.log('\n' + '='.repeat(80));
     console.log('📊 DOMAIN-SPECIFIC RULE VALIDATION REPORT');
     console.log('='.repeat(80));
-    
+
     console.log(`\n🎯 Overall Score: ${this.results.overall.score}%`);
     console.log(`📋 Summary: ${this.results.overall.summary}\n`);
 
@@ -1085,23 +1149,23 @@ class DomainSpecificRuleValidator {
       this.results.astrologicalFiles,
       this.results.campaignSystemFiles,
       this.results.testFiles,
-      this.results.configurationFiles
+      this.results.configurationFiles,
     ];
 
     categories.forEach(category => {
       console.log(`\n📁 ${category.category}`);
       console.log(`   Status: ${category.passed ? '✅ PASSED' : '❌ FAILED'}`);
-      
+
       if (category.details.length > 0) {
         console.log('   Details:');
         category.details.forEach(detail => console.log(`     ${detail}`));
       }
-      
+
       if (category.errors.length > 0) {
         console.log('   Errors:');
         category.errors.forEach(error => console.log(`     ❌ ${error}`));
       }
-      
+
       if (category.warnings.length > 0) {
         console.log('   Warnings:');
         category.warnings.forEach(warning => console.log(`     ⚠️ ${warning}`));
@@ -1112,7 +1176,7 @@ class DomainSpecificRuleValidator {
     const reportPath = join(this.projectRoot, 'domain-specific-rule-validation-report.json');
     writeFileSync(reportPath, JSON.stringify(this.results, null, 2));
     console.log(`\n📄 Detailed report saved to: ${reportPath}`);
-    
+
     console.log('\n' + '='.repeat(80));
   }
 }
@@ -1124,7 +1188,7 @@ async function main() {
   try {
     const validator = new DomainSpecificRuleValidator();
     const results = await validator.validateDomainSpecificRules();
-    
+
     if (results.overall.passed) {
       console.log('\n🎉 Domain-specific rule validation completed successfully!');
       process.exit(0);

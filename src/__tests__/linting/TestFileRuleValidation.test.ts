@@ -1,9 +1,9 @@
 /**
  * Test File Rule Validation Test Suite
- * 
+ *
  * Tests the domain-specific ESLint rules for test files
  * to ensure appropriate relaxations for mock variables and testing patterns.
- * 
+ *
  * Requirements: 4.4
  */
 
@@ -53,18 +53,18 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            (msg.message.includes('mock') || msg.message.includes('stub') || 
-             msg.message.includes('test'))
+          const unusedVarErrors = result[0].messages.filter(
+            (msg: any) =>
+              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg.message.includes('mock') || msg.message.includes('stub') || msg.message.includes('test')),
           );
-          
+
           // Mock variable patterns should be ignored in test files
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -73,12 +73,12 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('mock') || msg.message.includes('stub') || 
-               msg.message.includes('test'))
+            const unusedVarErrors = result[0].messages.filter(
+              (msg: any) =>
+                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg.message.includes('mock') || msg.message.includes('stub') || msg.message.includes('test')),
             );
-            
+
             expect(unusedVarErrors.length).toBe(0);
           }
         }
@@ -116,17 +116,16 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            msg.message.includes('mock')
+          const unusedVarErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('mock'),
           );
-          
+
           // Jest mock functions should be allowed
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -135,11 +134,10 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              msg.message.includes('mock')
+            const unusedVarErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('mock'),
             );
-            
+
             expect(unusedVarErrors.length).toBe(0);
           }
         }
@@ -169,17 +167,16 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            msg.message.includes('test')
+          const unusedVarErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('test'),
           );
-          
+
           // Test data structures should be allowed
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -188,11 +185,10 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              msg.message.includes('test')
+            const unusedVarErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('test'),
             );
-            
+
             expect(unusedVarErrors.length).toBe(0);
           }
         }
@@ -239,16 +235,16 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const anyTypeErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2 // error level
+          const anyTypeErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2, // error level
           );
-          
+
           // Test files should allow explicit any types
           expect(anyTypeErrors.length).toBe(0);
         }
@@ -257,10 +253,10 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const anyTypeErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2
+            const anyTypeErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
             );
-            
+
             expect(anyTypeErrors.length).toBe(0);
           }
         }
@@ -304,16 +300,16 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'no-console' && msg.severity === 2 // error level
+          const consoleErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2, // error level
           );
-          
+
           // Test files should allow console statements
           expect(consoleErrors.length).toBe(0);
         }
@@ -322,10 +318,10 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'no-console' && msg.severity === 2
+            const consoleErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
             );
-            
+
             expect(consoleErrors.length).toBe(0);
           }
         }
@@ -367,16 +363,16 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const nonNullErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2 // error level
+          const nonNullErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2, // error level
           );
-          
+
           // Test files should allow non-null assertions
           expect(nonNullErrors.length).toBe(0);
         }
@@ -385,10 +381,10 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const nonNullErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2
+            const nonNullErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2,
             );
-            
+
             expect(nonNullErrors.length).toBe(0);
           }
         }
@@ -444,16 +440,16 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const magicNumberErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'no-magic-numbers' && msg.severity === 2 // error level
+          const magicNumberErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'no-magic-numbers' && msg.severity === 2, // error level
           );
-          
+
           // Test files should allow magic numbers
           expect(magicNumberErrors.length).toBe(0);
         }
@@ -462,10 +458,10 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const magicNumberErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'no-magic-numbers' && msg.severity === 2
+            const magicNumberErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'no-magic-numbers' && msg.severity === 2,
             );
-            
+
             expect(magicNumberErrors.length).toBe(0);
           }
         }
@@ -521,16 +517,16 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const complexityErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'complexity' && msg.severity === 2 // error level
+          const complexityErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2, // error level
           );
-          
+
           // Test files should allow complex logic
           expect(complexityErrors.length).toBe(0);
         }
@@ -539,10 +535,10 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const complexityErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'complexity' && msg.severity === 2
+            const complexityErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2,
             );
-            
+
             expect(complexityErrors.length).toBe(0);
           }
         }
@@ -619,21 +615,26 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const undefErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'no-undef' &&
-            (msg.message.includes('describe') || msg.message.includes('it') || 
-             msg.message.includes('test') || msg.message.includes('expect') || 
-             msg.message.includes('jest') || msg.message.includes('beforeAll') ||
-             msg.message.includes('beforeEach') || msg.message.includes('afterEach') ||
-             msg.message.includes('afterAll'))
+          const undefErrors = result[0].messages.filter(
+            (msg: any) =>
+              msg.ruleId === 'no-undef' &&
+              (msg.message.includes('describe') ||
+                msg.message.includes('it') ||
+                msg.message.includes('test') ||
+                msg.message.includes('expect') ||
+                msg.message.includes('jest') ||
+                msg.message.includes('beforeAll') ||
+                msg.message.includes('beforeEach') ||
+                msg.message.includes('afterEach') ||
+                msg.message.includes('afterAll')),
           );
-          
+
           // Jest globals should be available without no-undef errors
           expect(undefErrors.length).toBe(0);
         }
@@ -642,15 +643,20 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'no-undef' &&
-              (msg.message.includes('describe') || msg.message.includes('it') || 
-               msg.message.includes('test') || msg.message.includes('expect') || 
-               msg.message.includes('jest') || msg.message.includes('beforeAll') ||
-               msg.message.includes('beforeEach') || msg.message.includes('afterEach') ||
-               msg.message.includes('afterAll'))
+            const undefErrors = result[0].messages.filter(
+              (msg: any) =>
+                msg.ruleId === 'no-undef' &&
+                (msg.message.includes('describe') ||
+                  msg.message.includes('it') ||
+                  msg.message.includes('test') ||
+                  msg.message.includes('expect') ||
+                  msg.message.includes('jest') ||
+                  msg.message.includes('beforeAll') ||
+                  msg.message.includes('beforeEach') ||
+                  msg.message.includes('afterEach') ||
+                  msg.message.includes('afterAll')),
             );
-            
+
             expect(undefErrors.length).toBe(0);
           }
         }
@@ -711,16 +717,14 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const undefErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'no-undef'
-          );
-          
+          const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
+
           // No undefined variable errors should occur
           expect(undefErrors.length).toBe(0);
         }
@@ -729,10 +733,8 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'no-undef'
-            );
-            
+            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
+
             expect(undefErrors.length).toBe(0);
           }
         }
@@ -748,17 +750,14 @@ describe('Test File Rule Validation', () => {
         'src/services/campaign.test.ts',
         'src/__tests__/calculations/culinaryAstrology.test.ts',
         'src/__tests__/utils/reliableAstronomy.spec.ts',
-        'tests/integration/api.test.js'
+        'tests/integration/api.test.js',
       ];
 
       testFiles.forEach(file => {
         // Check if file would match test patterns in ESLint config
-        const matchesTestPattern = 
-          file.includes('.test.') ||
-          file.includes('.spec.') ||
-          file.includes('__tests__/') ||
-          file.includes('/tests/');
-        
+        const matchesTestPattern =
+          file.includes('.test.') || file.includes('.spec.') || file.includes('__tests__/') || file.includes('/tests/');
+
         expect(matchesTestPattern).toBe(true);
       });
     });
@@ -769,17 +768,14 @@ describe('Test File Rule Validation', () => {
         'src/utils/astrology.ts',
         'src/services/campaign.ts',
         'src/calculations/culinaryAstrology.ts',
-        'src/data/ingredients/vegetables.ts'
+        'src/data/ingredients/vegetables.ts',
       ];
 
       nonTestFiles.forEach(file => {
         // Check that file would NOT match test patterns
-        const matchesTestPattern = 
-          file.includes('.test.') ||
-          file.includes('.spec.') ||
-          file.includes('__tests__/') ||
-          file.includes('/tests/');
-        
+        const matchesTestPattern =
+          file.includes('.test.') || file.includes('.spec.') || file.includes('__tests__/') || file.includes('/tests/');
+
         expect(matchesTestPattern).toBe(false);
       });
     });
@@ -827,16 +823,14 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const undefErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'no-undef'
-          );
-          
+          const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
+
           // Environment globals should be available
           expect(undefErrors.length).toBe(0);
         }
@@ -845,10 +839,8 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'no-undef'
-            );
-            
+            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
+
             expect(undefErrors.length).toBe(0);
           }
         }
@@ -902,18 +894,21 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            (msg.message.includes('createTest') || msg.message.includes('mockApi') || 
-             msg.message.includes('setupTest') || msg.message.includes('teardownTest'))
+          const unusedVarErrors = result[0].messages.filter(
+            (msg: any) =>
+              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg.message.includes('createTest') ||
+                msg.message.includes('mockApi') ||
+                msg.message.includes('setupTest') ||
+                msg.message.includes('teardownTest')),
           );
-          
+
           // Test helper functions should be allowed even if unused
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -922,12 +917,15 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('createTest') || msg.message.includes('mockApi') || 
-               msg.message.includes('setupTest') || msg.message.includes('teardownTest'))
+            const unusedVarErrors = result[0].messages.filter(
+              (msg: any) =>
+                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg.message.includes('createTest') ||
+                  msg.message.includes('mockApi') ||
+                  msg.message.includes('setupTest') ||
+                  msg.message.includes('teardownTest')),
             );
-            
+
             expect(unusedVarErrors.length).toBe(0);
           }
         }

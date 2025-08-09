@@ -1,4 +1,3 @@
-
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
 
 interface RecipeComponentProps {
@@ -8,24 +7,33 @@ interface RecipeComponentProps {
   onToggle?: () => void;
 }
 
-export default function RecipeComponent({ recipe, showDetails = true, isExpanded, onToggle }: RecipeComponentProps) {
+export default function RecipeComponent({
+  recipe,
+  showDetails = true,
+  isExpanded,
+  onToggle,
+}: RecipeComponentProps) {
   return (
-    <div className="recipe-component">
+    <div className='recipe-component'>
       <h2>{recipe.name}</h2>
       <p>{recipe.description}</p>
-      
+
       {showDetails && (
-        <div className="recipe-details">
-          <div className="ingredients">
+        <div className='recipe-details'>
+          <div className='ingredients'>
             <h3>Ingredients</h3>
             <ul>
               {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{typeof ingredient === 'string' ? ingredient : ingredient.name || String(ingredient)}</li>
+                <li key={index}>
+                  {typeof ingredient === 'string'
+                    ? ingredient
+                    : ingredient.name || String(ingredient)}
+                </li>
               ))}
             </ul>
           </div>
-          
-          <div className="instructions">
+
+          <div className='instructions'>
             <h3>Instructions</h3>
             <ol>
               {recipe.instructions.map((instruction, index) => (
@@ -33,9 +41,9 @@ export default function RecipeComponent({ recipe, showDetails = true, isExpanded
               ))}
             </ol>
           </div>
-          
+
           {recipe.nutrition && (
-            <div className="nutrition">
+            <div className='nutrition'>
               <h3>Nutrition</h3>
               <p>Calories: {recipe.nutrition.calories}</p>
               <p>Protein: {recipe.nutrition.protein}g</p>

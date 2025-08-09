@@ -9,7 +9,6 @@ import { traditionalCookingMethods } from './traditional';
 import { transformationMethods } from './transformation';
 import { wetCookingMethods } from './wet';
 
-
 /**
  * Collection of all cooking methods from all categories
  */
@@ -44,7 +43,10 @@ export const getMethodsForZodiacSign = (sign: ZodiacSign): Record<string, Cookin
  * @param threshold The minimum value for that element (0.0-1.0)
  * @returns Object containing cooking methods with that elemental dominance
  */
-export const getMethodsByElement = (element: Element, threshold = 0.4): Record<string, CookingMethodData> => {
+export const getMethodsByElement = (
+  element: Element,
+  threshold = 0.4,
+): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
@@ -59,13 +61,15 @@ export const getMethodsByElement = (element: Element, threshold = 0.4): Record<s
  * @param ingredientType The type of ingredient (e.g., 'meat', 'vegetables')
  * @returns Object containing suitable cooking methods
  */
-export const getMethodsForIngredientType = (ingredientType: string): Record<string, CookingMethodData> => {
+export const getMethodsForIngredientType = (
+  ingredientType: string,
+): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
       const methodData = method as CookingMethodData;
-      return (methodData?.suitable_for || []).some((type: string) => 
-        type?.toLowerCase()?.includes(ingredientType.toLowerCase())
+      return (methodData?.suitable_for || []).some((type: string) =>
+        type?.toLowerCase()?.includes(ingredientType.toLowerCase()),
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -81,8 +85,10 @@ export const getMethodsByPlanet = (planet: string): Record<string, CookingMethod
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
       const methodData = method as CookingMethodData;
-      return methodData?.astrologicalInfluences?.dominantPlanets?.includes(planet) ||
-             methodData?.astrologicalInfluences?.rulingPlanets?.includes(planet);
+      return (
+        methodData?.astrologicalInfluences?.dominantPlanets?.includes(planet) ||
+        methodData?.astrologicalInfluences?.rulingPlanets?.includes(planet)
+      );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
@@ -95,4 +101,4 @@ export {
   traditionalCookingMethods,
   rawCookingMethods,
   transformationMethods,
-}; 
+};

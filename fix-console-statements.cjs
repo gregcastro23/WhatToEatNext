@@ -15,7 +15,8 @@ const { execSync } = require('child_process');
 
 // Configuration
 const DRY_RUN = process.argv.includes('--dry-run');
-const MAX_FILES = parseInt(process.argv.find(arg => arg.startsWith('--max-files='))?.split('=')[1]) || 50;
+const MAX_FILES =
+  parseInt(process.argv.find(arg => arg.startsWith('--max-files='))?.split('=')[1]) || 50;
 const VERBOSE = process.argv.includes('--verbose');
 
 // Patterns for files where console statements should be preserved
@@ -48,7 +49,7 @@ const PRESERVE_PATTERNS = [
   // Astrological debugging contexts
   /astrology.*debug/i,
   /planetary.*debug/i,
-  /elemental.*debug/i
+  /elemental.*debug/i,
 ];
 
 // Console methods to handle differently
@@ -60,7 +61,7 @@ const CONSOLE_METHODS = {
   COMMENT: ['log'], // Only console.log gets commented
 
   // Preserve these (important for error handling)
-  PRESERVE: ['error', 'warn', 'assert']
+  PRESERVE: ['error', 'warn', 'assert'],
 };
 
 // Domain-specific preservation patterns
@@ -71,7 +72,7 @@ const DOMAIN_PRESERVATION = {
     /astronomical.*calculation/i,
     /elemental.*state/i,
     /transit.*validation/i,
-    /fallback.*data/i
+    /fallback.*data/i,
   ],
 
   // Campaign system logging
@@ -80,8 +81,8 @@ const DOMAIN_PRESERVATION = {
     /metrics.*collection/i,
     /safety.*protocol/i,
     /performance.*alert/i,
-    /enterprise.*intelligence/i
-  ]
+    /enterprise.*intelligence/i,
+  ],
 };
 
 class ConsoleStatementCleaner {
@@ -91,7 +92,7 @@ class ConsoleStatementCleaner {
       consoleStatementsRemoved: 0,
       consoleStatementsCommented: 0,
       consoleStatementsPreserved: 0,
-      errors: []
+      errors: [],
     };
   }
 
@@ -101,10 +102,10 @@ class ConsoleStatementCleaner {
   getFilesWithConsoleStatements() {
     try {
       // Use ESLint to find files with console statement violations
-      const lintOutput = execSync(
-        'yarn lint --format=json 2>/dev/null',
-        { encoding: 'utf8', stdio: 'pipe' }
-      );
+      const lintOutput = execSync('yarn lint --format=json 2>/dev/null', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
 
       let lintResults = [];
       try {
@@ -118,9 +119,7 @@ class ConsoleStatementCleaner {
 
       lintResults.forEach(result => {
         if (result.messages && result.messages.length > 0) {
-          const hasConsoleViolations = result.messages.some(msg =>
-            msg.ruleId === 'no-console'
-          );
+          const hasConsoleViolations = result.messages.some(msg => msg.ruleId === 'no-console');
 
           if (hasConsoleViolations) {
             // Convert absolute path to relative path
@@ -138,17 +137,18 @@ class ConsoleStatementCleaner {
       }
 
       return files;
-
     } catch (error) {
       console.warn('Warning: Could not get lint results, using grep fallback');
 
       // Fallback to direct file search
       const grepOutput = execSync(
         'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | xargs grep -l "console\\." 2>/dev/null || true',
-        { encoding: 'utf8' }
+        { encoding: 'utf8' },
       );
 
-      return grepOutput.trim().split('\n')
+      return grepOutput
+        .trim()
+        .split('\n')
         .filter(f => f && fs.existsSync(f))
         .slice(0, MAX_FILES);
     }
@@ -181,10 +181,11 @@ class ConsoleStatementCleaner {
     // Campaign system context preservation - be more selective
     if (filePath.includes('campaign/')) {
       // Only preserve console.log statements that are clearly important status messages
-      if (/console\.log/.test(line) && (
-        /final|complete|success|failure|error|critical|emergency/.test(lineContent) ||
-        /validation.*result|campaign.*status|certification/.test(lineContent)
-      )) {
+      if (
+        /console\.log/.test(line) &&
+        (/final|complete|success|failure|error|critical|emergency/.test(lineContent) ||
+          /validation.*result|campaign.*status|certification/.test(lineContent))
+      ) {
         return true;
       }
       // Always preserve console.error and console.warn in campaign files
@@ -224,7 +225,7 @@ class ConsoleStatementCleaner {
       let fileStats = {
         removed: 0,
         commented: 0,
-        preserved: 0
+        preserved: 0,
       };
 
       // Skip files that should be preserved entirely
@@ -239,7 +240,9 @@ class ConsoleStatementCleaner {
         const lineNumber = index + 1;
 
         // Find console statements
-        const consoleMatch = line.match(/(\s*)(.*?)(console\.(log|debug|trace|info|warn|error|assert))\s*\(/);
+        const consoleMatch = line.match(
+          /(\s*)(.*?)(console\.(log|debug|trace|info|warn|error|assert))\s*\(/,
+        );
 
         if (consoleMatch) {
           const [, indent, prefix, consoleCall, method] = consoleMatch;
@@ -282,11 +285,12 @@ class ConsoleStatementCleaner {
       this.stats.consoleStatementsPreserved += fileStats.preserved;
 
       if (modified || VERBOSE) {
-        console.log(`${modified ? '✅' : '⏭️'} ${filePath}: ${fileStats.removed} removed, ${fileStats.commented} commented, ${fileStats.preserved} preserved`);
+        console.log(
+          `${modified ? '✅' : '⏭️'} ${filePath}: ${fileStats.removed} removed, ${fileStats.commented} commented, ${fileStats.preserved} preserved`,
+        );
       }
 
       return modified;
-
     } catch (error) {
       this.stats.errors.push({ file: filePath, error: error.message });
       console.error(`❌ Error processing ${filePath}:`, error.message);
@@ -366,12 +370,17 @@ class ConsoleStatementCleaner {
     console.log(`Console statements commented: ${this.stats.consoleStatementsCommented}`);
     console.log(`Console statements preserved: ${this.stats.consoleStatementsPreserved}`);
 
-    const totalProcessed = this.stats.consoleStatementsRemoved +
-                          this.stats.consoleStatementsCommented +
-                          this.stats.consoleStatementsPreserved;
+    const totalProcessed =
+      this.stats.consoleStatementsRemoved +
+      this.stats.consoleStatementsCommented +
+      this.stats.consoleStatementsPreserved;
 
     if (totalProcessed > 0) {
-      const reductionRate = ((this.stats.consoleStatementsRemoved + this.stats.consoleStatementsCommented) / totalProcessed * 100).toFixed(1);
+      const reductionRate = (
+        ((this.stats.consoleStatementsRemoved + this.stats.consoleStatementsCommented) /
+          totalProcessed) *
+        100
+      ).toFixed(1);
       console.log(`Reduction rate: ${reductionRate}%`);
     }
 

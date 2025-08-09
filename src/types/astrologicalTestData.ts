@@ -1,6 +1,6 @@
 /**
  * Astrological Test Data Types
- * 
+ *
  * Interface definitions for astrological service test data to replace any types
  */
 

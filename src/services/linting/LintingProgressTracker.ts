@@ -1,6 +1,6 @@
 /**
  * Linting Progress Tracker
- * 
+ *
  * Monitors and tracks linting error reduction progress, integrating with
  * the campaign system for comprehensive quality improvement tracking.
  */
@@ -82,29 +82,29 @@ export class LintingProgressTracker {
    */
   async collectMetrics(): Promise<LintingMetrics> {
     const startTime = Date.now();
-    
+
     try {
       logger.info('Collecting linting metrics...');
-      
+
       // Run ESLint with JSON output
       const lintOutput = this.runLintingAnalysis();
       const metrics = this.parseLintingOutput(lintOutput);
-      
+
       const executionTime = Date.now() - startTime;
-      
+
       const fullMetrics: LintingMetrics = {
         ...metrics,
         timestamp: new Date(),
         performanceMetrics: {
           executionTime,
           memoryUsage: this.getMemoryUsage(),
-          cacheHitRate: this.calculateCacheHitRate()
-        }
+          cacheHitRate: this.calculateCacheHitRate(),
+        },
       };
 
       // Save metrics
       this.saveMetrics(fullMetrics);
-      
+
       logger.info(`Linting metrics collected: ${fullMetrics.totalIssues} total issues`);
       return fullMetrics;
     } catch (error) {
@@ -131,7 +131,7 @@ export class LintingProgressTracker {
         previousMetrics,
         improvement,
         trends,
-        qualityGates
+        qualityGates,
       };
 
       logger.info('Linting progress report generated');
@@ -148,7 +148,7 @@ export class LintingProgressTracker {
   async integrateCampaignProgress(campaignData: CampaignIntegrationData): Promise<void> {
     try {
       const report = await this.generateProgressReport();
-      
+
       // Calculate campaign-specific metrics
       const campaignProgress = {
         campaignId: campaignData.campaignId,
@@ -156,12 +156,12 @@ export class LintingProgressTracker {
         currentProgress: this.calculateCampaignProgress(report, campaignData),
         qualityScore: this.calculateQualityScore(report.currentMetrics),
         riskAssessment: this.assessRisk(report),
-        recommendations: this.generateRecommendations(report)
+        recommendations: this.generateRecommendations(report),
       };
 
       // Save campaign integration data
       this.saveCampaignIntegration(campaignProgress);
-      
+
       // Trigger campaign system notifications if needed
       if (this.shouldNotifyCampaignSystem(report, campaignData)) {
         await this.notifyCampaignSystem(campaignProgress);
@@ -192,19 +192,19 @@ export class LintingProgressTracker {
       const gates = {
         errorGate: metrics.errors <= thresholds.maxErrors,
         warningGate: metrics.warnings <= thresholds.maxWarnings,
-        performanceGate: metrics.performanceMetrics.executionTime <= thresholds.maxExecutionTime
+        performanceGate: metrics.performanceMetrics.executionTime <= thresholds.maxExecutionTime,
       };
 
       const allGatesPassed = Object.values(gates).every(gate => gate);
-      
+
       logger.info('Quality gates evaluation:', {
         gates,
         passed: allGatesPassed,
         metrics: {
           errors: metrics.errors,
           warnings: metrics.warnings,
-          executionTime: metrics.performanceMetrics.executionTime
-        }
+          executionTime: metrics.performanceMetrics.executionTime,
+        },
       });
 
       return allGatesPassed;
@@ -221,12 +221,12 @@ export class LintingProgressTracker {
     try {
       // Run ESLint with JSON format and capture both stdout and stderr
       const command = 'yarn lint --format json --max-warnings 10000';
-      const result = execSync(command, { 
+      const result = execSync(command, {
         encoding: 'utf8',
         stdio: 'pipe',
-        maxBuffer: 10 * 1024 * 1024 // 10MB buffer
+        maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
-      
+
       return result;
     } catch (error) {
       // ESLint returns non-zero exit code when issues are found
@@ -241,10 +241,12 @@ export class LintingProgressTracker {
   /**
    * Parse ESLint JSON output
    */
-  private parseLintingOutput(output: string): Omit<LintingMetrics, 'timestamp' | 'performanceMetrics'> {
+  private parseLintingOutput(
+    output: string,
+  ): Omit<LintingMetrics, 'timestamp' | 'performanceMetrics'> {
     try {
       const results = JSON.parse(output);
-      
+
       let totalIssues = 0;
       let errors = 0;
       let warnings = 0;
@@ -253,30 +255,34 @@ export class LintingProgressTracker {
       const warningsByCategory: Record<string, number> = {};
       const filesCovered = results.length;
 
-      results.forEach((file: {
-        filePath?: string;
-        messages?: Array<{
-          ruleId?: string;
-          severity?: number;
-          fix?: unknown;
-        }>;
-      }) => {
-        file.messages?.forEach((message) => {
-          totalIssues++;
-          
-          if (message.severity === 2) {
-            errors++;
-            errorsByCategory[message.ruleId || 'unknown'] = (errorsByCategory[message.ruleId || 'unknown'] || 0) + 1;
-          } else {
-            warnings++;
-            warningsByCategory[message.ruleId || 'unknown'] = (warningsByCategory[message.ruleId || 'unknown'] || 0) + 1;
-          }
-          
-          if (message.fix) {
-            fixableIssues++;
-          }
-        });
-      });
+      results.forEach(
+        (file: {
+          filePath?: string;
+          messages?: Array<{
+            ruleId?: string;
+            severity?: number;
+            fix?: unknown;
+          }>;
+        }) => {
+          file.messages?.forEach(message => {
+            totalIssues++;
+
+            if (message.severity === 2) {
+              errors++;
+              errorsByCategory[message.ruleId || 'unknown'] =
+                (errorsByCategory[message.ruleId || 'unknown'] || 0) + 1;
+            } else {
+              warnings++;
+              warningsByCategory[message.ruleId || 'unknown'] =
+                (warningsByCategory[message.ruleId || 'unknown'] || 0) + 1;
+            }
+
+            if (message.fix) {
+              fixableIssues++;
+            }
+          });
+        },
+      );
 
       return {
         totalIssues,
@@ -285,7 +291,7 @@ export class LintingProgressTracker {
         errorsByCategory,
         warningsByCategory,
         filesCovered,
-        fixableIssues
+        fixableIssues,
       };
     } catch (error) {
       logger.error('Error parsing linting output:', error);
@@ -302,22 +308,21 @@ export class LintingProgressTracker {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0
+        percentageImprovement: 0,
       };
     }
 
     const totalIssuesReduced = previous.totalIssues - current.totalIssues;
     const errorsReduced = previous.errors - current.errors;
     const warningsReduced = previous.warnings - current.warnings;
-    const percentageImprovement = previous.totalIssues > 0 
-      ? (totalIssuesReduced / previous.totalIssues) * 100 
-      : 0;
+    const percentageImprovement =
+      previous.totalIssues > 0 ? (totalIssuesReduced / previous.totalIssues) * 100 : 0;
 
     return {
       totalIssuesReduced,
       errorsReduced,
       warningsReduced,
-      percentageImprovement
+      percentageImprovement,
     };
   }
 
@@ -346,7 +351,7 @@ export class LintingProgressTracker {
 
     const oldest = recentMetrics[0];
     const newest = recentMetrics[recentMetrics.length - 1];
-    
+
     return oldest.totalIssues - newest.totalIssues;
   }
 
@@ -357,21 +362,27 @@ export class LintingProgressTracker {
     return {
       zeroErrors: metrics.errors === 0,
       warningsUnderThreshold: metrics.warnings < 1000, // Configurable threshold
-      performanceAcceptable: metrics.performanceMetrics.executionTime < 60000 // 1 minute
+      performanceAcceptable: metrics.performanceMetrics.executionTime < 60000, // 1 minute
     };
   }
 
   /**
    * Calculate campaign progress
    */
-  private calculateCampaignProgress(report: LintingProgressReport, campaignData: CampaignIntegrationData): number {
+  private calculateCampaignProgress(
+    report: LintingProgressReport,
+    campaignData: CampaignIntegrationData,
+  ): number {
     const currentIssues = report.currentMetrics.totalIssues;
     const targetReduction = campaignData.targetReduction;
-    
+
     // Assume we started with some baseline (could be stored in campaign data)
     const baselineIssues = targetReduction;
-    const progress = Math.max(0, Math.min(100, ((baselineIssues - currentIssues) / baselineIssues) * 100));
-    
+    const progress = Math.max(
+      0,
+      Math.min(100, ((baselineIssues - currentIssues) / baselineIssues) * 100),
+    );
+
     return progress;
   }
 
@@ -382,12 +393,14 @@ export class LintingProgressTracker {
     const errorWeight = 0.6;
     const warningWeight = 0.3;
     const performanceWeight = 0.1;
-    
+
     const errorScore = Math.max(0, 100 - metrics.errors);
-    const warningScore = Math.max(0, 100 - (metrics.warnings / 10));
-    const performanceScore = Math.max(0, 100 - (metrics.performanceMetrics.executionTime / 1000));
-    
-    return (errorScore * errorWeight) + (warningScore * warningWeight) + (performanceScore * performanceWeight);
+    const warningScore = Math.max(0, 100 - metrics.warnings / 10);
+    const performanceScore = Math.max(0, 100 - metrics.performanceMetrics.executionTime / 1000);
+
+    return (
+      errorScore * errorWeight + warningScore * warningWeight + performanceScore * performanceWeight
+    );
   }
 
   /**
@@ -395,7 +408,7 @@ export class LintingProgressTracker {
    */
   private assessRisk(report: LintingProgressReport): 'low' | 'medium' | 'high' {
     const { currentMetrics, improvement } = report;
-    
+
     if (currentMetrics.errors > 100 || improvement.percentageImprovement < -10) {
       return 'high';
     } else if (currentMetrics.errors > 10 || improvement.percentageImprovement < 0) {
@@ -411,23 +424,25 @@ export class LintingProgressTracker {
   private generateRecommendations(report: LintingProgressReport): string[] {
     const recommendations: string[] = [];
     const { currentMetrics, improvement } = report;
-    
+
     if (currentMetrics.errors > 0) {
       recommendations.push(`Focus on eliminating ${currentMetrics.errors} remaining errors`);
     }
-    
+
     if (currentMetrics.fixableIssues > 0) {
-      recommendations.push(`${currentMetrics.fixableIssues} issues can be auto-fixed with ESLint --fix`);
+      recommendations.push(
+        `${currentMetrics.fixableIssues} issues can be auto-fixed with ESLint --fix`,
+      );
     }
-    
+
     if (improvement.percentageImprovement < 0) {
       recommendations.push('Quality regression detected - investigate recent changes');
     }
-    
+
     if (currentMetrics.performanceMetrics.executionTime > 30000) {
       recommendations.push('Consider optimizing linting performance with caching');
     }
-    
+
     return recommendations;
   }
 
@@ -445,11 +460,11 @@ export class LintingProgressTracker {
   private saveMetrics(metrics: LintingMetrics): void {
     try {
       writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2));
-      
+
       // Also append to history
       const history = this.getMetricsHistory();
       history.push(metrics);
-      
+
       // Keep only last 100 entries
       const trimmedHistory = history.slice(-100);
       writeFileSync(this.historyFile, JSON.stringify(trimmedHistory, null, 2));
@@ -506,7 +521,10 @@ export class LintingProgressTracker {
     }
   }
 
-  private shouldNotifyCampaignSystem(report: LintingProgressReport, _campaignData: CampaignIntegrationData): boolean {
+  private shouldNotifyCampaignSystem(
+    report: LintingProgressReport,
+    _campaignData: CampaignIntegrationData,
+  ): boolean {
     // Notify if significant improvement or regression
     return Math.abs(report.improvement.percentageImprovement) > 5;
   }

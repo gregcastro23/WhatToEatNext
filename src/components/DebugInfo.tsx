@@ -14,7 +14,7 @@ const DebugInfo = memo(function DebugInfo() {
     if (!hasRenderedRef.current) {
       hasRenderedRef.current = true;
     }
-    
+
     // Cleanup function to prevent memory leaks
     return () => {
       hasRenderedRef.current = false;
@@ -27,25 +27,25 @@ const DebugInfo = memo(function DebugInfo() {
   }
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg my-4">
-      <h2 className="text-lg font-semibold mb-2">Debug Info</h2>
-      <div className="space-y-2 text-sm">
+    <div className='my-4 rounded-lg bg-gray-100 p-4'>
+      <h2 className='mb-2 text-lg font-semibold'>Debug Info</h2>
+      <div className='space-y-2 text-sm'>
         <p>Mounted: {hasRenderedRef.current ? 'true' : 'false'}</p>
         <p>Renders: {renderCountRef.current}</p>
         <p>Current Sign: {(planetaryPositions.sun as any)?.sign || 'unknown'}</p>
         <p>Planetary Hour: {(state.astrologicalState.planetaryHour as string) || 'Unknown'}</p>
         <p>Lunar Phase: {state.lunarPhase || 'Unknown'}</p>
-        
-        <h3 className="font-medium mt-3">Alchemical Tokens:</h3>
-        <ul className="space-y-1">
+
+        <h3 className='mt-3 font-medium'>Alchemical Tokens:</h3>
+        <ul className='space-y-1'>
           <li>⦿ Spirit: {state.alchemicalValues.Spirit.toFixed(4) || '0.0000'}</li>
           <li>⦿ Essence: {state.alchemicalValues.Essence.toFixed(4) || '0.0000'}</li>
           <li>⦿ Matter: {state.alchemicalValues.Matter.toFixed(4) || '0.0000'}</li>
           <li>⦿ Substance: {state.alchemicalValues.Substance.toFixed(4) || '0.0000'}</li>
         </ul>
-        
-        <h3 className="font-medium mt-3">Elemental Balance:</h3>
-        <ul className="space-y-1">
+
+        <h3 className='mt-3 font-medium'>Elemental Balance:</h3>
+        <ul className='space-y-1'>
           <li>Fire: {(state.elementalState.Fire * 100).toFixed(1)}%</li>
           <li>Water: {(state.elementalState.Water * 100).toFixed(1)}%</li>
           <li>Earth: {(state.elementalState.Earth * 100).toFixed(1)}%</li>
@@ -56,4 +56,4 @@ const DebugInfo = memo(function DebugInfo() {
   );
 });
 
-export default DebugInfo; 
+export default DebugInfo;

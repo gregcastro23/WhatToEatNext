@@ -16,8 +16,8 @@ export async function GET(_request: Request) {
         venus: { sign: 'virgo', degree: 2 },
         mars: { sign: 'libra', degree: 8 },
         jupiter: { sign: 'taurus', degree: 19 },
-        saturn: { sign: 'pisces', degree: 27 }
-      }
-    }
+        saturn: { sign: 'pisces', degree: 27 },
+      },
+    },
   });
-} 
+}

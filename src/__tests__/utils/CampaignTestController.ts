@@ -1,6 +1,6 @@
 /**
  * Campaign Test Controller
- * 
+ *
  * Provides campaign pause/resume functionality specifically designed for test isolation.
  * Ensures that campaign operations don't interfere with test execution.
  */
@@ -11,13 +11,13 @@ import {
   ProgressMetrics,
   SafetyEvent,
   SafetyEventType,
-  SafetyEventSeverity
+  SafetyEventSeverity,
 } from '../../types/campaign';
 import {
   MockCampaignController,
   MockProgressTracker,
   MockSafetyProtocol,
-  campaignTestIsolation
+  campaignTestIsolation,
 } from '../mocks/CampaignSystemMocks';
 
 import { TestSafeProgressTracker } from './TestSafeProgressTracker';
@@ -64,7 +64,7 @@ export class CampaignTestController {
       pausedAt: null,
       resumedAt: null,
       testName: null,
-      originalState: null
+      originalState: null,
     };
 
     this.isolationConfig = {
@@ -73,13 +73,13 @@ export class CampaignTestController {
       preventGitOperations: true,
       enableMemoryMonitoring: true,
       isolateFileSystem: false, // Can be enabled for specific tests
-      mockExternalAPIs: true
+      mockExternalAPIs: true,
     };
 
     this.mockInstances = {
       controller: null,
       tracker: null,
-      safety: null
+      safety: null,
     };
 
     this.setupTestEnvironment();
@@ -112,7 +112,7 @@ export class CampaignTestController {
         maxHistorySize: 10, // Smaller for tests
         memoryCheckFrequency: 3,
         enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring,
-        simulateRealProgress: false
+        simulateRealProgress: false,
       });
     }
 
@@ -164,7 +164,9 @@ export class CampaignTestController {
     }
 
     if (this.testState.testName !== testName) {
-      console.warn(`Resume test name (${testName}) doesn't match pause test name (${this.testState.testName})`);
+      console.warn(
+        `Resume test name (${testName}) doesn't match pause test name (${this.testState.testName})`,
+      );
     }
 
     this.testState.isPaused = false;
@@ -229,7 +231,7 @@ export class CampaignTestController {
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
     durationMs: number = 1000,
-    testName?: string
+    testName?: string,
   ): Promise<void> {
     if (!this.testSafeTracker) {
       throw new Error('Test-safe tracker not initialized');
@@ -238,7 +240,7 @@ export class CampaignTestController {
     await this.testSafeTracker.simulateProgress(
       targetMetrics,
       durationMs,
-      testName || this.activeTestName || 'unknown'
+      testName || this.activeTestName || 'unknown',
     );
   }
 
@@ -268,14 +270,14 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO,
   ): SafetyEvent {
     return {
       type,
       timestamp: new Date(),
       description: `Mock: ${description}`,
       severity,
-      action: 'MOCK_TEST_EVENT'
+      action: 'MOCK_TEST_EVENT',
     };
   }
 
@@ -327,7 +329,7 @@ export class CampaignTestController {
     return {
       isValid: issues.length === 0,
       issues,
-      warnings
+      warnings,
     };
   }
 
@@ -351,7 +353,7 @@ export class CampaignTestController {
     this.mockInstances = {
       controller: null,
       tracker: null,
-      safety: null
+      safety: null,
     };
 
     // Restore original state
@@ -366,7 +368,7 @@ export class CampaignTestController {
       pausedAt: null,
       resumedAt: null,
       testName: null,
-      originalState: null
+      originalState: null,
     };
 
     this.activeTestName = null;
@@ -380,7 +382,7 @@ export class CampaignTestController {
   static async forceCleanup(): Promise<void> {
     if (CampaignTestController.instance) {
       const instance = CampaignTestController.instance;
-      
+
       // Cleanup current test if any
       if (instance.activeTestName) {
         await instance.cleanupAfterTest(instance.activeTestName);
@@ -403,7 +405,7 @@ export class CampaignTestController {
       CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE,
       DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS,
       DISABLE_GIT_OPERATIONS: process.env.DISABLE_GIT_OPERATIONS,
-      MOCK_CAMPAIGN_SYSTEM: process.env.MOCK_CAMPAIGN_SYSTEM
+      MOCK_CAMPAIGN_SYSTEM: process.env.MOCK_CAMPAIGN_SYSTEM,
     };
 
     // Set basic test environment
@@ -455,7 +457,7 @@ export class CampaignTestController {
   private mockExternalAPIs(): void {
     // Mock child_process.execSync to prevent actual command execution
     const UNUSED_originalExecSync = require('child_process').execSync;
-    
+
     jest.spyOn(require('child_process'), 'execSync').mockImplementation((command: string) => {
       // Return mock outputs for common commands
       if (command.includes('tsc --noEmit')) {
@@ -470,7 +472,7 @@ export class CampaignTestController {
       if (command.includes('git stash')) {
         return 'Saved working directory and index state';
       }
-      
+
       return 'Mock command output';
     });
 
@@ -482,11 +484,15 @@ export class CampaignTestController {
 
   private mockFileSystemOperations(): void {
     const fs = require('fs');
-    
+
     // Mock file existence checks
     jest.spyOn(fs, 'existsSync').mockImplementation((path: string) => {
       // Return true for common paths to prevent errors
-      if (path.includes('.git') || path.includes('package.json') || path.includes('tsconfig.json')) {
+      if (
+        path.includes('.git') ||
+        path.includes('package.json') ||
+        path.includes('tsconfig.json')
+      ) {
         return true;
       }
       return false;
@@ -506,7 +512,7 @@ export class CampaignTestController {
   private captureOriginalState(): any {
     return {
       envVars: { ...process.env },
-      mockStates: this.mockInstances
+      mockStates: this.mockInstances,
     };
   }
 
@@ -518,7 +524,7 @@ export class CampaignTestController {
           delete process.env[key];
         }
       });
-      
+
       Object.entries(originalState.envVars).forEach(([key, value]) => {
         if (typeof value === 'string') {
           process.env[key] = value;

@@ -7,7 +7,10 @@
 .expandable,
 .collapsible,
 .toggle-content {
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease;
+  transition:
+    max-height 0.3s ease-in-out,
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease;
   overflow: hidden;
 }
 
@@ -39,23 +42,23 @@
 /* Ensure chevron transitions rotate properly */
 .chevron-down,
 .chevron-up,
-[class*="chevron"] {
+[class*='chevron'] {
   transition: transform 0.3s ease;
 }
 
 .expanded .chevron-down,
 .expanded .chevron-up,
-.expanded [class*="chevron"] {
+.expanded [class*='chevron'] {
   transform: rotate(180deg);
 }
 
 /* Make hoverable elements obviously clickable */
-[role="button"],
+[role='button'],
 .expandable-header,
 .card-header,
 .toggle-header,
-[class*="toggle"],
-[class*="expand-trigger"] {
+[class*='toggle'],
+[class*='expand-trigger'] {
   cursor: pointer;
 }
 
@@ -68,4 +71,4 @@
 /* Helper for debugging */
 .debug-outline {
   outline: 1px solid red;
-} 
+}

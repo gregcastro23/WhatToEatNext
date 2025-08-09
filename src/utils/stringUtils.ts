@@ -15,13 +15,13 @@ export function capitalizeFirstLetter(str: string): string {
  */
 export function formatToTitleCase(str: string): string {
   if (!str) return '';
-  
+
   // Replace underscores and hyphens with spaces
   const spacedStr = str.replace(/[_-]/g, ' ');
-  
+
   // Handle camelCase by adding spaces before capital letters
   const withSpaces = spacedStr.replace(/([A-Z])/g, ' $1');
-  
+
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
     .split(' ')
@@ -66,4 +66,4 @@ export function slugify(str: string): string {
     .replace(/--+/g, '-')
     .replace(/^-+/, '')
     .replace(/-+$/, '');
-} 
+}

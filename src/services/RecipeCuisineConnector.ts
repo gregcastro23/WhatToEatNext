@@ -98,7 +98,7 @@ export class RecipeCuisineConnector {
           ...recipe,
           id: recipeId,
           cuisine: cuisine.name,
-          elementalProperties: cuisine.elementalProperties as any
+          elementalProperties: cuisine.elementalProperties as any,
         });
       });
     });
@@ -109,7 +109,7 @@ export class RecipeCuisineConnector {
    */
   private extractRecipesFromCuisine(cuisine: Cuisine): CuisineRecipe[] {
     const recipes: CuisineRecipe[] = [];
-    
+
     if (cuisine.dishes) {
       Object.entries(cuisine.dishes).forEach(([mealType, seasonalDishes]) => {
         this.extractRecipesFromSeasonalDishes(seasonalDishes as SeasonalDishes, mealType, recipes);
@@ -123,9 +123,9 @@ export class RecipeCuisineConnector {
    * Extract recipes from seasonal dishes structure
    */
   private extractRecipesFromSeasonalDishes(
-    seasonalDishes: SeasonalDishes, 
-    mealType: string, 
-    recipes: CuisineRecipe[]
+    seasonalDishes: SeasonalDishes,
+    mealType: string,
+    recipes: CuisineRecipe[],
   ): void {
     Object.entries(seasonalDishes).forEach(([season, dishArray]) => {
       if (Array.isArray(dishArray)) {
@@ -154,7 +154,7 @@ export class RecipeCuisineConnector {
               pairingSuggestions: dish.pairingSuggestions || [],
               spiceLevel: dish.spiceLevel,
               astrologicalAffinities: dish.astrologicalAffinities,
-              elementalProperties: dish.elementalProperties
+              elementalProperties: dish.elementalProperties,
             };
             recipes.push(recipe);
           }
@@ -172,7 +172,7 @@ export class RecipeCuisineConnector {
       amount: ingredient.amount || 1,
       unit: ingredient.unit || '',
       category: ingredient.category,
-      swaps: ingredient.swaps || []
+      swaps: ingredient.swaps || [],
     }));
   }
 
@@ -218,24 +218,24 @@ export class RecipeCuisineConnector {
 
     // Filter by cuisine
     if (filters.cuisine) {
-      results = results.filter(recipe => 
-        recipe.cuisine.toLowerCase().includes((filters.cuisine || '').toLowerCase())
+      results = results.filter(recipe =>
+        recipe.cuisine.toLowerCase().includes((filters.cuisine || '').toLowerCase()),
       );
     }
 
     // Filter by meal type
     if (filters.mealType) {
       results = results.filter(recipe =>
-        recipe.mealType?.some(type => 
-          type.toLowerCase().includes((filters.mealType || '').toLowerCase())
-        )
+        recipe.mealType?.some(type =>
+          type.toLowerCase().includes((filters.mealType || '').toLowerCase()),
+        ),
       );
     }
 
     // Filter by season
     if (filters.season) {
-      results = results.filter(recipe =>
-        recipe.season?.includes(filters.season || '') || recipe.season?.includes('all')
+      results = results.filter(
+        recipe => recipe.season?.includes(filters.season || '') || recipe.season?.includes('all'),
       );
     }
 
@@ -243,17 +243,16 @@ export class RecipeCuisineConnector {
     if (filters.dietaryRestrictions?.length) {
       results = results.filter(recipe =>
         (filters.dietaryRestrictions || []).every(restriction =>
-          recipe.dietaryInfo?.includes(restriction)
-        )
+          recipe.dietaryInfo?.includes(restriction),
+        ),
       );
     }
 
     // Filter by allergen-free
     if (filters.allergenFree?.length) {
-      results = results.filter(recipe =>
-        !(filters.allergenFree || []).some(allergen =>
-          recipe.allergens?.includes(allergen)
-        )
+      results = results.filter(
+        recipe =>
+          !(filters.allergenFree || []).some(allergen => recipe.allergens?.includes(allergen)),
       );
     }
 
@@ -262,39 +261,37 @@ export class RecipeCuisineConnector {
       results = results.filter(recipe =>
         (filters.ingredients || []).some(ingredient =>
           recipe.ingredients.some(recipeIngredient =>
-            recipeIngredient.name.toLowerCase().includes(ingredient.toLowerCase())
-          )
-        )
+            recipeIngredient.name.toLowerCase().includes(ingredient.toLowerCase()),
+          ),
+        ),
       );
     }
 
     // Filter by cooking methods
     if (filters.cookingMethods?.length) {
       results = results.filter(recipe =>
-        (filters.cookingMethods || []).some(method =>
-          recipe.cookingMethods?.includes(method)
-        )
+        (filters.cookingMethods || []).some(method => recipe.cookingMethods?.includes(method)),
       );
     }
 
     // Filter by spice level
     if (filters.spiceLevel) {
-      results = results.filter(recipe =>
-        recipe.spiceLevel === filters.spiceLevel
-      );
+      results = results.filter(recipe => recipe.spiceLevel === filters.spiceLevel);
     }
 
     // Filter by max calories
     if (filters.maxCalories) {
-      results = results.filter(recipe =>
-        !recipe.nutrition?.calories || recipe.nutrition.calories <= (filters.maxCalories ?? 0)
+      results = results.filter(
+        recipe =>
+          !recipe.nutrition?.calories || recipe.nutrition.calories <= (filters.maxCalories ?? 0),
       );
     }
 
     // Filter by min protein
-    if ((filters.minProtein ?? 0)) {
-      results = results.filter(recipe =>
-        recipe.nutrition?.protein && recipe.nutrition.protein >= (filters.minProtein ?? 0)
+    if (filters.minProtein ?? 0) {
+      results = results.filter(
+        recipe =>
+          recipe.nutrition?.protein && recipe.nutrition.protein >= (filters.minProtein ?? 0),
       );
     }
 
@@ -322,7 +319,9 @@ export class RecipeCuisineConnector {
    */
   convertToBuilderFormat(cuisineRecipe: CuisineRecipe): Recipe {
     return {
-      id: `cuisine-${cuisineRecipe.cuisine}-${cuisineRecipe.name}`.toLowerCase().replace(/\s+/g, '-'),
+      id: `cuisine-${cuisineRecipe.cuisine}-${cuisineRecipe.name}`
+        .toLowerCase()
+        .replace(/\s+/g, '-'),
       name: cuisineRecipe.name,
       description: cuisineRecipe.description,
       cuisine: cuisineRecipe.cuisine,
@@ -330,13 +329,13 @@ export class RecipeCuisineConnector {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       ingredients: cuisineRecipe.ingredients.map(ingredient => ({
         name: ingredient.name,
         amount: Number(ingredient.amount) || 1,
         unit: ingredient.unit,
-        swaps: ingredient.swaps || []
+        swaps: ingredient.swaps || [],
       })),
       instructions: cuisineRecipe.instructions || cuisineRecipe.preparationSteps || [],
       nutrition: cuisineRecipe.nutrition || {
@@ -345,7 +344,7 @@ export class RecipeCuisineConnector {
         carbs: 0,
         fat: 0,
         vitamins: [],
-        minerals: []
+        minerals: [],
       },
       timeToMake: this.formatTimeToMake(cuisineRecipe.prepTime, cuisineRecipe.cookTime),
       season: cuisineRecipe.season || ['all'],
@@ -354,8 +353,8 @@ export class RecipeCuisineConnector {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
-      }
+        Air: 0.25,
+      },
     };
   }
 
@@ -364,17 +363,17 @@ export class RecipeCuisineConnector {
    */
   importRecipeForBuilder(recipeId: string): RecipeImportResult {
     const cuisineRecipe = this.getRecipeById(recipeId);
-    
+
     if (!cuisineRecipe) {
       return {
         success: false,
-        errors: [`Recipe with ID ${recipeId} not found`]
+        errors: [`Recipe with ID ${recipeId} not found`],
       };
     }
 
     try {
       const builderRecipe = this.convertToBuilderFormat(cuisineRecipe);
-      
+
       const warnings: string[] = [];
       const suggestions: string[] = [];
 
@@ -400,13 +399,14 @@ export class RecipeCuisineConnector {
         success: true,
         recipe: builderRecipe,
         warnings: warnings.length > 0 ? warnings : undefined,
-        suggestions: suggestions.length > 0 ? suggestions : undefined
+        suggestions: suggestions.length > 0 ? suggestions : undefined,
       };
-
     } catch (error) {
       return {
         success: false,
-        errors: [`Failed to convert recipe: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        errors: [
+          `Failed to convert recipe: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        ],
       };
     }
   }
@@ -416,7 +416,7 @@ export class RecipeCuisineConnector {
    */
   getRecipeSuggestionsByIngredients(ingredients: string[]): CuisineRecipe[] {
     return this.searchRecipes({
-      ingredients
+      ingredients,
     }).slice(0, 10);
   }
 
@@ -426,12 +426,9 @@ export class RecipeCuisineConnector {
   getFusionSuggestions(primaryCuisine: string, secondaryCuisine: string): CuisineRecipe[] {
     const primaryRecipes = this.searchRecipes({ cuisine: primaryCuisine });
     const secondaryRecipes = this.searchRecipes({ cuisine: secondaryCuisine });
-    
+
     // Return a mix of recipes from both cuisines for fusion inspiration
-    return [
-      ...primaryRecipes.slice(0, 3),
-      ...secondaryRecipes.slice(0, 3)
-    ];
+    return [...primaryRecipes.slice(0, 3), ...secondaryRecipes.slice(0, 3)];
   }
 
   /**
@@ -440,15 +437,15 @@ export class RecipeCuisineConnector {
   private formatTimeToMake(prepTime?: string, cookTime?: string): string {
     const prep = prepTime || '0 minutes';
     const cook = cookTime || '0 minutes';
-    
+
     if (cook === '0 minutes' || cook === '0') {
       return prep;
     }
-    
+
     if (prep === '0 minutes' || prep === '0') {
       return cook;
     }
-    
+
     return `${prep} prep + ${cook} cook`;
   }
 
@@ -461,7 +458,7 @@ export class RecipeCuisineConnector {
       byCuisine: this.getRecipeCountByCuisine(),
       byMealType: {} as Record<string, number>,
       bySeason: {} as Record<string, number>,
-      byDietaryInfo: {} as Record<string, number>
+      byDietaryInfo: {} as Record<string, number>,
     };
 
     // Calculate meal type distribution
@@ -493,14 +490,13 @@ export class RecipeCuisineConnector {
 export const recipeCuisineConnector = new RecipeCuisineConnector();
 
 // Export convenience functions
-export const searchCuisineRecipes = (filters: RecipeSearchFilters = {}) => 
+export const searchCuisineRecipes = (filters: RecipeSearchFilters = {}) =>
   recipeCuisineConnector.searchRecipes(filters);
 
-export const importCuisineRecipe = (recipeId: string) => 
+export const importCuisineRecipe = (recipeId: string) =>
   recipeCuisineConnector.importRecipeForBuilder(recipeId);
 
-export const getRandomCuisineRecipes = (count: number = 5, filters: RecipeSearchFilters = {}) => 
+export const getRandomCuisineRecipes = (count: number = 5, filters: RecipeSearchFilters = {}) =>
   recipeCuisineConnector.getRandomRecipes(count, filters);
 
-export const getCuisineRecipeStats = () => 
-  recipeCuisineConnector.getRecipeStatistics();
+export const getCuisineRecipeStats = () => recipeCuisineConnector.getRecipeStatistics();

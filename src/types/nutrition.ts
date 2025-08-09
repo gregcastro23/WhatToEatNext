@@ -24,16 +24,16 @@ export interface NutritionalProfile {
   fat?: number;
   fiber?: number;
   sugar?: number;
-  
+
   // Vitamins
   vitamins?: Record<string, number> | string[];
-  
+
   // Minerals
   minerals?: Record<string, number> | string[];
-  
+
   // Phytonutrients and other nutritional components
   phytonutrients?: Record<string, number>;
-  
+
   // Allow for additional nutrition categories
   [key: string]: unknown;
 }
@@ -85,4 +85,4 @@ export interface NutritionalFilter {
   highProtein?: boolean;
   lowCarb?: boolean;
   lowFat?: boolean;
-} 
+}

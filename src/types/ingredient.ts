@@ -1,10 +1,10 @@
-import type { 
-  IngredientCategory, 
-  SensoryProfile, 
-  CookingMethod, 
-  AlchemicalProperties, 
+import type {
+  IngredientCategory,
+  SensoryProfile,
+  CookingMethod,
+  AlchemicalProperties,
   ThermodynamicProperties,
-  Modality 
+  Modality,
 } from '@/data/ingredients/types';
 
 import type { ElementalProperties } from './alchemy';
@@ -15,26 +15,30 @@ export interface Ingredient {
   name: string;
   description?: string;
   category: IngredientCategory;
-  
+
   // Missing properties extensively used in data files
   qualities: string[];
-  storage?: string | {
-    container?: string;
-    duration: string;
-    temperature?: string | {
-      fahrenheit: number;
-      celsius: number;
-    };
-    notes?: string;
-  };
-  
+  storage?:
+    | string
+    | {
+        container?: string;
+        duration: string;
+        temperature?:
+          | string
+          | {
+              fahrenheit: number;
+              celsius: number;
+            };
+        notes?: string;
+      };
+
   // Astrological profile
   energyProfile?: {
     zodiac?: ZodiacSign[];
     lunar?: LunarPhase[];
     planetary?: PlanetaryAlignment[];
   };
-  
+
   // Alternative astrological profile format (for compatibility)
   astrologicalProfile?: {
     elementalAffinity?: {
@@ -44,7 +48,7 @@ export interface Ingredient {
     rulingPlanets?: string[];
     zodiacAffinity?: string[];
   };
-  
+
   // Core properties
   elementalProperties: ElementalProperties;
   modality?: Modality;
@@ -52,14 +56,14 @@ export interface Ingredient {
   alchemicalProperties?: AlchemicalProperties;
   thermodynamicProperties?: ThermodynamicProperties;
   recommendedCookingMethods?: CookingMethod[];
-  
+
   // Pairing recommendations
   pairingRecommendations?: {
     complementary: string[];
     contrasting: string[];
     toAvoid: string[];
   };
-  
+
   // Nutritional information
   nutrition?: {
     calories: number;
@@ -70,18 +74,18 @@ export interface Ingredient {
     vitamins?: { [key: string]: number };
     minerals?: { [key: string]: number };
   };
-  
+
   // Additional properties for compatibility
   origin?: string[];
   subCategory?: string;
   seasonality?: string[];
   varieties?: Record<string, unknown>;
-  
+
   // Allow additional properties for extensibility
   [key: string]: unknown;
-} 
+}
 
-// ========== TYPE RE-EXPORTS FOR DOWNSTREAM COMPATIBILITY ========== 
+// ========== TYPE RE-EXPORTS FOR DOWNSTREAM COMPATIBILITY ==========
 // These re-exports ensure downstream adapters and services can import from ingredient.ts
 export type { ElementalProperties, Season } from './alchemy';
 export type { ZodiacSign, PlanetName } from './celestial';

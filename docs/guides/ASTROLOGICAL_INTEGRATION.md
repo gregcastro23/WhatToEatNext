@@ -1,10 +1,13 @@
 # Astrological Integration Guide
 
-This document explains how the astrological features are integrated into the "What To Eat Next" application, providing accurate planetary data and detailed explanations for food recommendations.
+This document explains how the astrological features are integrated into the
+"What To Eat Next" application, providing accurate planetary data and detailed
+explanations for food recommendations.
 
 ## Overview
 
 The astrological integration provides:
+
 - Live astrological data from astronomy calculations
 - Improved planetary influence calculations
 - Detailed astrological explanations for food recommendations
@@ -16,13 +19,18 @@ The astrological integration provides:
 
 The system uses multiple sources to ensure reliable astrological data:
 
-- **Primary Source**: [astronomy-engine](https://github.com/cosinekitty/astronomy) library for accurate ephemeris calculations
-- **Fallback**: Static reference data for when live calculations aren't available
+- **Primary Source**:
+  [astronomy-engine](https://github.com/cosinekitty/astronomy) library for
+  accurate ephemeris calculations
+- **Fallback**: Static reference data for when live calculations aren't
+  available
 
 ### 2. Key Components
 
 #### AstrologyService
-- Singleton service that provides planetary positions, lunar phases, and other astrological data
+
+- Singleton service that provides planetary positions, lunar phases, and other
+  astrological data
 - Uses astronomy-engine for accurate calculations
 - Includes fallback mechanisms for reliability
 
@@ -38,6 +46,7 @@ const lunarPhase = astrologyService.getLunarPhase();
 ```
 
 #### AstrologyApi
+
 - Interface layer that standardizes astrological data
 - Caches results to improve performance
 - Handles error cases gracefully
@@ -51,9 +60,11 @@ const positions = await getCurrentCelestialPositions();
 ```
 
 #### AstrologicalFoodRecommendationService
+
 - Provides detailed astrological explanations for food recommendations
 - Links planetary influences to specific ingredients and recipes
-- Considers planetary aspects, dignities, and other traditional astrological concepts
+- Considers planetary aspects, dignities, and other traditional astrological
+  concepts
 
 ```typescript
 // Example usage
@@ -87,25 +98,34 @@ const ingredients = await astrologicalFoodService.getAstrologicalIngredientRecom
 ## Utilities and Scripts
 
 ### 1. Validation Tool
-The `astroValidation.ts` utility compares calculations from different sources to ensure accuracy.
+
+The `astroValidation.ts` utility compares calculations from different sources to
+ensure accuracy.
 
 To run the validation:
+
 ```bash
 yarn check-astro
 ```
 
 ### 2. Data Update Script
-The `updateAstrologyData.ts` script collects and saves current astrological data for historical tracking.
+
+The `updateAstrologyData.ts` script collects and saves current astrological data
+for historical tracking.
 
 To update the data:
+
 ```bash
 yarn update-astro-data
 ```
 
 ### 3. Food Explanation Generator
-The `generateAstrologicalFoodExplanations.ts` script demonstrates how astrological data is used for food recommendations.
+
+The `generateAstrologicalFoodExplanations.ts` script demonstrates how
+astrological data is used for food recommendations.
 
 To generate sample recommendations:
+
 ```bash
 yarn generate-food-explanations
 ```
@@ -115,14 +135,16 @@ yarn generate-food-explanations
 The system calculates planetary influences using several factors:
 
 1. **Basic Position**: The zodiac sign and degree of each planet
-2. **Planetary Dignity**: Whether a planet is in rulership, exaltation, detriment, or fall
+2. **Planetary Dignity**: Whether a planet is in rulership, exaltation,
+   detriment, or fall
 3. **Retrograde Status**: Adjusts influence for retrograde planets
 4. **House Position**: Considers the placement in houses (when available)
 5. **Aspects**: Evaluates relationships between planets
 
 ## Elemental Profile Calculation
 
-Elemental profiles (Fire, Water, Earth, Air) are calculated from planetary positions:
+Elemental profiles (Fire, Water, Earth, Air) are calculated from planetary
+positions:
 
 ```typescript
 // Example result
@@ -134,7 +156,8 @@ Elemental profiles (Fire, Water, Earth, Air) are calculated from planetary posit
 }
 ```
 
-These profiles influence food recommendations in accordance with elemental theory.
+These profiles influence food recommendations in accordance with elemental
+theory.
 
 ## Adding Detailed Astrological Explanations
 
@@ -150,7 +173,7 @@ const recipe = {
 
 // 2. Get astrological explanation
 const alignment = await astrologicalFoodService.getRecipeAstrologicalAlignment(
-  recipe.name, 
+  recipe.name,
   recipe.elements
 );
 
@@ -185,4 +208,4 @@ Planned improvements to the astrological integration:
 1. Add support for more celestial bodies (asteroids, fixed stars)
 2. Implement more sophisticated aspect calculations
 3. Integrate with personal birth chart data for personalized recommendations
-4. Add predictive features based on upcoming transits 
+4. Add predictive features based on upcoming transits

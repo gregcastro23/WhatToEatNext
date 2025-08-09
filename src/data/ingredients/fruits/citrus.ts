@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawCitrus: Record<string, Partial<IngredientMapping>> = {
-  'lemon': {
+  lemon: {
     name: 'Lemon',
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -13,9 +13,9 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Mercury' },
           second: { element: 'Air', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
+          third: { element: 'Earth', planet: 'Saturn' },
+        },
+      },
     },
     qualities: ['sour', 'cooling', 'cleansing'],
     season: ['winter', 'spring'],
@@ -30,22 +30,22 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 29,
       carbs_g: 9,
       fiber_g: 2.8,
-      antioxidants: ['flavonoids', 'limonoids']
+      antioxidants: ['flavonoids', 'limonoids'],
     },
     preparation: {
       washing: true,
       zesting: 'before juicing',
       juicing: 'room temperature yields more juice',
-      notes: 'Roll on counter before juicing'
+      notes: 'Roll on counter before juicing',
     },
     storage: {
       temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
-      notes: 'Will continue to ripen at room temperature'
-    }
+      notes: 'Will continue to ripen at room temperature',
+    },
   },
 
-  'orange': {
+  orange: {
     name: 'Orange',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -56,9 +56,9 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun' },
           second: { element: 'Earth', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
+      },
     },
     qualities: ['sweet', 'warming', 'nourishing'],
     season: ['winter'],
@@ -73,22 +73,22 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 62,
       carbs_g: 15,
       fiber_g: 3.1,
-      antioxidants: ['hesperidin', 'beta-cryptoxanthin']
+      antioxidants: ['hesperidin', 'beta-cryptoxanthin'],
     },
     preparation: {
       washing: true,
       peeling: 'remove white pith',
       sectioning: 'remove membranes if desired',
-      notes: 'Supreme for salads'
+      notes: 'Supreme for salads',
     },
     storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '2-3 weeks',
-      notes: 'Keep away from apples and bananas'
-    }
+      notes: 'Keep away from apples and bananas',
+    },
   },
 
-  'lime': {
+  lime: {
     name: 'Lime',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     qualities: ['sour', 'cooling', 'refreshing'],
@@ -102,18 +102,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       minerals: ['potassium', 'calcium'],
       calories: 20,
       carbs_g: 7,
-      fiber_g: 1.9
+      fiber_g: 1.9,
     },
     preparation: {
       washing: true,
       rolling: 'before juicing',
       zesting: 'before juicing',
-      notes: 'Warm slightly for more juice'
+      notes: 'Warm slightly for more juice',
     },
     storage: {
       temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
-      notes: 'Will continue to yellow over time'
+      notes: 'Will continue to yellow over time',
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
@@ -123,13 +123,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon', influence: 0.8 },
           second: { element: 'Air', planet: 'Mercury', influence: 0.6 },
-          third: { element: 'Water', planet: 'Moon', influence: 0.7 }
-        }
-      }
-    }
+          third: { element: 'Water', planet: 'Moon', influence: 0.7 },
+        },
+      },
+    },
   },
 
-  'grapefruit': {
+  grapefruit: {
     name: 'Grapefruit',
     elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
     qualities: ['bitter-sweet', 'tart', 'refreshing'],
@@ -145,19 +145,19 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 42,
       carbs_g: 11,
       fiber_g: 1.6,
-      antioxidants: ['lycopene', 'beta-carotene', 'naringin']
+      antioxidants: ['lycopene', 'beta-carotene', 'naringin'],
     },
     preparation: {
       washing: true,
       peeling: 'remove pith if eating segments',
       sectioning: 'remove membranes for supreme',
-      notes: 'Pink varieties are sweeter than white'
+      notes: 'Pink varieties are sweeter than white',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'moderate',
-      notes: 'Check for soft spots regularly'
+      notes: 'Check for soft spots regularly',
     },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
@@ -167,13 +167,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun', influence: 0.8 },
           second: { element: 'Water', planet: 'Jupiter', influence: 0.7 },
-          third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
-        }
-      }
-    }
+          third: { element: 'Fire', planet: 'Sun', influence: 0.6 },
+        },
+      },
+    },
   },
 
-  'mandarin': {
+  mandarin: {
     name: 'Mandarin',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'delicate', 'aromatic'],
@@ -189,19 +189,19 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 47,
       carbs_g: 12,
       fiber_g: 1.8,
-      antioxidants: ['beta-cryptoxanthin', 'lutein']
+      antioxidants: ['beta-cryptoxanthin', 'lutein'],
     },
     preparation: {
       washing: true,
       peeling: 'easy to peel by hand',
       segmenting: 'naturally separates',
-      notes: 'Remove any seeds before eating'
+      notes: 'Remove any seeds before eating',
     },
     storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Best eaten within a week'
+      notes: 'Best eaten within a week',
     },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
@@ -211,13 +211,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun', influence: 0.7 },
           second: { element: 'Earth', planet: 'Venus', influence: 0.6 },
-          third: { element: 'Fire', planet: 'Sun', influence: 0.5 }
-        }
-      }
-    }
+          third: { element: 'Fire', planet: 'Sun', influence: 0.5 },
+        },
+      },
+    },
   },
 
-  'kumquat': {
+  kumquat: {
     name: 'Kumquat',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     qualities: ['sweet-tart', 'intense', 'unique'],
@@ -233,18 +233,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 71,
       carbs_g: 15.9,
       fiber_g: 6.5,
-      antioxidants: ['flavonoids', 'pectin']
+      antioxidants: ['flavonoids', 'pectin'],
     },
     preparation: {
       washing: true,
       eating: 'whole with skin',
-      notes: 'Skin is sweet, flesh is tart'
+      notes: 'Skin is sweet, flesh is tart',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'high',
-      notes: 'Store in sealed container'
+      notes: 'Store in sealed container',
     },
     astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Mercury'],
@@ -254,13 +254,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Jupiter', influence: 0.8 },
           second: { element: 'Air', planet: 'Mercury', influence: 0.6 },
-          third: { element: 'Earth', planet: 'Mercury', influence: 0.5 }
-        }
-      }
-    }
+          third: { element: 'Earth', planet: 'Mercury', influence: 0.5 },
+        },
+      },
+    },
   },
 
-  'yuzu': {
+  yuzu: {
     name: 'Yuzu',
     elementalProperties: { Water: 0.3, Air: 0.3, Fire: 0.3, Earth: 0.1 },
     qualities: ['aromatic', 'complex', 'floral'],
@@ -276,19 +276,19 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 53,
       carbs_g: 13.3,
       fiber_g: 2,
-      antioxidants: ['limonoids', 'hesperidin']
+      antioxidants: ['limonoids', 'hesperidin'],
     },
     preparation: {
       washing: true,
       zesting: 'highly aromatic',
       juicing: 'use sparingly',
-      notes: 'Primarily used for zest and juice'
+      notes: 'Primarily used for zest and juice',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Freeze zest for longer storage'
+      notes: 'Freeze zest for longer storage',
     },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
@@ -298,13 +298,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury', influence: 0.8 },
           second: { element: 'Water', planet: 'Venus', influence: 0.7 },
-          third: { element: 'Fire', planet: 'Mercury', influence: 0.6 }
-        }
-      }
-    }
+          third: { element: 'Fire', planet: 'Mercury', influence: 0.6 },
+        },
+      },
+    },
   },
 
-  'bergamot': {
+  bergamot: {
     name: 'Bergamot',
     elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
     qualities: ['fragrant', 'bitter', 'floral'],
@@ -320,18 +320,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 37,
       carbs_g: 9.3,
       fiber_g: 1.8,
-      antioxidants: ['bergapten', 'bergamottin']
+      antioxidants: ['bergapten', 'bergamottin'],
     },
     preparation: {
       washing: true,
       zesting: 'prized for aromatic oils',
-      notes: 'Primarily used for oil and flavoring'
+      notes: 'Primarily used for oil and flavoring',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Preserve zest in sugar or dry'
+      notes: 'Preserve zest in sugar or dry',
     },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
@@ -341,13 +341,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury', influence: 0.8 },
           second: { element: 'Water', planet: 'Moon', influence: 0.7 },
-          third: { element: 'Air', planet: 'Mercury', influence: 0.6 }
-        }
-      }
-    }
+          third: { element: 'Air', planet: 'Mercury', influence: 0.6 },
+        },
+      },
+    },
   },
 
-  'calamansi': {
+  calamansi: {
     name: 'Calamansi',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sour', 'bright', 'complex'],
@@ -363,18 +363,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 21,
       carbs_g: 5.3,
       fiber_g: 0.9,
-      antioxidants: ['limonoids', 'flavonoids']
+      antioxidants: ['limonoids', 'flavonoids'],
     },
     preparation: {
       washing: true,
       juicing: 'use whole or halved',
-      notes: 'Can be used whole in drinks'
+      notes: 'Can be used whole in drinks',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Juice can be frozen in ice cube trays'
+      notes: 'Juice can be frozen in ice cube trays',
     },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'],
@@ -384,13 +384,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars', influence: 0.8 },
           second: { element: 'Water', planet: 'Mars', influence: 0.7 },
-          third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
-        }
-      }
-    }
+          third: { element: 'Fire', planet: 'Sun', influence: 0.6 },
+        },
+      },
+    },
   },
 
-  'buddha\'s hand': {
+  "buddha's hand": {
     name: 'S hand',
     elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
     qualities: ['fragrant', 'sweet', 'exotic'],
@@ -406,19 +406,19 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 24,
       carbs_g: 6.1,
       fiber_g: 1.5,
-      antioxidants: ['limonene', 'flavonoids']
+      antioxidants: ['limonene', 'flavonoids'],
     },
     preparation: {
       washing: true,
       zesting: 'entire fruit is zestable',
       cutting: 'separate fingers as needed',
-      notes: 'No juice or pulp, used for zest'
+      notes: 'No juice or pulp, used for zest',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'moderate',
-      notes: 'Wrap loosely in plastic'
+      notes: 'Wrap loosely in plastic',
     },
     astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Venus'],
@@ -428,13 +428,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Air', planet: 'Jupiter', influence: 0.8 },
           second: { element: 'Water', planet: 'Venus', influence: 0.7 },
-          third: { element: 'Air', planet: 'Jupiter', influence: 0.6 }
-        }
-      }
-    }
+          third: { element: 'Air', planet: 'Jupiter', influence: 0.6 },
+        },
+      },
+    },
   },
 
-  'tangelo': {
+  tangelo: {
     name: 'Tangelo',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sweet-tart', 'juicy', 'vibrant'],
@@ -450,19 +450,19 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 47,
       carbs_g: 12,
       fiber_g: 2.0,
-      antioxidants: ['beta-carotene', 'cryptoxanthin']
+      antioxidants: ['beta-carotene', 'cryptoxanthin'],
     },
     preparation: {
       washing: true,
       peeling: 'easy to peel',
       segmenting: 'naturally separates',
-      notes: 'Juicier than regular oranges'
+      notes: 'Juicier than regular oranges',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Best eaten fresh'
+      notes: 'Best eaten fresh',
     },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
@@ -472,10 +472,10 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun', influence: 0.8 },
           second: { element: 'Water', planet: 'Jupiter', influence: 0.7 },
-          third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
-        }
-      }
-    }
+          third: { element: 'Fire', planet: 'Sun', influence: 0.6 },
+        },
+      },
+    },
   },
 
   'key lime': {
@@ -494,19 +494,19 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 25,
       carbs_g: 8.5,
       fiber_g: 1.3,
-      antioxidants: ['flavonoids', 'limonoids']
+      antioxidants: ['flavonoids', 'limonoids'],
     },
     preparation: {
       washing: true,
       juicing: 'requires many fruits',
       zesting: 'before juicing',
-      notes: 'More aromatic than Persian limes'
+      notes: 'More aromatic than Persian limes',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Use quickly once ripe'
+      notes: 'Use quickly once ripe',
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
@@ -516,13 +516,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon', influence: 0.8 },
           second: { element: 'Air', planet: 'Mercury', influence: 0.7 },
-          third: { element: 'Water', planet: 'Moon', influence: 0.6 }
-        }
-      }
-    }
+          third: { element: 'Water', planet: 'Moon', influence: 0.6 },
+        },
+      },
+    },
   },
 
-  'clementine': {
+  clementine: {
     name: 'Clementine',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'delicate', 'refreshing'],
@@ -538,19 +538,19 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       calories: 35,
       carbs_g: 9,
       fiber_g: 1.3,
-      antioxidants: ['hesperidin', 'beta-cryptoxanthin']
+      antioxidants: ['hesperidin', 'beta-cryptoxanthin'],
     },
     preparation: {
       washing: true,
       peeling: 'very easy to peel',
       segmenting: 'naturally separates',
-      notes: 'Usually seedless'
+      notes: 'Usually seedless',
     },
     storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Store in mesh bag for airflow'
+      notes: 'Store in mesh bag for airflow',
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
@@ -560,11 +560,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Venus', influence: 0.8 },
           second: { element: 'Earth', planet: 'Moon', influence: 0.7 },
-          third: { element: 'Water', planet: 'Venus', influence: 0.6 }
-        }
-      }
-    }
-  }
+          third: { element: 'Water', planet: 'Venus', influence: 0.6 },
+        },
+      },
+    },
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

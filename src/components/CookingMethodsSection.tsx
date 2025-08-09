@@ -1,4 +1,23 @@
-import { ArrowDown, ArrowUp, ChevronDown, ChevronUp, Clock, Droplets, ExternalLink, Flame, Globe, Info, List, Minus, Mountain, Search, Sparkles, ThumbsUp, Wind, Zap } from 'lucide-react';
+import {
+  ArrowDown,
+  ArrowUp,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  Droplets,
+  ExternalLink,
+  Flame,
+  Globe,
+  Info,
+  List,
+  Minus,
+  Mountain,
+  Search,
+  Sparkles,
+  ThumbsUp,
+  Wind,
+  Zap,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -73,7 +92,9 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   const [showIngredientSearch, setShowIngredientSearch] = useState(false);
   const [searchIngredient, setSearchIngredient] = useState('');
-  const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
+  const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>(
+    {},
+  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllMethods, setShowAllMethods] = useState(false);
@@ -100,7 +121,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
         alchemicalProperties: methodData.alchemicalProperties,
         astrologicalInfluences: methodData.astrologicalInfluences,
         thermodynamicProperties: methodData.thermodynamicProperties,
-        score: calculateAstrologicalScore(methodData, astroState)
+        score: calculateAstrologicalScore(methodData, astroState),
       };
       return method;
     });
@@ -114,14 +135,16 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
       // Planetary alignment bonus
       if (methodData.astrologicalInfluences?.dominantPlanets && astroState.activePlanets) {
         const alignedPlanets = methodData.astrologicalInfluences.dominantPlanets.filter(
-          (planet: string) => astroState.activePlanets.includes(planet.toLowerCase())
+          (planet: string) => astroState.activePlanets.includes(planet.toLowerCase()),
         );
-        score += (alignedPlanets.length / methodData.astrologicalInfluences.dominantPlanets.length) * 0.3;
+        score +=
+          (alignedPlanets.length / methodData.astrologicalInfluences.dominantPlanets.length) * 0.3;
       }
 
       // Lunar phase bonus
       if (methodData.astrologicalInfluences?.lunarPhaseEffect && astroState.lunarPhase) {
-        const phaseEffect = methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
+        const phaseEffect =
+          methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
         if (phaseEffect) {
           score += (phaseEffect - 0.5) * 0.2;
         }
@@ -130,7 +153,8 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
       // Planetary hour bonus
       if (methodData.astrologicalInfluences?.dominantPlanets && astroState.currentPlanetaryHour) {
         const isHourAligned = methodData.astrologicalInfluences.dominantPlanets.some(
-          (planet: string) => planet.toLowerCase() === astroState.currentPlanetaryHour?.toLowerCase()
+          (planet: string) =>
+            planet.toLowerCase() === astroState.currentPlanetaryHour?.toLowerCase(),
         );
         if (isHourAligned) {
           score += 0.15;
@@ -139,11 +163,12 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
 
       // Thermodynamic efficiency bonus
       if (methodData.thermodynamicProperties) {
-        const efficiency = (methodData.thermodynamicProperties.heat + methodData.thermodynamicProperties.reactivity) /
-                          (1 + methodData.thermodynamicProperties.entropy);
+        const efficiency =
+          (methodData.thermodynamicProperties.heat +
+            methodData.thermodynamicProperties.reactivity) /
+          (1 + methodData.thermodynamicProperties.entropy);
         score += (efficiency - 0.5) * 0.1;
       }
-
     } catch (error) {
       console.warn('Error calculating astrological score:', error);
     }
@@ -178,7 +203,12 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   }, [methods, showAllMethods, isMainPageVersion, maxDisplayed]);
 
   // Use our new ingredient mapping hook
-  const { suggestAlternatives: _suggestAlternatives, calculateCompatibility, isLoading: _ingredientMappingLoading, error: _ingredientMappingError } = useIngredientMapping();
+  const {
+    suggestAlternatives: _suggestAlternatives,
+    calculateCompatibility,
+    isLoading: _ingredientMappingLoading,
+    error: _ingredientMappingError,
+  } = useIngredientMapping();
 
   // Auto-expand the section if we have methods and a pre-selected method
   useEffect(() => {
@@ -200,19 +230,19 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
           if (selectedMethod.variations?.length) {
             setExpandedMethods(prev => ({
               ...prev,
-              [selectedMethodId]: true
+              [selectedMethodId]: true,
             }));
           }
 
           // If this is a variation, find and expand its parent method
           const parentMethod = methods.find(m =>
-            m.variations?.some(v => v.id === selectedMethodId)
+            m.variations?.some(v => v.id === selectedMethodId),
           );
 
           if (parentMethod) {
             setExpandedMethods(prev => ({
               ...prev,
-              [parentMethod.id]: true
+              [parentMethod.id]: true,
             }));
           }
         }
@@ -232,48 +262,48 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
       // Calculate compatibility with each cooking method based on elemental properties
       const compatibilityResults: Record<string, number> = {};
 
-    methods?.forEach(method => {
-      if (method.elementalEffect) {
-        // Create a compatibility object from method's elemental effect
-        const methodElemental = {
-          Fire: method.elementalEffect.Fire || 0,
-          Water: method.elementalEffect.Water || 0,
-          Earth: method.elementalEffect.Earth || 0,
-          Air: method.elementalEffect.Air || 0
-        };
+      methods?.forEach(method => {
+        if (method.elementalEffect) {
+          // Create a compatibility object from method's elemental effect
+          const methodElemental = {
+            Fire: method.elementalEffect.Fire || 0,
+            Water: method.elementalEffect.Water || 0,
+            Earth: method.elementalEffect.Earth || 0,
+            Air: method.elementalEffect.Air || 0,
+          };
 
-        // Calculate compatibility between ingredient and cooking method
-        const result = calculateCompatibility(searchIngredient, {
-          name: method.name,
-          elementalProperties: methodElemental,
-          category: 'cooking_method'
-        } as any);
+          // Calculate compatibility between ingredient and cooking method
+          const result = calculateCompatibility(searchIngredient, {
+            name: method.name,
+            elementalProperties: methodElemental,
+            category: 'cooking_method',
+          } as any);
 
-        if (result.success) {
-          compatibilityResults[method.id] = result.compatibility;
-        }
+          if (result.success) {
+            compatibilityResults[method.id] = result.compatibility;
+          }
 
-        // Also calculate for variations if they exist
-        if (method.variations) {
-          method.variations.forEach(variation => {
-            // Use parent method's elemental effect if variation doesn't have one
-            const variationElemental = variation.elementalEffect || method.elementalEffect;
+          // Also calculate for variations if they exist
+          if (method.variations) {
+            method.variations.forEach(variation => {
+              // Use parent method's elemental effect if variation doesn't have one
+              const variationElemental = variation.elementalEffect || method.elementalEffect;
 
-            if (variationElemental) {
-              const variationResult = calculateCompatibility(searchIngredient, {
-                name: variation.name,
-                elementalProperties: variationElemental,
-                category: 'cooking_method'
-              } as any);
+              if (variationElemental) {
+                const variationResult = calculateCompatibility(searchIngredient, {
+                  name: variation.name,
+                  elementalProperties: variationElemental,
+                  category: 'cooking_method',
+                } as any);
 
-              if (variationResult.success) {
-                compatibilityResults[variation.id] = variationResult.compatibility;
+                if (variationResult.success) {
+                  compatibilityResults[variation.id] = variationResult.compatibility;
+                }
               }
-            }
-          });
+            });
+          }
         }
-      }
-    });
+      });
 
       setIngredientCompatibility(compatibilityResults);
     } catch (err) {
@@ -297,7 +327,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
     e.stopPropagation();
     setExpandedMethods(prev => ({
       ...prev,
-      [methodId]: !prev[methodId]
+      [methodId]: !prev[methodId],
     }));
   };
 
@@ -346,19 +376,22 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
           selectedCookingMethod: {
             id: method.id,
             name: method.name,
-            timestamp: Date.now()
-          }
+            timestamp: Date.now(),
+          },
         });
       } catch (error) {
         console.warn('Failed to store selected method using enhanced state preservation:', error);
 
         // Fallback to sessionStorage
         try {
-          sessionStorage.setItem('selectedCookingMethod', JSON.stringify({
-            id: method.id,
-            name: method.name,
-            timestamp: Date.now()
-          }));
+          sessionStorage.setItem(
+            'selectedCookingMethod',
+            JSON.stringify({
+              id: method.id,
+              name: method.name,
+              timestamp: Date.now(),
+            }),
+          );
         } catch (fallbackError) {
           console.warn('Failed to store selected method in session storage:', fallbackError);
         }
@@ -372,7 +405,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     };
 
     // If method has alchemical properties, use them to calculate transformations
@@ -413,14 +446,18 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   };
 
   // Determine if an element is increased or decreased by the method
-  const getElementalDirection = (value: number): {direction: 'increase' | 'decrease' | 'neutral', intensity: number} => {
+  const getElementalDirection = (
+    value: number,
+  ): { direction: 'increase' | 'decrease' | 'neutral'; intensity: number } => {
     if (value > 0.5) return { direction: 'increase', intensity: (value - 0.5) * 2 };
     if (value < 0.5) return { direction: 'decrease', intensity: (0.5 - value) * 2 };
     return { direction: 'neutral', intensity: 0 };
   };
 
   // Get alchemical essence label from properties
-  const getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
+  const getAlchemicalLabel = (
+    method: CookingMethod,
+  ): { primary: string; secondary: string } | null => {
     if (!method.alchemicalProperties) return null;
 
     const { Spirit, Essence, Matter, Substance } = method.alchemicalProperties;
@@ -428,14 +465,14 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
       { name: 'Spirit', value: Spirit || 0 },
       { name: 'Essence', value: Essence || 0 },
       { name: 'Matter', value: Matter || 0 },
-      { name: 'Substance', value: Substance || 0 }
+      { name: 'Substance', value: Substance || 0 },
     ].sort((a, b) => b.value - a.value);
 
     if (alchemical[0].value === 0) return null;
 
     return {
       primary: alchemical[0].name,
-      secondary: alchemical[1].name
+      secondary: alchemical[1].name,
     };
   };
 
@@ -478,11 +515,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
         {/* Add ingredient search toggle button */}
         <button
           className={`${styles['ingredient-search-toggle']} ${showIngredientSearch ? styles.active : ''}`}
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             toggleIngredientSearch();
           }}
-          title="Check ingredient compatibility"
+          title='Check ingredient compatibility'
         >
           <Search size={18} />
         </button>
@@ -499,10 +536,10 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
         <div className={styles['ingredient-search-container']}>
           <div className={styles['search-form']}>
             <input
-              type="text"
-              placeholder="Enter ingredient name..."
+              type='text'
+              placeholder='Enter ingredient name...'
               value={searchIngredient}
-              onChange={(e) => setSearchIngredient(e.target.value)}
+              onChange={e => setSearchIngredient(e.target.value)}
               className={styles['ingredient-search-input']}
             />
             <button
@@ -514,13 +551,13 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
             </button>
           </div>
 
-          {error && (
-            <div className={styles['error-message']}>{error}</div>
-          )}
+          {error && <div className={styles['error-message']}>{error}</div>}
 
           {Object.keys(ingredientCompatibility).length > 0 && (
             <div className={styles['compatibility-info']}>
-              <p>Showing compatibility for: <strong>{searchIngredient}</strong></p>
+              <p>
+                Showing compatibility for: <strong>{searchIngredient}</strong>
+              </p>
             </div>
           )}
         </div>
@@ -529,7 +566,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
       {isExpanded && (
         <div className={styles['cooking-methods-content']}>
           <div className={styles['methods-grid']}>
-            {displayMethods.map((method) => (
+            {displayMethods.map(method => (
               <div
                 key={method.id}
                 className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
@@ -540,20 +577,34 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
 
                   {method.score !== undefined && (
                     <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
-                      <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
+                      <span className={styles['score-value']}>
+                        {Math.round(method.score * 100)}%
+                      </span>
                       <div className={styles['score-bar']}>
-                        <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
+                        <div
+                          className={styles['score-bar-fill']}
+                          style={{ width: `${Math.round(method.score * 100)}%` }}
+                        ></div>
                       </div>
                     </div>
                   )}
 
                   {/* Show ingredient compatibility if available */}
                   {ingredientCompatibility[method.id] !== undefined && (
-                    <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}>
+                    <div
+                      className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}
+                    >
                       <span>{getCompatibilityLabel(ingredientCompatibility[method.id]).label}</span>
-                      <span className={styles['compatibility-value']}>{Math.round(ingredientCompatibility[method.id] * 100)}%</span>
+                      <span className={styles['compatibility-value']}>
+                        {Math.round(ingredientCompatibility[method.id] * 100)}%
+                      </span>
                       <div className={styles['compatibility-bar']}>
-                        <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}}></div>
+                        <div
+                          className={styles['compatibility-bar-fill']}
+                          style={{
+                            width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`,
+                          }}
+                        ></div>
                       </div>
                     </div>
                   )}
@@ -561,14 +612,17 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                   {method.variations && method.variations.length > 0 && (
                     <button
                       className={styles['toggle-variations']}
-                      onClick={(e) => toggleMethodExpanded(method.id, e)}
-                      aria-label={expandedMethods[method.id] ? "Collapse variations" : "Expand variations"}
+                      onClick={e => toggleMethodExpanded(method.id, e)}
+                      aria-label={
+                        expandedMethods[method.id] ? 'Collapse variations' : 'Expand variations'
+                      }
                     >
                       <span className={styles['variations-count']}>{method.variations.length}</span>
-                      {expandedMethods[method.id] ?
-                        <ChevronUp size={16} /> :
+                      {expandedMethods[method.id] ? (
+                        <ChevronUp size={16} />
+                      ) : (
                         <ChevronDown size={16} />
-                      }
+                      )}
                     </button>
                   )}
                 </div>
@@ -584,41 +638,50 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                     {(() => {
                       const transformations = getElementalTransformations(method);
 
-                      return Object.entries(transformations).map(([element, value]) => {
-                        const { direction, intensity } = getElementalDirection(value);
-                        const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
+                      return Object.entries(transformations)
+                        .map(([element, value]) => {
+                          const { direction, intensity } = getElementalDirection(value);
+                          const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
 
-                        // Skip elements with no significant change
-                        if (direction === 'neutral') return null;
+                          // Skip elements with no significant change
+                          if (direction === 'neutral') return null;
 
-                        return (
-                          <div
-                            key={element}
-                            className={`${styles['transformation-item']} ${styles[element.toLowerCase()]} ${styles[`transform-${direction}`]}`}
-                            title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
-                          >
-                            <div className={styles['element-icon']}>
-                              {element === 'Fire' && <Flame size={16} />}
-                              {element === 'Water' && <Droplets size={16} />}
-                              {element === 'Earth' && <Mountain size={16} />}
-                              {element === 'Air' && <Wind size={16} />}
-                            </div>
-
-                            <div className={styles['transformation-label']}>
-                              <span className={styles['element-name']}>{element}</span>
-                              <div className={styles['direction-indicator']}>
-                                {direction === 'increase' ? <ArrowUp size={14} /> : direction === 'decrease' ? <ArrowDown size={14} /> : <Minus size={14} />}
+                          return (
+                            <div
+                              key={element}
+                              className={`${styles['transformation-item']} ${styles[element.toLowerCase()]} ${styles[`transform-${direction}`]}`}
+                              title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
+                            >
+                              <div className={styles['element-icon']}>
+                                {element === 'Fire' && <Flame size={16} />}
+                                {element === 'Water' && <Droplets size={16} />}
+                                {element === 'Earth' && <Mountain size={16} />}
+                                {element === 'Air' && <Wind size={16} />}
                               </div>
-                            </div>
 
-                            {displayIntensity > 0 && (
-                              <span className={styles['intensity-value']}>
-                                {direction === 'increase' ? '+' : '-'}{displayIntensity}%
-                              </span>
-                            )}
-                          </div>
-                        );
-                      }).filter(Boolean); // Filter out null items
+                              <div className={styles['transformation-label']}>
+                                <span className={styles['element-name']}>{element}</span>
+                                <div className={styles['direction-indicator']}>
+                                  {direction === 'increase' ? (
+                                    <ArrowUp size={14} />
+                                  ) : direction === 'decrease' ? (
+                                    <ArrowDown size={14} />
+                                  ) : (
+                                    <Minus size={14} />
+                                  )}
+                                </div>
+                              </div>
+
+                              {displayIntensity > 0 && (
+                                <span className={styles['intensity-value']}>
+                                  {direction === 'increase' ? '+' : '-'}
+                                  {displayIntensity}%
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })
+                        .filter(Boolean); // Filter out null items
                     })()}
                   </div>
                 </div>
@@ -632,9 +695,18 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                     </div>
                     {getAlchemicalLabel(method) && (
                       <div className={styles['alchemy-label']}>
-                        Primary: <span className={styles['alchemy-value']}>{getAlchemicalLabel(method)?.primary}</span>
+                        Primary:{' '}
+                        <span className={styles['alchemy-value']}>
+                          {getAlchemicalLabel(method)?.primary}
+                        </span>
                         {getAlchemicalLabel(method)?.secondary && (
-                          <> | Secondary: <span className={styles['alchemy-value']}>{getAlchemicalLabel(method)?.secondary}</span></>
+                          <>
+                            {' '}
+                            | Secondary:{' '}
+                            <span className={styles['alchemy-value']}>
+                              {getAlchemicalLabel(method)?.secondary}
+                            </span>
+                          </>
                         )}
                       </div>
                     )}
@@ -654,14 +726,15 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                         <div className={styles['timing-item']}>
                           <span className={styles['timing-label']}>Best Hours:</span>
                           <span className={styles['timing-value']}>
-                            {method.astrologicalInfluences.dominantPlanets.slice(0, 2).join(', ')} hours
+                            {method.astrologicalInfluences.dominantPlanets.slice(0, 2).join(', ')}{' '}
+                            hours
                           </span>
                           {astroState.currentPlanetaryHour &&
-                           method.astrologicalInfluences.dominantPlanets.some(
-                             (planet: string) => planet.toLowerCase() === astroState.currentPlanetaryHour?.toLowerCase()
-                           ) && (
-                            <span className={styles['timing-active']}>• Active Now</span>
-                          )}
+                            method.astrologicalInfluences.dominantPlanets.some(
+                              (planet: string) =>
+                                planet.toLowerCase() ===
+                                astroState.currentPlanetaryHour?.toLowerCase(),
+                            ) && <span className={styles['timing-active']}>• Active Now</span>}
                         </div>
                       )}
 
@@ -671,16 +744,15 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                           <span className={styles['timing-label']}>Lunar Phase:</span>
                           <span className={styles['timing-value']}>
                             {Object.entries(method.astrologicalInfluences.lunarPhaseEffect)
-                              .sort(([,a], [,b]) => (b ) - (a ))
+                              .sort(([, a], [, b]) => b - a)
                               .slice(0, 1)
                               .map(([phase]) => phase.replace('_', ' '))
                               .join(', ')}
                           </span>
                           {astroState.lunarPhase &&
-                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] &&
-                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] > 0.6 && (
-                            <span className={styles['timing-active']}>• Favorable</span>
-                          )}
+                            method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] &&
+                            method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] >
+                              0.6 && <span className={styles['timing-active']}>• Favorable</span>}
                         </div>
                       )}
 
@@ -690,10 +762,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                           <span className={styles['timing-label']}>Element:</span>
                           <span className={styles['timing-value']}>
                             {Object.entries(method.elementalEffect)
-                              .sort(([,a], [,b]) => b - a)
+                              .sort(([, a], [, b]) => b - a)
                               .slice(0, 1)
                               .map(([element]) => element)
-                              .join('')} dominant
+                              .join('')}{' '}
+                            dominant
                           </span>
                         </div>
                       )}
@@ -707,7 +780,9 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                     <div className={styles['detail-item']}>
                       <Clock size={14} className={styles['detail-icon']} />
                       <span className={styles['detail-label']}>Duration:</span>
-                      <span className={styles['detail-value']}>{method.duration.min}-{method.duration.max} min</span>
+                      <span className={styles['detail-value']}>
+                        {method.duration.min}-{method.duration.max} min
+                      </span>
                     </div>
                   )}
                   {method.suitable_for && method.suitable_for.length > 0 && (
@@ -733,97 +808,129 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                 </div>
 
                 {/* Show cultural variations if expanded */}
-                {method.variations && method.variations.length > 0 && expandedMethods[method.id] && (
-                  <div className={styles['variations-container']}>
-                    <h5 className={styles['variations-header']}>
-                      <Globe size={14} className={styles['variations-icon']} />
-                      Variations &amp; Subcategories
-                    </h5>
-                    <div className={styles['variations-list']}>
-                      {method.variations.map((variation) => (
-                        <div
-                          key={variation.id}
-                          className={`${styles['variation-item']} ${selectedMethodId === variation.id ? styles.selected : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent parent click
-                            onSelectMethod && onSelectMethod(variation);
-                          }}
-                        >
-                          <div className={styles['variation-header']}>
-                            <span className={styles['variation-name']}>{variation.name}</span>
-                            {variation.culturalOrigin && (
-                              <span className={styles['cultural-origin']}>{variation.culturalOrigin}</span>
-                            )}
-
-                            {/* Show ingredient compatibility for variations if available */}
-                            {ingredientCompatibility[variation.id] !== undefined && (
-                              <div className={`${styles['ingredient-compatibility']} ${styles.small} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
-                                <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label}</span>
-                                <span className={styles['compatibility-value']}>
-                                  {Math.round(ingredientCompatibility[variation.id] * 100)}%
+                {method.variations &&
+                  method.variations.length > 0 &&
+                  expandedMethods[method.id] && (
+                    <div className={styles['variations-container']}>
+                      <h5 className={styles['variations-header']}>
+                        <Globe size={14} className={styles['variations-icon']} />
+                        Variations &amp; Subcategories
+                      </h5>
+                      <div className={styles['variations-list']}>
+                        {method.variations.map(variation => (
+                          <div
+                            key={variation.id}
+                            className={`${styles['variation-item']} ${selectedMethodId === variation.id ? styles.selected : ''}`}
+                            onClick={e => {
+                              e.stopPropagation(); // Prevent parent click
+                              onSelectMethod && onSelectMethod(variation);
+                            }}
+                          >
+                            <div className={styles['variation-header']}>
+                              <span className={styles['variation-name']}>{variation.name}</span>
+                              {variation.culturalOrigin && (
+                                <span className={styles['cultural-origin']}>
+                                  {variation.culturalOrigin}
                                 </span>
-                                <div className={styles['compatibility-bar']}>
-                                  <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[variation.id] * 100)}%`}}></div>
-                                </div>
-                              </div>
-                            )}
+                              )}
 
-                            {variation.score !== undefined && (
-                              <div className={`${styles['variation-score']} ${getScoreClass(variation.score)}`}>
-                                <span>{Math.round(variation.score * 100)}%</span>
-                                <div className={styles['score-bar']}>
-                                  <div className={styles['score-bar-fill']} style={{width: `${Math.round(variation.score * 100)}%`}}></div>
+                              {/* Show ingredient compatibility for variations if available */}
+                              {ingredientCompatibility[variation.id] !== undefined && (
+                                <div
+                                  className={`${styles['ingredient-compatibility']} ${styles.small} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}
+                                >
+                                  <span>
+                                    {
+                                      getCompatibilityLabel(ingredientCompatibility[variation.id])
+                                        .label
+                                    }
+                                  </span>
+                                  <span className={styles['compatibility-value']}>
+                                    {Math.round(ingredientCompatibility[variation.id] * 100)}%
+                                  </span>
+                                  <div className={styles['compatibility-bar']}>
+                                    <div
+                                      className={styles['compatibility-bar-fill']}
+                                      style={{
+                                        width: `${Math.round(ingredientCompatibility[variation.id] * 100)}%`,
+                                      }}
+                                    ></div>
+                                  </div>
                                 </div>
+                              )}
+
+                              {variation.score !== undefined && (
+                                <div
+                                  className={`${styles['variation-score']} ${getScoreClass(variation.score)}`}
+                                >
+                                  <span>{Math.round(variation.score * 100)}%</span>
+                                  <div className={styles['score-bar']}>
+                                    <div
+                                      className={styles['score-bar-fill']}
+                                      style={{ width: `${Math.round(variation.score * 100)}%` }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Show elemental transformations for variations too */}
+                            {(variation.elementalEffect || variation.alchemicalProperties) && (
+                              <div className={styles['elemental-transformations-small']}>
+                                {(() => {
+                                  const transformations = getElementalTransformations(variation);
+
+                                  return Object.entries(transformations)
+                                    .map(([element, value]) => {
+                                      const { direction, intensity } = getElementalDirection(value);
+                                      const displayIntensity = Math.min(
+                                        Math.round(intensity * 100),
+                                        100,
+                                      ); // 0-100 range
+
+                                      // Skip elements with no significant change
+                                      if (direction === 'neutral' || displayIntensity < 5)
+                                        return null;
+
+                                      return (
+                                        <div
+                                          key={element}
+                                          className={`${styles['transformation-item-small']} ${styles[element.toLowerCase()]} ${styles[`transform-${direction}`]}`}
+                                          title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
+                                        >
+                                          <div className={styles['element-icon-small']}>
+                                            {element === 'Fire' && <Flame size={12} />}
+                                            {element === 'Water' && <Droplets size={12} />}
+                                            {element === 'Earth' && <Mountain size={12} />}
+                                            {element === 'Air' && <Wind size={12} />}
+                                          </div>
+
+                                          <div className={styles['direction-indicator-small']}>
+                                            {direction === 'increase' ? (
+                                              <ArrowUp size={10} />
+                                            ) : (
+                                              <ArrowDown size={10} />
+                                            )}
+                                          </div>
+
+                                          {displayIntensity > 0 && (
+                                            <span className={styles['intensity-value-small']}>
+                                              {direction === 'increase' ? '+' : '-'}
+                                              {displayIntensity}%
+                                            </span>
+                                          )}
+                                        </div>
+                                      );
+                                    })
+                                    .filter(Boolean); // Filter out null items
+                                })()}
                               </div>
                             )}
                           </div>
-
-                          {/* Show elemental transformations for variations too */}
-                          {(variation.elementalEffect || variation.alchemicalProperties) && (
-                            <div className={styles['elemental-transformations-small']}>
-                              {(() => {
-                                const transformations = getElementalTransformations(variation);
-
-                                return Object.entries(transformations).map(([element, value]) => {
-                                  const { direction, intensity } = getElementalDirection(value);
-                                  const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
-
-                                  // Skip elements with no significant change
-                                  if (direction === 'neutral' || displayIntensity < 5) return null;
-
-                                  return (
-                                    <div
-                                      key={element}
-                                      className={`${styles['transformation-item-small']} ${styles[element.toLowerCase()]} ${styles[`transform-${direction}`]}`}
-                                      title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
-                                    >
-                                      <div className={styles['element-icon-small']}>
-                                        {element === 'Fire' && <Flame size={12} />}
-                                        {element === 'Water' && <Droplets size={12} />}
-                                        {element === 'Earth' && <Mountain size={12} />}
-                                        {element === 'Air' && <Wind size={12} />}
-                                      </div>
-
-                                      <div className={styles['direction-indicator-small']}>
-                                        {direction === 'increase' ? <ArrowUp size={10} /> : <ArrowDown size={10} />}
-                                      </div>
-
-                                      {displayIntensity > 0 && (
-                                        <span className={styles['intensity-value-small']}>
-                                          {direction === 'increase' ? '+' : '-'}{displayIntensity}%
-                                        </span>
-                                      )}
-                                    </div>
-                                  );
-                                }).filter(Boolean); // Filter out null items
-                              })()}
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {selectedMethodId === method.id && (
                   <div className={styles['expanded-details']}>
@@ -834,11 +941,13 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                         <span>Expert Technical Tips</span>
                       </div>
                       <div className={styles['tips-grid']}>
-                        {getTechnicalTips(method.name).slice(0, 5).map((tip, index) => (
-                          <div key={index} className={styles['tip-item']}>
-                            {tip}
-                          </div>
-                        ))}
+                        {getTechnicalTips(method.name)
+                          .slice(0, 5)
+                          .map((tip, index) => (
+                            <div key={index} className={styles['tip-item']}>
+                              {tip}
+                            </div>
+                          ))}
                       </div>
                     </div>
 
@@ -849,11 +958,13 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                         <span>Ideal Ingredients</span>
                       </div>
                       <div className={styles['ingredients-grid']}>
-                        {getIdealIngredients(method.name).slice(0, 8).map((ingredient, index) => (
-                          <div key={index} className={styles['ingredient-item']}>
-                            {ingredient}
-                          </div>
-                        ))}
+                        {getIdealIngredients(method.name)
+                          .slice(0, 8)
+                          .map((ingredient, index) => (
+                            <div key={index} className={styles['ingredient-item']}>
+                              {ingredient}
+                            </div>
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -865,24 +976,27 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
           {/* Show more/less button or View More for main page */}
           {isMainPageVersion && methods && methods.length > (maxDisplayed || 3) ? (
             <div className={styles['show-more-container']}>
-              <button
-                className={styles['view-more-button']}
-                onClick={handleViewMore}
-              >
+              <button className={styles['view-more-button']} onClick={handleViewMore}>
                 View All Methods ({methods?.length || 0} total) <ExternalLink size={16} />
               </button>
             </div>
           ) : (
-            methods && methods.length > 8 && !isMainPageVersion && (
+            methods &&
+            methods.length > 8 &&
+            !isMainPageVersion && (
               <div className={styles['show-more-container']}>
                 <button
                   className={styles['show-more-button']}
                   onClick={() => setShowAllMethods(!showAllMethods)}
                 >
                   {showAllMethods ? (
-                    <>Show Less <ChevronUp size={16} /></>
+                    <>
+                      Show Less <ChevronUp size={16} />
+                    </>
                   ) : (
-                    <>Show More ({methods.length - 8} more) <ChevronDown size={16} /></>
+                    <>
+                      Show More ({methods.length - 8} more) <ChevronDown size={16} />
+                    </>
                   )}
                 </button>
               </div>

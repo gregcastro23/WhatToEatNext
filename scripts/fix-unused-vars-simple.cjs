@@ -8,49 +8,39 @@ const fixes = [
   // Test files - prefix with underscore
   {
     file: 'src/__tests__/campaign/CampaignSystemTestIntegration.test.ts',
-    replacements: [
-      { from: 'CampaignTestContext', to: '_CampaignTestContext' }
-    ]
+    replacements: [{ from: 'CampaignTestContext', to: '_CampaignTestContext' }],
   },
   {
     file: 'src/__tests__/integration/MainPageIntegration.test.tsx',
-    replacements: [
-      { from: /\bid\b(?=\s*[,)])/g, to: '_id' }
-    ]
+    replacements: [{ from: /\bid\b(?=\s*[,)])/g, to: '_id' }],
   },
   {
     file: 'src/__tests__/linting/AstrologicalRulesValidation.test.ts',
-    replacements: [
-      { from: 'path', to: '_path' }
-    ]
+    replacements: [{ from: 'path', to: '_path' }],
   },
   {
     file: 'src/__tests__/linting/AutomatedErrorResolution.test.ts',
     replacements: [
       { from: 'execSync', to: '_execSync' },
-      { from: 'readFileSync', to: '_readFileSync' }
-    ]
+      { from: 'readFileSync', to: '_readFileSync' },
+    ],
   },
   {
     file: 'src/__tests__/linting/CampaignSystemRuleValidation.test.ts',
     replacements: [
       { from: /\bcategory\b(?=\s*[,)])/g, to: '_category' },
       { from: /\bcriterion\b(?=\s*[,)])/g, to: '_criterion' },
-      { from: /\brequirement\b(?=\s*[,)])/g, to: '_requirement' }
-    ]
+      { from: /\brequirement\b(?=\s*[,)])/g, to: '_requirement' },
+    ],
   },
   {
     file: 'src/__tests__/linting/ConfigurationFileRuleValidation.test.ts',
-    replacements: [
-      { from: 'results', to: '_results' }
-    ]
+    replacements: [{ from: 'results', to: '_results' }],
   },
   {
     file: 'src/__tests__/linting/DomainSpecificRuleValidation.test.ts',
-    replacements: [
-      { from: 'readFileSync', to: '_readFileSync' }
-    ]
-  }
+    replacements: [{ from: 'readFileSync', to: '_readFileSync' }],
+  },
 ];
 
 function applyFix(fix) {
@@ -68,7 +58,10 @@ function applyFix(fix) {
         }
       } else {
         // Simple string replacement with word boundaries
-        const regex = new RegExp(`\\b${replacement.from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
+        const regex = new RegExp(
+          `\\b${replacement.from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`,
+          'g',
+        );
         if (regex.test(modifiedContent)) {
           modifiedContent = modifiedContent.replace(regex, replacement.to);
           changesMade = true;
@@ -81,7 +74,6 @@ function applyFix(fix) {
       fs.writeFileSync(fix.file, modifiedContent, 'utf8');
       console.log(`✅ Fixed unused variables in ${fix.file}`);
     }
-
   } catch (error) {
     console.error(`❌ Error processing ${fix.file}: ${error.message}`);
   }

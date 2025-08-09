@@ -12,14 +12,14 @@ export enum ErrorType {
   DATA = 'DATA',
   NETWORK = 'NETWORK',
   ASTROLOGY = 'ASTROLOGY',
-  UNKNOWN = 'UNKNOWN'
+  UNKNOWN = 'UNKNOWN',
 }
 
 export enum ErrorSeverity {
   INFO = 'INFO',
   WARNING = 'WARNING',
   ERROR = 'ERROR',
-  CRITICAL = 'CRITICAL'
+  CRITICAL = 'CRITICAL',
 }
 
 interface ErrorContext {
@@ -47,15 +47,12 @@ export const ErrorHandler = {
       severity = ErrorSeverity.ERROR,
       component = 'unknown',
       context = {},
-      silent = false
+      silent = false,
     } = options;
 
     // Log to console
     if (!silent) {
-      logger.error(
-        `[${severity}][${type}][${component}] ${error.message}`,
-        { error, context }
-      );
+      logger.error(`[${severity}][${type}][${component}] ${error.message}`, { error, context });
     }
 
     // You could add integration with error monitoring services here
@@ -65,7 +62,7 @@ export const ErrorHandler = {
       error,
       type,
       severity,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   },
 
@@ -78,13 +75,13 @@ export const ErrorHandler = {
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
-      context: options.context || {}
+      context: options.context || {},
     });
     return error;
-  }
+  },
 };
 
 export default ErrorHandler;
 
 // Export alias for compatibility
-export const errorHandler = ErrorHandler; 
+export const errorHandler = ErrorHandler;

@@ -1,6 +1,6 @@
 /**
  * Central Current Moment Management System
- * 
+ *
  * This service manages planetary positions across all storage locations,
  * ensuring consistency and automatic updates when alchemize/astrologize APIs are called.
  */
@@ -8,12 +8,14 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
+import {
+  getCurrentPlanetaryPositions,
+  getPlanetaryPositionsForDateTime,
+} from '@/services/astrologizeApi';
 import { ZodiacSign } from '@/types/alchemy';
 import { PlanetaryPosition, CelestialPosition } from '@/types/celestial';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
-
 
 const logger = createLogger('CurrentMomentManager');
 
@@ -38,7 +40,7 @@ export interface CurrentMomentData {
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976,
-  timezone: 'EDT'
+  timezone: 'EDT',
 };
 
 // Performance monitoring metrics
@@ -60,7 +62,7 @@ class CurrentMomentManager {
     successfulUpdates: 0,
     failedUpdates: 0,
     averageResponseTime: 0,
-    updateFrequency: {}
+    updateFrequency: {},
   };
 
   /**
@@ -70,14 +72,17 @@ class CurrentMomentManager {
     if (!this.currentMoment || forceRefresh || this.needsUpdate()) {
       await this.updateCurrentMoment();
     }
-    
+
     return this.currentMoment!;
   }
 
   /**
    * Update current moment from astrologize API and propagate to all storage locations
    */
-  async updateCurrentMoment(customDateTime?: Date, customLocation?: { latitude: number; longitude: number }): Promise<CurrentMomentData> {
+  async updateCurrentMoment(
+    customDateTime?: Date,
+    customLocation?: { latitude: number; longitude: number },
+  ): Promise<CurrentMomentData> {
     if (this.updateInProgress) {
       void logger.info('Update already in progress, waiting...');
       // Wait for current update to complete
@@ -89,23 +94,23 @@ class CurrentMomentManager {
 
     this.updateInProgress = true;
     const startTime = Date.now();
-    
+
     // Track update frequency
     const currentMinute = new Date().toISOString().slice(0, 16);
-    this.performanceMetrics.updateFrequency[currentMinute] = 
+    this.performanceMetrics.updateFrequency[currentMinute] =
       (this.performanceMetrics.updateFrequency[currentMinute] || 0) + 1;
     this.performanceMetrics.totalUpdates++;
-    
+
     try {
       void logger.info('Starting current moment update...');
-      
+
       const targetDate = customDateTime || new Date();
       const location = customLocation || DEFAULT_LOCATION;
-      
+
       // Step 1: Get fresh planetary positions from API
       let planetaryPositions: Record<string, PlanetPosition>;
       let source: 'api' | 'calculated' | 'fallback' = 'fallback';
-      
+
       try {
         if (customDateTime) {
           planetaryPositions = await getPlanetaryPositionsForDateTime(targetDate, location);
@@ -123,42 +128,43 @@ class CurrentMomentManager {
       // Step 2: Create current moment data structure
       this.currentMoment = {
         timestamp: targetDate.toISOString(),
-        date: targetDate.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
+        date: targetDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
           day: 'numeric',
           hour: 'numeric',
           minute: '2-digit',
-          timeZoneName: 'short'
+          timeZoneName: 'short',
         }),
         location: {
           ...location,
-          timezone: this.getTimezone(targetDate)
+          timezone: this.getTimezone(targetDate),
         },
         planetaryPositions,
         metadata: {
           source,
           apiCallTimestamp: new Date().toISOString(),
-          lastUpdated: new Date().toISOString()
-        }
+          lastUpdated: new Date().toISOString(),
+        },
       };
 
       // Step 3: Propagate updates to all storage locations
       await this.propagateUpdates(this.currentMoment);
-      
+
       this.lastUpdateTime = new Date();
-      
+
       // Track successful update
       this.performanceMetrics.successfulUpdates++;
       const responseTime = Date.now() - startTime;
-      this.performanceMetrics.averageResponseTime = 
-        (this.performanceMetrics.averageResponseTime * (this.performanceMetrics.successfulUpdates - 1) + responseTime) / 
+      this.performanceMetrics.averageResponseTime =
+        (this.performanceMetrics.averageResponseTime *
+          (this.performanceMetrics.successfulUpdates - 1) +
+          responseTime) /
         this.performanceMetrics.successfulUpdates;
-      
+
       void logger.info('Current moment update completed successfully', { responseTime });
-      
+
       return this.currentMoment;
-      
     } catch (error) {
       // Track failed update
       this.performanceMetrics.failedUpdates++;
@@ -178,15 +184,20 @@ class CurrentMomentManager {
       this.updateNotebook(momentData),
       this.updateSystemDefaults(momentData),
       this.updateStreamlinedPositions(momentData),
-      void this.updateAccurateAstronomy(momentData)
+      void this.updateAccurateAstronomy(momentData),
     ];
 
     const results = await Promise.allSettled(updatePromises);
-    
+
     // Log any failures
     results.forEach((result, index) => {
       if (result.status === 'rejected') {
-        const updateNames = ['notebook', 'systemDefaults', 'streamlinedPositions', 'accurateAstronomy'];
+        const updateNames = [
+          'notebook',
+          'systemDefaults',
+          'streamlinedPositions',
+          'accurateAstronomy',
+        ];
         void logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
       }
     });
@@ -198,66 +209,68 @@ class CurrentMomentManager {
   private async updateNotebook(momentData: CurrentMomentData): Promise<void> {
     try {
       const notebookPath = path.join(process.cwd(), 'current-moment-chart.ipynb');
-      
+
       // Read existing notebook
       const notebookContent = await fs.readFile(notebookPath, 'utf-8');
       const notebook = JSON.parse(notebookContent);
-      
+
       // Find the cell with live_positions and update it
-      const codeCell = notebook.cells.find((cell: any) => 
-        cell.cell_type === 'code' && 
-        cell.source.some((line: string) => line.includes('live_positions'))
+      const codeCell = notebook.cells.find(
+        (cell: any) =>
+          cell.cell_type === 'code' &&
+          cell.source.some((line: string) => line.includes('live_positions')),
       );
-      
+
       if (codeCell) {
         // Generate new positions data for the notebook
         const notebookPositions = this.formatPositionsForNotebook(momentData.planetaryPositions);
         const timestampComment = `# 🌙 Current Moment Astrological Analysis - ${momentData.date}\n`;
-        
+
         // Update the source with new data
         const newSource = [
           timestampComment,
-          "# **Generated:** Live Current Moment Analysis - " + new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) + " (Nocturnal Chart)  \n",
-          "# *Enhanced Integration with WhatToEatNext Debug Pane*  \n",
+          '# **Generated:** Live Current Moment Analysis - ' +
+            new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) +
+            ' (Nocturnal Chart)  \n',
+          '# *Enhanced Integration with WhatToEatNext Debug Pane*  \n',
           `# **Location:** New York Area (${momentData.location.latitude}°N, ${momentData.location.longitude}°W) | **Timezone:** ${momentData.location.timezone}\n`,
-          "\n",
-          "import pandas as pd\n",
-          "import numpy as np\n",
-          "import matplotlib.pyplot as plt\n",
-          "import seaborn as sns\n",
-          "from datetime import datetime\n",
-          "import json\n",
-          "import warnings\n",
-          "import requests\n",
+          '\n',
+          'import pandas as pd\n',
+          'import numpy as np\n',
+          'import matplotlib.pyplot as plt\n',
+          'import seaborn as sns\n',
+          'from datetime import datetime\n',
+          'import json\n',
+          'import warnings\n',
+          'import requests\n',
           "warnings.filterwarnings('ignore')\n",
-          "\n",
-          "# Set up plotting style\n",
+          '\n',
+          '# Set up plotting style\n',
           "plt.style.use('seaborn-v0_8')\n",
-          "sns.set_palette(\"husl\")\n",
-          "\n",
+          'sns.set_palette("husl")\n',
+          '\n',
           `# LIVE CURRENT MOMENT ANALYSIS - ${momentData.date}\n`,
           `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,
           `print(f\"🌟 RUNNING LIVE API CALL FOR ${momentData.date.toUpperCase()}: {current_timestamp}\")\n`,
-          "\n",
+          '\n',
           `# CORRECT PLANETARY POSITIONS FOR ${momentData.date.toUpperCase()}\n`,
-          "# Based on astronomical calculations\n",
+          '# Based on astronomical calculations\n',
           notebookPositions,
-          "\n",
+          '\n',
           `print(f\"🎉 SUCCESS - Live planetary positions for ${momentData.date}:\")\n`,
-          "for planet, data in live_positions.items():\n",
-          "    retro = \" (R)\" if data.get('retrograde') else \"\"\n",
+          'for planet, data in live_positions.items():\n',
+          '    retro = " (R)" if data.get(\'retrograde\') else ""\n',
           "    print(f\"   {planet}: {data['minutes']} {data['sign']}{retro} ({data['element']})\")\n",
-          "\n",
-          "print(\"✅ CURRENT MOMENT ANALYSIS COMPLETE\")\n"
+          '\n',
+          'print("✅ CURRENT MOMENT ANALYSIS COMPLETE")\n',
         ];
-        
+
         codeCell.source = newSource;
-        
+
         // Write updated notebook
         await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2));
         void logger.info('Updated current-moment-chart.ipynb successfully');
       }
-      
     } catch (error) {
       void logger.error('Failed to update notebook:', error);
       throw error;
@@ -271,19 +284,21 @@ class CurrentMomentManager {
     try {
       const defaultsPath = path.join(process.cwd(), 'src/constants/systemDefaults.ts');
       const content = await fs.readFile(defaultsPath, 'utf-8');
-      
+
       // Generate new positions constant
-      const newPositions = this.formatPositionsForSystemDefaults(momentData.planetaryPositions, momentData.date);
-      
+      const newPositions = this.formatPositionsForSystemDefaults(
+        momentData.planetaryPositions,
+        momentData.date,
+      );
+
       // Replace the DEFAULT_PLANETARY_POSITIONS constant
       const updatedContent = content.replace(
         /export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = \{[\s\S]*?\};/,
-        newPositions
+        newPositions,
       );
-      
+
       await fs.writeFile(defaultsPath, updatedContent);
       void logger.info('Updated systemDefaults.ts successfully');
-      
     } catch (error) {
       void logger.error('Failed to update systemDefaults:', error);
       throw error;
@@ -295,21 +310,26 @@ class CurrentMomentManager {
    */
   private async updateStreamlinedPositions(momentData: CurrentMomentData): Promise<void> {
     try {
-      const streamlinedPath = path.join(process.cwd(), 'src/utils/streamlinedPlanetaryPositions.ts');
+      const streamlinedPath = path.join(
+        process.cwd(),
+        'src/utils/streamlinedPlanetaryPositions.ts',
+      );
       const content = await fs.readFile(streamlinedPath, 'utf-8');
-      
+
       // Generate new base positions
-      const newPositions = this.formatPositionsForStreamlined(momentData.planetaryPositions, momentData.date);
-      
+      const newPositions = this.formatPositionsForStreamlined(
+        momentData.planetaryPositions,
+        momentData.date,
+      );
+
       // Replace the basePositions object
       const updatedContent = content.replace(
         /const basePositions: \{ \[key: string\]: CelestialPosition \} = \{[\s\S]*?\};/,
-        newPositions
+        newPositions,
       );
-      
+
       await fs.writeFile(streamlinedPath, updatedContent);
       void logger.info('Updated streamlinedPlanetaryPositions.ts successfully');
-      
     } catch (error) {
       void logger.error('Failed to update streamlinedPlanetaryPositions:', error);
       throw error;
@@ -323,117 +343,137 @@ class CurrentMomentManager {
     try {
       const astronomyPath = path.join(process.cwd(), 'src/utils/accurateAstronomy.ts');
       const content = await fs.readFile(astronomyPath, 'utf-8');
-      
+
       // Generate new reference positions
-      const newPositions = this.formatPositionsForAccurateAstronomy(momentData.planetaryPositions, momentData.date);
-      
-      // Replace the REFERENCE_POSITIONS constant
-      const updatedContent = content.replace(
-        /const REFERENCE_POSITIONS = \{[\s\S]*?\};/,
-        newPositions
-      ).replace(
-        /const REFERENCE_DATE = new Date\('[^']+'\);/,
-        `const REFERENCE_DATE = new Date('${momentData.timestamp}');`
+      const newPositions = this.formatPositionsForAccurateAstronomy(
+        momentData.planetaryPositions,
+        momentData.date,
       );
-      
+
+      // Replace the REFERENCE_POSITIONS constant
+      const updatedContent = content
+        .replace(/const REFERENCE_POSITIONS = \{[\s\S]*?\};/, newPositions)
+        .replace(
+          /const REFERENCE_DATE = new Date\('[^']+'\);/,
+          `const REFERENCE_DATE = new Date('${momentData.timestamp}');`,
+        );
+
       await fs.writeFile(astronomyPath, updatedContent);
       void logger.info('Updated accurateAstronomy.ts successfully');
-      
     } catch (error) {
       void logger.error('Failed to update accurateAstronomy:', error);
       throw error;
     }
   }
 
-
   /**
    * Format positions for Jupyter notebook
    */
   private formatPositionsForNotebook(positions: Record<string, PlanetPosition>): string {
-    const lines = [
-      "live_positions = {"
-    ];
-    
+    const lines = ['live_positions = {'];
+
     Object.entries(positions).forEach(([planet, position]) => {
       const element = this.getElementForSign(position.sign);
       const minutes = `${position.degree}° ${position.minute}'`;
-      const retrograde = position.isRetrograde ? ", 'retrograde': True" : "";
-      
-      void lines.push(`    '${planet}': {'sign': '${position.sign}', 'degree': ${position.degree}, 'minutes': "${minutes}", 'element': '${element}', 'longitude': ${position.exactLongitude}${retrograde}},`);
+      const retrograde = position.isRetrograde ? ", 'retrograde': True" : '';
+
+      void lines.push(
+        `    '${planet}': {'sign': '${position.sign}', 'degree': ${position.degree}, 'minutes': "${minutes}", 'element': '${element}', 'longitude': ${position.exactLongitude}${retrograde}},`,
+      );
     });
-    
-    void lines.push("}");
+
+    void lines.push('}');
     return lines.join('\n');
   }
 
   /**
    * Format positions for systemDefaults.ts
    */
-  private formatPositionsForSystemDefaults(positions: Record<string, PlanetPosition>, dateStr: string): string {
+  private formatPositionsForSystemDefaults(
+    positions: Record<string, PlanetPosition>,
+    dateStr: string,
+  ): string {
     const lines = [
-      "/**",
+      '/**',
       ` * Default planetary positions for ${dateStr}`,
-      " */",
-      "export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {"
+      ' */',
+      'export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {',
     ];
-    
+
     Object.entries(positions).forEach(([planet, position]) => {
       void lines.push(`  ${planet}: {`);
       void lines.push(`    sign: '${position.sign}' as ZodiacSign,`);
-      void lines.push(`    degree: ${position.degree + (position.minute / 60)},`);
+      void lines.push(`    degree: ${position.degree + position.minute / 60},`);
       void lines.push(`    exactLongitude: ${position.exactLongitude},`);
       void lines.push(`    isRetrograde: ${position.isRetrograde}`);
       void lines.push(`  },`);
     });
-    
-    void lines.push("};");
+
+    void lines.push('};');
     return lines.join('\n');
   }
 
   /**
    * Format positions for streamlinedPlanetaryPositions.ts
    */
-  private formatPositionsForStreamlined(positions: Record<string, PlanetPosition>, dateStr: string): string {
+  private formatPositionsForStreamlined(
+    positions: Record<string, PlanetPosition>,
+    dateStr: string,
+  ): string {
     const lines = [
       `  // Current accurate planetary positions (${dateStr})`,
-      "  const basePositions: { [key: string]: CelestialPosition } = {"
+      '  const basePositions: { [key: string]: CelestialPosition } = {',
     ];
-    
+
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(`    ${planet}: { sign: '${position.sign}', degree: ${position.degree + (position.minute / 60)}, exactLongitude: ${position.exactLongitude}, isRetrograde: ${position.isRetrograde} },`);
+      void lines.push(
+        `    ${planet}: { sign: '${position.sign}', degree: ${position.degree + position.minute / 60}, exactLongitude: ${position.exactLongitude}, isRetrograde: ${position.isRetrograde} },`,
+      );
     });
-    
-    void lines.push("  };");
+
+    void lines.push('  };');
     return lines.join('\n');
   }
 
   /**
    * Format positions for accurateAstronomy.ts
    */
-  private formatPositionsForAccurateAstronomy(positions: Record<string, PlanetPosition>, dateStr: string): string {
+  private formatPositionsForAccurateAstronomy(
+    positions: Record<string, PlanetPosition>,
+    dateStr: string,
+  ): string {
     const lines = [
       `// Updated reference data based on accurate positions for ${dateStr}`,
-      "const REFERENCE_POSITIONS = {"
+      'const REFERENCE_POSITIONS = {',
     ];
-    
+
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(`  ${planet}: [${position.degree}, ${position.minute}, 0, '${position.sign}'],`);
+      void lines.push(
+        `  ${planet}: [${position.degree}, ${position.minute}, 0, '${position.sign}'],`,
+      );
     });
-    
-    void lines.push("};");
+
+    void lines.push('};');
     return lines.join('\n');
   }
-
 
   /**
    * Get element for zodiac sign
    */
   private getElementForSign(sign: ZodiacSign): string {
     const elementMap: Record<ZodiacSign, string> = {
-      'aries': 'Fire', 'leo': 'Fire', 'sagittarius': 'Fire',
-      'taurus': 'Earth', 'virgo': 'Earth', 'capricorn': 'Earth',
-      'gemini': 'Air', 'libra': 'Air', 'aquarius': 'Air',
-      'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
+      aries: 'Fire',
+      leo: 'Fire',
+      sagittarius: 'Fire',
+      taurus: 'Earth',
+      virgo: 'Earth',
+      capricorn: 'Earth',
+      gemini: 'Air',
+      libra: 'Air',
+      aquarius: 'Air',
+      cancer: 'Water',
+      scorpio: 'Water',
+      pisces: 'Water',
     };
     return elementMap[sign] || 'Fire';
   }
@@ -444,7 +484,7 @@ class CurrentMomentManager {
   private getTimezone(date: Date): string {
     // Simple timezone detection - could be enhanced
     const month = date.getMonth();
-    return (month >= 2 && month <= 10) ? 'EDT' : 'EST';
+    return month >= 2 && month <= 10 ? 'EDT' : 'EST';
   }
 
   /**
@@ -453,7 +493,7 @@ class CurrentMomentManager {
   private needsUpdate(): boolean {
     if (!this.lastUpdateTime) return true;
     const timeDiff = Date.now() - this.lastUpdateTime.getTime();
-    return timeDiff > (15 * 60 * 1000); // 15 minutes
+    return timeDiff > 15 * 60 * 1000; // 15 minutes
   }
 
   /**
@@ -466,12 +506,42 @@ class CurrentMomentManager {
       Mercury: { sign: 'leo', degree: 2, minute: 9, exactLongitude: 122.15, isRetrograde: false },
       Venus: { sign: 'leo', degree: 14, minute: 51, exactLongitude: 134.85, isRetrograde: false },
       Mars: { sign: 'taurus', degree: 25, minute: 25, exactLongitude: 55.42, isRetrograde: false },
-      Jupiter: { sign: 'gemini', degree: 12, minute: 44, exactLongitude: 72.73, isRetrograde: false },
-      Saturn: { sign: 'pisces', degree: 19, minute: 17, exactLongitude: 349.28, isRetrograde: false },
+      Jupiter: {
+        sign: 'gemini',
+        degree: 12,
+        minute: 44,
+        exactLongitude: 72.73,
+        isRetrograde: false,
+      },
+      Saturn: {
+        sign: 'pisces',
+        degree: 19,
+        minute: 17,
+        exactLongitude: 349.28,
+        isRetrograde: false,
+      },
       Uranus: { sign: 'taurus', degree: 26, minute: 9, exactLongitude: 56.15, isRetrograde: false },
-      Neptune: { sign: 'aries', degree: 29, minute: 55, exactLongitude: 29.92, isRetrograde: false },
-      Pluto: { sign: 'aquarius', degree: 1, minute: 53, exactLongitude: 301.88, isRetrograde: true },
-      Ascendant: { sign: 'capricorn', degree: 20, minute: 45, exactLongitude: 290.75, isRetrograde: false }
+      Neptune: {
+        sign: 'aries',
+        degree: 29,
+        minute: 55,
+        exactLongitude: 29.92,
+        isRetrograde: false,
+      },
+      Pluto: {
+        sign: 'aquarius',
+        degree: 1,
+        minute: 53,
+        exactLongitude: 301.88,
+        isRetrograde: true,
+      },
+      Ascendant: {
+        sign: 'capricorn',
+        degree: 20,
+        minute: 45,
+        exactLongitude: 290.75,
+        isRetrograde: false,
+      },
     };
   }
 
@@ -483,23 +553,23 @@ class CurrentMomentManager {
       // Use provided positions to update current moment
       this.currentMoment = {
         timestamp: new Date().toISOString(),
-        date: new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
+        date: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
           day: 'numeric',
           hour: 'numeric',
           minute: '2-digit',
-          timeZoneName: 'short'
+          timeZoneName: 'short',
         }),
         location: DEFAULT_LOCATION,
         planetaryPositions,
         metadata: {
           source: 'api',
           apiCallTimestamp: new Date().toISOString(),
-          lastUpdated: new Date().toISOString()
-        }
+          lastUpdated: new Date().toISOString(),
+        },
       };
-      
+
       await this.propagateUpdates(this.currentMoment);
     } else {
       // Trigger a fresh update
@@ -530,7 +600,7 @@ class CurrentMomentManager {
       successfulUpdates: 0,
       failedUpdates: 0,
       averageResponseTime: 0,
-      updateFrequency: {}
+      updateFrequency: {},
     };
   }
 }
@@ -539,10 +609,13 @@ class CurrentMomentManager {
 export const currentMomentManager = new CurrentMomentManager();
 
 // Export convenience functions
-export const getCurrentMoment = (forceRefresh = false) => currentMomentManager.getCurrentMoment(forceRefresh);
-export const updateCurrentMoment = (date?: Date, location?: { latitude: number; longitude: number }) => 
-  void currentMomentManager.updateCurrentMoment(date, location);
-export const onAlchemizeApiCall = (positions?: Record<string, PlanetPosition>) => 
+export const getCurrentMoment = (forceRefresh = false) =>
+  currentMomentManager.getCurrentMoment(forceRefresh);
+export const updateCurrentMoment = (
+  date?: Date,
+  location?: { latitude: number; longitude: number },
+) => void currentMomentManager.updateCurrentMoment(date, location);
+export const onAlchemizeApiCall = (positions?: Record<string, PlanetPosition>) =>
   void currentMomentManager.onAlchemizeApiCall(positions);
-export const onAstrologizeApiCall = (positions?: Record<string, PlanetPosition>) => 
-  void currentMomentManager.onAstrologizeApiCall(positions); 
+export const onAstrologizeApiCall = (positions?: Record<string, PlanetPosition>) =>
+  void currentMomentManager.onAstrologizeApiCall(positions);

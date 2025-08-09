@@ -36,7 +36,7 @@ function getFilesWithUnusedVars() {
           fileMap.get(currentFile).push({
             line: parseInt(lineNum),
             variable: varName,
-            fullLine: line
+            fullLine: line,
           });
         }
       }
@@ -74,7 +74,11 @@ function fixUnusedVariables(filePath, unusedVars) {
         let newLine = originalLine;
 
         // Array destructuring pattern: [var1, var2] =
-        if (originalLine.includes('[') && originalLine.includes(']') && originalLine.includes('=')) {
+        if (
+          originalLine.includes('[') &&
+          originalLine.includes(']') &&
+          originalLine.includes('=')
+        ) {
           newLine = originalLine.replace(new RegExp(`\\b${variable}\\b`), `_${variable}`);
         }
         // Regular variable declaration: const/let/var variable =
@@ -157,7 +161,9 @@ function main() {
   if (totalFixes > 0) {
     console.log('');
     console.log('🧪 Next steps:');
-    console.log('   1. Check unused variable count: yarn lint 2>&1 | grep "no-unused-vars" | wc -l');
+    console.log(
+      '   1. Check unused variable count: yarn lint 2>&1 | grep "no-unused-vars" | wc -l',
+    );
     console.log('   2. Verify build: yarn tsc --noEmit --skipLibCheck');
     console.log('   3. If issues occur, restore from .unused-vars-backup files');
   }

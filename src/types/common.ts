@@ -1,10 +1,19 @@
 // Common types used across the application
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
-export type ZodiacSign = 
-  | 'aries' | 'taurus' | 'gemini' | 'cancer'
-  | 'leo' | 'virgo' | 'libra' | 'scorpio'
-  | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+export type ZodiacSign =
+  | 'aries'
+  | 'taurus'
+  | 'gemini'
+  | 'cancer'
+  | 'leo'
+  | 'virgo'
+  | 'libra'
+  | 'scorpio'
+  | 'sagittarius'
+  | 'capricorn'
+  | 'aquarius'
+  | 'pisces';
 
 export interface PlanetaryAlignment {
   Sun: string;

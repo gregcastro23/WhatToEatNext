@@ -37,31 +37,41 @@ class ExplicitAnyEliminator {
     this.log('🔍 Analyzing explicit-any usage patterns...');
 
     try {
-      const eslintOutput = execSync('npx eslint src --format=json --rule "@typescript-eslint/no-explicit-any: error" 2>/dev/null || echo "[]"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const eslintOutput = execSync(
+        'npx eslint src --format=json --rule "@typescript-eslint/no-explicit-any: error" 2>/dev/null || echo "[]"',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
 
       let results = [];
       try {
         results = JSON.parse(eslintOutput);
       } catch (error) {
         // Fallback to text parsing
-        const textOutput = execSync('npx eslint src --format=compact 2>/dev/null | grep "no-explicit-any" || true', {
-          encoding: 'utf8',
-          stdio: 'pipe'
-        });
+        const textOutput = execSync(
+          'npx eslint src --format=compact 2>/dev/null | grep "no-explicit-any" || true',
+          {
+            encoding: 'utf8',
+            stdio: 'pipe',
+          },
+        );
 
         const lines = textOutput.split('\n').filter(line => line.includes('no-explicit-any'));
-        results = lines.map(line => {
-          const match = line.match(/^([^:]+):(\d+):(\d+):/);
-          return match ? {
-            filePath: match[1],
-            line: parseInt(match[2]),
-            column: parseInt(match[3]),
-            message: line
-          } : null;
-        }).filter(Boolean);
+        results = lines
+          .map(line => {
+            const match = line.match(/^([^:]+):(\d+):(\d+):/);
+            return match
+              ? {
+                  filePath: match[1],
+                  line: parseInt(match[2]),
+                  column: parseInt(match[3]),
+                  message: line,
+                }
+              : null;
+          })
+          .filter(Boolean);
       }
 
       const analysis = {
@@ -73,8 +83,8 @@ class ExplicitAnyEliminator {
           variableDeclarations: 0,
           propertyTypes: 0,
           arrayTypes: 0,
-          objectTypes: 0
-        }
+          objectTypes: 0,
+        },
       };
 
       if (Array.isArray(results)) {
@@ -89,12 +99,15 @@ class ExplicitAnyEliminator {
             });
           } else if (result.message) {
             analysis.totalIssues++;
-            analysis.fileBreakdown[result.filePath] = (analysis.fileBreakdown[result.filePath] || 0) + 1;
+            analysis.fileBreakdown[result.filePath] =
+              (analysis.fileBreakdown[result.filePath] || 0) + 1;
           }
         });
       }
 
-      this.log(`Found ${analysis.totalIssues} explicit-any issues across ${Object.keys(analysis.fileBreakdown).length} files`);
+      this.log(
+        `Found ${analysis.totalIssues} explicit-any issues across ${Object.keys(analysis.fileBreakdown).length} files`,
+      );
       return analysis;
     } catch (error) {
       this.log(`Error analyzing explicit-any usage: ${error.message}`, 'error');
@@ -111,14 +124,14 @@ class ExplicitAnyEliminator {
       'celestial',
       'astrological',
       'swiss-ephemeris',
-      'astronomia'
+      'astronomia',
     ];
 
     const fileName = path.basename(filePath).toLowerCase();
     const dirPath = path.dirname(filePath).toLowerCase();
 
-    return astronomicalPatterns.some(pattern =>
-      fileName.includes(pattern) || dirPath.includes(pattern)
+    return astronomicalPatterns.some(
+      pattern => fileName.includes(pattern) || dirPath.includes(pattern),
     );
   }
 
@@ -155,10 +168,10 @@ interface ServiceContext {
       // Add types at the top of the file if not already present
       if (!newContent.includes('ServiceResponse') && newContent.includes(': any')) {
         const importIndex = newContent.lastIndexOf('import ');
-        const insertIndex = importIndex > -1 ?
-          newContent.indexOf('\n', importIndex) + 1 : 0;
+        const insertIndex = importIndex > -1 ? newContent.indexOf('\n', importIndex) + 1 : 0;
 
-        newContent = newContent.slice(0, insertIndex) + serviceTypes + newContent.slice(insertIndex);
+        newContent =
+          newContent.slice(0, insertIndex) + serviceTypes + newContent.slice(insertIndex);
         addedTypes.push('ServiceResponse', 'ServiceConfig', 'ServiceContext');
       }
     }
@@ -183,10 +196,10 @@ interface EventHandlerProps {
 
       if (!newContent.includes('ComponentProps') && newContent.includes(': any')) {
         const importIndex = newContent.lastIndexOf('import ');
-        const insertIndex = importIndex > -1 ?
-          newContent.indexOf('\n', importIndex) + 1 : 0;
+        const insertIndex = importIndex > -1 ? newContent.indexOf('\n', importIndex) + 1 : 0;
 
-        newContent = newContent.slice(0, insertIndex) + componentTypes + newContent.slice(insertIndex);
+        newContent =
+          newContent.slice(0, insertIndex) + componentTypes + newContent.slice(insertIndex);
         addedTypes.push('ComponentProps', 'EventHandlerProps');
       }
     }
@@ -214,66 +227,66 @@ interface EventHandlerProps {
         from: /\(([^)]*): any\)/g,
         to: '($1: unknown)',
         description: 'Function parameters any → unknown',
-        validate: (match) => !match[0].includes('astronomia') && !match[0].includes('ephemeris')
+        validate: match => !match[0].includes('astronomia') && !match[0].includes('ephemeris'),
       },
 
       // Variable declarations
       {
         from: /: any(\s*=)/g,
         to: ': unknown$1',
-        description: 'Variable declarations any → unknown'
+        description: 'Variable declarations any → unknown',
       },
 
       // Array types
       {
         from: /: any\[\]/g,
         to: ': unknown[]',
-        description: 'Array types any[] → unknown[]'
+        description: 'Array types any[] → unknown[]',
       },
 
       // Object property types
       {
         from: /:\s*any;/g,
         to: ': unknown;',
-        description: 'Object properties any → unknown'
+        description: 'Object properties any → unknown',
       },
 
       // Generic constraints
       {
         from: /<([^>]*): any>/g,
         to: '<$1: unknown>',
-        description: 'Generic constraints any → unknown'
+        description: 'Generic constraints any → unknown',
       },
 
       // Return types
       {
         from: /\):\s*any\s*{/g,
         to: '): unknown {',
-        description: 'Return types any → unknown'
+        description: 'Return types any → unknown',
       },
 
       // Promise types
       {
         from: /Promise<any>/g,
         to: 'Promise<unknown>',
-        description: 'Promise<any> → Promise<unknown>'
+        description: 'Promise<any> → Promise<unknown>',
       },
 
       // Record types
       {
         from: /Record<string,\s*any>/g,
         to: 'Record<string, unknown>',
-        description: 'Record<string, any> → Record<string, unknown>'
-      }
+        description: 'Record<string, any> → Record<string, unknown>',
+      },
     ];
 
     // Apply replacements
     anyReplacements.forEach(replacement => {
       const matches = [...newContent.matchAll(replacement.from)];
       if (matches.length > 0) {
-        const validMatches = replacement.validate ?
-          matches.filter(match => replacement.validate(match)) :
-          matches;
+        const validMatches = replacement.validate
+          ? matches.filter(match => replacement.validate(match))
+          : matches;
 
         if (validMatches.length > 0) {
           newContent = newContent.replace(replacement.from, replacement.to);
@@ -290,13 +303,13 @@ interface EventHandlerProps {
         {
           from: /jest\.fn\(\):\s*any/g,
           to: 'jest.fn(): jest.MockedFunction<any>',
-          description: 'Jest mock function types'
+          description: 'Jest mock function types',
         },
         {
           from: /expect\(([^)]+)\)\.toEqual\(([^)]+): any\)/g,
           to: 'expect($1).toEqual($2 as unknown)',
-          description: 'Test assertion types'
-        }
+          description: 'Test assertion types',
+        },
       ];
 
       testReplacements.forEach(replacement => {
@@ -325,18 +338,18 @@ interface EventHandlerProps {
       {
         from: /response\.data:\s*any/g,
         to: 'response.data: unknown',
-        description: 'API response data types'
+        description: 'API response data types',
       },
       {
         from: /axios\.get<any>/g,
         to: 'axios.get<unknown>',
-        description: 'Axios generic types'
+        description: 'Axios generic types',
       },
       {
         from: /fetch\([^)]+\)\.then\(([^)]+): any\)/g,
         to: 'fetch($1).then($1: Response)',
-        description: 'Fetch response types'
-      }
+        description: 'Fetch response types',
+      },
     ];
 
     // Event handler patterns
@@ -344,13 +357,13 @@ interface EventHandlerProps {
       {
         from: /event:\s*any/g,
         to: 'event: Event',
-        description: 'Event handler types'
+        description: 'Event handler types',
       },
       {
         from: /onChange=\{([^}]+): any\}/g,
         to: 'onChange={$1: React.ChangeEvent<HTMLInputElement>}',
-        description: 'React event handler types'
-      }
+        description: 'React event handler types',
+      },
     ];
 
     // Configuration object patterns
@@ -358,13 +371,13 @@ interface EventHandlerProps {
       {
         from: /config:\s*any/g,
         to: 'config: Record<string, unknown>',
-        description: 'Configuration object types'
+        description: 'Configuration object types',
       },
       {
         from: /options:\s*any/g,
         to: 'options: Record<string, unknown>',
-        description: 'Options object types'
-      }
+        description: 'Options object types',
+      },
     ];
 
     const allPatterns = [...apiPatterns, ...eventPatterns, ...configPatterns];
@@ -402,7 +415,7 @@ interface EventHandlerProps {
       // Apply all fixes
       const fixes = [
         this.fixExplicitAnyTypes(currentContent, filePath),
-        this.fixSpecificPatterns(currentContent, filePath)
+        this.fixSpecificPatterns(currentContent, filePath),
       ];
 
       // Chain the fixes
@@ -421,10 +434,12 @@ interface EventHandlerProps {
 
         this.fixedFiles.push({
           path: filePath,
-          fixes: allFixes
+          fixes: allFixes,
         });
 
-        this.log(`${this.dryRun ? '[DRY RUN] ' : ''}Fixed explicit-any types in ${path.basename(filePath)}`);
+        this.log(
+          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed explicit-any types in ${path.basename(filePath)}`,
+        );
         return true;
       }
 
@@ -440,10 +455,13 @@ interface EventHandlerProps {
     this.log('🔍 Validating fixes with ESLint...');
 
     try {
-      const eslintOutput = execSync('npx eslint src --format=compact 2>/dev/null | grep "no-explicit-any" | wc -l || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const eslintOutput = execSync(
+        'npx eslint src --format=compact 2>/dev/null | grep "no-explicit-any" | wc -l || echo "0"',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
 
       const remainingAnyIssues = parseInt(eslintOutput.trim()) || 0;
 
@@ -592,7 +610,7 @@ export interface CulinaryRecommendation {
     const typeFiles = [
       { path: 'src/types/serviceTypes.ts', content: serviceTypes },
       { path: 'src/types/componentTypes.ts', content: componentTypes },
-      { path: 'src/types/astrologicalTypes.ts', content: astrologicalTypes }
+      { path: 'src/types/astrologicalTypes.ts', content: astrologicalTypes },
     ];
 
     const createdFiles = [];
@@ -615,7 +633,9 @@ export interface CulinaryRecommendation {
     }
 
     if (createdFiles.length > 0) {
-      this.log(`${this.dryRun ? '[DRY RUN] ' : ''}Created type definition files: ${createdFiles.join(', ')}`);
+      this.log(
+        `${this.dryRun ? '[DRY RUN] ' : ''}Created type definition files: ${createdFiles.join(', ')}`,
+      );
     }
 
     return createdFiles;
@@ -655,8 +675,9 @@ export interface CulinaryRecommendation {
 
     // Validate fixes
     const validation = await this.validateFixes();
-    const finalCount = validation.remainingAnyIssues >= 0 ? validation.remainingAnyIssues : initialCount;
-    const reduction = initialCount > 0 ? ((initialCount - finalCount) / initialCount) : 0;
+    const finalCount =
+      validation.remainingAnyIssues >= 0 ? validation.remainingAnyIssues : initialCount;
+    const reduction = initialCount > 0 ? (initialCount - finalCount) / initialCount : 0;
 
     // Report results
     this.log('\\n📊 Fix Summary:');
@@ -673,7 +694,9 @@ export interface CulinaryRecommendation {
       if (reduction >= this.targetReduction) {
         this.log('🎯 Target reduction achieved!');
       } else {
-        this.log(`⚠️  Target not yet reached (${((this.targetReduction - reduction) * 100).toFixed(1)}% remaining)`);
+        this.log(
+          `⚠️  Target not yet reached (${((this.targetReduction - reduction) * 100).toFixed(1)}% remaining)`,
+        );
       }
     }
 
@@ -698,7 +721,9 @@ export interface CulinaryRecommendation {
       });
     }
 
-    this.log(`\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE'}`);
+    this.log(
+      `\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE'}`,
+    );
 
     if (!this.dryRun && reduction >= this.targetReduction) {
       this.log('🎉 Target explicit-any reduction achieved!');

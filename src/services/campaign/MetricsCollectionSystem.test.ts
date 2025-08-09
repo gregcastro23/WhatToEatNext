@@ -62,8 +62,8 @@ describe('MetricsCollectionSystem', () => {
 
       expect(snapshot.metrics.typeScriptErrors.current).toBe(5);
       expect(snapshot.metrics.errorBreakdown).toEqual({
-        'TS2352': 3,
-        'TS2345': 2
+        TS2352: 3,
+        TS2345: 2,
       });
     });
 
@@ -106,7 +106,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.warningBreakdown).toEqual({
         '@typescript-eslint/no-unused-vars': 1,
         '@typescript-eslint/no-explicit-any': 1,
-        'no-console': 1
+        'no-console': 1,
       });
     });
 
@@ -143,7 +143,7 @@ describe('MetricsCollectionSystem', () => {
     });
 
     test('should handle build failures gracefully', async () => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed');
         }
@@ -176,14 +176,14 @@ describe('MetricsCollectionSystem', () => {
 
       // Collect multiple snapshots with time gaps
       await metricsSystem.collectSnapshot('phase1');
-      
+
       // Simulate time passage
       jest.advanceTimersByTime(3600000); // 1 hour
-      
+
       await metricsSystem.collectSnapshot('phase1');
-      
+
       jest.advanceTimersByTime(3600000); // Another hour
-      
+
       const snapshot = await metricsSystem.collectSnapshot('phase1');
 
       expect(snapshot.metrics.trendData.errorReductionRate).toBeGreaterThanOrEqual(0);
@@ -229,7 +229,7 @@ describe('MetricsCollectionSystem', () => {
 
       // Create more than 1000 snapshots
       for (let i = 0; i < 1100; i++) {
-        await metricsSystem.collectSnapshot(`phase${i % 4 + 1}`);
+        await metricsSystem.collectSnapshot(`phase${(i % 4) + 1}`);
       }
 
       const snapshots = metricsSystem.getSnapshots();
@@ -268,7 +268,7 @@ describe('MetricsCollectionSystem', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         'test-metrics.json',
-        expect.stringContaining('"totalSnapshots": 1')
+        expect.stringContaining('"totalSnapshots": 1'),
       );
     });
 
@@ -277,15 +277,14 @@ describe('MetricsCollectionSystem', () => {
         throw new Error('Write failed');
       });
 
-      await expect(metricsSystem.exportSnapshots('invalid-path.json'))
-        .rejects.toThrow('Write failed');
+      await expect(metricsSystem.exportSnapshots('invalid-path.json')).rejects.toThrow('Write failed');
     });
   });
 
   describe('Error Handling', () => {
     test('should handle command execution errors gracefully', async () => {
       const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
-      
+
       mockExecSync.mockImplementation(() => {
         throw new Error('Command not found');
       });
@@ -294,13 +293,13 @@ describe('MetricsCollectionSystem', () => {
 
       expect(consoleWarnSpy).toHaveBeenCalled();
       expect(snapshot.metrics.typeScriptErrors.current).toBe(-1);
-      
+
       consoleWarnSpy.mockRestore();
     });
 
-    test('should handle collection errors during real-time collection', (done) => {
+    test('should handle collection errors during real-time collection', done => {
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-      
+
       mockExecSync.mockImplementation(() => {
         throw new Error('Collection failed');
       });
@@ -308,11 +307,8 @@ describe('MetricsCollectionSystem', () => {
       metricsSystem.startRealTimeCollection(100);
 
       setTimeout(() => {
-        expect(consoleErrorSpy).toHaveBeenCalledWith(
-          '❌ Error during metrics collection:',
-          'Collection failed'
-        );
-        
+        expect(consoleErrorSpy).toHaveBeenCalledWith('❌ Error during metrics collection:', 'Collection failed');
+
         consoleErrorSpy.mockRestore();
         done();
       }, 150);

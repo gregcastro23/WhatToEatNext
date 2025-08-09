@@ -2,22 +2,18 @@
  * Tests for Build Quality Monitor
  */
 
-import {
-    AlertType,
-    getBuildQualityScore,
-    monitorBuildQuality
-} from '../buildQualityMonitor';
+import { AlertType, getBuildQualityScore, monitorBuildQuality } from '../buildQualityMonitor';
 
 // Mock child_process
 jest.mock('child_process', () => ({
-  execSync: jest.fn()
+  execSync: jest.fn(),
 }));
 
 // Mock fs
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
   readdirSync: jest.fn(),
-  statSync: jest.fn()
+  statSync: jest.fn(),
 }));
 
 // Mock the logger
@@ -26,8 +22,8 @@ jest.mock('../logger', () => ({
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn()
-  }
+    debug: jest.fn(),
+  },
 }));
 
 import { execSync } from 'child_process';
@@ -47,7 +43,7 @@ describe('Build Quality Monitor', () => {
     mockReaddirSync.mockReturnValue([]);
     mockStatSync.mockReturnValue({
       isDirectory: () => false,
-      size: 1024
+      size: 1024,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock for fs.Stats requires flexible typing for test scenarios
     } as any);
@@ -83,9 +79,9 @@ describe('Build Quality Monitor', () => {
     it('should detect TypeScript errors', async () => {
       // Mock TypeScript output with errors
       const mockTscOutput = [
-        'src/test1.ts(10,5): error TS2304: Cannot find name \'test1\'.',
+        "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
         'src/test2.ts(15,10): error TS2352: Conversion error.',
-        'src/test3.ts(20,15): error TS2345: Argument error.'
+        'src/test3.ts(20,15): error TS2345: Argument error.',
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,9 +105,7 @@ describe('Build Quality Monitor', () => {
       const report = await monitorBuildQuality();
 
       // Check if performance alerts are generated for slow builds
-      const performanceAlerts = report.alerts.filter(alert =>
-        alert.type === AlertType.BUILD_PERFORMANCE
-      );
+      const performanceAlerts = report.alerts.filter(alert => alert.type === AlertType.BUILD_PERFORMANCE);
 
       // May or may not have alerts depending on actual timing
       expect(performanceAlerts.length).toBeGreaterThanOrEqual(0);
@@ -130,7 +124,7 @@ describe('Build Quality Monitor', () => {
       mockReaddirSync.mockReturnValue(['static', 'server', 'cache'] as any);
       mockStatSync.mockReturnValue({
         isDirectory: () => true,
-        size: 0
+        size: 0,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // Intentionally any: Jest mock for fs.Stats interface requires flexible typing
       } as any);
@@ -239,11 +233,11 @@ describe('Build Quality Monitor', () => {
     it('should identify build bottlenecks', async () => {
       // Mock build with TypeScript errors (smaller number to avoid memory issues)
       const mockTscOutput = [
-        'src/test1.ts(10,5): error TS2304: Cannot find name \'test1\'.',
+        "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
         'src/test2.ts(15,10): error TS2352: Conversion error.',
         'src/test3.ts(20,15): error TS2345: Argument error.',
         'src/test4.ts(25,20): error TS2698: Spread error.',
-        'src/test5.ts(30,25): error TS2362: Arithmetic error.'
+        'src/test5.ts(30,25): error TS2362: Arithmetic error.',
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -259,7 +253,7 @@ describe('Build Quality Monitor', () => {
       expect(report.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0);
 
       const tsBottleneck = report.performanceAnalysis.bottleneckAnalysis.find(
-        b => b.phase === 'TypeScript Compilation'
+        b => b.phase === 'TypeScript Compilation',
       );
       expect(tsBottleneck).toBeDefined();
     });
@@ -286,9 +280,9 @@ describe('Build Quality Monitor', () => {
     it('should generate alerts for high error counts', async () => {
       // Mock TypeScript errors (smaller number to avoid memory issues)
       const mockTscOutput = [
-        'src/test1.ts(10,5): error TS2304: Cannot find name \'test1\'.',
+        "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
         'src/test2.ts(15,10): error TS2352: Conversion error.',
-        'src/test3.ts(20,15): error TS2345: Argument error.'
+        'src/test3.ts(20,15): error TS2345: Argument error.',
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

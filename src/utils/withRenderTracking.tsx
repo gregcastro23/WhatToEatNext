@@ -16,9 +16,9 @@ interface PropInfo {
  */
 function getPropInfo(key: string, value: unknown): PropInfo {
   const type = Array.isArray(value) ? 'array' : typeof value;
-  
+
   const info: PropInfo = { key, type };
-  
+
   if (value === null) {
     info.type = 'null';
   } else if (value === undefined) {
@@ -40,46 +40,44 @@ function getPropInfo(key: string, value: unknown): PropInfo {
     // For primitives, show the actual value
     info.value = String(value);
   }
-  
+
   return info;
 }
 
 /**
  * Higher-order component that tracks renders and provides debugging information
- * 
+ *
  * @param Component - The component to wrap
  * @param componentName - Name of the component for logging
  * @returns A wrapped component with render tracking
  */
 export function withRenderTracking<P extends object>(
   Component: ComponentType<P>,
-  componentName: string
+  componentName: string,
 ): FunctionComponent<P> {
   // Define display name for React DevTools
   const displayName = `RenderTracked(${componentName || Component.displayName || Component.name || 'Component'})`;
-  
+
   const TrackedComponent: FunctionComponent<P> = (props: P) => {
     const [renderCount, setRenderCount] = useState(0);
     const [renderTime, setRenderTime] = useState(0);
     const [firstRender, setFirstRender] = useState(true);
-    
+
     // Track renders
     useEffect(() => {
       const startTime = performance.now();
-      
+
       setRenderCount(prev => {
         const newCount = prev + 1;
-        
+
         // Log more details on first render or every 5 renders
         if (firstRender || newCount % 5 === 0) {
           // Get detailed prop information for debugging
-          const propDetails = Object.entries(props).map(([key, value]) => 
-            getPropInfo(key, value)
-          );
-          
+          const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value));
+
           console.warn(`🔍 ${componentName} rendered ${newCount} times`);
           console.warn('Props:', propDetails);
-          
+
           if (firstRender) {
             setFirstRender(false);
           }
@@ -87,21 +85,21 @@ export function withRenderTracking<P extends object>(
           // Simple log for most renders
           console.warn(`📊 ${componentName} render #${newCount}`);
         }
-        
+
         return newCount;
       });
-      
+
       // Calculate and track render time
       return () => {
         const endTime = performance.now();
         setRenderTime(endTime - startTime);
       };
     }, [firstRender, props]);
-    
+
     return (
       <div data-component={componentName} data-render-count={renderCount}>
         {process.env.NODE_ENV === 'development' && (
-          <div 
+          <div
             style={{
               fontSize: '10px',
               color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
@@ -111,12 +109,12 @@ export function withRenderTracking<P extends object>(
               borderRadius: '2px',
               margin: '2px 0',
               display: 'flex',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
             }}
           >
             <span>{componentName}</span>
             <span>
-              Renders: <strong>{renderCount}</strong> 
+              Renders: <strong>{renderCount}</strong>
               {renderTime > 0 && <span> ({renderTime.toFixed(1)}ms)</span>}
             </span>
           </div>
@@ -125,21 +123,21 @@ export function withRenderTracking<P extends object>(
       </div>
     );
   };
-  
+
   // Set display name for better debugging
   TrackedComponent.displayName = displayName;
-  
+
   return TrackedComponent;
 }
 
 /**
  * Creates a wrapped component with render tracking
  * Use this as a decorator or direct function call
- * 
+ *
  * @example
  * // As a function
  * const TrackedComponent = trackRenders(MyComponent, 'MyComponent');
- * 
+ *
  * @example
  * // As a decorator (TypeScript)
  * @trackRenders('MyComponent')
@@ -148,11 +146,14 @@ export function withRenderTracking<P extends object>(
 export function trackRenders(nameOrComponent: string | ComponentType<any>, name?: string) {
   // Called as @trackRenders('Name')
   if (typeof nameOrComponent === 'string') {
-    return function<P extends object>(Component: ComponentType<P>) {
+    return function <P extends object>(Component: ComponentType<P>) {
       return withRenderTracking(Component, nameOrComponent);
     };
   }
-  
+
   // Called as trackRenders(Component, 'Name')
-  return withRenderTracking(nameOrComponent, name || nameOrComponent.displayName || nameOrComponent.name || 'Component');
-} 
+  return withRenderTracking(
+    nameOrComponent,
+    name || nameOrComponent.displayName || nameOrComponent.name || 'Component',
+  );
+}

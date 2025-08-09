@@ -1,6 +1,6 @@
 import { Recipe } from '@/types/recipe';
 
-import Recipes from "../cuisines";
+import Recipes from '../cuisines';
 import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from '../recipes';
 
 export { Recipes };
@@ -8,7 +8,7 @@ export { Recipes };
 // Create flattened list of all recipes from all cuisines
 const flattenCuisineRecipes = (cuisines: any) => {
   const allRecipes: Recipe[] = [];
-  
+
   // Iterate through all cuisines
   Object.values(cuisines).forEach((cuisine: any) => {
     if (cuisine.dishes) {
@@ -23,7 +23,7 @@ const flattenCuisineRecipes = (cuisines: any) => {
       });
     }
   });
-  
+
   return allRecipes;
 };
 

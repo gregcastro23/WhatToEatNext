@@ -11,28 +11,30 @@ import { LintingAnalysisService } from '../LintingAnalysisService';
 
 // Mock child_process to prevent actual ESLint execution during tests
 jest.mock('child_process', () => ({
-  execSync: jest.fn().mockReturnValue(JSON.stringify([
-    {
-      filePath: '/test/src/App.tsx',
-      messages: [
-        {
-          ruleId: 'import/order',
-          severity: 2,
-          message: 'Import order is incorrect',
-          line: 1,
-          column: 1,
-          fix: { range: [0, 10], text: 'fixed import' }
-        },
-        {
-          ruleId: '@typescript-eslint/no-explicit-any',
-          severity: 1,
-          message: 'Unexpected any type',
-          line: 5,
-          column: 10
-        }
-      ]
-    }
-  ]))
+  execSync: jest.fn().mockReturnValue(
+    JSON.stringify([
+      {
+        filePath: '/test/src/App.tsx',
+        messages: [
+          {
+            ruleId: 'import/order',
+            severity: 2,
+            message: 'Import order is incorrect',
+            line: 1,
+            column: 1,
+            fix: { range: [0, 10], text: 'fixed import' },
+          },
+          {
+            ruleId: '@typescript-eslint/no-explicit-any',
+            severity: 1,
+            message: 'Unexpected any type',
+            line: 5,
+            column: 10,
+          },
+        ],
+      },
+    ]),
+  ),
 }));
 
 // Mock fs to prevent actual file system access during tests
@@ -48,7 +50,7 @@ import React, { useState } from 'react';
       return <div>Test</div>;
     }
   `),
-  statSync: jest.fn().mockReturnValue({ mtime: new Date() })
+  statSync: jest.fn().mockReturnValue({ mtime: new Date() }),
 }));
 
 describe('LintingAnalysisService', () => {
@@ -63,7 +65,7 @@ describe('LintingAnalysisService', () => {
   describe('Quick Analysis', () => {
     it('should perform quick analysis without errors', async () => {
       const result = await service.performQuickAnalysis();
-      
+
       expect(result).toBeDefined();
       expect(result.summary).toBeDefined();
       expect(result.summary.totalIssues).toBeGreaterThan(0);
@@ -74,7 +76,7 @@ describe('LintingAnalysisService', () => {
 
     it('should identify auto-fixable issues as quick wins', async () => {
       const result = await service.performQuickAnalysis();
-      
+
       // Should have at least one quick win (import/order is auto-fixable)
       expect(result.quickWins.length).toBeGreaterThan(0);
       expect(result.quickWins[0].autoFixable).toBe(true);
@@ -82,7 +84,7 @@ describe('LintingAnalysisService', () => {
 
     it('should categorize issues by severity', async () => {
       const result = await service.performQuickAnalysis();
-      
+
       expect(result.summary.errorCount).toBeGreaterThanOrEqual(0);
       expect(result.summary.warningCount).toBeGreaterThanOrEqual(0);
       expect(result.summary.totalIssues).toBe(result.summary.errorCount + result.summary.warningCount);
@@ -92,7 +94,7 @@ describe('LintingAnalysisService', () => {
   describe('Comprehensive Analysis', () => {
     it('should perform comprehensive analysis with default options', async () => {
       const result = await service.performComprehensiveAnalysis();
-      
+
       expect(result).toBeDefined();
       expect(result.summary).toBeDefined();
       expect(result.categorizedErrors).toBeDefined();
@@ -105,26 +107,26 @@ describe('LintingAnalysisService', () => {
 
     it('should generate resolution strategies when requested', async () => {
       const result = await service.performComprehensiveAnalysis({
-        generateStrategies: true
+        generateStrategies: true,
       });
-      
+
       expect(result.resolutionStrategies.length).toBeGreaterThan(0);
       expect(result.optimizedPlan.totalStrategies).toBeGreaterThan(0);
     });
 
     it('should skip file analysis when disabled', async () => {
       const result = await service.performComprehensiveAnalysis({
-        includeFileAnalysis: false
+        includeFileAnalysis: false,
       });
-      
+
       expect(result.fileAnalyses).toHaveLength(0);
     });
 
     it('should focus on specific areas when requested', async () => {
       const result = await service.performComprehensiveAnalysis({
-        focusAreas: ['import', 'typescript']
+        focusAreas: ['import', 'typescript'],
       });
-      
+
       expect(result).toBeDefined();
       // Should still work with focus areas
       expect(result.summary.totalIssues).toBeGreaterThanOrEqual(0);
@@ -132,10 +134,10 @@ describe('LintingAnalysisService', () => {
 
     it('should generate appropriate recommendations', async () => {
       const result = await service.performComprehensiveAnalysis();
-      
+
       expect(result.recommendations).toBeDefined();
       expect(result.recommendations.length).toBeGreaterThan(0);
-      
+
       // Should have at least one recommendation
       const firstRec = result.recommendations[0];
       expect(firstRec.title).toBeDefined();
@@ -146,7 +148,7 @@ describe('LintingAnalysisService', () => {
 
     it('should calculate comprehensive metrics', async () => {
       const result = await service.performComprehensiveAnalysis();
-      
+
       expect(result.metrics).toBeDefined();
       expect(result.metrics.analysisTime).toBeGreaterThan(0);
       expect(result.metrics.filesAnalyzed).toBeGreaterThanOrEqual(0);
@@ -193,16 +195,16 @@ describe('LintingAnalysisService', () => {
         projectContext: {
           hasTests: true,
           teamSize: 'small',
-          riskTolerance: 'moderate'
-        }
+          riskTolerance: 'moderate',
+        },
       });
-      
+
       // Verify all components worked together
       expect(result.categorizedErrors.total).toBeGreaterThan(0);
       expect(result.fileAnalyses.length).toBeGreaterThan(0);
       expect(result.resolutionStrategies.length).toBeGreaterThan(0);
       expect(result.recommendations.length).toBeGreaterThan(0);
-      
+
       // Verify data consistency
       expect(result.summary.totalIssues).toBe(result.categorizedErrors.total);
       expect(result.optimizedPlan.totalStrategies).toBe(result.resolutionStrategies.length);
@@ -212,7 +214,7 @@ describe('LintingAnalysisService', () => {
       // Run analysis twice and compare results
       const result1 = await service.performQuickAnalysis();
       const result2 = await service.performQuickAnalysis();
-      
+
       expect(result1.summary.totalIssues).toBe(result2.summary.totalIssues);
       expect(result1.summary.errorCount).toBe(result2.summary.errorCount);
       expect(result1.summary.warningCount).toBe(result2.summary.warningCount);

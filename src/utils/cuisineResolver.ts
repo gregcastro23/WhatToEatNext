@@ -1,19 +1,19 @@
 /**
  * Cuisine Resolver Utilities
- * 
+ *
  * Provides utility functions for resolving and working with cuisine types
  * using the new cuisine alias system.
  */
 
-import { 
-  resolveCuisineType, 
-  getRegionalCuisines, 
-  isRegionalCuisine, 
+import {
+  resolveCuisineType,
+  getRegionalCuisines,
+  isRegionalCuisine,
   getPrimaryCuisine,
   normalizeCuisineName,
   CUISINE_ALIASES,
   type PrimaryCuisineType,
-  type AllCuisineTypes
+  type AllCuisineTypes,
 } from '@/types/cuisineAliases';
 
 /**
@@ -23,18 +23,18 @@ import {
  */
 export function standardizeCuisine(cuisineName: string): PrimaryCuisineType {
   const resolved = resolveCuisineType(cuisineName);
-  
+
   // If the resolved type is a primary cuisine, return it
   if (typeof resolved === 'string' && !isRegionalCuisine(resolved)) {
     return resolved as PrimaryCuisineType;
   }
-  
+
   // If it's a regional cuisine, get its primary cuisine
   const primary = getPrimaryCuisine(cuisineName);
   if (primary) {
     return primary;
   }
-  
+
   // Fallback to normalized name
   return normalizeCuisineName(cuisineName) as PrimaryCuisineType;
 }
@@ -67,7 +67,7 @@ export function areCuisinesRelated(cuisine1: string, cuisine2: string): boolean 
  */
 export function groupCuisinesByType(cuisineNames: string[]): Record<PrimaryCuisineType, string[]> {
   const groups: Record<PrimaryCuisineType, string[]> = {} as Record<PrimaryCuisineType, string[]>;
-  
+
   cuisineNames.forEach(cuisineName => {
     const primary = standardizeCuisine(cuisineName);
     if (!groups[primary]) {
@@ -75,7 +75,7 @@ export function groupCuisinesByType(cuisineNames: string[]): Record<PrimaryCuisi
     }
     groups[primary].push(cuisineName);
   });
-  
+
   return groups;
 }
 
@@ -104,7 +104,7 @@ export function getCuisineDisplayName(cuisineName: string): string {
       return `${normalized} (${primary})`;
     }
   }
-  
+
   // For primary cuisines or unknown cuisines, just normalize
   return normalizeCuisineName(cuisineName);
 }
@@ -119,14 +119,28 @@ export function isSupportedCuisine(cuisineName: string): boolean {
   if (isRegionalCuisine(cuisineName)) {
     return true;
   }
-  
+
   // Check if it's a primary cuisine type
   const primaryCuisines: PrimaryCuisineType[] = [
-    'Chinese', 'Japanese', 'Korean', 'Indian', 'Thai', 'Vietnamese',
-    'Italian', 'French', 'Greek', 'Spanish', 'Mexican', 'American',
-    'African', 'Middle-Eastern', 'Mediterranean', 'Russian', 'Fusion'
+    'Chinese',
+    'Japanese',
+    'Korean',
+    'Indian',
+    'Thai',
+    'Vietnamese',
+    'Italian',
+    'French',
+    'Greek',
+    'Spanish',
+    'Mexican',
+    'American',
+    'African',
+    'Middle-Eastern',
+    'Mediterranean',
+    'Russian',
+    'Fusion',
   ];
-  
+
   return primaryCuisines.includes(cuisineName as PrimaryCuisineType);
 }
 
@@ -139,18 +153,32 @@ export function getCuisineSuggestions(partialName: string): string[] {
   const normalized = partialName.toLowerCase();
   const allCuisines = Object.keys(CUISINE_ALIASES);
   const primaryCuisines: PrimaryCuisineType[] = [
-    'Chinese', 'Japanese', 'Korean', 'Indian', 'Thai', 'Vietnamese',
-    'Italian', 'French', 'Greek', 'Spanish', 'Mexican', 'American',
-    'African', 'Middle-Eastern', 'Mediterranean', 'Russian', 'Fusion'
+    'Chinese',
+    'Japanese',
+    'Korean',
+    'Indian',
+    'Thai',
+    'Vietnamese',
+    'Italian',
+    'French',
+    'Greek',
+    'Spanish',
+    'Mexican',
+    'American',
+    'African',
+    'Middle-Eastern',
+    'Mediterranean',
+    'Russian',
+    'Fusion',
   ];
-  
+
   const suggestions = [
     ...allCuisines.filter(cuisine => cuisine.includes(normalized)),
-    ...primaryCuisines.filter(cuisine => cuisine.toLowerCase().includes(normalized))
+    ...primaryCuisines.filter(cuisine => cuisine.toLowerCase().includes(normalized)),
   ];
-  
+
   return [...new Set(suggestions)]; // Remove duplicates
 }
 
 // Re-export types for convenience
-export type { PrimaryCuisineType, AllCuisineTypes }; 
+export type { PrimaryCuisineType, AllCuisineTypes };

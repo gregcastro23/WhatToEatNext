@@ -13,8 +13,8 @@ jest.mock('@/utils/logger', () => ({
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn()
-  }
+    debug: jest.fn(),
+  },
 }));
 
 describe('EnterpriseIntelligenceIntegration', () => {
@@ -27,7 +27,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     },
     // Enhanced Recipe interface compatibility
     ingredients: [],
@@ -35,14 +35,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
     cookingMethods: [],
     season: ['all'],
     mealType: ['dinner'],
-    numberOfServings: 4
+    numberOfServings: 4,
   } as unknown as import('@/types/unified').Recipe;
 
   const mockCuisineData = {
     name: 'Test Cuisine',
     type: 'fusion',
     region: 'global',
-    characteristics: ['spicy', 'aromatic']
+    characteristics: ['spicy', 'aromatic'],
   };
 
   beforeEach(() => {
@@ -53,12 +53,11 @@ describe('EnterpriseIntelligenceIntegration', () => {
       enableSafetyIntelligence: true,
       enableOptimizationRecommendations: true,
       cacheResults: false, // Disable caching for tests
-      logLevel: 'error' // Reduce log noise in tests
+      logLevel: 'error', // Reduce log noise in tests
     });
   });
 
   describe('performEnterpriseAnalysis', () => {
-
     const mockIngredientData = {
       id: 'test-ingredients',
       ingredients: [
@@ -69,10 +68,10 @@ describe('EnterpriseIntelligenceIntegration', () => {
             Fire: 0.2,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.2
-          }
-        }
-      ]
+            Air: 0.2,
+          },
+        },
+      ],
     };
 
     const mockAstrologicalContext = {
@@ -83,14 +82,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
         Fire: 0.4,
         Water: 0.2,
         Earth: 0.2,
-        Air: 0.2
+        Air: 0.2,
       } as ElementalProperties,
       planetaryPositions: {},
       userPreferences: {
         dietaryRestrictions: [],
         flavorPreferences: [],
-        culturalPreferences: []
-      }
+        culturalPreferences: [],
+      },
     };
 
     it('should perform comprehensive enterprise analysis', async () => {
@@ -98,7 +97,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
 
       expect(result).toBeDefined();
@@ -117,7 +116,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
 
       const recipeIntelligence = result.recipeIntelligence;
@@ -137,7 +136,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
 
       const ingredientIntelligence = result.ingredientIntelligence;
@@ -156,7 +155,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
 
       const validation = result.validationIntelligence;
@@ -174,7 +173,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
 
       const safety = result.safetyIntelligence;
@@ -193,7 +192,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
 
       const optimization = result.optimizationRecommendations as Record<string, any>;
@@ -211,7 +210,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         undefined,
         [],
         undefined, // cuisineData
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
 
       expect(result).toBeDefined();
@@ -227,7 +226,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,
         enableSafetyIntelligence: false,
-        enableOptimizationRecommendations: false
+        enableOptimizationRecommendations: false,
       });
 
       const result = await disabledService.performEnterpriseAnalysis(
@@ -242,9 +241,9 @@ describe('EnterpriseIntelligenceIntegration', () => {
           userPreferences: {
             dietaryRestrictions: [],
             flavorPreferences: [],
-            culturalPreferences: []
-          }
-        } as any
+            culturalPreferences: [],
+          },
+        } as any,
       );
 
       expect(result.recipeIntelligence?.recommendations).toContain('Recipe intelligence disabled');
@@ -254,7 +253,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should update configuration', () => {
       service.updateConfig({
         enableRecipeIntelligence: false,
-        logLevel: 'debug'
+        logLevel: 'debug',
       });
 
       // Configuration should be updated (we can't easily test this without exposing internal state)
@@ -293,9 +292,9 @@ describe('EnterpriseIntelligenceIntegration', () => {
           userPreferences: {
             dietaryRestrictions: [],
             flavorPreferences: [],
-            culturalPreferences: []
-          }
-        } as any
+            culturalPreferences: [],
+          },
+        } as any,
       );
 
       const updatedMetrics = service.getPerformanceMetrics();

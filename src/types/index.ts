@@ -1,24 +1,33 @@
 // Time-related types
 export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
-export type MealTime = typeof MEAL_TIMES[number];
+export type MealTime = (typeof MEAL_TIMES)[number];
 
 // Import fundamental types
 import { Recipe as AlchemyRecipe, ZodiacSign, Season, ElementalProperties } from './alchemy';
-import { 
-  AlchemicalProperties, 
-  ThermodynamicProperties, 
-  Element, 
-  PlanetName, 
-  LunarPhase, 
-  PlanetaryAlignment 
+import {
+  AlchemicalProperties,
+  ThermodynamicProperties,
+  Element,
+  PlanetName,
+  LunarPhase,
+  PlanetaryAlignment,
 } from './alchemy';
 import { Recipe } from './unified';
 
 // Define zodiac signs as seasons
 export const ZODIAC_SEASONS: ZodiacSign[] = [
-  'aries', 'taurus', 'gemini', 'cancer', 
-  'leo', 'virgo', 'libra', 'scorpio', 
-  'sagittarius', 'capricorn', 'aquarius', 'pisces'
+  'aries',
+  'taurus',
+  'gemini',
+  'cancer',
+  'leo',
+  'virgo',
+  'libra',
+  'scorpio',
+  'sagittarius',
+  'capricorn',
+  'aquarius',
+  'pisces',
 ];
 
 // Recipe and ingredient types
@@ -106,7 +115,7 @@ export type CuisineData = {
   dishes?: {
     [mealTime in MealTime]?: TimeData;
   };
-  
+
   // Additional properties for enhanced compatibility
   region?: string;
   description?: string;
@@ -139,16 +148,16 @@ export * from './cuisine';
 export type CuisineType = string;
 
 // Add DietaryRestriction type if missing from any type files
-export type DietaryRestriction = 
-  | 'vegan' 
-  | 'vegetarian' 
-  | 'pescatarian' 
-  | 'dairy-free' 
-  | 'gluten-free' 
-  | 'nut-free' 
-  | 'keto' 
-  | 'paleo' 
-  | 'low-carb' 
+export type DietaryRestriction =
+  | 'vegan'
+  | 'vegetarian'
+  | 'pescatarian'
+  | 'dairy-free'
+  | 'gluten-free'
+  | 'nut-free'
+  | 'keto'
+  | 'paleo'
+  | 'low-carb'
   | 'low-fat';
 
 // Export ZodiacAffinity types (removed to avoid Modality conflict)
@@ -164,7 +173,7 @@ export * from './seasonal';
 export * from './cuisine';
 export * from './chakra';
 export * from './astrology';
-// Explicitly re-export PlanetaryPositions from astrological to resolve ambiguity  
+// Explicitly re-export PlanetaryPositions from astrological to resolve ambiguity
 export type { PlanetaryPositions as AstrologicalPlanetaryPositions } from './astrological';
 // Note: Removing wildcard export from './astrological' to avoid PlanetaryPositions conflict
 export * from './ingredient-compatibility';
@@ -183,16 +192,16 @@ export interface AppState {
 
 // Instead, import and export only from './alchemy' for these types:
 
-export type { 
-  AlchemicalProperties, 
-  ThermodynamicProperties, 
-  Season, 
-  Element, 
-  PlanetName, 
-  ZodiacSign, 
-  LunarPhase, 
+export type {
+  AlchemicalProperties,
+  ThermodynamicProperties,
+  Season,
+  Element,
+  PlanetName,
+  ZodiacSign,
+  LunarPhase,
   PlanetaryAlignment,
-  ElementalProperties
+  ElementalProperties,
 } from './alchemy';
 
 // Add missing exports for frequently used types

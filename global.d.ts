@@ -26,4 +26,4 @@ interface JestMatchers<R> {
   toBePartiallyChecked(): R;
 }
 
-// Other global types can be added here 
+// Other global types can be added here

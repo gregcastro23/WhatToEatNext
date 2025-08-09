@@ -13,13 +13,13 @@ import SunDisplay from '@/components/SunDisplay';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import ErrorHandler from '@/services/errorHandler';
 import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
-import './styles/expandable.css';  // Import our expandable component styles
+import './styles/expandable.css'; // Import our expandable component styles
 
 // Dynamically import FoodRecommender with loading state
-const FoodRecommender = dynamic(
-  () => import('@/components/FoodRecommender'),
-  { loading: () => <div className="loading">Loading recommendations...</div>, ssr: false }
-);
+const FoodRecommender = dynamic(() => import('@/components/FoodRecommender'), {
+  loading: () => <div className='loading'>Loading recommendations...</div>,
+  ssr: false,
+});
 
 // Add this type definition at the top of the file
 type GeolocationCoordinates = {
@@ -33,7 +33,14 @@ type GeolocationCoordinates = {
 };
 
 // Define the available components for navigation
-type ComponentName = 'foodRecommender' | 'elementalEnergy' | 'moonDisplay' | 'sunDisplay' | 'astrologicalClock' | 'cuisineRecommender' | 'cookingMethods';
+type ComponentName =
+  | 'foodRecommender'
+  | 'elementalEnergy'
+  | 'moonDisplay'
+  | 'sunDisplay'
+  | 'astrologicalClock'
+  | 'cuisineRecommender'
+  | 'cookingMethods';
 
 function App() {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -44,7 +51,7 @@ function App() {
   const handleSetupError = (error: Error) => {
     ErrorHandler.log(error, {
       context: 'App:setup',
-      isFatal: true
+      isFatal: true,
     });
   };
 
@@ -53,11 +60,11 @@ function App() {
     try {
       // Initialize the alchemical engine
       initializeAlchemicalEngine();
-      
+
       // Get user's location if possible
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
+          position => {
             setUserLocation({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -65,18 +72,18 @@ function App() {
               accuracy: position.coords.accuracy,
               altitudeAccuracy: position.coords.altitudeAccuracy,
               heading: position.coords.heading,
-              speed: position.coords.speed
+              speed: position.coords.speed,
             });
           },
-          (error) => {
+          error => {
             ErrorHandler.log(error, {
               context: 'App:geolocation',
-              isFatal: false
+              isFatal: false,
             });
-          }
+          },
         );
       }
-      
+
       // Mark as initialized
       setIsInitialized(true);
     } catch (error) {
@@ -92,15 +99,15 @@ function App() {
     { name: 'Elemental Energy', id: 'elementalEnergy' },
     { name: 'Moon', id: 'moonDisplay' },
     { name: 'Sun', id: 'sunDisplay' },
-    { name: 'Astrological Clock', id: 'astrologicalClock' }
+    { name: 'Astrological Clock', id: 'astrologicalClock' },
   ];
 
   // Show loading state until the app is initialized
   if (!isInitialized) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl mb-2">Initializing What To Eat Next...</h2>
+      <div className='flex h-screen w-full items-center justify-center'>
+        <div className='text-center'>
+          <h2 className='mb-2 text-xl'>Initializing What To Eat Next...</h2>
           <p>Loading astrological data and ingredients...</p>
         </div>
       </div>
@@ -109,33 +116,38 @@ function App() {
 
   return (
     <GlobalErrorBoundary
-      context="AppRoot"
+      context='AppRoot'
       fallback={({ error, resetErrorBoundary, context }) => (
-        <ErrorFallback error={error} resetErrorBoundary={resetErrorBoundary} context={context || "AppRoot"} />
+        <ErrorFallback
+          error={error}
+          resetErrorBoundary={resetErrorBoundary}
+          context={context || 'AppRoot'}
+        />
       )}
     >
       <AlchemicalProvider>
-        <div className="w-full px-4 py-4">
-          <h1 className="text-3xl font-bold mb-4 text-center">What To Eat Next</h1>
-          
+        <div className='w-full px-4 py-4'>
+          <h1 className='mb-4 text-center text-3xl font-bold'>What To Eat Next</h1>
+
           {/* Display user location if available */}
           {userLocation && (
-            <div className="text-xs text-gray-500 text-center mb-2">
-              Using location: {userLocation.latitude.toFixed(2)}, {userLocation.longitude.toFixed(2)}
+            <div className='mb-2 text-center text-xs text-gray-500'>
+              Using location: {userLocation.latitude.toFixed(2)},{' '}
+              {userLocation.longitude.toFixed(2)}
             </div>
           )}
-          
+
           {/* Planetary position initializer helps fetch position data */}
           <PlanetaryPositionInitializer />
-          
+
           {/* Navigation bar for mobile */}
-          <div className="w-full mb-4 overflow-x-auto">
-            <div className="flex flex-row flex-nowrap space-x-2 pb-2">
-              {navigationItems.map((item) => (
+          <div className='mb-4 w-full overflow-x-auto'>
+            <div className='flex flex-row flex-nowrap space-x-2 pb-2'>
+              {navigationItems.map(item => (
                 <button
                   key={item.id}
                   onClick={() => setActiveComponent(item.id)}
-                  className={`px-3 py-2 text-sm rounded-lg whitespace-nowrap ${
+                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-sm ${
                     activeComponent === item.id
                       ? 'bg-blue-500 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -146,67 +158,67 @@ function App() {
               ))}
             </div>
           </div>
-          
+
           {/* Content area - only show active component */}
-          <div className="w-full">
+          <div className='w-full'>
             {/* Food Recommender */}
             {activeComponent === 'foodRecommender' && (
-              <GlobalErrorBoundary context="FoodRecommender">
-                <div className="mb-6">
+              <GlobalErrorBoundary context='FoodRecommender'>
+                <div className='mb-6'>
                   <FoodRecommender />
                 </div>
               </GlobalErrorBoundary>
             )}
-            
+
             {/* Elemental Energy Display */}
             {activeComponent === 'elementalEnergy' && (
-              <GlobalErrorBoundary context="ElementalEnergy">
-                <div className="mb-6">
+              <GlobalErrorBoundary context='ElementalEnergy'>
+                <div className='mb-6'>
                   <ElementalEnergyDisplay />
                 </div>
               </GlobalErrorBoundary>
             )}
-            
+
             {/* Moon Display */}
             {activeComponent === 'moonDisplay' && (
-              <GlobalErrorBoundary context="MoonDisplay">
-                <div className="mb-6">
+              <GlobalErrorBoundary context='MoonDisplay'>
+                <div className='mb-6'>
                   <MoonDisplay />
                 </div>
               </GlobalErrorBoundary>
             )}
-            
+
             {/* Sun Display */}
             {activeComponent === 'sunDisplay' && (
-              <GlobalErrorBoundary context="SunDisplay">
-                <div className="mb-6">
+              <GlobalErrorBoundary context='SunDisplay'>
+                <div className='mb-6'>
                   <SunDisplay />
                 </div>
               </GlobalErrorBoundary>
             )}
-            
+
             {/* Astrological Clock */}
             {activeComponent === 'astrologicalClock' && (
-              <GlobalErrorBoundary context="AstrologicalClock">
-                <div className="mb-6">
+              <GlobalErrorBoundary context='AstrologicalClock'>
+                <div className='mb-6'>
                   <AstrologicalClock />
                 </div>
               </GlobalErrorBoundary>
             )}
-            
+
             {/* Cuisine Recommender */}
             {activeComponent === 'cuisineRecommender' && (
-              <GlobalErrorBoundary context="CuisineRecommender">
-                <div className="mb-6">
+              <GlobalErrorBoundary context='CuisineRecommender'>
+                <div className='mb-6'>
                   <CuisineRecommender />
                 </div>
               </GlobalErrorBoundary>
             )}
-            
+
             {/* Cooking Methods */}
             {activeComponent === 'cookingMethods' && (
-              <GlobalErrorBoundary context="CookingMethods">
-                <div className="mb-6">
+              <GlobalErrorBoundary context='CookingMethods'>
+                <div className='mb-6'>
                   <CookingMethods />
                 </div>
               </GlobalErrorBoundary>
@@ -218,4 +230,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

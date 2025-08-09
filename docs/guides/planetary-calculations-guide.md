@@ -2,7 +2,9 @@
 
 ## Overview
 
-This guide provides detailed instructions for working with planetary calculations in the WhatToEatNext system. It covers implementation patterns, calculation methods, and best practices for accurate astrological computations.
+This guide provides detailed instructions for working with planetary
+calculations in the WhatToEatNext system. It covers implementation patterns,
+calculation methods, and best practices for accurate astrological computations.
 
 ## Core Planetary Calculation Functions
 
@@ -12,17 +14,17 @@ This guide provides detailed instructions for working with planetary calculation
 // src/utils/reliableAstronomy.ts
 export async function getReliablePlanetaryPositions(date: Date = new Date()): Promise<Record<string, unknown>> {
   try {
-    // Format date for cache key 
+    // Format date for cache key
     const dateString = date.toISOString().split('T')[0];
-    
+
     // Check cache first
-    if (positionsCache && 
-        positionsCache.date === dateString && 
+    if (positionsCache &&
+        positionsCache.date === dateString &&
         (Date.now() - positionsCache.timestamp) < CACHE_DURATION) {
       logger.debug('Using cached planetary positions');
       return positionsCache.positions;
     }
-    
+
     // Primary: Call NASA JPL Horizons API
     try {
       const positions = await fetchHorizonsData(date);
@@ -33,7 +35,7 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
     } catch (error) {
       logger.error('Error fetching from NASA JPL Horizons:', error);
     }
-    
+
     // Secondary: Try public API
     try {
       const positions = await fetchPublicApiData(date);
@@ -44,7 +46,7 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
     } catch (error) {
       logger.error('Error fetching from public API:', error);
     }
-    
+
     // All APIs failed, use fallback
     throw new Error('All API sources failed');
   } catch (error) {
@@ -60,17 +62,17 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
 function getLongitudeToZodiacSign(longitude: number): { sign: string, degree: number } {
   // Normalize longitude to 0-360 range
   const normalized = ((longitude % 360) + 360) % 360;
-  
+
   // Calculate sign index and degree
   const signIndex = Math.floor(normalized / 30);
   const degree = normalized % 30;
-  
+
   // Get sign name
   const signs = [
     'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
     'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
   ];
-  
+
   return {
     sign: signs[signIndex],
     degree: Math.round(degree * 100) / 100 // Round to 2 decimal places
@@ -86,19 +88,19 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
     // Calculate lunar nodes using simplified Meeus formula
     const jd = dateToJulian(date);
     const T = (jd - 2451545.0) / 36525;
-    
+
     // Mean longitude of ascending node (Meeus formula)
     let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T*T + T*T*T/450000;
-    
+
     // Normalize to 0-360 range
     Omega = ((Omega % 360) + 360) % 360;
-    
+
     // North node is opposite of Omega, South node is same as Omega
     const longitude = nodeType === 'northNode' ? (Omega + 180) % 360 : Omega;
-    
+
     // Get zodiac sign
     const { sign, degree } = getLongitudeToZodiacSign(longitude);
-    
+
     return {
       sign,
       degree,
@@ -107,7 +109,7 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
     };
   } catch (error) {
     logger.error(`Error calculating ${nodeType}:`, error);
-    
+
     // Return fixed values from March 2025
     if (nodeType === 'northNode') {
       return { sign: 'pisces', degree: 26.54, exactLongitude: 356.54, isRetrograde: true };
@@ -125,47 +127,47 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
 ```typescript
 // src/calculations/core/planetaryInfluences.ts
 export const PLANETARY_DIGNITIES = {
-  Sun: { 
-    rulership: ['leo'], 
-    exaltation: ['aries'], 
-    detriment: ['aquarius'], 
-    fall: ['libra'] 
+  Sun: {
+    rulership: ['leo'],
+    exaltation: ['aries'],
+    detriment: ['aquarius'],
+    fall: ['libra']
   },
-  moon: { 
-    rulership: ['cancer'], 
-    exaltation: ['taurus'], 
-    detriment: ['capricorn'], 
-    fall: ['scorpio'] 
+  moon: {
+    rulership: ['cancer'],
+    exaltation: ['taurus'],
+    detriment: ['capricorn'],
+    fall: ['scorpio']
   },
-  Mercury: { 
-    rulership: ['gemini', 'virgo'], 
-    exaltation: ['virgo'], 
-    detriment: ['sagittarius', 'pisces'], 
-    fall: ['pisces'] 
+  Mercury: {
+    rulership: ['gemini', 'virgo'],
+    exaltation: ['virgo'],
+    detriment: ['sagittarius', 'pisces'],
+    fall: ['pisces']
   },
-  Venus: { 
-    rulership: ['taurus', 'libra'], 
-    exaltation: ['pisces'], 
-    detriment: ['aries', 'scorpio'], 
-    fall: ['virgo'] 
+  Venus: {
+    rulership: ['taurus', 'libra'],
+    exaltation: ['pisces'],
+    detriment: ['aries', 'scorpio'],
+    fall: ['virgo']
   },
-  Mars: { 
-    rulership: ['aries', 'scorpio'], 
-    exaltation: ['capricorn'], 
-    detriment: ['taurus', 'libra'], 
-    fall: ['cancer'] 
+  Mars: {
+    rulership: ['aries', 'scorpio'],
+    exaltation: ['capricorn'],
+    detriment: ['taurus', 'libra'],
+    fall: ['cancer']
   },
-  Jupiter: { 
-    rulership: ['sagittarius', 'pisces'], 
-    exaltation: ['cancer'], 
-    detriment: ['gemini', 'virgo'], 
-    fall: ['capricorn'] 
+  Jupiter: {
+    rulership: ['sagittarius', 'pisces'],
+    exaltation: ['cancer'],
+    detriment: ['gemini', 'virgo'],
+    fall: ['capricorn']
   },
-  Saturn: { 
-    rulership: ['capricorn', 'aquarius'], 
-    exaltation: ['libra'], 
-    detriment: ['cancer', 'leo'], 
-    fall: ['aries'] 
+  Saturn: {
+    rulership: ['capricorn', 'aquarius'],
+    exaltation: ['libra'],
+    detriment: ['cancer', 'leo'],
+    fall: ['aries']
   }
 };
 
@@ -176,7 +178,7 @@ export function calculatePlanetaryDignity(planet: string, sign: string): {
   const planetKey = planet?.toLowerCase();
   const signKey = sign?.toLowerCase();
   const dignities = PLANETARY_DIGNITIES[planetKey as keyof typeof PLANETARY_DIGNITIES];
-  
+
   if (!dignities) {
     return { type: 'neutral', modifier: 1.0 };
   }
@@ -221,8 +223,8 @@ export function calculatePlanetaryStrength(
 
   // Adjust for aspects (if provided)
   if (aspects) {
-    const planetAspects = aspects.filter(aspect => 
-      aspect.planet1?.toLowerCase() === planet?.toLowerCase() || 
+    const planetAspects = aspects.filter(aspect =>
+      aspect.planet1?.toLowerCase() === planet?.toLowerCase() ||
       aspect.planet2?.toLowerCase() === planet?.toLowerCase()
     );
 
@@ -289,7 +291,7 @@ export function getPlanetaryElementalInfluence(
 ): keyof ElementalProperties {
   const planetKey = planet?.toLowerCase();
   const timeKey = isDaytime ? 'diurnal' : 'nocturnal';
-  
+
   return PLANETARY_ELEMENTAL_MAPPINGS[timeKey][planetKey as keyof typeof PLANETARY_ELEMENTAL_MAPPINGS.diurnal] as keyof ElementalProperties || 'Fire';
 }
 ```
@@ -324,11 +326,11 @@ export function calculatePlanetaryInfluences(
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
     const planetKey = planet?.toLowerCase();
     const mapping = PLANETARY_ALCHEMICAL_MAPPINGS[planetKey as keyof typeof PLANETARY_ALCHEMICAL_MAPPINGS];
-    
+
     if (mapping) {
       // Calculate planetary strength
       const strength = calculatePlanetaryStrength(planet, position);
-      
+
       // Add to alchemical influences
       alchemicalInfluences.Spirit += mapping.Spirit * strength;
       alchemicalInfluences.Essence += mapping.Essence * strength;
@@ -374,7 +376,7 @@ export function calculatePlanetaryInfluences(
 describe('Planetary Position Validation', () => {
   test('should validate planetary positions correctly', async () => {
     const positions = await getReliablePlanetaryPositions();
-    
+
     // Check all required planets are present
     const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
     requiredPlanets.forEach(planet => {
@@ -389,12 +391,12 @@ describe('Planetary Position Validation', () => {
 
   test('should handle retrograde status correctly', async () => {
     const positions = await getReliablePlanetaryPositions();
-    
+
     // Mercury can be retrograde
     if (positions.mercury?.isRetrograde !== undefined) {
       expect(typeof positions.mercury.isRetrograde).toBe('boolean');
     }
-    
+
     // Sun and Moon are never retrograde
     expect(positions.sun?.isRetrograde).toBeFalsy();
     expect(positions.moon?.isRetrograde).toBeFalsy();
@@ -411,17 +413,17 @@ describe('Planetary Dignity Calculations', () => {
     const sunInLeo = calculatePlanetaryDignity('Sun', 'leo');
     expect(sunInLeo.type).toBe('rulership');
     expect(sunInLeo.modifier).toBe(1.5);
-    
+
     // Test exaltation
     const sunInAries = calculatePlanetaryDignity('Sun', 'aries');
     expect(sunInAries.type).toBe('exaltation');
     expect(sunInAries.modifier).toBe(1.3);
-    
+
     // Test detriment
     const sunInAquarius = calculatePlanetaryDignity('Sun', 'aquarius');
     expect(sunInAquarius.type).toBe('detriment');
     expect(sunInAquarius.modifier).toBe(0.7);
-    
+
     // Test fall
     const sunInLibra = calculatePlanetaryDignity('Sun', 'libra');
     expect(sunInLibra.type).toBe('fall');
@@ -437,7 +439,7 @@ describe('Planetary Calculation Edge Cases', () => {
   test('should handle missing planet data gracefully', () => {
     const emptyPositions = {};
     const influences = calculatePlanetaryInfluences(emptyPositions);
-    
+
     expect(influences.alchemicalInfluences.Spirit).toBe(0);
     expect(influences.elementalInfluences.Fire).toBe(0);
     expect(influences.dominantPlanets).toHaveLength(0);
@@ -446,7 +448,7 @@ describe('Planetary Calculation Edge Cases', () => {
   test('should handle invalid longitude values', () => {
     const invalidLongitude = 400; // Invalid - should be 0-360
     const result = getLongitudeToZodiacSign(invalidLongitude);
-    
+
     expect(result.sign).toMatch(/^(aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces)$/);
     expect(result.degree).toBeGreaterThanOrEqual(0);
     expect(result.degree).toBeLessThan(30);
@@ -477,9 +479,9 @@ async function safeGetPlanetaryPositions(): Promise<PlanetaryPositions> {
 // ✅ CORRECT: Validate planetary position data
 function validatePlanetaryPosition(position: unknown): position is PlanetaryPosition {
   if (!position || typeof position !== 'object') return false;
-  
+
   const pos = position as Record<string, unknown>;
-  
+
   return (
     typeof pos.sign === 'string' &&
     typeof pos.degree === 'number' &&
@@ -500,11 +502,11 @@ const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
 function getCachedPositions(date: Date): any | null {
   const key = date.toISOString().split('T')[0];
   const cached = positionCache.get(key);
-  
+
   if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION) {
     return cached.data;
   }
-  
+
   return null;
 }
 ```
@@ -571,6 +573,7 @@ async function getPlanetaryData(): Promise<any> {
 ## Related Files
 
 - `src/utils/reliableAstronomy.ts` - Main planetary calculation functions
-- `src/calculations/core/planetaryInfluences.ts` - Planetary influence calculations
+- `src/calculations/core/planetaryInfluences.ts` - Planetary influence
+  calculations
 - `src/utils/__tests__/planetaryValidation.test.ts` - Planetary validation tests
 - `src/data/planets/` - Planetary transit data files

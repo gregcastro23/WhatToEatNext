@@ -1,9 +1,9 @@
 'use client';
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { ApiError } from "../types/errors";
-import handleError, { ErrorType, ErrorSeverity } from "../utils/errorHandler";
-import { createLogger } from "../utils/logger";
+import { ApiError } from '../types/errors';
+import handleError, { ErrorType, ErrorSeverity } from '../utils/errorHandler';
+import { createLogger } from '../utils/logger';
 // Logger instance
 const logger = createLogger('useErrorHandler');
 // Component props
@@ -23,7 +23,9 @@ interface UseErrorHandlerReturn {
 /**
  * Custom hook for handling errors in a component
  */
-export default function useErrorHandler({ componentName }: UseErrorHandlerProps): UseErrorHandlerReturn {
+export default function useErrorHandler({
+  componentName,
+}: UseErrorHandlerProps): UseErrorHandlerReturn {
   const [foodError, setFoodError] = useState<Error | null>(null);
   const [foodLoading, setFoodLoading] = useState<boolean>(true);
   const [foodRecommendations, setFoodRecommendations] = useState<any[] | null>(null);
@@ -32,7 +34,7 @@ export default function useErrorHandler({ componentName }: UseErrorHandlerProps)
   useEffect(() => {
     // Set initial loading state
     setFoodLoading(true);
-    
+
     // Clean up resources and set loading to false when the component unmounts
     return () => {
       setFoodLoading(false);
@@ -40,37 +42,38 @@ export default function useErrorHandler({ componentName }: UseErrorHandlerProps)
   }, []);
 
   // Capture and handle errors
-  const captureError = useCallback((error: Error | string, context: any = {}) => {
-    // Create error object if string was passed
-    const errorObj = typeof error === 'string' ? new Error(error) : error;
+  const captureError = useCallback(
+    (error: Error | string, context: any = {}) => {
+      // Create error object if string was passed
+      const errorObj = typeof error === 'string' ? new Error(error) : error;
 
-    // Log the error
-    logger.error(`Error in ${componentName}:`, {
-      error: errorObj.message,
-      stack: errorObj.stack,
-      context
-    });
+      // Log the error
+      logger.error(`Error in ${componentName}:`, {
+        error: errorObj.message,
+        stack: errorObj.stack,
+        context,
+      });
 
-    // Handle the error through the error system
-    handleError.log(errorObj, {
-      component: componentName,
-      severity: ErrorSeverity.WARNING,
-      type: ErrorType.DATA,
-      context: { details: context }
-    });
+      // Handle the error through the error system
+      handleError.log(errorObj, {
+        component: componentName,
+        severity: ErrorSeverity.WARNING,
+        type: ErrorType.DATA,
+        context: { details: context },
+      });
 
-    // Update state
-    setFoodError(errorObj);
-    setFoodLoading(false);
-  }, [componentName]);
+      // Update state
+      setFoodError(errorObj);
+      setFoodLoading(false);
+    },
+    [componentName],
+  );
 
   return {
     captureError,
     foodError,
     foodLoading,
     foodRecommendations,
-    setFoodRecommendations
+    setFoodRecommendations,
   };
 }
-
-

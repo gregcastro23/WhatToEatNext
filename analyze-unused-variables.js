@@ -35,7 +35,7 @@ const categories = {
   unusedTypeDefinitions: [],
   astrologicalCalculationVariables: [],
   campaignSystemVariables: [],
-  highImpactFiles: []
+  highImpactFiles: [],
 };
 
 // File impact analysis
@@ -45,60 +45,79 @@ const fileImpactMap = new Map();
 lintOutput.forEach(file => {
   const filePath = file.filePath;
   const relativePath = filePath.replace(process.cwd(), '');
-  
+
   // Count unused variable warnings per file
-  const unusedVarMessages = file.messages.filter(msg => 
-    msg.ruleId === '@typescript-eslint/no-unused-vars'
+  const unusedVarMessages = file.messages.filter(
+    msg => msg.ruleId === '@typescript-eslint/no-unused-vars',
   );
-  
+
   if (unusedVarMessages.length > 0) {
     fileImpactMap.set(relativePath, unusedVarMessages.length);
   }
-  
+
   unusedVarMessages.forEach(message => {
     const entry = {
       file: relativePath,
       line: message.line,
       column: message.column,
       message: message.message,
-      severity: message.severity === 1 ? 'warning' : 'error'
+      severity: message.severity === 1 ? 'warning' : 'error',
     };
-    
+
     // Categorize by message content
-    if (message.message.includes('is defined but never used') && message.message.includes('import')) {
+    if (
+      message.message.includes('is defined but never used') &&
+      message.message.includes('import')
+    ) {
       categories.unusedImports.push(entry);
-    } else if (message.message.includes('is assigned a value but never used') && 
-               (message.message.includes('useState') || message.message.includes('useEffect') || 
-                message.message.includes('useMemo') || message.message.includes('useCallback'))) {
+    } else if (
+      message.message.includes('is assigned a value but never used') &&
+      (message.message.includes('useState') ||
+        message.message.includes('useEffect') ||
+        message.message.includes('useMemo') ||
+        message.message.includes('useCallback'))
+    ) {
       categories.unusedReactHooks.push(entry);
-    } else if (message.message.includes('is assigned a value but never used') && 
-               message.message.includes('array destructuring')) {
+    } else if (
+      message.message.includes('is assigned a value but never used') &&
+      message.message.includes('array destructuring')
+    ) {
       categories.unusedDestructuredVariables.push(entry);
-    } else if (message.message.includes('is defined but never used') && 
-               (relativePath.includes('/types/') || message.message.includes('interface') || message.message.includes('type'))) {
+    } else if (
+      message.message.includes('is defined but never used') &&
+      (relativePath.includes('/types/') ||
+        message.message.includes('interface') ||
+        message.message.includes('type'))
+    ) {
       categories.unusedTypeDefinitions.push(entry);
     } else if (message.message.includes('Allowed unused args must match')) {
       categories.unusedFunctionParameters.push(entry);
-    } else if (message.message.includes('is assigned a value but never used') || 
-               message.message.includes('is defined but never used')) {
+    } else if (
+      message.message.includes('is assigned a value but never used') ||
+      message.message.includes('is defined but never used')
+    ) {
       categories.unusedLocalVariables.push(entry);
     }
-    
+
     // Check for astrological calculation files
-    if (relativePath.includes('/calculations/') || 
-        relativePath.includes('/astro') || 
-        relativePath.includes('planetary') || 
-        relativePath.includes('elemental') ||
-        message.message.toLowerCase().includes('planet') ||
-        message.message.toLowerCase().includes('astro') ||
-        message.message.toLowerCase().includes('elemental')) {
+    if (
+      relativePath.includes('/calculations/') ||
+      relativePath.includes('/astro') ||
+      relativePath.includes('planetary') ||
+      relativePath.includes('elemental') ||
+      message.message.toLowerCase().includes('planet') ||
+      message.message.toLowerCase().includes('astro') ||
+      message.message.toLowerCase().includes('elemental')
+    ) {
       categories.astrologicalCalculationVariables.push(entry);
     }
-    
+
     // Check for campaign system files
-    if (relativePath.includes('/campaign/') || 
-        relativePath.includes('Campaign') ||
-        message.message.toLowerCase().includes('campaign')) {
+    if (
+      relativePath.includes('/campaign/') ||
+      relativePath.includes('Campaign') ||
+      message.message.toLowerCase().includes('campaign')
+    ) {
       categories.campaignSystemVariables.push(entry);
     }
   });
@@ -112,16 +131,24 @@ const highImpactFiles = Array.from(fileImpactMap.entries())
 categories.highImpactFiles = highImpactFiles.map(([file, count]) => ({
   file,
   count,
-  issues: lintOutput.find(f => f.filePath.includes(file))?.messages
-    .filter(msg => msg.ruleId === '@typescript-eslint/no-unused-vars') || []
+  issues:
+    lintOutput
+      .find(f => f.filePath.includes(file))
+      ?.messages.filter(msg => msg.ruleId === '@typescript-eslint/no-unused-vars') || [],
 }));
 
 // Generate comprehensive report
 const report = {
   summary: {
-    totalUnusedVariables: Object.values(categories).flat().length - categories.highImpactFiles.length,
+    totalUnusedVariables:
+      Object.values(categories).flat().length - categories.highImpactFiles.length,
     totalFiles: fileImpactMap.size,
-    averagePerFile: Math.round((Object.values(categories).flat().length - categories.highImpactFiles.length) / fileImpactMap.size * 100) / 100
+    averagePerFile:
+      Math.round(
+        ((Object.values(categories).flat().length - categories.highImpactFiles.length) /
+          fileImpactMap.size) *
+          100,
+      ) / 100,
   },
   categories: {
     unusedImports: categories.unusedImports.length,
@@ -129,14 +156,14 @@ const report = {
     unusedFunctionParameters: categories.unusedFunctionParameters.length,
     unusedReactHooks: categories.unusedReactHooks.length,
     unusedDestructuredVariables: categories.unusedDestructuredVariables.length,
-    unusedTypeDefinitions: categories.unusedTypeDefinitions.length
+    unusedTypeDefinitions: categories.unusedTypeDefinitions.length,
   },
   domainSpecific: {
     astrologicalCalculationVariables: categories.astrologicalCalculationVariables.length,
-    campaignSystemVariables: categories.campaignSystemVariables.length
+    campaignSystemVariables: categories.campaignSystemVariables.length,
   },
   highImpactFiles: categories.highImpactFiles.length,
-  detailedAnalysis: categories
+  detailedAnalysis: categories,
 };
 
 // Write detailed report
@@ -162,7 +189,9 @@ console.log('');
 
 console.log('🔬 DOMAIN-SPECIFIC ANALYSIS');
 console.log('============================');
-console.log(`Astrological calculation variables: ${report.domainSpecific.astrologicalCalculationVariables}`);
+console.log(
+  `Astrological calculation variables: ${report.domainSpecific.astrologicalCalculationVariables}`,
+);
 console.log(`Campaign system variables: ${report.domainSpecific.campaignSystemVariables}`);
 console.log('');
 
@@ -182,16 +211,17 @@ console.log('');
 
 console.log('🔍 CRITICAL ASTROLOGICAL FILES TO PRESERVE');
 console.log('===========================================');
-const astroFiles = categories.astrologicalCalculationVariables
-  .reduce((acc, item) => {
-    if (!acc[item.file]) acc[item.file] = 0;
-    acc[item.file]++;
-    return acc;
-  }, {});
+const astroFiles = categories.astrologicalCalculationVariables.reduce((acc, item) => {
+  if (!acc[item.file]) acc[item.file] = 0;
+  acc[item.file]++;
+  return acc;
+}, {});
 
-Object.entries(astroFiles).slice(0, 10).forEach(([file, count]) => {
-  console.log(`${file}: ${count} variables (PRESERVE CAREFULLY)`);
-});
+Object.entries(astroFiles)
+  .slice(0, 10)
+  .forEach(([file, count]) => {
+    console.log(`${file}: ${count} variables (PRESERVE CAREFULLY)`);
+  });
 console.log('');
 
 console.log('💾 Detailed analysis saved to: unused-variables-detailed-analysis.json');

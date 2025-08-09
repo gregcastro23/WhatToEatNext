@@ -17,13 +17,13 @@ export type AlchemicalResult = StandardizedAlchemicalResult;
  */
 export function initializeAlchemicalEngine() {
   if (typeof window === 'undefined') return;
-  
+
   try {
     // Assign the core alchemize function to the window object
     window.alchemize = alchemicalEngine.alchemize;
-    log.info("Alchemical engine initialized successfully");
+    log.info('Alchemical engine initialized successfully');
   } catch (error) {
-    console.error("Failed to initialize alchemize function:", error);
+    console.error('Failed to initialize alchemize function:', error);
   }
 }
 
@@ -36,4 +36,4 @@ export const staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): Alc
 };
 
 // Re-export the core functionality
-export { alchemicalEngine }; 
+export { alchemicalEngine };

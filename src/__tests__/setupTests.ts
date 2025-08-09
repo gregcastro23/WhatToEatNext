@@ -27,7 +27,7 @@ global.fetch = jest.fn(() =>
     status: 200,
     statusText: 'OK',
     headers: new Headers(),
-  } as Response)
+  } as Response),
 );
 
 // Mock global services
@@ -39,10 +39,10 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Earth: 0.25,
       Air: 0.25,
     }),
-    initialize: jest.fn((_initialState) => {
+    initialize: jest.fn(_initialState => {
       // console.log('Mock initialize called', initialState);
     }),
-    updateElementalState: jest.fn((_newState) => {
+    updateElementalState: jest.fn(_newState => {
       // console.log('Mock updateElementalState called', newState);
     }),
     getInstance: jest.fn().mockReturnValue({

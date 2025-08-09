@@ -5,16 +5,16 @@ import { alchemize } from '../src/calculations/alchemicalEngine';
 
 // Mock planetary positions for testing
 const testPositions = {
-  Sun: "Gemini",
-  Moon: "Leo", 
-  Mercury: "Taurus",
-  Venus: "Gemini",
-  Mars: "Aries",
-  Jupiter: "Gemini", 
-  Saturn: "Pisces",
-  Uranus: "Taurus",
-  Neptune: "Aries",
-  Pluto: "Aquarius"
+  Sun: 'Gemini',
+  Moon: 'Leo',
+  Mercury: 'Taurus',
+  Venus: 'Gemini',
+  Mars: 'Aries',
+  Jupiter: 'Gemini',
+  Saturn: 'Pisces',
+  Uranus: 'Taurus',
+  Neptune: 'Aries',
+  Pluto: 'Aquarius',
 };
 
 // Calculate alchemical metrics using the main engine
@@ -38,15 +38,26 @@ console.log(`  K_alchm: ${kalchm.toFixed(4)}`);
 console.log(`  Monica Constant: ${monica.toFixed(4)}`);
 
 // Legacy functions for backward compatibility
-export function calculateKAlchm(spirit: number, essence: number, matter: number, substance: number): number {
+export function calculateKAlchm(
+  spirit: number,
+  essence: number,
+  matter: number,
+  substance: number,
+): number {
   if (matter === 0 || substance === 0) {
     return 0; // Avoid division by zero
   }
-  return (Math.pow(spirit, spirit) * Math.pow(essence, essence)) / 
-         (Math.pow(matter, matter) * Math.pow(substance, substance));
+  return (
+    (Math.pow(spirit, spirit) * Math.pow(essence, essence)) /
+    (Math.pow(matter, matter) * Math.pow(substance, substance))
+  );
 }
 
-export function calculateMonicaConstant(energy: number, reactivity: number, kAlchm: number): number {
+export function calculateMonicaConstant(
+  energy: number,
+  reactivity: number,
+  kAlchm: number,
+): number {
   if (reactivity === 0 || kAlchm <= 0) {
     return NaN; // Invalid parameters
   }
@@ -91,9 +102,21 @@ const denominator3 = testMatter + testEarth;
 
 // Calculate thermodynamic properties
 const testHeat = (Math.pow(testSpirit, 2) + Math.pow(testFire, 2)) / Math.pow(denominator1, 2);
-const testEntropy = (Math.pow(testSpirit, 2) + Math.pow(testSubstance, 2) + Math.pow(testFire, 2) + Math.pow(testAir, 2)) / Math.pow(denominator2, 2);
-const testReactivity = (Math.pow(testSpirit, 2) + Math.pow(testSubstance, 2) + Math.pow(testEssence, 2) + Math.pow(testFire, 2) + Math.pow(testAir, 2) + Math.pow(testWater, 2)) / Math.pow(denominator3, 2);
-const testEnergy = testHeat - (testReactivity * testEntropy);
+const testEntropy =
+  (Math.pow(testSpirit, 2) +
+    Math.pow(testSubstance, 2) +
+    Math.pow(testFire, 2) +
+    Math.pow(testAir, 2)) /
+  Math.pow(denominator2, 2);
+const testReactivity =
+  (Math.pow(testSpirit, 2) +
+    Math.pow(testSubstance, 2) +
+    Math.pow(testEssence, 2) +
+    Math.pow(testFire, 2) +
+    Math.pow(testAir, 2) +
+    Math.pow(testWater, 2)) /
+  Math.pow(denominator3, 2);
+const testEnergy = testHeat - testReactivity * testEntropy;
 
 // Calculate K_alchm and Monica Constant
 const testKAlchm = calculateKAlchm(testSpirit, testEssence, testMatter, testSubstance);
@@ -111,4 +134,4 @@ console.log(`  Air: ${testAir}`);
 console.log(`  Earth: ${testEarth}`);
 console.log('\n  Final Results:');
 console.log(`  K_alchm: ${testKAlchm.toFixed(4)}`);
-console.log(`  Monica Constant: ${testMonicaConstant.toFixed(4)}`); 
+console.log(`  Monica Constant: ${testMonicaConstant.toFixed(4)}`);

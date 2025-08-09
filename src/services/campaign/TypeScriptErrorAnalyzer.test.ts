@@ -1,6 +1,6 @@
 /**
  * Tests for TypeScript Error Analyzer
- * 
+ *
  * Verifies error distribution analysis, categorization, and priority ranking
  */
 
@@ -26,14 +26,14 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
       const errors = parseMethod(mockOutput);
 
       expect(errors).toHaveLength(3);
-      
+
       expect(errors[0]).toMatchObject({
         filePath: 'src/components/test.tsx',
         line: 10,
         column: 5,
         code: 'TS2352',
         category: ErrorCategory.TS2352_TYPE_CONVERSION,
-        severity: ErrorSeverity.HIGH
+        severity: ErrorSeverity.HIGH,
       });
 
       expect(errors[1]).toMatchObject({
@@ -42,7 +42,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 12,
         code: 'TS2345',
         category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
-        severity: ErrorSeverity.HIGH
+        severity: ErrorSeverity.HIGH,
       });
 
       expect(errors[2]).toMatchObject({
@@ -51,7 +51,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 1,
         code: 'TS2304',
         category: ErrorCategory.TS2304_CANNOT_FIND_NAME,
-        severity: ErrorSeverity.HIGH
+        severity: ErrorSeverity.HIGH,
       });
     });
   });
@@ -74,18 +74,10 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
       const calculateMethod = (analyzer as any).calculateErrorPriority.bind(analyzer);
 
       // High priority error in types directory with critical message
-      const highPriority = calculateMethod(
-        'TS2352',
-        'src/types/core.ts',
-        'Conversion of type not assignable'
-      );
+      const highPriority = calculateMethod('TS2352', 'src/types/core.ts', 'Conversion of type not assignable');
 
       // Low priority error in test file
-      const lowPriority = calculateMethod(
-        'TS2820',
-        'src/tests/example.test.ts',
-        'Minor casing issue'
-      );
+      const lowPriority = calculateMethod('TS2820', 'src/tests/example.test.ts', 'Minor casing issue');
 
       expect(highPriority).toBeGreaterThan(lowPriority);
       expect(highPriority).toBeGreaterThan(20); // Should have high priority
@@ -114,7 +106,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 20,
-          severity: ErrorSeverity.HIGH
+          severity: ErrorSeverity.HIGH,
         },
         {
           filePath: 'src/test1.ts',
@@ -124,7 +116,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
           priority: 18,
-          severity: ErrorSeverity.HIGH
+          severity: ErrorSeverity.HIGH,
         },
         {
           filePath: 'src/test2.ts',
@@ -134,8 +126,8 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 15,
-          severity: ErrorSeverity.HIGH
-        }
+          severity: ErrorSeverity.HIGH,
+        },
       ];
 
       const distributionMethod = (analyzer as any).createErrorDistribution.bind(analyzer);
@@ -160,11 +152,11 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           [ErrorCategory.TS2698_SPREAD_TYPE]: [],
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
-          [ErrorCategory.OTHER]: []
+          [ErrorCategory.OTHER]: [],
         },
         errorsByFile: {},
         priorityRanking: [],
-        highImpactFiles: []
+        highImpactFiles: [],
       };
 
       const recommendMethod = (analyzer as any).generateRecommendations.bind(analyzer);

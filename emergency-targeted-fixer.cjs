@@ -19,44 +19,43 @@ class EmergencyTargetedFixer {
   async execute() {
     console.log('🎯 EMERGENCY TARGETED ERROR FIXING');
     console.log('==================================');
-    
+
     try {
       // Get current error count
       const initialErrors = await this.getCurrentErrorCount();
       console.log(`Initial errors: ${initialErrors}`);
-      
+
       // Apply targeted fixes in order of priority
       await this.fixZodiacSignUndefined();
       await this.fixNeverTypeErrors();
       await this.fixUndefinedStringAssignments();
       await this.fixPossiblyUndefinedAccess();
       await this.fixUnknownTypeErrors();
-      
+
       // Check results
       const finalErrors = await this.getCurrentErrorCount();
       const reduction = initialErrors - finalErrors;
-      
+
       console.log('\\n📊 EMERGENCY FIXING RESULTS');
       console.log('============================');
       console.log(`Files processed: ${this.filesProcessed}`);
       console.log(`Fixes applied: ${this.fixesApplied}`);
       console.log(`Initial errors: ${initialErrors}`);
       console.log(`Final errors: ${finalErrors}`);
-      console.log(`Reduction: ${reduction} (${((reduction/initialErrors)*100).toFixed(1)}%)`);
-      
+      console.log(`Reduction: ${reduction} (${((reduction / initialErrors) * 100).toFixed(1)}%)`);
+
       // Validate build
       const buildValid = await this.validateBuild();
       console.log(`Build status: ${buildValid ? '✅ PASS' : '❌ FAIL'}`);
-      
+
       return {
         success: reduction > 0 && buildValid,
         initialErrors,
         finalErrors,
         reduction,
         fixesApplied: this.fixesApplied,
-        filesProcessed: this.filesProcessed
+        filesProcessed: this.filesProcessed,
       };
-      
     } catch (error) {
       console.error('❌ Emergency targeted fixing failed:', error.message);
       throw error;
@@ -65,35 +64,35 @@ class EmergencyTargetedFixer {
 
   async fixZodiacSignUndefined() {
     console.log('🎯 Fixing ZodiacSign | undefined errors...');
-    
+
     const filesToFix = [
       'src/calculations/alchemicalEngine.ts',
-      'src/calculations/alchemicalTransformation.ts'
+      'src/calculations/alchemicalTransformation.ts',
     ];
-    
+
     for (const filePath of filesToFix) {
       if (!fs.existsSync(filePath)) continue;
-      
+
       try {
         let content = fs.readFileSync(filePath, 'utf8');
         let modified = false;
-        
+
         // Fix: astrologicalState.currentZodiac used as ZodiacSign
         const patterns = [
           {
             search: /astrologicalState\\.currentZodiac(?!\\s*\\|\\|)/g,
-            replace: '(astrologicalState.currentZodiac || "aries")'
+            replace: '(astrologicalState.currentZodiac || "aries")',
           },
           {
             search: /astrologicalState\\.zodiacSign(?!\\s*\\|\\|)/g,
-            replace: '(astrologicalState.zodiacSign || "aries")'
+            replace: '(astrologicalState.zodiacSign || "aries")',
           },
           {
             search: /currentZodiac(?!\\s*\\|\\|)(?=\\s*[\\[\\.])/g,
-            replace: '(currentZodiac || "aries")'
-          }
+            replace: '(currentZodiac || "aries")',
+          },
         ];
-        
+
         for (const pattern of patterns) {
           if (content.match(pattern.search)) {
             content = content.replace(pattern.search, pattern.replace);
@@ -101,13 +100,12 @@ class EmergencyTargetedFixer {
             this.fixesApplied++;
           }
         }
-        
+
         if (modified) {
           fs.writeFileSync(filePath, content);
           this.markFileProcessed(filePath);
           console.log(`  ✅ Fixed ${filePath}`);
         }
-        
       } catch (error) {
         console.warn(`  ⚠️  Could not process ${filePath}: ${error.message}`);
       }
@@ -116,59 +114,52 @@ class EmergencyTargetedFixer {
 
   async fixNeverTypeErrors() {
     console.log('🎯 Fixing never[] type errors...');
-    
+
     const filesToFix = [
       'src/app/test/migrated-components/cuisine-section/page.tsx',
-      'src/app/api/nutrition/route.ts'
+      'src/app/api/nutrition/route.ts',
     ];
-    
+
     for (const filePath of filesToFix) {
       if (!fs.existsSync(filePath)) continue;
-      
+
       try {
         let content = fs.readFileSync(filePath, 'utf8');
         let modified = false;
-        
+
         // Fix: useState<never[]> should be useState<ExtendedRecipe[]>
         if (content.includes('useState<never[]>')) {
           content = content.replace(/useState<never\\[\\]>/g, 'useState<ExtendedRecipe[]>');
           modified = true;
           this.fixesApplied++;
         }
-        
+
         // Fix: SetStateAction<never[]> should be SetStateAction<ExtendedRecipe[]>
         if (content.includes('SetStateAction<never[]>')) {
-          content = content.replace(/SetStateAction<never\\[\\]>/g, 'SetStateAction<ExtendedRecipe[]>');
+          content = content.replace(
+            /SetStateAction<never\\[\\]>/g,
+            'SetStateAction<ExtendedRecipe[]>',
+          );
           modified = true;
           this.fixesApplied++;
         }
-        
+
         // Fix: Property access on 'never' type
         const neverPropertyPattern = /\\.fdcId|\\.description|\\.dataType/g;
         if (content.match(neverPropertyPattern)) {
           // Add type assertion or proper typing
-          content = content.replace(
-            /(\\w+)\\.fdcId/g, 
-            '($1 as any).fdcId'
-          );
-          content = content.replace(
-            /(\\w+)\\.description/g, 
-            '($1 as any).description'
-          );
-          content = content.replace(
-            /(\\w+)\\.dataType/g, 
-            '($1 as any).dataType'
-          );
+          content = content.replace(/(\\w+)\\.fdcId/g, '($1 as any).fdcId');
+          content = content.replace(/(\\w+)\\.description/g, '($1 as any).description');
+          content = content.replace(/(\\w+)\\.dataType/g, '($1 as any).dataType');
           modified = true;
           this.fixesApplied++;
         }
-        
+
         if (modified) {
           fs.writeFileSync(filePath, content);
           this.markFileProcessed(filePath);
           console.log(`  ✅ Fixed ${filePath}`);
         }
-        
       } catch (error) {
         console.warn(`  ⚠️  Could not process ${filePath}: ${error.message}`);
       }
@@ -177,18 +168,16 @@ class EmergencyTargetedFixer {
 
   async fixUndefinedStringAssignments() {
     console.log('🎯 Fixing string | undefined assignment errors...');
-    
-    const filesToFix = [
-      'src/app/test/migrated-components/cuisine-section/page.tsx'
-    ];
-    
+
+    const filesToFix = ['src/app/test/migrated-components/cuisine-section/page.tsx'];
+
     for (const filePath of filesToFix) {
       if (!fs.existsSync(filePath)) continue;
-      
+
       try {
         let content = fs.readFileSync(filePath, 'utf8');
         let modified = false;
-        
+
         // Fix: timeOfDay assignment
         const timeOfDayPattern = /timeOfDay:\\s*state\\.timeOfDay(?!\\s*\\|\\|)/g;
         if (content.match(timeOfDayPattern)) {
@@ -196,21 +185,23 @@ class EmergencyTargetedFixer {
           modified = true;
           this.fixesApplied++;
         }
-        
+
         // Fix: currentSeason assignment
         const seasonPattern = /currentSeason:\\s*state\\.currentSeason(?!\\s*\\|\\|)/g;
         if (content.match(seasonPattern)) {
-          content = content.replace(seasonPattern, 'currentSeason: state.currentSeason || "spring"');
+          content = content.replace(
+            seasonPattern,
+            'currentSeason: state.currentSeason || "spring"',
+          );
           modified = true;
           this.fixesApplied++;
         }
-        
+
         if (modified) {
           fs.writeFileSync(filePath, content);
           this.markFileProcessed(filePath);
           console.log(`  ✅ Fixed ${filePath}`);
         }
-        
       } catch (error) {
         console.warn(`  ⚠️  Could not process ${filePath}: ${error.message}`);
       }
@@ -219,18 +210,16 @@ class EmergencyTargetedFixer {
 
   async fixPossiblyUndefinedAccess() {
     console.log('🎯 Fixing possibly undefined access errors...');
-    
-    const filesToFix = [
-      'src/calculations/alchemicalTransformation.ts'
-    ];
-    
+
+    const filesToFix = ['src/calculations/alchemicalTransformation.ts'];
+
     for (const filePath of filesToFix) {
       if (!fs.existsSync(filePath)) continue;
-      
+
       try {
         let content = fs.readFileSync(filePath, 'utf8');
         let modified = false;
-        
+
         // Fix: currentZodiac is possibly null or undefined
         const currentZodiacPattern = /currentZodiac(?!\\s*[\\?\\|])/g;
         if (content.match(currentZodiacPattern)) {
@@ -238,13 +227,12 @@ class EmergencyTargetedFixer {
           modified = true;
           this.fixesApplied++;
         }
-        
+
         if (modified) {
           fs.writeFileSync(filePath, content);
           this.markFileProcessed(filePath);
           console.log(`  ✅ Fixed ${filePath}`);
         }
-        
       } catch (error) {
         console.warn(`  ⚠️  Could not process ${filePath}: ${error.message}`);
       }
@@ -253,19 +241,19 @@ class EmergencyTargetedFixer {
 
   async fixUnknownTypeErrors() {
     console.log('🎯 Fixing unknown type errors...');
-    
+
     const filesToFix = [
       'src/calculations/alchemicalEngine.ts',
-      'src/calculations/core/elementalCalculations.ts'
+      'src/calculations/core/elementalCalculations.ts',
     ];
-    
+
     for (const filePath of filesToFix) {
       if (!fs.existsSync(filePath)) continue;
-      
+
       try {
         let content = fs.readFileSync(filePath, 'utf8');
         let modified = false;
-        
+
         // Fix: 'value' is of type 'unknown'
         const unknownValuePattern = /\\bvalue\\b(?=\\s*[\\[\\.])/g;
         if (content.match(unknownValuePattern)) {
@@ -273,7 +261,7 @@ class EmergencyTargetedFixer {
           modified = true;
           this.fixesApplied++;
         }
-        
+
         // Fix: Argument of type 'string' is not assignable to parameter of type 'never'
         const neverParameterPattern = /\\(\\w+\\s+as\\s+never\\)/g;
         if (content.match(neverParameterPattern)) {
@@ -281,13 +269,12 @@ class EmergencyTargetedFixer {
           modified = true;
           this.fixesApplied++;
         }
-        
+
         if (modified) {
           fs.writeFileSync(filePath, content);
           this.markFileProcessed(filePath);
           console.log(`  ✅ Fixed ${filePath}`);
         }
-        
       } catch (error) {
         console.warn(`  ⚠️  Could not process ${filePath}: ${error.message}`);
       }
@@ -305,7 +292,7 @@ class EmergencyTargetedFixer {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -315,9 +302,9 @@ class EmergencyTargetedFixer {
 
   async validateBuild() {
     try {
-      execSync('yarn build', { 
+      execSync('yarn build', {
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       });
       return true;
     } catch (error) {

@@ -2,13 +2,17 @@
 
 ## Overview
 
-This system provides comprehensive automated linting error analysis and categorization for the WhatToEatNext codebase. It implements intelligent error classification, domain-specific handling, and resolution strategy generation to systematically improve code quality.
+This system provides comprehensive automated linting error analysis and
+categorization for the WhatToEatNext codebase. It implements intelligent error
+classification, domain-specific handling, and resolution strategy generation to
+systematically improve code quality.
 
 ## Architecture
 
 The system consists of five main components:
 
 ### 1. LintingErrorAnalyzer
+
 **Main analysis engine that orchestrates the complete linting workflow**
 
 - Runs ESLint and parses output
@@ -17,6 +21,7 @@ The system consists of five main components:
 - Assesses auto-fix capabilities and risk levels
 
 ### 2. ErrorClassificationSystem
+
 **Advanced error classification with severity and auto-fix assessment**
 
 - Classifies errors by category (import, typescript, react, style, domain)
@@ -25,6 +30,7 @@ The system consists of five main components:
 - Profiles risks and business impact for each error type
 
 ### 3. DomainContextDetector
+
 **Specialized handling for domain-specific files**
 
 - Detects astrological calculation files
@@ -33,6 +39,7 @@ The system consists of five main components:
 - Provides domain-specific linting rule recommendations
 
 ### 4. ResolutionStrategyGenerator
+
 **Intelligent resolution strategy generation**
 
 - Creates step-by-step resolution plans
@@ -41,6 +48,7 @@ The system consists of five main components:
 - Optimizes batch processing for multiple errors
 
 ### 5. LintingAnalysisService
+
 **Complete workflow integration and orchestration**
 
 - Integrates all analysis components
@@ -51,24 +59,29 @@ The system consists of five main components:
 ## Key Features
 
 ### ✅ Intelligent Error Classification
+
 - **Severity Assessment**: Critical, high, medium, low priority classification
 - **Business Impact**: Blocking, degrading, cosmetic, or no impact assessment
 - **Auto-fix Capability**: Confidence scoring and complexity analysis
 - **Risk Profiling**: Breaking change probability and mitigation strategies
 
 ### ✅ Domain-Specific Handling
-- **Astrological Files**: Special rules for astronomical calculations and constants
+
+- **Astrological Files**: Special rules for astronomical calculations and
+  constants
 - **Campaign System**: Accommodates enterprise intelligence patterns
 - **Test Files**: Relaxed rules appropriate for testing contexts
 - **Script Files**: Flexible handling for build and utility scripts
 
 ### ✅ Resolution Strategy Generation
+
 - **Automated Fixes**: High-confidence, low-risk automatic corrections
 - **Semi-Automated**: Guided fixes with validation checkpoints
 - **Manual Review**: Expert-required fixes with detailed guidance
 - **Configuration**: Rule adjustments and suppression strategies
 
 ### ✅ Comprehensive Analysis
+
 - **Quick Analysis**: Immediate insights for rapid decision-making
 - **Full Analysis**: Complete workflow with file analysis and strategies
 - **Batch Processing**: Optimized handling of multiple errors
@@ -77,6 +90,7 @@ The system consists of five main components:
 ## Usage
 
 ### Quick Analysis
+
 ```typescript
 import { LintingAnalysisService } from './LintingAnalysisService';
 
@@ -88,6 +102,7 @@ console.log(`${quickResults.quickWins.length} can be quickly fixed`);
 ```
 
 ### Comprehensive Analysis
+
 ```typescript
 const comprehensiveResults = await service.performComprehensiveAnalysis({
   includeFileAnalysis: true,
@@ -106,6 +121,7 @@ console.log(comprehensiveResults.optimizedPlan);
 ```
 
 ### Individual Component Usage
+
 ```typescript
 // Error classification
 import { ErrorClassificationSystem } from './ErrorClassificationSystem';
@@ -126,7 +142,9 @@ const strategy = generator.generateStrategy(context);
 ## Domain-Specific Rules
 
 ### Astrological Calculation Files
-- **Patterns**: `/calculations/`, `/data/planets/`, `reliableAstronomy`, `Astrological`
+
+- **Patterns**: `/calculations/`, `/data/planets/`, `reliableAstronomy`,
+  `Astrological`
 - **Special Rules**:
   - Allow `@typescript-eslint/no-explicit-any` for flexible astronomical data
   - Disable `no-magic-numbers` for astronomical constants
@@ -134,6 +152,7 @@ const strategy = generator.generateStrategy(context);
   - Allow `console.info` for astronomical debugging
 
 ### Campaign System Files
+
 - **Patterns**: `/services/campaign/`, `Campaign`, `Progress`, `Safety`
 - **Special Rules**:
   - Allow all console statements for extensive logging
@@ -142,6 +161,7 @@ const strategy = generator.generateStrategy(context);
   - Allow `no-process-exit` for emergency protocols
 
 ### Test Files
+
 - **Patterns**: `.test.`, `.spec.`, `__tests__/`
 - **Special Rules**:
   - Relaxed typing rules for mocks and stubs
@@ -151,21 +171,25 @@ const strategy = generator.generateStrategy(context);
 ## Error Categories and Priorities
 
 ### Priority 1 (Critical)
+
 - Build-breaking errors
 - Import resolution failures
 - Syntax errors
 
 ### Priority 2 (High)
+
 - React hooks dependency issues
 - Import organization problems
 - Type safety violations
 
 ### Priority 3 (Medium)
+
 - Explicit any types
 - Code style inconsistencies
 - Performance concerns
 
 ### Priority 4 (Low)
+
 - Formatting issues
 - Minor style violations
 - Documentation gaps
@@ -173,30 +197,35 @@ const strategy = generator.generateStrategy(context);
 ## Resolution Strategies
 
 ### Automated (High Confidence)
+
 - Import ordering and formatting
 - Simple style fixes
 - Unused import removal
 - Basic type corrections
 
 ### Semi-Automated (Medium Confidence)
+
 - React hooks dependency fixes
 - Import path corrections
 - Variable renaming
 
 ### Manual Review (Low Confidence)
+
 - Explicit any type replacements
 - Complex logic changes
 - Domain-specific modifications
 - Architecture decisions
 
 ### Configuration Adjustments
+
 - Rule suppression for valid cases
 - Domain-specific rule modifications
 - Project-wide setting changes
 
 ## Integration with Campaign System
 
-The linting analysis system integrates with the existing campaign system to provide:
+The linting analysis system integrates with the existing campaign system to
+provide:
 
 - **Progress Tracking**: Real-time metrics on error reduction
 - **Quality Gates**: Automated validation checkpoints
@@ -206,12 +235,14 @@ The linting analysis system integrates with the existing campaign system to prov
 ## Risk Assessment and Mitigation
 
 ### Risk Factors
+
 - **Breaking Changes**: Probability of introducing bugs
 - **Data Loss**: Risk of affecting calculation accuracy
 - **Performance Impact**: Potential performance degradation
 - **Side Effects**: Unintended consequences
 
 ### Mitigation Strategies
+
 - **Backup Creation**: Git stash before major changes
 - **Validation Testing**: Comprehensive test suite execution
 - **Domain Expert Review**: Specialized knowledge validation
@@ -236,24 +267,29 @@ src/services/linting/
 
 ## Requirements Fulfilled
 
-This implementation fulfills all requirements from the linting excellence specification:
+This implementation fulfills all requirements from the linting excellence
+specification:
 
 ### ✅ Requirement 2.1: Error Analysis and Categorization
+
 - Comprehensive error categorization by type and severity
 - Priority-based organization for systematic resolution
 - Auto-fix capability assessment with confidence scoring
 
 ### ✅ Requirement 2.2: Classification System
+
 - Advanced severity assessment with business impact analysis
 - Auto-fix capability evaluation with risk profiling
 - Comprehensive error metadata collection
 
 ### ✅ Requirement 3.1: Domain Context Detection
+
 - Astrological calculation file detection and special handling
 - Campaign system component identification
 - Test file and script recognition with appropriate rule adjustments
 
 ### ✅ Requirement 4.3: Resolution Strategy Generation
+
 - Intelligent strategy generation based on error type and context
 - Step-by-step resolution plans with validation requirements
 - Alternative approaches and risk mitigation strategies
@@ -285,6 +321,6 @@ The system is designed for easy maintenance:
 
 ---
 
-**Status**: ✅ Complete and ready for production use
-**Integration**: Ready for campaign system integration
-**Testing**: Comprehensive test coverage with demonstration scripts
+**Status**: ✅ Complete and ready for production use **Integration**: Ready for
+campaign system integration **Testing**: Comprehensive test coverage with
+demonstration scripts

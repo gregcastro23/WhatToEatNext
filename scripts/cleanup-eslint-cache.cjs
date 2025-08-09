@@ -10,14 +10,14 @@ function cleanupESLintCaches() {
     '.eslint-cache',
     '.eslint-ts-cache',
     '.eslint-performance-cache',
-    '.eslint-incremental-cache'
+    '.eslint-incremental-cache',
   ];
 
   const cacheFiles = [
     '.eslint-tsbuildinfo',
     '.eslint-timing.json',
     '.eslint-metrics.json',
-    'tsconfig.tsbuildinfo'
+    'tsconfig.tsbuildinfo',
   ];
 
   let cleaned = 0;

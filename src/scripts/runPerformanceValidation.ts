@@ -2,10 +2,10 @@
 
 /**
  * Performance Validation CLI Tool
- * 
+ *
  * Command-line interface for running linting performance validation
  * and monitoring the 60-80% performance improvement targets.
- * 
+ *
  * Requirements: 5.1, 5.2, 5.3
  */
 
@@ -69,20 +69,32 @@ class PerformanceValidationCLI {
     const interval = options.interval || 300000; // 5 minutes default
     const commands = [
       { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },
-      { name: 'Fast Lint (Cached)', cmd: 'yarn lint:fast --max-warnings=10000', opts: { cached: true } },
-      { name: 'Parallel Lint', cmd: 'yarn lint:parallel --max-warnings=10000', opts: { parallel: true } },
-      { name: 'Changed Files', cmd: 'yarn lint:changed --max-warnings=10000', opts: { incremental: true } }
+      {
+        name: 'Fast Lint (Cached)',
+        cmd: 'yarn lint:fast --max-warnings=10000',
+        opts: { cached: true },
+      },
+      {
+        name: 'Parallel Lint',
+        cmd: 'yarn lint:parallel --max-warnings=10000',
+        opts: { parallel: true },
+      },
+      {
+        name: 'Changed Files',
+        cmd: 'yarn lint:changed --max-warnings=10000',
+        opts: { incremental: true },
+      },
     ];
 
     if (options.continuous) {
       console.log(`🔄 Continuous monitoring every ${interval / 1000} seconds...\n`);
-      
+
       const monitorLoop = async () => {
         for (const command of commands) {
           try {
             console.log(`📊 Measuring: ${command.name}...`);
             const metrics = await this.monitor.measurePerformance(command.cmd, command.opts);
-            
+
             if (options.verbose) {
               console.log(`   Time: ${metrics.executionTime}ms`);
               console.log(`   Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`);
@@ -97,9 +109,11 @@ class PerformanceValidationCLI {
 
         // Generate quick report
         const report = this.monitor.generatePerformanceReport();
-        console.log(`📋 Quick Report - Avg Time: ${Math.round(report.summary.averageExecutionTime)}ms, ` +
-                   `Cache Rate: ${Math.round(report.summary.averageCacheHitRate)}%, ` +
-                   `Alerts: ${report.recentAlerts.length}\n`);
+        console.log(
+          `📋 Quick Report - Avg Time: ${Math.round(report.summary.averageExecutionTime)}ms, ` +
+            `Cache Rate: ${Math.round(report.summary.averageCacheHitRate)}%, ` +
+            `Alerts: ${report.recentAlerts.length}\n`,
+        );
       };
 
       // Run initial measurement
@@ -107,20 +121,19 @@ class PerformanceValidationCLI {
 
       // Set up continuous monitoring
       setInterval(monitorLoop, interval);
-      
+
       // Keep process alive
       process.on('SIGINT', () => {
         console.log('\n🛑 Monitoring stopped by user');
         process.exit(0);
       });
-
     } else {
       // Single monitoring run
       for (const command of commands) {
         try {
           console.log(`📊 Measuring: ${command.name}...`);
           const metrics = await this.monitor.measurePerformance(command.cmd, command.opts);
-          
+
           console.log(`   ✅ Time: ${metrics.executionTime}ms`);
           console.log(`   💾 Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`);
           console.log(`   🔄 Cache Hit Rate: ${metrics.cacheHitRate}%`);
@@ -143,7 +156,9 @@ class PerformanceValidationCLI {
     console.log('=====================');
     console.log(`Total Measurements: ${report.summary.totalMeasurements}`);
     console.log(`Average Execution Time: ${Math.round(report.summary.averageExecutionTime)}ms`);
-    console.log(`Average Memory Usage: ${Math.round(report.summary.averageMemoryUsage / 1024 / 1024)}MB`);
+    console.log(
+      `Average Memory Usage: ${Math.round(report.summary.averageMemoryUsage / 1024 / 1024)}MB`,
+    );
     console.log(`Average Cache Hit Rate: ${Math.round(report.summary.averageCacheHitRate)}%`);
     console.log(`Total Alerts: ${report.summary.totalAlerts}\n`);
 
@@ -205,9 +220,15 @@ class PerformanceValidationCLI {
     const trends = this.monitor.getPerformanceTrend();
     console.log('📈 Performance Trends (7 days)');
     console.log('=============================');
-    console.log(`Execution Time: ${this.getTrendIcon(trends.executionTimeTrend)} ${trends.executionTimeTrend}`);
-    console.log(`Memory Usage: ${this.getTrendIcon(trends.memoryUsageTrend)} ${trends.memoryUsageTrend}`);
-    console.log(`Cache Hit Rate: ${this.getTrendIcon(trends.cacheHitRateTrend)} ${trends.cacheHitRateTrend}\n`);
+    console.log(
+      `Execution Time: ${this.getTrendIcon(trends.executionTimeTrend)} ${trends.executionTimeTrend}`,
+    );
+    console.log(
+      `Memory Usage: ${this.getTrendIcon(trends.memoryUsageTrend)} ${trends.memoryUsageTrend}`,
+    );
+    console.log(
+      `Cache Hit Rate: ${this.getTrendIcon(trends.cacheHitRateTrend)} ${trends.cacheHitRateTrend}\n`,
+    );
 
     // Save report if output specified
     if (options.output) {
@@ -222,12 +243,15 @@ class PerformanceValidationCLI {
 
     try {
       const { execSync } = require('child_process');
-      
+
       console.log('📊 Running Jest tests for performance validation...');
-      const output = execSync('yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
 
       console.log(output);
       console.log('\n✅ Performance tests completed successfully!');
@@ -240,10 +264,14 @@ class PerformanceValidationCLI {
 
   private getTrendIcon(trend: string): string {
     switch (trend) {
-      case 'improving': return '📈';
-      case 'degrading': return '📉';
-      case 'stable': return '➡️';
-      default: return '❓';
+      case 'improving':
+        return '📈';
+      case 'degrading':
+        return '📉';
+      case 'stable':
+        return '➡️';
+      default:
+        return '❓';
     }
   }
 
@@ -276,12 +304,12 @@ Examples:
 function parseArgs(): CLIOptions {
   const args = process.argv.slice(2);
   const options: CLIOptions = {
-    command: 'validate' as any
+    command: 'validate' as any,
   };
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    
+
     if (!arg.startsWith('--')) {
       options.command = arg as any;
       continue;
@@ -310,7 +338,7 @@ function parseArgs(): CLIOptions {
 if (require.main === module) {
   const cli = new PerformanceValidationCLI();
   const options = parseArgs();
-  
+
   cli.run(options).catch(error => {
     console.error('CLI error:', error);
     process.exit(1);

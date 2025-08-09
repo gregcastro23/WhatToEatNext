@@ -2,7 +2,6 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useNavigationState, useScrollPreservation, useAutoStateCleanup } from '@/hooks/useStatePreservation';
 
@@ -10,17 +9,17 @@ import MainPageLayout, { useMainPageContext } from '../MainPageLayout';
 
 // Mock dependencies
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn()
+  useRouter: jest.fn(),
 }));
 
 jest.mock('@/contexts/AlchemicalContext/hooks', () => ({
-  useAlchemical: jest.fn()
+  useAlchemical: jest.fn(),
 }));
 
 jest.mock('@/hooks/useStatePreservation', () => ({
   useNavigationState: jest.fn(),
   useScrollPreservation: jest.fn(),
-  useAutoStateCleanup: jest.fn()
+  useAutoStateCleanup: jest.fn(),
 }));
 
 jest.mock('@/utils/logger', () => ({
@@ -28,63 +27,53 @@ jest.mock('@/utils/logger', () => ({
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn()
-  }
+    error: jest.fn(),
+  },
 }));
 
 // Mock lazy-loaded components
 jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
   return function MockConsolidatedDebugInfo() {
-    return <div data-testid="debug-info">Debug Info</div>;
+    return <div data-testid='debug-info'>Debug Info</div>;
   };
 });
 
 jest.mock('@/components/CuisineRecommender', () => {
   return function MockCuisineRecommender() {
-    return <div data-testid="cuisine-recommender">Cuisine Recommender</div>;
+    return <div data-testid='cuisine-recommender'>Cuisine Recommender</div>;
   };
 });
 
 jest.mock('@/components/IngredientRecommender', () => {
   return function MockIngredientRecommender() {
-    return <div data-testid="ingredient-recommender">Ingredient Recommender</div>;
+    return <div data-testid='ingredient-recommender'>Ingredient Recommender</div>;
   };
 });
 
 jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection() {
-    return <div data-testid="cooking-methods">Cooking Methods</div>;
+    return <div data-testid='cooking-methods'>Cooking Methods</div>;
   };
 });
 
 jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
   return function MockRecipeBuilderSimple() {
-    return <div data-testid="recipe-builder">Recipe Builder</div>;
+    return <div data-testid='recipe-builder'>Recipe Builder</div>;
   };
 });
 
 // Test component that uses the context
 function TestContextConsumer() {
   const context = useMainPageContext();
-  
+
   return (
     <div>
-      <div data-testid="selected-ingredients">
-        {context.selectedIngredients.join(', ')}
-      </div>
-      <div data-testid="selected-cuisine">
-        {context.selectedCuisine || 'None'}
-      </div>
-      <button 
-        onClick={() => context.updateSelectedIngredients(['tomato', 'basil'])}
-        data-testid="update-ingredients"
-      >
+      <div data-testid='selected-ingredients'>{context.selectedIngredients.join(', ')}</div>
+      <div data-testid='selected-cuisine'>{context.selectedCuisine || 'None'}</div>
+      <button onClick={() => context.updateSelectedIngredients(['tomato', 'basil'])} data-testid='update-ingredients'>
         Update Ingredients
       </button>
-      <button 
-        onClick={() => context.updateSelectedCuisine('italian')}
-        data-testid="update-cuisine"
-      >
+      <button onClick={() => context.updateSelectedCuisine('italian')} data-testid='update-cuisine'>
         Update Cuisine
       </button>
     </div>
@@ -97,39 +86,39 @@ describe('MainPageLayout', () => {
     back: jest.fn(),
     forward: jest.fn(),
     refresh: jest.fn(),
-    replace: jest.fn()
+    replace: jest.fn(),
   };
 
   const mockAlchemicalContext = {
     state: {
       astrologicalState: {
-        sunSign: 'aries'
+        sunSign: 'aries',
       },
       elementalState: {
         Fire: 0.3,
         Water: 0.2,
         Earth: 0.3,
-        Air: 0.2
-      }
+        Air: 0.2,
+      },
     },
     planetaryPositions: {
-      sun: { sign: 'aries' }
+      sun: { sign: 'aries' },
     },
-    isDaytime: true
+    isDaytime: true,
   };
 
   const mockNavigationState = {
     saveState: jest.fn(),
-    getState: jest.fn(() => ({}))
+    getState: jest.fn(() => ({})),
   };
 
   const mockScrollPreservation = {
-    restoreScrollPosition: jest.fn()
+    restoreScrollPosition: jest.fn(),
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
     (useAlchemical as jest.Mock).mockReturnValue(mockAlchemicalContext);
     (useNavigationState as jest.Mock).mockReturnValue(mockNavigationState);
@@ -139,7 +128,7 @@ describe('MainPageLayout', () => {
     // Mock window.scrollY
     Object.defineProperty(window, 'scrollY', {
       value: 0,
-      writable: true
+      writable: true,
     });
   });
 
@@ -181,17 +170,17 @@ describe('MainPageLayout', () => {
 
   it('handles section navigation', async () => {
     const mockOnSectionNavigate = jest.fn();
-    
+
     // Mock getElementById
     const mockElement = {
       scrollIntoView: jest.fn(),
       style: {},
       classList: {
         add: jest.fn(),
-        remove: jest.fn()
-      }
+        remove: jest.fn(),
+      },
     };
-    
+
     jest.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
 
     act(async () => {
@@ -199,14 +188,14 @@ describe('MainPageLayout', () => {
     });
 
     const cuisineButton = screen.getByText('Cuisine Recommendations');
-    
+
     act(async () => {
       fireEvent.click(cuisineButton);
     });
 
     expect(mockElement.scrollIntoView).toHaveBeenCalledWith({
       behavior: 'smooth',
-      block: 'start'
+      block: 'start',
     });
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
   });
@@ -234,7 +223,7 @@ describe('MainPageLayout', () => {
       render(
         <MainPageLayout>
           <TestContextConsumer />
-        </MainPageLayout>
+        </MainPageLayout>,
       );
     });
 
@@ -247,7 +236,7 @@ describe('MainPageLayout', () => {
       render(
         <MainPageLayout>
           <TestContextConsumer />
-        </MainPageLayout>
+        </MainPageLayout>,
       );
     });
 
@@ -272,7 +261,7 @@ describe('MainPageLayout', () => {
       render(
         <MainPageLayout>
           <TestContextConsumer />
-        </MainPageLayout>
+        </MainPageLayout>,
       );
     });
 
@@ -294,9 +283,12 @@ describe('MainPageLayout', () => {
     });
 
     // Wait for the effect to run
-    await waitFor(() => {
-      expect(mockScrollPreservation.restoreScrollPosition).toHaveBeenCalled();
-    }, { timeout: 200 });
+    await waitFor(
+      () => {
+        expect(mockScrollPreservation.restoreScrollPosition).toHaveBeenCalled();
+      },
+      { timeout: 200 },
+    );
   });
 
   it('handles component loading states', async () => {
@@ -337,7 +329,7 @@ describe('MainPageLayout', () => {
       render(
         <MainPageLayout>
           <ErrorComponent />
-        </MainPageLayout>
+        </MainPageLayout>,
       );
     });
 
@@ -365,14 +357,14 @@ describe('MainPageLayout Performance', () => {
       const _context = useMainPageContext();
       const renderCount = React.useRef(0);
       renderCount.current++;
-      
-      return <div data-testid="render-count">{renderCount.current}</div>;
+
+      return <div data-testid='render-count'>{renderCount.current}</div>;
     };
 
     const { rerender } = render(
       <MainPageLayout>
         <TestComponent />
-      </MainPageLayout>
+      </MainPageLayout>,
     );
 
     await waitFor(() => {
@@ -383,7 +375,7 @@ describe('MainPageLayout Performance', () => {
     rerender(
       <MainPageLayout>
         <TestComponent />
-      </MainPageLayout>
+      </MainPageLayout>,
     );
 
     await waitFor(() => {

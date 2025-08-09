@@ -5,9 +5,7 @@
  * and ensure type safety throughout the application.
  */
 
-import type {
-    ElementalProperties
-} from '@/types/unified';
+import type { ElementalProperties } from '@/types/unified';
 
 // Validation result interface
 export interface ValidationResult {
@@ -30,11 +28,15 @@ export const validateString = (value: unknown, fieldName: string): ValidationRes
   return result;
 };
 
-export const validateNumber = (value: unknown, fieldName: string, options?: {
-  min?: number;
-  max?: number;
-  integer?: boolean;
-}): ValidationResult => {
+export const validateNumber = (
+  value: unknown,
+  fieldName: string,
+  options?: {
+    min?: number;
+    max?: number;
+    integer?: boolean;
+  },
+): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   if (typeof value !== 'number' || isNaN(value)) {
@@ -75,7 +77,7 @@ export const validateBoolean = (value: unknown, fieldName: string): ValidationRe
 export const validateArray = (
   value: unknown,
   fieldName: string,
-  itemValidator?: (item: unknown, _index: number) => ValidationResult
+  itemValidator?: (item: unknown, _index: number) => ValidationResult,
 ): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
@@ -102,7 +104,7 @@ export const validateArray = (
 export const validateObject = (
   value: unknown,
   fieldName: string,
-  requiredFields?: string[]
+  requiredFields?: string[],
 ): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
@@ -129,7 +131,12 @@ export const validateObject = (
 export const validateElementalProperties = (value: unknown): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
-  const objectResult = validateObject(value, 'ElementalProperties', ['Fire', 'Water', 'Earth', 'Air']);
+  const objectResult = validateObject(value, 'ElementalProperties', [
+    'Fire',
+    'Water',
+    'Earth',
+    'Air',
+  ]);
   if (!objectResult.isValid) {
     return objectResult;
   }
@@ -162,7 +169,11 @@ export const validateElementalProperties = (value: unknown): ValidationResult =>
 export const validatePlanetPosition = (value: unknown): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
-  const objectResult = validateObject(value, 'PlanetPosition', ['sign', 'degree', 'exactLongitude']);
+  const objectResult = validateObject(value, 'PlanetPosition', [
+    'sign',
+    'degree',
+    'exactLongitude',
+  ]);
   if (!objectResult.isValid) {
     return objectResult;
   }
@@ -184,7 +195,10 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {
   }
 
   // Validate exactLongitude (0-360)
-  const longitudeResult = validateNumber(obj.exactLongitude, 'exactLongitude', { min: 0, max: 360 });
+  const longitudeResult = validateNumber(obj.exactLongitude, 'exactLongitude', {
+    min: 0,
+    max: 360,
+  });
   if (!longitudeResult.isValid) {
     result.isValid = false;
     result.errors.push(...longitudeResult.errors);
@@ -275,7 +289,7 @@ export const combineValidationResults = (results: ValidationResult[]): Validatio
   return {
     isValid: results.every(r => r.isValid),
     errors: results.flatMap(r => r.errors),
-    warnings: results.flatMap(r => r.warnings)
+    warnings: results.flatMap(r => r.warnings),
   };
 };
 
@@ -283,7 +297,7 @@ export const validateWithFallback = <T>(
   value: unknown,
   validator: (val: unknown) => ValidationResult,
   fallback: T,
-  context?: string
+  context?: string,
 ): T => {
   const result = validator(value);
 
@@ -304,9 +318,14 @@ export const validateWithFallback = <T>(
 // Safe type conversion with validation
 export const safeConvertToElementalProperties = (
   value: unknown,
-  fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+  fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 ): ElementalProperties => {
-  return validateWithFallback(value, validateElementalProperties, fallback, 'ElementalProperties conversion');
+  return validateWithFallback(
+    value,
+    validateElementalProperties,
+    fallback,
+    'ElementalProperties conversion',
+  );
 };
 
 export const safeConvertToPlanetPosition = (
@@ -315,8 +334,8 @@ export const safeConvertToPlanetPosition = (
     sign: 'aries' as any,
     degree: 0,
     exactLongitude: 0,
-    isRetrograde: false
-  }
+    isRetrograde: false,
+  },
 ): PlanetPosition => {
   return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion');
 };
@@ -326,16 +345,14 @@ export const safeConvertToCookingMethod = (
   fallback: CookingMethod = {
     id: 'unknown',
     name: 'Unknown Method',
-    description: 'Unknown cooking method'
-  }
+    description: 'Unknown cooking method',
+  },
 ): CookingMethod => {
   return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion');
 };
 
 // Batch validation functions
-export const validatePlanetaryPositions = (
-  positions: unknown
-): ValidationResult => {
+export const validatePlanetaryPositions = (positions: unknown): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   const objectResult = validateObject(positions, 'PlanetaryPositions');
@@ -363,15 +380,11 @@ export const validatePlanetaryPositions = (
 };
 
 export const validateIngredientList = (ingredients: unknown): ValidationResult => {
-  return validateArray(ingredients, 'ingredients', (item, _index) =>
-    validateIngredient(item)
-  );
+  return validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item));
 };
 
 export const validateCookingMethodList = (methods: unknown): ValidationResult => {
-  return validateArray(methods, 'cookingMethods', (item, _index) =>
-    validateCookingMethod(item)
-  );
+  return validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item));
 };
 
 // Export all validation functions
@@ -401,5 +414,5 @@ export default {
   // Safe converters
   safeConvertToElementalProperties,
   safeConvertToPlanetPosition,
-  safeConvertToCookingMethod
+  safeConvertToCookingMethod,
 };

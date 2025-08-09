@@ -16,35 +16,35 @@ const CONFIG = {
       /^(zodiac|lunar|solar|celestial|astronomical|aspect)/i,
       /^(retrograde|direct|stationary|conjunction|opposition)/i,
       /^(ascendant|descendant|midheaven|nadir|house|cusp)/i,
-      /^(decan|triplicity|quadruplicity|modality|polarity)/i
+      /^(decan|triplicity|quadruplicity|modality|polarity)/i,
     ],
     // Campaign and enterprise intelligence patterns
     campaign: [
       /^(campaign|progress|metrics|safety|intelligence|enterprise)/i,
       /^(ml|predictive|analytics|monitoring|tracking|reporting)/i,
       /^(service|integration|pattern|protocol|validation)/i,
-      /^(score|status|data|analysis|engine|model)/i
+      /^(score|status|data|analysis|engine|model)/i,
     ],
     // Test patterns
     test: [
       /^(mock|stub|test|expect|jest|describe|it|before|after)/i,
       /^(spy|fixture|snapshot|setup|teardown|helper)/i,
-      /^(dummy|fake|sample|example|demo)/i
+      /^(dummy|fake|sample|example|demo)/i,
     ],
     // React and hooks patterns
     react: [
-      /^(use[A-Z])/,  // React hooks
+      /^(use[A-Z])/, // React hooks
       /^(Component|Provider|Context|Ref|Props|State)/i,
-      /^(handle|on[A-Z])/,  // Event handlers
-      /^(render|mount|wrapper|container)/i
+      /^(handle|on[A-Z])/, // Event handlers
+      /^(render|mount|wrapper|container)/i,
     ],
     // API and external patterns
     external: [
       /^(api|fetch|request|response|endpoint|client)/i,
       /^(auth|token|session|user|permission|role)/i,
       /^(config|env|setting|option|preference)/i,
-      /^(error|exception|warning|info|debug|trace)/i
-    ]
+      /^(error|exception|warning|info|debug|trace)/i,
+    ],
   },
   importPatterns: {
     // Import statement patterns
@@ -53,10 +53,10 @@ const CONFIG = {
     namespaceImport: /import\s*\*\s*as\s+(\w+)\s+from\s*['"]([^'"]+)['"]/g,
     sideEffectImport: /import\s+['"]([^'"]+)['"]/g,
     typeImport: /import\s+type\s*{\s*([^}]+)\s*}\s*from\s*['"]([^'"]+)['"]/g,
-    defaultTypeImport: /import\s+type\s+(\w+)\s+from\s*['"]([^'"]+)['"]/g
+    defaultTypeImport: /import\s+type\s+(\w+)\s+from\s*['"]([^'"]+)['"]/g,
   },
   maxFilesPerRun: 40,
-  dryRun: false
+  dryRun: false,
 };
 
 // Track metrics
@@ -72,8 +72,8 @@ const metrics = {
     unusedVariables: 0,
     unusedParameters: 0,
     unusedDestructuring: 0,
-    prefixedVariables: 0
-  }
+    prefixedVariables: 0,
+  },
 };
 
 /**
@@ -96,24 +96,24 @@ function shouldPreserveVariable(name) {
  */
 function extractVariableUsages(content) {
   const usages = new Set();
-  
+
   // Match variable usage patterns (excluding declarations)
   const usagePatterns = [
     /(?<!(?:let|const|var|function|class|interface|type|import)\s+)(?<!\.)\b(\w+)\b(?!\s*[:=])/g,
-    /\b(\w+)\s*\(/g,  // Function calls
-    /\.\s*(\w+)/g,    // Property access
+    /\b(\w+)\s*\(/g, // Function calls
+    /\.\s*(\w+)/g, // Property access
     /\[\s*(\w+)\s*\]/g, // Array access
-    /<\s*(\w+)\s*>/g,   // JSX components
-    /\b(\w+)\s*\?/g,    // Optional chaining
+    /<\s*(\w+)\s*>/g, // JSX components
+    /\b(\w+)\s*\?/g, // Optional chaining
   ];
-  
+
   usagePatterns.forEach(pattern => {
     let match;
     while ((match = pattern.exec(content)) !== null) {
       usages.add(match[1]);
     }
   });
-  
+
   return usages;
 }
 
@@ -124,28 +124,26 @@ function processImports(content, filePath) {
   let modifiedContent = content;
   const removedImports = [];
   const usedVariables = extractVariableUsages(content);
-  
+
   // Process each import type
   Object.entries(CONFIG.importPatterns).forEach(([type, pattern]) => {
     if (type === 'sideEffectImport') return; // Don't remove side-effect imports
-    
+
     const regex = new RegExp(pattern.source, 'gm');
     let match;
-    
+
     while ((match = regex.exec(content)) !== null) {
       const fullImport = match[0];
-      
+
       if (type === 'namedImport' || type === 'typeImport') {
         // Handle named imports
         const imports = match[1].split(',').map(i => i.trim());
         const usedImports = [];
         const unusedImports = [];
-        
+
         imports.forEach(imp => {
-          const importName = imp.includes(' as ') 
-            ? imp.split(' as ')[1].trim()
-            : imp.trim();
-            
+          const importName = imp.includes(' as ') ? imp.split(' as ')[1].trim() : imp.trim();
+
           if (usedVariables.has(importName) || shouldPreserveVariable(importName)) {
             usedImports.push(imp);
           } else {
@@ -153,7 +151,7 @@ function processImports(content, filePath) {
             metrics.importsRemoved++;
           }
         });
-        
+
         if (unusedImports.length > 0) {
           if (usedImports.length === 0) {
             // Remove entire import statement
@@ -162,16 +160,17 @@ function processImports(content, filePath) {
             removedImports.push(`Removed: ${fullImport}`);
           } else {
             // Remove only unused imports
-            const newImport = fullImport.replace(
-              match[1],
-              usedImports.join(', ')
-            );
+            const newImport = fullImport.replace(match[1], usedImports.join(', '));
             modifiedContent = modifiedContent.replace(fullImport, newImport);
             removedImports.push(`Modified: ${fullImport} → ${newImport}`);
           }
           metrics.patterns.unusedImports++;
         }
-      } else if (type === 'defaultImport' || type === 'defaultTypeImport' || type === 'namespaceImport') {
+      } else if (
+        type === 'defaultImport' ||
+        type === 'defaultTypeImport' ||
+        type === 'namespaceImport'
+      ) {
         // Handle default and namespace imports
         const importName = match[1];
         if (!usedVariables.has(importName) && !shouldPreserveVariable(importName)) {
@@ -184,12 +183,12 @@ function processImports(content, filePath) {
       }
     }
   });
-  
+
   if (removedImports.length > 0 && !CONFIG.dryRun) {
     console.log(`  Removed ${removedImports.length} unused imports`);
     removedImports.forEach(imp => console.log(`    ${imp}`));
   }
-  
+
   return modifiedContent;
 }
 
@@ -199,71 +198,69 @@ function processImports(content, filePath) {
 function processUnusedVariables(content, filePath) {
   let modifiedContent = content;
   const fixedVariables = [];
-  
+
   // ESLint unused variable patterns
   const unusedPatterns = [
     // Unused variables
     {
       pattern: /^(\s*)(const|let|var)\s+(\w+)\s*=/gm,
       type: 'variable',
-      getVarName: (match) => match[3]
+      getVarName: match => match[3],
     },
     // Unused function parameters
     {
       pattern: /function\s*\w*\s*\(([^)]+)\)/g,
       type: 'parameter',
-      getVarName: (match) => {
+      getVarName: match => {
         const params = match[1].split(',').map(p => p.trim());
         return params.map(p => p.split(/[:\s=]/)[0].trim());
-      }
+      },
     },
     // Arrow function parameters
     {
       pattern: /\(([^)]+)\)\s*(?::|=>)/g,
       type: 'parameter',
-      getVarName: (match) => {
+      getVarName: match => {
         const params = match[1].split(',').map(p => p.trim());
         return params.map(p => p.split(/[:\s=]/)[0].trim());
-      }
+      },
     },
     // Destructuring assignments
     {
       pattern: /(?:const|let|var)\s*{\s*([^}]+)\s*}\s*=/g,
       type: 'destructuring',
-      getVarName: (match) => {
+      getVarName: match => {
         const vars = match[1].split(',').map(v => v.trim());
         return vars.map(v => v.split(/[:\s=]/)[0].trim());
-      }
-    }
+      },
+    },
   ];
-  
+
   const usedVariables = extractVariableUsages(content);
-  
+
   unusedPatterns.forEach(({ pattern, type, getVarName }) => {
     const regex = new RegExp(pattern.source, pattern.flags);
     let match;
-    
+
     while ((match = regex.exec(content)) !== null) {
-      const varNames = Array.isArray(getVarName(match)) 
-        ? getVarName(match) 
-        : [getVarName(match)];
-      
+      const varNames = Array.isArray(getVarName(match)) ? getVarName(match) : [getVarName(match)];
+
       varNames.forEach(varName => {
         if (!varName) return;
-        
+
         const preserveDomain = shouldPreserveVariable(varName);
-        
+
         if (!usedVariables.has(varName) && !preserveDomain) {
           // For parameters, prefix with underscore
           if (type === 'parameter' && !varName.startsWith('_')) {
             const oldParam = varName;
             const newParam = '_' + varName;
-            
+
             // Replace in function signature - escape special regex characters
             const escapedParam = oldParam.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const paramRegex = new RegExp(`\\b${escapedParam}\\b(?=\\s*[,:)])`, 'g');
             modifiedContent = modifiedContent.replace(paramRegex, newParam);
-            
+
             fixedVariables.push(`Prefixed parameter: ${oldParam} → ${newParam}`);
             metrics.patterns.unusedParameters++;
             metrics.patterns.prefixedVariables++;
@@ -274,12 +271,12 @@ function processUnusedVariables(content, filePath) {
           if (!varName.startsWith('_') && !varName.startsWith('UNUSED_')) {
             const oldVar = varName;
             const newVar = preserveDomain === 'test' ? '_' + varName : 'UNUSED_' + varName;
-            
+
             // Replace variable declaration and usages - escape special regex characters
             const escapedVar = oldVar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const varRegex = new RegExp(`\\b${escapedVar}\\b`, 'g');
             modifiedContent = modifiedContent.replace(varRegex, newVar);
-            
+
             fixedVariables.push(`Preserved ${preserveDomain} variable: ${oldVar} → ${newVar}`);
             metrics.patterns.prefixedVariables++;
             metrics.variablesPreserved++;
@@ -288,12 +285,12 @@ function processUnusedVariables(content, filePath) {
       });
     }
   });
-  
+
   if (fixedVariables.length > 0 && !CONFIG.dryRun) {
     console.log(`  Fixed ${fixedVariables.length} unused variables`);
     fixedVariables.forEach(fix => console.log(`    ${fix}`));
   }
-  
+
   return modifiedContent;
 }
 
@@ -304,13 +301,13 @@ function processFile(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
     let modifiedContent = content;
-    
+
     // Process imports first
     modifiedContent = processImports(modifiedContent, filePath);
-    
+
     // Then process unused variables
     modifiedContent = processUnusedVariables(modifiedContent, filePath);
-    
+
     // Write the file if modified
     if (modifiedContent !== content && !CONFIG.dryRun) {
       fs.writeFileSync(filePath, modifiedContent, 'utf8');
@@ -319,7 +316,6 @@ function processFile(filePath) {
     } else if (modifiedContent !== content && CONFIG.dryRun) {
       console.log(`Would fix unused variables in ${filePath}`);
     }
-    
   } catch (error) {
     metrics.errors.push({ file: filePath, error: error.message });
     console.error(`❌ Error processing ${filePath}: ${error.message}`);
@@ -362,27 +358,29 @@ function createSafetyStash() {
  */
 function getFilesToProcess() {
   const files = [];
-  
+
   function scanDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         if (!CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
           scanDirectory(fullPath);
         }
       } else if (stat.isFile()) {
-        if (CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
-            !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
+          !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))
+        ) {
           files.push(fullPath);
         }
       }
     }
   }
-  
+
   scanDirectory(CONFIG.sourceDir);
   return files;
 }
@@ -393,38 +391,38 @@ function getFilesToProcess() {
 function main() {
   console.log('🚀 WhatToEatNext - Unused Variables Final Cleanup');
   console.log('=================================================');
-  
+
   // Parse command line arguments
   const args = process.argv.slice(2);
   if (args.includes('--dry-run')) {
     CONFIG.dryRun = true;
     console.log('🔍 Running in DRY RUN mode - no files will be modified');
   }
-  
+
   if (args.includes('--max-files')) {
     const maxIndex = args.indexOf('--max-files');
     CONFIG.maxFilesPerRun = parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
   }
-  
+
   // Create safety stash if not in dry run
   let stashTimestamp = null;
   if (!CONFIG.dryRun) {
     stashTimestamp = createSafetyStash();
   }
-  
+
   // Get files to process
   const files = getFilesToProcess();
   console.log(`\n📁 Found ${files.length} files to analyze`);
-  
+
   // Process files with limit
   const filesToProcess = files.slice(0, CONFIG.maxFilesPerRun);
   console.log(`\n🔧 Processing ${filesToProcess.length} files...\n`);
-  
+
   filesToProcess.forEach(file => {
     metrics.filesScanned++;
     processFile(file);
   });
-  
+
   // Report results
   console.log('\n📊 Fix Summary:');
   console.log('================');
@@ -439,14 +437,14 @@ function main() {
       console.log(`  ${pattern}: ${count}`);
     }
   });
-  
+
   if (metrics.errors.length > 0) {
     console.log(`\n⚠️  Errors encountered: ${metrics.errors.length}`);
     metrics.errors.forEach(err => {
       console.log(`  - ${err.file}: ${err.error}`);
     });
   }
-  
+
   // Validate build if changes were made
   if (metrics.filesModified > 0 && !CONFIG.dryRun) {
     const buildValid = validateBuildAfterFix();
@@ -455,7 +453,7 @@ function main() {
       console.log(`git stash apply stash^{/unused-variables-fix-${stashTimestamp}}`);
     }
   }
-  
+
   // Suggest next steps
   console.log('\n📌 Next Steps:');
   if (CONFIG.dryRun) {
@@ -467,9 +465,11 @@ function main() {
     console.log('3. Run tests to ensure functionality preserved');
     console.log('4. Commit changes if all tests pass');
   }
-  
+
   if (files.length > filesToProcess.length) {
-    console.log(`\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`);
+    console.log(
+      `\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`,
+    );
   }
 }
 

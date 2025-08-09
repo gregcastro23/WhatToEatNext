@@ -3,7 +3,7 @@
 /**
  * This script runs the TypeScript compiler on specific files,
  * but ignores the testing-library__jest-dom module completely.
- * 
+ *
  * Usage: node typescript-skip-jest-dom.js <filepath>
  * Example: node typescript-skip-jest-dom.js src/utils/alchemicalPillarUtils.ts
  */
@@ -52,12 +52,12 @@ const modifiedTsConfig = {
   compilerOptions: {
     ...originalTsConfig.compilerOptions,
     skipLibCheck: true,
-    types: ["node", "jest"], // Exclude @testing-library/jest-dom
+    types: ['node', 'jest'], // Exclude @testing-library/jest-dom
   },
   include: [
     ...originalTsConfig.include.filter(pattern => !pattern.includes('jest-dom')),
-    fileToCheck
-  ]
+    fileToCheck,
+  ],
 };
 
 // Write the temporary config
@@ -74,28 +74,24 @@ console.log(`🔍 Checking TypeScript in ${fileToCheck} while ignoring jest-dom.
 
 // Run TypeScript compiler with the temporary config
 const tscPath = path.join(__dirname, 'node_modules', '.bin', 'tsc');
-const tsc = spawn(tscPath, [
-  '--noEmit',
-  '--skipLibCheck',
-  '--project', tempTsConfigPath
-]);
+const tsc = spawn(tscPath, ['--noEmit', '--skipLibCheck', '--project', tempTsConfigPath]);
 
 let output = '';
 let errors = '';
 
-tsc.stdout.on('data', (data) => {
+tsc.stdout.on('data', data => {
   const text = data.toString();
   output += text;
   process.stdout.write(text);
 });
 
-tsc.stderr.on('data', (data) => {
+tsc.stderr.on('data', data => {
   const text = data.toString();
   errors += text;
   process.stderr.write(text);
 });
 
-tsc.on('close', (code) => {
+tsc.on('close', code => {
   // Clean up temporary file
   try {
     fs.unlinkSync(tempTsConfigPath);
@@ -103,12 +99,12 @@ tsc.on('close', (code) => {
   } catch (error) {
     console.warn('⚠️ Warning: Could not remove temporary tsconfig.json');
   }
-  
+
   if (code === 0) {
     console.log('✅ Success! No TypeScript errors found.');
   } else {
     console.error(`❌ TypeScript check failed with code ${code}`);
-    
+
     if (!errors.includes('testing-library__jest-dom')) {
       console.log('✅ No testing-library__jest-dom errors found!');
       console.log('💡 The file has other TypeScript errors that need to be fixed.');
@@ -116,6 +112,6 @@ tsc.on('close', (code) => {
       console.log('❌ Still finding testing-library__jest-dom errors.');
     }
   }
-  
-  process.exit(code === 0 ? 0 : (errors.includes('testing-library__jest-dom') ? 1 : 0));
-}); 
+
+  process.exit(code === 0 ? 0 : errors.includes('testing-library__jest-dom') ? 1 : 0);
+});

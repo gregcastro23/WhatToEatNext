@@ -2,17 +2,24 @@
 
 ## Overview
 
-Our application maps traditional cooking methods to 14 alchemical transformation processes (Calcination, Fermentation, Distillation, etc.), providing nuanced cooking recommendations that honor ancient wisdom.
+Our application maps traditional cooking methods to 14 alchemical transformation
+processes (Calcination, Fermentation, Distillation, etc.), providing nuanced
+cooking recommendations that honor ancient wisdom.
 
-Each pillar affects the four alchemical properties (Spirit, Essence, Matter, and Substance) differently, creating a sophisticated framework for understanding culinary transformations.
+Each pillar affects the four alchemical properties (Spirit, Essence, Matter, and
+Substance) differently, creating a sophisticated framework for understanding
+culinary transformations.
 
 ## The 14 Alchemical Pillars
 
-1. **Calcination** - High-heat cooking methods that transform ingredients through intense heat
+1. **Calcination** - High-heat cooking methods that transform ingredients
+   through intense heat
 2. **Dissolution** - Methods that break down ingredients through liquid mediums
-3. **Separation** - Techniques that divide ingredients into their constituent parts
+3. **Separation** - Techniques that divide ingredients into their constituent
+   parts
 4. **Conjunction** - Methods that combine ingredients to create new compounds
-5. **Fermentation** - Processes that transform ingredients through microbial action
+5. **Fermentation** - Processes that transform ingredients through microbial
+   action
 6. **Distillation** - Techniques that extract and purify essences
 7. **Coagulation** - Methods that solidify or thicken ingredients
 8. **Cibation** - Processes that nourish and enhance ingredients
@@ -25,7 +32,9 @@ Each pillar affects the four alchemical properties (Spirit, Essence, Matter, and
 
 ## Implementation
 
-Each cooking method in our system is mapped to one or more alchemical pillars, creating a rich framework for understanding and recommending cooking techniques. This mapping considers:
+Each cooking method in our system is mapped to one or more alchemical pillars,
+creating a rich framework for understanding and recommending cooking techniques.
+This mapping considers:
 
 - The elemental properties of ingredients
 - The desired outcome of the cooking process
@@ -40,4 +49,4 @@ The Alchemical Pillars system is used to:
 2. Suggest complementary techniques
 3. Create harmonious cooking sequences
 4. Optimize flavor development
-5. Enhance nutritional value 
+5. Enhance nutritional value

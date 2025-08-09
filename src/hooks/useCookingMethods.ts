@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 
-
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { allCookingMethods } from '@/data/cooking/methods';
 import { log } from '@/services/LoggingService';
@@ -41,69 +40,73 @@ export function useCookingMethods() {
   useEffect(() => {
     try {
       // Convert the cooking methods data to the format expected by CookingMethodsSection
-      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map(([key, methodData]) => {
-        const data = methodData as any;
-        
-        return {
-          id: key,
-          name: data.name || key.replace(/_/g, ' '),
-          description: data.description || `Cooking method: ${key}`,
-          score: data.score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0
-          elementalEffect: data.elementalEffect || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25
-          },
-          duration: data.duration || {
-            min: 10,
-            max: 60
-          },
-          suitable_for: data.suitable_for || ['various ingredients'],
-          benefits: data.benefits || ['cooking'],
-          alchemicalProperties: data.alchemicalProperties || {
-            Spirit: 0.5,
-            Essence: 0.5,
-            Matter: 0.5,
-            Substance: 0.5
-          }
-        };
-      });
+      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map(
+        ([key, methodData]) => {
+          const data = methodData as any;
+
+          return {
+            id: key,
+            name: data.name || key.replace(/_/g, ' '),
+            description: data.description || `Cooking method: ${key}`,
+            score: data.score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0
+            elementalEffect: data.elementalEffect || {
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
+              Air: 0.25,
+            },
+            duration: data.duration || {
+              min: 10,
+              max: 60,
+            },
+            suitable_for: data.suitable_for || ['various ingredients'],
+            benefits: data.benefits || ['cooking'],
+            alchemicalProperties: data.alchemicalProperties || {
+              Spirit: 0.5,
+              Essence: 0.5,
+              Matter: 0.5,
+              Substance: 0.5,
+            },
+          };
+        },
+      );
 
       // Also add methods from the cookingMethods object
-      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(([key, methodData]) => {
-        const data = methodData as any;
-        
-        return {
-          id: key,
-          name: data.name || key.replace(/_/g, ' '),
-          description: data.description || `Cooking method: ${key}`,
-          score: data.score || Math.random() * 0.5 + 0.5,
-          elementalEffect: data.elementalEffect || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25
-          },
-          duration: data.duration || {
-            min: 10,
-            max: 60
-          },
-          suitable_for: data.suitable_for || ['various ingredients'],
-          benefits: data.benefits || ['cooking'],
-          alchemicalProperties: data.alchemicalProperties || {
-            Spirit: 0.5,
-            Essence: 0.5,
-            Matter: 0.5,
-            Substance: 0.5
-          }
-        };
-      });
+      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(
+        ([key, methodData]) => {
+          const data = methodData as any;
+
+          return {
+            id: key,
+            name: data.name || key.replace(/_/g, ' '),
+            description: data.description || `Cooking method: ${key}`,
+            score: data.score || Math.random() * 0.5 + 0.5,
+            elementalEffect: data.elementalEffect || {
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
+              Air: 0.25,
+            },
+            duration: data.duration || {
+              min: 10,
+              max: 60,
+            },
+            suitable_for: data.suitable_for || ['various ingredients'],
+            benefits: data.benefits || ['cooking'],
+            alchemicalProperties: data.alchemicalProperties || {
+              Spirit: 0.5,
+              Essence: 0.5,
+              Matter: 0.5,
+              Substance: 0.5,
+            },
+          };
+        },
+      );
 
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods];
-      const uniqueMethods = allMethods.filter((method, index, self) => 
-        index === self.findIndex(m => m.id === method.id)
+      const uniqueMethods = allMethods.filter(
+        (method, index, self) => index === self.findIndex(m => m.id === method.id),
       );
 
       setMethods(uniqueMethods);
@@ -123,6 +126,6 @@ export function useCookingMethods() {
     methods,
     isLoading,
     error,
-    selectMethod
+    selectMethod,
   };
-} 
+}

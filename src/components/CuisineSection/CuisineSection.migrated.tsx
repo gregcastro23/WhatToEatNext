@@ -46,7 +46,7 @@ interface _MatchingResult {
   [key: string]: unknown;
 }
 
-'use client';
+('use client');
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
@@ -75,7 +75,8 @@ interface SauceInfo {
 interface CuisineSectionProps {
   cuisine: string;
   recipes?: Recipe[];
-  elementalState: { Fire: number;
+  elementalState: {
+    Fire: number;
     Water: number;
     Earth: number;
     Air: number;
@@ -97,14 +98,10 @@ interface CuisineSectionProps {
 export function CuisineSectionMigrated({
   cuisine,
   recipes = [],
-  elementalState
+  elementalState,
 }: CuisineSectionProps) {
   // Replace direct imports with services
-  const {
-    isLoading: servicesLoading,
-    error: servicesError,
-    recipeService
-  } = useServices();
+  const { isLoading: servicesLoading, error: servicesError, recipeService } = useServices();
 
   // Component state
   const [viewAllRecipes, setViewAllRecipes] = useState<boolean>(false);
@@ -212,29 +209,43 @@ export function CuisineSectionMigrated({
   }, [recipes, cuisineRecipesFromService, cuisine, viewAllRecipes]);
 
   // Check for regional variations to add information about cuisine relationships
-  const isRegionalVariant = (cuisineRecipes || []).some(r => (r.regionalCuisine as string).toLowerCase() === (cuisine ).toLowerCase());
-  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => (r.regionalCuisine as string).toLowerCase() === (cuisine ).toLowerCase())?.cuisine : null;
+  const isRegionalVariant = (cuisineRecipes || []).some(
+    r => (r.regionalCuisine as string).toLowerCase() === cuisine.toLowerCase(),
+  );
+  const parentCuisineName = isRegionalVariant
+    ? cuisineRecipes.find(
+        r => (r.regionalCuisine as string).toLowerCase() === cuisine.toLowerCase(),
+      )?.cuisine
+    : null;
 
   // Check if this is a parent cuisine with regional variants shown
-  const hasRegionalVariants = (cuisineRecipes || []).some(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase());
-  const regionalVariantNames = [... new Set(cuisineRecipes
-    .filter(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase())
-    .map(r => r.regionalCuisine))] as string[];
+  const hasRegionalVariants = (cuisineRecipes || []).some(
+    r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase(),
+  );
+  const regionalVariantNames = [
+    ...new Set(
+      cuisineRecipes
+        .filter(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase())
+        .map(r => r.regionalCuisine),
+    ),
+  ] as string[];
 
   const renderSeasonalInfo = (recipe: Recipe) => (
-    <div className="flex flex-wrap gap-2 mt-2">
+    <div className='mt-2 flex flex-wrap gap-2'>
       {Boolean(recipe.currentSeason) && (
-        <span className="text-sm px-2 py-1 bg-green-50 text-green-700 rounded">
-          {Array.isArray(recipe.currentSeason) ? recipe.currentSeason.join(', ') : (recipe.currentSeason as string)}
+        <span className='rounded bg-green-50 px-2 py-1 text-sm text-green-700'>
+          {Array.isArray(recipe.currentSeason)
+            ? recipe.currentSeason.join(', ')
+            : (recipe.currentSeason as string)}
         </span>
       )}
       {recipe.mealType && (
-        <span className="text-sm px-2 py-1 bg-blue-50 text-blue-700 rounded">
+        <span className='rounded bg-blue-50 px-2 py-1 text-sm text-blue-700'>
           {Array.isArray(recipe.mealType) ? recipe.mealType.join(', ') : recipe.mealType}
         </span>
       )}
       {recipe.timeToMake && (
-        <span className="text-sm px-2 py-1 bg-purple-50 text-purple-700 rounded">
+        <span className='rounded bg-purple-50 px-2 py-1 text-sm text-purple-700'>
           {recipe.timeToMake} {typeof recipe.timeToMake === 'number' ? 'min' : ''}
         </span>
       )}
@@ -244,12 +255,15 @@ export function CuisineSectionMigrated({
   // Function to get match score CSS class based on the score
   const getMatchScoreClass = (score: number) => {
     // More dynamic classification with smoother transitions and more differentiation
-    if (score >= 0.95) return 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold shadow-md';
-    if (score >= 0.90) return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
-    if (score >= 0.85) return 'bg-gradient-to-r from-green-400 to-green-300 text-green-900 font-bold shadow-sm';
-    if (score >= 0.80) return 'bg-green-200 text-green-800 font-semibold';
+    if (score >= 0.95)
+      return 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold shadow-md';
+    if (score >= 0.9)
+      return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
+    if (score >= 0.85)
+      return 'bg-gradient-to-r from-green-400 to-green-300 text-green-900 font-bold shadow-sm';
+    if (score >= 0.8) return 'bg-green-200 text-green-800 font-semibold';
     if (score >= 0.75) return 'bg-green-100 text-green-700 font-medium';
-    if (score >= 0.70) return 'bg-yellow-100 text-yellow-700';
+    if (score >= 0.7) return 'bg-yellow-100 text-yellow-700';
     if (score >= 0.65) return 'bg-yellow-50 text-yellow-600';
     return 'bg-gray-100 text-gray-600';
   };
@@ -267,7 +281,7 @@ export function CuisineSectionMigrated({
     } else if (score >= 0.88) {
       stars = '★★';
       tooltipText = 'Excellent match for your preferences';
-    } else if (score >= 0.80) {
+    } else if (score >= 0.8) {
       stars = '★';
       tooltipText = 'Very good match for your preferences';
     }
@@ -278,12 +292,12 @@ export function CuisineSectionMigrated({
 
     return (
       <span
-        className={`text-sm ${getMatchScoreClass(score)} px-2 py-1 rounded flex items-center gap-1 transition-all duration-300 hover:scale-105`}
+        className={`text-sm ${getMatchScoreClass(score)} flex items-center gap-1 rounded px-2 py-1 transition-all duration-300 hover:scale-105`}
         title={tooltipText}
       >
-        {hasDualMatch && <span className="h-2 w-2 bg-yellow-400 rounded-full"></span>}
+        {hasDualMatch && <span className='h-2 w-2 rounded-full bg-yellow-400'></span>}
         <span>{enhancedScore}% match</span>
-        {stars && <span className="ml-1">{stars}</span>}
+        {stars && <span className='ml-1'>{stars}</span>}
       </span>
     );
   };
@@ -295,29 +309,34 @@ export function CuisineSectionMigrated({
     }
 
     // Create a URL-friendly sauce ID
-    const sauceUrlId = sauce.id.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+    const sauceUrlId = sauce.id
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]/g, '');
     const sauceUrl = `/sauces/${cuisine.toLowerCase() || 'unknown'}/${sauceUrlId}`;
 
     return (
       <Link
         key={`${sauce.id}-${index}`}
         href={sauceUrl}
-        className="border rounded-lg p-4 bg-white hover:shadow-md transition-shadow"
+        className='rounded-lg border bg-white p-4 transition-shadow hover:shadow-md'
       >
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-semibold">{sauce.name || 'Unnamed sauce'}</h3>
+        <div className='mb-2 flex items-start justify-between'>
+          <h3 className='text-lg font-semibold'>{sauce.name || 'Unnamed sauce'}</h3>
           {sauce.base && (
-            <span className="text-xs px-2 py-1 bg-amber-50 text-amber-700 rounded">
+            <span className='rounded bg-amber-50 px-2 py-1 text-xs text-amber-700'>
               {sauce.base} base
             </span>
           )}
         </div>
 
-        <p className="text-sm text-gray-600 mb-3">{sauce.description || 'No description available'}</p>
+        <p className='mb-3 text-sm text-gray-600'>
+          {sauce.description || 'No description available'}
+        </p>
 
         {/* Seasonal info if available */}
         {sauce.seasonality && (
-          <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded mr-2">
+          <span className='mr-2 rounded bg-green-50 px-2 py-1 text-xs text-green-700'>
             {sauce.seasonality}
           </span>
         )}
@@ -332,29 +351,33 @@ export function CuisineSectionMigrated({
     }
 
     // Create URL-friendly recipe ID
-    const recipeId = recipe.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+    const recipeId = recipe.name
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]/g, '');
 
     return (
       <Link
         key={`${recipe.name}-${index}`}
         href={`/recipes/${recipeId}`}
-        className="border rounded-lg p-4 bg-white hover:shadow-md transition-shadow"
+        className='rounded-lg border bg-white p-4 transition-shadow hover:shadow-md'
       >
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-semibold">{recipe.name}</h3>
-          {recipe.matchScore !== undefined && (
-            renderScoreBadge(Number(recipe.matchScore) || 0, !!recipe.dualMatch)
-          )}
+        <div className='mb-2 flex items-start justify-between'>
+          <h3 className='text-lg font-semibold'>{recipe.name}</h3>
+          {recipe.matchScore !== undefined &&
+            renderScoreBadge(Number(recipe.matchScore) || 0, !!recipe.dualMatch)}
         </div>
 
         {/* Show regional cuisine if different from main cuisine */}
         {Boolean(recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine) && (
-          <div className="text-xs text-gray-500 mb-2">
-            Regional style: <span className="font-medium">{recipe.regionalCuisine as string}</span>
+          <div className='mb-2 text-xs text-gray-500'>
+            Regional style: <span className='font-medium'>{recipe.regionalCuisine as string}</span>
           </div>
         )}
 
-        <p className="text-sm text-gray-600 mb-3">{recipe.description || 'No description available'}</p>
+        <p className='mb-3 text-sm text-gray-600'>
+          {recipe.description || 'No description available'}
+        </p>
 
         {renderSeasonalInfo(recipe)}
       </Link>
@@ -364,16 +387,14 @@ export function CuisineSectionMigrated({
   // Handle loading state
   if (servicesLoading || isLoading) {
     return (
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold capitalize mb-4">
-          {cuisine.replace('_', ' ')} Cuisine
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className='mb-8'>
+        <h2 className='mb-4 text-2xl font-bold capitalize'>{cuisine.replace('_', ' ')} Cuisine</h2>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="border rounded-lg p-4 animate-pulse">
-              <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+            <div key={i} className='animate-pulse rounded-lg border p-4'>
+              <div className='mb-4 h-6 w-3/4 rounded bg-gray-200'></div>
+              <div className='mb-2 h-4 w-1/2 rounded bg-gray-200'></div>
+              <div className='h-4 w-1/4 rounded bg-gray-200'></div>
             </div>
           ))}
         </div>
@@ -384,14 +405,12 @@ export function CuisineSectionMigrated({
   // Handle error state
   if (servicesError || error) {
     return (
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold capitalize mb-4">
-          {cuisine.replace('_', ' ')} Cuisine
-        </h2>
-        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg">
+      <div className='mb-8'>
+        <h2 className='mb-4 text-2xl font-bold capitalize'>{cuisine.replace('_', ' ')} Cuisine</h2>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4 text-red-700'>
           <p>Error loading cuisine data: {(servicesError || error)?.message}</p>
           <button
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            className='mt-4 rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700'
             onClick={() => window.location.reload()}
           >
             Retry
@@ -404,20 +423,16 @@ export function CuisineSectionMigrated({
   // No recipes state
   if ((cuisineRecipes || []).length === 0) {
     return (
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold capitalize">
-            {cuisine.replace('_', ' ')} Cuisine
-          </h2>
-          <span className="text-sm text-gray-600">
-            No recipes available
-          </span>
+      <div className='mb-8'>
+        <div className='mb-4 flex items-center justify-between'>
+          <h2 className='text-2xl font-bold capitalize'>{cuisine.replace('_', ' ')} Cuisine</h2>
+          <span className='text-sm text-gray-600'>No recipes available</span>
         </div>
-        <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
+        <div className='rounded-lg bg-gray-50 p-4 text-center text-gray-500'>
           <p>No recipes available for this cuisine at the moment</p>
-          <p className="mt-2 text-sm">Please try another cuisine or check back later</p>
+          <p className='mt-2 text-sm'>Please try another cuisine or check back later</p>
           <button
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            className='mt-4 rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600'
             onClick={() => window.location.reload()}
           >
             Refresh Page
@@ -429,26 +444,28 @@ export function CuisineSectionMigrated({
 
   // Main content with recipes and sauces
   return (
-    <div className="mb-8">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold capitalize">
-          {cuisine.replace('_', ' ')} Cuisine
-        </h2>
+    <div className='mb-8'>
+      <div className='mb-4 flex items-center justify-between'>
+        <h2 className='text-2xl font-bold capitalize'>{cuisine.replace('_', ' ')} Cuisine</h2>
 
         {/* Display number of recipes */}
         {(cuisineRecipes || []).length > 0 && (
-          <span className="text-sm text-gray-600">
-            {(cuisineRecipes || []).length} recipe{(cuisineRecipes || []).length !== 1 ? 's' : ''} available
+          <span className='text-sm text-gray-600'>
+            {(cuisineRecipes || []).length} recipe{(cuisineRecipes || []).length !== 1 ? 's' : ''}{' '}
+            available
           </span>
         )}
       </div>
 
       {/* Regional variant info */}
       {isRegionalVariant && parentCuisineName && (
-        <div className="mb-4 p-3 bg-blue-50 rounded-lg text-blue-800">
+        <div className='mb-4 rounded-lg bg-blue-50 p-3 text-blue-800'>
           <p>
-            <span className="font-medium">{cuisine}</span> is a regional variant of{' '}
-            <Link href={`/cuisines/${parentCuisineName.toLowerCase()}`} className="underline hover:text-blue-600">
+            <span className='font-medium'>{cuisine}</span> is a regional variant of{' '}
+            <Link
+              href={`/cuisines/${parentCuisineName.toLowerCase()}`}
+              className='underline hover:text-blue-600'
+            >
               {parentCuisineName} cuisine
             </Link>
           </p>
@@ -457,16 +474,16 @@ export function CuisineSectionMigrated({
 
       {/* Parent cuisine with regional variants */}
       {hasRegionalVariants && (regionalVariantNames || []).length > 0 && (
-        <div className="mb-4 p-3 bg-blue-50 rounded-lg text-blue-800">
-          <p className="mb-2">
-            <span className="font-medium">{cuisine}</span> has regional variants including:
+        <div className='mb-4 rounded-lg bg-blue-50 p-3 text-blue-800'>
+          <p className='mb-2'>
+            <span className='font-medium'>{cuisine}</span> has regional variants including:
           </p>
-          <ul className="flex flex-wrap gap-2">
+          <ul className='flex flex-wrap gap-2'>
             {(regionalVariantNames || []).map((variant, index) => (
               <li key={index}>
                 <Link
                   href={`/cuisines/${variant.toLowerCase()}`}
-                  className="px-3 py-1 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors"
+                  className='rounded-full bg-blue-100 px-3 py-1 transition-colors hover:bg-blue-200'
                 >
                   {variant}
                 </Link>
@@ -477,20 +494,20 @@ export function CuisineSectionMigrated({
       )}
 
       {/* Recipe Grid */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-xl font-semibold">Recipes</h3>
+      <div className='mb-6'>
+        <div className='mb-3 flex items-center justify-between'>
+          <h3 className='text-xl font-semibold'>Recipes</h3>
           {(cuisineRecipes || []).length > 4 && (
             <button
               onClick={() => setViewAllRecipes(!viewAllRecipes)}
-              className="text-blue-600 hover:text-blue-800 text-sm"
+              className='text-sm text-blue-600 hover:text-blue-800'
             >
               {viewAllRecipes ? 'Show less' : 'View all'}
             </button>
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           {(cuisineRecipes || []).map((recipe, index) => renderRecipeCard(recipe, index))}
         </div>
       </div>
@@ -498,8 +515,8 @@ export function CuisineSectionMigrated({
       {/* Traditional Sauces Section */}
       {(traditionalSauces || []).length > 0 && (
         <div>
-          <h3 className="text-xl font-semibold mb-3">Traditional Sauces</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h3 className='mb-3 text-xl font-semibold'>Traditional Sauces</h3>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
             {(traditionalSauces || []).map((sauce, index) => renderSauceCard(sauce, index))}
           </div>
         </div>

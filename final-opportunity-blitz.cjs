@@ -19,7 +19,7 @@ class FinalOpportunityBlitz {
       'no-unnecessary-type-assertion': 0,
       'no-floating-promises': 0,
       'no-misused-promises': 0,
-      'no-non-null-assertion': 0
+      'no-non-null-assertion': 0,
     };
   }
 
@@ -159,22 +159,34 @@ class FinalOpportunityBlitz {
       /(error|err|exception)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g,
 
       // Window/document patterns
-      /(window|document|global)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g
+      /(window|document|global)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g,
     ];
 
     const replacements = [
-      '$1?.$2', '$1?.[$2]', '$1?.$2(',
-      '$1?.[$2]', '$1?.$2', '$2?.[$1] !== undefined',
-      '$1?.$2?.$3', '$1?.$2?.[$3]', '$1?.$2?.$3?.$4', '$1?.$2?.$3?.[$4]',
-      '$1?.length > 0 && $1[0]', '$1?.length && $1[$2]', '$1 && Array.isArray($1) && $1[$2]',
-      '$1?.$2()?.$3', '$1?.$2()?.$3?.$4',
-      '$1?.$2 || $3', '$1?.[$2] || $3',
-      '$1?.$2?.$3', '$1?.$2?.$3',
+      '$1?.$2',
+      '$1?.[$2]',
+      '$1?.$2(',
+      '$1?.[$2]',
+      '$1?.$2',
+      '$2?.[$1] !== undefined',
+      '$1?.$2?.$3',
+      '$1?.$2?.[$3]',
+      '$1?.$2?.$3?.$4',
+      '$1?.$2?.$3?.[$4]',
+      '$1?.length > 0 && $1[0]',
+      '$1?.length && $1[$2]',
+      '$1 && Array.isArray($1) && $1[$2]',
+      '$1?.$2()?.$3',
+      '$1?.$2()?.$3?.$4',
+      '$1?.$2 || $3',
+      '$1?.[$2] || $3',
       '$1?.$2?.$3',
       '$1?.$2?.$3',
       '$1?.$2?.$3',
       '$1?.$2?.$3',
-      '$1?.$2?.$3'
+      '$1?.$2?.$3',
+      '$1?.$2?.$3',
+      '$1?.$2?.$3',
     ];
 
     for (let i = 0; i < blitzPatterns.length; i++) {
@@ -202,50 +214,90 @@ class FinalOpportunityBlitz {
       // String assertions - very broad
       {
         pattern: /\(([^)]+)\s+as\s+string\)/g,
-        test: (v) => v.includes('str') || v.includes('text') || v.includes('name') ||
-                     v.includes('title') || v.includes('message') || v.includes('label') ||
-                     v.includes('content') || v.includes('toString') || v.includes('String') ||
-                     v.includes('.trim()') || v.includes('.toLowerCase()') || v.includes('.toUpperCase()')
+        test: v =>
+          v.includes('str') ||
+          v.includes('text') ||
+          v.includes('name') ||
+          v.includes('title') ||
+          v.includes('message') ||
+          v.includes('label') ||
+          v.includes('content') ||
+          v.includes('toString') ||
+          v.includes('String') ||
+          v.includes('.trim()') ||
+          v.includes('.toLowerCase()') ||
+          v.includes('.toUpperCase()'),
       },
 
       // Number assertions - very broad
       {
         pattern: /\(([^)]+)\s+as\s+number\)/g,
-        test: (v) => v.includes('num') || v.includes('count') || v.includes('index') ||
-                     v.includes('length') || v.includes('size') || v.includes('width') ||
-                     v.includes('height') || v.includes('total') || v.includes('parseInt') ||
-                     v.includes('parseFloat') || v.includes('Number') || v.includes('Math.')
+        test: v =>
+          v.includes('num') ||
+          v.includes('count') ||
+          v.includes('index') ||
+          v.includes('length') ||
+          v.includes('size') ||
+          v.includes('width') ||
+          v.includes('height') ||
+          v.includes('total') ||
+          v.includes('parseInt') ||
+          v.includes('parseFloat') ||
+          v.includes('Number') ||
+          v.includes('Math.'),
       },
 
       // Boolean assertions - very broad
       {
         pattern: /\(([^)]+)\s+as\s+boolean\)/g,
-        test: (v) => v.startsWith('is') || v.startsWith('has') || v.startsWith('can') ||
-                     v.startsWith('should') || v.startsWith('will') || v.includes('enabled') ||
-                     v.includes('visible') || v.includes('active') || v.includes('valid') ||
-                     v.includes('Boolean') || v.includes('!!') || v.includes('true') || v.includes('false')
+        test: v =>
+          v.startsWith('is') ||
+          v.startsWith('has') ||
+          v.startsWith('can') ||
+          v.startsWith('should') ||
+          v.startsWith('will') ||
+          v.includes('enabled') ||
+          v.includes('visible') ||
+          v.includes('active') ||
+          v.includes('valid') ||
+          v.includes('Boolean') ||
+          v.includes('!!') ||
+          v.includes('true') ||
+          v.includes('false'),
       },
 
       // Array assertions - very broad
       {
         pattern: /\(([^)]+)\s+as\s+[^)]*\[\]\)/g,
-        test: (v) => v.includes('list') || v.includes('array') || v.includes('items') ||
-                     v.includes('collection') || v.endsWith('s') || v.includes('Array') ||
-                     v.includes('.map') || v.includes('.filter') || v.includes('.forEach')
+        test: v =>
+          v.includes('list') ||
+          v.includes('array') ||
+          v.includes('items') ||
+          v.includes('collection') ||
+          v.endsWith('s') ||
+          v.includes('Array') ||
+          v.includes('.map') ||
+          v.includes('.filter') ||
+          v.includes('.forEach'),
       },
 
       // Object assertions - broad
       {
         pattern: /\(([^)]+)\s+as\s+[A-Z][a-zA-Z]*\)/g,
-        test: (v) => v.includes('obj') || v.includes('data') || v.includes('config') ||
-                     v.includes('options') || v.includes('props') || v.includes('state')
+        test: v =>
+          v.includes('obj') ||
+          v.includes('data') ||
+          v.includes('config') ||
+          v.includes('options') ||
+          v.includes('props') ||
+          v.includes('state'),
       },
 
       // Any assertions - very aggressive
       {
         pattern: /\(([^)]+)\s+as\s+any\)/g,
-        test: () => true // Remove all 'as any' assertions
-      }
+        test: () => true, // Remove all 'as any' assertions
+      },
     ];
 
     for (const { pattern, test } of assertionPatterns) {
@@ -276,7 +328,7 @@ class FinalOpportunityBlitz {
       const originalLine = line;
 
       // Maximum aggressive floating promise detection
-      const shouldVoid = (
+      const shouldVoid =
         // Any method call that might return a promise
         /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\);?\s*$/.test(line) ||
         // Promise constructors and utilities
@@ -285,31 +337,47 @@ class FinalOpportunityBlitz {
         /^\s*fetch\s*\(/.test(line) ||
         // Async function calls (very broad)
         (/^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)\s*;?\s*$/.test(line) &&
-         (line.includes('async') || line.includes('Async') || line.includes('load') ||
-          line.includes('Load') || line.includes('save') || line.includes('Save') ||
-          line.includes('fetch') || line.includes('Fetch') || line.includes('get') ||
-          line.includes('Get') || line.includes('post') || line.includes('Post') ||
-          line.includes('update') || line.includes('Update') || line.includes('delete') ||
-          line.includes('Delete') || line.includes('send') || line.includes('Send') ||
-          line.includes('request') || line.includes('Request') || line.includes('call') ||
-          line.includes('invoke') || line.includes('execute') || line.includes('run'))) ||
+          (line.includes('async') ||
+            line.includes('Async') ||
+            line.includes('load') ||
+            line.includes('Load') ||
+            line.includes('save') ||
+            line.includes('Save') ||
+            line.includes('fetch') ||
+            line.includes('Fetch') ||
+            line.includes('get') ||
+            line.includes('Get') ||
+            line.includes('post') ||
+            line.includes('Post') ||
+            line.includes('update') ||
+            line.includes('Update') ||
+            line.includes('delete') ||
+            line.includes('Delete') ||
+            line.includes('send') ||
+            line.includes('Send') ||
+            line.includes('request') ||
+            line.includes('Request') ||
+            line.includes('call') ||
+            line.includes('invoke') ||
+            line.includes('execute') ||
+            line.includes('run'))) ||
         // Timer functions with async
         /^\s*(setTimeout|setInterval)\s*\(\s*async/.test(line) ||
         // Event listeners with async
-        /addEventListener\s*\(\s*['"][^'"]*['"],\s*async/.test(line)
-      );
+        /addEventListener\s*\(\s*['"][^'"]*['"],\s*async/.test(line);
 
-      if (shouldVoid &&
-          !line.includes('await') &&
-          !line.includes('void') &&
-          !line.includes('return') &&
-          !line.includes('=') &&
-          !line.includes('console') &&
-          !line.includes('expect') &&
-          !line.includes('describe') &&
-          !line.includes('it') &&
-          !line.includes('test')) {
-
+      if (
+        shouldVoid &&
+        !line.includes('await') &&
+        !line.includes('void') &&
+        !line.includes('return') &&
+        !line.includes('=') &&
+        !line.includes('console') &&
+        !line.includes('expect') &&
+        !line.includes('describe') &&
+        !line.includes('it') &&
+        !line.includes('test')
+      ) {
         line = line.replace(/^(\s*)(.+);?\s*$/, '$1void $2;');
         if (line !== originalLine) {
           fixes++;
@@ -334,29 +402,39 @@ class FinalOpportunityBlitz {
       // Event handlers - very broad
       {
         pattern: /(on\w+)=\{([^}]+)\}/g,
-        test: (handler) => handler.includes('async') || handler.includes('await') ||
-                          handler.includes('Promise') || handler.includes('fetch') ||
-                          handler.includes('load') || handler.includes('save') ||
-                          handler.includes('get') || handler.includes('post') ||
-                          handler.includes('update') || handler.includes('delete'),
-        fix: (eventName, handler) => `${eventName}={() => void (${handler.trim()})}`
+        test: handler =>
+          handler.includes('async') ||
+          handler.includes('await') ||
+          handler.includes('Promise') ||
+          handler.includes('fetch') ||
+          handler.includes('load') ||
+          handler.includes('save') ||
+          handler.includes('get') ||
+          handler.includes('post') ||
+          handler.includes('update') ||
+          handler.includes('delete'),
+        fix: (eventName, handler) => `${eventName}={() => void (${handler.trim()})}`,
       },
 
       // Boolean contexts - broad
       {
         pattern: /if\s*\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*\)/g,
-        test: (call) => call.includes('async') || call.includes('Promise') ||
-                       call.includes('fetch') || call.includes('load') ||
-                       call.includes('get') || call.includes('check'),
-        fix: (call) => `if (await ${call})`
+        test: call =>
+          call.includes('async') ||
+          call.includes('Promise') ||
+          call.includes('fetch') ||
+          call.includes('load') ||
+          call.includes('get') ||
+          call.includes('check'),
+        fix: call => `if (await ${call})`,
       },
 
       // Ternary expressions
       {
         pattern: /(\w+)\s*\?\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*:/g,
-        test: (call) => call.includes('async') || call.includes('Promise') || call.includes('fetch'),
-        fix: (condition, call) => `${condition} ? await ${call} :`
-      }
+        test: call => call.includes('async') || call.includes('Promise') || call.includes('fetch'),
+        fix: (condition, call) => `${condition} ? await ${call} :`,
+      },
     ];
 
     for (const { pattern, test, fix } of patterns) {
@@ -400,22 +478,22 @@ class FinalOpportunityBlitz {
       {
         pattern: /(\w+)!\.(\w+)/g,
         exclude: ['document', 'window', 'global', 'process'],
-        fix: (obj, prop) => `${obj}?.${prop}`
+        fix: (obj, prop) => `${obj}?.${prop}`,
       },
 
       // Array access non-null assertions
       {
         pattern: /(\w+)!\[([^\]]+)\]/g,
         exclude: ['document', 'window', 'global', 'process'],
-        fix: (obj, key) => `${obj}?.[${key}]`
+        fix: (obj, key) => `${obj}?.[${key}]`,
       },
 
       // Method call non-null assertions
       {
         pattern: /(\w+)!\.(\w+)\(/g,
         exclude: ['document', 'window', 'global', 'process'],
-        fix: (obj, method) => `${obj}?.${method}(`
-      }
+        fix: (obj, method) => `${obj}?.${method}(`,
+      },
     ];
 
     for (const { pattern, exclude, fix } of patterns) {
@@ -447,13 +525,17 @@ class FinalOpportunityBlitz {
       }
 
       const content = fs.readFileSync(filePath, 'utf8');
-      const { content: modifiedContent, fixes, details } = this.applyMaximumAggressivePatterns(content, filePath);
+      const {
+        content: modifiedContent,
+        fixes,
+        details,
+      } = this.applyMaximumAggressivePatterns(content, filePath);
 
       if (fixes > 0) {
         fs.writeFileSync(filePath, modifiedContent, 'utf8');
 
         const blitzSummary = Object.entries(details)
-          .filter(([,count]) => count > 0)
+          .filter(([, count]) => count > 0)
           .map(([type, count]) => `${type}(${count})`)
           .join(', ');
 
@@ -464,7 +546,6 @@ class FinalOpportunityBlitz {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`   ❌ Error blitzing ${filePath}:`, error.message);
     }
@@ -509,7 +590,9 @@ class FinalOpportunityBlitz {
       console.log('🎉 Maximum aggressive approach has captured every possible opportunity!');
       console.log('💎 This represents the absolute maximum we can achieve with automated fixes!');
     } else {
-      console.log('\n📊 No additional opportunities found - we may have reached maximum optimization!');
+      console.log(
+        '\n📊 No additional opportunities found - we may have reached maximum optimization!',
+      );
     }
   }
 }

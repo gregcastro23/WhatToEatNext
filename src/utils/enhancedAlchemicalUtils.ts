@@ -1,9 +1,9 @@
 import { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 
 import {
-    calculateAlchemicalCompatibility,
-    calculateAstrologicalAffinity,
-    validateAlgorithms
+  calculateAlchemicalCompatibility,
+  calculateAstrologicalAffinity,
+  validateAlgorithms,
 } from '../calculations/enhancedAlchemicalMatching';
 
 import { getZodiacElementalInfluence } from './zodiacUtils';
@@ -22,7 +22,7 @@ import { getZodiacElementalInfluence } from './zodiacUtils';
 export function getEnhancedFoodRecommendation(
   alchemicalResult: AlchemicalResult,
   _userPreferences?: string[],
-  _season?: string
+  _season?: string,
 ) {
   // Recipe generation functionality is deactivated
   // Return a placeholder with the dominant element information
@@ -32,13 +32,13 @@ export function getEnhancedFoodRecommendation(
   const dominantElement = dominant?.element || 'balanced';
 
   return {
-    cookingMethod: "See existing recipes",
-    mainIngredient: "See existing recipes",
-    secondaryIngredient: "See existing recipes",
+    cookingMethod: 'See existing recipes',
+    mainIngredient: 'See existing recipes',
+    secondaryIngredient: 'See existing recipes',
     reasoning: {
       elementalInfluence: `Using existing recipes with ${dominantElement} qualities.`,
-      planetary: "Recipe generation is deactivated."
-    }
+      planetary: 'Recipe generation is deactivated.',
+    },
   };
 
   // Original implementation commented out
@@ -59,7 +59,7 @@ export function getIngredientCompatibility(
   ingredientA: ElementalProperties,
   ingredientB: ElementalProperties,
   signA?: ZodiacSign,
-  signB?: ZodiacSign
+  signB?: ZodiacSign,
 ) {
   return calculateAlchemicalCompatibility(ingredientA, ingredientB, signA, signB);
 }
@@ -76,7 +76,7 @@ export function getIngredientCompatibility(
 export function getUserFoodCompatibility(
   userSign: ZodiacSign,
   foodElement: string,
-  foodElementalProps: ElementalProperties
+  foodElementalProps: ElementalProperties,
 ) {
   // Map food elements to zodiac signs for compatibility calculation
   const foodSignMap: Record<string, ZodiacSign> = {
@@ -86,7 +86,7 @@ export function getUserFoodCompatibility(
     Air: 'gemini' as ZodiacSign, // Could also use libra or aquarius
   };
 
-  const foodSign = foodSignMap[foodElement] || 'aries' as ZodiacSign;
+  const foodSign = foodSignMap[foodElement] || ('aries' as ZodiacSign);
 
   // Get base astrological affinity
   const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign);
@@ -97,7 +97,7 @@ export function getUserFoodCompatibility(
   // Calculate elemental compatibility
   const elementalCompatibility = calculateAlchemicalCompatibility(
     userElementalProfile,
-    foodElementalProps
+    foodElementalProps,
   );
 
   // Weight factors (favoring elemental compatibility over just sign compatibility)
@@ -120,7 +120,7 @@ export function generatePersonalizedMealPlan(
   alchemicalResult: AlchemicalResult,
   _userSign: ZodiacSign,
   _season: string,
-  _userPreferences?: string[]
+  _userPreferences?: string[],
 ) {
   // Apply surgical type casting with variable extraction
   const alchemicalResultData = alchemicalResult as any;
@@ -129,8 +129,8 @@ export function generatePersonalizedMealPlan(
   // Recipe generation functionality is deactivated
   // Return a simple placeholder instead
   return {
-    message: "Recipe generation is deactivated. Using existing recipes instead.",
-    dominant: dominant
+    message: 'Recipe generation is deactivated. Using existing recipes instead.',
+    dominant: dominant,
   };
 
   /* Original implementation commented out
@@ -257,20 +257,20 @@ export function enhanceAlchemicalCalculations(
   alchemicalResult: AlchemicalResult,
   userSign?: ZodiacSign,
   season?: string,
-  userPreferences?: string[]
+  userPreferences?: string[],
 ) {
   // Simple recommendation if only alchemical result is available
   const basicRecommendation = getEnhancedFoodRecommendation(
     alchemicalResult,
     userPreferences,
-    season
+    season,
   );
 
   // Return basic recommendation for all cases while recipe generation is disabled
   return {
     type: 'basicRecommendation',
     result: basicRecommendation,
-    note: "Recipe generation is temporarily disabled. Using existing recipes instead."
+    note: 'Recipe generation is temporarily disabled. Using existing recipes instead.',
   };
 
   /* Original implementation commented out

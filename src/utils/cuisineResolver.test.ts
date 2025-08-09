@@ -6,14 +6,14 @@
  */
 
 import {
-    areCuisinesRelated,
-    filterPrimaryCuisines,
-    getCuisineDisplayName,
-    getCuisineSuggestions,
-    getCuisineVariants,
-    groupCuisinesByType,
-    isSupportedCuisine,
-    standardizeCuisine
+  areCuisinesRelated,
+  filterPrimaryCuisines,
+  getCuisineDisplayName,
+  getCuisineSuggestions,
+  getCuisineVariants,
+  groupCuisinesByType,
+  isSupportedCuisine,
+  standardizeCuisine,
 } from './cuisineResolver';
 
 describe('Cuisine Resolver', () => {
@@ -153,14 +153,7 @@ describe('Cuisine Resolver', () => {
 
   describe('Integration Tests', () => {
     it('should handle mixed cuisine lists correctly', () => {
-      const mixedCuisines = [
-        'sichuanese',
-        'cantonese',
-        'Italian',
-        'shanghainese',
-        'Japanese',
-        'hunanese'
-      ];
+      const mixedCuisines = ['sichuanese', 'cantonese', 'Italian', 'shanghainese', 'Japanese', 'hunanese'];
 
       const primaryCuisines = filterPrimaryCuisines(mixedCuisines);
       expect(primaryCuisines).toContain('Chinese');

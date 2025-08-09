@@ -18,19 +18,19 @@ export async function testCookingMethodRecommendations() {
       Fire: 0.3,
       Water: 0.7,
       Earth: 0.4,
-      Air: 0.2
+      Air: 0.2,
     },
     alchemicalProperties: {
       Spirit: 0.4,
       Essence: 0.3,
       Matter: 0.6,
-      Substance: 0.7
+      Substance: 0.7,
     },
     transformedElementalProperties: {
       Fire: 0.3,
       Water: 0.7,
       Earth: 0.4,
-      Air: 0.2
+      Air: 0.2,
     },
     heat: 0.3,
     entropy: 0.4,
@@ -40,7 +40,7 @@ export async function testCookingMethodRecommendations() {
     dominantAlchemicalProperty: 'Substance',
     planetaryBoost: 1.0,
     dominantPlanets: ['Venus'],
-    planetaryDignities: {}
+    planetaryDignities: {},
   };
 
   // Create mock cooking methods
@@ -54,7 +54,7 @@ export async function testCookingMethodRecommendations() {
     { name: 'braising', element: 'Water' },
     { name: 'poaching', element: 'Water' },
     { name: 'frying', element: 'Fire' },
-    { name: 'fermenting', element: 'Earth' }
+    { name: 'fermenting', element: 'Earth' },
   ];
 
   // Run the test
@@ -68,9 +68,18 @@ export async function testCookingMethodRecommendations() {
   try {
     console.warn('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
     const methods = mockCookingMethods.map(m => m.name);
-    const holisticRecs = await getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, methods, 5);
+    const holisticRecs = await getHolisticCookingRecommendations(
+      mockIngredient,
+      undefined,
+      undefined,
+      true,
+      methods,
+      5,
+    );
     holisticRecs.forEach((rec, index) => {
-      console.warn(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
+      console.warn(
+        `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
+      );
     });
   } catch (error) {
     console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error);
@@ -82,9 +91,15 @@ export async function testCookingMethodRecommendations() {
   // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
     console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
-    const recommendations = await getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as any, 5);
+    const recommendations = await getRecommendedCookingMethodsForIngredient(
+      mockIngredient,
+      mockCookingMethods as any,
+      5,
+    );
     recommendations.forEach((rec, index) => {
-      console.warn(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
+      console.warn(
+        `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`,
+      );
     });
   } catch (error) {
     console.error('ERROR GETTING RECOMMENDATIONS:', error);
@@ -92,13 +107,24 @@ export async function testCookingMethodRecommendations() {
       console.error(error.stack);
     }
   }
-  
-  const holisticRecs = await getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, mockCookingMethods.map(m => m.name), 5);
-  const standardRecs = await getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as any, 5); // Pattern ZZZ: Array Object Interface Expansion
-  
+
+  const holisticRecs = await getHolisticCookingRecommendations(
+    mockIngredient,
+    undefined,
+    undefined,
+    true,
+    mockCookingMethods.map(m => m.name),
+    5,
+  );
+  const standardRecs = await getRecommendedCookingMethodsForIngredient(
+    mockIngredient,
+    mockCookingMethods as any,
+    5,
+  ); // Pattern ZZZ: Array Object Interface Expansion
+
   return {
     ingredient: mockIngredient,
     holisticRecommendations: holisticRecs,
-    standardRecommendations: standardRecs
+    standardRecommendations: standardRecs,
   };
-} 
+}

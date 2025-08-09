@@ -25,10 +25,10 @@ describe('ImportCleanupSystem', () => {
     testConfig = {
       ...DEFAULT_IMPORT_CLEANUP_CONFIG,
       maxFilesPerBatch: 5,
-      safetyValidationEnabled: true
+      safetyValidationEnabled: true,
     };
     importCleanupSystem = new ImportCleanupSystem(testConfig);
-    
+
     // Reset mocks
     jest.clearAllMocks();
   });
@@ -314,8 +314,8 @@ function component() {
         ...testConfig,
         organizationRules: {
           ...testConfig.organizationRules,
-          maxLineLength: 50
-        }
+          maxLineLength: 50,
+        },
       };
       const system = new ImportCleanupSystem(config);
 
@@ -365,13 +365,14 @@ function component() {
 
     test('handles build validation failures', async () => {
       const testFiles = ['file1.ts'];
-      
+
       mockExecSync
         .mockReturnValueOnce(testFiles.join('\n')) // File listing
-        .mockImplementationOnce(() => { // Build validation
+        .mockImplementationOnce(() => {
+          // Build validation
           throw new Error('Build failed');
         });
-      
+
       mockFs.readFileSync.mockReturnValue('import { unused } from "./utils";');
       mockFs.writeFileSync.mockImplementation(() => {});
 
@@ -384,7 +385,7 @@ function component() {
     test('processes files in batches', async () => {
       const testFiles = Array.from({ length: 12 }, (_, i) => `file${i}.ts`);
       const batchSize = 5;
-      
+
       const config = { ...testConfig, maxFilesPerBatch: batchSize };
       const system = new ImportCleanupSystem(config);
 
@@ -424,10 +425,12 @@ function component() {
 
     test('continues processing other files when one fails', async () => {
       const testFiles = ['good.ts', 'bad.ts', 'good2.ts'];
-      
+
       mockFs.readFileSync
         .mockReturnValueOnce('import { used } from "./utils"; used();') // good.ts
-        .mockImplementationOnce(() => { throw new Error('Bad file'); }) // bad.ts
+        .mockImplementationOnce(() => {
+          throw new Error('Bad file');
+        }) // bad.ts
         .mockReturnValueOnce('import { used } from "./utils"; used();'); // good2.ts
 
       const unusedImports = await importCleanupSystem.detectUnusedImports(testFiles);
@@ -455,8 +458,8 @@ function component() {
           sortAlphabetically: false,
           separateTypeImports: false,
           enforceTrailingCommas: false,
-          maxLineLength: 120
-        }
+          maxLineLength: 120,
+        },
       };
 
       const system = new ImportCleanupSystem(customConfig);

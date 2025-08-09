@@ -1,5 +1,3 @@
-
-
 // Types
 export interface Nutrition {
   calories: number;
@@ -11,49 +9,52 @@ export interface Nutrition {
 }
 
 // Mock Data
-export const defaultElementalProps: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+export const defaultElementalProps: ElementalProperties = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
+  Air: 0.25,
 };
 
 export const mockIngredients = {
   'Oils & Fats': [
     {
       name: 'sesame oil',
-      elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2
-      }
-    }
+      elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
+    },
   ],
-  'Herbs': [
+  Herbs: [
     {
       name: 'basil',
-      elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2
-      }
-    }
+      elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
+    },
   ],
-  'Spices': [
+  Spices: [
     {
       name: 'star anise',
-      elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.2, Air: 0.2
-      }
-    }
-  ]
+      elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.2, Air: 0.2 },
+    },
+  ],
 };
 
 // IngredientRecommendations Component
 import React, { useMemo } from 'react';
 
-import { AstrologicalState, Element, ElementalProperties, ThermodynamicMetrics } from '@/types/alchemy';
+import {
+  AstrologicalState,
+  Element,
+  ElementalProperties,
+  ThermodynamicMetrics,
+} from '@/types/alchemy';
 
 import { getTopIngredientMatches } from '../../utils/recommendation/foodRecommendation';
-
-
-
 
 interface IngredientRecommendationsProps {
   astrologicalState: AstrologicalState;
 }
 
 export const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
-  astrologicalState
+  astrologicalState,
 }) => {
   const [recommendedIngredients, setRecommendedIngredients] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -76,46 +77,64 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
   }, [astrologicalState]);
 
   if (isLoading) {
-    return React.createElement("div", { className: "text-gray-500 text-center py-4" }, "Loading recommendations...");
+    return React.createElement(
+      'div',
+      { className: 'text-gray-500 text-center py-4' },
+      'Loading recommendations...',
+    );
   }
 
   if ((recommendedIngredients || []).length === 0) {
-    return React.createElement("div", { className: "text-gray-500 text-center py-4" }, "No recommended ingredients found");
+    return React.createElement(
+      'div',
+      { className: 'text-gray-500 text-center py-4' },
+      'No recommended ingredients found',
+    );
   }
 
   return React.createElement(
-    "div", 
-    { className: "p-4 bg-white rounded-lg shadow-md" },
-    React.createElement("h3", { className: "text-lg font-semibold mb-3" }, "Recommended Ingredients"),
+    'div',
+    { className: 'p-4 bg-white rounded-lg shadow-md' },
     React.createElement(
-      "ul", 
-      { className: "space-y-2" },
-      (recommendedIngredients || []).map(ingredient => 
+      'h3',
+      { className: 'text-lg font-semibold mb-3' },
+      'Recommended Ingredients',
+    ),
+    React.createElement(
+      'ul',
+      { className: 'space-y-2' },
+      (recommendedIngredients || []).map(ingredient =>
         React.createElement(
-          "li", 
-          { 
+          'li',
+          {
             key: ingredient.name,
-            className: "p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors"
+            className: 'p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors',
           },
-          React.createElement("div", { className: "font-medium text-gray-900" }, ingredient.name),
+          React.createElement('div', { className: 'font-medium text-gray-900' }, ingredient.name),
           React.createElement(
-            "div",
-            { className: "text-sm text-gray-600 space-y-1" },
-            React.createElement("div", {}, "Element: ", 
-              typeof ingredient.astrologicalPropertiesProfile?.elementalAffinity === 'object' 
-                ? ingredient?.astrologicalPropertiesProfile?.elementalAffinity?.base 
-                : (typeof ingredient.astrologicalPropertiesProfile?.elementalAffinity === 'string' 
-                  ? ingredient?.astrologicalPropertiesProfile?.elementalAffinity?.base 
-                  : 'Unknown')
+            'div',
+            { className: 'text-sm text-gray-600 space-y-1' },
+            React.createElement(
+              'div',
+              {},
+              'Element: ',
+              typeof ingredient.astrologicalPropertiesProfile?.elementalAffinity === 'object'
+                ? ingredient?.astrologicalPropertiesProfile?.elementalAffinity?.base
+                : typeof ingredient.astrologicalPropertiesProfile?.elementalAffinity === 'string'
+                  ? ingredient?.astrologicalPropertiesProfile?.elementalAffinity?.base
+                  : 'Unknown',
             ),
-            React.createElement("div", {}, "Planets: ", 
-              Array.isArray(ingredient.astrologicalPropertiesProfile?.rulingPlanets) 
-                ? ingredient?.astrologicalPropertiesProfile?.rulingPlanets?.join(', ') 
-                : 'Unknown'
-            )
-          )
-        )
-      )
-    )
+            React.createElement(
+              'div',
+              {},
+              'Planets: ',
+              Array.isArray(ingredient.astrologicalPropertiesProfile?.rulingPlanets)
+                ? ingredient?.astrologicalPropertiesProfile?.rulingPlanets?.join(', ')
+                : 'Unknown',
+            ),
+          ),
+        ),
+      ),
+    ),
   );
-}; 
+};

@@ -81,7 +81,7 @@ class ConfigurationServiceImpl {
     return {
       api: { ...config.api },
       astrology: { ...config.astrology },
-      debug: config.debug
+      debug: config.debug,
     };
   }
 
@@ -91,20 +91,23 @@ class ConfigurationServiceImpl {
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
     return {
       api: {
-        celestialUpdateInterval: stored.api?.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
+        celestialUpdateInterval:
+          stored.api?.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
         timeout: stored.api?.timeout ?? config.api.timeout,
         retryCount: stored.api?.retryCount ?? config.api.retryCount,
         baseUrl: stored.api?.baseUrl ?? config.api.baseUrl,
       },
       astrology: {
-        defaultTimezoneName: stored.astrology?.defaultTimezoneName ?? config.astrology.defaultTimezoneName,
-        retrogradeThreshold: stored.astrology?.retrogradeThreshold ?? config.astrology.retrogradeThreshold,
+        defaultTimezoneName:
+          stored.astrology?.defaultTimezoneName ?? config.astrology.defaultTimezoneName,
+        retrogradeThreshold:
+          stored.astrology?.retrogradeThreshold ?? config.astrology.retrogradeThreshold,
         aspectOrbs: {
           ...config.astrology.aspectOrbs,
-          ...stored.astrology?.aspectOrbs
-        }
+          ...stored.astrology?.aspectOrbs,
+        },
       },
-      debug: stored.debug ?? config.debug
+      debug: stored.debug ?? config.debug,
     };
   }
 
@@ -115,10 +118,13 @@ class ConfigurationServiceImpl {
     try {
       if (typeof window !== 'undefined') {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.currentConfig));
-        
+
         // Also save history
         if (this.configHistory.length > 0) {
-          localStorage.setItem(this.HISTORY_KEY, JSON.stringify(this.configHistory.slice(-this.MAX_HISTORY)));
+          localStorage.setItem(
+            this.HISTORY_KEY,
+            JSON.stringify(this.configHistory.slice(-this.MAX_HISTORY)),
+          );
         }
       }
     } catch (error) {
@@ -166,8 +172,12 @@ class ConfigurationServiceImpl {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Configuration values have multiple valid types
-  public updateConfiguration(section: keyof ConfigurationState, key: string, value: any): Promise<boolean> {
-    return new Promise((resolve) => {
+  public updateConfiguration(
+    section: keyof ConfigurationState,
+    key: string,
+    value: any,
+  ): Promise<boolean> {
+    return new Promise(resolve => {
       try {
         // Validate the update
         const validation = this.validateUpdate(section, key, value);
@@ -186,7 +196,7 @@ class ConfigurationServiceImpl {
           section: section as ConfigurationUpdate['section'],
           key,
           value,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
 
         // Add to history
@@ -223,7 +233,11 @@ class ConfigurationServiceImpl {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Validation must handle any incoming configuration value type
-  private validateUpdate(section: keyof ConfigurationState, key: string, value: any): ConfigurationValidation {
+  private validateUpdate(
+    section: keyof ConfigurationState,
+    key: string,
+    value: any,
+  ): ConfigurationValidation {
     const errors: ConfigurationValidation['errors'] = [];
 
     if (section === 'api') {
@@ -234,7 +248,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Update interval must be between 1 minute and 24 hours',
-              severity: 'error'
+              severity: 'error',
             });
           }
           break;
@@ -244,7 +258,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Timeout must be between 1 second and 5 minutes',
-              severity: 'error'
+              severity: 'error',
             });
           }
           break;
@@ -254,17 +268,20 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Retry count must be between 0 and 10',
-              severity: 'error'
+              severity: 'error',
             });
           }
           break;
         case 'baseUrl':
-          if (typeof value !== 'string' || (!value.startsWith('http://') && !value.startsWith('https://'))) {
+          if (
+            typeof value !== 'string' ||
+            (!value.startsWith('http://') && !value.startsWith('https://'))
+          ) {
             errors.push({
               section: 'api',
               key,
               message: 'Base URL must be a valid HTTP/HTTPS URL',
-              severity: 'error'
+              severity: 'error',
             });
           }
           break;
@@ -277,22 +294,28 @@ class ConfigurationServiceImpl {
               section: 'astrology',
               key,
               message: 'Retrograde threshold should be between -5 and 5 degrees/day',
-              severity: 'warning'
+              severity: 'warning',
             });
           }
           break;
         case 'defaultTimezoneName':
           // Basic timezone validation
           const validTimezones = [
-            'UTC', 'America/New_York', 'America/Chicago', 'America/Denver', 
-            'America/Los_Angeles', 'Europe/London', 'Europe/Paris', 'Asia/Tokyo'
+            'UTC',
+            'America/New_York',
+            'America/Chicago',
+            'America/Denver',
+            'America/Los_Angeles',
+            'Europe/London',
+            'Europe/Paris',
+            'Asia/Tokyo',
           ];
           if (!validTimezones.includes(value)) {
             errors.push({
               section: 'astrology',
               key,
               message: 'Unknown timezone identifier',
-              severity: 'warning'
+              severity: 'warning',
             });
           }
           break;
@@ -301,7 +324,7 @@ class ConfigurationServiceImpl {
 
     return {
       isValid: errors.filter(e => e.severity === 'error').length === 0,
-      errors
+      errors,
     };
   }
 
@@ -309,12 +332,14 @@ class ConfigurationServiceImpl {
    * Bulk update configuration
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async updateBulk(updates: Array<{
-    section: keyof ConfigurationState;
-    key: string;
-    // Intentionally any: Bulk configuration values can be of any valid type
-    value: any;
-  }>): Promise<boolean> {
+  public async updateBulk(
+    updates: Array<{
+      section: keyof ConfigurationState;
+      key: string;
+      // Intentionally any: Bulk configuration values can be of any valid type
+      value: any;
+    }>,
+  ): Promise<boolean> {
     // Validate all updates first
     for (const update of updates) {
       const validation = this.validateUpdate(update.section, update.key, update.value);
@@ -340,12 +365,12 @@ class ConfigurationServiceImpl {
    * Reset configuration to defaults
    */
   public resetToDefaults(): Promise<boolean> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       try {
         this.currentConfig = {
           api: { ...config.api },
           astrology: { ...config.astrology },
-          debug: config.debug
+          debug: config.debug,
         };
 
         // Create reset record
@@ -353,7 +378,7 @@ class ConfigurationServiceImpl {
           section: 'debug',
           key: 'reset',
           value: 'defaults',
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.configHistory.push(update);
 
@@ -372,11 +397,15 @@ class ConfigurationServiceImpl {
    * Export configuration
    */
   public exportConfiguration(): string {
-    return JSON.stringify({
-      configuration: this.currentConfig,
-      timestamp: Date.now(),
-      version: '1.0.0'
-    }, null, 2);
+    return JSON.stringify(
+      {
+        configuration: this.currentConfig,
+        timestamp: Date.now(),
+        version: '1.0.0',
+      },
+      null,
+      2,
+    );
   }
 
   /**
@@ -385,13 +414,13 @@ class ConfigurationServiceImpl {
   public async importConfiguration(configJson: string): Promise<boolean> {
     try {
       const imported = JSON.parse(configJson);
-      
+
       if (!imported.configuration) {
         throw new Error('Invalid configuration format');
       }
 
       const merged = this.mergeWithDefaults(imported.configuration);
-      
+
       // Validate the entire configuration
       const validation = this.validateConfiguration(merged);
       if (!validation.isValid) {
@@ -407,7 +436,7 @@ class ConfigurationServiceImpl {
         section: 'debug',
         key: 'import',
         value: 'configuration',
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.configHistory.push(update);
       this.notifyListeners(update);
@@ -441,7 +470,7 @@ class ConfigurationServiceImpl {
 
     return {
       isValid: errors.filter(e => e.severity === 'error').length === 0,
-      errors
+      errors,
     };
   }
 
@@ -514,7 +543,10 @@ class ConfigurationServiceImpl {
     }
 
     // Check astrology configuration
-    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce((sum, orb) => sum + orb, 0);
+    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(
+      (sum, orb) => sum + orb,
+      0,
+    );
     if (totalOrbs > 50) {
       issues.push('Very large aspect orbs may affect calculation accuracy');
       status = 'warning';
@@ -523,8 +555,10 @@ class ConfigurationServiceImpl {
     return {
       status,
       issues,
-      lastUpdate: this.configHistory.length > 0 ? 
-        Math.max(...this.configHistory.map(h => h.timestamp)) : null
+      lastUpdate:
+        this.configHistory.length > 0
+          ? Math.max(...this.configHistory.map(h => h.timestamp))
+          : null,
     };
   }
 }

@@ -2,15 +2,18 @@
 
 ## Current Status
 
-We've migrated cooking methods from the monolithic `cookingMethods.ts` file to individual files organized by category:
+We've migrated cooking methods from the monolithic `cookingMethods.ts` file to
+individual files organized by category:
 
 ### Implemented Categories
+
 - **Dry Methods**: baking, roasting, frying, stir-frying, grilling
 - **Wet Methods**: sous-vide, boiling, steaming, braising
 - **Molecular Methods**: spherification, gelification
 - **Traditional Methods**: fermentation
 
 ### Methods Still to Migrate
+
 - broiling (→ dry)
 - pressure_cooking (→ wet)
 - smoking (→ traditional)
@@ -43,7 +46,8 @@ We've migrated cooking methods from the monolithic `cookingMethods.ts` file to i
 
 ## Implementation Notes
 
-- Backwards compatibility is maintained through the `src/data/cooking/index.ts` file
+- Backwards compatibility is maintained through the `src/data/cooking/index.ts`
+  file
 - The new system provides better organization and more detailed data
 - The modular approach makes it easier to add new methods
 - Helper functions have been moved to proper locations
@@ -51,6 +55,7 @@ We've migrated cooking methods from the monolithic `cookingMethods.ts` file to i
 ## Code Changes Completed
 
 Components and utils updated:
+
 - `src/data/recipes/elementalMappings.ts`
 - `src/calculations/culinaryAstrology.ts`
 - `src/components/AlchemicalRecommendations.tsx`
@@ -59,6 +64,7 @@ Components and utils updated:
 - `src/utils/cookingMethodRecommender.ts`
 
 All imports now use:
+
 ```javascript
 // Before
 import { cookingMethods } from '@/data/cooking/cookingMethods';
@@ -70,8 +76,9 @@ import { allCookingMethods } from '@/data/cooking';
 ## Cleanup Completed
 
 The following files have been removed:
+
 - `src/data/cooking/cookingMethods.ts`
-- `src/data/cooking/molecularMethods.ts` 
+- `src/data/cooking/molecularMethods.ts`
 - `src/data/cooking/alcmethods.ts`
 
-Backwards compatibility maintained through the new modular structure. 
+Backwards compatibility maintained through the new modular structure.

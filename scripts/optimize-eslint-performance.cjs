@@ -202,7 +202,7 @@ function testPerformance() {
     // Measure performance
     const result = execSync('node scripts/measure-eslint-performance.cjs', {
       encoding: 'utf8',
-      stdio: 'pipe'
+      stdio: 'pipe',
     });
 
     console.log(result);
@@ -214,7 +214,6 @@ function testPerformance() {
     }
 
     return false;
-
   } catch (error) {
     console.error('❌ Performance test failed:', error.message);
     return false;

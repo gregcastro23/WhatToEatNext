@@ -4,12 +4,12 @@
     "target": "es2018",
     "module": "esnext",
     "moduleResolution": "bundler",
-    
+
     // Compilation speed optimizations
     "incremental": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    
+
     // Type checking optimizations (balanced for development speed)
     "strict": true,
     "noImplicitAny": false,
@@ -17,7 +17,7 @@
     "useDefineForClassFields": true,
     "exactOptionalPropertyTypes": false,
     "noUncheckedIndexedAccess": false,
-    
+
     // Enhanced path mapping for better imports and IntelliSense
     "baseUrl": ".",
     "paths": {
@@ -32,7 +32,7 @@
       "@services/*": ["./src/services/*"],
       "@constants/*": ["./src/constants/*"]
     },
-    
+
     // Enhanced type definitions and libraries
     "lib": ["dom", "dom.iterable", "es6", "es2018", "es2020"],
     "allowJs": true,
@@ -43,7 +43,7 @@
     "jsx": "preserve",
     "noEmit": true,
     "resolveJsonModule": true,
-    
+
     // Enhanced IntelliSense and development experience
     "declaration": false,
     "declarationMap": false,
@@ -52,12 +52,12 @@
     "preserveConstEnums": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    
+
     // Additional optimizations for astrological calculations
     "downlevelIteration": true,
     "importHelpers": true,
     "noEmitHelpers": false,
-    
+
     // Error reporting optimizations
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -65,7 +65,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true
   },
-  
+
   // Optimized include patterns for faster compilation
   "include": [
     "next-env.d.ts",
@@ -74,7 +74,7 @@
     ".next/types/**/*.ts",
     "src/types/enhanced-astrology.d.ts"
   ],
-  
+
   // Optimized exclude patterns to reduce compilation time
   "exclude": [
     "node_modules",
@@ -96,13 +96,13 @@
     "metrics/**",
     ".transformation-backups/**"
   ],
-  
+
   // TypeScript project references for faster incremental builds
   "references": [],
-  
+
   // Compiler diagnostics for development experience
   "compileOnSave": false,
-  
+
   // Watch options for better development experience
   "watchOptions": {
     "watchFile": "useFsEvents",
@@ -118,16 +118,11 @@
       "**/coverage"
     ]
   },
-  
+
   // Type acquisition for enhanced IntelliSense
   "typeAcquisition": {
     "enable": true,
-    "include": [
-      "node",
-      "react",
-      "react-dom",
-      "next"
-    ],
+    "include": ["node", "react", "react-dom", "next"],
     "exclude": []
   }
 }

@@ -3,10 +3,10 @@
  * type-check.js
  * A utility to run TypeScript type checking with the correct configuration
  * based on whether you're checking test files or regular source files.
- * 
+ *
  * Usage:
  *   node type-check.js [--tests] [filepath]
- * 
+ *
  * Options:
  *   --tests    Check test files (uses tsconfig.jest.json)
  *   filepath   Optional specific file to check
@@ -28,36 +28,35 @@ const isTestMode = args.includes('--tests');
 const fileToCheck = args.find(arg => !arg.startsWith('--'));
 
 // Determine which tsconfig to use
-const tsconfigPath = isTestMode 
+const tsconfigPath = isTestMode
   ? path.join(rootDir, 'tsconfig.jest.json')
   : path.join(rootDir, 'tsconfig.dev.json');
 
-console.log(`🔍 Running TypeScript check with ${isTestMode ? 'test' : 'development'} configuration`);
+console.log(
+  `🔍 Running TypeScript check with ${isTestMode ? 'test' : 'development'} configuration`,
+);
 if (fileToCheck) {
   console.log(`🔍 Checking file: ${fileToCheck}`);
 }
 
 // Build the command arguments
-const tscArgs = [
-  '--noEmit',
-  '--skipLibCheck'
-];
+const tscArgs = ['--noEmit', '--skipLibCheck'];
 
 // If we're checking a specific file, we need a different approach
 if (fileToCheck) {
   // Create a temporary tsconfig that includes only the file we want to check
   const tempConfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf8'));
-  
+
   // Explicitly include the file to check
   tempConfig.include = [fileToCheck];
-  
+
   // Write temporary config
   const tempConfigPath = path.join(rootDir, 'temp-tsconfig.json');
   fs.writeFileSync(tempConfigPath, JSON.stringify(tempConfig, null, 2));
-  
+
   // Use the temporary config
   tscArgs.push('--project', tempConfigPath);
-  
+
   // Clean up function
   const cleanup = () => {
     try {
@@ -66,7 +65,7 @@ if (fileToCheck) {
       console.warn('⚠️ Could not remove temporary config file:', error);
     }
   };
-  
+
   // Set up cleanup on exit
   process.on('exit', cleanup);
   process.on('SIGINT', () => {
@@ -81,7 +80,7 @@ if (fileToCheck) {
 // Run TypeScript compiler
 const tsc = spawn('npx', ['tsc', ...tscArgs], { stdio: 'inherit' });
 
-tsc.on('close', (code) => {
+tsc.on('close', code => {
   if (code === 0) {
     console.log('✅ TypeScript check passed!');
   } else {

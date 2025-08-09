@@ -1,6 +1,6 @@
 /**
  * Comprehensive Linting Validation and Monitoring Dashboard
- * 
+ *
  * This service provides real-time monitoring, validation, and alerting
  * for the enhanced ESLint configuration with domain-specific tracking.
  */
@@ -78,38 +78,38 @@ export class LintingValidationDashboard {
   private readonly metricsHistoryFile = '.kiro/metrics/linting-metrics-history.json';
   private readonly alertsFile = '.kiro/metrics/linting-alerts.json';
   private readonly configFile = '.kiro/metrics/linting-dashboard-config.json';
-  
+
   private readonly defaultThresholds: AlertThreshold[] = [
     {
       metric: 'parserErrors',
       threshold: 0,
       severity: 'critical',
-      message: 'Parser errors detected - blocking accurate linting analysis'
+      message: 'Parser errors detected - blocking accurate linting analysis',
     },
     {
       metric: 'explicitAnyErrors',
       threshold: 100,
       severity: 'error',
-      message: 'Explicit any errors exceed acceptable threshold'
+      message: 'Explicit any errors exceed acceptable threshold',
     },
     {
       metric: 'totalIssues',
       threshold: 2000,
       severity: 'warning',
-      message: 'Total linting issues exceed warning threshold'
+      message: 'Total linting issues exceed warning threshold',
     },
     {
       metric: 'qualityScore',
       threshold: 80,
       severity: 'warning',
-      message: 'Code quality score below target'
+      message: 'Code quality score below target',
     },
     {
       metric: 'performanceMetrics.lintingDuration',
       threshold: 30000,
       severity: 'warning',
-      message: 'Linting performance degraded - exceeds 30 seconds'
-    }
+      message: 'Linting performance degraded - exceeds 30 seconds',
+    },
   ];
 
   constructor() {
@@ -122,28 +122,28 @@ export class LintingValidationDashboard {
    */
   async runComprehensiveValidation(): Promise<ValidationResult> {
     console.log('🔍 Starting comprehensive linting validation...');
-    
+
     const startTime = Date.now();
     const metrics = await this.collectMetrics();
     const alerts = this.evaluateAlerts(metrics);
     const regressionAnalysis = await this.analyzeRegression(metrics);
     const recommendations = this.generateRecommendations(metrics, alerts);
-    
+
     const result: ValidationResult = {
       passed: alerts.filter(a => a.severity === 'error' || a.severity === 'critical').length === 0,
       metrics,
       alerts,
       recommendations,
-      regressionAnalysis
+      regressionAnalysis,
     };
 
     // Store metrics and alerts
     await this.storeMetrics(metrics);
     await this.storeAlerts(alerts);
-    
+
     // Generate dashboard report
     await this.generateDashboardReport(result);
-    
+
     console.log(`✅ Validation completed in ${Date.now() - startTime}ms`);
     return result;
   }
@@ -153,37 +153,33 @@ export class LintingValidationDashboard {
    */
   private async collectMetrics(): Promise<LintingMetrics> {
     const startTime = Date.now();
-    
+
     try {
       // Run ESLint with enhanced configuration
-      const lintOutput = execSync(
-        'yarn lint --format json --max-warnings 10000',
-        { 
-          encoding: 'utf8',
-          stdio: 'pipe',
-          timeout: 60000 // 60 second timeout
-        }
-      );
-      
+      const lintOutput = execSync('yarn lint --format json --max-warnings 10000', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+        timeout: 60000, // 60 second timeout
+      });
+
       const lintResults = JSON.parse(lintOutput);
       const metrics = this.parseLintResults(lintResults);
-      
+
       // Add performance metrics
       metrics.performanceMetrics = {
         lintingDuration: Date.now() - startTime,
         cacheHitRate: await this.calculateCacheHitRate(),
         memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB
-        filesProcessed: lintResults.length
+        filesProcessed: lintResults.length,
       };
-      
+
       // Calculate quality score
       metrics.qualityScore = this.calculateQualityScore(metrics);
-      
+
       return metrics;
-      
     } catch (error) {
       console.error('Error collecting linting metrics:', error);
-      
+
       // Return fallback metrics
       return {
         timestamp: new Date(),
@@ -199,16 +195,16 @@ export class LintingValidationDashboard {
         domainSpecificIssues: {
           astrologicalCalculations: -1,
           campaignSystem: -1,
-          testFiles: -1
+          testFiles: -1,
         },
         performanceMetrics: {
           lintingDuration: Date.now() - startTime,
           cacheHitRate: 0,
           memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024,
-          filesProcessed: 0
+          filesProcessed: 0,
         },
         qualityScore: 0,
-        regressionDetected: false
+        regressionDetected: false,
       };
     }
   }
@@ -226,28 +222,28 @@ export class LintingValidationDashboard {
     let unusedVariables = 0;
     let reactHooksIssues = 0;
     let consoleStatements = 0;
-    
+
     const domainSpecificIssues = {
       astrologicalCalculations: 0,
       campaignSystem: 0,
-      testFiles: 0
+      testFiles: 0,
     };
 
     for (const result of lintResults) {
       const filePath = result.filePath;
-      
+
       for (const message of result.messages) {
         totalIssues++;
-        
+
         if (message.severity === 2) {
           errors++;
         } else {
           warnings++;
         }
-        
+
         // Categorize by rule type
         const ruleId = message.ruleId;
-        
+
         if (message.fatal || ruleId === 'parseForESLint') {
           parserErrors++;
         } else if (ruleId === '@typescript-eslint/no-explicit-any') {
@@ -261,7 +257,7 @@ export class LintingValidationDashboard {
         } else if (ruleId === 'no-console') {
           consoleStatements++;
         }
-        
+
         // Domain-specific categorization
         if (this.isAstrologicalFile(filePath)) {
           domainSpecificIssues.astrologicalCalculations++;
@@ -289,10 +285,10 @@ export class LintingValidationDashboard {
         lintingDuration: 0, // Will be set by caller
         cacheHitRate: 0,
         memoryUsage: 0,
-        filesProcessed: lintResults.length
+        filesProcessed: lintResults.length,
       },
       qualityScore: 0, // Will be calculated
-      regressionDetected: false
+      regressionDetected: false,
     };
   }
 
@@ -301,26 +297,26 @@ export class LintingValidationDashboard {
    */
   private calculateQualityScore(metrics: LintingMetrics): number {
     if (metrics.totalIssues === -1) return 0; // Error state
-    
+
     // Base score starts at 100
     let score = 100;
-    
+
     // Deduct points for different issue types
     score -= Math.min(50, metrics.parserErrors * 10); // Parser errors are critical
     score -= Math.min(30, metrics.explicitAnyErrors * 0.1); // Explicit any errors
     score -= Math.min(20, metrics.errors * 0.5); // General errors
     score -= Math.min(15, metrics.warnings * 0.01); // Warnings (less impact)
-    
+
     // Performance penalty
     if (metrics.performanceMetrics.lintingDuration > 30000) {
       score -= 10; // Performance penalty
     }
-    
+
     // Bonus for zero critical issues
     if (metrics.parserErrors === 0 && metrics.explicitAnyErrors < 10) {
       score += 5;
     }
-    
+
     return Math.max(0, Math.min(100, Math.round(score)));
   }
 
@@ -330,10 +326,10 @@ export class LintingValidationDashboard {
   private evaluateAlerts(metrics: LintingMetrics): Alert[] {
     const alerts: Alert[] = [];
     const thresholds = this.loadThresholds();
-    
+
     for (const threshold of thresholds) {
       const currentValue = this.getMetricValue(metrics, threshold.metric);
-      
+
       if (this.shouldTriggerAlert(currentValue, threshold)) {
         alerts.push({
           id: `${threshold.metric}-${Date.now()}`,
@@ -343,11 +339,11 @@ export class LintingValidationDashboard {
           currentValue,
           threshold: threshold.threshold,
           message: threshold.message,
-          resolved: false
+          resolved: false,
         });
       }
     }
-    
+
     return alerts;
   }
 
@@ -356,7 +352,7 @@ export class LintingValidationDashboard {
    */
   private async analyzeRegression(currentMetrics: LintingMetrics): Promise<RegressionAnalysis> {
     const history = this.loadMetricsHistory();
-    
+
     if (history.length < 2) {
       return {
         detected: false,
@@ -367,39 +363,44 @@ export class LintingValidationDashboard {
           current: currentMetrics.totalIssues,
           previous: 0,
           change: 0,
-          changePercentage: 0
-        }
+          changePercentage: 0,
+        },
       };
     }
-    
+
     const previousMetrics = history[history.length - 2];
     const affectedMetrics: string[] = [];
-    
+
     // Check for regressions in key metrics
     const keyMetrics = [
       'totalIssues',
       'errors',
       'parserErrors',
       'explicitAnyErrors',
-      'qualityScore'
+      'qualityScore',
     ];
-    
+
     for (const metric of keyMetrics) {
       const current = this.getMetricValue(currentMetrics, metric);
       const previous = this.getMetricValue(previousMetrics, metric);
-      
+
       // Detect regression (increase in issues or decrease in quality score)
-      const isRegression = metric === 'qualityScore' 
-        ? current < previous - 5 // Quality score decreased by more than 5 points
-        : current > previous * 1.1; // Other metrics increased by more than 10%
-      
+      const isRegression =
+        metric === 'qualityScore'
+          ? current < previous - 5 // Quality score decreased by more than 5 points
+          : current > previous * 1.1; // Other metrics increased by more than 10%
+
       if (isRegression) {
         affectedMetrics.push(metric);
       }
     }
-    
-    const severity = this.calculateRegressionSeverity(affectedMetrics, currentMetrics, previousMetrics);
-    
+
+    const severity = this.calculateRegressionSeverity(
+      affectedMetrics,
+      currentMetrics,
+      previousMetrics,
+    );
+
     return {
       detected: affectedMetrics.length > 0,
       affectedMetrics,
@@ -409,10 +410,13 @@ export class LintingValidationDashboard {
         current: currentMetrics.totalIssues,
         previous: previousMetrics.totalIssues,
         change: currentMetrics.totalIssues - previousMetrics.totalIssues,
-        changePercentage: previousMetrics.totalIssues > 0 
-          ? ((currentMetrics.totalIssues - previousMetrics.totalIssues) / previousMetrics.totalIssues) * 100
-          : 0
-      }
+        changePercentage:
+          previousMetrics.totalIssues > 0
+            ? ((currentMetrics.totalIssues - previousMetrics.totalIssues) /
+                previousMetrics.totalIssues) *
+              100
+            : 0,
+      },
     };
   }
 
@@ -421,61 +425,61 @@ export class LintingValidationDashboard {
    */
   private generateRecommendations(metrics: LintingMetrics, alerts: Alert[]): string[] {
     const recommendations: string[] = [];
-    
+
     // Parser error recommendations
     if (metrics.parserErrors > 0) {
       recommendations.push(
         '🚨 URGENT: Fix parser errors immediately - they block accurate linting analysis',
         'Check src/utils/recommendationEngine.ts and other files with syntax errors',
-        'Run `yarn tsc --noEmit` to identify TypeScript compilation issues'
+        'Run `yarn tsc --noEmit` to identify TypeScript compilation issues',
       );
     }
-    
+
     // Explicit any recommendations
     if (metrics.explicitAnyErrors > 100) {
       recommendations.push(
         '⚡ HIGH PRIORITY: Reduce explicit any types using systematic type inference',
         'Focus on React components, service layers, and utility functions first',
-        'Use domain-specific exceptions for astrological calculations where needed'
+        'Use domain-specific exceptions for astrological calculations where needed',
       );
     }
-    
+
     // Import organization recommendations
     if (metrics.importOrderIssues > 50) {
       recommendations.push(
         '🚀 READY: Deploy enhanced import organization with alphabetical sorting',
         'Run `yarn lint:fix` to automatically organize imports',
-        'Use batch processing for systematic completion of remaining issues'
+        'Use batch processing for systematic completion of remaining issues',
       );
     }
-    
+
     // Performance recommendations
     if (metrics.performanceMetrics.lintingDuration > 30000) {
       recommendations.push(
         '⚡ PERFORMANCE: Linting duration exceeds 30 seconds',
         'Enable ESLint caching with `yarn lint:fast` for incremental changes',
-        'Consider using `yarn lint:changed` for git-aware changed-files-only processing'
+        'Consider using `yarn lint:changed` for git-aware changed-files-only processing',
       );
     }
-    
+
     // Quality score recommendations
     if (metrics.qualityScore < 80) {
       recommendations.push(
         '📊 QUALITY: Code quality score below target (80%)',
         'Focus on eliminating critical errors first, then warnings',
-        'Use domain-specific linting commands for targeted improvements'
+        'Use domain-specific linting commands for targeted improvements',
       );
     }
-    
+
     // Domain-specific recommendations
     if (metrics.domainSpecificIssues.astrologicalCalculations > 20) {
       recommendations.push(
         '🌟 DOMAIN: Review astrological calculation files for rule compliance',
         'Ensure mathematical constants and planetary variables are preserved',
-        'Use `yarn lint:domain-astro` for specialized astrological file linting'
+        'Use `yarn lint:domain-astro` for specialized astrological file linting',
       );
     }
-    
+
     return recommendations;
   }
 
@@ -484,7 +488,7 @@ export class LintingValidationDashboard {
    */
   private async generateDashboardReport(result: ValidationResult): Promise<void> {
     const reportPath = '.kiro/metrics/linting-dashboard-report.md';
-    
+
     const report = `# Linting Excellence Dashboard Report
 
 Generated: ${new Date().toISOString()}
@@ -523,17 +527,28 @@ Generated: ${new Date().toISOString()}
 
 ## 🚨 Active Alerts
 
-${result.alerts.length === 0 ? 'No active alerts ✅' : result.alerts.map(alert => 
-  `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`
-).join('\n')}
+${
+  result.alerts.length === 0
+    ? 'No active alerts ✅'
+    : result.alerts
+        .map(
+          alert =>
+            `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`,
+        )
+        .join('\n')
+}
 
 ## 📈 Regression Analysis
 
-${result.regressionAnalysis.detected ? `
+${
+  result.regressionAnalysis.detected
+    ? `
 **Regression Detected**: ${result.regressionAnalysis.severity.toUpperCase()}
 - **Affected Metrics**: ${result.regressionAnalysis.affectedMetrics.join(', ')}
 - **Change**: ${result.regressionAnalysis.historicalComparison.change} issues (${result.regressionAnalysis.historicalComparison.changePercentage.toFixed(1)}%)
-` : '**No Regression Detected** ✅'}
+`
+    : '**No Regression Detected** ✅'
+}
 
 ## 💡 Recommendations
 
@@ -552,7 +567,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
 3. **Performance Optimization**: Enable caching and parallel processing
 
 ### Success Metrics Target
-- **Target**: ${result.metrics.totalIssues} → <2,000 total issues (${Math.round((1 - 2000/Math.max(result.metrics.totalIssues, 1)) * 100)}% reduction)
+- **Target**: ${result.metrics.totalIssues} → <2,000 total issues (${Math.round((1 - 2000 / Math.max(result.metrics.totalIssues, 1)) * 100)}% reduction)
 - **Critical Path**: Parser errors → Explicit any errors → Import organization
 - **Timeline**: 3-4 hours for major reduction with enhanced safety protocols
 - **Quality Gate**: Zero parser errors, <100 explicit any errors, enhanced import organization
@@ -584,7 +599,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
         alertingEnabled: true,
         regressionDetectionEnabled: true,
         performanceMonitoringEnabled: true,
-        domainSpecificTrackingEnabled: true
+        domainSpecificTrackingEnabled: true,
       };
       writeFileSync(this.configFile, JSON.stringify(config, null, 2));
     }
@@ -613,12 +628,12 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   private async storeMetrics(metrics: LintingMetrics): Promise<void> {
     const history = this.loadMetricsHistory();
     history.push(metrics);
-    
+
     // Keep only last 100 entries
     if (history.length > 100) {
       history.splice(0, history.length - 100);
     }
-    
+
     writeFileSync(this.metricsHistoryFile, JSON.stringify(history, null, 2));
   }
 
@@ -629,11 +644,11 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   private getMetricValue(metrics: LintingMetrics, metricPath: string): number {
     const parts = metricPath.split('.');
     let value: any = metrics;
-    
+
     for (const part of parts) {
       value = value?.[part];
     }
-    
+
     return typeof value === 'number' ? value : 0;
   }
 
@@ -645,40 +660,43 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   }
 
   private calculateRegressionSeverity(
-    affectedMetrics: string[], 
-    current: LintingMetrics, 
-    previous: LintingMetrics
+    affectedMetrics: string[],
+    current: LintingMetrics,
+    previous: LintingMetrics,
   ): 'minor' | 'moderate' | 'major' | 'critical' {
     if (affectedMetrics.includes('parserErrors') && current.parserErrors > previous.parserErrors) {
       return 'critical';
     }
-    
-    if (affectedMetrics.includes('explicitAnyErrors') && current.explicitAnyErrors > previous.explicitAnyErrors + 50) {
+
+    if (
+      affectedMetrics.includes('explicitAnyErrors') &&
+      current.explicitAnyErrors > previous.explicitAnyErrors + 50
+    ) {
       return 'major';
     }
-    
+
     if (affectedMetrics.length > 2) {
       return 'moderate';
     }
-    
+
     return 'minor';
   }
 
   private generateRegressionRecommendations(affectedMetrics: string[]): string[] {
     const recommendations: string[] = [];
-    
+
     if (affectedMetrics.includes('parserErrors')) {
       recommendations.push('Immediately investigate and fix new parser errors');
     }
-    
+
     if (affectedMetrics.includes('explicitAnyErrors')) {
       recommendations.push('Review recent changes that introduced explicit any types');
     }
-    
+
     if (affectedMetrics.includes('totalIssues')) {
       recommendations.push('Run comprehensive linting validation to identify new issues');
     }
-    
+
     return recommendations;
   }
 
@@ -696,21 +714,25 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   }
 
   private isAstrologicalFile(filePath: string): boolean {
-    return filePath.includes('/calculations/') ||
-           filePath.includes('/data/planets/') ||
-           filePath.includes('reliableAstronomy') ||
-           filePath.includes('/astrology/');
+    return (
+      filePath.includes('/calculations/') ||
+      filePath.includes('/data/planets/') ||
+      filePath.includes('reliableAstronomy') ||
+      filePath.includes('/astrology/')
+    );
   }
 
   private isCampaignFile(filePath: string): boolean {
-    return filePath.includes('/campaign/') ||
-           filePath.includes('Campaign') ||
-           filePath.includes('Progress');
+    return (
+      filePath.includes('/campaign/') ||
+      filePath.includes('Campaign') ||
+      filePath.includes('Progress')
+    );
   }
 
   private isTestFile(filePath: string): boolean {
-    return filePath.includes('.test.') ||
-           filePath.includes('.spec.') ||
-           filePath.includes('__tests__');
+    return (
+      filePath.includes('.test.') || filePath.includes('.spec.') || filePath.includes('__tests__')
+    );
   }
 }

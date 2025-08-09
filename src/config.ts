@@ -24,14 +24,16 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 export const config: AppConfig = {
   debug: isDev,
-  
+
   api: {
     celestialUpdateInterval: 3600000, // 1 hour in milliseconds
     timeout: 10000, // 10 seconds
     retryCount: 3,
-    baseUrl: process.env.API_BASE_URL || (isDev ? 'http://localhost:3000/api' : 'https://yourdomain.com/api')
+    baseUrl:
+      process.env.API_BASE_URL ||
+      (isDev ? 'http://localhost:3000/api' : 'https://yourdomain.com/api'),
   },
-  
+
   astrology: {
     defaultTimezoneName: 'UTC',
     retrogradeThreshold: 0, // speeds less than 0 indicate retrograde motion
@@ -41,7 +43,7 @@ export const config: AppConfig = {
       trine: 6,
       square: 6,
       sextile: 4,
-      quincunx: 3
-    }
-  }
-}; 
+      quincunx: 3,
+    },
+  },
+};

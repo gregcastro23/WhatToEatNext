@@ -6,7 +6,7 @@ import { spherification } from './spherification';
 
 /**
  * Collection of molecular gastronomy cooking methods
- * 
+ *
  * Molecular cooking methods use scientific techniques to transform ingredients
  * in innovative ways, often changing their physical state or chemical properties
  */
@@ -15,13 +15,8 @@ export const molecularCookingMethods = {
   gelification,
   // Add other cooking methods as they are implemented
   emulsification,
-  cryo_cooking: cryoCooking
+  cryo_cooking: cryoCooking,
 };
 
 // Export individual methods
-export {
-  spherification,
-  gelification,
-  emulsification,
-  cryoCooking
-}; 
+export { spherification, gelification, emulsification, cryoCooking };

@@ -2,10 +2,10 @@
 
 /**
  * Linting Performance Validation Script
- * 
+ *
  * Validates the 60-80% performance improvement with enhanced caching,
  * parallel processing optimization, memory limits, and incremental linting.
- * 
+ *
  * Requirements: 5.1, 5.2, 5.3
  */
 
@@ -56,7 +56,6 @@ class LintingPerformanceValidator {
 
       // 6. Generate comprehensive report
       this.generatePerformanceReport();
-
     } catch (error) {
       console.error('❌ Performance validation failed:', error);
       process.exit(1);
@@ -77,7 +76,7 @@ class LintingPerformanceValidator {
       const output = execSync('yarn lint --no-cache --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000 // 2 minute timeout
+        timeout: 120000, // 2 minute timeout
       });
 
       const endTime = Date.now();
@@ -88,11 +87,12 @@ class LintingPerformanceValidator {
         memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
         cacheHitRate: 0, // No cache for baseline
         filesProcessed: this.extractFilesProcessed(output),
-        parallelProcesses: 1 // Single process for baseline
+        parallelProcesses: 1, // Single process for baseline
       };
 
-      console.log(`✅ Baseline established: ${this.baselineMetrics.executionTime}ms, ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`);
-
+      console.log(
+        `✅ Baseline established: ${this.baselineMetrics.executionTime}ms, ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`,
+      );
     } catch (error) {
       console.warn('⚠️  Baseline measurement had issues, using estimated values');
       this.baselineMetrics = {
@@ -100,7 +100,7 @@ class LintingPerformanceValidator {
         memoryUsage: 512 * 1024 * 1024, // 512MB estimated
         cacheHitRate: 0,
         filesProcessed: 1000, // Estimated
-        parallelProcesses: 1
+        parallelProcesses: 1,
       };
     }
   }
@@ -114,7 +114,7 @@ class LintingPerformanceValidator {
       execSync('yarn lint:fast --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       });
     } catch (error) {
       console.warn('  Cache population had issues, continuing...');
@@ -128,7 +128,7 @@ class LintingPerformanceValidator {
       const output = execSync('yarn lint:fast --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000
+        timeout: 60000,
       });
 
       const endTime = Date.now();
@@ -139,11 +139,13 @@ class LintingPerformanceValidator {
         memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
-        parallelProcesses: this.extractParallelProcesses(output)
+        parallelProcesses: this.extractParallelProcesses(output),
       };
 
-      const improvement = this.baselineMetrics 
-        ? ((this.baselineMetrics.executionTime - metrics.executionTime) / this.baselineMetrics.executionTime) * 100
+      const improvement = this.baselineMetrics
+        ? ((this.baselineMetrics.executionTime - metrics.executionTime) /
+            this.baselineMetrics.executionTime) *
+          100
         : 0;
       const passed = improvement >= 60 && improvement <= 80;
 
@@ -153,20 +155,27 @@ class LintingPerformanceValidator {
         metrics,
         expectedImprovement: 70, // Target 60-80%
         actualImprovement: improvement,
-        details: `Cache hit rate: ${metrics.cacheHitRate}%, Time reduction: ${improvement.toFixed(1)}%`
+        details: `Cache hit rate: ${metrics.cacheHitRate}%, Time reduction: ${improvement.toFixed(1)}%`,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Caching validation: ${improvement.toFixed(1)}% improvement (target: 60-80%)`);
-
+      console.log(
+        `  ${passed ? '✅' : '❌'} Caching validation: ${improvement.toFixed(1)}% improvement (target: 60-80%)`,
+      );
     } catch (error) {
       console.error('  ❌ Caching validation failed:', error);
       this.results.push({
         testName: 'Enhanced Caching Performance',
         passed: false,
-        metrics: { executionTime: 0, memoryUsage: 0, cacheHitRate: 0, filesProcessed: 0, parallelProcesses: 0 },
+        metrics: {
+          executionTime: 0,
+          memoryUsage: 0,
+          cacheHitRate: 0,
+          filesProcessed: 0,
+          parallelProcesses: 0,
+        },
         expectedImprovement: 70,
         actualImprovement: 0,
-        details: `Error: ${error}`
+        details: `Error: ${error}`,
       });
     }
   }
@@ -181,7 +190,7 @@ class LintingPerformanceValidator {
       const output = execSync('yarn lint:parallel --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       });
 
       const endTime = Date.now();
@@ -192,15 +201,17 @@ class LintingPerformanceValidator {
         memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
-        parallelProcesses: this.extractParallelProcesses(output)
+        parallelProcesses: this.extractParallelProcesses(output),
       };
 
       // Validate 30 files per process optimization
       const expectedParallelProcesses = Math.ceil(metrics.filesProcessed / 30);
       const parallelOptimized = metrics.parallelProcesses >= Math.min(expectedParallelProcesses, 4); // Max 4 processes
 
-      const improvement = this.baselineMetrics 
-        ? ((this.baselineMetrics.executionTime - metrics.executionTime) / this.baselineMetrics.executionTime) * 100
+      const improvement = this.baselineMetrics
+        ? ((this.baselineMetrics.executionTime - metrics.executionTime) /
+            this.baselineMetrics.executionTime) *
+          100
         : 0;
       const passed = parallelOptimized && improvement > 0;
 
@@ -210,20 +221,27 @@ class LintingPerformanceValidator {
         metrics,
         expectedImprovement: 40, // Expected from parallelization
         actualImprovement: improvement,
-        details: `Parallel processes: ${metrics.parallelProcesses}, Files per process: ${Math.round(metrics.filesProcessed / metrics.parallelProcesses)}`
+        details: `Parallel processes: ${metrics.parallelProcesses}, Files per process: ${Math.round(metrics.filesProcessed / metrics.parallelProcesses)}`,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Parallel processing: ${metrics.parallelProcesses} processes, ${improvement.toFixed(1)}% improvement`);
-
+      console.log(
+        `  ${passed ? '✅' : '❌'} Parallel processing: ${metrics.parallelProcesses} processes, ${improvement.toFixed(1)}% improvement`,
+      );
     } catch (error) {
       console.error('  ❌ Parallel processing validation failed:', error);
       this.results.push({
         testName: 'Parallel Processing Optimization',
         passed: false,
-        metrics: { executionTime: 0, memoryUsage: 0, cacheHitRate: 0, filesProcessed: 0, parallelProcesses: 0 },
+        metrics: {
+          executionTime: 0,
+          memoryUsage: 0,
+          cacheHitRate: 0,
+          filesProcessed: 0,
+          parallelProcesses: 0,
+        },
         expectedImprovement: 40,
         actualImprovement: 0,
-        details: `Error: ${error}`
+        details: `Error: ${error}`,
       });
     }
   }
@@ -245,7 +263,7 @@ class LintingPerformanceValidator {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 120000,
-        env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' }
+        env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },
       });
 
       clearInterval(memoryMonitor);
@@ -256,7 +274,7 @@ class LintingPerformanceValidator {
         memoryUsage: peakMemoryUsage,
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
-        parallelProcesses: this.extractParallelProcesses(output)
+        parallelProcesses: this.extractParallelProcesses(output),
       };
 
       // Validate memory stays under 4096MB limit
@@ -264,8 +282,10 @@ class LintingPerformanceValidator {
       const actualMemoryMB = peakMemoryUsage / 1024 / 1024;
       const memoryOptimized = actualMemoryMB <= memoryLimitMB;
 
-      const improvement = this.baselineMetrics 
-        ? ((this.baselineMetrics.memoryUsage - peakMemoryUsage) / this.baselineMetrics.memoryUsage) * 100
+      const improvement = this.baselineMetrics
+        ? ((this.baselineMetrics.memoryUsage - peakMemoryUsage) /
+            this.baselineMetrics.memoryUsage) *
+          100
         : 0;
       const passed = memoryOptimized;
 
@@ -275,20 +295,27 @@ class LintingPerformanceValidator {
         metrics,
         expectedImprovement: 20, // Expected memory reduction
         actualImprovement: improvement,
-        details: `Peak memory: ${actualMemoryMB.toFixed(1)}MB (limit: ${memoryLimitMB}MB)`
+        details: `Peak memory: ${actualMemoryMB.toFixed(1)}MB (limit: ${memoryLimitMB}MB)`,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Memory optimization: ${actualMemoryMB.toFixed(1)}MB peak (limit: ${memoryLimitMB}MB)`);
-
+      console.log(
+        `  ${passed ? '✅' : '❌'} Memory optimization: ${actualMemoryMB.toFixed(1)}MB peak (limit: ${memoryLimitMB}MB)`,
+      );
     } catch (error) {
       console.error('  ❌ Memory optimization validation failed:', error);
       this.results.push({
         testName: 'Memory Optimization',
         passed: false,
-        metrics: { executionTime: 0, memoryUsage: 0, cacheHitRate: 0, filesProcessed: 0, parallelProcesses: 0 },
+        metrics: {
+          executionTime: 0,
+          memoryUsage: 0,
+          cacheHitRate: 0,
+          filesProcessed: 0,
+          parallelProcesses: 0,
+        },
         expectedImprovement: 20,
         actualImprovement: 0,
-        details: `Error: ${error}`
+        details: `Error: ${error}`,
       });
     }
   }
@@ -311,7 +338,7 @@ export const testVariable = 'test';
         const output = execSync('yarn lint:changed --max-warnings=10000', {
           encoding: 'utf8',
           stdio: 'pipe',
-          timeout: 15000 // 15 second timeout
+          timeout: 15000, // 15 second timeout
         });
 
         const endTime = Date.now();
@@ -323,7 +350,7 @@ export const testVariable = 'test';
           cacheHitRate: this.calculateCacheHitRate(),
           filesProcessed: this.extractFilesProcessed(output),
           parallelProcesses: 1,
-          incrementalTime
+          incrementalTime,
         };
 
         // Validate sub-10 second feedback
@@ -334,30 +361,38 @@ export const testVariable = 'test';
           passed,
           metrics,
           expectedImprovement: 90, // Expected massive improvement for incremental
-          actualImprovement: this.baselineMetrics 
-            ? ((this.baselineMetrics.executionTime - incrementalTime) / this.baselineMetrics.executionTime) * 100
+          actualImprovement: this.baselineMetrics
+            ? ((this.baselineMetrics.executionTime - incrementalTime) /
+                this.baselineMetrics.executionTime) *
+              100
             : 0,
-          details: `Incremental time: ${incrementalTime}ms (target: <10s)`
+          details: `Incremental time: ${incrementalTime}ms (target: <10s)`,
         });
 
-        console.log(`  ${passed ? '✅' : '❌'} Incremental linting: ${incrementalTime}ms (target: <10s)`);
-
+        console.log(
+          `  ${passed ? '✅' : '❌'} Incremental linting: ${incrementalTime}ms (target: <10s)`,
+        );
       } finally {
         // Clean up test file
         if (existsSync(testFile)) {
           unlinkSync(testFile);
         }
       }
-
     } catch (error) {
       console.error('  ❌ Incremental linting validation failed:', error);
       this.results.push({
         testName: 'Incremental Linting Performance',
         passed: false,
-        metrics: { executionTime: 0, memoryUsage: 0, cacheHitRate: 0, filesProcessed: 0, parallelProcesses: 0 },
+        metrics: {
+          executionTime: 0,
+          memoryUsage: 0,
+          cacheHitRate: 0,
+          filesProcessed: 0,
+          parallelProcesses: 0,
+        },
         expectedImprovement: 90,
         actualImprovement: 0,
-        details: `Error: ${error}`
+        details: `Error: ${error}`,
       });
     }
   }
@@ -367,7 +402,7 @@ export const testVariable = 'test';
       '.eslintcache',
       '.eslint-ts-cache',
       'node_modules/.cache/eslint',
-      '.next/cache'
+      '.next/cache',
     ];
 
     cacheFiles.forEach(cacheFile => {
@@ -404,10 +439,14 @@ export const testVariable = 'test';
 
     // Fallback: count lines that look like file paths
     const lines = output.split('\n');
-    const fileLines = lines.filter(line => 
-      line.includes('.ts') || line.includes('.tsx') || line.includes('.js') || line.includes('.jsx')
+    const fileLines = lines.filter(
+      line =>
+        line.includes('.ts') ||
+        line.includes('.tsx') ||
+        line.includes('.js') ||
+        line.includes('.jsx'),
     );
-    
+
     return Math.max(fileLines.length, 100); // Minimum estimate
   }
 
@@ -431,12 +470,16 @@ export const testVariable = 'test';
     const totalTests = this.results.length;
     const overallPassed = passedTests === totalTests;
 
-    console.log(`Overall Status: ${overallPassed ? '✅ PASSED' : '❌ FAILED'} (${passedTests}/${totalTests} tests passed)\n`);
+    console.log(
+      `Overall Status: ${overallPassed ? '✅ PASSED' : '❌ FAILED'} (${passedTests}/${totalTests} tests passed)\n`,
+    );
 
     if (this.baselineMetrics) {
       console.log('Baseline Metrics:');
       console.log(`  Execution Time: ${this.baselineMetrics.executionTime}ms`);
-      console.log(`  Memory Usage: ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`);
+      console.log(
+        `  Memory Usage: ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`,
+      );
       console.log(`  Files Processed: ${this.baselineMetrics.filesProcessed}\n`);
     }
 
@@ -461,10 +504,13 @@ export const testVariable = 'test';
       passedTests,
       totalTests,
       baselineMetrics: this.baselineMetrics,
-      results: this.results
+      results: this.results,
     };
 
-    writeFileSync('linting-performance-validation-report.json', JSON.stringify(reportData, null, 2));
+    writeFileSync(
+      'linting-performance-validation-report.json',
+      JSON.stringify(reportData, null, 2),
+    );
     console.log('📄 Detailed report saved to: linting-performance-validation-report.json');
 
     if (!overallPassed) {

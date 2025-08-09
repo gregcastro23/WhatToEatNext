@@ -4,7 +4,16 @@
 // triggering TS2304 "Cannot find name" errors.  These aliases do NOT
 // pollute runtime—they are erased during compilation.
 
-import type { ElementalProperties as _ElementalProperties, Planet as _Planet, CelestialPosition as _CelestialPosition, ChakraEnergies as _ChakraEnergies, ThermodynamicMetrics as _ThermodynamicMetrics, Season as _Season, LunarPhase as _LunarPhase , AlchemicalProperties as _AlchemicalProperties } from '@/types/alchemy';
+import type {
+  ElementalProperties as _ElementalProperties,
+  Planet as _Planet,
+  CelestialPosition as _CelestialPosition,
+  ChakraEnergies as _ChakraEnergies,
+  ThermodynamicMetrics as _ThermodynamicMetrics,
+  Season as _Season,
+  LunarPhase as _LunarPhase,
+  AlchemicalProperties as _AlchemicalProperties,
+} from '@/types/alchemy';
 import type { PlanetName as _PlanetName } from '@/types/celestial';
 import type { createElementalProperties as _createElementalProperties } from '@/utils/elemental/elementalUtils';
 
@@ -27,4 +36,4 @@ declare global {
   type PlanetName = _PlanetName;
 }
 
-export {}; // ensure this file is treated as a module 
+export {}; // ensure this file is treated as a module

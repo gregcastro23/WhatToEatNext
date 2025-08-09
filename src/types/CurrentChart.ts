@@ -13,4 +13,4 @@ export interface CurrentChart {
   dominantPlanet?: string;
   dominantElement?: string;
   dominantModality?: string;
-} 
+}

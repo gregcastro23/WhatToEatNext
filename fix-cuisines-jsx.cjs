@@ -14,17 +14,14 @@ content = content.replace(
           const profile = cuisineFlavorProfiles[cuisine.id];
           if (!profile) return null;
 
-          return (`
+          return (`,
 );
 
 // Replace cuisineFlavorProfiles[cuisine.id] with profile in the JSX
 content = content.replace(/cuisineFlavorProfiles\[cuisine\.id\]/g, 'profile');
 
 // Fix the closing of the map function
-content = content.replace(
-  /(\s+<\/div>\s+<\/div>\s+)\)\s*}\)/,
-  '$1          );\n        })}'
-);
+content = content.replace(/(\s+<\/div>\s+<\/div>\s+)\)\s*}\)/, '$1          );\n        })}');
 
 // Write the fixed content back
 fs.writeFileSync(filePath, content);

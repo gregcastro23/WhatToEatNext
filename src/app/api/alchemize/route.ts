@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 
-import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
+import {
+  getCurrentPlanetaryPositions,
+  getPlanetaryPositionsForDateTime,
+} from '@/services/astrologizeApi';
 import { onAlchemizeApiCall, updateCurrentMoment } from '@/services/CurrentMomentManager';
 import { alchemize } from '@/services/RealAlchemizeService';
 import { PlanetPosition } from '@/utils/astrologyUtils';
@@ -24,7 +27,7 @@ interface AlchemizeRequest {
 // Default location (New York City)
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
-  longitude: -73.7976
+  longitude: -73.7976,
 };
 
 /**
@@ -33,10 +36,10 @@ const DEFAULT_LOCATION = {
 export async function POST(request: Request) {
   try {
     logger.info('Alchemize API called');
-    
+
     // Get the request body
     const body: AlchemizeRequest = await request.json();
-    
+
     // Extract parameters from request or use defaults
     const {
       year,
@@ -47,7 +50,7 @@ export async function POST(request: Request) {
       latitude = DEFAULT_LOCATION.latitude,
       longitude = DEFAULT_LOCATION.longitude,
       zodiacSystem = 'tropical',
-      planetaryPositions: providedPositions
+      planetaryPositions: providedPositions,
     } = body;
 
     let planetaryPositions: Record<string, PlanetPosition>;
@@ -66,18 +69,18 @@ export async function POST(request: Request) {
       planetaryPositions = providedPositions;
     } else {
       logger.info('Fetching planetary positions from astrologize API');
-      
+
       if (useCustomDate) {
         const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
         planetaryPositions = await getPlanetaryPositionsForDateTime(
           customDate,
           { latitude, longitude },
-          zodiacSystem
+          zodiacSystem,
         );
       } else {
         planetaryPositions = await getCurrentPlanetaryPositions(
           { latitude, longitude },
-          zodiacSystem
+          zodiacSystem,
         );
       }
     }
@@ -101,20 +104,23 @@ export async function POST(request: Request) {
     logger.info('Updated current moment data across all storage locations');
 
     // Step 3: Convert PlanetPosition to PlanetaryPosition format for alchemize function
-    const convertedPositions: Record<string, import('@/services/RealAlchemizeService').PlanetaryPosition> = {};
-    
+    const convertedPositions: Record<
+      string,
+      import('@/services/RealAlchemizeService').PlanetaryPosition
+    > = {};
+
     for (const [planet, position] of Object.entries(planetaryPositions)) {
       convertedPositions[planet] = {
         sign: position.sign,
         degree: position.degree,
         minute: position.minute || 0,
-        isRetrograde: position.isRetrograde || false
+        isRetrograde: position.isRetrograde || false,
       };
     }
-    
+
     // Calculate alchemical properties
     const alchemicalResult = alchemize(convertedPositions);
-    
+
     logger.info('Alchemical calculation completed');
 
     // Step 4: Return comprehensive result
@@ -123,32 +129,33 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
       request: {
         useCustomDate,
-        customDateTime: useCustomDate ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString() : null,
+        customDateTime: useCustomDate
+          ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString()
+          : null,
         location: { latitude, longitude },
-        zodiacSystem
+        zodiacSystem,
       },
       planetaryPositions,
       alchemicalResult,
       metadata: {
         positionsSource: providedPositions ? 'provided' : 'api',
         currentMomentUpdated: true,
-        apiCallId: `alchemize_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-      }
+        apiCallId: `alchemize_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      },
     };
 
     return NextResponse.json(response);
-
   } catch (error) {
     logger.error('Error in alchemize API:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         success: false,
         error: 'Failed to calculate alchemical properties',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -158,22 +165,24 @@ export async function POST(request: Request) {
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  
+
   // Extract query parameters
   const latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude));
   const longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude));
   const zodiacSystem = (searchParams.get('zodiacSystem') || 'tropical') as 'tropical' | 'sidereal';
-  
+
   // Forward to POST handler with current moment
   const payload: AlchemizeRequest = {
     latitude,
     longitude,
-    zodiacSystem
+    zodiacSystem,
   };
 
-  return POST(new Request(request.url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }));
-} 
+  return POST(
+    new Request(request.url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }),
+  );
+}

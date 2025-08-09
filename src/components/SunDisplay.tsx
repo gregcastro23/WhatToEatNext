@@ -16,15 +16,15 @@ const SunDisplay: React.FC = () => {
     sunset: null as Date | null,
     solarNoon: null as Date | null,
     goldenHour: null as Date | null,
-    calculating: true
+    calculating: true,
   });
   const [coordinates, setCoordinates] = useState({
     latitude: 40.7128, // Default to New York
-    longitude: -74.0060
+    longitude: -74.006,
   });
   const [sunPosition, setSunPosition] = useState({
     azimuth: 0,
-    altitude: 0
+    altitude: 0,
   });
 
   // Get sun position from planetaryPositions if available
@@ -36,18 +36,19 @@ const SunDisplay: React.FC = () => {
       try {
         const astroService = AstrologicalService as unknown as Record<string, unknown>;
         const requestLocation = astroService.requestLocation;
-        const coords = (requestLocation && typeof requestLocation === 'function') ? await requestLocation() : null;
+        const coords =
+          requestLocation && typeof requestLocation === 'function' ? await requestLocation() : null;
         if (coords) {
           setCoordinates({
             latitude: coords.latitude,
-            longitude: coords.longitude
+            longitude: coords.longitude,
           });
         }
       } catch (error) {
         console.error('Failed to get location, using default:', error);
       }
     };
-    
+
     getLocation();
   }, []);
 
@@ -61,39 +62,39 @@ const SunDisplay: React.FC = () => {
           sunset: Date;
           solarNoon: Date;
           goldenHour: Date;
-        }>(
-          '@/utils/sunTimes',
-          'calculateSunTimes',
-          [new Date(), coordinates.latitude, coordinates.longitude]
-        );
-        
+        }>('@/utils/sunTimes', 'calculateSunTimes', [
+          new Date(),
+          coordinates.latitude,
+          coordinates.longitude,
+        ]);
+
         if (times) {
           setSunTimes({
             sunrise: times.sunrise,
             sunset: times.sunset,
             solarNoon: times.solarNoon,
             goldenHour: times.goldenHour,
-            calculating: false
+            calculating: false,
           });
         } else {
           console.warn('Failed to calculate sun times, using defaults');
           setSunTimes(prev => ({ ...prev, calculating: false }));
         }
-        
+
         // Get sun position with proper typing
         const position = await safeImportAndExecute<{
           azimuth: number;
           altitude: number;
-        }>(
-          '@/utils/solarPositions',
-          'getSunPosition',
-          [new Date(), coordinates.latitude, coordinates.longitude]
-        );
-        
+        }>('@/utils/solarPositions', 'getSunPosition', [
+          new Date(),
+          coordinates.latitude,
+          coordinates.longitude,
+        ]);
+
         if (position) {
           setSunPosition({
             azimuth: position.azimuth,
-            altitude: position.altitude
+            altitude: position.altitude,
           });
         } else {
           console.warn('Failed to calculate sun position');
@@ -102,20 +103,20 @@ const SunDisplay: React.FC = () => {
         console.error('Error calculating sun data:', error);
         setSunTimes(prev => ({
           ...prev,
-          calculating: false
+          calculating: false,
         }));
       }
     };
-    
+
     calculateData();
-    
+
     // Update sun position every minute
     const interval = setInterval(() => calculateData(), 60 * 1000);
     return () => clearInterval(interval);
   }, [coordinates.latitude, coordinates.longitude]);
 
   const formatDegree = (degree: number): string => {
-    if (degree === undefined) return '0°0\'';
+    if (degree === undefined) return "0°0'";
     const wholeDegree = Math.floor(degree);
     const minutes = Math.floor((degree - wholeDegree) * 60);
     return `${wholeDegree}°${minutes}'`;
@@ -124,110 +125,121 @@ const SunDisplay: React.FC = () => {
   // Calculate daylight percentage
   const getDaylightPercentage = (): number => {
     if (!sunTimes.sunrise || !sunTimes.sunset) return 50;
-    
+
     const now = new Date();
-    
+
     // If before sunrise or after sunset, return 0
     if (now < sunTimes.sunrise || now > sunTimes.sunset) return 0;
-    
+
     // Calculate percentage of daylight elapsed
     const daylightTotal = sunTimes.sunset.getTime() - sunTimes.sunrise.getTime();
     const daylightElapsed = now.getTime() - sunTimes.sunrise.getTime();
-    
+
     return Math.round((daylightElapsed / daylightTotal) * 100);
   };
 
   const daylightPercentage = getDaylightPercentage();
 
   return (
-    <div className="bg-amber-900 rounded-lg p-4 text-white">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-medium flex items-center">
-          <Sun className="w-5 h-5 mr-2 text-yellow-300" />
+    <div className='rounded-lg bg-amber-900 p-4 text-white'>
+      <div className='mb-4 flex items-center justify-between'>
+        <h3 className='flex items-center text-xl font-medium'>
+          <Sun className='mr-2 h-5 w-5 text-yellow-300' />
           Solar Energies
         </h3>
-        
-        <button 
+
+        <button
           onClick={() => setExpanded(!expanded)}
-          className="text-yellow-300 hover:text-yellow-100"
+          className='text-yellow-300 hover:text-yellow-100'
         >
-          <ArrowDown className={`w-5 h-5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+          <ArrowDown className={`h-5 w-5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
         </button>
       </div>
-      
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center">
-          <span className="text-3xl mr-3">☉</span>
+
+      <div className='mb-4 flex items-center justify-between'>
+        <div className='flex items-center'>
+          <span className='mr-3 text-3xl'>☉</span>
           <div>
-            <p className="font-medium">{String((sun as Record<string, unknown>).sign || 'Unknown')}</p>
-            <p className="text-sm text-amber-200">
-              {sun && (sun as Record<string, unknown>).degree !== undefined ? formatDegree(Number((sun as Record<string, unknown>).degree)) : ''}
+            <p className='font-medium'>
+              {String((sun as Record<string, unknown>).sign || 'Unknown')}
+            </p>
+            <p className='text-sm text-amber-200'>
+              {sun && (sun as Record<string, unknown>).degree !== undefined
+                ? formatDegree(Number((sun as Record<string, unknown>).degree))
+                : ''}
             </p>
           </div>
         </div>
-        
-        <div className="w-16 h-16 relative rounded-full border-2 border-yellow-300 overflow-hidden bg-amber-800">
-          <div 
-            className="absolute inset-0 bg-yellow-300"
+
+        <div className='relative h-16 w-16 overflow-hidden rounded-full border-2 border-yellow-300 bg-amber-800'>
+          <div
+            className='absolute inset-0 bg-yellow-300'
             style={{
-              height: `${100 - Math.min(100, Math.max(0, Math.round(sunPosition.altitude * 180/Math.PI)))}%`,
+              height: `${100 - Math.min(100, Math.max(0, Math.round((sunPosition.altitude * 180) / Math.PI)))}%`,
               top: 0,
-              borderRadius: '0 0 9999px 9999px'
+              borderRadius: '0 0 9999px 9999px',
             }}
           ></div>
         </div>
       </div>
-      
+
       {expanded && (
-        <div className="mt-4 border-t border-amber-700 pt-4">
-          <p className="text-sm text-amber-200 mb-3">
-            The Sun in {String((sun as Record<string, unknown>).sign || 'your sign')} brings energy of confidence, vitality, and creative expression.
+        <div className='mt-4 border-t border-amber-700 pt-4'>
+          <p className='mb-3 text-sm text-amber-200'>
+            The Sun in {String((sun as Record<string, unknown>).sign || 'your sign')} brings energy
+            of confidence, vitality, and creative expression.
           </p>
-          
-          <div className="bg-amber-800 rounded p-3 mt-2">
-            <div className="text-xs text-amber-300 mb-1">Daylight: {daylightPercentage}%</div>
-            <div className="w-full bg-amber-700 rounded-full h-2.5">
+
+          <div className='mt-2 rounded bg-amber-800 p-3'>
+            <div className='mb-1 text-xs text-amber-300'>Daylight: {daylightPercentage}%</div>
+            <div className='h-2.5 w-full rounded-full bg-amber-700'>
               <div
-                className="bg-yellow-300 h-2.5 rounded-full"
+                className='h-2.5 rounded-full bg-yellow-300'
                 style={{ width: `${daylightPercentage}%` }}
               ></div>
             </div>
           </div>
-          
+
           {/* Sun Rise and Set Times */}
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="bg-amber-800 rounded p-3 flex items-center">
-              <Sunrise className="w-5 h-5 mr-2 text-yellow-300" />
+          <div className='mt-4 grid grid-cols-2 gap-3'>
+            <div className='flex items-center rounded bg-amber-800 p-3'>
+              <Sunrise className='mr-2 h-5 w-5 text-yellow-300' />
               <div>
-                <div className="text-xs text-amber-300">Sunrise</div>
-                <div className="font-medium">
-                  {sunTimes.calculating 
-                    ? 'Calculating...' 
-                    : (sunTimes.sunrise ? formatSunTime(sunTimes.sunrise) : 'Unknown')}
+                <div className='text-xs text-amber-300'>Sunrise</div>
+                <div className='font-medium'>
+                  {sunTimes.calculating
+                    ? 'Calculating...'
+                    : sunTimes.sunrise
+                      ? formatSunTime(sunTimes.sunrise)
+                      : 'Unknown'}
                 </div>
               </div>
             </div>
-            
-            <div className="bg-amber-800 rounded p-3 flex items-center">
-              <Sunset className="w-5 h-5 mr-2 text-orange-300" />
+
+            <div className='flex items-center rounded bg-amber-800 p-3'>
+              <Sunset className='mr-2 h-5 w-5 text-orange-300' />
               <div>
-                <div className="text-xs text-amber-300">Sunset</div>
-                <div className="font-medium">
-                  {sunTimes.calculating 
-                    ? 'Calculating...' 
-                    : (sunTimes.sunset ? formatSunTime(sunTimes.sunset) : 'Unknown')}
+                <div className='text-xs text-amber-300'>Sunset</div>
+                <div className='font-medium'>
+                  {sunTimes.calculating
+                    ? 'Calculating...'
+                    : sunTimes.sunset
+                      ? formatSunTime(sunTimes.sunset)
+                      : 'Unknown'}
                 </div>
               </div>
             </div>
-            
-            <div className="bg-amber-800 rounded p-3 flex items-center col-span-2">
-              <Clock className="w-5 h-5 mr-2 text-yellow-300" />
+
+            <div className='col-span-2 flex items-center rounded bg-amber-800 p-3'>
+              <Clock className='mr-2 h-5 w-5 text-yellow-300' />
               <div>
-                <div className="text-xs text-amber-300">Golden Hour</div>
-                <div className="font-medium">
-                  {sunTimes.calculating 
-                    ? 'Calculating...' 
-                    : (sunTimes.goldenHour ? formatSunTime(sunTimes.goldenHour) : 'Unknown')}
+                <div className='text-xs text-amber-300'>Golden Hour</div>
+                <div className='font-medium'>
+                  {sunTimes.calculating
+                    ? 'Calculating...'
+                    : sunTimes.goldenHour
+                      ? formatSunTime(sunTimes.goldenHour)
+                      : 'Unknown'}
                 </div>
               </div>
             </div>
@@ -238,4 +250,4 @@ const SunDisplay: React.FC = () => {
   );
 };
 
-export default SunDisplay; 
+export default SunDisplay;

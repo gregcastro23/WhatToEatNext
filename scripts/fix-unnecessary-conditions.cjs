@@ -8,7 +8,15 @@ const { execSync } = require('child_process');
 const CONFIG = {
   sourceDir: './src',
   extensions: ['.ts', '.tsx', '.js', '.jsx'],
-  excludePatterns: ['node_modules', '.next', 'dist', 'build', '__tests__', '*.test.ts', '*.test.tsx'],
+  excludePatterns: [
+    'node_modules',
+    '.next',
+    'dist',
+    'build',
+    '__tests__',
+    '*.test.ts',
+    '*.test.tsx',
+  ],
   preservePatterns: {
     // Astrological and astronomical patterns to preserve
     astrological: [
@@ -22,7 +30,7 @@ const CONFIG = {
       /celestial(Body|Bodies|Position)/i,
       /planet(ary)?(Position|Data|Info|Aspect)/i,
       /aspect(Angle|Type|Data)/i,
-      /retrograde|direct|stationary/i
+      /retrograde|direct|stationary/i,
     ],
     // Campaign and enterprise intelligence patterns
     campaign: [
@@ -34,7 +42,7 @@ const CONFIG = {
       /enterprise(Data|Service|Integration|Pattern)/i,
       /ml(Model|Prediction|Analysis|Service)/i,
       /predictive(Analysis|Model|Service|Data)/i,
-      /analytics(Service|Data|Engine|Report)/i
+      /analytics(Service|Data|Engine|Report)/i,
     ],
     // API and external data patterns
     external: [
@@ -43,11 +51,11 @@ const CONFIG = {
       /fetchResult\s*&&\s*fetchResult\./,
       /response\s*&&\s*response\.(ok|status|data)/,
       /error\s*&&\s*error\.(message|code|status)/,
-      /result\s*&&\s*result\.(success|error|data)/
-    ]
+      /result\s*&&\s*result\.(success|error|data)/,
+    ],
   },
   maxFilesPerRun: 50,
-  dryRun: false
+  dryRun: false,
 };
 
 // Track metrics
@@ -62,8 +70,8 @@ const metrics = {
     arrayLength: 0,
     propertyChain: 0,
     nullishCoalescing: 0,
-    typeNarrowing: 0
-  }
+    typeNarrowing: 0,
+  },
 };
 
 // Unnecessary condition patterns to fix
@@ -79,40 +87,40 @@ const CONDITION_PATTERNS = [
       }
       return variable;
     },
-    description: 'Remove redundant double checks (conservative)'
+    description: 'Remove redundant double checks (conservative)',
   },
-  
+
   // Pattern 2: Array length check that can use optional chaining
   {
     name: 'arrayLength',
     pattern: /\b(\w+(?:\.\w+)*)\s*&&\s*\1\.length\s*>\s*0/g,
     replacement: (match, variable) => `${variable}?.length`,
-    description: 'Convert array length checks to optional chaining'
+    description: 'Convert array length checks to optional chaining',
   },
-  
+
   // Pattern 3: Property chain checks (obj && obj.prop && obj.prop.subprop)
   {
     name: 'propertyChain',
     pattern: /\b(\w+)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g,
     replacement: (match, obj, prop1, prop2) => `${obj}?.${prop1}?.${prop2}`,
-    description: 'Convert property chains to optional chaining'
+    description: 'Convert property chains to optional chaining',
   },
-  
+
   // Pattern 4: Simple property checks (obj && obj.prop)
   {
     name: 'simpleProperty',
     pattern: /\b(\w+)\s*&&\s*\1\.(\w+)(?!\s*&&|\s*\()/g,
     replacement: (match, obj, prop) => `${obj}?.${prop}`,
-    description: 'Convert simple property checks to optional chaining'
+    description: 'Convert simple property checks to optional chaining',
   },
-  
+
   // Pattern 5: Nullish coalescing opportunities (value || defaultValue where value is always defined)
   {
     name: 'nullishCoalescing',
     pattern: /\b(true|false|0|1|"[^"]+"|'[^']+')\s*\|\|\s*\w+/g,
     replacement: (match, value) => value,
-    description: 'Remove unnecessary fallback for always-defined values'
-  }
+    description: 'Remove unnecessary fallback for always-defined values',
+  },
 ];
 
 // Additional TypeScript-specific patterns
@@ -125,7 +133,6 @@ const TS_CONDITION_PATTERNS = [
   //   replacement: (match, variable) => variable,
   //   description: 'Remove redundant type narrowing'
   // },
-  
   // Pattern 7: Non-null assertion opportunities - DISABLED
   // DISABLED: This can be unsafe as it removes null checks
   // {
@@ -161,35 +168,35 @@ function processFile(filePath) {
     const lines = content.split('\n');
     let modified = false;
     let modifiedContent = content;
-    
+
     // Apply each pattern
     [...CONDITION_PATTERNS, ...TS_CONDITION_PATTERNS].forEach(patternConfig => {
       const pattern = new RegExp(patternConfig.pattern.source, 'gm');
       let match;
-      
+
       while ((match = pattern.exec(content)) !== null) {
         const matchedText = match[0];
         const lineIndex = content.substring(0, match.index).split('\n').length - 1;
         const line = lines[lineIndex];
-        
+
         // Check if this condition should be preserved
         if (shouldPreserveCondition(line, matchedText)) {
           continue;
         }
-        
+
         // Apply the replacement
         const replacement = patternConfig.replacement(...match);
         modifiedContent = modifiedContent.replace(matchedText, replacement);
         metrics.patterns[patternConfig.name]++;
         metrics.conditionsFixed++;
         modified = true;
-        
+
         if (!CONFIG.dryRun) {
           console.log(`  Fixed ${patternConfig.name}: ${matchedText} → ${replacement}`);
         }
       }
     });
-    
+
     // Write the modified content if changes were made
     if (modified && !CONFIG.dryRun) {
       fs.writeFileSync(filePath, modifiedContent, 'utf8');
@@ -198,7 +205,6 @@ function processFile(filePath) {
     } else if (modified && CONFIG.dryRun) {
       console.log(`Would fix conditions in ${filePath}`);
     }
-    
   } catch (error) {
     metrics.errors.push({ file: filePath, error: error.message });
     console.error(`❌ Error processing ${filePath}: ${error.message}`);
@@ -241,27 +247,29 @@ function createSafetyStash() {
  */
 function getFilesToProcess() {
   const files = [];
-  
+
   function scanDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         if (!CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
           scanDirectory(fullPath);
         }
       } else if (stat.isFile()) {
-        if (CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
-            !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
+          !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))
+        ) {
           files.push(fullPath);
         }
       }
     }
   }
-  
+
   scanDirectory(CONFIG.sourceDir);
   return files;
 }
@@ -272,38 +280,38 @@ function getFilesToProcess() {
 function main() {
   console.log('🚀 WhatToEatNext - Unnecessary Conditions Fixer');
   console.log('================================================');
-  
+
   // Parse command line arguments
   const args = process.argv.slice(2);
   if (args.includes('--dry-run')) {
     CONFIG.dryRun = true;
     console.log('🔍 Running in DRY RUN mode - no files will be modified');
   }
-  
+
   if (args.includes('--max-files')) {
     const maxIndex = args.indexOf('--max-files');
     CONFIG.maxFilesPerRun = parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
   }
-  
+
   // Create safety stash if not in dry run
   let stashTimestamp = null;
   if (!CONFIG.dryRun) {
     stashTimestamp = createSafetyStash();
   }
-  
+
   // Get files to process
   const files = getFilesToProcess();
   console.log(`\n📁 Found ${files.length} files to analyze`);
-  
+
   // Process files with limit
   const filesToProcess = files.slice(0, CONFIG.maxFilesPerRun);
   console.log(`\n🔧 Processing ${filesToProcess.length} files...\n`);
-  
+
   filesToProcess.forEach(file => {
     metrics.filesScanned++;
     processFile(file);
   });
-  
+
   // Report results
   console.log('\n📊 Fix Summary:');
   console.log('================');
@@ -317,14 +325,14 @@ function main() {
       console.log(`  ${pattern}: ${count}`);
     }
   });
-  
+
   if (metrics.errors.length > 0) {
     console.log(`\n⚠️  Errors encountered: ${metrics.errors.length}`);
     metrics.errors.forEach(err => {
       console.log(`  - ${err.file}: ${err.error}`);
     });
   }
-  
+
   // Validate build if changes were made
   if (metrics.filesModified > 0 && !CONFIG.dryRun) {
     const buildValid = validateBuildAfterFix();
@@ -333,7 +341,7 @@ function main() {
       console.log(`git stash apply stash^{/unnecessary-conditions-fix-${stashTimestamp}}`);
     }
   }
-  
+
   // Suggest next steps
   console.log('\n📌 Next Steps:');
   if (CONFIG.dryRun) {
@@ -345,9 +353,11 @@ function main() {
     console.log('3. Run tests to ensure functionality preserved');
     console.log('4. Commit changes if all tests pass');
   }
-  
+
   if (files.length > filesToProcess.length) {
-    console.log(`\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`);
+    console.log(
+      `\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`,
+    );
   }
 }
 

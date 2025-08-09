@@ -12,7 +12,7 @@ const colors = {
   green: '\x1b[32m',
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
-  cyan: '\x1b[36m'
+  cyan: '\x1b[36m',
 };
 
 function log(message, color = 'reset') {
@@ -24,21 +24,53 @@ const referencePatterns = [
   // Remaining typos with underscores
   { pattern: /\bexpect_\b/g, replacement: 'expect', description: 'expect_ → expect' },
   { pattern: /\bString_\b/g, replacement: 'String', description: 'String_ → String' },
-  { pattern: /\bmockExecSync_\b/g, replacement: 'mockExecSync', description: 'mockExecSync_ → mockExecSync' },
+  {
+    pattern: /\bmockExecSync_\b/g,
+    replacement: 'mockExecSync',
+    description: 'mockExecSync_ → mockExecSync',
+  },
   { pattern: /\b_result\b/g, replacement: 'result', description: '_result → result' },
-  { pattern: /\bJSON\.parse_\b/g, replacement: 'JSON.parse', description: 'JSON.parse_ → JSON.parse' },
+  {
+    pattern: /\bJSON\.parse_\b/g,
+    replacement: 'JSON.parse',
+    description: 'JSON.parse_ → JSON.parse',
+  },
   { pattern: /\.includes_\b/g, replacement: '.includes', description: '.includes_ → .includes' },
-  
+
   // Function name corrections
-  { pattern: /\bwithCampaignTestIsolation\b/g, replacement: 'validateCampaignTestIsolation', description: 'withCampaignTestIsolation → validateCampaignTestIsolation' },
-  { pattern: /\bformatMethodsForComponent\b/g, replacement: '_formatMethodsForComponent', description: 'formatMethodsForComponent → _formatMethodsForComponent' },
-  { pattern: /\bsetIsDaytime\b/g, replacement: '_setIsDaytime', description: 'setIsDaytime → _setIsDaytime' },
+  {
+    pattern: /\bwithCampaignTestIsolation\b/g,
+    replacement: 'validateCampaignTestIsolation',
+    description: 'withCampaignTestIsolation → validateCampaignTestIsolation',
+  },
+  {
+    pattern: /\bformatMethodsForComponent\b/g,
+    replacement: '_formatMethodsForComponent',
+    description: 'formatMethodsForComponent → _formatMethodsForComponent',
+  },
+  {
+    pattern: /\bsetIsDaytime\b/g,
+    replacement: '_setIsDaytime',
+    description: 'setIsDaytime → _setIsDaytime',
+  },
   { pattern: /\bonClick_\b/g, replacement: 'onClick', description: 'onClick_ → onClick' },
-  
+
   // Missing function prefixes for unused functions
-  { pattern: /^(\s*)drawZodiacWheel\b/gm, replacement: '$1_drawZodiacWheel', description: 'drawZodiacWheel → _drawZodiacWheel (unused)' },
-  { pattern: /^(\s*)drawCelestialBody\b/gm, replacement: '$1_drawCelestialBody', description: 'drawCelestialBody → _drawCelestialBody (unused)' },
-  { pattern: /^(\s*)drawLunarNode\b/gm, replacement: '$1_drawLunarNode', description: 'drawLunarNode → _drawLunarNode (unused)' }
+  {
+    pattern: /^(\s*)drawZodiacWheel\b/gm,
+    replacement: '$1_drawZodiacWheel',
+    description: 'drawZodiacWheel → _drawZodiacWheel (unused)',
+  },
+  {
+    pattern: /^(\s*)drawCelestialBody\b/gm,
+    replacement: '$1_drawCelestialBody',
+    description: 'drawCelestialBody → _drawCelestialBody (unused)',
+  },
+  {
+    pattern: /^(\s*)drawLunarNode\b/gm,
+    replacement: '$1_drawLunarNode',
+    description: 'drawLunarNode → _drawLunarNode (unused)',
+  },
 ];
 
 function getTypeScriptErrors() {
@@ -49,13 +81,15 @@ function getTypeScriptErrors() {
     const output = error.stdout || '';
     const lines = output.split('\n');
     const errors = [];
-    
+
     for (const line of lines) {
       // Match TS2304 (Cannot find name)
       const match2304 = line.match(/^(.+?)\((\d+),(\d+)\): error TS2304: Cannot find name '(.+?)'/);
       // Match TS2551/TS2552 (Did you mean)
-      const matchSuggestion = line.match(/^(.+?)\((\d+),(\d+)\): error TS(2551|2552): .* '(.+?)'.* Did you mean '(.+?)'/);
-      
+      const matchSuggestion = line.match(
+        /^(.+?)\((\d+),(\d+)\): error TS(2551|2552): .* '(.+?)'.* Did you mean '(.+?)'/,
+      );
+
       if (match2304) {
         errors.push({
           file: match2304[1],
@@ -63,7 +97,7 @@ function getTypeScriptErrors() {
           column: parseInt(match2304[3]),
           type: 'TS2304',
           name: match2304[4],
-          suggestion: null
+          suggestion: null,
         });
       } else if (matchSuggestion) {
         errors.push({
@@ -72,49 +106,51 @@ function getTypeScriptErrors() {
           column: parseInt(matchSuggestion[3]),
           type: `TS${matchSuggestion[4]}`,
           name: matchSuggestion[5],
-          suggestion: matchSuggestion[6]
+          suggestion: matchSuggestion[6],
         });
       }
     }
-    
+
     return errors;
   }
 }
 
 function fixMissingReferences(dryRun = false) {
   log('\n🔍 Scanning for missing references and typos...', 'cyan');
-  
+
   const errors = getTypeScriptErrors();
-  const referenceErrors = errors.filter(e => e.type === 'TS2304' || e.type === 'TS2551' || e.type === 'TS2552');
-  
+  const referenceErrors = errors.filter(
+    e => e.type === 'TS2304' || e.type === 'TS2551' || e.type === 'TS2552',
+  );
+
   if (referenceErrors.length === 0) {
     log('✅ No missing reference errors found!', 'green');
     return { fixed: 0, total: 0, files: 0 };
   }
-  
+
   log(`Found ${referenceErrors.length} missing reference errors`, 'yellow');
-  
+
   // Get unique files
   const filesWithErrors = [...new Set(referenceErrors.map(e => e.file))];
-  
+
   let totalFixed = 0;
   let filesFixed = 0;
   const manualFixes = [];
-  
+
   for (const filePath of filesWithErrors) {
     const fileErrors = referenceErrors.filter(e => e.file === filePath);
-    
+
     if (!fs.existsSync(filePath)) {
       log(`⚠️  File not found: ${filePath}`, 'yellow');
       continue;
     }
-    
+
     log(`\n📝 Processing ${path.basename(filePath)} (${fileErrors.length} errors)...`, 'blue');
-    
+
     let content = fs.readFileSync(filePath, 'utf8');
     let originalContent = content;
     let fixedInFile = 0;
-    
+
     // Apply pattern-based fixes
     for (const pattern of referencePatterns) {
       const matches = content.match(pattern.pattern);
@@ -125,7 +161,7 @@ function fixMissingReferences(dryRun = false) {
         log(`    ✓ Fixed ${count} instance(s): ${pattern.description}`, 'green');
       }
     }
-    
+
     // Apply suggestion-based fixes for specific errors
     const lines = content.split('\n');
     for (const error of fileErrors) {
@@ -133,10 +169,13 @@ function fixMissingReferences(dryRun = false) {
         const lineIndex = error.line - 1;
         if (lineIndex >= 0 && lineIndex < lines.length) {
           const line = lines[lineIndex];
-          
+
           // Create safe regex for the typo
-          const nameRegex = new RegExp(`\\b${error.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
-          
+          const nameRegex = new RegExp(
+            `\\b${error.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`,
+            'g',
+          );
+
           if (line.match(nameRegex)) {
             lines[lineIndex] = line.replace(nameRegex, error.suggestion);
             fixedInFile++;
@@ -148,16 +187,16 @@ function fixMissingReferences(dryRun = false) {
         manualFixes.push({
           file: path.basename(filePath),
           line: error.line,
-          name: error.name
+          name: error.name,
         });
       }
     }
-    
+
     // Rebuild content from lines if we made line-specific changes
     if (fileErrors.some(e => e.suggestion)) {
       content = lines.join('\n');
     }
-    
+
     // Special handling for specific patterns
     if (filePath.includes('CelestialDisplay')) {
       // Fix undefined drawing functions by adding them or prefixing with underscore
@@ -176,7 +215,7 @@ function fixMissingReferences(dryRun = false) {
         }
       }
     }
-    
+
     if (fixedInFile > 0 && !dryRun && content !== originalContent) {
       fs.writeFileSync(filePath, content, 'utf8');
       log(`  💾 Saved ${fixedInFile} fixes to ${path.basename(filePath)}`, 'green');
@@ -188,7 +227,7 @@ function fixMissingReferences(dryRun = false) {
       filesFixed++;
     }
   }
-  
+
   if (manualFixes.length > 0) {
     log('\n📋 References requiring manual review:', 'yellow');
     const grouped = {};
@@ -201,21 +240,21 @@ function fixMissingReferences(dryRun = false) {
       issues.forEach(issue => log(`    • ${issue}`, 'blue'));
     }
   }
-  
+
   return { fixed: totalFixed, total: referenceErrors.length, files: filesFixed };
 }
 
 function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  
+
   log('🚀 Missing References & Typo Fixer', 'bright');
-  log('=' .repeat(50), 'cyan');
-  
+  log('='.repeat(50), 'cyan');
+
   if (dryRun) {
     log('🔍 Running in DRY RUN mode - no files will be modified', 'yellow');
   }
-  
+
   try {
     // Create backup with git stash
     if (!dryRun) {
@@ -227,7 +266,7 @@ function main() {
         log('⚠️  Could not create git stash (working directory might be clean)', 'yellow');
       }
     }
-    
+
     // Show patterns being used
     log('\n📋 Reference patterns to fix:', 'cyan');
     for (const pattern of referencePatterns.slice(0, 10)) {
@@ -236,16 +275,19 @@ function main() {
     if (referencePatterns.length > 10) {
       log(`  ... and ${referencePatterns.length - 10} more patterns`, 'blue');
     }
-    
+
     const result = fixMissingReferences(dryRun);
-    
+
     log('\n' + '='.repeat(50), 'cyan');
     log('📊 Summary:', 'bright');
     log(`  Files processed: ${result.files}`, 'blue');
     log(`  Total reference errors found: ${result.total}`, 'blue');
     log(`  Successfully fixed: ${result.fixed}`, 'green');
-    log(`  Remaining to fix: ${result.total - result.fixed}`, result.total - result.fixed > 0 ? 'yellow' : 'green');
-    
+    log(
+      `  Remaining to fix: ${result.total - result.fixed}`,
+      result.total - result.fixed > 0 ? 'yellow' : 'green',
+    );
+
     if (!dryRun && result.fixed > 0) {
       log('\n🔨 Rebuilding to verify fixes...', 'cyan');
       try {
@@ -253,15 +295,16 @@ function main() {
         log('✅ Build successful!', 'green');
       } catch (e) {
         const newErrors = getTypeScriptErrors();
-        const remainingRefs = newErrors.filter(e => e.type === 'TS2304' || e.type === 'TS2551' || e.type === 'TS2552');
+        const remainingRefs = newErrors.filter(
+          e => e.type === 'TS2304' || e.type === 'TS2551' || e.type === 'TS2552',
+        );
         log(`⚠️  Build still has ${remainingRefs.length} reference errors`, 'yellow');
       }
     }
-    
+
     if (dryRun && result.fixed > 0) {
       log('\n💡 Run without --dry-run to apply these fixes', 'yellow');
     }
-    
   } catch (error) {
     log(`\n❌ Error: ${error.message}`, 'red');
     process.exit(1);

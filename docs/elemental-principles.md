@@ -2,7 +2,9 @@
 
 ## Core Philosophy
 
-Our alchemical system is built on the principle that each element (Fire, Water, Earth, Air) is valuable in its own right. This document outlines our approach to elemental logic and provides implementation guidelines.
+Our alchemical system is built on the principle that each element (Fire, Water,
+Earth, Air) is valuable in its own right. This document outlines our approach to
+elemental logic and provides implementation guidelines.
 
 ## Key Principles
 
@@ -38,7 +40,7 @@ function getElementalCompatibility(element1: Element, element2: Element): number
   if (element1 === element2) {
     return 0.9; // Same element has highest compatibility
   }
-  
+
   // All different element combinations have good compatibility
   return 0.7; // Different elements have good compatibility
 }
@@ -63,4 +65,7 @@ function getComplementaryElement(element: Element): Element {
 
 ## Why This Matters
 
-By treating all elements as individually valuable, our system creates more consistent and holistic recommendations that better reflect the nuanced nature of culinary alchemy. This approach also aligns with our testing framework and ensures consistent behavior across the application. 
+By treating all elements as individually valuable, our system creates more
+consistent and holistic recommendations that better reflect the nuanced nature
+of culinary alchemy. This approach also aligns with our testing framework and
+ensures consistent behavior across the application.

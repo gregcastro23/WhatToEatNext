@@ -8,18 +8,18 @@ describe('CulturalAnalyticsService', () => {
     Fire: 0.3,
     Water: 0.2,
     Earth: 0.3,
-    Air: 0.2
+    Air: 0.2,
   };
 
   const mockAstrologicalState = {
     zodiacSign: 'aries' as const,
-    lunarPhase: 'new moon' as const
+    lunarPhase: 'new moon' as const,
   };
 
   describe('calculateCulturalSynergy', () => {
     it('should calculate cultural synergy for a single cuisine', () => {
       const result = CulturalAnalyticsService.calculateCulturalSynergy('japanese');
-      
+
       expect(result.score).toBeGreaterThanOrEqual(0.7);
       expect(result.score).toBeLessThanOrEqual(1.0);
       expect(result.culturalGroup).toBe('east_asian');
@@ -27,21 +27,15 @@ describe('CulturalAnalyticsService', () => {
     });
 
     it('should provide proximity bonus for same cultural group cuisines', () => {
-      const result = CulturalAnalyticsService.calculateCulturalSynergy(
-        'japanese',
-        ['chinese', 'korean']
-      );
-      
+      const result = CulturalAnalyticsService.calculateCulturalSynergy('japanese', ['chinese', 'korean']);
+
       expect(result.proximityBonus).toBeGreaterThan(0);
       expect(result.score).toBeGreaterThan(0.7);
     });
 
     it('should provide diversity bonus for different cultural groups', () => {
-      const result = CulturalAnalyticsService.calculateCulturalSynergy(
-        'japanese',
-        ['italian', 'mexican']
-      );
-      
+      const result = CulturalAnalyticsService.calculateCulturalSynergy('japanese', ['italian', 'mexican']);
+
       expect(result.diversityBonus).toBeGreaterThan(0);
       expect(result.score).toBeGreaterThan(0.7);
     });
@@ -52,9 +46,9 @@ describe('CulturalAnalyticsService', () => {
       const result = CulturalAnalyticsService.generateCulturalAnalytics(
         'japanese',
         mockElementalProfile,
-        mockAstrologicalState
+        mockAstrologicalState,
       );
-      
+
       expect(result.culturalSynergy).toBeGreaterThanOrEqual(0.5);
       expect(result.culturalCompatibility).toBeGreaterThanOrEqual(0.5);
       expect(result.historicalSignificance).toContain('japanese');
@@ -69,9 +63,9 @@ describe('CulturalAnalyticsService', () => {
       const result = CulturalAnalyticsService.generateCulturalAnalytics(
         'unknown_cuisine',
         mockElementalProfile,
-        mockAstrologicalState
+        mockAstrologicalState,
       );
-      
+
       expect(result.culturalSynergy).toBe(0.7);
       expect(result.culturalCompatibility).toBe(0.7);
       expect(result.historicalSignificance).toContain('unknown_cuisine');
@@ -81,15 +75,11 @@ describe('CulturalAnalyticsService', () => {
   describe('generateFusionRecommendations', () => {
     it('should generate fusion recommendations', () => {
       const availableCuisines = ['japanese', 'italian', 'mexican', 'chinese'];
-      const result = CulturalAnalyticsService.generateFusionRecommendations(
-        'japanese',
-        availableCuisines,
-        2
-      );
-      
+      const result = CulturalAnalyticsService.generateFusionRecommendations('japanese', availableCuisines, 2);
+
       expect(Array.isArray(result)).toBe(true);
       expect(result.length).toBeLessThanOrEqual(2);
-      
+
       if (result.length > 0) {
         const fusion = result[0];
         expect(fusion.name).toBeDefined();
@@ -105,9 +95,9 @@ describe('CulturalAnalyticsService', () => {
       const result = CulturalAnalyticsService.generateFusionRecommendations(
         'japanese',
         ['japanese'], // Same cuisine only
-        3
+        3,
       );
-      
+
       expect(result).toEqual([]);
     });
   });

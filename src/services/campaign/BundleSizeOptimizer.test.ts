@@ -33,9 +33,9 @@ describe('BundleSizeOptimizer', () => {
         if (path === 'package.json') {
           return JSON.stringify({
             dependencies: {
-              'react': '^18.0.0',
-              '@next/bundle-analyzer': '^13.0.0'
-            }
+              react: '^18.0.0',
+              '@next/bundle-analyzer': '^13.0.0',
+            },
           });
         }
         return '';
@@ -106,7 +106,9 @@ describe('BundleSizeOptimizer', () => {
       expect(validation.lazyLoadedComponents).toBe(10);
       expect(validation.score).toBe(40); // 10/25 * 100
       expect(validation.potentialLazyComponents).toHaveLength(2);
-      expect(validation.dataFetchingOptimizations).toContain('Consider using SWR or React Query for data fetching optimization');
+      expect(validation.dataFetchingOptimizations).toContain(
+        'Consider using SWR or React Query for data fetching optimization',
+      );
     });
 
     it('should handle lazy loading validation errors', async () => {
@@ -163,12 +165,14 @@ describe('BundleSizeOptimizer', () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === 'package.json';
       });
-      mockFs.readFileSync.mockReturnValue(JSON.stringify({
-        dependencies: {
-          'lodash': '^4.0.0',
-          'moment': '^2.0.0'
-        }
-      }));
+      mockFs.readFileSync.mockReturnValue(
+        JSON.stringify({
+          dependencies: {
+            lodash: '^4.0.0',
+            moment: '^2.0.0',
+          },
+        }),
+      );
 
       mockExecSync.mockReturnValue('300000\n'); // Source size
 
@@ -228,21 +232,18 @@ describe('BundleSizeOptimizer', () => {
       });
 
       // Mock getAllFiles method behavior
-      const mockGetAllFiles = jest.fn().mockReturnValue([
-        'public/image.png',
-        'public/style.css',
-        'public/script.js',
-        'public/font.woff2'
-      ]);
+      const mockGetAllFiles = jest
+        .fn()
+        .mockReturnValue(['public/image.png', 'public/style.css', 'public/script.js', 'public/font.woff2']);
 
       (bundleOptimizer as any).getAllFiles = mockGetAllFiles;
 
       mockFs.statSync.mockImplementation((path: string) => {
         const sizes: Record<string, number> = {
           'public/image.png': 100 * 1024, // 100kB
-          'public/style.css': 20 * 1024,  // 20kB
-          'public/script.js': 50 * 1024,  // 50kB
-          'public/font.woff2': 30 * 1024  // 30kB
+          'public/style.css': 20 * 1024, // 20kB
+          'public/script.js': 50 * 1024, // 50kB
+          'public/font.woff2': 30 * 1024, // 30kB
         };
         return { size: sizes[path] || 1024 } as unknown as fs.Stats;
       });
@@ -265,14 +266,16 @@ describe('BundleSizeOptimizer', () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === 'package.json';
       });
-      mockFs.readFileSync.mockReturnValue(JSON.stringify({
-        dependencies: {
-          'react': '^18.0.0',
-          'react-dom': '^18.0.0',
-          'lodash': '^4.0.0',
-          'chart.js': '^3.0.0'
-        }
-      }));
+      mockFs.readFileSync.mockReturnValue(
+        JSON.stringify({
+          dependencies: {
+            react: '^18.0.0',
+            'react-dom': '^18.0.0',
+            lodash: '^4.0.0',
+            'chart.js': '^3.0.0',
+          },
+        }),
+      );
 
       mockExecSync.mockReturnValue('300000\n');
 
@@ -322,7 +325,7 @@ describe('BundleSizeOptimizer', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         './test-bundle-data.json',
-        expect.stringContaining('"timestamp"')
+        expect.stringContaining('"timestamp"'),
       );
     });
 
@@ -331,9 +334,9 @@ describe('BundleSizeOptimizer', () => {
         throw new Error('Write failed');
       });
 
-      await expect(
-        bundleOptimizer.exportBundleData('./test-bundle-data.json')
-      ).rejects.toThrow('Failed to export bundle data');
+      await expect(bundleOptimizer.exportBundleData('./test-bundle-data.json')).rejects.toThrow(
+        'Failed to export bundle data',
+      );
     });
   });
 

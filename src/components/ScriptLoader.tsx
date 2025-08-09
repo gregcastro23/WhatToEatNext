@@ -22,7 +22,7 @@ export default function ScriptLoader() {
               log.info(`[ScriptLoader] Loaded: ${src}`);
               resolve();
             };
-            script.onerror = (error) => {
+            script.onerror = error => {
               console.error(`[ScriptLoader] Failed to load: ${src}`, error);
               reject(error);
             };
@@ -32,16 +32,16 @@ export default function ScriptLoader() {
 
         // First, load the popup fix
         await loadScript('/popup-fix.js');
-        
-        // Then load the click handler fixes 
+
+        // Then load the click handler fixes
         await loadScript('/fix-click-handlers.js');
-        
+
         // Wait a brief moment for the fix handlers to initialize
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         // Finally load the test script
         await loadScript('/click-test.js');
-        
+
         // Apply fixes after all scripts are loaded
         setTimeout(() => {
           if (window.ClickFix && typeof window.ClickFix.fixAllComponents === 'function') {
@@ -76,4 +76,4 @@ declare global {
       diagnose: () => void;
     };
   }
-} 
+}

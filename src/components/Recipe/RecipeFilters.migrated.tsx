@@ -24,7 +24,7 @@ export const initialFilters: FilterState = {
   dietary: [],
   maxTime: undefined,
   spiciness: null,
-  complexity: null
+  complexity: null,
 };
 
 interface RecipeFiltersProps {
@@ -37,14 +37,14 @@ interface RecipeFiltersProps {
 
 /**
  * RecipeFilters Component - Migrated Version
- * 
+ *
  * This component handles the filtering UI for recipes, including:
  * - Search input
  * - Filter panel toggle
  * - Cuisine type selection
  * - Meal type selection
  * - Dietary restriction selection
- * 
+ *
  * It has been migrated from context-based data access to service-based architecture.
  */
 export default function RecipeFiltersMigrated({
@@ -52,14 +52,10 @@ export default function RecipeFiltersMigrated({
   updateFilters,
   resetFilters,
   showFilters,
-  setShowFilters
+  setShowFilters,
 }: RecipeFiltersProps) {
   // Services
-  const { 
-    isLoading: servicesLoading, 
-    error: servicesError, 
-    recipeService
-  } = useServices();
+  const { isLoading: servicesLoading, error: servicesError, recipeService } = useServices();
 
   // Local state for reference data
   const [availableCuisines, setAvailableCuisines] = useState<Record<string, boolean>>({});
@@ -84,14 +80,17 @@ export default function RecipeFiltersMigrated({
       try {
         // Apply surgical type casting with variable extraction
         const serviceData = recipeService as any;
-        
+
         // Get all cuisines
         const getCuisineTypesMethod = serviceData?.getCuisineTypes;
         const cuisines = getCuisineTypesMethod ? await getCuisineTypesMethod() : [];
-        const cuisineMap = cuisines.reduce((acc, cuisine) => {
-          acc[cuisine] = true;
-          return acc;
-        }, {} as Record<string, boolean>);
+        const cuisineMap = cuisines.reduce(
+          (acc, cuisine) => {
+            acc[cuisine] = true;
+            return acc;
+          },
+          {} as Record<string, boolean>,
+        );
         setAvailableCuisines(cuisineMap);
 
         // Get meal types
@@ -101,33 +100,29 @@ export default function RecipeFiltersMigrated({
 
         // Get dietary options
         const getDietaryRestrictionsMethod = serviceData?.getDietaryRestrictions;
-        const dietaryOptions = getDietaryRestrictionsMethod ? await getDietaryRestrictionsMethod() : [];
+        const dietaryOptions = getDietaryRestrictionsMethod
+          ? await getDietaryRestrictionsMethod()
+          : [];
         setAvailableDietaryOptions(dietaryOptions);
-        
+
         setError(null);
       } catch (err) {
         logger.error('Error loading reference data:', err);
         setError(err instanceof Error ? err : new Error('Failed to load filter options'));
-        
+
         // Use defaults if there's an error
         setAvailableCuisines({
-          'Italian': true,
-          'Mexican': true,
-          'Chinese': true,
-          'Japanese': true,
-          'Indian': true,
-          'Thai': true,
-          'Mediterranean': true,
-          'American': true,
-          'French': true
+          Italian: true,
+          Mexican: true,
+          Chinese: true,
+          Japanese: true,
+          Indian: true,
+          Thai: true,
+          Mediterranean: true,
+          American: true,
+          French: true,
         });
-        setAvailableMealTypes([
-          'Breakfast',
-          'Lunch',
-          'Dinner',
-          'Dessert',
-          'Snack'
-        ]);
+        setAvailableMealTypes(['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack']);
         setAvailableDietaryOptions([
           'vegetarian',
           'vegan',
@@ -136,7 +131,7 @@ export default function RecipeFiltersMigrated({
           'keto',
           'paleo',
           'low-carb',
-          'low-fat'
+          'low-fat',
         ] as unknown as DietaryRestriction[]);
       } finally {
         setIsLoading(false);
@@ -149,13 +144,13 @@ export default function RecipeFiltersMigrated({
   // Handle loading state
   if (servicesLoading || isLoading) {
     return (
-      <div className="mb-6 space-y-4">
-        <div className="flex gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <div className="w-full pl-10 pr-4 py-2 border rounded-lg bg-gray-100 animate-pulse h-10"></div>
+      <div className='mb-6 space-y-4'>
+        <div className='flex gap-4'>
+          <div className='relative flex-1'>
+            <Search className='absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400' />
+            <div className='h-10 w-full animate-pulse rounded-lg border bg-gray-100 py-2 pl-10 pr-4'></div>
           </div>
-          <div className="px-4 py-2 bg-gray-100 rounded-lg h-10 w-24 animate-pulse"></div>
+          <div className='h-10 w-24 animate-pulse rounded-lg bg-gray-100 px-4 py-2'></div>
         </div>
       </div>
     );
@@ -164,24 +159,26 @@ export default function RecipeFiltersMigrated({
   // Handle error state
   if (servicesError || error) {
     return (
-      <div className="mb-6 space-y-4">
-        <div className="p-4 border border-red-200 rounded-lg bg-red-50">
-          <p className="text-red-600">Error loading filter options: {(servicesError || error)?.message}</p>
+      <div className='mb-6 space-y-4'>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+          <p className='text-red-600'>
+            Error loading filter options: {(servicesError || error)?.message}
+          </p>
         </div>
-        <div className="flex gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <div className='flex gap-4'>
+          <div className='relative flex-1'>
+            <Search className='absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400' />
             <input
-              type="text"
+              type='text'
               value={filters.search}
-              onChange={(e) => handleSearch(e.target.value)}
-              placeholder="Search recipes..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              onChange={e => handleSearch(e.target.value)}
+              placeholder='Search recipes...'
+              className='w-full rounded-lg border py-2 pl-10 pr-4 focus:ring-2 focus:ring-blue-500'
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="px-4 py-2 bg-gray-100 rounded-lg flex items-center gap-2 hover:bg-gray-200"
+            className='flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 hover:bg-gray-200'
           >
             {showFilters ? <X /> : <SlidersHorizontal />}
             Filters
@@ -192,21 +189,21 @@ export default function RecipeFiltersMigrated({
   }
 
   return (
-    <div className="mb-6 space-y-4">
-      <div className="flex gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+    <div className='mb-6 space-y-4'>
+      <div className='flex gap-4'>
+        <div className='relative flex-1'>
+          <Search className='absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400' />
           <input
-            type="text"
+            type='text'
             value={filters.search}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search recipes..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            onChange={e => handleSearch(e.target.value)}
+            placeholder='Search recipes...'
+            className='w-full rounded-lg border py-2 pl-10 pr-4 focus:ring-2 focus:ring-blue-500'
           />
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="px-4 py-2 bg-gray-100 rounded-lg flex items-center gap-2 hover:bg-gray-200"
+          className='flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 hover:bg-gray-200'
         >
           {showFilters ? <X /> : <SlidersHorizontal />}
           Filters
@@ -219,18 +216,23 @@ export default function RecipeFiltersMigrated({
           showFilters ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="bg-white rounded-lg shadow-lg p-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className='rounded-lg bg-white p-4 shadow-lg'>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
             {/* Cuisine Types */}
             <div>
-              <label className="block text-sm font-medium mb-2">Cuisine</label>
+              <label className='mb-2 block text-sm font-medium'>Cuisine</label>
               <select
                 multiple
                 value={filters.cuisineTypes.map(cuisine => cuisine.toString())}
-                onChange={(e) => updateFilters({
-                  cuisineTypes: Array.from(e.target.selectedOptions, option => option.value as unknown as CuisineType)
-                })}
-                className="w-full p-2 border rounded"
+                onChange={e =>
+                  updateFilters({
+                    cuisineTypes: Array.from(
+                      e.target.selectedOptions,
+                      option => option.value as unknown as CuisineType,
+                    ),
+                  })
+                }
+                className='w-full rounded border p-2'
               >
                 {Object.keys(availableCuisines || {}).map(cuisine => (
                   <option key={cuisine} value={cuisine}>
@@ -242,14 +244,16 @@ export default function RecipeFiltersMigrated({
 
             {/* Meal Type */}
             <div>
-              <label className="block text-sm font-medium mb-2">Meal Type</label>
+              <label className='mb-2 block text-sm font-medium'>Meal Type</label>
               <select
                 multiple
                 value={filters.mealType}
-                onChange={(e) => updateFilters({
-                  mealType: Array.from(e.target.selectedOptions, option => option.value)
-                })}
-                className="w-full p-2 border rounded"
+                onChange={e =>
+                  updateFilters({
+                    mealType: Array.from(e.target.selectedOptions, option => option.value),
+                  })
+                }
+                className='w-full rounded border p-2'
               >
                 {(availableMealTypes || []).map(type => (
                   <option key={type} value={type}>
@@ -261,14 +265,19 @@ export default function RecipeFiltersMigrated({
 
             {/* Dietary Restrictions */}
             <div>
-              <label className="block text-sm font-medium mb-2">Dietary</label>
+              <label className='mb-2 block text-sm font-medium'>Dietary</label>
               <select
                 multiple
                 value={filters.dietary}
-                onChange={(e) => updateFilters({
-                  dietary: Array.from(e.target.selectedOptions, option => option.value as DietaryRestriction)
-                })}
-                className="w-full p-2 border rounded"
+                onChange={e =>
+                  updateFilters({
+                    dietary: Array.from(
+                      e.target.selectedOptions,
+                      option => option.value as DietaryRestriction,
+                    ),
+                  })
+                }
+                className='w-full rounded border p-2'
               >
                 {(availableDietaryOptions || []).map(option => (
                   <option key={option} value={option}>
@@ -279,16 +288,16 @@ export default function RecipeFiltersMigrated({
             </div>
           </div>
 
-          <div className="flex justify-end mt-4 gap-2">
+          <div className='mt-4 flex justify-end gap-2'>
             <button
               onClick={resetFilters}
-              className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
+              className='rounded px-4 py-2 text-gray-600 hover:bg-gray-100'
             >
               Reset
             </button>
             <button
               onClick={() => setShowFilters(false)}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
             >
               Apply
             </button>
@@ -297,4 +306,4 @@ export default function RecipeFiltersMigrated({
       </div>
     </div>
   );
-} 
+}

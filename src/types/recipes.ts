@@ -21,7 +21,7 @@ export interface RecipeElementalMapping {
     air?: string[];
   };
   astrologicalInfluences?: string[];
-  
+
   // Enhanced elemental characteristics
   cookingTechniques?: string[];
   flavorProfiles?: string[];
@@ -30,4 +30,4 @@ export interface RecipeElementalMapping {
   idealTimeOfDay?: string[];
   seasonalRecommendation?: string[];
   moodEffects?: string[];
-} 
+}

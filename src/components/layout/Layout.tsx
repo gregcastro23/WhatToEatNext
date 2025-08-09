@@ -25,11 +25,11 @@ export default function Layout({ children }: LayoutProps) {
       try {
         // Initialize theme
         await themeManager.initializeTheme();
-        
+
         // Check if celestial display should be shown
-        const shouldShowCelestial = pathname ? 
-          (!pathname.includes('/settings') && !pathname.includes('/profile')) : 
-          true;
+        const shouldShowCelestial = pathname
+          ? !pathname.includes('/settings') && !pathname.includes('/profile')
+          : true;
         setShowCelestial(shouldShowCelestial);
 
         setIsLoading(false);
@@ -46,10 +46,10 @@ export default function Layout({ children }: LayoutProps) {
   // Handle loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="space-y-4 text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-600">Loading your cosmic kitchen...</p>
+      <div className='flex min-h-screen items-center justify-center bg-gray-50'>
+        <div className='space-y-4 text-center'>
+          <div className='mx-auto h-16 w-16 animate-spin rounded-full border-4 border-blue-500 border-t-transparent' />
+          <p className='text-gray-600'>Loading your cosmic kitchen...</p>
         </div>
       </div>
     );
@@ -58,13 +58,13 @@ export default function Layout({ children }: LayoutProps) {
   // Handle error state
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="max-w-md p-6 bg-white rounded-lg shadow-lg text-center">
-          <h2 className="text-xl font-semibold text-red-600 mb-2">Error</h2>
-          <p className="text-gray-600 mb-4">{error}</p>
+      <div className='flex min-h-screen items-center justify-center bg-gray-50'>
+        <div className='max-w-md rounded-lg bg-white p-6 text-center shadow-lg'>
+          <h2 className='mb-2 text-xl font-semibold text-red-600'>Error</h2>
+          <p className='mb-4 text-gray-600'>{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
           >
             Retry
           </button>
@@ -74,37 +74,32 @@ export default function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="flex flex-col md:flex-row">
+    <div className='min-h-screen bg-gray-50'>
+      <div className='flex flex-col md:flex-row'>
         {/* Navigation */}
         <Navigation />
 
         {/* Main Content */}
-        <main className="flex-1 p-4 md:p-8">
-          <div className="max-w-7xl mx-auto space-y-8">
+        <main className='flex-1 p-4 md:p-8'>
+          <div className='mx-auto max-w-7xl space-y-8'>
             {/* Celestial Display */}
             {showCelestial && (
-              <div className="animate-fade-in-up">
+              <div className='animate-fade-in-up'>
                 <CelestialDisplay />
               </div>
             )}
 
             {/* Page Content */}
-            <div
-              key={pathname}
-              className="animate-fade-in-up"
-            >
+            <div key={pathname} className='animate-fade-in-up'>
               {children}
             </div>
 
             {/* Loading Overlay */}
             {isLoading && (
-              <div
-                className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50 animate-fade-in"
-              >
-                <div className="space-y-4 text-center">
-                  <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                  <p className="text-gray-600">Processing cosmic energies...</p>
+              <div className='fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-white bg-opacity-75'>
+                <div className='space-y-4 text-center'>
+                  <div className='mx-auto h-16 w-16 animate-spin rounded-full border-4 border-blue-500 border-t-transparent' />
+                  <p className='text-gray-600'>Processing cosmic energies...</p>
                 </div>
               </div>
             )}
@@ -133,7 +128,7 @@ function ScrollToTopButton() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -142,23 +137,18 @@ function ScrollToTopButton() {
       {showButton && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 animate-fade-in-up"
+          className='fixed bottom-4 right-4 animate-fade-in-up rounded-full bg-blue-500 p-3 text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className='h-6 w-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              strokeLinecap='round'
+              strokeLinejoin='round'
               strokeWidth={2}
-              d="M5 10l7-7m0 0l7 7m-7-7v18"
+              d='M5 10l7-7m0 0l7 7m-7-7v18'
             />
           </svg>
         </button>
       )}
     </>
   );
-} 
+}

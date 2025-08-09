@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Science } from '@mui/icons-material';
 import { Box } from '@mui/material';
@@ -13,7 +13,7 @@ interface MethodImageProps {
 export default function MethodImage({ method, size = 300 }: MethodImageProps) {
   const [imageError, setImageError] = useState(false);
   const [imagePath, setImagePath] = useState(`/images/methods/${method.toLowerCase()}.jpg`);
-  
+
   // Reset error state if method changes
   useEffect(() => {
     setImageError(false);
@@ -35,16 +35,16 @@ export default function MethodImage({ method, size = 300 }: MethodImageProps) {
 
   if (imageError) {
     return (
-      <Box 
-        sx={{ 
-          width: size, 
+      <Box
+        sx={{
+          width: size,
           height: size,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: 'rgba(0, 0, 0, 0.05)',
           borderRadius: 2,
-          color: 'text.secondary'
+          color: 'text.secondary',
         }}
       >
         <Science sx={{ fontSize: size / 4 }} />
@@ -66,4 +66,4 @@ export default function MethodImage({ method, size = 300 }: MethodImageProps) {
       priority
     />
   );
-} 
+}

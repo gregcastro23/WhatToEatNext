@@ -220,7 +220,7 @@ export enum SafetyLevel {
   LOW = 'LOW',
   MEDIUM = 'MEDIUM',
   HIGH = 'HIGH',
-  MAXIMUM = 'MAXIMUM'
+  MAXIMUM = 'MAXIMUM',
 }
 
 export enum SafetyEventType {
@@ -229,28 +229,28 @@ export enum SafetyEventType {
   CORRUPTION_DETECTED = 'CORRUPTION_DETECTED',
   BUILD_FAILURE = 'BUILD_FAILURE',
   TEST_FAILURE = 'TEST_FAILURE',
-  EMERGENCY_RECOVERY = 'EMERGENCY_RECOVERY'
+  EMERGENCY_RECOVERY = 'EMERGENCY_RECOVERY',
 }
 
 export enum SafetyEventSeverity {
   INFO = 'INFO',
   WARNING = 'WARNING',
   ERROR = 'ERROR',
-  CRITICAL = 'CRITICAL'
+  CRITICAL = 'CRITICAL',
 }
 
 export enum CorruptionSeverity {
   LOW = 'LOW',
   MEDIUM = 'MEDIUM',
   HIGH = 'HIGH',
-  CRITICAL = 'CRITICAL'
+  CRITICAL = 'CRITICAL',
 }
 
 export enum RecoveryAction {
   CONTINUE = 'CONTINUE',
   RETRY = 'RETRY',
   ROLLBACK = 'ROLLBACK',
-  EMERGENCY_RESTORE = 'EMERGENCY_RESTORE'
+  EMERGENCY_RESTORE = 'EMERGENCY_RESTORE',
 }
 
 export enum PhaseStatus {
@@ -258,7 +258,7 @@ export enum PhaseStatus {
   IN_PROGRESS = 'IN_PROGRESS',
   COMPLETED = 'COMPLETED',
   FAILED = 'FAILED',
-  ROLLED_BACK = 'ROLLED_BACK'
+  ROLLED_BACK = 'ROLLED_BACK',
 }
 
 export enum ErrorCategory {
@@ -268,16 +268,16 @@ export enum ErrorCategory {
   TS2698_SPREAD_TYPE = 'TS2698',
   TS2304_CANNOT_FIND_NAME = 'TS2304',
   TS2362_ARITHMETIC_OPERATION = 'TS2362',
-  
+
   // Linting categories
   EXPLICIT_ANY_WARNING = 'explicit-any',
   UNUSED_VARIABLES = 'unused-vars',
   CONSOLE_STATEMENTS = 'no-console',
-  
+
   // Safety categories
   CORRUPTION_DETECTED = 'corruption',
   BUILD_FAILURE = 'build-fail',
-  TEST_FAILURE = 'test-fail'
+  TEST_FAILURE = 'test-fail',
 }
 
 export type CheckpointId = string;

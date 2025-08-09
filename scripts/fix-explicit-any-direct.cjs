@@ -30,10 +30,13 @@ class DirectAnyEliminator {
     try {
       const grepOutput = execSync('grep -r ": any" src --include="*.ts" --include="*.tsx" -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
-      const files = grepOutput.trim().split('\n').filter(f => f.length > 0);
+      const files = grepOutput
+        .trim()
+        .split('\n')
+        .filter(f => f.length > 0);
       this.log(`Found ${files.length} files with explicit any types`);
       return files;
     } catch (error) {
@@ -51,14 +54,14 @@ class DirectAnyEliminator {
       'celestial',
       'astrological',
       'swiss-ephemeris',
-      'astronomia'
+      'astronomia',
     ];
 
     const fileName = path.basename(filePath).toLowerCase();
     const dirPath = path.dirname(filePath).toLowerCase();
 
-    return astronomicalPatterns.some(pattern =>
-      fileName.includes(pattern) || dirPath.includes(pattern)
+    return astronomicalPatterns.some(
+      pattern => fileName.includes(pattern) || dirPath.includes(pattern),
     );
   }
 
@@ -84,50 +87,50 @@ class DirectAnyEliminator {
       {
         from: /\(([^)]*?):\s*any\)/g,
         to: '($1: unknown)',
-        description: 'Function parameters any → unknown'
+        description: 'Function parameters any → unknown',
       },
 
       // Variable declarations
       {
         from: /:\s*any(\s*[=;,\n])/g,
         to: ': unknown$1',
-        description: 'Variable declarations any → unknown'
+        description: 'Variable declarations any → unknown',
       },
 
       // Array types
       {
         from: /:\s*any\[\]/g,
         to: ': unknown[]',
-        description: 'Array types any[] → unknown[]'
+        description: 'Array types any[] → unknown[]',
       },
 
       // Promise types
       {
         from: /Promise<any>/g,
         to: 'Promise<unknown>',
-        description: 'Promise<any> → Promise<unknown>'
+        description: 'Promise<any> → Promise<unknown>',
       },
 
       // Record types
       {
         from: /Record<string,\s*any>/g,
         to: 'Record<string, unknown>',
-        description: 'Record<string, any> → Record<string, unknown>'
+        description: 'Record<string, any> → Record<string, unknown>',
       },
 
       // Generic constraints
       {
         from: /<([^>]*?):\s*any>/g,
         to: '<$1: unknown>',
-        description: 'Generic constraints any → unknown'
+        description: 'Generic constraints any → unknown',
       },
 
       // Return types
       {
         from: /\):\s*any(\s*{)/g,
         to: '): unknown$1',
-        description: 'Return types any → unknown'
-      }
+        description: 'Return types any → unknown',
+      },
     ];
 
     // Apply replacements
@@ -147,8 +150,8 @@ class DirectAnyEliminator {
         {
           from: /jest\.fn\(\):\s*any/g,
           to: 'jest.fn(): jest.MockedFunction<any>',
-          description: 'Jest mock function types'
-        }
+          description: 'Jest mock function types',
+        },
       ];
 
       testReplacements.forEach(replacement => {
@@ -167,13 +170,13 @@ class DirectAnyEliminator {
         {
           from: /callback:\s*\(data:\s*any\)\s*=>\s*void/g,
           to: 'callback: (data: unknown) => void',
-          description: 'Service callback types'
+          description: 'Service callback types',
         },
         {
           from: /config:\s*any/g,
           to: 'config: Record<string, unknown>',
-          description: 'Service config types'
-        }
+          description: 'Service config types',
+        },
       ];
 
       serviceReplacements.forEach(replacement => {
@@ -190,7 +193,9 @@ class DirectAnyEliminator {
     const reducedCount = initialAnyCount - finalAnyCount;
 
     if (this.verbose && appliedFixes.length > 0) {
-      this.log(`  Fixed in ${path.basename(filePath)}: ${appliedFixes.join(', ')} (${reducedCount} any types eliminated)`);
+      this.log(
+        `  Fixed in ${path.basename(filePath)}: ${appliedFixes.join(', ')} (${reducedCount} any types eliminated)`,
+      );
     }
 
     return { content: newContent, fixed, appliedFixes, reducedCount };
@@ -209,10 +214,12 @@ class DirectAnyEliminator {
         this.fixedFiles.push({
           path: filePath,
           fixes: result.appliedFixes,
-          reducedCount: result.reducedCount || 0
+          reducedCount: result.reducedCount || 0,
         });
 
-        this.log(`${this.dryRun ? '[DRY RUN] ' : ''}Fixed explicit-any types in ${path.basename(filePath)}`);
+        this.log(
+          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed explicit-any types in ${path.basename(filePath)}`,
+        );
         return true;
       }
 
@@ -227,10 +234,13 @@ class DirectAnyEliminator {
     this.log('🔍 Validating fixes...');
 
     try {
-      const afterCount = execSync('grep -r ": any" src --include="*.ts" --include="*.tsx" | wc -l', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const afterCount = execSync(
+        'grep -r ": any" src --include="*.ts" --include="*.tsx" | wc -l',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
 
       const remainingAnyTypes = parseInt(afterCount.trim()) || 0;
       this.log(`Validation: ${remainingAnyTypes} explicit any types remaining`);
@@ -249,10 +259,13 @@ class DirectAnyEliminator {
     // Get initial count
     let initialCount = 0;
     try {
-      const beforeOutput = execSync('grep -r ": any" src --include="*.ts" --include="*.tsx" | wc -l', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const beforeOutput = execSync(
+        'grep -r ": any" src --include="*.ts" --include="*.tsx" | wc -l',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
       initialCount = parseInt(beforeOutput.trim()) || 0;
     } catch (error) {
       initialCount = 0;
@@ -293,8 +306,9 @@ class DirectAnyEliminator {
 
     // Validate fixes
     const validation = await this.validateFixes();
-    const finalCount = validation.remainingAnyTypes >= 0 ? validation.remainingAnyTypes : initialCount;
-    const reduction = initialCount > 0 ? ((initialCount - finalCount) / initialCount) : 0;
+    const finalCount =
+      validation.remainingAnyTypes >= 0 ? validation.remainingAnyTypes : initialCount;
+    const reduction = initialCount > 0 ? (initialCount - finalCount) / initialCount : 0;
 
     // Report results
     this.log('\\n📊 Fix Summary:');
@@ -325,7 +339,9 @@ class DirectAnyEliminator {
       }
     }
 
-    this.log(`\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE'}`);
+    this.log(
+      `\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE'}`,
+    );
 
     if (!this.dryRun && reduction >= 0.5) {
       this.log('🎉 Target explicit-any reduction achieved!');

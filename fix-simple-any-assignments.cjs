@@ -27,14 +27,14 @@ function fixSimpleAssignments(filePath) {
       {
         pattern: /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*any\s*=/g,
         replacement: 'const $1: unknown =',
-        description: 'const assignments'
+        description: 'const assignments',
       },
       // let variable: any = ... -> let variable: unknown = ...
       {
         pattern: /let\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*any\s*=/g,
         replacement: 'let $1: unknown =',
-        description: 'let assignments'
-      }
+        description: 'let assignments',
+      },
     ];
 
     for (const { pattern, replacement, description } of replacements) {
@@ -44,9 +44,11 @@ function fixSimpleAssignments(filePath) {
         const newContent = content.replace(pattern, replacement);
 
         // Only apply if it doesn't break obvious patterns
-        if (!newContent.includes('unknown = metrics') &&
-            !newContent.includes('unknown = data') &&
-            !newContent.includes('unknown = config')) {
+        if (
+          !newContent.includes('unknown = metrics') &&
+          !newContent.includes('unknown = data') &&
+          !newContent.includes('unknown = config')
+        ) {
           content = newContent;
           fixes += matches.length;
           console.log(`  ✓ ${description}: ${matches.length} fixes`);
@@ -76,7 +78,6 @@ function fixSimpleAssignments(filePath) {
     }
 
     return fixes;
-
   } catch (error) {
     console.error(`❌ Error processing ${filePath}:`, error.message);
     return 0;
@@ -86,8 +87,13 @@ function fixSimpleAssignments(filePath) {
 // Get files with simple any assignments
 function getFilesWithSimpleAssignments() {
   try {
-    const output = execSync('grep -r ":\\s*any\\s*=" src --include="*.ts" --include="*.tsx" -l', { encoding: 'utf8' });
-    return output.trim().split('\n').filter(f => f && !f.includes('test'));
+    const output = execSync('grep -r ":\\s*any\\s*=" src --include="*.ts" --include="*.tsx" -l', {
+      encoding: 'utf8',
+    });
+    return output
+      .trim()
+      .split('\n')
+      .filter(f => f && !f.includes('test'));
   } catch (error) {
     console.log('No files found with simple any assignments');
     return [];
@@ -114,7 +120,10 @@ console.log(`   Total fixes applied: ${totalFixes}`);
 // Final check
 console.log(`\n🧪 Final validation...`);
 try {
-  const lintOutput = execSync('yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l', { encoding: 'utf8' });
+  const lintOutput = execSync(
+    'yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l',
+    { encoding: 'utf8' },
+  );
   const remainingIssues = parseInt(lintOutput.trim());
   console.log(`📊 Remaining explicit-any issues: ${remainingIssues}`);
 } catch (error) {

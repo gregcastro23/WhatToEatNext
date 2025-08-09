@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 
 import { log } from '@/services/LoggingService';
-import type { AlertConfig, Alert as ServiceAlert, AlertCondition } from '@/types/serviceLayer';
 
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
 import { errorTrackingSystem } from './ErrorTrackingSystem';
@@ -69,9 +68,8 @@ export interface AlertResponse {
   status: 'pending' | 'running' | 'completed' | 'failed';
   startTime: Date;
   endTime?: Date;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // Intentionally any: Alert action results vary significantly across different action types
-  result?: any;
+  // Alert action results vary significantly across different action types
+  result?: unknown;
   error?: string;
   retryCount: number;
 }
@@ -117,7 +115,7 @@ class AlertingSystem {
         alertRules: this.alertRules,
         escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts
-        alertResponses: this.alertResponses.slice(-200) // Keep last 200 responses
+        alertResponses: this.alertResponses.slice(-200), // Keep last 200 responses
       };
 
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
@@ -150,7 +148,7 @@ class AlertingSystem {
               config: { script: 'analyze-build-performance.js' },
               conditions: [],
               retryCount: 2,
-              timeoutSeconds: 300
+              timeoutSeconds: 300,
             },
             {
               id: 'clear-build-cache',
@@ -159,10 +157,10 @@ class AlertingSystem {
               config: { command: 'yarn cache clean' },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 60
-            }
+              timeoutSeconds: 60,
+            },
           ],
-          notificationChannels: ['console', 'file']
+          notificationChannels: ['console', 'file'],
         },
         {
           id: 'typescript-errors-high',
@@ -182,17 +180,17 @@ class AlertingSystem {
               id: 'trigger-error-campaign',
               name: 'Trigger Error Reduction Campaign',
               type: 'campaign',
-              config: { 
+              config: {
                 campaignType: 'typescript-error-reduction',
                 maxFiles: 20,
-                safetyLevel: 'HIGH'
+                safetyLevel: 'HIGH',
               },
               conditions: ['error_count > 500'],
               retryCount: 1,
-              timeoutSeconds: 1800
-            }
+              timeoutSeconds: 1800,
+            },
           ],
-          notificationChannels: ['console', 'file']
+          notificationChannels: ['console', 'file'],
         },
         {
           id: 'code-quality-low',
@@ -215,10 +213,10 @@ class AlertingSystem {
               config: { script: 'generate-quality-report.js' },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 120
-            }
+              timeoutSeconds: 120,
+            },
           ],
-          notificationChannels: ['console', 'file']
+          notificationChannels: ['console', 'file'],
         },
         {
           id: 'memory-usage-high',
@@ -241,10 +239,10 @@ class AlertingSystem {
               config: { script: 'force-gc.js' },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 30
-            }
+              timeoutSeconds: 30,
+            },
           ],
-          notificationChannels: ['console']
+          notificationChannels: ['console'],
         },
         {
           id: 'technical-debt-critical',
@@ -264,17 +262,17 @@ class AlertingSystem {
               id: 'schedule-debt-reduction',
               name: 'Schedule Technical Debt Reduction',
               type: 'campaign',
-              config: { 
+              config: {
                 campaignType: 'technical-debt-reduction',
-                priority: 'high'
+                priority: 'high',
               },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 300
-            }
+              timeoutSeconds: 300,
+            },
           ],
-          notificationChannels: ['console', 'file']
-        }
+          notificationChannels: ['console', 'file'],
+        },
       ];
 
       this.alertRules = defaultRules;
@@ -293,16 +291,16 @@ class AlertingSystem {
               id: 'notify-team',
               name: 'Notify Development Team',
               type: 'notification',
-              config: { 
+              config: {
                 message: 'Critical alert requires immediate attention',
-                channels: ['console', 'file']
+                channels: ['console', 'file'],
               },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 30
-            }
+              timeoutSeconds: 30,
+            },
           ],
-          maxEscalations: 3
+          maxEscalations: 3,
         },
         {
           id: 'error-escalation',
@@ -315,17 +313,17 @@ class AlertingSystem {
               id: 'automated-fix-attempt',
               name: 'Attempt Automated Fix',
               type: 'campaign',
-              config: { 
+              config: {
                 campaignType: 'automated-error-fix',
-                conservative: true
+                conservative: true,
               },
               conditions: ['automation_opportunities > 5'],
               retryCount: 1,
-              timeoutSeconds: 600
-            }
+              timeoutSeconds: 600,
+            },
           ],
-          maxEscalations: 2
-        }
+          maxEscalations: 2,
+        },
       ];
 
       this.escalationRules = defaultEscalationRules;
@@ -334,23 +332,26 @@ class AlertingSystem {
 
   private startMonitoring() {
     // Monitor every 2 minutes
-    setInterval(() => {
-      this.checkAlertConditions();
-      this.processEscalations();
-      this.cleanupOldAlerts();
-      this.saveConfiguration();
-    }, 2 * 60 * 1000);
+    setInterval(
+      () => {
+        this.checkAlertConditions();
+        this.processEscalations();
+        this.cleanupOldAlerts();
+        this.saveConfiguration();
+      },
+      2 * 60 * 1000,
+    );
 
     // Subscribe to data sources
-    buildPerformanceMonitor.subscribe((data) => {
+    buildPerformanceMonitor.subscribe(data => {
       this.evaluatePerformanceAlerts(data);
     });
 
-    errorTrackingSystem.subscribe((data) => {
+    errorTrackingSystem.subscribe(data => {
       this.evaluateErrorAlerts(data);
     });
 
-    qualityMetricsService.subscribe((data) => {
+    qualityMetricsService.subscribe(data => {
       this.evaluateQualityAlerts(data);
     });
   }
@@ -361,7 +362,10 @@ class AlertingSystem {
 
       // Check cooldown
       const lastAlertTime = this.lastAlertTimes.get(rule.id);
-      if (lastAlertTime && (Date.now() - lastAlertTime.getTime()) < rule.cooldownMinutes * 60 * 1000) {
+      if (
+        lastAlertTime &&
+        Date.now() - lastAlertTime.getTime() < rule.cooldownMinutes * 60 * 1000
+      ) {
         continue;
       }
 
@@ -418,7 +422,7 @@ class AlertingSystem {
 
   private getPerformanceMetric(metric: string): number {
     const summary = buildPerformanceMonitor.getPerformanceSummary();
-    
+
     switch (metric) {
       case 'build_time':
         return summary.averageBuildTime;
@@ -439,7 +443,7 @@ class AlertingSystem {
 
   private getErrorMetric(metric: string): number {
     const summary = errorTrackingSystem.getErrorSummary();
-    
+
     switch (metric) {
       case 'typescript_errors':
         return summary.totalActiveErrors;
@@ -458,9 +462,9 @@ class AlertingSystem {
 
   private getQualityMetric(metric: string): number {
     const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics();
-    
+
     if (!qualityMetrics) return 0;
-    
+
     switch (metric) {
       case 'code_quality_score':
         return qualityMetrics.codeQualityScore;
@@ -507,8 +511,8 @@ class AlertingSystem {
       metadata: {
         ruleId: rule.id,
         metric: rule.metric,
-        condition: rule.condition
-      }
+        condition: rule.condition,
+      },
     };
 
     this.alerts.push(alert);
@@ -541,7 +545,7 @@ class AlertingSystem {
         actionId: action.id,
         status: 'pending',
         startTime: new Date(),
-        retryCount: 0
+        retryCount: 0,
       };
 
       this.alertResponses.push(response);
@@ -549,7 +553,7 @@ class AlertingSystem {
       try {
         response.status = 'running';
         const result = await this.executeAction(action);
-        
+
         response.status = 'completed';
         response.endTime = new Date();
         response.result = result;
@@ -560,7 +564,10 @@ class AlertingSystem {
         response.endTime = new Date();
         response.error = (error as Error).message;
 
-        console.error(`[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`, error);
+        console.error(
+          `[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`,
+          error,
+        );
 
         // Retry if configured
         if (response.retryCount < action.retryCount) {
@@ -588,12 +595,12 @@ class AlertingSystem {
   private evaluateCondition(condition: string, alert: Alert): boolean {
     // Simple condition evaluation
     // In a real implementation, this would be more sophisticated
-    
+
     if (condition.includes('error_count >')) {
       const threshold = parseInt(condition.split('>')[1].trim());
       return alert.currentValue > threshold;
     }
-    
+
     if (condition.includes('automation_opportunities >')) {
       const threshold = parseInt(condition.split('>')[1].trim());
       const errorSummary = errorTrackingSystem.getErrorSummary();
@@ -603,9 +610,10 @@ class AlertingSystem {
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // Intentionally any: Alert action execution returns diverse result types from various external systems
-  private async executeAction(action: AlertAction): Promise<{ success: boolean; result?: unknown; error?: string }> {
+  // Alert action execution returns diverse result types from various external systems
+  private async executeAction(
+    action: AlertAction,
+  ): Promise<{ success: boolean; result?: unknown; error?: string }> {
     const timeout = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('Action timeout')), action.timeoutSeconds * 1000);
     });
@@ -615,9 +623,10 @@ class AlertingSystem {
     return Promise.race([execution, timeout]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // Intentionally any: Action performance varies across scripts, commands, campaigns, and API calls
-  private async performAction(action: AlertAction): Promise<{ success: boolean; result?: unknown; error?: string }> {
+  // Action performance varies across scripts, commands, campaigns, and API calls
+  private async performAction(
+    action: AlertAction,
+  ): Promise<{ success: boolean; result?: unknown; error?: string }> {
     switch (action.type) {
       case 'script':
         return this.executeScript(action.config.script);
@@ -636,7 +645,9 @@ class AlertingSystem {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Script execution results depend on external script implementations
-  private async executeScript(scriptName: string): Promise<{ success: boolean; output?: string; error?: string }> {
+  private async executeScript(
+    scriptName: string,
+  ): Promise<{ success: boolean; output?: string; error?: string }> {
     // This would execute a script file
     // For now, return a placeholder
     log.info(`[Alert Action] Executing script: ${scriptName}`);
@@ -645,7 +656,9 @@ class AlertingSystem {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Shell command execution results vary based on command and system state
-  private async executeCommand(command: string): Promise<{ success: boolean; stdout?: string; stderr?: string; error?: string }> {
+  private async executeCommand(
+    command: string,
+  ): Promise<{ success: boolean; stdout?: string; stderr?: string; error?: string }> {
     // This would execute a shell command
     // For now, return a placeholder
     log.info(`[Alert Action] Executing command: ${command}`);
@@ -654,7 +667,9 @@ class AlertingSystem {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Campaign configurations and results have diverse structures across campaign types
-  private async triggerCampaign(config: Record<string, unknown>): Promise<{ success: boolean; campaignId?: string; error?: string }> {
+  private async triggerCampaign(
+    config: Record<string, unknown>,
+  ): Promise<{ success: boolean; campaignId?: string; error?: string }> {
     // This would integrate with the campaign system
     // For now, return a placeholder
     log.info(`[Alert Action] Triggering campaign: ${config.campaignType}`);
@@ -663,7 +678,9 @@ class AlertingSystem {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: External API configurations and responses have unknown schemas from diverse services
-  private async makeApiCall(config: Record<string, unknown>): Promise<{ success: boolean; response?: unknown; error?: string }> {
+  private async makeApiCall(
+    config: Record<string, unknown>,
+  ): Promise<{ success: boolean; response?: unknown; error?: string }> {
     // This would make an HTTP API call
     // For now, return a placeholder
     log.info(`[Alert Action] Making API call to: ${config.url}`);
@@ -672,7 +689,9 @@ class AlertingSystem {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Notification system configurations support various delivery channels with different options
-  private async sendNotification(config: Record<string, unknown>): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  private async sendNotification(
+    config: Record<string, unknown>,
+  ): Promise<{ success: boolean; messageId?: string; error?: string }> {
     log.info(`[Alert Notification] ${config.message}`);
     return { success: true, message: 'Notification sent' };
   }
@@ -701,7 +720,7 @@ class AlertingSystem {
 
       const alertFile = path.join(alertsDir, 'alerts.log');
       const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`;
-      
+
       fs.appendFileSync(alertFile, alertLine);
     } catch (error) {
       console.error('[Alerting System] Failed to write alert to file:', error);
@@ -710,39 +729,51 @@ class AlertingSystem {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Performance monitoring data comes from various sources with different metrics
-  private evaluatePerformanceAlerts(data: { metrics?: Record<string, number>; buildTime?: number; [key: string]: unknown }) {
+  private evaluatePerformanceAlerts(data: {
+    metrics?: Record<string, number>;
+    buildTime?: number;
+    [key: string]: unknown;
+  }) {
     // This would be called when performance data is updated
     // The main monitoring loop handles rule evaluation
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Error tracking data varies significantly across different error types and sources
-  private evaluateErrorAlerts(data: { errorCount?: number; errorRate?: number; [key: string]: unknown }) {
+  private evaluateErrorAlerts(data: {
+    errorCount?: number;
+    errorRate?: number;
+    [key: string]: unknown;
+  }) {
     // This would be called when error data is updated
     // The main monitoring loop handles rule evaluation
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Code quality metrics include diverse analysis results from various quality tools
-  private evaluateQualityAlerts(data: { qualityScore?: number; testCoverage?: number; [key: string]: unknown }) {
+  private evaluateQualityAlerts(data: {
+    qualityScore?: number;
+    testCoverage?: number;
+    [key: string]: unknown;
+  }) {
     // This would be called when quality data is updated
     // The main monitoring loop handles rule evaluation
   }
 
   private processEscalations() {
     const now = new Date();
-    
+
     for (const alert of this.alerts) {
       if (alert.resolved || alert.escalated) continue;
 
       const alertAge = now.getTime() - alert.timestamp.getTime();
-      
+
       for (const escalationRule of this.escalationRules) {
         if (!escalationRule.alertTypes.includes(alert.type)) continue;
         if (!escalationRule.severityLevels.includes(alert.severity)) continue;
-        
+
         const escalationDelay = escalationRule.escalationDelayMinutes * 60 * 1000;
-        
+
         if (alertAge >= escalationDelay) {
           this.escalateAlert(alert, escalationRule);
           break;
@@ -763,7 +794,7 @@ class AlertingSystem {
 
   private cleanupOldAlerts() {
     const cutoffTime = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // 30 days
-    
+
     this.alerts = this.alerts.filter(alert => alert.timestamp >= cutoffTime);
     this.alertResponses = this.alertResponses.filter(response => response.startTime >= cutoffTime);
   }
@@ -821,51 +852,51 @@ class AlertingSystem {
   public addAlertRule(rule: Omit<AlertRule, 'id'>): string {
     const id = `rule-${Date.now()}`;
     const newRule: AlertRule = { ...rule, id };
-    
+
     this.alertRules.push(newRule);
     this.saveConfiguration();
-    
+
     return id;
   }
 
   public updateAlertRule(id: string, updates: Partial<AlertRule>): boolean {
     const ruleIndex = this.alertRules.findIndex(r => r.id === id);
     if (ruleIndex === -1) return false;
-    
+
     this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates };
     this.saveConfiguration();
-    
+
     return true;
   }
 
   public deleteAlertRule(id: string): boolean {
     const ruleIndex = this.alertRules.findIndex(r => r.id === id);
     if (ruleIndex === -1) return false;
-    
+
     this.alertRules.splice(ruleIndex, 1);
     this.saveConfiguration();
-    
+
     return true;
   }
 
   public acknowledgeAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
     if (!alert) return false;
-    
+
     alert.acknowledged = true;
     this.saveConfiguration();
-    
+
     return true;
   }
 
   public resolveAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
     if (!alert) return false;
-    
+
     alert.resolved = true;
     alert.resolvedAt = new Date();
     this.saveConfiguration();
-    
+
     return true;
   }
 
@@ -879,9 +910,9 @@ class AlertingSystem {
   public getAlertSummary() {
     const now = new Date();
     const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-    
+
     const recentAlerts = this.alerts.filter(a => a.timestamp >= last24Hours);
-    
+
     return {
       totalAlerts: this.alerts.length,
       recentAlerts: recentAlerts.length,
@@ -891,34 +922,34 @@ class AlertingSystem {
       alertsByType: this.getAlertCountsByType(),
       alertsBySeverity: this.getAlertCountsBySeverity(),
       responseSuccessRate: this.calculateResponseSuccessRate(),
-      averageResolutionTime: this.calculateAverageResolutionTime()
+      averageResolutionTime: this.calculateAverageResolutionTime(),
     };
   }
 
   private getAlertCountsByType(): Record<string, number> {
     const counts: Record<string, number> = {};
-    
+
     for (const alert of this.alerts.filter(a => !a.resolved)) {
       counts[alert.type] = (counts[alert.type] || 0) + 1;
     }
-    
+
     return counts;
   }
 
   private getAlertCountsBySeverity(): Record<string, number> {
     const counts: Record<string, number> = {};
-    
+
     for (const alert of this.alerts.filter(a => !a.resolved)) {
       counts[alert.severity] = (counts[alert.severity] || 0) + 1;
     }
-    
+
     return counts;
   }
 
   private calculateResponseSuccessRate(): number {
     const totalResponses = this.alertResponses.length;
     if (totalResponses === 0) return 0;
-    
+
     const successfulResponses = this.alertResponses.filter(r => r.status === 'completed').length;
     return (successfulResponses / totalResponses) * 100;
   }
@@ -926,21 +957,21 @@ class AlertingSystem {
   private calculateAverageResolutionTime(): number {
     const resolvedAlerts = this.alerts.filter(a => a.resolved && a.resolvedAt);
     if (resolvedAlerts.length === 0) return 0;
-    
+
     const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {
       if (alert.resolvedAt) {
         return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime());
       }
       return sum;
     }, 0);
-    
+
     return totalResolutionTime / resolvedAlerts.length / (60 * 1000); // Return in minutes
   }
 
   public testAlert(ruleId: string): boolean {
     const rule = this.alertRules.find(r => r.id === ruleId);
     if (!rule) return false;
-    
+
     // Create a test alert
     this.createAlert(rule, rule.threshold + 1);
     return true;

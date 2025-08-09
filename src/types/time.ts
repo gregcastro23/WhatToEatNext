@@ -1,6 +1,13 @@
 import { PlanetName, ZodiacSign } from './alchemy';
 
-export type WeekDay = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type WeekDay =
+  | 'Sunday'
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday';
 export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
 export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night';
 
@@ -27,18 +34,24 @@ export interface TimeFactors {
 }
 
 const DAY_RULERS: Record<WeekDay, PlanetName> = {
-  'Sunday': 'Sun',
-  'Monday': 'Moon',
-  'Tuesday': 'Mars',
-  'Wednesday': 'Mercury',
-  'Thursday': 'Jupiter',
-  'Friday': 'Venus',
-  'Saturday': 'Saturn'
+  Sunday: 'Sun',
+  Monday: 'Moon',
+  Tuesday: 'Mars',
+  Wednesday: 'Mercury',
+  Thursday: 'Jupiter',
+  Friday: 'Venus',
+  Saturday: 'Saturn',
 };
 
 // Chaldean order of planets used for planetary hours
 const PLANETARY_HOUR_SEQUENCE: PlanetName[] = [
-  'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'
+  'Saturn',
+  'Jupiter',
+  'Mars',
+  'Sun',
+  'Venus',
+  'Mercury',
+  'Moon',
 ];
 
 export function getTimeFactors(): TimeFactors {
@@ -46,7 +59,7 @@ export function getTimeFactors(): TimeFactors {
   const month = now.getMonth();
   const hour = now.getHours();
   const dayOfWeek = now.getDay();
-  
+
   // Determine season (Northern Hemisphere)
   let season: Season;
   if (month >= 2 && month <= 4) {
@@ -58,7 +71,7 @@ export function getTimeFactors(): TimeFactors {
   } else {
     season = 'Winter';
   }
-  
+
   // Determine time of day
   let timeOfDay: TimeOfDay;
   if (hour >= 5 && hour < 12) {
@@ -70,38 +83,46 @@ export function getTimeFactors(): TimeFactors {
   } else {
     timeOfDay = 'Night';
   }
-  
+
   // Determine day of week
-  const weekDays: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekDays: WeekDay[] = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
   const weekDay = weekDays[dayOfWeek];
-  
+
   // Determine planetary day
   const planetaryDay: PlanetaryDay = {
     day: weekDay,
-    planet: DAY_RULERS[weekDay]
+    planet: DAY_RULERS[weekDay],
   };
-  
+
   // Calculate planetary hour
   // First, determine sunrise and sunset times (approximate)
   // For simplicity, we'll use 6 AM as sunrise and 6 PM as sunset
   const isDay = hour >= 6 && hour < 18;
   const _hoursPerPlanetaryHour = isDay ? 12 / 12 : 12 / 12; // 1 hour each
-  
+
   // Starting planet for the day's first hour
   const startingPlanetIndex = PLANETARY_HOUR_SEQUENCE.indexOf(DAY_RULERS[weekDay]);
-  
+
   // Calculate current planetary hour (0-23)
-  const planetaryHourOfDay = isDay ? hour - 6 : (hour < 6 ? hour + 18 : hour - 6);
-  
+  const planetaryHourOfDay = isDay ? hour - 6 : hour < 6 ? hour + 18 : hour - 6;
+
   // Get the ruling planet for the current hour
   const planetIndex = (startingPlanetIndex + planetaryHourOfDay) % 7;
   const hourPlanet = PLANETARY_HOUR_SEQUENCE[planetIndex];
-  
+
   const planetaryHour: PlanetaryHour = {
     planet: hourPlanet,
-    hourOfDay: planetaryHourOfDay
+    hourOfDay: planetaryHourOfDay,
   };
-  
+
   // Determine meal type based on time of day
   let mealType: MealType;
   if (hour >= 5 && hour < 11) {
@@ -113,7 +134,7 @@ export function getTimeFactors(): TimeFactors {
   } else {
     mealType = 'Snack';
   }
-  
+
   return {
     currentDate: now,
     season,
@@ -121,6 +142,6 @@ export function getTimeFactors(): TimeFactors {
     planetaryDay,
     planetaryHour,
     weekDay,
-    mealType
+    mealType,
   };
-} 
+}

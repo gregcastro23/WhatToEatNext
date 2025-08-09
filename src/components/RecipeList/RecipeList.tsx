@@ -16,41 +16,42 @@ import { recipeFilter } from '@/utils/recipeFilters';
 import { stateManager } from '@/utils/stateManager';
 
 // Use actual cuisine data from imports instead of mock data
-const cuisineTypes = cuisines ? Object.keys(cuisines).reduce((acc, cuisine) => {
-  acc[cuisine] = true;
-  return acc;
-}, {} as Record<string, boolean>) : {
-  'Italian': true,
-  'Mexican': true,
-  'Chinese': true,
-  'Japanese': true,
-  'Indian': true,
-  'Thai': true,
-  'Mediterranean': true,
-  'American': true,
-  'French': true
-};
+const cuisineTypes = cuisines
+  ? Object.keys(cuisines).reduce(
+      (acc, cuisine) => {
+        acc[cuisine] = true;
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    )
+  : {
+      Italian: true,
+      Mexican: true,
+      Chinese: true,
+      Japanese: true,
+      Indian: true,
+      Thai: true,
+      Mediterranean: true,
+      American: true,
+      French: true,
+    };
 
 // Use actual meal types from food types instead of hardcoded ones
-const mealTypes = foodTypes.mealTypes || [
-  'Breakfast',
-  'Lunch',
-  'Dinner',
-  'Dessert',
-  'Snack'
-];
+const mealTypes = foodTypes.mealTypes || ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'];
 
 // Use dietary options from food types if available
-const dietaryOptions: DietaryRestriction[] = (foodTypes.dietaryRestrictions as DietaryRestriction[]) || ([
-  'vegetarian',
-  'vegan',
-  'gluten-free',
-  'dairy-free',
-  'keto',
-  'paleo',
-  'low-carb',
-  'low-fat'
-] as unknown as DietaryRestriction[]);
+const dietaryOptions: DietaryRestriction[] =
+  (foodTypes.dietaryRestrictions as DietaryRestriction[]) ||
+  ([
+    'vegetarian',
+    'vegan',
+    'gluten-free',
+    'dairy-free',
+    'keto',
+    'paleo',
+    'low-carb',
+    'low-fat',
+  ] as unknown as DietaryRestriction[]);
 
 interface FilterState {
   search: string;
@@ -69,7 +70,7 @@ const initialFilters: FilterState = {
   dietary: [],
   maxTime: undefined,
   spiciness: null,
-  complexity: null
+  complexity: null,
 };
 
 export default function RecipeList() {
@@ -85,13 +86,13 @@ export default function RecipeList() {
   const ensureScoredRecipes = (recipes: (RecipeType | ScoredRecipe)[]): ScoredRecipe[] => {
     return recipes.map(recipe => {
       if ('score' in recipe) {
-        return recipe ;
+        return recipe;
       }
       // Convert Recipe to ScoredRecipe with default score
-      return { 
-        ...recipe, 
+      return {
+        ...recipe,
         score: 0.5,
-        id: recipe.id || `recipe-${Math.random().toString(36).substr(2, 9)}`
+        id: recipe.id || `recipe-${Math.random().toString(36).substr(2, 9)}`,
       } as unknown as ScoredRecipe;
     });
   };
@@ -106,8 +107,8 @@ export default function RecipeList() {
       if (filters.cuisineTypes.length > 0) {
         // Ensure we're returning ScoredRecipe[] by wrapping the result
         const cuisineFiltered = recipeFilter.filterByCuisine(
-          recipes, 
-          filters.cuisineTypes.map(cuisine => cuisine as unknown as string)
+          recipes,
+          filters.cuisineTypes.map(cuisine => cuisine as unknown as string),
         );
         filteredByCuisine = ensureScoredRecipes(cuisineFiltered as any);
       }
@@ -120,9 +121,9 @@ export default function RecipeList() {
           mealType: filters.mealType,
           dietaryRestrictions: filters.dietary,
           maxPrepTime: filters.maxTime,
-          elementalState: state.elementalPreference
+          elementalState: state.elementalPreference,
         },
-        { by: 'relevance', direction: 'desc' }
+        { by: 'relevance', direction: 'desc' },
       );
     } catch (error) {
       logger.error('Error filtering recipes:', error);
@@ -157,7 +158,7 @@ export default function RecipeList() {
       const groups: Record<string, ScoredRecipe[]> = {
         recommended: [],
         favorites: [],
-        other: []
+        other: [],
       };
 
       filteredRecipes.forEach(recipe => {
@@ -186,7 +187,7 @@ export default function RecipeList() {
         setIsLoading(true);
         // Get the recipes directly from recipeData service
         const recipesData = await recipeData.getAllRecipes();
-        
+
         // Ensure all recipes have a score
         const scoredRecipes = ensureScoredRecipes(recipesData as any);
         setRecipes(scoredRecipes);
@@ -197,28 +198,28 @@ export default function RecipeList() {
         setIsLoading(false);
       }
     };
-    
+
     void loadRecipes();
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className='mx-auto max-w-4xl px-4 py-8'>
       {/* Search and Filter Bar */}
-      <div className="mb-6 space-y-4">
-        <div className="flex gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      <div className='mb-6 space-y-4'>
+        <div className='flex gap-4'>
+          <div className='relative flex-1'>
+            <Search className='absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400' />
             <input
-              type="text"
+              type='text'
               value={filters.search}
-              onChange={(e) => handleSearch(e.target.value)}
-              placeholder="Search recipes..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              onChange={e => handleSearch(e.target.value)}
+              placeholder='Search recipes...'
+              className='w-full rounded-lg border py-2 pl-10 pr-4 focus:ring-2 focus:ring-blue-500'
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="px-4 py-2 bg-gray-100 rounded-lg flex items-center gap-2 hover:bg-gray-200"
+            className='flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 hover:bg-gray-200'
           >
             {showFilters ? <X /> : <SlidersHorizontal />}
             Filters
@@ -231,18 +232,23 @@ export default function RecipeList() {
             showFilters ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
-          <div className="bg-white rounded-lg shadow-lg p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className='rounded-lg bg-white p-4 shadow-lg'>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
               {/* Cuisine Types */}
               <div>
-                <label className="block text-sm font-medium mb-2">Cuisine</label>
+                <label className='mb-2 block text-sm font-medium'>Cuisine</label>
                 <select
                   multiple
                   value={filters.cuisineTypes.map(cuisine => cuisine.toString())}
-                  onChange={(e) => updateFilters({
-                    cuisineTypes: Array.from(e.target.selectedOptions, option => option.value as unknown as CuisineType)
-                  })}
-                  className="w-full p-2 border rounded"
+                  onChange={e =>
+                    updateFilters({
+                      cuisineTypes: Array.from(
+                        e.target.selectedOptions,
+                        option => option.value as unknown as CuisineType,
+                      ),
+                    })
+                  }
+                  className='w-full rounded border p-2'
                 >
                   {Object.keys(cuisineTypes).map(cuisine => (
                     <option key={cuisine} value={cuisine}>
@@ -254,14 +260,16 @@ export default function RecipeList() {
 
               {/* Meal Type */}
               <div>
-                <label className="block text-sm font-medium mb-2">Meal Type</label>
+                <label className='mb-2 block text-sm font-medium'>Meal Type</label>
                 <select
                   multiple
                   value={filters.mealType}
-                  onChange={(e) => updateFilters({
-                    mealType: Array.from(e.target.selectedOptions, option => option.value)
-                  })}
-                  className="w-full p-2 border rounded"
+                  onChange={e =>
+                    updateFilters({
+                      mealType: Array.from(e.target.selectedOptions, option => option.value),
+                    })
+                  }
+                  className='w-full rounded border p-2'
                 >
                   {mealTypes.map(type => (
                     <option key={type} value={type}>
@@ -273,14 +281,19 @@ export default function RecipeList() {
 
               {/* Dietary Restrictions */}
               <div>
-                <label className="block text-sm font-medium mb-2">Dietary</label>
+                <label className='mb-2 block text-sm font-medium'>Dietary</label>
                 <select
                   multiple
                   value={filters.dietary}
-                  onChange={(e) => updateFilters({
-                    dietary: Array.from(e.target.selectedOptions, option => option.value as DietaryRestriction)
-                  })}
-                  className="w-full p-2 border rounded"
+                  onChange={e =>
+                    updateFilters({
+                      dietary: Array.from(
+                        e.target.selectedOptions,
+                        option => option.value as DietaryRestriction,
+                      ),
+                    })
+                  }
+                  className='w-full rounded border p-2'
                 >
                   {dietaryOptions.map(option => (
                     <option key={option} value={option}>
@@ -291,16 +304,16 @@ export default function RecipeList() {
               </div>
             </div>
 
-            <div className="flex justify-end mt-4 gap-2">
+            <div className='mt-4 flex justify-end gap-2'>
               <button
                 onClick={resetFilters}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
+                className='rounded px-4 py-2 text-gray-600 hover:bg-gray-100'
               >
                 Reset
               </button>
               <button
                 onClick={() => setShowFilters(false)}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
               >
                 Apply
               </button>
@@ -310,12 +323,12 @@ export default function RecipeList() {
       </div>
 
       {/* Recipe Groups */}
-      <div className="space-y-8">
+      <div className='space-y-8'>
         {/* Recommended Recipes */}
         {groupedRecipes.recommended.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold mb-4">Recommended for You</h2>
-            <div className="space-y-4">
+            <h2 className='mb-4 text-xl font-semibold'>Recommended for You</h2>
+            <div className='space-y-4'>
               {groupedRecipes.recommended.map(recipe => (
                 <Recipe
                   key={recipe.id}
@@ -331,8 +344,8 @@ export default function RecipeList() {
         {/* Favorite Recipes */}
         {groupedRecipes.favorites.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold mb-4">Your Favorites</h2>
-            <div className="space-y-4">
+            <h2 className='mb-4 text-xl font-semibold'>Your Favorites</h2>
+            <div className='space-y-4'>
               {groupedRecipes.favorites.map(recipe => (
                 <Recipe
                   key={recipe.id}
@@ -348,8 +361,8 @@ export default function RecipeList() {
         {/* Other Recipes */}
         {groupedRecipes.other.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold mb-4">More Recipes</h2>
-            <div className="space-y-4">
+            <h2 className='mb-4 text-xl font-semibold'>More Recipes</h2>
+            <div className='space-y-4'>
               {groupedRecipes.other.map(recipe => (
                 <Recipe
                   key={recipe.id}
@@ -364,11 +377,11 @@ export default function RecipeList() {
 
         {/* No Results */}
         {Object.values(groupedRecipes).every(group => group.length === 0) && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No recipes found matching your criteria</p>
+          <div className='py-8 text-center'>
+            <p className='text-gray-500'>No recipes found matching your criteria</p>
             <button
               onClick={resetFilters}
-              className="mt-4 px-4 py-2 text-blue-500 hover:text-blue-600"
+              className='mt-4 px-4 py-2 text-blue-500 hover:text-blue-600'
             >
               Reset Filters
             </button>
@@ -377,4 +390,4 @@ export default function RecipeList() {
       </div>
     </div>
   );
-} 
+}

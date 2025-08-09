@@ -91,4 +91,4 @@ interface RegionalCuisine {
   philosophicalFoundations?: string;
   seasonality?: string;
   specialIngredients?: string[];
-} 
+}

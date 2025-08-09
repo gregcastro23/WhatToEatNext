@@ -5,10 +5,10 @@ import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 export default function ElementalExplorer() {
   const [qualities, setQualities] = useState<string[]>([]);
-  
+
   // Calculate modality based on qualities
   const modality = determineIngredientModality(qualities);
-  
+
   // Handle quality toggle
   const toggleQuality = (quality: string) => {
     if (qualities.includes(quality)) {
@@ -17,7 +17,7 @@ export default function ElementalExplorer() {
       setQualities([...qualities, quality]);
     }
   };
-  
+
   return (
     <div>
       <h2>Elemental Explorer</h2>
@@ -38,4 +38,4 @@ export default function ElementalExplorer() {
       </div>
     </div>
   );
-} 
+}

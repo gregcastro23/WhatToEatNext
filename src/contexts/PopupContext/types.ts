@@ -48,4 +48,4 @@ export type PopupContextType = {
 
 export type PopupProviderProps = {
   children: ReactNode;
-}; 
+};

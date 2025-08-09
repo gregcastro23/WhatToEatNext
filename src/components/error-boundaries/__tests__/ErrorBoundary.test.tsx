@@ -32,7 +32,7 @@ describe('Error Boundaries', () => {
       render(
         <GlobalErrorBoundary>
           <ErrorThrowingComponent />
-        </GlobalErrorBoundary>
+        </GlobalErrorBoundary>,
       );
 
       expect(screen.getByText(/Application Error/i)).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('Error Boundaries', () => {
       render(
         <GlobalErrorBoundary>
           <WorkingComponent />
-        </GlobalErrorBoundary>
+        </GlobalErrorBoundary>,
       );
 
       expect(screen.getByText('Working component')).toBeInTheDocument();
@@ -53,9 +53,9 @@ describe('Error Boundaries', () => {
   describe('ComponentErrorBoundary', () => {
     it('should catch and display component errors', () => {
       render(
-        <ComponentErrorBoundary componentName="TestComponent">
+        <ComponentErrorBoundary componentName='TestComponent'>
           <ErrorThrowingComponent />
-        </ComponentErrorBoundary>
+        </ComponentErrorBoundary>,
       );
 
       expect(screen.getByText(/TestComponent Error/i)).toBeInTheDocument();
@@ -64,9 +64,9 @@ describe('Error Boundaries', () => {
 
     it('should render children when no error occurs', () => {
       render(
-        <ComponentErrorBoundary componentName="TestComponent">
+        <ComponentErrorBoundary componentName='TestComponent'>
           <WorkingComponent />
-        </ComponentErrorBoundary>
+        </ComponentErrorBoundary>,
       );
 
       expect(screen.getByText('Working component')).toBeInTheDocument();
@@ -74,12 +74,9 @@ describe('Error Boundaries', () => {
 
     it('should show themed error for cuisine components', () => {
       render(
-        <ComponentErrorBoundary 
-          componentName="CuisineRecommender" 
-          errorType="cuisine"
-        >
+        <ComponentErrorBoundary componentName='CuisineRecommender' errorType='cuisine'>
           <ErrorThrowingComponent />
-        </ComponentErrorBoundary>
+        </ComponentErrorBoundary>,
       );
 
       expect(screen.getByText(/CuisineRecommender Error/i)).toBeInTheDocument();
@@ -91,7 +88,7 @@ describe('Error Boundaries', () => {
       render(
         <SafetyInfrastructureProvider>
           <WorkingComponent />
-        </SafetyInfrastructureProvider>
+        </SafetyInfrastructureProvider>,
       );
 
       expect(screen.getByText('Working component')).toBeInTheDocument();
@@ -101,7 +98,7 @@ describe('Error Boundaries', () => {
       render(
         <SafetyInfrastructureProvider>
           <ErrorThrowingComponent />
-        </SafetyInfrastructureProvider>
+        </SafetyInfrastructureProvider>,
       );
 
       // Should show the global error boundary fallback

@@ -1,7 +1,7 @@
 /**
  * Enterprise Intelligence Generator
  * Perfect Codebase Campaign - Phase 3 Implementation
- * 
+ *
  * Generates enterprise intelligence systems from unused exports,
  * transforming technical debt into active analytical capabilities.
  */
@@ -57,28 +57,28 @@ export enum CapabilityComplexity {
   BASIC = 'BASIC',
   INTERMEDIATE = 'INTERMEDIATE',
   ADVANCED = 'ADVANCED',
-  EXPERT = 'EXPERT'
+  EXPERT = 'EXPERT',
 }
 
 export enum IntegrationMethod {
   DIRECT_IMPORT = 'DIRECT_IMPORT',
   DEPENDENCY_INJECTION = 'DEPENDENCY_INJECTION',
   EVENT_DRIVEN = 'EVENT_DRIVEN',
-  API_ENDPOINT = 'API_ENDPOINT'
+  API_ENDPOINT = 'API_ENDPOINT',
 }
 
 export enum IntegrationPriority {
   IMMEDIATE = 'IMMEDIATE',
   HIGH = 'HIGH',
   MEDIUM = 'MEDIUM',
-  LOW = 'LOW'
+  LOW = 'LOW',
 }
 
 export enum GenerationComplexity {
   SIMPLE = 'SIMPLE',
   MODERATE = 'MODERATE',
   COMPLEX = 'COMPLEX',
-  VERY_COMPLEX = 'VERY_COMPLEX'
+  VERY_COMPLEX = 'VERY_COMPLEX',
 }
 
 export class EnterpriseIntelligenceGenerator {
@@ -96,9 +96,9 @@ export class EnterpriseIntelligenceGenerator {
    */
   async generateIntelligenceSystems(fileAnalyses: FileAnalysis[]): Promise<GenerationResult[]> {
     console.log('🧠 Starting enterprise intelligence generation...');
-    
+
     const results: GenerationResult[] = [];
-    
+
     for (const fileAnalysis of fileAnalyses) {
       for (const candidate of fileAnalysis.transformationCandidates) {
         try {
@@ -106,7 +106,10 @@ export class EnterpriseIntelligenceGenerator {
           results.push(result);
           console.log(`✅ Generated: ${result.systemName}`);
         } catch (error) {
-          console.warn(`⚠️  Failed to generate intelligence system for ${candidate.export.exportName}:`, error);
+          console.warn(
+            `⚠️  Failed to generate intelligence system for ${candidate.export.exportName}:`,
+            error,
+          );
         }
       }
     }
@@ -119,8 +122,8 @@ export class EnterpriseIntelligenceGenerator {
    * Generate a single intelligence system
    */
   private async generateIntelligenceSystem(
-    candidate: TransformationCandidate, 
-    originalFilePath: string
+    candidate: TransformationCandidate,
+    originalFilePath: string,
   ): Promise<GenerationResult> {
     const template = this.selectTemplate(candidate);
     const systemName = candidate.intelligenceSystemName;
@@ -145,7 +148,7 @@ export class EnterpriseIntelligenceGenerator {
       capabilities,
       integrationPoints,
       estimatedValue,
-      complexity
+      complexity,
     };
   }
 
@@ -154,7 +157,7 @@ export class EnterpriseIntelligenceGenerator {
    */
   private selectTemplate(candidate: TransformationCandidate): IntelligenceSystemTemplate {
     const exportType = candidate.export.exportType;
-    
+
     switch (exportType) {
       case 'function':
         return (this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
@@ -175,8 +178,8 @@ export class EnterpriseIntelligenceGenerator {
    * Generate capabilities for the intelligence system
    */
   private generateCapabilities(
-    candidate: TransformationCandidate, 
-    template: IntelligenceSystemTemplate
+    candidate: TransformationCandidate,
+    template: IntelligenceSystemTemplate,
   ): IntelligenceCapability[] {
     const baseCapabilities = [...template.capabilities];
     const exportType = candidate.export.exportType;
@@ -189,36 +192,36 @@ export class EnterpriseIntelligenceGenerator {
           name: 'analyzeFunction',
           description: `Analyze the behavior and patterns of ${candidate.export.exportName}`,
           implementation: this.generateFunctionAnalysisCode(candidate),
-          complexity: CapabilityComplexity.INTERMEDIATE
+          complexity: CapabilityComplexity.INTERMEDIATE,
         });
         break;
-      
+
       case 'class':
         baseCapabilities.push({
           name: 'analyzeClassStructure',
           description: `Analyze the structure and methods of ${candidate.export.exportName}`,
           implementation: this.generateClassAnalysisCode(candidate),
-          complexity: CapabilityComplexity.ADVANCED
+          complexity: CapabilityComplexity.ADVANCED,
         });
         break;
-      
+
       case 'interface':
       case 'type':
         baseCapabilities.push({
           name: 'analyzeTypeStructure',
           description: `Analyze the type structure and relationships of ${candidate.export.exportName}`,
           implementation: this.generateTypeAnalysisCode(candidate),
-          complexity: CapabilityComplexity.BASIC
+          complexity: CapabilityComplexity.BASIC,
         });
         break;
-      
+
       case 'const':
       case 'variable':
         baseCapabilities.push({
           name: 'analyzeDataPatterns',
           description: `Analyze data patterns and usage of ${candidate.export.exportName}`,
           implementation: this.generateDataAnalysisCode(candidate),
-          complexity: CapabilityComplexity.INTERMEDIATE
+          complexity: CapabilityComplexity.INTERMEDIATE,
         });
         break;
     }
@@ -229,7 +232,7 @@ export class EnterpriseIntelligenceGenerator {
         name: 'generateAdvancedInsights',
         description: 'Generate advanced insights and recommendations',
         implementation: this.generateAdvancedInsightsCode(candidate),
-        complexity: CapabilityComplexity.EXPERT
+        complexity: CapabilityComplexity.EXPERT,
       });
     }
 
@@ -240,8 +243,8 @@ export class EnterpriseIntelligenceGenerator {
    * Generate integration points for the intelligence system
    */
   private generateIntegrationPoints(
-    candidate: TransformationCandidate, 
-    originalFilePath: string
+    candidate: TransformationCandidate,
+    originalFilePath: string,
   ): IntegrationPoint[] {
     const integrationPoints: IntegrationPoint[] = [];
     const systemName = candidate.intelligenceSystemName;
@@ -251,7 +254,7 @@ export class EnterpriseIntelligenceGenerator {
       target: 'src/app/intelligence/index.ts',
       method: IntegrationMethod.DIRECT_IMPORT,
       code: `import { ${systemName} } from '../intelligence/${systemName}';`,
-      priority: IntegrationPriority.HIGH
+      priority: IntegrationPriority.HIGH,
     });
 
     // Dashboard integration
@@ -259,7 +262,7 @@ export class EnterpriseIntelligenceGenerator {
       target: 'src/components/dashboard/IntelligenceDashboard.tsx',
       method: IntegrationMethod.DEPENDENCY_INJECTION,
       code: this.generateDashboardIntegrationCode(systemName),
-      priority: IntegrationPriority.MEDIUM
+      priority: IntegrationPriority.MEDIUM,
     });
 
     // API integration
@@ -267,7 +270,7 @@ export class EnterpriseIntelligenceGenerator {
       target: 'src/api/intelligence/route.ts',
       method: IntegrationMethod.API_ENDPOINT,
       code: this.generateAPIIntegrationCode(systemName),
-      priority: IntegrationPriority.LOW
+      priority: IntegrationPriority.LOW,
     });
 
     // Original file integration (if safe)
@@ -276,7 +279,7 @@ export class EnterpriseIntelligenceGenerator {
         target: originalFilePath,
         method: IntegrationMethod.DIRECT_IMPORT,
         code: `// Intelligence system available: ${systemName}`,
-        priority: IntegrationPriority.LOW
+        priority: IntegrationPriority.LOW,
       });
     }
 
@@ -289,7 +292,7 @@ export class EnterpriseIntelligenceGenerator {
   private generateCode(
     candidate: TransformationCandidate,
     template: IntelligenceSystemTemplate,
-    capabilities: IntelligenceCapability[]
+    capabilities: IntelligenceCapability[],
   ): string {
     const systemName = candidate.intelligenceSystemName;
     const originalName = candidate.export.exportName;
@@ -493,12 +496,16 @@ ${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(
     }
   }
 
-${capabilities.map(cap => `  /**
+${capabilities
+  .map(
+    cap => `  /**
    * ${cap.description}
    */
   private ${cap.name}(data?: any): any {
     ${cap.implementation}
-  }`).join('\n\n')}
+  }`,
+  )
+  .join('\n\n')}
 
   /**
    * Get current analytics
@@ -626,16 +633,16 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           name: 'collectMetrics',
           description: 'Collect and analyze usage metrics',
           implementation: 'return { timestamp: new Date(), metrics: {} };',
-          complexity: CapabilityComplexity.BASIC
+          complexity: CapabilityComplexity.BASIC,
         },
         {
           name: 'generateBasicInsights',
           description: 'Generate basic insights from collected data',
           implementation: 'return ["Basic insight 1", "Basic insight 2"];',
-          complexity: CapabilityComplexity.BASIC
-        }
+          complexity: CapabilityComplexity.BASIC,
+        },
       ],
-      integrationPoints: []
+      integrationPoints: [],
     });
 
     // Function-specific template
@@ -648,16 +655,16 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           name: 'analyzeFunctionCalls',
           description: 'Analyze function call patterns and performance',
           implementation: 'return { callCount: 0, averageTime: 0, parameters: [] };',
-          complexity: CapabilityComplexity.INTERMEDIATE
+          complexity: CapabilityComplexity.INTERMEDIATE,
         },
         {
           name: 'optimizeFunctionUsage',
           description: 'Suggest optimizations for function usage',
           implementation: 'return ["Consider memoization", "Add input validation"];',
-          complexity: CapabilityComplexity.ADVANCED
-        }
+          complexity: CapabilityComplexity.ADVANCED,
+        },
       ],
-      integrationPoints: []
+      integrationPoints: [],
     });
 
     // Class-specific template
@@ -670,16 +677,17 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           name: 'analyzeClassUsage',
           description: 'Analyze class instantiation and method usage patterns',
           implementation: 'return { instances: 0, methodCalls: {}, inheritance: [] };',
-          complexity: CapabilityComplexity.ADVANCED
+          complexity: CapabilityComplexity.ADVANCED,
         },
         {
           name: 'suggestClassImprovements',
           description: 'Suggest improvements to class design',
-          implementation: 'return ["Consider composition over inheritance", "Add interface segregation"];',
-          complexity: CapabilityComplexity.EXPERT
-        }
+          implementation:
+            'return ["Consider composition over inheritance", "Add interface segregation"];',
+          complexity: CapabilityComplexity.EXPERT,
+        },
       ],
-      integrationPoints: []
+      integrationPoints: [],
     });
 
     // Type-specific template
@@ -692,16 +700,16 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           name: 'analyzeTypeUsage',
           description: 'Analyze type usage patterns and relationships',
           implementation: 'return { usageCount: 0, relationships: [], violations: [] };',
-          complexity: CapabilityComplexity.BASIC
+          complexity: CapabilityComplexity.BASIC,
         },
         {
           name: 'validateTypeConsistency',
           description: 'Validate type consistency across the codebase',
           implementation: 'return { consistent: true, issues: [] };',
-          complexity: CapabilityComplexity.INTERMEDIATE
-        }
+          complexity: CapabilityComplexity.INTERMEDIATE,
+        },
       ],
-      integrationPoints: []
+      integrationPoints: [],
     });
 
     // Data-specific template
@@ -714,16 +722,16 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           name: 'analyzeDataPatterns',
           description: 'Analyze data structure and usage patterns',
           implementation: 'return { structure: {}, patterns: [], anomalies: [] };',
-          complexity: CapabilityComplexity.INTERMEDIATE
+          complexity: CapabilityComplexity.INTERMEDIATE,
         },
         {
           name: 'validateDataIntegrity',
           description: 'Validate data integrity and consistency',
           implementation: 'return { valid: true, errors: [], warnings: [] };',
-          complexity: CapabilityComplexity.ADVANCED
-        }
+          complexity: CapabilityComplexity.ADVANCED,
+        },
       ],
-      integrationPoints: []
+      integrationPoints: [],
     });
   }
 
@@ -848,11 +856,11 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
    * Calculate estimated value of the intelligence system
    */
   private calculateEstimatedValue(
-    candidate: TransformationCandidate, 
-    capabilities: IntelligenceCapability[]
+    candidate: TransformationCandidate,
+    capabilities: IntelligenceCapability[],
   ): number {
     let value = candidate.estimatedBenefit;
-    
+
     // Add value based on capabilities
     capabilities.forEach(capability => {
       switch (capability.complexity) {
@@ -878,8 +886,8 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
    * Assess generation complexity
    */
   private assessGenerationComplexity(
-    candidate: TransformationCandidate, 
-    capabilities: IntelligenceCapability[]
+    candidate: TransformationCandidate,
+    capabilities: IntelligenceCapability[],
   ): GenerationComplexity {
     const baseComplexity = candidate.transformationComplexity;
     const capabilityComplexity = capabilities.reduce((max, cap) => {
@@ -887,17 +895,18 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
         [CapabilityComplexity.BASIC]: 1,
         [CapabilityComplexity.INTERMEDIATE]: 2,
         [CapabilityComplexity.ADVANCED]: 3,
-        [CapabilityComplexity.EXPERT]: 4
+        [CapabilityComplexity.EXPERT]: 4,
       }[cap.complexity];
       return Math.max(max, complexityValue);
     }, 0);
 
-    const totalComplexity = {
-      'SIMPLE': 1,
-      'MODERATE': 2,
-      'COMPLEX': 3,
-      'VERY_COMPLEX': 4
-    }[baseComplexity] + capabilityComplexity;
+    const totalComplexity =
+      {
+        SIMPLE: 1,
+        MODERATE: 2,
+        COMPLEX: 3,
+        VERY_COMPLEX: 4,
+      }[baseComplexity] + capabilityComplexity;
 
     if (totalComplexity <= 3) return GenerationComplexity.SIMPLE;
     if (totalComplexity <= 5) return GenerationComplexity.MODERATE;
@@ -923,15 +932,16 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
     const totalSystemsGenerated = results.length;
     const totalCapabilitiesAdded = results.reduce((sum, r) => sum + r.capabilities.length, 0);
     const totalIntegrationPoints = results.reduce((sum, r) => sum + r.integrationPoints.length, 0);
-    const averageComplexity = results.reduce((sum, r) => {
-      const complexityValue = {
-        [GenerationComplexity.SIMPLE]: 1,
-        [GenerationComplexity.MODERATE]: 2,
-        [GenerationComplexity.COMPLEX]: 3,
-        [GenerationComplexity.VERY_COMPLEX]: 4
-      }[r.complexity];
-      return sum + complexityValue;
-    }, 0) / results.length;
+    const averageComplexity =
+      results.reduce((sum, r) => {
+        const complexityValue = {
+          [GenerationComplexity.SIMPLE]: 1,
+          [GenerationComplexity.MODERATE]: 2,
+          [GenerationComplexity.COMPLEX]: 3,
+          [GenerationComplexity.VERY_COMPLEX]: 4,
+        }[r.complexity];
+        return sum + complexityValue;
+      }, 0) / results.length;
     const estimatedTotalValue = results.reduce((sum, r) => sum + r.estimatedValue, 0);
 
     const generationsByCategory: Record<string, number> = {};
@@ -946,7 +956,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       totalIntegrationPoints,
       averageComplexity,
       estimatedTotalValue,
-      generationsByCategory
+      generationsByCategory,
     };
   }
 
@@ -965,7 +975,11 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       '### 1. Import Intelligence Systems',
       '```typescript',
       '// Add to your main application',
-      ...results.slice(0, 5).map(r => `import { ${r.systemName.toLowerCase()} } from './intelligence/${r.systemName}';`),
+      ...results
+        .slice(0, 5)
+        .map(
+          r => `import { ${r.systemName.toLowerCase()} } from './intelligence/${r.systemName}';`,
+        ),
       '```',
       '',
       '### 2. Initialize Systems',
@@ -978,32 +992,41 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       '### 3. Dashboard Integration',
       'Add intelligence widgets to your dashboard:',
       '```typescript',
-      ...results.slice(0, 3).map(r => r.integrationPoints.find(ip => ip.target.includes('Dashboard'))?.code || '').filter(Boolean),
+      ...results
+        .slice(0, 3)
+        .map(r => r.integrationPoints.find(ip => ip.target.includes('Dashboard'))?.code || '')
+        .filter(Boolean),
       '```',
       '',
       '### 4. API Integration',
       'Expose intelligence systems via API:',
       '```typescript',
-      ...results.slice(0, 3).map(r => r.integrationPoints.find(ip => ip.target.includes('api'))?.code || '').filter(Boolean),
+      ...results
+        .slice(0, 3)
+        .map(r => r.integrationPoints.find(ip => ip.target.includes('api'))?.code || '')
+        .filter(Boolean),
       '```',
       '',
       '## System Capabilities',
       '',
-      ...results.slice(0, 10).map(r => [
-        `### ${r.systemName}`,
-        `- Original Export: ${r.originalExport.exportName}`,
-        `- Estimated Value: ${r.estimatedValue}/100`,
-        `- Capabilities: ${r.capabilities.length}`,
-        `- Integration Points: ${r.integrationPoints.length}`,
-        ''
-      ]).flat(),
+      ...results
+        .slice(0, 10)
+        .map(r => [
+          `### ${r.systemName}`,
+          `- Original Export: ${r.originalExport.exportName}`,
+          `- Estimated Value: ${r.estimatedValue}/100`,
+          `- Capabilities: ${r.capabilities.length}`,
+          `- Integration Points: ${r.integrationPoints.length}`,
+          '',
+        ])
+        .flat(),
       '',
       '## Next Steps',
       '1. Review generated intelligence systems',
       '2. Customize configurations as needed',
       '3. Integrate with existing monitoring',
       '4. Set up automated testing',
-      '5. Deploy to production environment'
+      '5. Deploy to production environment',
     ];
 
     return guide.join('\n');

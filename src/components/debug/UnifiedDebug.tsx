@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
 
 import { log } from '@/services/LoggingService';
-import { Element } from "@/types/alchemy";
+import { Element } from '@/types/alchemy';
 
 import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
@@ -13,8 +13,8 @@ import { testCookingMethodRecommendations } from '../../utils/testRecommendation
 
 interface TestResult {
   ingredient: { name: string; dominantElement?: string; [key: string]: any };
-  holisticRecommendations: Array<{ method: string, compatibility: number, reason?: string }>;
-  standardRecommendations: Array<{ method: string, compatibility: number }>;
+  holisticRecommendations: Array<{ method: string; compatibility: number; reason?: string }>;
+  standardRecommendations: Array<{ method: string; compatibility: number }>;
 }
 
 interface UnifiedDebugProps {
@@ -29,7 +29,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
   const [planetaryHour, setPlanetaryHour] = useState('Unknown');
   const [lunarPhase, setLunarPhase] = useState('Unknown');
   const [activeTab, setActiveTab] = useState<'state' | 'alchemical' | 'cuisine'>('state');
-  
+
   // Alchemical debug states
   const [testResults, setTestResults] = useState<TestResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -38,11 +38,11 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
   useEffect(() => {
     setMounted(true);
     logger.info('UnifiedDebug mounted');
-    
+
     // Calculate current planetary hour
     try {
       const hourCalculator = new PlanetaryHourCalculator();
-      
+
       if (typeof hourCalculator.getPlanetaryHour === 'function') {
         const currentHour = hourCalculator.getPlanetaryHour(new Date());
         setPlanetaryHour(currentHour.planet || 'Unknown');
@@ -53,7 +53,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
         // Fallback to time of day
         const hour = new Date().getHours();
         let timeBasedPlanet = 'Sun';
-        
+
         if (hour >= 0 && hour < 3) timeBasedPlanet = 'Saturn';
         else if (hour >= 3 && hour < 6) timeBasedPlanet = 'Jupiter';
         else if (hour >= 6 && hour < 9) timeBasedPlanet = 'Mars';
@@ -62,26 +62,28 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
         else if (hour >= 15 && hour < 18) timeBasedPlanet = 'Mercury';
         else if (hour >= 18 && hour < 21) timeBasedPlanet = 'Moon';
         else timeBasedPlanet = 'Saturn';
-        
+
         setPlanetaryHour(timeBasedPlanet);
       }
     } catch (error) {
       console.error('Error calculating planetary hour:', error);
       setPlanetaryHour('Unknown');
     }
-    
+
     // Calculate current lunar phase
     try {
       const phaseValue = calculateLunarPhase(new Date());
-      
+
       if (phaseValue instanceof Promise) {
-        phaseValue.then(value => {
-          const phaseName = getLunarPhaseName(value);
-          setLunarPhase(phaseName);
-        }).catch(err => {
-          console.error('Error calculating lunar phase:', err);
-          setLunarPhase('Unknown');
-        });
+        phaseValue
+          .then(value => {
+            const phaseName = getLunarPhaseName(value);
+            setLunarPhase(phaseName);
+          })
+          .catch(err => {
+            console.error('Error calculating lunar phase:', err);
+            setLunarPhase('Unknown');
+          });
       } else {
         const phaseName = getLunarPhaseName(phaseValue);
         setLunarPhase(phaseName);
@@ -92,17 +94,20 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
     }
   }, []);
 
-  useEffect(() => { setRenderCount(prev => prev + 1);
+  useEffect(() => {
+    setRenderCount(prev => prev + 1);
     logger.info('State updated:', {
       currentSeason: state.currentSeason,
-      timeOfDay: state.timeOfDay,astrologicalState: state.astrologicalState,
-      currentEnergy: state.currentEnergy });
+      timeOfDay: state.timeOfDay,
+      astrologicalState: state.astrologicalState,
+      currentEnergy: state.currentEnergy,
+    });
   }, [state]);
 
   const runAlchemicalTest = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       log.info('Running cooking method recommendations test...');
       const results = await testCookingMethodRecommendations();
@@ -132,32 +137,47 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
     matterValue = state.alchemicalValues.Matter || 0;
     substanceValue = state.alchemicalValues.Substance || 0;
   }
-  
+
   const tokenSymbol = '⦿';
 
   const renderStateDebug = () => (
     <div>
-      <h4 className="font-bold mb-2">State Debug</h4>
-      <div className="space-y-1">
+      <h4 className='mb-2 font-bold'>State Debug</h4>
+      <div className='space-y-1'>
         <p>Mounted: {String(mounted)}</p>
         <p>Renders: {renderCount}</p>
-        <p>Current Sign: {(state.astrologicalState.currentZodiacSign as string) || (state.astrologicalState.sunSign ) || 'unknown'}</p>
+        <p>
+          Current Sign:{' '}
+          {(state.astrologicalState.currentZodiacSign as string) ||
+            state.astrologicalState.sunSign ||
+            'unknown'}
+        </p>
         <p>Planetary Hour: {planetaryHour}</p>
         <p>Lunar Phase: {lunarPhase}</p>
         <div>
-          <p className="font-bold">Alchemical Tokens:</p>
-          <ul className="pl-4 space-y-1">
-            <li>{tokenSymbol} Spirit: {spiritValue.toFixed(4)}</li>
-            <li>{tokenSymbol} Essence: {essenceValue.toFixed(4)}</li>
-            <li>{tokenSymbol} Matter: {matterValue.toFixed(4)}</li>
-            <li>{tokenSymbol} Substance: {substanceValue.toFixed(4)}</li>
+          <p className='font-bold'>Alchemical Tokens:</p>
+          <ul className='space-y-1 pl-4'>
+            <li>
+              {tokenSymbol} Spirit: {spiritValue.toFixed(4)}
+            </li>
+            <li>
+              {tokenSymbol} Essence: {essenceValue.toFixed(4)}
+            </li>
+            <li>
+              {tokenSymbol} Matter: {matterValue.toFixed(4)}
+            </li>
+            <li>
+              {tokenSymbol} Substance: {substanceValue.toFixed(4)}
+            </li>
           </ul>
         </div>
         <div>
-          <p className="font-bold">Elemental Balance:</p>
-          <ul className="pl-4 space-y-1">
+          <p className='font-bold'>Elemental Balance:</p>
+          <ul className='space-y-1 pl-4'>
             {Object.entries(state.elementalPreference || {}).map(([element, value]) => (
-              <li key={element}>{element}: {(value * 100).toFixed(1)}%</li>
+              <li key={element}>
+                {element}: {(value * 100).toFixed(1)}%
+              </li>
             ))}
           </ul>
         </div>
@@ -167,35 +187,37 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
 
   const renderAlchemicalDebug = () => (
     <div>
-      <h4 className="font-bold mb-2">Alchemical Debug</h4>
-      
-      <div className="mb-4">
-        <button 
+      <h4 className='mb-2 font-bold'>Alchemical Debug</h4>
+
+      <div className='mb-4'>
+        <button
           onClick={runAlchemicalTest}
-          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition text-xs"
+          className='rounded bg-blue-500 px-3 py-1 text-xs text-white transition hover:bg-blue-600'
           disabled={loading}
         >
           {loading ? 'Running Test...' : 'Test Cooking Methods'}
         </button>
       </div>
-      
+
       {error && (
-        <div className="p-2 mb-2 bg-red-100 border border-red-300 text-red-800 rounded text-xs">
-          <p className="font-bold">Error:</p>
+        <div className='mb-2 rounded border border-red-300 bg-red-100 p-2 text-xs text-red-800'>
+          <p className='font-bold'>Error:</p>
           <p>{error}</p>
         </div>
       )}
-      
+
       {testResults && (
-        <div className="space-y-2">
+        <div className='space-y-2'>
           <div>
-            <h5 className="font-bold text-xs">Ingredient: {testResults.ingredient.name}</h5>
-            <p className="text-xs">Element: {testResults.ingredient.dominantElement || 'Unknown'}</p>
+            <h5 className='text-xs font-bold'>Ingredient: {testResults.ingredient.name}</h5>
+            <p className='text-xs'>
+              Element: {testResults.ingredient.dominantElement || 'Unknown'}
+            </p>
           </div>
-          
+
           <div>
-            <h5 className="font-bold text-xs">Holistic Recommendations:</h5>
-            <ul className="list-disc list-inside text-xs space-y-1">
+            <h5 className='text-xs font-bold'>Holistic Recommendations:</h5>
+            <ul className='list-inside list-disc space-y-1 text-xs'>
               {testResults.holisticRecommendations.slice(0, 3).map((rec, index) => (
                 <li key={`holistic-${index}`}>
                   {rec.method} - {Math.round(rec.compatibility)}%
@@ -210,13 +232,13 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
 
   if (mode === 'compact') {
     return (
-      <div className="fixed bottom-4 right-4 p-3 bg-black/80 text-white rounded-lg text-xs max-w-sm overflow-auto max-h-96">
+      <div className='fixed bottom-4 right-4 max-h-96 max-w-sm overflow-auto rounded-lg bg-black/80 p-3 text-xs text-white'>
         {showTabs ? (
           <>
-            <div className="flex mb-2 space-x-2">
+            <div className='mb-2 flex space-x-2'>
               <button
                 onClick={() => setActiveTab('state')}
-                className={`px-2 py-1 rounded text-xs ${
+                className={`rounded px-2 py-1 text-xs ${
                   activeTab === 'state' ? 'bg-blue-600' : 'bg-gray-600'
                 }`}
               >
@@ -224,14 +246,14 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
               </button>
               <button
                 onClick={() => setActiveTab('alchemical')}
-                className={`px-2 py-1 rounded text-xs ${
+                className={`rounded px-2 py-1 text-xs ${
                   activeTab === 'alchemical' ? 'bg-blue-600' : 'bg-gray-600'
                 }`}
               >
                 Alchemical
               </button>
             </div>
-            
+
             {activeTab === 'state' && renderStateDebug()}
             {activeTab === 'alchemical' && renderAlchemicalDebug()}
           </>
@@ -243,14 +265,14 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
   }
 
   return (
-    <div className="p-4 bg-white dark:bg-gray-800 rounded shadow">
-      <h3 className="text-lg font-bold mb-4">Debug Tools</h3>
-      
+    <div className='rounded bg-white p-4 shadow dark:bg-gray-800'>
+      <h3 className='mb-4 text-lg font-bold'>Debug Tools</h3>
+
       {showTabs && (
-        <div className="flex mb-4 space-x-2">
+        <div className='mb-4 flex space-x-2'>
           <button
             onClick={() => setActiveTab('state')}
-            className={`px-4 py-2 rounded ${
+            className={`rounded px-4 py-2 ${
               activeTab === 'state' ? 'bg-blue-600 text-white' : 'bg-gray-200'
             }`}
           >
@@ -258,7 +280,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
           </button>
           <button
             onClick={() => setActiveTab('alchemical')}
-            className={`px-4 py-2 rounded ${
+            className={`rounded px-4 py-2 ${
               activeTab === 'alchemical' ? 'bg-blue-600 text-white' : 'bg-gray-200'
             }`}
           >
@@ -266,7 +288,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
           </button>
         </div>
       )}
-      
+
       {activeTab === 'state' && renderStateDebug()}
       {activeTab === 'alchemical' && renderAlchemicalDebug()}
     </div>
@@ -275,4 +297,4 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
 
 // Export individual components for backward compatibility
 
-export default UnifiedDebug; 
+export default UnifiedDebug;

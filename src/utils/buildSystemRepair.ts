@@ -28,7 +28,7 @@ export class BuildSystemRepair {
       success: false,
       steps: [],
       errors: [],
-      recommendations: []
+      recommendations: [],
     };
 
     try {
@@ -47,10 +47,12 @@ export class BuildSystemRepair {
       // Step 2: Validate current build (Requirement 3.2)
       result.steps.push('Validating current build artifacts');
       const validation = await this.buildValidator.validateBuild();
-      
+
       if (!validation.isValid) {
-        result.steps.push(`Found ${validation.missingFiles.length} missing files and ${validation.corruptedFiles.length} corrupted files`);
-        
+        result.steps.push(
+          `Found ${validation.missingFiles.length} missing files and ${validation.corruptedFiles.length} corrupted files`,
+        );
+
         // Step 3: Repair missing manifests (Requirement 3.3)
         result.steps.push('Repairing missing manifest files');
         await this.buildValidator.repairBuild();
@@ -62,7 +64,7 @@ export class BuildSystemRepair {
       // Step 4: Attempt rebuild with recovery (Requirement 3.4)
       result.steps.push('Attempting rebuild with error recovery');
       const rebuildSuccess = await this.buildValidator.rebuildWithRecovery(3);
-      
+
       if (rebuildSuccess) {
         result.steps.push('✓ Rebuild successful');
         result.success = true;
@@ -74,7 +76,7 @@ export class BuildSystemRepair {
       // Step 5: Final validation and health check (Requirement 3.5)
       result.steps.push('Performing final health check');
       const healthReport = await this.buildValidator.monitorBuildHealth();
-      
+
       if (healthReport.manifestsValid && healthReport.buildExists) {
         result.steps.push('✓ Build system is healthy');
       } else {
@@ -90,7 +92,6 @@ export class BuildSystemRepair {
       }
 
       this.logger(`Build system repair completed. Success: ${result.success}`);
-      
     } catch (error) {
       result.errors.push(`Comprehensive repair failed: ${error}`);
       this.logger('Build system repair encountered an error:', error);
@@ -108,16 +109,15 @@ export class BuildSystemRepair {
 
       // Quick manifest repair
       await this.buildValidator.repairBuild();
-      
+
       // Quick config fix
       this.configOptimizer.fixCommonIssues();
-      
+
       // Validate repair
       const validation = await this.buildValidator.validateBuild();
-      
+
       this.logger(`Quick repair completed. Success: ${validation.isValid}`);
       return validation.isValid;
-      
     } catch (error) {
       this.logger('Quick repair failed:', error);
       return false;
@@ -129,11 +129,11 @@ export class BuildSystemRepair {
    */
   async startHealthMonitoring(intervalMinutes = 30): Promise<void> {
     this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`);
-    
+
     const monitor = async () => {
       try {
         const health = await this.buildValidator.monitorBuildHealth();
-        
+
         if (!health.manifestsValid || !health.buildExists) {
           this.logger('Build health issue detected, attempting repair...');
           await this.quickRepair();
@@ -147,7 +147,7 @@ export class BuildSystemRepair {
 
     // Initial check
     await monitor();
-    
+
     // Set up interval monitoring
     setInterval(monitor, intervalMinutes * 60 * 1000);
   }
@@ -160,8 +160,11 @@ export class BuildSystemRepair {
       timestamp: new Date(),
       validation: await this.buildValidator.validateBuild(),
       health: await this.buildValidator.monitorBuildHealth(),
-      configValidation: this.buildValidator.validateNextConfig() as unknown as Record<string, unknown>,
-      recommendations: []
+      configValidation: this.buildValidator.validateNextConfig() as unknown as Record<
+        string,
+        unknown
+      >,
+      recommendations: [],
     };
 
     // Generate recommendations based on findings
@@ -177,7 +180,8 @@ export class BuildSystemRepair {
       report.recommendations.push('Update Next.js configuration to resolve issues');
     }
 
-    if (report.health.buildSize > 500 * 1024 * 1024) { // 500MB
+    if (report.health.buildSize > 500 * 1024 * 1024) {
+      // 500MB
       report.recommendations.push('Consider optimizing build size');
     }
 
@@ -193,19 +197,19 @@ export class BuildSystemRepair {
 
       // Step 1: Clean everything
       await this.buildValidator.cleanBuild();
-      
+
       // Step 2: Reset configuration
       this.configOptimizer.optimizeConfig();
-      
+
       // Step 3: Clear node modules and reinstall (if needed)
       if (!fs.existsSync('node_modules')) {
         this.logger('Reinstalling dependencies...');
         execSync('yarn install', { stdio: 'inherit' });
       }
-      
+
       // Step 4: Attempt fresh build
       const success = await this.buildValidator.rebuildWithRecovery(1);
-      
+
       if (success) {
         this.logger('Emergency recovery successful');
         return true;
@@ -213,7 +217,6 @@ export class BuildSystemRepair {
         this.logger('Emergency recovery failed');
         return false;
       }
-      
     } catch (error) {
       this.logger('Emergency recovery error:', error);
       return false;

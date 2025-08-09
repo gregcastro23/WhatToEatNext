@@ -1,7 +1,7 @@
 /**
  * Script to fix unused variables in TypeScript/JavaScript files
  * This script prefixes unused variables with an underscore (_) to follow the project convention
- * 
+ *
  * Run with: node src/scripts/fix-unused-vars.js <filepath>
  * Example: node src/scripts/fix-unused-vars.js src/utils/foodRecommender.ts
  */
@@ -41,7 +41,7 @@ try {
   // Run ESLint to find unused variables
   const eslintOutput = execSync(`npx eslint "${absolutePath}" --format json`, { encoding: 'utf8' });
   const eslintResult = JSON.parse(eslintOutput);
-  
+
   // Extract unused variables
   const unusedVars = [];
   if (eslintResult.length > 0 && eslintResult[0].messages) {
@@ -52,18 +52,18 @@ try {
           // Different error message formats exist based on version
           const regex1 = /'([^']+)'/;
           const regex2 = /['"]([^'"]+)['"]/;
-          
+
           if (message.message.includes("'")) {
             varName = message.message.match(regex1)[1];
           } else if (message.message.includes('"')) {
             varName = message.message.match(regex2)[1];
           }
-          
+
           if (varName && !varName.startsWith('_')) {
             unusedVars.push({
               line: message.line,
               column: message.column,
-              varName: varName
+              varName: varName,
             });
           }
         } catch (e) {
@@ -72,34 +72,34 @@ try {
       }
     });
   }
-  
+
   if (unusedVars.length === 0) {
     console.log('No unused variables found, or all unused variables already start with underscore');
     // Clean up backup
     fs.unlinkSync(backupPath);
     process.exit(0);
   }
-  
+
   console.log(`Found ${unusedVars.length} unused variables to fix`);
-  
+
   // Read the file content
   let fileContent = fs.readFileSync(absolutePath, 'utf8');
-  
+
   // Process each unused variable
   unusedVars.forEach(unusedVar => {
     const { varName } = unusedVar;
-    
+
     // Common patterns for variable declarations
     const declarationPatterns = [
-      new RegExp(`(const|let|var)\\s+${varName}\\s*=`, 'g'),   // Regular variable declaration
-      new RegExp(`function\\s+${varName}\\s*\\(`, 'g'),         // Function declaration
-      new RegExp(`(\\(|,\\s*)${varName}(\\)|\\s*:|,)`, 'g'),    // Function parameters
-      new RegExp(`(\\{|,\\s*)${varName}(\\s*\\}|\\s*:|,)`, 'g') // Destructuring
+      new RegExp(`(const|let|var)\\s+${varName}\\s*=`, 'g'), // Regular variable declaration
+      new RegExp(`function\\s+${varName}\\s*\\(`, 'g'), // Function declaration
+      new RegExp(`(\\(|,\\s*)${varName}(\\)|\\s*:|,)`, 'g'), // Function parameters
+      new RegExp(`(\\{|,\\s*)${varName}(\\s*\\}|\\s*:|,)`, 'g'), // Destructuring
     ];
-    
+
     // Replace each pattern
     declarationPatterns.forEach(pattern => {
-      fileContent = fileContent.replace(pattern, (match) => {
+      fileContent = fileContent.replace(pattern, match => {
         if (match.includes('const ')) {
           return match.replace(`const ${varName}`, `const _${varName}`);
         } else if (match.includes('let ')) {
@@ -117,11 +117,11 @@ try {
       });
     });
   });
-  
+
   // Write the updated content back to the file
   fs.writeFileSync(absolutePath, fileContent, 'utf8');
   console.log(`Updated ${absolutePath}`);
-  
+
   // Run prettier to format the file
   try {
     execSync(`npx prettier --write "${absolutePath}"`, { stdio: 'ignore' });
@@ -129,18 +129,21 @@ try {
   } catch (error) {
     console.log(`Note: Could not format file with prettier: ${error.message}`);
   }
-  
+
   // Verify the fix worked
   try {
-    const verifyOutput = execSync(`npx eslint "${absolutePath}" --format json`, { encoding: 'utf8' });
+    const verifyOutput = execSync(`npx eslint "${absolutePath}" --format json`, {
+      encoding: 'utf8',
+    });
     const verifyResult = JSON.parse(verifyOutput);
-    
-    const remainingErrors = verifyResult[0].messages.filter(m => 
-      m.ruleId === '@typescript-eslint/no-unused-vars' && 
-      // Only count errors for variables not already starting with underscore
-      !m.message.includes("'_")
+
+    const remainingErrors = verifyResult[0].messages.filter(
+      m =>
+        m.ruleId === '@typescript-eslint/no-unused-vars' &&
+        // Only count errors for variables not already starting with underscore
+        !m.message.includes("'_"),
     ).length;
-    
+
     if (remainingErrors === 0) {
       console.log('Successfully fixed all unused variable errors!');
       // Clean up backup if everything went well
@@ -152,7 +155,6 @@ try {
   } catch (error) {
     console.error(`Error verifying fix: ${error.message}`);
   }
-  
 } catch (error) {
   console.error(`Error: ${error.message}`);
   // Restore from backup
@@ -163,4 +165,4 @@ try {
     console.error(`Failed to restore from backup: ${restoreError.message}`);
   }
   process.exit(1);
-} 
+}

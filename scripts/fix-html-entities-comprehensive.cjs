@@ -44,7 +44,10 @@ class HTMLEntityFixer {
 
         try {
           const output = execSync(findCommand, { encoding: 'utf8', stdio: 'pipe' });
-          const foundFiles = output.trim().split('\n').filter(f => f.length > 0);
+          const foundFiles = output
+            .trim()
+            .split('\n')
+            .filter(f => f.length > 0);
           files.push(...foundFiles);
         } catch (error) {
           // No files found or grep error, continue
@@ -71,7 +74,7 @@ class HTMLEntityFixer {
       { from: /&lbrace;/g, to: '{', name: '&lbrace;' },
       { from: /&#x27;/g, to: "'", name: '&#x27;' },
       { from: /&#39;/g, to: "'", name: '&#39;' },
-      { from: /&nbsp;/g, to: ' ', name: '&nbsp;' }
+      { from: /&nbsp;/g, to: ' ', name: '&nbsp;' },
     ];
 
     const appliedFixes = [];
@@ -104,10 +107,12 @@ class HTMLEntityFixer {
 
         this.fixedFiles.push({
           path: filePath,
-          fixes: result.appliedFixes
+          fixes: result.appliedFixes,
         });
 
-        this.log(`${this.dryRun ? '[DRY RUN] ' : ''}Fixed HTML entities in ${path.basename(filePath)}`);
+        this.log(
+          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed HTML entities in ${path.basename(filePath)}`,
+        );
         return true;
       }
 
@@ -124,13 +129,15 @@ class HTMLEntityFixer {
     try {
       const tscOutput = execSync('npx tsc --noEmit --skipLibCheck 2>&1 || true', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       const parsingErrors = (tscOutput.match(/error TS(17008|1382|17002|1005|1003)/g) || []).length;
       const entityErrors = (tscOutput.match(/Did you mean.*&[a-z]+;/g) || []).length;
 
-      this.log(`Validation: ${parsingErrors} parsing errors, ${entityErrors} entity-related errors`);
+      this.log(
+        `Validation: ${parsingErrors} parsing errors, ${entityErrors} entity-related errors`,
+      );
 
       return { parsingErrors, entityErrors };
     } catch (error) {

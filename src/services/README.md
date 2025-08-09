@@ -1,6 +1,8 @@
 # WhatToEatNext Service Architecture
 
-This document provides an overview of the service architecture in the WhatToEatNext application. It explains the design principles, service hierarchy, and how to use the services.
+This document provides an overview of the service architecture in the
+WhatToEatNext application. It explains the design principles, service hierarchy,
+and how to use the services.
 
 ## Table of Contents
 
@@ -13,7 +15,8 @@ This document provides an overview of the service architecture in the WhatToEatN
 
 ## Architecture Overview
 
-The WhatToEatNext service architecture follows a layered approach with clear separation of concerns. The architecture is designed to be:
+The WhatToEatNext service architecture follows a layered approach with clear
+separation of concerns. The architecture is designed to be:
 
 - **Modular**: Each service has a specific responsibility
 - **Consistent**: All services follow the same patterns and conventions
@@ -28,12 +31,14 @@ The service architecture is organized into the following layers:
 
 These services provide fundamental calculations and data:
 
-- **AlchemicalEngine**: Performs alchemical calculations based on planetary positions
+- **AlchemicalEngine**: Performs alchemical calculations based on planetary
+  positions
 - **AstrologyService**: Provides planetary positions and astrological data
 
 ### 2. Domain Services
 
-These services build on the core engines to provide domain-specific functionality:
+These services build on the core engines to provide domain-specific
+functionality:
 
 - **UnifiedIngredientService**: Manages ingredient data and operations
 - **UnifiedRecipeService**: Manages recipe data and operations
@@ -41,22 +46,25 @@ These services build on the core engines to provide domain-specific functionalit
 
 ### 3. Service Manager
 
-The **ServicesManager** acts as a central point for initializing and accessing all services.
+The **ServicesManager** acts as a central point for initializing and accessing
+all services.
 
 ## Design Principles
 
-All services in the WhatToEatNext application adhere to the following principles:
+All services in the WhatToEatNext application adhere to the following
+principles:
 
 ### Singleton Pattern
 
-Services are implemented as singletons to ensure there's only one instance throughout the application:
+Services are implemented as singletons to ensure there's only one instance
+throughout the application:
 
 ```typescript
 export class ExampleService {
   private static instance: ExampleService;
-  
+
   private constructor() {}
-  
+
   public static getInstance(): ExampleService {
     if (!ExampleService.instance) {
       ExampleService.instance = new ExampleService();
@@ -80,7 +88,7 @@ export class ServiceImplementation implements ServiceInterface {
   doSomething(): void {
     // Implementation
   }
-  
+
   getSomething(): any {
     // Implementation
     return result;
@@ -95,7 +103,7 @@ Services explicitly declare their dependencies:
 ```typescript
 export class DependentService {
   private dependency: DependencyService;
-  
+
   private constructor() {
     this.dependency = DependencyService.getInstance();
   }
@@ -128,7 +136,7 @@ import { servicesManager } from '../services';
 await servicesManager.initialize();
 
 // Access services
-const { 
+const {
   alchemicalEngine,
   astrologyService,
   ingredientService,
@@ -158,16 +166,16 @@ import { unifiedRecipeService } from '../services';
 
 function RecipeList() {
   const [recipes, setRecipes] = useState([]);
-  
+
   useEffect(() => {
     async function loadRecipes() {
       const result = await unifiedRecipeService.getAllRecipes();
       setRecipes(result);
     }
-    
+
     loadRecipes();
   }, []);
-  
+
   return (
     <div>
       {recipes.map(recipe => (
@@ -180,7 +188,9 @@ function RecipeList() {
 
 ## Migration from Legacy Services
 
-The application includes adapter classes to facilitate migration from legacy services to the new architecture. These adapters implement the legacy service interface but delegate to the new services.
+The application includes adapter classes to facilitate migration from legacy
+services to the new architecture. These adapters implement the legacy service
+interface but delegate to the new services.
 
 ### Example of using a legacy adapter:
 
@@ -193,9 +203,12 @@ const ingredients = legacyIngredientAdapter.getAllIngredients();
 
 ### Available Adapters:
 
-- **LegacyIngredientAdapter**: Bridges between legacy IngredientService and UnifiedIngredientService
-- **LegacyRecipeAdapter**: Bridges between legacy recipe services and UnifiedRecipeService
-- **LegacyRecommendationAdapter**: Bridges between legacy recommendation services and UnifiedRecommendationService
+- **LegacyIngredientAdapter**: Bridges between legacy IngredientService and
+  UnifiedIngredientService
+- **LegacyRecipeAdapter**: Bridges between legacy recipe services and
+  UnifiedRecipeService
+- **LegacyRecommendationAdapter**: Bridges between legacy recommendation
+  services and UnifiedRecommendationService
 
 ## Adding New Services
 
@@ -223,18 +236,18 @@ const logger = createLogger('NewService');
 
 export class NewService implements NewServiceInterface {
   private static instance: NewService;
-  
+
   private constructor() {
     logger.info('NewService initialized');
   }
-  
+
   public static getInstance(): NewService {
     if (!NewService.instance) {
       NewService.instance = new NewService();
     }
     return NewService.instance;
   }
-  
+
   public performOperation(): void {
     try {
       // Implementation
@@ -242,7 +255,7 @@ export class NewService implements NewServiceInterface {
       logger.error('Error in performOperation:', error);
     }
   }
-  
+
   public getData(): any {
     try {
       // Implementation
@@ -258,4 +271,4 @@ export const newService = NewService.getInstance();
 export default newService;
 ```
 
-Then update the ServicesManager and index file to include the new service. 
+Then update the ServicesManager and index file to include the new service.

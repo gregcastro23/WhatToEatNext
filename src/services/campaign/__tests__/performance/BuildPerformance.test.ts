@@ -6,16 +6,10 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
-import {
-  CampaignConfig,
-  SafetySettings,
-  SafetyLevel,
-  ProgressMetrics
-} from '../../../../types/campaign';
+import { CampaignConfig, SafetySettings, SafetyLevel, ProgressMetrics } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
-
 
 // Mock dependencies
 jest.mock('child_process');
@@ -36,31 +30,35 @@ describe('Build Performance Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     mockConfig = {
-      phases: [{
-        id: 'performance-test-phase',
-        name: 'Performance Test Phase',
-        description: 'Phase for performance testing',
-        tools: [{
-          scriptPath: 'scripts/performance/test-script.js',
-          parameters: { maxFiles: 50 },
-          batchSize: 50,
-          safetyLevel: SafetyLevel.MEDIUM
-        }],
-        successCriteria: { buildTime: 10 },
-        safetyCheckpoints: []
-      }],
+      phases: [
+        {
+          id: 'performance-test-phase',
+          name: 'Performance Test Phase',
+          description: 'Phase for performance testing',
+          tools: [
+            {
+              scriptPath: 'scripts/performance/test-script.js',
+              parameters: { maxFiles: 50 },
+              batchSize: 50,
+              safetyLevel: SafetyLevel.MEDIUM,
+            },
+          ],
+          successCriteria: { buildTime: 10 },
+          safetyCheckpoints: [],
+        },
+      ],
       safetySettings,
       progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
 
     progressTracker = new ProgressTracker();
@@ -68,7 +66,7 @@ describe('Build Performance Tests', () => {
 
     // Reset mocks
     jest.clearAllMocks();
-    
+
     // Default mock implementations
     mockExecSync.mockReturnValue('');
     mockFs.existsSync.mockReturnValue(true);
@@ -79,7 +77,7 @@ describe('Build Performance Tests', () => {
     it('should measure build time under 10 seconds target', async () => {
       // Mock fast build
       let buildStartTime: number;
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           buildStartTime = Date.now();
           // Simulate fast build (2 seconds)
@@ -101,7 +99,7 @@ describe('Build Performance Tests', () => {
 
     it('should detect build time regression', async () => {
       // Mock slow build
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           // Simulate slow build (12 seconds)
           const delay = 100; // Use shorter delay for test performance
@@ -121,7 +119,7 @@ describe('Build Performance Tests', () => {
     });
 
     it('should handle build failures gracefully', async () => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build compilation failed');
         }
@@ -137,7 +135,7 @@ describe('Build Performance Tests', () => {
       const buildTimes: Array<number> = [];
       const targetBuildTime = 8; // 8 seconds
 
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           // Simulate consistent build time with small variance
           const baseTime = targetBuildTime * 1000;
@@ -200,7 +198,7 @@ describe('Build Performance Tests', () => {
         heapTotal: 100 * 1024 * 1024,
         external: 0,
         rss: 0,
-        arrayBuffers: 0
+        arrayBuffers: 0,
       });
 
       const memoryUsage = await progressTracker.getMemoryUsage();
@@ -219,7 +217,7 @@ describe('Build Performance Tests', () => {
         heapTotal: 150 * 1024 * 1024,
         external: 0,
         rss: 0,
-        arrayBuffers: 0
+        arrayBuffers: 0,
       });
 
       const memoryUsage = await progressTracker.getMemoryUsage();
@@ -233,11 +231,11 @@ describe('Build Performance Tests', () => {
   describe('Bundle Size Performance', () => {
     it('should validate bundle size under 420kB target', async () => {
       // Mock bundle size measurement
-      mockFs.existsSync.mockImplementation((path) => {
+      mockFs.existsSync.mockImplementation(path => {
         return path === '.next' || path === 'dist';
       });
 
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
         if (cmd.includes('du -sk .next')) {
           return '300'; // 300kB
@@ -257,7 +255,7 @@ describe('Build Performance Tests', () => {
     it('should detect bundle size regression', async () => {
       // Mock large bundle size
       mockFs.existsSync.mockReturnValue(true);
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
           return '500'; // 500kB - exceeds target
         }
@@ -281,11 +279,11 @@ describe('Build Performance Tests', () => {
       const buildDirs = ['.next', 'dist', 'build'];
       const expectedSizes = [200, 150, 50]; // kB
 
-      mockFs.existsSync.mockImplementation((path) => {
+      mockFs.existsSync.mockImplementation(path => {
         return buildDirs.includes(path as string);
       });
 
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
         if (cmd.includes('du -sk .next')) return '200';
         if (cmd.includes('du -sk dist')) return '150';
@@ -302,7 +300,7 @@ describe('Build Performance Tests', () => {
   describe('Performance Regression Testing', () => {
     it('should detect performance regression during campaign execution', async () => {
       const phase = mockConfig.phases[0];
-      
+
       // Mock performance degradation
       let buildTimeCallCount = 0;
       jest.spyOn(progressTracker, 'getBuildTime').mockImplementation(async () => {
@@ -325,7 +323,7 @@ describe('Build Performance Tests', () => {
 
     it('should validate performance improvements during campaign', async () => {
       const phase = mockConfig.phases[0];
-      
+
       // Mock performance improvement
       let buildTimeCallCount = 0;
       jest.spyOn(progressTracker, 'getBuildTime').mockImplementation(async () => {
@@ -360,9 +358,9 @@ describe('Build Performance Tests', () => {
             currentTime: Math.max(7, 12 - metricsCallCount), // Improving build time
             targetTime: 10,
             cacheHitRate: Math.min(0.9, 0.6 + metricsCallCount * 0.1), // Improving cache hit rate
-            memoryUsage: Math.max(35, 55 - metricsCallCount * 5) // Improving memory usage
+            memoryUsage: Math.max(35, 55 - metricsCallCount * 5), // Improving memory usage
           },
-          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
         };
         performanceHistory.push(metrics);
         return metrics;
@@ -389,7 +387,7 @@ describe('Build Performance Tests', () => {
     it('should benchmark TypeScript compilation performance', async () => {
       const compilationTimes: Array<number> = [];
 
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn tsc')) {
           const startTime = Date.now();
           // Simulate TypeScript compilation time
@@ -420,7 +418,7 @@ describe('Build Performance Tests', () => {
     it('should benchmark linting performance', async () => {
       const lintingTimes: Array<number> = [];
 
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn lint')) {
           const startTime = Date.now();
           // Simulate linting time
@@ -451,7 +449,7 @@ describe('Build Performance Tests', () => {
     it('should benchmark enterprise system counting performance', async () => {
       const countingTimes: Array<number> = [];
 
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('grep -r "INTELLIGENCE_SYSTEM"')) {
           const startTime = Date.now();
           // Simulate grep operation time
@@ -483,7 +481,7 @@ describe('Build Performance Tests', () => {
   describe('Scalability Testing', () => {
     it('should handle large codebase performance', async () => {
       // Mock large codebase metrics
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
         if (cmd.includes('yarn tsc')) {
           // Simulate longer compilation for large codebase
@@ -520,7 +518,7 @@ describe('Build Performance Tests', () => {
         progressTracker.getLintingWarningCount(),
         progressTracker.getEnterpriseSystemCount(),
         progressTracker.getBuildTime(),
-        progressTracker.getMemoryUsage()
+        progressTracker.getMemoryUsage(),
       ];
 
       const startTime = Date.now();
@@ -541,7 +539,7 @@ describe('Build Performance Tests', () => {
           typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
         };
         largeMetricsHistory.push(metrics);
         return metrics;
@@ -553,7 +551,7 @@ describe('Build Performance Tests', () => {
       }
 
       const history = progressTracker.getMetricsHistory();
-      
+
       // Should limit history size to prevent memory issues
       expect(history.length).toBeLessThanOrEqual(50); // Should be trimmed
     });

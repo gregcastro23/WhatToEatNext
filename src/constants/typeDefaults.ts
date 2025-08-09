@@ -1,6 +1,6 @@
 /**
  * Type Defaults - Phase 2 of Type Alias Implementation
- * 
+ *
  * This file contains default values and fallback objects using the standardized type aliases.
  * These defaults ensure type safety throughout the application and provide consistent fallback values.
  */
@@ -17,7 +17,7 @@ import {
   NutritionalContentType,
   IngredientMappingType,
   AstrologicalStateType,
-  ServiceResponseType
+  ServiceResponseType,
 } from '../types/alchemy';
 
 // ========== PHASE 2: TYPE DEFAULTS ==========
@@ -30,7 +30,7 @@ export const EmptyAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0,
   Essence: 0,
   Matter: 0,
-  Substance: 0
+  Substance: 0,
 } as const;
 
 /**
@@ -41,7 +41,7 @@ export const DefaultAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0.25,
   Essence: 0.25,
   Matter: 0.25,
-  Substance: 0.25
+  Substance: 0.25,
 } as const;
 
 /**
@@ -52,7 +52,7 @@ export const BalancedAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0.25,
   Essence: 0.25,
   Matter: 0.25,
-  Substance: 0.25
+  Substance: 0.25,
 } as const;
 
 /**
@@ -63,7 +63,7 @@ export const EmptyElementalProperties: ElementalPropertiesType = {
   Fire: 0,
   Water: 0,
   Earth: 0,
-  Air: 0
+  Air: 0,
 } as const;
 
 /**
@@ -74,7 +74,7 @@ export const DefaultElementalProperties: ElementalPropertiesType = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
-  Air: 0.25
+  Air: 0.25,
 } as const;
 
 /**
@@ -85,7 +85,7 @@ export const BalancedElementalProperties: ElementalPropertiesType = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
-  Air: 0.25
+  Air: 0.25,
 } as const;
 
 /**
@@ -98,7 +98,7 @@ export const DefaultThermodynamicMetrics: ThermodynamicMetricsType = {
   reactivity: 0.5,
   gregsEnergy: 0.5,
   kalchm: 1.0,
-  monica: 1.0
+  monica: 1.0,
 } as const;
 
 /**
@@ -107,7 +107,7 @@ export const DefaultThermodynamicMetrics: ThermodynamicMetricsType = {
  */
 export const DefaultAlchemicalState: AlchemicalStateType = {
   ...BalancedAlchemicalProperties,
-  ...BalancedElementalProperties
+  ...BalancedElementalProperties,
 } as const;
 
 /**
@@ -116,7 +116,7 @@ export const DefaultAlchemicalState: AlchemicalStateType = {
  */
 export const DefaultCompleteAlchemicalResult: CompleteAlchemicalResultType = {
   ...DefaultAlchemicalState,
-  ...DefaultThermodynamicMetrics
+  ...DefaultThermodynamicMetrics,
 } as const;
 
 /**
@@ -139,7 +139,7 @@ export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
   Saturn: 'capricorn',
   Uranus: 'aquarius',
   Neptune: 'pisces',
-  Pluto: 'scorpio'
+  Pluto: 'scorpio',
 } as const;
 
 /**
@@ -165,7 +165,7 @@ export const DefaultNutritionalContent: NutritionalContentType = {
   carbohydrates: 0,
   fiber: 0,
   vitamins: {},
-  minerals: {}
+  minerals: {},
 } as const;
 
 /**
@@ -183,7 +183,7 @@ export const DefaultIngredientMapping: IngredientMappingType = {
   affinities: [],
   sustainabilityScore: 0.5,
   qualities: [],
-  culinaryApplications: {}
+  culinaryApplications: {},
 };
 
 /**
@@ -194,7 +194,7 @@ export const DefaultAstrologicalState: AstrologicalStateType = {
   planetaryPositions: DefaultPlanetaryPositions,
   currentZodiac: DefaultZodiacSign,
   lunarPhase: DefaultLunarPhase,
-  elementalInfluence: BalancedElementalProperties
+  elementalInfluence: BalancedElementalProperties,
 } as const;
 
 /**
@@ -204,7 +204,7 @@ export const DefaultAstrologicalState: AstrologicalStateType = {
 export const createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({
   success: false,
   error,
-  timestamp: new Date().toISOString()
+  timestamp: new Date().toISOString(),
 });
 
 /**
@@ -214,7 +214,7 @@ export const createErrorResponse = <T>(error: string): ServiceResponseType<T> =>
 export const createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({
   success: true,
   data,
-  timestamp: new Date().toISOString()
+  timestamp: new Date().toISOString(),
 });
 
 // ========== UTILITY FUNCTIONS ==========
@@ -224,21 +224,21 @@ export const createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({
  * Ensures all elemental values are valid numbers and sum to 1.0
  */
 export const createSafeElementalProperties = (
-  properties: Partial<ElementalPropertiesType>
+  properties: Partial<ElementalPropertiesType>,
 ): ElementalPropertiesType => {
   const fire = Number.isFinite(properties.Fire) ? Math.max(0, properties.Fire ?? 0) : 0.25;
   const water = Number.isFinite(properties.Water) ? Math.max(0, properties.Water ?? 0) : 0.25;
   const earth = Number.isFinite(properties.Earth) ? Math.max(0, properties.Earth ?? 0) : 0.25;
   const air = Number.isFinite(properties.Air) ? Math.max(0, properties.Air ?? 0) : 0.25;
-  
+
   const total = fire + water + earth + air;
   const normalizer = total > 0 ? 1.0 / total : 0.25;
-  
+
   return {
     Fire: fire * normalizer,
     Water: water * normalizer,
     Earth: earth * normalizer,
-    Air: air * normalizer
+    Air: air * normalizer,
   };
 };
 
@@ -247,21 +247,23 @@ export const createSafeElementalProperties = (
  * Ensures all alchemical values are valid numbers and sum to 1.0
  */
 export const createSafeAlchemicalProperties = (
-  properties: Partial<AlchemicalPropertiesType>
+  properties: Partial<AlchemicalPropertiesType>,
 ): AlchemicalPropertiesType => {
   const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? 0) : 0.25;
   const essence = Number.isFinite(properties.Essence) ? Math.max(0, properties.Essence ?? 0) : 0.25;
   const matter = Number.isFinite(properties.Matter) ? Math.max(0, properties.Matter ?? 0) : 0.25;
-  const substance = Number.isFinite(properties.Substance) ? Math.max(0, properties.Substance ?? 0) : 0.25;
-  
+  const substance = Number.isFinite(properties.Substance)
+    ? Math.max(0, properties.Substance ?? 0)
+    : 0.25;
+
   const total = spirit + essence + matter + substance;
   const normalizer = total > 0 ? 1.0 / total : 0.25;
-  
+
   return {
     Spirit: spirit * normalizer,
     Essence: essence * normalizer,
     Matter: matter * normalizer,
-    Substance: substance * normalizer
+    Substance: substance * normalizer,
   };
 };
 
@@ -270,15 +272,21 @@ export const createSafeAlchemicalProperties = (
  * Ensures all thermodynamic values are valid numbers within reasonable ranges
  */
 export const createSafeThermodynamicMetrics = (
-  metrics: Partial<ThermodynamicMetricsType>
+  metrics: Partial<ThermodynamicMetricsType>,
 ): ThermodynamicMetricsType => {
   return {
     heat: Number.isFinite(metrics.heat) ? Math.max(0.1, Math.min(1.0, metrics.heat ?? 0.5)) : 0.5,
-    entropy: Number.isFinite(metrics.entropy) ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5)) : 0.5,
-    reactivity: Number.isFinite(metrics.reactivity) ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? 0.5)) : 0.5,
-    gregsEnergy: Number.isFinite(metrics.gregsEnergy) ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5)) : 0.5,
+    entropy: Number.isFinite(metrics.entropy)
+      ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5))
+      : 0.5,
+    reactivity: Number.isFinite(metrics.reactivity)
+      ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? 0.5))
+      : 0.5,
+    gregsEnergy: Number.isFinite(metrics.gregsEnergy)
+      ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5))
+      : 0.5,
     kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,
-    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0
+    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0,
   };
 };
 
@@ -288,10 +296,20 @@ export const createSafeThermodynamicMetrics = (
  */
 export const validateZodiacSign = (sign: string): ZodiacSignType => {
   const validSigns: ZodiacSignType[] = [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
-  
+
   const normalizedSign = sign.toLowerCase() as ZodiacSignType;
   return validSigns.includes(normalizedSign) ? normalizedSign : DefaultZodiacSign;
 };
@@ -302,10 +320,16 @@ export const validateZodiacSign = (sign: string): ZodiacSignType => {
  */
 export const validateLunarPhase = (phase: string): LunarPhaseType => {
   const validPhases: LunarPhaseType[] = [
-    'new moon', 'waxing crescent', 'first quarter', 'waxing gibbous',
-    'full moon', 'waning gibbous', 'last quarter', 'waning crescent'
+    'new moon',
+    'waxing crescent',
+    'first quarter',
+    'waxing gibbous',
+    'full moon',
+    'waning gibbous',
+    'last quarter',
+    'waning crescent',
   ];
-  
+
   const normalizedPhase = phase.toLowerCase() as LunarPhaseType;
   return validPhases.includes(normalizedPhase) ? normalizedPhase : DefaultLunarPhase;
-}; 
+};

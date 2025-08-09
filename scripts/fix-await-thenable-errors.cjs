@@ -37,31 +37,34 @@ class AwaitThenableFixer {
       // Use TypeScript compiler to find await-thenable errors
       const tscOutput = execSync('npx tsc --noEmit --skipLibCheck 2>&1 || true', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       // Look for specific await-thenable error patterns
-      const awaitThenableErrors = tscOutput.split('\n').filter(line =>
-        line.includes('TS1308') || // 'await' expression is only allowed within an async function
-        line.includes('not assignable to type') && line.includes('Promise') ||
-        line.includes('await') && line.includes('thenable')
+      const awaitThenableErrors = tscOutput.split('\n').filter(
+        line =>
+          line.includes('TS1308') || // 'await' expression is only allowed within an async function
+          (line.includes('not assignable to type') && line.includes('Promise')) ||
+          (line.includes('await') && line.includes('thenable')),
       );
 
       // Also check ESLint for await-thenable rule violations
       let eslintOutput = '';
       try {
-        eslintOutput = execSync('npx eslint src --format=compact --rule "@typescript-eslint/await-thenable: error" 2>/dev/null || true', {
-          encoding: 'utf8',
-          stdio: 'pipe'
-        });
+        eslintOutput = execSync(
+          'npx eslint src --format=compact --rule "@typescript-eslint/await-thenable: error" 2>/dev/null || true',
+          {
+            encoding: 'utf8',
+            stdio: 'pipe',
+          },
+        );
       } catch (error) {
         // ESLint rule might not be configured, continue
       }
 
-      const eslintAwaitErrors = eslintOutput.split('\n').filter(line =>
-        line.includes('await-thenable') ||
-        line.includes('Unexpected `await`')
-      );
+      const eslintAwaitErrors = eslintOutput
+        .split('\n')
+        .filter(line => line.includes('await-thenable') || line.includes('Unexpected `await`'));
 
       const allErrors = [...awaitThenableErrors, ...eslintAwaitErrors];
       const filesWithErrors = new Set();
@@ -106,11 +109,11 @@ class AwaitThenableFixer {
           /^[0-9]+$/, // Numbers
           /^['"`].*['"`]$/, // String literals
           /^true|false$/, // Booleans
-          /^null|undefined$/ // Null/undefined
+          /^null|undefined$/, // Null/undefined
         ];
 
         const isLikelyNonPromise = nonPromisePatterns.some(pattern =>
-          pattern.test(awaitExpression)
+          pattern.test(awaitExpression),
         );
 
         if (isLikelyNonPromise) {
@@ -118,7 +121,7 @@ class AwaitThenableFixer {
             line: lineNumber,
             expression: awaitExpression,
             fullMatch: match[0],
-            type: 'likely-non-promise'
+            type: 'likely-non-promise',
           });
         }
       }
@@ -142,7 +145,7 @@ class AwaitThenableFixer {
         from: /await\s+([a-zA-Z_$][a-zA-Z0-9_$]*);/g,
         to: '$1;',
         description: 'Remove await from simple variables',
-        validate: (match) => !match[1].includes('(') && !match[1].includes('.')
+        validate: match => !match[1].includes('(') && !match[1].includes('.'),
       },
 
       // Remove await from property access that doesn't return Promise
@@ -150,38 +153,36 @@ class AwaitThenableFixer {
         from: /await\s+([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*);/g,
         to: '$1;',
         description: 'Remove await from property access',
-        validate: (match) => !match[1].includes('(')
+        validate: match => !match[1].includes('('),
       },
 
       // Fix await on constructor calls
       {
         from: /await\s+(new\s+[A-Z][a-zA-Z0-9_$]*\([^)]*\))/g,
         to: '$1',
-        description: 'Remove await from constructor calls'
+        description: 'Remove await from constructor calls',
       },
 
       // Fix await on literals
       {
         from: /await\s+(true|false|null|undefined|[0-9]+)/g,
         to: '$1',
-        description: 'Remove await from literals'
+        description: 'Remove await from literals',
       },
 
       // Fix await on string literals
       {
         from: /await\s+(['"`][^'"`]*['"`])/g,
         to: '$1',
-        description: 'Remove await from string literals'
-      }
+        description: 'Remove await from string literals',
+      },
     ];
 
     fixes.forEach(fix => {
       const matches = [...newContent.matchAll(fix.from)];
       if (matches.length > 0) {
         // Validate each match if validator exists
-        const validMatches = fix.validate ?
-          matches.filter(match => fix.validate(match)) :
-          matches;
+        const validMatches = fix.validate ? matches.filter(match => fix.validate(match)) : matches;
 
         if (validMatches.length > 0) {
           newContent = newContent.replace(fix.from, fix.to);
@@ -204,7 +205,8 @@ class AwaitThenableFixer {
     const appliedFixes = [];
 
     // Fix functions that use await but aren't declared async
-    const functionPattern = /function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)\s*{[^}]*await[^}]*}/g;
+    const functionPattern =
+      /function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)\s*{[^}]*await[^}]*}/g;
     const matches = [...newContent.matchAll(functionPattern)];
 
     matches.forEach(match => {
@@ -217,7 +219,8 @@ class AwaitThenableFixer {
     });
 
     // Fix arrow functions that use await but aren't declared async
-    const arrowPattern = /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*\([^)]*\)\s*=>\s*{[^}]*await[^}]*}/g;
+    const arrowPattern =
+      /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*\([^)]*\)\s*=>\s*{[^}]*await[^}]*}/g;
     const arrowMatches = [...newContent.matchAll(arrowPattern)];
 
     arrowMatches.forEach(match => {
@@ -230,7 +233,9 @@ class AwaitThenableFixer {
     });
 
     if (this.verbose && appliedFixes.length > 0) {
-      this.log(`  Fixed async declarations in ${path.basename(filePath)}: ${appliedFixes.join(', ')}`);
+      this.log(
+        `  Fixed async declarations in ${path.basename(filePath)}: ${appliedFixes.join(', ')}`,
+      );
     }
 
     return { content: newContent, fixed, appliedFixes };
@@ -248,14 +253,14 @@ class AwaitThenableFixer {
         {
           from: /await\s+expect\(([^)]+)\)\.resolves/g,
           to: 'await expect($1).resolves',
-          description: 'Fix expect().resolves patterns'
+          description: 'Fix expect().resolves patterns',
         },
 
         // Fix waitFor patterns
         {
           from: /await\s+waitFor\(\s*\(\)\s*=>\s*{([^}]+)}\s*\)/g,
           to: 'await waitFor(() => {$1})',
-          description: 'Fix waitFor patterns'
+          description: 'Fix waitFor patterns',
         },
 
         // Fix mock function calls that should return promises
@@ -265,18 +270,20 @@ class AwaitThenableFixer {
           description: 'Ensure mock functions return promises',
           validate: (match, content) => {
             // Check if the mock is defined to return a promise
-            const mockDefPattern = new RegExp(`${match[1]}.*mockResolvedValue|mockReturnValue.*Promise`);
+            const mockDefPattern = new RegExp(
+              `${match[1]}.*mockResolvedValue|mockReturnValue.*Promise`,
+            );
             return mockDefPattern.test(content);
-          }
-        }
+          },
+        },
       ];
 
       testFixes.forEach(fix => {
         const matches = [...newContent.matchAll(fix.from)];
         if (matches.length > 0) {
-          const validMatches = fix.validate ?
-            matches.filter(match => fix.validate(match, newContent)) :
-            matches;
+          const validMatches = fix.validate
+            ? matches.filter(match => fix.validate(match, newContent))
+            : matches;
 
           if (validMatches.length > 0) {
             newContent = newContent.replace(fix.from, fix.to);
@@ -305,7 +312,7 @@ class AwaitThenableFixer {
       const fixes = [
         this.fixAwaitOnNonPromise(currentContent, filePath),
         this.fixAsyncFunctionDeclarations(currentContent, filePath),
-        this.fixTestUtilityPromises(currentContent, filePath)
+        this.fixTestUtilityPromises(currentContent, filePath),
       ];
 
       // Chain the fixes
@@ -324,10 +331,12 @@ class AwaitThenableFixer {
 
         this.fixedFiles.push({
           path: filePath,
-          fixes: allFixes
+          fixes: allFixes,
         });
 
-        this.log(`${this.dryRun ? '[DRY RUN] ' : ''}Fixed await-thenable issues in ${path.basename(filePath)}`);
+        this.log(
+          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed await-thenable issues in ${path.basename(filePath)}`,
+        );
         return true;
       }
 
@@ -345,13 +354,15 @@ class AwaitThenableFixer {
     try {
       const tscOutput = execSync('npx tsc --noEmit --skipLibCheck 2>&1 || true', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       const awaitThenableErrors = (tscOutput.match(/TS1308|await.*thenable/g) || []).length;
       const totalErrors = (tscOutput.match(/error TS/g) || []).length;
 
-      this.log(`Validation: ${totalErrors} total errors, ${awaitThenableErrors} await-thenable errors`);
+      this.log(
+        `Validation: ${totalErrors} total errors, ${awaitThenableErrors} await-thenable errors`,
+      );
 
       return { totalErrors, awaitThenableErrors };
     } catch (error) {
@@ -422,11 +433,19 @@ export async function testPromiseHandling(testFn: () => Promise<any>): Promise<b
     // Also scan test files specifically
     const testFiles = [];
     try {
-      const findTestFiles = execSync('find src -name "*.test.ts" -o -name "*.test.tsx" -o -name "*.spec.ts" -o -name "*.spec.tsx"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      testFiles.push(...findTestFiles.trim().split('\n').filter(f => f.length > 0));
+      const findTestFiles = execSync(
+        'find src -name "*.test.ts" -o -name "*.test.tsx" -o -name "*.spec.ts" -o -name "*.spec.tsx"',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
+      testFiles.push(
+        ...findTestFiles
+          .trim()
+          .split('\n')
+          .filter(f => f.length > 0),
+      );
     } catch (error) {
       // No test files found or command failed
     }

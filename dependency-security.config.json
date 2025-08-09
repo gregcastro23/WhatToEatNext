@@ -54,10 +54,5 @@
     "autoFixCritical": true,
     "autoFixHigh": false
   },
-  "excludedPackages": [
-    "react",
-    "react-dom",
-    "next",
-    "typescript"
-  ]
+  "excludedPackages": ["react", "react-dom", "next", "typescript"]
 }

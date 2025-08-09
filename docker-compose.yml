@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Main application service
@@ -16,22 +16,22 @@ services:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
       - PORT=3000
-      
+
       # Performance optimizations
       - NEXT_PUBLIC_API_CACHE_TIME=3600
       - NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false
-      
+
       # Security settings
       - NEXTAUTH_URL=http://localhost:3000
       - RATE_LIMIT_MAX=100
       - RATE_LIMIT_WINDOW=900000
-      
+
     volumes:
       # Optional: Mount logs directory for debugging
       - ./logs:/app/logs:rw
-      
+
     restart: unless-stopped
-    
+
     # Health check configuration
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
@@ -39,17 +39,17 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    
+
     # Resource limits
     deploy:
       resources:
         limits:
           memory: 1G
-          cpus: '1.0'
+          cpus: "1.0"
         reservations:
           memory: 512M
-          cpus: '0.5'
-    
+          cpus: "0.5"
+
     # Logging configuration
     logging:
       driver: "json-file"
@@ -88,4 +88,4 @@ networks:
 # Optional: Volume for persistent data
 volumes:
   logs:
-    driver: local 
+    driver: local

@@ -586,27 +586,27 @@
 }
 
 /* Optional: category-specific colors */
-.categorySection[data-category="Proteins"] .categoryTitle {
+.categorySection[data-category='Proteins'] .categoryTitle {
   color: #d35400;
 }
 
-.categorySection[data-category="Vegetables"] .categoryTitle {
+.categorySection[data-category='Vegetables'] .categoryTitle {
   color: #27ae60;
 }
 
-.categorySection[data-category="Herbs"] .categoryTitle {
+.categorySection[data-category='Herbs'] .categoryTitle {
   color: #2ecc71;
 }
 
-.categorySection[data-category="Spices"] .categoryTitle {
+.categorySection[data-category='Spices'] .categoryTitle {
   color: #e74c3c;
 }
 
-.categorySection[data-category="Grains"] .categoryTitle {
+.categorySection[data-category='Grains'] .categoryTitle {
   color: #f39c12;
 }
 
-.categorySection[data-category="Fruits"] .categoryTitle {
+.categorySection[data-category='Fruits'] .categoryTitle {
   color: #9b59b6;
 }
 
@@ -813,8 +813,8 @@
   .compactGrid {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   }
-  
+
   .compactIngredientName {
     font-size: 0.8rem;
   }
-} 
+}

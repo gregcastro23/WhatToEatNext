@@ -2,33 +2,16 @@
   "totalHits": 137,
   "currentPage": 1,
   "totalPages": 14,
-  "pageList": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10
-  ],
+  "pageList": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   "foodSearchCriteria": {
-    "dataType": [
-      "SR Legacy",
-      "Survey (FNDDS)"
-    ],
+    "dataType": ["SR Legacy", "Survey (FNDDS)"],
     "query": "syrup",
     "generalSearchInput": "syrup",
     "pageNumber": 1,
     "numberOfResultsPerPage": 50,
     "pageSize": 10,
     "requireAllWords": false,
-    "foodTypes": [
-      "SR Legacy",
-      "Survey (FNDDS)"
-    ]
+    "foodTypes": ["SR Legacy", "Survey (FNDDS)"]
   },
   "foods": [
     {

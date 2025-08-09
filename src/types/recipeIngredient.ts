@@ -1,14 +1,14 @@
 import { Ingredient, ElementalProperties } from './index';
 
 /**
- * Recipe ingredient interface that extends the base Ingredient 
+ * Recipe ingredient interface that extends the base Ingredient
  * with recipe-specific properties (amount, units, etc.)
  */
 export interface RecipeIngredient {
   // Core ingredient identification
   id?: string;
   name: string;
-  
+
   // Recipe-specific properties
   amount: number;
   unit: string;
@@ -18,12 +18,12 @@ export interface RecipeIngredient {
   function?: string;
   cookingPoint?: string;
   substitutes?: string[];
-  
+
   // Ingredient properties (optional in recipe context)
   category?: string;
   elementalProperties?: ElementalProperties;
   qualities?: string[];
-  
+
   // Astrological profile for recipe context
   astrologicalProfile?: {
     elementalAffinity: {
@@ -33,7 +33,7 @@ export interface RecipeIngredient {
     rulingPlanets?: string[];
     zodiacAffinity?: string[];
   };
-  
+
   // Nutritional properties (optional)
   calories?: number;
   macronutrients?: {
@@ -41,27 +41,27 @@ export interface RecipeIngredient {
     protein?: number;
     fat?: number;
   };
-  
+
   // Storage and handling
   storage?: string;
   shelfLife?: string;
-  
+
   // Seasonal availability
   seasonality?: string[];
-  
+
   // Cultural and culinary properties
   origin?: string;
   culinaryUse?: string[];
   flavorProfile?: string[];
-  
+
   // Processing state
   isProcessed?: boolean;
   processingLevel?: 'minimal' | 'moderate' | 'highly-processed';
-  
+
   // Compatibility and pairing
   pairing?: string[];
   avoidWith?: string[];
-  
+
   // Allow additional properties for extensibility
   [key: string]: unknown;
 }
@@ -80,20 +80,24 @@ export interface SimpleIngredient {
  * Validates that an object conforms to the RecipeIngredient interface
  */
 export function validateIngredient(obj: unknown): obj is RecipeIngredient {
-  return Boolean(obj && 
-         typeof (obj as Record<string, unknown>).name === 'string' && 
-         typeof (obj as Record<string, unknown>).amount === 'number' && 
-         typeof (obj as Record<string, unknown>).unit === 'string');
+  return Boolean(
+    obj &&
+      typeof (obj as Record<string, unknown>).name === 'string' &&
+      typeof (obj as Record<string, unknown>).amount === 'number' &&
+      typeof (obj as Record<string, unknown>).unit === 'string',
+  );
 }
 
 /**
  * Creates a RecipeIngredient from a partial object with defaults
  */
-export function createRecipeIngredient(partial: Partial<RecipeIngredient> & { name: string; amount: number; unit: string }): RecipeIngredient {
+export function createRecipeIngredient(
+  partial: Partial<RecipeIngredient> & { name: string; amount: number; unit: string },
+): RecipeIngredient {
   return {
     optional: false,
-    ...partial
+    ...partial,
   };
 }
 
-export default RecipeIngredient; 
+export default RecipeIngredient;

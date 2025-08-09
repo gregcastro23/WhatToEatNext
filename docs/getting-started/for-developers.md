@@ -1,16 +1,19 @@
 # 👨‍💻 Developer Getting Started Guide
 
-Welcome, developer! This guide will get you from zero to productive contributor in 30-60 minutes.
+Welcome, developer! This guide will get you from zero to productive contributor
+in 30-60 minutes.
 
 ## 🎯 Prerequisites
 
 ### Required Knowledge
+
 - **JavaScript/TypeScript**: Intermediate to advanced
 - **React/Next.js**: Familiarity with modern React patterns
 - **Git**: Basic version control operations
 - **Command Line**: Comfortable with terminal/command prompt
 
 ### Optional but Helpful
+
 - **Astrological Concepts**: Basic understanding helpful but not required
 - **Node.js Ecosystem**: npm/yarn, package management
 - **Testing**: Jest, unit testing concepts
@@ -19,6 +22,7 @@ Welcome, developer! This guide will get you from zero to productive contributor 
 ## ⚡ Quick Setup (5 minutes)
 
 ### 1. Clone and Install
+
 ```bash
 # Clone the repository
 git clone https://github.com/your-org/WhatToEatNext.git
@@ -36,6 +40,7 @@ yarn dev
 ```
 
 ### 2. Verify Setup
+
 ```bash
 # Check TypeScript compilation
 npm run type-check
@@ -48,6 +53,7 @@ npm run lint
 ```
 
 ### 3. Open in Browser
+
 - Navigate to `http://localhost:3000`
 - You should see the WhatToEatNext application running
 - Try the astrological demo features to verify functionality
@@ -55,6 +61,7 @@ npm run lint
 ## 🏗️ Project Architecture Overview
 
 ### Directory Structure
+
 ```
 src/
 ├── app/                    # Next.js App Router (pages and layouts)
@@ -78,6 +85,7 @@ src/
 ```
 
 ### Key Technologies
+
 - **Next.js 15.3.4**: App Router with server components
 - **React 19.1.0**: Latest React with concurrent features
 - **TypeScript 5.1.6**: Strict typing with astrological domain modeling
@@ -88,6 +96,7 @@ src/
 ## 🌟 Core Concepts for Developers
 
 ### Astrological Integration
+
 ```typescript
 // Example: Getting current planetary positions
 import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
@@ -104,6 +113,7 @@ async function calculateRecommendations() {
 ```
 
 ### Four-Element System
+
 ```typescript
 // Example: Elemental compatibility calculation
 interface ElementalProperties {
@@ -117,18 +127,19 @@ interface ElementalProperties {
 function calculateCompatibility(source: ElementalProperties, target: ElementalProperties): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
-  
+
   // Same elements: 0.9+ compatibility
   if (sourceDominant === targetDominant) {
     return Math.max(0.9, baseCompatibility);
   }
-  
+
   // Different elements: 0.7+ compatibility (no opposing elements)
   return Math.max(0.7, baseCompatibility);
 }
 ```
 
 ### Campaign System Integration
+
 ```typescript
 // Example: Using the automated quality improvement system
 import { CampaignController } from '@/services/campaign/CampaignController';
@@ -146,6 +157,7 @@ await campaign.execute();
 ## 🧪 Development Workflow
 
 ### 1. Feature Development
+
 ```bash
 # Create feature branch
 git checkout -b feature/your-feature-name
@@ -164,25 +176,27 @@ git push origin feature/your-feature-name
 ```
 
 ### 2. Quality Standards
+
 - **TypeScript**: Strict mode enabled, no `any` types
 - **Testing**: Minimum 80% code coverage
 - **Linting**: ESLint with project-specific rules
 - **Formatting**: Prettier with consistent configuration
 
 ### 3. Astrological Feature Development
+
 ```typescript
 // Always validate astronomical data
 function validatePlanetaryPositions(positions: Record<string, unknown>): boolean {
   const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars'];
-  
+
   for (const planet of requiredPlanets) {
     if (!positions[planet]) return false;
-    
+
     const pos = positions[planet] as any;
     if (!pos.sign || typeof pos.degree !== 'number') return false;
     if (pos.degree < 0 || pos.degree >= 30) return false;
   }
-  
+
   return true;
 }
 
@@ -205,6 +219,7 @@ async function safeAstrologicalCalculation<T>(
 ## 🔧 Development Tools
 
 ### Essential Commands
+
 ```bash
 # Development
 npm run dev              # Start development server
@@ -225,6 +240,7 @@ npm run campaign:perf   # Run performance optimization
 ```
 
 ### IDE Setup Recommendations
+
 ```json
 // .vscode/settings.json
 {
@@ -240,6 +256,7 @@ npm run campaign:perf   # Run performance optimization
 ```
 
 ### Debugging Configuration
+
 ```json
 // .vscode/launch.json
 {
@@ -258,21 +275,22 @@ npm run campaign:perf   # Run performance optimization
 ## 🧪 Testing Approach
 
 ### Unit Testing
+
 ```typescript
 // Example: Testing astrological calculations
 describe('Planetary Calculations', () => {
   test('validates transit dates against stored data', async () => {
     const testDate = new Date('2024-05-16');
     const positions = await getReliablePlanetaryPositions(testDate);
-    
+
     expect(positions).toBeDefined();
     expect(validatePlanetaryPositions(positions)).toBe(true);
   });
-  
+
   test('handles API failures gracefully', async () => {
     // Mock API failure
     jest.spyOn(global, 'fetch').mockRejectedValue(new Error('API Error'));
-    
+
     const positions = await getReliablePlanetaryPositions();
     expect(positions).toEqual(expect.objectContaining({
       sun: expect.objectContaining({ sign: expect.any(String) })
@@ -282,21 +300,22 @@ describe('Planetary Calculations', () => {
 ```
 
 ### Integration Testing
+
 ```typescript
 // Example: Testing elemental compatibility
 describe('Elemental Compatibility', () => {
   test('same elements have highest compatibility', () => {
     const fireProps = { fire: 0.8, water: 0.1, earth: 0.1, air: 0.0 };
     const otherFireProps = { fire: 0.7, water: 0.2, earth: 0.1, air: 0.0 };
-    
+
     const compatibility = calculateElementalCompatibility(fireProps, otherFireProps);
     expect(compatibility).toBeGreaterThanOrEqual(0.9);
   });
-  
+
   test('different elements have good compatibility', () => {
     const fireProps = { fire: 0.8, water: 0.1, earth: 0.1, air: 0.0 };
     const waterProps = { fire: 0.1, water: 0.8, earth: 0.1, air: 0.0 };
-    
+
     const compatibility = calculateElementalCompatibility(fireProps, waterProps);
     expect(compatibility).toBeGreaterThanOrEqual(0.7);
     expect(compatibility).toBeLessThan(0.9);
@@ -307,6 +326,7 @@ describe('Elemental Compatibility', () => {
 ## 🚀 Advanced Topics
 
 ### Campaign System Development
+
 The project includes a sophisticated automated quality improvement system:
 
 ```typescript
@@ -331,20 +351,21 @@ const campaign = new CampaignController({
 ```
 
 ### Performance Optimization
+
 ```typescript
 // Caching astronomical calculations
 const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
 
 class AstronomicalCache {
   private cache = new Map<string, { data: any; timestamp: number }>();
-  
+
   async get<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
     const cached = this.cache.get(key);
-    
+
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       return cached.data;
     }
-    
+
     const data = await fetcher();
     this.cache.set(key, { data, timestamp: Date.now() });
     return data;
@@ -353,6 +374,7 @@ class AstronomicalCache {
 ```
 
 ### Cultural Sensitivity in Code
+
 ```typescript
 // Respectful cultural integration
 interface CulturalContext {
@@ -368,11 +390,11 @@ function generateCulturallyAwareRecommendations(
 ): Recommendation[] {
   // Honor cultural preferences while adding cosmic timing
   const baseRecommendations = getCulturalRecommendations(context);
-  
+
   if (context.astrologicalComfort !== 'none') {
     return enhanceWithCosmicTiming(baseRecommendations, astrologicalData);
   }
-  
+
   return baseRecommendations;
 }
 ```
@@ -380,18 +402,21 @@ function generateCulturallyAwareRecommendations(
 ## 🎯 First Contribution Ideas
 
 ### Beginner-Friendly Tasks
+
 1. **Add unit tests** for existing utility functions
 2. **Improve documentation** with examples and clarifications
 3. **Fix TypeScript warnings** using the campaign system
 4. **Add ingredient data** with proper elemental properties
 
 ### Intermediate Tasks
+
 1. **Implement new astrological calculations** with proper validation
 2. **Create new UI components** following elemental design principles
 3. **Optimize performance** of existing calculations
 4. **Add cultural cuisine integration** with respectful design
 
 ### Advanced Tasks
+
 1. **Develop new campaign types** for quality improvement
 2. **Implement complex astrological features** with cultural sensitivity
 3. **Create advanced testing scenarios** for edge cases
@@ -400,18 +425,23 @@ function generateCulturallyAwareRecommendations(
 ## 📚 Essential Reading
 
 ### Must-Read Documentation
+
 - [Project Overview](project-overview.md) - Vision and principles
 - [Architecture Guide](../technical/architecture.md) - System design
-- [Astrological Integration](../guides/astrological-integration.md) - Cosmic features
-- [Contributing Guidelines](../development/contributing.md) - Contribution process
+- [Astrological Integration](../guides/astrological-integration.md) - Cosmic
+  features
+- [Contributing Guidelines](../development/contributing.md) - Contribution
+  process
 
 ### Key Source Files
+
 - `src/utils/reliableAstronomy.ts` - Astronomical calculations
 - `src/constants/elementalProperties.ts` - Four-element system
 - `src/services/campaign/CampaignController.ts` - Quality improvement
 - `src/calculations/culinary/` - Culinary astrology
 
 ### Steering Files (Kiro Context)
+
 - `.kiro/steering/tech.md` - Technology stack guidance
 - `.kiro/steering/astrology-rules.md` - Astrological calculation rules
 - `.kiro/steering/elemental-principles.md` - Four-element system enforcement
@@ -420,12 +450,14 @@ function generateCulturallyAwareRecommendations(
 ## 🤝 Getting Help
 
 ### When You're Stuck
+
 1. **Check the documentation** - Most questions are answered here
 2. **Look at existing code** - Find similar implementations
 3. **Run the tests** - Understanding tests helps understand requirements
 4. **Ask in discussions** - Community is helpful and welcoming
 
 ### Code Review Process
+
 1. **Self-review first** - Check your own code thoroughly
 2. **Write descriptive commits** - Explain what and why
 3. **Include tests** - New features need test coverage
@@ -440,8 +472,11 @@ You're now ready to contribute to WhatToEatNext! Remember:
 - **Follow standards** - Quality is important to us
 - **Have fun** - You're building something unique and meaningful
 
-**Ready to code? Check out the [Contributing Guidelines](../development/contributing.md) and pick your first issue!** 🚀
+**Ready to code? Check out the
+[Contributing Guidelines](../development/contributing.md) and pick your first
+issue!** 🚀
 
 ---
 
-*Need help with setup? Check the [Troubleshooting Guide](../development/troubleshooting.md) or create an issue.*
+_Need help with setup? Check the
+[Troubleshooting Guide](../development/troubleshooting.md) or create an issue._

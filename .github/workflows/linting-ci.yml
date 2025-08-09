@@ -17,8 +17,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '23.11.0'
-          cache: 'yarn'
+          node-version: "23.11.0"
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -79,8 +79,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '23.11.0'
-          cache: 'yarn'
+          node-version: "23.11.0"
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile

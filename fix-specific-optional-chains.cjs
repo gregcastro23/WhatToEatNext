@@ -69,7 +69,6 @@ class SpecificOptionalChainFixer {
       } else {
         console.log(`  ℹ️ No fixable optional chain patterns found`);
       }
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
     }
@@ -99,7 +98,7 @@ class SpecificOptionalChainFixer {
     // Target specific files with known issues
     const targetFiles = [
       'src/components/ChakraDisplay.migrated.tsx',
-      'src/components/CookingMethodsSection.migrated.tsx'
+      'src/components/CookingMethodsSection.migrated.tsx',
     ];
 
     for (const file of targetFiles) {

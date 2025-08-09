@@ -10,7 +10,7 @@ export class ThemeManager {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }
-  
+
   async initializeTheme() {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
@@ -27,10 +27,10 @@ export class ThemeManager {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
       const savedAccent = localStorage.getItem('accent-color') || 'blue';
-      
+
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
-        accent: savedAccent
+        accent: savedAccent,
       };
     } catch (error) {
       logger.error('Error getting theme:', error);
@@ -41,4 +41,4 @@ export class ThemeManager {
 
 export const themeManager = new ThemeManager();
 
-export { themeManager as default }; 
+export { themeManager as default };

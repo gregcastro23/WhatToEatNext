@@ -23,7 +23,7 @@ export const planetaryElementMap: Record<RulingPlanet, ElementalCharacter> = {
   Saturn: 'Earth',
   Neptune: 'Water',
   Uranus: 'Air',
-  Pluto: 'Earth'
+  Pluto: 'Earth',
 };
 
 /**
@@ -33,7 +33,7 @@ export const tarotSuitElementMap: Record<string, ElementalCharacter> = {
   Wands: 'Fire',
   Cups: 'Water',
   Pentacles: 'Earth',
-  Swords: 'Air'
+  Swords: 'Air',
 };
 
 /**
@@ -104,7 +104,7 @@ export const tarotCardQuantumValues: Record<string, number> = {
   'Page of Swords': 1,
   'Knight of Swords': 2,
   'Queen of Swords': 3,
-  'King of Swords': 4
+  'King of Swords': 4,
 };
 
 /**
@@ -118,20 +118,20 @@ export const majorArcanaPlanetMap: Record<string, RulingPlanet> = {
   'The Hierophant': 'Jupiter',
   'The Lovers': 'Venus',
   'The Chariot': 'Moon',
-  'Strength': 'Sun',
+  Strength: 'Sun',
   'The Hermit': 'Saturn',
   'Wheel of Fortune': 'Jupiter',
-  'Justice': 'Venus',
+  Justice: 'Venus',
   'The Hanged Man': 'Neptune',
-  'Death': 'Pluto',
-  'Temperance': 'Jupiter',
+  Death: 'Pluto',
+  Temperance: 'Jupiter',
   'The Devil': 'Saturn',
   'The Tower': 'Mars',
   'The Star': 'Uranus',
   'The Moon': 'Moon',
   'The Sun': 'Sun',
-  'Judgement': 'Pluto',
-  'The World': 'Saturn'
+  Judgement: 'Pluto',
+  'The World': 'Saturn',
 };
 
 /**
@@ -147,7 +147,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
   Saturn: 'Matter',
   Neptune: 'Essence',
   Uranus: 'Substance',
-  Pluto: 'Matter'
+  Pluto: 'Matter',
 };
 
 /**
@@ -180,13 +180,13 @@ export const getTarotCardElement = (cardName: string): ElementalCharacter | null
       return element;
     }
   }
-  
+
   // For major arcana, use the planetary association if available
   const planet = majorArcanaPlanetMap[cardName];
   if (planet) {
     return planetaryElementMap[planet];
   }
-  
+
   return null;
 };
 
@@ -206,4 +206,4 @@ export const getTarotCardQuantum = (cardName: string): number => {
  */
 export const getTarotCardPlanet = (cardName: string): RulingPlanet | null => {
   return majorArcanaPlanetMap[cardName] || null;
-}; 
+};

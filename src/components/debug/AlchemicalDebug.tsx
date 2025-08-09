@@ -6,8 +6,8 @@ import { testCookingMethodRecommendations } from '../../utils/testRecommendation
 
 interface TestResult {
   ingredient: unknown;
-  holisticRecommendations: Array<{ method: string, compatibility: number, reason: string }>;
-  standardRecommendations: Array<{ method: string, compatibility: number }>;
+  holisticRecommendations: Array<{ method: string; compatibility: number; reason: string }>;
+  standardRecommendations: Array<{ method: string; compatibility: number }>;
 }
 
 /**
@@ -21,7 +21,7 @@ const AlchemicalDebug: React.FC = () => {
   const runTest = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       log.info('Running cooking method recommendations test...');
       const results = await testCookingMethodRecommendations();
@@ -36,51 +36,51 @@ const AlchemicalDebug: React.FC = () => {
   };
 
   return (
-    <div className="p-4 bg-white dark:bg-gray-800 rounded shadow">
-      <h2 className="text-xl font-bold mb-4">Alchemical Debug Tools</h2>
-      
-      <div className="mb-4">
-        <button 
+    <div className='rounded bg-white p-4 shadow dark:bg-gray-800'>
+      <h2 className='mb-4 text-xl font-bold'>Alchemical Debug Tools</h2>
+
+      <div className='mb-4'>
+        <button
           onClick={runTest}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          className='rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600'
           disabled={loading}
         >
           {loading ? 'Running Test...' : 'Test Cooking Method Recommendations'}
         </button>
       </div>
-      
+
       {error && (
-        <div className="p-3 mb-4 bg-red-100 border border-red-300 text-red-800 rounded">
-          <p className="font-bold">Error:</p>
+        <div className='mb-4 rounded border border-red-300 bg-red-100 p-3 text-red-800'>
+          <p className='font-bold'>Error:</p>
           <p>{error}</p>
         </div>
       )}
-      
+
       {testResults && (
-        <div className="mt-4">
-          <h3 className="text-lg font-bold mb-2">Test Results</h3>
-          
-          <div className="mb-4">
+        <div className='mt-4'>
+          <h3 className='mb-2 text-lg font-bold'>Test Results</h3>
+
+          <div className='mb-4'>
             {/* Apply surgical type casting with variable extraction */}
             {(() => {
               const ingredientData = testResults.ingredient as any;
               const name = ingredientData?.name;
               const element = ingredientData?.element;
               const elementalCharacter = ingredientData?.elementalCharacter;
-              
+
               return (
                 <>
-                  <h4 className="font-bold">Ingredient: {name}</h4>
+                  <h4 className='font-bold'>Ingredient: {name}</h4>
                   <p>Element: {element}</p>
                   <p>Elemental Character: {elementalCharacter}</p>
                 </>
               );
             })()}
           </div>
-          
-          <div className="mb-4">
-            <h4 className="font-bold">Holistic Recommendations:</h4>
-            <ul className="list-disc list-inside">
+
+          <div className='mb-4'>
+            <h4 className='font-bold'>Holistic Recommendations:</h4>
+            <ul className='list-inside list-disc'>
               {testResults.holisticRecommendations.map((rec, index) => (
                 <li key={`holistic-${index}`}>
                   {rec.method} - {Math.round(rec.compatibility)}% - {rec.reason}
@@ -88,10 +88,10 @@ const AlchemicalDebug: React.FC = () => {
               ))}
             </ul>
           </div>
-          
-          <div className="mb-4">
-            <h4 className="font-bold">Standard Recommendations:</h4>
-            <ul className="list-disc list-inside">
+
+          <div className='mb-4'>
+            <h4 className='font-bold'>Standard Recommendations:</h4>
+            <ul className='list-inside list-disc'>
               {testResults.standardRecommendations.map((rec, index) => (
                 <li key={`standard-${index}`}>
                   {rec.method} - {Math.round(rec.compatibility)}%
@@ -105,4 +105,4 @@ const AlchemicalDebug: React.FC = () => {
   );
 };
 
-export default AlchemicalDebug; 
+export default AlchemicalDebug;

@@ -29,15 +29,19 @@ export interface CookingMethodInfo {
   equipmentComplexity?: string;
   regionalVariations?: string;
   modernVariations?: string;
-  time_range?: string | {
-    min: number;
-    max: number;
-  };
-  temperature_range?: string | {
-    min: number;
-    max: number;
-    unit?: string;
-  };
+  time_range?:
+    | string
+    | {
+        min: number;
+        max: number;
+      };
+  temperature_range?:
+    | string
+    | {
+        min: number;
+        max: number;
+        unit?: string;
+      };
   alchemical_properties?: Record<string, unknown>;
   tools?: string[] | string;
   famous_dishes?: string[] | string;
@@ -51,4 +55,4 @@ export interface CookingMethodInfo {
 // Export a default empty object for now
 export const cookingMethods: Record<string, CookingMethodInfo> = {};
 
-export default cookingMethods; 
+export default cookingMethods;

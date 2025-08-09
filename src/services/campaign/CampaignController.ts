@@ -15,7 +15,7 @@ import {
   SafetyEvent,
   SafetyEventType,
   SafetyEventSeverity,
-  MetricsImprovement
+  MetricsImprovement,
 } from '../../types/campaign';
 
 export class CampaignController {
@@ -33,24 +33,22 @@ export class CampaignController {
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
     const startTime = Date.now();
     this.currentPhase = phase;
-    
+
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: `Starting phase: ${phase.name}`,
       severity: SafetyEventSeverity.INFO,
-      action: 'PHASE_START'
+      action: 'PHASE_START',
     });
 
     try {
       // Create safety checkpoint before phase execution
-      const checkpointId = await this.createSafetyCheckpoint(
-        `Pre-phase checkpoint: ${phase.name}`
-      );
+      const checkpointId = await this.createSafetyCheckpoint(`Pre-phase checkpoint: ${phase.name}`);
 
       // Initialize phase metrics
       const initialMetrics = await this.getCurrentMetrics();
-      
+
       // Execute phase tools in sequence
       let filesProcessed = 0;
       let errorsFixed = 0;
@@ -60,7 +58,7 @@ export class CampaignController {
         const toolResult = await this.executeTool(tool);
         filesProcessed += toolResult.filesProcessed.length;
         errorsFixed += toolResult.changesApplied;
-        
+
         // Validate after each tool execution
         const validation = await this.validatePhaseProgress(phase);
         if (!validation.success && this.config.safetySettings.automaticRollbackEnabled) {
@@ -83,7 +81,7 @@ export class CampaignController {
         errorsFixed,
         warningsFixed,
         executionTime,
-        safetyEvents: [...this.safetyEvents]
+        safetyEvents: [...this.safetyEvents],
       };
 
       this.addSafetyEvent({
@@ -91,18 +89,17 @@ export class CampaignController {
         timestamp: new Date(),
         description: `Phase completed successfully: ${phase.name}`,
         severity: SafetyEventSeverity.INFO,
-        action: 'PHASE_COMPLETE'
+        action: 'PHASE_COMPLETE',
       });
 
       return result;
-
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.BUILD_FAILURE,
         timestamp: new Date(),
         description: `Phase execution failed: ${(error as Error).message}`,
         severity: SafetyEventSeverity.ERROR,
-        action: 'PHASE_FAILED'
+        action: 'PHASE_FAILED',
       });
 
       const executionTime = Date.now() - startTime;
@@ -114,13 +111,13 @@ export class CampaignController {
           typeScriptErrorsReduced: 0,
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
-          enterpriseSystemsAdded: 0
+          enterpriseSystemsAdded: 0,
         },
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,
         executionTime,
-        safetyEvents: [...this.safetyEvents]
+        safetyEvents: [...this.safetyEvents],
       };
     }
   }
@@ -138,7 +135,7 @@ export class CampaignController {
       if (phase.successCriteria.typeScriptErrors !== undefined) {
         if (currentMetrics.typeScriptErrors.current > phase.successCriteria.typeScriptErrors) {
           errors.push(
-            `TypeScript errors: ${currentMetrics.typeScriptErrors.current} > ${phase.successCriteria.typeScriptErrors}`
+            `TypeScript errors: ${currentMetrics.typeScriptErrors.current} > ${phase.successCriteria.typeScriptErrors}`,
           );
         }
       }
@@ -147,7 +144,7 @@ export class CampaignController {
       if (phase.successCriteria.lintingWarnings !== undefined) {
         if (currentMetrics.lintingWarnings.current > phase.successCriteria.lintingWarnings) {
           errors.push(
-            `Linting warnings: ${currentMetrics.lintingWarnings.current} > ${phase.successCriteria.lintingWarnings}`
+            `Linting warnings: ${currentMetrics.lintingWarnings.current} > ${phase.successCriteria.lintingWarnings}`,
           );
         }
       }
@@ -156,7 +153,7 @@ export class CampaignController {
       if (phase.successCriteria.buildTime !== undefined) {
         if (currentMetrics.buildPerformance.currentTime > phase.successCriteria.buildTime) {
           warnings.push(
-            `Build time: ${currentMetrics.buildPerformance.currentTime}s > ${phase.successCriteria.buildTime}s`
+            `Build time: ${currentMetrics.buildPerformance.currentTime}s > ${phase.successCriteria.buildTime}s`,
           );
         }
       }
@@ -165,7 +162,7 @@ export class CampaignController {
       if (phase.successCriteria.enterpriseSystems !== undefined) {
         if (currentMetrics.enterpriseSystems.current < phase.successCriteria.enterpriseSystems) {
           errors.push(
-            `Enterprise systems: ${currentMetrics.enterpriseSystems.current} < ${phase.successCriteria.enterpriseSystems}`
+            `Enterprise systems: ${currentMetrics.enterpriseSystems.current} < ${phase.successCriteria.enterpriseSystems}`,
           );
         }
       }
@@ -182,14 +179,13 @@ export class CampaignController {
         success: errors.length === 0,
         errors,
         warnings,
-        metrics: currentMetrics
+        metrics: currentMetrics,
       };
-
     } catch (error) {
       return {
         success: false,
         errors: [`Validation error: ${(error as Error).message}`],
-        warnings: []
+        warnings: [],
       };
     }
   }
@@ -201,13 +197,13 @@ export class CampaignController {
     // This will be implemented by the SafetyProtocol class
     // For now, return a mock checkpoint ID
     const checkpointId = `checkpoint_${Date.now()}`;
-    
+
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: `Safety checkpoint created: ${description}`,
       severity: SafetyEventSeverity.INFO,
-      action: 'CHECKPOINT_CREATE'
+      action: 'CHECKPOINT_CREATE',
     });
 
     return checkpointId;
@@ -222,7 +218,7 @@ export class CampaignController {
       timestamp: new Date(),
       description: `Rolling back to checkpoint: ${checkpointId}`,
       severity: SafetyEventSeverity.WARNING,
-      action: 'ROLLBACK'
+      action: 'ROLLBACK',
     });
 
     // This will be implemented by the SafetyProtocol class
@@ -252,7 +248,7 @@ export class CampaignController {
       metrics: currentMetrics,
       achievements: this.generateAchievements(phase, currentMetrics),
       issues: validation.errors,
-      recommendations: this.generateRecommendations(phase, validation)
+      recommendations: this.generateRecommendations(phase, validation),
     };
   }
 
@@ -272,13 +268,13 @@ export class CampaignController {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFiles: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
-              safetyLevel: 'MAXIMUM' as any
-            }
+              safetyLevel: 'MAXIMUM' as any,
+            },
           ],
           successCriteria: {
-            typeScriptErrors: 0
+            typeScriptErrors: 0,
           },
-          safetyCheckpoints: []
+          safetyCheckpoints: [],
         },
         {
           id: 'phase2',
@@ -289,14 +285,14 @@ export class CampaignController {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFiles: 25, autoFix: true },
               batchSize: 25,
-              safetyLevel: 'HIGH' as any
-            }
+              safetyLevel: 'HIGH' as any,
+            },
           ],
           successCriteria: {
-            lintingWarnings: 0
+            lintingWarnings: 0,
           },
-          safetyCheckpoints: []
-        }
+          safetyCheckpoints: [],
+        },
       ],
       safetySettings: {
         maxFilesPerBatch: 25,
@@ -304,20 +300,20 @@ export class CampaignController {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200
+        enterpriseSystems: 200,
       },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
 
     // If configPath is provided, load from file
@@ -332,7 +328,7 @@ export class CampaignController {
     return {
       filesProcessed: [],
       changesApplied: 0,
-      success: true
+      success: true,
     };
   }
 
@@ -341,7 +337,7 @@ export class CampaignController {
     return {
       success: true,
       errors: [],
-      warnings: []
+      warnings: [],
     };
   }
 
@@ -353,75 +349,75 @@ export class CampaignController {
         current: 86,
         target: 0,
         reduction: 0,
-        percentage: 0
+        percentage: 0,
       },
       lintingWarnings: {
         current: 4506,
         target: 0,
         reduction: 0,
-        percentage: 0
+        percentage: 0,
       },
       buildPerformance: {
         currentTime: 8.5,
         targetTime: 10,
         cacheHitRate: 0.8,
-        memoryUsage: 45
+        memoryUsage: 45,
       },
       enterpriseSystems: {
         current: 0,
         target: 200,
-        transformedExports: 0
-      }
+        transformedExports: 0,
+      },
     };
   }
 
   private calculateMetricsImprovement(
     initial: ProgressMetrics,
-    final: ProgressMetrics
+    final: ProgressMetrics,
   ): MetricsImprovement {
     return {
       typeScriptErrorsReduced: initial.typeScriptErrors.current - final.typeScriptErrors.current,
       lintingWarningsReduced: initial.lintingWarnings.current - final.lintingWarnings.current,
       buildTimeImproved: initial.buildPerformance.currentTime - final.buildPerformance.currentTime,
-      enterpriseSystemsAdded: final.enterpriseSystems.current - initial.enterpriseSystems.current
+      enterpriseSystemsAdded: final.enterpriseSystems.current - initial.enterpriseSystems.current,
     };
   }
 
   private generateAchievements(phase: CampaignPhase, metrics: ProgressMetrics): string[] {
     const achievements: string[] = [];
-    
+
     if (metrics.typeScriptErrors.current === 0) {
       achievements.push('Zero TypeScript errors achieved');
     }
-    
+
     if (metrics.lintingWarnings.current === 0) {
       achievements.push('Zero linting warnings achieved');
     }
-    
+
     if (metrics.buildPerformance.currentTime <= 10) {
       achievements.push('Build time under 10 seconds maintained');
     }
-    
+
     return achievements;
   }
 
   private generateRecommendations(phase: CampaignPhase, validation: ValidationResult): string[] {
     const recommendations: string[] = [];
-    
+
     if (validation.errors.length > 0) {
       recommendations.push('Address validation errors before proceeding');
     }
-    
+
     if (validation.warnings.length > 0) {
       recommendations.push('Consider addressing warnings for optimal performance');
     }
-    
+
     return recommendations;
   }
 
   private addSafetyEvent(event: SafetyEvent): void {
     this.safetyEvents.push(event);
-    
+
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 1000) {
       this.safetyEvents = this.safetyEvents.slice(-500);

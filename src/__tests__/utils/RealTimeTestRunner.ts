@@ -48,7 +48,7 @@ export class RealTimeTestRunner {
    */
   async runRealTimeTest(
     testFunction: () => Promise<void>,
-    config: RealTimeTestConfig
+    config: RealTimeTestConfig,
   ): Promise<RealTimeTestResult> {
     const {
       testName,
@@ -56,7 +56,7 @@ export class RealTimeTestRunner {
       memoryLimit = MEMORY_LIMITS.integration,
       retries = 2,
       cleanupFunction,
-      expectedErrors = []
+      expectedErrors = [],
     } = config;
 
     const result: RealTimeTestResult = {
@@ -70,8 +70,8 @@ export class RealTimeTestRunner {
         averageMemory: 0,
         memoryReadings: [],
         timeouts: 0,
-        retries: 0
-      }
+        retries: 0,
+      },
     };
 
     const startTime = Date.now();
@@ -96,10 +96,7 @@ export class RealTimeTestRunner {
 
         try {
           // Run the test with timeout race
-          await Promise.race([
-            testFunction(),
-            timeoutPromise
-          ]);
+          await Promise.race([testFunction(), timeoutPromise]);
 
           result.success = true;
           break;
@@ -107,9 +104,7 @@ export class RealTimeTestRunner {
           const errorMessage = error instanceof Error ? error.message : String(error);
 
           // Check if this is an expected error
-          const isExpectedError = expectedErrors.some(expected =>
-            errorMessage.includes(expected)
-          );
+          const isExpectedError = expectedErrors.some(expected => errorMessage.includes(expected));
 
           if (isExpectedError) {
             result.warnings.push(`Expected error occurred: ${errorMessage}`);
@@ -168,14 +163,14 @@ export class RealTimeTestRunner {
       name: string;
       testFunction: () => Promise<void>;
       config?: Partial<RealTimeTestConfig>;
-    }>
+    }>,
   ): Promise<Map<string, RealTimeTestResult>> {
     const results = new Map<string, RealTimeTestResult>();
 
     for (const test of tests) {
       const config: RealTimeTestConfig = {
         testName: test.name,
-        ...test.config
+        ...test.config,
       };
 
       try {
@@ -195,8 +190,8 @@ export class RealTimeTestRunner {
             averageMemory: 0,
             memoryReadings: [],
             timeouts: 0,
-            retries: 0
-          }
+            retries: 0,
+          },
         });
       }
 
@@ -218,7 +213,7 @@ export class RealTimeTestRunner {
       maxMemoryUsage?: number;
       maxFailureRate?: number;
       requiredSuccessTests?: string[];
-    }
+    },
   ): { isValid: boolean; issues: string[]; summary: any } {
     const issues: string[] = [];
     const summary = {
@@ -228,7 +223,7 @@ export class RealTimeTestRunner {
       averageDuration: 0,
       averageMemoryUsage: 0,
       totalTimeouts: 0,
-      totalRetries: 0
+      totalRetries: 0,
     };
 
     let totalDuration = 0;
@@ -249,11 +244,15 @@ export class RealTimeTestRunner {
 
       // Check individual test expectations
       if (expectations.maxDuration && result.duration > expectations.maxDuration) {
-        issues.push(`Test "${testName}" exceeded max duration: ${result.duration}ms > ${expectations.maxDuration}ms`);
+        issues.push(
+          `Test "${testName}" exceeded max duration: ${result.duration}ms > ${expectations.maxDuration}ms`,
+        );
       }
 
       if (expectations.maxMemoryUsage && result.memoryUsage > expectations.maxMemoryUsage) {
-        issues.push(`Test "${testName}" exceeded memory limit: ${result.memoryUsage / 1024 / 1024}MB > ${expectations.maxMemoryUsage / 1024 / 1024}MB`);
+        issues.push(
+          `Test "${testName}" exceeded memory limit: ${result.memoryUsage / 1024 / 1024}MB > ${expectations.maxMemoryUsage / 1024 / 1024}MB`,
+        );
       }
     }
 
@@ -263,7 +262,9 @@ export class RealTimeTestRunner {
     // Check overall failure rate
     const failureRate = summary.failedTests / summary.totalTests;
     if (expectations.maxFailureRate && failureRate > expectations.maxFailureRate) {
-      issues.push(`Failure rate ${(failureRate * 100).toFixed(1)}% exceeds maximum ${(expectations.maxFailureRate * 100).toFixed(1)}%`);
+      issues.push(
+        `Failure rate ${(failureRate * 100).toFixed(1)}% exceeds maximum ${(expectations.maxFailureRate * 100).toFixed(1)}%`,
+      );
     }
 
     // Check required success tests
@@ -279,7 +280,7 @@ export class RealTimeTestRunner {
     return {
       isValid: issues.length === 0,
       issues,
-      summary
+      summary,
     };
   }
 
@@ -289,7 +290,7 @@ export class RealTimeTestRunner {
   private startMemoryMonitoring(
     testName: string,
     memoryLimit: number,
-    result: RealTimeTestResult
+    result: RealTimeTestResult,
   ): NodeJS.Timeout {
     return setInterval(() => {
       const currentMemory = process.memoryUsage().heapUsed;
@@ -297,7 +298,9 @@ export class RealTimeTestRunner {
       result.metrics.peakMemory = Math.max(result.metrics.peakMemory, currentMemory);
 
       if (currentMemory > memoryLimit) {
-        result.warnings.push(`Memory limit exceeded in "${testName}": ${currentMemory / 1024 / 1024}MB`);
+        result.warnings.push(
+          `Memory limit exceeded in "${testName}": ${currentMemory / 1024 / 1024}MB`,
+        );
       }
     }, 100);
   }
@@ -361,7 +364,7 @@ export class RealTimeTestRunner {
  */
 export async function runRealTimeTest(
   testFunction: () => Promise<void>,
-  config: RealTimeTestConfig
+  config: RealTimeTestConfig,
 ): Promise<RealTimeTestResult> {
   const runner = RealTimeTestRunner.getInstance();
   return runner.runRealTimeTest(testFunction, config);
@@ -375,7 +378,7 @@ export async function runRealTimeTestSuite(
     name: string;
     testFunction: () => Promise<void>;
     config?: Partial<RealTimeTestConfig>;
-  }>
+  }>,
 ): Promise<Map<string, RealTimeTestResult>> {
   const runner = RealTimeTestRunner.getInstance();
   return runner.runTestSuite(tests);

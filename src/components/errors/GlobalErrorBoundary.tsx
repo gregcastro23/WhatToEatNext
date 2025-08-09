@@ -9,7 +9,7 @@ interface ErrorFallbackProps {
 
 function ErrorFallback({ error, resetErrorBoundary, context = 'Unknown' }: ErrorFallbackProps) {
   return (
-    <div role="alert" className="error-boundary">
+    <div role='alert' className='error-boundary'>
       <h2>Something went wrong in {context}:</h2>
       <pre>{error.message}</pre>
       <button onClick={resetErrorBoundary}>Try again</button>
@@ -20,16 +20,20 @@ function ErrorFallback({ error, resetErrorBoundary, context = 'Unknown' }: Error
 interface GlobalErrorBoundaryProps {
   children: React.ReactNode;
   context?: string;
-  fallback?: React.ComponentType<{ error: Error; resetErrorBoundary: () => void; context?: string }>;
+  fallback?: React.ComponentType<{
+    error: Error;
+    resetErrorBoundary: () => void;
+    context?: string;
+  }>;
 }
 
-export function GlobalErrorBoundary({ 
-  children, 
+export function GlobalErrorBoundary({
+  children,
   context = 'Unknown',
-  fallback 
+  fallback,
 }: GlobalErrorBoundaryProps) {
   const CustomFallback = fallback || ErrorFallback;
-  
+
   return (
     <ErrorBoundary
       FallbackComponent={CustomFallback}

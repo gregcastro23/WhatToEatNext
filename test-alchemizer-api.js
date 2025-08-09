@@ -10,7 +10,7 @@ async function testAlchemizerApi() {
     minute: now.getMinutes(),
     latitude: 40.7498,
     longitude: -73.7976,
-    ayanamsa: 'TROPICAL'
+    ayanamsa: 'TROPICAL',
   };
 
   console.log('Sending payload:', payload);
@@ -18,7 +18,7 @@ async function testAlchemizerApi() {
   const response = await fetch('https://alchm-backend.onrender.com/astrologize', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   const data = await response.json();
@@ -34,18 +34,33 @@ async function testAlchemizerApi() {
 
   // Map to { planet: { sign, degree, minute, isRetrograde } }
   const planetKeys = [
-    'sun', 'moon', 'mercury', 'venus', 'mars',
-    'jupiter', 'saturn', 'uranus', 'neptune', 'pluto', 'ascendant'
+    'sun',
+    'moon',
+    'mercury',
+    'venus',
+    'mars',
+    'jupiter',
+    'saturn',
+    'uranus',
+    'neptune',
+    'pluto',
+    'ascendant',
   ];
   const positions = {};
   for (const key of planetKeys) {
     const p = celestial[key];
-    if (p && p.Sign && p.ChartPosition && p.ChartPosition.Ecliptic && p.ChartPosition.Ecliptic.ArcDegrees) {
+    if (
+      p &&
+      p.Sign &&
+      p.ChartPosition &&
+      p.ChartPosition.Ecliptic &&
+      p.ChartPosition.Ecliptic.ArcDegrees
+    ) {
       positions[key.charAt(0).toUpperCase() + key.slice(1)] = {
         sign: p.Sign.key.toLowerCase(),
         degree: p.ChartPosition.Ecliptic.ArcDegrees.degrees,
         minute: p.ChartPosition.Ecliptic.ArcDegrees.minutes,
-        isRetrograde: p.isRetrograde || false
+        isRetrograde: p.isRetrograde || false,
       };
     }
   }
@@ -58,4 +73,4 @@ async function testAlchemizerApi() {
   console.log(JSON.stringify(positions, null, 2));
 }
 
-testAlchemizerApi().catch(console.error); 
+testAlchemizerApi().catch(console.error);

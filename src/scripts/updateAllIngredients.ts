@@ -1,9 +1,9 @@
 /**
  * Master script to run all the individual category update scripts
  * This allows updating all ingredient categories one after another
- * 
+ *
  * Run with: yarn ts-node src/scripts/updateAllIngredients.ts
- * 
+ *
  * You can also specify which categories to update, e.g.:
  * yarn ts-node src/scripts/updateAllIngredients.ts herbs spices
  */
@@ -27,7 +27,7 @@ const categoryUpdaters = {
   proteins: updateProteins,
   spices: updateSpices,
   oils: updateOils,
-  vinegars: updateVinegars
+  vinegars: updateVinegars,
 };
 
 // All categories in the order they should be processed
@@ -39,7 +39,7 @@ const ALL_CATEGORIES = [
   'grains',
   'proteins',
   'oils',
-  'vinegars'
+  'vinegars',
 ];
 
 /**
@@ -49,14 +49,14 @@ const ALL_CATEGORIES = [
  */
 async function updateCategories(categories) {
   // console.log(`Starting update for categories: ${categories.join(', ')}`);
-  
+
   for (const category of categories) {
     const updater = categoryUpdaters[category];
     if (!updater) {
       // console.warn(`No updater found for category: ${category}`);
       continue;
     }
-    
+
     // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
     try {
       await updater();
@@ -64,7 +64,7 @@ async function updateCategories(categories) {
       // console.error(`Error updating ${category}:`, error);
     }
   }
-  
+
   // console.log('\nAll specified categories have been processed.');
 }
 
@@ -72,23 +72,21 @@ async function updateCategories(categories) {
 async function main() {
   // Get categories from command line arguments, or use all categories if none specified
   const args = process.argv.slice(2);
-  
+
   // If specific categories are requested, validate them and only process those
   let categoriesToProcess = ALL_CATEGORIES;
-  
+
   if (args.length > 0) {
-    const validCategories = args.filter(cat => 
-      ALL_CATEGORIES.includes(cat.toLowerCase())
-    );
-    
+    const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()));
+
     if (validCategories.length === 0) {
       // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`);
       process.exit(1);
     }
-    
+
     categoriesToProcess = validCategories;
   }
-  
+
   await updateCategories(categoriesToProcess);
 }
 
@@ -101,4 +99,4 @@ if (require.main === module) {
 }
 
 // Export for use in other scripts if needed
-module.exports = { updateCategories }; 
+module.exports = { updateCategories };

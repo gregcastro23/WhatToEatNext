@@ -2,16 +2,22 @@
 
 ## Overview
 
-The ConsolidatedDebugInfo component provides a comprehensive debugging interface for the "What To Eat Next" application. It consolidates real-time performance metrics, astrological data, and component state monitoring into a single, draggable panel.
+The ConsolidatedDebugInfo component provides a comprehensive debugging interface
+for the "What To Eat Next" application. It consolidates real-time performance
+metrics, astrological data, and component state monitoring into a single,
+draggable panel.
 
 ## Features
 
 ### ✅ Task 2.1: ConsolidatedDebugInfo Component
+
 - **Collapsible debug panel** positioned in bottom right corner
-- **Real-time astrological data display** including sun sign, lunar phase, planetary hour
+- **Real-time astrological data display** including sun sign, lunar phase,
+  planetary hour
 - **Component state monitoring** with loading states and error tracking
 
 ### ✅ Task 2.2: Performance Metrics Tracking
+
 - **Render time monitoring** with average calculations
 - **Memory usage tracking** (when available in browser)
 - **Error count display** with recent error history
@@ -19,6 +25,7 @@ The ConsolidatedDebugInfo component provides a comprehensive debugging interface
 - **Component-specific performance data**
 
 ### ✅ Task 2.3: Debug Panel Toggle and Positioning
+
 - **Show/hide functionality** with persistent state
 - **Drag-and-drop repositioning** with boundary constraints
 - **Persistent settings storage** in localStorage
@@ -28,9 +35,11 @@ The ConsolidatedDebugInfo component provides a comprehensive debugging interface
 ## Components
 
 ### ConsolidatedDebugInfo
+
 Main debug panel component with all features integrated.
 
 **Props:**
+
 ```typescript
 interface DebugInfoProps {
   position?: 'bottom-right' | 'bottom-left' | 'top-right';
@@ -42,14 +51,18 @@ interface DebugInfoProps {
 ```
 
 ### DebugPanelDemo
+
 Demo component showcasing the debug panel functionality.
 
 ## Hooks
 
 ### usePerformanceMetrics
-Tracks component performance metrics including render times, memory usage, and errors.
+
+Tracks component performance metrics including render times, memory usage, and
+errors.
 
 **Returns:**
+
 - `metrics`: Current performance data
 - `trackRenderStart/End`: Manual render tracking
 - `trackDataFetch`: Async operation tracking
@@ -57,9 +70,11 @@ Tracks component performance metrics including render times, memory usage, and e
 - `resetMetrics`: Reset all metrics
 
 ### useDebugSettings
+
 Manages persistent debug panel settings.
 
 **Returns:**
+
 - `settings`: Current settings object
 - `toggleVisibility`: Show/hide panel
 - `toggleCollapsed`: Expand/collapse panel
@@ -68,9 +83,11 @@ Manages persistent debug panel settings.
 - Various toggle functions for display options
 
 ### useDraggable
+
 Provides drag-and-drop functionality for elements.
 
 **Options:**
+
 - `handle`: CSS selector for drag handle
 - `bounds`: Boundary constraints
 - `onDragStart/Drag/End`: Event callbacks
@@ -78,9 +95,11 @@ Provides drag-and-drop functionality for elements.
 ## Services
 
 ### PerformanceMonitoringService
+
 Singleton service that monitors system-wide performance metrics.
 
 **Features:**
+
 - Component render tracking
 - Memory usage monitoring
 - Error rate calculation
@@ -91,6 +110,7 @@ Singleton service that monitors system-wide performance metrics.
 ## Usage
 
 ### Basic Usage
+
 ```tsx
 import { ConsolidatedDebugInfo } from '@/components/debug';
 
@@ -105,6 +125,7 @@ function App() {
 ```
 
 ### With Custom Settings
+
 ```tsx
 <ConsolidatedDebugInfo
   position="top-right"
@@ -115,6 +136,7 @@ function App() {
 ```
 
 ### Demo Page
+
 ```tsx
 import { DebugPanelDemo } from '@/components/debug';
 
@@ -125,6 +147,7 @@ import { DebugPanelDemo } from '@/components/debug';
 ## Data Displayed
 
 ### Performance Metrics
+
 - Render count and timing
 - Average render time
 - Memory usage (MB)
@@ -133,6 +156,7 @@ import { DebugPanelDemo } from '@/components/debug';
 - Total components tracked
 
 ### Astrological Data
+
 - Current sun sign
 - Lunar phase
 - Planetary hour
@@ -142,6 +166,7 @@ import { DebugPanelDemo } from '@/components/debug';
 - Alchemical token values (Spirit, Essence, Matter, Substance)
 
 ### Component States
+
 - Context status
 - Data loading state
 - Last update timestamp
@@ -167,6 +192,7 @@ All settings are automatically persisted to localStorage:
 ## Performance Impact
 
 The debug panel is designed to have minimal performance impact:
+
 - Efficient React.memo usage
 - Debounced updates
 - Lazy rendering of collapsed content
@@ -175,7 +201,8 @@ The debug panel is designed to have minimal performance impact:
 
 ## Requirements Satisfied
 
-This implementation satisfies all requirements from the main-page-restoration spec:
+This implementation satisfies all requirements from the main-page-restoration
+spec:
 
 - **Requirement 2.1**: Debug components visible in bottom right corner ✅
 - **Requirement 2.2**: Real-time astrological and system data display ✅

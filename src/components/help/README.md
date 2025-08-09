@@ -1,35 +1,44 @@
 # Interactive Help and Contextual Assistance System
 
-This directory contains the comprehensive interactive help system for the WhatToEatNext project, providing contextual assistance, code suggestions, templates, and guided workflows specifically designed for astrological development.
+This directory contains the comprehensive interactive help system for the
+WhatToEatNext project, providing contextual assistance, code suggestions,
+templates, and guided workflows specifically designed for astrological
+development.
 
 ## Components Overview
 
 ### Core Components
 
 #### `ContextualHelp.tsx`
+
 - **Tooltip**: Contextual tooltips with positioning and delay options
 - **HelpOverlay**: Modal overlays for detailed help content
 - Features keyboard navigation, accessibility support, and portal rendering
 
 #### `AstrologicalCodeSuggestions.tsx`
+
 - Intelligent code suggestions for astrological patterns
-- Follows established casing conventions (Fire/Water/Earth/Air, lowercase zodiac signs)
+- Follows established casing conventions (Fire/Water/Earth/Air, lowercase zodiac
+  signs)
 - Categorized suggestions with search and filtering
 - Code insertion capabilities
 
 #### `CodeTemplates.tsx`
+
 - Complete code templates for components, services, hooks, and tests
 - Placeholder replacement system for customization
 - Template preview and validation
 - Dependency tracking and documentation
 
 #### `GuidedWorkflows.tsx`
+
 - Step-by-step workflows for complex development tasks
 - Progress tracking and completion validation
 - Interactive tutorials with code examples
 - Difficulty levels and time estimates
 
 #### `InteractiveHelpSystem.tsx`
+
 - Main help system orchestrator
 - Tabbed interface with keyboard shortcuts (F1, Ctrl+H)
 - Context-aware help filtering
@@ -38,6 +47,7 @@ This directory contains the comprehensive interactive help system for the WhatTo
 ### Utility Components
 
 #### `HelpSystemDemo.tsx`
+
 - Demonstration of help system features
 - Integration examples and usage patterns
 - Live code insertion demonstration
@@ -69,7 +79,8 @@ import { Tooltip, HelpOverlay } from '@/components/help';
 
 ### 2. Intelligent Code Suggestions
 
-The system provides context-aware code suggestions following established conventions:
+The system provides context-aware code suggestions following established
+conventions:
 
 - **Elemental Properties**: Proper capitalization (Fire, Water, Earth, Air)
 - **Zodiac Signs**: Lowercase convention (aries, taurus, gemini, etc.)
@@ -82,6 +93,7 @@ The system provides context-aware code suggestions following established convent
 Available templates include:
 
 #### Astrological React Component
+
 ```tsx
 // Template with placeholder replacement
 interface {{COMPONENT_NAME}}Props {
@@ -91,6 +103,7 @@ interface {{COMPONENT_NAME}}Props {
 ```
 
 #### Astrological Service Class
+
 ```tsx
 // Service template with caching and fallbacks
 export class {{SERVICE_NAME}} {
@@ -101,6 +114,7 @@ export class {{SERVICE_NAME}} {
 ```
 
 #### Astrological React Hook
+
 ```tsx
 // Hook template with state management
 export function {{HOOK_NAME}}(
@@ -112,6 +126,7 @@ export function {{HOOK_NAME}}(
 ```
 
 #### Astrological Test Suite
+
 ```tsx
 // Test template with proper validation
 describe('{{FUNCTION_NAME}}', () => {
@@ -172,7 +187,7 @@ import { useContextualHelp } from '@/components/help';
 
 function AstrologicalComponent() {
   const { helpItems } = useContextualHelp('astrological-component');
-  
+
   // helpItems will be filtered for astrological context
   return (
     <div>
@@ -218,6 +233,7 @@ function ElementalDisplay({ elements }: { elements: ElementalProperties }) {
 The help system enforces and teaches the established casing conventions:
 
 ### ✅ Correct Usage
+
 ```typescript
 // Elements: Capitalized
 interface ElementalProperties {
@@ -238,6 +254,7 @@ const positions = {
 ```
 
 ### ❌ Incorrect Usage
+
 ```typescript
 // Don't use lowercase elements
 { fire: 0.8, water: 0.2 }
@@ -248,7 +265,8 @@ const positions = {
 
 ## Campaign System Integration
 
-The help system provides guidance for working with the automated code quality campaign system:
+The help system provides guidance for working with the automated code quality
+campaign system:
 
 - **Current Status**: 2566 TypeScript errors → target 0
 - **Safety Protocols**: Git stash, build validation, rollback mechanisms

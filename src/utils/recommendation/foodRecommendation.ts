@@ -1,19 +1,23 @@
-import type { Recipe } from "@/types/recipe";
+import type { Recipe } from '@/types/recipe';
 
-import type {
-    AstrologicalState,
-    ElementalProperties
-} from '../../types';
+import type { AstrologicalState, ElementalProperties } from '../../types';
 
 // Re-export types and functions from ingredient recommendation
 export type {
-    EnhancedIngredient, GroupedIngredientRecommendations, IngredientRecommendation, RecommendationOptions
+  EnhancedIngredient,
+  GroupedIngredientRecommendations,
+  IngredientRecommendation,
+  RecommendationOptions,
 } from './ingredientRecommendation';
 
 export {
-    calculateElementalInfluences,
-    formatFactorName, getAllIngredients, getIngredientRecommendations, getRecommendedIngredients,
-    getTopIngredientMatches, recommendIngredients
+  calculateElementalInfluences,
+  formatFactorName,
+  getAllIngredients,
+  getIngredientRecommendations,
+  getRecommendedIngredients,
+  getTopIngredientMatches,
+  recommendIngredients,
 } from './ingredientRecommendation';
 
 // ===== TYPES AND INTERFACES =====
@@ -48,7 +52,7 @@ interface RecommendationExplanation {
 export function calculateRecommendationScore(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
-  timeFactors: TimeFactors
+  timeFactors: TimeFactors,
 ): number {
   let totalScore = 0;
   let weightSum = 0;
@@ -61,7 +65,10 @@ export function calculateRecommendationScore(
 
   // Planetary compatibility (25% weight)
   const planetaryWeight = 0.25;
-  const planetaryScore = calculatePlanetaryScore(recipe, astrologicalState.activePlanets?.[0] as PlanetName);
+  const planetaryScore = calculatePlanetaryScore(
+    recipe,
+    astrologicalState.activePlanets?.[0] as PlanetName,
+  );
   totalScore += planetaryScore * planetaryWeight;
   weightSum += planetaryWeight;
 
@@ -93,11 +100,11 @@ export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors = getTimeFactors(),
-  count = 3
+  count = 3,
 ): Recipe[] {
   const scoredRecipes = (recipes || []).map(recipe => ({
     recipe,
-    score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
+    score: calculateRecommendationScore(recipe, astrologicalState, timeFactors),
   }));
 
   return scoredRecipes
@@ -112,13 +119,14 @@ export function getRecommendedRecipes(
 export function explainRecommendation(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
-  timeFactors: TimeFactors = getTimeFactors()
+  timeFactors: TimeFactors = getTimeFactors(),
 ): string {
   const explanations: string[] = [];
 
   // Elemental explanation
   if (astrologicalState.dominantElement && recipe.elementalState) {
-    const elementValue = recipe.elementalState[astrologicalState.dominantElement as keyof ElementalProperties] || 0;
+    const elementValue =
+      recipe.elementalState[astrologicalState.dominantElement as keyof ElementalProperties] || 0;
     if (elementValue > 0.3) {
       explanations.push(`Strong ${astrologicalState.dominantElement} element alignment`);
     }
@@ -136,7 +144,11 @@ export function explainRecommendation(
   }
 
   // Meal type explanation
-  if (recipe.mealType && Array.isArray(recipe.mealType) && recipe.mealType.includes(timeFactors.mealType)) {
+  if (
+    recipe.mealType &&
+    Array.isArray(recipe.mealType) &&
+    recipe.mealType.includes(timeFactors.mealType)
+  ) {
     explanations.push(`Ideal for ${timeFactors.mealType.toLowerCase()}`);
   }
 
@@ -152,21 +164,24 @@ function calculateElementalScore(recipe: Recipe, userElement?: Element): number 
 
   const recipeElementValue = recipe.elementalState[userElement as keyof ElementalProperties] || 0;
   // Higher values indicate better compatibility (following elemental principles)
-  return Math.min(1, 0.3 + (recipeElementValue * 0.7));
+  return Math.min(1, 0.3 + recipeElementValue * 0.7);
 }
 
 function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): number {
   if (!recipe.astrologicalPropertiesInfluences || !planetName) return 0.5;
 
   // Apply Pattern H: Safe unknown type array casting
-  const planetaryMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
-    // Apply surgical type casting with variable extraction
-    const influenceData = influence as Record<string, unknown>;
-    const influenceLower = String(influenceData).toLowerCase();
-    const planetNameLower = planetName.toLowerCase();
+  const planetaryMatch = safeSome(
+    recipe.astrologicalPropertiesInfluences as unknown[],
+    influence => {
+      // Apply surgical type casting with variable extraction
+      const influenceData = influence as Record<string, unknown>;
+      const influenceLower = String(influenceData).toLowerCase();
+      const planetNameLower = planetName.toLowerCase();
 
-    return influenceLower?.includes(planetNameLower);
-  });
+      return influenceLower?.includes(planetNameLower);
+    },
+  );
   return planetaryMatch ? 0.8 : 0.4;
 }
 
@@ -174,8 +189,9 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   if (!recipe.season) return 0.6;
 
   // Apply Pattern I: Safe union type array casting
-  const seasonMatch = safeSome(Array.isArray(recipe.season) ? recipe.season : [recipe.season] as string[], recipeSeason =>
-    recipeSeason.toLowerCase() === season.toLowerCase()
+  const seasonMatch = safeSome(
+    Array.isArray(recipe.season) ? recipe.season : ([recipe.season] as string[]),
+    recipeSeason => recipeSeason.toLowerCase() === season.toLowerCase(),
   );
   return seasonMatch ? 0.9 : 0.4;
 }
@@ -183,13 +199,13 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
 function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
   // Simple weekday scoring - could be enhanced with more sophisticated logic
   const weekdayPreferences: Record<WeekDay, string[]> = {
-    'Monday': ['energizing', 'fresh', 'light'],
-    'Tuesday': ['strengthening', 'protein-rich'],
-    'Wednesday': ['balanced', 'versatile'],
-    'Thursday': ['abundant', 'satisfying'],
-    'Friday': ['celebratory', 'indulgent'],
-    'Saturday': ['comfort', 'hearty'],
-    'Sunday': ['nourishing', 'traditional']
+    Monday: ['energizing', 'fresh', 'light'],
+    Tuesday: ['strengthening', 'protein-rich'],
+    Wednesday: ['balanced', 'versatile'],
+    Thursday: ['abundant', 'satisfying'],
+    Friday: ['celebratory', 'indulgent'],
+    Saturday: ['comfort', 'hearty'],
+    Sunday: ['nourishing', 'traditional'],
   };
 
   const dayPreferences = weekdayPreferences[day] || [];
@@ -197,12 +213,10 @@ function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
 
   const matches = safeFilter(dayPreferences, pref =>
     // Apply Pattern H: Safe unknown type array casting
-    safeSome(recipeQualities as unknown[], quality =>
-      String(quality).toLowerCase().includes(pref)
-    )
+    safeSome(recipeQualities as unknown[], quality => String(quality).toLowerCase().includes(pref)),
   );
 
-  return Math.min(1, 0.5 + (matches.length * 0.15));
+  return Math.min(1, 0.5 + matches.length * 0.15);
 }
 
 function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
@@ -210,7 +224,7 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
 
   const mealTypeMatch = safeSome(
     Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType],
-    recipeMealType => recipeMealType.toLowerCase() === mealType.toLowerCase()
+    recipeMealType => recipeMealType.toLowerCase() === mealType.toLowerCase(),
   );
   return mealTypeMatch ? 0.9 : 0.3;
 }
@@ -235,7 +249,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   const zodiacElement = getZodiacElement(sunSign);
   if (zodiacElement && recipe.elementalState) {
     const elementValue = recipe.elementalState[zodiacElement as keyof ElementalProperties] || 0;
-    return Math.min(1, 0.4 + (elementValue * 0.4));
+    return Math.min(1, 0.4 + elementValue * 0.4);
   }
 
   return 0.5;
@@ -289,14 +303,22 @@ function getTimeFactors(): TimeFactors {
   else mealType = 'Snack';
 
   // Map day of week
-  const weekDays: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekDays: WeekDay[] = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
   const weekDay = weekDays[dayOfWeek];
 
   return {
     season: getCurrentSeason(),
     weekDay,
     mealType,
-    isDaytime: hour >= 6 && hour < 18
+    isDaytime: hour >= 6 && hour < 18,
   };
 }
 
@@ -308,7 +330,7 @@ function getTimeFactors(): TimeFactors {
 export function getDetailedRecipeRecommendations(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
-  limit = 3
+  limit = 3,
 ): RecommendationExplanation[] {
   const timeFactors = getTimeFactors();
 
@@ -318,17 +340,26 @@ export function getDetailedRecipeRecommendations(
 
     // Collect reasons for the score
     if (astrologicalState.dominantElement && recipe.elementalState) {
-      const elementValue = recipe.elementalState[astrologicalState.dominantElement as keyof ElementalProperties] || 0;
+      const elementValue =
+        recipe.elementalState[astrologicalState.dominantElement as keyof ElementalProperties] || 0;
       if (elementValue > 0.3) {
         reasons.push(`Strong ${astrologicalState.dominantElement} element`);
       }
     }
 
-    if (recipe.season && Array.isArray(recipe.season) && recipe.season.includes(timeFactors.season)) {
+    if (
+      recipe.season &&
+      Array.isArray(recipe.season) &&
+      recipe.season.includes(timeFactors.season)
+    ) {
       reasons.push(`Seasonal match for ${timeFactors.season}`);
     }
 
-    if (recipe.mealType && Array.isArray(recipe.mealType) && recipe.mealType.includes(timeFactors.mealType)) {
+    if (
+      recipe.mealType &&
+      Array.isArray(recipe.mealType) &&
+      recipe.mealType.includes(timeFactors.mealType)
+    ) {
       reasons.push(`Perfect for ${timeFactors.mealType.toLowerCase()}`);
     }
 
@@ -340,7 +371,7 @@ export function getDetailedRecipeRecommendations(
     .slice(0, limit)
     .map(scoredRecipe => ({
       recipe: scoredRecipe.recipe,
-      explanation: generateExplanation(scoredRecipe)
+      explanation: generateExplanation(scoredRecipe),
     }));
 }
 
@@ -365,7 +396,7 @@ function generateExplanation(scoredRecipe: RecommendationScore): string {
  */
 export function calculateElementalMatch(
   recipeElements: ElementalProperties,
-  userElements: ElementalProperties
+  userElements: ElementalProperties,
 ): number {
   if (!recipeElements || !userElements) return 0.5;
 
@@ -419,17 +450,16 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
   }
 
   const timeMapping: Record<string, string[]> = {
-    'morning': ['Breakfast'],
-    'afternoon': ['Lunch', 'Snack'],
-    'evening': ['Dinner'],
-    'night': ['Snack']
+    morning: ['Breakfast'],
+    afternoon: ['Lunch', 'Snack'],
+    evening: ['Dinner'],
+    night: ['Snack'],
   };
 
   const appropriateMealTypes = timeMapping[timeOfDay.toLowerCase()] || [];
 
-  return safeSome(
-    Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType],
-    mealType => appropriateMealTypes.includes(mealType)
+  return safeSome(Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType], mealType =>
+    appropriateMealTypes.includes(mealType),
   );
 }
 
@@ -445,7 +475,7 @@ export function calculateRecipeMatchScore(
     Air: number;
     timeOfDay: string;
     season: string;
-  }
+  },
 ): number {
   let score = 0;
   let factors = 0;
@@ -457,11 +487,14 @@ export function calculateRecipeMatchScore(
       Fire: elementalState.Fire,
       Water: elementalState.Water,
       Earth: elementalState.Earth,
-      Air: elementalState.Air
+      Air: elementalState.Air,
     };
     // Apply Pattern J: Safe type casting for recipe.elementalState
     const recipeElementalProperties = recipe.elementalState as unknown as ElementalProperties;
-    const elementalMatch = calculateElementalMatch(recipeElementalProperties, userElementalProperties);
+    const elementalMatch = calculateElementalMatch(
+      recipeElementalProperties,
+      userElementalProperties,
+    );
     score += elementalMatch * 0.6;
     factors += 0.6;
   }
@@ -475,7 +508,11 @@ export function calculateRecipeMatchScore(
   factors += 0.2;
 
   // Seasonal appropriateness (20% weight)
-  if (recipe.season && Array.isArray(recipe.season) && recipe.season.includes(elementalState.season)) {
+  if (
+    recipe.season &&
+    Array.isArray(recipe.season) &&
+    recipe.season.includes(elementalState.season)
+  ) {
     score += 0.9 * 0.2;
   } else {
     score += 0.5 * 0.2;
@@ -491,7 +528,7 @@ export function getModalityElementAffinity(modality: string, element: string): n
   const modalityAffinities: Record<string, Record<string, number>> = {
     cardinal: { Fire: 0.9, Water: 0.8, Earth: 0.7, Air: 0.8 },
     fixed: { Fire: 0.8, Water: 0.9, Earth: 0.9, Air: 0.7 },
-    mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 }
+    mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 },
   };
 
   return modalityAffinities[modality.toLowerCase()][element] || 0.5;

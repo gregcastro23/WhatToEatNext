@@ -22,7 +22,7 @@ export type {
   ProgressReport,
   CheckpointId,
   StashId,
-  Milestone
+  Milestone,
 } from '../../types/campaign';
 
 export {
@@ -32,5 +32,5 @@ export {
   CorruptionSeverity,
   RecoveryAction,
   PhaseStatus,
-  ErrorCategory
+  ErrorCategory,
 } from '../../types/campaign';

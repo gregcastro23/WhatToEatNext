@@ -2,29 +2,41 @@
 
 ## 🎯 Overview
 
-Successfully enhanced the `DebugInfo` component (`src/components/DebugInfo.tsx`) to display real-time Kalchm (K_alchm) and Monica constant (M) values for convenient debugging and monitoring of the alchemical system.
+Successfully enhanced the `DebugInfo` component (`src/components/DebugInfo.tsx`)
+to display real-time Kalchm (K_alchm) and Monica constant (M) values for
+convenient debugging and monitoring of the alchemical system.
 
 ## ✨ Features Added
 
 ### 1. **Kalchm Constant (K_alchm)**
-- **Formula**: `K_alchm = (spirit^spirit * essence^essence) / (matter^matter * substance^substance)`
-- **Display**: Blue-colored, formatted with 6 decimal places or scientific notation for large values
+
+- **Formula**:
+  `K_alchm = (spirit^spirit * essence^essence) / (matter^matter * substance^substance)`
+- **Display**: Blue-colored, formatted with 6 decimal places or scientific
+  notation for large values
 - **Real-time**: Updates automatically as planetary positions change
 
 ### 2. **Monica Constant (M)**
+
 - **Formula**: `M = -Greg's Energy / (Reactivity × ln(K_alchm))`
-- **Display**: Purple-colored, formatted with 6 decimal places or scientific notation
+- **Display**: Purple-colored, formatted with 6 decimal places or scientific
+  notation
 - **Handles**: NaN values gracefully when calculations are invalid
 
 ### 3. **Thermodynamic Properties**
-- **Heat**: `(spirit² + Fire²) / (substance + essence + matter + water + Air + earth)²`
-- **Entropy**: `(spirit² + substance² + Fire² + Air²) / (essence + matter + earth + water)²`
-- **Reactivity**: `(spirit² + substance² + essence² + Fire² + Air² + water²) / (matter + earth)²`
+
+- **Heat**:
+  `(spirit² + Fire²) / (substance + essence + matter + water + Air + earth)²`
+- **Entropy**:
+  `(spirit² + substance² + Fire² + Air²) / (essence + matter + earth + water)²`
+- **Reactivity**:
+  `(spirit² + substance² + essence² + Fire² + Air² + water²) / (matter + earth)²`
 - **Greg's Energy**: `Heat - (Entropy × Reactivity)`
 
 ## 🔧 Implementation Details
 
 ### Enhanced Debug Component Structure
+
 ```typescript
 // New sections added to DebugInfo component:
 
@@ -48,11 +60,13 @@ Successfully enhanced the `DebugInfo` component (`src/components/DebugInfo.tsx`)
 ```
 
 ### Calculation Functions
-All calculation functions are implemented directly in the component using the exact formulas from the notepad specification:
+
+All calculation functions are implemented directly in the component using the
+exact formulas from the notepad specification:
 
 - `calculateKAlchm()` - Kalchm constant calculation
 - `calculateHeat()` - Heat calculation
-- `calculateEntropy()` - Entropy calculation  
+- `calculateEntropy()` - Entropy calculation
 - `calculateReactivity()` - Reactivity calculation
 - `calculateGregsEnergy()` - Greg's Energy calculation
 - `calculateMonicaConstant()` - Monica constant calculation
@@ -60,12 +74,14 @@ All calculation functions are implemented directly in the component using the ex
 ## 🧪 Testing
 
 Created comprehensive test file `src/test-kalchm-monica-debug.ts` that:
+
 - ✅ Verifies all calculation formulas are mathematically correct
 - ✅ Tests with sample values and validates outputs
 - ✅ Confirms formula implementation matches notepad specifications
 - ✅ Validates proper handling of edge cases (division by zero, NaN values)
 
 ### Test Results
+
 ```
 🧪 Testing Kalchm and Monica Constant Calculations
 
@@ -90,12 +106,15 @@ Monica Constant (M): 0.009485
 
 - **Color Coding**: K_alchm in blue, Monica in purple for easy identification
 - **Monospace Font**: Constants displayed in monospace for precise alignment
-- **Smart Formatting**: Automatic scientific notation for very large/small values
+- **Smart Formatting**: Automatic scientific notation for very large/small
+  values
 - **Error Handling**: Graceful display of NaN and invalid values
 
 ## 🔄 Real-Time Updates
 
-The debug component automatically recalculates and displays updated K and M values whenever:
+The debug component automatically recalculates and displays updated K and M
+values whenever:
+
 - Planetary positions change
 - Astrological state updates
 - Elemental balance shifts
@@ -118,6 +137,7 @@ The debug component automatically recalculates and displays updated K and M valu
 ## 🔮 Future Enhancements
 
 Potential additions for the debug component:
+
 - Historical value tracking
 - Value change alerts
 - Export functionality for analysis
@@ -126,4 +146,5 @@ Potential additions for the debug component:
 
 ---
 
-**Status**: ✅ **COMPLETE** - Kalchm and Monica constants successfully integrated into debug component with full real-time functionality. 
+**Status**: ✅ **COMPLETE** - Kalchm and Monica constants successfully
+integrated into debug component with full real-time functionality.

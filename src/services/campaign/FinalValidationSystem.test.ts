@@ -1,6 +1,6 @@
 /**
  * Perfect Codebase Campaign - Final Validation System Tests
- * 
+ *
  * Comprehensive test suite for the Final Validation System
  */
 
@@ -29,7 +29,17 @@ describe('FinalValidationSystem', () => {
       // Mock successful TypeScript compilation
       mockedExecSync.mockReturnValue('');
 
-      const result = await (validationSystem as unknown as { validateTypeScriptErrors: () => Promise<{ category: string; passed: boolean; current: number; target: number; criticalIssues: unknown[] }> }).validateTypeScriptErrors();
+      const result = await (
+        validationSystem as unknown as {
+          validateTypeScriptErrors: () => Promise<{
+            category: string;
+            passed: boolean;
+            current: number;
+            target: number;
+            criticalIssues: unknown[];
+          }>;
+        }
+      ).validateTypeScriptErrors();
 
       expect(result.category).toBe('TypeScript Compilation');
       expect(result.passed).toBe(true);
@@ -49,7 +59,17 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
         throw mockError;
       });
 
-      const result = await (validationSystem as unknown as { validateTypeScriptErrors: () => Promise<{ category: string; passed: boolean; current: number; target: number; criticalIssues: unknown[] }> }).validateTypeScriptErrors();
+      const result = await (
+        validationSystem as unknown as {
+          validateTypeScriptErrors: () => Promise<{
+            category: string;
+            passed: boolean;
+            current: number;
+            target: number;
+            criticalIssues: unknown[];
+          }>;
+        }
+      ).validateTypeScriptErrors();
 
       expect(result.category).toBe('TypeScript Compilation');
       expect(result.passed).toBe(false);
@@ -64,7 +84,9 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
       // Mock successful linting with no warnings
       mockedExecSync.mockReturnValue('✨ All files passed linting');
 
-      const result = await (validationSystem as unknown as { validateLintingWarnings: () => Promise<Record<string, unknown>> }).validateLintingWarnings();
+      const result = await (
+        validationSystem as unknown as { validateLintingWarnings: () => Promise<Record<string, unknown>> }
+      ).validateLintingWarnings();
 
       expect(result.category).toBe('Linting Quality');
       expect(result.passed).toBe(true);
@@ -85,7 +107,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         throw mockError;
       });
 
-      const result = await (validationSystem as unknown as { validateLintingWarnings: () => Promise<Record<string, unknown>> }).validateLintingWarnings();
+      const result = await (
+        validationSystem as unknown as { validateLintingWarnings: () => Promise<Record<string, unknown>> }
+      ).validateLintingWarnings();
 
       expect(result.category).toBe('Linting Quality');
       expect(result.passed).toBe(false);
@@ -98,13 +122,16 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
   describe('Enterprise Intelligence Validation', () => {
     it('should pass validation when sufficient intelligence systems exist', async () => {
       // Mock grep output with 250 intelligence systems
-      const mockIntelligenceOutput = Array(250).fill(0).map((_, i) => 
-        `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`
-      ).join('\n');
-      
+      const mockIntelligenceOutput = Array(250)
+        .fill(0)
+        .map((_, i) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`)
+        .join('\n');
+
       mockedExecSync.mockReturnValue(mockIntelligenceOutput);
 
-      const result = await (validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }).validateEnterpriseIntelligence();
+      const result = await (
+        validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }
+      ).validateEnterpriseIntelligence();
 
       expect(result.category).toBe('Enterprise Intelligence');
       expect(result.passed).toBe(true);
@@ -115,13 +142,16 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
 
     it('should fail validation when insufficient intelligence systems exist', async () => {
       // Mock grep output with only 50 intelligence systems
-      const mockIntelligenceOutput = Array(50).fill(0).map((_, i) => 
-        `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`
-      ).join('\n');
-      
+      const mockIntelligenceOutput = Array(50)
+        .fill(0)
+        .map((_, i) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`)
+        .join('\n');
+
       mockedExecSync.mockReturnValue(mockIntelligenceOutput);
 
-      const result = await (validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }).validateEnterpriseIntelligence();
+      const result = await (
+        validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }
+      ).validateEnterpriseIntelligence();
 
       expect(result.category).toBe('Enterprise Intelligence');
       expect(result.passed).toBe(false);
@@ -137,7 +167,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         throw mockError;
       });
 
-      const result = await (validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }).validateEnterpriseIntelligence();
+      const result = await (
+        validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }
+      ).validateEnterpriseIntelligence();
 
       expect(result.category).toBe('Enterprise Intelligence');
       expect(result.passed).toBe(false);
@@ -163,7 +195,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         return callCount === 1 ? 1000 : 6000; // 5 second difference
       });
 
-      const result = await (validationSystem as unknown as { validatePerformanceTargets: () => Promise<Record<string, unknown>> }).validatePerformanceTargets();
+      const result = await (
+        validationSystem as unknown as { validatePerformanceTargets: () => Promise<Record<string, unknown>> }
+      ).validatePerformanceTargets();
 
       expect(result.category).toBe('Performance Optimization');
       expect(result.passed).toBe(true);
@@ -190,7 +224,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         return callCount === 1 ? 1000 : 16000; // 15 second difference
       });
 
-      const result = await (validationSystem as unknown as { validatePerformanceTargets: () => Promise<Record<string, unknown>> }).validatePerformanceTargets();
+      const result = await (
+        validationSystem as unknown as { validatePerformanceTargets: () => Promise<Record<string, unknown>> }
+      ).validatePerformanceTargets();
 
       expect(result.category).toBe('Performance Optimization');
       expect(result.passed).toBe(false);
@@ -210,7 +246,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('') // yarn build
         .mockReturnValueOnce(''); // yarn test
 
-      const result = await (validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }).validateBuildAndTests();
+      const result = await (
+        validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }
+      ).validateBuildAndTests();
 
       expect(result.category).toBe('Build and Test Stability');
       expect(result.passed).toBe(true);
@@ -227,7 +265,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         })
         .mockReturnValueOnce(''); // yarn test succeeds
 
-      const result = await (validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }).validateBuildAndTests();
+      const result = await (
+        validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }
+      ).validateBuildAndTests();
 
       expect(result.category).toBe('Build and Test Stability');
       expect(result.passed).toBe(false);
@@ -244,7 +284,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
           throw new Error('Tests failed');
         });
 
-      const result = await (validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }).validateBuildAndTests();
+      const result = await (
+        validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }
+      ).validateBuildAndTests();
 
       expect(result.category).toBe('Build and Test Stability');
       expect(result.passed).toBe(false);
@@ -260,7 +302,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       const mockBaseline = {
         errors: 100,
         warnings: 500,
-        intelligence: 10
+        intelligence: 10,
       };
       mockedFs.existsSync.mockReturnValue(true);
       mockedFs.readFileSync.mockReturnValue(JSON.stringify(mockBaseline));
@@ -271,7 +313,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('') // Linting - no warnings
         .mockReturnValueOnce(Array(250).fill('INTELLIGENCE_SYSTEM').join('\n')); // 250 intelligence systems
 
-      const summary = await (validationSystem as unknown as { generateCampaignSummary: () => Promise<Record<string, unknown>> }).generateCampaignSummary();
+      const summary = await (
+        validationSystem as unknown as { generateCampaignSummary: () => Promise<Record<string, unknown>> }
+      ).generateCampaignSummary();
 
       expect(summary.initialState).toEqual(mockBaseline);
       expect((summary as Record<string, unknown>).finalState.errors).toBe(0);
@@ -292,7 +336,9 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('') // Linting - no warnings
         .mockReturnValueOnce(Array(200).fill('INTELLIGENCE_SYSTEM').join('\n')); // 200 intelligence systems
 
-      const summary = await (validationSystem as unknown as { generateCampaignSummary: () => Promise<Record<string, unknown>> }).generateCampaignSummary();
+      const summary = await (
+        validationSystem as unknown as { generateCampaignSummary: () => Promise<Record<string, unknown>> }
+      ).generateCampaignSummary();
 
       expect(summary.initialState).toEqual({ errors: 0, warnings: 0, intelligence: 0 });
       expect((summary as Record<string, unknown>).finalState.intelligence).toBe(200);
@@ -307,7 +353,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         { category: 'Linting', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: true, current: 250, target: 200, details: [], criticalIssues: [] },
         { category: 'Performance', passed: true, current: 8, target: 10, details: [], criticalIssues: [] },
-        { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
+        { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] },
       ];
 
       const mockPerformanceMetrics = {
@@ -315,13 +361,17 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         memoryUsage: 40,
         bundleSize: '400kB',
         cacheHitRate: 85,
-        testCoverage: 98
+        testCoverage: 98,
       };
 
-      const certification = (validationSystem as unknown as { determineCertificationStatus: (results: Record<string, unknown>, summary: Record<string, unknown>) => Record<string, unknown> }).determineCertificationStatus(
-        mockValidationResults,
-        mockPerformanceMetrics
-      );
+      const certification = (
+        validationSystem as unknown as {
+          determineCertificationStatus: (
+            results: Record<string, unknown>,
+            summary: Record<string, unknown>,
+          ) => Record<string, unknown>;
+        }
+      ).determineCertificationStatus(mockValidationResults, mockPerformanceMetrics);
 
       expect(certification.perfectCodebaseAchieved).toBe(true);
       expect(certification.enterpriseReady).toBe(true);
@@ -336,7 +386,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         { category: 'Linting', passed: false, current: 50, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: false, current: 100, target: 200, details: [], criticalIssues: [] },
         { category: 'Performance', passed: false, current: 15, target: 10, details: [], criticalIssues: [] },
-        { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
+        { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] },
       ];
 
       const mockPerformanceMetrics = {
@@ -344,13 +394,17 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         memoryUsage: 60,
         bundleSize: '500kB',
         cacheHitRate: 70,
-        testCoverage: 85
+        testCoverage: 85,
       };
 
-      const certification = (validationSystem as unknown as { determineCertificationStatus: (results: Record<string, unknown>, summary: Record<string, unknown>) => Record<string, unknown> }).determineCertificationStatus(
-        mockValidationResults,
-        mockPerformanceMetrics
-      );
+      const certification = (
+        validationSystem as unknown as {
+          determineCertificationStatus: (
+            results: Record<string, unknown>,
+            summary: Record<string, unknown>,
+          ) => Record<string, unknown>;
+        }
+      ).determineCertificationStatus(mockValidationResults, mockPerformanceMetrics);
 
       expect(certification.perfectCodebaseAchieved).toBe(false);
       expect(certification.enterpriseReady).toBe(false);
@@ -434,32 +488,34 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
           memoryUsage: 40,
           bundleSize: '400kB',
           cacheHitRate: 85,
-          testCoverage: 98
+          testCoverage: 98,
         },
         campaignSummary: {
           initialState: { errors: 100, warnings: 500, intelligence: 10 },
           finalState: { errors: 0, warnings: 0, intelligence: 250 },
-          improvements: { errorReduction: 100, warningReduction: 500, intelligenceIncrease: 240 }
+          improvements: { errorReduction: 100, warningReduction: 500, intelligenceIncrease: 240 },
         },
         certificationStatus: {
           perfectCodebaseAchieved: true,
           enterpriseReady: true,
           productionDeploymentReady: true,
           certificationLevel: 'ENTERPRISE' as const,
-          certificationDate: '2025-01-15T10:00:00.000Z'
-        }
+          certificationDate: '2025-01-15T10:00:00.000Z',
+        },
       };
 
       mockedFs.existsSync.mockReturnValue(false);
       mockedFs.mkdirSync.mockReturnValue(undefined);
       mockedFs.writeFileSync.mockReturnValue(undefined);
 
-      await (validationSystem as unknown as { saveValidationReport: (report: Record<string, unknown>) => Promise<void> }).saveValidationReport(mockReport);
+      await (
+        validationSystem as unknown as { saveValidationReport: (report: Record<string, unknown>) => Promise<void> }
+      ).saveValidationReport(mockReport);
 
       expect(mockedFs.mkdirSync).toHaveBeenCalledWith('.campaign-progress', { recursive: true });
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringMatching(/\.campaign-progress\/final-validation-report-\d+\.json/),
-        JSON.stringify(mockReport, null, 2)
+        JSON.stringify(mockReport, null, 2),
       );
     });
 
@@ -468,40 +524,42 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         timestamp: '2025-01-15T10:00:00.000Z',
         overallSuccess: true,
         validationResults: [
-          { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] }
+          { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         ],
         performanceMetrics: {
           buildTime: 8,
           memoryUsage: 40,
           bundleSize: '400kB',
           cacheHitRate: 85,
-          testCoverage: 98
+          testCoverage: 98,
         },
         campaignSummary: {
           initialState: { errors: 100, warnings: 500, intelligence: 10 },
           finalState: { errors: 0, warnings: 0, intelligence: 250 },
-          improvements: { errorReduction: 100, warningReduction: 500, intelligenceIncrease: 240 }
+          improvements: { errorReduction: 100, warningReduction: 500, intelligenceIncrease: 240 },
         },
         certificationStatus: {
           perfectCodebaseAchieved: true,
           enterpriseReady: true,
           productionDeploymentReady: true,
           certificationLevel: 'ENTERPRISE' as const,
-          certificationDate: '2025-01-15T10:00:00.000Z'
-        }
+          certificationDate: '2025-01-15T10:00:00.000Z',
+        },
       };
 
       mockedFs.writeFileSync.mockReturnValue(undefined);
 
-      await (validationSystem as unknown as { createCertification: (report: Record<string, unknown>) => Promise<void> }).createCertification(mockReport);
+      await (
+        validationSystem as unknown as { createCertification: (report: Record<string, unknown>) => Promise<void> }
+      ).createCertification(mockReport);
 
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
         'PERFECT_CODEBASE_CERTIFICATION.md',
-        expect.stringContaining('# Perfect Codebase Campaign - Certification')
+        expect.stringContaining('# Perfect Codebase Campaign - Certification'),
       );
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
         'PERFECT_CODEBASE_CERTIFICATION.md',
-        expect.stringContaining('**Certification Level**: ENTERPRISE')
+        expect.stringContaining('**Certification Level**: ENTERPRISE'),
       );
     });
   });

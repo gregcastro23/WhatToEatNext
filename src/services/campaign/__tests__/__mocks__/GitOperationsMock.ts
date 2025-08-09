@@ -20,7 +20,7 @@ export class GitOperationsMock {
       description,
       timestamp: new Date(),
       branch: this.mockBranch,
-      ref: `stash@{${this.mockStashes.size}}`
+      ref: `stash@{${this.mockStashes.size}}`,
     };
 
     this.mockStashes.set(stashId, stash);
@@ -69,9 +69,7 @@ export class GitOperationsMock {
     }
 
     const stashes = Array.from(this.mockStashes.values());
-    return stashes
-      .map(stash => `${stash.ref}: ${stash.description}`)
-      .join('\n');
+    return stashes.map(stash => `${stash.ref}: ${stash.description}`).join('\n');
   }
 
   /**

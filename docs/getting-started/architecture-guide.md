@@ -1,13 +1,18 @@
 # 🏗️ WhatToEatNext Architecture and Domain Knowledge Guide
 
-This comprehensive guide explains the project's architecture, domain concepts, and how they work together to create the world's first astrological meal planning system.
+This comprehensive guide explains the project's architecture, domain concepts,
+and how they work together to create the world's first astrological meal
+planning system.
 
 ## 🎯 Architecture Overview
 
 ### System Philosophy
-WhatToEatNext bridges ancient astrological wisdom with modern AI technology through a carefully designed architecture that respects both domains:
 
-- **Ancient Wisdom**: Four-element system, planetary correspondences, seasonal cycles
+WhatToEatNext bridges ancient astrological wisdom with modern AI technology
+through a carefully designed architecture that respects both domains:
+
+- **Ancient Wisdom**: Four-element system, planetary correspondences, seasonal
+  cycles
 - **Modern Technology**: TypeScript, React, real-time APIs, intelligent caching
 - **Cultural Sensitivity**: Inclusive design that honors diverse traditions
 - **Quality Excellence**: Enterprise-grade code quality and reliability
@@ -15,7 +20,9 @@ WhatToEatNext bridges ancient astrological wisdom with modern AI technology thro
 ### Core Architectural Principles
 
 #### 1. Domain-Driven Design
+
 The architecture reflects astrological concepts directly in code:
+
 ```typescript
 interface ElementalProperties {
   fire: number;    // Energy, transformation, quick cooking
@@ -26,14 +33,18 @@ interface ElementalProperties {
 ```
 
 #### 2. Self-Reinforcement Architecture
+
 Following the elemental principle that "elements work best with themselves":
+
 - Same-element combinations have highest compatibility (0.9+)
 - All combinations have good compatibility (0.7+ minimum)
 - No opposing elements or negative interactions
 - Self-reinforcing patterns throughout the codebase
 
 #### 3. Fallback-First Design
+
 Every critical system has multiple fallback layers:
+
 - **API → Cache → Local Data → Hardcoded Fallback**
 - Graceful degradation maintains user experience
 - Comprehensive error handling and recovery
@@ -44,32 +55,35 @@ Every critical system has multiple fallback layers:
 ### Fundamental Concepts
 
 #### Fire Element 🔥
-**Qualities**: Energy, transformation, vitality, quick action
-**Cooking Methods**: Grilling, sautéing, stir-frying, flambéing
-**Ingredients**: Spices, peppers, ginger, garlic, onions
-**Planetary Correspondences**: Mars (action), Sun (vitality)
-**Self-Reinforcement**: Fire + Fire = Maximum energy and transformation
+
+**Qualities**: Energy, transformation, vitality, quick action **Cooking
+Methods**: Grilling, sautéing, stir-frying, flambéing **Ingredients**: Spices,
+peppers, ginger, garlic, onions **Planetary Correspondences**: Mars (action),
+Sun (vitality) **Self-Reinforcement**: Fire + Fire = Maximum energy and
+transformation
 
 #### Water Element 💧
-**Qualities**: Cooling, nourishment, flow, emotional balance
-**Cooking Methods**: Steaming, boiling, poaching, braising
-**Ingredients**: Leafy greens, cucumbers, melons, dairy
-**Planetary Correspondences**: Moon (emotions), Neptune (intuition)
-**Self-Reinforcement**: Water + Water = Deep nourishment and flow
+
+**Qualities**: Cooling, nourishment, flow, emotional balance **Cooking
+Methods**: Steaming, boiling, poaching, braising **Ingredients**: Leafy greens,
+cucumbers, melons, dairy **Planetary Correspondences**: Moon (emotions), Neptune
+(intuition) **Self-Reinforcement**: Water + Water = Deep nourishment and flow
 
 #### Earth Element 🌍
-**Qualities**: Grounding, stability, substance, practical nourishment
-**Cooking Methods**: Roasting, slow cooking, baking, stewing
-**Ingredients**: Root vegetables, grains, legumes, nuts
-**Planetary Correspondences**: Saturn (structure), Venus (abundance)
-**Self-Reinforcement**: Earth + Earth = Grounding and stability
+
+**Qualities**: Grounding, stability, substance, practical nourishment **Cooking
+Methods**: Roasting, slow cooking, baking, stewing **Ingredients**: Root
+vegetables, grains, legumes, nuts **Planetary Correspondences**: Saturn
+(structure), Venus (abundance) **Self-Reinforcement**: Earth + Earth = Grounding
+and stability
 
 #### Air Element 💨
-**Qualities**: Lightness, clarity, mental stimulation, communication
-**Cooking Methods**: Raw preparation, light sautéing, fresh combinations
-**Ingredients**: Herbs, leafy greens, sprouts, light fruits
-**Planetary Correspondences**: Mercury (communication), Uranus (innovation)
-**Self-Reinforcement**: Air + Air = Lightness and mental clarity
+
+**Qualities**: Lightness, clarity, mental stimulation, communication **Cooking
+Methods**: Raw preparation, light sautéing, fresh combinations **Ingredients**:
+Herbs, leafy greens, sprouts, light fruits **Planetary Correspondences**:
+Mercury (communication), Uranus (innovation) **Self-Reinforcement**: Air + Air =
+Lightness and mental clarity
 
 ### The 14 Alchemical Pillars
 
@@ -93,6 +107,7 @@ Our system is built upon 14 fundamental principles:
 ## 🏛️ Technical Architecture
 
 ### Layer 1: Presentation Layer (`src/app/`)
+
 **Next.js 15.3.4 App Router Architecture**
 
 ```
@@ -110,12 +125,14 @@ src/app/
 ```
 
 **Key Patterns**:
+
 - Server components for astrological calculations
 - Client components for interactive features
 - Streaming for real-time cosmic data
 - Error boundaries with cosmic-aware fallbacks
 
 ### Layer 2: Business Logic (`src/services/`)
+
 **Service-Oriented Architecture**
 
 ```
@@ -132,12 +149,14 @@ src/services/
 ```
 
 **Service Patterns**:
+
 - Dependency injection for testability
 - Interface-based design for flexibility
 - Comprehensive error handling and logging
 - Performance monitoring and optimization
 
 ### Layer 3: Calculation Engine (`src/calculations/`)
+
 **Domain-Specific Computation Layer**
 
 ```
@@ -154,12 +173,14 @@ src/calculations/
 ```
 
 **Calculation Principles**:
+
 - Pure functions for mathematical operations
 - Comprehensive validation and error checking
 - Multiple fallback mechanisms
 - Performance optimization with caching
 
 ### Layer 4: Data Layer (`src/data/`)
+
 **Structured Data with Astrological Properties**
 
 ```
@@ -178,12 +199,14 @@ src/data/
 ```
 
 **Data Patterns**:
+
 - Consistent elemental property structure
 - Cultural sensitivity in naming and categorization
 - Comprehensive nutritional integration
 - Real-time validation and consistency checking
 
 ### Layer 5: Component Layer (`src/components/`)
+
 **React Components with Astrological Context**
 
 ```
@@ -206,6 +229,7 @@ src/components/
 ```
 
 **Component Patterns**:
+
 - Context-aware components responding to cosmic changes
 - Progressive disclosure for different user comfort levels
 - Accessibility-first design with cultural sensitivity
@@ -214,6 +238,7 @@ src/components/
 ## 🔄 Data Flow Architecture
 
 ### Astrological Data Flow
+
 ```mermaid
 graph TD
     A[External APIs] --> B[Validation Layer]
@@ -221,13 +246,14 @@ graph TD
     C --> D[Context Providers]
     D --> E[React Components]
     E --> F[User Interface]
-    
+
     G[Fallback Data] --> B
     H[Local Storage] --> C
     I[Error Boundaries] --> E
 ```
 
 **Flow Description**:
+
 1. **External APIs**: NASA JPL, Swiss Ephemeris, TimeAndDate.com
 2. **Validation Layer**: Transit date validation, position consistency
 3. **Caching Layer**: 6-hour cache with intelligent invalidation
@@ -236,6 +262,7 @@ graph TD
 6. **User Interface**: Progressive disclosure and cultural sensitivity
 
 ### Recommendation Engine Flow
+
 ```mermaid
 graph TD
     A[User Input] --> B[Personal Profile]
@@ -244,7 +271,7 @@ graph TD
     D --> E[Cultural Integration]
     E --> F[Timing Optimization]
     F --> G[Final Recommendations]
-    
+
     H[Ingredient Database] --> D
     I[Recipe Database] --> E
     J[Cultural Database] --> E
@@ -252,6 +279,7 @@ graph TD
 ```
 
 **Flow Description**:
+
 1. **User Input**: Preferences, dietary restrictions, cultural background
 2. **Personal Profile**: Individual astrological chart and constitution
 3. **Cosmic Context**: Current planetary positions and lunar phases
@@ -263,6 +291,7 @@ graph TD
 ## 🛡️ Quality Assurance Architecture
 
 ### Campaign System Architecture
+
 The project includes a sophisticated automated quality improvement system:
 
 ```
@@ -278,12 +307,14 @@ src/services/campaign/
 ```
 
 **Campaign Achievements**:
+
 - **TypeScript Errors**: Reduced from 4,310 to <100 (97%+ reduction)
 - **Fix Success Rate**: 92%+ for common error types (TS2352, TS2304)
 - **Safety Protocols**: Zero corruption incidents with automatic rollback
 - **Enterprise Intelligence**: Advanced analytics and predictive insights
 
 ### Error Handling Architecture
+
 ```typescript
 interface ErrorHandlingStrategy {
   detection: 'automatic' | 'manual' | 'predictive';
@@ -296,6 +327,7 @@ interface ErrorHandlingStrategy {
 ```
 
 **Error Categories**:
+
 - **Astrological Calculation Errors**: Fallback to cached positions
 - **API Connection Errors**: Multi-tier fallback strategy
 - **Data Validation Errors**: Graceful degradation with user notification
@@ -304,6 +336,7 @@ interface ErrorHandlingStrategy {
 ## 🌐 Integration Architecture
 
 ### External API Integration
+
 ```typescript
 interface APIIntegrationPattern {
   primary: APISource;
@@ -316,6 +349,7 @@ interface APIIntegrationPattern {
 ```
 
 **API Sources**:
+
 - **NASA JPL Horizons**: Primary astronomical data source
 - **Swiss Ephemeris**: Secondary calculation validation
 - **USDA Food Database**: Nutritional information
@@ -323,6 +357,7 @@ interface APIIntegrationPattern {
 - **Cultural APIs**: Cuisine and tradition databases
 
 ### MCP (Model Context Protocol) Integration
+
 ```json
 {
   "mcpServers": {
@@ -345,6 +380,7 @@ interface APIIntegrationPattern {
 ## 🎨 Cultural Sensitivity Architecture
 
 ### Inclusive Design Patterns
+
 ```typescript
 interface CulturalSensitivityFramework {
   inclusiveDesign: {
@@ -353,7 +389,7 @@ interface CulturalSensitivityFramework {
     culturalRespect: boolean;        // Honor authentic traditions
     diverseRepresentation: boolean;   // Include global cuisines
   };
-  
+
   implementationGuidelines: {
     optionalFeatures: boolean;        // All astrological features optional
     culturalConsultation: boolean;    // Regular expert review
@@ -364,14 +400,17 @@ interface CulturalSensitivityFramework {
 ```
 
 ### Avoiding Cultural Appropriation
+
 - **Authentic Sources**: Work with cultural experts and practitioners
 - **Proper Attribution**: Credit traditional knowledge and practices
-- **Respectful Enhancement**: Add astrological timing without replacing traditions
+- **Respectful Enhancement**: Add astrological timing without replacing
+  traditions
 - **Community Involvement**: Include diverse voices in development
 
 ## 🚀 Performance Architecture
 
 ### Optimization Strategies
+
 ```typescript
 interface PerformanceOptimization {
   calculations: {
@@ -380,7 +419,7 @@ interface PerformanceOptimization {
     lazyLoading: 'non-critical-features';
     bundleSplitting: 'astrological-features';
   };
-  
+
   userExperience: {
     progressiveLoading: 'cosmic-data-streaming';
     intelligentPrefetching: 'predicted-user-needs';
@@ -391,12 +430,14 @@ interface PerformanceOptimization {
 ```
 
 **Performance Targets**:
+
 - **Astrological Calculations**: <2 seconds
 - **API Response Time**: <5 seconds with fallbacks
 - **Page Load Time**: <3 seconds initial load
 - **Cache Hit Rate**: >80% for astronomical data
 
 ### Monitoring and Alerting
+
 ```typescript
 interface MonitoringSystem {
   realTimeMetrics: {
@@ -405,7 +446,7 @@ interface MonitoringSystem {
     userExperience: 'load-times-interactions';
     systemHealth: 'api-availability-cache-hit-rate';
   };
-  
+
   alerting: {
     errorThresholds: 'automatic-campaign-triggers';
     performanceDegradation: 'optimization-recommendations';
@@ -418,12 +459,14 @@ interface MonitoringSystem {
 ## 🔮 Future Architecture Considerations
 
 ### Scalability Preparations
+
 - **Microservices Ready**: Service layer designed for potential migration
 - **Database Abstraction**: Data layer ready for database integration
 - **Caching Strategy**: Redis-ready caching for horizontal scaling
 - **CDN Integration**: Asset delivery optimization for global users
 
 ### Technology Evolution
+
 - **React 19 Features**: Leveraging latest concurrent features
 - **Next.js Evolution**: Ready for updates and new features
 - **TypeScript Advancement**: Prepared for language improvements
@@ -432,12 +475,18 @@ interface MonitoringSystem {
 ## 📚 Learning Resources
 
 ### Essential Reading
-1. **[Elemental Principles Guide](../guides/elemental-principles.md)** - Four-element system deep dive
-2. **[Astrological Integration Guide](../guides/astrological-integration.md)** - Cosmic feature implementation
-3. **[Campaign System Documentation](../../src/services/campaign/README.md)** - Quality improvement system
-4. **[Cultural Sensitivity Guidelines](../guides/cultural-sensitivity.md)** - Inclusive design principles
+
+1. **[Elemental Principles Guide](../guides/elemental-principles.md)** -
+   Four-element system deep dive
+2. **[Astrological Integration Guide](../guides/astrological-integration.md)** -
+   Cosmic feature implementation
+3. **[Campaign System Documentation](../../src/services/campaign/README.md)** -
+   Quality improvement system
+4. **[Cultural Sensitivity Guidelines](../guides/cultural-sensitivity.md)** -
+   Inclusive design principles
 
 ### Code Examples
+
 ```typescript
 // Example: Implementing elemental compatibility
 function calculateElementalCompatibility(
@@ -446,12 +495,12 @@ function calculateElementalCompatibility(
 ): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
-  
+
   // Self-reinforcement: same elements have highest compatibility
   if (sourceDominant === targetDominant) {
     return Math.max(0.9, calculateBaseCompatibility(source, target));
   }
-  
+
   // All different combinations have good compatibility
   return Math.max(0.7, calculateBaseCompatibility(source, target));
 }
@@ -461,14 +510,14 @@ async function getReliablePlanetaryPositions(date: Date = new Date()) {
   try {
     // Primary: Real-time API calculation
     const positions = await calculateCurrentPositions(date);
-    
+
     if (validatePlanetaryPositions(positions)) {
       return positions;
     }
   } catch (error) {
     logger.warn('Primary calculation failed, using fallback', error);
   }
-  
+
   // Fallback: Cached positions from March 28, 2025
   return getMarch2025Positions();
 }
@@ -477,6 +526,7 @@ async function getReliablePlanetaryPositions(date: Date = new Date()) {
 ## 🎯 Architecture Best Practices
 
 ### Do's ✅
+
 - **Follow elemental principles** in all calculations
 - **Implement comprehensive fallbacks** for critical systems
 - **Validate all astrological data** before use
@@ -486,6 +536,7 @@ async function getReliablePlanetaryPositions(date: Date = new Date()) {
 - **Monitor performance** and optimize continuously
 
 ### Don'ts ❌
+
 - **Never implement opposing elements** (Fire vs Water)
 - **Don't assume user astrological beliefs** or knowledge
 - **Avoid cultural appropriation** or insensitive representations
@@ -495,6 +546,10 @@ async function getReliablePlanetaryPositions(date: Date = new Date()) {
 
 ---
 
-**This architecture guide provides the foundation for understanding and contributing to WhatToEatNext's unique blend of ancient wisdom and modern technology.** 🌟
+**This architecture guide provides the foundation for understanding and
+contributing to WhatToEatNext's unique blend of ancient wisdom and modern
+technology.** 🌟
 
-*Ready to dive deeper? Explore the specific guides for your area of interest, or start with the [Developer Getting Started Guide](for-developers.md) to begin contributing.*
+_Ready to dive deeper? Explore the specific guides for your area of interest, or
+start with the [Developer Getting Started Guide](for-developers.md) to begin
+contributing._

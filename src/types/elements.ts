@@ -2,14 +2,7 @@
  * Types for elemental energy calculations
  */
 
-export type ElementType = 
-  | 'Fire' 
-  | 'Water' 
-  | 'Air' 
-  | 'Earth' 
-  | 'Metal' 
-  | 'Wood' 
-  | 'Void';
+export type ElementType = 'Fire' | 'Water' | 'Air' | 'Earth' | 'Metal' | 'Wood' | 'Void';
 
 export interface ElementalEnergy {
   type: ElementType;
@@ -29,16 +22,16 @@ export const signElementMap: Record<string, ElementType> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
-  
+
   taurus: 'Earth',
   virgo: 'Earth',
   capricorn: 'Earth',
-  
+
   gemini: 'Air',
   libra: 'Air',
   aquarius: 'Air',
-  
+
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water'
-}; 
+  pisces: 'Water',
+};

@@ -28,56 +28,56 @@ const DIETARY_KEYWORDS: KeywordPattern[] = [
     keywords: ['vegetarian', 'veggie', 'no meat'],
     category: 'dietaryRestrictions',
     values: ['vegetarian'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['vegan', 'plant based', 'no dairy', 'no animal products'],
     category: 'dietaryRestrictions',
     values: ['vegan'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['gluten free', 'no gluten', 'celiac'],
     category: 'dietaryRestrictions',
     values: ['gluten-free'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['dairy free', 'lactose free', 'no dairy'],
     category: 'dietaryRestrictions',
     values: ['dairy-free'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['nut free', 'no nuts', 'allergy'],
     category: 'dietaryRestrictions',
     values: ['nut-free'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['low carb', 'keto', 'ketogenic'],
     category: 'dietaryRestrictions',
     values: ['low-carb', 'keto'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['paleo', 'paleolithic'],
     category: 'dietaryRestrictions',
     values: ['paleo'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['halal'],
     category: 'dietaryRestrictions',
     values: ['halal'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['kosher'],
     category: 'dietaryRestrictions',
     values: ['kosher'],
-    weight: 0.9
-  }
+    weight: 0.9,
+  },
 ];
 
 const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
@@ -85,20 +85,20 @@ const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
     keywords: ['easy', 'simple', 'quick', 'beginner'],
     category: 'difficultyLevel',
     values: ['easy', 'beginner'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['hard', 'difficult', 'complex', 'advanced', 'expert'],
     category: 'difficultyLevel',
     values: ['hard', 'expert'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['medium', 'intermediate', 'moderate'],
     category: 'difficultyLevel',
     values: ['medium'],
-    weight: 0.7
-  }
+    weight: 0.7,
+  },
 ];
 
 const TIME_KEYWORDS: KeywordPattern[] = [
@@ -106,20 +106,20 @@ const TIME_KEYWORDS: KeywordPattern[] = [
     keywords: ['quick', 'fast', 'under 30', 'less than 30', '30 minutes'],
     category: 'cookingTime',
     values: ['0-30'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['1 hour', 'one hour', '60 minutes'],
     category: 'cookingTime',
     values: ['30-60'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['long', 'slow', '2 hours', 'extended'],
     category: 'cookingTime',
     values: ['60-120'],
-    weight: 0.7
-  }
+    weight: 0.7,
+  },
 ];
 
 const CUISINE_KEYWORDS: KeywordPattern[] = [
@@ -127,44 +127,44 @@ const CUISINE_KEYWORDS: KeywordPattern[] = [
     keywords: ['italian', 'pasta', 'pizza', 'mediterranean'],
     category: 'cuisineTypes',
     values: ['italian'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['chinese', 'asian', 'stir fry', 'wok'],
     category: 'cuisineTypes',
     values: ['chinese'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['japanese', 'sushi', 'ramen', 'miso'],
     category: 'cuisineTypes',
     values: ['japanese'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['indian', 'curry', 'spicy', 'masala'],
     category: 'cuisineTypes',
     values: ['indian'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['thai', 'pad thai', 'coconut'],
     category: 'cuisineTypes',
     values: ['thai'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['mexican', 'tacos', 'salsa', 'beans'],
     category: 'cuisineTypes',
     values: ['mexican'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['french', 'wine', 'butter', 'cream'],
     category: 'cuisineTypes',
     values: ['french'],
-    weight: 0.8
-  }
+    weight: 0.8,
+  },
 ];
 
 const MEAL_KEYWORDS: KeywordPattern[] = [
@@ -172,32 +172,32 @@ const MEAL_KEYWORDS: KeywordPattern[] = [
     keywords: ['breakfast', 'morning', 'brunch'],
     category: 'mealTypes',
     values: ['breakfast'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['lunch', 'midday', 'noon'],
     category: 'mealTypes',
     values: ['lunch'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['dinner', 'evening', 'supper'],
     category: 'mealTypes',
     values: ['dinner'],
-    weight: 0.9
+    weight: 0.9,
   },
   {
     keywords: ['snack', 'appetizer', 'starter'],
     category: 'mealTypes',
     values: ['snack', 'appetizer'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['dessert', 'sweet', 'cake', 'cookie'],
     category: 'mealTypes',
     values: ['dessert'],
-    weight: 0.8
-  }
+    weight: 0.8,
+  },
 ];
 
 const SPICE_KEYWORDS: KeywordPattern[] = [
@@ -205,20 +205,20 @@ const SPICE_KEYWORDS: KeywordPattern[] = [
     keywords: ['mild', 'not spicy', 'no heat'],
     category: 'spiciness',
     values: ['mild'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['spicy', 'hot', 'chili', 'pepper'],
     category: 'spiciness',
     values: ['hot'],
-    weight: 0.8
+    weight: 0.8,
   },
   {
     keywords: ['very hot', 'extremely spicy', 'fire'],
     category: 'spiciness',
     values: ['very-hot'],
-    weight: 0.9
-  }
+    weight: 0.9,
+  },
 ];
 
 const ALL_PATTERNS = [
@@ -227,7 +227,7 @@ const ALL_PATTERNS = [
   ...TIME_KEYWORDS,
   ...CUISINE_KEYWORDS,
   ...MEAL_KEYWORDS,
-  ...SPICE_KEYWORDS
+  ...SPICE_KEYWORDS,
 ];
 
 // ========== UTILITY FUNCTIONS ==========
@@ -253,7 +253,9 @@ function calculateSimilarity(str1: string, str2: string): number {
   if (len1 === 0) return len2;
   if (len2 === 0) return len1;
 
-  const matrix = Array(len2 + 1).fill(null).map(() => Array(len1 + 1).fill(null));
+  const matrix = Array(len2 + 1)
+    .fill(null)
+    .map(() => Array(len1 + 1).fill(null));
 
   for (let i = 0; i <= len1; i++) matrix[0][i] = i;
   for (let j = 0; j <= len2; j++) matrix[j][0] = j;
@@ -264,7 +266,7 @@ function calculateSimilarity(str1: string, str2: string): number {
       matrix[j][i] = Math.min(
         matrix[j][i - 1] + 1,
         matrix[j - 1][i] + 1,
-        matrix[j - 1][i - 1] + cost
+        matrix[j - 1][i - 1] + cost,
       );
     }
   }
@@ -283,7 +285,7 @@ function extractTimeRange(query: string): { min: number; max: number } | null {
     { pattern: /under\s*(\d+)/i, max: true },
     { pattern: /less\s*than\s*(\d+)/i, max: true },
     { pattern: /more\s*than\s*(\d+)/i, min: true },
-    { pattern: /over\s*(\d+)/i, min: true }
+    { pattern: /over\s*(\d+)/i, min: true },
   ];
 
   for (const { pattern, multiplier = 1, max, min } of timePatterns) {
@@ -315,7 +317,7 @@ function generateSuggestions(query: string): string[] {
     'Easy Japanese ramen',
     'Mexican tacos and burritos',
     'French comfort food',
-    'Thai coconut curry'
+    'Thai coconut curry',
   ];
 
   // Dietary suggestions
@@ -324,7 +326,7 @@ function generateSuggestions(query: string): string[] {
     'Vegan breakfast ideas',
     'Gluten-free desserts',
     'Keto-friendly meals',
-    'Dairy-free options'
+    'Dairy-free options',
   ];
 
   // Time-based suggestions
@@ -332,7 +334,7 @@ function generateSuggestions(query: string): string[] {
     'Quick 30-minute meals',
     'Easy weeknight dinners',
     'Slow-cooked comfort food',
-    'Fast breakfast ideas'
+    'Fast breakfast ideas',
   ];
 
   const allSuggestions = [...cuisineSuggestions, ...dietarySuggestions, ...timeSuggestions];
@@ -380,7 +382,10 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
           const timeRange = extractTimeRange(query) || { min: 0, max: 30 };
           // cookingTime is a structured object in SearchFilters
           // Assign strongly typed cookingTime
-          (extractedFilters as Partial<SearchFilters>).cookingTime = { min: timeRange.min, max: timeRange.max };
+          (extractedFilters as Partial<SearchFilters>).cookingTime = {
+            min: timeRange.min,
+            max: timeRange.max,
+          };
         } else if (Array.isArray(extractedFilters[pattern.category])) {
           const currentArray = extractedFilters[pattern.category] as string[];
           for (const value of pattern.values) {
@@ -424,7 +429,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
     query: cleanedQuery || query,
     extractedFilters,
     confidence: overallConfidence,
-    suggestions
+    suggestions,
   };
 }
 
@@ -434,7 +439,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
 export function enhancedSearch(
   items: any[],
   query: string,
-  searchFields: string[] = ['name', 'description']
+  searchFields: string[] = ['name', 'description'],
 ): any[] {
   if (!query.trim()) return items;
 
@@ -493,9 +498,9 @@ export function applyFilters(items: any[], filters: SearchFilters): any[] {
     // Dietary restrictions
     if (filters.dietaryRestrictions.length > 0) {
       const itemDietary = item.dietaryRestrictions || [];
-      const hasRequiredDietary = filters.dietaryRestrictions.every(restriction =>
-        itemDietary.includes(restriction) ||
-        (item.tags && item.tags.includes(restriction))
+      const hasRequiredDietary = filters.dietaryRestrictions.every(
+        restriction =>
+          itemDietary.includes(restriction) || (item.tags && item.tags.includes(restriction)),
       );
       if (!hasRequiredDietary) return false;
     }

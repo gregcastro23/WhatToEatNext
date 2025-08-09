@@ -29,38 +29,36 @@ app.get('/api/health', (req, res) => {
 app.post('/planetary-data', async (request, response) => {
   console.log('\nindex.js >>> REQUEST -> /planetary-data');
   console.log('request.body', request.body);
-  
+
   try {
     const { datetime, latitude, longitude } = request.body;
-    
+
     // Use your existing AstrologicalService to get planet positions
     const astroService = new AstrologicalService();
     const planetaryAlignment = astroService.calculatePlanetaryAlignment(
       new Date(datetime),
       latitude,
-      longitude
+      longitude,
     );
-    
+
     // Use your AlchemicalEngine to calculate the alchemical properties
     const { AlchemicalEngineBase } = await import('./src/lib/alchemicalEngine.js');
     const alchemicalEngine = new AlchemicalEngineBase();
     const isDaytime = isDay(new Date(datetime), latitude, longitude);
     const alchemicalProperties = alchemicalEngine.calculateProperties(
       planetaryAlignment,
-      isDaytime
+      isDaytime,
     );
-    
+
     response.json({
       planetaryAlignment,
-      alchemicalProperties
+      alchemicalProperties,
     });
   } catch (error) {
     console.error('Error calculating planetary data:', error);
     response.status(500).json({ error: 'Failed to calculate planetary data' });
   }
 });
-
-
 
 // Helper function to determine if it's day or night
 function isDay(datetime, latitude, longitude) {

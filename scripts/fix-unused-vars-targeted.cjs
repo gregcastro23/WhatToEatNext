@@ -12,9 +12,9 @@ const fixes = [
       {
         from: /const CampaignTestContext = /g,
         to: 'const _CampaignTestContext = ',
-        description: 'Prefix unused test context variable'
-      }
-    ]
+        description: 'Prefix unused test context variable',
+      },
+    ],
   },
   {
     file: 'src/__tests__/integration/MainPageIntegration.test.tsx',
@@ -22,9 +22,9 @@ const fixes = [
       {
         from: /\(id: string\)/g,
         to: '(_id: string)',
-        description: 'Prefix unused parameter id'
-      }
-    ]
+        description: 'Prefix unused parameter id',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/AstrologicalRulesValidation.test.ts',
@@ -32,9 +32,9 @@ const fixes = [
       {
         from: /import path from/g,
         to: 'import _path from',
-        description: 'Prefix unused import path'
-      }
-    ]
+        description: 'Prefix unused import path',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/AutomatedErrorResolution.test.ts',
@@ -42,9 +42,9 @@ const fixes = [
       {
         from: /import { execSync, readFileSync } from/g,
         to: 'import { execSync as _execSync, readFileSync as _readFileSync } from',
-        description: 'Alias unused imports'
-      }
-    ]
+        description: 'Alias unused imports',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/CampaignSystemRuleValidation.test.ts',
@@ -52,19 +52,19 @@ const fixes = [
       {
         from: /\(category: string\)/g,
         to: '(_category: string)',
-        description: 'Prefix unused parameter category'
+        description: 'Prefix unused parameter category',
       },
       {
         from: /\(criterion: string\)/g,
         to: '(_criterion: string)',
-        description: 'Prefix unused parameter criterion'
+        description: 'Prefix unused parameter criterion',
       },
       {
         from: /\(requirement: string\)/g,
         to: '(_requirement: string)',
-        description: 'Prefix unused parameter requirement'
-      }
-    ]
+        description: 'Prefix unused parameter requirement',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/ConfigurationFileRuleValidation.test.ts',
@@ -72,9 +72,9 @@ const fixes = [
       {
         from: /const results = /g,
         to: 'const _results = ',
-        description: 'Prefix unused variable results'
-      }
-    ]
+        description: 'Prefix unused variable results',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/DomainSpecificRuleValidation.test.ts',
@@ -82,10 +82,10 @@ const fixes = [
       {
         from: /import { readFileSync } from/g,
         to: 'import { readFileSync as _readFileSync } from',
-        description: 'Alias unused import readFileSync'
-      }
-    ]
-  }
+        description: 'Alias unused import readFileSync',
+      },
+    ],
+  },
 ];
 
 function applyFix(fix) {
@@ -115,7 +115,6 @@ function applyFix(fix) {
       console.log(`ℹ️  No changes needed in ${fix.file}`);
       return false;
     }
-
   } catch (error) {
     console.error(`❌ Error processing ${fix.file}: ${error.message}`);
     return false;

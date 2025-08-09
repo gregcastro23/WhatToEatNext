@@ -2,7 +2,8 @@
 
 ## 🚀 Overview
 
-This document describes the comprehensive CI/CD pipeline setup for the WhatToEatNext project using Yarn, GitHub Actions, and Vercel deployment.
+This document describes the comprehensive CI/CD pipeline setup for the
+WhatToEatNext project using Yarn, GitHub Actions, and Vercel deployment.
 
 ## 📋 Prerequisites
 
@@ -34,16 +35,16 @@ This document describes the comprehensive CI/CD pipeline setup for the WhatToEat
 
 ### Core Configuration
 
-| File | Purpose |
-|------|---------|
-| `.github/workflows/ci.yml` | Main CI/CD pipeline |
-| `.github/workflows/release.yml` | Release automation |
-| `.github/workflows/dependency-review.yml` | Security scanning |
-| `.github/dependabot.yml` | Automated dependency updates |
-| `turbo.json` | Turborepo configuration |
-| `.yarnrc.yml` | Yarn configuration |
-| `.eslintrc.js` | ESLint configuration |
-| `.prettierrc` | Prettier configuration |
+| File                                      | Purpose                      |
+| ----------------------------------------- | ---------------------------- |
+| `.github/workflows/ci.yml`                | Main CI/CD pipeline          |
+| `.github/workflows/release.yml`           | Release automation           |
+| `.github/workflows/dependency-review.yml` | Security scanning            |
+| `.github/dependabot.yml`                  | Automated dependency updates |
+| `turbo.json`                              | Turborepo configuration      |
+| `.yarnrc.yml`                             | Yarn configuration           |
+| `.eslintrc.js`                            | ESLint configuration         |
+| `.prettierrc`                             | Prettier configuration       |
 
 ### Environment Files
 
@@ -64,18 +65,17 @@ chmod +x scripts/setup-ci.sh
 
 ### 2. Configure GitHub Secrets
 
-Navigate to your GitHub repository:
-`Settings > Secrets and variables > Actions`
+Navigate to your GitHub repository: `Settings > Secrets and variables > Actions`
 
 Add the following secrets:
 
-| Secret | Description | Required |
-|--------|-------------|----------|
-| `VERCEL_TOKEN` | Vercel deployment token | Yes |
-| `VERCEL_ORG_ID` | Vercel organization ID | Yes |
-| `VERCEL_PROJECT_ID` | Vercel project ID | Yes |
-| `TURBO_TOKEN` | Turborepo token | No |
-| `TURBO_TEAM` | Turborepo team | No |
+| Secret              | Description             | Required |
+| ------------------- | ----------------------- | -------- |
+| `VERCEL_TOKEN`      | Vercel deployment token | Yes      |
+| `VERCEL_ORG_ID`     | Vercel organization ID  | Yes      |
+| `VERCEL_PROJECT_ID` | Vercel project ID       | Yes      |
+| `TURBO_TOKEN`       | Turborepo token         | No       |
+| `TURBO_TEAM`        | Turborepo team          | No       |
 
 ### 3. Push Changes
 
@@ -90,6 +90,7 @@ git push origin main
 ### CI/CD Pipeline (`ci.yml`)
 
 **Triggers:**
+
 - Push to `main` or `develop` branches
 - Pull requests to `main` or `develop` branches
 - Manual workflow dispatch
@@ -131,9 +132,11 @@ git push origin main
 ### Release Automation (`release.yml`)
 
 **Triggers:**
+
 - Push tags matching `v*` pattern
 
 **Features:**
+
 - Automated release creation
 - Changelog generation
 - Production deployment
@@ -142,9 +145,11 @@ git push origin main
 ### Dependency Review (`dependency-review.yml`)
 
 **Triggers:**
+
 - Pull requests to `main` or `develop`
 
 **Features:**
+
 - Security vulnerability scanning
 - License compliance checking
 - Automated PR comments
@@ -233,6 +238,7 @@ security:
 ### Common Issues
 
 1. **Build Failures**
+
    ```bash
    # Clear cache and rebuild
    yarn cache:clean
@@ -240,12 +246,14 @@ security:
    ```
 
 2. **Dependency Issues**
+
    ```bash
    # Reinstall dependencies
    yarn install:clean
    ```
 
 3. **TypeScript Errors**
+
    ```bash
    # Run type checking
    yarn type-check
@@ -354,4 +362,4 @@ graph LR
 
 ---
 
-**Happy coding! 🚀** 
+**Happy coding! 🚀**

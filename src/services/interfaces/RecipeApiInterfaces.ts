@@ -1,13 +1,19 @@
-
 /**
  * RecipeApiInterfaces.ts
- * 
+ *
  * Standardized interfaces for recipe API requests and responses
  * Following Phase 4 API standardization guidelines
  */
 
-import { Element, Season, ZodiacSign, LunarPhase, PlanetName , ElementalProperties } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
+import {
+  Element,
+  Season,
+  ZodiacSign,
+  LunarPhase,
+  PlanetName,
+  ElementalProperties,
+} from '@/types/alchemy';
+import { PlanetaryAlignment } from '@/types/celestial';
 import { Recipe } from '@/types/recipe';
 
 /**
@@ -43,7 +49,7 @@ export enum RecipeErrorCode {
   INVALID_PARAMETERS = 'INVALID_PARAMETERS',
   PROCESSING_ERROR = 'PROCESSING_ERROR',
   DATA_SOURCE_ERROR = 'DATA_SOURCE_ERROR',
-  VALIDATION_ERROR = 'VALIDATION_ERROR'
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
 }
 
 /**
@@ -197,4 +203,4 @@ export interface GenerateFusionRecipeParams {
 export interface AdaptRecipeForSeasonParams {
   recipeId: string;
   season?: Season;
-} 
+}

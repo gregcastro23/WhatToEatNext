@@ -5,7 +5,5 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "description": "Your personal astrology guide",
-  "permissions": [
-    "geolocation"
-  ]
-} 
+  "permissions": ["geolocation"]
+}

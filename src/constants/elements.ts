@@ -5,7 +5,7 @@ export const ELEMENTAL_PROPERTIES = {
     direction: 'south',
     taste: ['spicy', 'bitter'],
     colors: ['red', 'orange', 'yellow'],
-    energy: 'expansive'
+    energy: 'expansive',
   },
   Water: {
     qualities: ['cold', 'wet'],
@@ -13,7 +13,7 @@ export const ELEMENTAL_PROPERTIES = {
     direction: 'north',
     taste: ['salty', 'sweet'],
     colors: ['blue', 'black', 'deep purple'],
-    energy: 'contracting'
+    energy: 'contracting',
   },
   Air: {
     qualities: ['hot', 'wet'],
@@ -21,7 +21,7 @@ export const ELEMENTAL_PROPERTIES = {
     direction: 'east',
     taste: ['pungent', 'astringent'],
     colors: ['white', 'light blue', 'silver'],
-    energy: 'moving'
+    energy: 'moving',
   },
   Earth: {
     qualities: ['cold', 'dry'],
@@ -29,8 +29,8 @@ export const ELEMENTAL_PROPERTIES = {
     direction: 'west',
     taste: ['sweet', 'sour'],
     colors: ['brown', 'green', 'gold'],
-    energy: 'stabilizing'
-  }
+    energy: 'stabilizing',
+  },
 };
 
 export const ELEMENT_COMBINATIONS = {
@@ -38,17 +38,17 @@ export const ELEMENT_COMBINATIONS = {
     ['Fire', 'Air'],
     ['Water', 'Earth'],
     ['Fire', 'Earth'],
-    ['Air', 'Water']
+    ['Air', 'Water'],
   ],
   antagonistic: [
     ['Fire', 'Water'],
-    ['Air', 'Earth']
-  ]
+    ['Air', 'Earth'],
+  ],
 };
 
 export const ELEMENTAL_THRESHOLDS = {
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,
-  trace: 0.05
+  trace: 0.05,
 };

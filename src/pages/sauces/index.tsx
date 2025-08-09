@@ -36,19 +36,19 @@ const SaucesPage: NextPage = () => {
     setElementalState({
       ...currentState,
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
-      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
+      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
   }, []);
 
   // Collect all sauces from all cuisines
   const allSauces = React.useMemo<SauceItem[]>(() => {
     const sauces: SauceItem[] = [];
-    
+
     Object.entries(cuisinesMap).forEach(([cuisineId, cuisineData]) => {
       if (cuisineData.traditionalSauces) {
         Object.entries(cuisineData.traditionalSauces).forEach(([sauceId, sauceData]) => {
           // Apply safe type casting for sauce data property access
-          const sauceInfo = sauceData ;
+          const sauceInfo = sauceData;
           sauces.push({
             id: sauceId,
             name: sauceInfo?.name || sauceId,
@@ -57,12 +57,12 @@ const SaucesPage: NextPage = () => {
             cuisine: cuisineData.name,
             cuisineId: cuisineId,
             seasonality: sauceInfo?.seasonality,
-            elementalProperties: sauceInfo?.elementalProperties
+            elementalProperties: sauceInfo?.elementalProperties,
           });
         });
       }
     });
-    
+
     return sauces;
   }, []);
 
@@ -86,21 +86,24 @@ const SaucesPage: NextPage = () => {
   const filteredSauces = React.useMemo(() => {
     return allSauces.filter(sauce => {
       // Filter by search term
-      if (searchTerm && !sauce.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
-          !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()))) {
+      if (
+        searchTerm &&
+        !sauce.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()))
+      ) {
         return false;
       }
-      
+
       // Filter by cuisine
       if (selectedCuisine && sauce.cuisine !== selectedCuisine) {
         return false;
       }
-      
+
       // Filter by base
       if (selectedBase && sauce.base !== selectedBase) {
         return false;
       }
-      
+
       // Filter by elemental property
       if (elementalFilter && sauce.elementalProperties) {
         const elementValue = sauce.elementalProperties[elementalFilter] || 0;
@@ -109,7 +112,7 @@ const SaucesPage: NextPage = () => {
           return false;
         }
       }
-      
+
       return true;
     });
   }, [allSauces, searchTerm, selectedCuisine, selectedBase, elementalFilter]);
@@ -117,195 +120,222 @@ const SaucesPage: NextPage = () => {
   // Get the dominant element from current elemental state
   const dominantElement = React.useMemo(() => {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
-    return elements.reduce((prev, curr) => 
-      (elementalState[curr as keyof typeof elementalState] > elementalState[prev as keyof typeof elementalState]) 
-        ? curr 
-        : prev
+    return elements.reduce((prev, curr) =>
+      elementalState[curr as keyof typeof elementalState] >
+      elementalState[prev as keyof typeof elementalState]
+        ? curr
+        : prev,
     );
   }, [elementalState]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Traditional Sauces</h1>
-      
+    <div className='container mx-auto px-4 py-8'>
+      <h1 className='mb-8 text-3xl font-bold'>Traditional Sauces</h1>
+
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg shadow p-6 mb-8">
-        <div className="flex flex-wrap gap-4">
-          <div className="w-full md:w-1/3">
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+      <div className='mb-8 rounded-lg bg-white p-6 shadow'>
+        <div className='flex flex-wrap gap-4'>
+          <div className='w-full md:w-1/3'>
+            <label htmlFor='search' className='mb-1 block text-sm font-medium text-gray-700'>
               Search Sauces
             </label>
             <input
-              type="text"
-              id="search"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Search by name or description..."
+              type='text'
+              id='search'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500'
+              placeholder='Search by name or description...'
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
-          
-          <div className="w-full md:w-1/4">
-            <label htmlFor="cuisine" className="block text-sm font-medium text-gray-700 mb-1">
+
+          <div className='w-full md:w-1/4'>
+            <label htmlFor='cuisine' className='mb-1 block text-sm font-medium text-gray-700'>
               Filter by Cuisine
             </label>
             <select
-              id="cuisine"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              id='cuisine'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500'
               value={selectedCuisine}
-              onChange={(e) => setSelectedCuisine(e.target.value)}
+              onChange={e => setSelectedCuisine(e.target.value)}
             >
-              <option value="">All Cuisines</option>
+              <option value=''>All Cuisines</option>
               {availableCuisines.map(cuisine => (
-                <option key={cuisine} value={cuisine}>{cuisine}</option>
+                <option key={cuisine} value={cuisine}>
+                  {cuisine}
+                </option>
               ))}
             </select>
           </div>
-          
-          <div className="w-full md:w-1/4">
-            <label htmlFor="base" className="block text-sm font-medium text-gray-700 mb-1">
+
+          <div className='w-full md:w-1/4'>
+            <label htmlFor='base' className='mb-1 block text-sm font-medium text-gray-700'>
               Filter by Base
             </label>
             <select
-              id="base"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              id='base'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500'
               value={selectedBase}
-              onChange={(e) => setSelectedBase(e.target.value)}
+              onChange={e => setSelectedBase(e.target.value)}
             >
-              <option value="">All Bases</option>
+              <option value=''>All Bases</option>
               {availableBases.map(base => (
-                <option key={base} value={base}>{base}</option>
+                <option key={base} value={base}>
+                  {base}
+                </option>
               ))}
             </select>
           </div>
-          
-          <div className="w-full md:w-1/4">
-            <label htmlFor="element" className="block text-sm font-medium text-gray-700 mb-1">
+
+          <div className='w-full md:w-1/4'>
+            <label htmlFor='element' className='mb-1 block text-sm font-medium text-gray-700'>
               Filter by Element
             </label>
             <select
-              id="element"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              id='element'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500'
               value={elementalFilter || ''}
-              onChange={(e) => setElementalFilter(e.target.value || null)}
+              onChange={e => setElementalFilter(e.target.value || null)}
             >
-              <option value="">All Elements</option>
-              <option value="Fire">Fire</option>
-              <option value="Water">Water</option>
-              <option value="Earth">Earth</option>
-              <option value="Air">Air</option>
+              <option value=''>All Elements</option>
+              <option value='Fire'>Fire</option>
+              <option value='Water'>Water</option>
+              <option value='Earth'>Earth</option>
+              <option value='Air'>Air</option>
             </select>
           </div>
-          
-          <div className="w-full flex flex-wrap items-center gap-2 mt-2">
-            <div className="text-sm text-gray-600">Current Elemental State:</div>
-            {Object.entries(elementalState).filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key)).map(([element, value]) => (
-              <div 
-                key={element}
-                className="flex items-center gap-1 px-2 py-1 rounded text-xs"
-                style={{
-                  backgroundColor: element === 'Fire' ? 'rgba(239, 68, 68, 0.1)' : 
-                                element === 'Water' ? 'rgba(59, 130, 246, 0.1)' :
-                                element === 'Earth' ? 'rgba(75, 85, 99, 0.1)' :
-                                'rgba(167, 139, 250, 0.1)',
-                  color: element === 'Fire' ? 'rgb(185, 28, 28)' : 
-                         element === 'Water' ? 'rgb(29, 78, 216)' :
-                         element === 'Earth' ? 'rgb(55, 65, 81)' :
-                         'rgb(109, 40, 217)'
-                }}
-              >
-                <span>{element}</span>
-                <span>{Math.round(Number(value) * 100)}%</span>
-                {element === dominantElement && (
-                  <span className="ml-1">★</span>
-                )}
-              </div>
-            ))}
-            
-            <button 
-              className="ml-auto px-2 py-1 text-xs border border-blue-400 text-blue-600 rounded hover:bg-blue-50"
+
+          <div className='mt-2 flex w-full flex-wrap items-center gap-2'>
+            <div className='text-sm text-gray-600'>Current Elemental State:</div>
+            {Object.entries(elementalState)
+              .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
+              .map(([element, value]) => (
+                <div
+                  key={element}
+                  className='flex items-center gap-1 rounded px-2 py-1 text-xs'
+                  style={{
+                    backgroundColor:
+                      element === 'Fire'
+                        ? 'rgba(239, 68, 68, 0.1)'
+                        : element === 'Water'
+                          ? 'rgba(59, 130, 246, 0.1)'
+                          : element === 'Earth'
+                            ? 'rgba(75, 85, 99, 0.1)'
+                            : 'rgba(167, 139, 250, 0.1)',
+                    color:
+                      element === 'Fire'
+                        ? 'rgb(185, 28, 28)'
+                        : element === 'Water'
+                          ? 'rgb(29, 78, 216)'
+                          : element === 'Earth'
+                            ? 'rgb(55, 65, 81)'
+                            : 'rgb(109, 40, 217)',
+                  }}
+                >
+                  <span>{element}</span>
+                  <span>{Math.round(Number(value) * 100)}%</span>
+                  {element === dominantElement && <span className='ml-1'>★</span>}
+                </div>
+              ))}
+
+            <button
+              className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50'
               onClick={() => setElementalFilter(dominantElement)}
             >
               Match {dominantElement}
             </button>
           </div>
-          
-          <div className="w-full md:w-auto flex items-end ml-auto">
-            <button 
+
+          <div className='ml-auto flex w-full items-end md:w-auto'>
+            <button
               onClick={() => {
                 setSearchTerm('');
                 setSelectedCuisine('');
                 setSelectedBase('');
                 setElementalFilter(null);
               }}
-              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700"
+              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300'
             >
               Clear Filters
             </button>
           </div>
         </div>
       </div>
-      
+
       {/* Results */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="mb-4 text-gray-600">
+      <div className='rounded-lg bg-white p-6 shadow'>
+        <div className='mb-4 text-gray-600'>
           {filteredSauces.length} {filteredSauces.length === 1 ? 'sauce' : 'sauces'} found
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
           {filteredSauces.map(sauce => {
             // Create URL-friendly IDs
             const cuisineId = sauce.cuisineId.toLowerCase();
-            const sauceId = sauce.id.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
-            
+            const sauceId = sauce.id
+              .toLowerCase()
+              .replace(/ /g, '-')
+              .replace(/[^\w-]/g, '');
+
             return (
-              <Link 
+              <Link
                 href={`/sauces/${cuisineId}/${sauceId}`}
                 key={`${cuisineId}-${sauceId}`}
-                className="block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-md'
               >
-                <div className="p-5">
-                  <h2 className="text-xl font-semibold mb-2 hover:text-blue-600">{sauce.name}</h2>
-                  
+                <div className='p-5'>
+                  <h2 className='mb-2 text-xl font-semibold hover:text-blue-600'>{sauce.name}</h2>
+
                   {sauce.description && (
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">{sauce.description}</p>
+                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{sauce.description}</p>
                   )}
-                  
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    <span className="text-xs px-2 py-1 bg-amber-50 text-amber-700 rounded">
+
+                  <div className='mb-3 flex flex-wrap gap-2'>
+                    <span className='rounded bg-amber-50 px-2 py-1 text-xs text-amber-700'>
                       {sauce.cuisine}
                     </span>
-                    
+
                     {sauce.base && (
-                      <span className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded">
+                      <span className='rounded bg-blue-50 px-2 py-1 text-xs text-blue-700'>
                         {sauce.base} base
                       </span>
                     )}
-                    
+
                     {sauce.seasonality && (
-                      <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded">
+                      <span className='rounded bg-green-50 px-2 py-1 text-xs text-green-700'>
                         {sauce.seasonality}
                       </span>
                     )}
                   </div>
-                  
+
                   {sauce.elementalProperties && (
-                    <div className="mt-3 grid grid-cols-4 gap-1">
+                    <div className='mt-3 grid grid-cols-4 gap-1'>
                       {Object.entries(sauce.elementalProperties).map(([element, value]) => (
-                        <div key={element} className="text-center text-xs">
-                          <div className="rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-1" style={{
-                            backgroundColor: element === 'Fire' ? 'rgba(239, 68, 68, 0.1)' : 
-                                            element === 'Water' ? 'rgba(59, 130, 246, 0.1)' :
-                                            element === 'Earth' ? 'rgba(75, 85, 99, 0.1)' :
-                                            'rgba(167, 139, 250, 0.1)',
-                            color: element === 'Fire' ? 'rgb(185, 28, 28)' : 
-                                   element === 'Water' ? 'rgb(29, 78, 216)' :
-                                   element === 'Earth' ? 'rgb(55, 65, 81)' :
-                                   'rgb(109, 40, 217)'
-                          }}>
+                        <div key={element} className='text-center text-xs'>
+                          <div
+                            className='mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full'
+                            style={{
+                              backgroundColor:
+                                element === 'Fire'
+                                  ? 'rgba(239, 68, 68, 0.1)'
+                                  : element === 'Water'
+                                    ? 'rgba(59, 130, 246, 0.1)'
+                                    : element === 'Earth'
+                                      ? 'rgba(75, 85, 99, 0.1)'
+                                      : 'rgba(167, 139, 250, 0.1)',
+                              color:
+                                element === 'Fire'
+                                  ? 'rgb(185, 28, 28)'
+                                  : element === 'Water'
+                                    ? 'rgb(29, 78, 216)'
+                                    : element === 'Earth'
+                                      ? 'rgb(55, 65, 81)'
+                                      : 'rgb(109, 40, 217)',
+                            }}
+                          >
                             {typeof value === 'number' ? Math.round(value * 100) : value}%
                           </div>
-                          <div className="text-gray-600">{element}</div>
+                          <div className='text-gray-600'>{element}</div>
                         </div>
                       ))}
                     </div>
@@ -315,11 +345,11 @@ const SaucesPage: NextPage = () => {
             );
           })}
         </div>
-        
+
         {filteredSauces.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-medium text-gray-600 mb-4">No sauces found</h3>
-            <p className="text-gray-500">Try adjusting your filters or search term</p>
+          <div className='py-12 text-center'>
+            <h3 className='mb-4 text-xl font-medium text-gray-600'>No sauces found</h3>
+            <p className='text-gray-500'>Try adjusting your filters or search term</p>
           </div>
         )}
       </div>
@@ -327,4 +357,4 @@ const SaucesPage: NextPage = () => {
   );
 };
 
-export default SaucesPage; 
+export default SaucesPage;

@@ -1,18 +1,39 @@
 'use client';
 
 import {
-  Search, ExpandMore, Restaurant, AccessTime, 
-  People, FilterList, Clear
+  Search,
+  ExpandMore,
+  Restaurant,
+  AccessTime,
+  People,
+  FilterList,
+  Clear,
 } from '@mui/icons-material';
 import {
-  Card, CardContent, CardActions,
-  Typography, Button, Chip, Grid,
-  CircularProgress, Alert, Box,
-  TextField, FormControl, InputLabel,
-  Select, MenuItem, Checkbox,
-  Accordion, AccordionSummary, AccordionDetails,
-  Pagination, IconButton, InputAdornment,
-  Rating, LinearProgress
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+  Chip,
+  Grid,
+  CircularProgress,
+  Alert,
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Pagination,
+  IconButton,
+  InputAdornment,
+  Rating,
+  LinearProgress,
 } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 
@@ -41,7 +62,7 @@ const initialFilters: FilterState = {
   maxTime: undefined,
   spiciness: null,
   complexity: null,
-  minRating: 0
+  minRating: 0,
 };
 
 interface AstrologicalData {
@@ -75,11 +96,16 @@ interface RecipeCardProps {
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle }) => {
   const getElementColor = (element: string): string => {
     switch (element.toLowerCase()) {
-      case 'fire': return '#ef4444';
-      case 'water': return '#3b82f6';
-      case 'earth': return '#22c55e';
-      case 'air': return '#a855f7';
-      default: return '#9ca3af';
+      case 'fire':
+        return '#ef4444';
+      case 'water':
+        return '#3b82f6';
+      case 'earth':
+        return '#22c55e';
+      case 'air':
+        return '#a855f7';
+      default:
+        return '#9ca3af';
     }
   };
 
@@ -88,72 +114,73 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
   const tags = Array.isArray(recipe.tags) ? recipe.tags : [];
 
   return (
-    <Card 
-      sx={{ 
+    <Card
+      sx={{
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
         transition: 'all 0.3s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: 3
-        }
+          boxShadow: 3,
+        },
       }}
     >
       <CardContent sx={{ flexGrow: 1 }}>
-        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-          <Typography variant="h6" component="h3" gutterBottom>
-            {recipe.name }
+        <Box display='flex' justifyContent='space-between' alignItems='flex-start' mb={2}>
+          <Typography variant='h6' component='h3' gutterBottom>
+            {recipe.name}
           </Typography>
           {recipe.matchPercentage && (
-            <Chip 
+            <Chip
               label={`${Math.round(recipe.matchPercentage)}%`}
-              color={recipe.matchPercentage > 75 ? 'success' : recipe.matchPercentage > 50 ? 'warning' : 'default'}
-              size="small"
+              color={
+                recipe.matchPercentage > 75
+                  ? 'success'
+                  : recipe.matchPercentage > 50
+                    ? 'warning'
+                    : 'default'
+              }
+              size='small'
             />
           )}
         </Box>
 
-        <Typography variant="body2" color="text.secondary" paragraph>
+        <Typography variant='body2' color='text.secondary' paragraph>
           {recipe.description as string}
         </Typography>
 
-        <Box display="flex" gap={1} flexWrap="wrap" mb={2}>
+        <Box display='flex' gap={1} flexWrap='wrap' mb={2}>
           {recipe.cuisine && (
-            <Chip 
-              icon={<Restaurant />}
-              label={recipe.cuisine }
-              size="small"
-              variant="outlined"
-            />
+            <Chip icon={<Restaurant />} label={recipe.cuisine} size='small' variant='outlined' />
           )}
           {recipe.cookTime && (
-            <Chip 
+            <Chip
               icon={<AccessTime />}
               label={`${recipe.cookTime} min`}
-              size="small"
-              variant="outlined"
+              size='small'
+              variant='outlined'
             />
           )}
           {recipe.servings && (
-            <Chip 
+            <Chip
               icon={<People />}
               label={`${recipe.servings} servings`}
-              size="small"
-              variant="outlined"
+              size='small'
+              variant='outlined'
             />
           )}
         </Box>
 
-{Boolean((recipe as unknown as Record<string, unknown>).rating) && (
-          <Box display="flex" alignItems="center" sx={{ gap: 1, mb: 2 }}>
-            <Rating 
-              value={Number((recipe as unknown as Record<string, unknown>).rating) || 0} 
-              precision={0.5} 
-              size="small" 
+        {Boolean((recipe as unknown as Record<string, unknown>).rating) && (
+          <Box display='flex' alignItems='center' sx={{ gap: 1, mb: 2 }}>
+            <Rating
+              value={Number((recipe as unknown as Record<string, unknown>).rating) || 0}
+              precision={0.5}
+              size='small'
               readOnly
             />
-            <Typography variant="caption">
+            <Typography variant='caption'>
               {Number((recipe as unknown as Record<string, unknown>).rating) || 0}/5
             </Typography>
           </Box>
@@ -161,24 +188,24 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
 
         {tags.length > 0 && (
           <Box mb={2}>
-            <Typography variant="caption" color="text.secondary" gutterBottom>
+            <Typography variant='caption' color='text.secondary' gutterBottom>
               Tags:
             </Typography>
-            <Box display="flex" gap={0.5} flexWrap="wrap" mt={0.5}>
+            <Box display='flex' gap={0.5} flexWrap='wrap' mt={0.5}>
               {tags.slice(0, 3).map((tag, index) => (
-                <Chip 
+                <Chip
                   key={index}
                   label={tag}
-                  size="small"
-                  variant="outlined"
+                  size='small'
+                  variant='outlined'
                   sx={{ fontSize: '0.7rem', height: 20 }}
                 />
               ))}
               {tags.length > 3 && (
-                <Chip 
+                <Chip
                   label={`+${tags.length - 3} more`}
-                  size="small"
-                  variant="outlined"
+                  size='small'
+                  variant='outlined'
                   sx={{ fontSize: '0.7rem', height: 20 }}
                 />
               )}
@@ -188,26 +215,26 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
 
         {recipe.elementalProperties && (
           <Box mb={2}>
-            <Typography variant="caption" color="text.secondary" gutterBottom>
+            <Typography variant='caption' color='text.secondary' gutterBottom>
               Elemental Balance:
             </Typography>
             <Grid container spacing={1}>
               {Object.entries(recipe.elementalProperties).map(([element, value]) => (
                 <Grid item xs={6} key={element}>
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <Typography variant="caption" sx={{ minWidth: 30, fontSize: '0.7rem' }}>
+                  <Box display='flex' alignItems='center' gap={1}>
+                    <Typography variant='caption' sx={{ minWidth: 30, fontSize: '0.7rem' }}>
                       {element}
                     </Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <LinearProgress
+                      variant='determinate'
                       value={Number(value) * 100}
-                      sx={{ 
-                        flexGrow: 1, 
-                        height: 4, 
+                      sx={{
+                        flexGrow: 1,
+                        height: 4,
                         borderRadius: 1,
                         '& .MuiLinearProgress-bar': {
-                          backgroundColor: getElementColor(element)
-                        }
+                          backgroundColor: getElementColor(element),
+                        },
                       }}
                     />
                   </Box>
@@ -217,13 +244,13 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           </Box>
         )}
 
-{Boolean(recipe.score) && (
+        {Boolean(recipe.score) && (
           <Box mb={2}>
-            <Typography variant="caption" color="text.secondary" gutterBottom>
+            <Typography variant='caption' color='text.secondary' gutterBottom>
               Astrological Match: {Math.round(recipe.score?.total || 0)}%
             </Typography>
-            <LinearProgress 
-              variant="determinate" 
+            <LinearProgress
+              variant='determinate'
               value={recipe.score?.total || 0}
               sx={{ height: 6, borderRadius: 1 }}
             />
@@ -232,8 +259,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
       </CardContent>
 
       <CardActions>
-        <Button 
-          size="small" 
+        <Button
+          size='small'
           onClick={onToggle}
           endIcon={<ExpandMore sx={{ transform: isExpanded ? 'rotate(180deg)' : 'none' }} />}
         >
@@ -245,16 +272,16 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
         <CardContent>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMore />}>
-              <Typography variant="subtitle2">
-                Ingredients ({ingredients.length})
-              </Typography>
+              <Typography variant='subtitle2'>Ingredients ({ingredients.length})</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Box>
                 {ingredients.map((ingredient, index) => (
-                  <Typography key={index} variant="body2" gutterBottom>
-                    • {typeof ingredient === 'string' ? ingredient : 
-                       `${ingredient.amount || ''} ${ingredient.unit || ''} ${ingredient.name || ingredient}`}
+                  <Typography key={index} variant='body2' gutterBottom>
+                    •{' '}
+                    {typeof ingredient === 'string'
+                      ? ingredient
+                      : `${ingredient.amount || ''} ${ingredient.unit || ''} ${ingredient.name || ingredient}`}
                   </Typography>
                 ))}
               </Box>
@@ -264,14 +291,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           {instructions.length > 0 && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
-                <Typography variant="subtitle2">
-                  Instructions ({instructions.length})
-                </Typography>
+                <Typography variant='subtitle2'>Instructions ({instructions.length})</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Box>
                   {instructions.map((instruction, index) => (
-                    <Typography key={index} variant="body2" paragraph>
+                    <Typography key={index} variant='body2' paragraph>
                       {index + 1}. {instruction}
                     </Typography>
                   ))}
@@ -280,43 +305,41 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
             </Accordion>
           )}
 
-{Boolean(recipe.score) && (
+          {Boolean(recipe.score) && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
-                <Typography variant="subtitle2">
-                  Score Breakdown
-                </Typography>
+                <Typography variant='subtitle2'>Score Breakdown</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <Typography variant="caption">Elemental:</Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <Typography variant='caption'>Elemental:</Typography>
+                    <LinearProgress
+                      variant='determinate'
                       value={recipe.score?.elemental || 0}
                       sx={{ mt: 0.5 }}
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="caption">Planetary:</Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <Typography variant='caption'>Planetary:</Typography>
+                    <LinearProgress
+                      variant='determinate'
                       value={recipe.score?.planetary || 0}
                       sx={{ mt: 0.5 }}
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="caption">Seasonal:</Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <Typography variant='caption'>Seasonal:</Typography>
+                    <LinearProgress
+                      variant='determinate'
                       value={recipe.score?.seasonal || 0}
                       sx={{ mt: 0.5 }}
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="caption">Popularity:</Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <Typography variant='caption'>Popularity:</Typography>
+                    <LinearProgress
+                      variant='determinate'
                       value={recipe.score?.popularity || 0}
                       sx={{ mt: 0.5 }}
                     />
@@ -341,7 +364,7 @@ interface AstrologizeAPI {
  */
 export default function RecipeListMigrated() {
   const { recipeService } = useServices();
-  
+
   // State management
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [enhancedRecipes, setEnhancedRecipes] = useState<EnhancedRecipe[]>([]);
@@ -358,9 +381,25 @@ export default function RecipeListMigrated() {
   const limit = 12;
 
   // Available filter options
-  const availableCuisines: CuisineType[] = ['Italian', 'Chinese', 'Mexican', 'Indian', 'Thai', 'Japanese', 'French', 'Mediterranean'];
+  const availableCuisines: CuisineType[] = [
+    'Italian',
+    'Chinese',
+    'Mexican',
+    'Indian',
+    'Thai',
+    'Japanese',
+    'French',
+    'Mediterranean',
+  ];
   const availableMealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Dessert'];
-  const availableDietary: DietaryRestriction[] = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Keto', 'Paleo'];
+  const availableDietary: DietaryRestriction[] = [
+    'Vegetarian',
+    'Vegan',
+    'Gluten-Free',
+    'Dairy-Free',
+    'Keto',
+    'Paleo',
+  ];
 
   // In the component, before useEffect
   const astrologize: AstrologizeAPI = (window as any).astrologize;
@@ -389,7 +428,7 @@ export default function RecipeListMigrated() {
       const enhanced = recipes.map(recipe => ({
         ...recipe,
         score: calculateRecipeScore(recipe, astroData),
-        matchPercentage: calculateRecipeScore(recipe, astroData).total || 0
+        matchPercentage: calculateRecipeScore(recipe, astroData).total || 0,
       }));
       setEnhancedRecipes(enhanced);
     }
@@ -398,69 +437,77 @@ export default function RecipeListMigrated() {
   /**
    * Multi-factor scoring system for recipes
    */
-  const calculateRecipeScore = (recipe: Recipe, astroData: AstrologicalData | null): RecipeScore => {
+  const calculateRecipeScore = (
+    recipe: Recipe,
+    astroData: AstrologicalData | null,
+  ): RecipeScore => {
     if (!astroData) {
       return {
         total: 50,
         elemental: 50,
         planetary: 50,
         seasonal: 50,
-        popularity: (recipe as unknown as Record<string, unknown>).rating ? Number((recipe as unknown as Record<string, unknown>).rating) * 20 : 50
+        popularity: (recipe as unknown as Record<string, unknown>).rating
+          ? Number((recipe as unknown as Record<string, unknown>).rating) * 20
+          : 50,
       };
     }
 
     // Calculate elemental match
     // Pattern KK-10: Final Arithmetic Elimination for recipe calculations
-    const elementalMatch = calculateElementalMatch(recipe.elementalProperties, astroData.dominantElements) || 0;
+    const elementalMatch =
+      calculateElementalMatch(recipe.elementalProperties, astroData.dominantElements) || 0;
     const elementalScore = Number(elementalMatch) * 100;
-    
+
     // Calculate planetary influence
-    const planetaryMatch = calculatePlanetaryInfluence(recipe.tags || [], astroData.activePlanets) || 0;
+    const planetaryMatch =
+      calculatePlanetaryInfluence(recipe.tags || [], astroData.activePlanets) || 0;
     const planetaryScore = Number(planetaryMatch) * 100;
-    
+
     // Calculate seasonal alignment
     const seasonalScore = calculateSeasonalAlignment(recipe.season, astroData.currentSeason) * 100;
-    
+
     // Popularity score based on rating
-    const popularityScore = (recipe as unknown as Record<string, unknown>).rating ? Number((recipe as unknown as Record<string, unknown>).rating) * 20 : 50;
-    
+    const popularityScore = (recipe as unknown as Record<string, unknown>).rating
+      ? Number((recipe as unknown as Record<string, unknown>).rating) * 20
+      : 50;
+
     // Weighted total score
-    const total = (
-      elementalScore * 0.3 + 
-      planetaryScore * 0.25 + 
-      seasonalScore * 0.25 + 
-      popularityScore * 0.2
-    );
+    const total =
+      elementalScore * 0.3 + planetaryScore * 0.25 + seasonalScore * 0.25 + popularityScore * 0.2;
 
     return {
       total: Math.min(100, total),
       elemental: elementalScore,
       planetary: planetaryScore,
       seasonal: seasonalScore,
-      popularity: popularityScore
+      popularity: popularityScore,
     };
   };
 
   // Helper functions for scoring
-  const calculateElementalMatch = (recipeProps?: ElementalProperties, systemProps?: ElementalProperties): number => {
+  const calculateElementalMatch = (
+    recipeProps?: ElementalProperties,
+    systemProps?: ElementalProperties,
+  ): number => {
     if (!recipeProps || !systemProps) return 0.5;
-    
+
     let similarity = 0;
     let totalWeight = 0;
-    
+
     Object.entries(recipeProps).forEach(([element, value]) => {
       const systemValue = systemProps[element as keyof ElementalProperties] || 0;
       const weight = systemValue + 0.25;
       similarity += (1 - Math.abs(value - systemValue)) * weight;
       totalWeight += weight;
     });
-    
+
     return totalWeight > 0 ? similarity / totalWeight : 0.5;
   };
 
   const calculatePlanetaryInfluence = (tags: string[], activePlanets: string[]): number => {
     if (!tags.length || !activePlanets.length) return 0.5;
-    
+
     const planetKeywords = {
       Sun: ['bright', 'golden', 'citrus', 'energizing'],
       moon: ['comfort', 'dairy', 'soft', 'nurturing'],
@@ -468,7 +515,7 @@ export default function RecipeListMigrated() {
       Venus: ['sweet', 'beautiful', 'romantic', 'indulgent'],
       Mercury: ['light', 'quick', 'versatile', 'mixed'],
       Jupiter: ['abundant', 'rich', 'festive', 'generous'],
-      Saturn: ['traditional', 'structured', 'preserved', 'aged']
+      Saturn: ['traditional', 'structured', 'preserved', 'aged'],
     };
 
     let matches = 0;
@@ -487,9 +534,12 @@ export default function RecipeListMigrated() {
     return totalChecks > 0 ? matches / totalChecks : 0.5;
   };
 
-  const calculateSeasonalAlignment = (recipeSeason?: string | string[], currentSeason?: string): number => {
+  const calculateSeasonalAlignment = (
+    recipeSeason?: string | string[],
+    currentSeason?: string,
+  ): number => {
     if (!recipeSeason || !currentSeason) return 0.5;
-    
+
     const seasons = Array.isArray(recipeSeason) ? recipeSeason : [recipeSeason];
     return seasons.some(season => season.toLowerCase() === currentSeason.toLowerCase()) ? 1.0 : 0.3;
   };
@@ -500,10 +550,10 @@ export default function RecipeListMigrated() {
   const fetchRecipes = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await recipeService?.getAllRecipes();
-      
+
       // For responseData, define a type
       interface RecipeServiceResponse {
         success?: boolean;
@@ -517,11 +567,11 @@ export default function RecipeListMigrated() {
         // Direct array response - convert from AlchemyRecipe to Recipe format
         const convertedRecipes: Recipe[] = (response as any[]).map(alchemyRecipe => ({
           ...alchemyRecipe,
-          instructions: Array.isArray(alchemyRecipe.instructions) 
-            ? alchemyRecipe.instructions as string[]
+          instructions: Array.isArray(alchemyRecipe.instructions)
+            ? (alchemyRecipe.instructions as string[])
             : typeof alchemyRecipe.instructions === 'string'
-            ? [alchemyRecipe.instructions]
-            : [], // Ensure instructions is string[]
+              ? [alchemyRecipe.instructions]
+              : [], // Ensure instructions is string[]
           // Add any other required fields that might be missing
         }));
         setRecipes(convertedRecipes);
@@ -531,7 +581,7 @@ export default function RecipeListMigrated() {
         const responseData = response as unknown as RecipeServiceResponse;
         if (responseData.success) {
           setRecipes(responseData.data || []);
-          
+
           if (responseData.metadata) {
             setTotalPages(responseData.metadata.totalPages || 1);
           }
@@ -553,40 +603,51 @@ export default function RecipeListMigrated() {
    * Apply filters to recipes
    */
   const filteredRecipes = useMemo(() => {
-    return enhancedRecipes.filter(recipe => {
-      // Search filter with safe property access
-      if (filters.search && typeof recipe.name === 'string' && 
+    return enhancedRecipes
+      .filter(recipe => {
+        // Search filter with safe property access
+        if (
+          filters.search &&
+          typeof recipe.name === 'string' &&
           !recipe.name.toLowerCase().includes(filters.search.toLowerCase()) &&
-          !(typeof recipe.description === 'string' && recipe.description.toLowerCase().includes(filters.search.toLowerCase()))) {
-        return false;
-      }
-
-      // Cuisine filter
-      if (filters.cuisineTypes.length > 0 && !filters.cuisineTypes.includes(recipe.cuisine as CuisineType)) {
-        return false;
-      }
-
-      // Max time filter
-      // Pattern KK-10: Final Arithmetic Elimination for comparison operations
-      if (filters.maxTime) {
-        const numericCookTime = Number(recipe.cookTime) || 0;
-        const numericMaxTime = Number(filters.maxTime) || 0;
-        if (numericCookTime > 0 && numericCookTime > numericMaxTime) {
+          !(
+            typeof recipe.description === 'string' &&
+            recipe.description.toLowerCase().includes(filters.search.toLowerCase())
+          )
+        ) {
           return false;
         }
-      }
 
-      // Rating filter
-      if (filters.minRating) {
-        const numericRating = Number((recipe as unknown as Record<string, unknown>).rating) || 0;
-        const numericMinRating = Number(filters.minRating) || 0;
-        if (numericRating === 0 || numericRating < numericMinRating) {
+        // Cuisine filter
+        if (
+          filters.cuisineTypes.length > 0 &&
+          !filters.cuisineTypes.includes(recipe.cuisine as CuisineType)
+        ) {
           return false;
         }
-      }
 
-      return true;
-    }).sort((a, b) => (b.matchPercentage || 0) - (a.matchPercentage || 0));
+        // Max time filter
+        // Pattern KK-10: Final Arithmetic Elimination for comparison operations
+        if (filters.maxTime) {
+          const numericCookTime = Number(recipe.cookTime) || 0;
+          const numericMaxTime = Number(filters.maxTime) || 0;
+          if (numericCookTime > 0 && numericCookTime > numericMaxTime) {
+            return false;
+          }
+        }
+
+        // Rating filter
+        if (filters.minRating) {
+          const numericRating = Number((recipe as unknown as Record<string, unknown>).rating) || 0;
+          const numericMinRating = Number(filters.minRating) || 0;
+          if (numericRating === 0 || numericRating < numericMinRating) {
+            return false;
+          }
+        }
+
+        return true;
+      })
+      .sort((a, b) => (b.matchPercentage || 0) - (a.matchPercentage || 0));
   }, [enhancedRecipes, filters]);
 
   /**
@@ -615,9 +676,9 @@ export default function RecipeListMigrated() {
   // Render loading state
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" p={3}>
+      <Box display='flex' justifyContent='center' alignItems='center' p={3}>
         <CircularProgress />
-        <Typography variant="body2" sx={{ ml: 2 }}>
+        <Typography variant='body2' sx={{ ml: 2 }}>
           Loading recipes...
         </Typography>
       </Box>
@@ -627,14 +688,9 @@ export default function RecipeListMigrated() {
   // Render error state
   if (error) {
     return (
-      <Alert severity="error" sx={{ mb: 2 }}>
+      <Alert severity='error' sx={{ mb: 2 }}>
         {error}
-        <Button 
-          color="inherit" 
-          size="small" 
-          onClick={fetchRecipes}
-          sx={{ ml: 2 }}
-        >
+        <Button color='inherit' size='small' onClick={fetchRecipes} sx={{ ml: 2 }}>
           Retry
         </Button>
       </Alert>
@@ -644,38 +700,35 @@ export default function RecipeListMigrated() {
   return (
     <Box sx={{ p: 2 }}>
       {/* Header and Search */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h4" component="h1">
+      <Box display='flex' justifyContent='space-between' alignItems='center' mb={3}>
+        <Typography variant='h4' component='h1'>
           Recipe Collection
         </Typography>
-        <Box display="flex" gap={2} alignItems="center">
+        <Box display='flex' gap={2} alignItems='center'>
           <TextField
-            placeholder="Search recipes..."
-            variant="outlined"
-            size="small"
+            placeholder='Search recipes...'
+            variant='outlined'
+            size='small'
             value={filters.search}
-            onChange={(e) => handleFilterChange('search', e.target.value)}
+            onChange={e => handleFilterChange('search', e.target.value)}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position='start'>
                   <Search />
                 </InputAdornment>
               ),
               endAdornment: filters.search && (
-                <InputAdornment position="end">
-                  <IconButton
-                    size="small"
-                    onClick={() => handleFilterChange('search', '')}
-                  >
+                <InputAdornment position='end'>
+                  <IconButton size='small' onClick={() => handleFilterChange('search', '')}>
                     <Clear />
                   </IconButton>
                 </InputAdornment>
-              )
+              ),
             }}
             sx={{ minWidth: 250 }}
           />
           <Button
-            variant="outlined"
+            variant='outlined'
             startIcon={<FilterList />}
             onClick={() => setShowFilters(!showFilters)}
           >
@@ -690,21 +743,21 @@ export default function RecipeListMigrated() {
           <CardContent>
             <Grid container spacing={2}>
               <Grid item xs={12} md={3}>
-                <FormControl fullWidth size="small">
+                <FormControl fullWidth size='small'>
                   <InputLabel>Cuisine</InputLabel>
                   <Select
                     multiple
                     value={filters.cuisineTypes}
-                    onChange={(e) => handleFilterChange('cuisineTypes', e.target.value)}
-                    renderValue={(selected) => (
+                    onChange={e => handleFilterChange('cuisineTypes', e.target.value)}
+                    renderValue={selected => (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {(selected ).map((value) => (
-                          <Chip key={value} label={value} size="small" />
+                        {selected.map(value => (
+                          <Chip key={value} label={value} size='small' />
                         ))}
                       </Box>
                     )}
                   >
-                    {availableCuisines.map((cuisine) => (
+                    {availableCuisines.map(cuisine => (
                       <MenuItem key={cuisine} value={cuisine}>
                         <Checkbox checked={filters.cuisineTypes.includes(cuisine)} />
                         {cuisine}
@@ -717,17 +770,22 @@ export default function RecipeListMigrated() {
               <Grid item xs={12} md={3}>
                 <TextField
                   fullWidth
-                  size="small"
-                  type="number"
-                  label="Max Cook Time (min)"
+                  size='small'
+                  type='number'
+                  label='Max Cook Time (min)'
                   value={filters.maxTime || ''}
-                  onChange={(e) => handleFilterChange('maxTime', e.target.value ? parseInt(e.target.value) : undefined)}
+                  onChange={e =>
+                    handleFilterChange(
+                      'maxTime',
+                      e.target.value ? parseInt(e.target.value) : undefined,
+                    )
+                  }
                 />
               </Grid>
 
               <Grid item xs={12} md={3}>
                 <Box>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant='body2' gutterBottom>
                     Minimum Rating
                   </Typography>
                   <Rating
@@ -738,13 +796,8 @@ export default function RecipeListMigrated() {
               </Grid>
 
               <Grid item xs={12} md={3}>
-                <Box display="flex" alignItems="center" height="100%">
-                  <Button 
-                    variant="outlined" 
-                    color="secondary"
-                    onClick={clearFilters}
-                    fullWidth
-                  >
+                <Box display='flex' alignItems='center' height='100%'>
+                  <Button variant='outlined' color='secondary' onClick={clearFilters} fullWidth>
                     Clear Filters
                   </Button>
                 </Box>
@@ -755,7 +808,7 @@ export default function RecipeListMigrated() {
       )}
 
       {/* Results Summary */}
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+      <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
         Showing {filteredRecipes.length} recipes
         {astroData && ' (sorted by astrological compatibility)'}
       </Typography>
@@ -764,7 +817,7 @@ export default function RecipeListMigrated() {
       {filteredRecipes.length > 0 ? (
         <>
           <Grid container spacing={3}>
-            {filteredRecipes.map((recipe) => (
+            {filteredRecipes.map(recipe => (
               <Grid item xs={12} md={6} lg={4} key={recipe.id || `recipe-${recipe.name}`}>
                 <RecipeCard
                   recipe={recipe}
@@ -777,27 +830,27 @@ export default function RecipeListMigrated() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <Box display="flex" justifyContent="center" mt={4}>
+            <Box display='flex' justifyContent='center' mt={4}>
               <Pagination
                 count={totalPages}
                 page={page}
                 onChange={(_, newPage) => setPage(newPage)}
-                color="primary"
-                size="large"
+                color='primary'
+                size='large'
               />
             </Box>
           )}
         </>
       ) : (
-        <Box textAlign="center" py={8}>
-          <Typography variant="h6" color="text.secondary" gutterBottom>
+        <Box textAlign='center' py={8}>
+          <Typography variant='h6' color='text.secondary' gutterBottom>
             No recipes found
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             Try adjusting your filters or search terms
           </Typography>
         </Box>
       )}
     </Box>
   );
-} 
+}

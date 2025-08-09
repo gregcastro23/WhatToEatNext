@@ -1,20 +1,22 @@
 import { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
-import type { ElementalProperties, 
+import type {
+  ElementalProperties,
   ThermodynamicProperties,
   CookingMethod,
   ZodiacSign,
   Recipe,
-  BasicThermodynamicProperties } from '@/types/alchemy';
+  BasicThermodynamicProperties,
+} from '@/types/alchemy';
 import type { Planet } from '@/types/celestial';
 import type { UnifiedIngredient } from '@/types/ingredient';
 import { getCurrentSeason } from '@/types/seasons';
-
 
 /**
  * AlchemicalRecommendation interface for providing structured recommendations
  */
 export interface AlchemicalRecommendation {
-  dominantElement: keyof ElementalProperties;thermodynamics: ThermodynamicProperties;
+  dominantElement: keyof ElementalProperties;
+  thermodynamics: ThermodynamicProperties;
   recommendedIngredients: string[];
   recommendedCookingMethods: CookingMethod[];
   recommendations: string[];
@@ -28,11 +30,11 @@ export interface AlchemicalRecommendation {
 export class AlchemicalRecommendationService {
   private static instance: AlchemicalRecommendationService;
   private engine: AlchemicalEngine;
-  
+
   private constructor() {
     this.engine = new AlchemicalEngine();
   }
-  
+
   /**
    * Get the singleton instance
    */
@@ -42,58 +44,60 @@ export class AlchemicalRecommendationService {
     }
     return AlchemicalRecommendationService.instance;
   }
-  
+
   /**
    * Generate recommendations based on planetary positions
    */
   public async generateRecommendations(
     planetaryPositions: Record<string, ZodiacSign>,
     ingredients: UnifiedIngredient[],
-    cookingMethods: CookingMethod[]
+    cookingMethods: CookingMethod[],
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(planetaryPositions as unknown as { [planet: string]: string });
-    
+    const _thermodynamics = this.engine.alchemize(
+      planetaryPositions as unknown as { [planet: string]: string },
+    );
+
     // Convert thermodynamic properties to elemental properties
     const elementalBalance = this.deriveElementalProperties(_thermodynamics);
-    
+
     // Determine dominant element
     const dominantElement = this.getDominantElement(elementalBalance);
-    
+
     // Filter ingredients by elemental compatibility using unified scoring
     const compatibleIngredients = await this.findCompatibleIngredients(
       ingredients,
       elementalBalance,
-      _thermodynamics
+      _thermodynamics,
     );
-    
+
     // Filter cooking methods by elemental compatibility
     const compatibleMethods = this.findCompatibleCookingMethods(
       cookingMethods,
       elementalBalance,
-      _thermodynamics
+      _thermodynamics,
     );
-    
+
     // Generate specific recommendations
     const recommendations = this.generateTextRecommendations(
       elementalBalance,
       _thermodynamics,
-      dominantElement
+      dominantElement,
     );
-    
+
     // Generate any warnings if needed
     const warnings = this.generateWarnings(_thermodynamics);
-    
+
     return {
       dominantElement,
       thermodynamics: _thermodynamics,
       recommendedIngredients: (compatibleIngredients || []).map(i => i.name),
-      recommendedCookingMethods: (compatibleMethods || []),
+      recommendedCookingMethods: compatibleMethods || [],
       recommendations,
-      warnings
+      warnings,
     };
   }
-  
+
   /**
    * Find compatible ingredients based on comprehensive scoring
    * Now uses the UnifiedScoringService for more accurate recommendations
@@ -101,13 +105,13 @@ export class AlchemicalRecommendationService {
   private async findCompatibleIngredients(
     ingredients: UnifiedIngredient[],
     elementalProperties: ElementalProperties,
-    thermodynamics: ThermodynamicProperties
+    thermodynamics: ThermodynamicProperties,
   ): Promise<UnifiedIngredient[]> {
     // Import the unified scoring service
     const { scoreRecommendation } = await import('./UnifiedScoringService');
-    
+
     const scoredIngredients = await Promise.all(
-      ingredients.map(async (ingredient) => {
+      ingredients.map(async ingredient => {
         try {
           const context = {
             dateTime: new Date(),
@@ -118,16 +122,16 @@ export class AlchemicalRecommendationService {
               seasonality: ingredient.season || [],
               planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
               flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
-              culturalOrigins: ingredient.origin || []
-            }
+              culturalOrigins: ingredient.origin || [],
+            },
           };
-          
+
           const result = await scoreRecommendation(context);
           return {
             ingredient,
             score: result.score,
             confidence: result.confidence,
-            dominantEffects: result.metadata.dominantEffects
+            dominantEffects: result.metadata.dominantEffects,
           };
         } catch (error) {
           // Fallback to basic elemental compatibility
@@ -135,54 +139,60 @@ export class AlchemicalRecommendationService {
             ingredient,
             score: this.engine.calculateElementalCompatibility(
               elementalProperties,
-              ingredient.elementalProperties
+              ingredient.elementalProperties,
             ),
             confidence: 0.5,
-            dominantEffects: ['fallback']
+            dominantEffects: ['fallback'],
           };
         }
-      })
+      }),
     );
-    
+
     return scoredIngredients
       .filter(({ score }) => score > 0.6) // Slightly lower threshold for unified scoring
       .sort((a, b) => b.score - a.score)
       .slice(0, 10)
       .map(({ ingredient }) => ingredient);
   }
-  
+
   /**
    * Find compatible cooking methods based on elemental properties
    */
   private findCompatibleCookingMethods(
     methods: CookingMethod[],
     elementalProperties: ElementalProperties,
-    thermodynamics: ThermodynamicProperties
+    thermodynamics: ThermodynamicProperties,
   ): CookingMethod[] {
     return methods
       .map(method => ({
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          (method as unknown as Record<string, unknown>).elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-        )
+          ((method as unknown as Record<string, unknown>)
+            .elementalState as ElementalProperties) || {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25,
+          },
+        ),
       }))
       .filter(({ score }) => score > 0.7)
       .sort((a, b) => b.score - a.score)
       .slice(0, 5)
       .map(({ method }) => method);
   }
-  
+
   /**
    * Generate text recommendations based on elemental properties
    */
   private generateTextRecommendations(
     elementalProperties: ElementalProperties,
     thermodynamics: ThermodynamicProperties,
-    dominantElement: keyof ElementalProperties
+    dominantElement: keyof ElementalProperties,
   ): string[] {
     const recommendations: string[] = [];
-    
+
     // Add recommendations based on dominant element
     switch (dominantElement) {
       case 'Fire':
@@ -202,87 +212,115 @@ export class AlchemicalRecommendationService {
         recommendations.push('Incorporate aromatic herbs and light textures.');
         break;
     }
-    
+
     // Add recommendations based on thermodynamics
     if (thermodynamics.heat > 0.7) {
-      recommendations.push('The planetary energy is highly active - cooking quickly will preserve this energy.');
+      recommendations.push(
+        'The planetary energy is highly active - cooking quickly will preserve this energy.',
+      );
     }
-    
+
     if (thermodynamics.entropy > 0.7) {
       recommendations.push('Current conditions favor experimentation and fusion cooking.');
     }
-    
+
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
     const thermodynamicsData = thermodynamics as unknown as Record<string, unknown>;
     if ((thermodynamicsData.kalchm as number) > 2.0) {
-      recommendations.push('Exceptional transformation potential - fermentation and aging processes are enhanced.');
+      recommendations.push(
+        'Exceptional transformation potential - fermentation and aging processes are enhanced.',
+      );
     }
-    
+
     // Add seasonal recommendation
     const currentSeason = getCurrentSeason();
-    recommendations.push(`${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)} ingredients will be especially potent.`);
-    
+    recommendations.push(
+      `${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)} ingredients will be especially potent.`,
+    );
+
     return recommendations;
   }
-  
+
   /**
    * Generate warnings based on thermodynamic properties
    */
   private generateWarnings(thermodynamics: ThermodynamicProperties): string[] {
     const warnings: string[] = [];
     if (thermodynamics.entropy > 0.9) {
-      warnings.push('High entropy may lead to unpredictable cooking results - measure ingredients precisely.');
+      warnings.push(
+        'High entropy may lead to unpredictable cooking results - measure ingredients precisely.',
+      );
     }
     if (thermodynamics.reactivity > 0.8) {
-      warnings.push('Heightened reactivity may cause flavor clashes - simplify ingredient combinations.');
+      warnings.push(
+        'Heightened reactivity may cause flavor clashes - simplify ingredient combinations.',
+      );
     }
     // Use a type with optional kalchm property
     type WithKalchm = ThermodynamicProperties & { kalchm?: number };
     const t = thermodynamics as WithKalchm;
     if (typeof t.kalchm === 'number' && t.kalchm < 0.5) {
-      warnings.push('Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.');
+      warnings.push(
+        'Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.',
+      );
     }
     return warnings;
   }
-  
+
   /**
    * Get the dominant element from elemental properties
    */
   private getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
     // Initialize with Fire element
     let maxElement: keyof ElementalProperties = 'Fire';
-    
+
     // Get the value for Fire - try lowercase first, then capitalized
-    let maxValue = properties.Fire !== undefined ? properties.Fire : 
-                  (properties.Fire !== undefined ? properties.Fire : 0);
-    
+    let maxValue =
+      properties.Fire !== undefined
+        ? properties.Fire
+        : properties.Fire !== undefined
+          ? properties.Fire
+          : 0;
+
     // Check Water
-    const waterValue = properties.Water !== undefined ? properties.Water : 
-                      (properties.Water !== undefined ? properties.Water : 0);
+    const waterValue =
+      properties.Water !== undefined
+        ? properties.Water
+        : properties.Water !== undefined
+          ? properties.Water
+          : 0;
     if (waterValue > maxValue) {
       maxElement = 'Water';
       maxValue = waterValue;
     }
-    
+
     // Check Earth
-    const earthValue = properties.Earth !== undefined ? properties.Earth : 
-                      (properties.Earth !== undefined ? properties.Earth : 0);
+    const earthValue =
+      properties.Earth !== undefined
+        ? properties.Earth
+        : properties.Earth !== undefined
+          ? properties.Earth
+          : 0;
     if (earthValue > maxValue) {
       maxElement = 'Earth';
       maxValue = earthValue;
     }
-    
+
     // Check Air
-    const AirValue = properties.Air !== undefined ? properties.Air : 
-                    (properties.Air !== undefined ? properties.Air : 0);
+    const AirValue =
+      properties.Air !== undefined
+        ? properties.Air
+        : properties.Air !== undefined
+          ? properties.Air
+          : 0;
     if (AirValue > maxValue) {
       maxElement = 'Air';
       maxValue = AirValue;
     }
-    
+
     return maxElement;
   }
-  
+
   /**
    * Derive elemental properties from thermodynamic properties
    */
@@ -298,45 +336,51 @@ export class AlchemicalRecommendationService {
     const total = Fire + Water + Earth + Air;
     return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total };
   }
-  
+
   /**
    * Get recommendations for a specific recipe
    */
   public getRecipeRecommendations(
     recipe: Recipe,
-    planetaryPositions: Record<string, ZodiacSign>
+    planetaryPositions: Record<string, ZodiacSign>,
   ): {
     compatibility: number;
     suggestions: string[];
     adjustments: string[];
   } {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(planetaryPositions as unknown as { [planet: string]: string });
-    
+    const _thermodynamics = this.engine.alchemize(
+      planetaryPositions as unknown as { [planet: string]: string },
+    );
+
     // Convert thermodynamic properties to elemental properties
     const currentElementalProperties = this.deriveElementalProperties(_thermodynamics);
-    
+
     // Get recipe's elemental properties (or use default if not present)
-    const recipeElementalProperties = (recipe.elementalState  as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    const recipeElementalProperties = (recipe.elementalState as ElementalProperties) || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
     };
-    
+
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(
       currentElementalProperties,
-      recipeElementalProperties
+      recipeElementalProperties,
     );
-    
+
     // Generate suggestions based on compatibility
     const suggestions: string[] = [];
     const adjustments: string[] = [];
-    
+
     if (compatibility > 0.8) {
       suggestions.push('This recipe is highly compatible with current planetary alignments.');
       suggestions.push('Focus on traditional preparation methods for best results.');
     } else if (compatibility > 0.6) {
       suggestions.push('This recipe has good compatibility with current planetary alignments.');
       suggestions.push('Consider minor adjustments to enhance its elemental balance.');
-      
+
       // Generate specific adjustments
       const dominantElement = this.getDominantElement(currentElementalProperties);
       switch (dominantElement) {
@@ -354,14 +398,18 @@ export class AlchemicalRecommendationService {
           break;
       }
     } else {
-      suggestions.push('This recipe may need significant adjustments for current planetary alignments.');
-      
+      suggestions.push(
+        'This recipe may need significant adjustments for current planetary alignments.',
+      );
+
       // Generate more substantial adjustments
       const recipeElement = this.getDominantElement(recipeElementalProperties);
       const currentElement = this.getDominantElement(currentElementalProperties);
-      
-      adjustments.push(`Transform the recipe's dominant ${recipeElement} energy toward ${currentElement} energy.`);
-      
+
+      adjustments.push(
+        `Transform the recipe's dominant ${recipeElement} energy toward ${currentElement} energy.`,
+      );
+
       switch (currentElement) {
         case 'Fire':
           adjustments.push('Use direct heat cooking methods rather than indirect methods.');
@@ -381,11 +429,11 @@ export class AlchemicalRecommendationService {
           break;
       }
     }
-    
+
     return {
       compatibility,
       suggestions,
-      adjustments
+      adjustments,
     };
   }
 }
@@ -394,4 +442,4 @@ export class AlchemicalRecommendationService {
 export const alchemicalRecommendationService = AlchemicalRecommendationService.getInstance();
 
 // Export default for compatibility with existing code
-export default alchemicalRecommendationService; 
+export default alchemicalRecommendationService;

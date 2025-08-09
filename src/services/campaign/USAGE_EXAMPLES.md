@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document provides comprehensive usage examples for each phase of the Perfect Codebase Campaign, including safety protocol explanations and real-world execution scenarios.
+This document provides comprehensive usage examples for each phase of the
+Perfect Codebase Campaign, including safety protocol explanations and real-world
+execution scenarios.
 
 ## Phase 1: TypeScript Error Elimination
 
@@ -39,14 +41,14 @@ node src/services/campaign/test-enhanced-fixer-integration.js --dry-run
 # Safety Protocols: ENABLED
 # Max Files Per Batch: 15
 # Build Validation: Every 5 files
-# 
+#
 # Simulation Results:
 # - Files to process: 45
 # - Estimated batches: 3
 # - Estimated errors to fix: 35-40
 # - Estimated execution time: 15-20 minutes
 # - Safety checkpoints: 3
-# 
+#
 # ✅ Dry run completed successfully
 # Ready for actual execution with --safety-protocols flag
 ```
@@ -65,6 +67,7 @@ watch -n 30 'echo "Errors: $(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "er
 ```
 
 **Expected Execution Flow**:
+
 ```
 === Enhanced Error Fixer Integration ===
 Phase 1: TypeScript Error Elimination
@@ -159,7 +162,7 @@ node src/services/campaign/LintingWarningAnalyzer.ts --analyze
 #   no-console: 420 warnings
 #   @typescript-eslint/no-unused-vars: 891 warnings
 #   prefer-const: 1,100 warnings
-# 
+#
 # High-Impact Files:
 #   src/data/ingredients/: 450 warnings
 #   src/components/: 380 warnings
@@ -176,10 +179,10 @@ node src/services/campaign/test-unused-variables-cleanup.js --safety-protocols
 # === Unused Variables Cleanup System ===
 # Safety Protocols: ENABLED
 # Max Files Per Batch: 20
-# 
+#
 # [11:00:00] Creating safety checkpoint...
 # [11:00:01] ✅ Checkpoint: UNUSED_VARS_CHECKPOINT_20250115_110001
-# 
+#
 # [11:00:02] Batch 1/74: Processing 20 files...
 # [11:00:25] ✅ Batch 1: 35 unused variables removed
 # [11:00:26] 🔍 Build validation... ✅ PASS
@@ -196,17 +199,17 @@ node src/services/campaign/test-console-removal.js --dry-run
 # Expected output:
 # === Console Statement Removal - Dry Run ===
 # Console statements found: 420
-# 
+#
 # Categorization:
 #   Debug statements: 280 (safe to remove)
 #   Error logging: 85 (review required)
 #   Development helpers: 55 (safe to remove)
-# 
+#
 # Files with console statements:
 #   src/components/RecipeBuilder.tsx: 45 statements
 #   src/services/alchemy/: 120 statements
 #   src/utils/: 95 statements
-# 
+#
 # ✅ Dry run analysis complete
 # Safe to proceed with --execute flag
 
@@ -278,18 +281,18 @@ node src/services/campaign/test-unused-export-analyzer.js --analyze
 # Expected output:
 # === Unused Export Analysis ===
 # Total unused exports: 523
-# 
+#
 # Priority Classification:
 #   High Priority (Recipe files): 120 exports
 #   Medium Priority (Core files): 180 exports
 #   Low Priority (External/Test): 42 exports
 #   Utility exports: 181 exports
-# 
+#
 # Transformation Candidates:
 #   src/data/ingredients/grains.ts: 15 unused exports
 #   src/data/ingredients/vegetables.ts: 12 unused exports
 #   src/services/alchemy/elements.ts: 8 unused exports
-# 
+#
 # Estimated Intelligence Systems: 200+ new systems
 ```
 
@@ -302,19 +305,19 @@ node src/services/campaign/test-enterprise-intelligence-generator.js --transform
 # Expected execution:
 # === Enterprise Intelligence Generator ===
 # Transformation Pattern: INTELLIGENCE_SYSTEM
-# 
+#
 # [12:00:00] Processing high-priority files (120 exports)...
 # [12:00:15] ✅ Generated GRAINS_INTELLIGENCE_SYSTEM
 # [12:00:16] ✅ Generated VEGETABLES_INTELLIGENCE_SYSTEM
 # [12:00:17] ✅ Generated SPICES_INTELLIGENCE_SYSTEM
-# 
+#
 # [12:05:00] Processing medium-priority files (180 exports)...
 # [12:05:30] ✅ Generated ALCHEMY_INTELLIGENCE_SYSTEM
 # [12:05:31] ✅ Generated ELEMENTS_INTELLIGENCE_SYSTEM
-# 
+#
 # [12:10:00] Processing low-priority files (42 exports)...
 # [12:10:15] ✅ Generated UTILITIES_INTELLIGENCE_SYSTEM
-# 
+#
 # === Transformation Summary ===
 # Intelligence systems created: 203
 # Unused exports eliminated: 523
@@ -329,19 +332,19 @@ node src/services/campaign/test-export-transformation-engine.js --validate
 
 # Expected output:
 # === Intelligence System Validation ===
-# 
+#
 # Validating 203 intelligence systems...
-# 
+#
 # ✅ GRAINS_INTELLIGENCE_SYSTEM
 #   - analyzePatterns(): Functional
 #   - generateRecommendations(): Functional
 #   - demonstrateCapabilities(): Functional
-# 
+#
 # ✅ VEGETABLES_INTELLIGENCE_SYSTEM
 #   - analyzePatterns(): Functional
 #   - generateRecommendations(): Functional
 #   - demonstrateCapabilities(): Functional
-# 
+#
 # === Validation Summary ===
 # Total systems validated: 203
 # Functional systems: 203 (100%)
@@ -409,17 +412,17 @@ node src/services/campaign/PerformanceMonitoringSystem.ts --monitor
 
 # Expected output:
 # === Performance Monitoring System ===
-# 
+#
 # Build Performance:
 #   Current build time: 8.5 seconds ✅ (Target: <10s)
 #   Cache hit rate: 85% ✅ (Target: >80%)
 #   Memory usage: 45MB ✅ (Target: <50MB)
-# 
+#
 # Bundle Analysis:
 #   Bundle size: 415kB ✅ (Target: ≤420kB)
 #   Lazy loading: Active
 #   Code splitting: Optimized
-# 
+#
 # System Health:
 #   TypeScript errors: 0 ✅
 #   Linting warnings: 0 ✅
@@ -435,19 +438,19 @@ node src/services/campaign/test-performance-validation.js --validate-all
 
 # Expected execution:
 # === Performance Validation ===
-# 
+#
 # [13:00:00] Testing build performance...
 # [13:00:08] ✅ Build completed in 8.2 seconds (Target: <10s)
-# 
+#
 # [13:00:09] Testing cache performance...
 # [13:00:12] ✅ Cache hit rate: 87% (Target: >80%)
-# 
+#
 # [13:00:13] Testing memory usage...
 # [13:00:18] ✅ Peak memory usage: 42MB (Target: <50MB)
-# 
+#
 # [13:00:19] Testing bundle size...
 # [13:00:22] ✅ Bundle size: 418kB (Target: ≤420kB)
-# 
+#
 # === Validation Summary ===
 # All performance targets: ✅ ACHIEVED
 # System ready for production deployment
@@ -668,27 +671,27 @@ while true; do
     clear
     echo "📊 CAMPAIGN MONITORING DASHBOARD - $(date)"
     echo "================================"
-    
+
     # TypeScript errors
     ERROR_COUNT=$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0")
     echo "🔧 TypeScript Errors: $ERROR_COUNT"
-    
+
     # Linting warnings
     WARNING_COUNT=$(yarn lint 2>&1 | grep -c "warning" || echo "0")
     echo "✨ Linting Warnings: $WARNING_COUNT"
-    
+
     # Intelligence systems
     INTELLIGENCE_COUNT=$(grep -r "INTELLIGENCE_SYSTEM" src/ 2>/dev/null | wc -l || echo "0")
     echo "🧠 Intelligence Systems: $INTELLIGENCE_COUNT"
-    
+
     # Build performance
     BUILD_STATUS=$(yarn build >/dev/null 2>&1 && echo "✅ STABLE" || echo "❌ UNSTABLE")
     echo "⚡ Build Status: $BUILD_STATUS"
-    
+
     # Test status
     TEST_STATUS=$(yarn test --run --silent >/dev/null 2>&1 && echo "✅ PASSING" || echo "❌ FAILING")
     echo "🧪 Test Status: $TEST_STATUS"
-    
+
     # Campaign progress
     if [ "$ERROR_COUNT" -eq 0 ] && [ "$WARNING_COUNT" -eq 0 ]; then
         echo "🎉 CAMPAIGN STATUS: ✅ PERFECT CODEBASE ACHIEVED!"
@@ -696,10 +699,10 @@ while true; do
         TOTAL_ISSUES=$((ERROR_COUNT + WARNING_COUNT))
         echo "🚧 CAMPAIGN STATUS: $TOTAL_ISSUES issues remaining"
     fi
-    
+
     echo "================================"
     echo "Press Ctrl+C to stop monitoring"
-    
+
     sleep 30
 done
 EOF
@@ -726,40 +729,40 @@ try {
     const errors = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c \"error TS\"', { encoding: 'utf8' }).trim();
     const warnings = execSync('yarn lint 2>&1 | grep -c \"warning\"', { encoding: 'utf8' }).trim();
     const intelligence = execSync('grep -r \"INTELLIGENCE_SYSTEM\" src/ | wc -l', { encoding: 'utf8' }).trim();
-    
+
     console.log('📊 CURRENT METRICS');
     console.log('-'.repeat(20));
     console.log(\`TypeScript Errors: \${errors}\`);
     console.log(\`Linting Warnings: \${warnings}\`);
     console.log(\`Intelligence Systems: \${intelligence}\`);
     console.log();
-    
+
     // Phase status
     console.log('🎯 PHASE STATUS');
     console.log('-'.repeat(15));
     console.log(\`Phase 1 (TypeScript): \${errors === '0' ? '✅ COMPLETE' : '🚧 IN PROGRESS'}\`);
     console.log(\`Phase 2 (Linting): \${warnings === '0' ? '✅ COMPLETE' : '🚧 IN PROGRESS'}\`);
     console.log(\`Phase 3 (Intelligence): \${parseInt(intelligence) > 200 ? '✅ COMPLETE' : '🚧 IN PROGRESS'}\`);
-    
+
     // Build performance
     const buildStart = Date.now();
     execSync('yarn build', { stdio: 'ignore' });
     const buildTime = (Date.now() - buildStart) / 1000;
-    
+
     console.log(\`Phase 4 (Performance): \${buildTime < 10 ? '✅ COMPLETE' : '🚧 IN PROGRESS'}\`);
     console.log();
-    
+
     console.log('⚡ PERFORMANCE METRICS');
     console.log('-'.repeat(22));
     console.log(\`Build Time: \${buildTime.toFixed(1)}s (Target: <10s)\`);
     console.log();
-    
+
     // Overall status
     const isComplete = errors === '0' && warnings === '0' && parseInt(intelligence) > 200 && buildTime < 10;
     console.log('🏆 CAMPAIGN STATUS');
     console.log('-'.repeat(18));
     console.log(isComplete ? '🎉 PERFECT CODEBASE ACHIEVED!' : '🚧 CAMPAIGN IN PROGRESS');
-    
+
 } catch (error) {
     console.log('❌ Error generating report:', error.message);
 }
@@ -770,7 +773,8 @@ console.log('='.repeat(50));
 
 ## Conclusion
 
-These usage examples demonstrate the comprehensive capabilities of the Perfect Codebase Campaign system. Each example includes:
+These usage examples demonstrate the comprehensive capabilities of the Perfect
+Codebase Campaign system. Each example includes:
 
 - **Safety Protocols**: Comprehensive checkpoint and rollback mechanisms
 - **Real-time Monitoring**: Progress tracking and validation
@@ -779,6 +783,7 @@ These usage examples demonstrate the comprehensive capabilities of the Perfect C
 - **Success Validation**: Milestone achievement verification
 
 **Key Principles**:
+
 1. **Safety First**: Always create checkpoints before execution
 2. **Incremental Progress**: Process in small, validated batches
 3. **Continuous Monitoring**: Track progress and performance in real-time
@@ -787,6 +792,6 @@ These usage examples demonstrate the comprehensive capabilities of the Perfect C
 
 ---
 
-*Last updated: January 15, 2025*  
-*Version: 1.0.0*  
-*Status: ✅ USAGE EXAMPLES COMPLETE*
+_Last updated: January 15, 2025_  
+_Version: 1.0.0_  
+_Status: ✅ USAGE EXAMPLES COMPLETE_

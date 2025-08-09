@@ -10,10 +10,13 @@ function measureESLintPerformance() {
 
   try {
     // Run ESLint with timing
-    const output = execSync('yarn lint --max-warnings=10000 --cache --cache-location=.eslint-cache', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const output = execSync(
+      'yarn lint --max-warnings=10000 --cache --cache-location=.eslint-cache',
+      {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      },
+    );
 
     const endTime = Date.now();
     const duration = (endTime - startTime) / 1000;
@@ -26,7 +29,7 @@ function measureESLintPerformance() {
       duration: duration,
       target: 30, // seconds
       achieved: duration < 30,
-      cacheUsed: true
+      cacheUsed: true,
     };
 
     fs.writeFileSync('.eslint-metrics.json', JSON.stringify(metrics, null, 2));
@@ -38,7 +41,6 @@ function measureESLintPerformance() {
     }
 
     return duration;
-
   } catch (error) {
     console.error('❌ ESLint failed:', error.message);
     return -1;

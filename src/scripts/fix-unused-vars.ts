@@ -10,12 +10,11 @@ import * as path from 'path';
 // Get the list of unused variables from ESLint
 function getUnusedVariables() {
   try {
-    const output = execSync(
-      'npx eslint --ext .js,.jsx,.ts,.tsx src/ --format json'
-    ).toString();
+    const output = execSync('npx eslint --ext .js,.jsx,.ts,.tsx src/ --format json').toString();
     const results = JSON.parse(output);
 
-    const unusedVars: Array<{filePath: string; varName: string; line: number; column: number}> = [];
+    const unusedVars: Array<{ filePath: string; varName: string; line: number; column: number }> =
+      [];
 
     for (const result of results) {
       const filePath = result.filePath;
@@ -23,9 +22,7 @@ function getUnusedVariables() {
       for (const message of result.messages) {
         if (message.ruleId === '@typescript-eslint/no-unused-vars') {
           // Extract the variable name from the message
-          const match = message.message.match(
-            /'([^']+)' is defined but never used/
-          );
+          const match = message.message.match(/'([^']+)' is defined but never used/);
           if (match?.[1]) {
             unusedVars.push({
               filePath,
@@ -58,9 +55,7 @@ function fixUnusedVariables(unusedVars) {
     // Simple fix: replace the variable name with _variableName on that line
     const lineContent = lines[line - 1];
     const newLineContent =
-      lineContent.substring(0, column - 1) +
-      '_' +
-      lineContent.substring(column - 1);
+      lineContent.substring(0, column - 1) + '_' + lineContent.substring(column - 1);
 
     lines[line - 1] = newLineContent;
 

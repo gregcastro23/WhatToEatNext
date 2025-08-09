@@ -1,6 +1,6 @@
 /**
  * Script to safely fix common ESLint issues
- * 
+ *
  * This script implements several safeguards to prevent file corruption:
  * 1. Creates backups of all files before modifying them
  * 2. Uses precise fixes rather than broad find-and-replace
@@ -8,7 +8,7 @@
  * 4. Logs all changes for review
  * 5. Validates content before saving
  * 6. Provides restore functionality if needed
- * 
+ *
  * Run with: node src/scripts/fix-linting-issues.js
  * To restore: node src/scripts/fix-linting-issues.js --restore
  */
@@ -50,13 +50,13 @@ log(`Mode: ${isRestoreMode ? 'Restore' : isSafeMode ? 'Safe' : isTestMode ? 'Tes
 function backupFile(filePath) {
   const relativePath = path.relative(process.cwd(), filePath);
   const backupPath = path.join(BACKUP_DIR, relativePath);
-  
+
   // Ensure the directory structure exists
   const backupDir = path.dirname(backupPath);
   if (!fs.existsSync(backupDir)) {
     fs.mkdirSync(backupDir, { recursive: true });
   }
-  
+
   try {
     fs.copyFileSync(filePath, backupPath);
     return backupPath;
@@ -91,12 +91,12 @@ function safeWriteFile(filePath, content) {
 function restoreFromBackup(filePath) {
   const relativePath = path.relative(process.cwd(), filePath);
   const backupPath = path.join(BACKUP_DIR, relativePath);
-  
+
   if (!fs.existsSync(backupPath)) {
     log(`No backup found for ${relativePath}`);
     return false;
   }
-  
+
   try {
     fs.copyFileSync(backupPath, filePath);
     log(`Restored ${relativePath} from backup`);
@@ -110,14 +110,14 @@ function restoreFromBackup(filePath) {
 // Find all files to process
 function findFiles(dir, excludedDirs, extensions) {
   const files = [];
-  
+
   function traverse(currentDir) {
     try {
       const entries = fs.readdirSync(currentDir, { withFileTypes: true });
-      
+
       for (const entry of entries) {
         const fullPath = path.join(currentDir, entry.name);
-        
+
         if (entry.isDirectory()) {
           if (!excludedDirs.includes(entry.name)) {
             traverse(fullPath);
@@ -130,7 +130,7 @@ function findFiles(dir, excludedDirs, extensions) {
       log(`Error traversing directory ${currentDir}: ${error.message}`);
     }
   }
-  
+
   traverse(dir);
   return files;
 }
@@ -141,18 +141,18 @@ function validateContent(content, updatedContent) {
   const contentTokens = content.split(/\s+/).length;
   const updatedTokens = updatedContent.split(/\s+/).length;
   const tokenDiff = Math.abs(contentTokens - updatedTokens);
-  
+
   if (tokenDiff > MAX_TOKENS_MODIFIED) {
     return {
       valid: false,
-      reason: `Too many tokens changed (${tokenDiff}). This may indicate corruption.`
+      reason: `Too many tokens changed (${tokenDiff}). This may indicate corruption.`,
     };
   }
-  
+
   // Check for unbalanced brackets/parentheses
-  const bracketCount = (str) => {
+  const bracketCount = str => {
     const brackets = { '{': 0, '(': 0, '[': 0 };
-    
+
     for (let i = 0; i < str.length; i++) {
       if (str[i] === '{') brackets['{']++;
       if (str[i] === '}') brackets['{']--;
@@ -161,34 +161,36 @@ function validateContent(content, updatedContent) {
       if (str[i] === '[') brackets['[']++;
       if (str[i] === ']') brackets['[']--;
     }
-    
+
     return brackets;
   };
-  
+
   const originalBrackets = bracketCount(content);
   const updatedBrackets = bracketCount(updatedContent);
-  
-  if (originalBrackets['{'] !== updatedBrackets['{'] ||
-      originalBrackets['('] !== updatedBrackets['('] ||
-      originalBrackets['['] !== updatedBrackets['[']) {
+
+  if (
+    originalBrackets['{'] !== updatedBrackets['{'] ||
+    originalBrackets['('] !== updatedBrackets['('] ||
+    originalBrackets['['] !== updatedBrackets['[']
+  ) {
     return {
       valid: false,
-      reason: 'Unbalanced brackets detected. This may indicate corruption.'
+      reason: 'Unbalanced brackets detected. This may indicate corruption.',
     };
   }
-  
+
   // Ensure there are no syntax markers that could indicate corruption
   const corruptionMarkers = ['<<<<<<', '>>>>>>>', '======'];
-  
+
   for (const marker of corruptionMarkers) {
     if (updatedContent.includes(marker)) {
       return {
         valid: false,
-        reason: `Corruption marker "${marker}" found in content.`
+        reason: `Corruption marker "${marker}" found in content.`,
       };
     }
   }
-  
+
   return { valid: true };
 }
 
@@ -196,7 +198,7 @@ function validateContent(content, updatedContent) {
 function fixUnusedVariables(filePath, content) {
   // We'll be less aggressive here to avoid false positives
   // Only apply to variables flagged by ESLint warnings
-  
+
   // Get ESLint warnings for this file
   let eslintOutput = '';
   try {
@@ -205,15 +207,15 @@ function fixUnusedVariables(filePath, content) {
     // ESLint might exit with non-zero status if it finds issues
     eslintOutput = error.stdout || '';
   }
-  
+
   if (!eslintOutput) {
     return content;
   }
-  
+
   let unusedVars = [];
   try {
     const eslintResult = JSON.parse(eslintOutput);
-    
+
     if (eslintResult.length > 0 && eslintResult[0].messages) {
       // Extract unused variable names from ESLint messages
       unusedVars = eslintResult[0].messages
@@ -226,21 +228,21 @@ function fixUnusedVariables(filePath, content) {
     log(`Error parsing ESLint output for ${filePath}: ${error.message}`);
     return content;
   }
-  
+
   if (unusedVars.length === 0) {
     return content;
   }
-  
+
   // Apply fixes for each unused variable
   let updatedContent = content;
   for (const varName of unusedVars) {
     const varRegex = new RegExp(`(const|let|var)\\s+(${varName})(\\s*=|\\s*:)`, 'g');
     updatedContent = updatedContent.replace(varRegex, `$1 _${varName}$3`);
-    
+
     const argRegex = new RegExp(`(\\([^)]*?)\\b(${varName})(\\s*:|\\s*,|\\s*\\))`, 'g');
     updatedContent = updatedContent.replace(argRegex, `$1_${varName}$3`);
   }
-  
+
   return updatedContent;
 }
 
@@ -269,7 +271,7 @@ function fixPreferConst(content) {
 function fixDuplicateImports(content) {
   const importLines = content.split('\n');
   const uniqueImports = new Map();
-  
+
   // First pass to gather imports
   importLines.forEach(line => {
     const importMatch = line.match(/import\s+.*\s+from\s+['"]([^'"]+)['"]/);
@@ -281,7 +283,7 @@ function fixDuplicateImports(content) {
       uniqueImports.get(importSource).push(line);
     }
   });
-  
+
   // Second pass to remove duplicates
   let updatedContent = content;
   uniqueImports.forEach((lines, source) => {
@@ -292,34 +294,34 @@ function fixDuplicateImports(content) {
       }
     }
   });
-  
+
   return updatedContent;
 }
 
 // Restore backups for all files if in restore mode
 async function restoreBackups() {
   log('Starting restore from backups...');
-  
+
   // Find all backups
   const backupFiles = findFiles(BACKUP_DIR, EXCLUDED_DIRS, EXTENSIONS);
   log(`Found ${backupFiles.length} backup files`);
-  
+
   const restoredFiles = 0;
   const failedFiles = 0;
-  
+
   for (const backupPath of backupFiles) {
     const relativePath = path.relative(BACKUP_DIR, backupPath);
     const targetPath = path.join(process.cwd(), relativePath);
-    
+
     log(`Restoring ${relativePath}...`);
-    
+
     try {
       // Ensure the target directory exists
       const targetDir = path.dirname(targetPath);
       if (!fs.existsSync(targetDir)) {
         fs.mkdirSync(targetDir, { recursive: true });
       }
-      
+
       fs.copyFileSync(backupPath, targetPath);
       log(`Successfully restored ${relativePath}`);
       restoredFiles++;
@@ -328,7 +330,7 @@ async function restoreBackups() {
       failedFiles++;
     }
   }
-  
+
   log('\nRestore Summary:');
   log(`Total backup files: ${backupFiles.length}`);
   log(`Successfully restored: ${restoredFiles}`);
@@ -342,22 +344,22 @@ async function fixLintingIssues() {
     await restoreBackups();
     return;
   }
-  
+
   log('Starting linting fixes...');
-  
+
   // Find all files to process
   const files = findFiles(SRC_DIR, EXCLUDED_DIRS, EXTENSIONS);
   log(`Found ${files.length} files to process`);
-  
+
   const fixedFiles = 0;
   const skippedFiles = 0;
   const backupMap = new Map(); // Track files and their backups
-  
+
   // Process each file
   for (const filePath of files) {
     const relativePath = path.relative(process.cwd(), filePath);
     log(`Processing ${relativePath}...`);
-    
+
     // Read file content
     const content = safeReadFile(filePath);
     if (content === null) {
@@ -365,10 +367,10 @@ async function fixLintingIssues() {
       skippedFiles++;
       continue;
     }
-    
+
     // Apply fixes
     let updatedContent = content;
-    
+
     try {
       // Only apply fixes if not in test mode
       if (!isTestMode) {
@@ -376,31 +378,31 @@ async function fixLintingIssues() {
         if ((filePath.endsWith('.ts') || filePath.endsWith('.tsx')) && !isSafeMode) {
           updatedContent = fixUnusedVariables(filePath, updatedContent);
         }
-        
+
         updatedContent = fixConsoleStatements(updatedContent);
         updatedContent = fixUnnecessaryEscapes(updatedContent);
-        
+
         // Only apply const fixes if not in safe mode
         if (!isSafeMode) {
           updatedContent = fixPreferConst(updatedContent);
         }
-        
+
         if (!isSafeMode) {
           updatedContent = fixDuplicateImports(updatedContent);
         }
       }
-      
+
       // Only write the file if changes were made
       if (updatedContent !== content) {
         // Validate content to ensure no corruption
         const validation = validateContent(content, updatedContent);
-        
+
         if (!validation.valid) {
           log(`Skipping file ${relativePath}: Validation failed: ${validation.reason}`);
           skippedFiles++;
           continue;
         }
-        
+
         // Backup the file before changing it
         const backupPath = backupFile(filePath);
         if (backupPath) {
@@ -410,18 +412,18 @@ async function fixLintingIssues() {
             fixedFiles++;
             continue;
           }
-          
+
           if (safeWriteFile(filePath, updatedContent)) {
             backupMap.set(filePath, backupPath);
             log(`Fixed issues in ${relativePath}`);
-            
+
             // Try to format the file with Prettier
             try {
               execSync(`npx prettier --write "${filePath}"`, { stdio: 'ignore' });
             } catch (error) {
               log(`Note: Could not format ${relativePath} with Prettier`);
             }
-            
+
             fixedFiles++;
           } else {
             log(`Failed to write updates to ${relativePath}`);
@@ -445,7 +447,7 @@ async function fixLintingIssues() {
       }
     }
   }
-  
+
   log('\nSummary:');
   log(`Total files processed: ${files.length}`);
   log(`Files fixed: ${fixedFiles}`);
@@ -460,4 +462,4 @@ async function fixLintingIssues() {
 fixLintingIssues().catch(error => {
   log(`Error running script: ${error.message}`);
   process.exit(1);
-}); 
+});

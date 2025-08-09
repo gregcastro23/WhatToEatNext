@@ -1,14 +1,8 @@
 // Removed unused Element import
-import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
-import type {
-    ElementalProperties,
-    Recipe,
-    RecipeIngredient,
-    ScoredRecipe
-} from "@/types/recipe";
+import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
+import type { ElementalProperties, Recipe, RecipeIngredient, ScoredRecipe } from '@/types/recipe';
 
 import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
-
 
 /**
  * Type guard to check if an object is a Recipe
@@ -38,11 +32,13 @@ export function isScoredRecipe(obj: unknown): obj is ScoredRecipe {
  * Type guard to check if an ingredient is a RecipeIngredient object (not string)
  */
 export function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredient {
-  return typeof ingredient === 'object' &&
-         ingredient !== null &&
-         typeof (ingredient as RecipeIngredient).name === 'string' &&
-         typeof (ingredient as RecipeIngredient).amount === 'number' &&
-         typeof (ingredient as RecipeIngredient).unit === 'string';
+  return (
+    typeof ingredient === 'object' &&
+    ingredient !== null &&
+    typeof (ingredient as RecipeIngredient).name === 'string' &&
+    typeof (ingredient as RecipeIngredient).amount === 'number' &&
+    typeof (ingredient as RecipeIngredient).unit === 'string'
+  );
 }
 
 /**
@@ -147,12 +143,16 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
 
   if (Array.isArray(recipeData.astrologicalPropertiesInfluences)) {
     // Apply safe type conversion for array elements
-    return (recipeData.astrologicalPropertiesInfluences as unknown[]).map(item => String(item)).filter(Boolean);
+    return (recipeData.astrologicalPropertiesInfluences as unknown[])
+      .map(item => String(item))
+      .filter(Boolean);
   }
 
   if (Array.isArray(recipeData.astrologicalInfluences)) {
     // Apply safe type conversion for array elements
-    return (recipeData.astrologicalInfluences as unknown[]).map(item => String(item)).filter(Boolean);
+    return (recipeData.astrologicalInfluences as unknown[])
+      .map(item => String(item))
+      .filter(Boolean);
   }
 
   // Try to get from elementalMapping if available
@@ -181,8 +181,7 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   // Try to get from elementalMapping if available
   const elementalMapping = recipeData.elementalMapping as Record<string, unknown>;
   const astrologicalProfile = elementalMapping.astrologicalProfile as Record<string, unknown>;
-  if (astrologicalProfile.favorableZodiac &&
-      Array.isArray(astrologicalProfile.favorableZodiac)) {
+  if (astrologicalProfile.favorableZodiac && Array.isArray(astrologicalProfile.favorableZodiac)) {
     return astrologicalProfile.favorableZodiac as string[];
   }
 
@@ -229,7 +228,7 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
   const recipeData = recipe as Record<string, unknown>;
   const tags = Array.isArray(recipeData.tags) ? recipeData.tags : [recipeData.tags];
 
-  return safeSome(tags, (t) => String(t).toLowerCase() === tag.toLowerCase());
+  return safeSome(tags, t => String(t).toLowerCase() === tag.toLowerCase());
 }
 
 /**
@@ -343,14 +342,17 @@ export function toScoredRecipe(recipe: Recipe, score?: number): ScoredRecipe {
 
   return {
     ...recipe,
-    score: defaultScore
+    score: defaultScore,
   } as ScoredRecipe;
 }
 
 /**
  * Checks if a recipe is compatible with dietary restrictions
  */
-export function isRecipeDietaryCompatible(recipe: Recipe, dietaryRestrictions: string[] = []): boolean {
+export function isRecipeDietaryCompatible(
+  recipe: Recipe,
+  dietaryRestrictions: string[] = [],
+): boolean {
   if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {
     return true;
   }
@@ -390,32 +392,34 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
 
   if (!Array.isArray(ingredients)) return [];
 
-  return ingredients.map((ingredient: Ingredient | UnifiedIngredient) => {
-    const ingredientData = ingredient as Record<string, unknown>;
+  return ingredients
+    .map((ingredient: Ingredient | UnifiedIngredient) => {
+      const ingredientData = ingredient as Record<string, unknown>;
 
-    // Handle both string and object ingredients
-    if (typeof ingredientData === 'string') {
+      // Handle both string and object ingredients
+      if (typeof ingredientData === 'string') {
+        return {
+          name: ingredientData,
+          amount: 1,
+          unit: 'piece',
+        } as RecipeIngredient;
+      }
+
+      if (typeof ingredientData === 'object') {
+        return {
+          name: ingredientData.name || 'Unknown ingredient',
+          amount: ingredientData.amount || 1,
+          unit: ingredientData.unit || 'piece',
+          optional: ingredientData.optional || false,
+          preparation: ingredientData.preparation || undefined,
+        } as RecipeIngredient;
+      }
+
       return {
-        name: ingredientData,
+        name: 'Unknown ingredient',
         amount: 1,
-        unit: 'piece'
+        unit: 'piece',
       } as RecipeIngredient;
-    }
-
-    if (typeof ingredientData === 'object') {
-      return {
-        name: ingredientData.name || 'Unknown ingredient',
-        amount: ingredientData.amount || 1,
-        unit: ingredientData.unit || 'piece',
-        optional: ingredientData.optional || false,
-        preparation: ingredientData.preparation || undefined
-      } as RecipeIngredient;
-    }
-
-    return {
-      name: 'Unknown ingredient',
-      amount: 1,
-      unit: 'piece'
-    } as RecipeIngredient;
-  }).filter(ingredient => ingredient.name !== 'Unknown ingredient');
+    })
+    .filter(ingredient => ingredient.name !== 'Unknown ingredient');
 }

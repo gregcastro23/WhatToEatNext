@@ -17,44 +17,42 @@ import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 const _FoodRecommendations = (props: FoodRecommendationsProps) => {
   const { ingredient, options = {} } = props;
   const [showDebug, setShowDebug] = useState(false);
-  
+
   const runDebugTest = () => {
-    log.info("Running cooking method recommendations test...");
+    log.info('Running cooking method recommendations test...');
     testCookingMethodRecommendations();
   };
-  
+
   return (
-    <div className="food-recommendations">
+    <div className='food-recommendations'>
       {/* ... existing component content ... */}
-      
+
       {/* Add debug section - visible only in development */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="mt-8 p-4 border border-gray-300 rounded">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold text-gray-700">Developer Tools</h3>
+        <div className='mt-8 rounded border border-gray-300 p-4'>
+          <div className='flex items-center justify-between'>
+            <h3 className='text-lg font-semibold text-gray-700'>Developer Tools</h3>
             <button
               onClick={() => setShowDebug(!showDebug)}
-              className="text-sm text-blue-600 hover:text-blue-800"
+              className='text-sm text-blue-600 hover:text-blue-800'
             >
               {showDebug ? 'Hide' : 'Show'}
             </button>
           </div>
-          
+
           {showDebug && (
-            <div className="mt-4">
+            <div className='mt-4'>
               <button
                 onClick={runDebugTest}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded"
+                className='rounded bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300'
               >
                 Test Cooking Method Recommendations
               </button>
-              <p className="mt-2 text-sm text-gray-600">
-                Check browser console for detailed logs
-              </p>
+              <p className='mt-2 text-sm text-gray-600'>Check browser console for detailed logs</p>
             </div>
           )}
         </div>
       )}
     </div>
   );
-}; 
+};

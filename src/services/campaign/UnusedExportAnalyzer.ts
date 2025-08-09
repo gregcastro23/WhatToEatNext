@@ -1,7 +1,7 @@
 /**
  * Unused Export Analyzer
  * Perfect Codebase Campaign - Phase 3 Implementation
- * 
+ *
  * Analyzes unused exports across the codebase and provides prioritization
  * for transformation into enterprise intelligence systems.
  */
@@ -57,9 +57,9 @@ export interface AnalysisSummary {
 }
 
 export enum FilePriority {
-  HIGH = 'HIGH',     // Recipe building files
+  HIGH = 'HIGH', // Recipe building files
   MEDIUM = 'MEDIUM', // Core system files
-  LOW = 'LOW'        // External/test files
+  LOW = 'LOW', // External/test files
 }
 
 export enum FileCategory {
@@ -67,14 +67,14 @@ export enum FileCategory {
   CORE = 'CORE',
   EXTERNAL = 'EXTERNAL',
   TEST = 'TEST',
-  UTILITY = 'UTILITY'
+  UTILITY = 'UTILITY',
 }
 
 export enum TransformationComplexity {
   SIMPLE = 'SIMPLE',
   MODERATE = 'MODERATE',
   COMPLEX = 'COMPLEX',
-  VERY_COMPLEX = 'VERY_COMPLEX'
+  VERY_COMPLEX = 'VERY_COMPLEX',
 }
 
 export class UnusedExportAnalyzer {
@@ -92,7 +92,7 @@ export class UnusedExportAnalyzer {
       '**/*.spec.tsx',
       '**/dist/**',
       '**/build/**',
-      '**/*.d.ts'
+      '**/*.d.ts',
     ];
 
     this.priorityPatterns = {
@@ -101,7 +101,7 @@ export class UnusedExportAnalyzer {
         '**/components/recipe/**',
         '**/services/recipe/**',
         '**/utils/recipe/**',
-        '**/hooks/recipe/**'
+        '**/hooks/recipe/**',
       ],
       [FilePriority.MEDIUM]: [
         '**/components/**',
@@ -109,14 +109,9 @@ export class UnusedExportAnalyzer {
         '**/utils/**',
         '**/hooks/**',
         '**/contexts/**',
-        '**/providers/**'
+        '**/providers/**',
       ],
-      [FilePriority.LOW]: [
-        '**/types/**',
-        '**/constants/**',
-        '**/config/**',
-        '**/lib/**'
-      ]
+      [FilePriority.LOW]: ['**/types/**', '**/constants/**', '**/config/**', '**/lib/**'],
     };
   }
 
@@ -125,10 +120,10 @@ export class UnusedExportAnalyzer {
    */
   async analyzeUnusedExports(): Promise<AnalysisResult> {
     console.log('🔍 Starting unused export analysis...');
-    
+
     const files = await this.getAllSourceFiles();
     const fileAnalyses: FileAnalysis[] = [];
-    
+
     for (const filePath of files) {
       try {
         const analysis = await this.analyzeFile(filePath);
@@ -151,14 +146,14 @@ export class UnusedExportAnalyzer {
       `${this.srcPath}/**/*.ts`,
       `${this.srcPath}/**/*.tsx`,
       `${this.srcPath}/**/*.js`,
-      `${this.srcPath}/**/*.jsx`
+      `${this.srcPath}/**/*.jsx`,
     ];
 
     const files: string[] = [];
     for (const pattern of patterns) {
-      const matches = await glob(pattern, { 
+      const matches = await glob(pattern, {
         ignore: this.excludePatterns,
-        absolute: true 
+        absolute: true,
       });
       files.push(...matches);
     }
@@ -183,7 +178,7 @@ export class UnusedExportAnalyzer {
       unusedExports,
       safetyScore,
       transformationCandidates,
-      category
+      category,
     };
   }
 
@@ -200,7 +195,7 @@ export class UnusedExportAnalyzer {
         unusedExports.push({
           ...exportInfo,
           usageCount,
-          complexity: this.calculateComplexity(content, exportInfo)
+          complexity: this.calculateComplexity(content, exportInfo),
         });
       }
     }
@@ -217,26 +212,30 @@ export class UnusedExportAnalyzer {
 
     lines.forEach((line, index) => {
       // Named exports
-      const namedExportMatch = line.match(/export\s+(?:const|let|var|function|class|interface|type|enum)\s+(\w+)/);
+      const namedExportMatch = line.match(
+        /export\s+(?:const|let|var|function|class|interface|type|enum)\s+(\w+)/,
+      );
       if (namedExportMatch) {
         exports.push({
           filePath: '',
           exportName: namedExportMatch[1],
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
-          isDefault: false
+          isDefault: false,
         });
       }
 
       // Default exports
-      const defaultExportMatch = line.match(/export\s+default\s+(?:(?:const|let|var|function|class)\s+)?(\w+)/);
+      const defaultExportMatch = line.match(
+        /export\s+default\s+(?:(?:const|let|var|function|class)\s+)?(\w+)/,
+      );
       if (defaultExportMatch) {
         exports.push({
           filePath: '',
           exportName: defaultExportMatch[1] || 'default',
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
-          isDefault: true
+          isDefault: true,
         });
       }
 
@@ -251,7 +250,7 @@ export class UnusedExportAnalyzer {
             exportName: cleanName,
             exportType: 'variable',
             lineNumber: index + 1,
-            isDefault: false
+            isDefault: false,
           });
         });
       }
@@ -284,7 +283,7 @@ export class UnusedExportAnalyzer {
 
       try {
         const content = await fs.promises.readFile(filePath, 'utf-8');
-        
+
         // Check for import statements
         const importRegex = new RegExp(`import.*\\b${exportName}\\b.*from`, 'g');
         const importMatches = content.match(importRegex) || [];
@@ -307,10 +306,13 @@ export class UnusedExportAnalyzer {
   /**
    * Calculate complexity score for an export
    */
-  private calculateComplexity(content: string, exportInfo: Omit<UnusedExport, 'usageCount' | 'complexity'>): number {
+  private calculateComplexity(
+    content: string,
+    exportInfo: Omit<UnusedExport, 'usageCount' | 'complexity'>,
+  ): number {
     const lines = content.split('\n');
     const startLine = exportInfo.lineNumber - 1;
-    
+
     // Simple heuristic: count lines of the export definition
     let complexity = 1;
     let braceCount = 0;
@@ -318,20 +320,20 @@ export class UnusedExportAnalyzer {
 
     for (let i = startLine; i < lines.length; i++) {
       const line = lines[i];
-      
+
       if (!inExport && line.includes('export')) {
         inExport = true;
       }
-      
+
       if (inExport) {
         complexity++;
         braceCount += (line.match(/\{/g) || []).length;
         braceCount -= (line.match(/\}/g) || []).length;
-        
+
         if (braceCount === 0 && line.includes('}')) {
           break;
         }
-        
+
         if (line.includes(';') && braceCount === 0) {
           break;
         }
@@ -365,13 +367,25 @@ export class UnusedExportAnalyzer {
     const relativePath = path.relative(process.cwd(), filePath);
 
     if (relativePath.includes('/recipe')) return FileCategory.RECIPE;
-    if (relativePath.includes('/test') || relativePath.includes('.test.') || relativePath.includes('.spec.')) {
+    if (
+      relativePath.includes('/test') ||
+      relativePath.includes('.test.') ||
+      relativePath.includes('.spec.')
+    ) {
       return FileCategory.TEST;
     }
-    if (relativePath.includes('/components') || relativePath.includes('/services') || relativePath.includes('/hooks')) {
+    if (
+      relativePath.includes('/components') ||
+      relativePath.includes('/services') ||
+      relativePath.includes('/hooks')
+    ) {
       return FileCategory.CORE;
     }
-    if (relativePath.includes('/types') || relativePath.includes('/constants') || relativePath.includes('/config')) {
+    if (
+      relativePath.includes('/types') ||
+      relativePath.includes('/constants') ||
+      relativePath.includes('/config')
+    ) {
       return FileCategory.EXTERNAL;
     }
 
@@ -381,7 +395,11 @@ export class UnusedExportAnalyzer {
   /**
    * Calculate safety score for transformation
    */
-  private calculateSafetyScore(filePath: string, content: string, unusedExports: UnusedExport[]): number {
+  private calculateSafetyScore(
+    filePath: string,
+    content: string,
+    unusedExports: UnusedExport[],
+  ): number {
     let score = 100; // Start with perfect score
 
     // Reduce score based on file complexity
@@ -409,7 +427,9 @@ export class UnusedExportAnalyzer {
   /**
    * Identify transformation candidates
    */
-  private identifyTransformationCandidates(unusedExports: UnusedExport[]): TransformationCandidate[] {
+  private identifyTransformationCandidates(
+    unusedExports: UnusedExport[],
+  ): TransformationCandidate[] {
     return unusedExports.map(exportInfo => {
       const intelligenceSystemName = this.generateIntelligenceSystemName(exportInfo);
       const transformationComplexity = this.assessTransformationComplexity(exportInfo);
@@ -421,7 +441,7 @@ export class UnusedExportAnalyzer {
         intelligenceSystemName,
         transformationComplexity,
         safetyScore,
-        estimatedBenefit
+        estimatedBenefit,
       };
     });
   }
@@ -488,13 +508,17 @@ export class UnusedExportAnalyzer {
     const lowPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.LOW);
 
     const totalUnusedExports = fileAnalyses.reduce((sum, f) => sum + f.unusedExports.length, 0);
-    const totalTransformationCandidates = fileAnalyses.reduce((sum, f) => sum + f.transformationCandidates.length, 0);
+    const totalTransformationCandidates = fileAnalyses.reduce(
+      (sum, f) => sum + f.transformationCandidates.length,
+      0,
+    );
 
     const recipeFiles = fileAnalyses.filter(f => f.category === FileCategory.RECIPE).length;
     const coreFiles = fileAnalyses.filter(f => f.category === FileCategory.CORE).length;
     const externalFiles = fileAnalyses.filter(f => f.category === FileCategory.EXTERNAL).length;
 
-    const averageSafetyScore = fileAnalyses.reduce((sum, f) => sum + f.safetyScore, 0) / fileAnalyses.length;
+    const averageSafetyScore =
+      fileAnalyses.reduce((sum, f) => sum + f.safetyScore, 0) / fileAnalyses.length;
 
     return {
       totalFiles: fileAnalyses.length,
@@ -508,8 +532,8 @@ export class UnusedExportAnalyzer {
         externalFiles,
         totalTransformationCandidates,
         averageSafetyScore,
-        estimatedIntelligenceSystems: totalTransformationCandidates
-      }
+        estimatedIntelligenceSystems: totalTransformationCandidates,
+      },
     };
   }
 
@@ -543,14 +567,14 @@ export class UnusedExportAnalyzer {
       `- Low priority files: ${analysis.lowPriorityFiles.length}`,
       '',
       '## Top Transformation Candidates',
-      ''
+      '',
     ];
 
     // Add top candidates from each priority level
     const topCandidates = [
       ...analysis.highPriorityFiles.slice(0, 5),
       ...analysis.mediumPriorityFiles.slice(0, 5),
-      ...analysis.lowPriorityFiles.slice(0, 5)
+      ...analysis.lowPriorityFiles.slice(0, 5),
     ];
 
     topCandidates.forEach(file => {

@@ -13,16 +13,21 @@ function getUnusedVariables() {
     results.forEach(result => {
       if (result.messages) {
         result.messages.forEach(msg => {
-          if (msg.ruleId === '@typescript-eslint/no-unused-vars' || msg.ruleId === 'no-unused-vars') {
+          if (
+            msg.ruleId === '@typescript-eslint/no-unused-vars' ||
+            msg.ruleId === 'no-unused-vars'
+          ) {
             // Extract variable name from message
-            const match = msg.message.match(/'([^']+)' is (defined but never used|assigned a value but never used)/);
+            const match = msg.message.match(
+              /'([^']+)' is (defined but never used|assigned a value but never used)/,
+            );
             if (match) {
               unusedVars.push({
                 file: result.filePath,
                 name: match[1],
                 line: msg.line,
                 message: msg.message,
-                type: msg.message.includes('parameter') ? 'parameter' : 'variable'
+                type: msg.message.includes('parameter') ? 'parameter' : 'variable',
               });
             }
           }
@@ -51,7 +56,7 @@ function shouldPreserveVariable(name) {
 
     // Test patterns
     /^(mock|stub|test|expect|jest|describe|it|before|after)/i,
-    /^(spy|fixture|snapshot|setup|teardown|helper)/i
+    /^(spy|fixture|snapshot|setup|teardown|helper)/i,
   ];
 
   return preservePatterns.some(pattern => pattern.test(name));
@@ -88,7 +93,10 @@ function applySystematicFixes(unusedVars) {
 
         if (uv.type === 'parameter') {
           // For parameters, just prefix with underscore
-          const regex = new RegExp(`\\b${uv.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b(?=\\s*[,:)])`, 'g');
+          const regex = new RegExp(
+            `\\b${uv.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b(?=\\s*[,:)])`,
+            'g',
+          );
           if (regex.test(content)) {
             content = content.replace(regex, '_' + uv.name);
             modified = true;
@@ -120,7 +128,6 @@ function applySystematicFixes(unusedVars) {
         fs.writeFileSync(relativePath, content, 'utf8');
         console.log(`✅ Fixed ${vars.length} unused variables in ${relativePath}`);
       }
-
     } catch (error) {
       console.error(`❌ Error processing ${filePath}: ${error.message}`);
     }
@@ -170,7 +177,9 @@ function main() {
   console.log(`- Variables fixed: ${fixCount}`);
   console.log(`- Before: ${unusedVars.length} unused variables`);
   console.log(`- After: ${newUnusedVars.length} unused variables`);
-  console.log(`- Improvement: ${improvement} variables (${((improvement / unusedVars.length) * 100).toFixed(1)}%)`);
+  console.log(
+    `- Improvement: ${improvement} variables (${((improvement / unusedVars.length) * 100).toFixed(1)}%)`,
+  );
 
   console.log('\n📌 Next Steps:');
   console.log('1. Review changes with git diff');

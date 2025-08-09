@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-
 interface AstrologicalChart {
   planets: Record<string, { sign: string; degree: number; minute: number }>;
   houses: Record<string, { sign: string; degree: number }>;
@@ -46,7 +45,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
       try {
         setIsLoading(true);
         setError(null);
-        
+
         // Here you would load chart data from an API or calculate it
         // For now, setting a placeholder empty chart
         setCurrentChart({
@@ -81,4 +80,4 @@ export function useCurrentChart() {
   return context;
 }
 
-export default ChartContext; 
+export default ChartContext;

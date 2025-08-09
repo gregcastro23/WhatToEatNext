@@ -10,9 +10,9 @@ jest.mock('../BuildPerformanceMonitor', () => ({
       averageBundleSize: 3 * 1024 * 1024,
       averageMemoryUsage: 256 * 1024 * 1024,
       cacheEfficiency: 85,
-      performanceScore: 75
-    }))
-  }
+      performanceScore: 75,
+    })),
+  },
 }));
 
 jest.mock('../ErrorTrackingSystem', () => ({
@@ -23,22 +23,22 @@ jest.mock('../ErrorTrackingSystem', () => ({
       totalActiveLintViolations: 300,
       totalRecentFailures: 2,
       criticalIssues: 5,
-      automationOpportunities: 10
+      automationOpportunities: 10,
     })),
     getCurrentQualityMetrics: jest.fn(() => ({
       codeQualityScore: 75,
       technicalDebtScore: 45,
       maintainabilityIndex: 80,
       errorRate: 0.05,
-      warningRate: 0.1
-    }))
-  }
+      warningRate: 0.1,
+    })),
+  },
 }));
 
 jest.mock('../QualityMetricsService', () => ({
   qualityMetricsService: {
-    subscribe: jest.fn()
-  }
+    subscribe: jest.fn(),
+  },
 }));
 
 describe('AlertingSystem', () => {
@@ -81,7 +81,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 30,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       };
 
       const ruleId = alertingSystem.addAlertRule(rule);
@@ -108,13 +108,13 @@ describe('AlertingSystem', () => {
         escalationMinutes: 30,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       };
 
       const ruleId = alertingSystem.addAlertRule(rule);
       const updated = alertingSystem.updateAlertRule(ruleId, {
         threshold: 90000,
-        severity: 'error'
+        severity: 'error',
       });
 
       expect(updated).toBe(true);
@@ -139,7 +139,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 30,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       };
 
       const ruleId = alertingSystem.addAlertRule(rule);
@@ -169,7 +169,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       });
 
       // Manually trigger rule evaluation (in real system this happens automatically)
@@ -204,7 +204,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       });
 
       // Manually trigger rule evaluation
@@ -233,7 +233,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 120,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       });
 
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -268,7 +268,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       });
 
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -306,7 +306,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       });
 
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -344,22 +344,22 @@ describe('AlertingSystem', () => {
           type: 'performance' as const,
           severity: 'warning' as const,
           metric: 'build_time',
-          threshold: 30000
+          threshold: 30000,
         },
         {
           name: 'Error Alert',
           type: 'error' as const,
           severity: 'error' as const,
           metric: 'typescript_errors',
-          threshold: 100
+          threshold: 100,
         },
         {
           name: 'Critical Quality Alert',
           type: 'quality' as const,
           severity: 'critical' as const,
           metric: 'code_quality_score',
-          threshold: 80 // Mock returns 75, so this should trigger with less_than condition
-        }
+          threshold: 80, // Mock returns 75, so this should trigger with less_than condition
+        },
       ];
 
       for (const ruleConfig of rules) {
@@ -372,7 +372,7 @@ describe('AlertingSystem', () => {
           escalationMinutes: 15,
           autoResponse: false,
           responseActions: [],
-          notificationChannels: ['console']
+          notificationChannels: ['console'],
         });
 
         const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -424,7 +424,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       });
 
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -459,7 +459,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'],
       });
 
       const testResult = alertingSystem.testAlert(ruleId);

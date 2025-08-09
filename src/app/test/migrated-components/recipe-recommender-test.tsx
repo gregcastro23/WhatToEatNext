@@ -10,7 +10,7 @@ export default function RecipeRecommendationsTestPage() {
   const [filters, setFilters] = useState({
     servingSize: '4',
     dietaryPreference: 'none',
-    cookingTime: '60'
+    cookingTime: '60',
   });
 
   // Handle filter changes
@@ -20,90 +20,86 @@ export default function RecipeRecommendationsTestPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Recipe Recommendations Component Test</h1>
-      
-      <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-        <h2 className="text-lg font-medium mb-3">Recipe Filters</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className='container mx-auto p-4'>
+      <h1 className='mb-6 text-2xl font-bold'>Recipe Recommendations Component Test</h1>
+
+      <div className='mb-6 rounded-lg bg-white p-4 shadow-sm'>
+        <h2 className='mb-3 text-lg font-medium'>Recipe Filters</h2>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Serving Size
-            </label>
+            <label className='mb-1 block text-sm font-medium text-gray-700'>Serving Size</label>
             <select
-              name="servingSize"
+              name='servingSize'
               value={filters.servingSize}
               onChange={handleFilterChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className='w-full rounded-md border border-gray-300 px-3 py-2'
             >
-              <option value="2">2 servings</option>
-              <option value="4">4 servings</option>
-              <option value="6">6 servings</option>
-              <option value="8">8 servings</option>
+              <option value='2'>2 servings</option>
+              <option value='4'>4 servings</option>
+              <option value='6'>6 servings</option>
+              <option value='8'>8 servings</option>
             </select>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className='mb-1 block text-sm font-medium text-gray-700'>
               Dietary Preference
             </label>
             <select
-              name="dietaryPreference"
+              name='dietaryPreference'
               value={filters.dietaryPreference}
               onChange={handleFilterChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className='w-full rounded-md border border-gray-300 px-3 py-2'
             >
-              <option value="none">No Preference</option>
-              <option value="vegetarian">Vegetarian</option>
-              <option value="vegan">Vegan</option>
-              <option value="gluten-free">Gluten Free</option>
-              <option value="dAiry-free">DAiry Free</option>
+              <option value='none'>No Preference</option>
+              <option value='vegetarian'>Vegetarian</option>
+              <option value='vegan'>Vegan</option>
+              <option value='gluten-free'>Gluten Free</option>
+              <option value='dAiry-free'>DAiry Free</option>
             </select>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Cooking Time
-            </label>
+            <label className='mb-1 block text-sm font-medium text-gray-700'>Cooking Time</label>
             <select
-              name="cookingTime"
+              name='cookingTime'
               value={filters.cookingTime}
               onChange={handleFilterChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className='w-full rounded-md border border-gray-300 px-3 py-2'
             >
-              <option value="30">30 minutes</option>
-              <option value="60">60 minutes</option>
-              <option value="90">90 minutes</option>
-              <option value="all">Any</option>
+              <option value='30'>30 minutes</option>
+              <option value='60'>60 minutes</option>
+              <option value='90'>90 minutes</option>
+              <option value='all'>Any</option>
             </select>
           </div>
         </div>
       </div>
-      
-      <Tabs defaultValue="original" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="original">Original (Context-based)</TabsTrigger>
-          <TabsTrigger value="migrated">Migrated (Service-based)</TabsTrigger>
+
+      <Tabs defaultValue='original' className='w-full'>
+        <TabsList className='mb-4'>
+          <TabsTrigger value='original'>Original (Context-based)</TabsTrigger>
+          <TabsTrigger value='migrated'>Migrated (Service-based)</TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="original" className="space-y-8">
-          <div className="border p-4 rounded-lg">
-            <h2 className="text-lg font-semibold mb-4">Original Implementation</h2>
+
+        <TabsContent value='original' className='space-y-8'>
+          <div className='rounded-lg border p-4'>
+            <h2 className='mb-4 text-lg font-semibold'>Original Implementation</h2>
             <RecipeRecommendations filters={filters} />
           </div>
         </TabsContent>
-        
-        <TabsContent value="migrated" className="space-y-8">
-          <div className="border p-4 rounded-lg">
-            <h2 className="text-lg font-semibold mb-4">Migrated Implementation</h2>
+
+        <TabsContent value='migrated' className='space-y-8'>
+          <div className='rounded-lg border p-4'>
+            <h2 className='mb-4 text-lg font-semibold'>Migrated Implementation</h2>
             <RecipeRecommendationsMigrated filters={filters} />
           </div>
         </TabsContent>
       </Tabs>
-      
-      <div className="mt-8 bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-md font-semibold mb-2">Migration Notes:</h3>
-        <ul className="list-disc pl-5 space-y-1">
+
+      <div className='mt-8 rounded-lg bg-gray-50 p-4'>
+        <h3 className='text-md mb-2 font-semibold'>Migration Notes:</h3>
+        <ul className='list-disc space-y-1 pl-5'>
           <li>Replaced AlchemicalContext with services hook</li>
           <li>Implemented proper loading, error, and empty states</li>
           <li>Added memoization for derived recipe data</li>
@@ -113,4 +109,4 @@ export default function RecipeRecommendationsTestPage() {
       </div>
     </div>
   );
-} 
+}

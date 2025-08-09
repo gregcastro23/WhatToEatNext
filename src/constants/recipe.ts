@@ -1,14 +1,30 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert';
-export type CuisineType = 'chinese' | 'japanese' | 'korean' | 'indian' | 'thai' | 'vietnamese' | 'western' | 'mediterranean' | 'middle-eastern';
+export type CuisineType =
+  | 'chinese'
+  | 'japanese'
+  | 'korean'
+  | 'indian'
+  | 'thai'
+  | 'vietnamese'
+  | 'western'
+  | 'mediterranean'
+  | 'middle-eastern';
 export type DietaryType = 'vegetarian' | 'vegan' | 'pescatarian' | 'omnivore' | 'keto' | 'paleo';
 export type CookingTime = 'quick' | 'medium' | 'slow';
 export type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
 
 // Constants for meal types and recipe types
 export const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'];
-export const RECIPE_TYPES: DietaryType[] = ['vegetarian', 'vegan', 'pescatarian', 'omnivore', 'keto', 'paleo'];
+export const RECIPE_TYPES: DietaryType[] = [
+  'vegetarian',
+  'vegan',
+  'pescatarian',
+  'omnivore',
+  'keto',
+  'paleo',
+];
 
 export interface Ingredient {
   name: string;
@@ -27,12 +43,12 @@ export interface CookingStep {
   description: string;
   duration?: {
     value: number;
-    unit: 'minutes' | 'hours'
+    unit: 'minutes' | 'hours';
   };
   method?: string;
   temperature?: {
     value: number;
-    unit: 'C' | 'F'
+    unit: 'C' | 'F';
   };
   notes?: string;
 }

@@ -2,11 +2,7 @@
  * Tests for Ingredient Data Validation
  */
 
-import {
-    IngredientValidationResult,
-    shouldRollbackIngredients,
-    validateIngredientData
-} from '../ingredientValidation';
+import { IngredientValidationResult, shouldRollbackIngredients, validateIngredientData } from '../ingredientValidation';
 
 // Mock the ingredient data
 jest.mock('../../data/ingredients', () => ({
@@ -18,10 +14,10 @@ jest.mock('../../data/ingredients', () => ({
         Fire: 0.2,
         Water: 0.1,
         Earth: 0.1,
-        Air: 0.6
+        Air: 0.6,
       },
       qualities: ['aromatic', 'warming'],
-      storage: { duration: '1 week' }
+      storage: { duration: '1 week' },
     },
     tomato: {
       name: 'Tomato',
@@ -30,10 +26,10 @@ jest.mock('../../data/ingredients', () => ({
         Fire: 0.4,
         Water: 0.4,
         Earth: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       qualities: ['juicy', 'acidic'],
-      storage: { duration: '1 week' }
+      storage: { duration: '1 week' },
     },
     invalidIngredient: {
       name: 'Invalid',
@@ -42,15 +38,15 @@ jest.mock('../../data/ingredients', () => ({
         Fire: 0.5,
         Water: 0.3,
         Earth: 0.3, // Sum > 1.0
-        Air: 0.2
-      }
-    }
-  }
+        Air: 0.2,
+      },
+    },
+  },
 }));
 
 // Mock the elemental utils
 jest.mock('../elementalUtils', () => ({
-  calculateElementalCompatibility: jest.fn()
+  calculateElementalCompatibility: jest.fn(),
 }));
 
 // Mock the logger
@@ -59,13 +55,15 @@ jest.mock('../logger', () => ({
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn()
-  }
+    debug: jest.fn(),
+  },
 }));
 
 import { calculateElementalAffinity } from '../elementalUtils';
 
-const mockCalculateElementalCompatibility = calculateElementalAffinity as jest.MockedFunction<typeof calculateElementalAffinity>;
+const mockCalculateElementalCompatibility = calculateElementalAffinity as jest.MockedFunction<
+  typeof calculateElementalAffinity
+>;
 
 describe('Ingredient Data Validation', () => {
   beforeEach(() => {
@@ -96,10 +94,7 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Should detect that invalidIngredient has elemental properties that sum > 1.0
-      const sumErrors = result.errors.filter(e =>
-        e.type === 'ELEMENTAL_INVALID' &&
-        e.message.includes('sum')
-      );
+      const sumErrors = result.errors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'));
 
       expect(sumErrors.length).toBeGreaterThan(0);
     });
@@ -108,9 +103,8 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Should detect invalid category
-      const categoryErrors = result.errors.filter(e =>
-        e.type === 'CATEGORY_MISMATCH' &&
-        e.ingredient === 'invalidIngredient'
+      const categoryErrors = result.errors.filter(
+        e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient',
       );
 
       expect(categoryErrors.length).toBeGreaterThan(0);
@@ -123,9 +117,7 @@ describe('Ingredient Data Validation', () => {
       expect(mockCalculateElementalCompatibility).toHaveBeenCalled();
 
       // Should not have compatibility violations with our mocked values
-      const compatibilityErrors = result.errors.filter(e =>
-        e.type === 'COMPATIBILITY_VIOLATION'
-      );
+      const compatibilityErrors = result.errors.filter(e => e.type === 'COMPATIBILITY_VIOLATION');
 
       expect(compatibilityErrors.length).toBe(0);
     });
@@ -142,9 +134,8 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Should check for required fields
-      const completenessErrors = result.errors.filter(e =>
-        e.type === 'DATA_INCOMPLETE' &&
-        e.message.includes('Missing required field')
+      const completenessErrors = result.errors.filter(
+        e => e.type === 'DATA_INCOMPLETE' && e.message.includes('Missing required field'),
       );
 
       // Our mock data has all required fields, so should be 0
@@ -156,15 +147,17 @@ describe('Ingredient Data Validation', () => {
     it('should recommend rollback for critical errors', () => {
       const validationResult: IngredientValidationResult = {
         isValid: false,
-        errors: [{
-          type: 'DATA_INCOMPLETE',
-          severity: 'CRITICAL',
-          message: 'Critical data corruption detected',
-          timestamp: new Date()
-        }],
+        errors: [
+          {
+            type: 'DATA_INCOMPLETE',
+            severity: 'CRITICAL',
+            message: 'Critical data corruption detected',
+            timestamp: new Date(),
+          },
+        ],
         warnings: [],
         summary: 'Critical failure',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       expect(shouldRollbackIngredients(validationResult)).toBe(true);
@@ -178,30 +171,30 @@ describe('Ingredient Data Validation', () => {
             type: 'ELEMENTAL_INVALID',
             severity: 'HIGH',
             message: 'Elemental error 1',
-            timestamp: new Date()
+            timestamp: new Date(),
           },
           {
             type: 'COMPATIBILITY_VIOLATION',
             severity: 'HIGH',
             message: 'Compatibility error 2',
-            timestamp: new Date()
+            timestamp: new Date(),
           },
           {
             type: 'DATA_INCOMPLETE',
             severity: 'HIGH',
             message: 'Data error 3',
-            timestamp: new Date()
+            timestamp: new Date(),
           },
           {
             type: 'CATEGORY_MISMATCH',
             severity: 'HIGH',
             message: 'Category error 4',
-            timestamp: new Date()
-          }
+            timestamp: new Date(),
+          },
         ],
         warnings: [],
         summary: 'Multiple high-severity errors',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       expect(shouldRollbackIngredients(validationResult)).toBe(true);
@@ -210,19 +203,23 @@ describe('Ingredient Data Validation', () => {
     it('should not recommend rollback for minor issues', () => {
       const validationResult: IngredientValidationResult = {
         isValid: true,
-        errors: [{
-          type: 'ELEMENTAL_INVALID',
-          severity: 'LOW',
-          message: 'Minor elemental issue',
-          timestamp: new Date()
-        }],
-        warnings: [{
-          type: 'MINOR_INCONSISTENCY',
-          message: 'Minor warning',
-          timestamp: new Date()
-        }],
+        errors: [
+          {
+            type: 'ELEMENTAL_INVALID',
+            severity: 'LOW',
+            message: 'Minor elemental issue',
+            timestamp: new Date(),
+          },
+        ],
+        warnings: [
+          {
+            type: 'MINOR_INCONSISTENCY',
+            message: 'Minor warning',
+            timestamp: new Date(),
+          },
+        ],
         summary: 'Minor issues only',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       expect(shouldRollbackIngredients(validationResult)).toBe(false);
@@ -236,18 +233,18 @@ describe('Ingredient Data Validation', () => {
             type: 'ELEMENTAL_INVALID',
             severity: 'HIGH',
             message: 'Single high-severity error',
-            timestamp: new Date()
+            timestamp: new Date(),
           },
           {
             type: 'COMPATIBILITY_VIOLATION',
             severity: 'MEDIUM',
             message: 'Medium severity error',
-            timestamp: new Date()
-          }
+            timestamp: new Date(),
+          },
         ],
         warnings: [],
         summary: 'Few high errors',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       expect(shouldRollbackIngredients(validationResult)).toBe(false);
@@ -269,7 +266,7 @@ describe('Ingredient Data Validation', () => {
     it('should handle empty ingredient data gracefully', async () => {
       // Mock empty ingredients
       jest.doMock('../../data/ingredients', () => ({
-        allIngredients: {}
+        allIngredients: {},
       }));
 
       const result = await validateIngredientData();
@@ -284,8 +281,8 @@ describe('Ingredient Data Validation', () => {
         allIngredients: {
           malformed: null,
           invalid: undefined,
-          broken: 'not an object'
-        }
+          broken: 'not an object',
+        },
       }));
 
       const result = await validateIngredientData();
@@ -300,9 +297,8 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Check that validation catches out-of-range values
-      const rangeErrors = result.errors.filter(e =>
-        e.type === 'ELEMENTAL_INVALID' &&
-        e.message.includes('out of range')
+      const rangeErrors = result.errors.filter(
+        e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('out of range'),
       );
 
       // Our mock data has valid ranges, so should be 0
@@ -313,10 +309,7 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Should detect sum errors for invalidIngredient
-      const sumErrors = result.errors.filter(e =>
-        e.type === 'ELEMENTAL_INVALID' &&
-        e.message.includes('sum')
-      );
+      const sumErrors = result.errors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'));
 
       expect(sumErrors.length).toBeGreaterThan(0);
     });
@@ -325,9 +318,8 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Should have warnings about elemental dominance if applicable
-      const dominanceWarnings = result.warnings.filter(w =>
-        w.type === 'MINOR_INCONSISTENCY' &&
-        w.message.includes('dominant element')
+      const dominanceWarnings = result.warnings.filter(
+        w => w.type === 'MINOR_INCONSISTENCY' && w.message.includes('dominant element'),
       );
 
       // Our mock ingredients have clear dominance, so should be 0
@@ -347,9 +339,8 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Should detect low self-compatibility
-      const selfCompatibilityErrors = result.errors.filter(e =>
-        e.type === 'COMPATIBILITY_VIOLATION' &&
-        e.message.includes('Self-compatibility')
+      const selfCompatibilityErrors = result.errors.filter(
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),
       );
 
       expect(selfCompatibilityErrors.length).toBeGreaterThan(0);
@@ -366,9 +357,8 @@ describe('Ingredient Data Validation', () => {
       const result = await validateIngredientData();
 
       // Should detect low cross-compatibility
-      const crossCompatibilityErrors = result.errors.filter(e =>
-        e.type === 'COMPATIBILITY_VIOLATION' &&
-        e.message.includes('Cross-compatibility')
+      const crossCompatibilityErrors = result.errors.filter(
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),
       );
 
       expect(crossCompatibilityErrors.length).toBeGreaterThan(0);

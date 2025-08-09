@@ -2,7 +2,7 @@
 
 /**
  * Terminal Freeze Diagnostic and Recovery Tool
- * 
+ *
  * Diagnoses and fixes Kiro terminal freezing issues by:
  * - Detecting stuck processes
  * - Killing infinite loops
@@ -23,7 +23,7 @@ class TerminalFreezeDiagnostic {
       infiniteLoops: [],
       memoryLeaks: [],
       fileSystemLocks: [],
-      recommendations: []
+      recommendations: [],
     };
   }
 
@@ -33,17 +33,17 @@ class TerminalFreezeDiagnostic {
   async runDiagnostic() {
     console.log('🔍 KIRO TERMINAL FREEZE DIAGNOSTIC');
     console.log('==================================');
-    
+
     try {
       await this.detectStuckProcesses();
       await this.detectInfiniteLoops();
       await this.detectMemoryLeaks();
       await this.detectFileSystemLocks();
       await this.checkCampaignStates();
-      
+
       this.generateRecommendations();
       this.displayResults();
-      
+
       return this.diagnosticResults;
     } catch (error) {
       console.error('❌ Diagnostic failed:', error.message);
@@ -56,57 +56,56 @@ class TerminalFreezeDiagnostic {
    */
   async detectStuckProcesses() {
     console.log('\n🔍 Checking for stuck processes...');
-    
+
     try {
       // Check for long-running TypeScript processes
       const tscProcesses = execSync('ps aux | grep -E "(tsc|typescript)" | grep -v grep', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       }).trim();
-      
+
       if (tscProcesses) {
         console.log('⚠️  Found TypeScript processes:');
         console.log(tscProcesses);
         this.diagnosticResults.stuckProcesses.push({
           type: 'typescript',
-          processes: tscProcesses.split('\n')
+          processes: tscProcesses.split('\n'),
         });
       }
-      
+
       // Check for long-running lint processes
       const lintProcesses = execSync('ps aux | grep -E "(lint|eslint)" | grep -v grep', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       }).trim();
-      
+
       if (lintProcesses) {
         console.log('⚠️  Found lint processes:');
         console.log(lintProcesses);
         this.diagnosticResults.stuckProcesses.push({
           type: 'lint',
-          processes: lintProcesses.split('\n')
+          processes: lintProcesses.split('\n'),
         });
       }
-      
+
       // Check for campaign processes
       const campaignProcesses = execSync('ps aux | grep -E "(campaign|batch)" | grep -v grep', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       }).trim();
-      
+
       if (campaignProcesses) {
         console.log('⚠️  Found campaign processes:');
         console.log(campaignProcesses);
         this.diagnosticResults.stuckProcesses.push({
           type: 'campaign',
-          processes: campaignProcesses.split('\n')
+          processes: campaignProcesses.split('\n'),
         });
       }
-      
+
       if (this.diagnosticResults.stuckProcesses.length === 0) {
         console.log('✅ No stuck processes detected');
       }
-      
     } catch (error) {
       // No processes found (normal)
       console.log('✅ No stuck processes detected');
@@ -118,19 +117,22 @@ class TerminalFreezeDiagnostic {
    */
   async detectInfiniteLoops() {
     console.log('\n🔍 Checking for infinite loops...');
-    
+
     try {
       // Check for processes running longer than 10 minutes
-      const longRunning = execSync('ps -eo pid,etime,comm | awk \'$2 ~ /[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/ || $2 ~ /[0-9]+-[0-9][0-9]:[0-9][0-9]/ {print}\'', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      }).trim();
-      
+      const longRunning = execSync(
+        "ps -eo pid,etime,comm | awk '$2 ~ /[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/ || $2 ~ /[0-9]+-[0-9][0-9]:[0-9][0-9]/ {print}'",
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      ).trim();
+
       if (longRunning) {
-        const lines = longRunning.split('\n').filter(line => 
-          line.includes('node') || line.includes('tsc') || line.includes('lint')
-        );
-        
+        const lines = longRunning
+          .split('\n')
+          .filter(line => line.includes('node') || line.includes('tsc') || line.includes('lint'));
+
         if (lines.length > 0) {
           console.log('⚠️  Found long-running processes (potential infinite loops):');
           lines.forEach(line => console.log(`   ${line}`));
@@ -141,7 +143,6 @@ class TerminalFreezeDiagnostic {
       } else {
         console.log('✅ No infinite loops detected');
       }
-      
     } catch (error) {
       console.log('✅ No infinite loops detected');
     }
@@ -152,25 +153,24 @@ class TerminalFreezeDiagnostic {
    */
   async detectMemoryLeaks() {
     console.log('\n🔍 Checking for memory leaks...');
-    
+
     try {
       // Check for high memory usage processes
       const highMemory = execSync('ps aux --sort=-%mem | head -10 | grep -E "(node|tsc|lint)"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       }).trim();
-      
+
       if (highMemory) {
         console.log('⚠️  Found high memory usage processes:');
         console.log(highMemory);
         this.diagnosticResults.memoryLeaks.push({
           type: 'high_memory',
-          processes: highMemory.split('\n')
+          processes: highMemory.split('\n'),
         });
       } else {
         console.log('✅ No memory leaks detected');
       }
-      
     } catch (error) {
       console.log('✅ No memory leaks detected');
     }
@@ -181,27 +181,30 @@ class TerminalFreezeDiagnostic {
    */
   async detectFileSystemLocks() {
     console.log('\n🔍 Checking for file system locks...');
-    
+
     const lockFiles = [
       '.explicit-any-campaign-progress.json',
       '.typescript-campaign-progress.json',
       '.campaign-lock',
       'node_modules/.cache',
-      '.next/cache'
+      '.next/cache',
     ];
-    
+
     for (const lockFile of lockFiles) {
       if (fs.existsSync(lockFile)) {
         try {
           const stats = fs.statSync(lockFile);
           const age = Date.now() - stats.mtime.getTime();
-          
-          if (age > 30 * 60 * 1000) { // Older than 30 minutes
-            console.log(`⚠️  Found stale lock file: ${lockFile} (${Math.round(age / 60000)} minutes old)`);
+
+          if (age > 30 * 60 * 1000) {
+            // Older than 30 minutes
+            console.log(
+              `⚠️  Found stale lock file: ${lockFile} (${Math.round(age / 60000)} minutes old)`,
+            );
             this.diagnosticResults.fileSystemLocks.push({
               file: lockFile,
               age: age,
-              stale: true
+              stale: true,
             });
           }
         } catch (error) {
@@ -209,7 +212,7 @@ class TerminalFreezeDiagnostic {
         }
       }
     }
-    
+
     if (this.diagnosticResults.fileSystemLocks.length === 0) {
       console.log('✅ No file system locks detected');
     }
@@ -220,12 +223,12 @@ class TerminalFreezeDiagnostic {
    */
   async checkCampaignStates() {
     console.log('\n🔍 Checking campaign states...');
-    
+
     const campaignFiles = [
       '.explicit-any-campaign-progress.json',
-      '.typescript-campaign-progress.json'
+      '.typescript-campaign-progress.json',
     ];
-    
+
     for (const file of campaignFiles) {
       if (fs.existsSync(file)) {
         try {
@@ -237,7 +240,7 @@ class TerminalFreezeDiagnostic {
           console.log(`⚠️  Corrupted campaign file: ${file}`);
           this.diagnosticResults.fileSystemLocks.push({
             file: file,
-            corrupted: true
+            corrupted: true,
           });
         }
       }
@@ -249,44 +252,44 @@ class TerminalFreezeDiagnostic {
    */
   generateRecommendations() {
     console.log('\n💡 Generating recommendations...');
-    
+
     if (this.diagnosticResults.stuckProcesses.length > 0) {
       this.diagnosticResults.recommendations.push({
         priority: 'HIGH',
         action: 'Kill stuck processes',
-        command: 'pkill -f "tsc|lint|campaign"'
+        command: 'pkill -f "tsc|lint|campaign"',
       });
     }
-    
+
     if (this.diagnosticResults.infiniteLoops.length > 0) {
       this.diagnosticResults.recommendations.push({
         priority: 'HIGH',
         action: 'Kill infinite loop processes',
-        command: 'Kill processes running longer than 10 minutes'
+        command: 'Kill processes running longer than 10 minutes',
       });
     }
-    
+
     if (this.diagnosticResults.memoryLeaks.length > 0) {
       this.diagnosticResults.recommendations.push({
         priority: 'MEDIUM',
         action: 'Restart high memory processes',
-        command: 'Kill and restart memory-intensive processes'
+        command: 'Kill and restart memory-intensive processes',
       });
     }
-    
+
     if (this.diagnosticResults.fileSystemLocks.length > 0) {
       this.diagnosticResults.recommendations.push({
         priority: 'MEDIUM',
         action: 'Clear stale lock files',
-        command: 'Remove old campaign progress files'
+        command: 'Remove old campaign progress files',
       });
     }
-    
+
     // Always recommend timeout protection
     this.diagnosticResults.recommendations.push({
       priority: 'LOW',
       action: 'Enable timeout protection',
-      command: 'Use TerminalFreezePreventionSystem for all operations'
+      command: 'Use TerminalFreezePreventionSystem for all operations',
     });
   }
 
@@ -296,13 +299,13 @@ class TerminalFreezeDiagnostic {
   displayResults() {
     console.log('\n📋 DIAGNOSTIC RESULTS');
     console.log('====================');
-    
+
     console.log(`\n🔍 Summary:`);
     console.log(`   Stuck processes: ${this.diagnosticResults.stuckProcesses.length}`);
     console.log(`   Infinite loops: ${this.diagnosticResults.infiniteLoops.length}`);
     console.log(`   Memory leaks: ${this.diagnosticResults.memoryLeaks.length}`);
     console.log(`   File locks: ${this.diagnosticResults.fileSystemLocks.length}`);
-    
+
     if (this.diagnosticResults.recommendations.length > 0) {
       console.log(`\n💡 Recommendations:`);
       this.diagnosticResults.recommendations.forEach((rec, index) => {
@@ -318,7 +321,7 @@ class TerminalFreezeDiagnostic {
   async emergencyRecovery() {
     console.log('\n🚨 EMERGENCY RECOVERY MODE');
     console.log('==========================');
-    
+
     try {
       // Kill TypeScript processes
       console.log('🛑 Killing TypeScript processes...');
@@ -327,7 +330,7 @@ class TerminalFreezeDiagnostic {
       } catch (error) {
         // Ignore if no processes found
       }
-      
+
       // Kill lint processes
       console.log('🛑 Killing lint processes...');
       try {
@@ -335,7 +338,7 @@ class TerminalFreezeDiagnostic {
       } catch (error) {
         // Ignore if no processes found
       }
-      
+
       // Kill campaign processes
       console.log('🛑 Killing campaign processes...');
       try {
@@ -343,22 +346,23 @@ class TerminalFreezeDiagnostic {
       } catch (error) {
         // Ignore if no processes found
       }
-      
+
       // Clear stale lock files
       console.log('🧹 Clearing stale lock files...');
       const lockFiles = [
         '.explicit-any-campaign-progress.json',
         '.typescript-campaign-progress.json',
-        '.campaign-lock'
+        '.campaign-lock',
       ];
-      
+
       for (const file of lockFiles) {
         if (fs.existsSync(file)) {
           try {
             const stats = fs.statSync(file);
             const age = Date.now() - stats.mtime.getTime();
-            
-            if (age > 30 * 60 * 1000) { // Older than 30 minutes
+
+            if (age > 30 * 60 * 1000) {
+              // Older than 30 minutes
               fs.unlinkSync(file);
               console.log(`   Removed stale file: ${file}`);
             }
@@ -367,7 +371,7 @@ class TerminalFreezeDiagnostic {
           }
         }
       }
-      
+
       // Clear Node.js cache
       console.log('🧹 Clearing Node.js cache...');
       try {
@@ -375,10 +379,9 @@ class TerminalFreezeDiagnostic {
       } catch (error) {
         // Ignore if cache doesn't exist
       }
-      
+
       console.log('✅ Emergency recovery completed');
       console.log('💡 Recommendation: Restart Kiro terminal for best results');
-      
     } catch (error) {
       console.error('❌ Emergency recovery failed:', error.message);
     }
@@ -390,10 +393,10 @@ class TerminalFreezeDiagnostic {
   async preventiveMaintenance() {
     console.log('\n🔧 PREVENTIVE MAINTENANCE');
     console.log('=========================');
-    
+
     // Set up process monitoring
     console.log('📊 Setting up process monitoring...');
-    
+
     // Create monitoring script
     const monitorScript = `
 #!/bin/bash
@@ -409,10 +412,10 @@ while true; do
   sleep 300 # Check every 5 minutes
 done
 `;
-    
+
     fs.writeFileSync('.process-monitor.sh', monitorScript);
     execSync('chmod +x .process-monitor.sh');
-    
+
     console.log('✅ Process monitoring script created');
     console.log('💡 Run: nohup ./.process-monitor.sh & to start monitoring');
   }
@@ -422,7 +425,7 @@ done
 async function main() {
   const args = process.argv.slice(2);
   const diagnostic = new TerminalFreezeDiagnostic();
-  
+
   if (args.includes('--emergency') || args.includes('-e')) {
     await diagnostic.emergencyRecovery();
   } else if (args.includes('--maintenance') || args.includes('-m')) {

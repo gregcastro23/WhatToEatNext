@@ -14,7 +14,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   trigger,
   position = 'top',
   delay = 500,
-  className = ''
+  className = '',
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -28,10 +28,10 @@ export const Tooltip: React.FC<TooltipProps> = ({
         const rect = triggerRef.current.getBoundingClientRect();
         const scrollX = window.pageXOffset;
         const scrollY = window.pageYOffset;
-        
+
         let x = rect.left + scrollX + rect.width / 2;
         let y = rect.top + scrollY;
-        
+
         switch (position) {
           case 'bottom':
             y = rect.bottom + scrollY + 8;
@@ -47,7 +47,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           default: // top
             y = rect.top + scrollY - 8;
         }
-        
+
         setTooltipPosition({ x, y });
         setIsVisible(true);
       }
@@ -75,11 +75,14 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const tooltipElement = isVisible ? (
     <div
-      className={`fixed z-50 px-3 py-2 text-sm bg-gray-900 text-white rounded-lg shadow-lg pointer-events-none transform -translate-x-1/2 ${
-        position === 'top' ? '-translate-y-full' : 
-        position === 'bottom' ? 'translate-y-0' :
-        position === 'left' ? '-translate-y-1/2 -translate-x-full' :
-        '-translate-y-1/2 translate-x-0'
+      className={`pointer-events-none fixed z-50 -translate-x-1/2 transform rounded-lg bg-gray-900 px-3 py-2 text-sm text-white shadow-lg ${
+        position === 'top'
+          ? '-translate-y-full'
+          : position === 'bottom'
+            ? 'translate-y-0'
+            : position === 'left'
+              ? '-translate-x-full -translate-y-1/2'
+              : '-translate-y-1/2 translate-x-0'
       } ${className}`}
       style={{
         left: tooltipPosition.x,
@@ -88,11 +91,14 @@ export const Tooltip: React.FC<TooltipProps> = ({
     >
       {content}
       <div
-        className={`absolute w-2 h-2 bg-gray-900 transform rotate-45 ${
-          position === 'top' ? 'bottom-[-4px] left-1/2 -translate-x-1/2' :
-          position === 'bottom' ? 'top-[-4px] left-1/2 -translate-x-1/2' :
-          position === 'left' ? 'right-[-4px] top-1/2 -translate-y-1/2' :
-          'left-[-4px] top-1/2 -translate-y-1/2'
+        className={`absolute h-2 w-2 rotate-45 transform bg-gray-900 ${
+          position === 'top'
+            ? 'bottom-[-4px] left-1/2 -translate-x-1/2'
+            : position === 'bottom'
+              ? 'left-1/2 top-[-4px] -translate-x-1/2'
+              : position === 'left'
+                ? 'right-[-4px] top-1/2 -translate-y-1/2'
+                : 'left-[-4px] top-1/2 -translate-y-1/2'
         }`}
       />
     </div>
@@ -113,12 +119,7 @@ interface HelpOverlayProps {
   children: React.ReactNode;
 }
 
-export const HelpOverlay: React.FC<HelpOverlayProps> = ({
-  isOpen,
-  onClose,
-  title,
-  children
-}) => {
+export const HelpOverlay: React.FC<HelpOverlayProps> = ({ isOpen, onClose, title, children }) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -138,28 +139,25 @@ export const HelpOverlay: React.FC<HelpOverlayProps> = ({
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div 
-        className="absolute inset-0 bg-black bg-opacity-50"
-        onClick={onClose}
-      />
-      <div className="relative bg-white rounded-lg shadow-xl max-w-2xl max-h-[80vh] overflow-auto m-4">
-        <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    <div className='fixed inset-0 z-50 flex items-center justify-center'>
+      <div className='absolute inset-0 bg-black bg-opacity-50' onClick={onClose} />
+      <div className='relative m-4 max-h-[80vh] max-w-2xl overflow-auto rounded-lg bg-white shadow-xl'>
+        <div className='flex items-center justify-between border-b p-6'>
+          <h2 className='text-xl font-semibold text-gray-900'>{title}</h2>
+          <button onClick={onClose} className='text-gray-400 transition-colors hover:text-gray-600'>
+            <svg className='h-6 w-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M6 18L18 6M6 6l12 12'
+              />
             </svg>
           </button>
         </div>
-        <div className="p-6">
-          {children}
-        </div>
+        <div className='p-6'>{children}</div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

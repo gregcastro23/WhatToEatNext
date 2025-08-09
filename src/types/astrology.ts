@@ -3,16 +3,16 @@
  */
 
 // Import standardized types from alchemy
-import { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
+import { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';
 
 import { ElementalCharacter } from '../constants/planetaryElements';
 
-import { 
-  PlanetaryPositionsType, 
-  ZodiacSignType, 
-  LunarPhaseType, 
+import {
+  PlanetaryPositionsType,
+  ZodiacSignType,
+  LunarPhaseType,
   ElementalPropertiesType,
-  AstrologicalStateType
+  AstrologicalStateType,
 } from './alchemy';
 
 // ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========
@@ -59,13 +59,13 @@ export type PlanetaryPositionDetails = {
  * Astrological Aspect Types
  * Standard astrological aspects between planets
  */
-export type AspectType = 
-  | 'conjunction' 
-  | 'sextile' 
-  | 'square' 
-  | 'trine' 
-  | 'opposition' 
-  | 'quincunx' 
+export type AspectType =
+  | 'conjunction'
+  | 'sextile'
+  | 'square'
+  | 'trine'
+  | 'opposition'
+  | 'quincunx'
   | 'semisextile';
 
 /**
@@ -144,18 +144,18 @@ export interface AstrologicalProfile {
 }
 
 export interface BirthChart {
-    elementalState: Record<ElementalCharacter, number>;
-    planetaryPositions: Record<string, number>;
-    ascendant: string;
-    lunarPhase: string;
-    aspects: AstrologicalAspect[];
+  elementalState: Record<ElementalCharacter, number>;
+  planetaryPositions: Record<string, number>;
+  ascendant: string;
+  lunarPhase: string;
+  aspects: AstrologicalAspect[];
 }
 
 export interface AstrologicalAspect {
-    planet1: string;
-    planet2: string;
-    aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile';
-    orb: number;
+  planet1: string;
+  planet2: string;
+  aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile';
+  orb: number;
 }
 
 /* Example code - commented out to avoid type errors
@@ -172,7 +172,7 @@ const _compatibility = foodSystem.calculateFoodCompatibility(
 */
 
 // Export the LunarPhase type if not already defined in alchemy.ts
-export type AstrologyLunarPhase = 
+export type AstrologyLunarPhase =
   | 'new_moon'
   | 'waxing_crescent'
   | 'first_quarter'
@@ -180,7 +180,7 @@ export type AstrologyLunarPhase =
   | 'full_moon'
   | 'waning_gibbous'
   | 'last_quarter'
-  | 'waning_crescent'; 
+  | 'waning_crescent';
 
 // Re-export types for convenience
-export type { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
+export type { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';

@@ -5,4 +5,4 @@ export function resolveCSSModule(modulePath) {
     console.warn(`CSS Module not found: ${modulePath}`);
     return {};
   }
-} 
+}

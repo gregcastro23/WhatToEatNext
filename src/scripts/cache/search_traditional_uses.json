@@ -4,20 +4,14 @@
   "totalPages": 0,
   "pageList": [],
   "foodSearchCriteria": {
-    "dataType": [
-      "SR Legacy",
-      "Survey (FNDDS)"
-    ],
+    "dataType": ["SR Legacy", "Survey (FNDDS)"],
     "query": "traditional_uses",
     "generalSearchInput": "traditional_uses",
     "pageNumber": 1,
     "numberOfResultsPerPage": 50,
     "pageSize": 10,
     "requireAllWords": false,
-    "foodTypes": [
-      "SR Legacy",
-      "Survey (FNDDS)"
-    ]
+    "foodTypes": ["SR Legacy", "Survey (FNDDS)"]
   },
   "foods": [],
   "aggregations": {

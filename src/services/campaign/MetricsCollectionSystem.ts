@@ -8,11 +8,7 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import {
-  ProgressMetrics,
-  ErrorCategory,
-  ValidationResult
-} from '../../types/campaign';
+import { ProgressMetrics, ErrorCategory, ValidationResult } from '../../types/campaign';
 
 export interface DetailedMetrics extends ProgressMetrics {
   timestamp: Date;
@@ -87,7 +83,10 @@ export class MetricsCollectionSystem {
         try {
           await this.collectSnapshot();
         } catch (error) {
-          console.error('❌ Error during metrics collection:', (error  as Record<string, unknown>).message || 'Unknown error');
+          console.error(
+            '❌ Error during metrics collection:',
+            (error as Record<string, unknown>).message || 'Unknown error',
+          );
         }
       })();
     }, intervalMs);
@@ -111,21 +110,25 @@ export class MetricsCollectionSystem {
   /**
    * Collect comprehensive metrics snapshot
    */
-  async collectSnapshot(phase?: string, milestone?: string, notes?: string): Promise<MetricsSnapshot> {
+  async collectSnapshot(
+    phase?: string,
+    milestone?: string,
+    notes?: string,
+  ): Promise<MetricsSnapshot> {
     const timestamp = new Date();
     const id = `snapshot_${timestamp.getTime()}`;
 
     console.log('📊 Collecting metrics snapshot...');
 
     const metrics = await this.collectDetailedMetrics();
-    
+
     const snapshot: MetricsSnapshot = {
       id,
       timestamp,
       metrics,
       phase: phase || 'unknown',
       milestone,
-      notes
+      notes,
     };
 
     this.snapshots.push(snapshot);
@@ -148,13 +151,13 @@ export class MetricsCollectionSystem {
       lintingMetrics,
       buildMetrics,
       resourceMetrics,
-      enterpriseSystemCount
+      enterpriseSystemCount,
     ] = await Promise.all([
       this.collectTypeScriptMetrics(),
       this.collectLintingMetrics(),
       this.collectBuildMetrics(),
       this.collectResourceMetrics(),
-      this.getEnterpriseSystemCount()
+      this.getEnterpriseSystemCount(),
     ]);
 
     const trendData = this.calculateTrendData();
@@ -165,30 +168,34 @@ export class MetricsCollectionSystem {
         current: typeScriptMetrics.count,
         target: 0,
         reduction: Math.max(0, 86 - typeScriptMetrics.count),
-        percentage: typeScriptMetrics.count >= 0 ? Math.round(((86 - typeScriptMetrics.count) / 86) * 100) : 0
+        percentage:
+          typeScriptMetrics.count >= 0
+            ? Math.round(((86 - typeScriptMetrics.count) / 86) * 100)
+            : 0,
       },
       lintingWarnings: {
         current: lintingMetrics.count,
         target: 0,
         reduction: Math.max(0, 4506 - lintingMetrics.count),
-        percentage: lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0
+        percentage:
+          lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0,
       },
       buildPerformance: {
         currentTime: buildMetrics.buildTime,
         targetTime: 10,
         cacheHitRate: buildMetrics.cacheHitRate,
-        memoryUsage: buildMetrics.memoryUsage
+        memoryUsage: buildMetrics.memoryUsage,
       },
       enterpriseSystems: {
         current: enterpriseSystemCount,
         target: 200,
-        transformedExports: Math.max(0, enterpriseSystemCount - 0)
+        transformedExports: Math.max(0, enterpriseSystemCount - 0),
       },
       errorBreakdown: typeScriptMetrics.breakdown,
       warningBreakdown: lintingMetrics.breakdown,
       buildMetrics,
       resourceMetrics,
-      trendData
+      trendData,
     };
 
     return detailedMetrics;
@@ -197,27 +204,39 @@ export class MetricsCollectionSystem {
   /**
    * Collect TypeScript error metrics with detailed breakdown
    */
-  private async collectTypeScriptMetrics(): Promise<{count: number, breakdown: Record<string, number>}> {
+  private async collectTypeScriptMetrics(): Promise<{
+    count: number;
+    breakdown: Record<string, number>;
+  }> {
     try {
       // Get total error count
-      const countOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      
+      const countOutput = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
+
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by error type
       const breakdown: Record<string, number> = {};
-      
+
       if (count > 0) {
         try {
-          const breakdownOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed \'s/.*error //\' | cut -d\':\' -f1 | sort | uniq -c | sort -nr', {
-            encoding: 'utf8',
-            stdio: 'pipe'
-          });
+          const breakdownOutput = execSync(
+            "yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr",
+            {
+              encoding: 'utf8',
+              stdio: 'pipe',
+            },
+          );
 
-          const lines = breakdownOutput.trim().split('\n').filter(line => line.trim());
+          const lines = breakdownOutput
+            .trim()
+            .split('\n')
+            .filter(line => line.trim());
           for (const line of lines) {
             const match = line.trim().match(/^\s*(\d+)\s+(.+)$/);
             if (match) {
@@ -227,14 +246,19 @@ export class MetricsCollectionSystem {
             }
           }
         } catch (error) {
-          console.warn('Could not get TypeScript error breakdown:', (error  as Record<string, unknown>).message || 'Unknown error');
+          console.warn(
+            'Could not get TypeScript error breakdown:',
+            (error as Record<string, unknown>).message || 'Unknown error',
+          );
         }
       }
 
       return { count, breakdown };
-
     } catch (error) {
-      console.warn('Could not collect TypeScript metrics:', (error  as Record<string, unknown>).message || 'Unknown error');
+      console.warn(
+        'Could not collect TypeScript metrics:',
+        (error as Record<string, unknown>).message || 'Unknown error',
+      );
       return { count: -1, breakdown: {} };
     }
   }
@@ -242,44 +266,54 @@ export class MetricsCollectionSystem {
   /**
    * Collect linting warning metrics with categorized breakdown
    */
-  private async collectLintingMetrics(): Promise<{count: number, breakdown: Record<string, number>}> {
+  private async collectLintingMetrics(): Promise<{
+    count: number;
+    breakdown: Record<string, number>;
+  }> {
     try {
       // Get total warning count
       const countOutput = execSync('yarn lint 2>&1 | grep -c "warning" || echo "0"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by warning type
       const breakdown: Record<string, number> = {};
-      
+
       if (count > 0) {
         try {
           const lintOutput = execSync('yarn lint 2>&1', {
             encoding: 'utf8',
-            stdio: 'pipe'
+            stdio: 'pipe',
           });
 
           const lines = lintOutput.split('\n');
           for (const line of lines) {
             // Look for ESLint warning patterns
-            const warningMatch = line.match(/warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/);
+            const warningMatch = line.match(
+              /warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/,
+            );
             if (warningMatch) {
               const ruleType = warningMatch[2];
               breakdown[ruleType] = (breakdown[ruleType] || 0) + 1;
             }
           }
         } catch (error) {
-          console.warn('Could not get linting warning breakdown:', (error  as Record<string, unknown>).message || 'Unknown error');
+          console.warn(
+            'Could not get linting warning breakdown:',
+            (error as Record<string, unknown>).message || 'Unknown error',
+          );
         }
       }
 
       return { count, breakdown };
-
     } catch (error) {
-      console.warn('Could not collect linting metrics:', (error  as Record<string, unknown>).message || 'Unknown error');
+      console.warn(
+        'Could not collect linting metrics:',
+        (error as Record<string, unknown>).message || 'Unknown error',
+      );
       return { count: -1, breakdown: {} };
     }
   }
@@ -298,23 +332,28 @@ export class MetricsCollectionSystem {
       const buildStart = Date.now();
       execSync('yarn build', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       buildTime = (Date.now() - buildStart) / 1000;
 
       // Calculate compilation speed (rough estimate)
       const sourceFiles = this.countSourceFiles();
       compilationSpeed = sourceFiles / buildTime;
-
     } catch (error) {
-      console.warn('Build failed during metrics collection:', (error  as Record<string, unknown>).message || 'Unknown error');
+      console.warn(
+        'Build failed during metrics collection:',
+        (error as Record<string, unknown>).message || 'Unknown error',
+      );
     }
 
     try {
       // Get bundle size
       bundleSize = await this.getBundleSize();
     } catch (error) {
-      console.warn('Could not measure bundle size:', (error  as Record<string, unknown>).message || 'Unknown error');
+      console.warn(
+        'Could not measure bundle size:',
+        (error as Record<string, unknown>).message || 'Unknown error',
+      );
     }
 
     return {
@@ -324,7 +363,7 @@ export class MetricsCollectionSystem {
       memoryUsage: this.getMemoryUsage(),
       cpuUsage: await this.getCpuUsage(),
       diskUsage: await this.getDiskUsage(),
-      compilationSpeed
+      compilationSpeed,
     };
   }
 
@@ -333,11 +372,11 @@ export class MetricsCollectionSystem {
    */
   private async collectResourceMetrics(): Promise<ResourceMetrics> {
     const nodeMemoryUsage = process.memoryUsage();
-    
+
     return {
       nodeMemoryUsage,
       systemMemory: await this.getSystemMemory(),
-      diskSpace: await this.getDiskSpace()
+      diskSpace: await this.getDiskSpace(),
     };
   }
 
@@ -350,32 +389,42 @@ export class MetricsCollectionSystem {
         errorReductionRate: 0,
         warningReductionRate: 0,
         buildTimeImprovement: 0,
-        systemGrowthRate: 0
+        systemGrowthRate: 0,
       };
     }
 
     const recent = this.snapshots.slice(-10); // Last 10 snapshots
-    const timeSpanHours = (recent[recent.length - 1].timestamp.getTime() - recent[0].timestamp.getTime()) / (1000 * 60 * 60);
+    const timeSpanHours =
+      (recent[recent.length - 1].timestamp.getTime() - recent[0].timestamp.getTime()) /
+      (1000 * 60 * 60);
 
     if (timeSpanHours === 0) {
       return {
         errorReductionRate: 0,
         warningReductionRate: 0,
         buildTimeImprovement: 0,
-        systemGrowthRate: 0
+        systemGrowthRate: 0,
       };
     }
 
-    const errorReduction = recent[0].metrics.typeScriptErrors.current - recent[recent.length - 1].metrics.typeScriptErrors.current;
-    const warningReduction = recent[0].metrics.lintingWarnings.current - recent[recent.length - 1].metrics.lintingWarnings.current;
-    const buildTimeImprovement = recent[0].metrics.buildPerformance.currentTime - recent[recent.length - 1].metrics.buildPerformance.currentTime;
-    const systemGrowth = recent[recent.length - 1].metrics.enterpriseSystems.current - recent[0].metrics.enterpriseSystems.current;
+    const errorReduction =
+      recent[0].metrics.typeScriptErrors.current -
+      recent[recent.length - 1].metrics.typeScriptErrors.current;
+    const warningReduction =
+      recent[0].metrics.lintingWarnings.current -
+      recent[recent.length - 1].metrics.lintingWarnings.current;
+    const buildTimeImprovement =
+      recent[0].metrics.buildPerformance.currentTime -
+      recent[recent.length - 1].metrics.buildPerformance.currentTime;
+    const systemGrowth =
+      recent[recent.length - 1].metrics.enterpriseSystems.current -
+      recent[0].metrics.enterpriseSystems.current;
 
     return {
       errorReductionRate: errorReduction / timeSpanHours,
       warningReductionRate: warningReduction / timeSpanHours,
       buildTimeImprovement: buildTimeImprovement / timeSpanHours,
-      systemGrowthRate: systemGrowth / timeSpanHours
+      systemGrowthRate: systemGrowth / timeSpanHours,
     };
   }
 
@@ -386,7 +435,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -403,7 +452,7 @@ export class MetricsCollectionSystem {
         if (fs.existsSync(dir)) {
           const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
-            stdio: 'pipe'
+            stdio: 'pipe',
           });
           totalSize += parseInt(output.trim()) || 0;
         }
@@ -430,7 +479,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('ps -o %cpu -p $$ | tail -1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseFloat(output.trim()) || 0;
     } catch (error) {
@@ -442,7 +491,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('du -sh . | cut -f1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       // Convert to MB (rough estimation)
       const sizeStr = output.trim();
@@ -461,7 +510,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -473,9 +522,9 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('free -m | grep Mem', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       const match = output.match(/Mem:\s+(\d+)\s+(\d+)\s+(\d+)/);
       if (match) {
         const total = parseInt(match[1]);
@@ -485,7 +534,7 @@ export class MetricsCollectionSystem {
           total,
           used,
           free,
-          percentage: Math.round((used / total) * 100)
+          percentage: Math.round((used / total) * 100),
         };
       }
     } catch (error) {
@@ -496,7 +545,7 @@ export class MetricsCollectionSystem {
       total: 0,
       used: 0,
       free: 0,
-      percentage: 0
+      percentage: 0,
     };
   }
 
@@ -504,20 +553,20 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('df -h . | tail -1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       const parts = output.trim().split(/\s+/);
       if (parts.length >= 4) {
         const total = this.parseSize(parts[1]);
         const used = this.parseSize(parts[2]);
         const free = this.parseSize(parts[3]);
-        
+
         return {
           total,
           used,
           free,
-          percentage: Math.round((used / total) * 100)
+          percentage: Math.round((used / total) * 100),
         };
       }
     } catch (error) {
@@ -528,7 +577,7 @@ export class MetricsCollectionSystem {
       total: 0,
       used: 0,
       free: 0,
-      percentage: 0
+      percentage: 0,
     };
   }
 
@@ -557,12 +606,15 @@ export class MetricsCollectionSystem {
       totalSnapshots: this.snapshots.length,
       snapshots: this.snapshots,
       summary: {
-        collectionPeriod: this.snapshots.length > 0 ? {
-          start: this.snapshots[0].timestamp,
-          end: this.snapshots[this.snapshots.length - 1].timestamp
-        } : null,
-        trends: this.calculateTrendData()
-      }
+        collectionPeriod:
+          this.snapshots.length > 0
+            ? {
+                start: this.snapshots[0].timestamp,
+                end: this.snapshots[this.snapshots.length - 1].timestamp,
+              }
+            : null,
+        trends: this.calculateTrendData(),
+      },
     };
 
     fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));

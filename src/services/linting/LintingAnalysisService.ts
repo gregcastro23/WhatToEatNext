@@ -1,6 +1,6 @@
 /**
  * LintingAnalysisService - Main integration service for linting error analysis
- * 
+ *
  * This service orchestrates the complete linting analysis workflow, integrating
  * error analysis, classification, domain detection, and resolution strategy generation.
  */
@@ -10,12 +10,12 @@ import { log } from '@/services/LoggingService';
 import { DomainContextDetector, FileAnalysis, DomainContext } from './DomainContextDetector';
 import { ErrorClassificationSystem, ErrorClassification } from './ErrorClassificationSystem';
 import { LintingErrorAnalyzer, CategorizedErrors, LintingIssue } from './LintingErrorAnalyzer';
-import { 
-  ResolutionStrategyGenerator, 
-  ResolutionStrategy, 
+import {
+  ResolutionStrategyGenerator,
+  ResolutionStrategy,
   StrategyGenerationContext,
   ProjectContext,
-  OptimizedResolutionPlan
+  OptimizedResolutionPlan,
 } from './ResolutionStrategyGenerator';
 
 export interface ComprehensiveAnalysisResult {
@@ -91,63 +91,67 @@ export class LintingAnalysisService {
    * Perform comprehensive linting analysis
    */
   async performComprehensiveAnalysis(
-    options: LintingAnalysisOptions = {}
+    options: LintingAnalysisOptions = {},
   ): Promise<ComprehensiveAnalysisResult> {
     const startTime = Date.now();
-    
+
     log.info('🚀 Starting comprehensive linting analysis...');
-    
+
     try {
       // Step 1: Analyze all linting issues
       log.info('📊 Analyzing linting issues...');
       const categorizedErrors = await this.errorAnalyzer.analyzeAllIssues();
-      
+
       // Step 2: Classify errors with detailed analysis
       log.info('🔍 Classifying errors...');
       const classifications = await this.classifyErrors(categorizedErrors, options.focusAreas);
-      
+
       // Step 3: Analyze files for domain context (if requested)
       let fileAnalyses: FileAnalysis[] = [];
       if (options.includeFileAnalysis !== false) {
         log.info('🏗️ Analyzing domain contexts...');
         fileAnalyses = await this.analyzeFileContexts(categorizedErrors);
       }
-      
+
       // Step 4: Generate resolution strategies (if requested)
       let resolutionStrategies: ResolutionStrategy[] = [];
       let optimizedPlan: OptimizedResolutionPlan = this.createEmptyPlan();
-      
+
       if (options.generateStrategies !== false) {
         log.info('🎯 Generating resolution strategies...');
         const strategyResult = await this.generateResolutionStrategies(
           categorizedErrors,
           classifications,
           fileAnalyses,
-          options.projectContext || {}
+          options.projectContext || {},
         );
         resolutionStrategies = strategyResult.strategies;
         optimizedPlan = strategyResult.optimizedPlan;
       }
-      
+
       // Step 5: Generate summary and recommendations
       log.info('📋 Generating recommendations...');
-      const summary = this.generateSummary(categorizedErrors, classifications, resolutionStrategies);
-      const recommendations = this.generateRecommendations(
-        categorizedErrors, 
-        classifications, 
+      const summary = this.generateSummary(
+        categorizedErrors,
+        classifications,
         resolutionStrategies,
-        options
       );
-      
+      const recommendations = this.generateRecommendations(
+        categorizedErrors,
+        classifications,
+        resolutionStrategies,
+        options,
+      );
+
       // Step 6: Calculate metrics
       const metrics = this.calculateMetrics(
         startTime,
         categorizedErrors,
         classifications,
         fileAnalyses,
-        resolutionStrategies
+        resolutionStrategies,
       );
-      
+
       const result: ComprehensiveAnalysisResult = {
         summary,
         categorizedErrors,
@@ -155,14 +159,13 @@ export class LintingAnalysisService {
         resolutionStrategies,
         optimizedPlan,
         recommendations,
-        metrics
+        metrics,
       };
-      
+
       log.info('✅ Comprehensive analysis complete ?? undefined');
       this.logAnalysisResults(result);
-      
+
       return result;
-      
     } catch (error) {
       console.error('❌ Analysis failed:', error);
       throw error;
@@ -179,24 +182,28 @@ export class LintingAnalysisService {
     criticalIssues: LintingIssue[];
   }> {
     log.info('⚡ Performing quick linting analysis...');
-    
+
     const categorizedErrors = await this.errorAnalyzer.analyzeAllIssues();
     const classifications = await this.classifyErrors(categorizedErrors);
-    
+
     // Get top issues by frequency
     const issueFrequency = new Map<string, number>();
     for (const issue of Object.values(categorizedErrors.byCategory).flat()) {
       const count = issueFrequency.get(issue.rule) || 0;
       issueFrequency.set(issue.rule, count + 1);
     }
-    
+
     const topIssues = Array.from(issueFrequency.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
-      .map(([rule]) => Object.values(categorizedErrors.byCategory).flat().find(i => i.rule === rule))
+      .map(([rule]) =>
+        Object.values(categorizedErrors.byCategory)
+          .flat()
+          .find(i => i.rule === rule),
+      )
       .filter((issue): issue is LintingIssue => issue !== undefined)
       .filter(Boolean);
-    
+
     // Get quick wins (auto-fixable, low risk)
     const quickWins = categorizedErrors.autoFixable
       .filter(issue => {
@@ -204,16 +211,17 @@ export class LintingAnalysisService {
         return classification && classification.riskProfile.overall === 'low';
       })
       .slice(0, 10);
-    
+
     // Get critical issues
-    const criticalIssues = Object.values(categorizedErrors.byCategory).flat()
+    const criticalIssues = Object.values(categorizedErrors.byCategory)
+      .flat()
       .filter(issue => {
         const classification = classifications.find(c => c.ruleId === issue.rule);
         return classification && classification.severity.level === 'critical';
       });
-    
+
     const summary = this.generateSummary(categorizedErrors, classifications, []);
-    
+
     return { summary, topIssues, quickWins, criticalIssues };
   }
 
@@ -222,27 +230,27 @@ export class LintingAnalysisService {
    */
   private async classifyErrors(
     categorizedErrors: CategorizedErrors,
-    focusAreas?: string[]
+    focusAreas?: string[],
   ): Promise<ErrorClassification[]> {
     const allIssues = Object.values(categorizedErrors.byCategory).flat();
     const classifications: ErrorClassification[] = [];
-    
+
     for (const issue of allIssues) {
       // Skip if not in focus areas
       if (focusAreas && !focusAreas.includes(issue.category.primary)) {
         continue;
       }
-      
+
       const classification = this.classificationSystem.classifyError(
         issue.rule,
         issue.message,
         issue.file,
-        issue.autoFixable
+        issue.autoFixable,
       );
-      
+
       classifications.push(classification);
     }
-    
+
     return classifications;
   }
 
@@ -250,10 +258,14 @@ export class LintingAnalysisService {
    * Analyze file contexts for domain detection
    */
   private async analyzeFileContexts(categorizedErrors: CategorizedErrors): Promise<FileAnalysis[]> {
-    const uniqueFiles = Array.from(new Set(
-      Object.values(categorizedErrors.byCategory).flat().map(issue => issue.file)
-    ));
-    
+    const uniqueFiles = Array.from(
+      new Set(
+        Object.values(categorizedErrors.byCategory)
+          .flat()
+          .map(issue => issue.file),
+      ),
+    );
+
     return await this.domainDetector.analyzeFiles(uniqueFiles);
   }
 
@@ -264,11 +276,11 @@ export class LintingAnalysisService {
     categorizedErrors: CategorizedErrors,
     classifications: ErrorClassification[],
     fileAnalyses: FileAnalysis[],
-    projectContext: Partial<ProjectContext>
+    projectContext: Partial<ProjectContext>,
   ): Promise<{ strategies: ResolutionStrategy[]; optimizedPlan: OptimizedResolutionPlan }> {
     const contexts: StrategyGenerationContext[] = [];
     const allIssues = Object.values(categorizedErrors.byCategory).flat();
-    
+
     // Create default project context
     const fullProjectContext: ProjectContext = {
       hasTests: true,
@@ -276,23 +288,23 @@ export class LintingAnalysisService {
       teamSize: 'small',
       riskTolerance: 'moderate',
       timeConstraints: 'moderate',
-      ...projectContext
+      ...projectContext,
     };
-    
+
     for (const issue of allIssues) {
       const classification = classifications.find(c => c.ruleId === issue.rule);
       const fileAnalysis = fileAnalyses.find(f => f.filePath === issue.file);
-      
+
       if (classification && fileAnalysis) {
         contexts.push({
           errorClassification: classification,
           domainContext: fileAnalysis.domainContext,
           fileAnalysis,
-          projectContext: fullProjectContext
+          projectContext: fullProjectContext,
         });
       }
     }
-    
+
     return this.strategyGenerator.generateBatchStrategies(contexts);
   }
 
@@ -302,23 +314,26 @@ export class LintingAnalysisService {
   private generateSummary(
     categorizedErrors: CategorizedErrors,
     classifications: ErrorClassification[],
-    strategies: ResolutionStrategy[]
+    strategies: ResolutionStrategy[],
   ): AnalysisSummary {
     const criticalClassifications = classifications.filter(c => c.severity.level === 'critical');
-    const domainSpecificIssues = Object.values(categorizedErrors.byCategory).flat()
+    const domainSpecificIssues = Object.values(categorizedErrors.byCategory)
+      .flat()
       .filter(issue => issue.domainContext?.requiresSpecialHandling);
-    
+
     const estimatedTime = strategies.reduce((sum, s) => sum + s.estimatedTime, 0);
-    
+
     // Determine overall risk level
     const highRiskCount = classifications.filter(c => c.riskProfile.overall === 'high').length;
-    const criticalRiskCount = classifications.filter(c => c.riskProfile.overall === 'critical').length;
-    
+    const criticalRiskCount = classifications.filter(
+      c => c.riskProfile.overall === 'critical',
+    ).length;
+
     let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low';
     if (criticalRiskCount > 0) overallRiskLevel = 'critical';
     else if (highRiskCount > 10) overallRiskLevel = 'high';
     else if (highRiskCount > 0 || categorizedErrors.errors > 50) overallRiskLevel = 'medium';
-    
+
     return {
       totalIssues: categorizedErrors.total,
       errorCount: categorizedErrors.errors,
@@ -327,7 +342,7 @@ export class LintingAnalysisService {
       domainSpecificCount: domainSpecificIssues.length,
       criticalIssuesCount: criticalClassifications.length,
       estimatedResolutionTime: estimatedTime,
-      overallRiskLevel
+      overallRiskLevel,
     };
   }
 
@@ -338,10 +353,10 @@ export class LintingAnalysisService {
     categorizedErrors: CategorizedErrors,
     classifications: ErrorClassification[],
     strategies: ResolutionStrategy[],
-    options: LintingAnalysisOptions
+    options: LintingAnalysisOptions,
   ): AnalysisRecommendation[] {
     const recommendations: AnalysisRecommendation[] = [];
-    
+
     // Immediate actions for critical issues
     const criticalIssues = classifications.filter(c => c.severity.level === 'critical');
     if (criticalIssues.length > 0) {
@@ -355,11 +370,11 @@ export class LintingAnalysisService {
         actionItems: [
           'Review each critical issue individually',
           'Fix or suppress critical issues before proceeding',
-          'Validate fixes with comprehensive testing'
-        ]
+          'Validate fixes with comprehensive testing',
+        ],
       });
     }
-    
+
     // Quick wins for auto-fixable issues
     if (categorizedErrors.autoFixable.length > 10) {
       recommendations.push({
@@ -372,13 +387,14 @@ export class LintingAnalysisService {
         actionItems: [
           'Run ESLint with --fix flag for safe auto-fixes',
           'Validate changes with build and test suite',
-          'Review auto-fixed changes before committing'
-        ]
+          'Review auto-fixed changes before committing',
+        ],
       });
     }
-    
+
     // Domain-specific handling
-    const domainIssues = Object.values(categorizedErrors.byCategory).flat()
+    const domainIssues = Object.values(categorizedErrors.byCategory)
+      .flat()
       .filter(issue => issue.domainContext?.requiresSpecialHandling);
     if (domainIssues.length > 0) {
       recommendations.push({
@@ -391,11 +407,11 @@ export class LintingAnalysisService {
         actionItems: [
           'Schedule review with domain experts',
           'Create domain-specific linting rules',
-          'Document domain-specific patterns and exceptions'
-        ]
+          'Document domain-specific patterns and exceptions',
+        ],
       });
     }
-    
+
     // TypeScript improvements
     const tsIssues = categorizedErrors.byCategory['typescript'] || [];
     if (tsIssues.length > 20) {
@@ -409,11 +425,11 @@ export class LintingAnalysisService {
         actionItems: [
           'Replace explicit any types with proper types',
           'Fix unused variable warnings',
-          'Improve type definitions for better inference'
-        ]
+          'Improve type definitions for better inference',
+        ],
       });
     }
-    
+
     // Long-term strategy
     if (categorizedErrors.total > 100) {
       recommendations.push({
@@ -427,11 +443,11 @@ export class LintingAnalysisService {
           'Implement pre-commit hooks for linting',
           'Set up CI/CD linting validation',
           'Create team linting standards and guidelines',
-          'Regular linting debt reduction sprints'
-        ]
+          'Regular linting debt reduction sprints',
+        ],
       });
     }
-    
+
     // Strategic recommendations based on options
     if (options.riskTolerance === 'conservative') {
       recommendations.push({
@@ -445,11 +461,11 @@ export class LintingAnalysisService {
           'Implement stricter linting rules',
           'Require code review for all changes',
           'Set up automated quality gates',
-          'Regular code quality audits'
-        ]
+          'Regular code quality audits',
+        ],
       });
     }
-    
+
     return recommendations;
   }
 
@@ -461,49 +477,54 @@ export class LintingAnalysisService {
     categorizedErrors: CategorizedErrors,
     classifications: ErrorClassification[],
     fileAnalyses: FileAnalysis[],
-    strategies: ResolutionStrategy[]
+    strategies: ResolutionStrategy[],
   ): AnalysisMetrics {
     const analysisTime = Date.now() - startTime;
     const filesAnalyzed = fileAnalyses.length;
-    
+
     // Get unique rules triggered
-    const rulesTriggered = Array.from(new Set(
-      Object.values(categorizedErrors.byCategory).flat().map(issue => issue.rule)
-    ));
-    
+    const rulesTriggered = Array.from(
+      new Set(
+        Object.values(categorizedErrors.byCategory)
+          .flat()
+          .map(issue => issue.rule),
+      ),
+    );
+
     // Calculate domain distribution
     const domainDistribution: Record<string, number> = {};
     for (const analysis of fileAnalyses) {
       const domain = analysis.domainContext.type;
       domainDistribution[domain] = (domainDistribution[domain] || 0) + 1;
     }
-    
+
     // Calculate severity distribution
     const severityDistribution: Record<string, number> = {};
     for (const classification of classifications) {
       const severity = classification.severity.level;
       severityDistribution[severity] = (severityDistribution[severity] || 0) + 1;
     }
-    
+
     // Calculate complexity distribution
     const complexityDistribution: Record<string, number> = {};
     for (const strategy of strategies) {
       const complexity = strategy.complexity;
       complexityDistribution[complexity] = (complexityDistribution[complexity] || 0) + 1;
     }
-    
+
     // Calculate confidence scores
     const confidenceScores = strategies.map(s => s.confidence);
-    const average = confidenceScores.reduce((sum, score) => sum + score, 0) / confidenceScores.length || 0;
+    const average =
+      confidenceScores.reduce((sum, score) => sum + score, 0) / confidenceScores.length || 0;
     const sorted = [...confidenceScores].sort((a, b) => a - b);
     const median = sorted[Math.floor(sorted.length / 2)] || 0;
-    
+
     const confidenceDistribution: Record<string, number> = {};
     for (const score of confidenceScores) {
       const bucket = score < 0.3 ? 'low' : score < 0.7 ? 'medium' : 'high';
       confidenceDistribution[bucket] = (confidenceDistribution[bucket] || 0) + 1;
     }
-    
+
     return {
       analysisTime,
       filesAnalyzed,
@@ -514,8 +535,8 @@ export class LintingAnalysisService {
       confidenceScores: {
         average,
         median,
-        distribution: confidenceDistribution
-      }
+        distribution: confidenceDistribution,
+      },
     };
   }
 
@@ -530,7 +551,7 @@ export class LintingAnalysisService {
       executionOrder: [],
       parallelizableWork: 0,
       riskDistribution: {},
-      recommendations: []
+      recommendations: [],
     };
   }
 
@@ -548,7 +569,7 @@ export class LintingAnalysisService {
     log.info(`🚨 Critical: ${result.summary.criticalIssuesCount}`);
     log.info(`⏱️ Estimated Resolution Time: ${result.summary.estimatedResolutionTime} minutes`);
     log.info(`🎚️ Overall Risk Level: ${result.summary.overallRiskLevel.toUpperCase()}`);
-    
+
     log.info('\n📋 TOP RECOMMENDATIONS:');
     result.recommendations
       .filter(r => r.priority === 'critical' || r.priority === 'high')
@@ -557,13 +578,15 @@ export class LintingAnalysisService {
         log.info(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`);
         log.info(`   ${rec.description}`);
       });
-    
+
     log.info('\n📈 ANALYSIS METRICS:');
     log.info(`⏱️ Analysis Time: ${result.metrics.analysisTime}ms`);
     log.info(`📁 Files Analyzed: ${result.metrics.filesAnalyzed}`);
     log.info(`📏 Rules Triggered: ${result.metrics.rulesTriggered.length}`);
-    log.info(`🎯 Average Confidence: ${Math.round(result.metrics.confidenceScores.average * 100)}%`);
-    
+    log.info(
+      `🎯 Average Confidence: ${Math.round(result.metrics.confidenceScores.average * 100)}%`,
+    );
+
     log.info('==========================================\n');
   }
 }

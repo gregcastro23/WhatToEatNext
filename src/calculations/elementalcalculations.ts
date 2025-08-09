@@ -1,6 +1,5 @@
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import type {
-  Season} from '@/types/alchemy';
+import type { Season } from '@/types/alchemy';
 import { ElementalEnergy, ElementType, signElementMap } from '@/types/elements';
 
 // Define the types needed for ElementalCalculator
@@ -49,10 +48,7 @@ export class ElementalCalculator {
    * @param season The current season
    * @returns A score from 0-100 representing the effectiveness
    */
-  static calculateSeasonalEffectiveness(
-    recipe: unknown,
-    season: string
-  ): number {
+  static calculateSeasonalEffectiveness(recipe: unknown, season: string): number {
     const recipeData = recipe as any;
     if (!recipeData?.elementalProperties) return 0;
 
@@ -61,21 +57,14 @@ export class ElementalCalculator {
 
     // Calculate base seasonal alignment
     Object.entries(recipeData.elementalProperties).forEach(([element, value]) => {
-      const modifier =
-        seasonalModifiers[element as keyof ElementalProperties] || 0;
+      const modifier = seasonalModifiers[element as keyof ElementalProperties] || 0;
       score += (value as number) * modifier * 100;
     });
 
     // Apply seasonal bonuses/penalties
     if (recipeData.season) {
-      const seasons = Array.isArray(recipeData.season)
-        ? recipeData.season
-        : [recipeData.season];
-      if (
-        seasons
-          .map((s: string) => s.toLowerCase())
-          .includes(season.toLowerCase())
-      ) {
+      const seasons = Array.isArray(recipeData.season) ? recipeData.season : [recipeData.season];
+      if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
         score += 20;
       }
     }
@@ -150,8 +139,7 @@ export class ElementalCalculator {
 
     // Calculate variance from the ideal (perfect balance would be 0 variance)
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) /
-      values.length;
+      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length;
 
     // Convert variance to harmony score (0-1)
     return Math.max(0, Math.min(1, 1 - Math.sqrt(variance)));
@@ -167,7 +155,7 @@ export class ElementalCalculator {
   calculateElementalState(
     baseProperties: ElementalProperties,
     _phase = 'default',
-    time = 'neutral'
+    time = 'neutral',
   ): {
     properties: ElementalProperties;
     seasonalInfluence: ElementalProperties;
@@ -180,7 +168,8 @@ export class ElementalCalculator {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25};
+      Air: 0.25,
+    };
 
     // Apply time-based modifiers
     if (time === 'day') {
@@ -195,7 +184,7 @@ export class ElementalCalculator {
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
 
     if (total > 0) {
-      Object.keys(properties).forEach((key) => {
+      Object.keys(properties).forEach(key => {
         properties[key] = properties[key] / total;
 
         // Update seasonal influence based on the normalized properties
@@ -205,7 +194,8 @@ export class ElementalCalculator {
 
     return {
       properties,
-      seasonalInfluence};
+      seasonalInfluence,
+    };
   }
 }
 
@@ -217,7 +207,7 @@ export class ElementalCalculator {
  */
 function getPlanetaryInfluencers(
   planetaryPositions: Record<string, unknown>,
-  elementType: ElementType
+  elementType: ElementType,
 ): string[] {
   // Define which planets influence which elements - Pattern JJ-1: ElementType System Unification
   const elementInfluencers: Record<ElementType, string[]> = {
@@ -227,8 +217,8 @@ function getPlanetaryInfluencers(
     Air: ['mercury', 'uranus', 'jupiter'],
     // Added extended elements mapped to core planetary influences
     Metal: ['venus', 'saturn', 'mercury'], // Structure, clarity, precision - maps to Earth/Air qualities
-    Wood: ['sun', 'mars', 'jupiter'],      // Growth, flexibility, expansion - maps to Fire qualities  
-    Void: ['mercury', 'uranus', 'neptune'] // Space, potential, emptiness - maps to Air/Water qualities
+    Wood: ['sun', 'mars', 'jupiter'], // Growth, flexibility, expansion - maps to Fire qualities
+    Void: ['mercury', 'uranus', 'neptune'], // Space, potential, emptiness - maps to Air/Water qualities
   };
 
   // Get the potential influencers for this element
@@ -236,9 +226,7 @@ function getPlanetaryInfluencers(
 
   // Return only the planets that are actually present in the positions data
   return potentialInfluencers.filter(
-    (planet) =>
-      planetaryPositions[planet] &&
-      typeof planetaryPositions[planet] === 'object'
+    planet => planetaryPositions[planet] && typeof planetaryPositions[planet] === 'object',
   );
 }
 
@@ -251,7 +239,7 @@ function getPlanetaryInfluencers(
  */
 export function calculateElementalEnergies(
   planetaryPositions: Record<string, unknown>,
-  isDaytime = true
+  isDaytime = true,
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
     // console.warn('No planetary positions provided for elemental calculation');
@@ -266,8 +254,8 @@ export function calculateElementalEnergies(
     Air: 0,
     // Pattern JJ-1: ElementType System Unification - Add extended elements with base element mapping
     Metal: 0, // Maps to Earth-like properties
-    Wood: 0,  // Maps to Fire-like properties
-    Void: 0   // Maps to Air-like properties
+    Wood: 0, // Maps to Fire-like properties
+    Void: 0, // Maps to Air-like properties
   };
 
   // Define planetary influences (weights)
@@ -281,7 +269,8 @@ export function calculateElementalEnergies(
     saturn: 0.1,
     uranus: 0.05,
     neptune: 0.05,
-    pluto: 0.05};
+    pluto: 0.05,
+  };
 
   // Calculate element values based on planetary positions
   let totalWeight = 0;
@@ -314,10 +303,7 @@ export function calculateElementalEnergies(
 
   // Normalize values to ensure they sum to 1
   if (totalWeight > 0) {
-    const sum = Object.values(energyValues).reduce(
-      (acc, value) => acc + value,
-      0
-    );
+    const sum = Object.values(energyValues).reduce((acc, value) => acc + value, 0);
 
     for (const element of Object.keys(energyValues) as ElementType[]) {
       energyValues[element] = sum > 0 ? energyValues[element] / sum : 0;
@@ -330,10 +316,8 @@ export function calculateElementalEnergies(
     .map(([type, strength]) => ({
       type: type as ElementType,
       strength,
-      influence: getPlanetaryInfluencers(
-        planetaryPositions,
-        type as ElementType
-      )}));
+      influence: getPlanetaryInfluencers(planetaryPositions, type as ElementType),
+    }));
 
   return energies;
 }
@@ -351,7 +335,11 @@ function getDefaultElementalEnergies(): ElementalEnergy[] {
 }
 
 // Process a zodiac sign and its relevant position to update energy values
-function _processZodiacInfluence(sign: string, weight: number, energyValues: ElementalProperties): void {
+function _processZodiacInfluence(
+  sign: string,
+  weight: number,
+  energyValues: ElementalProperties,
+): void {
   const element = signElementMap[sign];
 
   if (element) {

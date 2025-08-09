@@ -1,6 +1,6 @@
 /**
  * Common Types Export File
- * 
+ *
  * This file re-exports all common types from a single location to ensure type consistency
  * throughout the application. Import types from this file rather than directly from
  * individual type definition files to avoid type mismatches.
@@ -91,4 +91,4 @@ export function toSeason(value: string | string[]): Season | Season[] {
     return value.map(v => v as Season);
   }
   return value as Season;
-} 
+}

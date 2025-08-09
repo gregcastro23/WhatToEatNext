@@ -38,7 +38,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 10,
-    ruling_planet: 'Mars'
+    ruling_planet: 'Mars',
   },
   2: {
     number: 2,
@@ -47,7 +47,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Venus'
+    ruling_planet: 'Venus',
   },
   3: {
     number: 3,
@@ -56,7 +56,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 6,
-    ruling_planet: 'Mercury'
+    ruling_planet: 'Mercury',
   },
   4: {
     number: 4,
@@ -65,7 +65,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 9,
-    ruling_planet: 'Moon'
+    ruling_planet: 'Moon',
   },
   5: {
     number: 5,
@@ -74,7 +74,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Sun'
+    ruling_planet: 'Sun',
   },
   6: {
     number: 6,
@@ -83,7 +83,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 6,
-    ruling_planet: 'Mercury'
+    ruling_planet: 'Mercury',
   },
   7: {
     number: 7,
@@ -92,7 +92,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 9,
-    ruling_planet: 'Venus'
+    ruling_planet: 'Venus',
   },
   8: {
     number: 8,
@@ -101,7 +101,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 8,
-    ruling_planet: 'Pluto'
+    ruling_planet: 'Pluto',
   },
   9: {
     number: 9,
@@ -110,7 +110,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 7,
-    ruling_planet: 'Jupiter'
+    ruling_planet: 'Jupiter',
   },
   10: {
     number: 10,
@@ -119,7 +119,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 10,
-    ruling_planet: 'Saturn'
+    ruling_planet: 'Saturn',
   },
   11: {
     number: 11,
@@ -128,7 +128,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Uranus'
+    ruling_planet: 'Uranus',
   },
   12: {
     number: 12,
@@ -137,17 +137,17 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 8,
-    ruling_planet: 'Neptune'
-  }
+    ruling_planet: 'Neptune',
+  },
 };
 
 /**
  * House strength multipliers based on house nature
  */
 export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> = {
-  'Angular': 1.0,    // Strongest influence
-  'Succedent': 0.7,  // Medium influence
-  'Cadent': 0.4      // Weakest influence
+  Angular: 1.0, // Strongest influence
+  Succedent: 0.7, // Medium influence
+  Cadent: 0.4, // Weakest influence
 };
 
 /**
@@ -161,13 +161,13 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
 export function calculateHouseEffect(
   planet: string,
   house: number,
-  sign: ZodiacSign
+  sign: ZodiacSign,
 ): Record<ElementalCharacter, number> {
   const effects: Record<ElementalCharacter, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   };
 
   // Get house data
@@ -178,7 +178,7 @@ export function calculateHouseEffect(
   }
 
   // Get sign element
-  const signElement = getZodiacElement(sign) ;
+  const signElement = getZodiacElement(sign);
 
   // Calculate house-based elemental effect
   const houseElement = houseData.element;
@@ -223,14 +223,14 @@ export function calculateHouseEffect(
  * @returns Combined elemental effects from all house placements
  */
 export function calculateAllHouseEffects(
-  planetPositions: Record<string, { sign: ZodiacSign, house?: number }>,
-  _houses: Record<number, ZodiacSign>
+  planetPositions: Record<string, { sign: ZodiacSign; house?: number }>,
+  _houses: Record<number, ZodiacSign>,
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   };
 
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`);

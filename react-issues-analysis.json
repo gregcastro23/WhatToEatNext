@@ -3339,61 +3339,37 @@
       "type": "high-priority",
       "file": "src/components/CuisineSection/index.tsx",
       "message": "File has 6 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/DebugInfo.tsx",
       "message": "File has 8 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/ElementalExplorer.tsx",
       "message": "File has 7 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/Header/FoodRecommender/index.tsx",
       "message": "File has 7 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/IngredientRecommendations.tsx",
       "message": "File has 8 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/PlanetaryHours/PlanetaryHoursDisplay.tsx",
       "message": "File has 7 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
@@ -3419,41 +3395,25 @@
       "type": "high-priority",
       "file": "src/components/common/DisplayComponents.tsx",
       "message": "File has 6 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/debug/StateDebugger.tsx",
       "message": "File has 11 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/recipes/RecipeCard.tsx",
       "message": "File has 7 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "high-priority",
       "file": "src/components/recommendations/CuisineRecommender.tsx",
       "message": "File has 7 React issues - prioritize for fixing",
-      "actions": [
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'",
-        "Replace '<' with '&lt;'"
-      ]
+      "actions": ["Replace '<' with '&lt;'", "Replace '<' with '&lt;'", "Replace '<' with '&lt;'"]
     },
     {
       "type": "automated-fix",

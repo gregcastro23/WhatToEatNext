@@ -32,8 +32,8 @@ const defaultRecoveryStrategies: RecoveryStrategy[] = [
     id: 'network-retry',
     name: 'Network Retry',
     description: 'Retry failed network requests',
-    canRecover: (error: Error) => 
-      error.message.includes('fetch') || 
+    canRecover: (error: Error) =>
+      error.message.includes('fetch') ||
       error.message.includes('network') ||
       error.message.includes('timeout'),
     recover: async (error: Error, context: string) => {
@@ -110,11 +110,11 @@ const defaultRecoveryStrategies: RecoveryStrategy[] = [
  * Error Recovery System Component
  * Provides automatic error recovery mechanisms and manual recovery options
  */
-export function ErrorRecoverySystem({ 
-  children, 
+export function ErrorRecoverySystem({
+  children,
   strategies = defaultRecoveryStrategies,
   autoRecovery = true,
-  maxAutoRecoveryAttempts = 3 
+  maxAutoRecoveryAttempts = 3,
 }: ErrorRecoverySystemProps) {
   const { errorLog, markErrorResolved } = useErrorLogger();
   const [recoveryAttempts, setRecoveryAttempts] = useState<Record<string, number>>({});
@@ -124,10 +124,11 @@ export function ErrorRecoverySystem({
   useEffect(() => {
     if (!autoRecovery) return;
 
-    const unrecoveredErrors = errorLog.filter(entry => 
-      !entry.resolved && 
-      entry.severity !== 'critical' &&
-      (recoveryAttempts[entry.id] || 0) < maxAutoRecoveryAttempts
+    const unrecoveredErrors = errorLog.filter(
+      entry =>
+        !entry.resolved &&
+        entry.severity !== 'critical' &&
+        (recoveryAttempts[entry.id] || 0) < maxAutoRecoveryAttempts,
     );
 
     if (unrecoveredErrors.length > 0 && !isRecovering) {
@@ -136,86 +137,93 @@ export function ErrorRecoverySystem({
     }
   }, [errorLog, autoRecovery, maxAutoRecoveryAttempts, recoveryAttempts, isRecovering]);
 
-  const attemptRecovery = useCallback(async (errorEntry: ErrorLogEntry) => {
-    if (isRecovering) return;
+  const attemptRecovery = useCallback(
+    async (errorEntry: ErrorLogEntry) => {
+      if (isRecovering) return;
 
-    setIsRecovering(true);
-    
-    try {
-      // Find applicable recovery strategies
-      const applicableStrategies = strategies
-        .filter(strategy => strategy.canRecover(errorEntry.error))
-        .sort((a, b) => b.priority - a.priority);
+      setIsRecovering(true);
 
-      if (applicableStrategies.length === 0) {
-        logger.warn('No recovery strategies found for error', {
+      try {
+        // Find applicable recovery strategies
+        const applicableStrategies = strategies
+          .filter(strategy => strategy.canRecover(errorEntry.error))
+          .sort((a, b) => b.priority - a.priority);
+
+        if (applicableStrategies.length === 0) {
+          logger.warn('No recovery strategies found for error', {
+            errorId: errorEntry.id,
+            error: errorEntry.error.message,
+          });
+          return false;
+        }
+
+        logger.info('Attempting error recovery', {
           errorId: errorEntry.id,
-          error: errorEntry.error.message,
+          strategies: applicableStrategies.map(s => s.name),
         });
+
+        // Try each strategy in priority order
+        for (const strategy of applicableStrategies) {
+          try {
+            const recovered = await strategy.recover(errorEntry.error, errorEntry.context);
+
+            if (recovered) {
+              logger.info('Error recovery successful', {
+                errorId: errorEntry.id,
+                strategy: strategy.name,
+              });
+
+              markErrorResolved(errorEntry.id);
+
+              // Reset recovery attempts for this error
+              setRecoveryAttempts(prev => ({
+                ...prev,
+                [errorEntry.id]: 0,
+              }));
+
+              return true;
+            }
+          } catch (recoveryError) {
+            logger.error('Recovery strategy failed', {
+              errorId: errorEntry.id,
+              strategy: strategy.name,
+              recoveryError:
+                recoveryError instanceof Error ? recoveryError.message : String(recoveryError),
+            });
+          }
+        }
+
+        // If we get here, all strategies failed
+        setRecoveryAttempts(prev => ({
+          ...prev,
+          [errorEntry.id]: (prev[errorEntry.id] || 0) + 1,
+        }));
+
+        logger.warn('All recovery strategies failed', {
+          errorId: errorEntry.id,
+          attempts: (recoveryAttempts[errorEntry.id] || 0) + 1,
+        });
+
+        return false;
+      } finally {
+        setIsRecovering(false);
+      }
+    },
+    [strategies, markErrorResolved, recoveryAttempts, isRecovering],
+  );
+
+  const manualRecovery = useCallback(
+    async (errorId: string) => {
+      const errorEntry = errorLog.find(entry => entry.id === errorId);
+      if (!errorEntry) {
+        logger.warn('Error entry not found for manual recovery', { errorId });
         return false;
       }
 
-      logger.info('Attempting error recovery', {
-        errorId: errorEntry.id,
-        strategies: applicableStrategies.map(s => s.name),
-      });
-
-      // Try each strategy in priority order
-      for (const strategy of applicableStrategies) {
-        try {
-          const recovered = await strategy.recover(errorEntry.error, errorEntry.context);
-          
-          if (recovered) {
-            logger.info('Error recovery successful', {
-              errorId: errorEntry.id,
-              strategy: strategy.name,
-            });
-            
-            markErrorResolved(errorEntry.id);
-            
-            // Reset recovery attempts for this error
-            setRecoveryAttempts(prev => ({
-              ...prev,
-              [errorEntry.id]: 0,
-            }));
-            
-            return true;
-          }
-        } catch (recoveryError) {
-          logger.error('Recovery strategy failed', {
-            errorId: errorEntry.id,
-            strategy: strategy.name,
-            recoveryError: recoveryError instanceof Error ? recoveryError.message : String(recoveryError),
-          });
-        }
-      }
-
-      // If we get here, all strategies failed
-      setRecoveryAttempts(prev => ({
-        ...prev,
-        [errorEntry.id]: (prev[errorEntry.id] || 0) + 1,
-      }));
-
-      logger.warn('All recovery strategies failed', {
-        errorId: errorEntry.id,
-        attempts: (recoveryAttempts[errorEntry.id] || 0) + 1,
-      });
-
-      return false;
-    } finally {
-      setIsRecovering(false);
-    }
-  }, [strategies, markErrorResolved, recoveryAttempts, isRecovering]);
-
-  const manualRecovery = useCallback(async (errorId: string) => {
-    const errorEntry = errorLog.find(entry => entry.id === errorId);
-    if (!errorEntry) {
-      logger.warn('Error entry not found for manual recovery', { errorId });
-      return false;
-    }
-
-    return await attemptRecovery(errorEntry);
-  }, [errorLog, attemptRecovery]);
+      return await attemptRecovery(errorEntry);
+    },
+    [errorLog, attemptRecovery],
+  );
 
   // Provide recovery context to children
   const recoveryContext = {
@@ -267,22 +275,20 @@ export function RecoveryStatus() {
   }
 
   return (
-    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-      <div className="flex items-center justify-between">
+    <div className='mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4'>
+      <div className='flex items-center justify-between'>
         <div>
-          <h4 className="text-sm font-medium text-yellow-800">
-            Error Recovery Status
-          </h4>
-          <p className="text-sm text-yellow-700">
+          <h4 className='text-sm font-medium text-yellow-800'>Error Recovery Status</h4>
+          <p className='text-sm text-yellow-700'>
             {unrecoveredErrors.length} unrecovered error{unrecoveredErrors.length !== 1 ? 's' : ''}
             {isRecovering && ' (recovery in progress...)'}
           </p>
         </div>
-        
+
         {!isRecovering && unrecoveredErrors.length > 0 && (
           <button
             onClick={() => manualRecovery(unrecoveredErrors[0].id)}
-            className="px-3 py-1 bg-yellow-600 text-white text-sm rounded hover:bg-yellow-700 transition-colors"
+            className='rounded bg-yellow-600 px-3 py-1 text-sm text-white transition-colors hover:bg-yellow-700'
           >
             Retry Recovery
           </button>
@@ -290,8 +296,12 @@ export function RecoveryStatus() {
       </div>
 
       {process.env.NODE_ENV === 'development' && (
-        <div className="mt-2 text-xs text-yellow-600">
-          Recovery rate: {metrics.totalErrors > 0 ? Math.round((metrics.resolvedErrors / metrics.totalErrors) * 100) : 0}%
+        <div className='mt-2 text-xs text-yellow-600'>
+          Recovery rate:{' '}
+          {metrics.totalErrors > 0
+            ? Math.round((metrics.resolvedErrors / metrics.totalErrors) * 100)
+            : 0}
+          %
         </div>
       )}
     </div>

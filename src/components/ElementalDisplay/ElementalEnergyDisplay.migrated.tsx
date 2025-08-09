@@ -12,17 +12,15 @@ interface ElementalEnergyDisplayProps {
   showDebug?: boolean;
 }
 
-const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({ showDebug = false }) => {
+const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
+  showDebug = false,
+}) => {
   const [renderCount, setRenderCount] = useState(0);
   const [energies, setEnergies] = useState<ElementalEnergy[]>([]);
   const [lastPositions, setLastPositions] = useState<Record<string, unknown>>({});
 
   // Use the useServices hook instead of the AlchemicalContext
-  const {
-    isLoading,
-    error,
-    astrologyService
-  } = useServices();
+  const { isLoading, error, astrologyService } = useServices();
 
   // Track renders for debugging - only increments once on mount
   useEffect(() => {
@@ -62,10 +60,8 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
         }
 
         // Calculate elemental energies
-        const result = getCachedCalculation(
-          'elementalEnergies',
-          { positions, isDaytime },
-          () => calculateElementalEnergies(positions, isDaytime)
+        const result = getCachedCalculation('elementalEnergies', { positions, isDaytime }, () =>
+          calculateElementalEnergies(positions, isDaytime),
         );
 
         if (!result || !Array.isArray(result)) {
@@ -96,7 +92,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   // Show loading state if services aren't ready
   if (isLoading) {
     return (
-      <div className="p-4 text-center">
+      <div className='p-4 text-center'>
         <p>Loading services...</p>
       </div>
     );
@@ -105,7 +101,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   // Show error state
   if (error) {
     return (
-      <div className="p-4 text-center text-red-500">
+      <div className='p-4 text-center text-red-500'>
         <p>Error: {error.message}</p>
       </div>
     );
@@ -114,41 +110,41 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   // Show loading state if no energies available
   if (!(sortedEnergies || []).length) {
     return (
-      <div className="p-4 text-center">
+      <div className='p-4 text-center'>
         <p>Loading elemental energies...</p>
       </div>
     );
   }
 
   return (
-    <div className="elemental-display">
+    <div className='elemental-display'>
       {showDebug && (
-        <div className="debug-info text-xs text-gray-500 mb-2">
+        <div className='debug-info mb-2 text-xs text-gray-500'>
           Render count: {renderCount} | Elements: {(sortedEnergies || []).length}
         </div>
       )}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {(sortedEnergies || []).map((element) => (
+      <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+        {(sortedEnergies || []).map(element => (
           <div
             key={element.type}
-            className="element-card p-3 rounded-lg shadow-md"
+            className='element-card rounded-lg p-3 shadow-md'
             style={{
               backgroundColor: getElementColor(element.type, 0.2),
               borderColor: getElementColor(element.type, 1),
-              borderWidth: '2px'
+              borderWidth: '2px',
             }}
           >
-            <h3 className="font-bold">{capitalizeFirstLetter(element.type)}</h3>
-            <div className="strength-bar h-4 rounded bg-gray-200 mt-2">
+            <h3 className='font-bold'>{capitalizeFirstLetter(element.type)}</h3>
+            <div className='strength-bar mt-2 h-4 rounded bg-gray-200'>
               <div
-                className="h-full rounded"
+                className='h-full rounded'
                 style={{
                   width: `${Math.max(5, Math.min(100, element.strength * 100))}%`,
-                  backgroundColor: getElementColor(element.type, 0.8)
+                  backgroundColor: getElementColor(element.type, 0.8),
                 }}
               ></div>
             </div>
-            <p className="text-sm mt-1">{Math.round(element.strength * 100)}%</p>
+            <p className='mt-1 text-sm'>{Math.round(element.strength * 100)}%</p>
           </div>
         ))}
       </div>
@@ -159,7 +155,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
 // Helper function to calculate elemental energies
 function calculateElementalEnergies(
   planetaryPositions: { [key: string]: any },
-  isDaytime = true
+  isDaytime = true,
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {
     return getDefaultElementalEnergies();
@@ -170,11 +166,12 @@ function calculateElementalEnergies(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   } as Record<ElementType, number>;
 
   // Define planetary influences (weights)
-  const planetWeights: { [key: string]: number } = { Sun: 0.25,
+  const planetWeights: { [key: string]: number } = {
+    Sun: 0.25,
     moon: 0.2,
     Mercury: 0.1,
     Venus: 0.1,
@@ -183,10 +180,12 @@ function calculateElementalEnergies(
     Saturn: 0.1,
     Uranus: 0.05,
     Neptune: 0.05,
-    Pluto: 0.05 };
+    Pluto: 0.05,
+  };
 
   // Define which sign corresponds to which element
-  const signElementMap: { [key: string]: ElementType } = { aries: 'Fire',
+  const signElementMap: { [key: string]: ElementType } = {
+    aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
     taurus: 'Earth',
@@ -197,7 +196,8 @@ function calculateElementalEnergies(
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water' };
+    pisces: 'Water',
+  };
 
   // Calculate element values based on planetary positions
   let totalWeight = 0;
@@ -228,10 +228,7 @@ function calculateElementalEnergies(
   }
 
   // Normalize values to ensure they sum to 1
-  const sum = Object.values(energyValues).reduce(
-    (acc, value) => acc + value,
-    0
-  );
+  const sum = Object.values(energyValues).reduce((acc, value) => acc + value, 0);
 
   for (const element of Object.keys(energyValues) as ElementType[]) {
     energyValues[element] = sum > 0 ? energyValues[element] / sum : 0;
@@ -240,12 +237,11 @@ function calculateElementalEnergies(
   // Create ElementalEnergy objects
   const energies: ElementalEnergy[] = Object.entries(energyValues)
     .filter(([_, strength]) => strength > 0)
-    .map(([type, strength]) => ({ type: type as ElementType,
+    .map(([type, strength]) => ({
+      type: type as ElementType,
       strength,
-      influence: getPlanetaryInfluencers(
-        planetaryPositions,
-        type as ElementType
-      ) }));
+      influence: getPlanetaryInfluencers(planetaryPositions, type as ElementType),
+    }));
 
   return energies;
 }
@@ -255,22 +251,22 @@ function calculateElementalEnergies(
  */
 function getPlanetaryInfluencers(
   planetaryPositions: { [key: string]: any },
-  elementType: ElementType
-): string[] { // Define which planets influence which elements
+  elementType: ElementType,
+): string[] {
+  // Define which planets influence which elements
   const elementInfluencers = {
     Fire: ['Sun', 'Mars', 'Jupiter'],
     Water: ['Moon', 'Venus', 'Neptune'],
     Earth: ['Venus', 'Saturn', 'Pluto'],
-    Air: ['Mercury', 'Uranus', 'Jupiter']
+    Air: ['Mercury', 'Uranus', 'Jupiter'],
   } as Record<ElementType, string[]>;
 
   // Get the potential influencers for this element
   const potentialInfluencers = elementInfluencers[elementType] || [];
 
   // Return only the planets that are actually present in the positions data
-  return (potentialInfluencers || []).filter((planet) =>
-      planetaryPositions[planet] &&
-      typeof planetaryPositions[planet] === 'object'
+  return (potentialInfluencers || []).filter(
+    planet => planetaryPositions[planet] && typeof planetaryPositions[planet] === 'object',
   );
 }
 
@@ -296,7 +292,7 @@ function getElementColor(elementType: ElementType, opacity: number = 1): string 
     Fire: `rgba(255, 59, 48, ${opacity})`,
     Water: `rgba(0, 122, 255, ${opacity})`,
     Air: `rgba(255, 204, 0, ${opacity})`,
-    Earth: `rgba(52, 199, 89, ${opacity})`
+    Earth: `rgba(52, 199, 89, ${opacity})`,
   } as Record<ElementType, string>;
 
   return colors[elementType] || `rgba(155, 155, 155, ${opacity})`;

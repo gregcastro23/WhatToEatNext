@@ -7,12 +7,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
-import {
-  ProgressMetrics,
-  ValidationResult,
-  PhaseStatus,
-  Milestone
-} from '../../types/campaign';
+import { ProgressMetrics, ValidationResult, PhaseStatus, Milestone } from '../../types/campaign';
 
 import { MetricsCollectionSystem } from './MetricsCollectionSystem';
 
@@ -93,10 +88,12 @@ export class MilestoneValidationSystem {
       completionPercentage,
       milestones,
       criticalFailures,
-      nextSteps
+      nextSteps,
     };
 
-    console.log(`✅ Phase 1 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`);
+    console.log(
+      `✅ Phase 1 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
+    );
     return result;
   }
 
@@ -138,10 +135,12 @@ export class MilestoneValidationSystem {
       completionPercentage,
       milestones,
       criticalFailures,
-      nextSteps
+      nextSteps,
     };
 
-    console.log(`✅ Phase 2 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`);
+    console.log(
+      `✅ Phase 2 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
+    );
     return result;
   }
 
@@ -183,10 +182,12 @@ export class MilestoneValidationSystem {
       completionPercentage,
       milestones,
       criticalFailures,
-      nextSteps
+      nextSteps,
     };
 
-    console.log(`✅ Phase 3 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`);
+    console.log(
+      `✅ Phase 3 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
+    );
     return result;
   }
 
@@ -232,17 +233,21 @@ export class MilestoneValidationSystem {
       completionPercentage,
       milestones,
       criticalFailures,
-      nextSteps
+      nextSteps,
     };
 
-    console.log(`✅ Phase 4 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`);
+    console.log(
+      `✅ Phase 4 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
+    );
     return result;
   }
 
   /**
    * Individual milestone validation methods
    */
-  private async validateZeroTypeScriptErrors(metrics: ProgressMetrics): Promise<MilestoneValidation> {
+  private async validateZeroTypeScriptErrors(
+    metrics: ProgressMetrics,
+  ): Promise<MilestoneValidation> {
     const criteria: ValidationCriteria[] = [
       {
         name: 'TypeScript Error Count',
@@ -250,7 +255,7 @@ export class MilestoneValidationSystem {
         target: 0,
         actual: metrics.typeScriptErrors.current,
         passed: metrics.typeScriptErrors.current === 0,
-        weight: 10
+        weight: 10,
       },
       {
         name: 'Error Reduction Achievement',
@@ -258,20 +263,22 @@ export class MilestoneValidationSystem {
         target: 100,
         actual: metrics.typeScriptErrors.percentage,
         passed: metrics.typeScriptErrors.percentage === 100,
-        weight: 8
-      }
+        weight: 8,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected ${c.target}, got ${c.actual}`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected ${c.target}, got ${c.actual}`);
 
-    const recommendations = success ? [] : [
-      'Continue with Enhanced TypeScript Error Fixer v3.0',
-      'Focus on remaining error types in breakdown',
-      'Ensure build validation after each batch'
-    ];
+    const recommendations = success
+      ? []
+      : [
+          'Continue with Enhanced TypeScript Error Fixer v3.0',
+          'Focus on remaining error types in breakdown',
+          'Ensure build validation after each batch',
+        ];
 
     return {
       milestone: 'Zero TypeScript Errors',
@@ -281,27 +288,29 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations
+      recommendations,
     };
   }
 
-  private async validateErrorDistributionElimination(metrics: ProgressMetrics): Promise<MilestoneValidation> {
+  private async validateErrorDistributionElimination(
+    metrics: ProgressMetrics,
+  ): Promise<MilestoneValidation> {
     const errorBreakdown = (metrics as unknown as Record<string, unknown>).errorBreakdown || {};
     const criticalErrorTypes = ['TS2352', 'TS2345', 'TS2698', 'TS2304', 'TS2362'];
-    
+
     const criteria: ValidationCriteria[] = criticalErrorTypes.map(errorType => ({
       name: `${errorType} Errors`,
       description: `All ${errorType} errors must be eliminated`,
       target: 0,
       actual: errorBreakdown[errorType] || 0,
       passed: (errorBreakdown[errorType] || 0) === 0,
-      weight: 7
+      weight: 7,
     }));
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: ${c.actual} remaining`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: ${c.actual} remaining`);
 
     return {
       milestone: 'Error Distribution Elimination',
@@ -311,7 +320,7 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Focus on specific error types with targeted fixes']
+      recommendations: success ? [] : ['Focus on specific error types with targeted fixes'],
     };
   }
 
@@ -335,7 +344,7 @@ export class MilestoneValidationSystem {
         target: true,
         actual: buildSuccess,
         passed: buildSuccess,
-        weight: 10
+        weight: 10,
       },
       {
         name: 'Build Time',
@@ -343,14 +352,14 @@ export class MilestoneValidationSystem {
         target: 60,
         actual: buildTime,
         passed: buildTime > 0 && buildTime < 60,
-        weight: 5
-      }
+        weight: 5,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected ${c.target}, got ${c.actual}`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected ${c.target}, got ${c.actual}`);
 
     return {
       milestone: 'Build Stability',
@@ -360,11 +369,15 @@ export class MilestoneValidationSystem {
       metrics: {} as ProgressMetrics, // Not using full metrics for this validation
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Fix build errors before proceeding', 'Check for syntax or import issues']
+      recommendations: success
+        ? []
+        : ['Fix build errors before proceeding', 'Check for syntax or import issues'],
     };
   }
 
-  private async validateZeroLintingWarnings(metrics: ProgressMetrics): Promise<MilestoneValidation> {
+  private async validateZeroLintingWarnings(
+    metrics: ProgressMetrics,
+  ): Promise<MilestoneValidation> {
     const criteria: ValidationCriteria[] = [
       {
         name: 'Linting Warning Count',
@@ -372,7 +385,7 @@ export class MilestoneValidationSystem {
         target: 0,
         actual: metrics.lintingWarnings.current,
         passed: metrics.lintingWarnings.current === 0,
-        weight: 10
+        weight: 10,
       },
       {
         name: 'Warning Reduction Achievement',
@@ -380,14 +393,14 @@ export class MilestoneValidationSystem {
         target: 100,
         actual: metrics.lintingWarnings.percentage,
         passed: metrics.lintingWarnings.percentage === 100,
-        weight: 8
-      }
+        weight: 8,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected ${c.target}, got ${c.actual}`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected ${c.target}, got ${c.actual}`);
 
     return {
       milestone: 'Zero Linting Warnings',
@@ -397,31 +410,35 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Continue with systematic linting fixes', 'Focus on high-priority warning types']
+      recommendations: success
+        ? []
+        : ['Continue with systematic linting fixes', 'Focus on high-priority warning types'],
     };
   }
 
-  private async validateWarningCategoryElimination(metrics: ProgressMetrics): Promise<MilestoneValidation> {
+  private async validateWarningCategoryElimination(
+    metrics: ProgressMetrics,
+  ): Promise<MilestoneValidation> {
     const warningBreakdown = (metrics as unknown as Record<string, unknown>).warningBreakdown || {};
     const criticalWarningTypes = [
       '@typescript-eslint/no-explicit-any',
       'no-unused-vars',
-      'no-console'
+      'no-console',
     ];
-    
+
     const criteria: ValidationCriteria[] = criticalWarningTypes.map(warningType => ({
       name: `${warningType} Warnings`,
       description: `All ${warningType} warnings must be eliminated`,
       target: 0,
       actual: warningBreakdown[warningType] || 0,
       passed: (warningBreakdown[warningType] || 0) === 0,
-      weight: 8
+      weight: 8,
     }));
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: ${c.actual} remaining`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: ${c.actual} remaining`);
 
     return {
       milestone: 'Warning Category Elimination',
@@ -431,7 +448,7 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Use specialized fixers for each warning type']
+      recommendations: success ? [] : ['Use specialized fixers for each warning type'],
     };
   }
 
@@ -445,8 +462,8 @@ export class MilestoneValidationSystem {
         target: true,
         actual: true, // Would be determined by actual linting
         passed: true,
-        weight: 9
-      }
+        weight: 9,
+      },
     ];
 
     return {
@@ -457,17 +474,19 @@ export class MilestoneValidationSystem {
       metrics: {} as ProgressMetrics,
       criteria,
       failureReasons: [],
-      recommendations: []
+      recommendations: [],
     };
   }
 
-  private async validateExportTransformation(metrics: ProgressMetrics): Promise<MilestoneValidation> {
+  private async validateExportTransformation(
+    metrics: ProgressMetrics,
+  ): Promise<MilestoneValidation> {
     // Count unused exports (should be 0 after transformation)
     let unusedExportCount = 0;
     try {
       const output = execSync('grep -r "export.*unused" src/ | wc -l || echo "0"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       unusedExportCount = parseInt(output.trim()) || 0;
     } catch (error) {
@@ -481,14 +500,14 @@ export class MilestoneValidationSystem {
         target: 0,
         actual: unusedExportCount,
         passed: unusedExportCount === 0,
-        weight: 10
-      }
+        weight: 10,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: ${c.actual} remaining`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: ${c.actual} remaining`);
 
     return {
       milestone: 'Export Transformation Complete',
@@ -498,11 +517,15 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Continue transforming unused exports to intelligence systems']
+      recommendations: success
+        ? []
+        : ['Continue transforming unused exports to intelligence systems'],
     };
   }
 
-  private async validateEnterpriseSystemCount(metrics: ProgressMetrics): Promise<MilestoneValidation> {
+  private async validateEnterpriseSystemCount(
+    metrics: ProgressMetrics,
+  ): Promise<MilestoneValidation> {
     const criteria: ValidationCriteria[] = [
       {
         name: 'Enterprise System Count',
@@ -510,14 +533,14 @@ export class MilestoneValidationSystem {
         target: 200,
         actual: metrics.enterpriseSystems.current,
         passed: metrics.enterpriseSystems.current >= 200,
-        weight: 9
-      }
+        weight: 9,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected >= ${c.target}, got ${c.actual}`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected >= ${c.target}, got ${c.actual}`);
 
     return {
       milestone: 'Enterprise System Count Target',
@@ -527,7 +550,7 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Continue transforming exports to reach 200+ systems']
+      recommendations: success ? [] : ['Continue transforming exports to reach 200+ systems'],
     };
   }
 
@@ -535,14 +558,23 @@ export class MilestoneValidationSystem {
     // Validate that intelligence systems have proper structure
     let qualityScore = 0;
     try {
-      const analyticsCount = execSync('grep -r "analyzePatterns" src/ | wc -l', { encoding: 'utf8', stdio: 'pipe' });
-      const recommendationsCount = execSync('grep -r "generateRecommendations" src/ | wc -l', { encoding: 'utf8', stdio: 'pipe' });
-      const demonstrationsCount = execSync('grep -r "demonstrateCapabilities" src/ | wc -l', { encoding: 'utf8', stdio: 'pipe' });
-      
+      const analyticsCount = execSync('grep -r "analyzePatterns" src/ | wc -l', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
+      const recommendationsCount = execSync('grep -r "generateRecommendations" src/ | wc -l', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
+      const demonstrationsCount = execSync('grep -r "demonstrateCapabilities" src/ | wc -l', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
+
       const analytics = parseInt(analyticsCount.trim()) || 0;
       const recommendations = parseInt(recommendationsCount.trim()) || 0;
       const demonstrations = parseInt(demonstrationsCount.trim()) || 0;
-      
+
       qualityScore = Math.min(analytics, recommendations, demonstrations);
     } catch (error) {
       // Handle gracefully
@@ -551,18 +583,19 @@ export class MilestoneValidationSystem {
     const criteria: ValidationCriteria[] = [
       {
         name: 'Intelligence System Quality',
-        description: 'Intelligence systems must have analytics, recommendations, and demonstrations',
+        description:
+          'Intelligence systems must have analytics, recommendations, and demonstrations',
         target: 50, // Minimum quality threshold
         actual: qualityScore,
         passed: qualityScore >= 50,
-        weight: 8
-      }
+        weight: 8,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected >= ${c.target}, got ${c.actual}`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected >= ${c.target}, got ${c.actual}`);
 
     return {
       milestone: 'Intelligence System Quality',
@@ -572,7 +605,9 @@ export class MilestoneValidationSystem {
       metrics: {} as ProgressMetrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Ensure all intelligence systems have complete functionality']
+      recommendations: success
+        ? []
+        : ['Ensure all intelligence systems have complete functionality'],
     };
   }
 
@@ -584,14 +619,14 @@ export class MilestoneValidationSystem {
         target: 10,
         actual: metrics.buildPerformance.currentTime,
         passed: metrics.buildPerformance.currentTime <= 10,
-        weight: 9
-      }
+        weight: 9,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected <= ${c.target}s, got ${c.actual}s`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected <= ${c.target}s, got ${c.actual}s`);
 
     return {
       milestone: 'Build Performance Targets',
@@ -601,7 +636,9 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Optimize build performance with caching and bundling improvements']
+      recommendations: success
+        ? []
+        : ['Optimize build performance with caching and bundling improvements'],
     };
   }
 
@@ -613,14 +650,16 @@ export class MilestoneValidationSystem {
         target: 0.8,
         actual: metrics.buildPerformance.cacheHitRate,
         passed: metrics.buildPerformance.cacheHitRate >= 0.8,
-        weight: 7
-      }
+        weight: 7,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected >= ${Number(c.target) * 100}%, got ${Number(c.actual) * 100}%`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(
+        c => `${c.name}: expected >= ${Number(c.target) * 100}%, got ${Number(c.actual) * 100}%`,
+      );
 
     return {
       milestone: 'Cache Performance Optimization',
@@ -630,11 +669,13 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Improve caching strategy and cache invalidation']
+      recommendations: success ? [] : ['Improve caching strategy and cache invalidation'],
     };
   }
 
-  private async validateResourceOptimization(metrics: ProgressMetrics): Promise<MilestoneValidation> {
+  private async validateResourceOptimization(
+    metrics: ProgressMetrics,
+  ): Promise<MilestoneValidation> {
     const criteria: ValidationCriteria[] = [
       {
         name: 'Memory Usage',
@@ -642,14 +683,14 @@ export class MilestoneValidationSystem {
         target: 50,
         actual: metrics.buildPerformance.memoryUsage,
         passed: metrics.buildPerformance.memoryUsage <= 50,
-        weight: 6
-      }
+        weight: 6,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected <= ${c.target}MB, got ${c.actual}MB`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected <= ${c.target}MB, got ${c.actual}MB`);
 
     return {
       milestone: 'Memory and Resource Optimization',
@@ -659,13 +700,17 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Optimize memory usage and resource allocation']
+      recommendations: success ? [] : ['Optimize memory usage and resource allocation'],
     };
   }
 
   private async validateBundleSize(metrics: ProgressMetrics): Promise<MilestoneValidation> {
-    const bundleSize: number = Number(((metrics as unknown as Record<string, unknown>).buildMetrics as Record<string, unknown>).bundleSize) || 0;
-    
+    const bundleSize: number =
+      Number(
+        ((metrics as unknown as Record<string, unknown>).buildMetrics as Record<string, unknown>)
+          .bundleSize,
+      ) || 0;
+
     const criteria: ValidationCriteria[] = [
       {
         name: 'Bundle Size',
@@ -673,14 +718,14 @@ export class MilestoneValidationSystem {
         target: 420,
         actual: bundleSize,
         passed: bundleSize <= 500, // Allow some flexibility
-        weight: 7
-      }
+        weight: 7,
+      },
     ];
 
     const success = criteria.every(c => c.passed);
-    const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected <= ${c.target}kB, got ${c.actual}kB`
-    );
+    const failureReasons = criteria
+      .filter(c => !c.passed)
+      .map(c => `${c.name}: expected <= ${c.target}kB, got ${c.actual}kB`);
 
     return {
       milestone: 'Bundle Size Optimization',
@@ -690,7 +735,7 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success ? [] : ['Optimize bundle size with tree shaking and code splitting']
+      recommendations: success ? [] : ['Optimize bundle size with tree shaking and code splitting'],
     };
   }
 
@@ -699,15 +744,19 @@ export class MilestoneValidationSystem {
    */
   private calculateCompletionPercentage(milestones: MilestoneValidation[]): number {
     if (milestones.length === 0) return 0;
-    
-    const totalWeight = milestones.reduce((sum, m) => 
-      sum + m.criteria.reduce((criteriaSum, c) => criteriaSum + c.weight, 0), 0
+
+    const totalWeight = milestones.reduce(
+      (sum, m) => sum + m.criteria.reduce((criteriaSum, c) => criteriaSum + c.weight, 0),
+      0,
     );
-    
-    const passedWeight = milestones.reduce((sum, m) => 
-      sum + m.criteria.filter(c => c.passed).reduce((criteriaSum, c) => criteriaSum + c.weight, 0), 0
+
+    const passedWeight = milestones.reduce(
+      (sum, m) =>
+        sum +
+        m.criteria.filter(c => c.passed).reduce((criteriaSum, c) => criteriaSum + c.weight, 0),
+      0,
     );
-    
+
     return Math.round((passedWeight / totalWeight) * 100);
   }
 
@@ -777,15 +826,17 @@ export class MilestoneValidationSystem {
       this.validatePhase1(),
       this.validatePhase2(),
       this.validatePhase3(),
-      this.validatePhase4()
+      this.validatePhase4(),
     ]);
 
     const overallSuccess = results.every(r => r.overallSuccess);
     const overallCompletion = Math.round(
-      results.reduce((sum, r) => sum + r.completionPercentage, 0) / results.length
+      results.reduce((sum, r) => sum + r.completionPercentage, 0) / results.length,
     );
 
-    console.log(`🎯 Campaign Validation Complete: ${overallSuccess ? 'SUCCESS' : 'IN PROGRESS'} (${overallCompletion}%)`);
+    console.log(
+      `🎯 Campaign Validation Complete: ${overallSuccess ? 'SUCCESS' : 'IN PROGRESS'} (${overallCompletion}%)`,
+    );
 
     return results;
   }
@@ -802,7 +853,7 @@ export class MilestoneValidationSystem {
    */
   async exportValidationResults(filePath: string): Promise<void> {
     const allPhaseResults = await this.validateAllPhases();
-    
+
     const exportData = {
       timestamp: new Date().toISOString(),
       campaignId: 'perfect-codebase-campaign',
@@ -810,11 +861,15 @@ export class MilestoneValidationSystem {
       summary: {
         overallSuccess: allPhaseResults.every(r => r.overallSuccess),
         completionPercentage: Math.round(
-          allPhaseResults.reduce((sum, r) => sum + r.completionPercentage, 0) / allPhaseResults.length
+          allPhaseResults.reduce((sum, r) => sum + r.completionPercentage, 0) /
+            allPhaseResults.length,
         ),
         totalMilestones: allPhaseResults.reduce((sum, r) => sum + r.milestones.length, 0),
-        passedMilestones: allPhaseResults.reduce((sum, r) => sum + r.milestones.filter(m => m.success).length, 0)
-      }
+        passedMilestones: allPhaseResults.reduce(
+          (sum, r) => sum + r.milestones.filter(m => m.success).length,
+          0,
+        ),
+      },
     };
 
     fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));

@@ -14,7 +14,7 @@ interface IngredientWithAstrology extends Ingredient {
 export function cleanupIngredientsDatabase() {
   let fixedEntries = 0;
   const invalidEntries = 0;
-  
+
   try {
     // Process each category
     Object.entries(allIngredients).forEach(([category, ingredients]) => {
@@ -26,28 +26,30 @@ export function cleanupIngredientsDatabase() {
       ingredients.forEach((ingredient, index) => {
         // Cast to our extended type for this function
         const ingredientWithAstrology = ingredient as unknown as IngredientWithAstrology;
-        
+
         // Safe property access using type assertion
         const data = ingredientWithAstrology as unknown as Record<string, unknown>;
         const name = data.name;
-        
+
         // Ensure ingredient has a name
         if (!name) {
           data.name = `Unknown ${category} ${index}`;
           fixedEntries++;
           logger.warn(`Added missing name to ingredient at ${category}[${index}]`);
         }
-        
+
         // Ensure elemental properties exist and are valid
         const elementalProps = data.elementalProperties;
         if (!elementalProps) {
           data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
           fixedEntries++;
-          logger.warn(`Added default elemental properties to ${data.name || name || 'unknown ingredient'}`);
+          logger.warn(
+            `Added default elemental properties to ${data.name || name || 'unknown ingredient'}`,
+          );
         } else {
           const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
           let modified = false;
-          
+
           // Ensure all elemental properties are present and normalized
           elements.forEach(element => {
             const elementalProperties = data.elementalProperties;
@@ -58,7 +60,7 @@ export function cleanupIngredientsDatabase() {
               modified = true;
             }
           });
-          
+
           // Normalize to ensure sum = 1
           const currentElementalProps = data.elementalProperties;
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
@@ -78,44 +80,63 @@ export function cleanupIngredientsDatabase() {
             });
             modified = true;
           }
-          
+
           if (modified) {
             fixedEntries++;
-            logger.debug(`Normalized elemental properties for ${data.name || name || 'unknown ingredient'}`);
+            logger.debug(
+              `Normalized elemental properties for ${data.name || name || 'unknown ingredient'}`,
+            );
           }
         }
-        
+
         // Ensure astrologicalProfile exists
         if (!ingredientWithAstrology.astrologicalProfile) {
           const currentElementalProps = data.elementalProperties;
-          const dominantElement = currentElementalProps ? 
-            Object.entries(currentElementalProps)
-              .reduce((a, b) => a[1] > b[1] ? a : b, ['Fire', 0])[0] : 'Fire';
-              
+          const dominantElement = currentElementalProps
+            ? Object.entries(currentElementalProps).reduce(
+                (a, b) => (a[1] > b[1] ? a : b),
+                ['Fire', 0],
+              )[0]
+            : 'Fire';
+
           ingredientWithAstrology.astrologicalProfile = {
             elementalAffinity: { base: dominantElement },
-            rulingPlanets: []
+            rulingPlanets: [],
           } as AstrologicalProfile;
           fixedEntries++;
-          logger.warn(`Added default astrological profile to ${data.name || name || 'unknown ingredient'}`);
-        } else if (!(ingredientWithAstrology.astrologicalProfile as Record<string, unknown>).elementalAffinity) {
+          logger.warn(
+            `Added default astrological profile to ${data.name || name || 'unknown ingredient'}`,
+          );
+        } else if (
+          !(ingredientWithAstrology.astrologicalProfile as Record<string, unknown>)
+            .elementalAffinity
+        ) {
           // Ensure elementalAffinity exists within the profile - safe property access
           const currentElementalProps = data.elementalProperties;
-          const dominantElement = currentElementalProps ? 
-            Object.entries(currentElementalProps)
-              .reduce((a, b) => a[1] > b[1] ? a : b, ['Fire', 0])[0] : 'Fire';
-              
-          (ingredientWithAstrology.astrologicalProfile as Record<string, unknown>).elementalAffinity = { base: dominantElement };
+          const dominantElement = currentElementalProps
+            ? Object.entries(currentElementalProps).reduce(
+                (a, b) => (a[1] > b[1] ? a : b),
+                ['Fire', 0],
+              )[0]
+            : 'Fire';
+
+          (
+            ingredientWithAstrology.astrologicalProfile as Record<string, unknown>
+          ).elementalAffinity = { base: dominantElement };
           fixedEntries++;
-          logger.warn(`Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`);
+          logger.warn(
+            `Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`,
+          );
         }
-        
+
         // Check for other required properties based on your schema
         // Add more validation as needed
       });
     });
-    
-    logger.info(`Database cleanup complete: Fixed ${fixedEntries} entries, found ${invalidEntries} invalid entries`);
+
+    logger.info(
+      `Database cleanup complete: Fixed ${fixedEntries} entries, found ${invalidEntries} invalid entries`,
+    );
     return { success: true, fixedEntries, invalidEntries };
   } catch (error) {
     logger.error('Error during database cleanup:', error);
@@ -128,4 +149,4 @@ export function cleanupIngredientsDatabase() {
  */
 export function initializeDatabaseIntegrity() {
   return cleanupIngredientsDatabase();
-} 
+}

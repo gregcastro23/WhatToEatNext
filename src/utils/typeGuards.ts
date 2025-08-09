@@ -8,10 +8,10 @@ export const CHAKRA_KEYS = [
   'heart',
   'throat',
   'brow',
-  'crown'
+  'crown',
 ] as const;
 
-export type ChakraKey = typeof CHAKRA_KEYS[number];
+export type ChakraKey = (typeof CHAKRA_KEYS)[number];
 
 /**
  * Type guard to check if a value is a valid chakra key
@@ -32,10 +32,10 @@ export function isNumber(value: unknown): value is number {
  */
 export function isChakraEnergies(obj: unknown): obj is ChakraEnergies {
   if (typeof obj !== 'object' || obj === null) return false;
-  
+
   // Check all keys and values are valid
   return Object.entries(obj as Record<string, unknown>).every(
-    ([key, value]) => isChakraKey(key) && isNumber(value)
+    ([key, value]) => isChakraKey(key) && isNumber(value),
   );
 }
 
@@ -51,10 +51,10 @@ export function isNonEmptyString(value: unknown): value is string {
  */
 export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item is T): value is T[] {
   if (!Array.isArray(value)) return false;
-  
+
   // If no item guard is provided, just check it's an array
   if (!itemGuard) return true;
-  
+
   // Check each item passes the guard
   return value.every(item => itemGuard(item));
 }
@@ -64,4 +64,4 @@ export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item i
  */
 export function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
-} 
+}

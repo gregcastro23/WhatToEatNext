@@ -1,7 +1,7 @@
 # Docker Compose override for local development
 # This file automatically extends docker-compose.yml when running docker-compose up
 
-version: '3.8'
+version: "3.8"
 
 services:
   whattoeatnext:
@@ -14,7 +14,7 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
       - CHOKIDAR_USEPOLLING=true
       - NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=true
-      - NEXT_PUBLIC_API_CACHE_TIME=60  # Shorter cache for development
+      - NEXT_PUBLIC_API_CACHE_TIME=60 # Shorter cache for development
     volumes:
       # Mount source code for hot reload
       - .:/app:cached
@@ -23,13 +23,13 @@ services:
       - /app/.next
     ports:
       - "3000:3000"
-      - "9229:9229"  # Node.js debugger port
+      - "9229:9229" # Node.js debugger port
     command: yarn dev
-    
+
     # Development-specific health check
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 30s 
+      start_period: 30s

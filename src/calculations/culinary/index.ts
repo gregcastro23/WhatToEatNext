@@ -1,20 +1,17 @@
 /**
  * Culinary Calculations Module Index
- * 
+ *
  * Barrel exports for all culinary calculation modules
  */
 
 // Export all from cuisine recommendations
 export {
   generateCuisineRecommendations,
-  type CuisineRecommendation
+  type CuisineRecommendation,
 } from './cuisineRecommendations';
 
 // Export all from recipe matching
-export {
-  calculateRecipeCompatibility,
-  type RecipeCompatibilityResult
-} from './recipeMatching';
+export { calculateRecipeCompatibility, type RecipeCompatibilityResult } from './recipeMatching';
 
 // Export all from seasonal adjustments
 export {
@@ -22,7 +19,7 @@ export {
   applyLunarPhaseAdjustments,
   applyTimeOfDayAdjustments,
   getSeasonalCookingRecommendations,
-  calculateSeasonalEffectiveness
+  calculateSeasonalEffectiveness,
 } from './seasonalAdjustments';
 
 // Default exports

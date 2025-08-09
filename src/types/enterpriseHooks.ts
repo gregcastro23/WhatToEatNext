@@ -1,6 +1,6 @@
 /**
  * Enterprise Intelligence Hook Types
- * 
+ *
  * Comprehensive type definitions for enterprise intelligence hooks and analysis systems
  * to replace any types in useEnterpriseIntelligence and related hooks.
  */
@@ -38,12 +38,15 @@ export interface EnterpriseIngredientData {
 }
 
 export interface EnterpriseAstrologicalContext {
-  planetaryPositions?: Record<string, {
-    longitude: number;
-    latitude?: number;
-    retrograde?: boolean;
-    house?: number;
-  }>;
+  planetaryPositions?: Record<
+    string,
+    {
+      longitude: number;
+      latitude?: number;
+      retrograde?: boolean;
+      house?: number;
+    }
+  >;
   zodiacSign?: string;
   lunarPhase?: string;
   elementalInfluence?: {
@@ -122,16 +125,17 @@ export interface EnterpriseIntelligenceHookMethods {
     recipeData: EnterpriseRecipeData,
     ingredientData: EnterpriseIngredientData,
     astrologicalContext: EnterpriseAstrologicalContext,
-    options?: EnterpriseIntelligenceOptions
+    options?: EnterpriseIntelligenceOptions,
   ) => Promise<void>;
-  
+
   clearAnalysis: () => void;
   refreshAnalysis: () => Promise<void>;
   getRecommendations: () => EnterpriseIntelligenceRecommendations;
   getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null;
 }
 
-export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState & EnterpriseIntelligenceHookMethods;
+export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &
+  EnterpriseIntelligenceHookMethods;
 
 // Chakra analysis types
 export interface ChakraAnalysisContext {

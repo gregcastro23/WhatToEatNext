@@ -21,20 +21,20 @@ function fixSafeAnyTypes(filePath) {
       {
         pattern: /\bany\[\]/g,
         replacement: 'unknown[]',
-        description: 'array types'
+        description: 'array types',
       },
       // Array<any> -> Array<unknown>
       {
         pattern: /Array<any>/g,
         replacement: 'Array<unknown>',
-        description: 'Array generic types'
+        description: 'Array generic types',
       },
       // Record<string, any> -> Record<string, unknown>
       {
         pattern: /Record<string,\s*any>/g,
         replacement: 'Record<string, unknown>',
-        description: 'Record types'
-      }
+        description: 'Record types',
+      },
     ];
 
     for (const { pattern, replacement, description } of replacements) {
@@ -68,7 +68,6 @@ function fixSafeAnyTypes(filePath) {
     }
 
     return fixes;
-
   } catch (error) {
     console.error(`❌ Error processing ${filePath}:`, error.message);
     return 0;
@@ -77,7 +76,10 @@ function fixSafeAnyTypes(filePath) {
 
 function getTopFiles() {
   try {
-    const output = execSync('yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | cut -d: -f1 | sort | uniq -c | sort -nr | head -20', { encoding: 'utf8' });
+    const output = execSync(
+      'yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | cut -d: -f1 | sort | uniq -c | sort -nr | head -20',
+      { encoding: 'utf8' },
+    );
     const files = [];
 
     output.split('\n').forEach(line => {
@@ -116,7 +118,10 @@ console.log(`   Total fixes applied: ${totalFixes}`);
 // Final check
 console.log(`\n🧪 Final validation...`);
 try {
-  const lintOutput = execSync('yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l', { encoding: 'utf8' });
+  const lintOutput = execSync(
+    'yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l',
+    { encoding: 'utf8' },
+  );
   const remainingIssues = parseInt(lintOutput.trim());
   console.log(`📊 Remaining explicit-any issues: ${remainingIssues}`);
 

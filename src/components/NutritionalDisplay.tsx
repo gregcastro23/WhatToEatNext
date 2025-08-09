@@ -14,10 +14,12 @@ interface NutritionalDisplayProps {
 export default function NutritionalDisplay({
   ingredientName,
   compact = false,
-  showSearch = true
+  showSearch = true,
 }: NutritionalDisplayProps) {
   const [searchTerm, setSearchTerm] = useState(ingredientName || '');
-  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(ingredientName || null);
+  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(
+    ingredientName || null,
+  );
   const [nutritionalData, setNutritionalData] = useState<NutritionalProfile | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -57,36 +59,34 @@ export default function NutritionalDisplay({
 
   // If loading, show loading state
   if (loading) {
-    return <div className="text-gray-500">Loading nutritional data...</div>;
+    return <div className='text-gray-500'>Loading nutritional data...</div>;
   }
 
   // If no data and no search ability, show message
   if (!nutritionalData && !showSearch) {
-    return <div className="text-gray-500">No nutritional data available</div>;
+    return <div className='text-gray-500'>No nutritional data available</div>;
   }
 
   return (
-    <div className="bg-white shadow rounded-lg p-4">
+    <div className='rounded-lg bg-white p-4 shadow'>
       {showSearch && (
-        <div className="mb-4">
-          <div className="relative">
+        <div className='mb-4'>
+          <div className='relative'>
             <input
-              type="text"
-              placeholder="Search for an ingredient..."
+              type='text'
+              placeholder='Search for an ingredient...'
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              onChange={e => setSearchTerm(e.target.value)}
+              className='w-full rounded border border-gray-300 p-2'
             />
             {searchTerm && (
-              <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-b mt-1 max-h-60 overflow-y-auto">
+              <div className='absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-b border border-gray-300 bg-white'>
                 {availableIngredients
-                  .filter(item => 
-                    item.toLowerCase().includes(searchTerm.toLowerCase())
-                  )
+                  .filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
                   .map((item, index) => (
                     <div
                       key={index}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      className='cursor-pointer p-2 hover:bg-gray-100'
                       onClick={() => {
                         handleIngredientSelect(item);
                         setSearchTerm(item);
@@ -103,65 +103,123 @@ export default function NutritionalDisplay({
 
       {nutritionalData ? (
         <div>
-          <h3 className="text-lg font-semibold mb-2">{String((nutritionalData as Record<string, unknown>).name || selectedIngredient)}</h3>
-          
+          <h3 className='mb-2 text-lg font-semibold'>
+            {String((nutritionalData as Record<string, unknown>).name || selectedIngredient)}
+          </h3>
+
           {/* Macronutrients Section */}
-          <div className="mb-4">
-            <h4 className="font-medium text-gray-700">Macronutrients</h4>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="text-sm">Calories: {Number((nutritionalData as Record<string, unknown>).calories || 0)}</div>
-              <div className="text-sm">Protein: {Number(((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>).protein || 0)}g</div>
-              <div className="text-sm">Carbs: {Number(((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>).carbs || 0)}g</div>
-              <div className="text-sm">Fat: {Number(((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>).fat || 0)}g</div>
-              <div className="text-sm">Fiber: {Number(((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>).fiber || 0)}g</div>
+          <div className='mb-4'>
+            <h4 className='font-medium text-gray-700'>Macronutrients</h4>
+            <div className='grid grid-cols-2 gap-2'>
+              <div className='text-sm'>
+                Calories: {Number((nutritionalData as Record<string, unknown>).calories || 0)}
+              </div>
+              <div className='text-sm'>
+                Protein:{' '}
+                {Number(
+                  ((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>)
+                    .protein || 0,
+                )}
+                g
+              </div>
+              <div className='text-sm'>
+                Carbs:{' '}
+                {Number(
+                  ((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>)
+                    .carbs || 0,
+                )}
+                g
+              </div>
+              <div className='text-sm'>
+                Fat:{' '}
+                {Number(
+                  ((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>)
+                    .fat || 0,
+                )}
+                g
+              </div>
+              <div className='text-sm'>
+                Fiber:{' '}
+                {Number(
+                  ((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>)
+                    .fiber || 0,
+                )}
+                g
+              </div>
             </div>
           </div>
 
           {!compact && (
             <>
               {/* Vitamins Section */}
-              {(nutritionalData as Record<string, unknown>).vitamins && Object.keys((nutritionalData as Record<string, unknown>).vitamins as Record<string, unknown> || {}).length > 0 && (
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-700">Vitamins (% Daily Value)</h4>
-                  <div className="grid grid-cols-3 gap-1">
-                    {Object.entries((nutritionalData as Record<string, unknown>).vitamins as Record<string, unknown> || {}).map(([vitamin, value]) => (
-                      <div key={vitamin} className="text-sm">
-                        {vitamin}: {formatPercent(value as number)}
-                      </div>
-                    ))}
+              {(nutritionalData as Record<string, unknown>).vitamins &&
+                Object.keys(
+                  ((nutritionalData as Record<string, unknown>).vitamins as Record<
+                    string,
+                    unknown
+                  >) || {},
+                ).length > 0 && (
+                  <div className='mb-4'>
+                    <h4 className='font-medium text-gray-700'>Vitamins (% Daily Value)</h4>
+                    <div className='grid grid-cols-3 gap-1'>
+                      {Object.entries(
+                        ((nutritionalData as Record<string, unknown>).vitamins as Record<
+                          string,
+                          unknown
+                        >) || {},
+                      ).map(([vitamin, value]) => (
+                        <div key={vitamin} className='text-sm'>
+                          {vitamin}: {formatPercent(value as number)}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Minerals Section */}
-              {(nutritionalData as Record<string, unknown>).minerals && Object.keys((nutritionalData as Record<string, unknown>).minerals as Record<string, unknown> || {}).length > 0 && (
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-700">Minerals (% Daily Value)</h4>
-                  <div className="grid grid-cols-3 gap-1">
-                    {Object.entries((nutritionalData as Record<string, unknown>).minerals as Record<string, unknown> || {}).map(([mineral, value]) => (
-                      <div key={mineral} className="text-sm">
-                        {mineral}: {formatPercent(value as number)}
-                      </div>
-                    ))}
+              {(nutritionalData as Record<string, unknown>).minerals &&
+                Object.keys(
+                  ((nutritionalData as Record<string, unknown>).minerals as Record<
+                    string,
+                    unknown
+                  >) || {},
+                ).length > 0 && (
+                  <div className='mb-4'>
+                    <h4 className='font-medium text-gray-700'>Minerals (% Daily Value)</h4>
+                    <div className='grid grid-cols-3 gap-1'>
+                      {Object.entries(
+                        ((nutritionalData as Record<string, unknown>).minerals as Record<
+                          string,
+                          unknown
+                        >) || {},
+                      ).map(([mineral, value]) => (
+                        <div key={mineral} className='text-sm'>
+                          {mineral}: {formatPercent(value as number)}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Data Source */}
               {(nutritionalData as Record<string, unknown>).source && (
-                <div className="text-xs text-gray-500 mt-2">
-                  Source: {String((nutritionalData as Record<string, unknown>).source)} 
-                  {(nutritionalData as Record<string, unknown>).fdcId ? ` (ID: ${String((nutritionalData as Record<string, unknown>).fdcId)})` : ''}
+                <div className='mt-2 text-xs text-gray-500'>
+                  Source: {String((nutritionalData as Record<string, unknown>).source)}
+                  {(nutritionalData as Record<string, unknown>).fdcId
+                    ? ` (ID: ${String((nutritionalData as Record<string, unknown>).fdcId)})`
+                    : ''}
                 </div>
               )}
             </>
           )}
         </div>
       ) : (
-        <div className="text-gray-500">
-          {showSearch ? "Search for an ingredient to see nutritional information" : "No nutritional data available"}
+        <div className='text-gray-500'>
+          {showSearch
+            ? 'Search for an ingredient to see nutritional information'
+            : 'No nutritional data available'}
         </div>
       )}
     </div>
   );
-} 
+}

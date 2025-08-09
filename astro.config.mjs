@@ -21,4 +21,4 @@ export default defineConfig({
   // adapter: process.env.VERCEL ? vercel() : node({
   //   mode: 'standalone',
   // }),
-}); 
+});

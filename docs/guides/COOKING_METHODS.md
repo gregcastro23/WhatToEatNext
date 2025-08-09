@@ -1,6 +1,7 @@
 # Cooking Methods
 
-This document provides an overview of the cooking methods system in the WhatToEatNext application.
+This document provides an overview of the cooking methods system in the
+WhatToEatNext application.
 
 ## Data Structure
 
@@ -72,9 +73,11 @@ Each cooking method includes:
 
 ## Helper Functions
 
-- `getDetailedCookingMethod(methodName)`: Get detailed data for a specific method
+- `getDetailedCookingMethod(methodName)`: Get detailed data for a specific
+  method
 - `getCookingMethodNames()`: Get list of all method names
-- `getCookingMethodsByElement(element, threshold)`: Find methods compatible with an element
+- `getCookingMethodsByElement(element, threshold)`: Find methods compatible with
+  an element
 
 ## Usage Examples
 
@@ -104,4 +107,4 @@ To add a new cooking method:
 ## Related Components
 
 - `CookingMethods.tsx`: Main component for displaying methods
-- `CookingMethodsSection.tsx`: Component for displaying categorized methods 
+- `CookingMethodsSection.tsx`: Component for displaying categorized methods

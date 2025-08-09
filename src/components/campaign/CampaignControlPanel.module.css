@@ -339,7 +339,7 @@
   background: #f8faff;
 }
 
-.phase-checkbox input[type="checkbox"] {
+.phase-checkbox input[type='checkbox'] {
   margin: 0;
   cursor: pointer;
 }
@@ -380,7 +380,7 @@
   cursor: pointer;
 }
 
-.safety-option input[type="radio"] {
+.safety-option input[type='radio'] {
   margin: 0;
   cursor: pointer;
 }
@@ -515,8 +515,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {
@@ -549,32 +553,32 @@
   .campaign-control-panel {
     padding: 1rem;
   }
-  
+
   .panel-header {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
   }
-  
+
   .quick-actions-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .health-metrics {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .campaign-metrics {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .result-metrics {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .safety-options {
     flex-direction: column;
     gap: 0.5rem;

@@ -10,7 +10,11 @@ import * as path from 'path';
 
 import { logger } from '../../utils/logger';
 
-import { ImportCleanupSystem, DEFAULT_IMPORT_CLEANUP_CONFIG, ImportCleanupConfig } from './ImportCleanupSystem';
+import {
+  ImportCleanupSystem,
+  DEFAULT_IMPORT_CLEANUP_CONFIG,
+  ImportCleanupConfig,
+} from './ImportCleanupSystem';
 
 interface CLIOptions {
   files?: string[];
@@ -37,20 +41,20 @@ class ImportCleanupCLI {
 
       // Load configuration
       const config = await this.loadConfiguration();
-      
+
       // Create cleanup system
       const cleanupSystem = new ImportCleanupSystem(config);
 
       // Get target files
-      const targetFiles = this.options.files || await this.getDefaultFiles();
-      
+      const targetFiles = this.options.files || (await this.getDefaultFiles());
+
       if (targetFiles.length === 0) {
         console.log('❌ No TypeScript files found to process');
         return;
       }
 
       console.log(`📁 Found ${targetFiles.length} files to process`);
-      
+
       if (this.options.verbose) {
         console.log('Files to process:');
         targetFiles.forEach(file => console.log(`  - ${file}`));
@@ -69,7 +73,6 @@ class ImportCleanupCLI {
       }
 
       console.log('\n✅ Import cleanup completed successfully!');
-
     } catch (error) {
       console.error('❌ Import cleanup failed:', (error as Error).message);
       if (this.options.verbose) {
@@ -116,7 +119,7 @@ class ImportCleanupCLI {
       const { execSync } = require('child_process');
       const output = execSync(
         'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
-        { encoding: 'utf8', stdio: 'pipe' }
+        { encoding: 'utf8', stdio: 'pipe' },
       );
       return output.trim().split('\n').filter(Boolean);
     } catch (error) {
@@ -125,9 +128,12 @@ class ImportCleanupCLI {
     }
   }
 
-  private async runFullCleanup(cleanupSystem: ImportCleanupSystem, targetFiles: string[]): Promise<void> {
+  private async runFullCleanup(
+    cleanupSystem: ImportCleanupSystem,
+    targetFiles: string[],
+  ): Promise<void> {
     console.log('🔄 Running full import cleanup...');
-    
+
     if (this.options.dryRun) {
       console.log('🔍 DRY RUN MODE - No files will be modified\n');
       await this.runDryRun(cleanupSystem, targetFiles);
@@ -138,13 +144,16 @@ class ImportCleanupCLI {
     this.printResults(result);
   }
 
-  private async runUnusedImportCleanup(cleanupSystem: ImportCleanupSystem, targetFiles: string[]): Promise<void> {
+  private async runUnusedImportCleanup(
+    cleanupSystem: ImportCleanupSystem,
+    targetFiles: string[],
+  ): Promise<void> {
     console.log('🗑️  Running unused import cleanup...');
 
     if (this.options.dryRun) {
       const unusedImports = await cleanupSystem.detectUnusedImports(targetFiles);
       console.log(`\n📊 Found ${unusedImports.length} unused imports:`);
-      
+
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
         console.log(`\n📄 ${filePath}:`);
@@ -159,7 +168,10 @@ class ImportCleanupCLI {
     console.log(`\n✅ Removed ${removedCount} unused imports`);
   }
 
-  private async runImportOrganization(cleanupSystem: ImportCleanupSystem, targetFiles: string[]): Promise<void> {
+  private async runImportOrganization(
+    cleanupSystem: ImportCleanupSystem,
+    targetFiles: string[],
+  ): Promise<void> {
     console.log('📋 Running import organization...');
 
     if (this.options.dryRun) {
@@ -171,7 +183,10 @@ class ImportCleanupCLI {
     console.log(`\n✅ Organized imports in ${organizedCount} files`);
   }
 
-  private async runStyleEnforcement(cleanupSystem: ImportCleanupSystem, targetFiles: string[]): Promise<void> {
+  private async runStyleEnforcement(
+    cleanupSystem: ImportCleanupSystem,
+    targetFiles: string[],
+  ): Promise<void> {
     console.log('🎨 Running import style enforcement...');
 
     if (this.options.dryRun) {
@@ -183,14 +198,17 @@ class ImportCleanupCLI {
     console.log(`\n✅ Fixed import styles in ${fixedCount} files`);
   }
 
-  private async runDryRun(cleanupSystem: ImportCleanupSystem, targetFiles: string[]): Promise<void> {
+  private async runDryRun(
+    cleanupSystem: ImportCleanupSystem,
+    targetFiles: string[],
+  ): Promise<void> {
     // Detect unused imports
     const unusedImports = await cleanupSystem.detectUnusedImports(targetFiles);
-    
+
     console.log('📊 Dry Run Results:');
     console.log(`  - Files to process: ${targetFiles.length}`);
     console.log(`  - Unused imports found: ${unusedImports.length}`);
-    
+
     if (unusedImports.length > 0) {
       console.log('\n🗑️  Unused imports by file:');
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
@@ -220,7 +238,9 @@ class ImportCleanupCLI {
     console.log(`  - Unused imports removed: ${result.unusedImportsRemoved}`);
     console.log(`  - Files with organized imports: ${result.importsOrganized}`);
     console.log(`  - Style violations fixed: ${result.styleViolationsFixed}`);
-    console.log(`  - Build validation: ${result.buildValidationPassed ? '✅ Passed' : '❌ Failed'}`);
+    console.log(
+      `  - Build validation: ${result.buildValidationPassed ? '✅ Passed' : '❌ Failed'}`,
+    );
 
     if (result.errors.length > 0) {
       console.log('\n❌ Errors:');
@@ -241,7 +261,7 @@ function parseArguments(): CLIOptions {
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    
+
     switch (arg) {
       case '--files':
         options.files = args[++i]?.split(',') || [];

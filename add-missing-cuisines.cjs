@@ -148,7 +148,7 @@ const missingCuisines = `
 // Replace the "More cuisines as needed..." comment with the actual cuisines
 content = content.replace(
   /\s*\/\/ More cuisines as needed\.\.\.\s*\n/,
-  missingCuisines + '\n  // More cuisines as needed...\n'
+  missingCuisines + '\n  // More cuisines as needed...\n',
 );
 
 // Write the fixed content back

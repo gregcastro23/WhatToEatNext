@@ -1,6 +1,7 @@
 # Data Format Standards
 
-This document outlines the standardized data formats used throughout the application, with a focus on proper formatting, validation, and error handling.
+This document outlines the standardized data formats used throughout the
+application, with a focus on proper formatting, validation, and error handling.
 
 ## Table of Contents
 
@@ -16,11 +17,15 @@ This document outlines the standardized data formats used throughout the applica
 
 ## Introduction
 
-Our application uses a standardized approach to data handling to ensure consistency, type safety, and proper error handling across all components. This document serves as a guide for contributors to understand and follow these standards.
+Our application uses a standardized approach to data handling to ensure
+consistency, type safety, and proper error handling across all components. This
+document serves as a guide for contributors to understand and follow these
+standards.
 
 ## Using the Data Loader
 
-The `DataLoader` utility provides a robust way to load data with built-in caching, validation, transformation, and error handling.
+The `DataLoader` utility provides a robust way to load data with built-in
+caching, validation, transformation, and error handling.
 
 ### Basic Usage
 
@@ -56,7 +61,7 @@ async function loadRecipes() {
     }
     return response.json();
   });
-  
+
   return result.data;
 }
 ```
@@ -88,7 +93,7 @@ interface Recipe {
   timeToMake: string;             // Time to prepare and cook
   numberOfServings: number;       // Number of servings (1-12)
   elementalProperties: ElementalProperties; // Elemental properties
-  
+
   // Optional properties
   mealType?: string | string[];   // Type of meal
   season?: string | string[];     // Season(s) the recipe is for
@@ -161,12 +166,13 @@ interface ElementalProperties {
 
 ## Data Validation
 
-All data should be validated before use. The application provides type guards for this purpose:
+All data should be validated before use. The application provides type guards
+for this purpose:
 
 ```typescript
 import { isRecipe, isRecipeIngredient } from '../services/recipeData';
-import { 
-  isAstrologicalProfile, 
+import {
+  isAstrologicalProfile,
   isElementalProperties
 } from '../utils/enhancedTypeGuards';
 
@@ -175,17 +181,18 @@ function processRecipe(data: unknown) {
   if (!isRecipe(data)) {
     throw new Error('Invalid recipe data');
   }
-  
+
   // Now it's safe to use as Recipe
   const recipe: Recipe = data;
-  
+
   // Process the recipe...
 }
 ```
 
 ### Handling Unknown Data
 
-Always use type guards when working with data that could be in an unknown format:
+Always use type guards when working with data that could be in an unknown
+format:
 
 ```typescript
 // Bad - assumes data structure is correct
@@ -198,7 +205,7 @@ function processGood(data: unknown) {
   if (!isRecipe(data)) {
     return [];
   }
-  
+
   return data.ingredients.map(i => i.name);
 }
 ```
@@ -237,13 +244,17 @@ Common error codes:
 
 ## Best Practices
 
-1. **Always validate data** before processing, especially data from external sources.
+1. **Always validate data** before processing, especially data from external
+   sources.
 
-2. **Provide fallbacks** for all data loading operations to ensure the application remains functional.
+2. **Provide fallbacks** for all data loading operations to ensure the
+   application remains functional.
 
-3. **Use type guards** to ensure type safety when working with data of uncertain structure.
+3. **Use type guards** to ensure type safety when working with data of uncertain
+   structure.
 
-4. **Normalize data** to ensure consistency using the `dataTransformers` utilities.
+4. **Normalize data** to ensure consistency using the `dataTransformers`
+   utilities.
 
 5. **Handle errors gracefully** and provide meaningful feedback to users.
 
@@ -251,4 +262,5 @@ Common error codes:
 
 7. **Use standardized formats** for all data structures.
 
-8. **Document any deviations** from the standard formats with a clear explanation. 
+8. **Document any deviations** from the standard formats with a clear
+   explanation.

@@ -1,5 +1,5 @@
 // Export hooks for easy importing
-export { useIngredientMapping } from './useIngredientMapping'; 
+export { useIngredientMapping } from './useIngredientMapping';
 
 // ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========
 
@@ -20,7 +20,7 @@ export function useAstroTarotElementalState() {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -46,16 +46,16 @@ export function useAstroTarotElementalState() {
 
   // Combine astrological and tarot influences
   const combinedState: ElementalProperties = {
-    Fire: (Fire * 0.7) + (tarotInfluence.Fire * 0.3),
-    Water: (Water * 0.7) + (tarotInfluence.Water * 0.3),
-    Earth: (Earth * 0.7) + (tarotInfluence.Earth * 0.3),
-    Air: (Air * 0.7) + (tarotInfluence.Air * 0.3)
+    Fire: Fire * 0.7 + tarotInfluence.Fire * 0.3,
+    Water: Water * 0.7 + tarotInfluence.Water * 0.3,
+    Earth: Earth * 0.7 + tarotInfluence.Earth * 0.3,
+    Air: Air * 0.7 + tarotInfluence.Air * 0.3,
   };
 
   return {
     ...combinedState,
     tarotInfluence,
     astrologicalState: { Fire, Water, Earth, Air },
-    isLoading: astroLoading || isLoading
+    isLoading: astroLoading || isLoading,
   };
-} 
+}

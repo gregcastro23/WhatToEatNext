@@ -1,8 +1,8 @@
-import type { 
-  CookingMethod, 
-  ElementalProperties, 
-  ZodiacSign, 
-  ThermodynamicProperties 
+import type {
+  CookingMethod,
+  ElementalProperties,
+  ZodiacSign,
+  ThermodynamicProperties,
 } from './shared';
 
 /**
@@ -19,7 +19,7 @@ export interface CookingMethodData {
   };
   suitable_for: string[];
   benefits: string[];
-  
+
   // Optional properties
   astrologicalInfluences?: {
     favorableZodiac?: ZodiacSign[];
@@ -28,9 +28,9 @@ export interface CookingMethodData {
     dominantPlanets?: string[];
     rulingPlanets?: string[];
   };
-  
+
   thermodynamicProperties?: ThermodynamicProperties;
-  
+
   toolsRequired?: string[];
   commonMistakes?: string[];
   pairingSuggestions?: string[];
@@ -39,19 +39,19 @@ export interface CookingMethodData {
   nutrientRetention?: Record<string, number>;
   regionalVariations?: Record<string, string[]>;
   safetyFeatures?: string[];
-  
+
   // Additional fields that may be used in the application
   culturalOrigin?: string;
   bestFor?: string[];
   seasonalPreference?: string[];
   variations?: CookingMethodData[];
   relatedToMainMethod?: string;
-  
+
   // Fields used for scoring and recommendations
   score?: number;
   scoreDetails?: Record<string, number>;
   planetaryAffinity?: number;
-  
+
   // Additional metadata
   history?: string;
   modernVariations?: string[];
@@ -59,7 +59,7 @@ export interface CookingMethodData {
   sustainabilityRating?: number;
   equipmentComplexity?: number;
   healthConsiderations?: string[];
-  
+
   // Detailed cooking technique information
   expertTips?: string[];
   ingredientPreparation?: Record<string, string>;
@@ -67,10 +67,10 @@ export interface CookingMethodData {
   doneness_indicators?: Record<string, string>;
   ingredientInteractions?: Record<string, string>;
   technicalNotes?: Record<string, Record<string, string>>;
-  
+
   // Alchemical aspects for advanced cooking methods
   alchemicalAspects?: Record<string, Record<string, string>>;
-} 
+}
 
 // Export alias for compatibility
-export type { CookingMethod } from './shared'; 
+export type { CookingMethod } from './shared';

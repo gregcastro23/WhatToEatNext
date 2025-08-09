@@ -1,6 +1,6 @@
 /**
  * Test Component Helpers
- * 
+ *
  * Utilities for creating type-safe test components and mocks
  */
 
@@ -10,33 +10,27 @@ import type { AlchemicalProviderProps, MainPageLayoutProps } from '../types/test
 
 // Mock AlchemicalProvider that accepts children
 export const MockAlchemicalProvider: React.FC<AlchemicalProviderProps> = ({ children }) => {
-  return (
-    <div data-testid="mock-alchemical-provider">
-      {children}
-    </div>
-  );
+  return <div data-testid='mock-alchemical-provider'>{children}</div>;
 };
 
 // Mock MainPageLayout with proper props
-export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({ 
-  children, 
-  debugMode = false, 
-  loading = false, 
-  onSectionNavigate: _onSectionNavigate 
+export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
+  children,
+  debugMode = false,
+  loading = false,
+  onSectionNavigate: _onSectionNavigate,
 }) => {
   return (
-    <div data-testid="mock-main-page-layout">
-      <div data-testid="debug-mode">{debugMode ? 'debug' : 'production'}</div>
-      <div data-testid="loading-state">{loading ? 'loading' : 'loaded'}</div>
+    <div data-testid='mock-main-page-layout'>
+      <div data-testid='debug-mode'>{debugMode ? 'debug' : 'production'}</div>
+      <div data-testid='loading-state'>{loading ? 'loading' : 'loaded'}</div>
       {children}
     </div>
   );
 };
 
 // Type-safe component wrapper for testing
-export const createTestWrapper = <P extends object>(
-  Component: React.ComponentType<P>
-) => {
+export const createTestWrapper = <P extends object>(Component: React.ComponentType<P>) => {
   return (props: P) => <Component {...props} />;
 };
 
@@ -47,10 +41,10 @@ export const renderWithProviders = (
     withAlchemicalProvider?: boolean;
     debugMode?: boolean;
     loading?: boolean;
-  }
+  },
 ) => {
   const { withAlchemicalProvider = true, debugMode = false, loading = false } = options || {};
-  
+
   if (withAlchemicalProvider) {
     return (
       <MockAlchemicalProvider>
@@ -60,16 +54,13 @@ export const renderWithProviders = (
       </MockAlchemicalProvider>
     );
   }
-  
+
   return component;
 };
 
 // Mock component factory with proper typing
-export const createMockComponent = <P extends object>(
-  name: string,
-  defaultProps?: Partial<P>
-) => {
-  const MockComponent: React.FC<P> = (props) => {
+export const createMockComponent = <P extends object>(name: string, defaultProps?: Partial<P>) => {
+  const MockComponent: React.FC<P> = props => {
     const mergedProps = { ...defaultProps, ...props };
     return (
       <div data-testid={`mock-${name.toLowerCase()}`}>
@@ -80,7 +71,7 @@ export const createMockComponent = <P extends object>(
       </div>
     );
   };
-  
+
   MockComponent.displayName = `Mock${name}`;
   return MockComponent;
 };
@@ -106,7 +97,7 @@ export class TestErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div data-testid="test-error-boundary">
+        <div data-testid='test-error-boundary'>
           <h2>Test Error Boundary</h2>
           <p>Error: {this.state.error?.message}</p>
         </div>
@@ -118,15 +109,13 @@ export class TestErrorBoundary extends React.Component<
 }
 
 // Async component wrapper for testing
-export const AsyncTestWrapper: React.FC<{ 
+export const AsyncTestWrapper: React.FC<{
   children: React.ReactNode;
   fallback?: React.ReactNode;
 }> = ({ children, fallback = <div>Loading...</div> }) => {
   return (
     <React.Suspense fallback={fallback}>
-      <TestErrorBoundary>
-        {children}
-      </TestErrorBoundary>
+      <TestErrorBoundary>{children}</TestErrorBoundary>
     </React.Suspense>
   );
 };

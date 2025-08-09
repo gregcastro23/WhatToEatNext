@@ -1,4 +1,4 @@
-import type { Element, ElementalProperties } from "@/types/alchemy";
+import type { Element, ElementalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/recipe';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
@@ -8,10 +8,6 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
  * Consolidates elemental properties, calculations, and compatibility functions
  * following the elemental principles guide where elements are individually valuable.
  */
-
-
-
-
 
 // --- Core Types ---
 
@@ -59,7 +55,8 @@ export interface ElementalProfile {
 
 // --- Constants ---
 
-export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor> = { Fire: {
+export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor> = {
+  Fire: {
     primary: '#FF6B35',
     secondary: '#FF8E53',
     text: '#D63031',
@@ -86,16 +83,21 @@ export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor>
     text: '#2D3436',
     border: '#00CEC9',
     bg: '#F0FFF4',
-  }
+  },
 };
 
-export const ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = { Fire: '🔥', Water: '💧', Earth: '🌍', Air: '💨'
+export const ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = {
+  Fire: '🔥',
+  Water: '💧',
+  Earth: '🌍',
+  Air: '💨',
 };
 
-export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = { Fire: 'Energizing, warming, transformative',
+export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = {
+  Fire: 'Energizing, warming, transformative',
   Water: 'Cooling, flowing, adaptive',
   Earth: 'Grounding, nourishing, stable',
-  Air: 'Light, fresh, inspiring'
+  Air: 'Light, fresh, inspiring',
 };
 
 // --- Core Functions ---
@@ -113,9 +115,11 @@ export function validateElementalProperties(properties: ElementalProperties): bo
   const requiredElements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
 
   for (const element of requiredElements) {
-    if (typeof properties[element] !== 'number' ||
-        properties[element] < 0 ||
-        properties[element] > 1) {
+    if (
+      typeof properties[element] !== 'number' ||
+      properties[element] < 0 ||
+      properties[element] > 1
+    ) {
       return false;
     }
   }
@@ -129,7 +133,11 @@ export function validateElementalProperties(properties: ElementalProperties): bo
  * @returns Normalized elemental properties
  */
 export function normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-  const normalized: ElementalProperties = { Fire: properties.Fire || 0, Water: properties.Water || 0, Earth: properties.Earth || 0, Air: properties.Air || 0
+  const normalized: ElementalProperties = {
+    Fire: properties.Fire || 0,
+    Water: properties.Water || 0,
+    Earth: properties.Earth || 0,
+    Air: properties.Air || 0,
   };
 
   const total = normalized.Fire + normalized.Water + normalized.Earth + normalized.Air;
@@ -138,7 +146,11 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; // Default balanced state
   }
 
-  return { Fire: normalized.Fire / total, Water: normalized.Water / total, Earth: normalized.Earth / total, Air: normalized.Air / total
+  return {
+    Fire: normalized.Fire / total,
+    Water: normalized.Water / total,
+    Earth: normalized.Earth / total,
+    Air: normalized.Air / total,
   };
 }
 
@@ -147,14 +159,16 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
  * @param elementalState Elemental properties
  * @returns Dominant element key
  */
-export function calculateDominantElement(elementalState: ElementalProperties): keyof ElementalProperties {
+export function calculateDominantElement(
+  elementalState: ElementalProperties,
+): keyof ElementalProperties {
   let dominantElement: keyof ElementalProperties = 'Fire';
   let maxValue = 0;
 
   Object.entries(elementalState || {}).forEach(([element, value]) => {
     if (value > maxValue) {
       maxValue = value;
-      dominantElement = element as "Fire" | "Water" | "Earth" | "Air";
+      dominantElement = element as 'Fire' | 'Water' | 'Earth' | 'Air';
     }
   });
 
@@ -245,7 +259,10 @@ export async function calculateDetailedElementalCompatibility(
   const userDominant = calculateDominantElement(userProps);
 
   // Calculate base compatibility
-  const baseCompatibility = calculateElementalCompatibility(recipeDominant as any, userDominant as any);
+  const baseCompatibility = calculateElementalCompatibility(
+    recipeDominant as any,
+    userDominant as any,
+  );
 
   // Calculate complementary score (how well elements work together)
   const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
@@ -254,7 +271,7 @@ export async function calculateDetailedElementalCompatibility(
   const balanceScore = calculateBalanceScore(recipeElemental, userProps);
 
   // Overall compatibility is weighted average
-  const compatibility = (baseCompatibility * 0.4) + (complementaryScore * 0.3) + (balanceScore * 0.3);
+  const compatibility = baseCompatibility * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
 
   return {
     compatibility,
@@ -264,7 +281,11 @@ export async function calculateDetailedElementalCompatibility(
     },
     complementaryScore,
     balanceScore,
-    recommendation: generateCompatibilityRecommendation(compatibility, recipeDominant, userDominant)
+    recommendation: generateCompatibilityRecommendation(
+      compatibility,
+      recipeDominant,
+      userDominant,
+    ),
   };
 }
 
@@ -273,7 +294,9 @@ export async function calculateDetailedElementalCompatibility(
  * @param element Element to find complement for
  * @returns Complementary element (same element)
  */
-export function getComplementaryElement(element: keyof ElementalProperties): keyof ElementalProperties {
+export function getComplementaryElement(
+  element: keyof ElementalProperties,
+): keyof ElementalProperties {
   // Each element complements itself most strongly
   return element;
 }
@@ -298,11 +321,15 @@ export function getStrengtheningElement(element: Element): Element {
 export function combineElementalProperties(
   a: ElementalProperties,
   b: ElementalProperties,
-  bWeight = 0.5
+  bWeight = 0.5,
 ): ElementalProperties {
   const aWeight = 1 - bWeight;
 
-  return normalizeProperties({ Fire: (a.Fire * aWeight) + (b.Fire * bWeight), Water: (a.Water * aWeight) + (b.Water * bWeight), Earth: (a.Earth * aWeight) + (b.Earth * bWeight), Air: (a.Air * aWeight) + (b.Air * bWeight)
+  return normalizeProperties({
+    Fire: a.Fire * aWeight + b.Fire * bWeight,
+    Water: a.Water * aWeight + b.Water * bWeight,
+    Earth: a.Earth * aWeight + b.Earth * bWeight,
+    Air: a.Air * aWeight + b.Air * bWeight,
   });
 }
 
@@ -335,7 +362,9 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
  * @param ingredients Array of ingredients
  * @returns Elemental properties
  */
-function calculateElementalStateFromIngredients(ingredients: Array<{ category?: string; amount?: number }>): ElementalProperties {
+function calculateElementalStateFromIngredients(
+  ingredients: Array<{ category?: string; amount?: number }>,
+): ElementalProperties {
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   let totalWeight = 0;
 
@@ -365,8 +394,8 @@ function calculateElementalStateFromIngredients(ingredients: Array<{ category?: 
 
     // Add weighted contribution
     Object.keys(elementContribution || {}).forEach(element => {
-      elementalState[element as "Fire" | "Water" | "Earth" | "Air"] +=
-        elementContribution[element as "Fire" | "Water" | "Earth" | "Air"] * amount;
+      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
+        elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount;
     });
 
     totalWeight += amount;
@@ -375,7 +404,7 @@ function calculateElementalStateFromIngredients(ingredients: Array<{ category?: 
   // Normalize
   if (totalWeight > 0) {
     Object.keys(elementalState || {}).forEach(element => {
-      elementalState[element as "Fire" | "Water" | "Earth" | "Air"] /= totalWeight;
+      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight;
     });
   }
 
@@ -388,7 +417,8 @@ function calculateElementalStateFromIngredients(ingredients: Array<{ category?: 
  * @returns Elemental characteristics
  */
 export function getElementalCharacteristics(element: Element): ElementalCharacteristics {
-  const characteristics: Record<Element, ElementalCharacteristics> = { Fire: {
+  const characteristics: Record<Element, ElementalCharacteristics> = {
+    Fire: {
       name: 'Fire',
       description: 'Energizing, warming, transformative energy that brings vitality and passion',
       qualities: ['Hot', 'Dry', 'Active', 'Transformative', 'Energizing'],
@@ -396,7 +426,7 @@ export function getElementalCharacteristics(element: Element): ElementalCharacte
       timeOfDay: ['Morning', 'Noon'],
       cookingMethods: ['Grilling', 'Roasting', 'Searing', 'Flambéing'],
       flavors: ['Spicy', 'Pungent', 'Warming'],
-      colors: ['Red', 'Orange', 'Yellow']
+      colors: ['Red', 'Orange', 'Yellow'],
     },
     Water: {
       name: 'Water',
@@ -406,7 +436,7 @@ export function getElementalCharacteristics(element: Element): ElementalCharacte
       timeOfDay: ['Evening', 'Night'],
       cookingMethods: ['Steaming', 'Boiling', 'Poaching', 'Braising'],
       flavors: ['Sweet', 'Salty', 'Cooling'],
-      colors: ['Blue', 'Indigo', 'Deep Purple']
+      colors: ['Blue', 'Indigo', 'Deep Purple'],
     },
     Earth: {
       name: 'Earth',
@@ -416,7 +446,7 @@ export function getElementalCharacteristics(element: Element): ElementalCharacte
       timeOfDay: ['Late Afternoon', 'Early Evening'],
       cookingMethods: ['Baking', 'Slow Cooking', 'Stewing', 'Fermenting'],
       flavors: ['Sweet', 'earthy', 'Rich'],
-      colors: ['Brown', 'Green', 'Yellow']
+      colors: ['Brown', 'Green', 'Yellow'],
     },
     Air: {
       name: 'Air',
@@ -426,8 +456,8 @@ export function getElementalCharacteristics(element: Element): ElementalCharacte
       timeOfDay: ['Early Morning', 'Late Morning'],
       cookingMethods: ['Raw', 'Light Sautéing', 'Quick Stir-fry', 'Blanching'],
       flavors: ['Bitter', 'Sour', 'Fresh'],
-      colors: ['Light Blue', 'White', 'Light Green']
-    }
+      colors: ['Light Blue', 'White', 'Light Green'],
+    },
   };
 
   return characteristics[element];
@@ -516,7 +546,7 @@ export async function standardizeRecipeElements<T>(
 
   return {
     ...recipe,
-    elementalProperties
+    elementalProperties,
   };
 }
 
@@ -539,5 +569,5 @@ export default {
   standardizeRecipeElements,
   ELEMENTAL_COLORS,
   ELEMENTAL_SYMBOLS,
-  ELEMENTAL_DESCRIPTIONS
+  ELEMENTAL_DESCRIPTIONS,
 };

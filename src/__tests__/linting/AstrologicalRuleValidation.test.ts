@@ -41,8 +41,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Should not throw error for valid constant usage
@@ -73,8 +73,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         expect(true).toBe(true);
@@ -100,8 +100,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Should have caught the constant modification
@@ -131,8 +131,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         expect(true).toBe(true);
@@ -163,16 +163,19 @@ describe('Astrological Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) =>
-            msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            (msg.message.includes('planet') || msg.message.includes('position') ||
-             msg.message.includes('longitude') || msg.message.includes('degree') ||
-             msg.message.includes('sign'))
+          const unusedVarErrors = result[0].messages.filter(
+            (msg: any) =>
+              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg.message.includes('planet') ||
+                msg.message.includes('position') ||
+                msg.message.includes('longitude') ||
+                msg.message.includes('degree') ||
+                msg.message.includes('sign')),
           );
 
           expect(unusedVarErrors.length).toBe(0);
@@ -182,11 +185,14 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) =>
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('planet') || msg.message.includes('position') ||
-               msg.message.includes('longitude') || msg.message.includes('degree') ||
-               msg.message.includes('sign'))
+            const unusedVarErrors = result[0].messages.filter(
+              (msg: any) =>
+                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg.message.includes('planet') ||
+                  msg.message.includes('position') ||
+                  msg.message.includes('longitude') ||
+                  msg.message.includes('degree') ||
+                  msg.message.includes('sign')),
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -210,13 +216,13 @@ describe('Astrological Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot
+          cwd: projectRoot,
         });
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) =>
-            msg.ruleId === '@typescript-eslint/no-unused-vars'
+          const unusedVarErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars',
           );
 
           expect(unusedVarErrors.length).toBe(0);
@@ -226,8 +232,8 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) =>
-              msg.ruleId === '@typescript-eslint/no-unused-vars'
+            const unusedVarErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars',
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -252,15 +258,15 @@ describe('Astrological Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const camelCaseErrors = result[0].messages.filter((msg: any) =>
-            msg.ruleId === 'camelcase' && msg.severity === 2 // error level
+          const camelCaseErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'camelcase' && msg.severity === 2, // error level
           );
 
           // These naming conventions should be allowed
@@ -271,8 +277,8 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const camelCaseErrors = result[0].messages.filter((msg: any) =>
-              msg.ruleId === 'camelcase' && msg.severity === 2
+            const camelCaseErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'camelcase' && msg.severity === 2,
             );
 
             expect(camelCaseErrors.length).toBe(0);
@@ -303,8 +309,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Complete elemental properties should not cause errors
@@ -332,8 +338,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Should have caught incomplete elemental properties
@@ -368,8 +374,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Should have caught invalid elemental values
@@ -397,8 +403,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Should have caught invalid element name
@@ -432,8 +438,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Complete planetary position should not cause errors
@@ -461,8 +467,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Should have caught incomplete position structure
@@ -497,8 +503,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Valid fallback values should not cause errors
@@ -523,8 +529,8 @@ describe('Astrological Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
-  stdio: 'pipe',
-          cwd: projectRoot
+          stdio: 'pipe',
+          cwd: projectRoot,
         });
 
         // Should have caught null fallback values
@@ -552,12 +558,14 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync('yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + testFile, { encoding: 'utf8' });
+        const output = execSync('yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + testFile, {
+          encoding: 'utf8',
+        });
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const transitWarnings = result[0].messages.filter((msg: any) =>
-            msg.ruleId === 'astrological/require-transit-date-validation'
+          const transitWarnings = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation',
           );
 
           // Should suggest transit validation
@@ -568,8 +576,8 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const transitWarnings = result[0].messages.filter((msg: any) =>
-              msg.ruleId === 'astrological/require-transit-date-validation'
+            const transitWarnings = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation',
             );
 
             // Should suggest transit validation
@@ -598,15 +606,15 @@ describe('Astrological Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const transitWarnings = result[0].messages.filter((msg: any) =>
-            msg.ruleId === 'astrological/require-transit-date-validation'
+          const transitWarnings = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation',
           );
 
           // Should not warn when validation is present
@@ -617,8 +625,8 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const transitWarnings = result[0].messages.filter((msg: any) =>
-              msg.ruleId === 'astrological/require-transit-date-validation'
+            const transitWarnings = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation',
             );
 
             expect(transitWarnings.length).toBe(0);
@@ -647,15 +655,15 @@ describe('Astrological Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter((msg: any) =>
-            msg.ruleId === 'no-console' && msg.severity === 2 // error level
+          const consoleErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2, // error level
           );
 
           // Console statements should be allowed in astrological files
@@ -666,8 +674,8 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter((msg: any) =>
-              msg.ruleId === 'no-console' && msg.severity === 2
+            const consoleErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -718,15 +726,15 @@ describe('Astrological Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const complexityErrors = result[0].messages.filter((msg: any) =>
-            msg.ruleId === 'complexity' && msg.severity === 2 // error level
+          const complexityErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2, // error level
           );
 
           // Complex astronomical calculations should be allowed
@@ -737,8 +745,8 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const complexityErrors = result[0].messages.filter((msg: any) =>
-              msg.ruleId === 'complexity' && msg.severity === 2
+            const complexityErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2,
             );
 
             expect(complexityErrors.length).toBe(0);

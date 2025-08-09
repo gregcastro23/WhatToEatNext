@@ -80,50 +80,55 @@
 }
 
 @keyframes harmonious-glow {
-  0%, 100% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
-  50% { box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3); }
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+  }
 }
 
 /* Extended Element Combinations */
 .popup-fire.popup-air {
-  background: linear-gradient(135deg, #FF3B3B 0%, #FFB300 100%);
+  background: linear-gradient(135deg, #ff3b3b 0%, #ffb300 100%);
   color: #1a1a1a;
 }
 
 .popup-water.popup-earth {
-  background: linear-gradient(135deg, #4B89FF 0%, #43A047 100%);
+  background: linear-gradient(135deg, #4b89ff 0%, #43a047 100%);
   color: white;
 }
 
 .popup-fire.popup-earth {
-  background: linear-gradient(135deg, #FF3B3B 0%, #43A047 100%);
+  background: linear-gradient(135deg, #ff3b3b 0%, #43a047 100%);
   color: white;
 }
 
 .popup-water.popup-air {
-  background: linear-gradient(135deg, #4B89FF 0%, #FFB300 100%);
+  background: linear-gradient(135deg, #4b89ff 0%, #ffb300 100%);
   color: #1a1a1a;
 }
 
 /* Seasonal Enhancements */
 .popup.season-spring {
-  border: 2px solid #81C784;
-  background: linear-gradient(135deg, #ffffff 0%, #E8F5E9 100%);
+  border: 2px solid #81c784;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f5e9 100%);
 }
 
 .popup.season-summer {
-  border: 2px solid #FFB300;
-  background: linear-gradient(135deg, #ffffff 0%, #FFF8E1 100%);
+  border: 2px solid #ffb300;
+  background: linear-gradient(135deg, #ffffff 0%, #fff8e1 100%);
 }
 
 .popup.season-autumn {
-  border: 2px solid #F4511E;
-  background: linear-gradient(135deg, #ffffff 0%, #FBE9E7 100%);
+  border: 2px solid #f4511e;
+  background: linear-gradient(135deg, #ffffff 0%, #fbe9e7 100%);
 }
 
 .popup.season-winter {
-  border: 2px solid #4B89FF;
-  background: linear-gradient(135deg, #ffffff 0%, #E3F2FD 100%);
+  border: 2px solid #4b89ff;
+  background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
 }
 
 /* Enhanced Animation Variations */
@@ -179,23 +184,43 @@
 }
 
 @keyframes fireFlicker {
-  0%, 100% { box-shadow: 0 4px 12px rgba(255, 59, 59, 0.3); }
-  50% { box-shadow: 0 4px 20px rgba(255, 59, 59, 0.5); }
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(255, 59, 59, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 59, 59, 0.5);
+  }
 }
 
 @keyframes waterFlow {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-5px); }
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
 }
 
 @keyframes airFloat {
-  0%, 100% { transform: translateX(-50%) rotate(0deg); }
-  50% { transform: translateX(-50%) rotate(1deg); }
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(1deg);
+  }
 }
 
 @keyframes earthPulse {
-  0%, 100% { transform: translateX(-50%) scale(1); }
-  50% { transform: translateX(-50%) scale(1.02); }
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.02);
+  }
 }
 
 /* Keep your existing responsive, dark mode, accessibility, and scrollbar styles */

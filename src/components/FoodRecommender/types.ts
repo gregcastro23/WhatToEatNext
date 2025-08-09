@@ -6,4 +6,4 @@ export interface Nutrition {
   fat: number;
   vitamins?: string[];
   minerals?: string[];
-} 
+}

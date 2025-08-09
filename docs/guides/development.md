@@ -10,17 +10,20 @@
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/gregcastro23/WhatToEatNext.git
    cd WhatToEatNext
    ```
 
 2. Install dependencies:
+
    ```bash
    yarn install
    ```
 
 3. Start the development server:
+
    ```bash
    yarn dev
    ```
@@ -46,7 +49,8 @@ yarn test:watch
 
 ## Linting and CI
 
-This project uses ESLint for code quality and has continuous integration set up through GitHub Actions.
+This project uses ESLint for code quality and has continuous integration set up
+through GitHub Actions.
 
 ```bash
 # Run linting
@@ -58,15 +62,19 @@ yarn lint:fix
 
 ### Pre-push Checks
 
-A pre-push hook is configured to run linting and build checks before pushing to GitHub:
+A pre-push hook is configured to run linting and build checks before pushing to
+GitHub:
+
 - Your code will be linted
 - A build will be attempted to catch any build errors
 
 ### GitHub CI Workflow
 
 The GitHub Actions workflow runs on all pushes and pull requests:
+
 1. **Linting**: Checks code quality with a maximum of 50 warnings
 2. **Building**: Ensures the project builds without errors
 3. **Testing**: Runs all tests
 
-This ensures that code quality is maintained and build errors are caught before merging. 
+This ensures that code quality is maintained and build errors are caught before
+merging.

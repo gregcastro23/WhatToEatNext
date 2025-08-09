@@ -33,7 +33,13 @@ interface MetricCard {
 interface QualityChart {
   type: 'line' | 'bar' | 'pie';
   title: string;
-  data: Array<{ timestamp?: number; value?: number; label?: string; count?: number; [key: string]: unknown }>;
+  data: Array<{
+    timestamp?: number;
+    value?: number;
+    label?: string;
+    count?: number;
+    [key: string]: unknown;
+  }>;
   xAxis?: string;
   yAxis?: string;
 }
@@ -42,26 +48,34 @@ const QualityMetricsDashboard: React.FC = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedTimeframe, setSelectedTimeframe] = useState<'1h' | '1d' | '1w' | '1m'>('1d');
-  const [selectedView, setSelectedView] = useState<'overview' | 'performance' | 'errors' | 'campaigns'>('overview');
+  const [selectedView, setSelectedView] = useState<
+    'overview' | 'performance' | 'errors' | 'campaigns'
+  >('overview');
 
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
         setLoading(true);
-        
+
         // Subscribe to real-time updates
-        const buildUnsubscribe = buildPerformanceMonitor.subscribe((buildData) => {
-          setDashboardData(prev => ({
-            ...prev,
-            buildMetrics: buildData
-          } as DashboardData));
+        const buildUnsubscribe = buildPerformanceMonitor.subscribe(buildData => {
+          setDashboardData(
+            prev =>
+              ({
+                ...prev,
+                buildMetrics: buildData,
+              }) as DashboardData,
+          );
         });
 
-        const errorUnsubscribe = errorTrackingSystem.subscribe((errorData) => {
-          setDashboardData(prev => ({
-            ...prev,
-            errorData: errorData
-          } as DashboardData));
+        const errorUnsubscribe = errorTrackingSystem.subscribe(errorData => {
+          setDashboardData(
+            prev =>
+              ({
+                ...prev,
+                errorData: errorData,
+              }) as DashboardData,
+          );
         });
 
         // Load initial data
@@ -74,25 +88,25 @@ const QualityMetricsDashboard: React.FC = () => {
             summary: buildSummary,
             history: buildPerformanceMonitor.getBuildHistory(20),
             bottlenecks: buildPerformanceMonitor.getBottlenecks(),
-            regressions: buildPerformanceMonitor.getRegressions()
+            regressions: buildPerformanceMonitor.getRegressions(),
           },
           errorData: {
             summary: errorSummary,
             activeErrors: errorTrackingSystem.getActiveErrors(),
             patterns: errorTrackingSystem.getErrorPatterns(),
-            qualityHistory: errorTrackingSystem.getQualityHistory(50)
+            qualityHistory: errorTrackingSystem.getQualityHistory(50),
           },
           campaignProgress: {
             // This would integrate with campaign system
             activeCampaigns: [],
             completedCampaigns: [],
-            successRate: 0
+            successRate: 0,
           },
           qualityTrends: {
             codeQuality: qualityMetrics?.codeQualityScore || 0,
             technicalDebt: qualityMetrics?.technicalDebtScore || 0,
-            maintainability: qualityMetrics?.maintainabilityIndex || 0
-          }
+            maintainability: qualityMetrics?.maintainabilityIndex || 0,
+          },
         });
 
         setLoading(false);
@@ -120,51 +134,111 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         title: 'Code Quality Score',
         value: qualityTrends.codeQuality,
-        trend: (qualityTrends as Record<string, unknown>).codeQuality > 80 ? 'up' : (qualityTrends as Record<string, unknown>).codeQuality > 60 ? 'stable' : 'down',
+        trend:
+          (qualityTrends as Record<string, unknown>).codeQuality > 80
+            ? 'up'
+            : (qualityTrends as Record<string, unknown>).codeQuality > 60
+              ? 'stable'
+              : 'down',
         trendValue: `${qualityTrends.codeQuality}%`,
-        color: (qualityTrends as Record<string, unknown>).codeQuality > 80 ? 'green' : (qualityTrends as Record<string, unknown>).codeQuality > 60 ? 'yellow' : 'red',
-        description: 'Overall code quality based on errors and warnings'
+        color:
+          (qualityTrends as Record<string, unknown>).codeQuality > 80
+            ? 'green'
+            : (qualityTrends as Record<string, unknown>).codeQuality > 60
+              ? 'yellow'
+              : 'red',
+        description: 'Overall code quality based on errors and warnings',
       },
       {
         title: 'Build Performance',
         value: `${Math.round(buildMetrics.summary.averageBuildTime / 1000)}s`,
-        trend: buildMetrics.summary.averageBuildTime < 30000 ? 'up' : buildMetrics.summary.averageBuildTime < 60000 ? 'stable' : 'down',
+        trend:
+          buildMetrics.summary.averageBuildTime < 30000
+            ? 'up'
+            : buildMetrics.summary.averageBuildTime < 60000
+              ? 'stable'
+              : 'down',
         trendValue: `${buildMetrics.summary.performanceScore}%`,
-        color: buildMetrics.summary.performanceScore > 80 ? 'green' : buildMetrics.summary.performanceScore > 60 ? 'yellow' : 'red',
-        description: 'Average build time and performance score'
+        color:
+          buildMetrics.summary.performanceScore > 80
+            ? 'green'
+            : buildMetrics.summary.performanceScore > 60
+              ? 'yellow'
+              : 'red',
+        description: 'Average build time and performance score',
       },
       {
         title: 'Active Errors',
         value: errorData.summary.totalActiveErrors,
-        trend: errorData.summary.totalActiveErrors < 100 ? 'up' : errorData.summary.totalActiveErrors < 500 ? 'stable' : 'down',
+        trend:
+          errorData.summary.totalActiveErrors < 100
+            ? 'up'
+            : errorData.summary.totalActiveErrors < 500
+              ? 'stable'
+              : 'down',
         trendValue: `${errorData.summary.totalActiveErrors}`,
-        color: errorData.summary.totalActiveErrors < 100 ? 'green' : errorData.summary.totalActiveErrors < 500 ? 'yellow' : 'red',
-        description: 'Current TypeScript and linting errors'
+        color:
+          errorData.summary.totalActiveErrors < 100
+            ? 'green'
+            : errorData.summary.totalActiveErrors < 500
+              ? 'yellow'
+              : 'red',
+        description: 'Current TypeScript and linting errors',
       },
       {
         title: 'Technical Debt',
         value: qualityTrends.technicalDebt,
-        trend: (qualityTrends as Record<string, unknown>).technicalDebt < 30 ? 'up' : (qualityTrends as Record<string, unknown>).technicalDebt < 60 ? 'stable' : 'down',
+        trend:
+          (qualityTrends as Record<string, unknown>).technicalDebt < 30
+            ? 'up'
+            : (qualityTrends as Record<string, unknown>).technicalDebt < 60
+              ? 'stable'
+              : 'down',
         trendValue: `${qualityTrends.technicalDebt}%`,
-        color: (qualityTrends as Record<string, unknown>).technicalDebt < 30 ? 'green' : (qualityTrends as Record<string, unknown>).technicalDebt < 60 ? 'yellow' : 'red',
-        description: 'Accumulated technical debt score'
+        color:
+          (qualityTrends as Record<string, unknown>).technicalDebt < 30
+            ? 'green'
+            : (qualityTrends as Record<string, unknown>).technicalDebt < 60
+              ? 'yellow'
+              : 'red',
+        description: 'Accumulated technical debt score',
       },
       {
         title: 'Maintainability',
         value: qualityTrends.maintainability,
-        trend: (qualityTrends as Record<string, unknown>).maintainability > 80 ? 'up' : (qualityTrends as Record<string, unknown>).maintainability > 60 ? 'stable' : 'down',
+        trend:
+          (qualityTrends as Record<string, unknown>).maintainability > 80
+            ? 'up'
+            : (qualityTrends as Record<string, unknown>).maintainability > 60
+              ? 'stable'
+              : 'down',
         trendValue: `${qualityTrends.maintainability}%`,
-        color: (qualityTrends as Record<string, unknown>).maintainability > 80 ? 'green' : (qualityTrends as Record<string, unknown>).maintainability > 60 ? 'yellow' : 'red',
-        description: 'Code maintainability index'
+        color:
+          (qualityTrends as Record<string, unknown>).maintainability > 80
+            ? 'green'
+            : (qualityTrends as Record<string, unknown>).maintainability > 60
+              ? 'yellow'
+              : 'red',
+        description: 'Code maintainability index',
       },
       {
         title: 'Cache Efficiency',
         value: `${buildMetrics.summary.cacheEfficiency}%`,
-        trend: buildMetrics.summary.cacheEfficiency > 80 ? 'up' : buildMetrics.summary.cacheEfficiency > 60 ? 'stable' : 'down',
+        trend:
+          buildMetrics.summary.cacheEfficiency > 80
+            ? 'up'
+            : buildMetrics.summary.cacheEfficiency > 60
+              ? 'stable'
+              : 'down',
         trendValue: `${buildMetrics.summary.cacheEfficiency}%`,
-        color: buildMetrics.summary.cacheEfficiency > 80 ? 'green' : buildMetrics.summary.cacheEfficiency > 60 ? 'yellow' : 'red',
-        description: 'Build cache hit rate efficiency'
-      }
+        color:
+          buildMetrics.summary.cacheEfficiency > 80
+            ? 'green'
+            : buildMetrics.summary.cacheEfficiency > 60
+              ? 'yellow'
+              : 'red',
+        description: 'Build cache hit rate efficiency',
+      },
     ];
   };
 
@@ -177,35 +251,44 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         type: 'line',
         title: 'Build Performance Trend',
-        data: buildMetrics.history.map((build: { timestamp: number; duration: number; success: boolean; errors: number }, index: number) => ({
-          x: index,
-          y: build.totalBuildTime / 1000,
-          label: new Date(build.timestamp).toLocaleDateString()
-        })),
+        data: buildMetrics.history.map(
+          (
+            build: { timestamp: number; duration: number; success: boolean; errors: number },
+            index: number,
+          ) => ({
+            x: index,
+            y: build.totalBuildTime / 1000,
+            label: new Date(build.timestamp).toLocaleDateString(),
+          }),
+        ),
         xAxis: 'Build Number',
-        yAxis: 'Build Time (seconds)'
+        yAxis: 'Build Time (seconds)',
       },
       {
         type: 'bar',
         title: 'Error Categories',
-        data: errorData.summary.topErrorCategories.map((cat: { category: string; count: number }) => ({
-          x: cat.category,
-          y: cat.count,
-          label: cat.category
-        })),
+        data: errorData.summary.topErrorCategories.map(
+          (cat: { category: string; count: number }) => ({
+            x: cat.category,
+            y: cat.count,
+            label: cat.category,
+          }),
+        ),
         xAxis: 'Error Category',
-        yAxis: 'Count'
+        yAxis: 'Count',
       },
       {
         type: 'line',
         title: 'Quality Score History',
-        data: errorData.qualityHistory.map((quality: { timestamp: number; score: number }, index: number) => ({
-          x: index,
-          y: quality.codeQualityScore,
-          label: new Date(quality.timestamp).toLocaleDateString()
-        })),
+        data: errorData.qualityHistory.map(
+          (quality: { timestamp: number; score: number }, index: number) => ({
+            x: index,
+            y: quality.codeQualityScore,
+            label: new Date(quality.timestamp).toLocaleDateString(),
+          }),
+        ),
         xAxis: 'Time',
-        yAxis: 'Quality Score'
+        yAxis: 'Quality Score',
       },
       {
         type: 'pie',
@@ -213,32 +296,52 @@ const QualityMetricsDashboard: React.FC = () => {
         data: errorData.patterns.slice(0, 5).map((pattern: { pattern: string; count: number }) => ({
           label: pattern.pattern,
           value: pattern.frequency,
-          color: pattern.priority === 'critical' ? '#ef4444' : 
-                 pattern.priority === 'high' ? '#f97316' :
-                 pattern.priority === 'medium' ? '#eab308' : '#22c55e'
-        }))
-      }
+          color:
+            pattern.priority === 'critical'
+              ? '#ef4444'
+              : pattern.priority === 'high'
+                ? '#f97316'
+                : pattern.priority === 'medium'
+                  ? '#eab308'
+                  : '#22c55e',
+        })),
+      },
     ];
   };
 
   const renderMetricCard = (metric: MetricCard, index: number) => (
-    <div key={index} className="bg-white rounded-lg shadow-md p-6 border-l-4" 
-         style={{ borderLeftColor: metric.color === 'green' ? '#22c55e' : 
-                                   metric.color === 'red' ? '#ef4444' :
-                                   metric.color === 'yellow' ? '#eab308' : '#3b82f6' }}>
-      <div className="flex items-center justify-between">
+    <div
+      key={index}
+      className='rounded-lg border-l-4 bg-white p-6 shadow-md'
+      style={{
+        borderLeftColor:
+          metric.color === 'green'
+            ? '#22c55e'
+            : metric.color === 'red'
+              ? '#ef4444'
+              : metric.color === 'yellow'
+                ? '#eab308'
+                : '#3b82f6',
+      }}
+    >
+      <div className='flex items-center justify-between'>
         <div>
-          <p className="text-sm font-medium text-gray-600">{metric.title}</p>
-          <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
-          <p className="text-xs text-gray-500 mt-1">{metric.description}</p>
+          <p className='text-sm font-medium text-gray-600'>{metric.title}</p>
+          <p className='text-2xl font-bold text-gray-900'>{metric.value}</p>
+          <p className='mt-1 text-xs text-gray-500'>{metric.description}</p>
         </div>
-        <div className="text-right">
-          <div className={`flex items-center ${
-            metric.trend === 'up' ? 'text-green-600' :
-            metric.trend === 'down' ? 'text-red-600' : 'text-gray-600'
-          }`}>
-            <span className="text-sm font-medium">{metric.trendValue}</span>
-            <span className="ml-1">
+        <div className='text-right'>
+          <div
+            className={`flex items-center ${
+              metric.trend === 'up'
+                ? 'text-green-600'
+                : metric.trend === 'down'
+                  ? 'text-red-600'
+                  : 'text-gray-600'
+            }`}
+          >
+            <span className='text-sm font-medium'>{metric.trendValue}</span>
+            <span className='ml-1'>
               {metric.trend === 'up' ? '↗' : metric.trend === 'down' ? '↘' : '→'}
             </span>
           </div>
@@ -248,46 +351,62 @@ const QualityMetricsDashboard: React.FC = () => {
   );
 
   const renderChart = (chart: QualityChart, index: number) => (
-    <div key={index} className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{chart.title}</h3>
-      <div className="h-64 flex items-center justify-center">
+    <div key={index} className='rounded-lg bg-white p-6 shadow-md'>
+      <h3 className='mb-4 text-lg font-semibold text-gray-900'>{chart.title}</h3>
+      <div className='flex h-64 items-center justify-center'>
         {chart.type === 'line' && (
-          <div className="w-full h-full relative">
-            <svg className="w-full h-full" viewBox="0 0 400 200">
+          <div className='relative h-full w-full'>
+            <svg className='h-full w-full' viewBox='0 0 400 200'>
               {chart.data.map((point, i) => (
                 <g key={i}>
                   <circle
-                    cx={50 + (i * 300 / Math.max(chart.data.length - 1, 1))}
-                    cy={180 - ((point as Record<string, unknown>).y * 150 / Math.max(...chart.data.map(p => p.y)))}
-                    r="3"
-                    fill="#3b82f6"
+                    cx={50 + (i * 300) / Math.max(chart.data.length - 1, 1)}
+                    cy={
+                      180 -
+                      ((point as Record<string, unknown>).y * 150) /
+                        Math.max(...chart.data.map(p => p.y))
+                    }
+                    r='3'
+                    fill='#3b82f6'
                   />
                   {i < chart.data.length - 1 && (
                     <line
-                      x1={50 + (i * 300 / Math.max(chart.data.length - 1, 1))}
-                      y1={180 - ((point as Record<string, unknown>).y * 150 / Math.max(...chart.data.map(p => p.y)))}
-                      x2={50 + ((i + 1) * 300 / Math.max(chart.data.length - 1, 1))}
-                      y2={180 - ((chart as Record<string, unknown>).data[i + 1].y * 150 / Math.max(...(chart as Record<string, unknown>).data.map(p => p.y)))}
-                      stroke="#3b82f6"
-                      strokeWidth="2"
+                      x1={50 + (i * 300) / Math.max(chart.data.length - 1, 1)}
+                      y1={
+                        180 -
+                        ((point as Record<string, unknown>).y * 150) /
+                          Math.max(...chart.data.map(p => p.y))
+                      }
+                      x2={50 + ((i + 1) * 300) / Math.max(chart.data.length - 1, 1)}
+                      y2={
+                        180 -
+                        ((chart as Record<string, unknown>).data[i + 1].y * 150) /
+                          Math.max(...(chart as Record<string, unknown>).data.map(p => p.y))
+                      }
+                      stroke='#3b82f6'
+                      strokeWidth='2'
                     />
                   )}
                 </g>
               ))}
             </svg>
-            <div className="absolute bottom-0 left-0 text-xs text-gray-500">{chart.xAxis}</div>
-            <div className="absolute top-0 left-0 text-xs text-gray-500 transform -rotate-90 origin-left">{chart.yAxis}</div>
+            <div className='absolute bottom-0 left-0 text-xs text-gray-500'>{chart.xAxis}</div>
+            <div className='absolute left-0 top-0 origin-left -rotate-90 transform text-xs text-gray-500'>
+              {chart.yAxis}
+            </div>
           </div>
         )}
         {chart.type === 'bar' && (
-          <div className="w-full h-full flex items-end justify-around">
+          <div className='flex h-full w-full items-end justify-around'>
             {chart.data.map((bar, i) => (
-              <div key={i} className="flex flex-col items-center">
+              <div key={i} className='flex flex-col items-center'>
                 <div
-                  className="bg-blue-500 w-8 mb-2"
-                  style={{ height: `${((bar as Record<string, unknown>).y / Math.max(...chart.data.map(b => b.y))) * 150}px` }}
+                  className='mb-2 w-8 bg-blue-500'
+                  style={{
+                    height: `${((bar as Record<string, unknown>).y / Math.max(...chart.data.map(b => b.y))) * 150}px`,
+                  }}
                 ></div>
-                <span className="text-xs text-gray-600 transform -rotate-45 origin-center">
+                <span className='origin-center -rotate-45 transform text-xs text-gray-600'>
                   {bar.label}
                 </span>
               </div>
@@ -295,19 +414,19 @@ const QualityMetricsDashboard: React.FC = () => {
           </div>
         )}
         {chart.type === 'pie' && (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-sm text-gray-600 mb-2">Pie Chart</div>
+          <div className='flex h-full w-full items-center justify-center'>
+            <div className='text-center'>
+              <div className='mb-2 text-sm text-gray-600'>Pie Chart</div>
               {chart.data.map((slice, i) => (
-                <div key={i} className="flex items-center justify-between mb-1">
-                  <div className="flex items-center">
+                <div key={i} className='mb-1 flex items-center justify-between'>
+                  <div className='flex items-center'>
                     <div
-                      className="w-3 h-3 rounded mr-2"
+                      className='mr-2 h-3 w-3 rounded'
                       style={{ backgroundColor: slice.color }}
                     ></div>
-                    <span className="text-xs">{slice.label}</span>
+                    <span className='text-xs'>{slice.label}</span>
                   </div>
-                  <span className="text-xs font-medium">{slice.value}</span>
+                  <span className='text-xs font-medium'>{slice.value}</span>
                 </div>
               ))}
             </div>
@@ -318,54 +437,66 @@ const QualityMetricsDashboard: React.FC = () => {
   );
 
   const renderOverviewTab = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className='space-y-6'>
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
         {getMetricCards().map(renderMetricCard)}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
         {getQualityCharts().slice(0, 2).map(renderChart)}
       </div>
     </div>
   );
 
   const renderPerformanceTab = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {getMetricCards().filter(m => 
-          m.title.includes('Performance') || m.title.includes('Cache')
-        ).map(renderMetricCard)}
+    <div className='space-y-6'>
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'>
+        {getMetricCards()
+          .filter(m => m.title.includes('Performance') || m.title.includes('Cache'))
+          .map(renderMetricCard)}
       </div>
-      
+
       {dashboardData && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Bottlenecks</h3>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+        <div className='rounded-lg bg-white p-6 shadow-md'>
+          <h3 className='mb-4 text-lg font-semibold text-gray-900'>Performance Bottlenecks</h3>
+          <div className='overflow-x-auto'>
+            <table className='min-w-full divide-y divide-gray-200'>
+              <thead className='bg-gray-50'>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Errors</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Complexity</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dependencies</th>
+                  <th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
+                    File
+                  </th>
+                  <th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
+                    Errors
+                  </th>
+                  <th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
+                    Complexity
+                  </th>
+                  <th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500'>
+                    Dependencies
+                  </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {dashboardData.buildMetrics.bottlenecks.slice(0, 10).map((bottleneck: { file: string; time: number; impact: string }, index: number) => (
-                  <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {bottleneck.file.split('/').pop()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {bottleneck.errorCount}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {bottleneck.complexity}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {bottleneck.dependencies.length}
-                    </td>
-                  </tr>
-                ))}
+              <tbody className='divide-y divide-gray-200 bg-white'>
+                {dashboardData.buildMetrics.bottlenecks
+                  .slice(0, 10)
+                  .map(
+                    (bottleneck: { file: string; time: number; impact: string }, index: number) => (
+                      <tr key={index}>
+                        <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-900'>
+                          {bottleneck.file.split('/').pop()}
+                        </td>
+                        <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-900'>
+                          {bottleneck.errorCount}
+                        </td>
+                        <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-900'>
+                          {bottleneck.complexity}
+                        </td>
+                        <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-900'>
+                          {bottleneck.dependencies.length}
+                        </td>
+                      </tr>
+                    ),
+                  )}
               </tbody>
             </table>
           </div>
@@ -375,33 +506,45 @@ const QualityMetricsDashboard: React.FC = () => {
   );
 
   const renderErrorsTab = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {getMetricCards().filter(m => 
-          m.title.includes('Error') || m.title.includes('Quality') || m.title.includes('Debt')
-        ).map(renderMetricCard)}
+    <div className='space-y-6'>
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+        {getMetricCards()
+          .filter(
+            m =>
+              m.title.includes('Error') || m.title.includes('Quality') || m.title.includes('Debt'),
+          )
+          .map(renderMetricCard)}
       </div>
-      
+
       {dashboardData && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Error Patterns</h3>
-            <div className="space-y-3">
+        <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
+          <div className='rounded-lg bg-white p-6 shadow-md'>
+            <h3 className='mb-4 text-lg font-semibold text-gray-900'>Error Patterns</h3>
+            <div className='space-y-3'>
               {dashboardData.errorData.patterns.slice(0, 10).map((pattern: any, index: number) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div
+                  key={index}
+                  className='flex items-center justify-between rounded bg-gray-50 p-3'
+                >
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{pattern.pattern}</p>
-                    <p className="text-xs text-gray-500">
-                      {pattern.files.length} files affected • {pattern.automatable ? 'Automatable' : 'Manual fix required'}
+                    <p className='text-sm font-medium text-gray-900'>{pattern.pattern}</p>
+                    <p className='text-xs text-gray-500'>
+                      {pattern.files.length} files affected •{' '}
+                      {pattern.automatable ? 'Automatable' : 'Manual fix required'}
                     </p>
                   </div>
-                  <div className="text-right">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      pattern.priority === 'critical' ? 'bg-red-100 text-red-800' :
-                      pattern.priority === 'high' ? 'bg-orange-100 text-orange-800' :
-                      pattern.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
+                  <div className='text-right'>
+                    <span
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        pattern.priority === 'critical'
+                          ? 'bg-red-100 text-red-800'
+                          : pattern.priority === 'high'
+                            ? 'bg-orange-100 text-orange-800'
+                            : pattern.priority === 'medium'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-green-100 text-green-800'
+                      }`}
+                    >
                       {pattern.frequency}
                     </span>
                   </div>
@@ -409,19 +552,22 @@ const QualityMetricsDashboard: React.FC = () => {
               ))}
             </div>
           </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Automation Opportunities</h3>
-            <div className="space-y-3">
-              {dashboardData.errorData.patterns.filter((p: any) => p.automatable).slice(0, 5).map((pattern: any, index: number) => (
-                <div key={index} className="p-3 bg-green-50 rounded border-l-4 border-green-400">
-                  <p className="text-sm font-medium text-green-900">{pattern.pattern}</p>
-                  <p className="text-xs text-green-700 mt-1">{pattern.suggestedFix}</p>
-                  <p className="text-xs text-green-600 mt-1">
-                    {pattern.frequency} occurrences across {pattern.files.length} files
-                  </p>
-                </div>
-              ))}
+
+          <div className='rounded-lg bg-white p-6 shadow-md'>
+            <h3 className='mb-4 text-lg font-semibold text-gray-900'>Automation Opportunities</h3>
+            <div className='space-y-3'>
+              {dashboardData.errorData.patterns
+                .filter((p: any) => p.automatable)
+                .slice(0, 5)
+                .map((pattern: any, index: number) => (
+                  <div key={index} className='rounded border-l-4 border-green-400 bg-green-50 p-3'>
+                    <p className='text-sm font-medium text-green-900'>{pattern.pattern}</p>
+                    <p className='mt-1 text-xs text-green-700'>{pattern.suggestedFix}</p>
+                    <p className='mt-1 text-xs text-green-600'>
+                      {pattern.frequency} occurrences across {pattern.files.length} files
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -430,13 +576,13 @@ const QualityMetricsDashboard: React.FC = () => {
   );
 
   const renderCampaignsTab = () => (
-    <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Campaign Integration</h3>
-        <p className="text-gray-600 mb-4">
+    <div className='space-y-6'>
+      <div className='rounded-lg bg-white p-6 shadow-md'>
+        <h3 className='mb-4 text-lg font-semibold text-gray-900'>Campaign Integration</h3>
+        <p className='mb-4 text-gray-600'>
           Campaign system integration will be implemented in task 10. This section will show:
         </p>
-        <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+        <ul className='list-inside list-disc space-y-1 text-sm text-gray-600'>
           <li>Active campaign status and progress</li>
           <li>Campaign success rates and metrics</li>
           <li>Automated fix recommendations</li>
@@ -448,29 +594,29 @@ const QualityMetricsDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      <div className='flex h-64 items-center justify-center'>
+        <div className='h-32 w-32 animate-spin rounded-full border-b-2 border-blue-500'></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Quality Metrics Dashboard</h1>
-        <p className="mt-2 text-gray-600">
+    <div className='mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8'>
+      <div className='mb-8'>
+        <h1 className='text-3xl font-bold text-gray-900'>Quality Metrics Dashboard</h1>
+        <p className='mt-2 text-gray-600'>
           Real-time monitoring of code quality, performance, and technical debt
         </p>
       </div>
 
       {/* Timeframe and View Selection */}
-      <div className="mb-6 flex flex-wrap gap-4">
-        <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
-          {(['1h', '1d', '1w', '1m'] as const).map((timeframe) => (
+      <div className='mb-6 flex flex-wrap gap-4'>
+        <div className='flex space-x-1 rounded-lg bg-gray-100 p-1'>
+          {(['1h', '1d', '1w', '1m'] as const).map(timeframe => (
             <button
               key={timeframe}
               onClick={() => setSelectedTimeframe(timeframe)}
-              className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+              className={`rounded-md px-3 py-1 text-sm font-medium transition-colors ${
                 selectedTimeframe === timeframe
                   ? 'bg-white text-blue-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
@@ -481,12 +627,12 @@ const QualityMetricsDashboard: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
-          {(['overview', 'performance', 'errors', 'campaigns'] as const).map((view) => (
+        <div className='flex space-x-1 rounded-lg bg-gray-100 p-1'>
+          {(['overview', 'performance', 'errors', 'campaigns'] as const).map(view => (
             <button
               key={view}
               onClick={() => setSelectedView(view)}
-              className={`px-3 py-1 rounded-md text-sm font-medium transition-colors capitalize ${
+              className={`rounded-md px-3 py-1 text-sm font-medium capitalize transition-colors ${
                 selectedView === view
                   ? 'bg-white text-blue-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'

@@ -5,7 +5,7 @@ const seasonalHerbGuide: Record<string, { cuisines: Record<string, string[]> }> 
   spring: { cuisines: {} },
   summer: { cuisines: {} },
   fall: { cuisines: {} },
-  winter: { cuisines: {} }
+  winter: { cuisines: {} },
 };
 
 export const herbUtils = {
@@ -18,11 +18,11 @@ export const herbUtils = {
   findComplementary: (herbName: string, cuisine: string) => {
     const herb = herbs[herbName];
     if (!herb.culinary_traditions?.[cuisine]) return [];
-    
+
     return herb.culinary_traditions[cuisine].pairings;
   },
 
   getSeasonalRecommendations: (season: string, cuisine: string) => {
     return seasonalHerbGuide[season].cuisines[cuisine] || [];
-  }
+  },
 };

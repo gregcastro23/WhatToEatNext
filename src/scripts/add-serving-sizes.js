@@ -33,10 +33,7 @@ const DEFAULT_SERVING_SIZES = {
 };
 
 // Path to the protein ingredients directory
-const PROTEINS_DIR = path.resolve(
-  process.cwd(),
-  'src/data/ingredients/proteins'
-);
+const PROTEINS_DIR = path.resolve(process.cwd(), 'src/data/ingredients/proteins');
 
 // Process a single ingredient file
 function processFile(filePath) {
@@ -64,9 +61,7 @@ function processFile(filePath) {
       const ingredientKey = '';
 
       if (contextStart !== -1 && contextEnd !== -1) {
-        ingredientKey = content
-          .substring(contextStart + 1, contextEnd)
-          .toLowerCase();
+        ingredientKey = content.substring(contextStart + 1, contextEnd).toLowerCase();
       }
 
       // Find the category in the surrounding text
@@ -87,7 +82,7 @@ function processFile(filePath) {
       const updatedProfile = profile.replace(
         /nutritionalProfile\s*:\s*{/,
         `nutritionalProfile: {
-      serving_size_oz: ${servingSize},`
+      serving_size_oz: ${servingSize},`,
       );
 
       content = content.replace(profile, updatedProfile);
@@ -108,9 +103,7 @@ function processFile(filePath) {
     const ingredientKey = '';
 
     if (contextStart !== -1 && contextEnd !== -1) {
-      ingredientKey = content
-        .substring(contextStart + 1, contextEnd)
-        .toLowerCase();
+      ingredientKey = content.substring(contextStart + 1, contextEnd).toLowerCase();
     }
 
     // Find the category in the surrounding text
@@ -194,11 +187,7 @@ function processDirectory(dirPath) {
       const results = processDirectory(fullPath);
       filesProcessed += results.processed;
       filesUpdated += results.updated;
-    } else if (
-      file.endsWith('.ts') &&
-      !file.endsWith('.d.ts') &&
-      file !== 'index.ts'
-    ) {
+    } else if (file.endsWith('.ts') && !file.endsWith('.d.ts') && file !== 'index.ts') {
       filesProcessed++;
       if (processFile(fullPath)) {
         filesUpdated++;
@@ -230,7 +219,7 @@ main()
     // console.log('All protein files have been processed.');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch(error => {
     // console.error('Error during processing:', error);
     process.exit(1);
   });

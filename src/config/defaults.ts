@@ -7,7 +7,7 @@ export const DEFAULT_FILTERS: FilterOptions = {
   elementalFocus: null,
   mealType: 'any',
   seasonality: null,
-  difficulty: 'any'
+  difficulty: 'any',
 } as unknown as FilterOptions;
 
 // Separate dietary preferences - these are no longer part of FilterOptions
@@ -41,31 +41,31 @@ export const DEFAULT_TEMPERATURE_PREFERENCES = {
 export const DEFAULT_NUTRITION_PREFS: NutritionPreferences = {
   calories: { min: 1500, max: 2500 },
   macros: {
-  protein: 50,
-  carbs: 250,
-    fat: 70
+    protein: 50,
+    carbs: 250,
+    fat: 70,
   },
   vitamins: [],
   minerals: [],
   allergens: [],
-  dietaryRestrictions: []
+  dietaryRestrictions: [],
 };
 
 export const TIME_RANGES = {
   quick: 30,
   medium: 60,
-  long: 61
+  long: 61,
 };
 
 export const MEAL_PERIODS = {
   breakfast: { start: 5, end: 11 },
   lunch: { start: 11, end: 16 },
-  dinner: { start: 16, end: 5 }
+  dinner: { start: 16, end: 5 },
 };
 
 export const ELEMENTAL_DEFAULTS = {
   Fire: 0.25,
   Water: 0.25,
   Air: 0.25,
-  Earth: 0.25
+  Earth: 0.25,
 };

@@ -18,11 +18,13 @@ const IntegrationExample: React.FC = () => {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
       {/* Tab Navigation */}
-      <div style={{ 
-        display: 'flex', 
-        borderBottom: '2px solid #e2e8f0',
-        marginBottom: '20px'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          borderBottom: '2px solid #e2e8f0',
+          marginBottom: '20px',
+        }}
+      >
         <button
           onClick={() => setActiveTab('main')}
           style={{
@@ -32,7 +34,7 @@ const IntegrationExample: React.FC = () => {
             color: activeTab === 'main' ? '#fff' : '#64748b',
             cursor: 'pointer',
             borderRadius: '8px 8px 0 0',
-            marginRight: '4px'
+            marginRight: '4px',
           }}
         >
           Main App
@@ -48,18 +50,20 @@ const IntegrationExample: React.FC = () => {
             borderRadius: '8px 8px 0 0',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            gap: '8px',
           }}
         >
           🍳 Alchm Kitchen
           {kitchenLoaded && (
-            <span style={{ 
-              fontSize: '12px', 
-              backgroundColor: '#10b981', 
-              color: '#fff',
-              padding: '2px 6px',
-              borderRadius: '10px'
-            }}>
+            <span
+              style={{
+                fontSize: '12px',
+                backgroundColor: '#10b981',
+                color: '#fff',
+                padding: '2px 6px',
+                borderRadius: '10px',
+              }}
+            >
               ✓
             </span>
           )}
@@ -70,14 +74,19 @@ const IntegrationExample: React.FC = () => {
       {activeTab === 'main' && (
         <div style={{ padding: '20px', backgroundColor: '#f8fafc', borderRadius: '8px' }}>
           <h1>Your Main Application</h1>
-          <p>This is your main application content. Click on the "Alchm Kitchen" tab to access the astrological food recommendation system.</p>
-          
-          <div style={{ 
-            backgroundColor: '#e0f2fe', 
-            padding: '16px', 
-            borderRadius: '8px',
-            marginTop: '20px'
-          }}>
+          <p>
+            This is your main application content. Click on the "Alchm Kitchen" tab to access the
+            astrological food recommendation system.
+          </p>
+
+          <div
+            style={{
+              backgroundColor: '#e0f2fe',
+              padding: '16px',
+              borderRadius: '8px',
+              marginTop: '20px',
+            }}
+          >
             <h3>Integration Features:</h3>
             <ul>
               <li>🍳 Astrological cuisine recommendations</li>
@@ -94,7 +103,7 @@ const IntegrationExample: React.FC = () => {
       {activeTab === 'alchm-kitchen' && (
         <div style={{ height: 'calc(100vh - 120px)' }}>
           <AlchmKitchenTab
-            title="Alchm Kitchen - Astrological Food Recommendations"
+            title='Alchm Kitchen - Astrological Food Recommendations'
             onLoad={handleKitchenLoad}
             onError={handleKitchenError}
             allowFullscreen={true}
@@ -106,4 +115,4 @@ const IntegrationExample: React.FC = () => {
   );
 };
 
-export default IntegrationExample; 
+export default IntegrationExample;

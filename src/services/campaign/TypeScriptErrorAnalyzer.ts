@@ -1,9 +1,9 @@
 /**
  * TypeScript Error Analyzer for Perfect Codebase Campaign
- * 
+ *
  * Implements systematic TypeScript error elimination using existing Enhanced Error Fixer v3.0 patterns
  * Provides error distribution analysis, categorization, and priority ranking system
- * 
+ *
  * Requirements: 1.2, 1.3, 1.4, 1.5
  */
 
@@ -24,17 +24,17 @@ export interface TypeScriptError {
 
 export enum ErrorCategory {
   TS2352_TYPE_CONVERSION = 'TS2352',
-  TS2345_ARGUMENT_MISMATCH = 'TS2345', 
+  TS2345_ARGUMENT_MISMATCH = 'TS2345',
   TS2698_SPREAD_TYPE = 'TS2698',
   TS2304_CANNOT_FIND_NAME = 'TS2304',
   TS2362_ARITHMETIC_OPERATION = 'TS2362',
-  OTHER = 'OTHER'
+  OTHER = 'OTHER',
 }
 
 export enum ErrorSeverity {
   HIGH = 'HIGH',
-  MEDIUM = 'MEDIUM', 
-  LOW = 'LOW'
+  MEDIUM = 'MEDIUM',
+  LOW = 'LOW',
 }
 
 export interface ErrorDistribution {
@@ -72,7 +72,7 @@ export class TypeScriptErrorAnalyzer {
    */
   async analyzeErrors(): Promise<AnalysisResult> {
     console.log('🔍 Analyzing TypeScript errors...');
-    
+
     const errors = await this.getTypeScriptErrors();
     const distribution = this.createErrorDistribution(errors);
     const recommendations = this.generateRecommendations(distribution);
@@ -80,7 +80,7 @@ export class TypeScriptErrorAnalyzer {
     return {
       distribution,
       recommendations,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -90,12 +90,12 @@ export class TypeScriptErrorAnalyzer {
   private async getTypeScriptErrors(): Promise<TypeScriptError[]> {
     try {
       // Run TypeScript compiler with no emit and skip lib check for faster analysis
-      execSync('yarn tsc --noEmit --skipLibCheck', { 
+      execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000 // 2 minute timeout
+        timeout: 120000, // 2 minute timeout
       });
-      
+
       // If no errors, return empty array
       return [];
     } catch (error: any) {
@@ -110,16 +110,16 @@ export class TypeScriptErrorAnalyzer {
   private parseErrorsFromOutput(output: string): TypeScriptError[] {
     const lines = output.split('\n');
     const errors: TypeScriptError[] = [];
-    
+
     for (const line of lines) {
       // Parse TypeScript error format: file(line,col): error TS#### message
       const match = line.match(/^(.+?)\((\d+),(\d+)\):\s+error\s+(TS\d+):\s*(.+)$/);
       if (match) {
         const [, filePath, lineNum, colNum, code, message] = match;
-        
+
         // Clean up file path to be relative to project root
         const cleanFilePath = filePath.replace(/^.*?\/WhatToEatNext\//, '');
-        
+
         const error: TypeScriptError = {
           filePath: cleanFilePath,
           line: parseInt(lineNum),
@@ -128,13 +128,13 @@ export class TypeScriptErrorAnalyzer {
           message: message.trim(),
           category: this.categorizeError(code),
           priority: this.calculateErrorPriority(code, cleanFilePath, message),
-          severity: this.determineSeverity(code, message)
+          severity: this.determineSeverity(code, message),
         };
-        
+
         errors.push(error);
       }
     }
-    
+
     console.log(`📊 Found ${errors.length} TypeScript errors`);
     return errors;
   }
@@ -164,7 +164,7 @@ export class TypeScriptErrorAnalyzer {
    */
   private calculateErrorPriority(code: string, filePath: string, message: string): number {
     let priority = 0;
-    
+
     // Error code priority (based on requirements 1.2, 1.3, 1.4, 1.5)
     if (this.HIGH_PRIORITY_ERRORS.includes(code)) {
       priority += 15;
@@ -173,14 +173,14 @@ export class TypeScriptErrorAnalyzer {
     } else if (this.LOW_PRIORITY_ERRORS.includes(code)) {
       priority += 5;
     }
-    
+
     // File type priority - core system files get higher priority
     if (filePath.includes('/types/')) priority += 8;
     if (filePath.includes('/services/')) priority += 7;
     if (filePath.includes('/components/')) priority += 6;
     if (filePath.includes('/utils/')) priority += 4;
     if (filePath.includes('/data/')) priority += 3;
-    
+
     // Message content priority - critical errors get higher priority
     if (message.includes('not assignable')) priority += 5;
     if (message.includes('Cannot find')) priority += 6;
@@ -188,7 +188,7 @@ export class TypeScriptErrorAnalyzer {
     if (message.includes('missing')) priority += 4;
     if (message.includes('Conversion of type')) priority += 8; // TS2352 specific
     if (message.includes('Argument of type')) priority += 6; // TS2345 specific
-    
+
     return priority;
   }
 
@@ -200,12 +200,12 @@ export class TypeScriptErrorAnalyzer {
     if (this.HIGH_PRIORITY_ERRORS.includes(code)) {
       return ErrorSeverity.HIGH;
     }
-    
+
     // Medium severity - type safety issues but not build-breaking
     if (this.MEDIUM_PRIORITY_ERRORS.includes(code)) {
       return ErrorSeverity.MEDIUM;
     }
-    
+
     // Low severity - style or minor issues
     return ErrorSeverity.LOW;
   }
@@ -220,7 +220,7 @@ export class TypeScriptErrorAnalyzer {
       [ErrorCategory.TS2698_SPREAD_TYPE]: [],
       [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
       [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
-      [ErrorCategory.OTHER]: []
+      [ErrorCategory.OTHER]: [],
     };
 
     const errorsByFile: Record<string, TypeScriptError[]> = {};
@@ -228,7 +228,7 @@ export class TypeScriptErrorAnalyzer {
     // Categorize errors
     for (const error of errors) {
       errorsByCategory[error.category].push(error);
-      
+
       if (!errorsByFile[error.filePath]) {
         errorsByFile[error.filePath] = [];
       }
@@ -245,7 +245,7 @@ export class TypeScriptErrorAnalyzer {
         filePath,
         errorCount: fileErrors.length,
         categories: [...new Set(fileErrors.map(e => e.category))],
-        averagePriority: fileErrors.reduce((sum, e) => sum + e.priority, 0) / fileErrors.length
+        averagePriority: fileErrors.reduce((sum, e) => sum + e.priority, 0) / fileErrors.length,
       }))
       .sort((a, b) => b.errorCount - a.errorCount);
 
@@ -254,7 +254,7 @@ export class TypeScriptErrorAnalyzer {
       errorsByCategory,
       errorsByFile,
       priorityRanking,
-      highImpactFiles
+      highImpactFiles,
     };
   }
 
@@ -283,20 +283,23 @@ export class TypeScriptErrorAnalyzer {
         category: ErrorCategory.TS2352_TYPE_CONVERSION,
         errorCount: ts2352Count,
         priority: 1,
-        description: 'Fix type conversion errors - often caused by incorrect type assertions or unsafe casts',
-        estimatedReduction: Math.round(ts2352Count * 0.9) // High success rate expected
+        description:
+          'Fix type conversion errors - often caused by incorrect type assertions or unsafe casts',
+        estimatedReduction: Math.round(ts2352Count * 0.9), // High success rate expected
       });
     }
 
     // TS2345 Argument Type Mismatch (second priority)
-    const ts2345Count = distribution.errorsByCategory[ErrorCategory.TS2345_ARGUMENT_MISMATCH].length;
+    const ts2345Count =
+      distribution.errorsByCategory[ErrorCategory.TS2345_ARGUMENT_MISMATCH].length;
     if (ts2345Count > 0) {
       recommendations.push({
         category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
         errorCount: ts2345Count,
         priority: 2,
-        description: 'Fix argument type mismatches - usually requires type assertions or interface updates',
-        estimatedReduction: Math.round(ts2345Count * 0.85)
+        description:
+          'Fix argument type mismatches - usually requires type assertions or interface updates',
+        estimatedReduction: Math.round(ts2345Count * 0.85),
       });
     }
 
@@ -307,8 +310,9 @@ export class TypeScriptErrorAnalyzer {
         category: ErrorCategory.TS2304_CANNOT_FIND_NAME,
         errorCount: ts2304Count,
         priority: 3,
-        description: 'Fix missing imports and undefined references - often cascades to fix other errors',
-        estimatedReduction: Math.round(ts2304Count * 1.2) // Can fix cascading errors
+        description:
+          'Fix missing imports and undefined references - often cascades to fix other errors',
+        estimatedReduction: Math.round(ts2304Count * 1.2), // Can fix cascading errors
       });
     }
 
@@ -320,19 +324,21 @@ export class TypeScriptErrorAnalyzer {
         errorCount: ts2698Count,
         priority: 4,
         description: 'Fix spread operator type errors - requires careful type analysis',
-        estimatedReduction: Math.round(ts2698Count * 0.8)
+        estimatedReduction: Math.round(ts2698Count * 0.8),
       });
     }
 
     // TS2362 Arithmetic Operation Errors
-    const ts2362Count = distribution.errorsByCategory[ErrorCategory.TS2362_ARITHMETIC_OPERATION].length;
+    const ts2362Count =
+      distribution.errorsByCategory[ErrorCategory.TS2362_ARITHMETIC_OPERATION].length;
     if (ts2362Count > 0) {
       recommendations.push({
         category: ErrorCategory.TS2362_ARITHMETIC_OPERATION,
         errorCount: ts2362Count,
         priority: 5,
-        description: 'Fix arithmetic operation type errors - usually requires number type assertions',
-        estimatedReduction: Math.round(ts2362Count * 0.9)
+        description:
+          'Fix arithmetic operation type errors - usually requires number type assertions',
+        estimatedReduction: Math.round(ts2362Count * 0.9),
       });
     }
 
@@ -345,34 +351,40 @@ export class TypeScriptErrorAnalyzer {
   displayResults(result: AnalysisResult): void {
     console.log('\n📊 TYPESCRIPT ERROR ANALYSIS RESULTS');
     console.log('=====================================');
-    
+
     console.log(`\n📈 Total Errors: ${result.distribution.totalErrors}`);
-    
+
     console.log('\n🏷️  Errors by Category:');
     Object.entries(result.distribution.errorsByCategory).forEach(([category, errors]) => {
       if (errors.length > 0) {
         console.log(`  ${category}: ${errors.length} errors`);
       }
     });
-    
+
     console.log('\n🔥 High-Impact Files (>10 errors):');
     result.distribution.highImpactFiles.slice(0, 10).forEach(file => {
-      console.log(`  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`);
+      console.log(
+        `  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`,
+      );
       console.log(`    Categories: ${file.categories.join(', ')}`);
     });
-    
+
     console.log('\n💡 Recommended Fix Order:');
     result.recommendations.forEach(rec => {
       console.log(`  ${rec.priority}. ${rec.category}: ${rec.errorCount} errors`);
       console.log(`     Expected reduction: ~${rec.estimatedReduction} errors`);
       console.log(`     ${rec.description}\n`);
     });
-    
-    const totalEstimatedReduction = result.recommendations
-      .reduce((sum, rec) => sum + rec.estimatedReduction, 0);
-    
+
+    const totalEstimatedReduction = result.recommendations.reduce(
+      (sum, rec) => sum + rec.estimatedReduction,
+      0,
+    );
+
     console.log(`📉 Estimated total error reduction: ${totalEstimatedReduction} errors`);
-    console.log(`📊 Estimated remaining errors: ${result.distribution.totalErrors - totalEstimatedReduction}`);
+    console.log(
+      `📊 Estimated remaining errors: ${result.distribution.totalErrors - totalEstimatedReduction}`,
+    );
     console.log(`⏰ Analysis completed at: ${new Date(result.timestamp).toLocaleString()}`);
   }
 
@@ -382,7 +394,7 @@ export class TypeScriptErrorAnalyzer {
   async saveAnalysis(result: AnalysisResult, outputPath?: string): Promise<void> {
     const defaultPath = path.join(process.cwd(), '.typescript-error-analysis.json');
     const filePath = outputPath || defaultPath;
-    
+
     try {
       await fs.promises.writeFile(filePath, JSON.stringify(result, null, 2));
       console.log(`\n💾 Analysis saved to: ${filePath}`);
@@ -396,10 +408,10 @@ export class TypeScriptErrorAnalyzer {
    */
   async getCurrentErrorCount(): Promise<number> {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', { 
+      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000, // 30 second timeout
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {

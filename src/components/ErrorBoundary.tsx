@@ -14,10 +14,7 @@ interface ErrorBoundaryState {
   retryCount: number;
 }
 
-class ErrorBoundaryComponent extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+class ErrorBoundaryComponent extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = {
@@ -38,7 +35,7 @@ class ErrorBoundaryComponent extends React.Component<
   }
 
   retry = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       hasError: false,
       retryCount: prevState.retryCount + 1,
     }));
@@ -56,7 +53,7 @@ class ErrorBoundaryComponent extends React.Component<
 
       return (
         this.props.fallback || (
-          <div className="error-boundary-fallback">
+          <div className='error-boundary-fallback'>
             <h2>Something went wrong</h2>
             <button onClick={this.retry}>Try again</button>
           </div>

@@ -23,4 +23,4 @@ export function initializeApp() {
   return {
     cache,
   };
-} 
+}

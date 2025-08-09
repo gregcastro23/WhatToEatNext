@@ -1,6 +1,6 @@
 /**
  * Planetary Influences Module
- * 
+ *
  * Handles the mapping of planetary positions to alchemical properties
  * and calculates planetary influences on culinary recommendations.
  */
@@ -23,7 +23,7 @@ export const PLANETARY_ALCHEMICAL_MAPPINGS = {
   Saturn: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 },
   Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
-  Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+  Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
 };
 
 /**
@@ -40,7 +40,7 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
     Saturn: 'Air',
     Uranus: 'Water',
     Neptune: 'Water',
-    Pluto: 'Earth'
+    Pluto: 'Earth',
   },
   nocturnal: {
     Sun: 'Fire',
@@ -52,101 +52,118 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
     Saturn: 'Earth',
     Uranus: 'Air',
     Neptune: 'Water',
-    Pluto: 'Water'
-  }
+    Pluto: 'Water',
+  },
 } as const;
 
 /**
  * Planetary dignity effects
  */
 export const PLANETARY_DIGNITIES = {
-  Sun: { 
-    rulership: ['leo'], 
-    exaltation: ['aries'], 
-    detriment: ['aquarius'], 
-    fall: ['libra'] 
+  Sun: {
+    rulership: ['leo'],
+    exaltation: ['aries'],
+    detriment: ['aquarius'],
+    fall: ['libra'],
   },
-  moon: { 
-    rulership: ['cancer'], 
-    exaltation: ['taurus'], 
-    detriment: ['capricorn'], 
-    fall: ['scorpio'] 
+  moon: {
+    rulership: ['cancer'],
+    exaltation: ['taurus'],
+    detriment: ['capricorn'],
+    fall: ['scorpio'],
   },
-  Mercury: { 
-    rulership: ['gemini', 'virgo'], 
-    exaltation: ['virgo'], 
-    detriment: ['sagittarius', 'pisces'], 
-    fall: ['pisces'] 
+  Mercury: {
+    rulership: ['gemini', 'virgo'],
+    exaltation: ['virgo'],
+    detriment: ['sagittarius', 'pisces'],
+    fall: ['pisces'],
   },
-  Venus: { 
-    rulership: ['taurus', 'libra'], 
-    exaltation: ['pisces'], 
-    detriment: ['aries', 'scorpio'], 
-    fall: ['virgo'] 
+  Venus: {
+    rulership: ['taurus', 'libra'],
+    exaltation: ['pisces'],
+    detriment: ['aries', 'scorpio'],
+    fall: ['virgo'],
   },
-  Mars: { 
-    rulership: ['aries', 'scorpio'], 
-    exaltation: ['capricorn'], 
-    detriment: ['taurus', 'libra'], 
-    fall: ['cancer'] 
+  Mars: {
+    rulership: ['aries', 'scorpio'],
+    exaltation: ['capricorn'],
+    detriment: ['taurus', 'libra'],
+    fall: ['cancer'],
   },
-  Jupiter: { 
-    rulership: ['sagittarius', 'pisces'], 
-    exaltation: ['cancer'], 
-    detriment: ['gemini', 'virgo'], 
-    fall: ['capricorn'] 
+  Jupiter: {
+    rulership: ['sagittarius', 'pisces'],
+    exaltation: ['cancer'],
+    detriment: ['gemini', 'virgo'],
+    fall: ['capricorn'],
   },
-  Saturn: { 
-    rulership: ['capricorn', 'aquarius'], 
-    exaltation: ['libra'], 
-    detriment: ['cancer', 'leo'], 
-    fall: ['aries'] 
+  Saturn: {
+    rulership: ['capricorn', 'aquarius'],
+    exaltation: ['libra'],
+    detriment: ['cancer', 'leo'],
+    fall: ['aries'],
   },
-  Uranus: { 
-    rulership: ['aquarius'], 
-    exaltation: ['scorpio'], 
-    detriment: ['leo'], 
-    fall: ['taurus'] 
+  Uranus: {
+    rulership: ['aquarius'],
+    exaltation: ['scorpio'],
+    detriment: ['leo'],
+    fall: ['taurus'],
   },
-  Neptune: { 
-    rulership: ['pisces'], 
-    exaltation: ['cancer'], 
-    detriment: ['virgo'], 
-    fall: ['capricorn'] 
+  Neptune: {
+    rulership: ['pisces'],
+    exaltation: ['cancer'],
+    detriment: ['virgo'],
+    fall: ['capricorn'],
   },
-  Pluto: { 
-    rulership: ['scorpio'], 
-    exaltation: ['leo'], 
-    detriment: ['taurus'], 
-    fall: ['aquarius'] 
-  }
+  Pluto: {
+    rulership: ['scorpio'],
+    exaltation: ['leo'],
+    detriment: ['taurus'],
+    fall: ['aquarius'],
+  },
 };
 
 /**
  * Calculate planetary dignity modifier
  */
-export function calculatePlanetaryDignity(planet: string, sign: string): {
+export function calculatePlanetaryDignity(
+  planet: string,
+  sign: string,
+): {
   type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral';
   modifier: number;
 } {
   const planetKey = planet.toLowerCase();
   const signKey = sign.toLowerCase();
   const dignities = PLANETARY_DIGNITIES[planetKey as keyof typeof PLANETARY_DIGNITIES];
-  
+
   if (!dignities) {
     return { type: 'neutral', modifier: 1.0 };
   }
 
-  if ((Array.isArray(dignities.rulership) ? dignities.rulership.includes(signKey) : dignities.rulership === signKey)) {
+  if (
+    Array.isArray(dignities.rulership)
+      ? dignities.rulership.includes(signKey)
+      : dignities.rulership === signKey
+  ) {
     return { type: 'rulership', modifier: 1.5 };
   }
-  if ((Array.isArray(dignities.exaltation) ? dignities.exaltation.includes(signKey) : dignities.exaltation === signKey)) {
+  if (
+    Array.isArray(dignities.exaltation)
+      ? dignities.exaltation.includes(signKey)
+      : dignities.exaltation === signKey
+  ) {
     return { type: 'exaltation', modifier: 1.3 };
   }
-  if ((Array.isArray(dignities.detriment) ? dignities.detriment.includes(signKey) : dignities.detriment === signKey)) {
+  if (
+    Array.isArray(dignities.detriment)
+      ? dignities.detriment.includes(signKey)
+      : dignities.detriment === signKey
+  ) {
     return { type: 'detriment', modifier: 0.7 };
   }
-  if ((Array.isArray(dignities.fall) ? dignities.fall.includes(signKey) : dignities.fall === signKey)) {
+  if (
+    Array.isArray(dignities.fall) ? dignities.fall.includes(signKey) : dignities.fall === signKey
+  ) {
     return { type: 'fall', modifier: 0.5 };
   }
 
@@ -159,7 +176,7 @@ export function calculatePlanetaryDignity(planet: string, sign: string): {
 export function calculatePlanetaryStrength(
   planet: string,
   position: PlanetaryPosition,
-  aspects?: Array<{ planet1: string; planet2: string; type: string; orb: number }>
+  aspects?: Array<{ planet1: string; planet2: string; type: string; orb: number }>,
 ): number {
   let strength = 1.0;
 
@@ -176,8 +193,10 @@ export function calculatePlanetaryStrength(
 
   // Adjust for aspects (if provided)
   if (aspects) {
-    const planetAspects = (aspects || []).filter(aspect => aspect.planet1.toLowerCase() === planet.toLowerCase() || 
-                aspect.planet2.toLowerCase() === planet.toLowerCase()
+    const planetAspects = (aspects || []).filter(
+      aspect =>
+        aspect.planet1.toLowerCase() === planet.toLowerCase() ||
+        aspect.planet2.toLowerCase() === planet.toLowerCase(),
     );
 
     (planetAspects || []).forEach(aspect => {
@@ -209,12 +228,16 @@ export function calculatePlanetaryStrength(
  */
 export function getPlanetaryElementalInfluence(
   planet: string,
-  isDaytime: boolean = true
+  isDaytime: boolean = true,
 ): keyof ElementalProperties {
   const planetKey = planet.toLowerCase();
   const timeKey = isDaytime ? 'diurnal' : 'nocturnal';
-  
-  return PLANETARY_ELEMENTAL_MAPPINGS[timeKey][planetKey as keyof typeof PLANETARY_ELEMENTAL_MAPPINGS.diurnal] as keyof ElementalProperties || 'Fire';
+
+  return (
+    (PLANETARY_ELEMENTAL_MAPPINGS[timeKey][
+      planetKey as keyof typeof PLANETARY_ELEMENTAL_MAPPINGS.diurnal
+    ] as keyof ElementalProperties) || 'Fire'
+  );
 }
 
 /**
@@ -230,10 +253,30 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
 
   const dayRulers = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
   const hourRulers = [
-    'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars',
-    'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars',
-    'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars',
-    'Sun', 'Venus', 'Mercury'
+    'Sun',
+    'Venus',
+    'Mercury',
+    'Moon',
+    'Saturn',
+    'Jupiter',
+    'Mars',
+    'Sun',
+    'Venus',
+    'Mercury',
+    'Moon',
+    'Saturn',
+    'Jupiter',
+    'Mars',
+    'Sun',
+    'Venus',
+    'Mercury',
+    'Moon',
+    'Saturn',
+    'Jupiter',
+    'Mars',
+    'Sun',
+    'Venus',
+    'Mercury',
   ];
 
   const dayRuler = dayRulers[dayOfWeek];
@@ -256,7 +299,7 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
 export function calculatePlanetaryInfluences(
   planetaryPositions: { [key: string]: PlanetaryPosition },
   isDaytime: boolean = true,
-  currentDate?: Date
+  currentDate?: Date,
 ): {
   alchemicalInfluences: { [key: string]: number };
   elementalInfluences: { [key: string]: number };
@@ -264,7 +307,7 @@ export function calculatePlanetaryInfluences(
   planetaryHours?: { dayRuler: string; hourRuler: string; influence: number };
 } {
   const cacheKey = `planetary_influences_${JSON.stringify(planetaryPositions)}_${isDaytime}_${currentDate?.getTime()}`;
-  
+
   return getCachedCalculation(
     cacheKey,
     { positions: planetaryPositions, isDaytime, date: currentDate?.getTime() },
@@ -273,23 +316,28 @@ export function calculatePlanetaryInfluences(
         Spirit: 0,
         Essence: 0,
         Matter: 0,
-        Substance: 0
+        Substance: 0,
       };
 
-      const elementalInfluences: { [key: string]: number } = { Fire: 0, Water: 0, Air: 0, Earth: 0
-       };
+      const elementalInfluences: { [key: string]: number } = {
+        Fire: 0,
+        Water: 0,
+        Air: 0,
+        Earth: 0,
+      };
 
       const dominantPlanets: Array<{ planet: string; strength: number; element: Element }> = [];
 
       // Process each planet
       Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
         const planetKey = planet.toLowerCase();
-        const mapping = PLANETARY_ALCHEMICAL_MAPPINGS[planetKey as keyof typeof PLANETARY_ALCHEMICAL_MAPPINGS];
-        
+        const mapping =
+          PLANETARY_ALCHEMICAL_MAPPINGS[planetKey as keyof typeof PLANETARY_ALCHEMICAL_MAPPINGS];
+
         if (mapping) {
           // Calculate planetary strength
           const strength = calculatePlanetaryStrength(planet, position);
-          
+
           // Add to alchemical influences
           alchemicalInfluences.Spirit += mapping.Spirit * strength;
           alchemicalInfluences.Essence += mapping.Essence * strength;
@@ -304,7 +352,7 @@ export function calculatePlanetaryInfluences(
           dominantPlanets.push({
             planet,
             strength,
-            element: _element as Element
+            element: _element as Element,
           });
         }
       });
@@ -322,10 +370,10 @@ export function calculatePlanetaryInfluences(
         alchemicalInfluences,
         elementalInfluences,
         dominantPlanets,
-        planetaryHours
+        planetaryHours,
       };
     },
-    300000 // 5 minute cache
+    300000, // 5 minute cache
   ) as {
     alchemicalInfluences: { [key: string]: number };
     elementalInfluences: { [key: string]: number };
@@ -338,7 +386,7 @@ export function calculatePlanetaryInfluences(
  * Get culinary recommendations based on planetary influences
  */
 export function getPlanetaryCulinaryRecommendations(
-  dominantPlanets: Array<{ planet: string; strength: number; element: Element }>
+  dominantPlanets: Array<{ planet: string; strength: number; element: Element }>,
 ): {
   ingredients: string[];
   cookingMethods: string[];
@@ -349,7 +397,7 @@ export function getPlanetaryCulinaryRecommendations(
     ingredients: [] as string[],
     cookingMethods: [] as string[],
     flavors: [] as string[],
-    timing: [] as string[]
+    timing: [] as string[],
   };
 
   // Get top 3 dominant planets
@@ -417,5 +465,5 @@ export default {
   getPlanetaryCulinaryRecommendations,
   PLANETARY_ALCHEMICAL_MAPPINGS,
   PLANETARY_ELEMENTAL_MAPPINGS,
-  PLANETARY_DIGNITIES
-}; 
+  PLANETARY_DIGNITIES,
+};

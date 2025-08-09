@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 interface InfiniteLoopDetectorProps {
@@ -7,7 +7,6 @@ interface InfiniteLoopDetectorProps {
   reportOnly?: any;
   children: unknown;
 }
-
 
 interface Props {
   threshold?: number; // Number of renders in a short time that indicates a loop
@@ -24,16 +23,16 @@ export function InfiniteLoopDetector({
   threshold = 30,
   timeWindow = 1000,
   reportOnly = false,
-  children
+  children,
 }: Props) {
   const renderCount = useRef(0);
   const lastResetTime = useRef(Date.now());
   const [isLooping, setIsLooping] = useState(false);
   const loopDetectedRef = useRef(false);
-  
+
   // We use a ref for the component stack to avoid triggering re-renders
   const componentStackRef = useRef<string>('');
-  
+
   // Get the component stack trace - helps identify which component is causing the loop
   useEffect(() => {
     try {
@@ -48,23 +47,23 @@ export function InfiniteLoopDetector({
   // Increment render count and check for loops
   useEffect(() => {
     renderCount.current += 1;
-    
+
     const now = Date.now();
     const timeElapsed = now - lastResetTime.current;
-    
+
     // Only check for loops after the component has had time to stabilize
     if (timeElapsed > 100) {
       if (timeElapsed < timeWindow && renderCount.current > threshold) {
         if (!loopDetectedRef.current) {
           loopDetectedRef.current = true;
-          
+
           // Create a simplified stack trace that's easier to read
           const errorLocation = new Error().stack
             ?.split('\n')
             .slice(2, 3)
             .map(line => line.trim())
             .join(' ');
-          
+
           console.error(
             `⚠️ INFINITE LOOP DETECTED: ${renderCount.current} renders in ${timeElapsed}ms`,
             {
@@ -72,27 +71,27 @@ export function InfiniteLoopDetector({
               timeElapsed,
               rendersPerSecond: (renderCount.current / timeElapsed) * 1000,
               componentStack: componentStackRef.current,
-              suspectedComponent: errorLocation
-            }
+              suspectedComponent: errorLocation,
+            },
           );
-          
+
           if (!reportOnly) {
             setIsLooping(true);
           }
-          
+
           // Add a hook to React DevTools
           if (typeof window !== 'undefined' && (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__) {
             const hook = (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__;
             hook.emit('infinite-loop-detected', {
               componentStack: componentStackRef.current,
               rendersPerSecond: (renderCount.current / timeElapsed) * 1000,
-              timestamp: new Date().toISOString()
+              timestamp: new Date().toISOString(),
             });
           }
         }
       }
     }
-    
+
     // Reset counters if enough time has passed
     if (timeElapsed > timeWindow) {
       lastResetTime.current = now;
@@ -100,25 +99,25 @@ export function InfiniteLoopDetector({
       loopDetectedRef.current = false;
     }
   }, [threshold, timeWindow, reportOnly]); // Added dependencies
-  
+
   // If loop detected and not in report-only mode, show warning
   if (isLooping && !reportOnly) {
     return (
-      <div className="p-3 bg-red-100 border-l-4 border-red-500 text-red-700">
-        <h3 className="font-bold">Infinite Loop Detected!</h3>
+      <div className='border-l-4 border-red-500 bg-red-100 p-3 text-red-700'>
+        <h3 className='font-bold'>Infinite Loop Detected!</h3>
         <p>This component is re-rendering too frequently, indicating an infinite loop.</p>
         <details>
-          <summary className="cursor-pointer text-sm mt-2">Technical details</summary>
-          <pre className="text-xs mt-2 p-2 bg-gray-100 overflow-auto max-h-40">
+          <summary className='mt-2 cursor-pointer text-sm'>Technical details</summary>
+          <pre className='mt-2 max-h-40 overflow-auto bg-gray-100 p-2 text-xs'>
             {componentStackRef.current}
           </pre>
         </details>
       </div>
     );
   }
-  
+
   // Otherwise, render children normally
   return <>{children}</>;
 }
 
-export default InfiniteLoopDetector; 
+export default InfiniteLoopDetector;

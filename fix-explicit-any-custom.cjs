@@ -11,7 +11,10 @@ const { execSync } = require('child_process');
 
 function getTopExplicitAnyFiles() {
   try {
-    const output = execSync('yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | cut -d: -f1 | sort | uniq -c | sort -nr | head -10', { encoding: 'utf8' });
+    const output = execSync(
+      'yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | cut -d: -f1 | sort | uniq -c | sort -nr | head -10',
+      { encoding: 'utf8' },
+    );
     const files = [];
 
     output.split('\n').forEach(line => {
@@ -42,44 +45,44 @@ function fixExplicitAnyPatterns(filePath) {
       {
         pattern: /jest\.MockedFunction<any>/g,
         replacement: 'jest.MockedFunction<(...args: unknown[]) => unknown>',
-        description: 'Jest mock function types'
+        description: 'Jest mock function types',
       },
       // Generic any in simple contexts
       {
         pattern: /:\s*any\s*=/g,
         replacement: ': unknown =',
-        description: 'Variable assignments'
+        description: 'Variable assignments',
       },
       // Function return types
       {
         pattern: /\):\s*any\s*{/g,
         replacement: '): unknown {',
-        description: 'Function return types'
+        description: 'Function return types',
       },
       // Array types
       {
         pattern: /any\[\]/g,
         replacement: 'unknown[]',
-        description: 'Array types'
+        description: 'Array types',
       },
       // Record types for objects
       {
         pattern: /Record<string,\s*any>/g,
         replacement: 'Record<string, unknown>',
-        description: 'Record types'
+        description: 'Record types',
       },
       // Simple object properties
       {
         pattern: /:\s*any\s*;/g,
         replacement: ': unknown;',
-        description: 'Object properties'
+        description: 'Object properties',
       },
       // Union types
       {
         pattern: /:\s*any\s*\|/g,
         replacement: ': unknown |',
-        description: 'Union types'
-      }
+        description: 'Union types',
+      },
     ];
 
     for (const { pattern, replacement, description } of replacements) {
@@ -103,7 +106,6 @@ function fixExplicitAnyPatterns(filePath) {
     }
 
     return fixes;
-
   } catch (error) {
     console.error(`❌ Error processing ${filePath}:`, error.message);
     return 0;

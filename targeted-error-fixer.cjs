@@ -22,23 +22,22 @@ class EmergencyErrorFixer {
     console.log('🚨 EMERGENCY CAMPAIGN PHASE 1 ACTIVATED');
     console.log('Target: Critical syntax and type definition errors');
     console.log('Safety Level: MAXIMUM');
-    
+
     try {
       // Get initial error count
       const initialErrors = this.getErrorCount();
       console.log(`Initial error count: ${initialErrors}`);
-      
+
       // Focus on high-impact error types first
       await this.fixCriticalErrors();
-      
+
       // Validate after fixes
       const finalErrors = this.getErrorCount();
       console.log(`Final error count: ${finalErrors}`);
       console.log(`Errors reduced: ${initialErrors - finalErrors}`);
-      
+
       // Generate progress report
       this.generateProgressReport(initialErrors, finalErrors);
-      
     } catch (error) {
       console.error('❌ Campaign Phase 1 failed:', error.message);
       console.log('🔄 Initiating automatic rollback...');
@@ -50,7 +49,7 @@ class EmergencyErrorFixer {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -61,27 +60,26 @@ class EmergencyErrorFixer {
   async fixCriticalErrors() {
     // Get top error files with highest error density
     const errorFiles = this.getHighImpactFiles();
-    
+
     for (const file of errorFiles.slice(0, this.maxFiles)) {
       console.log(`🔧 Processing: ${file.path} (${file.errorCount} errors)`);
-      
+
       try {
         // Create safety checkpoint
         this.createSafetyCheckpoint(file.path);
-        
+
         // Apply targeted fixes
         await this.applyTargetedFixes(file.path);
-        
+
         // Validate build after each file
         if (!this.validateBuild()) {
           console.log('❌ Build validation failed, rolling back file...');
           this.rollbackFile(file.path);
           continue;
         }
-        
+
         this.processedFiles++;
         console.log(`✅ Successfully processed: ${file.path}`);
-        
       } catch (error) {
         console.error(`❌ Error processing ${file.path}:`, error.message);
         this.rollbackFile(file.path);
@@ -91,7 +89,8 @@ class EmergencyErrorFixer {
 
   getHighImpactFiles() {
     try {
-      const output = execSync(`
+      const output = execSync(
+        `
         yarn tsc --noEmit --skipLibCheck 2>&1 | 
         grep "error TS" | 
         cut -d'(' -f1 | 
@@ -99,26 +98,31 @@ class EmergencyErrorFixer {
         uniq -c | 
         sort -nr | 
         head -10
-      `, { encoding: 'utf8' });
-      
-      return output.trim().split('\n')
+      `,
+        { encoding: 'utf8' },
+      );
+
+      return output
+        .trim()
+        .split('\n')
         .filter(line => line.trim())
         .map(line => {
           const match = line.trim().match(/^\s*(\d+)\s+(.+)$/);
           if (match) {
             return {
               errorCount: parseInt(match[1]),
-              path: match[2].trim()
+              path: match[2].trim(),
             };
           }
           return null;
         })
         .filter(Boolean)
-        .filter(file => 
-          // Focus on calculation files but avoid core astrological logic
-          file.path.includes('src/') && 
-          !file.path.includes('node_modules') &&
-          !file.path.includes('.next')
+        .filter(
+          file =>
+            // Focus on calculation files but avoid core astrological logic
+            file.path.includes('src/') &&
+            !file.path.includes('node_modules') &&
+            !file.path.includes('.next'),
         );
     } catch (error) {
       console.error('Error getting high impact files:', error);
@@ -140,13 +144,13 @@ class EmergencyErrorFixer {
       // Fix function parameters without types
       {
         pattern: /(\w+)\s*=\s*\(\s*(\w+)\s*\)\s*=>/g,
-        replacement: '$1 = ($2: any) =>'
+        replacement: '$1 = ($2: any) =>',
       },
       // Fix missing return types on simple functions
       {
         pattern: /export\s+const\s+(\w+)\s*=\s*\([^)]*\)\s*=>\s*{/g,
-        replacement: (match) => match.includes(': ') ? match : match.replace('=>', ': any =>')
-      }
+        replacement: match => (match.includes(': ') ? match : match.replace('=>', ': any =>')),
+      },
     ];
 
     for (const fix of typeAnnotationFixes) {
@@ -168,8 +172,8 @@ class EmergencyErrorFixer {
             return `${obj}?.${prop}`;
           }
           return match;
-        }
-      }
+        },
+      },
     ];
 
     for (const fix of nullCheckFixes) {
@@ -188,9 +192,9 @@ class EmergencyErrorFixer {
 
   validateBuild() {
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck', { 
+      execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000, // 30 second timeout
       });
       return true;
     } catch (error) {
@@ -202,7 +206,7 @@ class EmergencyErrorFixer {
     const checkpoint = {
       file: filePath,
       timestamp: new Date().toISOString(),
-      backup: fs.readFileSync(filePath, 'utf8')
+      backup: fs.readFileSync(filePath, 'utf8'),
     };
     this.safetyCheckpoints.push(checkpoint);
   }
@@ -231,13 +235,16 @@ class EmergencyErrorFixer {
       initialErrors,
       finalErrors,
       errorsReduced: initialErrors - finalErrors,
-      reductionPercentage: ((initialErrors - finalErrors) / initialErrors * 100).toFixed(2),
+      reductionPercentage: (((initialErrors - finalErrors) / initialErrors) * 100).toFixed(2),
       filesProcessed: this.processedFiles,
       safetyCheckpoints: this.safetyCheckpoints.length,
-      status: finalErrors < initialErrors ? 'SUCCESS' : 'PARTIAL_SUCCESS'
+      status: finalErrors < initialErrors ? 'SUCCESS' : 'PARTIAL_SUCCESS',
     };
 
-    fs.writeFileSync('.kiro/campaign-reports/phase1-progress.json', JSON.stringify(report, null, 2));
+    fs.writeFileSync(
+      '.kiro/campaign-reports/phase1-progress.json',
+      JSON.stringify(report, null, 2),
+    );
     console.log('\n📊 PHASE 1 PROGRESS REPORT:');
     console.log(`Initial Errors: ${initialErrors}`);
     console.log(`Final Errors: ${finalErrors}`);

@@ -1,6 +1,7 @@
 # Ingredient Data Structures
 
-This document describes the TypeScript interfaces for ingredient data structures used in the WhatToEatNext application.
+This document describes the TypeScript interfaces for ingredient data structures
+used in the WhatToEatNext application.
 
 ## Core Ingredient Types
 
@@ -23,7 +24,8 @@ interface BaseIngredient {
 
 ### `Ingredient`
 
-The full ingredient interface, extending `BaseIngredient` with additional properties:
+The full ingredient interface, extending `BaseIngredient` with additional
+properties:
 
 ```typescript
 interface Ingredient extends BaseIngredient {
@@ -120,13 +122,13 @@ interface IngredientMapping {
 Defines the main categories of ingredients:
 
 ```typescript
-type IngredientCategory = 
-  | 'culinary_herb' 
-  | 'spice' 
-  | 'vegetable' 
-  | 'fruit' 
-  | 'protein' 
-  | 'grain' 
+type IngredientCategory =
+  | 'culinary_herb'
+  | 'spice'
+  | 'vegetable'
+  | 'fruit'
+  | 'protein'
+  | 'grain'
   | 'dairy'
   | 'oil';
 ```
@@ -237,11 +239,11 @@ import { Ingredient, IngredientCategory } from '@/types';
 const basil: Ingredient = {
   name: 'Basil',
   category: 'culinary_herb',
-  elementalProperties: { 
-    Fire: 0.2, 
-    Water: 0.3, 
-    Air: 0.4, 
-    Earth: 0.1 
+  elementalProperties: {
+    Fire: 0.2,
+    Water: 0.3,
+    Air: 0.4,
+    Earth: 0.1
   },
   qualities: ['aromatic', 'sweet', 'fresh'],
   storage: {
@@ -263,11 +265,11 @@ const basilInRecipe: RecipeIngredient = {
   amount: 2,
   unit: 'tbsp',
   preparation: 'chopped',
-  elementalProperties: { 
-    Fire: 0.2, 
-    Water: 0.3, 
-    Air: 0.4, 
-    Earth: 0.1 
+  elementalProperties: {
+    Fire: 0.2,
+    Water: 0.3,
+    Air: 0.4,
+    Earth: 0.1
   }
 };
 ```
@@ -283,43 +285,43 @@ interface IngredientCardProps {
   showAmount?: boolean;
 }
 
-export const IngredientCard: React.FC<IngredientCardProps> = ({ 
-  ingredient, 
-  showAmount = false 
+export const IngredientCard: React.FC<IngredientCardProps> = ({
+  ingredient,
+  showAmount = false
 }) => {
   // Check if the ingredient is a RecipeIngredient by checking for 'amount' property
   const isRecipeIngredient = 'amount' in ingredient && 'unit' in ingredient;
-  
+
   return (
     <div className="ingredient-card">
       <h3>{ingredient.name}</h3>
-      
+
       {showAmount && isRecipeIngredient && (
         <div className="amount">
           {(ingredient as RecipeIngredient).amount} {(ingredient as RecipeIngredient).unit}
         </div>
       )}
-      
+
       {/* Display elemental properties as color bars */}
       <div className="elemental-bars">
-        <div 
-          className="fire-bar" 
-          style={{ width: `${ingredient.elementalProperties.Fire * 100}%` }} 
+        <div
+          className="fire-bar"
+          style={{ width: `${ingredient.elementalProperties.Fire * 100}%` }}
         />
-        <div 
-          className="water-bar" 
-          style={{ width: `${ingredient.elementalProperties.Water * 100}%` }} 
+        <div
+          className="water-bar"
+          style={{ width: `${ingredient.elementalProperties.Water * 100}%` }}
         />
-        <div 
-          className="earth-bar" 
-          style={{ width: `${ingredient.elementalProperties.Earth * 100}%` }} 
+        <div
+          className="earth-bar"
+          style={{ width: `${ingredient.elementalProperties.Earth * 100}%` }}
         />
-        <div 
-          className="air-bar" 
-          style={{ width: `${ingredient.elementalProperties.Air * 100}%` }} 
+        <div
+          className="air-bar"
+          style={{ width: `${ingredient.elementalProperties.Air * 100}%` }}
         />
       </div>
-      
+
       {/* Other ingredient details */}
     </div>
   );
@@ -328,17 +330,23 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
 
 ## Best Practices
 
-1. **Type Re-exports**: Import types from the central `@/types` index file rather than from individual files.
+1. **Type Re-exports**: Import types from the central `@/types` index file
+   rather than from individual files.
 
-2. **Type Checking**: Use TypeScript's type guards to check which interface an object implements:
+2. **Type Checking**: Use TypeScript's type guards to check which interface an
+   object implements:
+
    ```typescript
    function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredient {
      return ingredient && 'amount' in ingredient && 'unit' in ingredient;
    }
    ```
 
-3. **Partial Data**: When working with partial ingredient data, use the `Partial<Ingredient>` type.
+3. **Partial Data**: When working with partial ingredient data, use the
+   `Partial<Ingredient>` type.
 
-4. **Immutability**: Treat ingredient objects as immutable and create new objects when making changes.
+4. **Immutability**: Treat ingredient objects as immutable and create new
+   objects when making changes.
 
-5. **Validation**: Consider adding validation functions for ingredient data, especially when processing user input. 
+5. **Validation**: Consider adding validation functions for ingredient data,
+   especially when processing user input.

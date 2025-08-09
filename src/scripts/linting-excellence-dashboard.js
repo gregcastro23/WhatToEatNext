@@ -2,7 +2,7 @@
 
 /**
  * Linting Excellence Dashboard CLI (JavaScript version)
- * 
+ *
  * Command-line interface for the comprehensive linting validation
  * and monitoring dashboard with enhanced configuration support.
  */
@@ -17,7 +17,7 @@ class LintingExcellenceDashboardCLI {
 
   async run(args) {
     const options = this.parseArgs(args);
-    
+
     try {
       switch (options.command) {
         case 'validate':
@@ -48,12 +48,12 @@ class LintingExcellenceDashboardCLI {
       command: args[0] || 'validate',
       verbose: false,
       format: 'text',
-      watch: false
+      watch: false,
     };
 
     for (let i = 1; i < args.length; i++) {
       const arg = args[i];
-      
+
       switch (arg) {
         case '--verbose':
         case '-v':
@@ -75,7 +75,7 @@ class LintingExcellenceDashboardCLI {
 
   async runValidation(options) {
     console.log('🔍 Running comprehensive linting validation...\n');
-    
+
     const startTime = Date.now();
     const metrics = await this.collectMetrics();
     const alerts = this.evaluateAlerts(metrics);
@@ -86,7 +86,7 @@ class LintingExcellenceDashboardCLI {
       passed: alerts.filter(a => a.severity === 'error' || a.severity === 'critical').length === 0,
       metrics,
       alerts,
-      recommendations
+      recommendations,
     };
 
     // Generate dashboard report
@@ -109,8 +109,12 @@ class LintingExcellenceDashboardCLI {
     // Detailed metrics
     console.log('🔍 DETAILED METRICS');
     console.log('-'.repeat(30));
-    console.log(`Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`);
-    console.log(`Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`);
+    console.log(
+      `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`,
+    );
+    console.log(
+      `Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
+    );
     console.log(`Import Order Issues: ${result.metrics.importOrderIssues}`);
     console.log(`Unused Variables: ${result.metrics.unusedVariables}`);
     console.log(`React Hooks Issues: ${result.metrics.reactHooksIssues}`);
@@ -169,36 +173,32 @@ class LintingExcellenceDashboardCLI {
 
   async collectMetrics() {
     const startTime = Date.now();
-    
+
     try {
       // Run ESLint with enhanced configuration (faster approach)
-      const lintOutput = execSync(
-        'yarn lint:fast --format json --max-warnings 10000',
-        { 
-          encoding: 'utf8',
-          stdio: 'pipe',
-          timeout: 30000 // 30 second timeout
-        }
-      );
-      
+      const lintOutput = execSync('yarn lint:fast --format json --max-warnings 10000', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+        timeout: 30000, // 30 second timeout
+      });
+
       const lintResults = JSON.parse(lintOutput);
       const metrics = this.parseLintResults(lintResults);
-      
+
       // Add performance metrics
       metrics.performanceMetrics = {
         lintingDuration: Date.now() - startTime,
         memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB
-        filesProcessed: lintResults.length
+        filesProcessed: lintResults.length,
       };
-      
+
       // Calculate quality score
       metrics.qualityScore = this.calculateQualityScore(metrics);
-      
+
       return metrics;
-      
     } catch (error) {
       console.error('Error collecting linting metrics:', error.message);
-      
+
       // Return fallback metrics
       return {
         timestamp: new Date(),
@@ -214,9 +214,9 @@ class LintingExcellenceDashboardCLI {
         performanceMetrics: {
           lintingDuration: Date.now() - startTime,
           memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024,
-          filesProcessed: 0
+          filesProcessed: 0,
         },
-        qualityScore: 0
+        qualityScore: 0,
       };
     }
   }
@@ -235,16 +235,16 @@ class LintingExcellenceDashboardCLI {
     for (const result of lintResults) {
       for (const message of result.messages) {
         totalIssues++;
-        
+
         if (message.severity === 2) {
           errors++;
         } else {
           warnings++;
         }
-        
+
         // Categorize by rule type
         const ruleId = message.ruleId;
-        
+
         if (message.fatal || ruleId === 'parseForESLint') {
           parserErrors++;
         } else if (ruleId === '@typescript-eslint/no-explicit-any') {
@@ -275,74 +275,75 @@ class LintingExcellenceDashboardCLI {
       performanceMetrics: {
         lintingDuration: 0, // Will be set by caller
         memoryUsage: 0,
-        filesProcessed: lintResults.length
+        filesProcessed: lintResults.length,
       },
-      qualityScore: 0 // Will be calculated
+      qualityScore: 0, // Will be calculated
     };
   }
 
   calculateQualityScore(metrics) {
     if (metrics.totalIssues === -1) return 0; // Error state
-    
+
     // Base score starts at 100
     let score = 100;
-    
+
     // Deduct points for different issue types
     score -= Math.min(50, metrics.parserErrors * 10); // Parser errors are critical
     score -= Math.min(30, metrics.explicitAnyErrors * 0.1); // Explicit any errors
     score -= Math.min(20, metrics.errors * 0.5); // General errors
     score -= Math.min(15, metrics.warnings * 0.01); // Warnings (less impact)
-    
+
     // Performance penalty
     if (metrics.performanceMetrics.lintingDuration > 30000) {
       score -= 10; // Performance penalty
     }
-    
+
     // Bonus for zero critical issues
     if (metrics.parserErrors === 0 && metrics.explicitAnyErrors < 10) {
       score += 5;
     }
-    
+
     return Math.max(0, Math.min(100, Math.round(score)));
   }
 
   evaluateAlerts(metrics) {
     const alerts = [];
-    
+
     const thresholds = [
       {
         metric: 'parserErrors',
         threshold: 0,
         severity: 'critical',
-        message: 'Parser errors detected - blocking accurate linting analysis'
+        message: 'Parser errors detected - blocking accurate linting analysis',
       },
       {
         metric: 'explicitAnyErrors',
         threshold: 100,
         severity: 'error',
-        message: 'Explicit any errors exceed acceptable threshold'
+        message: 'Explicit any errors exceed acceptable threshold',
       },
       {
         metric: 'totalIssues',
         threshold: 2000,
         severity: 'warning',
-        message: 'Total linting issues exceed warning threshold'
+        message: 'Total linting issues exceed warning threshold',
       },
       {
         metric: 'qualityScore',
         threshold: 80,
         severity: 'warning',
-        message: 'Code quality score below target'
-      }
+        message: 'Code quality score below target',
+      },
     ];
-    
+
     for (const threshold of thresholds) {
       const currentValue = metrics[threshold.metric] || 0;
-      
-      const shouldTrigger = threshold.metric === 'qualityScore' 
-        ? currentValue < threshold.threshold
-        : currentValue > threshold.threshold;
-      
+
+      const shouldTrigger =
+        threshold.metric === 'qualityScore'
+          ? currentValue < threshold.threshold
+          : currentValue > threshold.threshold;
+
       if (shouldTrigger) {
         alerts.push({
           id: `${threshold.metric}-${Date.now()}`,
@@ -352,68 +353,68 @@ class LintingExcellenceDashboardCLI {
           currentValue,
           threshold: threshold.threshold,
           message: threshold.message,
-          resolved: false
+          resolved: false,
         });
       }
     }
-    
+
     return alerts;
   }
 
   generateRecommendations(metrics, alerts) {
     const recommendations = [];
-    
+
     // Parser error recommendations
     if (metrics.parserErrors > 0) {
       recommendations.push(
         '🚨 URGENT: Fix parser errors immediately - they block accurate linting analysis',
         'Check src/utils/recommendationEngine.ts and other files with syntax errors',
-        'Run `yarn tsc --noEmit` to identify TypeScript compilation issues'
+        'Run `yarn tsc --noEmit` to identify TypeScript compilation issues',
       );
     }
-    
+
     // Explicit any recommendations
     if (metrics.explicitAnyErrors > 100) {
       recommendations.push(
         '⚡ HIGH PRIORITY: Reduce explicit any types using systematic type inference',
         'Focus on React components, service layers, and utility functions first',
-        'Use domain-specific exceptions for astrological calculations where needed'
+        'Use domain-specific exceptions for astrological calculations where needed',
       );
     }
-    
+
     // Import organization recommendations
     if (metrics.importOrderIssues > 50) {
       recommendations.push(
         '🚀 READY: Deploy enhanced import organization with alphabetical sorting',
         'Run `yarn lint:fix` to automatically organize imports',
-        'Use batch processing for systematic completion of remaining issues'
+        'Use batch processing for systematic completion of remaining issues',
       );
     }
-    
+
     // Performance recommendations
     if (metrics.performanceMetrics.lintingDuration > 30000) {
       recommendations.push(
         '⚡ PERFORMANCE: Linting duration exceeds 30 seconds',
         'Enable ESLint caching with `yarn lint:fast` for incremental changes',
-        'Consider using `yarn lint:changed` for git-aware changed-files-only processing'
+        'Consider using `yarn lint:changed` for git-aware changed-files-only processing',
       );
     }
-    
+
     // Quality score recommendations
     if (metrics.qualityScore < 80) {
       recommendations.push(
         '📊 QUALITY: Code quality score below target (80%)',
         'Focus on eliminating critical errors first, then warnings',
-        'Use domain-specific linting commands for targeted improvements'
+        'Use domain-specific linting commands for targeted improvements',
       );
     }
-    
+
     return recommendations;
   }
 
   async generateDashboardReport(result, duration) {
     const reportPath = '.kiro/metrics/linting-dashboard-report.md';
-    
+
     const report = `# Linting Excellence Dashboard Report
 
 Generated: ${new Date().toISOString()}
@@ -446,9 +447,16 @@ Generated: ${new Date().toISOString()}
 
 ## 🚨 Active Alerts
 
-${result.alerts.length === 0 ? 'No active alerts ✅' : result.alerts.map(alert => 
-  `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} vs ${alert.threshold})`
-).join('\n')}
+${
+  result.alerts.length === 0
+    ? 'No active alerts ✅'
+    : result.alerts
+        .map(
+          alert =>
+            `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} vs ${alert.threshold})`,
+        )
+        .join('\n')
+}
 
 ## 💡 Recommendations
 
@@ -487,12 +495,12 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
       {
         name: 'ESLint Configuration',
         check: () => existsSync('eslint.config.cjs'),
-        fix: 'Ensure eslint.config.cjs exists in project root'
+        fix: 'Ensure eslint.config.cjs exists in project root',
       },
       {
         name: 'TypeScript Configuration',
         check: () => existsSync('tsconfig.json'),
-        fix: 'Ensure tsconfig.json exists in project root'
+        fix: 'Ensure tsconfig.json exists in project root',
       },
       {
         name: 'Package.json Scripts',
@@ -504,26 +512,26 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
             return false;
           }
         },
-        fix: 'Ensure package.json has lint scripts'
+        fix: 'Ensure package.json has lint scripts',
       },
       {
         name: 'Metrics Directory',
         check: () => existsSync('.kiro/metrics'),
-        fix: 'Directory will be created automatically'
-      }
+        fix: 'Directory will be created automatically',
+      },
     ];
 
     console.log('Running health checks...\n');
 
     let allPassed = true;
-    
+
     for (const check of checks) {
       try {
         const result = typeof check.check === 'function' ? check.check() : check.check;
         const status = result ? '✅ PASS' : '❌ FAIL';
-        
+
         console.log(`${status} ${check.name}`);
-        
+
         if (!result) {
           console.log(`   Fix: ${check.fix}`);
           allPassed = false;
@@ -592,11 +600,16 @@ INTEGRATION:
 
   getSeverityIcon(severity) {
     switch (severity) {
-      case 'critical': return '🚨';
-      case 'error': return '❌';
-      case 'warning': return '⚠️';
-      case 'info': return 'ℹ️';
-      default: return '📋';
+      case 'critical':
+        return '🚨';
+      case 'error':
+        return '❌';
+      case 'warning':
+        return '⚠️';
+      case 'info':
+        return 'ℹ️';
+      default:
+        return '📋';
     }
   }
 }

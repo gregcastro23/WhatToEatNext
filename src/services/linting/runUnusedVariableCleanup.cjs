@@ -2,7 +2,7 @@
 
 /**
  * Unused Variable Cleanup Script (CommonJS version)
- * 
+ *
  * Systematically processes unused variable warnings while preserving
  * critical astrological calculations and domain-specific variables.
  */
@@ -20,17 +20,17 @@ class UnusedVariableCleaner {
       /\b(aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces)\w*/i,
       /\b(transit|retrograde|conjunction|opposition|trine|square)\w*/i,
       /\b(lunar|solar|eclipse|equinox|solstice)\w*/i,
-      
+
       // Mathematical constants
       /\b[A-Z_]{3,}\b/,
       /\b(PI|EULER|GOLDEN_RATIO|PHI|SQRT|DEGREE|RADIAN)\w*/i,
-      
+
       // Campaign system variables
       /\b(campaign|progress|metrics|intelligence|safety)\w*/i,
       /\b(validation|rollback|checkpoint|threshold)\w*/i,
-      
+
       // Fallback and cache variables
-      /\b(fallback|default|backup|cache|positions|coordinates|ephemeris)\w*/i
+      /\b(fallback|default|backup|cache|positions|coordinates|ephemeris)\w*/i,
     ];
   }
 
@@ -38,7 +38,7 @@ class UnusedVariableCleaner {
     try {
       const output = execSync('yarn lint 2>&1 | grep -c "no-unused-vars" || echo "0"', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -48,12 +48,16 @@ class UnusedVariableCleaner {
 
   async getFilesWithUnusedVariables() {
     try {
-      const output = execSync('yarn lint 2>&1 | grep "no-unused-vars" | cut -d: -f1 | sort -u | head -30', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      
-      return output.split('\n')
+      const output = execSync(
+        'yarn lint 2>&1 | grep "no-unused-vars" | cut -d: -f1 | sort -u | head -30',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
+
+      return output
+        .split('\n')
         .filter(line => line.trim())
         .filter(file => fs.existsSync(file));
     } catch (error) {
@@ -95,19 +99,21 @@ class UnusedVariableCleaner {
     try {
       const output = execSync(`yarn lint "${filePath}" 2>&1 | grep "no-unused-vars"`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       const variables = [];
       const lines = output.split('\n');
-      
+
       for (const line of lines) {
-        const match = line.match(/'([^']+)' is (?:defined but never used|assigned a value but never used)/);
+        const match = line.match(
+          /'([^']+)' is (?:defined but never used|assigned a value but never used)/,
+        );
         if (match) {
           variables.push(match[1]);
         }
       }
-      
+
       return [...new Set(variables)]; // Remove duplicates
     } catch (error) {
       return [];
@@ -151,7 +157,7 @@ class UnusedVariableCleaner {
     let preserved = 0;
 
     const unusedVars = await this.getUnusedVariablesForFile(filePath);
-    
+
     for (const varName of unusedVars) {
       if (this.shouldPreserveVariable(varName, filePath)) {
         preserved++;
@@ -160,7 +166,7 @@ class UnusedVariableCleaner {
 
       const originalContent = modifiedContent;
       modifiedContent = this.prefixUnusedVariable(modifiedContent, varName);
-      
+
       if (modifiedContent !== originalContent) {
         applied++;
       }
@@ -175,12 +181,12 @@ class UnusedVariableCleaner {
 
   async processUnusedVariables() {
     console.log('🎯 Processing unused variable warnings...');
-    
+
     const result = {
       filesProcessed: 0,
       fixesApplied: 0,
       preserved: 0,
-      errors: []
+      errors: [],
     };
 
     const filesWithIssues = await this.getFilesWithUnusedVariables();
@@ -192,9 +198,11 @@ class UnusedVariableCleaner {
         result.filesProcessed++;
         result.fixesApplied += fixes.applied;
         result.preserved += fixes.preserved;
-        
+
         if (fixes.applied > 0) {
-          console.log(`  ✓ ${path.basename(filePath)}: ${fixes.applied} fixes applied, ${fixes.preserved} preserved`);
+          console.log(
+            `  ✓ ${path.basename(filePath)}: ${fixes.applied} fixes applied, ${fixes.preserved} preserved`,
+          );
         }
       } catch (error) {
         result.errors.push(`Error processing ${filePath}: ${error.message}`);
@@ -207,11 +215,11 @@ class UnusedVariableCleaner {
   async validateChanges() {
     try {
       console.log('🔍 Validating changes...');
-      
+
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
       console.log('  ✓ TypeScript compilation successful');
-      
+
       return true;
     } catch (error) {
       console.error('❌ Validation failed:', error.message);
@@ -239,23 +247,23 @@ async function main() {
     // Create backup
     console.log('💾 Creating backup...');
     execSync('git stash push -m "Pre unused-variable-cleanup backup"', { stdio: 'inherit' });
-    
+
     // Process unused variables
     const result = await cleaner.processUnusedVariables();
-    
+
     console.log('\n📊 Processing Results:');
     console.log(`Files processed: ${result.filesProcessed}`);
     console.log(`Fixes applied: ${result.fixesApplied}`);
     console.log(`Variables preserved: ${result.preserved}`);
-    
+
     if (result.errors.length > 0) {
       console.log(`\n❌ Errors: ${result.errors.length}`);
       result.errors.forEach(error => console.log(`  - ${error}`));
     }
-    
+
     // Validate changes
     const isValid = await cleaner.validateChanges();
-    
+
     if (!isValid) {
       console.log('\n❌ Validation failed, restoring backup...');
       execSync('git stash pop', { stdio: 'inherit' });
@@ -265,15 +273,14 @@ async function main() {
     // Get final count
     const finalCount = await cleaner.getUnusedVariableCount();
     const reduction = initialCount - finalCount;
-    const reductionPercentage = initialCount > 0 
-      ? ((reduction / initialCount) * 100).toFixed(1)
-      : '0';
-    
+    const reductionPercentage =
+      initialCount > 0 ? ((reduction / initialCount) * 100).toFixed(1) : '0';
+
     console.log(`\n✨ Results:`);
     console.log(`Initial warnings: ${initialCount}`);
     console.log(`Final warnings: ${finalCount}`);
     console.log(`Reduction: ${reduction} warnings (${reductionPercentage}%)`);
-    
+
     if (reduction > 0) {
       console.log('\n✅ Unused variable cleanup completed successfully!');
       console.log('💡 Critical astrological and campaign variables were preserved.');
@@ -281,10 +288,9 @@ async function main() {
       console.log('\n⚠️  No unused variables were fixed.');
       console.log('This indicates variables are either critical or already properly handled.');
     }
-
   } catch (error) {
     console.error('\n❌ Error during processing:', error.message);
-    
+
     // Restore backup on error
     try {
       execSync('git stash pop', { stdio: 'inherit' });
@@ -292,7 +298,7 @@ async function main() {
     } catch (restoreError) {
       console.error('❌ Failed to restore backup:', restoreError.message);
     }
-    
+
     process.exit(1);
   }
 }

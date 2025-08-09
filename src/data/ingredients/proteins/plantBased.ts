@@ -1,15 +1,11 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import type {
-  ElementalProperties,
-  Ingredient,
-  ZodiacSign,
-} from '@/types/alchemy';
+import type { ElementalProperties, Ingredient, ZodiacSign } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   _id: string,
-  properties: Partial<IngredientMapping> & Record<string, any>
+  properties: Partial<IngredientMapping> & Record<string, any>,
 ): Partial<IngredientMapping> {
   return {
     id: _id,
@@ -809,104 +805,101 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
   }),
 
-  textured_vegetable_protein: createIngredientMapping(
-    'textured_vegetable_protein',
-    {
-      elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
-      astrologicalProfile: {
-        rulingPlanets: ['Moon', 'Venus'],
-        favorableZodiac: ['cancer', 'taurus'],
-        elementalAffinity: {
-          base: 'Earth',
-          decanModifiers: {
-            first: { element: 'Earth', planet: 'Moon' },
-            second: { element: 'Water', planet: 'Venus' },
-            third: { element: 'Air', planet: 'Mercury' },
-          },
-        },
-        lunarPhaseModifiers: {
-          newMoon: {
-            elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
-            preparationTips: ['Best for marinating'],
-          },
-          fullMoon: {
-            elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
-            preparationTips: ['Ideal for baking'],
-          },
+  textured_vegetable_protein: createIngredientMapping('textured_vegetable_protein', {
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Venus'],
+      favorableZodiac: ['cancer', 'taurus'],
+      elementalAffinity: {
+        base: 'Earth',
+        decanModifiers: {
+          first: { element: 'Earth', planet: 'Moon' },
+          second: { element: 'Water', planet: 'Venus' },
+          third: { element: 'Air', planet: 'Mercury' },
         },
       },
-      qualities: ['versatile', 'meat-like', 'protein-rich'],
-      origin: ['United States', 'Industrial Development'],
-      category: 'protein',
-      subCategory: 'plant_based',
-      varieties: {
-        Granules: {
-          name: 'Granules',
-          appearance: 'small, crumbly pieces',
-          texture: 'ground meat-like',
-          applications: {
-            ground_meat_substitute: ['tacos', 'bolognese', 'chili'],
-            preparation: 'rehydrate before use',
-          },
+      lunarPhaseModifiers: {
+        newMoon: {
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
+          preparationTips: ['Best for marinating'],
         },
-        Chunks: {
-          name: 'Chunks',
-          appearance: 'larger pieces',
-          texture: 'chewy, meat-like',
-          applications: {
-            stews: 'holds shape well',
-            curries: 'absorbs flavors well',
-            stir_fries: 'maintains texture',
-          },
+        fullMoon: {
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
+          preparationTips: ['Ideal for baking'],
         },
       },
-      culinaryApplications: {
-        rehydration: {
-          name: 'Rehydration',
-          method: 'hot liquid soak',
-          timing: {
-            granules: '5-10 minutes',
-            chunks: '15-20 minutes',
-          },
-          liquids: {
-            basic: 'hot water',
-            flavored: ['vegetable broth', 'mushroom stock'],
-            ratio: '1:1 TVP to liquid',
-          },
-        },
-        cooking_methods: {
-          name: 'Cooking Methods',
-          pan_fry: {
-            name: 'Pan Fry',
-            preparation: 'rehydrate first',
-            method: 'medium-high heat',
-            timing: '5-7 minutes',
-            notes: 'brown for better flavor',
-          },
-          bake: {
-            name: 'Bake',
-            temperature: { fahrenheit: 350, celsius: 175 },
-            timing: '20-25 minutes',
-            notes: 'good for casseroles',
-          },
+    },
+    qualities: ['versatile', 'meat-like', 'protein-rich'],
+    origin: ['United States', 'Industrial Development'],
+    category: 'protein',
+    subCategory: 'plant_based',
+    varieties: {
+      Granules: {
+        name: 'Granules',
+        appearance: 'small, crumbly pieces',
+        texture: 'ground meat-like',
+        applications: {
+          ground_meat_substitute: ['tacos', 'bolognese', 'chili'],
+          preparation: 'rehydrate before use',
         },
       },
-      seasonalAdjustments: {
-        summer: {
-          name: 'Summer',
-          preparations: ['taco filling', 'burger crumbles'],
-          seasonings: ['fresh herbs', 'grilling spices'],
-          accompaniments: ['fresh salads', 'grilled vegetables'],
-        },
-        winter: {
-          name: 'Winter',
-          preparations: ['stews', 'casseroles'],
-          seasonings: ['warming spices', 'herbs'],
-          accompaniments: ['root vegetables', 'grains'],
+      Chunks: {
+        name: 'Chunks',
+        appearance: 'larger pieces',
+        texture: 'chewy, meat-like',
+        applications: {
+          stews: 'holds shape well',
+          curries: 'absorbs flavors well',
+          stir_fries: 'maintains texture',
         },
       },
-    }
-  ),
+    },
+    culinaryApplications: {
+      rehydration: {
+        name: 'Rehydration',
+        method: 'hot liquid soak',
+        timing: {
+          granules: '5-10 minutes',
+          chunks: '15-20 minutes',
+        },
+        liquids: {
+          basic: 'hot water',
+          flavored: ['vegetable broth', 'mushroom stock'],
+          ratio: '1:1 TVP to liquid',
+        },
+      },
+      cooking_methods: {
+        name: 'Cooking Methods',
+        pan_fry: {
+          name: 'Pan Fry',
+          preparation: 'rehydrate first',
+          method: 'medium-high heat',
+          timing: '5-7 minutes',
+          notes: 'brown for better flavor',
+        },
+        bake: {
+          name: 'Bake',
+          temperature: { fahrenheit: 350, celsius: 175 },
+          timing: '20-25 minutes',
+          notes: 'good for casseroles',
+        },
+      },
+    },
+    seasonalAdjustments: {
+      summer: {
+        name: 'Summer',
+        preparations: ['taco filling', 'burger crumbles'],
+        seasonings: ['fresh herbs', 'grilling spices'],
+        accompaniments: ['fresh salads', 'grilled vegetables'],
+      },
+      winter: {
+        name: 'Winter',
+        preparations: ['stews', 'casseroles'],
+        seasonings: ['warming spices', 'herbs'],
+        accompaniments: ['root vegetables', 'grains'],
+      },
+    },
+  }),
 
   jackfruit_young: createIngredientMapping('jackfruit_young', {
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -961,22 +954,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         name: 'Preparation',
         canned: {
           name: 'Canned',
-          steps: [
-            'drain thoroughly',
-            'rinse well',
-            'squeeze out liquid',
-            'shred or chop',
-          ],
+          steps: ['drain thoroughly', 'rinse well', 'squeeze out liquid', 'shred or chop'],
           notes: 'remove tough core pieces',
         },
         fresh: {
           name: 'Fresh',
-          steps: [
-            'oil hands well',
-            'remove core',
-            'separate pods',
-            'remove seeds',
-          ],
+          steps: ['oil hands well', 'remove core', 'separate pods', 'remove seeds'],
           notes: 'very sticky when fresh',
         },
       },
@@ -1616,24 +1599,22 @@ const mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMapping
 export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 
 // Add validation for elemental sums
-(Object.entries(plantBased) ).forEach(([_id, ingredient]) => {
+Object.entries(plantBased).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   const sum = Object.values(ingredient.elementalProperties).reduce(
     (a, b) => Number(a) + Number(b),
-    0
+    0,
   );
   if (Math.abs(Number(sum) - 1) > 0.0001) {
     // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
 
     // Optionally auto-normalize the values
     const factor = 1 / (Number(sum) || 1);
-    Object.entries(ingredient.elementalProperties).forEach(
-      ([element, value]) => {
-        const elementKey = element as keyof ElementalProperties;
-        ingredient.elementalProperties[elementKey] = Number(value) * Number(factor);
-      }
-    );
+    Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
+      const elementKey = element as keyof ElementalProperties;
+      ingredient.elementalProperties[elementKey] = Number(value) * Number(factor);
+    });
   }
 });
 

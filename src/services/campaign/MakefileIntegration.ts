@@ -1,9 +1,9 @@
 /**
  * Makefile Integration System
- * 
- * Integrates with existing make commands and implements campaign-specific 
+ *
+ * Integrates with existing make commands and implements campaign-specific
  * make targets for phase execution and progress reporting.
- * 
+ *
  * Requirements: 7.7
  */
 
@@ -62,9 +62,9 @@ export class MakefileIntegration {
         '@echo "🎯 Starting Phase 1: TypeScript Error Elimination"',
         '@echo "Target: Zero TypeScript compilation errors"',
         'node src/services/campaign/CampaignController.js --phase=1 --execute',
-        '@make campaign-validate-phase1'
+        '@make campaign-validate-phase1',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-phase2', {
@@ -75,9 +75,9 @@ export class MakefileIntegration {
         '@echo "🎯 Starting Phase 2: Linting Excellence Achievement"',
         '@echo "Target: Zero linting warnings"',
         'node src/services/campaign/CampaignController.js --phase=2 --execute',
-        '@make campaign-validate-phase2'
+        '@make campaign-validate-phase2',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-phase3', {
@@ -88,9 +88,9 @@ export class MakefileIntegration {
         '@echo "🎯 Starting Phase 3: Enterprise Intelligence Transformation"',
         '@echo "Target: Transform all unused exports to intelligence systems"',
         'node src/services/campaign/CampaignController.js --phase=3 --execute',
-        '@make campaign-validate-phase3'
+        '@make campaign-validate-phase3',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-phase4', {
@@ -101,9 +101,9 @@ export class MakefileIntegration {
         '@echo "🎯 Starting Phase 4: Performance Optimization Maintenance"',
         '@echo "Target: Maintain <10s build times and performance targets"',
         'node src/services/campaign/CampaignController.js --phase=4 --execute',
-        '@make campaign-validate-phase4'
+        '@make campaign-validate-phase4',
       ],
-      phony: true
+      phony: true,
     });
 
     // Campaign Validation Targets
@@ -118,9 +118,9 @@ export class MakefileIntegration {
         'else \\',
         '  echo "❌ Phase 1 INCOMPLETE: $$ERRORS TypeScript errors remaining"; \\',
         '  exit 1; \\',
-        'fi'
+        'fi',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-validate-phase2', {
@@ -134,9 +134,9 @@ export class MakefileIntegration {
         'else \\',
         '  echo "❌ Phase 2 INCOMPLETE: $$WARNINGS linting warnings remaining"; \\',
         '  exit 1; \\',
-        'fi'
+        'fi',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-validate-phase3', {
@@ -150,9 +150,9 @@ export class MakefileIntegration {
         'else \\',
         '  echo "❌ Phase 3 INCOMPLETE: Only $$SYSTEMS intelligence systems (target: 200+)"; \\',
         '  exit 1; \\',
-        'fi'
+        'fi',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-validate-phase4', {
@@ -166,9 +166,9 @@ export class MakefileIntegration {
         'else \\',
         '  echo "❌ Phase 4 INCOMPLETE: Build time $$BUILD_TIME seconds exceeds 10s target"; \\',
         '  exit 1; \\',
-        'fi'
+        'fi',
       ],
-      phony: true
+      phony: true,
     });
 
     // Campaign Progress and Reporting Targets
@@ -192,9 +192,9 @@ export class MakefileIntegration {
         '@make campaign-validate-phase4 2>/dev/null && echo "✅ Phase 4: Performance Optimization" || echo "❌ Phase 4: Performance Optimization"',
         '@echo ""',
         '@echo "🚀 Next Steps:"',
-        '@echo "Run: make campaign-execute-next"'
+        '@echo "Run: make campaign-execute-next"',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-execute-next', {
@@ -217,9 +217,9 @@ export class MakefileIntegration {
         'else \\',
         '  echo "🎉 ALL PHASES COMPLETE! Perfect Codebase Campaign achieved!"; \\',
         '  make campaign-celebration; \\',
-        'fi'
+        'fi',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-celebration', {
@@ -238,9 +238,9 @@ export class MakefileIntegration {
         '@echo "📊 Final Metrics:"',
         '@make campaign-status',
         '@echo ""',
-        '@echo "🚀 Ready for production deployment!"'
+        '@echo "🚀 Ready for production deployment!"',
       ],
-      phony: true
+      phony: true,
     });
 
     // Campaign Safety and Recovery Targets
@@ -264,9 +264,9 @@ export class MakefileIntegration {
         '@test -f scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js && echo "✅ Enhanced TypeScript Fixer available" || echo "❌ Enhanced TypeScript Fixer missing"',
         '@test -f scripts/typescript-fixes/fix-explicit-any-systematic.js && echo "✅ Explicit-Any Fixer available" || echo "❌ Explicit-Any Fixer missing"',
         '@echo ""',
-        '@echo "🎯 Safety Status: Ready for campaign execution"'
+        '@echo "🎯 Safety Status: Ready for campaign execution"',
       ],
-      phony: true
+      phony: true,
     });
 
     this.campaignTargets.set('campaign-emergency-rollback', {
@@ -287,9 +287,9 @@ export class MakefileIntegration {
         '@echo "  git stash apply stash@{0}  # Apply most recent stash"',
         '@echo "  git reset --hard <commit>  # Reset to specific commit"',
         '@echo ""',
-        '@echo "After recovery, run: make campaign-safety-check"'
+        '@echo "After recovery, run: make campaign-safety-check"',
       ],
-      phony: true
+      phony: true,
     });
 
     // Integration with existing make targets
@@ -307,24 +307,27 @@ export class MakefileIntegration {
         '@echo "🎯 Phase 2 Target Warnings:"',
         '@yarn lint 2>&1 | grep -E "(no-explicit-any|no-unused-vars|no-console)" | wc -l | xargs -I {} echo "Target linting warnings: {}"',
         '@echo ""',
-        '@make errors-by-file | head -10'
+        '@make errors-by-file | head -10',
       ],
-      phony: true
+      phony: true,
     });
   }
 
   /**
    * Execute a make target
    */
-  async executeMakeTarget(target: string, options: { 
-    silent?: boolean; 
-    dryRun?: boolean;
-    timeout?: number;
-  } = {}): Promise<MakeExecutionResult> {
+  async executeMakeTarget(
+    target: string,
+    options: {
+      silent?: boolean;
+      dryRun?: boolean;
+      timeout?: number;
+    } = {},
+  ): Promise<MakeExecutionResult> {
     const { silent = false, dryRun = false, timeout = 300000 } = options;
 
     console.log(`🔨 Executing make target: ${target}`);
-    
+
     if (dryRun) {
       console.log(`🔍 DRY RUN: Would execute 'make ${target}'`);
       return {
@@ -332,38 +335,38 @@ export class MakefileIntegration {
         exitCode: 0,
         output: `DRY RUN: make ${target}`,
         executionTime: 0,
-        target
+        target,
       };
     }
 
     const startTime = Date.now();
-    
+
     try {
       const output = execSync(`make ${target}`, {
         encoding: 'utf8',
         stdio: silent ? 'pipe' : 'inherit',
         timeout,
-        maxBuffer: 10 * 1024 * 1024 // 10MB buffer
+        maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
 
       const executionTime = Date.now() - startTime;
-      
+
       return {
         success: true,
         exitCode: 0,
         output: output || '',
         executionTime,
-        target
+        target,
       };
     } catch (error: any) {
       const executionTime = Date.now() - startTime;
-      
+
       return {
         success: false,
         exitCode: error.status || 1,
         output: error.stdout || error.message || '',
         executionTime,
-        target
+        target,
       };
     }
   }
@@ -378,14 +381,14 @@ export class MakefileIntegration {
       const tsErrors = this.parseErrorCount(tsErrorsResult.output);
 
       // Get linting warnings count
-      const lintResult = execSync('yarn lint 2>&1 | grep -c "warning" || echo "0"', { 
-        encoding: 'utf8' 
+      const lintResult = execSync('yarn lint 2>&1 | grep -c "warning" || echo "0"', {
+        encoding: 'utf8',
       });
       const lintingWarnings = parseInt(lintResult.trim()) || 0;
 
       // Get enterprise systems count
-      const systemsResult = execSync('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l || echo "0"', { 
-        encoding: 'utf8' 
+      const systemsResult = execSync('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l || echo "0"', {
+        encoding: 'utf8',
       });
       const enterpriseSystems = parseInt(systemsResult.trim()) || 0;
 
@@ -404,7 +407,13 @@ export class MakefileIntegration {
       if (tsErrors === 0) currentPhase = 2;
       if (tsErrors === 0 && lintingWarnings === 0) currentPhase = 3;
       if (tsErrors === 0 && lintingWarnings === 0 && enterpriseSystems >= 200) currentPhase = 4;
-      if (tsErrors === 0 && lintingWarnings === 0 && enterpriseSystems >= 200 && buildTime > 0 && buildTime < 10000) {
+      if (
+        tsErrors === 0 &&
+        lintingWarnings === 0 &&
+        enterpriseSystems >= 200 &&
+        buildTime > 0 &&
+        buildTime < 10000
+      ) {
         currentPhase = 5; // Complete
       }
 
@@ -415,7 +424,7 @@ export class MakefileIntegration {
         lintingWarnings,
         buildTime,
         enterpriseSystems,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
     } catch (error) {
       console.warn('⚠️ Could not get campaign progress:', error);
@@ -426,7 +435,7 @@ export class MakefileIntegration {
         lintingWarnings: -1,
         buildTime: -1,
         enterpriseSystems: -1,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
     }
   }
@@ -456,7 +465,7 @@ export class MakefileIntegration {
       // Write updated Makefile
       fs.writeFileSync(this.makefilePath, makefileContent, 'utf8');
       console.log('✅ Campaign targets added to Makefile');
-      
+
       return true;
     } catch (error) {
       console.error('❌ Failed to add campaign targets to Makefile:', error);
@@ -472,14 +481,14 @@ export class MakefileIntegration {
       '',
       '# Campaign Execution Framework',
       '# Perfect Codebase Campaign - Systematic Excellence Initiative',
-      ''
+      '',
     ];
 
     // Add phony declaration
     const phonyTargets = Array.from(this.campaignTargets.values())
       .filter(target => target.phony)
       .map(target => target.name);
-    
+
     if (phonyTargets.length > 0) {
       lines.push(`.PHONY: ${phonyTargets.join(' ')}`);
       lines.push('');
@@ -488,13 +497,13 @@ export class MakefileIntegration {
     // Add each target
     for (const target of this.campaignTargets.values()) {
       lines.push(`# ${target.description}`);
-      
+
       let targetLine = `${target.name}:`;
       if (target.dependencies && target.dependencies.length > 0) {
         targetLine += ` ${target.dependencies.join(' ')}`;
       }
       lines.push(targetLine);
-      
+
       for (const command of target.commands) {
         lines.push(`\t${command}`);
       }
@@ -536,7 +545,7 @@ export class MakefileIntegration {
       'check',
       'build',
       'test',
-      'lint'
+      'lint',
     ];
 
     const missing: string[] = [];
@@ -551,7 +560,7 @@ export class MakefileIntegration {
 
     return {
       valid: missing.length === 0,
-      missing
+      missing,
     };
   }
 }

@@ -16,7 +16,7 @@ function fixImportIssues(filePath) {
     // Fix import ordering - add empty line between import groups
     const importOrderFix = content.replace(
       /(import .+ from ['"][^'"]+['"];)\n(import .+ from ['"]\.)/g,
-      '$1\n\n$2'
+      '$1\n\n$2',
     );
 
     if (importOrderFix !== content) {
@@ -31,23 +31,23 @@ function fixImportIssues(filePath) {
       {
         from: /import (.+) from ['"]\.\.\/\.\.\/utils\/(.+)['"];/g,
         to: "import $1 from '@/utils/$2';",
-        description: 'Convert relative utils imports to @/ alias'
+        description: 'Convert relative utils imports to @/ alias',
       },
       {
         from: /import (.+) from ['"]\.\.\/\.\.\/components\/(.+)['"];/g,
         to: "import $1 from '@/components/$2';",
-        description: 'Convert relative components imports to @/ alias'
+        description: 'Convert relative components imports to @/ alias',
       },
       {
         from: /import (.+) from ['"]\.\.\/\.\.\/services\/(.+)['"];/g,
         to: "import $1 from '@/services/$2';",
-        description: 'Convert relative services imports to @/ alias'
+        description: 'Convert relative services imports to @/ alias',
       },
       {
         from: /import (.+) from ['"]\.\.\/\.\.\/types\/(.+)['"];/g,
         to: "import $1 from '@/types/$2';",
-        description: 'Convert relative types imports to @/ alias'
-      }
+        description: 'Convert relative types imports to @/ alias',
+      },
     ];
 
     importFixes.forEach(fix => {
@@ -80,11 +80,12 @@ function getFilesWithImportIssues() {
     results.forEach(result => {
       if (result.messages) {
         result.messages.forEach(msg => {
-          if (msg.ruleId && (
-            msg.ruleId.includes('import/') ||
-            msg.ruleId === 'import/order' ||
-            msg.ruleId === 'import/no-unresolved'
-          )) {
+          if (
+            msg.ruleId &&
+            (msg.ruleId.includes('import/') ||
+              msg.ruleId === 'import/order' ||
+              msg.ruleId === 'import/no-unresolved')
+          ) {
             filesWithImportIssues.add(result.filePath.replace(process.cwd() + '/', ''));
           }
         });
@@ -163,7 +164,9 @@ function main() {
   // Check improvement
   console.log('\n📊 Checking improvement...');
   try {
-    const importIssues = execSync('yarn lint 2>&1 | grep -E "(import|export)" | wc -l', { encoding: 'utf8' });
+    const importIssues = execSync('yarn lint 2>&1 | grep -E "(import|export)" | wc -l', {
+      encoding: 'utf8',
+    });
     console.log(`📈 Remaining import-related warnings: ${parseInt(importIssues.trim())}`);
   } catch (error) {
     console.log('Could not count remaining import issues');

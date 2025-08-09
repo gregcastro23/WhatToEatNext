@@ -1,6 +1,6 @@
 /**
  * Enhanced Development Experience Optimizations
- * 
+ *
  * This module implements enhanced development experience optimizations including:
  * - Optimized TypeScript configuration for faster compilation
  * - Enhanced IntelliSense for astrological type definitions
@@ -94,20 +94,20 @@ export class DevelopmentExperienceOptimizer {
    */
   public generateOptimizedTypeScriptConfig(): any {
     const config = this.optimizationConfig.typescript;
-    
+
     return {
       compilerOptions: {
         // Performance optimizations
         target: config.target,
         module: config.module,
         moduleResolution: config.moduleResolution,
-        
+
         // Compilation speed optimizations
         incremental: config.enableIncrementalCompilation,
         composite: config.enableCompositeMode,
         skipLibCheck: config.skipLibCheck,
         skipDefaultLibCheck: config.skipDefaultLibCheck,
-        
+
         // Type checking optimizations
         strict: true,
         noImplicitAny: false, // Relaxed for rapid development
@@ -115,57 +115,50 @@ export class DevelopmentExperienceOptimizer {
         useDefineForClassFields: config.useDefineForClassFields,
         exactOptionalPropertyTypes: config.exactOptionalPropertyTypes,
         noUncheckedIndexedAccess: config.noUncheckedIndexedAccess,
-        
+
         // Path mapping for better imports
-        baseUrl: ".",
+        baseUrl: '.',
         paths: {
-          "@/*": ["./src/*"],
-          "@components/*": ["./src/components/*"],
-          "@utils/*": ["./src/utils/*"],
-          "@types/*": ["./src/types/*"],
-          "@data/*": ["./src/data/*"],
-          "@calculations/*": ["./src/calculations/*"],
-          "@hooks/*": ["./src/hooks/*"],
-          "@contexts/*": ["./src/contexts/*"]
+          '@/*': ['./src/*'],
+          '@components/*': ['./src/components/*'],
+          '@utils/*': ['./src/utils/*'],
+          '@types/*': ['./src/types/*'],
+          '@data/*': ['./src/data/*'],
+          '@calculations/*': ['./src/calculations/*'],
+          '@hooks/*': ['./src/hooks/*'],
+          '@contexts/*': ['./src/contexts/*'],
         },
-        
+
         // Enhanced type definitions
-        lib: ["dom", "dom.iterable", "es6", "es2018", "es2020"],
+        lib: ['dom', 'dom.iterable', 'es6', 'es2018', 'es2020'],
         allowJs: true,
         allowSyntheticDefaultImports: true,
         esModuleInterop: true,
         forceConsistentCasingInFileNames: true,
         isolatedModules: true,
-        jsx: "preserve",
+        jsx: 'preserve',
         noEmit: true,
-        resolveJsonModule: true
+        resolveJsonModule: true,
       },
-      
+
       // Include patterns for faster compilation
-      include: [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts"
-      ],
-      
+      include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
+
       // Exclude patterns to reduce compilation time
       exclude: [
-        "node_modules",
-        ".next",
-        "out",
-        "build",
-        "dist",
-        "**/*.test.ts",
-        "**/*.test.tsx",
-        "**/*.spec.ts",
-        "**/*.spec.tsx"
+        'node_modules',
+        '.next',
+        'out',
+        'build',
+        'dist',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.spec.ts',
+        '**/*.spec.tsx',
       ],
-      
+
       // TypeScript project references for faster builds
-      references: config.enableProjectReferences ? [
-        { path: "./tsconfig.paths.json" }
-      ] : undefined
+      references: config.enableProjectReferences ? [{ path: './tsconfig.paths.json' }] : undefined,
     };
   }
 
@@ -346,23 +339,23 @@ export type {
       {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<$1>',
-        description: 'Fixed React.FC type annotation'
+        description: 'Fixed React.FC type annotation',
       },
       {
         pattern: /useEffect\(\(\) => \{([^}]+)\}, \[\]\)/g,
         replacement: 'useEffect(() => {$1}, [])',
-        description: 'Fixed useEffect dependency array'
+        description: 'Fixed useEffect dependency array',
       },
       {
         pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g,
         replacement: 'const [$1, set$2] = useState<any>()',
-        description: 'Added type annotation to useState'
+        description: 'Added type annotation to useState',
       },
       {
         pattern: /interface ([A-Z][a-zA-Z]*) \{/g,
         replacement: 'interface $1 {',
-        description: 'Fixed interface naming convention'
-      }
+        description: 'Fixed interface naming convention',
+      },
     ];
 
     commonFixes.forEach(fix => {
@@ -376,7 +369,7 @@ export type {
     const errorPatterns = [
       /Property '([^']+)' does not exist on type/g,
       /Type '([^']+)' is not assignable to type/g,
-      /Cannot find name '([^']+)'/g
+      /Cannot find name '([^']+)'/g,
     ];
 
     errorPatterns.forEach(pattern => {
@@ -394,7 +387,7 @@ export type {
    */
   public updatePerformanceMetrics(newMetrics: Partial<DevelopmentMetrics>): void {
     this.metrics = { ...this.metrics, ...newMetrics, lastOptimization: Date.now() };
-    
+
     if (this.optimizationConfig.performanceMonitoring.enableRealTimeErrorDetection) {
       this.checkPerformanceThresholds();
     }
@@ -420,32 +413,36 @@ export type {
       typescript: [],
       bundling: [],
       runtime: [],
-      development: []
+      development: [],
     } as any;
 
     // TypeScript recommendations
-    if (this.metrics.compilationTime > 30000) { // 30 seconds
+    if (this.metrics.compilationTime > 30000) {
+      // 30 seconds
       recommendations.typescript.push('Enable incremental compilation');
       recommendations.typescript.push('Use project references for large codebases');
       recommendations.typescript.push('Enable skipLibCheck for faster builds');
     }
 
     // Bundle size recommendations
-    if (this.metrics.bundleSize > 500 * 1024) { // 500KB
+    if (this.metrics.bundleSize > 500 * 1024) {
+      // 500KB
       recommendations.bundling.push('Implement code splitting');
       recommendations.bundling.push('Enable tree shaking');
       recommendations.bundling.push('Use dynamic imports for large components');
     }
 
     // Runtime performance recommendations
-    if (this.metrics.memoryUsage > 100) { // 100MB
+    if (this.metrics.memoryUsage > 100) {
+      // 100MB
       recommendations.runtime.push('Optimize React component re-renders');
       recommendations.runtime.push('Use React.memo for expensive components');
       recommendations.runtime.push('Implement proper cleanup in useEffect');
     }
 
     // Development experience recommendations
-    if (this.metrics.hotReloadTime > 5000) { // 5 seconds
+    if (this.metrics.hotReloadTime > 5000) {
+      // 5 seconds
       recommendations.development.push('Optimize webpack configuration');
       recommendations.development.push('Reduce the number of watched files');
       recommendations.development.push('Use faster development server');
@@ -501,7 +498,7 @@ export type {
       errorCount: 0,
       warningCount: 0,
       hotReloadTime: 0,
-      lastOptimization: Date.now()
+      lastOptimization: Date.now(),
     };
   }
 
@@ -518,14 +515,14 @@ export type {
         noUncheckedIndexedAccess: false,
         target: 'es2018' as const,
         module: 'esnext' as const,
-        moduleResolution: 'bundler' as const
+        moduleResolution: 'bundler' as const,
       },
       intelliSense: {
         enableAstrologicalTypeDefinitions: true,
         enableElementalPropertyIntelliSense: true,
         enablePlanetaryPositionAutoComplete: true,
         enableCulinaryAstrologySnippets: true,
-        enableCustomTypeGuards: true
+        enableCustomTypeGuards: true,
       },
       importOrganization: {
         enableAutoImportOrganization: true,
@@ -533,15 +530,15 @@ export type {
         enableImportSorting: true,
         enablePathMapping: true,
         groupExternalImports: true,
-        groupInternalImports: true
+        groupInternalImports: true,
       },
       performanceMonitoring: {
         enableRealTimeErrorDetection: true,
         enableCompilationTimeTracking: true,
         enableMemoryUsageMonitoring: true,
         enableBundleSizeTracking: true,
-        enableHotReloadOptimization: true
-      }
+        enableHotReloadOptimization: true,
+      },
     };
   }
 
@@ -562,7 +559,7 @@ export type {
       compilationTime: 30000, // 30 seconds
       memoryUsage: 100, // 100MB
       bundleSize: 500 * 1024, // 500KB
-      errorCount: 10
+      errorCount: 10,
     };
 
     Object.entries(thresholds).forEach(([metric, threshold]) => {
@@ -570,7 +567,7 @@ export type {
       if (typeof currentValue === 'number' && currentValue > threshold) {
         logger.warn(`Performance threshold exceeded for ${metric}:`, {
           current: currentValue,
-          threshold
+          threshold,
         });
       }
     });
@@ -582,7 +579,7 @@ export type {
       const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
       if (!importMatch) return true;
 
-      const importedNames = importMatch[1] 
+      const importedNames = importMatch[1]
         ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0])
         : [importMatch[2] || importMatch[3]];
 
@@ -609,7 +606,7 @@ export type {
     return [
       ...externalImports.sort(),
       ...(externalImports.length > 0 && internalImports.length > 0 ? [''] : []),
-      ...internalImports.sort()
+      ...internalImports.sort(),
     ];
   }
 
@@ -636,15 +633,17 @@ export function getDevelopmentExperienceOptimizer(): DevelopmentExperienceOptimi
  */
 export function useDevelopmentExperienceOptimizations() {
   const optimizer = getDevelopmentExperienceOptimizer();
-  
+
   return {
     generateOptimizedTypeScriptConfig: () => optimizer.generateOptimizedTypeScriptConfig(),
     generateAstrologicalTypeDefinitions: () => optimizer.generateAstrologicalTypeDefinitions(),
     organizeImports: (code: string) => optimizer.organizeImports(code),
     detectAndFixCommonErrors: (code: string) => optimizer.detectAndFixCommonErrors(code),
-    updatePerformanceMetrics: (metrics: Partial<DevelopmentMetrics>) => optimizer.updatePerformanceMetrics(metrics),
+    updatePerformanceMetrics: (metrics: Partial<DevelopmentMetrics>) =>
+      optimizer.updatePerformanceMetrics(metrics),
     getDevelopmentMetrics: () => optimizer.getDevelopmentMetrics(),
-    getPerformanceOptimizationRecommendations: () => optimizer.getPerformanceOptimizationRecommendations(),
-    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations()
+    getPerformanceOptimizationRecommendations: () =>
+      optimizer.getPerformanceOptimizationRecommendations(),
+    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations(),
   };
 }

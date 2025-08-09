@@ -17,4 +17,6 @@
 
 ## Summary
 
-There are over 800 errors across 145 files, suggesting that a systematic approach is needed. After fixing the core type definitions and imports, we should focus on the most frequently occurring errors.
+There are over 800 errors across 145 files, suggesting that a systematic
+approach is needed. After fixing the core type definitions and imports, we
+should focus on the most frequently occurring errors.

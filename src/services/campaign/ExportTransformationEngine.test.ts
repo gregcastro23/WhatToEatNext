@@ -4,11 +4,11 @@
  */
 
 import { EnterpriseIntelligenceGenerator } from './EnterpriseIntelligenceGenerator';
-import { 
-  ExportTransformationEngine, 
-  BatchPriority, 
-  TransformationErrorType, 
-  ErrorSeverity 
+import {
+  ExportTransformationEngine,
+  BatchPriority,
+  TransformationErrorType,
+  ErrorSeverity,
 } from './ExportTransformationEngine';
 import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
@@ -31,7 +31,7 @@ describe('ExportTransformationEngine', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     // Mock analyzer
     mockAnalyzer.prototype.analyzeUnusedExports = jest.fn().mockResolvedValue({
       totalFiles: 10,
@@ -48,11 +48,11 @@ describe('ExportTransformationEngine', () => {
               intelligenceSystemName: 'TEST_EXPORT_1_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'MODERATE',
               safetyScore: 85,
-              estimatedBenefit: 75
-            }
+              estimatedBenefit: 75,
+            },
           ],
-          category: 'CORE'
-        }
+          category: 'CORE',
+        },
       ],
       mediumPriorityFiles: [
         {
@@ -66,11 +66,11 @@ describe('ExportTransformationEngine', () => {
               intelligenceSystemName: 'TEST_EXPORT_2_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'COMPLEX',
               safetyScore: 80,
-              estimatedBenefit: 80
-            }
+              estimatedBenefit: 80,
+            },
           ],
-          category: 'CORE'
-        }
+          category: 'CORE',
+        },
       ],
       lowPriorityFiles: [],
       summary: {
@@ -79,8 +79,8 @@ describe('ExportTransformationEngine', () => {
         externalFiles: 0,
         totalTransformationCandidates: 2,
         averageSafetyScore: 87.5,
-        estimatedIntelligenceSystems: 2
-      }
+        estimatedIntelligenceSystems: 2,
+      },
     });
 
     // Mock generator
@@ -93,8 +93,8 @@ describe('ExportTransformationEngine', () => {
         capabilities: [],
         integrationPoints: [],
         estimatedValue: 75,
-        complexity: 'MODERATE'
-      }
+        complexity: 'MODERATE',
+      },
     ]);
 
     mockGenerator.prototype.generateSummary = jest.fn().mockReturnValue({
@@ -103,7 +103,7 @@ describe('ExportTransformationEngine', () => {
       totalIntegrationPoints: 2,
       averageComplexity: 2.5,
       estimatedTotalValue: 75,
-      generationsByCategory: { function: 1 }
+      generationsByCategory: { function: 1 },
     });
 
     // Mock safety protocol
@@ -141,7 +141,7 @@ describe('ExportTransformationEngine', () => {
     engine = new ExportTransformationEngine({
       batchSize: 5,
       safetyThreshold: 80,
-      dryRun: true // Use dry run for tests
+      dryRun: true, // Use dry run for tests
     });
   });
 
@@ -149,7 +149,7 @@ describe('ExportTransformationEngine', () => {
     it('should initialize with default configuration', () => {
       const defaultEngine = new ExportTransformationEngine();
       const config = defaultEngine.getConfig();
-      
+
       expect(config.batchSize).toBe(10);
       expect(config.safetyThreshold).toBe(80);
       expect(config.buildValidationEnabled).toBe(true);
@@ -161,9 +161,9 @@ describe('ExportTransformationEngine', () => {
       const customEngine = new ExportTransformationEngine({
         batchSize: 15,
         safetyThreshold: 90,
-        dryRun: true
+        dryRun: true,
       });
-      
+
       const config = customEngine.getConfig();
       expect(config.batchSize).toBe(15);
       expect(config.safetyThreshold).toBe(90);
@@ -192,14 +192,26 @@ describe('ExportTransformationEngine', () => {
     it('should create safety checkpoints', async () => {
       await engine.executeTransformation();
 
-      expect((mockSafetyProtocol as unknown as { prototype: { createSafetyCheckpoint: jest.MockedFunction<(checkpoint: string) => Promise<string>> } }).prototype.createSafetyCheckpoint).toHaveBeenCalledWith('transformation-start');
+      expect(
+        (
+          mockSafetyProtocol as unknown as {
+            prototype: { createSafetyCheckpoint: jest.MockedFunction<(checkpoint: string) => Promise<string>> };
+          }
+        ).prototype.createSafetyCheckpoint,
+      ).toHaveBeenCalledWith('transformation-start');
     });
 
     it('should handle critical failures', async () => {
       mockAnalyzer.prototype.analyzeUnusedExports.mockRejectedValueOnce(new Error('Analysis failed'));
 
       await expect(engine.executeTransformation()).rejects.toThrow('Analysis failed');
-      expect((mockSafetyProtocol as unknown as { prototype: { emergencyRollback: jest.MockedFunction<() => Promise<void>> } }).prototype.emergencyRollback).toHaveBeenCalled();
+      expect(
+        (
+          mockSafetyProtocol as unknown as {
+            prototype: { emergencyRollback: jest.MockedFunction<() => Promise<void>> };
+          }
+        ).prototype.emergencyRollback,
+      ).toHaveBeenCalled();
     });
   });
 
@@ -214,7 +226,7 @@ describe('ExportTransformationEngine', () => {
     it('should respect batch size configuration', async () => {
       const smallBatchEngine = new ExportTransformationEngine({
         batchSize: 1,
-        dryRun: true
+        dryRun: true,
       });
 
       const summary = await smallBatchEngine.executeTransformation();
@@ -235,7 +247,7 @@ describe('ExportTransformationEngine', () => {
     it('should handle batch failures with rollback', async () => {
       const failingEngine = new ExportTransformationEngine({
         dryRun: false,
-        rollbackOnFailure: true
+        rollbackOnFailure: true,
       });
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Generation failed'));
@@ -243,13 +255,19 @@ describe('ExportTransformationEngine', () => {
       const summary = await failingEngine.executeTransformation();
 
       expect(summary.failedBatches).toBeGreaterThan(0);
-      expect((mockSafetyProtocol as unknown as { prototype: { rollbackToCheckpoint: jest.MockedFunction<() => Promise<void>> } }).prototype.rollbackToCheckpoint).toHaveBeenCalled();
+      expect(
+        (
+          mockSafetyProtocol as unknown as {
+            prototype: { rollbackToCheckpoint: jest.MockedFunction<() => Promise<void>> };
+          }
+        ).prototype.rollbackToCheckpoint,
+      ).toHaveBeenCalled();
     });
 
     it('should skip rollback when disabled', async () => {
       const noRollbackEngine = new ExportTransformationEngine({
         dryRun: false,
-        rollbackOnFailure: false
+        rollbackOnFailure: false,
       });
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Generation failed'));
@@ -264,7 +282,7 @@ describe('ExportTransformationEngine', () => {
     it('should enforce safety threshold', async () => {
       const strictEngine = new ExportTransformationEngine({
         safetyThreshold: 95, // Higher than mock data
-        dryRun: false
+        dryRun: false,
       });
 
       const summary = await strictEngine.executeTransformation();
@@ -277,14 +295,20 @@ describe('ExportTransformationEngine', () => {
       await engine.executeTransformation();
 
       // Should create transformation-start checkpoint plus batch checkpoints
-      expect((mockSafetyProtocol as unknown as { prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>> } }).prototype.createSafetyCheckpoint).toHaveBeenCalledTimes(3); // start + 2 batches
+      expect(
+        (
+          mockSafetyProtocol as unknown as {
+            prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>> };
+          }
+        ).prototype.createSafetyCheckpoint,
+      ).toHaveBeenCalledTimes(3); // start + 2 batches
     });
   });
 
   describe('error handling', () => {
     it('should log transformation errors', async () => {
       const errorEngine = new ExportTransformationEngine({
-        dryRun: false
+        dryRun: false,
       });
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Test error'));
@@ -300,7 +324,7 @@ describe('ExportTransformationEngine', () => {
     it('should clear transformation log', () => {
       const log = engine.getTransformationLog();
       engine.clearTransformationLog();
-      
+
       expect(engine.getTransformationLog()).toHaveLength(0);
     });
   });
@@ -309,11 +333,13 @@ describe('ExportTransformationEngine', () => {
     it('should calculate batch safety scores correctly', () => {
       const mockFiles = [
         { safetyScore: 90, transformationCandidates: [{ transformationComplexity: 'SIMPLE' }] },
-        { safetyScore: 80, transformationCandidates: [{ transformationComplexity: 'COMPLEX' }] }
+        { safetyScore: 80, transformationCandidates: [{ transformationComplexity: 'COMPLEX' }] },
       ];
 
-      const score = (engine as unknown as { calculateBatchSafetyScore: (files: unknown[]) => number }).calculateBatchSafetyScore(mockFiles);
-      
+      const score = (
+        engine as unknown as { calculateBatchSafetyScore: (files: unknown[]) => number }
+      ).calculateBatchSafetyScore(mockFiles);
+
       expect(score).toBeLessThan(85); // Should be penalized for complex candidate
       expect(score).toBeGreaterThan(0);
     });
@@ -327,16 +353,15 @@ describe('ExportTransformationEngine', () => {
   describe('duration estimation', () => {
     it('should estimate batch duration based on complexity', () => {
       const mockFiles = [
-        { 
-          transformationCandidates: [
-            { transformationComplexity: 'SIMPLE' },
-            { transformationComplexity: 'COMPLEX' }
-          ] 
-        }
+        {
+          transformationCandidates: [{ transformationComplexity: 'SIMPLE' }, { transformationComplexity: 'COMPLEX' }],
+        },
       ];
 
-      const duration = (engine as unknown as { estimateBatchDuration: (files: unknown[]) => number }).estimateBatchDuration(mockFiles);
-      
+      const duration = (
+        engine as unknown as { estimateBatchDuration: (files: unknown[]) => number }
+      ).estimateBatchDuration(mockFiles);
+
       expect(duration).toBeGreaterThan(2); // Base time + complexity
       expect(typeof duration).toBe('number');
     });
@@ -351,7 +376,7 @@ describe('ExportTransformationEngine', () => {
     it('should return configuration copy', () => {
       const config1 = engine.getConfig();
       const config2 = engine.getConfig();
-      
+
       expect(config1).toEqual(config2);
       expect(config1).not.toBe(config2); // Should be different objects
     });
@@ -359,7 +384,7 @@ describe('ExportTransformationEngine', () => {
     it('should not allow external modification of config', () => {
       const config = engine.getConfig();
       config.batchSize = 999;
-      
+
       const newConfig = engine.getConfig();
       expect(newConfig.batchSize).not.toBe(999);
     });
@@ -378,7 +403,11 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should handle empty results', () => {
-      const summary = (engine as unknown as { generateTransformationSummary: (results: unknown[], duration: number) => Record<string, unknown> }).generateTransformationSummary([], 10);
+      const summary = (
+        engine as unknown as {
+          generateTransformationSummary: (results: unknown[], duration: number) => Record<string, unknown>;
+        }
+      ).generateTransformationSummary([], 10);
 
       expect(summary.totalBatches).toBe(0);
       expect(summary.successfulBatches).toBe(0);

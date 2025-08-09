@@ -1,9 +1,9 @@
 /**
  * Configuration File Rule Validation Test Suite
- * 
+ *
  * Tests the domain-specific ESLint rules for configuration files
  * to ensure dynamic requires and build tools are properly supported.
- * 
+ *
  * Requirements: 4.4
  */
 
@@ -12,7 +12,7 @@ import { writeFileSync, existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 describe('Configuration File Rule Validation', () => {
-  const projectRoot = process.cwd()
+  const projectRoot = process.cwd();
   const tempFiles: string[] = [];
 
   afterEach(() => {
@@ -61,17 +61,17 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const dynamicRequireErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2 // error level
+          const dynamicRequireErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2, // error level
           );
-          
+
           // Configuration files should allow dynamic requires
           expect(dynamicRequireErrors.length).toBe(0);
         }
@@ -80,10 +80,10 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const dynamicRequireErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
+            const dynamicRequireErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
             );
-            
+
             expect(dynamicRequireErrors.length).toBe(0);
           }
         }
@@ -127,17 +127,17 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const dynamicRequireErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
+          const dynamicRequireErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
           );
-          
+
           expect(dynamicRequireErrors.length).toBe(0);
         }
       } catch (error) {
@@ -145,10 +145,10 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const dynamicRequireErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
+            const dynamicRequireErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
             );
-            
+
             expect(dynamicRequireErrors.length).toBe(0);
           }
         }
@@ -198,17 +198,17 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const varRequireErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2
+          const varRequireErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
           );
-          
+
           // Configuration files should allow var requires
           expect(varRequireErrors.length).toBe(0);
         }
@@ -217,10 +217,10 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const varRequireErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2
+            const varRequireErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
             );
-            
+
             expect(varRequireErrors.length).toBe(0);
           }
         }
@@ -289,19 +289,20 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter((msg: any) => 
-            (msg.ruleId === 'no-console' && msg.severity === 2) ||
-            (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-            (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+          const restrictiveErrors = result[0].messages.filter(
+            (msg: any) =>
+              (msg.ruleId === 'no-console' && msg.severity === 2) ||
+              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
           );
-          
+
           // Webpack config should not have restrictive errors
           expect(restrictiveErrors.length).toBe(0);
         }
@@ -310,12 +311,13 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         }
@@ -394,20 +396,19 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-
           encoding: 'utf8',
 
-          cwd: projectRoot
-
+          cwd: projectRoot,
         });
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter((msg: any) => 
-            (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-            (msg.ruleId === 'no-console' && msg.severity === 2)
+          const restrictiveErrors = result[0].messages.filter(
+            (msg: any) =>
+              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+              (msg.ruleId === 'no-console' && msg.severity === 2),
           );
-          
+
           expect(restrictiveErrors.length).toBe(0);
         }
       } catch (error) {
@@ -415,11 +416,12 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'no-console' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'no-console' && msg.severity === 2),
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         }
@@ -513,18 +515,19 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter((msg: any) => 
-            (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
-            (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2)
+          const restrictiveErrors = result[0].messages.filter(
+            (msg: any) =>
+              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
+              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
           );
-          
+
           expect(restrictiveErrors.length).toBe(0);
         }
       } catch (error) {
@@ -532,11 +535,12 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         }
@@ -611,18 +615,19 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter((msg: any) => 
-            (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-            (msg.ruleId === 'no-console' && msg.severity === 2)
+          const restrictiveErrors = result[0].messages.filter(
+            (msg: any) =>
+              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+              (msg.ruleId === 'no-console' && msg.severity === 2),
           );
-          
+
           expect(restrictiveErrors.length).toBe(0);
         }
       } catch (error) {
@@ -630,11 +635,12 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'no-console' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'no-console' && msg.severity === 2),
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         }
@@ -691,17 +697,17 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const anyTypeErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2
+          const anyTypeErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
           );
-          
+
           // Configuration files should allow explicit any types
           expect(anyTypeErrors.length).toBe(0);
         }
@@ -710,10 +716,10 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const anyTypeErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2
+            const anyTypeErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
             );
-            
+
             expect(anyTypeErrors.length).toBe(0);
           }
         }
@@ -762,17 +768,17 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === 'no-console' && msg.severity === 2
+          const consoleErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
           );
-          
+
           // Configuration files should allow console statements
           expect(consoleErrors.length).toBe(0);
         }
@@ -781,10 +787,10 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === 'no-console' && msg.severity === 2
+            const consoleErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
             );
-            
+
             expect(consoleErrors.length).toBe(0);
           }
         }
@@ -828,17 +834,17 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-          cwd: projectRoot
+          encoding: 'utf8',
+          cwd: projectRoot,
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const varRequireErrors = result[0].messages.filter((msg: any) => 
-            msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2
+          const varRequireErrors = result[0].messages.filter(
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
           );
-          
+
           // TypeScript config files should allow var requires
           expect(varRequireErrors.length).toBe(0);
         }
@@ -847,10 +853,10 @@ describe('Configuration File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const varRequireErrors = result[0].messages.filter((msg: any) => 
-              msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2
+            const varRequireErrors = result[0].messages.filter(
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
             );
-            
+
             expect(varRequireErrors.length).toBe(0);
           }
         }
@@ -870,16 +876,14 @@ describe('Configuration File Rule Validation', () => {
         'rollup.config.js',
         'vite.config.ts',
         'tsconfig.json',
-        'package.json'
+        'package.json',
       ];
 
       configFiles.forEach(file => {
         // Check if file would match config patterns in ESLint config
-        const matchesConfigPattern = 
-          file.includes('.config.') ||
-          file.includes('tsconfig.') ||
-          file.includes('package.json');
-        
+        const matchesConfigPattern =
+          file.includes('.config.') || file.includes('tsconfig.') || file.includes('package.json');
+
         expect(matchesConfigPattern).toBe(true);
       });
     });
@@ -892,16 +896,14 @@ describe('Configuration File Rule Validation', () => {
         'src/calculations/culinaryAstrology.ts',
         'src/data/ingredients/vegetables.ts',
         'README.md',
-        'LICENSE'
+        'LICENSE',
       ];
 
       nonConfigFiles.forEach(file => {
         // Check that file would NOT match config patterns
-        const matchesConfigPattern = 
-          file.includes('.config.') ||
-          file.includes('tsconfig.') ||
-          file.includes('package.json');
-        
+        const matchesConfigPattern =
+          file.includes('.config.') || file.includes('tsconfig.') || file.includes('package.json');
+
         expect(matchesConfigPattern).toBe(false);
       });
     });
@@ -910,25 +912,27 @@ describe('Configuration File Rule Validation', () => {
   describe('Integration with Existing Config Files', () => {
     test('should validate existing Next.js config if present', async () => {
       const nextConfigPath = join(projectRoot, 'next.config.js');
-      
+
       if (existsSync(nextConfigPath)) {
         try {
-          const output = execSync(`npx eslint "${nextConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
+          const output = execSync(
+            `npx eslint "${nextConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`,
+            {
+              encoding: 'utf8',
 
-            encoding: 'utf8',
-
-            cwd: projectRoot
-
-          });
+              cwd: projectRoot,
+            },
+          );
           const result = JSON.parse(output);
-          
+
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
             );
-            
+
             // Existing Next.js config should not have restrictive errors
             expect(restrictiveErrors.length).toBe(0);
           }
@@ -937,12 +941,13 @@ describe('Configuration File Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter((msg: any) => 
-                (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+              const restrictiveErrors = result[0].messages.filter(
+                (msg: any) =>
+                  (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                  (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
               );
-              
+
               expect(restrictiveErrors.length).toBe(0);
             }
           }
@@ -955,24 +960,26 @@ describe('Configuration File Rule Validation', () => {
 
     test('should validate existing Tailwind config if present', async () => {
       const tailwindConfigPath = join(projectRoot, 'tailwind.config.js');
-      
+
       if (existsSync(tailwindConfigPath)) {
         try {
-          const output = execSync(`npx eslint "${tailwindConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
+          const output = execSync(
+            `npx eslint "${tailwindConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`,
+            {
+              encoding: 'utf8',
 
-            encoding: 'utf8',
-
-            cwd: projectRoot
-
-          });
+              cwd: projectRoot,
+            },
+          );
           const result = JSON.parse(output);
-          
+
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         } catch (error) {
@@ -980,11 +987,12 @@ describe('Configuration File Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter((msg: any) => 
-                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2)
+              const restrictiveErrors = result[0].messages.filter(
+                (msg: any) =>
+                  (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
+                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
               );
-              
+
               expect(restrictiveErrors.length).toBe(0);
             }
           }
@@ -996,24 +1004,26 @@ describe('Configuration File Rule Validation', () => {
 
     test('should validate existing Jest config if present', async () => {
       const jestConfigPath = join(projectRoot, 'jest.config.js');
-      
+
       if (existsSync(jestConfigPath)) {
         try {
-          const output = execSync(`npx eslint "${jestConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
+          const output = execSync(
+            `npx eslint "${jestConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`,
+            {
+              encoding: 'utf8',
 
-            encoding: 'utf8',
-
-            cwd: projectRoot
-
-          });
+              cwd: projectRoot,
+            },
+          );
           const result = JSON.parse(output);
-          
+
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'no-console' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'no-console' && msg.severity === 2),
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         } catch (error) {
@@ -1021,11 +1031,12 @@ describe('Configuration File Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter((msg: any) => 
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                (msg.ruleId === 'no-console' && msg.severity === 2)
+              const restrictiveErrors = result[0].messages.filter(
+                (msg: any) =>
+                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                  (msg.ruleId === 'no-console' && msg.severity === 2),
               );
-              
+
               expect(restrictiveErrors.length).toBe(0);
             }
           }
@@ -1037,35 +1048,39 @@ describe('Configuration File Rule Validation', () => {
 
     test('should validate ESLint config itself', async () => {
       const eslintConfigPath = join(projectRoot, 'eslint.config.cjs');
-      
+
       if (existsSync(eslintConfigPath)) {
-        const configContent = readFileSync
+        const configContent = readFileSync;
         // Check that config has proper file patterns for configuration files
         expect(configContent).toContain('*.config.js');
         expect(configContent).toContain('*.config.ts');
         expect(configContent).toContain('*.config.mjs');
         expect(configContent).toContain('*.config.cjs');
-        
+
         // Check that config allows necessary patterns
         expect(configContent).toContain('no-console');
         expect(configContent).toContain('@typescript-eslint/no-explicit-any');
         expect(configContent).toContain('import/no-dynamic-require');
-        
+
         try {
-          const output = execSync(`npx eslint "${eslintConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
-  encoding: 'utf8',
-            cwd: projectRoot
-          });
+          const output = execSync(
+            `npx eslint "${eslintConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`,
+            {
+              encoding: 'utf8',
+              cwd: projectRoot,
+            },
+          );
 
           const result = JSON.parse(output);
-          
+
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
-              (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+            const restrictiveErrors = result[0].messages.filter(
+              (msg: any) =>
+                (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         } catch (error) {
@@ -1073,12 +1088,13 @@ describe('Configuration File Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter((msg: any) => 
-                (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2)
+              const restrictiveErrors = result[0].messages.filter(
+                (msg: any) =>
+                  (msg.ruleId === 'no-console' && msg.severity === 2) ||
+                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
+                  (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
               );
-              
+
               expect(restrictiveErrors.length).toBe(0);
             }
           }

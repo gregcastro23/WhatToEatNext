@@ -19,25 +19,26 @@ declare global {
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     log.info('[App] Initializing with Chrome API protection');
-    
+
     // Setup global error handler for Chrome Extension API and lockdown errors
-    const errorHandler = function(event: ErrorEvent) {
+    const errorHandler = function (event: ErrorEvent) {
       // Check for Chrome Extension API related errors
-      if (event.message && (
-        event.message.includes('chrome') || 
-        event.message.includes('tabs') || 
-        event.message.includes('Cannot read properties of undefined') ||
-        event.message.includes('lockdown') ||
-        event.message.includes('Removing unpermitted intrinsics') ||
-        event.message.includes('popup') ||
-        event.message.includes('viewer.js') ||
-        event.message.includes('Assignment to constant variable')
-      )) {
+      if (
+        event.message &&
+        (event.message.includes('chrome') ||
+          event.message.includes('tabs') ||
+          event.message.includes('Cannot read properties of undefined') ||
+          event.message.includes('lockdown') ||
+          event.message.includes('Removing unpermitted intrinsics') ||
+          event.message.includes('popup') ||
+          event.message.includes('viewer.js') ||
+          event.message.includes('Assignment to constant variable'))
+      ) {
         console.warn('[App] Intercepted API/lockdown error:', event.message);
-        
+
         // Load scripts for handling these specific errors if not loaded yet
         loadErrorHandlingScripts();
-        
+
         // Prevent default handling for extension-specific errors
         if (
           event.message.includes('chrome.tabs') ||
@@ -52,19 +53,19 @@ export default function App({ Component, pageProps }: AppProps) {
       }
       return false;
     };
-    
+
     // Function to ensure error handling scripts are loaded
     function loadErrorHandlingScripts() {
       // Force load the dummy-popup.js script
       if (!window.__reloadedDummyPopup) {
         window.__reloadedDummyPopup = true;
         log.info('[App] Loading dummy-popup.js for Chrome API mocking');
-        
+
         const script = document.createElement('script');
         script.src = '/dummy-popup.js';
         script.async = false; // Load synchronously to ensure it's loaded before other scripts
         document.head.appendChild(script);
-        
+
         // Load lockdown patch
         if (!window.__lockdownHandled) {
           const lockdownScript = document.createElement('script');
@@ -72,7 +73,7 @@ export default function App({ Component, pageProps }: AppProps) {
           lockdownScript.async = false;
           document.head.appendChild(lockdownScript);
         }
-        
+
         // Also load the alchemical engine patch
         if (!window.__alchemicalEnginePatchApplied) {
           const alchemicalPatchScript = document.createElement('script');
@@ -80,7 +81,7 @@ export default function App({ Component, pageProps }: AppProps) {
           alchemicalPatchScript.async = false;
           document.head.appendChild(alchemicalPatchScript);
         }
-        
+
         // Also reinitialize Chrome APIs
         if (!window.__chromeAPIsInitialized) {
           try {
@@ -92,20 +93,20 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       }
     }
-    
+
     // Initialize Chrome APIs immediately on component mount
     try {
       initializeChromeApis();
       window.__chromeAPIsInitialized = true;
-      
+
       // Pre-emptively load error handling scripts
       loadErrorHandlingScripts();
     } catch (e) {
       console.warn('[App] Error during initial Chrome API initialization:', e);
     }
-    
+
     window.addEventListener('error', errorHandler, true);
-    
+
     return () => {
       log.info('[App] Removing Chrome API error handler');
       window.removeEventListener('error', errorHandler, true);
@@ -116,22 +117,25 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>What To Eat Next</title>
-        <meta name="description" content="Food recommendations based on your astrological profile" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
+        <meta
+          name='description'
+          content='Food recommendations based on your astrological profile'
+        />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+
         {/* Preload critical scripts to avoid Chrome API errors */}
-        <link rel="preload" href="/dummy-popup.js" as="script" />
-        <link rel="preload" href="/empty.js" as="script" />
-        <link rel="preload" href="/lockdown-patch.js" as="script" />
-        <link rel="preload" href="/patchAlchemicalEngine.js" as="script" />
-        
+        <link rel='preload' href='/dummy-popup.js' as='script' />
+        <link rel='preload' href='/empty.js' as='script' />
+        <link rel='preload' href='/lockdown-patch.js' as='script' />
+        <link rel='preload' href='/patchAlchemicalEngine.js' as='script' />
+
         {/* Directly include critical scripts with highest priority */}
-        <script src="/empty.js" />
-        <script src="/lockdown-patch.js" />
-        <script src="/dummy-popup.js" />
-        <script src="/patchAlchemicalEngine.js" />
+        <script src='/empty.js' />
+        <script src='/lockdown-patch.js' />
+        <script src='/dummy-popup.js' />
+        <script src='/patchAlchemicalEngine.js' />
       </Head>
       <Component {...pageProps} />
     </>
   );
-} 
+}

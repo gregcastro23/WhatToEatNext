@@ -4,4 +4,4 @@ import { planetInfo as astroDataPlanetInfo } from '../data/astroData';
 // Re-export for usage in services
 export const planetInfo = astroDataPlanetInfo;
 
-export default planetInfo; 
+export default planetInfo;

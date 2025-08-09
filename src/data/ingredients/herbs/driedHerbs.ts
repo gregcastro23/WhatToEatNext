@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 // Pattern AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
 const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
-  'dried_basil': {
+  dried_basil: {
     name: 'Dried Basil',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     qualities: ['warming', 'pungent', 'aromatic'],
@@ -19,23 +19,23 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'a'],
       minerals: ['calcium', 'iron'],
       antioxidants: ['flavonoids', 'anthocyanins'],
-      volatileoils: ['eugenol', 'linalool']
+      volatileoils: ['eugenol', 'linalool'],
     },
     preparation: {
       crushing: 'just before use',
       blooming: 'in oil or hot liquid',
       timing: 'add early in cooking',
-      notes: 'More concentrated than fresh'
+      notes: 'More concentrated than fresh',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Crush to test freshness - should be aromatic'
-    }
+      notes: 'Crush to test freshness - should be aromatic',
+    },
   },
 
-  'dried_oregano': {
+  dried_oregano: {
     name: 'Dried Oregano',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
     qualities: ['warming', 'pungent', 'drying'],
@@ -49,23 +49,23 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'e'],
       minerals: ['iron', 'manganese'],
       antioxidants: ['rosmarinic acid', 'thymol'],
-      volatileoils: ['carvacrol', 'thymol']
+      volatileoils: ['carvacrol', 'thymol'],
     },
     preparation: {
       crushing: 'release oils before use',
       blooming: 'in oil or hot liquid',
       timing: 'add early in cooking',
-      notes: 'Often preferred dried over fresh'
+      notes: 'Often preferred dried over fresh',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '2-3 years',
       container: 'airtight, dark',
-      notes: 'Maintains flavor well when dried'
-    }
+      notes: 'Maintains flavor well when dried',
+    },
   },
 
-  'dried_thyme': {
+  dried_thyme: {
     name: 'Dried Thyme',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['warming', 'drying', 'pungent'],
@@ -79,23 +79,23 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['c', 'a'],
       minerals: ['iron', 'manganese'],
       antioxidants: ['thymol', 'carvacrol'],
-      volatileoils: ['thymol', 'linalool']
+      volatileoils: ['thymol', 'linalool'],
     },
     preparation: {
       removing: 'from stems if whole',
       crushing: 'lightly before use',
       timing: 'add early in cooking',
-      notes: 'Retains flavor well when dried'
+      notes: 'Retains flavor well when dried',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '2-4 years',
       container: 'airtight, dark',
-      notes: 'Whole leaves last longer than ground'
-    }
+      notes: 'Whole leaves last longer than ground',
+    },
   },
 
-  'dried_rosemary': {
+  dried_rosemary: {
     name: 'Dried Rosemary',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
     qualities: ['warming', 'pungent', 'drying'],
@@ -109,23 +109,23 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['a', 'c'],
       minerals: ['calcium', 'iron'],
       antioxidants: ['carnosic acid', 'rosmarinic acid'],
-      volatileoils: ['pinene', 'camphor']
+      volatileoils: ['pinene', 'camphor'],
     },
     preparation: {
       grinding: 'recommended - leaves are tough',
       infusing: 'in oil or liquid',
       timing: 'add early in cooking',
-      notes: 'Use sparingly - very potent'
+      notes: 'Use sparingly - very potent',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Whole needles last longer than ground'
-    }
+      notes: 'Whole needles last longer than ground',
+    },
   },
 
-  'dried_sage': {
+  dried_sage: {
     name: 'Dried Sage',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['warming', 'drying', 'astringent'],
@@ -139,27 +139,27 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'b6'],
       minerals: ['iron', 'calcium'],
       antioxidants: ['rosmarinic acid', 'carnosic acid'],
-      volatileoils: ['thujone', 'camphor']
+      volatileoils: ['thujone', 'camphor'],
     },
     preparation: {
       rubbing: 'crumble between fingers',
       timing: 'add early in cooking',
-      notes: 'Strong flavor - use sparingly'
+      notes: 'Strong flavor - use sparingly',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Rubbed sage is more potent than whole dried leaves'
+      notes: 'Rubbed sage is more potent than whole dried leaves',
     },
     medicinalProperties: {
       actions: ['antimicrobial', 'digestive aid'],
       preparations: ['tea', 'infusion'],
-      cautions: ['avoid therapeutic doses during pregnancy']
-    }
+      cautions: ['avoid therapeutic doses during pregnancy'],
+    },
   },
 
-  'dried_bay_leaves': {
+  dried_bay_leaves: {
     name: 'Dried Bay Leaves',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['warming', 'bitter', 'aromatic'],
@@ -173,23 +173,23 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['a', 'c'],
       minerals: ['iron', 'manganese'],
       antioxidants: ['linalool', 'eugenol'],
-      volatileoils: ['cineole', 'eugenol']
+      volatileoils: ['cineole', 'eugenol'],
     },
     preparation: {
       whole: 'use whole and remove before serving',
       crushing: 'slightly to release oils',
       timing: 'add at beginning of cooking',
-      notes: 'Remove before serving'
+      notes: 'Remove before serving',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Whole leaves maintain flavor longer'
-    }
+      notes: 'Whole leaves maintain flavor longer',
+    },
   },
 
-  'dried_marjoram': {
+  dried_marjoram: {
     name: 'Dried Marjoram',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['sweet', 'delicate', 'warming'],
@@ -203,22 +203,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'c'],
       minerals: ['iron', 'calcium'],
       antioxidants: ['rosmarinic acid', 'ursolic acid'],
-      volatileoils: ['sabinene', 'terpinene']
+      volatileoils: ['sabinene', 'terpinene'],
     },
     preparation: {
       crushing: 'gently before use',
       timing: 'add early in cooking',
-      notes: 'More delicate than oregano'
+      notes: 'More delicate than oregano',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma fades'
-    }
+      notes: 'Replace when aroma fades',
+    },
   },
 
-  'dried_savory': {
+  dried_savory: {
     name: 'Dried Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['peppery', 'robust', 'aromatic'],
@@ -232,22 +232,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['a', 'c'],
       minerals: ['iron', 'manganese'],
       antioxidants: ['rosmarinic acid', 'thymol'],
-      volatileoils: ['carvacrol', 'thymol']
+      volatileoils: ['carvacrol', 'thymol'],
     },
     preparation: {
       crushing: 'before use',
       timing: 'add during cooking',
-      notes: 'Strong flavor - use sparingly'
+      notes: 'Strong flavor - use sparingly',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Maintains strength well when dried'
-    }
+      notes: 'Maintains strength well when dried',
+    },
   },
 
-  'dried_chervil': {
+  dried_chervil: {
     name: 'Dried Chervil',
     elementalProperties: { Air: 0.5, Earth: 0.2, Water: 0.2, Fire: 0.1 },
     qualities: ['delicate', 'subtle', 'anise-like'],
@@ -261,22 +261,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['c', 'a'],
       minerals: ['potassium', 'calcium'],
       antioxidants: ['flavonoids', 'carotenoids'],
-      volatileoils: ['methyl chavicol', 'limonene']
+      volatileoils: ['methyl chavicol', 'limonene'],
     },
     preparation: {
       crushing: 'very gently',
       timing: 'add at end of cooking',
-      notes: 'Very delicate flavor'
+      notes: 'Very delicate flavor',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '6-12 months',
       container: 'airtight, dark',
-      notes: 'Loses flavor quickly when dried'
-    }
+      notes: 'Loses flavor quickly when dried',
+    },
   },
 
-  'dried_tarragon': {
+  dried_tarragon: {
     name: 'Dried Tarragon',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['anise-like', 'sweet', 'aromatic'],
@@ -290,22 +290,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['a', 'c'],
       minerals: ['calcium', 'potassium'],
       antioxidants: ['quercetin', 'rutin'],
-      volatileoils: ['estragole', 'ocimene']
+      volatileoils: ['estragole', 'ocimene'],
     },
     preparation: {
       crushing: 'gently to release oils',
       timing: 'add during cooking',
-      notes: 'Strong flavor - use sparingly'
+      notes: 'Strong flavor - use sparingly',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma weakens'
-    }
+      notes: 'Replace when aroma weakens',
+    },
   },
 
-  'dried_dill': {
+  dried_dill: {
     name: 'Dried Dill',
     elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
     qualities: ['fresh', 'tangy', 'herbaceous'],
@@ -319,22 +319,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['a', 'c'],
       minerals: ['manganese', 'iron'],
       antioxidants: ['flavonoids', 'monoterpenes'],
-      volatileoils: ['carvone', 'limonene']
+      volatileoils: ['carvone', 'limonene'],
     },
     preparation: {
       crushing: 'before use',
       timing: 'add late in cooking',
-      notes: 'More concentrated than fresh'
+      notes: 'More concentrated than fresh',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Protect from light to maintain color'
-    }
+      notes: 'Protect from light to maintain color',
+    },
   },
 
-  'dried_mint': {
+  dried_mint: {
     name: 'Dried Mint',
     elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
     qualities: ['cooling', 'refreshing', 'pungent'],
@@ -348,27 +348,27 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['a', 'c'],
       minerals: ['iron', 'manganese'],
       antioxidants: ['rosmarinic acid', 'flavonoids'],
-      volatileoils: ['menthol', 'menthone']
+      volatileoils: ['menthol', 'menthone'],
     },
     preparation: {
       crushing: 'to release oils',
       timing: 'add during or after cooking',
-      notes: 'Good for both sweet and savory'
+      notes: 'Good for both sweet and savory',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Maintains menthol well when dried'
+      notes: 'Maintains menthol well when dried',
     },
     medicinalProperties: {
       actions: ['digestive aid', 'decongestant'],
       preparations: ['tea', 'infusion'],
-      cautions: ['may affect iron absorption']
-    }
+      cautions: ['may affect iron absorption'],
+    },
   },
 
-  'dried_fennel': {
+  dried_fennel: {
     name: 'Dried Fennel',
     elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
     qualities: ['warming', 'sweet', 'aromatic'],
@@ -382,27 +382,27 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['c', 'b6'],
       minerals: ['calcium', 'iron'],
       antioxidants: ['flavonoids', 'anethole'],
-      volatileoils: ['anethole', 'fenchone']
+      volatileoils: ['anethole', 'fenchone'],
     },
     preparation: {
       grinding: 'just before use if whole',
       timing: 'add early in cooking',
-      notes: 'Licorice-like flavor'
+      notes: 'Licorice-like flavor',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Whole seeds last longer than ground'
+      notes: 'Whole seeds last longer than ground',
     },
     medicinalProperties: {
       actions: ['digestive aid', 'anti-inflammatory'],
       preparations: ['tea', 'powder'],
-      cautions: ['may interact with estrogen']
-    }
+      cautions: ['may interact with estrogen'],
+    },
   },
 
-  'dried_parsley': {
+  dried_parsley: {
     name: 'Dried Parsley',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     qualities: ['herbaceous', 'mild', 'fresh'],
@@ -416,22 +416,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'c', 'a'],
       minerals: ['iron', 'calcium'],
       antioxidants: ['flavonoids', 'luteolin'],
-      volatileoils: ['myristicin', 'apiol']
+      volatileoils: ['myristicin', 'apiol'],
     },
     preparation: {
       crushing: 'gently before use',
       timing: 'add during or end of cooking',
-      notes: 'Milder than fresh parsley'
+      notes: 'Milder than fresh parsley',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Color may fade but flavor remains'
-    }
+      notes: 'Color may fade but flavor remains',
+    },
   },
 
-  'dried_cilantro': {
+  dried_cilantro: {
     name: 'Dried Cilantro',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['citrusy', 'warm', 'distinctive'],
@@ -445,22 +445,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'a'],
       minerals: ['potassium', 'manganese'],
       antioxidants: ['quercetin', 'kaempferol'],
-      volatileoils: ['linalool', 'decanal']
+      volatileoils: ['linalool', 'decanal'],
     },
     preparation: {
       crushing: 'before use',
       timing: 'add early in cooking',
-      notes: 'Different flavor profile than fresh'
+      notes: 'Different flavor profile than fresh',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Best in cooked dishes'
-    }
+      notes: 'Best in cooked dishes',
+    },
   },
 
-  'dried_chives': {
+  dried_chives: {
     name: 'Dried Chives',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     qualities: ['oniony', 'mild', 'delicate'],
@@ -474,22 +474,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'c'],
       minerals: ['calcium', 'iron'],
       antioxidants: ['allicin', 'quercetin'],
-      volatileoils: ['allyl sulfides']
+      volatileoils: ['allyl sulfides'],
     },
     preparation: {
       rehydrating: 'soak in warm water briefly',
       timing: 'add near end of cooking',
-      notes: 'Can be rehydrated for better texture'
+      notes: 'Can be rehydrated for better texture',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Protect from moisture'
-    }
+      notes: 'Protect from moisture',
+    },
   },
 
-  'dried_lemon_balm': {
+  dried_lemon_balm: {
     name: 'Dried Lemon Balm',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     qualities: ['lemony', 'mild', 'soothing'],
@@ -503,27 +503,27 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['b', 'c'],
       minerals: ['calcium', 'potassium'],
       antioxidants: ['rosmarinic acid', 'flavonoids'],
-      volatileoils: ['citral', 'citronellal']
+      volatileoils: ['citral', 'citronellal'],
     },
     preparation: {
       crushing: 'lightly before use',
       timing: 'add near end of cooking',
-      notes: 'Delicate lemon flavor'
+      notes: 'Delicate lemon flavor',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Maintains aroma well when dried'
+      notes: 'Maintains aroma well when dried',
     },
     medicinalProperties: {
       actions: ['calming', 'digestive aid'],
       preparations: ['tea', 'tincture'],
-      cautions: ['may cause drowsiness']
-    }
+      cautions: ['may cause drowsiness'],
+    },
   },
 
-  'dried_lavender': {
+  dried_lavender: {
     name: 'Dried Lavender',
     elementalProperties: { Air: 0.5, Fire: 0.2, Earth: 0.2, Water: 0.1 },
     qualities: ['floral', 'sweet', 'aromatic'],
@@ -537,27 +537,27 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['a', 'c'],
       minerals: ['calcium', 'iron'],
       antioxidants: ['rosmarinic acid', 'ursolic acid'],
-      volatileoils: ['linalool', 'linalyl acetate']
+      volatileoils: ['linalool', 'linalyl acetate'],
     },
     preparation: {
       crushing: 'gently before use',
       timing: 'add early for cooking, late for tea',
-      notes: 'Use sparingly - can become soapy'
+      notes: 'Use sparingly - can become soapy',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Buds store better than flowers'
+      notes: 'Buds store better than flowers',
     },
     medicinalProperties: {
       actions: ['calming', 'sleep aid'],
       preparations: ['tea', 'sachet'],
-      cautions: ['may cause drowsiness']
-    }
+      cautions: ['may cause drowsiness'],
+    },
   },
 
-  'dried_summer_savory': {
+  dried_summer_savory: {
     name: 'Dried Summer Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['peppery', 'robust', 'warming'],
@@ -571,22 +571,22 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['k', 'b6'],
       minerals: ['iron', 'manganese'],
       antioxidants: ['rosmarinic acid', 'carvacrol'],
-      volatileoils: ['thymol', 'carvacrol']
+      volatileoils: ['thymol', 'carvacrol'],
     },
     preparation: {
       crushing: 'before use',
       timing: 'add early in cooking',
-      notes: 'Traditional bean herb'
+      notes: 'Traditional bean herb',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma fades'
-    }
+      notes: 'Replace when aroma fades',
+    },
   },
 
-  'dried_lovage': {
+  dried_lovage: {
     name: 'Dried Lovage',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['celery-like', 'robust', 'savory'],
@@ -600,26 +600,28 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['b6', 'c'],
       minerals: ['iron', 'magnesium'],
       antioxidants: ['quercetin', 'kaempferol'],
-      volatileoils: ['phthalides', 'terpenes']
+      volatileoils: ['phthalides', 'terpenes'],
     },
     preparation: {
       crushing: 'before use',
       timing: 'add early in cooking',
-      notes: 'Strong celery-like flavor'
+      notes: 'Strong celery-like flavor',
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma weakens'
-    }
+      notes: 'Replace when aroma weakens',
+    },
   },
 
-  
-  'chervil': {
+  chervil: {
     name: 'Chervil',
-    elementalProperties: { 
-      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    elementalProperties: {
+      Air: 0.4,
+      Fire: 0.3,
+      Earth: 0.2,
+      Water: 0.1,
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],
@@ -630,13 +632,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
-    }
+      minerals: [],
+    },
   },
-  'bay_leaf': {
+  bay_leaf: {
     name: 'Bay Leaf',
-    elementalProperties: { 
-      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    elementalProperties: {
+      Air: 0.4,
+      Fire: 0.3,
+      Earth: 0.2,
+      Water: 0.1,
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],
@@ -647,14 +652,17 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
-    }
+      minerals: [],
+    },
   },
-  
-  'anise': {
+
+  anise: {
     name: 'Anise',
-    elementalProperties: { 
-      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    elementalProperties: {
+      Air: 0.4,
+      Fire: 0.3,
+      Earth: 0.2,
+      Water: 0.1,
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],
@@ -665,9 +673,9 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
-    }
-  }
+      minerals: [],
+    },
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

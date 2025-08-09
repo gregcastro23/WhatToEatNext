@@ -5,9 +5,7 @@
 
 import * as fs from 'fs';
 
-import {
-    AlgorithmPerformanceValidator
-} from './AlgorithmPerformanceValidator';
+import { AlgorithmPerformanceValidator } from './AlgorithmPerformanceValidator';
 
 // Mock external dependencies
 jest.mock('fs');
@@ -126,7 +124,7 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.5, // Low hit rate
         avgResponseTime: 5,
         size: 50,
-        maxSize: 100
+        maxSize: 100,
       });
 
       await validator.validateCachePerformance();
@@ -259,8 +257,8 @@ describe('AlgorithmPerformanceValidator', () => {
           target: 50,
           status: 'failing',
           samples: [95],
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       ]);
 
       await validator.runPerformanceBenchmarks();
@@ -316,8 +314,8 @@ describe('AlgorithmPerformanceValidator', () => {
           target: 50,
           status: 'failing',
           samples: [150],
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       ]);
 
       const report = await validator.generatePerformanceReport();
@@ -342,7 +340,7 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.4, // Very low hit rate
         avgResponseTime: 10,
         size: 50,
-        maxSize: 100
+        maxSize: 100,
       });
 
       await validator.validateCachePerformance();
@@ -367,7 +365,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         './test-performance-data.json',
-        expect.stringContaining('"timestamp"')
+        expect.stringContaining('"timestamp"'),
       );
     });
 
@@ -376,9 +374,9 @@ describe('AlgorithmPerformanceValidator', () => {
         throw new Error('Write failed');
       });
 
-      await expect(
-        validator.exportPerformanceData('./test-performance-data.json')
-      ).rejects.toThrow('Failed to export performance data');
+      await expect(validator.exportPerformanceData('./test-performance-data.json')).rejects.toThrow(
+        'Failed to export performance data',
+      );
     });
   });
 
@@ -410,7 +408,7 @@ describe('AlgorithmPerformanceValidator', () => {
         target: 50,
         status: 'passing' as const,
         samples: [80],
-        timestamp: new Date()
+        timestamp: new Date(),
       }));
 
       // Directly set the history to test size limiting

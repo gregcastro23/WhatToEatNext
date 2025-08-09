@@ -2,7 +2,7 @@
 
 /**
  * Quick Terminal Freeze Fix
- * 
+ *
  * Immediately fixes Kiro terminal freezing by killing stuck processes
  * and clearing problematic states.
  */
@@ -45,11 +45,14 @@ try {
   // 4. Kill any Node.js processes that might be stuck
   console.log('🛑 Killing potentially stuck Node.js processes...');
   try {
-    const nodeProcesses = execSync('ps aux | grep node | grep -E "(tsc|lint|campaign)" | awk \'{print $2}\'', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    }).trim();
-    
+    const nodeProcesses = execSync(
+      'ps aux | grep node | grep -E "(tsc|lint|campaign)" | awk \'{print $2}\'',
+      {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      },
+    ).trim();
+
     if (nodeProcesses) {
       const pids = nodeProcesses.split('\n').filter(pid => pid.trim());
       for (const pid of pids) {
@@ -72,7 +75,7 @@ try {
   const staleFiles = [
     '.explicit-any-campaign-progress.json',
     '.typescript-campaign-progress.json',
-    '.campaign-lock'
+    '.campaign-lock',
   ];
 
   for (const file of staleFiles) {
@@ -80,7 +83,7 @@ try {
       try {
         const stats = fs.statSync(file);
         const age = Date.now() - stats.mtime.getTime();
-        
+
         // Remove files older than 10 minutes
         if (age > 10 * 60 * 1000) {
           fs.unlinkSync(file);
@@ -109,10 +112,7 @@ try {
 
   // 7. Clear TypeScript build info
   console.log('🧹 Clearing TypeScript build info...');
-  const tsBuildFiles = [
-    'tsconfig.tsbuildinfo',
-    'tsconfig.jest.tsbuildinfo'
-  ];
+  const tsBuildFiles = ['tsconfig.tsbuildinfo', 'tsconfig.jest.tsbuildinfo'];
 
   for (const file of tsBuildFiles) {
     if (fs.existsSync(file)) {
@@ -132,9 +132,10 @@ try {
   console.log('   1. Restart your Kiro terminal');
   console.log('   2. The terminal should now respond normally');
   console.log('   3. Campaign systems now have timeout protection');
-  console.log('   4. Run diagnostic if issues persist: node src/services/campaign/terminal-freeze-diagnostic.js');
+  console.log(
+    '   4. Run diagnostic if issues persist: node src/services/campaign/terminal-freeze-diagnostic.js',
+  );
   console.log('');
-
 } catch (error) {
   console.error('❌ Fix failed:', error.message);
   console.log('');

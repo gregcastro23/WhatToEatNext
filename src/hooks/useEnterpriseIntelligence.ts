@@ -1,28 +1,28 @@
 /**
  * Enterprise Intelligence Integration Hook
  * Main Page Restoration - Task 3.8 Implementation
- * 
+ *
  * React hook for integrating enterprise intelligence systems
  * with cuisine recommendation components.
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
-import { 
+import {
   EnterpriseIntelligenceIntegration,
-  enterpriseIntelligenceIntegration
+  enterpriseIntelligenceIntegration,
 } from '@/services/EnterpriseIntelligenceIntegration';
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import type { 
+import type {
   EnterpriseIntelligenceConfig,
-  EnterpriseIntelligenceResult 
+  EnterpriseIntelligenceResult,
 } from '@/types/enterpriseIntelligence';
 import { logger } from '@/utils/logger';
 import type {
   EnterpriseRecipeData,
   EnterpriseIngredientData,
   EnterpriseAstrologicalContext,
-  EnterpriseIntelligenceAnalysisState
+  EnterpriseIntelligenceAnalysisState,
 } from '@/types/enterpriseHooks';
 
 // ========== INTERFACES ==========
@@ -55,7 +55,7 @@ export interface EnterpriseIntelligenceActions {
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
       planetaryPositions?: EnterpriseAstrologicalContext['planetaryPositions'];
-    }
+    },
   ) => Promise<EnterpriseIntelligenceResult | null>;
   clearAnalysis: () => void;
   updateConfig: (config: Partial<EnterpriseIntelligenceConfig>) => void;
@@ -87,10 +87,10 @@ export interface UseEnterpriseIntelligenceReturn {
 // ========== HOOK IMPLEMENTATION ==========
 
 export function useEnterpriseIntelligence(
-  config: UseEnterpriseIntelligenceConfig = {}
+  config: UseEnterpriseIntelligenceConfig = {},
 ): UseEnterpriseIntelligenceReturn {
   // ========== STATE ==========
-  
+
   const [state, setState] = useState<EnterpriseIntelligenceState>({
     analysis: null,
     isAnalyzing: false,
@@ -100,8 +100,8 @@ export function useEnterpriseIntelligence(
       analysisCount: 0,
       averageExecutionTime: 0,
       cacheHitRate: 0,
-      errorRate: 0
-    }
+      errorRate: 0,
+    },
   });
 
   const [lastAnalysisParams, setLastAnalysisParams] = useState<{
@@ -126,25 +126,66 @@ export function useEnterpriseIntelligence(
         ingredient: [],
         validation: [],
         safety: [],
-        optimization: []
+        optimization: [],
       };
     }
 
     return {
-      recipe: (state.analysis.recipeIntelligence as unknown as EnterpriseIntelligenceAnalysisState['recipeIntelligence'])?.recommendations || [],
-      ingredient: (state.analysis.ingredientIntelligence as unknown as EnterpriseIntelligenceAnalysisState['ingredientIntelligence'])?.recommendations || [],
+      recipe:
+        (
+          state.analysis
+            .recipeIntelligence as unknown as EnterpriseIntelligenceAnalysisState['recipeIntelligence']
+        )?.recommendations || [],
+      ingredient:
+        (
+          state.analysis
+            .ingredientIntelligence as unknown as EnterpriseIntelligenceAnalysisState['ingredientIntelligence']
+        )?.recommendations || [],
       validation: [
-        ...((state.analysis.validationIntelligence as unknown as EnterpriseIntelligenceAnalysisState['validationIntelligence'])?.dataIntegrity?.issues || []),
-        ...((state.analysis.validationIntelligence as unknown as EnterpriseIntelligenceAnalysisState['validationIntelligence'])?.astrologicalConsistency?.issues || []),
-        ...((state.analysis.validationIntelligence as unknown as { elementalHarmony?: { issues?: string[] } })?.elementalHarmony?.issues || [])
+        ...((
+          state.analysis
+            .validationIntelligence as unknown as EnterpriseIntelligenceAnalysisState['validationIntelligence']
+        )?.dataIntegrity?.issues || []),
+        ...((
+          state.analysis
+            .validationIntelligence as unknown as EnterpriseIntelligenceAnalysisState['validationIntelligence']
+        )?.astrologicalConsistency?.issues || []),
+        ...((
+          state.analysis.validationIntelligence as unknown as {
+            elementalHarmony?: { issues?: string[] };
+          }
+        )?.elementalHarmony?.issues || []),
       ],
-      safety: (state.analysis.safetyIntelligence as unknown as { fallbackStrategies?: string[] })?.fallbackStrategies || [],
+      safety:
+        (state.analysis.safetyIntelligence as unknown as { fallbackStrategies?: string[] })
+          ?.fallbackStrategies || [],
       optimization: [
-        ...((state.analysis as unknown as { optimizationRecommendations?: { performance?: { recommendations?: string[] }; accuracy?: { recommendations?: string[] }; userExperience?: { recommendations?: string[] }; systemIntegration?: { recommendations?: string[] } } }).optimizationRecommendations?.performance?.recommendations || []),
-        ...((state.analysis as unknown as { optimizationRecommendations?: { accuracy?: { recommendations?: string[] } } }).optimizationRecommendations?.accuracy?.recommendations || []),
-        ...((state.analysis as unknown as { optimizationRecommendations?: { userExperience?: { recommendations?: string[] } } }).optimizationRecommendations?.userExperience?.recommendations || []),
-        ...((state.analysis as unknown as { optimizationRecommendations?: { systemIntegration?: { recommendations?: string[] } } }).optimizationRecommendations?.systemIntegration?.recommendations || [])
-      ]
+        ...((
+          state.analysis as unknown as {
+            optimizationRecommendations?: {
+              performance?: { recommendations?: string[] };
+              accuracy?: { recommendations?: string[] };
+              userExperience?: { recommendations?: string[] };
+              systemIntegration?: { recommendations?: string[] };
+            };
+          }
+        ).optimizationRecommendations?.performance?.recommendations || []),
+        ...((
+          state.analysis as unknown as {
+            optimizationRecommendations?: { accuracy?: { recommendations?: string[] } };
+          }
+        ).optimizationRecommendations?.accuracy?.recommendations || []),
+        ...((
+          state.analysis as unknown as {
+            optimizationRecommendations?: { userExperience?: { recommendations?: string[] } };
+          }
+        ).optimizationRecommendations?.userExperience?.recommendations || []),
+        ...((
+          state.analysis as unknown as {
+            optimizationRecommendations?: { systemIntegration?: { recommendations?: string[] } };
+          }
+        ).optimizationRecommendations?.systemIntegration?.recommendations || []),
+      ],
     };
   }, [state.analysis]);
 
@@ -154,30 +195,53 @@ export function useEnterpriseIntelligence(
         overall: 'fair' as const,
         score: 0.7,
         issues: ['No analysis available'],
-        warnings: []
+        warnings: [],
       };
     }
 
     const analysis = state.analysis;
     const issues = [
-      ...((analysis.validationIntelligence as unknown as { overallValidation?: { criticalIssues?: string[] } })?.overallValidation?.criticalIssues || []),
-      ...((analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'high' || 
-          (analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'critical' 
-          ? ['High risk level detected'] : [])
+      ...((
+        analysis.validationIntelligence as unknown as {
+          overallValidation?: { criticalIssues?: string[] };
+        }
+      )?.overallValidation?.criticalIssues || []),
+      ...((analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+        ?.riskAssessment?.level === 'high' ||
+      (analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+        ?.riskAssessment?.level === 'critical'
+        ? ['High risk level detected']
+        : []),
     ];
 
     const warnings = [
-      ...((analysis.validationIntelligence as unknown as { dataIntegrity?: { warnings?: string[] }; astrologicalConsistency?: { warnings?: string[] }; elementalHarmony?: { warnings?: string[] } })?.dataIntegrity?.warnings || []),
-      ...((analysis.validationIntelligence as unknown as { astrologicalConsistency?: { warnings?: string[] } })?.astrologicalConsistency?.warnings || []),
-      ...((analysis.validationIntelligence as unknown as { elementalHarmony?: { warnings?: string[] } })?.elementalHarmony?.warnings || []),
-      ...((analysis.safetyIntelligence as unknown as { monitoringAlerts?: string[] })?.monitoringAlerts || [])
+      ...((
+        analysis.validationIntelligence as unknown as {
+          dataIntegrity?: { warnings?: string[] };
+          astrologicalConsistency?: { warnings?: string[] };
+          elementalHarmony?: { warnings?: string[] };
+        }
+      )?.dataIntegrity?.warnings || []),
+      ...((
+        analysis.validationIntelligence as unknown as {
+          astrologicalConsistency?: { warnings?: string[] };
+        }
+      )?.astrologicalConsistency?.warnings || []),
+      ...((
+        analysis.validationIntelligence as unknown as { elementalHarmony?: { warnings?: string[] } }
+      )?.elementalHarmony?.warnings || []),
+      ...((analysis.safetyIntelligence as unknown as { monitoringAlerts?: string[] })
+        ?.monitoringAlerts || []),
     ];
 
     return {
       overall: (analysis as unknown as { systemHealth?: string }).systemHealth || 'fair',
-      score: (analysis as unknown as { overallScore?: number }).overallScore || analysis.overallIntelligenceScore || 0.7,
+      score:
+        (analysis as unknown as { overallScore?: number }).overallScore ||
+        analysis.overallIntelligenceScore ||
+        0.7,
       issues,
-      warnings
+      warnings,
     };
   }, [state.analysis]);
 
@@ -186,96 +250,109 @@ export function useEnterpriseIntelligence(
   }, [systemHealth.overall]);
 
   const needsAttention = useMemo(() => {
-    return systemHealth.issues.length > 0 || 
-           systemHealth.overall === 'poor' ||
-           ((state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'high') ||
-           ((state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'critical');
+    return (
+      systemHealth.issues.length > 0 ||
+      systemHealth.overall === 'poor' ||
+      (state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+        ?.riskAssessment?.level === 'high' ||
+      (state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+        ?.riskAssessment?.level === 'critical'
+    );
   }, [systemHealth.issues.length, systemHealth.overall, state.analysis]);
 
   // ========== ACTIONS ==========
 
-  const performAnalysis = useCallback(async (
-    recipeData: EnterpriseRecipeData,
-    ingredientData: EnterpriseIngredientData,
-    astrologicalContext: {
-      zodiacSign: ZodiacSign;
-      lunarPhase: LunarPhase;
-      elementalProperties: ElementalProperties;
-      planetaryPositions?: Record<string, unknown>;
-    }
-  ): Promise<EnterpriseIntelligenceResult | null> => {
-    setState(prev => ({ 
-      ...prev, 
-      isAnalyzing: true, 
-      error: null 
-    }));
-
-    try {
-      logger.info('[useEnterpriseIntelligence] Starting enterprise intelligence analysis');
-      
-      const analysis = await intelligenceService.performEnterpriseAnalysis(
-        recipeData,
-        ingredientData,
-        {
-          name: 'astrologicalCuisine',
-          type: 'fusion',
-          region: 'universal',
-          characteristics: ['astrological', 'elemental', 'planetary']
-        } as EnterpriseIngredientData,
-        astrologicalContext as EnterpriseAstrologicalContext
-      );
-
-      // Update performance metrics
-      const metrics = intelligenceService.getPerformanceMetrics();
-
+  const performAnalysis = useCallback(
+    async (
+      recipeData: EnterpriseRecipeData,
+      ingredientData: EnterpriseIngredientData,
+      astrologicalContext: {
+        zodiacSign: ZodiacSign;
+        lunarPhase: LunarPhase;
+        elementalProperties: ElementalProperties;
+        planetaryPositions?: Record<string, unknown>;
+      },
+    ): Promise<EnterpriseIntelligenceResult | null> => {
       setState(prev => ({
         ...prev,
-        analysis,
-        isAnalyzing: false,
+        isAnalyzing: true,
         error: null,
-        lastAnalyzed: new Date(),
-        performanceMetrics: metrics
       }));
 
-      // Store parameters for retry functionality
-      setLastAnalysisParams({ recipeData, ingredientData, astrologicalContext });
+      try {
+        logger.info('[useEnterpriseIntelligence] Starting enterprise intelligence analysis');
 
-      logger.info('[useEnterpriseIntelligence] Enterprise intelligence analysis completed', {
-        overallScore: (analysis as unknown as { overallScore?: number }).overallScore || analysis.overallIntelligenceScore,
-        systemHealth: (analysis as unknown as { systemHealth?: string }).systemHealth || 'unknown'
-      });
+        const analysis = await intelligenceService.performEnterpriseAnalysis(
+          recipeData,
+          ingredientData,
+          {
+            name: 'astrologicalCuisine',
+            type: 'fusion',
+            region: 'universal',
+            characteristics: ['astrological', 'elemental', 'planetary'],
+          } as EnterpriseIngredientData,
+          astrologicalContext as EnterpriseAstrologicalContext,
+        );
 
-      return analysis;
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      
-      setState(prev => ({
-        ...prev,
-        isAnalyzing: false,
-        error: errorMessage,
-        performanceMetrics: intelligenceService.getPerformanceMetrics()
-      }));
+        // Update performance metrics
+        const metrics = intelligenceService.getPerformanceMetrics();
 
-      logger.error('[useEnterpriseIntelligence] Enterprise intelligence analysis failed', error);
-      return null;
-    }
-  }, [intelligenceService]);
+        setState(prev => ({
+          ...prev,
+          analysis,
+          isAnalyzing: false,
+          error: null,
+          lastAnalyzed: new Date(),
+          performanceMetrics: metrics,
+        }));
+
+        // Store parameters for retry functionality
+        setLastAnalysisParams({ recipeData, ingredientData, astrologicalContext });
+
+        logger.info('[useEnterpriseIntelligence] Enterprise intelligence analysis completed', {
+          overallScore:
+            (analysis as unknown as { overallScore?: number }).overallScore ||
+            analysis.overallIntelligenceScore,
+          systemHealth:
+            (analysis as unknown as { systemHealth?: string }).systemHealth || 'unknown',
+        });
+
+        return analysis;
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+
+        setState(prev => ({
+          ...prev,
+          isAnalyzing: false,
+          error: errorMessage,
+          performanceMetrics: intelligenceService.getPerformanceMetrics(),
+        }));
+
+        logger.error('[useEnterpriseIntelligence] Enterprise intelligence analysis failed', error);
+        return null;
+      }
+    },
+    [intelligenceService],
+  );
 
   const clearAnalysis = useCallback(() => {
     setState(prev => ({
       ...prev,
       analysis: null,
       error: null,
-      lastAnalyzed: null
+      lastAnalyzed: null,
     }));
     setLastAnalysisParams(null);
     logger.info('[useEnterpriseIntelligence] Analysis cleared');
   }, []);
 
-  const updateConfig = useCallback((newConfig: Partial<EnterpriseIntelligenceConfig>) => {
-    intelligenceService.updateConfig(newConfig);
-    logger.info('[useEnterpriseIntelligence] Configuration updated');
-  }, [intelligenceService]);
+  const updateConfig = useCallback(
+    (newConfig: Partial<EnterpriseIntelligenceConfig>) => {
+      intelligenceService.updateConfig(newConfig);
+      logger.info('[useEnterpriseIntelligence] Configuration updated');
+    },
+    [intelligenceService],
+  );
 
   const clearCache = useCallback(() => {
     intelligenceService.clearCache();
@@ -290,15 +367,17 @@ export function useEnterpriseIntelligence(
         analysisCount: 0,
         averageExecutionTime: 0,
         cacheHitRate: 0,
-        errorRate: 0
-      }
+        errorRate: 0,
+      },
     }));
     logger.info('[useEnterpriseIntelligence] Metrics reset');
   }, [intelligenceService]);
 
   const retryAnalysis = useCallback(async () => {
     if (!lastAnalysisParams) {
-      logger.warn('[useEnterpriseIntelligence] No previous analysis parameters available for retry');
+      logger.warn(
+        '[useEnterpriseIntelligence] No previous analysis parameters available for retry',
+      );
       return;
     }
 
@@ -306,7 +385,7 @@ export function useEnterpriseIntelligence(
     await performAnalysis(
       lastAnalysisParams.recipeData,
       lastAnalysisParams.ingredientData,
-      lastAnalysisParams.astrologicalContext
+      lastAnalysisParams.astrologicalContext,
     );
   }, [lastAnalysisParams, performAnalysis]);
 
@@ -316,7 +395,7 @@ export function useEnterpriseIntelligence(
   useEffect(() => {
     if (config.autoAnalyze && lastAnalysisParams && !state.isAnalyzing) {
       const interval = config.analysisInterval || 30000; // Default 30 seconds
-      
+
       const timer = setInterval(() => {
         if (config.enableRealTimeUpdates) {
           retryAnalysis();
@@ -325,7 +404,14 @@ export function useEnterpriseIntelligence(
 
       return () => clearInterval(timer);
     }
-  }, [config.autoAnalyze, config.analysisInterval, config.enableRealTimeUpdates, lastAnalysisParams, state.isAnalyzing, retryAnalysis]);
+  }, [
+    config.autoAnalyze,
+    config.analysisInterval,
+    config.enableRealTimeUpdates,
+    lastAnalysisParams,
+    state.isAnalyzing,
+    retryAnalysis,
+  ]);
 
   // Performance metrics update effect
   useEffect(() => {
@@ -333,13 +419,13 @@ export function useEnterpriseIntelligence(
       const metrics = intelligenceService.getPerformanceMetrics();
       setState(prev => ({
         ...prev,
-        performanceMetrics: metrics
+        performanceMetrics: metrics,
       }));
     };
 
     // Update metrics every 10 seconds
     const metricsTimer = setInterval(() => void updateMetrics(), 10000);
-    
+
     return () => clearInterval(metricsTimer);
   }, [intelligenceService]);
 
@@ -353,12 +439,12 @@ export function useEnterpriseIntelligence(
       updateConfig,
       clearCache,
       resetMetrics,
-      retryAnalysis
+      retryAnalysis,
     },
     recommendations,
     systemHealth,
     isHealthy,
-    needsAttention
+    needsAttention,
   };
 }
 
@@ -373,20 +459,24 @@ export function useEnterpriseIntelligenceHealth() {
     enableIngredientIntelligence: true,
     enableValidationIntelligence: true,
     enableSafetyIntelligence: true,
-    cacheResults: true
+    cacheResults: true,
   });
 
-  const healthStatus = useMemo(() => ({
-    status: systemHealth.overall,
-    score: systemHealth.score,
-    isHealthy,
-    needsAttention,
-    criticalIssues: systemHealth.issues.filter(issue => issue.includes('critical')),
-    warnings: systemHealth.warnings,
-    lastChecked: state.lastAnalyzed,
-    performanceIssues: state.performanceMetrics.errorRate > 0.1 || 
-                      state.performanceMetrics.averageExecutionTime > 5000
-  }), [systemHealth, isHealthy, needsAttention, state]);
+  const healthStatus = useMemo(
+    () => ({
+      status: systemHealth.overall,
+      score: systemHealth.score,
+      isHealthy,
+      needsAttention,
+      criticalIssues: systemHealth.issues.filter(issue => issue.includes('critical')),
+      warnings: systemHealth.warnings,
+      lastChecked: state.lastAnalyzed,
+      performanceIssues:
+        state.performanceMetrics.errorRate > 0.1 ||
+        state.performanceMetrics.averageExecutionTime > 5000,
+    }),
+    [systemHealth, isHealthy, needsAttention, state],
+  );
 
   return healthStatus;
 }
@@ -397,7 +487,7 @@ export function useEnterpriseIntelligenceHealth() {
 export function useEnterpriseIntelligenceRecommendations() {
   const { recommendations, state } = useEnterpriseIntelligence({
     enableOptimizationRecommendations: true,
-    cacheResults: true
+    cacheResults: true,
   });
 
   const prioritizedRecommendations = useMemo(() => {
@@ -406,14 +496,19 @@ export function useEnterpriseIntelligenceRecommendations() {
       ...recommendations.ingredient.map(r => ({ type: 'ingredient', text: r, priority: 'medium' })),
       ...recommendations.validation.map(r => ({ type: 'validation', text: r, priority: 'high' })),
       ...recommendations.safety.map(r => ({ type: 'safety', text: r, priority: 'high' })),
-      ...recommendations.optimization.map(r => ({ type: 'optimization', text: r, priority: 'low' }))
+      ...recommendations.optimization.map(r => ({
+        type: 'optimization',
+        text: r,
+        priority: 'low',
+      })),
     ];
 
     // Sort by priority
     const priorityOrder = { high: 3, medium: 2, low: 1 };
-    return allRecommendations.sort((a, b) => 
-      priorityOrder[b.priority as keyof typeof priorityOrder] - 
-      priorityOrder[a.priority as keyof typeof priorityOrder]
+    return allRecommendations.sort(
+      (a, b) =>
+        priorityOrder[b.priority as keyof typeof priorityOrder] -
+        priorityOrder[a.priority as keyof typeof priorityOrder],
     );
   }, [recommendations]);
 
@@ -421,7 +516,7 @@ export function useEnterpriseIntelligenceRecommendations() {
     recommendations: prioritizedRecommendations,
     hasRecommendations: prioritizedRecommendations.length > 0,
     highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,
-    lastUpdated: state.lastAnalyzed
+    lastUpdated: state.lastAnalyzed,
   };
 }
 
@@ -430,18 +525,22 @@ export function useEnterpriseIntelligenceRecommendations() {
  */
 export function useEnterpriseIntelligencePerformance() {
   const { state } = useEnterpriseIntelligence({
-    cacheResults: true
+    cacheResults: true,
   });
 
-  const performanceStatus = useMemo(() => ({
-    metrics: state.performanceMetrics,
-    isPerformant: state.performanceMetrics.averageExecutionTime < 2000 && 
-                  state.performanceMetrics.errorRate < 0.05,
-    cacheEfficiency: state.performanceMetrics.cacheHitRate,
-    reliability: 1 - state.performanceMetrics.errorRate,
-    averageResponseTime: state.performanceMetrics.averageExecutionTime,
-    totalAnalyses: state.performanceMetrics.analysisCount
-  }), [state.performanceMetrics]);
+  const performanceStatus = useMemo(
+    () => ({
+      metrics: state.performanceMetrics,
+      isPerformant:
+        state.performanceMetrics.averageExecutionTime < 2000 &&
+        state.performanceMetrics.errorRate < 0.05,
+      cacheEfficiency: state.performanceMetrics.cacheHitRate,
+      reliability: 1 - state.performanceMetrics.errorRate,
+      averageResponseTime: state.performanceMetrics.averageExecutionTime,
+      totalAnalyses: state.performanceMetrics.analysisCount,
+    }),
+    [state.performanceMetrics],
+  );
 
   return performanceStatus;
 }

@@ -17,11 +17,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Fire: 0
+      Fire: 0,
     },
     description: 'Preservation and crystallization of flavors',
     recommendedMethods: ['raw', 'frozen desserts'],
-    cautions: ['texture changes', 'dulled flavors']
+    cautions: ['texture changes', 'dulled flavors'],
   },
   cold: {
     min: 1,
@@ -30,11 +30,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.5,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0
+      Fire: 0,
     },
     description: 'Refreshing and crisp qualities',
     recommendedMethods: ['raw', 'chilled preparations', 'cold infusion'],
-    cautions: ['reduced aroma', 'numbed taste buds']
+    cautions: ['reduced aroma', 'numbed taste buds'],
   },
   cool: {
     min: 11,
@@ -43,11 +43,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.4,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0.1
+      Fire: 0.1,
     },
     description: 'Balanced temperature for subtle flavors',
     recommendedMethods: ['room temperature service', 'light preparation'],
-    cautions: ['temperature fluctuation']
+    cautions: ['temperature fluctuation'],
   },
   room: {
     min: 22,
@@ -56,11 +56,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.4,
       Earth: 0.3,
       Water: 0.2,
-      Fire: 0.1
+      Fire: 0.1,
     },
     description: 'Natural state for most ingredients',
     recommendedMethods: ['fermentation', 'proofing', 'resting'],
-    cautions: ['food safety time limits']
+    cautions: ['food safety time limits'],
   },
   warm: {
     min: 31,
@@ -69,11 +69,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.3,
       Air: 0.3,
       Earth: 0.2,
-      Water: 0.2
+      Water: 0.2,
     },
     description: 'Enhanced aromatics and flavors',
     recommendedMethods: ['warming', 'tempering', 'slow cooking'],
-    cautions: ['protein degradation begins']
+    cautions: ['protein degradation begins'],
   },
   hot: {
     min: 50,
@@ -82,11 +82,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.5,
       Air: 0.3,
       Water: 0.1,
-      Earth: 0.1
+      Earth: 0.1,
     },
     description: 'Active cooking and transformation',
     recommendedMethods: ['boiling', 'steaming', 'poaching'],
-    cautions: ['moisture loss', 'overcooking risk']
+    cautions: ['moisture loss', 'overcooking risk'],
   },
   very_hot: {
     min: 101,
@@ -95,11 +95,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Water: 0
+      Water: 0,
     },
     description: 'Intense heat transformation',
     recommendedMethods: ['roasting', 'baking', 'frying'],
-    cautions: ['burning risk', 'rapid moisture loss']
+    cautions: ['burning risk', 'rapid moisture loss'],
   },
   extreme: {
     min: 201,
@@ -108,19 +108,20 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.8,
       Air: 0.2,
       Water: 0,
-      Earth: 0
+      Earth: 0,
     },
     description: 'Extreme transformation and caramelization',
     recommendedMethods: ['grilling', 'broiling', 'searing'],
-    cautions: ['very short cooking time', 'high burning risk']
-  }
+    cautions: ['very short cooking time', 'high burning risk'],
+  },
 };
 
 export const getTemperatureRange = (temp: number): string => {
-  return Object.keys(temperatureEffects).find(range => 
-    temp >= temperatureEffects[range].min && 
-    temp <= temperatureEffects[range].max
-  ) || 'room';
+  return (
+    Object.keys(temperatureEffects).find(
+      range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max,
+    ) || 'room'
+  );
 };
 
 export const getElementalEffect = (temp: number): ElementalProperties => {
@@ -131,28 +132,28 @@ export const getElementalEffect = (temp: number): ElementalProperties => {
 export function getTemperatureEffect(ingredient: string, _temperature?: number) {
   // Map of ingredient temperature effects
   const effectMap: Record<string, string> = {
-    'ginger': 'warming',
-    'chili': 'hot',
-    'mint': 'cooling',
-    'cucumber': 'cool',
+    ginger: 'warming',
+    chili: 'hot',
+    mint: 'cooling',
+    cucumber: 'cool',
     // Add more ingredients as needed
   };
-  
+
   // Simple fallback with some common effects
   const commonEffects = {
-    'spices': 'warming',
-    'herbs': 'neutral',
-    'fruits': 'cooling',
-    'vegetables': 'neutral'
+    spices: 'warming',
+    herbs: 'neutral',
+    fruits: 'cooling',
+    vegetables: 'neutral',
   };
-  
+
   // Check if we have a specific effect for this ingredient
   for (const [key, effect] of Object.entries(effectMap)) {
     if (ingredient.toLowerCase().includes(key)) {
       return effect;
     }
   }
-  
+
   // Return a string, not an object
   return 'neutral';
 }

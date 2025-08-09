@@ -3,11 +3,7 @@
  * Perfect Codebase Campaign - Cache Performance Testing
  */
 
-import {
-  CampaignConfig,
-  SafetySettings,
-  SafetyLevel
-} from '../../../../types/campaign';
+import { CampaignConfig, SafetySettings, SafetyLevel } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 
@@ -23,31 +19,35 @@ describe('Cache Hit Rate Performance Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     mockConfig = {
-      phases: [{
-        id: 'cache-test-phase',
-        name: 'Cache Test Phase',
-        description: 'Phase for cache testing',
-        tools: [{
-          scriptPath: 'scripts/cache/test-script.js',
-          parameters: { enableCache: true },
-          batchSize: 50,
-          safetyLevel: SafetyLevel.MEDIUM
-        }],
-        successCriteria: { buildTime: 10 },
-        safetyCheckpoints: []
-      }],
+      phases: [
+        {
+          id: 'cache-test-phase',
+          name: 'Cache Test Phase',
+          description: 'Phase for cache testing',
+          tools: [
+            {
+              scriptPath: 'scripts/cache/test-script.js',
+              parameters: { enableCache: true },
+              batchSize: 50,
+              safetyLevel: SafetyLevel.MEDIUM,
+            },
+          ],
+          successCriteria: { buildTime: 10 },
+          safetyCheckpoints: [],
+        },
+      ],
       safetySettings,
       progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
 
     progressTracker = new ProgressTracker();
@@ -81,9 +81,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
     it('should handle cache measurement errors gracefully', async () => {
       // Mock cache measurement error
-      jest.spyOn(progressTracker, 'getCacheHitRate').mockRejectedValue(
-        new Error('Cache measurement failed')
-      );
+      jest.spyOn(progressTracker, 'getCacheHitRate').mockRejectedValue(new Error('Cache measurement failed'));
 
       const cacheHitRate = await progressTracker.getCacheHitRate().catch(() => 0);
 
@@ -124,16 +122,16 @@ describe('Cache Hit Rate Performance Tests', () => {
     it('should validate 3-tier caching system performance', async () => {
       // Mock 3-tier cache system with different hit rates
       const cacheHitRates = {
-        l1Cache: 0.9,  // 90% L1 cache hit rate
-        l2Cache: 0.7,  // 70% L2 cache hit rate
-        l3Cache: 0.5   // 50% L3 cache hit rate (disk/network)
+        l1Cache: 0.9, // 90% L1 cache hit rate
+        l2Cache: 0.7, // 70% L2 cache hit rate
+        l3Cache: 0.5, // 50% L3 cache hit rate (disk/network)
       };
 
       // Calculate overall cache hit rate
-      const overallHitRate = 
-        cacheHitRates.l1Cache * 0.6 +  // L1 handles 60% of requests
-        cacheHitRates.l2Cache * 0.3 +  // L2 handles 30% of requests
-        cacheHitRates.l3Cache * 0.1;   // L3 handles 10% of requests
+      const overallHitRate =
+        cacheHitRates.l1Cache * 0.6 + // L1 handles 60% of requests
+        cacheHitRates.l2Cache * 0.3 + // L2 handles 30% of requests
+        cacheHitRates.l3Cache * 0.1; // L3 handles 10% of requests
 
       jest.spyOn(progressTracker, 'getCacheHitRate').mockResolvedValue(overallHitRate);
 
@@ -145,7 +143,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
     it('should detect cache invalidation impact', async () => {
       let cacheInvalidated = false;
-      
+
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         // Simulate cache invalidation impact
         return cacheInvalidated ? 0.3 : 0.85; // Dramatic drop after invalidation
@@ -195,18 +193,18 @@ describe('Cache Hit Rate Performance Tests', () => {
     it('should handle cache size optimization', async () => {
       // Mock different cache sizes and their hit rates
       const cacheSizeTests = [
-        { size: '10MB', hitRate: 0.6 },   // Small cache
-        { size: '50MB', hitRate: 0.8 },   // Medium cache
-        { size: '100MB', hitRate: 0.9 },  // Large cache
-        { size: '200MB', hitRate: 0.92 }  // Very large cache (diminishing returns)
+        { size: '10MB', hitRate: 0.6 }, // Small cache
+        { size: '50MB', hitRate: 0.8 }, // Medium cache
+        { size: '100MB', hitRate: 0.9 }, // Large cache
+        { size: '200MB', hitRate: 0.92 }, // Very large cache (diminishing returns)
       ];
 
       for (const test of cacheSizeTests) {
         jest.spyOn(progressTracker, 'getCacheHitRate').mockResolvedValue(test.hitRate);
-        
+
         const cacheHitRate = await progressTracker.getCacheHitRate();
         expect(cacheHitRate).toBe(test.hitRate);
-        
+
         // Larger caches should generally have better hit rates
         if (test.size === '100MB') {
           expect(cacheHitRate).toBeGreaterThan(0.8); // Should exceed target
@@ -222,27 +220,25 @@ describe('Cache Hit Rate Performance Tests', () => {
 
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         concurrentRequests++;
-        
+
         // Simulate cache performance degradation under high load
         const loadFactor = Math.min(1, concurrentRequests / maxConcurrentRequests);
         const baseRate = 0.85;
         const degradation = loadFactor * 0.1; // Up to 10% degradation under full load
-        
+
         setTimeout(() => concurrentRequests--, 100); // Simulate request completion
-        
+
         return Math.max(0.7, baseRate - degradation); // Minimum 70% hit rate
       });
 
       // Simulate concurrent cache access
-      const promises = Array.from({ length: 15 }, () => 
-        progressTracker.getCacheHitRate()
-      );
+      const promises = Array.from({ length: 15 }, () => progressTracker.getCacheHitRate());
 
       const results = await Promise.all(promises);
 
       expect(results.length).toBe(15);
       expect(results.every(rate => rate >= 0.7)).toBe(true); // All should be above minimum
-      
+
       // Average should still be reasonable
       const averageHitRate = results.reduce((sum, rate) => sum + rate, 0) / results.length;
       expect(averageHitRate).toBeGreaterThan(0.75);
@@ -250,7 +246,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
     it('should handle cache thrashing scenarios', async () => {
       let thrashingActive = false;
-      
+
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         if (thrashingActive) {
           // Simulate cache thrashing - very poor hit rate
@@ -268,7 +264,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       // Simulate cache thrashing
       thrashingActive = true;
       const thrashingReadings: number[] = [];
-      
+
       for (let i = 0; i < 5; i++) {
         cacheHitRate = await progressTracker.getCacheHitRate();
         thrashingReadings.push(cacheHitRate);
@@ -276,7 +272,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
       // All readings during thrashing should be poor
       expect(thrashingReadings.every(rate => rate < 0.5)).toBe(true);
-      
+
       // Recovery from thrashing
       thrashingActive = false;
       cacheHitRate = await progressTracker.getCacheHitRate();
@@ -290,7 +286,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       // Mock cache performance during different execution phases
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         executionStep++;
-        
+
         // Simulate cache performance during campaign execution
         if (executionStep <= 2) {
           return 0.6; // Initial cold cache
@@ -308,14 +304,14 @@ describe('Cache Hit Rate Performance Tests', () => {
           typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate, memoryUsage: 45 },
-          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
         };
       });
 
       const result = await campaignController.executePhase(phase);
 
       expect(result.success).toBe(true);
-      
+
       // Final cache hit rate should be optimal
       const finalCacheHitRate = await progressTracker.getCacheHitRate();
       expect(finalCacheHitRate).toBe(0.85);
@@ -326,17 +322,17 @@ describe('Cache Hit Rate Performance Tests', () => {
   describe('Cache Performance Benchmarks', () => {
     it('should benchmark cache lookup performance', async () => {
       const lookupTimes: number[] = [];
-      
+
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         const startTime = Date.now();
-        
+
         // Simulate cache lookup time
         const lookupDelay = 5 + Math.random() * 10; // 5-15ms lookup time
         const endTime = startTime + lookupDelay;
         while (Date.now() < endTime) {
           // Busy wait to simulate lookup
         }
-        
+
         lookupTimes.push(Date.now() - startTime);
         return 0.85; // Good hit rate
       });
@@ -359,7 +355,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         { size: 'small', hitRate: 0.95, lookupTime: 5 },
         { size: 'medium', hitRate: 0.85, lookupTime: 10 },
         { size: 'large', hitRate: 0.8, lookupTime: 15 },
-        { size: 'xlarge', hitRate: 0.75, lookupTime: 25 }
+        { size: 'xlarge', hitRate: 0.75, lookupTime: 25 },
       ];
 
       for (const test of dataSizeTests) {
@@ -379,7 +375,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
         expect(cacheHitRate).toBe(test.hitRate);
         expect(lookupTime).toBeGreaterThanOrEqual(test.lookupTime);
-        
+
         // Even large data should maintain reasonable performance
         if (test.size === 'large') {
           expect(cacheHitRate).toBeGreaterThanOrEqual(0.8);
@@ -395,13 +391,13 @@ describe('Cache Hit Rate Performance Tests', () => {
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         // Simulate cache invalidation impact
         const currentVersion = cacheVersion;
-        
+
         if (currentVersion === 1) {
           return 0.85; // Good hit rate before invalidation
         } else {
           // Simulate cache rebuilding after invalidation
           const rebuildProgress = Math.min(1, (Date.now() % 1000) / 1000);
-          return 0.3 + (0.55 * rebuildProgress); // 30% to 85% recovery
+          return 0.3 + 0.55 * rebuildProgress; // 30% to 85% recovery
         }
       });
 
@@ -412,10 +408,10 @@ describe('Cache Hit Rate Performance Tests', () => {
       // Simulate cache invalidation
       const invalidationStart = Date.now();
       cacheVersion = 2;
-      
+
       // Measure recovery time
       let recoveryComplete = false;
-      while (!recoveryComplete && (Date.now() - invalidationStart) < 2000) {
+      while (!recoveryComplete && Date.now() - invalidationStart < 2000) {
         const currentHitRate = await progressTracker.getCacheHitRate();
         if (currentHitRate >= 0.8) {
           recoveryComplete = true;
@@ -438,7 +434,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         { name: 'minimal', hitRate: 0.6, memoryUsage: 20 },
         { name: 'balanced', hitRate: 0.8, memoryUsage: 35 },
         { name: 'aggressive', hitRate: 0.9, memoryUsage: 48 },
-        { name: 'maximum', hitRate: 0.92, memoryUsage: 55 } // Exceeds memory target
+        { name: 'maximum', hitRate: 0.92, memoryUsage: 55 }, // Exceeds memory target
       ];
 
       for (const config of cacheConfigs) {
@@ -466,7 +462,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
     it('should handle cache configuration changes dynamically', async () => {
       let currentConfig = 'default';
-      
+
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         switch (currentConfig) {
           case 'default':

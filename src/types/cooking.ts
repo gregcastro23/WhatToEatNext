@@ -1,5 +1,4 @@
-import { Element , ElementalProperties, ZodiacSign } from "@/types/alchemy";
-
+import { Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 
 export interface CookingMethod {
   id: string;
@@ -26,15 +25,19 @@ export interface CookingMethod {
   equipmentComplexity?: string;
   regionalVariations?: string;
   modernVariations?: string;
-  time_range?: string | {
-    min: number;
-    max: number;
-  };
-  temperature_range?: string | {
-    min: number;
-    max: number;
-    unit?: string;
-  };
+  time_range?:
+    | string
+    | {
+        min: number;
+        max: number;
+      };
+  temperature_range?:
+    | string
+    | {
+        min: number;
+        max: number;
+        unit?: string;
+      };
   alchemical_properties?: Record<string, unknown>;
   tools?: string[] | string;
   famous_dishes?: string[] | string;
@@ -62,23 +65,23 @@ export interface EnhancedCookingMethod extends CookingMethod {
     energeticSignature: string;
     harmonyFactor: number;
   };
-  
+
   // Monica-compatible enhancements
   thermodynamicEfficiency?: number;
   kalchmResonance?: number;
   monicaConstant?: number;
-  
+
   // Enhanced metadata
   complexity?: 'basic' | 'intermediate' | 'advanced' | 'master';
   skillRequirements?: string[];
   equipmentRequired?: string[];
   safetyConsiderations?: string[];
-  
+
   // Elemental transformation tracking
   inputElementalProfile?: ElementalProperties;
   outputElementalProfile?: ElementalProperties;
   transformationMatrix?: number[][];
-  
+
   // Advanced astrological integration
   planetaryAlignment?: Record<string, number>;
   lunarPhaseOptimal?: string[];

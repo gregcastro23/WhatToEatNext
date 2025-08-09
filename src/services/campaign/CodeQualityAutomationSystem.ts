@@ -6,9 +6,21 @@
 
 import { logger } from '../../utils/logger';
 
-import { DependencySecurityMonitor, DependencySecurityConfig, DEFAULT_DEPENDENCY_SECURITY_CONFIG } from './DependencySecurityMonitor';
-import { ImportCleanupSystem, ImportCleanupConfig, DEFAULT_IMPORT_CLEANUP_CONFIG } from './ImportCleanupSystem';
-import { LintingFormattingSystem, LintingFormattingConfig, DEFAULT_LINTING_FORMATTING_CONFIG } from './LintingFormattingSystem';
+import {
+  DependencySecurityMonitor,
+  DependencySecurityConfig,
+  DEFAULT_DEPENDENCY_SECURITY_CONFIG,
+} from './DependencySecurityMonitor';
+import {
+  ImportCleanupSystem,
+  ImportCleanupConfig,
+  DEFAULT_IMPORT_CLEANUP_CONFIG,
+} from './ImportCleanupSystem';
+import {
+  LintingFormattingSystem,
+  LintingFormattingConfig,
+  DEFAULT_LINTING_FORMATTING_CONFIG,
+} from './LintingFormattingSystem';
 
 export interface CodeQualityAutomationConfig {
   importCleanup: ImportCleanupConfig;
@@ -105,17 +117,17 @@ export class CodeQualityAutomationSystem {
         securityVulnerabilitiesFixed: 0,
         dependencyUpdatesApplied: 0,
         buildValidationsPassed: 0,
-        buildValidationsFailed: 0
+        buildValidationsFailed: 0,
       },
       errors: [],
       warnings: [],
-      recommendations: []
+      recommendations: [],
     };
 
     try {
       // Execute phases in configured order
       const enabledPhases = this.config.executionOrder.filter(phase => phase.enabled);
-      
+
       for (const phase of enabledPhases) {
         // Check dependencies
         const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults);
@@ -126,7 +138,7 @@ export class CodeQualityAutomationSystem {
 
         logger.info(`Executing phase: ${phase.name}`);
         const phaseResult = await this.executePhase(phase, targetFiles);
-        
+
         result.phaseResults.push(phaseResult);
         result.phasesExecuted++;
 
@@ -136,7 +148,7 @@ export class CodeQualityAutomationSystem {
         } else {
           result.phasesFailed++;
           result.errors.push(...phaseResult.errors);
-          
+
           if (phase.criticalFailure) {
             result.overallSuccess = false;
             if (!this.config.globalSettings.continueOnError) {
@@ -147,15 +159,18 @@ export class CodeQualityAutomationSystem {
         }
 
         // Validate build after critical phases
-        if (this.config.globalSettings.safetyValidationEnabled && 
-            (phase.criticalFailure || result.phasesExecuted % this.config.globalSettings.buildValidationFrequency === 0)) {
+        if (
+          this.config.globalSettings.safetyValidationEnabled &&
+          (phase.criticalFailure ||
+            result.phasesExecuted % this.config.globalSettings.buildValidationFrequency === 0)
+        ) {
           const buildValid = await this.validateBuild();
           if (buildValid) {
             result.globalMetrics.buildValidationsPassed++;
           } else {
             result.globalMetrics.buildValidationsFailed++;
             result.errors.push(`Build validation failed after phase ${phase.name}`);
-            
+
             if (this.config.globalSettings.rollbackOnFailure) {
               logger.warn(`Rolling back changes due to build failure`);
               // Rollback logic would be implemented here
@@ -166,7 +181,7 @@ export class CodeQualityAutomationSystem {
 
       // Generate final recommendations
       result.recommendations = this.generateRecommendations(result);
-      
+
       result.totalExecutionTime = Date.now() - startTime;
       result.overallSuccess = result.overallSuccess && result.phasesFailed === 0;
 
@@ -174,11 +189,10 @@ export class CodeQualityAutomationSystem {
         phasesExecuted: result.phasesExecuted,
         phasesSucceeded: result.phasesSucceeded,
         phasesFailed: result.phasesFailed,
-        overallSuccess: result.overallSuccess
+        overallSuccess: result.overallSuccess,
       });
 
       return result;
-
     } catch (error) {
       logger.error('Code quality automation system failed', error);
       result.overallSuccess = false;
@@ -191,9 +205,12 @@ export class CodeQualityAutomationSystem {
   /**
    * Execute a specific automation phase
    */
-  async executePhase(phase: AutomationPhase, targetFiles?: string[]): Promise<PhaseExecutionResult> {
+  async executePhase(
+    phase: AutomationPhase,
+    targetFiles?: string[],
+  ): Promise<PhaseExecutionResult> {
     const startTime = Date.now();
-    
+
     const phaseResult: PhaseExecutionResult = {
       phaseName: phase.name,
       system: phase.system,
@@ -201,28 +218,33 @@ export class CodeQualityAutomationSystem {
       executionTime: 0,
       result: null,
       errors: [],
-      warnings: []
+      warnings: [],
     };
 
     try {
       switch (phase.system) {
         case 'importCleanup':
           phaseResult.result = await this.importCleanupSystem.executeCleanup(targetFiles);
-          phaseResult.success = phaseResult.result.buildValidationPassed && phaseResult.result.errors.length === 0;
+          phaseResult.success =
+            phaseResult.result.buildValidationPassed && phaseResult.result.errors.length === 0;
           phaseResult.errors = phaseResult.result.errors;
           phaseResult.warnings = phaseResult.result.warnings;
           break;
 
         case 'lintingFormatting':
-          phaseResult.result = await this.lintingFormattingSystem.executeLintingAndFormatting(targetFiles);
-          phaseResult.success = phaseResult.result.buildValidationPassed && phaseResult.result.errors.length === 0;
+          phaseResult.result =
+            await this.lintingFormattingSystem.executeLintingAndFormatting(targetFiles);
+          phaseResult.success =
+            phaseResult.result.buildValidationPassed && phaseResult.result.errors.length === 0;
           phaseResult.errors = phaseResult.result.errors;
           phaseResult.warnings = phaseResult.result.warnings;
           break;
 
         case 'dependencySecurity':
-          phaseResult.result = await this.dependencySecurityMonitor.executeDependencySecurityMonitoring();
-          phaseResult.success = phaseResult.result.compatibilityTestsPassed && phaseResult.result.errors.length === 0;
+          phaseResult.result =
+            await this.dependencySecurityMonitor.executeDependencySecurityMonitoring();
+          phaseResult.success =
+            phaseResult.result.compatibilityTestsPassed && phaseResult.result.errors.length === 0;
           phaseResult.errors = phaseResult.result.errors;
           phaseResult.warnings = phaseResult.result.warnings;
           break;
@@ -233,7 +255,6 @@ export class CodeQualityAutomationSystem {
 
       phaseResult.executionTime = Date.now() - startTime;
       return phaseResult;
-
     } catch (error) {
       phaseResult.success = false;
       phaseResult.errors.push(`Phase execution failed: ${String(error)}`);
@@ -247,7 +268,7 @@ export class CodeQualityAutomationSystem {
    */
   generateReport(result: CodeQualityAutomationResult): string {
     const report: string[] = [];
-    
+
     report.push('# Code Quality Automation Report');
     report.push('');
     report.push(`**Execution Date:** ${new Date().toISOString()}`);
@@ -270,14 +291,16 @@ export class CodeQualityAutomationSystem {
     report.push(`- Import Issues Fixed: ${result.globalMetrics.importIssuesFixed}`);
     report.push(`- Linting Violations Fixed: ${result.globalMetrics.lintingViolationsFixed}`);
     report.push(`- Formatting Issues Fixed: ${result.globalMetrics.formattingIssuesFixed}`);
-    report.push(`- Security Vulnerabilities Fixed: ${result.globalMetrics.securityVulnerabilitiesFixed}`);
+    report.push(
+      `- Security Vulnerabilities Fixed: ${result.globalMetrics.securityVulnerabilitiesFixed}`,
+    );
     report.push(`- Dependency Updates Applied: ${result.globalMetrics.dependencyUpdatesApplied}`);
     report.push('');
 
     // Phase Results
     report.push('## Phase Execution Details');
     report.push('');
-    
+
     for (const phaseResult of result.phaseResults) {
       const statusIcon = phaseResult.success ? '✅' : '❌';
       report.push(`### ${statusIcon} ${phaseResult.phaseName}`);
@@ -285,17 +308,17 @@ export class CodeQualityAutomationSystem {
       report.push(`- System: ${phaseResult.system}`);
       report.push(`- Execution Time: ${phaseResult.executionTime}ms`);
       report.push(`- Success: ${phaseResult.success}`);
-      
+
       if (phaseResult.errors.length > 0) {
         report.push('- Errors:');
         phaseResult.errors.forEach(error => report.push(`  - ${error}`));
       }
-      
+
       if (phaseResult.warnings.length > 0) {
         report.push('- Warnings:');
         phaseResult.warnings.forEach(warning => report.push(`  - ${warning}`));
       }
-      
+
       report.push('');
     }
 
@@ -327,25 +350,30 @@ export class CodeQualityAutomationSystem {
 
   // Private helper methods
 
-  private async checkPhaseDependencies(phase: AutomationPhase, completedPhases: PhaseExecutionResult[]): Promise<boolean> {
+  private async checkPhaseDependencies(
+    phase: AutomationPhase,
+    completedPhases: PhaseExecutionResult[],
+  ): Promise<boolean> {
     if (phase.dependencies.length === 0) {
       return true;
     }
 
-    const completedPhaseNames = completedPhases
-      .filter(p => p.success)
-      .map(p => p.phaseName);
+    const completedPhaseNames = completedPhases.filter(p => p.success).map(p => p.phaseName);
 
     return phase.dependencies.every(dep => completedPhaseNames.includes(dep));
   }
 
-  private updateGlobalMetrics(metrics: GlobalQualityMetrics, phaseResult: PhaseExecutionResult): void {
+  private updateGlobalMetrics(
+    metrics: GlobalQualityMetrics,
+    phaseResult: PhaseExecutionResult,
+  ): void {
     const { result } = phaseResult;
 
     switch (phaseResult.system) {
       case 'importCleanup':
         metrics.filesProcessed += result.filesProcessed?.length || 0;
-        metrics.importIssuesFixed += (result.unusedImportsRemoved || 0) + (result.importsOrganized || 0);
+        metrics.importIssuesFixed +=
+          (result.unusedImportsRemoved || 0) + (result.importsOrganized || 0);
         break;
 
       case 'lintingFormatting':
@@ -367,7 +395,7 @@ export class CodeQualityAutomationSystem {
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       });
       return true;
     } catch (error) {
@@ -382,17 +410,23 @@ export class CodeQualityAutomationSystem {
     // Success recommendations
     if (result.overallSuccess) {
       recommendations.push('✅ All automation phases completed successfully');
-      
+
       if (result.globalMetrics.importIssuesFixed > 0) {
-        recommendations.push(`🧹 Cleaned up ${result.globalMetrics.importIssuesFixed} import issues`);
+        recommendations.push(
+          `🧹 Cleaned up ${result.globalMetrics.importIssuesFixed} import issues`,
+        );
       }
-      
+
       if (result.globalMetrics.lintingViolationsFixed > 0) {
-        recommendations.push(`🔧 Fixed ${result.globalMetrics.lintingViolationsFixed} linting violations`);
+        recommendations.push(
+          `🔧 Fixed ${result.globalMetrics.lintingViolationsFixed} linting violations`,
+        );
       }
-      
+
       if (result.globalMetrics.securityVulnerabilitiesFixed > 0) {
-        recommendations.push(`🔒 Applied ${result.globalMetrics.securityVulnerabilitiesFixed} security patches`);
+        recommendations.push(
+          `🔒 Applied ${result.globalMetrics.securityVulnerabilitiesFixed} security patches`,
+        );
       }
     }
 
@@ -407,17 +441,23 @@ export class CodeQualityAutomationSystem {
     }
 
     // Performance recommendations
-    if (result.totalExecutionTime > 300000) { // 5 minutes
-      recommendations.push('⏱️ Automation took longer than expected - consider optimizing batch sizes');
+    if (result.totalExecutionTime > 300000) {
+      // 5 minutes
+      recommendations.push(
+        '⏱️ Automation took longer than expected - consider optimizing batch sizes',
+      );
     }
 
     // Maintenance recommendations
-    const totalImprovements = result.globalMetrics.importIssuesFixed + 
-                             result.globalMetrics.lintingViolationsFixed + 
-                             result.globalMetrics.formattingIssuesFixed;
-    
+    const totalImprovements =
+      result.globalMetrics.importIssuesFixed +
+      result.globalMetrics.lintingViolationsFixed +
+      result.globalMetrics.formattingIssuesFixed;
+
     if (totalImprovements > 100) {
-      recommendations.push('📈 High number of issues fixed - consider running automation more frequently');
+      recommendations.push(
+        '📈 High number of issues fixed - consider running automation more frequently',
+      );
     }
 
     return recommendations;
@@ -438,7 +478,7 @@ export const DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig
       system: 'importCleanup',
       enabled: true,
       dependencies: [],
-      criticalFailure: false
+      criticalFailure: false,
     },
     {
       name: 'Linting and Formatting',
@@ -446,7 +486,7 @@ export const DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig
       system: 'lintingFormatting',
       enabled: true,
       dependencies: ['Import Cleanup'],
-      criticalFailure: false
+      criticalFailure: false,
     },
     {
       name: 'Dependency Security',
@@ -454,8 +494,8 @@ export const DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig
       system: 'dependencySecurity',
       enabled: true,
       dependencies: [],
-      criticalFailure: true
-    }
+      criticalFailure: true,
+    },
   ],
   globalSettings: {
     maxConcurrentOperations: 1,
@@ -463,6 +503,6 @@ export const DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig
     buildValidationFrequency: 2,
     rollbackOnFailure: false,
     continueOnError: true,
-    reportingEnabled: true
-  }
+    reportingEnabled: true,
+  },
 };

@@ -4,12 +4,12 @@ export { default as flavorProfiles } from './flavorProfiles';
 export { textureProfiles } from './textureProfiles';
 export { default as temperatureEffects } from './temperatureEffects';
 
-export type { 
+export type {
   RecipeTemplate,
   SeasonalPattern,
   FlavorProfile,
   TextureProfile,
-  TemperatureRange
+  TemperatureRange,
 } from './types';
 
 import { calculateSeasonalScores } from '@/calculations/seasonalCalculations';
@@ -18,9 +18,4 @@ import { getMedicinalProperties } from './medicinalCrossReference';
 import { getTemperatureEffect } from './temperatureEffects';
 import { getTextureProfile } from './textureProfiles';
 
-export {
-  calculateSeasonalScores,
-  getMedicinalProperties,
-  getTextureProfile,
-  getTemperatureEffect
-};
+export { calculateSeasonalScores, getMedicinalProperties, getTextureProfile, getTemperatureEffect };

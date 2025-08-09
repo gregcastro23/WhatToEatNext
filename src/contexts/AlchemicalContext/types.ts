@@ -1,17 +1,17 @@
 'use client';
 
-import { 
-  AlchemicalState as BaseAlchemicalState, 
-  AstrologicalState as BaseAstrologicalState 
+import {
+  AlchemicalState as BaseAlchemicalState,
+  AstrologicalState as BaseAstrologicalState,
 } from '@/types/alchemical';
-import { 
+import {
   ElementalProperties,
   AlchemicalProperties,
   CelestialPosition,
   ZodiacSign,
   LunarPhase,
   Planet,
-  PlanetaryAlignment
+  PlanetaryAlignment,
 } from '@/types/celestial';
 
 // Import types directly from alchemical types
@@ -33,4 +33,4 @@ export interface AlchemicalContextType {
   refreshPlanetaryPositions: () => Promise<Record<string, unknown>>;
   setDaytime: (isDaytime: boolean) => void;
   updateState: (state: Partial<AlchemicalState>) => void;
-} 
+}

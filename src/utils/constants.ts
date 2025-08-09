@@ -1,6 +1,6 @@
 /**
  * Constants re-export file
- * 
+ *
  * This file consolidates all constants from the src/utils/constants directory
  * to provide a single import point for these utilities.
  */
@@ -20,7 +20,7 @@ export const THRESHOLD: {
   LOW: 0.33,
   MEDIUM: 0.66,
   HIGH: 0.9,
-  MAXIMUM: 1.0
+  MAXIMUM: 1.0,
 };
 
 // Export common constants that might be needed across multiple files
@@ -28,4 +28,4 @@ export const THRESHOLD: {
 export const DEFAULT_MATCH_THRESHOLD: number = 0.6;
 export const DEFAULT_COMPATIBILITY_THRESHOLD: number = 0.7;
 export const DEFAULT_LIMIT: number = 10;
-export const DEFAULT_PRECISION: number = 2; 
+export const DEFAULT_PRECISION: number = 2;

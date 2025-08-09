@@ -22,15 +22,15 @@ export default function IngredientsPage() {
     // Check URL parameters first
     const categoryParam = searchParams?.get('category');
     const ingredientParam = searchParams?.get('ingredient');
-    
+
     if (categoryParam) {
       setSelectedCategory(categoryParam);
     }
-    
+
     if (ingredientParam) {
       setSelectedIngredient(ingredientParam);
     }
-    
+
     // If no URL params, try to restore from enhanced state preservation
     if (!categoryParam && !ingredientParam) {
       const restoredContext = restoreContext();
@@ -58,9 +58,9 @@ export default function IngredientsPage() {
       selectedItems: selectedIngredient ? [selectedIngredient] : [],
       activeSection: 'ingredients',
       scrollPosition: window.scrollY,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
-    
+
     // Navigate with smooth transition
     router.push('/#ingredients');
   };
@@ -71,49 +71,51 @@ export default function IngredientsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100">
-      <div className="container mx-auto px-4 py-8">
+    <div className='min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100'>
+      <div className='container mx-auto px-4 py-8'>
         {/* Header with navigation */}
-        <header className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
+        <header className='mb-8'>
+          <div className='mb-4 flex items-center justify-between'>
+            <div className='flex items-center gap-4'>
               <button
                 onClick={handleBackToMain}
-                className="flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
+                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800'
               >
                 <ArrowLeft size={20} />
                 Back to Main
               </button>
-              
+
               <button
                 onClick={handleGoHome}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-800 font-medium px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-800'
               >
                 <Home size={20} />
                 Home
               </button>
             </div>
           </div>
-          
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-indigo-900">
+
+          <div className='text-center'>
+            <h1 className='mb-2 text-3xl font-bold text-indigo-900 md:text-4xl'>
               Ingredient Recommendations
             </h1>
-            <p className="text-indigo-600 mb-4">
+            <p className='mb-4 text-indigo-600'>
               Explore ingredients aligned with current celestial energies
             </p>
-            
+
             {/* Context indicators */}
             {(selectedCategory || selectedIngredient) && (
-              <div className="inline-flex items-center gap-4 bg-white px-4 py-2 rounded-lg shadow-sm">
+              <div className='inline-flex items-center gap-4 rounded-lg bg-white px-4 py-2 shadow-sm'>
                 {selectedCategory && (
-                  <span className="text-sm text-gray-600">
-                    Category: <span className="font-medium text-indigo-600">{selectedCategory}</span>
+                  <span className='text-sm text-gray-600'>
+                    Category:{' '}
+                    <span className='font-medium text-indigo-600'>{selectedCategory}</span>
                   </span>
                 )}
                 {selectedIngredient && (
-                  <span className="text-sm text-gray-600">
-                    Selected: <span className="font-medium text-indigo-600">{selectedIngredient}</span>
+                  <span className='text-sm text-gray-600'>
+                    Selected:{' '}
+                    <span className='font-medium text-indigo-600'>{selectedIngredient}</span>
                   </span>
                 )}
               </div>
@@ -122,9 +124,9 @@ export default function IngredientsPage() {
         </header>
 
         {/* Main content */}
-        <main className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <IngredientRecommender 
+        <main className='mx-auto max-w-6xl'>
+          <div className='rounded-lg bg-white p-6 shadow-md'>
+            <IngredientRecommender
               initialCategory={selectedCategory}
               initialSelectedIngredient={selectedIngredient}
               isFullPageVersion={true}

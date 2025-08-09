@@ -16,7 +16,7 @@ export const ingredientCategories = {
   proteins,
   grains,
   seasonings,
-  oils
+  oils,
 };
 
-export default ingredientCategories; 
+export default ingredientCategories;

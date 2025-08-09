@@ -7,12 +7,12 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import {
-    CorruptionSeverity,
-    GitStash,
-    RecoveryAction,
-    SafetyEventSeverity,
-    SafetyEventType,
-    SafetySettings
+  CorruptionSeverity,
+  GitStash,
+  RecoveryAction,
+  SafetyEventSeverity,
+  SafetyEventType,
+  SafetySettings,
 } from '../../../types/campaign';
 import { SafetyProtocol } from '../SafetyProtocol';
 
@@ -34,7 +34,7 @@ describe('SafetyProtocol', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     safetyProtocol = new SafetyProtocol(mockSettings);
@@ -78,10 +78,7 @@ describe('SafetyProtocol', () => {
       const stashId = await safetyProtocol.createStash('Test stash', 'phase1');
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-/);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('git stash push -u -m'),
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object));
     });
 
     it('should store stash information', async () => {
@@ -106,19 +103,24 @@ describe('SafetyProtocol', () => {
 
     it('should handle git validation failure', async () => {
       // Mock git validation failure
-      jest.spyOn(safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> }, 'validateGitState').mockResolvedValue({
-        success: false,
-        errors: ['Not a git repository'],
-        warnings: []
-      });
+      jest
+        .spyOn(
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
+          'validateGitState',
+        )
+        .mockResolvedValue({
+          success: false,
+          errors: ['Not a git repository'],
+          warnings: [],
+        });
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
-        'Git validation failed: Not a git repository'
+        'Git validation failed: Not a git repository',
       );
     });
 
     it('should handle git stash creation failure', async () => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
         }
@@ -126,7 +128,7 @@ describe('SafetyProtocol', () => {
       });
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
-        'Failed to create git stash: Git stash failed'
+        'Failed to create git stash: Git stash failed',
       );
     });
   });
@@ -140,27 +142,29 @@ describe('SafetyProtocol', () => {
         description: 'Test stash description',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       };
 
       // Add stash to internal map
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('test-stash-1', mockStash);
 
       // Mock git validation
-      jest.spyOn(safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> }, 'validateGitState').mockResolvedValue({
-        success: true,
-        errors: [],
-        warnings: []
-      });
+      jest
+        .spyOn(
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
+          'validateGitState',
+        )
+        .mockResolvedValue({
+          success: true,
+          errors: [],
+          warnings: [],
+        });
     });
 
     it('should apply stash successfully', async () => {
       await safetyProtocol.applyStash('test-stash-1');
 
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'git stash apply stash@{0}',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('git stash apply stash@{0}', expect.any(Object));
     });
 
     it('should record safety event for stash application', async () => {
@@ -179,13 +183,11 @@ describe('SafetyProtocol', () => {
     });
 
     it('should handle non-existent stash', async () => {
-      await expect(safetyProtocol.applyStash('non-existent')).rejects.toThrow(
-        'Stash not found: non-existent'
-      );
+      await expect(safetyProtocol.applyStash('non-existent')).rejects.toThrow('Stash not found: non-existent');
     });
 
     it('should handle git stash apply failure', async () => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash apply')) {
           throw new Error('Git stash apply failed');
         }
@@ -193,7 +195,7 @@ describe('SafetyProtocol', () => {
       });
 
       await expect(safetyProtocol.applyStash('test-stash-1')).rejects.toThrow(
-        'Failed to apply git stash test-stash-1: Git stash apply failed'
+        'Failed to apply git stash test-stash-1: Git stash apply failed',
       );
     });
   });
@@ -206,14 +208,14 @@ describe('SafetyProtocol', () => {
         description: 'First stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
-        ref: 'stash@{1}'
+        ref: 'stash@{1}',
       };
       const stash2 = {
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       };
 
       const stashMap = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -234,7 +236,7 @@ describe('SafetyProtocol', () => {
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
       await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow(
-        'No stashes available for automatic rollback'
+        'No stashes available for automatic rollback',
       );
     });
   });
@@ -396,10 +398,7 @@ import something, { a, b } from './module';
 
       const report = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
 
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'yarn tsc --noEmit --skipLibCheck 2>&1',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object));
       expect(report.detectedFiles).toEqual([]);
       expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
@@ -445,7 +444,7 @@ import something, { a, b } from './module';
         description: 'Emergency stash',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       };
 
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('emergency-stash', stash);
@@ -470,20 +469,18 @@ import something, { a, b } from './module';
     it('should handle no available stashes', async () => {
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
-      await expect(safetyProtocol.emergencyRollback()).rejects.toThrow(
-        'No stashes available for emergency rollback'
-      );
+      await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('No stashes available for emergency rollback');
     });
 
     it('should handle rollback failure', async () => {
       jest.spyOn(safetyProtocol, 'applyStash').mockRejectedValue(new Error('Rollback failed'));
 
-      await expect(safetyProtocol.emergencyRollback()).rejects.toThrow(
-        'Emergency rollback failed: Rollback failed'
-      );
+      await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('Emergency rollback failed: Rollback failed');
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect(events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL)).toBe(true);
+      expect(
+        events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),
+      ).toBe(true);
     });
   });
 
@@ -546,7 +543,7 @@ import something, { a, b } from './module';
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}'
+        ref: 'stash@{1}',
       };
 
       const recentStash = {
@@ -554,7 +551,7 @@ import something, { a, b } from './module';
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       };
 
       const stashMap = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -573,14 +570,11 @@ import something, { a, b } from './module';
     it('should attempt to drop git stashes', async () => {
       await safetyProtocol.cleanupOldStashes();
 
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'git stash drop stash@{1}',
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect.any(Object));
     });
 
     it('should handle git stash drop failures gracefully', async () => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash drop')) {
           throw new Error('Stash not found');
         }
@@ -609,21 +603,21 @@ import something, { a, b } from './module';
         id: 'campaign-phase1-1-timestamp',
         description: 'Phase 1 stash',
         timestamp: new Date('2023-01-01'),
-        branch: 'main'
+        branch: 'main',
       };
 
       const stash2 = {
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
         timestamp: new Date('2023-01-02'),
-        branch: 'main'
+        branch: 'main',
       };
 
       const stash3 = {
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
         timestamp: new Date('2023-01-03'),
-        branch: 'main'
+        branch: 'main',
       };
 
       const stashMap = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -661,7 +655,7 @@ import something, { a, b } from './module';
         detectedFiles: [],
         corruptionPatterns: [],
         severity: CorruptionSeverity.LOW,
-        recommendedAction: RecoveryAction.CONTINUE
+        recommendedAction: RecoveryAction.CONTINUE,
       });
     });
 
@@ -693,7 +687,7 @@ import something, { a, b } from './module';
         detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
         severity: CorruptionSeverity.CRITICAL,
-        recommendedAction: RecoveryAction.EMERGENCY_RESTORE
+        recommendedAction: RecoveryAction.EMERGENCY_RESTORE,
       });
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
 
@@ -745,7 +739,7 @@ import something, { a, b } from './module';
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST'
+          action: 'TEST',
         });
       }
 
@@ -761,12 +755,14 @@ import something, { a, b } from './module';
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST'
+          action: 'TEST',
         });
       }
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect((events as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe('Event 1099');
+      expect((events as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe(
+        'Event 1099',
+      );
     });
   });
 });

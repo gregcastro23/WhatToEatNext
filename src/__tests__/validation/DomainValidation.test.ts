@@ -1,6 +1,6 @@
 /**
  * Domain Validation Tests - Task 12
- * 
+ *
  * Domain-specific tests for astrological calculation rule behavior
  * Requirements: 6.4
  */
@@ -11,7 +11,7 @@ import { jest } from '@jest/globals';
 
 // Mock child_process for controlled testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn()
+  execSync: jest.fn(),
 }));
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
@@ -28,7 +28,7 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
         };
 
         // Test self-reinforcement principle
@@ -46,7 +46,7 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
         };
 
         // Test no opposing elements principle
@@ -65,7 +65,7 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
         };
 
         // Fire-Air affinity (shared dynamic nature)
@@ -83,12 +83,14 @@ describe('Domain Validation Tests - Task 12', () => {
     describe('1.2 ESLint Domain Rules Validation', () => {
       test('Astrological calculation files have appropriate rule exceptions', () => {
         // Mock ESLint validation for astrological files
-        mockExecSync.mockReturnValue(Buffer.from(`
+        mockExecSync.mockReturnValue(
+          Buffer.from(`
 ✓ src/calculations/culinary/: Mathematical constants allowed
 ✓ src/data/planets/: Fallback values preserved
 ✓ src/utils/reliableAstronomy.ts: Console debugging allowed
 ✓ Domain-specific rules applied successfully
-        `));
+        `),
+        );
 
         const result = mockExecSync('yarn lint:domain-astro --validate-rules');
         const output = result.toString();
@@ -101,12 +103,14 @@ describe('Domain Validation Tests - Task 12', () => {
 
       test('Campaign system files have enterprise pattern allowances', () => {
         // Mock ESLint validation for campaign files
-        mockExecSync.mockReturnValue(Buffer.from(`
+        mockExecSync.mockReturnValue(
+          Buffer.from(`
 ✓ src/services/campaign/: Enterprise patterns allowed
 ✓ Extensive logging permitted
 ✓ Campaign variable patterns preserved
 ✓ Intelligence system exports validated
-        `));
+        `),
+        );
 
         const result = mockExecSync('yarn lint:domain-campaign --validate-rules');
         const output = result.toString();
@@ -124,12 +128,12 @@ describe('Domain Validation Tests - Task 12', () => {
           { name: '360', context: 'degrees in circle' },
           { name: '30', context: 'degrees per zodiac sign' },
           { name: '12', context: 'zodiac signs' },
-          { name: '24', context: 'hours in day' }
+          { name: '24', context: 'hours in day' },
         ];
 
         mathematicalConstants.forEach(constant => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Mathematical constant ${constant.name} preserved in ${constant.context}`)
+            Buffer.from(`✓ Mathematical constant ${constant.name} preserved in ${constant.context}`),
           );
 
           const result = mockExecSync(`validate-constant ${constant.name}`);
@@ -148,12 +152,14 @@ describe('Domain Validation Tests - Task 12', () => {
           { planet: 'mars', sign: 'cancer', period: '2024-07-01 to 2024-08-15', valid: true },
           { planet: 'venus', sign: 'pisces', period: '2024-03-01 to 2024-04-30', valid: true },
           { planet: 'mercury', sign: 'aries', period: '2024-03-15 to 2024-04-05', valid: true },
-          { planet: 'jupiter', sign: 'gemini', period: '2024-05-25 to 2025-06-09', valid: true }
+          { planet: 'jupiter', sign: 'gemini', period: '2024-05-25 to 2025-06-09', valid: true },
         ];
 
         transitValidations.forEach(transit => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${transit.planet} in ${transit.sign} (${transit.period}): ${transit.valid ? 'VALID' : 'INVALID'}`)
+            Buffer.from(
+              `✓ ${transit.planet} in ${transit.sign} (${transit.period}): ${transit.valid ? 'VALID' : 'INVALID'}`,
+            ),
           );
 
           const result = mockExecSync(`validate-transit ${transit.planet} ${transit.sign}`);
@@ -168,13 +174,11 @@ describe('Domain Validation Tests - Task 12', () => {
           { scenario: 'API timeout', fallback: 'cached positions' },
           { scenario: 'API error', fallback: 'March 2025 positions' },
           { scenario: 'Invalid data', fallback: 'validated positions' },
-          { scenario: 'Network failure', fallback: 'local ephemeris' }
+          { scenario: 'Network failure', fallback: 'local ephemeris' },
         ];
 
         fallbackScenarios.forEach(scenario => {
-          mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${scenario.scenario} → ${scenario.fallback} activated`)
-          );
+          mockExecSync.mockReturnValue(Buffer.from(`✓ ${scenario.scenario} → ${scenario.fallback} activated`));
 
           const result = mockExecSync(`test-fallback ${scenario.scenario}`);
           expect(result.toString()).toContain(`${scenario.fallback} activated`);
@@ -189,12 +193,12 @@ describe('Domain Validation Tests - Task 12', () => {
           { planet: 'venus', retrograde: true, modifier: 0.8 },
           { planet: 'mars', retrograde: true, modifier: 1.2 },
           { planet: 'jupiter', retrograde: false, modifier: 1.0 },
-          { planet: 'saturn', retrograde: true, modifier: 1.1 }
+          { planet: 'saturn', retrograde: true, modifier: 1.1 },
         ];
 
         retrogradeTests.forEach(test => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${test.planet} retrograde=${test.retrograde} modifier=${test.modifier}`)
+            Buffer.from(`✓ ${test.planet} retrograde=${test.retrograde} modifier=${test.modifier}`),
           );
 
           const result = mockExecSync(`test-retrograde ${test.planet} ${test.retrograde}`);
@@ -211,14 +215,16 @@ describe('Domain Validation Tests - Task 12', () => {
           { planet: 'sun', expectedDegree: 8.5, actualDegree: 8.52, tolerance: 0.1 },
           { planet: 'moon', expectedDegree: 1.57, actualDegree: 1.59, tolerance: 0.1 },
           { planet: 'mercury', expectedDegree: 0.85, actualDegree: 0.84, tolerance: 0.1 },
-          { planet: 'venus', expectedDegree: 29.08, actualDegree: 29.07, tolerance: 0.1 }
+          { planet: 'venus', expectedDegree: 29.08, actualDegree: 29.07, tolerance: 0.1 },
         ];
 
         accuracyTests.forEach(test => {
           const difference = Math.abs(test.actualDegree - test.expectedDegree);
-          
+
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${test.planet}: expected=${test.expectedDegree}°, actual=${test.actualDegree}°, diff=${difference.toFixed(3)}°`)
+            Buffer.from(
+              `✓ ${test.planet}: expected=${test.expectedDegree}°, actual=${test.actualDegree}°, diff=${difference.toFixed(3)}°`,
+            ),
           );
 
           const result = mockExecSync(`test-accuracy ${test.planet}`);
@@ -234,14 +240,14 @@ describe('Domain Validation Tests - Task 12', () => {
           { calculation: 'planetary-positions', maxTime: 2000 },
           { calculation: 'elemental-compatibility', maxTime: 1000 },
           { calculation: 'transit-validation', maxTime: 1500 },
-          { calculation: 'retrograde-adjustment', maxTime: 500 }
+          { calculation: 'retrograde-adjustment', maxTime: 500 },
         ];
 
         performanceTests.forEach(test => {
           const actualTime = Math.random() * test.maxTime * 0.8; // Simulate good performance
-          
+
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${test.calculation}: completed in ${actualTime.toFixed(0)}ms (limit: ${test.maxTime}ms)`)
+            Buffer.from(`✓ ${test.calculation}: completed in ${actualTime.toFixed(0)}ms (limit: ${test.maxTime}ms)`),
           );
 
           const result = mockExecSync(`test-performance ${test.calculation}`);
@@ -257,12 +263,12 @@ describe('Domain Validation Tests - Task 12', () => {
           { error: 'invalid-date', handling: 'fallback-to-current' },
           { error: 'out-of-range', handling: 'clamp-to-bounds' },
           { error: 'api-failure', handling: 'use-cached-data' },
-          { error: 'calculation-error', handling: 'return-safe-default' }
+          { error: 'calculation-error', handling: 'return-safe-default' },
         ];
 
         errorScenarios.forEach(scenario => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Error ${scenario.error} → ${scenario.handling} → calculation integrity preserved`)
+            Buffer.from(`✓ Error ${scenario.error} → ${scenario.handling} → calculation integrity preserved`),
           );
 
           const result = mockExecSync(`test-error-handling ${scenario.error}`);
@@ -278,12 +284,14 @@ describe('Domain Validation Tests - Task 12', () => {
     describe('3.1 Astrological Logic Preservation', () => {
       test('Campaign system preserves elemental calculations', () => {
         // Mock campaign system validation
-        mockExecSync.mockReturnValue(Buffer.from(`
+        mockExecSync.mockReturnValue(
+          Buffer.from(`
 ✓ Elemental compatibility calculations preserved
 ✓ Self-reinforcement principle maintained
 ✓ Mathematical constants protected
 ✓ Astrological variable patterns preserved
-        `));
+        `),
+        );
 
         const result = mockExecSync('validate-campaign-elemental-preservation');
         const output = result.toString();
@@ -299,13 +307,11 @@ describe('Domain Validation Tests - Task 12', () => {
           { system: 'error-pattern-recognition', domain: 'astrological-calculations' },
           { system: 'progress-intelligence', domain: 'elemental-compatibility' },
           { system: 'readiness-assessment', domain: 'planetary-positions' },
-          { system: 'integration-metrics', domain: 'transit-validation' }
+          { system: 'integration-metrics', domain: 'transit-validation' },
         ];
 
         intelligenceTests.forEach(test => {
-          mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${test.system} respects ${test.domain} domain rules`)
-          );
+          mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.system} respects ${test.domain} domain rules`));
 
           const result = mockExecSync(`test-intelligence ${test.system} ${test.domain}`);
           expect(result.toString()).toContain('respects');
@@ -320,13 +326,11 @@ describe('Domain Validation Tests - Task 12', () => {
           { protocol: 'corruption-detection', impact: 'preserves-calculations' },
           { protocol: 'rollback-mechanism', impact: 'maintains-accuracy' },
           { protocol: 'validation-framework', impact: 'ensures-integrity' },
-          { protocol: 'emergency-recovery', impact: 'protects-data' }
+          { protocol: 'emergency-recovery', impact: 'protects-data' },
         ];
 
         safetyTests.forEach(test => {
-          mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${test.protocol} → ${test.impact}`)
-          );
+          mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.protocol} → ${test.impact}`));
 
           const result = mockExecSync(`test-safety ${test.protocol}`);
           expect(result.toString()).toContain(test.impact);
@@ -343,12 +347,14 @@ describe('Domain Validation Tests - Task 12', () => {
           { pattern: '_position', context: 'position calculations', preserved: true },
           { pattern: '_degree', context: 'degree calculations', preserved: true },
           { pattern: '_sign', context: 'zodiac sign data', preserved: true },
-          { pattern: '_element', context: 'elemental properties', preserved: true }
+          { pattern: '_element', context: 'elemental properties', preserved: true },
         ];
 
         variablePatterns.forEach(pattern => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Variable pattern ${pattern.pattern} in ${pattern.context}: ${pattern.preserved ? 'PRESERVED' : 'MODIFIED'}`)
+            Buffer.from(
+              `✓ Variable pattern ${pattern.pattern} in ${pattern.context}: ${pattern.preserved ? 'PRESERVED' : 'MODIFIED'}`,
+            ),
           );
 
           const result = mockExecSync(`test-variable-pattern ${pattern.pattern}`);
@@ -364,12 +370,14 @@ describe('Domain Validation Tests - Task 12', () => {
           { pattern: '_metrics', context: 'metrics collection', preserved: true },
           { pattern: '_progress', context: 'progress tracking', preserved: true },
           { pattern: '_intelligence', context: 'intelligence systems', preserved: true },
-          { pattern: '_enterprise', context: 'enterprise patterns', preserved: true }
+          { pattern: '_enterprise', context: 'enterprise patterns', preserved: true },
         ];
 
         campaignPatterns.forEach(pattern => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Campaign pattern ${pattern.pattern} in ${pattern.context}: ${pattern.preserved ? 'PRESERVED' : 'MODIFIED'}`)
+            Buffer.from(
+              `✓ Campaign pattern ${pattern.pattern} in ${pattern.context}: ${pattern.preserved ? 'PRESERVED' : 'MODIFIED'}`,
+            ),
           );
 
           const result = mockExecSync(`test-campaign-pattern ${pattern.pattern}`);
@@ -389,13 +397,11 @@ describe('Domain Validation Tests - Task 12', () => {
           { requirement: 'allow-console-debugging-in-calculations', status: 'enforced' },
           { requirement: 'preserve-fallback-values', status: 'enforced' },
           { requirement: 'maintain-elemental-compatibility', status: 'enforced' },
-          { requirement: 'protect-planetary-data-structures', status: 'enforced' }
+          { requirement: 'protect-planetary-data-structures', status: 'enforced' },
         ];
 
         domainRequirements.forEach(req => {
-          mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`)
-          );
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`));
 
           const result = mockExecSync(`test-domain-requirement ${req.requirement}`);
           expect(result.toString()).toContain(req.status);
@@ -409,12 +415,12 @@ describe('Domain Validation Tests - Task 12', () => {
           { rule: 'astrological-constant-preservation', files: 'calculations/**', working: true },
           { rule: 'planetary-variable-protection', files: 'data/planets/**', working: true },
           { rule: 'elemental-compatibility-validation', files: 'utils/elemental/**', working: true },
-          { rule: 'campaign-pattern-preservation', files: 'services/campaign/**', working: true }
+          { rule: 'campaign-pattern-preservation', files: 'services/campaign/**', working: true },
         ];
 
         customRules.forEach(rule => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Custom rule ${rule.rule} for ${rule.files}: ${rule.working ? 'WORKING' : 'FAILED'}`)
+            Buffer.from(`✓ Custom rule ${rule.rule} for ${rule.files}: ${rule.working ? 'WORKING' : 'FAILED'}`),
           );
 
           const result = mockExecSync(`test-custom-rule ${rule.rule}`);
@@ -431,12 +437,14 @@ describe('Domain Validation Tests - Task 12', () => {
           { file: 'src/calculations/culinary/alchemicalEngine.ts', rule: 'no-magic-numbers', granted: true },
           { file: 'src/utils/reliableAstronomy.ts', rule: 'no-console', granted: true },
           { file: 'src/data/planets/mars.ts', rule: 'prefer-const', granted: true },
-          { file: 'src/services/campaign/CampaignController.ts', rule: 'max-lines', granted: true }
+          { file: 'src/services/campaign/CampaignController.ts', rule: 'max-lines', granted: true },
         ];
 
         exceptions.forEach(exception => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Exception for ${exception.rule} in ${exception.file}: ${exception.granted ? 'GRANTED' : 'DENIED'}`)
+            Buffer.from(
+              `✓ Exception for ${exception.rule} in ${exception.file}: ${exception.granted ? 'GRANTED' : 'DENIED'}`,
+            ),
           );
 
           const result = mockExecSync(`test-rule-exception ${exception.file} ${exception.rule}`);
@@ -458,7 +466,7 @@ describe('Domain Validation Tests - Task 12', () => {
         variablePatternPreservation: 'PASSED',
         mathematicalConstantProtection: 'PASSED',
         fallbackMechanisms: 'PASSED',
-        performanceRequirements: 'PASSED'
+        performanceRequirements: 'PASSED',
       };
 
       mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(domainValidation)));
@@ -474,7 +482,7 @@ describe('Domain Validation Tests - Task 12', () => {
 
     test('Domain integrity is maintained across all systems', () => {
       mockExecSync.mockReturnValue(
-        Buffer.from('✓ Domain integrity validation complete - All systems maintain astrological calculation accuracy')
+        Buffer.from('✓ Domain integrity validation complete - All systems maintain astrological calculation accuracy'),
       );
 
       const result = mockExecSync('validate-domain-integrity');

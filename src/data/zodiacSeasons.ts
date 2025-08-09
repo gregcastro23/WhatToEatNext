@@ -6,7 +6,7 @@ interface ZodiacSeasonData {
   element: Element;
   startMonth: number; // 1-based month (1 = January)
   startDay: number;
-  endMonth: number; 
+  endMonth: number;
   endDay: number;
   ruling_planet: string;
   polarity: 'positive' | 'negative';
@@ -23,7 +23,7 @@ interface ZodiacSeasonData {
 
 // Define the zodiac seasons with their properties
 export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
-  'aries': {
+  aries: {
     name: 'aries',
     element: 'Fire',
     startMonth: 3,
@@ -38,10 +38,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['grilling', 'broiling', 'searing'],
       foodGroups: ['proteins', 'red meats', 'red vegetables'],
       herbs: ['cayenne', 'chili', 'pepper'],
-      spices: ['paprika', 'hot pepper', 'cumin']
-    }
+      spices: ['paprika', 'hot pepper', 'cumin'],
+    },
   },
-  'taurus': {
+  taurus: {
     name: 'taurus',
     element: 'Earth',
     startMonth: 4,
@@ -56,10 +56,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['slow-cooking', 'baking', 'roasting'],
       foodGroups: ['root vegetables', 'dairy', 'grains'],
       herbs: ['thyme', 'rosemary', 'sage'],
-      spices: ['nutmeg', 'cinnamon', 'vanilla']
-    }
+      spices: ['nutmeg', 'cinnamon', 'vanilla'],
+    },
   },
-  'gemini': {
+  gemini: {
     name: 'gemini',
     element: 'Air',
     startMonth: 5,
@@ -74,10 +74,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['stir-frying', 'fusion cooking', 'layering flavors'],
       foodGroups: ['leafy greens', 'berries', 'diverse ingredients'],
       herbs: ['mint', 'dill', 'parsley'],
-      spices: ['ginger', 'lemongrass', 'cardamom']
-    }
+      spices: ['ginger', 'lemongrass', 'cardamom'],
+    },
   },
-  'cancer': {
+  cancer: {
     name: 'cancer',
     element: 'Water',
     startMonth: 6,
@@ -92,10 +92,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['steaming', 'poaching', 'braising'],
       foodGroups: ['seafood', 'dairy', 'squash'],
       herbs: ['basil', 'tarragon', 'dill'],
-      spices: ['saffron', 'turmeric', 'clove']
-    }
+      spices: ['saffron', 'turmeric', 'clove'],
+    },
   },
-  'leo': {
+  leo: {
     name: 'leo',
     element: 'Fire',
     startMonth: 7,
@@ -110,10 +110,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['open-flame cooking', 'caramelizing', 'roasting'],
       foodGroups: ['yellow/orange fruits', 'hearty proteins', 'golden foods'],
       herbs: ['bay leaf', 'oregano', 'saffron'],
-      spices: ['turmeric', 'curry', 'cinnamon']
-    }
+      spices: ['turmeric', 'curry', 'cinnamon'],
+    },
   },
-  'virgo': {
+  virgo: {
     name: 'virgo',
     element: 'Earth',
     startMonth: 8,
@@ -128,10 +128,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['fermentation', 'precision cooking', 'meal prep'],
       foodGroups: ['whole grains', 'vegetables', 'legumes'],
       herbs: ['cilantro', 'fennel', 'marjoram'],
-      spices: ['cumin', 'coriander', 'caraway']
-    }
+      spices: ['cumin', 'coriander', 'caraway'],
+    },
   },
-  'libra': {
+  libra: {
     name: 'libra',
     element: 'Air',
     startMonth: 9,
@@ -146,10 +146,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['plating', 'pairing', 'mixing'],
       foodGroups: ['white/pastel foods', 'artisan ingredients', 'balanced meals'],
       herbs: ['lavender', 'lemon balm', 'mint'],
-      spices: ['rose', 'star anise', 'allspice']
-    }
+      spices: ['rose', 'star anise', 'allspice'],
+    },
   },
-  'scorpio': {
+  scorpio: {
     name: 'scorpio',
     element: 'Water',
     startMonth: 10,
@@ -164,10 +164,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['fermenting', 'slow-cooking', 'smoking'],
       foodGroups: ['dark foods', 'mollusks', 'nightshades'],
       herbs: ['nettle', 'basil', 'black cumin'],
-      spices: ['black pepper', 'fenugreek', 'star anise']
-    }
+      spices: ['black pepper', 'fenugreek', 'star anise'],
+    },
   },
-  'sagittarius': {
+  sagittarius: {
     name: 'sagittarius',
     element: 'Fire',
     startMonth: 11,
@@ -182,10 +182,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['international cooking', 'fusion', 'experimental'],
       foodGroups: ['wild game', 'tropical fruits', 'international cuisine'],
       herbs: ['sage', 'lemongrass', 'cilantro'],
-      spices: ['saffron', 'cardamom', 'exotic blends']
-    }
+      spices: ['saffron', 'cardamom', 'exotic blends'],
+    },
   },
-  'capricorn': {
+  capricorn: {
     name: 'capricorn',
     element: 'Earth',
     startMonth: 12,
@@ -200,10 +200,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['aging', 'preservation', 'traditional methods'],
       foodGroups: ['root vegetables', 'aged cheeses', 'preserved foods'],
       herbs: ['rosemary', 'thyme', 'winter herbs'],
-      spices: ['allspice', 'cloves', 'black pepper']
-    }
+      spices: ['allspice', 'cloves', 'black pepper'],
+    },
   },
-  'aquarius': {
+  aquarius: {
     name: 'aquarius',
     element: 'Air',
     startMonth: 1,
@@ -218,10 +218,10 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['molecular gastronomy', 'avant-garde', 'unexpected pairings'],
       foodGroups: ['unusual vegetables', 'meat alternatives', 'fusion ingredients'],
       herbs: ['lemon verbena', 'sorrel', 'uncommon herbs'],
-      spices: ['szechuan pepper', 'sumac', 'unusual spice blends']
-    }
+      spices: ['szechuan pepper', 'sumac', 'unusual spice blends'],
+    },
   },
-  'pisces': {
+  pisces: {
     name: 'pisces',
     element: 'Water',
     startMonth: 2,
@@ -236,9 +236,9 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       enhancedTechniques: ['infusing', 'poaching', 'gentle cooking'],
       foodGroups: ['seafood', 'white fish', 'oceanic ingredients'],
       herbs: ['dill', 'fennel', 'tarragon'],
-      spices: ['white pepper', 'anise', 'saffron']
-    }
-  }
+      spices: ['white pepper', 'anise', 'saffron'],
+    },
+  },
 };
 
 /**
@@ -249,7 +249,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
 export function getZodiacSignForDate(date: Date): ZodiacSign {
   const month = date.getMonth() + 1; // JavaScript months are 0-indexed
   const day = date.getDate();
-  
+
   // Check each zodiac sign's date range
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
     return 'aries';
@@ -302,4 +302,4 @@ export function getElementForZodiacSign(sign: ZodiacSign): Element {
  */
 export function getRulingPlanetForZodiacSign(sign: ZodiacSign): string {
   return zodiacSeasons[sign].ruling_planet;
-} 
+}

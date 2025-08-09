@@ -32,7 +32,7 @@ export const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
   sagittarius: 'Fire',
   capricorn: 'Earth',
   aquarius: 'Air',
-  pisces: 'Water'
+  pisces: 'Water',
 };
 
 // Export zodiac elements directly for easier imports
@@ -42,42 +42,42 @@ export const ZODIAC_ELEMENTS = zodiacElementMap;
  * Planetary rulerships - which planets rule which signs
  */
 export const PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
-  'sun': ['leo'],
-  'moon': ['cancer'],
-  'mercury': ['gemini', 'virgo'],
-  'venus': ['taurus', 'libra'],
-  'mars': ['aries', 'scorpio'],
-  'jupiter': ['sagittarius', 'pisces'],
-  'saturn': ['capricorn', 'aquarius'],
-  'uranus': ['aquarius'], // Modern rulership
-  'neptune': ['pisces'],  // Modern rulership
-  'pluto': ['scorpio']    // Modern rulership
+  sun: ['leo'],
+  moon: ['cancer'],
+  mercury: ['gemini', 'virgo'],
+  venus: ['taurus', 'libra'],
+  mars: ['aries', 'scorpio'],
+  jupiter: ['sagittarius', 'pisces'],
+  saturn: ['capricorn', 'aquarius'],
+  uranus: ['aquarius'], // Modern rulership
+  neptune: ['pisces'], // Modern rulership
+  pluto: ['scorpio'], // Modern rulership
 };
 
 /**
  * Planetary exaltations - where planets have extra strength
  */
 export const PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
-  'sun': 'aries',
-  'moon': 'taurus',
-  'mercury': 'virgo',
-  'venus': 'pisces',
-  'mars': 'capricorn',
-  'jupiter': 'cancer',
-  'saturn': 'libra',
-  'uranus': 'scorpio',   // Modern assignment
-  'neptune': 'cancer',   // Modern assignment
-  'pluto': 'leo'         // Modern assignment
+  sun: 'aries',
+  moon: 'taurus',
+  mercury: 'virgo',
+  venus: 'pisces',
+  mars: 'capricorn',
+  jupiter: 'cancer',
+  saturn: 'libra',
+  uranus: 'scorpio', // Modern assignment
+  neptune: 'cancer', // Modern assignment
+  pluto: 'leo', // Modern assignment
 };
 
 /**
  * Triplicity rulers - planets that rule elements
  */
 export const TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
-  'Fire': ['sun', 'jupiter', 'mars'],
-  'Earth': ['venus', 'saturn', 'mercury'],
-  'Air': ['saturn', 'mercury', 'jupiter'],
-  'Water': ['venus', 'mars', 'moon']
+  Fire: ['sun', 'jupiter', 'mars'],
+  Earth: ['venus', 'saturn', 'mercury'],
+  Air: ['saturn', 'mercury', 'jupiter'],
+  Water: ['venus', 'mars', 'moon'],
 };
 
 /**
@@ -94,4 +94,4 @@ export const getZodiacSignsByElement = (element: ElementalCharacter): ZodiacSign
   return Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element)
     .map(([sign, _]) => sign as ZodiacSign);
-}; 
+};

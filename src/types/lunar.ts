@@ -4,34 +4,34 @@
  */
 
 // Basic lunar phase types with different formats
-export type LunarPhase = 
-  | 'NEW_MOON' 
-  | 'WAXING_CRESCENT' 
-  | 'FIRST_QUARTER' 
-  | 'WAXING_GIBBOUS' 
-  | 'FULL_MOON' 
-  | 'WANING_GIBBOUS' 
-  | 'LAST_QUARTER' 
+export type LunarPhase =
+  | 'NEW_MOON'
+  | 'WAXING_CRESCENT'
+  | 'FIRST_QUARTER'
+  | 'WAXING_GIBBOUS'
+  | 'FULL_MOON'
+  | 'WANING_GIBBOUS'
+  | 'LAST_QUARTER'
   | 'WANING_CRESCENT';
 
-export type LunarPhaseWithSpaces = 
-  | 'New Moon' 
-  | 'Waxing Crescent' 
-  | 'First Quarter' 
-  | 'Waxing Gibbous' 
-  | 'Full Moon' 
-  | 'Waning Gibbous' 
-  | 'Last Quarter' 
+export type LunarPhaseWithSpaces =
+  | 'New Moon'
+  | 'Waxing Crescent'
+  | 'First Quarter'
+  | 'Waxing Gibbous'
+  | 'Full Moon'
+  | 'Waning Gibbous'
+  | 'Last Quarter'
   | 'Waning Crescent';
 
-export type LunarPhaseWithUnderscores = 
-  | 'new_moon' 
-  | 'waxing_crescent' 
-  | 'first_quarter' 
-  | 'waxing_gibbous' 
-  | 'full_moon' 
-  | 'waning_gibbous' 
-  | 'last_quarter' 
+export type LunarPhaseWithUnderscores =
+  | 'new_moon'
+  | 'waxing_crescent'
+  | 'first_quarter'
+  | 'waxing_gibbous'
+  | 'full_moon'
+  | 'waning_gibbous'
+  | 'last_quarter'
   | 'waning_crescent';
 
 // Interface for lunar phase modifier
@@ -66,26 +66,26 @@ export type LunarPhaseMap = Record<LunarPhase, LunarPhaseModifier>;
 
 // Mapping between different lunar phase formats
 export const LUNAR_PHASE_MAP: Record<LunarPhaseWithUnderscores, LunarPhase> = {
-  'new_moon': 'NEW_MOON',
-  'waxing_crescent': 'WAXING_CRESCENT',
-  'first_quarter': 'FIRST_QUARTER',
-  'waxing_gibbous': 'WAXING_GIBBOUS',
-  'full_moon': 'FULL_MOON',
-  'waning_gibbous': 'WANING_GIBBOUS',
-  'last_quarter': 'LAST_QUARTER',
-  'waning_crescent': 'WANING_CRESCENT'
+  new_moon: 'NEW_MOON',
+  waxing_crescent: 'WAXING_CRESCENT',
+  first_quarter: 'FIRST_QUARTER',
+  waxing_gibbous: 'WAXING_GIBBOUS',
+  full_moon: 'FULL_MOON',
+  waning_gibbous: 'WANING_GIBBOUS',
+  last_quarter: 'LAST_QUARTER',
+  waning_crescent: 'WANING_CRESCENT',
 };
 
 // Mapping from LunarPhase to LunarPhaseWithSpaces
 export const LUNAR_PHASE_TO_DISPLAY: Record<LunarPhase, LunarPhaseWithSpaces> = {
-  'NEW_MOON': 'New Moon',
-  'WAXING_CRESCENT': 'Waxing Crescent',
-  'FIRST_QUARTER': 'First Quarter',
-  'WAXING_GIBBOUS': 'Waxing Gibbous',
-  'FULL_MOON': 'Full Moon',
-  'WANING_GIBBOUS': 'Waning Gibbous',
-  'LAST_QUARTER': 'Last Quarter',
-  'WANING_CRESCENT': 'Waning Crescent'
+  NEW_MOON: 'New Moon',
+  WAXING_CRESCENT: 'Waxing Crescent',
+  FIRST_QUARTER: 'First Quarter',
+  WAXING_GIBBOUS: 'Waxing Gibbous',
+  FULL_MOON: 'Full Moon',
+  WANING_GIBBOUS: 'Waning Gibbous',
+  LAST_QUARTER: 'Last Quarter',
+  WANING_CRESCENT: 'Waning Crescent',
 };
 
 // Reverse mapping from LunarPhaseWithSpaces to LunarPhase
@@ -97,7 +97,7 @@ export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhas
   'Full Moon': 'FULL_MOON',
   'Waning Gibbous': 'WANING_GIBBOUS',
   'Last Quarter': 'LAST_QUARTER',
-  'Waning Crescent': 'WANING_CRESCENT'
+  'Waning Crescent': 'WANING_CRESCENT',
 };
 
 // Array of all lunar phases
@@ -109,5 +109,5 @@ export const LUNAR_PHASES: LunarPhase[] = [
   'FULL_MOON',
   'WANING_GIBBOUS',
   'LAST_QUARTER',
-  'WANING_CRESCENT'
-]; 
+  'WANING_CRESCENT',
+];

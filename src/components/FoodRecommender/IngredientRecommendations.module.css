@@ -23,7 +23,9 @@
   background-color: rgba(255, 255, 255, 0.08);
   border-radius: 0.5rem;
   padding: 1rem;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 }
 
 .item:hover {
@@ -52,4 +54,4 @@
   padding: 2rem;
   color: #a0a0a0;
   font-size: 1.125rem;
-} 
+}

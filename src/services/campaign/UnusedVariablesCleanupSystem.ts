@@ -1,9 +1,9 @@
 /**
  * UnusedVariablesCleanupSystem.ts
- * 
+ *
  * Phase 2.2 Implementation - Unused Variables Cleanup System
  * Integration for scripts/typescript-fixes/fix-unused-variables-enhanced.js
- * 
+ *
  * Features:
  * - Batch processing with --max-files=20 --auto-fix parameters
  * - Validation system to ensure no functional code removal
@@ -54,9 +54,12 @@ export class UnusedVariablesCleanupSystem {
   private config: UnusedVariablesConfig;
 
   constructor(config: Partial<UnusedVariablesConfig> = {}) {
-    this.scriptPath = path.join(process.cwd(), 'scripts/typescript-fixes/fix-unused-variables-enhanced.js');
+    this.scriptPath = path.join(
+      process.cwd(),
+      'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
+    );
     this.metricsFile = path.join(process.cwd(), '.unused-variables-cleanup-metrics.json');
-    
+
     this.config = {
       maxFiles: 20,
       autoFix: false,
@@ -65,7 +68,7 @@ export class UnusedVariablesCleanupSystem {
       enableGitStash: true,
       buildValidation: true,
       batchSize: 15,
-      ...config
+      ...config,
     };
   }
 
@@ -74,11 +77,11 @@ export class UnusedVariablesCleanupSystem {
    */
   async executeCleanup(): Promise<UnusedVariablesResult> {
     console.log('🧹 Starting Unused Variables Cleanup System...');
-    
+
     try {
       // Pre-execution validation
       await this.validatePreConditions();
-      
+
       // Create safety checkpoint if enabled
       let stashId: string | null = null;
       if (this.config.enableGitStash) {
@@ -87,14 +90,14 @@ export class UnusedVariablesCleanupSystem {
 
       // Execute the cleanup
       const result = await this.executeScript();
-      
+
       // Post-execution validation
       if (this.config.buildValidation && result.success) {
         const buildValid = await this.validateBuild();
         if (!buildValid) {
           result.success = false;
           result.errors.push('Build validation failed after cleanup');
-          
+
           // Rollback if build fails
           if (stashId) {
             await this.rollbackFromStash(stashId);
@@ -104,9 +107,8 @@ export class UnusedVariablesCleanupSystem {
 
       // Save metrics
       await this.saveMetrics(result);
-      
-      return result;
 
+      return result;
     } catch (error) {
       console.error('❌ Unused variables cleanup failed:', error);
       throw error;
@@ -118,7 +120,7 @@ export class UnusedVariablesCleanupSystem {
    */
   async executeBatchProcessing(totalFiles?: number): Promise<BatchProcessingResult> {
     console.log('⚡ Starting batch processing for unused variables cleanup...');
-    
+
     const batchResult: BatchProcessingResult = {
       totalBatches: 0,
       successfulBatches: 0,
@@ -127,16 +129,18 @@ export class UnusedVariablesCleanupSystem {
       totalVariablesProcessed: 0,
       averageBuildTime: 0,
       overallSafetyScore: 0,
-      errors: []
+      errors: [],
     };
 
     try {
       // Determine number of batches
-      const estimatedFiles = totalFiles || await this.estimateFilesWithUnusedVariables();
+      const estimatedFiles = totalFiles || (await this.estimateFilesWithUnusedVariables());
       const batchCount = Math.ceil(estimatedFiles / this.config.batchSize);
       batchResult.totalBatches = batchCount;
 
-      console.log(`📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`);
+      console.log(
+        `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
+      );
 
       const buildTimes: number[] = [];
       const safetyScores: number[] = [];
@@ -144,20 +148,21 @@ export class UnusedVariablesCleanupSystem {
       // Process each batch
       for (let i = 0; i < batchCount; i++) {
         console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
-        
+
         try {
           const batchConfig = {
             ...this.config,
-            maxFiles: this.config.batchSize
+            maxFiles: this.config.batchSize,
           };
-          
+
           const batchSystem = new UnusedVariablesCleanupSystem(batchConfig);
           const result = await batchSystem.executeCleanup();
-          
+
           if (result.success) {
             batchResult.successfulBatches++;
             batchResult.totalFilesProcessed += result.filesProcessed;
-            batchResult.totalVariablesProcessed += result.variablesRemoved + result.variablesPrefixed;
+            batchResult.totalVariablesProcessed +=
+              result.variablesRemoved + result.variablesPrefixed;
             buildTimes.push(result.buildTime);
             safetyScores.push(result.safetyScore);
           } else {
@@ -170,7 +175,6 @@ export class UnusedVariablesCleanupSystem {
             console.log('⏸️ Pausing 2 seconds between batches for safety...');
             await this.sleep(2000);
           }
-
         } catch (error) {
           batchResult.failedBatches++;
           batchResult.errors.push(`Batch ${i + 1} error: ${error}`);
@@ -182,15 +186,17 @@ export class UnusedVariablesCleanupSystem {
       if (buildTimes.length > 0) {
         batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length;
       }
-      
+
       if (safetyScores.length > 0) {
-        batchResult.overallSafetyScore = safetyScores.reduce((a, b) => a + b, 0) / safetyScores.length;
+        batchResult.overallSafetyScore =
+          safetyScores.reduce((a, b) => a + b, 0) / safetyScores.length;
       }
 
-      console.log(`\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`);
-      
-      return batchResult;
+      console.log(
+        `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
+      );
 
+      return batchResult;
     } catch (error) {
       console.error('❌ Batch processing failed:', error);
       throw error;
@@ -211,7 +217,9 @@ export class UnusedVariablesCleanupSystem {
       try {
         const gitStatus = execSync('git status --porcelain', { encoding: 'utf-8' });
         if (gitStatus.trim() && !this.config.autoFix) {
-          console.warn('⚠️ Git working directory has uncommitted changes. Consider using --auto-fix or commit changes first.');
+          console.warn(
+            '⚠️ Git working directory has uncommitted changes. Consider using --auto-fix or commit changes first.',
+          );
         }
       } catch (error) {
         console.warn('⚠️ Could not check git status:', error);
@@ -233,10 +241,10 @@ export class UnusedVariablesCleanupSystem {
     try {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const stashName = `unused-variables-cleanup-${timestamp}`;
-      
+
       execSync(`git stash push -m "${stashName}"`, { encoding: 'utf-8' });
       console.log(`📦 Created safety stash: ${stashName}`);
-      
+
       return stashName;
     } catch (error) {
       console.warn('⚠️ Could not create git stash:', error);
@@ -256,23 +264,23 @@ export class UnusedVariablesCleanupSystem {
       buildTime: 0,
       errors: [],
       warnings: [],
-      safetyScore: 0
+      safetyScore: 0,
     };
 
     try {
       // Build command arguments
       const args: string[] = [];
-      
+
       if (this.config.dryRun) {
         args.push('--dry-run');
       } else if (this.config.autoFix) {
         args.push('--auto-fix');
       }
-      
+
       if (this.config.maxFiles) {
         args.push(`--max-files=${this.config.maxFiles}`);
       }
-      
+
       if (this.config.validateSafety) {
         args.push('--validate-safety');
       }
@@ -281,16 +289,16 @@ export class UnusedVariablesCleanupSystem {
       console.log(`🔧 Executing: ${command}`);
 
       const startTime = Date.now();
-      const output = execSync(command, { 
+      const output = execSync(command, {
         encoding: 'utf-8',
-        maxBuffer: 1024 * 1024 * 10 // 10MB buffer
+        maxBuffer: 1024 * 1024 * 10, // 10MB buffer
       });
       const endTime = Date.now();
 
       // Parse output for metrics
       result.success = !output.includes('❌') && !output.includes('Error:');
       result.buildTime = endTime - startTime;
-      
+
       // Extract metrics from output
       const filesMatch = output.match(/(\d+)\s+files?\s+processed/i);
       if (filesMatch) {
@@ -324,9 +332,8 @@ export class UnusedVariablesCleanupSystem {
       }
 
       console.log(`✅ Script execution completed in ${result.buildTime}ms`);
-      
-      return result;
 
+      return result;
     } catch (error) {
       result.success = false;
       result.errors.push(`Script execution failed: ${error}`);
@@ -341,17 +348,16 @@ export class UnusedVariablesCleanupSystem {
   private async validateBuild(): Promise<boolean> {
     try {
       console.log('🔍 Validating build after cleanup...');
-      
+
       const startTime = Date.now();
-      execSync('yarn build', { 
+      execSync('yarn build', {
         encoding: 'utf-8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
       const buildTime = Date.now() - startTime;
-      
+
       console.log(`✅ Build validation successful (${buildTime}ms)`);
       return true;
-      
     } catch (error) {
       console.error('❌ Build validation failed:', error);
       return false;
@@ -381,7 +387,7 @@ export class UnusedVariablesCleanupSystem {
       const { LintingWarningAnalyzer } = await import('./LintingWarningAnalyzer.js');
       const analyzer = new LintingWarningAnalyzer();
       const result = await analyzer.analyzeLintingWarnings();
-      
+
       return result.distribution.unusedVariables.files.length;
     } catch (error) {
       console.warn('⚠️ Could not estimate files with unused variables, using default:', error);
@@ -403,8 +409,8 @@ export class UnusedVariablesCleanupSystem {
           filesProcessed: result.filesProcessed,
           totalVariablesProcessed: result.variablesRemoved + result.variablesPrefixed,
           buildTime: result.buildTime,
-          safetyScore: result.safetyScore
-        }
+          safetyScore: result.safetyScore,
+        },
       };
 
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2));
@@ -455,9 +461,10 @@ ${result.errors.length > 0 ? '### Errors\n' + result.errors.map(e => `- ${e}`).j
 ${result.warnings.length > 0 ? '### Warnings\n' + result.warnings.map(w => `- ${w}`).join('\n') : 'No warnings'}
 
 ## Next Steps
-${result.success ? 
-  '- ✅ Cleanup completed successfully\n- Consider running build validation\n- Review changes before committing' :
-  '- ❌ Cleanup failed\n- Review errors above\n- Consider running with --dry-run first\n- Check git stash for rollback if needed'
+${
+  result.success
+    ? '- ✅ Cleanup completed successfully\n- Consider running build validation\n- Review changes before committing'
+    : '- ❌ Cleanup failed\n- Review errors above\n- Consider running with --dry-run first\n- Check git stash for rollback if needed'
 }
 `;
   }
@@ -492,9 +499,10 @@ Generated: ${new Date().toISOString()}
 ${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No batch errors'}
 
 ## Recommendations
-${result.successfulBatches === result.totalBatches ? 
-  '- ✅ All batches completed successfully\n- Consider running final build validation\n- Review all changes before committing' :
-  '- ⚠️ Some batches failed\n- Review failed batch errors\n- Consider re-running failed batches with smaller batch size\n- Check git stashes for rollback if needed'
+${
+  result.successfulBatches === result.totalBatches
+    ? '- ✅ All batches completed successfully\n- Consider running final build validation\n- Review all changes before committing'
+    : '- ⚠️ Some batches failed\n- Review failed batch errors\n- Consider re-running failed batches with smaller batch size\n- Check git stashes for rollback if needed'
 }
 `;
   }

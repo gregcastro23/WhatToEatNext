@@ -20,9 +20,9 @@ class MockExportTransformationEngine {
       backupDirectory: '.test-transformation-backups',
       maxRetries: 3,
       dryRun: true,
-      ...config
+      ...config,
     };
-    
+
     this.transformationLog = [];
   }
 
@@ -34,33 +34,32 @@ class MockExportTransformationEngine {
       // Phase 1: Analysis
       console.log('📊 Phase 1: Analyzing unused exports...');
       const analysisResult = await this.performAnalysis();
-      
+
       // Phase 2: Batch Planning
       console.log('📋 Phase 2: Planning transformation batches...');
       const batches = await this.planTransformationBatches(analysisResult);
-      
+
       // Phase 3: Safety Preparation
       console.log('🛡️  Phase 3: Preparing safety protocols...');
       await this.prepareSafetyProtocols();
-      
+
       // Phase 4: Batch Execution
       console.log('⚡ Phase 4: Executing transformation batches...');
       const results = await this.executeBatches(batches);
-      
+
       // Phase 5: Final Validation
       console.log('✅ Phase 5: Final validation and cleanup...');
       await this.performFinalValidation();
-      
+
       const endTime = Date.now();
       const totalDuration = (endTime - startTime) / 1000;
-      
+
       const summary = this.generateTransformationSummary(results, totalDuration);
-      
+
       console.log('\n🎉 Export Transformation Campaign completed!');
       this.displaySummary(summary);
-      
+
       return summary;
-      
     } catch (error) {
       console.error('❌ Transformation campaign failed:', error);
       throw error;
@@ -70,7 +69,7 @@ class MockExportTransformationEngine {
   async performAnalysis() {
     // Simulate analysis
     await this.delay(500);
-    
+
     const mockAnalysisResult = {
       totalFiles: 50,
       totalUnusedExports: 150,
@@ -83,8 +82,8 @@ class MockExportTransformationEngine {
         externalFiles: 10,
         totalTransformationCandidates: 150,
         averageSafetyScore: 87.5,
-        estimatedIntelligenceSystems: 150
-      }
+        estimatedIntelligenceSystems: 150,
+      },
     };
 
     console.log(`✅ Analysis completed:`);
@@ -107,8 +106,8 @@ class MockExportTransformationEngine {
           {
             exportName: `export${i + 1}`,
             exportType: ['function', 'class', 'const', 'interface'][i % 4],
-            complexity: Math.floor(Math.random() * 20) + 1
-          }
+            complexity: Math.floor(Math.random() * 20) + 1,
+          },
         ],
         safetyScore: Math.floor(Math.random() * 20) + 80,
         transformationCandidates: [
@@ -116,15 +115,15 @@ class MockExportTransformationEngine {
             export: {
               exportName: `export${i + 1}`,
               exportType: ['function', 'class', 'const', 'interface'][i % 4],
-              complexity: Math.floor(Math.random() * 20) + 1
+              complexity: Math.floor(Math.random() * 20) + 1,
             },
             intelligenceSystemName: `EXPORT_${i + 1}_INTELLIGENCE_SYSTEM`,
             transformationComplexity: ['SIMPLE', 'MODERATE', 'COMPLEX', 'VERY_COMPLEX'][i % 4],
             safetyScore: Math.floor(Math.random() * 20) + 75,
-            estimatedBenefit: Math.floor(Math.random() * 30) + 70
-          }
+            estimatedBenefit: Math.floor(Math.random() * 30) + 70,
+          },
         ],
-        category: ['RECIPE', 'CORE', 'EXTERNAL'][i % 3]
+        category: ['RECIPE', 'CORE', 'EXTERNAL'][i % 3],
       });
     }
     return files;
@@ -132,25 +131,28 @@ class MockExportTransformationEngine {
 
   async planTransformationBatches(analysisResult) {
     await this.delay(200);
-    
+
     const batches = [];
     const allFiles = [
       ...analysisResult.highPriorityFiles,
       ...analysisResult.mediumPriorityFiles,
-      ...analysisResult.lowPriorityFiles
+      ...analysisResult.lowPriorityFiles,
     ];
 
     for (let i = 0; i < allFiles.length; i += this.config.batchSize) {
       const batchFiles = allFiles.slice(i, i + this.config.batchSize);
       const batchNumber = Math.floor(i / this.config.batchSize) + 1;
-      
+
       batches.push({
         id: `batch-${batchNumber}`,
         files: batchFiles,
         priority: batchFiles[0].priority,
         estimatedDuration: Math.floor(Math.random() * 10) + 5,
         safetyScore: Math.floor(Math.random() * 20) + 80,
-        transformationCandidates: batchFiles.reduce((sum, f) => sum + f.transformationCandidates.length, 0)
+        transformationCandidates: batchFiles.reduce(
+          (sum, f) => sum + f.transformationCandidates.length,
+          0,
+        ),
       });
     }
 
@@ -158,7 +160,7 @@ class MockExportTransformationEngine {
     const highPriorityBatches = batches.filter(b => b.priority === 'HIGH').length;
     const mediumPriorityBatches = batches.filter(b => b.priority === 'MEDIUM').length;
     const lowPriorityBatches = batches.filter(b => b.priority === 'LOW').length;
-    
+
     console.log(`   - High priority: ${highPriorityBatches} batches`);
     console.log(`   - Medium priority: ${mediumPriorityBatches} batches`);
     console.log(`   - Low priority: ${lowPriorityBatches} batches`);
@@ -174,7 +176,7 @@ class MockExportTransformationEngine {
 
   async executeBatches(batches) {
     const results = [];
-    
+
     for (let i = 0; i < batches.length; i++) {
       const batch = batches[i];
       console.log(`\n🔄 Processing batch ${i + 1}/${batches.length}: ${batch.id}`);
@@ -183,24 +185,24 @@ class MockExportTransformationEngine {
       console.log(`   Candidates: ${batch.transformationCandidates}`);
       console.log(`   Safety Score: ${batch.safetyScore}`);
       console.log(`   Estimated Duration: ${batch.estimatedDuration}s`);
-      
+
       const result = await this.executeBatch(batch);
       results.push(result);
-      
+
       // Progress update
       const progress = ((i + 1) / batches.length) * 100;
       console.log(`📊 Campaign progress: ${progress.toFixed(1)}%`);
     }
-    
+
     return results;
   }
 
   async executeBatch(batch) {
     const startTime = Date.now();
-    
+
     // Simulate batch processing
     await this.delay(batch.estimatedDuration * 100); // Scale down for testing
-    
+
     const result = {
       batchId: batch.id,
       success: Math.random() > 0.1, // 90% success rate
@@ -210,7 +212,7 @@ class MockExportTransformationEngine {
       warnings: [],
       duration: (Date.now() - startTime) / 1000,
       rollbackPerformed: false,
-      generationResults: []
+      generationResults: [],
     };
 
     if (!result.success) {
@@ -219,7 +221,7 @@ class MockExportTransformationEngine {
         message: 'Simulated generation failure',
         severity: 'HIGH',
         recoverable: true,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
       console.log(`❌ Batch ${batch.id} failed (simulated)`);
     } else {
@@ -243,8 +245,8 @@ class MockExportTransformationEngine {
     const totalSystemsGenerated = results.reduce((sum, r) => sum + r.systemsGenerated, 0);
     const totalErrors = results.reduce((sum, r) => sum + r.errors.length, 0);
     const totalWarnings = results.reduce((sum, r) => sum + r.warnings.length, 0);
-    const averageBatchDuration = results.length > 0 ? 
-      results.reduce((sum, r) => sum + r.duration, 0) / results.length : 0;
+    const averageBatchDuration =
+      results.length > 0 ? results.reduce((sum, r) => sum + r.duration, 0) / results.length : 0;
     const successRate = results.length > 0 ? (successfulBatches / results.length) * 100 : 0;
 
     return {
@@ -268,9 +270,9 @@ class MockExportTransformationEngine {
           function: Math.floor(totalSystemsGenerated * 0.4),
           class: Math.floor(totalSystemsGenerated * 0.3),
           const: Math.floor(totalSystemsGenerated * 0.2),
-          interface: Math.floor(totalSystemsGenerated * 0.1)
-        }
-      }
+          interface: Math.floor(totalSystemsGenerated * 0.1),
+        },
+      },
     };
   }
 
@@ -287,14 +289,14 @@ class MockExportTransformationEngine {
     console.log(`Total warnings: ${summary.totalWarnings}`);
     console.log(`Total duration: ${summary.totalDuration.toFixed(2)}s`);
     console.log(`Average batch duration: ${summary.averageBatchDuration.toFixed(2)}s`);
-    
+
     console.log('\n🧠 INTELLIGENCE GENERATION SUMMARY');
     console.log('==================================');
     console.log(`Total capabilities added: ${summary.generationSummary.totalCapabilitiesAdded}`);
     console.log(`Total integration points: ${summary.generationSummary.totalIntegrationPoints}`);
     console.log(`Average complexity: ${summary.generationSummary.averageComplexity.toFixed(1)}`);
     console.log(`Estimated total value: ${summary.generationSummary.estimatedTotalValue}`);
-    
+
     console.log('\nGeneration by category:');
     Object.entries(summary.generationSummary.generationsByCategory).forEach(([category, count]) => {
       console.log(`  ${category}: ${count}`);
@@ -317,11 +319,11 @@ class MockExportTransformationEngine {
 async function runTransformationEngineTest() {
   try {
     console.log('🧪 Initializing Export Transformation Engine...');
-    
+
     const engine = new MockExportTransformationEngine({
       batchSize: 8,
       safetyThreshold: 85,
-      dryRun: true
+      dryRun: true,
     });
 
     console.log('📋 Configuration:');
@@ -340,14 +342,20 @@ async function runTransformationEngineTest() {
     // Validate results
     console.log('\n🔍 VALIDATION RESULTS');
     console.log('====================');
-    
+
     const validations = [
       { name: 'Campaign completed', passed: summary.totalBatches > 0 },
       { name: 'Files processed', passed: summary.totalFilesProcessed > 0 },
       { name: 'Systems generated', passed: summary.totalSystemsGenerated > 0 },
       { name: 'Success rate acceptable', passed: summary.successRate >= 80 },
-      { name: 'Duration reasonable', passed: summary.totalDuration > 0 && summary.totalDuration < 60 },
-      { name: 'Generation summary present', passed: summary.generationSummary.totalSystemsGenerated > 0 }
+      {
+        name: 'Duration reasonable',
+        passed: summary.totalDuration > 0 && summary.totalDuration < 60,
+      },
+      {
+        name: 'Generation summary present',
+        passed: summary.generationSummary.totalSystemsGenerated > 0,
+      },
     ];
 
     let passedValidations = 0;
@@ -362,37 +370,36 @@ async function runTransformationEngineTest() {
     // Test configuration management
     console.log('\n🔧 CONFIGURATION MANAGEMENT TEST');
     console.log('================================');
-    
+
     const config1 = engine.getConfig();
     const config2 = engine.getConfig();
     const configsEqual = JSON.stringify(config1) === JSON.stringify(config2);
     const configsNotSame = config1 !== config2;
-    
+
     console.log(`✅ Configurations equal: ${configsEqual}`);
     console.log(`✅ Configurations are separate objects: ${configsNotSame}`);
 
     // Test error logging
     console.log('\n📝 ERROR LOGGING TEST');
     console.log('=====================');
-    
+
     const errorLog = engine.getTransformationLog();
     console.log(`✅ Error log accessible: ${Array.isArray(errorLog)}`);
     console.log(`📊 Current error count: ${errorLog.length}`);
 
     console.log('\n🎉 Export Transformation Engine test completed successfully!');
-    
+
     return {
       success: true,
       validationsPassed: passedValidations,
       totalValidations: validations.length,
-      summary
+      summary,
     };
-
   } catch (error) {
     console.error('❌ Export Transformation Engine test failed:', error);
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }

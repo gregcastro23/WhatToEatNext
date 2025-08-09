@@ -1,13 +1,12 @@
 // TODO: Fix import - add what to import from "./calculations/index.ts"
 import { log } from '@/services/LoggingService';
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
+import { Element } from '@/types/alchemy';
+import { PlanetaryPosition } from '@/types/celestial';
 import { Recipe } from '@/types/recipe';
 
 import { calculateComprehensiveAlchemicalResult } from './calculations/index';
 // TODO: Fix import - add what to import from "./types/alchemy.ts"
 // Comprehensive test for the streamlined alchemical calculation system
-
 
 // Streamlined planetary positions from previous conversation
 const streamlinedPositions: { [key: string]: PlanetaryPosition } = {
@@ -20,12 +19,12 @@ const streamlinedPositions: { [key: string]: PlanetaryPosition } = {
   Saturn: { sign: 'pisces', degree: 25.1, element: 'Water' },
   Uranus: { sign: 'taurus', degree: 23.4, element: 'Earth' },
   Neptune: { sign: 'pisces', degree: 29.6, element: 'Water' },
-  Pluto: { sign: 'aquarius', degree: 2.75, element: 'Air' }
+  Pluto: { sign: 'aquarius', degree: 2.75, element: 'Air' },
 };
 
 async function testStreamlinedSystem() {
   log.info('=== Streamlined Alchemical Calculation System Test ===\n');
-  
+
   try {
     // Test comprehensive calculation
     const result = await calculateComprehensiveAlchemicalResult({
@@ -34,7 +33,7 @@ async function testStreamlinedSystem() {
       lunarPhase: 'waxing gibbous',
       isDaytime: true,
       currentDate: new Date(),
-      currentZodiacSign: 'gemini'
+      currentZodiacSign: 'gemini',
     });
 
     log.info('🔬 KALCHM & MONICA CONSTANTS:');
@@ -54,7 +53,8 @@ async function testStreamlinedSystem() {
 
     log.info('🌟 ELEMENTAL PROPERTIES:');
     const resultData = result as any;
-    const elementalState = resultData?.elementalState || resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+    const elementalState = resultData?.elementalState ||
+      resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
     log.info(`  Fire: ${(elementalState.Fire * 100).toFixed(1)}%`);
     log.info(`  Water: ${(elementalState.Water * 100).toFixed(1)}%`);
     log.info(`  Air: ${(elementalState.Air * 100).toFixed(1)}%`);
@@ -64,28 +64,34 @@ async function testStreamlinedSystem() {
     log.info('🪐 PLANETARY INFLUENCES:');
     const topPlanets = result.planetaryInfluences.dominantPlanets.slice(0, 3);
     (topPlanets || []).forEach((planet, index) => {
-      log.info(`  ${index + 1}. ${planet.planet}: ${(planet.strength * 100).toFixed(1)}% (${planet.element})`);
+      log.info(
+        `  ${index + 1}. ${planet.planet}: ${(planet.strength * 100).toFixed(1)}% (${planet.element})`,
+      );
     });
     log.info('');
 
     log.info('🍳 CULINARY RECOMMENDATIONS:');
-    log.info(`  Ingredients: ${result.recommendations.culinary.ingredients.slice(0, 3).join(', ')}`);
-    log.info(`  Cooking Methods: ${result.recommendations.culinary.cookingMethods.slice(0, 3).join(', ')}`);
+    log.info(
+      `  Ingredients: ${result.recommendations.culinary.ingredients.slice(0, 3).join(', ')}`,
+    );
+    log.info(
+      `  Cooking Methods: ${result.recommendations.culinary.cookingMethods.slice(0, 3).join(', ')}`,
+    );
     log.info(`  Flavors: ${result.recommendations.culinary.flavors.slice(0, 3).join(', ')}`);
     log.info(`  Timing: ${result.recommendations.culinary.timing.slice(0, 2).join(', ')}\n`);
 
     log.info('📊 ELEMENTAL RECOMMENDATIONS:');
     log.info(`  Balance Score: ${result.recommendations.elemental.balance.toFixed(3)}`);
-    log.info(`  Recommendations: ${result.recommendations.elemental.recommendations.slice(0, 2).join(', ')}\n`);
+    log.info(
+      `  Recommendations: ${result.recommendations.elemental.recommendations.slice(0, 2).join(', ')}\n`,
+    );
 
     // Test recipe compatibility
     log.info('🥘 RECIPE COMPATIBILITY TEST:');
-    const testRecipe = { Fire: 0.3, Water: 0.2, Air: 0.35,
-      Earth: 0.15
-    };
+    const testRecipe = { Fire: 0.3, Water: 0.2, Air: 0.35, Earth: 0.15 };
 
-    const compatibility = await import('./calculations/index').then(mod => 
-      mod.calculateRecipeCompatibility(testRecipe, result)
+    const compatibility = await import('./calculations/index').then(mod =>
+      mod.calculateRecipeCompatibility(testRecipe, result),
     );
 
     log.info(`  Overall Compatibility: ${(compatibility.compatibilityScore * 100).toFixed(1)}%`);
@@ -97,11 +103,10 @@ async function testStreamlinedSystem() {
     log.info('✅ Streamlined system test completed successfully!');
     log.info(`📝 Cache Key: ${result.cacheKey}`);
     log.info(`⏰ Timestamp: ${result.timestamp}`);
-
   } catch (error) {
     console.error('❌ Error in streamlined system test:', error);
   }
 }
 
 // Run the test
-testStreamlinedSystem(); 
+testStreamlinedSystem();

@@ -28,7 +28,4 @@ export const getDayOfYear = (): number => {
 };
 
 // Export types that are needed on the server
-export type { 
-  AlchemicalState,
-  PlanetaryPositionsType
-}; 
+export type { AlchemicalState, PlanetaryPositionsType };

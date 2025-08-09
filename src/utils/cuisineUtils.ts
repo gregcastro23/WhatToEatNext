@@ -8,16 +8,16 @@ import { getDominantElement } from '@/utils/elemental/elementalUtils';
  * - Mutability: Air > Water > Fire > Earth
  * - Fixed: Earth > Water > Fire > Air
  * - Cardinal: Equal for all elements
- * 
+ *
  * @param elementalProperties The elemental properties of the cuisine
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
 export function determineModalityFromElements(elementalProperties: ElementalProperties): Modality {
   const { Fire, Water, Earth, Air } = elementalProperties;
-  
+
   // Determine dominant element
   const dominantElement = getDominantElement(elementalProperties);
-  
+
   // Primary determination based on dominant element and its strength
   switch (dominantElement) {
     case 'Air':
@@ -46,12 +46,12 @@ export function determineModalityFromElements(elementalProperties: ElementalProp
       }
       break;
   }
-  
+
   // Calculate modality scores based on hierarchical affinities
-  const mutableScore = (Air * 0.9) + (Water * 0.8) + (Fire * 0.7) + (Earth * 0.5);
-  const fixedScore = (Earth * 0.9) + (Water * 0.8) + (Fire * 0.6) + (Air * 0.5);
-  const cardinalScore = (Fire * 0.8) + (Earth * 0.8) + (Water * 0.8) + (Air * 0.8);
-  
+  const mutableScore = Air * 0.9 + Water * 0.8 + Fire * 0.7 + Earth * 0.5;
+  const fixedScore = Earth * 0.9 + Water * 0.8 + Fire * 0.6 + Air * 0.5;
+  const cardinalScore = Fire * 0.8 + Earth * 0.8 + Water * 0.8 + Air * 0.8;
+
   // Return the modality with the highest score
   if (mutableScore > fixedScore && mutableScore > cardinalScore) {
     return 'Mutable';
@@ -92,4 +92,4 @@ export function getModalityCookingMethods(modality: Modality): string[] {
     default:
       return [];
   }
-} 
+}

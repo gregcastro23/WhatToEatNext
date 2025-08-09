@@ -43,7 +43,7 @@ const RecipeDetailsPage: NextPage = () => {
     setElementalState({
       ...currentState,
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
-      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
+      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
   }, []);
 
@@ -51,10 +51,13 @@ const RecipeDetailsPage: NextPage = () => {
     if (id) {
       // Find the recipe by URL-friendly ID
       const foundRecipe = allRecipes.find(recipe => {
-        const recipeId = recipe.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+        const recipeId = recipe.name
+          .toLowerCase()
+          .replace(/ /g, '-')
+          .replace(/[^\w-]/g, '');
         return recipeId === id;
       });
-      
+
       setRecipe(foundRecipe || null);
       setLoading(false);
     }
@@ -63,11 +66,11 @@ const RecipeDetailsPage: NextPage = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-8"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded w-full mx-auto"></div>
+      <div className='container mx-auto px-4 py-16 text-center'>
+        <div className='animate-pulse'>
+          <div className='mx-auto mb-8 h-8 w-1/3 rounded bg-gray-200'></div>
+          <div className='mx-auto mb-4 h-4 w-1/2 rounded bg-gray-200'></div>
+          <div className='mx-auto h-64 w-full rounded bg-gray-200'></div>
         </div>
       </div>
     );
@@ -76,10 +79,15 @@ const RecipeDetailsPage: NextPage = () => {
   // Recipe not found
   if (!recipe) {
     return (
-      <div className="container mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold mb-8">Recipe not found</h1>
-        <p className="text-lg mb-8">The recipe you're looking for doesn&amp;apos;t exist or may have been removed.</p>
-        <Link href="/recipes" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <div className='container mx-auto px-4 py-16'>
+        <h1 className='mb-8 text-3xl font-bold'>Recipe not found</h1>
+        <p className='mb-8 text-lg'>
+          The recipe you're looking for doesn&amp;apos;t exist or may have been removed.
+        </p>
+        <Link
+          href='/recipes'
+          className='rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700'
+        >
           Browse all recipes
         </Link>
       </div>
@@ -101,98 +109,100 @@ const RecipeDetailsPage: NextPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <nav className="mb-6">
-        <Link href="/recipes" className="text-blue-600 hover:text-blue-800">
+    <div className='container mx-auto px-4 py-8'>
+      <nav className='mb-6'>
+        <Link href='/recipes' className='text-blue-600 hover:text-blue-800'>
           ← Back to recipes
         </Link>
         {recipe.cuisine && (
-          <Link 
+          <Link
             href={`/cuisines/${recipe.cuisine.toLowerCase().replace(/ /g, '-')}`}
-            className="ml-4 text-blue-600 hover:text-blue-800"
+            className='ml-4 text-blue-600 hover:text-blue-800'
           >
             Browse {recipe.cuisine} cuisine
           </Link>
         )}
       </nav>
 
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-3">{recipe.name}</h1>
-          {recipe.description && (
-            <p className="text-lg text-gray-700">{recipe.description}</p>
-          )}
-          
-          <div className="flex flex-wrap gap-2 mt-4">
+      <div className='rounded-lg bg-white p-6 shadow-lg'>
+        <header className='mb-8'>
+          <h1 className='mb-3 text-3xl font-bold'>{recipe.name}</h1>
+          {recipe.description && <p className='text-lg text-gray-700'>{recipe.description}</p>}
+
+          <div className='mt-4 flex flex-wrap gap-2'>
             {recipe.cuisine && (
-              <span className="text-sm px-3 py-1 bg-amber-100 text-amber-800 rounded-full">
+              <span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>
                 {recipe.cuisine}
               </span>
             )}
             {recipe.season && (
-              <span className="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full">
+              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
                 {Array.isArray(recipe.season) ? recipe.season.join(', ') : recipe.season}
               </span>
             )}
             {recipe.timeToMake && (
-              <span className="text-sm px-3 py-1 bg-purple-100 text-purple-800 rounded-full">
+              <span className='rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-800'>
                 {recipe.timeToMake}
               </span>
             )}
             {recipe.isVegetarian && (
-              <span className="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full">
+              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
                 Vegetarian
               </span>
             )}
             {recipe.isVegan && (
-              <span className="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full">
+              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
                 Vegan
               </span>
             )}
           </div>
         </header>
 
-        <div className="flex flex-wrap items-center mb-6">
-          <span className="mr-4 font-medium">Servings:</span>
-          <button 
+        <div className='mb-6 flex flex-wrap items-center'>
+          <span className='mr-4 font-medium'>Servings:</span>
+          <button
             onClick={decreaseServings}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-3 rounded-l"
+            className='rounded-l bg-gray-200 px-3 py-1 font-bold text-gray-800 hover:bg-gray-300'
           >
             -
           </button>
-          <span className="bg-gray-100 py-1 px-4">{Math.round((recipe.numberOfServings ?? 4) * servingsMultiplier)}</span>
-          <button 
+          <span className='bg-gray-100 px-4 py-1'>
+            {Math.round((recipe.numberOfServings ?? 4) * servingsMultiplier)}
+          </span>
+          <button
             onClick={increaseServings}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-3 rounded-r"
+            className='rounded-r bg-gray-200 px-3 py-1 font-bold text-gray-800 hover:bg-gray-300'
           >
             +
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className='grid gap-8 md:grid-cols-2'>
           {/* Ingredients Section */}
           <section>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Ingredients</h2>
-              <span className="text-xs text-gray-500 italic">Click an ingredient for details</span>
+            <div className='mb-4 flex items-center justify-between'>
+              <h2 className='text-xl font-semibold'>Ingredients</h2>
+              <span className='text-xs italic text-gray-500'>Click an ingredient for details</span>
             </div>
-            <ul className="space-y-2">
+            <ul className='space-y-2'>
               {recipe.ingredients.map((ingredient, idx) => {
-                const isSelected = selectedIngredient && 
-                  (typeof ingredient === 'string' 
-                    ? ingredient === selectedIngredient 
+                const isSelected =
+                  selectedIngredient &&
+                  (typeof ingredient === 'string'
+                    ? ingredient === selectedIngredient
                     : (ingredient as any)?.name === (selectedIngredient as any)?.name);
-                
+
                 return (
-                  <li 
-                    key={idx} 
-                    className={`flex justify-between py-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition duration-150 ${isSelected ? 'bg-blue-50 border-l-4 border-l-blue-500 pl-2' : ''}`}
+                  <li
+                    key={idx}
+                    className={`flex cursor-pointer justify-between border-b border-gray-100 py-2 transition duration-150 hover:bg-gray-50 ${isSelected ? 'border-l-4 border-l-blue-500 bg-blue-50 pl-2' : ''}`}
                     onClick={() => handleIngredientClick(ingredient)}
                   >
                     <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>
                     {typeof ingredient !== 'string' && (
-                      <span className="text-gray-600">
-                        {(Number(ingredient.amount) || 0) * servingsMultiplier} {ingredient.unit || ''}
+                      <span className='text-gray-600'>
+                        {(Number(ingredient.amount) || 0) * servingsMultiplier}{' '}
+                        {ingredient.unit || ''}
                       </span>
                     )}
                   </li>
@@ -202,41 +212,53 @@ const RecipeDetailsPage: NextPage = () => {
 
             {/* Ingredient Details Section */}
             {selectedIngredient && (
-              <div className="mt-4 p-4 bg-blue-50 rounded-lg animate-fade-in">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-lg">
-                    {typeof selectedIngredient === 'string' ? selectedIngredient : selectedIngredient.name}
+              <div className='mt-4 animate-fade-in rounded-lg bg-blue-50 p-4'>
+                <div className='mb-2 flex items-center justify-between'>
+                  <h3 className='text-lg font-semibold'>
+                    {typeof selectedIngredient === 'string'
+                      ? selectedIngredient
+                      : selectedIngredient.name}
                   </h3>
-                  <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">Ingredient Details</span>
+                  <span className='rounded bg-blue-100 px-2 py-1 text-xs text-blue-600'>
+                    Ingredient Details
+                  </span>
                 </div>
                 {typeof selectedIngredient === 'string' ? (
-                  <p className="text-gray-600">Basic ingredient with no additional details available.</p>
+                  <p className='text-gray-600'>
+                    Basic ingredient with no additional details available.
+                  </p>
                 ) : (
-                  <ul className="space-y-1">
+                  <ul className='space-y-1'>
                     {selectedIngredient.amount && (
-                      <li><span className="font-medium">Amount:</span> {selectedIngredient.amount * servingsMultiplier} {selectedIngredient.unit}</li>
+                      <li>
+                        <span className='font-medium'>Amount:</span>{' '}
+                        {selectedIngredient.amount * servingsMultiplier} {selectedIngredient.unit}
+                      </li>
                     )}
                     {selectedIngredient.notes && (
-                      <li><span className="font-medium">Notes:</span> {selectedIngredient.notes}</li>
+                      <li>
+                        <span className='font-medium'>Notes:</span> {selectedIngredient.notes}
+                      </li>
                     )}
                     {selectedIngredient.category && (
-                      <li><span className="font-medium">Category:</span> {selectedIngredient.category}</li>
+                      <li>
+                        <span className='font-medium'>Category:</span> {selectedIngredient.category}
+                      </li>
                     )}
                     {selectedIngredient.substitutes && (
                       <li>
-                        <span className="font-medium">Substitutes:</span> {
-                          Array.isArray(selectedIngredient.substitutes) 
-                            ? selectedIngredient.substitutes.join(', ') 
-                            : selectedIngredient.substitutes
-                        }
+                        <span className='font-medium'>Substitutes:</span>{' '}
+                        {Array.isArray(selectedIngredient.substitutes)
+                          ? selectedIngredient.substitutes.join(', ')
+                          : selectedIngredient.substitutes}
                       </li>
                     )}
                   </ul>
                 )}
-                <div className="mt-3 flex justify-end">
-                  <button 
+                <div className='mt-3 flex justify-end'>
+                  <button
                     onClick={() => setSelectedIngredient(null)}
-                    className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 bg-white rounded shadow-sm hover:shadow transition"
+                    className='rounded bg-white px-3 py-1 text-sm text-blue-600 shadow-sm transition hover:text-blue-800 hover:shadow'
                   >
                     Close Details
                   </button>
@@ -246,12 +268,12 @@ const RecipeDetailsPage: NextPage = () => {
           </section>
 
           {/* Procedure Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Procedure</h2>
-            <ol className="list-decimal pl-5 space-y-2">
+          <div className='mb-8'>
+            <h2 className='mb-4 text-xl font-semibold'>Procedure</h2>
+            <ol className='list-decimal space-y-2 pl-5'>
               {recipe.instructions.map((step, idx) => (
-                <li key={idx} className="py-1">
-                  <span className="ml-2">{step}</span>
+                <li key={idx} className='py-1'>
+                  <span className='ml-2'>{step}</span>
                 </li>
               ))}
             </ol>
@@ -260,31 +282,31 @@ const RecipeDetailsPage: NextPage = () => {
 
         {/* Nutritional Information */}
         {recipe.nutrition && (
-          <section className="mt-8 p-4 bg-gray-50 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Nutritional Information</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <section className='mt-8 rounded-lg bg-gray-50 p-4'>
+            <h2 className='mb-4 text-xl font-semibold'>Nutritional Information</h2>
+            <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
               {recipe.nutrition.calories && (
-                <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.calories}</div>
-                  <div className="text-sm text-gray-600">Calories</div>
+                <div className='rounded bg-white p-3 text-center shadow-sm'>
+                  <div className='text-lg font-bold'>{recipe.nutrition.calories}</div>
+                  <div className='text-sm text-gray-600'>Calories</div>
                 </div>
               )}
               {recipe.nutrition.protein && (
-                <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.protein}g</div>
-                  <div className="text-sm text-gray-600">Protein</div>
+                <div className='rounded bg-white p-3 text-center shadow-sm'>
+                  <div className='text-lg font-bold'>{recipe.nutrition.protein}g</div>
+                  <div className='text-sm text-gray-600'>Protein</div>
                 </div>
               )}
               {recipe.nutrition.carbs && (
-                <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.carbs}g</div>
-                  <div className="text-sm text-gray-600">Carbs</div>
+                <div className='rounded bg-white p-3 text-center shadow-sm'>
+                  <div className='text-lg font-bold'>{recipe.nutrition.carbs}g</div>
+                  <div className='text-sm text-gray-600'>Carbs</div>
                 </div>
               )}
               {recipe.nutrition.fat && (
-                <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.fat}g</div>
-                  <div className="text-sm text-gray-600">Fat</div>
+                <div className='rounded bg-white p-3 text-center shadow-sm'>
+                  <div className='text-lg font-bold'>{recipe.nutrition.fat}g</div>
+                  <div className='text-sm text-gray-600'>Fat</div>
                 </div>
               )}
             </div>
@@ -293,11 +315,9 @@ const RecipeDetailsPage: NextPage = () => {
 
         {/* Notes Section */}
         {recipe.notes && (
-          <section className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Notes</h2>
-            <div className="p-4 bg-yellow-50 rounded-lg text-gray-800">
-              {recipe.notes}
-            </div>
+          <section className='mt-8'>
+            <h2 className='mb-4 text-xl font-semibold'>Notes</h2>
+            <div className='rounded-lg bg-yellow-50 p-4 text-gray-800'>{recipe.notes}</div>
           </section>
         )}
       </div>
@@ -305,4 +325,4 @@ const RecipeDetailsPage: NextPage = () => {
   );
 };
 
-export default RecipeDetailsPage; 
+export default RecipeDetailsPage;

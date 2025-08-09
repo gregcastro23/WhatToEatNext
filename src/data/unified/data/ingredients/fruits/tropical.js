@@ -1,689 +1,749 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.guava = exports.lychee = exports.dragonFruit = exports.passionFruit = exports.papaya = exports.pineapple = exports.mango = exports.tropical = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.guava =
+  exports.lychee =
+  exports.dragonFruit =
+  exports.passionFruit =
+  exports.papaya =
+  exports.pineapple =
+  exports.mango =
+  exports.tropical =
+    void 0;
+const elementalUtils_1 = require('../../../utils/elementalUtils');
+const elementalUtils_2 = require('../../../utils/elemental/elementalUtils');
 const rawTropicalFruits = {
-    'mango': {
-        name: 'Mango',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Sun', 'Jupiter'],
-            favorableZodiac: ['leo', 'taurus'],
-            elementalAffinity: {
-                base: 'Fire',
-                decanModifiers: {
-                    first: { element: 'Fire', planet: 'Sun' },
-                    second: { element: 'Fire', planet: 'Jupiter' },
-                    third: { element: 'Air', planet: 'Mercury' }
-                }
-            }
+  mango: {
+    name: 'Mango',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.4,
+      Water: 0.3,
+      Earth: 0.2,
+      Air: 0.1,
+    }),
+    astrologicalProfile: {
+      rulingPlanets: ['Sun', 'Jupiter'],
+      favorableZodiac: ['leo', 'taurus'],
+      elementalAffinity: {
+        base: 'Fire',
+        decanModifiers: {
+          first: { element: 'Fire', planet: 'Sun' },
+          second: { element: 'Fire', planet: 'Jupiter' },
+          third: { element: 'Air', planet: 'Mercury' },
         },
-        qualities: ['sweet', 'cooling', 'nourishing'],
-        season: ['summer'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lime', 'chili', 'coconut', 'mint', 'ginger'],
-        cookingMethods: ['raw', 'grilled', 'puréed', 'dried'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['a', 'c', 'b6'],
-            minerals: ['copper', 'potassium'],
-            calories: 60,
-            carbs_g: 15,
-            fiber_g: 1.6,
-            antioxidants: ['beta-carotene', 'zeaxanthin']
-        },
-        preparation: {
-            washing: true,
-            peeling: 'required',
-            cutting: 'slice along pit',
-            ripeness: 'slight give when pressed',
-            notes: 'Can be ripened in paper bag'
-        },
-        storage: {
-            temperature: 'room temp until ripe',
-            duration: '5-7 days',
-            ripening: 'room temperature',
-            notes: 'Refrigerate when ripe'
-        }
+      },
     },
-    'pineapple': {
-        name: 'Pineapple',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Sun', 'Mars'],
-            favorableZodiac: ['leo', 'aries'],
-            elementalAffinity: {
-                base: 'Fire',
-                decanModifiers: {
-                    first: { element: 'Fire', planet: 'Sun' },
-                    second: { element: 'Fire', planet: 'Mars' },
-                    third: { element: 'Air', planet: 'Jupiter' }
-                }
-            }
-        },
-        qualities: ['sweet-tart', 'warming', 'cleansing'],
-        season: ['spring', 'summer'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['coconut', 'rum', 'mint', 'chili', 'vanilla'],
-        cookingMethods: ['raw', 'grilled', 'roasted', 'juiced'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['c', 'b6', 'thiamin'],
-            minerals: ['manganese', 'copper'],
-            calories: 50,
-            carbs_g: 13,
-            fiber_g: 1.4,
-            enzymes: ['bromelain']
-        },
-        preparation: {
-            washing: true,
-            cutting: 'remove crown and base',
-            peeling: 'remove eyes',
-            notes: 'Cut into spears or rings'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '5-7 days',
-            notes: 'Store upside down for even sweetness'
-        }
+    qualities: ['sweet', 'cooling', 'nourishing'],
+    season: ['summer'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lime', 'chili', 'coconut', 'mint', 'ginger'],
+    cookingMethods: ['raw', 'grilled', 'puréed', 'dried'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['a', 'c', 'b6'],
+      minerals: ['copper', 'potassium'],
+      calories: 60,
+      carbs_g: 15,
+      fiber_g: 1.6,
+      antioxidants: ['beta-carotene', 'zeaxanthin'],
     },
-    'papaya': {
-        name: 'Papaya',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
-            Water: 0.4,
-            Fire: 0.3,
-            Earth: 0.2,
-            Air: 0.1
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Venus', 'Jupiter'],
-            favorableZodiac: ['taurus', 'sagittarius'],
-            elementalAffinity: {
-                base: 'Water',
-                decanModifiers: {
-                    first: { element: 'Water', planet: 'Venus' },
-                    second: { element: 'Fire', planet: 'Jupiter' },
-                    third: { element: 'Earth', planet: 'Saturn' }
-                }
-            }
-        },
-        qualities: ['sweet', 'buttery', 'exotic'],
-        season: ['year-round'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lime', 'chili', 'honey', 'ginger', 'coconut'],
-        cookingMethods: ['raw', 'smoothies', 'dried'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['c', 'a', 'folate'],
-            minerals: ['potassium', 'magnesium'],
-            calories: 43,
-            carbs_g: 11,
-            fiber_g: 1.7,
-            enzymes: ['papain']
-        },
-        preparation: {
-            washing: true,
-            peeling: 'when ripe',
-            seeding: 'scoop out seeds',
-            ripeness: 'yields to gentle pressure',
-            notes: 'Seeds are edible but peppery'
-        },
-        storage: {
-            temperature: 'room temp until ripe',
-            duration: '5-7 days',
-            ripening: 'room temperature',
-            notes: 'Refrigerate when ripe'
-        }
+    preparation: {
+      washing: true,
+      peeling: 'required',
+      cutting: 'slice along pit',
+      ripeness: 'slight give when pressed',
+      notes: 'Can be ripened in paper bag',
     },
-    'passion fruit': {
-        name: 'Passion Fruit',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
-            Water: 0.3,
-            Air: 0.3,
-            Fire: 0.2,
-            Earth: 0.2
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Venus', 'Neptune'],
-            favorableZodiac: ['taurus', 'pisces'],
-            elementalAffinity: {
-                base: 'Water',
-                decanModifiers: {
-                    first: { element: 'Water', planet: 'Venus' },
-                    second: { element: 'Air', planet: 'Neptune' },
-                    third: { element: 'Fire', planet: 'Mars' }
-                }
-            }
-        },
-        qualities: ['tart', 'aromatic', 'exotic'],
-        season: ['summer', 'autumn'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['mango', 'coconut', 'vanilla', 'citrus', 'banana'],
-        cookingMethods: ['raw', 'juiced', 'pulped', 'preserved'],
-        nutritionalProfile: {
-            fiber: 'high',
-            vitamins: ['c', 'a', 'b2'],
-            minerals: ['iron', 'magnesium'],
-            calories: 68,
-            carbs_g: 16,
-            fiber_g: 10.4,
-            antioxidants: ['beta-carotene', 'polyphenols']
-        },
-        preparation: {
-            washing: true,
-            ripeness: 'wrinkled skin indicates ripeness',
-            cutting: 'halve and scoop',
-            notes: 'Seeds are edible and nutritious'
-        },
-        storage: {
-            temperature: 'room temp until ripe',
-            duration: '7-10 days',
-            ripening: 'room temperature',
-            notes: 'Refrigerate when ripe'
-        }
+    storage: {
+      temperature: 'room temp until ripe',
+      duration: '5-7 days',
+      ripening: 'room temperature',
+      notes: 'Refrigerate when ripe',
     },
-    'dragon fruit': {
-        name: 'Dragon Fruit',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
-            Water: 0.5,
-            Air: 0.3,
-            Earth: 0.1,
-            Fire: 0.1
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Moon', 'Neptune'],
-            favorableZodiac: ['cancer', 'pisces'],
-            elementalAffinity: {
-                base: 'Water',
-                decanModifiers: {
-                    first: { element: 'Water', planet: 'Moon' },
-                    second: { element: 'Water', planet: 'Neptune' },
-                    third: { element: 'Air', planet: 'Uranus' }
-                }
-            }
+  },
+  pineapple: {
+    name: 'Pineapple',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.5,
+      Water: 0.3,
+      Earth: 0.1,
+      Air: 0.1,
+    }),
+    astrologicalProfile: {
+      rulingPlanets: ['Sun', 'Mars'],
+      favorableZodiac: ['leo', 'aries'],
+      elementalAffinity: {
+        base: 'Fire',
+        decanModifiers: {
+          first: { element: 'Fire', planet: 'Sun' },
+          second: { element: 'Fire', planet: 'Mars' },
+          third: { element: 'Air', planet: 'Jupiter' },
         },
-        qualities: ['mild', 'refreshing', 'exotic'],
-        season: ['summer', 'autumn'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lime', 'mint', 'coconut', 'kiwi', 'lychee'],
-        cookingMethods: ['raw', 'smoothies', 'frozen'],
-        nutritionalProfile: {
-            fiber: 'high',
-            vitamins: ['c', 'b1', 'b2'],
-            minerals: ['iron', 'magnesium'],
-            calories: 60,
-            carbs_g: 13,
-            fiber_g: 3,
-            antioxidants: ['betalains', 'hydroxycinnamates']
-        },
-        preparation: {
-            washing: true,
-            cutting: 'halve lengthwise',
-            scooping: 'flesh easily separates from skin',
-            notes: 'Can be eaten with spoon directly from skin'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '5-7 days',
-            humidity: 'moderate',
-            notes: 'Best eaten when slightly firm'
-        }
+      },
     },
-    'lychee': {
-        name: 'Lychee',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
-            Water: 0.4,
-            Air: 0.3,
-            Earth: 0.2,
-            Fire: 0.1
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Venus', 'Moon'],
-            favorableZodiac: ['taurus', 'cancer'],
-            elementalAffinity: {
-                base: 'Water',
-                decanModifiers: {
-                    first: { element: 'Water', planet: 'Venus' },
-                    second: { element: 'Water', planet: 'Moon' },
-                    third: { element: 'Air', planet: 'Mercury' }
-                }
-            }
-        },
-        qualities: ['sweet', 'floral', 'delicate'],
-        season: ['summer'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['rose', 'ginger', 'coconut', 'lime', 'mint'],
-        cookingMethods: ['raw', 'desserts', 'preserved'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['c', 'b6', 'k'],
-            minerals: ['copper', 'potassium'],
-            calories: 66,
-            carbs_g: 17,
-            fiber_g: 1.3,
-            antioxidants: ['flavonoids', 'proanthocyanidins']
-        },
-        preparation: {
-            washing: true,
-            peeling: 'remove rough skin',
-            pitting: 'remove brown seed',
-            notes: 'Eat fresh or use in desserts'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '5-7 days',
-            humidity: 'high',
-            notes: 'Best eaten fresh, skin will brown over time'
-        }
+    qualities: ['sweet-tart', 'warming', 'cleansing'],
+    season: ['spring', 'summer'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['coconut', 'rum', 'mint', 'chili', 'vanilla'],
+    cookingMethods: ['raw', 'grilled', 'roasted', 'juiced'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['c', 'b6', 'thiamin'],
+      minerals: ['manganese', 'copper'],
+      calories: 50,
+      carbs_g: 13,
+      fiber_g: 1.4,
+      enzymes: ['bromelain'],
     },
-    'guava': {
-        name: 'Guava',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
-            Earth: 0.3,
-            Water: 0.3,
-            Fire: 0.2,
-            Air: 0.2
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Venus', 'Mercury'],
-            favorableZodiac: ['taurus', 'gemini'],
-            elementalAffinity: {
-                base: 'Earth',
-                decanModifiers: {
-                    first: { element: 'Earth', planet: 'Venus' },
-                    second: { element: 'Water', planet: 'Mercury' },
-                    third: { element: 'Fire', planet: 'Mars' }
-                }
-            }
-        },
-        qualities: ['sweet-tart', 'fragrant', 'tropical'],
-        season: ['fall', 'winter'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lime', 'coconut', 'pineapple', 'mango', 'passion fruit'],
-        cookingMethods: ['raw', 'juiced', 'preserved', 'baked'],
-        nutritionalProfile: {
-            fiber: 'very high',
-            vitamins: ['c', 'a', 'e'],
-            minerals: ['potassium', 'copper'],
-            calories: 68,
-            carbs_g: 14,
-            fiber_g: 5.4,
-            antioxidants: ['lycopene', 'beta-carotene']
-        },
-        preparation: {
-            washing: true,
-            ripeness: 'yields slightly to pressure',
-            cutting: 'quarter or slice',
-            notes: 'Seeds are edible but often removed'
-        },
-        storage: {
-            temperature: 'room temp until ripe',
-            duration: '3-4 days',
-            ripening: 'room temperature',
-            notes: 'Refrigerate when ripe'
-        }
+    preparation: {
+      washing: true,
+      cutting: 'remove crown and base',
+      peeling: 'remove eyes',
+      notes: 'Cut into spears or rings',
     },
-    'rambutan': {
-        name: 'Rambutan',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet', 'delicate', 'refreshing'],
-        season: ['summer', 'fall'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lychee', 'coconut', 'lime', 'mango', 'passion fruit'],
-        cookingMethods: ['raw', 'desserts'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['c', 'b2', 'folate'],
-            minerals: ['iron', 'phosphorus'],
-            calories: 75,
-            carbs_g: 18.7,
-            fiber_g: 0.9,
-            antioxidants: ['flavonoids', 'tannins']
-        },
-        preparation: {
-            washing: true,
-            peeling: 'cut through hAiry skin',
-            pitting: 'remove seed',
-            notes: 'Similar preparation to lychee'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '3-5 days',
-            humidity: 'high',
-            notes: 'Best eaten fresh'
-        }
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      notes: 'Store upside down for even sweetness',
     },
-    'mangosteen': {
-        name: 'Mangosteen',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet', 'delicate', 'complex'],
-        season: ['summer'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lychee', 'rambutan', 'coconut', 'lime', 'dragon fruit'],
-        cookingMethods: ['raw', 'desserts', 'preserved'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['c', 'b9', 'b1'],
-            minerals: ['manganese', 'magnesium'],
-            calories: 63,
-            carbs_g: 15.6,
-            fiber_g: 1.8,
-            antioxidants: ['xanthones', 'anthocyanins']
+  },
+  papaya: {
+    name: 'Papaya',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Water: 0.4,
+      Fire: 0.3,
+      Earth: 0.2,
+      Air: 0.1,
+    }),
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Jupiter'],
+      favorableZodiac: ['taurus', 'sagittarius'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Venus' },
+          second: { element: 'Fire', planet: 'Jupiter' },
+          third: { element: 'Earth', planet: 'Saturn' },
         },
-        preparation: {
-            washing: true,
-            cutting: 'score around middle',
-            opening: 'twist to separate',
-            notes: 'Purple stains easily - handle with care'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '5-7 days',
-            humidity: 'moderate',
-            notes: 'Store in breathable container'
-        }
+      },
     },
-    'soursop': {
-        name: 'Soursop',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet-sour', 'creamy', 'tropical'],
-        season: ['summer', 'fall'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['coconut', 'lime', 'banana', 'passion fruit', 'mango'],
-        cookingMethods: ['raw', 'juiced', 'smoothies', 'frozen desserts'],
-        nutritionalProfile: {
-            fiber: 'high',
-            vitamins: ['c', 'b1', 'b3'],
-            minerals: ['potassium', 'magnesium'],
-            calories: 66,
-            carbs_g: 16.8,
-            fiber_g: 3.3,
-            antioxidants: ['acetogenins', 'quercetin']
-        },
-        preparation: {
-            washing: true,
-            ripeness: 'yields to gentle pressure',
-            cutting: 'halve and scoop',
-            notes: 'Remove seeds before consuming'
-        },
-        storage: {
-            temperature: 'room temp until ripe',
-            duration: '4-5 days',
-            ripening: 'room temperature',
-            notes: 'Refrigerate when ripe'
-        }
+    qualities: ['sweet', 'buttery', 'exotic'],
+    season: ['year-round'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lime', 'chili', 'honey', 'ginger', 'coconut'],
+    cookingMethods: ['raw', 'smoothies', 'dried'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['c', 'a', 'folate'],
+      minerals: ['potassium', 'magnesium'],
+      calories: 43,
+      carbs_g: 11,
+      fiber_g: 1.7,
+      enzymes: ['papain'],
     },
-    'jackfruit': {
-        name: 'Jackfruit',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet', 'meaty', 'complex'],
-        season: ['summer', 'autumn'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['coconut', 'lime', 'ginger', 'banana', 'mango'],
-        cookingMethods: ['raw', 'cooked', 'preserved', 'dried'],
-        nutritionalProfile: {
-            fiber: 'very high',
-            vitamins: ['c', 'b6', 'a'],
-            minerals: ['potassium', 'magnesium'],
-            calories: 95,
-            carbs_g: 23.2,
-            fiber_g: 1.5,
-            antioxidants: ['carotenoids', 'flavonoids']
-        },
-        preparation: {
-            washing: true,
-            cutting: 'requires skill and oil on hands',
-            seeding: 'remove seeds and pods',
-            notes: 'Can be used as meat substitute when young'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '5-7 days',
-            humidity: 'moderate',
-            notes: 'Cut pieces must be used quickly'
-        }
+    preparation: {
+      washing: true,
+      peeling: 'when ripe',
+      seeding: 'scoop out seeds',
+      ripeness: 'yields to gentle pressure',
+      notes: 'Seeds are edible but peppery',
     },
-    'durian': {
-        name: 'Durian',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['creamy', 'pungent', 'complex'],
-        season: ['summer'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['coconut', 'sticky rice', 'palm sugar', 'coffee', 'cream'],
-        cookingMethods: ['raw', 'desserts', 'preserved'],
-        nutritionalProfile: {
-            fiber: 'high',
-            vitamins: ['c', 'b6', 'thiamin'],
-            minerals: ['potassium', 'iron'],
-            calories: 147,
-            carbs_g: 27.1,
-            fiber_g: 3.8,
-            antioxidants: ['flavonoids', 'polyphenols']
-        },
-        preparation: {
-            cutting: 'careful handling required',
-            opening: 'cut along seams',
-            scooping: 'remove flesh from pods',
-            notes: 'Strong aroma - often restricted in public places'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '3-5 days',
-            humidity: 'moderate',
-            notes: 'Freeze for longer storage'
-        }
+    storage: {
+      temperature: 'room temp until ripe',
+      duration: '5-7 days',
+      ripening: 'room temperature',
+      notes: 'Refrigerate when ripe',
     },
-    'carambola': {
-        name: 'Carambola',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet-tart', 'crisp', 'decorative'],
-        season: ['winter', 'spring'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['citrus', 'mint', 'honey', 'tropical fruits', 'ginger'],
-        cookingMethods: ['raw', 'juiced', 'preserved', 'garnish'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['c', 'b5', 'folate'],
-            minerals: ['copper', 'potassium'],
-            calories: 31,
-            carbs_g: 6.7,
-            fiber_g: 2.8,
-            antioxidants: ['epicatechin', 'gallic acid']
+  },
+  'passion fruit': {
+    name: 'Passion Fruit',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Water: 0.3,
+      Air: 0.3,
+      Fire: 0.2,
+      Earth: 0.2,
+    }),
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Neptune'],
+      favorableZodiac: ['taurus', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Venus' },
+          second: { element: 'Air', planet: 'Neptune' },
+          third: { element: 'Fire', planet: 'Mars' },
         },
-        preparation: {
-            washing: true,
-            cutting: 'slice crosswise for star shape',
-            notes: 'Remove brown edges before serving'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '5-7 days',
-            humidity: 'moderate',
-            notes: 'Best eaten when slightly firm'
-        }
+      },
     },
-    'kiwi': {
-        name: 'Kiwi',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet-tart', 'bright', 'refreshing'],
-        season: ['winter', 'spring'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['strawberry', 'mango', 'lime', 'mint', 'honey'],
-        cookingMethods: ['raw', 'smoothies', 'garnish', 'preserved'],
-        nutritionalProfile: {
-            fiber: 'high',
-            vitamins: ['c', 'k', 'e'],
-            minerals: ['potassium', 'copper'],
-            calories: 61,
-            carbs_g: 14.7,
-            fiber_g: 3,
-            antioxidants: ['polyphenols', 'carotenoids']
-        },
-        preparation: {
-            washing: true,
-            peeling: 'optional - skin is edible',
-            cutting: 'halve and scoop or slice with skin',
-            notes: 'Can be eaten whole like an apple'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '1-2 weeks',
-            humidity: 'moderate',
-            notes: 'Will ripen other fruits if stored together'
-        }
+    qualities: ['tart', 'aromatic', 'exotic'],
+    season: ['summer', 'autumn'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['mango', 'coconut', 'vanilla', 'citrus', 'banana'],
+    cookingMethods: ['raw', 'juiced', 'pulped', 'preserved'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'a', 'b2'],
+      minerals: ['iron', 'magnesium'],
+      calories: 68,
+      carbs_g: 16,
+      fiber_g: 10.4,
+      antioxidants: ['beta-carotene', 'polyphenols'],
     },
-    'coconut': {
-        name: 'Coconut',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet', 'creamy', 'tropical'],
-        season: ['year-round'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lime', 'chocolate', 'mango', 'pineapple', 'rum'],
-        cookingMethods: ['raw', 'cooked', 'baked', 'pressed'],
-        nutritionalProfile: {
-            fiber: 'very high',
-            vitamins: ['b6', 'folate', 'c'],
-            minerals: ['iron', 'magnesium'],
-            calories: 354,
-            carbs_g: 15.2,
-            fiber_g: 9,
-            fats: ['medium chain triglycerides']
-        },
-        preparation: {
-            opening: 'pierce eyes and drain water',
-            cracking: 'careful splitting required',
-            extraction: 'separate flesh from shell',
-            notes: 'Young coconuts are best for water'
-        },
-        storage: {
-            temperature: 'room temperature whole',
-            duration: '2-3 months whole',
-            processed: 'refrigerate once opened',
-            notes: 'Freezes well when shredded'
-        }
+    preparation: {
+      washing: true,
+      ripeness: 'wrinkled skin indicates ripeness',
+      cutting: 'halve and scoop',
+      notes: 'Seeds are edible and nutritious',
     },
-    'pomelo': {
-        name: 'Pomelo',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet-tart', 'mild', 'refreshing'],
-        season: ['winter'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['coconut', 'lime', 'chili', 'mint', 'ginger'],
-        cookingMethods: ['raw', 'segments', 'juiced', 'preserved'],
-        nutritionalProfile: {
-            fiber: 'high',
-            vitamins: ['c', 'b6', 'thiamin'],
-            minerals: ['potassium', 'copper'],
-            calories: 38,
-            carbs_g: 9.6,
-            fiber_g: 1.9,
-            antioxidants: ['naringin', 'limonoids']
-        },
-        preparation: {
-            washing: true,
-            peeling: 'remove thick rind and pith',
-            segmenting: 'separate membrane carefully',
-            notes: 'Less bitter than grapefruit'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '1-2 weeks',
-            humidity: 'moderate',
-            notes: 'Keeps well in cool conditions'
-        }
+    storage: {
+      temperature: 'room temp until ripe',
+      duration: '7-10 days',
+      ripening: 'room temperature',
+      notes: 'Refrigerate when ripe',
     },
-    'longan': {
-        name: 'Longan',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet', 'subtle', 'refreshing'],
-        season: ['late summer'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['lychee', 'mango', 'coconut', 'ginger', 'honey'],
-        cookingMethods: ['raw', 'dried', 'desserts'],
-        nutritionalProfile: {
-            fiber: 'moderate',
-            vitamins: ['c', 'b2', 'b6'],
-            minerals: ['iron', 'potassium'],
-            calories: 60,
-            carbs_g: 15.1,
-            fiber_g: 1.1,
-            antioxidants: ['gallic acid', 'ellagic acid']
+  },
+  'dragon fruit': {
+    name: 'Dragon Fruit',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Water: 0.5,
+      Air: 0.3,
+      Earth: 0.1,
+      Fire: 0.1,
+    }),
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Water', planet: 'Neptune' },
+          third: { element: 'Air', planet: 'Uranus' },
         },
-        preparation: {
-            washing: true,
-            peeling: 'crack and remove thin shell',
-            pitting: 'remove black seed',
-            notes: 'Similar to lychee but milder'
-        },
-        storage: {
-            temperature: 'refrigerated',
-            duration: '3-5 days',
-            humidity: 'high',
-            notes: 'Best eaten fresh'
-        }
+      },
     },
-    'custard apple': {
-        name: 'Custard Apple',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['sweet', 'creamy', 'fragrant'],
-        season: ['fall', 'winter'],
-        category: 'fruit',
-        subCategory: 'tropical',
-        affinities: ['vanilla', 'coconut', 'lime', 'honey', 'cinnamon'],
-        cookingMethods: ['raw', 'smoothies', 'desserts'],
-        nutritionalProfile: {
-            fiber: 'high',
-            vitamins: ['c', 'b6', 'thiamin'],
-            minerals: ['potassium', 'magnesium'],
-            calories: 94,
-            carbs_g: 23.6,
-            fiber_g: 4.4,
-            antioxidants: ['catechins', 'kaempferol']
+    qualities: ['mild', 'refreshing', 'exotic'],
+    season: ['summer', 'autumn'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lime', 'mint', 'coconut', 'kiwi', 'lychee'],
+    cookingMethods: ['raw', 'smoothies', 'frozen'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'b1', 'b2'],
+      minerals: ['iron', 'magnesium'],
+      calories: 60,
+      carbs_g: 13,
+      fiber_g: 3,
+      antioxidants: ['betalains', 'hydroxycinnamates'],
+    },
+    preparation: {
+      washing: true,
+      cutting: 'halve lengthwise',
+      scooping: 'flesh easily separates from skin',
+      notes: 'Can be eaten with spoon directly from skin',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      humidity: 'moderate',
+      notes: 'Best eaten when slightly firm',
+    },
+  },
+  lychee: {
+    name: 'Lychee',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Water: 0.4,
+      Air: 0.3,
+      Earth: 0.2,
+      Fire: 0.1,
+    }),
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Moon'],
+      favorableZodiac: ['taurus', 'cancer'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Venus' },
+          second: { element: 'Water', planet: 'Moon' },
+          third: { element: 'Air', planet: 'Mercury' },
         },
-        preparation: {
-            washing: true,
-            ripeness: 'yields to gentle pressure',
-            eating: 'split and spoon out flesh',
-            notes: 'Avoid black seeds'
+      },
+    },
+    qualities: ['sweet', 'floral', 'delicate'],
+    season: ['summer'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['rose', 'ginger', 'coconut', 'lime', 'mint'],
+    cookingMethods: ['raw', 'desserts', 'preserved'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['c', 'b6', 'k'],
+      minerals: ['copper', 'potassium'],
+      calories: 66,
+      carbs_g: 17,
+      fiber_g: 1.3,
+      antioxidants: ['flavonoids', 'proanthocyanidins'],
+    },
+    preparation: {
+      washing: true,
+      peeling: 'remove rough skin',
+      pitting: 'remove brown seed',
+      notes: 'Eat fresh or use in desserts',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      humidity: 'high',
+      notes: 'Best eaten fresh, skin will brown over time',
+    },
+  },
+  guava: {
+    name: 'Guava',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Earth: 0.3,
+      Water: 0.3,
+      Fire: 0.2,
+      Air: 0.2,
+    }),
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Mercury'],
+      favorableZodiac: ['taurus', 'gemini'],
+      elementalAffinity: {
+        base: 'Earth',
+        decanModifiers: {
+          first: { element: 'Earth', planet: 'Venus' },
+          second: { element: 'Water', planet: 'Mercury' },
+          third: { element: 'Fire', planet: 'Mars' },
         },
-        storage: {
-            temperature: 'room temp until ripe',
-            duration: '2-3 days',
-            ripening: 'room temperature',
-            notes: 'Refrigerate when fully ripe'
-        }
-    }
+      },
+    },
+    qualities: ['sweet-tart', 'fragrant', 'tropical'],
+    season: ['fall', 'winter'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lime', 'coconut', 'pineapple', 'mango', 'passion fruit'],
+    cookingMethods: ['raw', 'juiced', 'preserved', 'baked'],
+    nutritionalProfile: {
+      fiber: 'very high',
+      vitamins: ['c', 'a', 'e'],
+      minerals: ['potassium', 'copper'],
+      calories: 68,
+      carbs_g: 14,
+      fiber_g: 5.4,
+      antioxidants: ['lycopene', 'beta-carotene'],
+    },
+    preparation: {
+      washing: true,
+      ripeness: 'yields slightly to pressure',
+      cutting: 'quarter or slice',
+      notes: 'Seeds are edible but often removed',
+    },
+    storage: {
+      temperature: 'room temp until ripe',
+      duration: '3-4 days',
+      ripening: 'room temperature',
+      notes: 'Refrigerate when ripe',
+    },
+  },
+  rambutan: {
+    name: 'Rambutan',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet', 'delicate', 'refreshing'],
+    season: ['summer', 'fall'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lychee', 'coconut', 'lime', 'mango', 'passion fruit'],
+    cookingMethods: ['raw', 'desserts'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['c', 'b2', 'folate'],
+      minerals: ['iron', 'phosphorus'],
+      calories: 75,
+      carbs_g: 18.7,
+      fiber_g: 0.9,
+      antioxidants: ['flavonoids', 'tannins'],
+    },
+    preparation: {
+      washing: true,
+      peeling: 'cut through hAiry skin',
+      pitting: 'remove seed',
+      notes: 'Similar preparation to lychee',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '3-5 days',
+      humidity: 'high',
+      notes: 'Best eaten fresh',
+    },
+  },
+  mangosteen: {
+    name: 'Mangosteen',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet', 'delicate', 'complex'],
+    season: ['summer'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lychee', 'rambutan', 'coconut', 'lime', 'dragon fruit'],
+    cookingMethods: ['raw', 'desserts', 'preserved'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['c', 'b9', 'b1'],
+      minerals: ['manganese', 'magnesium'],
+      calories: 63,
+      carbs_g: 15.6,
+      fiber_g: 1.8,
+      antioxidants: ['xanthones', 'anthocyanins'],
+    },
+    preparation: {
+      washing: true,
+      cutting: 'score around middle',
+      opening: 'twist to separate',
+      notes: 'Purple stains easily - handle with care',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      humidity: 'moderate',
+      notes: 'Store in breathable container',
+    },
+  },
+  soursop: {
+    name: 'Soursop',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet-sour', 'creamy', 'tropical'],
+    season: ['summer', 'fall'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['coconut', 'lime', 'banana', 'passion fruit', 'mango'],
+    cookingMethods: ['raw', 'juiced', 'smoothies', 'frozen desserts'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'b1', 'b3'],
+      minerals: ['potassium', 'magnesium'],
+      calories: 66,
+      carbs_g: 16.8,
+      fiber_g: 3.3,
+      antioxidants: ['acetogenins', 'quercetin'],
+    },
+    preparation: {
+      washing: true,
+      ripeness: 'yields to gentle pressure',
+      cutting: 'halve and scoop',
+      notes: 'Remove seeds before consuming',
+    },
+    storage: {
+      temperature: 'room temp until ripe',
+      duration: '4-5 days',
+      ripening: 'room temperature',
+      notes: 'Refrigerate when ripe',
+    },
+  },
+  jackfruit: {
+    name: 'Jackfruit',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet', 'meaty', 'complex'],
+    season: ['summer', 'autumn'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['coconut', 'lime', 'ginger', 'banana', 'mango'],
+    cookingMethods: ['raw', 'cooked', 'preserved', 'dried'],
+    nutritionalProfile: {
+      fiber: 'very high',
+      vitamins: ['c', 'b6', 'a'],
+      minerals: ['potassium', 'magnesium'],
+      calories: 95,
+      carbs_g: 23.2,
+      fiber_g: 1.5,
+      antioxidants: ['carotenoids', 'flavonoids'],
+    },
+    preparation: {
+      washing: true,
+      cutting: 'requires skill and oil on hands',
+      seeding: 'remove seeds and pods',
+      notes: 'Can be used as meat substitute when young',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      humidity: 'moderate',
+      notes: 'Cut pieces must be used quickly',
+    },
+  },
+  durian: {
+    name: 'Durian',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['creamy', 'pungent', 'complex'],
+    season: ['summer'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['coconut', 'sticky rice', 'palm sugar', 'coffee', 'cream'],
+    cookingMethods: ['raw', 'desserts', 'preserved'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'b6', 'thiamin'],
+      minerals: ['potassium', 'iron'],
+      calories: 147,
+      carbs_g: 27.1,
+      fiber_g: 3.8,
+      antioxidants: ['flavonoids', 'polyphenols'],
+    },
+    preparation: {
+      cutting: 'careful handling required',
+      opening: 'cut along seams',
+      scooping: 'remove flesh from pods',
+      notes: 'Strong aroma - often restricted in public places',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '3-5 days',
+      humidity: 'moderate',
+      notes: 'Freeze for longer storage',
+    },
+  },
+  carambola: {
+    name: 'Carambola',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet-tart', 'crisp', 'decorative'],
+    season: ['winter', 'spring'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['citrus', 'mint', 'honey', 'tropical fruits', 'ginger'],
+    cookingMethods: ['raw', 'juiced', 'preserved', 'garnish'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['c', 'b5', 'folate'],
+      minerals: ['copper', 'potassium'],
+      calories: 31,
+      carbs_g: 6.7,
+      fiber_g: 2.8,
+      antioxidants: ['epicatechin', 'gallic acid'],
+    },
+    preparation: {
+      washing: true,
+      cutting: 'slice crosswise for star shape',
+      notes: 'Remove brown edges before serving',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      humidity: 'moderate',
+      notes: 'Best eaten when slightly firm',
+    },
+  },
+  kiwi: {
+    name: 'Kiwi',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet-tart', 'bright', 'refreshing'],
+    season: ['winter', 'spring'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['strawberry', 'mango', 'lime', 'mint', 'honey'],
+    cookingMethods: ['raw', 'smoothies', 'garnish', 'preserved'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'k', 'e'],
+      minerals: ['potassium', 'copper'],
+      calories: 61,
+      carbs_g: 14.7,
+      fiber_g: 3,
+      antioxidants: ['polyphenols', 'carotenoids'],
+    },
+    preparation: {
+      washing: true,
+      peeling: 'optional - skin is edible',
+      cutting: 'halve and scoop or slice with skin',
+      notes: 'Can be eaten whole like an apple',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '1-2 weeks',
+      humidity: 'moderate',
+      notes: 'Will ripen other fruits if stored together',
+    },
+  },
+  coconut: {
+    name: 'Coconut',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet', 'creamy', 'tropical'],
+    season: ['year-round'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lime', 'chocolate', 'mango', 'pineapple', 'rum'],
+    cookingMethods: ['raw', 'cooked', 'baked', 'pressed'],
+    nutritionalProfile: {
+      fiber: 'very high',
+      vitamins: ['b6', 'folate', 'c'],
+      minerals: ['iron', 'magnesium'],
+      calories: 354,
+      carbs_g: 15.2,
+      fiber_g: 9,
+      fats: ['medium chain triglycerides'],
+    },
+    preparation: {
+      opening: 'pierce eyes and drain water',
+      cracking: 'careful splitting required',
+      extraction: 'separate flesh from shell',
+      notes: 'Young coconuts are best for water',
+    },
+    storage: {
+      temperature: 'room temperature whole',
+      duration: '2-3 months whole',
+      processed: 'refrigerate once opened',
+      notes: 'Freezes well when shredded',
+    },
+  },
+  pomelo: {
+    name: 'Pomelo',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet-tart', 'mild', 'refreshing'],
+    season: ['winter'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['coconut', 'lime', 'chili', 'mint', 'ginger'],
+    cookingMethods: ['raw', 'segments', 'juiced', 'preserved'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'b6', 'thiamin'],
+      minerals: ['potassium', 'copper'],
+      calories: 38,
+      carbs_g: 9.6,
+      fiber_g: 1.9,
+      antioxidants: ['naringin', 'limonoids'],
+    },
+    preparation: {
+      washing: true,
+      peeling: 'remove thick rind and pith',
+      segmenting: 'separate membrane carefully',
+      notes: 'Less bitter than grapefruit',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '1-2 weeks',
+      humidity: 'moderate',
+      notes: 'Keeps well in cool conditions',
+    },
+  },
+  longan: {
+    name: 'Longan',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet', 'subtle', 'refreshing'],
+    season: ['late summer'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['lychee', 'mango', 'coconut', 'ginger', 'honey'],
+    cookingMethods: ['raw', 'dried', 'desserts'],
+    nutritionalProfile: {
+      fiber: 'moderate',
+      vitamins: ['c', 'b2', 'b6'],
+      minerals: ['iron', 'potassium'],
+      calories: 60,
+      carbs_g: 15.1,
+      fiber_g: 1.1,
+      antioxidants: ['gallic acid', 'ellagic acid'],
+    },
+    preparation: {
+      washing: true,
+      peeling: 'crack and remove thin shell',
+      pitting: 'remove black seed',
+      notes: 'Similar to lychee but milder',
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '3-5 days',
+      humidity: 'high',
+      notes: 'Best eaten fresh',
+    },
+  },
+  'custard apple': {
+    name: 'Custard Apple',
+    elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
+    qualities: ['sweet', 'creamy', 'fragrant'],
+    season: ['fall', 'winter'],
+    category: 'fruit',
+    subCategory: 'tropical',
+    affinities: ['vanilla', 'coconut', 'lime', 'honey', 'cinnamon'],
+    cookingMethods: ['raw', 'smoothies', 'desserts'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'b6', 'thiamin'],
+      minerals: ['potassium', 'magnesium'],
+      calories: 94,
+      carbs_g: 23.6,
+      fiber_g: 4.4,
+      antioxidants: ['catechins', 'kaempferol'],
+    },
+    preparation: {
+      washing: true,
+      ripeness: 'yields to gentle pressure',
+      eating: 'split and spoon out flesh',
+      notes: 'Avoid black seeds',
+    },
+    storage: {
+      temperature: 'room temp until ripe',
+      duration: '2-3 days',
+      ripening: 'room temperature',
+      notes: 'Refrigerate when fully ripe',
+    },
+  },
 };
 // Fix the ingredient mappings to ensure they have all required properties
 exports.tropical = (0, elementalUtils_1.fixIngredientMappings)(rawTropicalFruits);
@@ -693,7 +753,7 @@ exports.default = exports.tropical;
 exports.mango = exports.tropical.mango;
 exports.pineapple = exports.tropical.pineapple;
 exports.papaya = exports.tropical.papaya;
-exports.passionFruit = exports.tropical["passion fruit"];
-exports.dragonFruit = exports.tropical["dragon fruit"];
+exports.passionFruit = exports.tropical['passion fruit'];
+exports.dragonFruit = exports.tropical['dragon fruit'];
 exports.lychee = exports.tropical.lychee;
 exports.guava = exports.tropical.guava;

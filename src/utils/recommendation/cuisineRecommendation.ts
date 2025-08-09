@@ -17,66 +17,66 @@ export interface CuisineRecommendationParams {
 }
 
 export function generateCuisineRecommendation(
-  params: CuisineRecommendationParams
+  params: CuisineRecommendationParams,
 ): CuisineRecommendation[] {
   const { elementalProperties } = params;
-  
+
   // Basic cuisine recommendations based on elemental properties
   const recommendations: CuisineRecommendation[] = [];
-  
+
   // Fire-based cuisines
   if (elementalProperties.Fire > 0.6) {
     recommendations.push({
       cuisine: 'Mexican' as string,
       score: elementalProperties.Fire * 0.9,
       reasoning: 'High Fire element matches spicy Mexican cuisine',
-      elementalMatch: elementalProperties.Fire
+      elementalMatch: elementalProperties.Fire,
     });
   }
-  
+
   // Water-based cuisines
   if (elementalProperties.Water > 0.6) {
     recommendations.push({
       cuisine: 'Mediterranean' as string,
       score: elementalProperties.Water * 0.8,
       reasoning: 'High Water element matches Mediterranean freshness',
-      elementalMatch: elementalProperties.Water
+      elementalMatch: elementalProperties.Water,
     });
   }
-  
+
   // Earth-based cuisines
   if (elementalProperties.Earth > 0.6) {
     recommendations.push({
       cuisine: 'Italian' as string,
       score: elementalProperties.Earth * 0.85,
       reasoning: 'High Earth element matches hearty Italian cuisine',
-      elementalMatch: elementalProperties.Earth
+      elementalMatch: elementalProperties.Earth,
     });
   }
-  
+
   // Air-based cuisines
   if (elementalProperties.Air > 0.6) {
     recommendations.push({
       cuisine: 'Asian' as string,
       score: elementalProperties.Air * 0.8,
       reasoning: 'High Air element matches light Asian cuisine',
-      elementalMatch: elementalProperties.Air
+      elementalMatch: elementalProperties.Air,
     });
   }
-  
+
   return recommendations.sort((a, b) => b.score - a.score);
 }
 
 export function getCuisineElementalProfile(cuisine: string): ElementalProperties {
   const profiles: Record<string, ElementalProperties> = {
-    'Mexican': { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 },
-    'Italian': { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 },
-    'Mediterranean': { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 },
-    'Asian': { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 },
-    'Indian': { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 },
-    'Thai': { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 },
+    Mexican: { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 },
+    Italian: { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 },
+    Mediterranean: { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 },
+    Asian: { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 },
+    Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 },
+    Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 },
   };
-  
+
   return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
 }
 
@@ -98,32 +98,36 @@ export function renderScoreBadge(score: number): string {
 export function calculateElementalProfileFromZodiac(zodiacSign: string): ElementalProperties {
   const zodiacProfiles: Record<string, ElementalProperties> = {
     // Fire signs
-    'aries': { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.4 },
-    'leo': { Fire: 0.9, Water: 0.3, Earth: 0.2, Air: 0.5 },
-    'sagittarius': { Fire: 0.7, Water: 0.4, Earth: 0.3, Air: 0.6 },
-    
+    aries: { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.4 },
+    leo: { Fire: 0.9, Water: 0.3, Earth: 0.2, Air: 0.5 },
+    sagittarius: { Fire: 0.7, Water: 0.4, Earth: 0.3, Air: 0.6 },
+
     // Earth signs
-    'taurus': { Fire: 0.3, Water: 0.4, Earth: 0.8, Air: 0.2 },
-    'virgo': { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.3 },
-    'capricorn': { Fire: 0.4, Water: 0.3, Earth: 0.8, Air: 0.2 },
-    
+    taurus: { Fire: 0.3, Water: 0.4, Earth: 0.8, Air: 0.2 },
+    virgo: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.3 },
+    capricorn: { Fire: 0.4, Water: 0.3, Earth: 0.8, Air: 0.2 },
+
     // Air signs
-    'gemini': { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.8 },
-    'libra': { Fire: 0.3, Water: 0.5, Earth: 0.3, Air: 0.7 },
-    'aquarius': { Fire: 0.5, Water: 0.2, Earth: 0.3, Air: 0.9 },
-    
+    gemini: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.8 },
+    libra: { Fire: 0.3, Water: 0.5, Earth: 0.3, Air: 0.7 },
+    aquarius: { Fire: 0.5, Water: 0.2, Earth: 0.3, Air: 0.9 },
+
     // Water signs
-    'cancer': { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 },
-    'scorpio': { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 },
-    'pisces': { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 },
+    cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 },
+    scorpio: { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 },
+    pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 },
   };
-  
-  return zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
+
+  return (
+    zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }
+  );
 }
 
-export function calculateElementalContributionsFromPlanets(planetaryPositions: Record<string, any>): ElementalProperties {
+export function calculateElementalContributionsFromPlanets(
+  planetaryPositions: Record<string, any>,
+): ElementalProperties {
   const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  
+
   // Basic planetary element contributions
   const planetaryElements: Record<string, ElementalProperties> = {
     sun: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
@@ -134,7 +138,7 @@ export function calculateElementalContributionsFromPlanets(planetaryPositions: R
     jupiter: { Fire: 0.5, Water: 0, Earth: 0, Air: 0.5 },
     saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 },
   };
-  
+
   Object.entries(planetaryPositions).forEach(([planet, position]) => {
     const planetElements = planetaryElements[planet.toLowerCase()];
     if (planetElements && position) {
@@ -145,7 +149,7 @@ export function calculateElementalContributionsFromPlanets(planetaryPositions: R
       contributions.Air += planetElements.Air * strength;
     }
   });
-  
+
   // Normalize
   const total = contributions.Fire + contributions.Water + contributions.Earth + contributions.Air;
   if (total > 0) {
@@ -154,6 +158,6 @@ export function calculateElementalContributionsFromPlanets(planetaryPositions: R
     contributions.Earth /= total;
     contributions.Air /= total;
   }
-  
+
   return contributions;
-} 
+}

@@ -9,7 +9,7 @@ import {
   BatchResult,
   BuildValidation,
   TestValidation,
-  ScriptParameters
+  ScriptParameters,
 } from '../../../../types/campaign';
 
 export interface MockScriptResult {
@@ -35,14 +35,11 @@ export class ScriptExecutionMock {
   /**
    * Mock script execution
    */
-  mockExecuteScript(
-    scriptPath: string,
-    parameters: ScriptParameters
-  ): Promise<ExecutionResult> {
+  mockExecuteScript(scriptPath: string, parameters: ScriptParameters): Promise<ExecutionResult> {
     this.executionHistory.push({
       scriptPath,
       parameters,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
 
     if (this.shouldFailExecution) {
@@ -55,7 +52,7 @@ export class ScriptExecutionMock {
       changesApplied: 5,
       errors: [],
       warnings: [],
-      executionTime: 1000
+      executionTime: 1000,
     };
 
     return Promise.resolve({
@@ -64,17 +61,14 @@ export class ScriptExecutionMock {
       changesApplied: mockResult.changesApplied,
       errors: mockResult.errors,
       warnings: mockResult.warnings,
-      executionTime: mockResult.executionTime
+      executionTime: mockResult.executionTime,
     });
   }
 
   /**
    * Mock dry run execution
    */
-  mockExecuteDryRun(
-    scriptPath: string,
-    parameters: ScriptParameters
-  ): Promise<DryRunResult> {
+  mockExecuteDryRun(scriptPath: string, parameters: ScriptParameters): Promise<DryRunResult> {
     if (this.shouldFailExecution) {
       return Promise.reject(new Error('Mock dry run failed'));
     }
@@ -85,25 +79,21 @@ export class ScriptExecutionMock {
       changesApplied: 5,
       errors: [],
       warnings: [],
-      executionTime: 500
+      executionTime: 500,
     };
 
     return Promise.resolve({
       wouldProcess: mockResult.filesProcessed,
       estimatedChanges: mockResult.changesApplied,
       potentialIssues: mockResult.warnings,
-      safetyScore: mockResult.success ? 0.9 : 0.3
+      safetyScore: mockResult.success ? 0.9 : 0.3,
     });
   }
 
   /**
    * Mock batch processing
    */
-  mockProcessBatch(
-    files: string[],
-    maxFiles: number,
-    scriptPath: string
-  ): Promise<BatchResult> {
+  mockProcessBatch(files: string[], maxFiles: number, scriptPath: string): Promise<BatchResult> {
     if (this.shouldFailExecution) {
       return Promise.reject(new Error('Mock batch processing failed'));
     }
@@ -115,7 +105,7 @@ export class ScriptExecutionMock {
       changesApplied: processedFiles.length * 2,
       errors: [],
       warnings: [],
-      executionTime: 2000
+      executionTime: 2000,
     };
 
     return Promise.resolve({
@@ -129,9 +119,9 @@ export class ScriptExecutionMock {
           current: Math.max(0, 86 - mockResult.changesApplied),
           target: 0,
           reduction: mockResult.changesApplied,
-          percentage: Math.round((mockResult.changesApplied / 86) * 100)
-        }
-      }
+          percentage: Math.round((mockResult.changesApplied / 86) * 100),
+        },
+      },
     });
   }
 
@@ -147,7 +137,7 @@ export class ScriptExecutionMock {
       success: this.mockBuildSuccess,
       buildTime: this.mockBuildSuccess ? 8.5 : -1,
       errors: this.mockBuildSuccess ? [] : ['Build compilation failed'],
-      warnings: this.mockBuildSuccess ? [] : ['Build performance warning']
+      warnings: this.mockBuildSuccess ? [] : ['Build performance warning'],
     });
   }
 
@@ -164,7 +154,7 @@ export class ScriptExecutionMock {
       testsRun: 150,
       testsPassed: this.mockTestSuccess ? 150 : 140,
       testsFailed: this.mockTestSuccess ? 0 : 10,
-      errors: this.mockTestSuccess ? [] : ['Test suite failed']
+      errors: this.mockTestSuccess ? [] : ['Test suite failed'],
     });
   }
 
@@ -275,7 +265,7 @@ export class ScriptExecutionMock {
       changesApplied: 15,
       errors: [],
       warnings: ['Minor type inference warning'],
-      executionTime: 3000
+      executionTime: 3000,
     });
 
     // Explicit Any Systematic Fixer
@@ -285,7 +275,7 @@ export class ScriptExecutionMock {
       changesApplied: 25,
       errors: [],
       warnings: [],
-      executionTime: 2500
+      executionTime: 2500,
     });
 
     // Unused Variables Enhanced Fixer
@@ -295,7 +285,7 @@ export class ScriptExecutionMock {
       changesApplied: 20,
       errors: [],
       warnings: ['Removed potentially important variable'],
-      executionTime: 2000
+      executionTime: 2000,
     });
 
     // Console Statement Fixer
@@ -305,7 +295,7 @@ export class ScriptExecutionMock {
       changesApplied: 10,
       errors: [],
       warnings: [],
-      executionTime: 1500
+      executionTime: 1500,
     });
   }
 }

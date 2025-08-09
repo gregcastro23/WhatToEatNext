@@ -5,6 +5,6 @@ export default {
     '@styles': './src/styles',
     '@utils': './src/utils',
     '@types': './src/types',
-    '@providers': './src/providers'
-  }
-}; 
+    '@providers': './src/providers',
+  },
+};

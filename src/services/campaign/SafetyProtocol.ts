@@ -8,16 +8,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import {
-    CorruptionPattern,
-    CorruptionReport,
-    CorruptionSeverity,
-    GitStash,
-    RecoveryAction,
-    SafetyEvent,
-    SafetyEventSeverity,
-    SafetyEventType,
-    SafetySettings,
-    ValidationResult
+  CorruptionPattern,
+  CorruptionReport,
+  CorruptionSeverity,
+  GitStash,
+  RecoveryAction,
+  SafetyEvent,
+  SafetyEventSeverity,
+  SafetyEventType,
+  SafetySettings,
+  ValidationResult,
 } from '../../types/campaign';
 
 export class SafetyProtocol {
@@ -51,7 +51,7 @@ export class SafetyProtocol {
       // Create the git stash with all files including untracked
       execSync(`git stash push -u -m "${fullDescription}"`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       // Get the actual stash reference
@@ -64,7 +64,7 @@ export class SafetyProtocol {
         description: fullDescription,
         timestamp: new Date(),
         branch: this.getCurrentBranch(),
-        ref: stashRef
+        ref: stashRef,
       };
 
       this.stashes.set(stashName, stash);
@@ -75,7 +75,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Git stash created: ${stashName} (${stashRef})`,
         severity: SafetyEventSeverity.INFO,
-        action: 'STASH_CREATE'
+        action: 'STASH_CREATE',
       });
 
       console.log(`📦 Created git stash: ${stashName}`);
@@ -83,17 +83,18 @@ export class SafetyProtocol {
       console.log(`   Rollback with: git stash apply ${stashRef}`);
 
       return stashName;
-
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Failed to create git stash: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
-        action: 'STASH_FAILED'
+        action: 'STASH_FAILED',
       });
 
-      throw new Error(`Failed to create git stash: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+      throw new Error(
+        `Failed to create git stash: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+      );
     }
   }
 
@@ -124,14 +125,16 @@ export class SafetyProtocol {
       // Apply the stash
       execSync(`git stash apply ${stashRef}`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       // Validate after application if requested
       if (validateAfter) {
         const validation = await this.validateGitState();
         if (!validation.success) {
-          console.warn(`⚠️ Git state validation warnings after stash apply: ${validation.warnings.join(', ')}`);
+          console.warn(
+            `⚠️ Git state validation warnings after stash apply: ${validation.warnings.join(', ')}`,
+          );
         }
       }
 
@@ -140,22 +143,23 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Git stash applied: ${stashId} (${stashRef})`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'STASH_APPLY'
+        action: 'STASH_APPLY',
       });
 
       console.log(`🔄 Applied git stash: ${stashId}`);
       console.log(`   Reference: ${stashRef}`);
-
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Failed to apply git stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
-        action: 'STASH_APPLY_FAILED'
+        action: 'STASH_APPLY_FAILED',
       });
 
-      throw new Error(`Failed to apply git stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+      throw new Error(
+        `Failed to apply git stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+      );
     }
   }
 
@@ -163,8 +167,9 @@ export class SafetyProtocol {
    * Automatically apply the most recent stash for rollback scenarios
    */
   async autoApplyLatestStash(): Promise<string> {
-    const stashes = Array.from(this.stashes.values())
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    const stashes = Array.from(this.stashes.values()).sort(
+      (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
+    );
 
     if (stashes.length === 0) {
       throw new Error('No stashes available for automatic rollback');
@@ -223,28 +228,37 @@ export class SafetyProtocol {
           detectedFiles.push(filePath);
           corruptionPatterns.push(...fileCorruption.patterns);
 
-          console.log(`🚨 Corruption detected in ${filePath}: ${fileCorruption.patterns.length} patterns`);
+          console.log(
+            `🚨 Corruption detected in ${filePath}: ${fileCorruption.patterns.length} patterns`,
+          );
 
           // Update max severity
           if (fileCorruption.severity === CorruptionSeverity.CRITICAL) {
             maxSeverity = CorruptionSeverity.CRITICAL;
-          } else if (fileCorruption.severity === CorruptionSeverity.HIGH && maxSeverity !== CorruptionSeverity.CRITICAL) {
+          } else if (
+            fileCorruption.severity === CorruptionSeverity.HIGH &&
+            maxSeverity !== CorruptionSeverity.CRITICAL
+          ) {
             maxSeverity = CorruptionSeverity.HIGH;
-          } else if (fileCorruption.severity === CorruptionSeverity.MEDIUM && maxSeverity === CorruptionSeverity.LOW) {
+          } else if (
+            fileCorruption.severity === CorruptionSeverity.MEDIUM &&
+            maxSeverity === CorruptionSeverity.LOW
+          ) {
             maxSeverity = CorruptionSeverity.MEDIUM;
           }
         }
-
       } catch (error) {
         // File read error might indicate corruption
         detectedFiles.push(filePath);
         corruptionPatterns.push({
           pattern: 'FILE_READ_ERROR',
           description: `Cannot read file: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
-          files: [filePath]
+          files: [filePath],
         });
         maxSeverity = CorruptionSeverity.HIGH;
-        console.error(`❌ File read error in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+        console.error(
+          `❌ File read error in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        );
       }
     }
 
@@ -254,7 +268,7 @@ export class SafetyProtocol {
       detectedFiles,
       corruptionPatterns,
       severity: maxSeverity,
-      recommendedAction
+      recommendedAction,
     };
 
     if (detectedFiles.length > 0) {
@@ -263,10 +277,12 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Corruption detected in ${detectedFiles.length} files (${maxSeverity} severity)`,
         severity: this.mapCorruptionToEventSeverity(maxSeverity),
-        action: 'CORRUPTION_DETECTED'
+        action: 'CORRUPTION_DETECTED',
       });
 
-      console.log(`📊 Corruption analysis complete: ${detectedFiles.length} files affected, severity: ${maxSeverity}`);
+      console.log(
+        `📊 Corruption analysis complete: ${detectedFiles.length} files affected, severity: ${maxSeverity}`,
+      );
     } else {
       console.log(`✅ No corruption detected in ${files.length} files`);
     }
@@ -299,15 +315,22 @@ export class SafetyProtocol {
 
           if (importExportCorruption.severity === CorruptionSeverity.CRITICAL) {
             maxSeverity = CorruptionSeverity.CRITICAL;
-          } else if (importExportCorruption.severity === CorruptionSeverity.HIGH && maxSeverity !== CorruptionSeverity.CRITICAL) {
+          } else if (
+            importExportCorruption.severity === CorruptionSeverity.HIGH &&
+            maxSeverity !== CorruptionSeverity.CRITICAL
+          ) {
             maxSeverity = CorruptionSeverity.HIGH;
-          } else if (importExportCorruption.severity === CorruptionSeverity.MEDIUM && maxSeverity === CorruptionSeverity.LOW) {
+          } else if (
+            importExportCorruption.severity === CorruptionSeverity.MEDIUM &&
+            maxSeverity === CorruptionSeverity.LOW
+          ) {
             maxSeverity = CorruptionSeverity.MEDIUM;
           }
         }
-
       } catch (error) {
-        console.error(`❌ Error analyzing import/export corruption in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+        console.error(
+          `❌ Error analyzing import/export corruption in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        );
       }
     }
 
@@ -317,7 +340,7 @@ export class SafetyProtocol {
       detectedFiles,
       corruptionPatterns,
       severity: maxSeverity,
-      recommendedAction
+      recommendedAction,
     };
   }
 
@@ -333,18 +356,23 @@ export class SafetyProtocol {
           const report = await this.detectCorruption(files);
 
           if (report.detectedFiles.length > 0) {
-            console.warn(`⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`);
+            console.warn(
+              `⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`,
+            );
 
             this.addSafetyEvent({
               type: SafetyEventType.CORRUPTION_DETECTED,
               timestamp: new Date(),
               description: `Real-time monitoring detected corruption: ${report.severity}`,
               severity: this.mapCorruptionToEventSeverity(report.severity),
-              action: 'REALTIME_CORRUPTION_DETECTED'
+              action: 'REALTIME_CORRUPTION_DETECTED',
             });
 
             // If critical corruption is detected, trigger emergency rollback
-            if (report.severity === CorruptionSeverity.CRITICAL && this.settings.automaticRollbackEnabled) {
+            if (
+              report.severity === CorruptionSeverity.CRITICAL &&
+              this.settings.automaticRollbackEnabled
+            ) {
               console.error(`🚨 Critical corruption detected! Triggering emergency rollback...`);
               clearInterval(monitoringInterval);
               await this.emergencyRollback();
@@ -352,7 +380,9 @@ export class SafetyProtocol {
             }
           }
         } catch (error) {
-          console.error(`❌ Error during real-time monitoring: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+          console.error(
+            `❌ Error during real-time monitoring: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          );
         }
       })();
     }, intervalMs);
@@ -386,18 +416,26 @@ export class SafetyProtocol {
       // Run TypeScript compiler to check for syntax errors
       const tsFiles = files.filter(f => f.match(/\.(ts|tsx)$/));
       if (tsFiles.length === 0) {
-        return { detectedFiles, corruptionPatterns, severity: maxSeverity, recommendedAction: RecoveryAction.CONTINUE };
+        return {
+          detectedFiles,
+          corruptionPatterns,
+          severity: maxSeverity,
+          recommendedAction: RecoveryAction.CONTINUE,
+        };
       }
 
       const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       // Parse TypeScript compiler output for syntax errors
       const lines = tscOutput.split('\n');
       for (const line of lines) {
-        if (line.includes('error TS') && (line.includes('Unexpected token') || line.includes('Expression expected'))) {
+        if (
+          line.includes('error TS') &&
+          (line.includes('Unexpected token') || line.includes('Expression expected'))
+        ) {
           const fileMatch = line.match(/^([^(]+)\(/);
           if (fileMatch) {
             const filePath = fileMatch[1];
@@ -406,14 +444,13 @@ export class SafetyProtocol {
               corruptionPatterns.push({
                 pattern: 'TYPESCRIPT_SYNTAX_ERROR',
                 description: line.trim(),
-                files: [filePath]
+                files: [filePath],
               });
               maxSeverity = CorruptionSeverity.HIGH;
             }
           }
         }
       }
-
     } catch (error) {
       // TypeScript compiler errors might indicate syntax corruption
       const errorOutput = (error as any).stdout || (error as any).message;
@@ -422,7 +459,7 @@ export class SafetyProtocol {
         corruptionPatterns.push({
           pattern: 'TYPESCRIPT_COMPILATION_ERROR',
           description: `TypeScript compilation failed: ${errorOutput}`,
-          files: files.filter(f => f.match(/\.(ts|tsx)$/))
+          files: files.filter(f => f.match(/\.(ts|tsx)$/)),
         });
       }
     }
@@ -433,7 +470,7 @@ export class SafetyProtocol {
       detectedFiles,
       corruptionPatterns,
       severity: maxSeverity,
-      recommendedAction
+      recommendedAction,
     };
   }
 
@@ -443,8 +480,9 @@ export class SafetyProtocol {
   async emergencyRollback(): Promise<void> {
     try {
       // Get the most recent stash
-      const stashes = Array.from(this.stashes.values())
-        .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      const stashes = Array.from(this.stashes.values()).sort(
+        (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
+      );
 
       if (stashes.length === 0) {
         throw new Error('No stashes available for emergency rollback');
@@ -458,21 +496,22 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Emergency rollback completed using stash: ${latestStash.id}`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'EMERGENCY_ROLLBACK'
+        action: 'EMERGENCY_ROLLBACK',
       });
 
       console.log(`🚨 Emergency rollback completed using stash: ${latestStash.id}`);
-
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Emergency rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'EMERGENCY_ROLLBACK_FAILED'
+        action: 'EMERGENCY_ROLLBACK_FAILED',
       });
 
-      throw new Error(`Emergency rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+      throw new Error(
+        `Emergency rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+      );
     }
   }
 
@@ -486,7 +525,7 @@ export class SafetyProtocol {
         return {
           success: false,
           errors: ['Not a git repository'],
-          warnings: []
+          warnings: [],
         };
       }
 
@@ -502,14 +541,15 @@ export class SafetyProtocol {
       return {
         success: true,
         errors: [],
-        warnings
+        warnings,
       };
-
     } catch (error) {
       return {
         success: false,
-        errors: [`Git validation failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`],
-        warnings: []
+        errors: [
+          `Git validation failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        ],
+        warnings: [],
       };
     }
   }
@@ -538,11 +578,13 @@ export class SafetyProtocol {
           try {
             execSync(`git stash drop ${stash.ref}`, {
               encoding: 'utf8',
-              stdio: 'pipe'
+              stdio: 'pipe',
             });
           } catch (gitError) {
             // Stash might already be gone, just log warning
-            console.warn(`⚠️ Could not drop git stash ${stash.ref}: ${(gitError as Record<string, unknown>).message || 'Unknown error'}`);
+            console.warn(
+              `⚠️ Could not drop git stash ${stash.ref}: ${(gitError as Record<string, unknown>).message || 'Unknown error'}`,
+            );
           }
         }
 
@@ -552,7 +594,9 @@ export class SafetyProtocol {
 
         console.log(`🧹 Cleaned up old stash: ${stashId}`);
       } catch (error) {
-        console.warn(`⚠️ Failed to cleanup stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+        console.warn(
+          `⚠️ Failed to cleanup stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        );
       }
     }
 
@@ -563,7 +607,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Cleaned up ${cleanedCount} old stashes`,
         severity: SafetyEventSeverity.INFO,
-        action: 'STASH_CLEANUP'
+        action: 'STASH_CLEANUP',
       });
     }
   }
@@ -599,14 +643,16 @@ export class SafetyProtocol {
     }
 
     const timestamps = stashes.map(s => s.timestamp);
-    const oldestStash = timestamps.length > 0 ? new Date(Math.min(...timestamps.map(t => t.getTime()))) : undefined;
-    const newestStash = timestamps.length > 0 ? new Date(Math.max(...timestamps.map(t => t.getTime()))) : undefined;
+    const oldestStash =
+      timestamps.length > 0 ? new Date(Math.min(...timestamps.map(t => t.getTime()))) : undefined;
+    const newestStash =
+      timestamps.length > 0 ? new Date(Math.max(...timestamps.map(t => t.getTime()))) : undefined;
 
     return {
       total: stashes.length,
       byPhase,
       oldestStash,
-      newestStash
+      newestStash,
     };
   }
 
@@ -619,7 +665,10 @@ export class SafetyProtocol {
 
   // Private helper methods
 
-  private analyzeFileCorruption(filePath: string, content: string): {
+  private analyzeFileCorruption(
+    filePath: string,
+    content: string,
+  ): {
     patterns: CorruptionPattern[];
     severity: CorruptionSeverity;
   } {
@@ -631,28 +680,28 @@ export class SafetyProtocol {
       {
         regex: /import @\/types\s+from '[^']*'\s*;/g,
         description: 'Corrupted type import statement',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import @\/services\s+from '[^']*'\s*;/g,
         description: 'Corrupted service import statement',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /<<<<<<|>>>>>>|======/g,
         description: 'Git merge conflict markers',
-        severity: CorruptionSeverity.CRITICAL
+        severity: CorruptionSeverity.CRITICAL,
       },
       {
         regex: /\bposit:\s*anyi:\s*anyo:\s*anyn:\s*anys:/g,
         description: 'Corrupted parameter names',
-        severity: CorruptionSeverity.MEDIUM
+        severity: CorruptionSeverity.MEDIUM,
       },
       {
         regex: /\bcate:\s*anyg:\s*anyo:\s*anyr:\s*anyy:/g,
         description: 'Corrupted parameter names',
-        severity: CorruptionSeverity.MEDIUM
-      }
+        severity: CorruptionSeverity.MEDIUM,
+      },
     ];
 
     for (const corruptionPattern of importCorruptionPatterns) {
@@ -661,15 +710,21 @@ export class SafetyProtocol {
         patterns.push({
           pattern: corruptionPattern.regex.source,
           description: corruptionPattern.description,
-          files: [filePath]
+          files: [filePath],
         });
 
         // Update severity to the highest found
         if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {
           severity = CorruptionSeverity.CRITICAL;
-        } else if (corruptionPattern.severity === CorruptionSeverity.HIGH && severity !== CorruptionSeverity.CRITICAL) {
+        } else if (
+          corruptionPattern.severity === CorruptionSeverity.HIGH &&
+          severity !== CorruptionSeverity.CRITICAL
+        ) {
           severity = CorruptionSeverity.HIGH;
-        } else if (corruptionPattern.severity === CorruptionSeverity.MEDIUM && severity === CorruptionSeverity.LOW) {
+        } else if (
+          corruptionPattern.severity === CorruptionSeverity.MEDIUM &&
+          severity === CorruptionSeverity.LOW
+        ) {
           severity = CorruptionSeverity.MEDIUM;
         }
       }
@@ -680,7 +735,7 @@ export class SafetyProtocol {
       patterns.push({
         pattern: 'SYNTAX_CORRUPTION',
         description: 'Syntax corruption detected',
-        files: [filePath]
+        files: [filePath],
       });
       severity = CorruptionSeverity.HIGH;
     }
@@ -706,7 +761,7 @@ export class SafetyProtocol {
       /function\s*$/m,
       /const\s*$/m,
       /let\s*$/m,
-      /var\s*$/m
+      /var\s*$/m,
     ];
 
     return incompletePatterns.some(pattern => pattern.test(content));
@@ -715,7 +770,10 @@ export class SafetyProtocol {
   /**
    * Analyze import/export corruption patterns based on existing script knowledge
    */
-  private analyzeImportExportCorruption(filePath: string, content: string): {
+  private analyzeImportExportCorruption(
+    filePath: string,
+    content: string,
+  ): {
     patterns: CorruptionPattern[];
     severity: CorruptionSeverity;
   } {
@@ -727,73 +785,73 @@ export class SafetyProtocol {
       {
         regex: /import\s+\{\s*\}\s+from\s+['"][^'"]*['"];?/g,
         description: 'Empty import statement',
-        severity: CorruptionSeverity.MEDIUM
+        severity: CorruptionSeverity.MEDIUM,
       },
       {
         regex: /import\s+[^{]*\s+from\s+['"]undefined['"];?/g,
         description: 'Import from undefined module',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import\s+[^{]*\s+from\s+['"]['"]\s*;?/g,
         description: 'Import from empty string',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /export\s+\{\s*\}\s*;?/g,
         description: 'Empty export statement',
-        severity: CorruptionSeverity.MEDIUM
+        severity: CorruptionSeverity.MEDIUM,
       },
       {
         regex: /import\s+[^{]*\s+from\s+['"][^'"]*['"]\s+from\s+['"][^'"]*['"];?/g,
         description: 'Duplicate from clause in import',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import\s*\{\s*[^}]*,\s*,\s*[^}]*\}\s*from/g,
         description: 'Double comma in import destructuring',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import\s*\{\s*[^}]*\s+as\s+as\s+[^}]*\}\s*from/g,
         description: 'Duplicate "as" keyword in import',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /export\s*\{\s*[^}]*,\s*,\s*[^}]*\}/g,
         description: 'Double comma in export destructuring',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import\s+[^{]*\s+from\s+['"]@\/[^'"]*\s+@\/[^'"]*['"];?/g,
         description: 'Corrupted path alias in import',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import\s+[^{]*\s+from\s+['"][^'"]*\.\.[^'"]*\.\.[^'"]*['"];?/g,
         description: 'Corrupted relative path with multiple ..',
-        severity: CorruptionSeverity.MEDIUM
+        severity: CorruptionSeverity.MEDIUM,
       },
       {
         regex: /import\s*\{\s*[^}]*\s*\}\s*\{\s*[^}]*\s*\}\s*from/g,
         description: 'Duplicate destructuring braces in import',
-        severity: CorruptionSeverity.CRITICAL
+        severity: CorruptionSeverity.CRITICAL,
       },
       {
         regex: /export\s+default\s+default\s+/g,
         description: 'Duplicate default keyword in export',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import\s+type\s+type\s+/g,
         description: 'Duplicate type keyword in import',
-        severity: CorruptionSeverity.HIGH
+        severity: CorruptionSeverity.HIGH,
       },
       {
         regex: /import\s*\*\s+as\s+\*\s+as\s+/g,
         description: 'Corrupted namespace import syntax',
-        severity: CorruptionSeverity.CRITICAL
-      }
+        severity: CorruptionSeverity.CRITICAL,
+      },
     ];
 
     for (const corruptionPattern of importExportCorruptionPatterns) {
@@ -802,15 +860,21 @@ export class SafetyProtocol {
         patterns.push({
           pattern: corruptionPattern.regex.source,
           description: `${corruptionPattern.description} (${matches.length} occurrences)`,
-          files: [filePath]
+          files: [filePath],
         });
 
         // Update severity to the highest found
         if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {
           severity = CorruptionSeverity.CRITICAL;
-        } else if (corruptionPattern.severity === CorruptionSeverity.HIGH && severity !== CorruptionSeverity.CRITICAL) {
+        } else if (
+          corruptionPattern.severity === CorruptionSeverity.HIGH &&
+          severity !== CorruptionSeverity.CRITICAL
+        ) {
           severity = CorruptionSeverity.HIGH;
-        } else if (corruptionPattern.severity === CorruptionSeverity.MEDIUM && severity === CorruptionSeverity.LOW) {
+        } else if (
+          corruptionPattern.severity === CorruptionSeverity.MEDIUM &&
+          severity === CorruptionSeverity.LOW
+        ) {
           severity = CorruptionSeverity.MEDIUM;
         }
       }
@@ -820,8 +884,8 @@ export class SafetyProtocol {
     const malformedPatterns = [
       /import\s+[^{]*\s+from(?!\s+['"])/g, // import without proper from clause
       /export\s+[^{]*\s+from(?!\s+['"])/g, // export without proper from clause
-      /import\s*\{[^}]*\s+from\s+[^'"]/g,  // import with missing quotes
-      /export\s*\{[^}]*\s+from\s+[^'"]/g   // export with missing quotes
+      /import\s*\{[^}]*\s+from\s+[^'"]/g, // import with missing quotes
+      /export\s*\{[^}]*\s+from\s+[^'"]/g, // export with missing quotes
     ];
 
     for (const pattern of malformedPatterns) {
@@ -830,7 +894,7 @@ export class SafetyProtocol {
         patterns.push({
           pattern: pattern.source,
           description: 'Malformed import/export statement syntax',
-          files: [filePath]
+          files: [filePath],
         });
         severity = CorruptionSeverity.HIGH;
       }
@@ -898,17 +962,25 @@ export class SafetyProtocol {
 
         // Restore stashes with proper Date objects
         for (const [id, stashData] of Object.entries(parsed.stashes || {})) {
-          const stash = stashData as { id: string; description: string; timestamp: string; branch: string; ref?: string };
+          const stash = stashData as {
+            id: string;
+            description: string;
+            timestamp: string;
+            branch: string;
+            ref?: string;
+          };
           this.stashes.set(id, {
             ...stash,
-            timestamp: new Date(stash.timestamp)
+            timestamp: new Date(stash.timestamp),
           });
         }
 
         this.stashCounter = parsed.counter || 0;
       }
     } catch (error) {
-      console.warn(`⚠️ Could not load stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+      console.warn(
+        `⚠️ Could not load stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+      );
       this.stashCounter = 0;
     }
   }
@@ -929,12 +1001,14 @@ export class SafetyProtocol {
       const data = {
         counter: this.stashCounter,
         stashes: Object.fromEntries(this.stashes.entries()),
-        lastUpdated: new Date().toISOString()
+        lastUpdated: new Date().toISOString(),
       };
 
       fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2));
     } catch (error) {
-      console.warn(`⚠️ Could not save stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+      console.warn(
+        `⚠️ Could not save stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+      );
     }
   }
 
@@ -957,7 +1031,9 @@ export class SafetyProtocol {
 
       throw new Error(`Stash not found with message: ${message}`);
     } catch (error) {
-      throw new Error(`Failed to find stash by message: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+      throw new Error(
+        `Failed to find stash by message: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+      );
     }
   }
 }

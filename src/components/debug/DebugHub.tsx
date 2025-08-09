@@ -30,10 +30,8 @@ export function DebugHub() {
   const TabButton = ({ tab, children }: { tab: Tab; children: React.ReactNode }) => (
     <button
       onClick={() => setActiveTab(tab)}
-      className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-        activeTab === tab
-          ? 'bg-blue-600 text-white'
-          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+      className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+        activeTab === tab ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
       }`}
     >
       {children}
@@ -41,17 +39,17 @@ export function DebugHub() {
   );
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
-      <div className="bg-gray-800 p-4 rounded-lg shadow-2xl">
-        <h2 className="text-2xl font-bold mb-4 text-white">Application Debug Hub</h2>
-        <div className="flex space-x-2 mb-4 border-b border-gray-700 pb-4">
-          <TabButton tab="State">State Inspector</TabButton>
-          <TabButton tab="Cuisine">Cuisine Recommender</TabButton>
-          <TabButton tab="Ingredient">Ingredient Recommender</TabButton>
-          <TabButton tab="Cooking">Cooking Methods</TabButton>
+    <div className='mx-auto w-full max-w-7xl'>
+      <div className='rounded-lg bg-gray-800 p-4 shadow-2xl'>
+        <h2 className='mb-4 text-2xl font-bold text-white'>Application Debug Hub</h2>
+        <div className='mb-4 flex space-x-2 border-b border-gray-700 pb-4'>
+          <TabButton tab='State'>State Inspector</TabButton>
+          <TabButton tab='Cuisine'>Cuisine Recommender</TabButton>
+          <TabButton tab='Ingredient'>Ingredient Recommender</TabButton>
+          <TabButton tab='Cooking'>Cooking Methods</TabButton>
         </div>
-        <div className="mt-4">{renderTabContent()}</div>
+        <div className='mt-4'>{renderTabContent()}</div>
       </div>
     </div>
   );
-} 
+}

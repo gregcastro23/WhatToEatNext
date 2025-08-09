@@ -110,11 +110,15 @@ export class FinalValidationSystem {
     const campaignSummary = await this.generateCampaignSummary();
 
     // Determine certification status
-    const certificationStatus = this.determineCertificationStatus(validationResults, performanceMetrics);
+    const certificationStatus = this.determineCertificationStatus(
+      validationResults,
+      performanceMetrics,
+    );
 
     // Overall success determination
-    const overallSuccess = validationResults.every(result => result.passed) &&
-                          certificationStatus.perfectCodebaseAchieved;
+    const overallSuccess =
+      validationResults.every(result => result.passed) &&
+      certificationStatus.perfectCodebaseAchieved;
 
     const report: CampaignCompletionReport = {
       timestamp: new Date().toISOString(),
@@ -122,7 +126,7 @@ export class FinalValidationSystem {
       validationResults,
       performanceMetrics,
       campaignSummary,
-      certificationStatus
+      certificationStatus,
     };
 
     // Display results
@@ -148,23 +152,31 @@ export class FinalValidationSystem {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       // If no errors, output will be empty or contain only info messages
       const errorLines = output.split('\n').filter(line => line.includes('error TS'));
       const errorCount = errorLines.length;
 
-      const details = errorCount > 0 ? [
-        `Found ${errorCount} TypeScript compilation errors`,
-        ...errorLines.slice(0, 10).map(line => `  ${line.trim()}`),
-        ...(errorLines.length > 10 ? [`  ... and ${errorLines.length - 10} more errors`] : [])
-      ] : ['All TypeScript compilation checks passed'];
+      const details =
+        errorCount > 0
+          ? [
+              `Found ${errorCount} TypeScript compilation errors`,
+              ...errorLines.slice(0, 10).map(line => `  ${line.trim()}`),
+              ...(errorLines.length > 10
+                ? [`  ... and ${errorLines.length - 10} more errors`]
+                : []),
+            ]
+          : ['All TypeScript compilation checks passed'];
 
-      const criticalIssues = errorCount > 0 ? [
-        'TypeScript compilation errors prevent perfect codebase certification',
-        'Run Phase 1 of the Perfect Codebase Campaign to eliminate errors'
-      ] : [];
+      const criticalIssues =
+        errorCount > 0
+          ? [
+              'TypeScript compilation errors prevent perfect codebase certification',
+              'Run Phase 1 of the Perfect Codebase Campaign to eliminate errors',
+            ]
+          : [];
 
       return {
         category: 'TypeScript Compilation',
@@ -172,13 +184,15 @@ export class FinalValidationSystem {
         current: errorCount,
         target: this.TYPESCRIPT_ERROR_TARGET,
         details,
-        criticalIssues
+        criticalIssues,
       };
     } catch (error) {
       // TypeScript errors cause non-zero exit code
       const err = error as unknown as { stdout?: string; message?: string };
       const errorOutput = err.stdout || err.message || '';
-      const errorLines = errorOutput.split('\n').filter((line: string) => line.includes('error TS'));
+      const errorLines = errorOutput
+        .split('\n')
+        .filter((line: string) => line.includes('error TS'));
       const errorCount = errorLines.length;
 
       return {
@@ -189,12 +203,12 @@ export class FinalValidationSystem {
         details: [
           `Found ${errorCount} TypeScript compilation errors`,
           ...errorLines.slice(0, 10).map((line: string) => `  ${line.trim()}`),
-          ...(errorLines.length > 10 ? [`  ... and ${errorLines.length - 10} more errors`] : [])
+          ...(errorLines.length > 10 ? [`  ... and ${errorLines.length - 10} more errors`] : []),
         ],
         criticalIssues: [
           'TypeScript compilation errors prevent perfect codebase certification',
-          'Run Phase 1 of the Perfect Codebase Campaign to eliminate errors'
-        ]
+          'Run Phase 1 of the Perfect Codebase Campaign to eliminate errors',
+        ],
       };
     }
   }
@@ -208,30 +222,40 @@ export class FinalValidationSystem {
     try {
       const output = execSync('yarn lint', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       const warningLines = output.split('\n').filter(line => line.includes('warning'));
       const warningCount = warningLines.length;
 
       // Categorize warnings
-      const explicitAnyWarnings = warningLines.filter(line => line.includes('@typescript-eslint/no-explicit-any')).length;
+      const explicitAnyWarnings = warningLines.filter(line =>
+        line.includes('@typescript-eslint/no-explicit-any'),
+      ).length;
       const unusedVarWarnings = warningLines.filter(line => line.includes('no-unused-vars')).length;
       const consoleWarnings = warningLines.filter(line => line.includes('no-console')).length;
 
-      const details = warningCount > 0 ? [
-        `Found ${warningCount} linting warnings`,
-        `  Explicit-any warnings: ${explicitAnyWarnings}`,
-        `  Unused variable warnings: ${unusedVarWarnings}`,
-        `  Console statement warnings: ${consoleWarnings}`,
-        ...warningLines.slice(0, 5).map(line => `  ${line.trim()}`),
-        ...(warningLines.length > 5 ? [`  ... and ${warningLines.length - 5} more warnings`] : [])
-      ] : ['All linting checks passed with zero warnings'];
+      const details =
+        warningCount > 0
+          ? [
+              `Found ${warningCount} linting warnings`,
+              `  Explicit-any warnings: ${explicitAnyWarnings}`,
+              `  Unused variable warnings: ${unusedVarWarnings}`,
+              `  Console statement warnings: ${consoleWarnings}`,
+              ...warningLines.slice(0, 5).map(line => `  ${line.trim()}`),
+              ...(warningLines.length > 5
+                ? [`  ... and ${warningLines.length - 5} more warnings`]
+                : []),
+            ]
+          : ['All linting checks passed with zero warnings'];
 
-      const criticalIssues = warningCount > 0 ? [
-        'Linting warnings prevent perfect code quality certification',
-        'Run Phase 2 of the Perfect Codebase Campaign to eliminate warnings'
-      ] : [];
+      const criticalIssues =
+        warningCount > 0
+          ? [
+              'Linting warnings prevent perfect code quality certification',
+              'Run Phase 2 of the Perfect Codebase Campaign to eliminate warnings',
+            ]
+          : [];
 
       return {
         category: 'Linting Quality',
@@ -239,12 +263,14 @@ export class FinalValidationSystem {
         current: warningCount,
         target: this.LINTING_WARNING_TARGET,
         details,
-        criticalIssues
+        criticalIssues,
       };
     } catch (error) {
       const err = error as unknown as { stdout?: string; message?: string };
       const errorOutput = err.stdout || err.message || '';
-      const warningLines = errorOutput.split('\n').filter((line: string) => line.includes('warning'));
+      const warningLines = errorOutput
+        .split('\n')
+        .filter((line: string) => line.includes('warning'));
       const warningCount = warningLines.length;
 
       return {
@@ -254,11 +280,10 @@ export class FinalValidationSystem {
         target: this.LINTING_WARNING_TARGET,
         details: [
           `Found ${warningCount} linting warnings`,
-          ...warningLines.slice(0, 10).map((line: string) => `  ${line.trim()}`)
+          ...warningLines.slice(0, 10).map((line: string) => `  ${line.trim()}`),
         ],
-        criticalIssues: warningCount > 0 ? [
-          'Linting warnings prevent perfect code quality certification'
-        ] : []
+        criticalIssues:
+          warningCount > 0 ? ['Linting warnings prevent perfect code quality certification'] : [],
       };
     }
   }
@@ -272,23 +297,23 @@ export class FinalValidationSystem {
     try {
       const output = execSync('grep -r "INTELLIGENCE_SYSTEM" src/', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       const intelligenceLines = output.split('\n').filter(line => line.trim().length > 0);
       const intelligenceCount = intelligenceLines.length;
 
       // Categorize intelligence systems
-      const highPriorityCount = intelligenceLines.filter(line =>
-        line.includes('src/data/') || line.includes('src/recipes/')
+      const highPriorityCount = intelligenceLines.filter(
+        line => line.includes('src/data/') || line.includes('src/recipes/'),
       ).length;
 
-      const mediumPriorityCount = intelligenceLines.filter(line =>
-        line.includes('src/services/') || line.includes('src/components/')
+      const mediumPriorityCount = intelligenceLines.filter(
+        line => line.includes('src/services/') || line.includes('src/components/'),
       ).length;
 
-      const lowPriorityCount = intelligenceLines.filter(line =>
-        line.includes('src/utils/') || line.includes('src/__tests__/')
+      const lowPriorityCount = intelligenceLines.filter(
+        line => line.includes('src/utils/') || line.includes('src/__tests__/'),
       ).length;
 
       const details = [
@@ -296,13 +321,16 @@ export class FinalValidationSystem {
         `  High Priority (Data/Recipes): ${highPriorityCount} systems`,
         `  Medium Priority (Services/Components): ${mediumPriorityCount} systems`,
         `  Low Priority (Utils/Tests): ${lowPriorityCount} systems`,
-        `Target: ${this.INTELLIGENCE_SYSTEM_TARGET}+ systems`
+        `Target: ${this.INTELLIGENCE_SYSTEM_TARGET}+ systems`,
       ];
 
-      const criticalIssues = intelligenceCount < this.INTELLIGENCE_SYSTEM_TARGET ? [
-        `Intelligence system count below target: ${intelligenceCount}/${this.INTELLIGENCE_SYSTEM_TARGET}`,
-        'Run Phase 3 of the Perfect Codebase Campaign to transform unused exports'
-      ] : [];
+      const criticalIssues =
+        intelligenceCount < this.INTELLIGENCE_SYSTEM_TARGET
+          ? [
+              `Intelligence system count below target: ${intelligenceCount}/${this.INTELLIGENCE_SYSTEM_TARGET}`,
+              'Run Phase 3 of the Perfect Codebase Campaign to transform unused exports',
+            ]
+          : [];
 
       return {
         category: 'Enterprise Intelligence',
@@ -310,7 +338,7 @@ export class FinalValidationSystem {
         current: intelligenceCount,
         target: this.INTELLIGENCE_SYSTEM_TARGET,
         details,
-        criticalIssues
+        criticalIssues,
       };
     } catch (error) {
       return {
@@ -321,8 +349,8 @@ export class FinalValidationSystem {
         details: ['No intelligence systems found'],
         criticalIssues: [
           'No enterprise intelligence systems detected',
-          'Run Phase 3 of the Perfect Codebase Campaign to create intelligence systems'
-        ]
+          'Run Phase 3 of the Perfect Codebase Campaign to create intelligence systems',
+        ],
       };
     }
   }
@@ -343,10 +371,13 @@ export class FinalValidationSystem {
       // Measure memory usage
       let memoryUsage = 0;
       try {
-        const memoryOutput = execSync('/usr/bin/time -v yarn build 2>&1 | grep "Maximum resident set size"', {
-          encoding: 'utf8',
-          stdio: 'pipe'
-        });
+        const memoryOutput = execSync(
+          '/usr/bin/time -v yarn build 2>&1 | grep "Maximum resident set size"',
+          {
+            encoding: 'utf8',
+            stdio: 'pipe',
+          },
+        );
         const memoryMatch = memoryOutput.match(/(\d+)/);
         if (memoryMatch) {
           memoryUsage = parseInt(memoryMatch[1]) / 1024; // Convert to MB
@@ -361,7 +392,7 @@ export class FinalValidationSystem {
       try {
         const bundleSizeOutput = execSync('du -sh .next/', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
         bundleSize = bundleSizeOutput.split('\t')[0];
       } catch (error) {
@@ -376,14 +407,20 @@ export class FinalValidationSystem {
         `Build time: ${buildTime.toFixed(1)}s (Target: <${this.BUILD_TIME_TARGET}s) ${buildTimeOk ? '✅' : '❌'}`,
         `Memory usage: ${memoryUsage.toFixed(1)}MB (Target: <${this.MEMORY_USAGE_TARGET}MB) ${memoryOk ? '✅' : '❌'}`,
         `Bundle size: ${bundleSize} (Target: ≤${this.BUNDLE_SIZE_TARGET}kB)`,
-        `Performance status: ${performanceOk ? 'OPTIMAL' : 'NEEDS OPTIMIZATION'}`
+        `Performance status: ${performanceOk ? 'OPTIMAL' : 'NEEDS OPTIMIZATION'}`,
       ];
 
-      const criticalIssues = !performanceOk ? [
-        ...(buildTime >= this.BUILD_TIME_TARGET ? [`Build time exceeds target: ${buildTime.toFixed(1)}s`] : []),
-        ...(memoryUsage >= this.MEMORY_USAGE_TARGET ? [`Memory usage exceeds target: ${memoryUsage.toFixed(1)}MB`] : []),
-        'Run Phase 4 of the Perfect Codebase Campaign to optimize performance'
-      ] : [];
+      const criticalIssues = !performanceOk
+        ? [
+            ...(buildTime >= this.BUILD_TIME_TARGET
+              ? [`Build time exceeds target: ${buildTime.toFixed(1)}s`]
+              : []),
+            ...(memoryUsage >= this.MEMORY_USAGE_TARGET
+              ? [`Memory usage exceeds target: ${memoryUsage.toFixed(1)}MB`]
+              : []),
+            'Run Phase 4 of the Perfect Codebase Campaign to optimize performance',
+          ]
+        : [];
 
       return {
         category: 'Performance Optimization',
@@ -391,7 +428,7 @@ export class FinalValidationSystem {
         current: Math.round(buildTime),
         target: this.BUILD_TIME_TARGET,
         details,
-        criticalIssues
+        criticalIssues,
       };
     } catch (error) {
       return {
@@ -402,8 +439,8 @@ export class FinalValidationSystem {
         details: ['Performance measurement failed'],
         criticalIssues: [
           'Unable to measure performance metrics',
-          'Ensure build system is functional'
-        ]
+          'Ensure build system is functional',
+        ],
       };
     }
   }
@@ -447,7 +484,7 @@ export class FinalValidationSystem {
       current: overallSuccess ? 1 : 0,
       target: 1,
       details,
-      criticalIssues
+      criticalIssues,
     };
   }
 
@@ -476,7 +513,7 @@ export class FinalValidationSystem {
       memoryUsage,
       bundleSize,
       cacheHitRate,
-      testCoverage
+      testCoverage,
     };
   }
 
@@ -493,7 +530,7 @@ export class FinalValidationSystem {
         initialState = {
           errors: baseline.errors || 0,
           warnings: baseline.warnings || 0,
-          intelligence: baseline.intelligence || 0
+          intelligence: baseline.intelligence || 0,
         };
       }
     } catch (error) {
@@ -506,12 +543,17 @@ export class FinalValidationSystem {
     let finalIntelligence = 0;
 
     try {
-      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', { encoding: 'utf8', stdio: 'pipe' });
+      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
       finalErrors = tsOutput.split('\n').filter(line => line.includes('error TS')).length;
     } catch (error) {
       const err = error as unknown as { stdout?: string };
       const errorOutput = err.stdout || '';
-      finalErrors = errorOutput.split('\n').filter((line: string) => line.includes('error TS')).length;
+      finalErrors = errorOutput
+        .split('\n')
+        .filter((line: string) => line.includes('error TS')).length;
     }
 
     try {
@@ -520,12 +562,19 @@ export class FinalValidationSystem {
     } catch (error) {
       const err = error as unknown as { stdout?: string };
       const errorOutput = err.stdout || '';
-      finalWarnings = errorOutput.split('\n').filter((line: string) => line.includes('warning')).length;
+      finalWarnings = errorOutput
+        .split('\n')
+        .filter((line: string) => line.includes('warning')).length;
     }
 
     try {
-      const intelligenceOutput = execSync('grep -r "INTELLIGENCE_SYSTEM" src/', { encoding: 'utf8', stdio: 'pipe' });
-      finalIntelligence = intelligenceOutput.split('\n').filter(line => line.trim().length > 0).length;
+      const intelligenceOutput = execSync('grep -r "INTELLIGENCE_SYSTEM" src/', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
+      finalIntelligence = intelligenceOutput
+        .split('\n')
+        .filter(line => line.trim().length > 0).length;
     } catch (error) {
       finalIntelligence = 0;
     }
@@ -533,19 +582,19 @@ export class FinalValidationSystem {
     const finalState = {
       errors: finalErrors,
       warnings: finalWarnings,
-      intelligence: finalIntelligence
+      intelligence: finalIntelligence,
     };
 
     const improvements = {
       errorReduction: Math.max(0, initialState.errors - finalState.errors),
       warningReduction: Math.max(0, initialState.warnings - finalState.warnings),
-      intelligenceIncrease: Math.max(0, finalState.intelligence - initialState.intelligence)
+      intelligenceIncrease: Math.max(0, finalState.intelligence - initialState.intelligence),
     };
 
     return {
       initialState,
       finalState,
-      improvements
+      improvements,
     };
   }
 
@@ -554,7 +603,7 @@ export class FinalValidationSystem {
    */
   private determineCertificationStatus(
     validationResults: ValidationResult[],
-    performanceMetrics: PerformanceMetrics
+    performanceMetrics: PerformanceMetrics,
   ): CertificationStatus {
     const allValidationsPassed = validationResults.every(result => result.passed);
     const perfectCodebaseAchieved = allValidationsPassed;
@@ -576,7 +625,7 @@ export class FinalValidationSystem {
       enterpriseReady,
       productionDeploymentReady,
       certificationLevel,
-      certificationDate: perfectCodebaseAchieved ? new Date().toISOString() : undefined
+      certificationDate: perfectCodebaseAchieved ? new Date().toISOString() : undefined,
     };
   }
 
@@ -614,15 +663,27 @@ export class FinalValidationSystem {
 
     console.log('\n📈 CAMPAIGN SUMMARY');
     console.log('==================');
-    console.log(`TypeScript Errors: ${report.campaignSummary.initialState.errors} → ${report.campaignSummary.finalState.errors} (${report.campaignSummary.improvements.errorReduction} eliminated)`);
-    console.log(`Linting Warnings: ${report.campaignSummary.initialState.warnings} → ${report.campaignSummary.finalState.warnings} (${report.campaignSummary.improvements.warningReduction} eliminated)`);
-    console.log(`Intelligence Systems: ${report.campaignSummary.initialState.intelligence} → ${report.campaignSummary.finalState.intelligence} (+${report.campaignSummary.improvements.intelligenceIncrease} created)`);
+    console.log(
+      `TypeScript Errors: ${report.campaignSummary.initialState.errors} → ${report.campaignSummary.finalState.errors} (${report.campaignSummary.improvements.errorReduction} eliminated)`,
+    );
+    console.log(
+      `Linting Warnings: ${report.campaignSummary.initialState.warnings} → ${report.campaignSummary.finalState.warnings} (${report.campaignSummary.improvements.warningReduction} eliminated)`,
+    );
+    console.log(
+      `Intelligence Systems: ${report.campaignSummary.initialState.intelligence} → ${report.campaignSummary.finalState.intelligence} (+${report.campaignSummary.improvements.intelligenceIncrease} created)`,
+    );
 
     console.log('\n🏆 CERTIFICATION STATUS');
     console.log('=======================');
-    console.log(`Perfect Codebase: ${report.certificationStatus.perfectCodebaseAchieved ? '✅ ACHIEVED' : '❌ NOT ACHIEVED'}`);
-    console.log(`Enterprise Ready: ${report.certificationStatus.enterpriseReady ? '✅ YES' : '❌ NO'}`);
-    console.log(`Production Ready: ${report.certificationStatus.productionDeploymentReady ? '✅ YES' : '❌ NO'}`);
+    console.log(
+      `Perfect Codebase: ${report.certificationStatus.perfectCodebaseAchieved ? '✅ ACHIEVED' : '❌ NOT ACHIEVED'}`,
+    );
+    console.log(
+      `Enterprise Ready: ${report.certificationStatus.enterpriseReady ? '✅ YES' : '❌ NO'}`,
+    );
+    console.log(
+      `Production Ready: ${report.certificationStatus.productionDeploymentReady ? '✅ YES' : '❌ NO'}`,
+    );
     console.log(`Certification Level: ${report.certificationStatus.certificationLevel}`);
 
     if (report.certificationStatus.certificationDate) {
@@ -698,9 +759,12 @@ export class FinalValidationSystem {
 
 ## Validation Results
 
-${report.validationResults.map(result =>
-  `### ${result.category}\n**Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}\n**Current**: ${result.current} | **Target**: ${result.target}\n`
-).join('\n')}
+${report.validationResults
+  .map(
+    result =>
+      `### ${result.category}\n**Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}\n**Current**: ${result.current} | **Target**: ${result.target}\n`,
+  )
+  .join('\n')}
 
 ---
 
@@ -727,7 +791,8 @@ if (require.main === module) {
   switch (command) {
     case 'validate':
     case '--validate':
-      validator.executeComprehensiveValidation()
+      validator
+        .executeComprehensiveValidation()
         .then(report => {
           process.exit(report.overallSuccess ? 0 : 1);
         })

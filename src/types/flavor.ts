@@ -20,5 +20,5 @@ export enum FlavorProfileType {
   EARTHY = 'EARTHY',
   AROMATIC = 'AROMATIC',
   TANGY = 'TANGY',
-  RICH = 'RICH'
-} 
+  RICH = 'RICH',
+}

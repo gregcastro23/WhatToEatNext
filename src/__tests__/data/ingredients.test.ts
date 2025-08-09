@@ -1,4 +1,4 @@
-import { RecipeIngredient , validateIngredient } from '@/types/recipeIngredient';
+import { RecipeIngredient, validateIngredient } from '@/types/recipeIngredient';
 // Removed duplicate: // Removed duplicate: // Removed duplicate: import type { RecipeIngredient } from '@/types/recipeIngredient';
 
 describe('Ingredient Data Structure', () => {
@@ -52,15 +52,7 @@ describe('Ingredient Data Structure', () => {
   });
 
   it('should validate ingredients with different unit types', () => {
-    const units = [
-      'cup',
-      'tablespoon',
-      'teaspoon',
-      'gram',
-      'ounce',
-      'pound',
-      'piece',
-    ];
+    const units = ['cup', 'tablespoon', 'teaspoon', 'gram', 'ounce', 'pound', 'piece'];
 
     for (const unit of units) {
       const ingredient: RecipeIngredient = {

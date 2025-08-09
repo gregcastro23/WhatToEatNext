@@ -1,9 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-import { PlanetaryHourCalculator } from "../lib/PlanetaryHourCalculator";
+import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
 
-import useErrorHandler from "./useErrorHandler";
+import useErrorHandler from './useErrorHandler';
 
 interface PlanetaryHourData {
   currentPlanetaryHour: string;
@@ -25,24 +25,24 @@ export function usePlanetaryHour(): PlanetaryHourData {
 
   useEffect(() => {
     const calculator = new PlanetaryHourCalculator();
-    
+
     try {
       // Calculate the current planetary hour
       const now = new Date();
       const planetaryHour = calculator.calculatePlanetaryHour(now);
       setCurrentPlanetaryHour(planetaryHour);
-      
+
       // Map to chakras - this could be replaced with actual logic
       const chakraMapping: Record<string, string[]> = {
-        'Sun': ['Crown', 'Solar Plexus'],
-        'Moon': ['Third Eye', 'Sacral'],
-        'Mercury': ['Throat', 'Root'],
-        'Venus': ['Heart', 'Sacral'],
-        'Mars': ['Root', 'Solar Plexus'],
-        'Jupiter': ['Crown', 'Heart'],
-        'Saturn': ['Root', 'Third Eye']
+        Sun: ['Crown', 'Solar Plexus'],
+        Moon: ['Third Eye', 'Sacral'],
+        Mercury: ['Throat', 'Root'],
+        Venus: ['Heart', 'Sacral'],
+        Mars: ['Root', 'Solar Plexus'],
+        Jupiter: ['Crown', 'Heart'],
+        Saturn: ['Root', 'Third Eye'],
       };
-      
+
       setPlanetaryHourChakras(chakraMapping[planetaryHour] || []);
       setIsLoading(false);
     } catch (err) {
@@ -50,7 +50,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
       setError('Failed to calculate planetary hour');
       setIsLoading(false);
     }
-    
+
     // Update every minute
     const intervalId = setInterval(() => {
       try {
@@ -61,15 +61,15 @@ export function usePlanetaryHour(): PlanetaryHourData {
         console.error('Error updating planetary hour:', err);
       }
     }, 60000);
-    
+
     return () => clearInterval(intervalId);
   }, [captureError]);
-  
+
   return {
     currentPlanetaryHour,
     planetaryHourChakras,
     isLoading,
-    error
+    error,
   };
 }
 

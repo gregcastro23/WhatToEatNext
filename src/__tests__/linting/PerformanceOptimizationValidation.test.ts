@@ -20,69 +20,80 @@ describe('Performance Optimization Validation', () => {
   const testTimeout = 180000; // 3 minutes
 
   beforeAll(() => {
-    _validator = new LintingPerformanceValidator()
+    _validator = new LintingPerformanceValidator();
   });
 
   describe('Enhanced Caching Performance', () => {
-    test('validates cache file creation and usage', async () => {
-      // Clear existing cache
-      try {
-        if (existsSync('.eslintcache')) {
-          unlinkSync('.eslintcache');
+    test(
+      'validates cache file creation and usage',
+      async () => {
+        // Clear existing cache
+        try {
+          if (existsSync('.eslintcache')) {
+            unlinkSync('.eslintcache');
+          }
+        } catch (error) {
+          // Ignore cleanup errors
         }
-      } catch (error) {
-        // Ignore cleanup errors
-      }
 
-      // Run linting to create cache - use a simple command that should complete quickly
-      const result = TestUtils.executeWithRetry(
-        'echo "test completed"',
-        {
+        // Run linting to create cache - use a simple command that should complete quickly
+        const result = await TestUtils.executeWithRetry('echo "test completed"', {
           timeout: 5000,
-          retries: 1
-        }
-      );
-
-      // Validate that the test utilities work correctly
-      expect(result.success).toBe(true);
-      expect(result.executionTime).toBeGreaterThan(0);
-      expect(result.output).toContain('test completed');
-
-      // Test the validation system
-      const validation = validateTestResult({
-        executionTime: result.executionTime,
-        memoryUsage: result.memoryUsed,
-        success: result.success
-      }, 'performance');
-
-      expect(validation.isValid).toBe(true);
-    }, TEST_TIMEOUTS.performance);
-
-    test('measures cache hit performance improvement', async () => {
-      const result = TestUtils.executeWithRetry(
-        'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
-        {
-          timeout: 30000,
           retries: 1,
-          expectedErrors: ['warnings found', 'lint errors']
+        });
+
+        // Validate that the test utilities work correctly
+        expect(result.success).toBe(true);
+        expect(result.executionTime).toBeGreaterThan(0);
+        expect(result.output).toContain('test completed');
+
+        // Test the validation system
+        const validation = validateTestResult(
+          {
+            executionTime: result.executionTime,
+            memoryUsage: result.memoryUsed,
+            success: result.success,
+          },
+          'performance',
+        );
+
+        expect(validation.isValid).toBe(true);
+      },
+      TEST_TIMEOUTS.performance,
+    );
+
+    test(
+      'measures cache hit performance improvement',
+      async () => {
+        const result = await TestUtils.executeWithRetry(
+          'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
+          {
+            timeout: 30000,
+            retries: 1,
+            expectedErrors: ['warnings found', 'lint errors'],
+          },
+        );
+
+        // Validate the result
+        const validation = validateTestResult(
+          {
+            executionTime: result.executionTime,
+            memoryUsage: result.memoryUsed,
+            success: result.success,
+          },
+          'performance',
+        );
+
+        if (!validation.isValid) {
+          console.warn('Performance validation issues:', validation.errors);
         }
-      );
 
-      // Validate the result
-      const validation = validateTestResult({
-        executionTime: result.executionTime,
-        memoryUsage: result.memoryUsed,
-        success: result.success
-      }, 'performance');
-
-      if (!validation.isValid) {
-        console.warn('Performance validation issues:', validation.errors);
-      }
-
-      // Cached run should complete in reasonable time
-      expect(result.executionTime).toBeLessThan(15000); // 15 seconds max
-      expect(result.memoryUsed).toBeLessThan(MEMORY_LIMITS.performance);
-    }, TEST_TIMEOUTS.performance);
+        // Cached run should complete in reasonable time
+        expect(result.executionTime).toBeLessThan(15000); // 15 seconds max
+        expect(result.memoryUsed).toBeLessThan(MEMORY_LIMITS.performance);
+      },
+      TEST_TIMEOUTS.performance,
+    );
 
     test('validates cache retention and invalidation', () => {
       // Verify cache exists
@@ -95,7 +106,7 @@ describe('Performance Optimization Validation', () => {
         try {
           execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
             stdio: 'pipe',
-            timeout: 30000
+            timeout: 30000,
           });
         } catch (error) {
           // Ignore linting errors
@@ -116,27 +127,31 @@ describe('Performance Optimization Validation', () => {
       expect(packageJson.scripts).toHaveProperty('lint:parallel');
     });
 
-    test('measures parallel processing performance', async () => {
-      const startTime = Date.now()
+    test(
+      'measures parallel processing performance',
+      async () => {
+        const startTime = Date.now();
 
-      try {
-        const output = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
-          encoding: 'utf8',
-          stdio: 'pipe'
-        });
-        const parallelTime = Date.now() - startTime;
+        try {
+          const output = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
+            encoding: 'utf8',
+            stdio: 'pipe',
+          });
+          const parallelTime = Date.now() - startTime;
 
-        // Parallel processing should complete in reasonable time
-        expect(parallelTime).toBeLessThan(45000); // 45 seconds max
+          // Parallel processing should complete in reasonable time
+          expect(parallelTime).toBeLessThan(45000); // 45 seconds max
 
-        // Output should indicate parallel processing
-        expect(typeof output).toBe('string');
-      } catch (error) {
-        // May have linting errors, but should complete
-        const parallelTime = Date.now() - startTime;
-        expect(parallelTime).toBeLessThan(60000); // 60 seconds max
-      }
-    }, testTimeout);
+          // Output should indicate parallel processing
+          expect(typeof output).toBe('string');
+        } catch (error) {
+          // May have linting errors, but should complete
+          const parallelTime = Date.now() - startTime;
+          expect(parallelTime).toBeLessThan(60000); // 60 seconds max
+        }
+      },
+      testTimeout,
+    );
 
     test('validates optimal file distribution per process', () => {
       // Test that files are distributed optimally (around 30 files per process)
@@ -147,7 +162,7 @@ describe('Performance Optimization Validation', () => {
       try {
         const output = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
         const totalFiles = parseInt(output.trim());
         const expectedProcesses = Math.ceil(totalFiles / 30);
@@ -172,31 +187,35 @@ describe('Performance Optimization Validation', () => {
       expect(typeof lintScript).toBe('string');
     });
 
-    test('monitors memory usage during linting', async () => {
-      let peakMemoryUsage = 0;
-      const memoryMonitor = setInterval(() => {
-        const currentMemory = process.memoryUsage().heapUsed;
-        peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory);
-      }, 100);
+    test(
+      'monitors memory usage during linting',
+      async () => {
+        let peakMemoryUsage = 0;
+        const memoryMonitor = setInterval(() => {
+          const currentMemory = process.memoryUsage().heapUsed;
+          peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory);
+        }, 100);
 
-      try {
-        execSync('yarn lint --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-          stdio: 'pipe',
-          timeout: 30000,
-          env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' }
-        });
-      } catch (error) {
-        // May have linting errors
-      } finally {
-        clearInterval(memoryMonitor);
-      }
+        try {
+          execSync('yarn lint --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
+            stdio: 'pipe',
+            timeout: 30000,
+            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },
+          });
+        } catch (error) {
+          // May have linting errors
+        } finally {
+          clearInterval(memoryMonitor);
+        }
 
-      const peakMemoryMB = peakMemoryUsage / 1024 / 1024;
+        const peakMemoryMB = peakMemoryUsage / 1024 / 1024;
 
-      // Memory usage should be reasonable (under 4GB limit)
-      expect(peakMemoryMB).toBeLessThan(4096);
-      expect(peakMemoryMB).toBeGreaterThan(0);
-    }, testTimeout);
+        // Memory usage should be reasonable (under 4GB limit)
+        expect(peakMemoryMB).toBeLessThan(4096);
+        expect(peakMemoryMB).toBeGreaterThan(0);
+      },
+      testTimeout,
+    );
 
     test('validates memory efficiency improvements', () => {
       // Test that memory usage is optimized
@@ -205,7 +224,7 @@ describe('Performance Optimization Validation', () => {
       try {
         execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
           stdio: 'pipe',
-          timeout: 30000
+          timeout: 30000,
         });
       } catch (error) {
         // May have linting errors
@@ -246,12 +265,12 @@ export function testFunction(): string {
 `;
       writeFileSync(testFile, testContent);
 
-      const startTime = Date.now()
+      const startTime = Date.now();
 
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
           stdio: 'pipe',
-          timeout: 15000 // 15 second timeout
+          timeout: 15000, // 15 second timeout
         });
       } catch (error) {
         // May have linting errors, but should complete quickly
@@ -270,8 +289,8 @@ export function testFunction(): string {
       // Run initial lint
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
-  stdio: 'pipe',
-          timeout: 10000
+          stdio: 'pipe',
+          timeout: 10000,
         });
       } catch (error) {
         // May have errors
@@ -280,12 +299,12 @@ export function testFunction(): string {
       // Modify file
       writeFileSync(testFile, 'export const modified = "test";');
 
-      const startTime = Date.now()
+      const startTime = Date.now();
 
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
           stdio: 'pipe',
-          timeout: 10000
+          timeout: 10000,
         });
       } catch (error) {
         // May have errors
@@ -305,12 +324,12 @@ export function testFunction(): string {
       const times: number[] = [];
 
       for (let i = 0; i < 2; i++) {
-        const startTime = Date.now()
+        const startTime = Date.now();
 
         try {
           execSync('yarn lint:changed --max-warnings=10000', {
             stdio: 'pipe',
-            timeout: 10000
+            timeout: 10000,
           });
         } catch (error) {
           // May have errors
@@ -326,106 +345,117 @@ export function testFunction(): string {
   });
 
   describe('Error Handling and Edge Cases', () => {
-    test('handles command failures gracefully', async () => {
-      const result = TestUtils.executeWithRetry(
-        'yarn lint:nonexistent-command',
-        {
+    test(
+      'handles command failures gracefully',
+      async () => {
+        const result = await TestUtils.executeWithRetry('yarn lint:nonexistent-command', {
           timeout: 10000,
           retries: 1,
-          expectedErrors: ['command not found', 'Unknown command']
+          expectedErrors: ['command not found', 'Unknown command'],
+        });
+
+        // Should handle failure gracefully
+        expect(result.success).toBe(false);
+        expect(result.error).toBeDefined();
+        expect(result.executionTime).toBeGreaterThan(0);
+      },
+      TEST_TIMEOUTS.unit,
+    );
+
+    test(
+      'validates memory usage under stress',
+      async () => {
+        const memoryResults: number[] = [];
+
+        // Run multiple operations to test memory stability
+        for (let i = 0; i < 3; i++) {
+          const result = await TestUtils.executeWithRetry(
+            'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
+            {
+              timeout: 20000,
+              memoryLimit: MEMORY_LIMITS.stress,
+            },
+          );
+
+          memoryResults.push(result.memoryUsed);
         }
-      );
 
-      // Should handle failure gracefully
-      expect(result.success).toBe(false);
-      expect(result.error).toBeDefined();
-      expect(result.executionTime).toBeGreaterThan(0);
-    }, TEST_TIMEOUTS.unit);
-
-    test('validates memory usage under stress', async () => {
-      const memoryResults: number[] = [];
-
-      // Run multiple operations to test memory stability
-      for (let i = 0; i < 3; i++) {
-        const result = TestUtils.executeWithRetry(
-          'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
-          {
-            timeout: 20000,
-            memoryLimit: MEMORY_LIMITS.stress
-          }
+        // Validate memory consistency
+        const consistency = await TestUtils.validateConsistency(
+          () => Promise.resolve(memoryResults[0]),
+          3,
+          30, // 30% tolerance
         );
 
-        memoryResults.push(result.memoryUsed);
-      }
+        expect(consistency.isConsistent).toBe(true);
+        expect(memoryResults.every(mem => mem < MEMORY_LIMITS.stress)).toBe(true);
+      },
+      TEST_TIMEOUTS.performance,
+    );
 
-      // Validate memory consistency
-      const consistency = TestUtils.validateConsistency(
-        () => Promise.resolve(memoryResults[0]),
-        3,
-        30 // 30% tolerance
-      );
-
-      expect(consistency.isConsistent).toBe(true);
-      expect(memoryResults.every(mem => mem < MEMORY_LIMITS.stress)).toBe(true);
-    }, TEST_TIMEOUTS.performance);
-
-    test('handles timeout scenarios properly', async () => {
-      const shortTimeoutResult = TestUtils.executeWithRetry(
-        'sleep 2 && echo "test"',
-        {
+    test(
+      'handles timeout scenarios properly',
+      async () => {
+        const shortTimeoutResult = await TestUtils.executeWithRetry('sleep 2 && echo "test"', {
           timeout: 1000, // 1 second timeout for 2 second command
-          retries: 0
-        }
-      );
+          retries: 0,
+        });
 
-      expect(shortTimeoutResult.success).toBe(false);
-      expect(shortTimeoutResult.error?.message).toMatch(/timeout|ETIMEDOUT/i);
-    }, TEST_TIMEOUTS.unit);
+        expect(shortTimeoutResult.success).toBe(false);
+        expect(shortTimeoutResult.error?.message).toMatch(/timeout|ETIMEDOUT/i);
+      },
+      TEST_TIMEOUTS.unit,
+    );
 
-    test('validates test result consistency', async () => {
-      const testFunction = async () => {
-        const result = TestUtils.executeWithRetry(
-          'echo "consistent test output"',
-          { timeout: 5000 }
-        );
-        return result.executionTime;
-      };
+    test(
+      'validates test result consistency',
+      async () => {
+        const testFunction = async () => {
+          const result = await TestUtils.executeWithRetry('echo "consistent test output"', { timeout: 5000 });
+          return result.executionTime;
+        };
 
-      const consistency = TestUtils.validateConsistency(testFunction, 3, 50);
+        const consistency = await TestUtils.validateConsistency(testFunction, 3, 50);
 
-      expect(consistency.isConsistent).toBe(true);
-      expect(consistency.results).toHaveLength(3);
-      expect(consistency.variance).toBeLessThan(50);
-    }, TEST_TIMEOUTS.integration);
+        expect(consistency.isConsistent).toBe(true);
+        expect(consistency.results).toHaveLength(3);
+        expect(consistency.variance).toBeLessThan(50);
+      },
+      TEST_TIMEOUTS.integration,
+    );
   });
 
   describe('Overall Performance Validation', () => {
-    test('validates performance improvement targets', async () => {
-      // This test validates that the overall system meets performance targets
-      const performanceTargets = {
-        cachingImprovement: 60, // Minimum 60% improvement
-        parallelProcessing: true,
-        memoryLimit: 4096, // MB
-        incrementalFeedback: 10000 // 10 seconds max
-      };
+    test(
+      'validates performance improvement targets',
+      async () => {
+        // This test validates that the overall system meets performance targets
+        const performanceTargets = {
+          cachingImprovement: 60, // Minimum 60% improvement
+          parallelProcessing: true,
+          memoryLimit: 4096, // MB
+          incrementalFeedback: 10000, // 10 seconds max
+        };
 
-      // Test caching improvement
-      const startTime = Date.now()
-      try {
-        execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-          stdio: 'pipe',
-          timeout: 30000
-        });
-      } catch (error) {
-        // May have errors
-      }
-      const cachedTime = Date.now() - startTime;
+        // Test caching improvement
+        const startTime = Date.now();
+        try {
+          execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
+            stdio: 'pipe',
+            timeout: 30000,
+          });
+        } catch (error) {
+          // May have errors
+        }
+        const cachedTime = Date.now() - startTime;
 
-      expect(cachedTime).toBeLessThan(20000); // Should be fast with cache
-      expect(performanceTargets.parallelProcessing).toBe(true);
-      expect(performanceTargets.memoryLimit).toBe(4096);
-      expect(performanceTargets.incrementalFeedback).toBe(10000);
-    }, testTimeout);
+        expect(cachedTime).toBeLessThan(20000); // Should be fast with cache
+        expect(performanceTargets.parallelProcessing).toBe(true);
+        expect(performanceTargets.memoryLimit).toBe(4096);
+        expect(performanceTargets.incrementalFeedback).toBe(10000);
+      },
+      testTimeout,
+    );
 
     test('validates comprehensive performance metrics', () => {
       // Test that all performance metrics are measurable
@@ -434,7 +464,7 @@ export function testFunction(): string {
         memoryUsage: expect.any(Number),
         cacheHitRate: expect.any(Number),
         filesProcessed: expect.any(Number),
-        parallelProcesses: expect.any(Number)
+        parallelProcesses: expect.any(Number),
       };
 
       expect(metrics).toMatchObject({
@@ -442,7 +472,7 @@ export function testFunction(): string {
         memoryUsage: expect.any(Number),
         cacheHitRate: expect.any(Number),
         filesProcessed: expect.any(Number),
-        parallelProcesses: expect.any(Number)
+        parallelProcesses: expect.any(Number),
       });
     });
 

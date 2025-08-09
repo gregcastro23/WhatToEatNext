@@ -4,4 +4,4 @@ import { createContext } from 'react';
 
 import { PopupContextType } from './types';
 
-export const PopupContext = createContext<PopupContextType | null>(null); 
+export const PopupContext = createContext<PopupContextType | null>(null);

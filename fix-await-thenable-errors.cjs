@@ -2,21 +2,21 @@
 
 /**
  * Fix Await-Thenable Errors Script
- * 
+ *
  * This script identifies and fixes incorrect await statements on non-Promise values
  * in test files, specifically targeting the 6 identified await-thenable errors.
- * 
+ *
  * Features:
  * - Identifies await statements on non-Promise values
  * - Fixes common patterns like await primitive values, await object properties
  * - Preserves legitimate Promise handling in test utilities
  * - Creates backup files before modifications
  * - Provides dry-run mode for safety
- * 
+ *
  * Usage:
  *   node fix-await-thenable-errors.cjs [options]
  *   yarn lint:fix:await-thenable [options]
- * 
+ *
  * Options:
  *   --dry-run       Show what would be fixed without making changes
  *   --max-files=N   Limit processing to N files (default: 50)
@@ -37,7 +37,7 @@ class AwaitThenable {
     this.fixedFiles = 0;
     this.totalFixes = 0;
     this.backupDir = '.await-thenable-backups';
-    
+
     // Common patterns for non-Promise values that shouldn't be awaited
     this.nonPromisePatterns = [
       // Primitive values
@@ -49,9 +49,9 @@ class AwaitThenable {
       // Array/object literals
       /await\s+(\[.*?\]|\{.*?\})\s*[;,\)\]]/g,
       // typeof expressions
-      /await\s+(typeof\s+[a-zA-Z_$][a-zA-Z0-9_$]*)/g
+      /await\s+(typeof\s+[a-zA-Z_$][a-zA-Z0-9_$]*)/g,
     ];
-    
+
     // Patterns that should remain awaited (legitimate Promises)
     this.promisePatterns = [
       /\.(then|catch|finally)\(/,
@@ -65,7 +65,7 @@ class AwaitThenable {
       /delay\(/,
       /waitFor\(/,
       /expect.*resolves/,
-      /expect.*rejects/
+      /expect.*rejects/,
     ];
   }
 
@@ -77,12 +77,12 @@ class AwaitThenable {
 
   backupFile(filePath) {
     if (this.isDryRun) return;
-    
+
     this.createBackupDir();
     const fileName = path.basename(filePath);
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const backupPath = path.join(this.backupDir, `${fileName}.${timestamp}.backup`);
-    
+
     fs.copyFileSync(filePath, backupPath);
     if (this.verbose) {
       console.log(`✓ Backup created: ${backupPath}`);
@@ -97,21 +97,21 @@ class AwaitThenable {
   fixAwaitThenable(content, filePath) {
     let fixes = 0;
     let modifiedContent = content;
-    
+
     // Split into lines for better analysis
     const lines = content.split('\n');
     const fixedLines = [];
-    
+
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
       const originalLine = line;
-      
+
       // Skip if this looks like a legitimate Promise
       if (this.isLegitimatePromise(line, null)) {
         fixedLines.push(line);
         continue;
       }
-      
+
       // Apply fixes for each pattern
       this.nonPromisePatterns.forEach(pattern => {
         line = line.replace(pattern, (match, captured) => {
@@ -122,7 +122,7 @@ class AwaitThenable {
           return match.replace('await ', '');
         });
       });
-      
+
       // Special case: await in return statements with non-Promises
       line = line.replace(/return\s+await\s+([^;(]+)(?![(.:])/g, (match, value) => {
         if (!this.isLegitimatePromise(line, value)) {
@@ -134,10 +134,10 @@ class AwaitThenable {
         }
         return match;
       });
-      
+
       fixedLines.push(line);
     }
-    
+
     return { content: fixedLines.join('\n'), fixes };
   }
 
@@ -145,21 +145,20 @@ class AwaitThenable {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const result = this.fixAwaitThenable(content, filePath);
-      
+
       if (result.fixes > 0) {
         console.log(`📝 ${filePath}: ${result.fixes} await-thenable fixes`);
-        
+
         if (!this.isDryRun) {
           this.backupFile(filePath);
           fs.writeFileSync(filePath, result.content, 'utf8');
         }
-        
+
         this.fixedFiles++;
         this.totalFixes += result.fixes;
       } else if (this.verbose) {
         console.log(`✓ ${filePath}: No await-thenable issues found`);
       }
-      
     } catch (error) {
       console.error(`❌ Error processing ${filePath}:`, error.message);
     }
@@ -172,46 +171,49 @@ class AwaitThenable {
       'src/**/*.spec.ts',
       'src/**/*.spec.tsx',
       'src/__tests__/**/*.ts',
-      'src/__tests__/**/*.tsx'
+      'src/__tests__/**/*.tsx',
     ];
-    
+
     const files = [];
-    
+
     testPatterns.forEach(pattern => {
       try {
         const cmd = `find src -name "*.test.ts" -o -name "*.test.tsx" -o -name "*.spec.ts" -o -name "*.spec.tsx"`;
         const result = execSync(cmd, { encoding: 'utf8' });
-        const foundFiles = result.trim().split('\n').filter(f => f);
+        const foundFiles = result
+          .trim()
+          .split('\n')
+          .filter(f => f);
         files.push(...foundFiles);
       } catch (error) {
         // Ignore find errors
       }
     });
-    
+
     return [...new Set(files)].slice(0, this.maxFiles);
   }
 
   run() {
     console.log('🔧 Await-Thenable Error Fix Script');
     console.log('=====================================');
-    
+
     if (this.isDryRun) {
       console.log('🔍 DRY RUN MODE - No files will be modified');
     }
-    
+
     const files = this.targetFile ? [this.targetFile] : this.findTestFiles();
-    
+
     console.log(`📁 Processing ${files.length} test files (max: ${this.maxFiles})`);
     console.log('');
-    
+
     files.forEach(file => this.processFile(file));
-    
+
     console.log('');
     console.log('📊 Summary:');
     console.log(`   Files processed: ${files.length}`);
     console.log(`   Files with fixes: ${this.fixedFiles}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
-    
+
     if (!this.isDryRun && this.fixedFiles > 0) {
       console.log(`   Backups created in: ${this.backupDir}/`);
       console.log('');
@@ -220,7 +222,7 @@ class AwaitThenable {
       console.log('   2. Run ESLint to verify no await-thenable errors: yarn lint');
       console.log('   3. If issues occur, restore from backups');
     }
-    
+
     if (this.isDryRun && this.totalFixes > 0) {
       console.log('');
       console.log('🚀 To apply fixes, run: node fix-await-thenable-errors.cjs');
@@ -234,7 +236,7 @@ const options = {
   dryRun: args.includes('--dry-run'),
   verbose: args.includes('--verbose'),
   maxFiles: 50,
-  targetFile: null
+  targetFile: null,
 };
 
 args.forEach(arg => {

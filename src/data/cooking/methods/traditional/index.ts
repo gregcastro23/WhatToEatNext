@@ -6,8 +6,8 @@ import { pickling } from './pickling';
 
 /**
  * Collection of traditional cooking methods
- * 
- * Traditional cooking methods have been used historically across 
+ *
+ * Traditional cooking methods have been used historically across
  * cultures, often for preservation or developing specific flavors
  */
 export const traditionalCookingMethods = {
@@ -24,4 +24,4 @@ export {
   pickling,
   // smoking,
   // curing
-}; 
+};

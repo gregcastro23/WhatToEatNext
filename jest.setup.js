@@ -32,7 +32,7 @@ global.IntersectionObserver = class IntersectionObserver {
 
 beforeAll(() => {
   jest.setTimeout(10000);
-  
+
   // Setup any global test configuration
   console.log('Test setup initialized');
 });
@@ -40,13 +40,13 @@ beforeAll(() => {
 afterAll(() => {
   jest.clearAllTimers();
   jest.useRealTimers();
-  
+
   // Ensure cleanup after tests
   console.log('Test cleanup completed');
 });
 
 // Add global error handler for unhandled rejections
-process.on('unhandledRejection', (error) => {
+process.on('unhandledRejection', error => {
   console.error('Unhandled rejection in tests:', error);
 });
 

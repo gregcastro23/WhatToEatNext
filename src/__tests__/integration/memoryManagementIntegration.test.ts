@@ -1,6 +1,6 @@
 /**
  * Integration test for memory management system
- * 
+ *
  * This test verifies that the memory management system integrates properly
  * with the existing test infrastructure and provides the expected functionality.
  */
@@ -24,7 +24,7 @@ describe('Memory Management Integration', () => {
     expect(global.testUtils).toBeDefined();
     expect(global.testUtils.checkMemory).toBeDefined();
     expect(global.testUtils.cleanupMemory).toBeDefined();
-    
+
     const memoryUsage = global.testUtils.checkMemory();
     expect(memoryUsage).toBeDefined();
     expect(memoryUsage.heapUsed).toMatch(/\d+\.\d+MB/);
@@ -43,30 +43,30 @@ describe('Memory Management Integration', () => {
   itWithMemoryCleanup('should work with memory-safe test wrapper', async () => {
     // This test uses the memory-safe wrapper
     const initialMemory = process.memoryUsage().heapUsed;
-    
+
     // Simulate some memory allocation
     const testData = new Array(1000).fill('test-data');
-    
+
     const afterAllocation = process.memoryUsage().heapUsed;
     expect(afterAllocation).toBeGreaterThan(initialMemory);
-    
+
     // Cleanup happens automatically via the wrapper
     testData.length = 0;
   });
 
   it('should track memory usage during test execution', () => {
     const monitor = new TestMemoryMonitor();
-    
+
     const initialSnapshot = monitor.takeSnapshot('integration-test-start');
     expect(initialSnapshot).toBeDefined();
     expect(initialSnapshot.heapUsed).toBeGreaterThan(0);
-    
+
     // Simulate test operations
     const testArray = new Array(100).fill('integration-test-data');
-    
+
     const finalSnapshot = monitor.takeSnapshot('integration-test-end');
     expect(finalSnapshot.heapUsed).toBeGreaterThan(initialSnapshot.heapUsed);
-    
+
     // Cleanup
     testArray.length = 0;
     monitor.cleanup('integration-test-cleanup');
@@ -74,37 +74,41 @@ describe('Memory Management Integration', () => {
 
   it('should handle memory cleanup without affecting test execution', () => {
     const beforeCleanup = process.memoryUsage().heapUsed;
-    
+
     // Perform cleanup
     global.testUtils.cleanupMemory();
-    
+
     const afterCleanup = process.memoryUsage().heapUsed;
-    
+
     // Memory should be cleaned up (or at least not increased significantly)
-    expect(afterCleanup).toBeLessThanOrEqual(beforeCleanup + (10 * 1024 * 1024)); // Allow 10MB tolerance
+    expect(afterCleanup).toBeLessThanOrEqual(beforeCleanup + 10 * 1024 * 1024); // Allow 10MB tolerance
   });
 
-  it('should complete within the reduced timeout limit', async () => {
-    const startTime = Date.now();
-    
-    // Simulate an integration test operation
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    const duration = Date.now() - startTime;
-    
-    // Should complete well within the 15s timeout
-    expect(duration).toBeLessThan(15000);
-    expect(duration).toBeGreaterThan(50); // Should take at least 50ms due to setTimeout
-  }, TEST_TIMEOUTS.integration);
+  it(
+    'should complete within the reduced timeout limit',
+    async () => {
+      const startTime = Date.now();
+
+      // Simulate an integration test operation
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const duration = Date.now() - startTime;
+
+      // Should complete well within the 15s timeout
+      expect(duration).toBeLessThan(15000);
+      expect(duration).toBeGreaterThan(50); // Should take at least 50ms due to setTimeout
+    },
+    TEST_TIMEOUTS.integration,
+  );
 
   it('should provide memory usage information', () => {
     const memoryInfo = global.testUtils.checkMemory();
-    
+
     expect(memoryInfo).toHaveProperty('heapUsed');
     expect(memoryInfo).toHaveProperty('heapTotal');
     expect(memoryInfo).toHaveProperty('external');
     expect(memoryInfo).toHaveProperty('arrayBuffers');
-    
+
     // All values should be formatted as MB strings
     expect(memoryInfo.heapUsed).toMatch(/^\d+\.\d+MB$/);
     expect(memoryInfo.heapTotal).toMatch(/^\d+\.\d+MB$/);
@@ -117,24 +121,24 @@ describe('Memory Management Integration', () => {
       heapUsed: 100 * 1024 * 1024, // 100MB
       heapTotal: 500 * 1024 * 1024, // 500MB
       external: 50 * 1024 * 1024, // 50MB
-      rss: 600 * 1024 * 1024 // 600MB
+      rss: 600 * 1024 * 1024, // 600MB
     });
 
     const initialMemory = monitor.takeSnapshot('memory-intensive-start');
-    
+
     // Simulate memory-intensive operation
     const largeArrays: any[][] = [];
     for (let i = 0; i < 10; i++) {
       largeArrays.push(new Array(1000).fill(`data-${i}`));
     }
-    
+
     const afterAllocation = monitor.takeSnapshot('memory-intensive-peak');
     expect(afterAllocation.heapUsed).toBeGreaterThan(initialMemory.heapUsed);
-    
+
     // Cleanup
-    largeArrays.forEach(arr => arr.length = 0);
+    largeArrays.forEach(arr => (arr.length = 0));
     largeArrays.length = 0;
-    
+
     const cleanupResult = monitor.cleanup('memory-intensive-cleanup');
     expect(cleanupResult.success).toBe(true);
   });
@@ -143,7 +147,7 @@ describe('Memory Management Integration', () => {
 describe('Memory Management Configuration Verification', () => {
   it('should have Jest configured with memory-safe settings', () => {
     // These tests verify that our Jest configuration is properly applied
-    
+
     // Check that we have the memory management setup files
     expect(global.testUtils).toBeDefined();
     expect(global.getMemoryUsage).toBeDefined();
@@ -161,20 +165,20 @@ describe('Memory Management Configuration Verification', () => {
   it('should have memory thresholds configured', () => {
     const monitor = TestMemoryMonitor.createDefault();
     const summary = monitor.getMemorySummary();
-    
+
     expect(summary).toBeDefined();
     expect(summary.initialMemory).toBeGreaterThan(0);
-    
+
     monitor.cleanup('config-verification-cleanup');
   });
 
   it('should have CI-specific configuration available', () => {
     const ciMonitor = TestMemoryMonitor.createForCI();
     const summary = ciMonitor.getMemorySummary();
-    
+
     expect(summary).toBeDefined();
     expect(summary.initialMemory).toBeGreaterThan(0);
-    
+
     ciMonitor.cleanup('ci-config-verification-cleanup');
   });
 });

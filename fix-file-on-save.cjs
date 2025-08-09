@@ -34,16 +34,13 @@ async function fixFileOnSave(filePath) {
       }
 
       console.log('   ✓ All validations passed');
-
     } else if (result.rolledBack) {
       console.log(`⚠️  Auto-fix failed but file was safely restored: ${filePath}`);
       console.log(`   Reason: ${result.reason}`);
-
     } else {
       console.error(`❌ Auto-fix failed: ${filePath}`);
       console.error(`   Reason: ${result.reason || result.error}`);
     }
-
   } catch (error) {
     console.error(`💥 Fatal error fixing ${filePath}:`, error.message);
     process.exit(1);

@@ -13,8 +13,8 @@ jest.mock('next/navigation', () => ({
     back: jest.fn(),
     forward: jest.fn(),
     refresh: jest.fn(),
-    replace: jest.fn()
-  })
+    replace: jest.fn(),
+  }),
 }));
 
 void jest.mock('@/contexts/AlchemicalContext/hooks');
@@ -24,19 +24,19 @@ jest.mock('@/utils/logger', () => ({
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn()
-  }
+    error: jest.fn(),
+  },
 }));
 
 // Mock components with realistic behavior
 jest.mock('@/components/CuisineRecommender', () => {
   return function MockCuisineRecommender() {
     const [selectedCuisine, setSelectedCuisine] = React.useState<string | null>(null);
-    
+
     return (
-      <div data-testid="cuisine-recommender">
+      <div data-testid='cuisine-recommender'>
         <h3>Cuisine Recommendations</h3>
-        <div className="cuisine-list">
+        <div className='cuisine-list'>
           {['Italian', 'Chinese', 'Mexican', 'Indian'].map(cuisine => (
             <button
               key={cuisine}
@@ -48,11 +48,7 @@ jest.mock('@/components/CuisineRecommender', () => {
             </button>
           ))}
         </div>
-        {selectedCuisine && (
-          <div data-testid="selected-cuisine">,
-  Selected: {selectedCuisine}
-          </div>
-        )}
+        {selectedCuisine && <div data-testid='selected-cuisine'>, Selected: {selectedCuisine}</div>}
       </div>
     );
   };
@@ -61,22 +57,20 @@ jest.mock('@/components/CuisineRecommender', () => {
 jest.mock('@/components/IngredientRecommender', () => {
   return function MockIngredientRecommender({ maxDisplayed = 8 }: { maxDisplayed?: number }) {
     const [selectedIngredients, setSelectedIngredients] = React.useState<string[]>([]);
-    
+
     const ingredients = ['Tomatoes', 'Onions', 'Garlic', 'Basil', 'Olive Oil', 'Cheese', 'Pasta', 'Chicken'];
     const displayedIngredients = ingredients.slice(0, maxDisplayed);
-    
+
     const toggleIngredient = (ingredient: string) => {
-      setSelectedIngredients(prev => 
-        void prev.includes(ingredient) 
-          ? prev.filter(i => i !== ingredient)
-          : [...prev, ingredient]
+      setSelectedIngredients(prev =>
+        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],
       );
     };
-    
+
     return (
-      <div data-testid="ingredient-recommender">
+      <div data-testid='ingredient-recommender'>
         <h3>Ingredient Recommendations</h3>
-        <div className="ingredient-list">
+        <div className='ingredient-list'>
           {displayedIngredients.map(ingredient => (
             <button
               key={ingredient}
@@ -88,31 +82,29 @@ jest.mock('@/components/IngredientRecommender', () => {
             </button>
           ))}
         </div>
-        <div data-testid="selected-ingredients">,
-  Selected: {selectedIngredients.join(', ')}
-        </div>
+        <div data-testid='selected-ingredients'>, Selected: {selectedIngredients.join(', ')}</div>
       </div>
     );
   };
 });
 
 jest.mock('@/components/CookingMethodsSection', () => {
-  return function MockCookingMethodsSection({ 
-    maxDisplayed = 6, 
-    onViewMore 
-  }: { 
+  return function MockCookingMethodsSection({
+    maxDisplayed = 6,
+    onViewMore,
+  }: {
     maxDisplayed?: number;
     onViewMore?: () => void;
   }) {
     const [selectedMethod, setSelectedMethod] = React.useState<string | null>(null);
-    
+
     const methods = ['Sauté', 'Roast', 'Grill', 'Steam', 'Braise', 'Stir-fry', 'Bake', 'Poach'];
     const displayedMethods = methods.slice(0, maxDisplayed);
-    
+
     return (
-      <div data-testid="cooking-methods">
+      <div data-testid='cooking-methods'>
         <h3>Cooking Methods</h3>
-        <div className="methods-list">
+        <div className='methods-list'>
           {displayedMethods.map(method => (
             <button
               key={method}
@@ -124,12 +116,8 @@ jest.mock('@/components/CookingMethodsSection', () => {
             </button>
           ))}
         </div>
-        {selectedMethod && (
-          <div data-testid="selected-method">,
-  Selected: {selectedMethod}
-          </div>
-        )}
-        <button onClick={onViewMore} data-testid="view-more-methods">
+        {selectedMethod && <div data-testid='selected-method'>, Selected: {selectedMethod}</div>}
+        <button onClick={onViewMore} data-testid='view-more-methods'>
           View More Methods
         </button>
       </div>
@@ -142,47 +130,40 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
     const [recipeName, setRecipeName] = React.useState('');
     const [ingredients, setIngredients] = React.useState<string[]>([]);
     const [steps, setSteps] = React.useState<string[]>([]);
-    
+
     const addIngredient = () => {
       setIngredients(prev => [...prev, `Ingredient ${prev.length + 1}`]);
     };
-    
+
     const addStep = () => {
       setSteps(prev => [...prev, `Step ${prev.length + 1}`]);
     };
-    
+
     const canSave = recipeName.trim() && ingredients.length > 0 && steps.length > 0;
-    
+
     return (
-      <div data-testid="recipe-builder">
+      <div data-testid='recipe-builder'>
         <h3>Recipe Builder</h3>
         <input
-          type="text"
-          placeholder="Recipe Name"
+          type='text'
+          placeholder='Recipe Name'
           value={recipeName}
-          onChange={(e) => setRecipeName(e.target.value)}
-          data-testid="recipe-name-input"
+          onChange={e => setRecipeName(e.target.value)}
+          data-testid='recipe-name-input'
         />
         <div>
-          <button onClick={addIngredient} data-testid="add-ingredient">
+          <button onClick={addIngredient} data-testid='add-ingredient'>
             Add Ingredient
           </button>
-          <div data-testid="ingredients-count">,
-  Ingredients: {ingredients.length}
-          </div>
+          <div data-testid='ingredients-count'>, Ingredients: {ingredients.length}</div>
         </div>
         <div>
-          <button onClick={addStep} data-testid="add-step">
+          <button onClick={addStep} data-testid='add-step'>
             Add Step
           </button>
-          <div data-testid="steps-count">,
-  Steps: {steps.length}
-          </div>
+          <div data-testid='steps-count'>, Steps: {steps.length}</div>
         </div>
-        <button 
-          disabled={!canSave}
-          data-testid="save-recipe"
-        >
+        <button disabled={!canSave} data-testid='save-recipe'>
           Save Recipe
         </button>
       </div>
@@ -193,7 +174,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
 jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
   return function MockConsolidatedDebugInfo() {
     return (
-      <div data-testid="debug-info">
+      <div data-testid='debug-info'>
         <h4>Debug Panel</h4>
         <div>Performance: OK</div>
         <div>Astrological State: Active</div>
@@ -204,35 +185,35 @@ jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
 
 describe('Main Page Integration Tests', () => {
   const mockAlchemicalContext = {
-  state: {
-  astrologicalState: {
-  sunSign: 'aries'
+    state: {
+      astrologicalState: {
+        sunSign: 'aries',
       },
       elementalState: {
-  Fire: 0.3,
+        Fire: 0.3,
         Water: 0.2,
         Earth: 0.3,
-        Air: 0.2
-      }
+        Air: 0.2,
+      },
     },
     planetaryPositions: {
-  sun: { sign: 'aries' }
+      sun: { sign: 'aries' },
     },
-    isDaytime: true
+    isDaytime: true,
   };
 
   const mockNavigationState = {
-  saveState: jest.fn(),
-    getState: jest.fn(() => ({}))
+    saveState: jest.fn(),
+    getState: jest.fn(() => ({})),
   };
 
   const mockScrollPreservation = {
-  restoreScrollPosition: jest.fn()
+    restoreScrollPosition: jest.fn(),
   };
 
   beforeEach(() => {
     void jest.clearAllMocks();
-    
+
     (useAlchemical as jest.Mock).mockReturnValue(mockAlchemicalContext);
     (useNavigationState as jest.Mock).mockReturnValue(mockNavigationState);
     (useScrollPreservation as jest.Mock).mockReturnValue(mockScrollPreservation);
@@ -240,19 +221,22 @@ describe('Main Page Integration Tests', () => {
 
     // Mock window.scrollY
     Object.defineProperty(window, 'scrollY', {
-  value: 0,
-      writable: true
+      value: 0,
+      writable: true,
     });
 
     // Mock getElementById for navigation
-    jest.spyOn(document, 'getElementById').mockImplementation((_id) => ({
-  scrollIntoView: jest.fn(),
-      style: {},
-      classList: {
-  add: jest.fn(),
-        remove: jest.fn()
-      }
-    } as any));
+    jest.spyOn(document, 'getElementById').mockImplementation(
+      _id =>
+        ({
+          scrollIntoView: jest.fn(),
+          style: {},
+          classList: {
+            add: jest.fn(),
+            remove: jest.fn(),
+          },
+        }) as any,
+    );
   });
 
   afterEach(() => {
@@ -299,7 +283,7 @@ describe('Main Page Integration Tests', () => {
 
   it('handles navigation between sections correctly', async () => {
     const mockOnSectionNavigate = jest.fn();
-    
+
     act(async () => {
       render(<MainPageLayout onSectionNavigate={mockOnSectionNavigate} />);
     });
@@ -353,7 +337,7 @@ describe('Main Page Integration Tests', () => {
 
   it('handles recipe building workflow', async () => {
     const user = userEvent.setup();
-    
+
     act(async () => {
       render(<MainPageLayout />);
     });
@@ -395,7 +379,7 @@ describe('Main Page Integration Tests', () => {
       render(
         <MainPageLayout>
           <ErrorComponent />
-        </MainPageLayout>
+        </MainPageLayout>,
       );
     });
 
@@ -469,12 +453,12 @@ describe('Main Page Integration Tests', () => {
 
   it('handles view more navigation', async () => {
     const mockRouter = {
-  push: jest.fn()
+      push: jest.fn(),
     };
 
     // We need to mock the router for this specific test
     jest.doMock('next/navigation', () => ({
-  useRouter: () => mockRouter
+      useRouter: () => mockRouter,
     }));
 
     act(async () => {
@@ -496,9 +480,9 @@ describe('Main Page Integration Tests', () => {
   it('maintains responsive behavior', async () => {
     // Mock window.innerWidth for responsive testing
     Object.defineProperty(window, 'innerWidth', {
-  writable: true,
+      writable: true,
       configurable: true,
-      value: 768
+      value: 768,
     });
 
     act(async () => {

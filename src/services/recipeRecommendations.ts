@@ -33,7 +33,7 @@ export class RecipeRecommender {
 
   async recommendRecipes(
     recipes: Recipe[],
-    criteria: RecommendationCriteria
+    criteria: RecommendationCriteria,
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
@@ -41,15 +41,16 @@ export class RecipeRecommender {
       }
 
       // Get current celestial influences if not provided
-      const celestialInfluence = criteria.celestialInfluence ||
-        celestialCalculator.calculateCurrentInfluences();
+      const celestialInfluence =
+        criteria.celestialInfluence || celestialCalculator.calculateCurrentInfluences();
 
       // Score and sort recipes
-      const scoredRecipes = recipes.map(recipe => ({
-        ...recipe,
-        score: this.calculateRecipeScore(recipe, criteria)
-      }))
-      .sort((a, b) => b.score - a.score);
+      const scoredRecipes = recipes
+        .map(recipe => ({
+          ...recipe,
+          score: this.calculateRecipeScore(recipe, criteria),
+        }))
+        .sort((a, b) => b.score - a.score);
 
       // Always ensure at least one recommendation
       if (scoredRecipes.length === 0) {
@@ -64,29 +65,26 @@ export class RecipeRecommender {
     }
   }
 
-  private calculateRecipeScore(
-    recipe: Recipe,
-    criteria: RecommendationCriteria
-  ): number {
+  private calculateRecipeScore(recipe: Recipe, criteria: RecommendationCriteria): number {
     try {
       let score = 0;
       let totalWeight = 0;
 
       // Enhanced weighting system with more factors
       const weights = {
-        elemental: 0.6,      // Doubled from 0.3
-        seasonal: 0.5,       // Doubled from 0.25
-        timeOfDay: 0.3,      // Doubled from 0.15
-        variety: 0.2,        // Doubled from 0.1
-        ingredients: 0.2,    // Doubled from 0.1
-        techniques: 0.2      // Doubled from 0.1
+        elemental: 0.6, // Doubled from 0.3
+        seasonal: 0.5, // Doubled from 0.25
+        timeOfDay: 0.3, // Doubled from 0.15
+        variety: 0.2, // Doubled from 0.1
+        ingredients: 0.2, // Doubled from 0.1
+        techniques: 0.2, // Doubled from 0.1
       };
 
       // Elemental alignment - enhanced with improved calculation
       if (criteria.celestialInfluence && recipe.elementalProperties) {
         const elementalScore = this.calculateElementalAlignment(
           recipe,
-          criteria.celestialInfluence
+          criteria.celestialInfluence,
         );
         score += weights.elemental * elementalScore;
         totalWeight += weights.elemental;
@@ -97,10 +95,7 @@ export class RecipeRecommender {
         const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
 
         // Calculate seasonal match with special handling for "all-season" recipes
-        let seasonalScore = this.calculateSeasonalMatch(
-          recipeSeasons,
-          criteria.season
-        );
+        let seasonalScore = this.calculateSeasonalMatch(recipeSeasons, criteria.season);
 
         // Give bonus for recipes that specifically mention the current season
         // (rather than just being "all-season")
@@ -114,13 +109,12 @@ export class RecipeRecommender {
 
       // Time of day appropriateness - enhanced with better scoring
       if (criteria.timeOfDay && recipe.mealType) {
-        const recipeMealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
+        const recipeMealTypes = Array.isArray(recipe.mealType)
+          ? recipe.mealType
+          : [recipe.mealType];
 
         // Calculate time match
-        const timeScore = this.calculateTimeMatch(
-          recipeMealTypes,
-          criteria.timeOfDay
-        );
+        const timeScore = this.calculateTimeMatch(recipeMealTypes, criteria.timeOfDay);
 
         score += weights.timeOfDay * timeScore;
         totalWeight += weights.timeOfDay;
@@ -128,10 +122,7 @@ export class RecipeRecommender {
 
       // Variety (avoid recent meals) - enhanced with better penalty system
       if (criteria.previousMeals && criteria.previousMeals.length > 0) {
-        const varietyScore = this.calculateVarietyScore(
-          recipe.name,
-          criteria.previousMeals
-        );
+        const varietyScore = this.calculateVarietyScore(recipe.name, criteria.previousMeals);
 
         score += weights.variety * varietyScore;
         totalWeight += weights.variety;
@@ -141,7 +132,7 @@ export class RecipeRecommender {
       if (recipe.ingredients && criteria.preferredIngredients) {
         const ingredientScore = this.calculateIngredientPreferenceMatch(
           recipe.ingredients,
-          criteria.preferredIngredients
+          criteria.preferredIngredients,
         );
 
         score += weights.ingredients * ingredientScore;
@@ -152,7 +143,7 @@ export class RecipeRecommender {
       if (recipe.cookingMethod && criteria.preferredTechniques) {
         const techniqueScore = this.calculateTechniqueMatch(
           recipe.cookingMethod,
-          criteria.preferredTechniques
+          criteria.preferredTechniques,
         );
 
         score += weights.techniques * techniqueScore;
@@ -220,26 +211,27 @@ export class RecipeRecommender {
   }
 
   private aggregateIngredients(ingredients: { elementalProperties?: ElementalProperties }[]) {
-    return ingredients.reduce((acc, ingredient) => ({
+    return ingredients.reduce(
+      (acc, ingredient) => ({
         Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
         Water: acc.Water + (ingredient.elementalProperties?.Water || 0),
         Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0),
-        Air: acc.Air + (ingredient.elementalProperties?.Air || 0)
-    }), { Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        Air: acc.Air + (ingredient.elementalProperties?.Air || 0),
+      }),
+      { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    );
   }
 
   private calculateElementMatch(
     recipeElements: ElementalProperties,
-    targetElements: ElementalProperties
+    targetElements: ElementalProperties,
   ): number {
     let alignment = 0;
     let total = 0;
 
     Object.keys(targetElements).forEach(element => {
       const key = element as keyof ElementalProperties;
-      const diff = Math.abs(
-        (recipeElements[key] || 0) - (targetElements[key] || 0)
-      );
+      const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0));
       alignment += 1 - diff;
       total += 1;
     });
@@ -247,60 +239,51 @@ export class RecipeRecommender {
     return total > 0 ? alignment / total : 0;
   }
 
-  private calculateSeasonalMatch(
-    recipeSeasons: string[],
-    currentSeason: string
-  ): number {
-    return recipeSeasons.includes('all') ||
-           recipeSeasons.includes(currentSeason.toLowerCase()) ? 1 : 0;
+  private calculateSeasonalMatch(recipeSeasons: string[], currentSeason: string): number {
+    return recipeSeasons.includes('all') || recipeSeasons.includes(currentSeason.toLowerCase())
+      ? 1
+      : 0;
   }
 
-  private calculateTimeMatch(
-    recipeMealTypes: string[],
-    currentTime: string
-  ): number {
+  private calculateTimeMatch(recipeMealTypes: string[], currentTime: string): number {
     return recipeMealTypes.includes(currentTime.toLowerCase()) ? 1 : 0;
   }
 
-  private calculateVarietyScore(
-    recipeName: string,
-    previousMeals: string[]
-  ): number {
+  private calculateVarietyScore(recipeName: string, previousMeals: string[]): number {
     const recentIndex = previousMeals.indexOf(recipeName);
     if (recentIndex === -1) return 1; // Not recently eaten
-    return 1 - ((previousMeals.length - recentIndex) / previousMeals.length);
+    return 1 - (previousMeals.length - recentIndex) / previousMeals.length;
   }
 
   private getFallbackRecipe(): ScoredRecipe {
     return {
-      id: "fallback-recipe",
-      name: "Universal Balance Bowl",
-      description: "A harmonious blend for any occasion",
-      cuisine: "Fusion",
+      id: 'fallback-recipe',
+      name: 'Universal Balance Bowl',
+      description: 'A harmonious blend for any occasion',
+      cuisine: 'Fusion',
       ingredients: [
-        { name: "Mixed Greens", amount: 2, unit: "cups" },
-        { name: "Quinoa", amount: 1, unit: "cup" },
-        { name: "Mixed Seeds", amount: 0.25, unit: "cup" }
+        { name: 'Mixed Greens', amount: 2, unit: 'cups' },
+        { name: 'Quinoa', amount: 1, unit: 'cup' },
+        { name: 'Mixed Seeds', amount: 0.25, unit: 'cup' },
       ],
-      instructions: [
-        "Mix all ingredients in a bowl",
-        "Enjoy mindfully"
-      ],
+      instructions: ['Mix all ingredients in a bowl', 'Enjoy mindfully'],
       elementalProperties: {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25
+        Water: 0.25,
       },
-      season: ["all"],
-      mealType: ["lunch", "dinner"],
-      timeToMake: "20 minutes",
+      season: ['all'],
+      mealType: ['lunch', 'dinner'],
+      timeToMake: '20 minutes',
       numberOfServings: 1,
-      score: 0.75
+      score: 0.75,
     };
   }
 
-  private async getSpoonacularRecommendations(_criteria: RecommendationCriteria): Promise<Recipe[]> {
+  private async getSpoonacularRecommendations(
+    _criteria: RecommendationCriteria,
+  ): Promise<Recipe[]> {
     try {
       // SpoonacularService removed - returning empty array (local recipes used instead)
       logger.info('Spoonacular recommendations disabled - using local recipes');
@@ -314,16 +297,14 @@ export class RecipeRecommender {
   // NEW: Helper method for calculating ingredient preference matches
   private calculateIngredientPreferenceMatch(
     recipeIngredients: { name: string }[],
-    preferredIngredients: string[]
+    preferredIngredients: string[],
   ): number {
     if (!preferredIngredients.length) return 0.5;
 
-    const recipeIngredientNames = recipeIngredients.map(ing =>
-      ing.name.toLowerCase()
-    );
+    const recipeIngredientNames = recipeIngredients.map(ing => ing.name.toLowerCase());
 
     const matchCount = preferredIngredients.filter(prefIng =>
-      recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase()))
+      recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase())),
     ).length;
 
     // Calculate match score based on how many preferred ingredients are included
@@ -335,7 +316,7 @@ export class RecipeRecommender {
   // NEW: Helper method for calculating technique matches
   private calculateTechniqueMatch(
     recipeTechniques: string | string[],
-    preferredTechniques: string[]
+    preferredTechniques: string[],
   ): number {
     if (!preferredTechniques.length) return 0.5;
 
@@ -344,7 +325,7 @@ export class RecipeRecommender {
       : [recipeTechniques.toLowerCase()];
 
     const matchCount = preferredTechniques.filter(prefTech =>
-      techniques.some(tech => tech.includes(prefTech.toLowerCase()))
+      techniques.some(tech => tech.includes(prefTech.toLowerCase())),
     ).length;
 
     // Calculate match score based on how many preferred techniques are used

@@ -3,15 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const INGREDIENTS_BASE_PATH = path.resolve(__dirname, '../data/ingredients');
-const CATEGORIES = [
-  'fruits',
-  'grains',
-  'herbs',
-  'proteins',
-  'seasonings',
-  'spices',
-  'vegetables',
-];
+const CATEGORIES = ['fruits', 'grains', 'herbs', 'proteins', 'seasonings', 'spices', 'vegetables'];
 
 // Fix a single file with missing elemental properties
 function fixElementalProperties(filePath) {
@@ -29,54 +21,42 @@ function fixElementalProperties(filePath) {
 
   // Fix each missing element
   if (missingAir.test(content)) {
-    content = content.replace(
-      /elementalProperties:\s*{([^}]+)}/g,
-      (match, group) => {
-        if (!match.includes('Air:')) {
-          return `elementalProperties: {${group}, Air: 0.1}`;
-        }
-        return match;
+    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
+      if (!match.includes('Air:')) {
+        return `elementalProperties: {${group}, Air: 0.1}`;
       }
-    );
+      return match;
+    });
     modified = true;
   }
 
   if (missingFire.test(content)) {
-    content = content.replace(
-      /elementalProperties:\s*{([^}]+)}/g,
-      (match, group) => {
-        if (!match.includes('Fire:')) {
-          return `elementalProperties: {${group}, Fire: 0.1}`;
-        }
-        return match;
+    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
+      if (!match.includes('Fire:')) {
+        return `elementalProperties: {${group}, Fire: 0.1}`;
       }
-    );
+      return match;
+    });
     modified = true;
   }
 
   if (missingWater.test(content)) {
-    content = content.replace(
-      /elementalProperties:\s*{([^}]+)}/g,
-      (match, group) => {
-        if (!match.includes('Water:')) {
-          return `elementalProperties: {${group}, Water: 0.1}`;
-        }
-        return match;
+    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
+      if (!match.includes('Water:')) {
+        return `elementalProperties: {${group}, Water: 0.1}`;
       }
-    );
+      return match;
+    });
     modified = true;
   }
 
   if (missingEarth.test(content)) {
-    content = content.replace(
-      /elementalProperties:\s*{([^}]+)}/g,
-      (match, group) => {
-        if (!match.includes('Earth:')) {
-          return `elementalProperties: {${group}, Earth: 0.1}`;
-        }
-        return match;
+    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
+      if (!match.includes('Earth:')) {
+        return `elementalProperties: {${group}, Earth: 0.1}`;
       }
-    );
+      return match;
+    });
     modified = true;
   }
 
@@ -121,11 +101,7 @@ function processDirectory(dirPath) {
 
     if (stats.isDirectory()) {
       processed += processDirectory(fullPath);
-    } else if (
-      file.endsWith('.ts') &&
-      !file.endsWith('.d.ts') &&
-      file !== 'index.ts'
-    ) {
+    } else if (file.endsWith('.ts') && !file.endsWith('.d.ts') && file !== 'index.ts') {
       if (fixElementalProperties(fullPath)) {
         processed++;
       }
@@ -162,7 +138,7 @@ main()
     // console.log('All ingredient files have been processed.');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch(error => {
     // console.error('Error during processing:', error);
     process.exit(1);
   });

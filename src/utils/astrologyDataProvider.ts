@@ -17,8 +17,6 @@ import { CelestialPosition, ZodiacSign } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 
-
-
 // Create a component-specific logger
 const logger = createLogger('AstrologyDataProvider');
 
@@ -38,16 +36,18 @@ let positionsCache: CacheEntry | null = null;
  * Get planetary positions from live API
  * @returns Promise that resolves to planetary positions or null if API fails
  */
-async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> | null> { try {
+async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> | null> {
+  try {
     logger.debug('Fetching planetary positions from API...');
 
     // Try to fetch from API endpoint
     const response = await fetch('/api/planetary-positions', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json' },
+        'Content-Type': 'application/json',
+      },
       // Short timeout to prevent long waits
-      signal: AbortSignal.timeout(3000)
+      signal: AbortSignal.timeout(3000),
     });
 
     if (!response.ok) {
@@ -67,10 +67,12 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     Object.entries(data || {}).forEach(([planet, position]) => {
       if (typeof position === 'object' && position !== null && 'sign' in position) {
         positions[planet.toLowerCase()] = {
-          sign: (typeof (position as Record<string, unknown>).sign === 'string' ? ((position as Record<string, unknown>).sign as string).toLowerCase() : 'aries') as ZodiacSign,
+          sign: (typeof (position as Record<string, unknown>).sign === 'string'
+            ? ((position as Record<string, unknown>).sign as string).toLowerCase()
+            : 'aries') as ZodiacSign,
           degree: Number((position as Record<string, unknown>).degree) || 0,
           exactLongitude: Number((position as Record<string, unknown>).exactLongitude) || 0,
-          isRetrograde: !!(position as Record<string, Record<string, number>>).isRetrograde
+          isRetrograde: !!(position as Record<string, Record<string, number>>).isRetrograde,
         };
       }
     });
@@ -82,7 +84,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     // Update cache
     positionsCache = {
       data: positions,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     return positions;
@@ -118,7 +120,7 @@ function getPositionsFromTransitFiles(): { [key: string]: CelestialPosition } | 
  */
 export async function getPlanetaryPositions(): Promise<Record<string, CelestialPosition>> {
   // Try using cached data first if it's recent
-  if (positionsCache && (Date.now() - positionsCache.timestamp < CACHE_DURATION)) {
+  if (positionsCache && Date.now() - positionsCache.timestamp < CACHE_DURATION) {
     logger.debug('Using cached planetary positions');
     return positionsCache.data;
   }
@@ -155,9 +157,12 @@ export async function getDominantElement(): Promise<string> {
   const getDominantElementMethod = safeAstrologyData.getDominantElement;
   const countElementsMethod = safeAstrologyData.countElements;
 
-  if (getDominantElementMethod && countElementsMethod &&
-      typeof getDominantElementMethod === 'function' &&
-      typeof countElementsMethod === 'function') {
+  if (
+    getDominantElementMethod &&
+    countElementsMethod &&
+    typeof getDominantElementMethod === 'function' &&
+    typeof countElementsMethod === 'function'
+  ) {
     return getDominantElementMethod(countElementsMethod(positions));
   }
 

@@ -27,14 +27,15 @@ function fixObviousPatterns(filePath) {
           }
           return `(${param}: unknown)`;
         },
-        description: 'simple function parameters'
-      }
+        description: 'simple function parameters',
+      },
     ];
 
     for (const { pattern, replacement, description } of replacements) {
       if (typeof replacement === 'function') {
         const newContent = content.replace(pattern, replacement);
-        const changeCount = (content.match(pattern) || []).length - (newContent.match(pattern) || []).length;
+        const changeCount =
+          (content.match(pattern) || []).length - (newContent.match(pattern) || []).length;
         if (changeCount > 0) {
           content = newContent;
           fixes += changeCount;
@@ -72,7 +73,6 @@ function fixObviousPatterns(filePath) {
     }
 
     return fixes;
-
   } catch (error) {
     console.error(`❌ Error processing ${filePath}:`, error.message);
     return 0;
@@ -82,8 +82,14 @@ function fixObviousPatterns(filePath) {
 // Instead of trying to fix everything, let's create a summary report
 function generateExplicitAnyReport() {
   try {
-    const output = execSync('yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any"', { encoding: 'utf8' });
-    const lines = output.trim().split('\n').filter(line => line);
+    const output = execSync(
+      'yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any"',
+      { encoding: 'utf8' },
+    );
+    const lines = output
+      .trim()
+      .split('\n')
+      .filter(line => line);
 
     const fileStats = {};
     const patternStats = {};
@@ -118,7 +124,7 @@ function generateExplicitAnyReport() {
 
     console.log('\n🏆 Top Files with Issues:');
     Object.entries(fileStats)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 10)
       .forEach(([file, count]) => {
         console.log(`  ${file}: ${count} issues`);
@@ -126,7 +132,7 @@ function generateExplicitAnyReport() {
 
     console.log('\n🔍 Pattern Breakdown:');
     Object.entries(patternStats)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .forEach(([pattern, count]) => {
         console.log(`  ${pattern}: ${count} issues`);
       });
@@ -136,7 +142,6 @@ function generateExplicitAnyReport() {
     console.log('  - Jest mock functions could use more specific typing');
     console.log('  - Record<string, any> types are often correct for dynamic data');
     console.log('  - Focus on non-test files for the biggest impact');
-
   } catch (error) {
     console.log('Error generating report:', error.message);
   }
@@ -154,7 +159,7 @@ console.log('\n🎯 Attempting Safe Fixes...');
 const testFiles = [
   'src/components/IngredientRecommender.tsx',
   'src/components/CuisineRecommender.tsx',
-  'src/hooks/useEnterpriseIntelligence.ts'
+  'src/hooks/useEnterpriseIntelligence.ts',
 ];
 
 let totalFixes = 0;
@@ -172,7 +177,10 @@ console.log(`   Total fixes applied: ${totalFixes}`);
 if (totalFixes > 0) {
   // Final check
   try {
-    const lintOutput = execSync('yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l', { encoding: 'utf8' });
+    const lintOutput = execSync(
+      'yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l',
+      { encoding: 'utf8' },
+    );
     const remainingIssues = parseInt(lintOutput.trim());
     console.log(`📊 Remaining explicit-any issues: ${remainingIssues}`);
     console.log(`🎉 Reduced explicit-any issues by ${totalFixes}!`);

@@ -18,7 +18,7 @@ describe('ESLint Configuration Validation', () => {
     const config = require(configPath);
     eslint = new ESLint({
       baseConfig: config,
-      useEslintrc: false
+      useEslintrc: false,
     });
   });
 
@@ -34,17 +34,13 @@ describe('ESLint Configuration Validation', () => {
       expect(config.length).toBeGreaterThan(0);
 
       // Check for JavaScript configuration
-      const jsConfig = config.find((c: any) =>
-        c.files && c.files.includes('**/*.js')
-      );
+      const jsConfig = config.find((c: any) => c.files && c.files.includes('**/*.js'));
       expect(jsConfig).toBeDefined();
       expect(jsConfig.plugins).toBeDefined();
       expect(jsConfig.rules).toBeDefined();
 
       // Check for TypeScript configuration
-      const tsConfig = config.find((c: any) =>
-        c.files && c.files.includes('**/*.ts')
-      );
+      const tsConfig = config.find((c: any) => c.files && c.files.includes('**/*.ts'));
       expect(tsConfig).toBeDefined();
       expect(tsConfig.plugins).toBeDefined();
       expect(tsConfig.rules).toBeDefined();
@@ -54,22 +50,20 @@ describe('ESLint Configuration Validation', () => {
       const config = require(configPath);
 
       // Check for astrological calculation rules
-      const astroConfig = config.find((c: any) =>
-        c.files && c.files.some((f: string) => f.includes('**/calculations/**'))
+      const astroConfig = config.find(
+        (c: any) => c.files && c.files.some((f: string) => f.includes('**/calculations/**')),
       );
       expect(astroConfig).toBeDefined();
       expect(astroConfig.plugins).toHaveProperty('astrological');
 
       // Check for campaign system rules
-      const campaignConfig = config.find((c: any) =>
-        c.files && c.files.some((f: string) => f.includes('**/services/campaign/**'))
+      const campaignConfig = config.find(
+        (c: any) => c.files && c.files.some((f: string) => f.includes('**/services/campaign/**')),
       );
       expect(campaignConfig).toBeDefined();
 
       // Check for test file rules
-      const testConfig = config.find((c: any) =>
-        c.files && c.files.some((f: string) => f.includes('**/*.test.ts'))
-      );
+      const testConfig = config.find((c: any) => c.files && c.files.some((f: string) => f.includes('**/*.test.ts')));
       expect(testConfig).toBeDefined();
     });
 
@@ -88,9 +82,7 @@ describe('ESLint Configuration Validation', () => {
   describe('Rule Configuration Validation', () => {
     test('should have React 19 specific rules configured', () => {
       const config = require(configPath);
-      const reactConfig = config.find((c: any) =>
-        c.rules && c.rules['react/react-in-jsx-scope']
-      );
+      const reactConfig = config.find((c: any) => c.rules && c.rules['react/react-in-jsx-scope']);
 
       expect(reactConfig).toBeDefined();
       expect(reactConfig.rules['react/react-in-jsx-scope']).toBe('off');
@@ -100,9 +92,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should have enhanced TypeScript rules', () => {
       const config = require(configPath);
-      const tsConfig = config.find((c: any) =>
-        c.rules && c.rules['@typescript-eslint/no-explicit-any']
-      );
+      const tsConfig = config.find((c: any) => c.rules && c.rules['@typescript-eslint/no-explicit-any']);
 
       expect(tsConfig).toBeDefined();
       expect(tsConfig.rules['@typescript-eslint/no-explicit-any']).toBe('error');
@@ -112,9 +102,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should have import organization rules', () => {
       const config = require(configPath);
-      const importConfig = config.find((c: any) =>
-        c.rules && c.rules['import/order']
-      );
+      const importConfig = config.find((c: any) => c.rules && c.rules['import/order']);
 
       expect(importConfig).toBeDefined();
       expect(importConfig.rules['import/order']).toBeDefined();
@@ -124,9 +112,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should have performance optimization settings', () => {
       const config = require(configPath);
-      const perfConfig = config.find((c: any) =>
-        c.settings && c.settings['import/cache']
-      );
+      const perfConfig = config.find((c: any) => c.settings && c.settings['import/cache']);
 
       expect(perfConfig).toBeDefined();
       expect(perfConfig.settings['import/cache'].lifetime).toBe(600); // 10 minutes
@@ -151,9 +137,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should load custom astrological plugin', () => {
       const config = require(configPath);
-      const astroConfig = config.find((c: any) =>
-        c.plugins && c.plugins.astrological
-      );
+      const astroConfig = config.find((c: any) => c.plugins && c.plugins.astrological);
 
       expect(astroConfig).toBeDefined();
       expect(astroConfig.rules).toHaveProperty('astrological/preserve-planetary-constants');
@@ -193,8 +177,8 @@ describe('ESLint Configuration Validation', () => {
   describe('Path Resolution', () => {
     test('should resolve TypeScript path mappings', () => {
       const config = require(configPath);
-      const tsConfig = config.find((c: any) =>
-        c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript
+      const tsConfig = config.find(
+        (c: any) => c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript,
       );
 
       expect(tsConfig).toBeDefined();
@@ -205,9 +189,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should ignore external dependencies correctly', () => {
       const config = require(configPath);
-      const importConfig = config.find((c: any) =>
-        c.rules && c.rules['import/no-unresolved']
-      );
+      const importConfig = config.find((c: any) => c.rules && c.rules['import/no-unresolved']);
 
       expect(importConfig).toBeDefined();
       const ignorePatterns = importConfig.rules['import/no-unresolved'][1].ignore;
@@ -221,8 +203,8 @@ describe('ESLint Configuration Validation', () => {
   describe('Global Variables', () => {
     test('should define React 19 globals', () => {
       const config = require(configPath);
-      const reactConfig = config.find((c: any) =>
-        c.languageOptions && c.languageOptions.globals && c.languageOptions.globals.React
+      const reactConfig = config.find(
+        (c: any) => c.languageOptions && c.languageOptions.globals && c.languageOptions.globals.React,
       );
 
       expect(reactConfig).toBeDefined();
@@ -232,8 +214,8 @@ describe('ESLint Configuration Validation', () => {
 
     test('should define Node.js globals', () => {
       const config = require(configPath);
-      const nodeConfig = config.find((c: any) =>
-        c.languageOptions && c.languageOptions.globals && c.languageOptions.globals.process
+      const nodeConfig = config.find(
+        (c: any) => c.languageOptions && c.languageOptions.globals && c.languageOptions.globals.process,
       );
 
       expect(nodeConfig).toBeDefined();
@@ -243,9 +225,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should define test globals for test files', () => {
       const config = require(configPath);
-      const testConfig = config.find((c: any) =>
-        c.files && c.files.some((f: string) => f.includes('**/*.test.ts'))
-      );
+      const testConfig = config.find((c: any) => c.files && c.files.some((f: string) => f.includes('**/*.test.ts')));
 
       expect(testConfig).toBeDefined();
       expect(testConfig.languageOptions.globals.describe).toBe('readonly');
@@ -287,9 +267,7 @@ describe('ESLint Configuration Validation', () => {
     test('should have proper parser configuration', () => {
       const config = require(configPath);
 
-      const tsConfig = config.find((c: any) =>
-        c.languageOptions && c.languageOptions.parser
-      );
+      const tsConfig = config.find((c: any) => c.languageOptions && c.languageOptions.parser);
 
       expect(tsConfig).toBeDefined();
       expect(tsConfig.languageOptions.parserOptions.project).toContain('./tsconfig.json');

@@ -2,7 +2,7 @@
 
 /**
  * Targeted Array Type Improvements
- * 
+ *
  * Focuses on specific, safe array type patterns with enhanced safety checks
  */
 
@@ -12,7 +12,10 @@ const { execSync } = require('child_process');
 // Get current linting count for tracking
 function getCurrentExplicitAnyCount() {
   try {
-    const result = execSync('yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l', { encoding: 'utf8' });
+    const result = execSync(
+      'yarn lint --max-warnings=10000 2>&1 | grep -E "@typescript-eslint/no-explicit-any" | wc -l',
+      { encoding: 'utf8' },
+    );
     return parseInt(result.trim());
   } catch (error) {
     return 0;
@@ -40,19 +43,19 @@ function fixArrayTypesInFile(filePath) {
       {
         pattern: /\.\.\.\(options\.rest as any\[\]\)/g,
         replacement: '...(options.rest as unknown[])',
-        description: 'logger rest parameters to unknown[]'
+        description: 'logger rest parameters to unknown[]',
       },
       // Generic utility function parameters (safe when used for iteration/filtering)
       {
         pattern: /function\s+\w+\([^)]*items:\s*any\[\]/g,
-        replacement: (match) => match.replace('any[]', 'unknown[]'),
-        description: 'utility function parameters to unknown[]'
+        replacement: match => match.replace('any[]', 'unknown[]'),
+        description: 'utility function parameters to unknown[]',
       },
       // Function return types for utility functions
       {
         pattern: /\):\s*any\[\]/g,
         replacement: '): unknown[]',
-        description: 'function return types to unknown[]'
+        description: 'function return types to unknown[]',
       },
     ];
 
@@ -95,17 +98,17 @@ async function main() {
   for (const filePath of targetFiles) {
     if (fs.existsSync(filePath)) {
       console.log(`\n🎯 Processing ${filePath.split('/').pop()}`);
-      
+
       const { content, fixes, originalContent } = fixArrayTypesInFile(filePath);
-      
+
       if (fixes > 0 && content) {
         // Create backup
         const backupPath = `${filePath}.array-backup-${Date.now()}`;
         fs.writeFileSync(backupPath, originalContent);
-        
+
         // Apply fixes
         fs.writeFileSync(filePath, content);
-        
+
         // Validate compilation
         if (validateTypeScriptCompilation()) {
           console.log(`✅ TypeScript compilation successful`);
@@ -137,7 +140,9 @@ async function main() {
 
   if (totalFixes > 0) {
     console.log(`\n🎉 Successfully improved ${totalFixes} array type patterns!`);
-    console.log(`📈 Reduction: ${((totalReduction / startingCount) * 100).toFixed(1)}% of total explicit-any issues`);
+    console.log(
+      `📈 Reduction: ${((totalReduction / startingCount) * 100).toFixed(1)}% of total explicit-any issues`,
+    );
   }
 }
 

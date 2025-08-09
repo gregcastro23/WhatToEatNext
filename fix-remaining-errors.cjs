@@ -23,8 +23,8 @@ const CONFIG = {
     // Preserve astronomical calculations
     /planetary|astronomical|astrological|ephemeris/i,
     // Preserve campaign system patterns
-    /campaign|metrics|progress|safety/i
-  ]
+    /campaign|metrics|progress|safety/i,
+  ],
 };
 
 class RemainingErrorsFixer {
@@ -37,7 +37,7 @@ class RemainingErrorsFixer {
       'no-non-null-assertion': 0,
       'no-unnecessary-type-assertion': 0,
       'no-floating-promises': 0,
-      'no-misused-promises': 0
+      'no-misused-promises': 0,
     };
   }
 
@@ -48,24 +48,26 @@ class RemainingErrorsFixer {
     try {
       console.log('🔍 Analyzing files with remaining error categories...');
 
-      const lintOutput = execSync(
-        'yarn lint --max-warnings=10000 --format=json',
-        { encoding: 'utf8', stdio: 'pipe' }
-      );
+      const lintOutput = execSync('yarn lint --max-warnings=10000 --format=json', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
 
       const lintResults = JSON.parse(lintOutput);
       const filesWithErrors = new Map();
 
       for (const result of lintResults) {
         const filePath = result.filePath;
-        const relevantMessages = result.messages.filter(msg =>
-          msg.ruleId && [
-            '@typescript-eslint/prefer-optional-chain',
-            '@typescript-eslint/no-non-null-assertion',
-            '@typescript-eslint/no-unnecessary-type-assertion',
-            '@typescript-eslint/no-floating-promises',
-            '@typescript-eslint/no-misused-promises'
-          ].includes(msg.ruleId)
+        const relevantMessages = result.messages.filter(
+          msg =>
+            msg.ruleId &&
+            [
+              '@typescript-eslint/prefer-optional-chain',
+              '@typescript-eslint/no-non-null-assertion',
+              '@typescript-eslint/no-unnecessary-type-assertion',
+              '@typescript-eslint/no-floating-promises',
+              '@typescript-eslint/no-misused-promises',
+            ].includes(msg.ruleId),
         );
 
         if (relevantMessages.length > 0) {
@@ -75,7 +77,6 @@ class RemainingErrorsFixer {
 
       console.log(`📊 Found ${filesWithErrors.size} files with target error categories`);
       return Array.from(filesWithErrors.entries()).slice(0, CONFIG.maxFiles);
-
     } catch (error) {
       console.warn('⚠️ Could not get lint JSON output, falling back to text parsing...');
       return this.getFilesWithErrorsFallback();
@@ -192,9 +193,11 @@ class RemainingErrorsFixer {
     const matches1 = [...modifiedContent.matchAll(pattern1)];
     for (const match of matches1) {
       // Only remove if the variable name suggests it's already a string
-      if (match[1].toLowerCase().includes('str') ||
-          match[1].toLowerCase().includes('text') ||
-          match[1].toLowerCase().includes('name')) {
+      if (
+        match[1].toLowerCase().includes('str') ||
+        match[1].toLowerCase().includes('text') ||
+        match[1].toLowerCase().includes('name')
+      ) {
         modifiedContent = modifiedContent.replace(match[0], match[1]);
         fixes++;
       }
@@ -218,12 +221,17 @@ class RemainingErrorsFixer {
       const originalLine = line;
 
       // Look for standalone promise calls that should be voided
-      if (/^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
-          !line.includes('await') && !line.includes('void') && !line.includes('return')) {
-
+      if (
+        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
+        !line.includes('await') &&
+        !line.includes('void') &&
+        !line.includes('return')
+      ) {
         // Add void operator
-        line = line.replace(/^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
-                           '$1void $2');
+        line = line.replace(
+          /^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
+          '$1void $2',
+        );
 
         if (line !== originalLine) {
           fixes++;
@@ -245,7 +253,8 @@ class RemainingErrorsFixer {
 
     // Pattern: if (promise) -> if (await promise)
     // This is conservative and only applies to obvious cases
-    const pattern1 = /if\s*\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*\)/g;
+    const pattern1 =
+      /if\s*\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*\)/g;
     const matches1 = [...modifiedContent.matchAll(pattern1)];
     for (const match of matches1) {
       if (match[1].includes('async') || match[1].includes('Promise')) {
@@ -276,7 +285,9 @@ class RemainingErrorsFixer {
       let totalFileFixes = 0;
 
       // Apply fixes based on error types present
-      const errorTypes = new Set(errorMessages.map(msg => msg.ruleId?.replace('@typescript-eslint/', '')));
+      const errorTypes = new Set(
+        errorMessages.map(msg => msg.ruleId?.replace('@typescript-eslint/', '')),
+      );
 
       if (errorTypes.has('prefer-optional-chain')) {
         const result = this.fixOptionalChain(modifiedContent);
@@ -340,7 +351,6 @@ class RemainingErrorsFixer {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
       this.errors.push({ file: filePath, error: error.message });

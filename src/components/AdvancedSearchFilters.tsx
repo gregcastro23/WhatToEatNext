@@ -46,40 +46,21 @@ const DIETARY_RESTRICTIONS = [
   'keto',
   'paleo',
   'halal',
-  'kosher'
+  'kosher',
 ];
 
-const DIFFICULTY_LEVELS = [
-  'beginner',
-  'easy',
-  'medium',
-  'hard',
-  'expert'
-];
+const DIFFICULTY_LEVELS = ['beginner', 'easy', 'medium', 'hard', 'expert'];
 
 const COOKING_TIME_RANGES = [
   { label: 'Quick (< 30 min)', min: 0, max: 30 },
   { label: 'Medium (30-60 min)', min: 30, max: 60 },
   { label: 'Long (1-2 hours)', min: 60, max: 120 },
-  { label: 'Extended (2+ hours)', min: 120, max: 480 }
+  { label: 'Extended (2+ hours)', min: 120, max: 480 },
 ];
 
-const MEAL_TYPES = [
-  'breakfast',
-  'lunch',
-  'dinner',
-  'snack',
-  'appetizer',
-  'dessert',
-  'beverage'
-];
+const MEAL_TYPES = ['breakfast', 'lunch', 'dinner', 'snack', 'appetizer', 'dessert', 'beverage'];
 
-const SPICINESS_LEVELS = [
-  'mild',
-  'medium',
-  'hot',
-  'very-hot'
-];
+const SPICINESS_LEVELS = ['mild', 'medium', 'hot', 'very-hot'];
 
 const DEFAULT_CUISINES = [
   'italian',
@@ -93,7 +74,7 @@ const DEFAULT_CUISINES = [
   'middle-eastern',
   'korean',
   'vietnamese',
-  'greek'
+  'greek',
 ];
 
 // ========== COMPONENT ==========
@@ -102,10 +83,10 @@ export default function AdvancedSearchFilters({
   onFiltersChange,
   onSearch,
   availableCuisines = DEFAULT_CUISINES,
-  className = ''
+  className = '',
 }: AdvancedSearchFiltersProps) {
   // ========== STATE ==========
-  
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<SearchFilters>({
@@ -116,14 +97,14 @@ export default function AdvancedSearchFilters({
     cuisineTypes: [],
     mealTypes: [],
     spiciness: [],
-    ingredients: []
+    ingredients: [],
   });
 
   // ========== MEMOIZED VALUES ==========
 
   const activeFilters = useMemo(() => {
     const chips: FilterChip[] = [];
-    
+
     // Dietary restrictions
     filters.dietaryRestrictions.forEach(restriction => {
       chips.push({
@@ -131,7 +112,7 @@ export default function AdvancedSearchFilters({
         label: restriction.charAt(0).toUpperCase() + restriction.slice(1),
         category: 'Dietary',
         value: restriction,
-        removable: true
+        removable: true,
       });
     });
 
@@ -142,7 +123,7 @@ export default function AdvancedSearchFilters({
         label: level.charAt(0).toUpperCase() + level.slice(1),
         category: 'Difficulty',
         value: level,
-        removable: true
+        removable: true,
       });
     });
 
@@ -153,7 +134,7 @@ export default function AdvancedSearchFilters({
         label: `${filters.cookingTime.min}-${filters.cookingTime.max} min`,
         category: 'Time',
         value: `${filters.cookingTime.min}-${filters.cookingTime.max}`,
-        removable: true
+        removable: true,
       });
     }
 
@@ -164,7 +145,7 @@ export default function AdvancedSearchFilters({
         label: cuisine.charAt(0).toUpperCase() + cuisine.slice(1),
         category: 'Cuisine',
         value: cuisine,
-        removable: true
+        removable: true,
       });
     });
 
@@ -175,7 +156,7 @@ export default function AdvancedSearchFilters({
         label: meal.charAt(0).toUpperCase() + meal.slice(1),
         category: 'Meal',
         value: meal,
-        removable: true
+        removable: true,
       });
     });
 
@@ -186,7 +167,7 @@ export default function AdvancedSearchFilters({
         label: spice.charAt(0).toUpperCase() + spice.slice(1),
         category: 'Spice',
         value: spice,
-        removable: true
+        removable: true,
       });
     });
 
@@ -199,73 +180,87 @@ export default function AdvancedSearchFilters({
 
   // ========== EVENT HANDLERS ==========
 
-  const handleSearchChange = useCallback((value: string) => {
-    setSearchQuery(value);
-    const updatedFilters = { ...filters, query: value };
-    setFilters(updatedFilters);
-    onFiltersChange(updatedFilters);
-  }, [filters, onFiltersChange]);
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearchQuery(value);
+      const updatedFilters = { ...filters, query: value };
+      setFilters(updatedFilters);
+      onFiltersChange(updatedFilters);
+    },
+    [filters, onFiltersChange],
+  );
 
-  const handleSearchSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch(searchQuery);
-  }, [searchQuery, onSearch]);
+  const handleSearchSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      onSearch(searchQuery);
+    },
+    [searchQuery, onSearch],
+  );
 
-  const handleFilterToggle = useCallback((
-    category: keyof SearchFilters,
-    value: string
-  ) => {
-    const updatedFilters = { ...filters };
-    
-    if (Array.isArray(updatedFilters[category])) {
-      const currentArray = updatedFilters[category] as string[];
-      const index = currentArray.indexOf(value);
-      
-      if (index > -1) {
-        currentArray.splice(index, 1);
-      } else {
-        currentArray.push(value);
+  const handleFilterToggle = useCallback(
+    (category: keyof SearchFilters, value: string) => {
+      const updatedFilters = { ...filters };
+
+      if (Array.isArray(updatedFilters[category])) {
+        const currentArray = updatedFilters[category] as string[];
+        const index = currentArray.indexOf(value);
+
+        if (index > -1) {
+          currentArray.splice(index, 1);
+        } else {
+          currentArray.push(value);
+        }
       }
-    }
-    
-    setFilters(updatedFilters);
-    onFiltersChange(updatedFilters);
-  }, [filters, onFiltersChange]);
 
-  const handleTimeRangeChange = useCallback((min: number, max: number) => {
-    const updatedFilters = {
-      ...filters,
-      cookingTime: { min, max }
-    };
-    setFilters(updatedFilters);
-    onFiltersChange(updatedFilters);
-  }, [filters, onFiltersChange]);
+      setFilters(updatedFilters);
+      onFiltersChange(updatedFilters);
+    },
+    [filters, onFiltersChange],
+  );
 
-  const handleRemoveFilter = useCallback((chipId: string) => {
-    const updatedFilters = { ...filters };
-    
-    if (chipId.startsWith('dietary-')) {
-      const value = chipId.replace('dietary-', '');
-      updatedFilters.dietaryRestrictions = updatedFilters.dietaryRestrictions.filter(r => r !== value);
-    } else if (chipId.startsWith('difficulty-')) {
-      const value = chipId.replace('difficulty-', '');
-      updatedFilters.difficultyLevel = updatedFilters.difficultyLevel.filter(d => d !== value);
-    } else if (chipId === 'cooking-time') {
-      updatedFilters.cookingTime = { min: 0, max: 480 };
-    } else if (chipId.startsWith('cuisine-')) {
-      const value = chipId.replace('cuisine-', '');
-      updatedFilters.cuisineTypes = updatedFilters.cuisineTypes.filter(c => c !== value);
-    } else if (chipId.startsWith('meal-')) {
-      const value = chipId.replace('meal-', '');
-      updatedFilters.mealTypes = updatedFilters.mealTypes.filter(m => m !== value);
-    } else if (chipId.startsWith('spice-')) {
-      const value = chipId.replace('spice-', '');
-      updatedFilters.spiciness = updatedFilters.spiciness.filter(s => s !== value);
-    }
-    
-    setFilters(updatedFilters);
-    onFiltersChange(updatedFilters);
-  }, [filters, onFiltersChange]);
+  const handleTimeRangeChange = useCallback(
+    (min: number, max: number) => {
+      const updatedFilters = {
+        ...filters,
+        cookingTime: { min, max },
+      };
+      setFilters(updatedFilters);
+      onFiltersChange(updatedFilters);
+    },
+    [filters, onFiltersChange],
+  );
+
+  const handleRemoveFilter = useCallback(
+    (chipId: string) => {
+      const updatedFilters = { ...filters };
+
+      if (chipId.startsWith('dietary-')) {
+        const value = chipId.replace('dietary-', '');
+        updatedFilters.dietaryRestrictions = updatedFilters.dietaryRestrictions.filter(
+          r => r !== value,
+        );
+      } else if (chipId.startsWith('difficulty-')) {
+        const value = chipId.replace('difficulty-', '');
+        updatedFilters.difficultyLevel = updatedFilters.difficultyLevel.filter(d => d !== value);
+      } else if (chipId === 'cooking-time') {
+        updatedFilters.cookingTime = { min: 0, max: 480 };
+      } else if (chipId.startsWith('cuisine-')) {
+        const value = chipId.replace('cuisine-', '');
+        updatedFilters.cuisineTypes = updatedFilters.cuisineTypes.filter(c => c !== value);
+      } else if (chipId.startsWith('meal-')) {
+        const value = chipId.replace('meal-', '');
+        updatedFilters.mealTypes = updatedFilters.mealTypes.filter(m => m !== value);
+      } else if (chipId.startsWith('spice-')) {
+        const value = chipId.replace('spice-', '');
+        updatedFilters.spiciness = updatedFilters.spiciness.filter(s => s !== value);
+      }
+
+      setFilters(updatedFilters);
+      onFiltersChange(updatedFilters);
+    },
+    [filters, onFiltersChange],
+  );
 
   const handleClearAllFilters = useCallback(() => {
     const clearedFilters: SearchFilters = {
@@ -276,9 +271,9 @@ export default function AdvancedSearchFilters({
       cuisineTypes: [],
       mealTypes: [],
       spiciness: [],
-      ingredients: []
+      ingredients: [],
     };
-    
+
     setSearchQuery('');
     setFilters(clearedFilters);
     onFiltersChange(clearedFilters);
@@ -291,22 +286,22 @@ export default function AdvancedSearchFilters({
     icon: React.ReactNode,
     options: string[],
     selectedValues: string[],
-    category: keyof SearchFilters
+    category: keyof SearchFilters,
   ) => (
-    <div className="mb-4">
-      <div className="flex items-center space-x-2 mb-2">
+    <div className='mb-4'>
+      <div className='mb-2 flex items-center space-x-2'>
         {icon}
-        <h4 className="text-sm font-medium text-gray-700">{title}</h4>
+        <h4 className='text-sm font-medium text-gray-700'>{title}</h4>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className='flex flex-wrap gap-2'>
         {options.map(option => (
           <button
             key={option}
             onClick={() => handleFilterToggle(category, option)}
-            className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+            className={`rounded-full border px-3 py-1 text-xs transition-colors ${
               selectedValues.includes(option)
-                ? 'bg-blue-100 border-blue-300 text-blue-700'
-                : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                ? 'border-blue-300 bg-blue-100 text-blue-700'
+                : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'
             }`}
           >
             {option.charAt(0).toUpperCase() + option.slice(1)}
@@ -317,20 +312,20 @@ export default function AdvancedSearchFilters({
   );
 
   const renderTimeRangeSection = () => (
-    <div className="mb-4">
-      <div className="flex items-center space-x-2 mb-2">
-        <Clock size={16} className="text-gray-500" />
-        <h4 className="text-sm font-medium text-gray-700">Cooking Time</h4>
+    <div className='mb-4'>
+      <div className='mb-2 flex items-center space-x-2'>
+        <Clock size={16} className='text-gray-500' />
+        <h4 className='text-sm font-medium text-gray-700'>Cooking Time</h4>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className='flex flex-wrap gap-2'>
         {COOKING_TIME_RANGES.map(range => (
           <button
             key={range.label}
             onClick={() => handleTimeRangeChange(range.min, range.max)}
-            className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+            className={`rounded-full border px-3 py-1 text-xs transition-colors ${
               filters.cookingTime.min === range.min && filters.cookingTime.max === range.max
-                ? 'bg-blue-100 border-blue-300 text-blue-700'
-                : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                ? 'border-blue-300 bg-blue-100 text-blue-700'
+                : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'
             }`}
           >
             {range.label}
@@ -343,26 +338,29 @@ export default function AdvancedSearchFilters({
   // ========== RENDER ==========
 
   return (
-    <div className={`bg-white rounded-lg border ${className}`}>
+    <div className={`rounded-lg border bg-white ${className}`}>
       {/* Search Bar */}
-      <form onSubmit={handleSearchSubmit} className="p-4 border-b">
-        <div className="relative">
-          <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      <form onSubmit={handleSearchSubmit} className='border-b p-4'>
+        <div className='relative'>
+          <Search
+            size={20}
+            className='absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400'
+          />
           <input
-            type="text"
+            type='text'
             value={searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder="Search cuisines, recipes, or ingredients..."
-            className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onChange={e => handleSearchChange(e.target.value)}
+            placeholder='Search cuisines, recipes, or ingredients...'
+            className='w-full rounded-lg border border-gray-300 py-2 pl-10 pr-12 focus:border-transparent focus:ring-2 focus:ring-blue-500'
           />
           <button
-            type="button"
+            type='button'
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-1 rounded transition-colors ${
-              isExpanded ? 'text-blue-600 bg-blue-50' : 'text-gray-400 hover:text-gray-600'
+            className={`absolute right-3 top-1/2 -translate-y-1/2 transform rounded p-1 transition-colors ${
+              isExpanded ? 'bg-blue-50 text-blue-600' : 'text-gray-400 hover:text-gray-600'
             }`}
-            aria-label="Toggle filters"
-            title="Toggle filters"
+            aria-label='Toggle filters'
+            title='Toggle filters'
           >
             <Filter size={16} />
           </button>
@@ -371,28 +369,28 @@ export default function AdvancedSearchFilters({
 
       {/* Active Filter Chips */}
       {hasActiveFilters && (
-        <div className="p-4 border-b bg-gray-50">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Active Filters</span>
+        <div className='border-b bg-gray-50 p-4'>
+          <div className='mb-2 flex items-center justify-between'>
+            <span className='text-sm font-medium text-gray-700'>Active Filters</span>
             <button
               onClick={handleClearAllFilters}
-              className="text-xs text-gray-500 hover:text-gray-700"
+              className='text-xs text-gray-500 hover:text-gray-700'
             >
               Clear All
             </button>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className='flex flex-wrap gap-2'>
             {activeFilters.map(chip => (
               <div
                 key={chip.id}
-                className="flex items-center space-x-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"
+                className='flex items-center space-x-1 rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700'
               >
-                <span className="text-blue-500 text-xs">{chip.category}:</span>
+                <span className='text-xs text-blue-500'>{chip.category}:</span>
                 <span>{chip.label}</span>
                 {chip.removable && (
                   <button
                     onClick={() => handleRemoveFilter(chip.id)}
-                    className="ml-1 text-blue-500 hover:text-blue-700"
+                    className='ml-1 text-blue-500 hover:text-blue-700'
                   >
                     <X size={12} />
                   </button>
@@ -405,23 +403,23 @@ export default function AdvancedSearchFilters({
 
       {/* Expanded Filters */}
       {isExpanded && (
-        <div className="p-4 space-y-4">
+        <div className='space-y-4 p-4'>
           {/* Dietary Restrictions */}
           {renderFilterSection(
             'Dietary Restrictions',
-            <Utensils size={16} className="text-green-500" />,
+            <Utensils size={16} className='text-green-500' />,
             DIETARY_RESTRICTIONS,
             filters.dietaryRestrictions,
-            'dietaryRestrictions'
+            'dietaryRestrictions',
           )}
 
           {/* Difficulty Level */}
           {renderFilterSection(
             'Difficulty Level',
-            <ChefHat size={16} className="text-orange-500" />,
+            <ChefHat size={16} className='text-orange-500' />,
             DIFFICULTY_LEVELS,
             filters.difficultyLevel,
-            'difficultyLevel'
+            'difficultyLevel',
           )}
 
           {/* Cooking Time */}
@@ -430,28 +428,28 @@ export default function AdvancedSearchFilters({
           {/* Cuisine Types */}
           {renderFilterSection(
             'Cuisine Types',
-            <Globe size={16} className="text-purple-500" />,
+            <Globe size={16} className='text-purple-500' />,
             availableCuisines,
             filters.cuisineTypes,
-            'cuisineTypes'
+            'cuisineTypes',
           )}
 
           {/* Meal Types */}
           {renderFilterSection(
             'Meal Types',
-            <Utensils size={16} className="text-blue-500" />,
+            <Utensils size={16} className='text-blue-500' />,
             MEAL_TYPES,
             filters.mealTypes,
-            'mealTypes'
+            'mealTypes',
           )}
 
           {/* Spiciness */}
           {renderFilterSection(
             'Spiciness Level',
-            <span className="text-red-500">🌶️</span>,
+            <span className='text-red-500'>🌶️</span>,
             SPICINESS_LEVELS,
             filters.spiciness,
-            'spiciness'
+            'spiciness',
           )}
         </div>
       )}

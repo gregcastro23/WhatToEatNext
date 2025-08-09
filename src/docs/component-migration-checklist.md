@@ -1,6 +1,8 @@
 # Component Migration Checklist
 
-This document provides a systematic checklist for migrating components from using contexts to the new service-based architecture. Following these steps ensures consistency and completeness in the migration process.
+This document provides a systematic checklist for migrating components from
+using contexts to the new service-based architecture. Following these steps
+ensures consistency and completeness in the migration process.
 
 ## Pre-Migration Analysis
 
@@ -42,7 +44,8 @@ This document provides a systematic checklist for migrating components from usin
 
 ## Testing
 
-- [ ] Add the component to the test page (`src/app/test/migrated-components/page.tsx`)
+- [ ] Add the component to the test page
+      (`src/app/test/migrated-components/page.tsx`)
 - [ ] Compare visual appearance with the original component
 - [ ] Test all interactions and functionalities
 - [ ] Verify that data loading works correctly
@@ -61,7 +64,8 @@ This document provides a systematic checklist for migrating components from usin
 ## Post-Migration
 
 - [ ] Update the migration progress document
-- [ ] Consider if any patterns from this component should be documented for future migrations
+- [ ] Consider if any patterns from this component should be documented for
+      future migrations
 - [ ] Identify any reusable hooks or utilities that could be extracted
 
 ## Common Patterns for Specific Service Types
@@ -78,7 +82,7 @@ This document provides a systematic checklist for migrating components from usin
 - [ ] Use getCachedCalculation for expensive operations
 - [ ] Ensure proper typing of elemental properties
 
-### ChakraService 
+### ChakraService
 
 - [ ] Replace direct chakra mappings with service methods
 - [ ] Ensure proper chakra type definitions
@@ -93,24 +97,26 @@ This document provides a systematic checklist for migrating components from usin
 ## Example Transformation
 
 Before:
+
 ```tsx
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 const MyComponent = () => {
   const { planetaryPositions, state } = useAlchemical();
-  
+
   // Component logic using context data
 }
 ```
 
 After:
+
 ```tsx
 import { useServices } from '@/hooks/useServices';
 
 const MyComponentMigrated = () => {
   const { isLoading, error, astrologyService } = useServices();
   const [planetaryPositions, setPlanetaryPositions] = useState({});
-  
+
   useEffect(() => {
     if (!isLoading && !error && astrologyService) {
       const fetchPositions = async () => {
@@ -121,21 +127,22 @@ const MyComponentMigrated = () => {
           console.error('Error fetching positions:', err);
         }
       };
-      
+
       fetchPositions();
     }
   }, [isLoading, error, astrologyService]);
-  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  
+
   // Component logic using service data
 }
 ```
 
-This checklist serves as a guide to ensure consistent and complete migrations across the codebase. 
+This checklist serves as a guide to ensure consistent and complete migrations
+across the codebase.

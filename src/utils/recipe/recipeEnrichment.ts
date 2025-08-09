@@ -1,5 +1,5 @@
 // Removed unused Element, ElementalProperties imports
-import type { Recipe } from "@/types/recipe";
+import type { Recipe } from '@/types/recipe';
 
 import { createLogger } from '../logger';
 
@@ -22,8 +22,12 @@ export function enrichRecipeData(recipe: unknown): Recipe {
   enrichedRecipe.instructions = enrichedRecipe.instructions || [];
 
   // 1. Derive astrological influences from ingredients if not present
-  if (!enrichedRecipe.astrologicalInfluences || (enrichedRecipe.astrologicalInfluences || []).length === 0) {
-    enrichedRecipe.astrologicalInfluences = deriveAstrologicalInfluencesFromIngredients(enrichedRecipe);
+  if (
+    !enrichedRecipe.astrologicalInfluences ||
+    (enrichedRecipe.astrologicalInfluences || []).length === 0
+  ) {
+    enrichedRecipe.astrologicalInfluences =
+      deriveAstrologicalInfluencesFromIngredients(enrichedRecipe);
   }
 
   // 2. Derive elemental properties from cuisine and cooking method if not present
@@ -49,55 +53,55 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
   // Common astrological correspondences for ingredients
   const ingredientCorrespondences: Record<string, string[]> = {
     // Spices - Enhanced Mars, Sun, and Moon associations
-    'cinnamon': ['Sun', 'Mars', 'Fire'],
-    'nutmeg': ['Jupiter', 'Air'],
-    'clove': ['Jupiter', 'Mars', 'Fire'],
-    'ginger': ['Mars', 'Fire'],
-    'pepper': ['Mars', 'Fire'],
-    'chili': ['Mars', 'Fire'],
-    'cayenne': ['Mars', 'Fire'],
-    'paprika': ['Mars', 'Sun', 'Fire'],
-    'turmeric': ['Sun', 'Earth'],
-    'saffron': ['Sun', 'Fire'],
-    'cumin': ['Mars', 'Earth'],
-    'cardamom': ['Moon', 'Venus', 'Water'],
+    cinnamon: ['Sun', 'Mars', 'Fire'],
+    nutmeg: ['Jupiter', 'Air'],
+    clove: ['Jupiter', 'Mars', 'Fire'],
+    ginger: ['Mars', 'Fire'],
+    pepper: ['Mars', 'Fire'],
+    chili: ['Mars', 'Fire'],
+    cayenne: ['Mars', 'Fire'],
+    paprika: ['Mars', 'Sun', 'Fire'],
+    turmeric: ['Sun', 'Earth'],
+    saffron: ['Sun', 'Fire'],
+    cumin: ['Mars', 'Earth'],
+    cardamom: ['Moon', 'Venus', 'Water'],
 
     // Fruits - Enhanced Sun and Moon associations
-    'apple': ['Venus', 'Water'],
-    'orange': ['Sun', 'Fire'],
-    'lemon': ['Moon', 'Water'],
-    'lime': ['Moon', 'Water'],
-    'banana': ['Moon', 'Water'],
-    'coconut': ['Moon', 'Water'],
+    apple: ['Venus', 'Water'],
+    orange: ['Sun', 'Fire'],
+    lemon: ['Moon', 'Water'],
+    lime: ['Moon', 'Water'],
+    banana: ['Moon', 'Water'],
+    coconut: ['Moon', 'Water'],
 
     // Vegetables - Enhanced Mars, Sun, and Moon associations
-    'potato': ['Earth', 'Saturn'],
-    'carrot': ['Sun', 'Mars', 'Earth'],
-    'onion': ['Mars', 'Fire'],
-    'garlic': ['Mars', 'Fire'],
-    'tomato': ['Mars', 'Fire'],
-    'cucumber': ['Moon', 'Water'],
-    'mushroom': ['Moon', 'Earth'],
+    potato: ['Earth', 'Saturn'],
+    carrot: ['Sun', 'Mars', 'Earth'],
+    onion: ['Mars', 'Fire'],
+    garlic: ['Mars', 'Fire'],
+    tomato: ['Mars', 'Fire'],
+    cucumber: ['Moon', 'Water'],
+    mushroom: ['Moon', 'Earth'],
 
     // Grains - Enhanced Sun and Moon associations
-    'rice': ['Moon', 'Water'],
-    'wheat': ['Sun', 'Earth'],
-    'quinoa': ['Sun', 'Earth'],
-    'oats': ['Venus', 'Earth'],
+    rice: ['Moon', 'Water'],
+    wheat: ['Sun', 'Earth'],
+    quinoa: ['Sun', 'Earth'],
+    oats: ['Venus', 'Earth'],
 
     // Proteins - Enhanced Mars associations
-    'beef': ['Mars', 'Fire'],
-    'chicken': ['Mercury', 'Sun', 'Air'],
-    'fish': ['Neptune', 'Water'],
-    'egg': ['Moon', 'Water'],
+    beef: ['Mars', 'Fire'],
+    chicken: ['Mercury', 'Sun', 'Air'],
+    fish: ['Neptune', 'Water'],
+    egg: ['Moon', 'Water'],
 
     // Herbs - Enhanced Mars, Sun, and Moon associations
-    'basil': ['Mars', 'Fire'],
-    'rosemary': ['Sun', 'Fire'],
-    'thyme': ['Venus', 'Air'],
-    'sage': ['Jupiter', 'Air'],
-    'mint': ['Mercury', 'Air'],
-    'parsley': ['Mercury', 'Air']
+    basil: ['Mars', 'Fire'],
+    rosemary: ['Sun', 'Fire'],
+    thyme: ['Venus', 'Air'],
+    sage: ['Jupiter', 'Air'],
+    mint: ['Mercury', 'Air'],
+    parsley: ['Mercury', 'Air'],
   };
 
   // Extract ingredient names from recipe
@@ -126,9 +130,18 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
   // Cooking method influences
   if (recipe.cookingMethods) {
     const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
-    if (methodStr?.includes('grill') || methodStr?.includes('roast') || methodStr?.includes('bake') || methodStr?.includes('fry')) {
+    if (
+      methodStr?.includes('grill') ||
+      methodStr?.includes('roast') ||
+      methodStr?.includes('bake') ||
+      methodStr?.includes('fry')
+    ) {
       elementalProps.Fire += 0.3;
-    } else if (methodStr?.includes('steam') || methodStr?.includes('boil') || methodStr?.includes('poach')) {
+    } else if (
+      methodStr?.includes('steam') ||
+      methodStr?.includes('boil') ||
+      methodStr?.includes('poach')
+    ) {
       elementalProps.Water += 0.3;
     } else if (methodStr?.includes('raw') || methodStr?.includes('fresh')) {
       elementalProps.Air += 0.3;
@@ -152,7 +165,8 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
   }
 
   // Normalize to ensure sum equals 1
-  const total = elementalProps.Fire + elementalProps.Water + elementalProps.Earth + elementalProps.Air;
+  const total =
+    elementalProps.Fire + elementalProps.Water + elementalProps.Earth + elementalProps.Air;
   if (total > 0) {
     elementalProps.Fire /= total;
     elementalProps.Water /= total;
@@ -181,7 +195,13 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
       normalizedSeasons.push('spring');
     } else if (s === 'summer' || s === 'cancer' || s === 'leo' || s === 'virgo') {
       normalizedSeasons.push('summer');
-    } else if (s === 'autumn' || s === 'fall' || s === 'libra' || s === 'scorpio' || s === 'sagittarius') {
+    } else if (
+      s === 'autumn' ||
+      s === 'fall' ||
+      s === 'libra' ||
+      s === 'scorpio' ||
+      s === 'sagittarius'
+    ) {
       normalizedSeasons.push('autumn');
     } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {
       normalizedSeasons.push('winter');
@@ -214,13 +234,29 @@ function deriveCelestialTiming(recipe: Recipe): {
   // Determine optimal Moon phase based on recipe characteristics
   if (recipe.cookingMethods) {
     const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
-    if (methodStr?.includes('ferment') || methodStr?.includes('rise') || methodStr?.includes('proof')) {
+    if (
+      methodStr?.includes('ferment') ||
+      methodStr?.includes('rise') ||
+      methodStr?.includes('proof')
+    ) {
       timing.optimalMoonPhase = 'waxing'; // Growing energy for fermentation
-    } else if (methodStr?.includes('preserve') || methodStr?.includes('cure') || methodStr?.includes('age')) {
+    } else if (
+      methodStr?.includes('preserve') ||
+      methodStr?.includes('cure') ||
+      methodStr?.includes('age')
+    ) {
       timing.optimalMoonPhase = 'waning'; // Reducing energy for preservation
-    } else if (methodStr?.includes('quick') || methodStr?.includes('flash') || methodStr?.includes('instant')) {
+    } else if (
+      methodStr?.includes('quick') ||
+      methodStr?.includes('flash') ||
+      methodStr?.includes('instant')
+    ) {
       timing.optimalMoonPhase = 'new'; // New beginnings for quick cooking
-    } else if (methodStr?.includes('slow') || methodStr?.includes('braise') || methodStr?.includes('stew')) {
+    } else if (
+      methodStr?.includes('slow') ||
+      methodStr?.includes('braise') ||
+      methodStr?.includes('stew')
+    ) {
       timing.optimalMoonPhase = 'full'; // Full energy for long cooking
     }
   }
@@ -242,11 +278,23 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
   // Cooking method complexity
   if (recipe.cookingMethods) {
     const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
-    if (methodStr?.includes('sous vide') || methodStr?.includes('molecular') || methodStr?.includes('smoking')) {
+    if (
+      methodStr?.includes('sous vide') ||
+      methodStr?.includes('molecular') ||
+      methodStr?.includes('smoking')
+    ) {
       complexity += 3;
-    } else if (methodStr?.includes('braise') || methodStr?.includes('confit') || methodStr?.includes('ferment')) {
+    } else if (
+      methodStr?.includes('braise') ||
+      methodStr?.includes('confit') ||
+      methodStr?.includes('ferment')
+    ) {
       complexity += 2;
-    } else if (methodStr?.includes('roast') || methodStr?.includes('bake') || methodStr?.includes('grill')) {
+    } else if (
+      methodStr?.includes('roast') ||
+      methodStr?.includes('bake') ||
+      methodStr?.includes('grill')
+    ) {
       complexity += 1;
     }
   }
@@ -270,7 +318,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     carbs: 0,
     fat: 0,
     fiber: 0,
-    sugar: 0
+    sugar: 0,
   };
 
   // Basic calorie estimation based on ingredients
@@ -299,7 +347,9 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   // Normalize per serving
   if (recipe.numberOfServings && recipe.numberOfServings > 1) {
     Object.keys(estimatedNutrition).forEach(key => {
-      estimatedNutrition[key] = Math.round(estimatedNutrition[key] / (recipe.numberOfServings ?? 1));
+      estimatedNutrition[key] = Math.round(
+        estimatedNutrition[key] / (recipe.numberOfServings ?? 1),
+      );
     });
   }
 

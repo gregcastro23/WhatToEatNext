@@ -27,7 +27,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
   cuisine,
   mealType,
   season,
-  limit = 10
+  limit = 10,
 }) => {
   const [recommendations, setRecommendations] = useState<ScoredRecipe[]>([]);
   const [celestialData, setCelestialData] = useState<CelestialAlignment | null>(null);
@@ -51,11 +51,11 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
         currentZodiacSign: 'leo',
         dominantPlanets: [
           { name: 'Sun', influence: 0.8 },
-          { name: 'Moon', influence: 0.6 }
+          { name: 'Moon', influence: 0.6 },
         ],
         lunarPhase: 'full moon',
         aspectInfluences: [],
-        astrologicalInfluences: ['Fire dominant', 'High energy']
+        astrologicalInfluences: ['Fire dominant', 'High energy'],
       };
       setCelestialData(celestialInfluence);
 
@@ -73,9 +73,9 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
         results = await recipeService.getBestRecipeMatches({
           criteria: {
             // Use current celestial state as criteria
-            elementalProperties: celestialInfluence.energyStateBalance || {}
+            elementalProperties: celestialInfluence.energyStateBalance || {},
           },
-          limit
+          limit,
         });
       }
 
@@ -96,15 +96,15 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
 
   if (loading) {
     return (
-      <div className="cuisine-recommender loading">
-        <div className="spinner">Loading astrologically-aligned recommendations...</div>
+      <div className='cuisine-recommender loading'>
+        <div className='spinner'>Loading astrologically-aligned recommendations...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="cuisine-recommender error">
+      <div className='cuisine-recommender error'>
         <p>{error as React.ReactNode}</p>
         <button onClick={loadRecommendations}>Try Again</button>
       </div>
@@ -112,57 +112,62 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
   }
 
   return (
-    <div className="cuisine-recommender">
+    <div className='cuisine-recommender'>
       {/* Celestial Influence Display */}
       {celestialData && (
-        <div className="celestial-influence-panel">
+        <div className='celestial-influence-panel'>
           <h3>Current Celestial Influences</h3>
-          <div className="celestial-data">
-            <div className="zodiac-info">
+          <div className='celestial-data'>
+            <div className='zodiac-info'>
               <strong>Zodiac:</strong> {celestialData.currentZodiacSign}
             </div>
-            <div className="lunar-info">
+            <div className='lunar-info'>
               <strong>Lunar Phase:</strong> {celestialData.lunarPhase}
             </div>
-            <div className="dominant-planets">
+            <div className='dominant-planets'>
               <strong>Dominant Planets:</strong>
               {(celestialData.dominantPlanets || []).map((planet, index) => {
                 const planetData = planet as Record<string, unknown>;
                 const planetName = String(planetData.name || `Planet ${index}`);
                 const planetInfluence = Number(planetData.influence || 0);
                 return (
-                  <span key={planetName} className="planet-tag">
+                  <span key={planetName} className='planet-tag'>
                     {planetName} ({(planetInfluence * 100).toFixed(0)}%)
                   </span>
                 );
               })}
             </div>
-            <div className="elemental-balance">
+            <div className='elemental-balance'>
               <strong>Elemental Balance:</strong>
-              <div className="elements">
-                {Object.entries((celestialData as unknown as Record<string, unknown>).elementalState as Record<string, number> || {}).map(([element, value]) => (
-                  <div key={element} className="element-bar">
-                    <span className="element-name">{element}:</span>
-                    <div className="bar">
+              <div className='elements'>
+                {Object.entries(
+                  ((celestialData as unknown as Record<string, unknown>).elementalState as Record<
+                    string,
+                    number
+                  >) || {},
+                ).map(([element, value]) => (
+                  <div key={element} className='element-bar'>
+                    <span className='element-name'>{element}:</span>
+                    <div className='bar'>
                       <div
                         className={`fill ${element.toLowerCase()}`}
-                        style={{ width: `${(value ) * 100}%` }}
+                        style={{ width: `${value * 100}%` }}
                       />
                     </div>
-                    <span className="percentage">{((value ) * 100).toFixed(1)}%</span>
+                    <span className='percentage'>{(value * 100).toFixed(1)}%</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          <button onClick={refreshRecommendations} className="refresh-btn">
+          <button onClick={refreshRecommendations} className='refresh-btn'>
             Refresh Astrological Data
           </button>
         </div>
       )}
 
       {/* Recipe Recommendations */}
-      <div className="recommendations-panel">
+      <div className='recommendations-panel'>
         <h3>
           Astrologically-Aligned Recipe Recommendations
           {cuisine && ` for ${cuisine} Cuisine`}
@@ -173,50 +178,72 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
         {(recommendations || []).length === 0 ? (
           <p>No recipes found matching your criteria and current celestial influences.</p>
         ) : (
-          <div className="recipe-list">
+          <div className='recipe-list'>
             {(recommendations || []).map((recipe, _index) => (
-              <div key={recipe.id} className="recipe-card">
-                <div className="recipe-header">
+              <div key={recipe.id} className='recipe-card'>
+                <div className='recipe-header'>
                   <h4>{recipe.name}</h4>
-                  <div className="compatibility-score">
-                    <span className="score">{(recipe.score * 100).toFixed(0)}%</span>
-                    <span className="label">Astrological Compatibility</span>
+                  <div className='compatibility-score'>
+                    <span className='score'>{(recipe.score * 100).toFixed(0)}%</span>
+                    <span className='label'>Astrological Compatibility</span>
                   </div>
                 </div>
 
-                <div className="recipe-details">
-                  <p className="description">{recipe.description}</p>
-                  <div className="meta-info">
-                    <span className="cuisine">Cuisine: {recipe.cuisine}</span>
-                    <span className="time">Time: {recipe.timeToMake}</span>
-                    <span className="servings">Serves: {recipe.servings as number}</span>
+                <div className='recipe-details'>
+                  <p className='description'>{recipe.description}</p>
+                  <div className='meta-info'>
+                    <span className='cuisine'>Cuisine: {recipe.cuisine}</span>
+                    <span className='time'>Time: {recipe.timeToMake}</span>
+                    <span className='servings'>Serves: {recipe.servings as number}</span>
                   </div>
                 </div>
 
                 {/* Alchemical Score Breakdown */}
                 {(recipe as any).alchemicalScores && (
-                  <div className="alchemical-breakdown">
+                  <div className='alchemical-breakdown'>
                     <h5>Compatibility Breakdown:</h5>
-                    <div className="score-details">
-                      <div className="score-item">
+                    <div className='score-details'>
+                      <div className='score-item'>
                         <span>Elemental:</span>
-                        <span>{(((recipe.alchemicalScores as any)?.elementalScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>
+                          {(((recipe.alchemicalScores as any)?.elementalScore ?? 0) * 100).toFixed(
+                            0,
+                          )}
+                          %
+                        </span>
                       </div>
-                      <div className="score-item">
+                      <div className='score-item'>
                         <span>Zodiacal:</span>
-                        <span>{(((recipe.alchemicalScores as any)?.zodiacalScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>
+                          {(((recipe.alchemicalScores as any)?.zodiacalScore ?? 0) * 100).toFixed(
+                            0,
+                          )}
+                          %
+                        </span>
                       </div>
-                      <div className="score-item">
+                      <div className='score-item'>
                         <span>Lunar:</span>
-                        <span>{(((recipe.alchemicalScores as any)?.lunarScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>
+                          {(((recipe.alchemicalScores as any)?.lunarScore ?? 0) * 100).toFixed(0)}%
+                        </span>
                       </div>
-                      <div className="score-item">
+                      <div className='score-item'>
                         <span>Planetary:</span>
-                        <span>{(((recipe.alchemicalScores as any)?.planetaryScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>
+                          {(((recipe.alchemicalScores as any)?.planetaryScore ?? 0) * 100).toFixed(
+                            0,
+                          )}
+                          %
+                        </span>
                       </div>
-                      <div className="score-item">
+                      <div className='score-item'>
                         <span>Seasonal:</span>
-                        <span>{(((recipe.alchemicalScores as any)?.seasonalScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>
+                          {(((recipe.alchemicalScores as any)?.seasonalScore ?? 0) * 100).toFixed(
+                            0,
+                          )}
+                          %
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -224,13 +251,15 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
 
                 {/* Elemental Properties */}
                 {recipe.elementalState && (
-                  <div className="elemental-properties">
+                  <div className='elemental-properties'>
                     <h5>Recipe Elements:</h5>
-                    <div className="elements">
+                    <div className='elements'>
                       {Object.entries(recipe.elementalState || {}).map(([element, value]) => (
-                        <div key={element} className="element-indicator">
+                        <div key={element} className='element-indicator'>
                           <span className={`element-dot ${element.toLowerCase()}`} />
-                          <span>{element}: {(Number(value as number) * 100).toFixed(0)}%</span>
+                          <span>
+                            {element}: {(Number(value as number) * 100).toFixed(0)}%
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -238,46 +267,54 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                 )}
 
                 {/* Astrological Influences */}
-                <div className="astrological-influences">
+                <div className='astrological-influences'>
                   {recipe.zodiacInfluences && (recipe.zodiacInfluences || []).length > 0 && (
-                    <div className="influences-section">
+                    <div className='influences-section'>
                       <strong>Zodiac Influences:</strong>
                       {(recipe.zodiacInfluences || []).map(sign => (
-                        <span key={sign} className="influence-tag zodiac">{sign}</span>
+                        <span key={sign} className='influence-tag zodiac'>
+                          {sign}
+                        </span>
                       ))}
                     </div>
                   )}
 
-                  {recipe.planetaryInfluences?.favorable && (recipe.planetaryInfluences.favorable || []).length > 0 && (
-                    <div className="influences-section">
-                      <strong>Favorable Planets:</strong>
-                      {(recipe.planetaryInfluences.favorable || []).map(planet => (
-                        <span key={planet} className="influence-tag planet favorable">{planet}</span>
-                      ))}
-                    </div>
-                  )}
+                  {recipe.planetaryInfluences?.favorable &&
+                    (recipe.planetaryInfluences.favorable || []).length > 0 && (
+                      <div className='influences-section'>
+                        <strong>Favorable Planets:</strong>
+                        {(recipe.planetaryInfluences.favorable || []).map(planet => (
+                          <span key={planet} className='influence-tag planet favorable'>
+                            {planet}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
-                  {recipe.lunarPhaseInfluences && (recipe.lunarPhaseInfluences || []).length > 0 && (
-                    <div className="influences-section">
-                      <strong>Lunar Phases:</strong>
-                      {(recipe.lunarPhaseInfluences || []).map(phase => (
-                        <span key={phase} className="influence-tag lunar">{phase}</span>
-                      ))}
-                    </div>
-                  )}
+                  {recipe.lunarPhaseInfluences &&
+                    (recipe.lunarPhaseInfluences || []).length > 0 && (
+                      <div className='influences-section'>
+                        <strong>Lunar Phases:</strong>
+                        {(recipe.lunarPhaseInfluences || []).map(phase => (
+                          <span key={phase} className='influence-tag lunar'>
+                            {phase}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                 </div>
 
                 {/* Ingredients Preview */}
-                <div className="ingredients-preview">
+                <div className='ingredients-preview'>
                   <h5>Key Ingredients:</h5>
-                  <div className="ingredients-list">
+                  <div className='ingredients-list'>
                     {(recipe.ingredients.slice(0, 5) || []).map((ingredient, idx) => (
-                      <span key={idx} className="ingredient-tag">
+                      <span key={idx} className='ingredient-tag'>
                         {ingredient.name}
                       </span>
                     ))}
                     {(recipe.ingredients || []).length > 5 && (
-                      <span className="more-ingredients">
+                      <span className='more-ingredients'>
                         +{(recipe.ingredients || []).length - 5} more
                       </span>
                     )}
@@ -294,7 +331,10 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           max-width: 1200px;
           margin: 0 auto;
           padding: 20px;
-          font-family: system-ui, -apple-system, sans-serif;
+          font-family:
+            system-ui,
+            -apple-system,
+            sans-serif;
         }
 
         .celestial-influence-panel {
@@ -350,10 +390,18 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           transition: width 0.3s ease;
         }
 
-        .fill.Fire { background: #ff4444; }
-        .fill.Water { background: #4488ff; }
-        .fill.Earth { background: #44aa44; }
-        .fill.Air { background: #ffaa44; }
+        .fill.Fire {
+          background: #ff4444;
+        }
+        .fill.Water {
+          background: #4488ff;
+        }
+        .fill.Earth {
+          background: #44aa44;
+        }
+        .fill.Air {
+          background: #ffaa44;
+        }
 
         .percentage {
           min-width: 40px;
@@ -446,7 +494,8 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           font-weight: 600;
         }
 
-        .scoring-notes, .scoring-warnings {
+        .scoring-notes,
+        .scoring-warnings {
           margin-top: 10px;
           padding: 8px;
           border-radius: 4px;
@@ -462,19 +511,22 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           border-left: 3px solid #f59e0b;
         }
 
-        .scoring-notes h6, .scoring-warnings h6 {
+        .scoring-notes h6,
+        .scoring-warnings h6 {
           margin: 0 0 5px 0;
           font-size: 0.8em;
           font-weight: 600;
         }
 
-        .scoring-notes ul, .scoring-warnings ul {
+        .scoring-notes ul,
+        .scoring-warnings ul {
           margin: 0;
           padding-left: 15px;
           font-size: 0.8em;
         }
 
-        .scoring-notes li, .scoring-warnings li {
+        .scoring-notes li,
+        .scoring-warnings li {
           margin: 2px 0;
         }
 
@@ -507,10 +559,18 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           border-radius: 50%;
         }
 
-        .element-dot.Fire { background: #ff4444; }
-        .element-dot.Water { background: #4488ff; }
-        .element-dot.Earth { background: #44aa44; }
-        .element-dot.Air { background: #ffaa44; }
+        .element-dot.Fire {
+          background: #ff4444;
+        }
+        .element-dot.Water {
+          background: #4488ff;
+        }
+        .element-dot.Earth {
+          background: #44aa44;
+        }
+        .element-dot.Air {
+          background: #ffaa44;
+        }
 
         .influences-section {
           margin: 8px 0;
@@ -525,10 +585,22 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           font-weight: 500;
         }
 
-        .influence-tag.zodiac { background: #e3f2fd; color: #1565c0; }
-        .influence-tag.planet { background: #fff3e0; color: #ef6c00; }
-        .influence-tag.planet.favorable { background: #e8f5e8; color: #2e7d32; }
-        .influence-tag.lunar { background: #f3e5f5; color: #7b1fa2; }
+        .influence-tag.zodiac {
+          background: #e3f2fd;
+          color: #1565c0;
+        }
+        .influence-tag.planet {
+          background: #fff3e0;
+          color: #ef6c00;
+        }
+        .influence-tag.planet.favorable {
+          background: #e8f5e8;
+          color: #2e7d32;
+        }
+        .influence-tag.lunar {
+          background: #f3e5f5;
+          color: #7b1fa2;
+        }
 
         .ingredients-list {
           display: flex;

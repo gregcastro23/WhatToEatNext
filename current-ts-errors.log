@@ -1,161 +1,5 @@
-src/__tests__/linting/AutomatedErrorResolution.test.ts(571,24): error TS2304: Cannot find name 'mockExecSync_'.
-src/__tests__/linting/AutomatedErrorResolution.test.ts(601,14): error TS2552: Cannot find name '_result'. Did you mean 'result'?
-src/__tests__/linting/LintingPerformance.test.ts(503,25): error TS2552: Cannot find name 'String_'. Did you mean 'String'?
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(47,21): error TS2339: Property 'success' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(48,21): error TS2339: Property 'executionTime' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(49,21): error TS2339: Property 'output' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(53,31): error TS2339: Property 'executionTime' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(54,29): error TS2339: Property 'memoryUsed' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(55,25): error TS2339: Property 'success' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(73,31): error TS2339: Property 'executionTime' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(74,29): error TS2339: Property 'memoryUsed' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(75,25): error TS2339: Property 'success' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(83,21): error TS2339: Property 'executionTime' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(84,21): error TS2339: Property 'memoryUsed' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(340,21): error TS2339: Property 'success' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(341,21): error TS2339: Property 'error' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(342,21): error TS2339: Property 'executionTime' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(358,35): error TS2339: Property 'memoryUsed' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(368,26): error TS2339: Property 'isConsistent' does not exist on type 'Promise<{ isConsistent: boolean; results: any[]; variance: number; }>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(381,33): error TS2339: Property 'success' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(382,33): error TS2339: Property 'error' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(391,23): error TS2339: Property 'executionTime' does not exist on type 'Promise<TestResult>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(396,26): error TS2339: Property 'isConsistent' does not exist on type 'Promise<{ isConsistent: boolean; results: any[]; variance: number; }>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(397,26): error TS2339: Property 'results' does not exist on type 'Promise<{ isConsistent: boolean; results: any[]; variance: number; }>'.
-src/__tests__/linting/PerformanceOptimizationValidation.test.ts(398,26): error TS2339: Property 'variance' does not exist on type 'Promise<{ isConsistent: boolean; results: any[]; variance: number; }>'.
-src/__tests__/linting/test-files/large-component.tsx(12,5): error TS2304: Cannot find name 'onClick_'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(264,21): error TS2339: Property 'length' does not exist on type 'Promise<TrendAnalysis[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(266,39): error TS2339: Property 'find' does not exist on type 'Promise<TrendAnalysis[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(301,20): error TS2339: Property 'length' does not exist on type 'Promise<QualityGate[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(304,32): error TS2339: Property 'find' does not exist on type 'Promise<QualityGate[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(311,29): error TS2339: Property 'find' does not exist on type 'Promise<QualityGate[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(318,33): error TS2339: Property 'find' does not exist on type 'Promise<QualityGate[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(335,32): error TS2339: Property 'find' does not exist on type 'Promise<QualityGate[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(340,29): error TS2339: Property 'find' does not exist on type 'Promise<QualityGate[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(345,33): error TS2339: Property 'find' does not exist on type 'Promise<QualityGate[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(399,22): error TS2339: Property 'length' does not exist on type 'Promise<ZeroErrorTarget[]>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(402,28): error TS2488: Type 'Promise<ZeroErrorTarget[]>' must have a '[Symbol.iterator]()' method that returns an iterator.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(460,33): error TS2339: Property 'has' does not exist on type 'Promise<Map<string, MaintenanceResult>>'.
-src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts(642,35): error TS2488: Type 'Promise<Map<string, MaintenanceResult>>' must have a '[Symbol.iterator]()' method that returns an iterator.
-src/__tests__/services/recipeData.test.ts(99,22): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/services/recipeData.test.ts(254,29): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/services/recipeData.test.ts(261,27): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/services/recipeData.test.ts(268,28): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/services/recipeData.test.ts(275,32): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/services/recipeData.test.ts(283,28): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/services/recipeData.test.ts(293,24): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/services/recipeData.test.ts(349,20): error TS2339: Property 'length' does not exist on type 'Promise<Recipe[]>'.
-src/__tests__/types/testUtils.ts(69,39): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(70,50): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(71,49): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(72,47): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(73,45): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(75,40): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(77,41): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(79,35): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(81,36): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(83,42): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(85,44): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(87,41): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(92,50): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(94,54): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(96,49): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(98,53): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(100,39): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(102,51): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(104,42): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(106,41): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(108,45): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(110,49): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(112,40): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(114,39): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(116,43): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(118,44): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(120,41): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(125,38): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(127,37): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(129,43): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(131,43): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(133,44): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(135,38): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(137,42): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(139,41): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(144,44): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(146,47): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(148,50): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(150,43): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(152,35): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(154,37): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(156,39): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(158,43): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(160,44): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(162,48): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(164,43): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(166,45): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(169,55): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(170,50): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(171,51): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(172,45): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/types/testUtils.ts(173,45): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any[]) => any'.
-src/__tests__/utils/BuildValidator.test.ts(31,21): error TS2339: Property 'isValid' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(32,21): error TS2339: Property 'missingFiles' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(33,21): error TS2339: Property 'corruptedFiles' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(41,21): error TS2339: Property 'isValid' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(42,21): error TS2339: Property 'missingFiles' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(43,21): error TS2339: Property 'repairActions' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(62,21): error TS2339: Property 'isValid' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(63,21): error TS2339: Property 'missingFiles' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(64,21): error TS2339: Property 'repairActions' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(73,21): error TS2339: Property 'isValid' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(74,21): error TS2339: Property 'corruptedFiles' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(83,21): error TS2339: Property 'corruptedFiles' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(84,21): error TS2339: Property 'repairActions' does not exist on type 'Promise<BuildValidationResult>'.
-src/__tests__/utils/BuildValidator.test.ts(160,21): error TS2339: Property 'buildExists' does not exist on type 'Promise<BuildHealthReport>'.
-src/__tests__/utils/BuildValidator.test.ts(161,21): error TS2339: Property 'manifestsValid' does not exist on type 'Promise<BuildHealthReport>'.
-src/__tests__/utils/BuildValidator.test.ts(162,21): error TS2339: Property 'issues' does not exist on type 'Promise<BuildHealthReport>'.
-src/__tests__/utils/BuildValidator.test.ts(170,21): error TS2339: Property 'buildExists' does not exist on type 'Promise<BuildHealthReport>'.
-src/__tests__/utils/BuildValidator.test.ts(171,21): error TS2339: Property 'issues' does not exist on type 'Promise<BuildHealthReport>'.
-src/__tests__/utils/elementalCompatibility.test.ts(22,19): error TS2339: Property 'compatibility' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(23,19): error TS2339: Property 'recommendation' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(44,19): error TS2339: Property 'compatibility' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(45,19): error TS2339: Property 'recommendation' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(66,19): error TS2339: Property 'recommendation' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(67,19): error TS2339: Property 'recommendation' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(88,19): error TS2339: Property 'compatibility' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(89,19): error TS2339: Property 'recommendation' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(112,19): error TS2339: Property 'balanceScore' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(135,19): error TS2339: Property 'compatibility' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/utils/elementalCompatibility.test.ts(136,19): error TS2339: Property 'compatibility' does not exist on type 'Promise<ElementalCompatibility>'.
-src/__tests__/validation/IntegrationValidation.test.ts(152,19): error TS2339: Property 'SafeUnusedImportRemover' does not exist on type 'Promise<typeof import("/Users/GregCastro/Desktop/WhatToEatNext/src/services/linting/SafeUnusedImportRemover")>'.
-src/app/cooking-methods-demo/page.tsx(20,10): error TS2304: Cannot find name 'formatMethodsForComponent'.
-src/app/cooking-methods-demo/page.tsx(21,10): error TS2304: Cannot find name 'formatMethodsForComponent'.
-src/app/cooking-methods-demo/page.tsx(22,10): error TS2304: Cannot find name 'formatMethodsForComponent'.
-src/calculations/index.ts(124,9): error TS18048: 'analysis.predictiveAccuracy' is possibly 'undefined'.
-src/calculations/index.ts(124,9): error TS18048: 'analysis.predictiveAccuracy.shortTerm' is possibly 'undefined'.
-src/calculations/index.ts(479,7): error TS2345: Argument of type '{ planet: string; strength: number; element: Element; }[]' is not assignable to parameter of type '{ planet: string; influence: number; }[]'.
-  Property 'influence' is missing in type '{ planet: string; strength: number; element: Element; }' but required in type '{ planet: string; influence: number; }'.
-src/calculations/index.ts(685,7): error TS2322: Type 'Record<string, { sign: string; degree: number; }>' is not assignable to type '{ [key: string]: PlanetaryPosition; }'.
-  'string' index signatures are incompatible.
-    Type '{ sign: string; degree: number; }' is not assignable to type 'PlanetaryPosition'.
-      Types of property 'sign' are incompatible.
-        Type 'string' is not assignable to type 'ZodiacSign'.
-src/components/AstrologicalClock.tsx(115,39): error TS2339: Property 'exactLongitude' does not exist on type '{ sign?: string | undefined; degree?: number | undefined; longitude?: number | undefined; }'.
-src/components/AstrologicalClock.tsx(115,77): error TS2339: Property 'exactLongitude' does not exist on type '{ sign?: string | undefined; degree?: number | undefined; longitude?: number | undefined; }'.
-src/components/AstrologicalClock.tsx(126,35): error TS2339: Property 'exactLongitude' does not exist on type '{ sign?: string | undefined; degree?: number | undefined; longitude?: number | undefined; }'.
-src/components/AstrologicalClock.tsx(127,33): error TS2339: Property 'isRetrograde' does not exist on type '{ sign?: string | undefined; degree?: number | undefined; longitude?: number | undefined; }'.
-src/components/AstrologicalClock.tsx(288,52): error TS2339: Property 'isRetrograde' does not exist on type '{ sign?: string | undefined; degree?: number | undefined; longitude?: number | undefined; }'.
-src/components/AstrologicalClock.tsx(297,51): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'ZodiacSign | undefined'.
-  Type 'string' is not assignable to type 'ZodiacSign | undefined'.
-src/components/AstrologicalClock.tsx(314,64): error TS2538: Type 'undefined' cannot be used as an index type.
-src/components/AstrologyChart/AstrologyChart.migrated.tsx(112,9): error TS2304: Cannot find name 'setIsDaytime'.
-src/components/CelestialDisplay/CelestialDisplay.tsx(85,7): error TS2304: Cannot find name 'drawZodiacWheel'.
-src/components/CelestialDisplay/CelestialDisplay.tsx(126,9): error TS2304: Cannot find name 'drawCelestialBody'.
-src/components/CelestialDisplay/CelestialDisplay.tsx(140,9): error TS2304: Cannot find name 'drawLunarNode'.
-src/components/CelestialDisplay/CelestialDisplay.tsx(150,9): error TS2304: Cannot find name 'drawLunarNode'.
-src/components/ChromeAPITest.tsx(25,36): error TS2339: Property 'url' does not exist on type 'Partial<unknown>'.
-src/components/ChromeAPITest.tsx(26,62): error TS2339: Property 'url' does not exist on type 'Partial<unknown>'.
-src/components/CookingMethods.tsx(974,40): error TS2345: Argument of type '{ name: string; category: string; }' is not assignable to parameter of type 'CookingMethod'.
-  Type '{ name: string; category: string; }' is missing the following properties from type 'CookingMethod': id, element, intensity
+src/components/CookingMethods.tsx(1361,44): error TS2345: Argument of type 'LunarPhase | null | undefined' is not assignable to parameter of type 'LunarPhase | undefined'.
+  Type 'null' is not assignable to type 'LunarPhase | undefined'.
 src/components/CookingMethods.tsx(1362,58): error TS2345: Argument of type 'string' is not assignable to parameter of type 'LunarPhase | null | undefined'.
 src/components/CookingMethods.tsx(1399,38): error TS2345: Argument of type '{ name: string; thermodynamics?: unknown; }' is not assignable to parameter of type 'Ingredient | UnifiedIngredient'.
   Type '{ name: string; thermodynamics?: unknown; }' is missing the following properties from type 'UnifiedIngredient': unifiedId, mappings, validationStatus, sources, and 3 more.
@@ -449,25 +293,25 @@ src/services/adapters/LegacyIngredientAdapter.ts(132,80): error TS2345: Argument
   Types of property 'element' are incompatible.
     Type 'Element' is not assignable to type 'Element | undefined'.
 src/services/adapters/LegacyIngredientAdapter.ts(137,57): error TS2559: Type '{ element: Element; }' has no properties in common with type 'ElementalFilter'.
-src/services/AlertingSystem.ts(350,32): error TS2345: Argument of type 'TypeScriptError | LintingViolation | BuildFailure | QualityMetrics' is not assignable to parameter of type '{ [key: string]: unknown; errorCount?: number | undefined; errorRate?: number | undefined; }'.
+src/services/AlertingSystem.ts(348,32): error TS2345: Argument of type 'TypeScriptError | LintingViolation | BuildFailure | QualityMetrics' is not assignable to parameter of type '{ [key: string]: unknown; errorCount?: number | undefined; errorRate?: number | undefined; }'.
   Type 'TypeScriptError' is not assignable to type '{ [key: string]: unknown; errorCount?: number | undefined; errorRate?: number | undefined; }'.
     Index signature for type 'string' is missing in type 'TypeScriptError'.
-src/services/AlertingSystem.ts(354,34): error TS2345: Argument of type 'QualityInsight | TechnicalDebtItem | QualityReport' is not assignable to parameter of type '{ [key: string]: unknown; qualityScore?: number | undefined; testCoverage?: number | undefined; }'.
+src/services/AlertingSystem.ts(352,34): error TS2345: Argument of type 'QualityInsight | QualityReport | TechnicalDebtItem' is not assignable to parameter of type '{ [key: string]: unknown; qualityScore?: number | undefined; testCoverage?: number | undefined; }'.
   Type 'QualityInsight' is not assignable to type '{ [key: string]: unknown; qualityScore?: number | undefined; testCoverage?: number | undefined; }'.
     Index signature for type 'string' is missing in type 'QualityInsight'.
-src/services/AlertingSystem.ts(615,5): error TS2322: Type 'unknown' is not assignable to type '{ success: boolean; result?: unknown; error?: string | undefined; }'.
-src/services/AlertingSystem.ts(623,35): error TS2345: Argument of type 'string | number | boolean | string[]' is not assignable to parameter of type 'string'.
+src/services/AlertingSystem.ts(612,5): error TS2322: Type 'unknown' is not assignable to type '{ success: boolean; result?: unknown; error?: string | undefined; }'.
+src/services/AlertingSystem.ts(619,35): error TS2345: Argument of type 'string | number | boolean | string[]' is not assignable to parameter of type 'string'.
   Type 'number' is not assignable to type 'string'.
-src/services/AlertingSystem.ts(625,36): error TS2345: Argument of type 'string | number | boolean | string[]' is not assignable to parameter of type 'string'.
-src/services/AlertingSystem.ts(643,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; output?: string | undefined; error?: string | undefined; }'.
+src/services/AlertingSystem.ts(621,36): error TS2345: Argument of type 'string | number | boolean | string[]' is not assignable to parameter of type 'string'.
+src/services/AlertingSystem.ts(639,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; output?: string | undefined; error?: string | undefined; }'.
   Object literal may only specify known properties, and 'message' does not exist in type '{ success: boolean; output?: string | undefined; error?: string | undefined; }'.
-src/services/AlertingSystem.ts(652,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; stdout?: string | undefined; stderr?: string | undefined; error?: string | undefined; }'.
+src/services/AlertingSystem.ts(648,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; stdout?: string | undefined; stderr?: string | undefined; error?: string | undefined; }'.
   Object literal may only specify known properties, and 'message' does not exist in type '{ success: boolean; stdout?: string | undefined; stderr?: string | undefined; error?: string | undefined; }'.
-src/services/AlertingSystem.ts(661,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; campaignId?: string | undefined; error?: string | undefined; }'.
+src/services/AlertingSystem.ts(657,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; campaignId?: string | undefined; error?: string | undefined; }'.
   Object literal may only specify known properties, and 'message' does not exist in type '{ success: boolean; campaignId?: string | undefined; error?: string | undefined; }'.
-src/services/AlertingSystem.ts(670,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; response?: unknown; error?: string | undefined; }'.
+src/services/AlertingSystem.ts(666,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; response?: unknown; error?: string | undefined; }'.
   Object literal may only specify known properties, and 'message' does not exist in type '{ success: boolean; response?: unknown; error?: string | undefined; }'.
-src/services/AlertingSystem.ts(677,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; messageId?: string | undefined; error?: string | undefined; }'.
+src/services/AlertingSystem.ts(673,29): error TS2322: Type '{ success: true; message: string; }' is not assignable to type '{ success: boolean; messageId?: string | undefined; error?: string | undefined; }'.
   Object literal may only specify known properties, but 'message' does not exist in type '{ success: boolean; messageId?: string | undefined; error?: string | undefined; }'. Did you mean to write 'messageId'?
 src/services/astrologyApi.ts(97,26): error TS2339: Property 'getCurrentState' does not exist on type '{ getStateForDate?: ((date: Date) => Promise<unknown>) | undefined; }'.
 src/services/astrologyApi.ts(127,26): error TS2339: Property 'getCurrentState' does not exist on type '{ getStateForDate?: ((date: Date) => Promise<unknown>) | undefined; }'.

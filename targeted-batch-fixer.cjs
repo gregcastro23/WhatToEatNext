@@ -19,7 +19,7 @@ class TargetedBatchFixer {
       'no-non-null-assertion': 0,
       'no-unnecessary-type-assertion': 0,
       'no-floating-promises': 0,
-      'no-misused-promises': 0
+      'no-misused-promises': 0,
     };
   }
 
@@ -44,7 +44,7 @@ class TargetedBatchFixer {
       // Component files
       'src/components/ElementalDisplay.tsx',
       'src/components/FoodRecommender.tsx',
-      'src/components/IngredientRecommender.tsx'
+      'src/components/IngredientRecommender.tsx',
     ];
 
     return targetFiles.filter(file => fs.existsSync(file));
@@ -167,7 +167,10 @@ class TargetedBatchFixer {
 
     // Pattern 2: specific known safe patterns
     if (modifiedContent.includes('resolutionStrategy!')) {
-      modifiedContent = modifiedContent.replace(/resolutionStrategy!/g, "resolutionStrategy || 'unknown'");
+      modifiedContent = modifiedContent.replace(
+        /resolutionStrategy!/g,
+        "resolutionStrategy || 'unknown'",
+      );
       fixes++;
     }
 
@@ -188,12 +191,17 @@ class TargetedBatchFixer {
       const originalLine = line;
 
       // Pattern: Standalone async calls that should be voided
-      if (/^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
-          !line.includes('await') && !line.includes('void') && !line.includes('return') &&
-          !line.includes('console')) {
-
-        line = line.replace(/^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
-                           '$1void $2');
+      if (
+        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
+        !line.includes('await') &&
+        !line.includes('void') &&
+        !line.includes('return') &&
+        !line.includes('console')
+      ) {
+        line = line.replace(
+          /^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
+          '$1void $2',
+        );
 
         if (line !== originalLine) {
           fixes++;
@@ -218,8 +226,15 @@ class TargetedBatchFixer {
     const matches1 = [...modifiedContent.matchAll(eventHandlerPattern)];
     for (const match of matches1) {
       const [fullMatch, eventName, functionName] = match;
-      if (functionName.includes('async') || functionName.includes('handle') || functionName.includes('submit')) {
-        modifiedContent = modifiedContent.replace(fullMatch, `${eventName}={() => void ${functionName}()}`);
+      if (
+        functionName.includes('async') ||
+        functionName.includes('handle') ||
+        functionName.includes('submit')
+      ) {
+        modifiedContent = modifiedContent.replace(
+          fullMatch,
+          `${eventName}={() => void ${functionName}()}`,
+        );
         fixes++;
       }
     }
@@ -242,7 +257,7 @@ class TargetedBatchFixer {
         fs.writeFileSync(filePath, modifiedContent, 'utf8');
 
         const fixSummary = Object.entries(details)
-          .filter(([,count]) => count > 0)
+          .filter(([, count]) => count > 0)
           .map(([type, count]) => `${type}(${count})`)
           .join(', ');
 
@@ -253,7 +268,6 @@ class TargetedBatchFixer {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
     }

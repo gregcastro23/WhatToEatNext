@@ -9,7 +9,6 @@ import { ErrorMonitoringDashboard } from './ErrorMonitoringDashboard';
 import { ErrorRecoverySystem } from './ErrorRecoverySystem';
 import { GlobalErrorBoundary } from './GlobalErrorBoundary';
 
-
 const logger = createLogger('SafetyInfrastructure');
 
 interface SafetyInfrastructureProviderProps {
@@ -59,17 +58,11 @@ export function SafetyInfrastructureProvider({
   };
 
   return (
-    <GlobalErrorBoundary
-      onError={handleGlobalError}
-      onRecovery={handleGlobalRecovery}
-    >
+    <GlobalErrorBoundary onError={handleGlobalError} onRecovery={handleGlobalRecovery}>
       <ErrorLoggerProvider maxLogSize={maxLogSize}>
-        <ErrorRecoverySystem
-          autoRecovery={enableAutoRecovery}
-          maxAutoRecoveryAttempts={3}
-        >
+        <ErrorRecoverySystem autoRecovery={enableAutoRecovery} maxAutoRecoveryAttempts={3}>
           {children}
-          
+
           {/* Error Monitoring Dashboard */}
           {enableMonitoring && showMonitoringDashboard && (
             <ErrorMonitoringDashboard

@@ -11,4 +11,5 @@ This directory contains Jupyter notebooks for analysis and tracking.
 
 ## Purpose
 
-These notebooks provide interactive analysis tools for the alchemical and astrological systems.
+These notebooks provide interactive analysis tools for the alchemical and
+astrological systems.

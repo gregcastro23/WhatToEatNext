@@ -32,7 +32,7 @@ const ingredientElements: ElementalProperties = {
   Air: 0.0
 };`,
     category: 'elemental',
-    tags: ['interface', 'properties', 'elements']
+    tags: ['interface', 'properties', 'elements'],
   },
   {
     id: 'planetary-positions',
@@ -59,7 +59,7 @@ async function calculatePlanetaryInfluences(date: Date = new Date()) {
   }
 }`,
     category: 'planetary',
-    tags: ['calculation', 'positions', 'fallback']
+    tags: ['calculation', 'positions', 'fallback'],
   },
   {
     id: 'zodiac-validation',
@@ -90,7 +90,7 @@ function validateTransitDate(planet: string, date: Date, sign: ZodiacSign): bool
   return transitDates[sign] ? isDateInRange(date, transitDates[sign]) : false;
 }`,
     category: 'zodiac',
-    tags: ['validation', 'signs', 'transit']
+    tags: ['validation', 'signs', 'transit'],
   },
   {
     id: 'elemental-compatibility',
@@ -122,7 +122,7 @@ function validateTransitDate(planet: string, date: Date, sign: ZodiacSign): bool
   return Math.max(0.7, totalWeight > 0 ? weightedSum / totalWeight : 0.7);
 }`,
     category: 'elemental',
-    tags: ['compatibility', 'self-reinforcement', 'calculation']
+    tags: ['compatibility', 'self-reinforcement', 'calculation'],
   },
   {
     id: 'cuisine-types',
@@ -154,7 +154,7 @@ const italianCuisine: CuisineProfile = {
   culturalContext: 'Mediterranean tradition emphasizing fresh, seasonal ingredients'
 };`,
     category: 'cuisine',
-    tags: ['types', 'cultural', 'profile']
+    tags: ['types', 'cultural', 'profile'],
   },
   {
     id: 'lunar-phases',
@@ -192,7 +192,7 @@ function getLunarInfluence(date: Date): LunarInfluence {
   return influences[phase] || influences['new moon'];
 }`,
     category: 'lunar',
-    tags: ['phases', 'influence', 'timing']
+    tags: ['phases', 'influence', 'timing'],
   },
   {
     id: 'alchemical-properties',
@@ -233,8 +233,8 @@ function calculateAlchemicalScore(
   return totalWeight > 0 ? score / totalWeight : 0;
 }`,
     category: 'alchemical',
-    tags: ['pillars', 'properties', 'scoring']
-  }
+    tags: ['pillars', 'properties', 'scoring'],
+  },
 ];
 
 interface AstrologicalCodeSuggestionsProps {
@@ -246,30 +246,31 @@ interface AstrologicalCodeSuggestionsProps {
 export const AstrologicalCodeSuggestions: React.FC<AstrologicalCodeSuggestionsProps> = ({
   onInsertCode,
   filterCategory,
-  className = ''
+  className = '',
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<CodeSuggestion['category'] | 'all'>(
-    filterCategory || 'all'
+    filterCategory || 'all',
   );
   const [filteredSuggestions, setFilteredSuggestions] = useState(ASTROLOGICAL_SUGGESTIONS);
 
   useEffect(() => {
     let filtered = ASTROLOGICAL_SUGGESTIONS;
-    
+
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(s => s.category === selectedCategory);
     }
-    
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(s => 
-        s.title.toLowerCase().includes(term) ||
-        s.description.toLowerCase().includes(term) ||
-        s.tags.some(tag => tag.toLowerCase().includes(term))
+      filtered = filtered.filter(
+        s =>
+          s.title.toLowerCase().includes(term) ||
+          s.description.toLowerCase().includes(term) ||
+          s.tags.some(tag => tag.toLowerCase().includes(term)),
       );
     }
-    
+
     setFilteredSuggestions(filtered);
   }, [searchTerm, selectedCategory]);
 
@@ -280,29 +281,27 @@ export const AstrologicalCodeSuggestions: React.FC<AstrologicalCodeSuggestionsPr
     { value: 'zodiac', label: 'Zodiac' },
     { value: 'alchemical', label: 'Alchemical' },
     { value: 'cuisine', label: 'Cuisine' },
-    { value: 'lunar', label: 'Lunar' }
+    { value: 'lunar', label: 'Lunar' },
   ];
 
   return (
-    <div className={`bg-white rounded-lg shadow-lg border ${className}`}>
-      <div className="p-4 border-b">
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">
-          Astrological Code Suggestions
-        </h3>
-        
-        <div className="flex gap-3 mb-3">
+    <div className={`rounded-lg border bg-white shadow-lg ${className}`}>
+      <div className='border-b p-4'>
+        <h3 className='mb-3 text-lg font-semibold text-gray-900'>Astrological Code Suggestions</h3>
+
+        <div className='mb-3 flex gap-3'>
           <input
-            type="text"
-            placeholder="Search suggestions..."
+            type='text'
+            placeholder='Search suggestions...'
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={e => setSearchTerm(e.target.value)}
+            className='flex-1 rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
-          
+
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value as any)}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={e => setSelectedCategory(e.target.value as any)}
+            className='rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
           >
             {categories.map(cat => (
               <option key={cat.value} value={cat.value}>
@@ -312,43 +311,60 @@ export const AstrologicalCodeSuggestions: React.FC<AstrologicalCodeSuggestionsPr
           </select>
         </div>
       </div>
-      
-      <div className="max-h-96 overflow-y-auto">
+
+      <div className='max-h-96 overflow-y-auto'>
         {filteredSuggestions.length === 0 ? (
-          <div className="p-4 text-center text-gray-500">
+          <div className='p-4 text-center text-gray-500'>
             No suggestions found matching your criteria.
           </div>
         ) : (
           filteredSuggestions.map(suggestion => (
-            <div key={suggestion.id} className="p-4 border-b hover:bg-gray-50">
-              <div className="flex items-start justify-between mb-2">
+            <div key={suggestion.id} className='border-b p-4 hover:bg-gray-50'>
+              <div className='mb-2 flex items-start justify-between'>
                 <div>
-                  <h4 className="font-medium text-gray-900">{suggestion.title}</h4>
-                  <p className="text-sm text-gray-600 mt-1">{suggestion.description}</p>
+                  <h4 className='font-medium text-gray-900'>{suggestion.title}</h4>
+                  <p className='mt-1 text-sm text-gray-600'>{suggestion.description}</p>
                 </div>
-                
-                <div className="flex items-center gap-2">
-                  <span className={`px-2 py-1 text-xs rounded-full ${
-                    suggestion.category === 'elemental' ? 'bg-red-100 text-red-800' :
-                    suggestion.category === 'planetary' ? 'bg-blue-100 text-blue-800' :
-                    suggestion.category === 'zodiac' ? 'bg-purple-100 text-purple-800' :
-                    suggestion.category === 'alchemical' ? 'bg-yellow-100 text-yellow-800' :
-                    suggestion.category === 'cuisine' ? 'bg-green-100 text-green-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}>
+
+                <div className='flex items-center gap-2'>
+                  <span
+                    className={`rounded-full px-2 py-1 text-xs ${
+                      suggestion.category === 'elemental'
+                        ? 'bg-red-100 text-red-800'
+                        : suggestion.category === 'planetary'
+                          ? 'bg-blue-100 text-blue-800'
+                          : suggestion.category === 'zodiac'
+                            ? 'bg-purple-100 text-purple-800'
+                            : suggestion.category === 'alchemical'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : suggestion.category === 'cuisine'
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-gray-100 text-gray-800'
+                    }`}
+                  >
                     {suggestion.category}
                   </span>
-                  
+
                   {onInsertCode && (
                     <Tooltip
-                      content="Insert code snippet"
+                      content='Insert code snippet'
                       trigger={
                         <button
                           onClick={() => onInsertCode(suggestion.code)}
-                          className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+                          className='p-1 text-gray-400 transition-colors hover:text-blue-600'
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          <svg
+                            className='h-4 w-4'
+                            fill='none'
+                            stroke='currentColor'
+                            viewBox='0 0 24 24'
+                          >
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth={2}
+                              d='M12 6v6m0 0v6m0-6h6m-6 0H6'
+                            />
                           </svg>
                         </button>
                       }
@@ -356,20 +372,20 @@ export const AstrologicalCodeSuggestions: React.FC<AstrologicalCodeSuggestionsPr
                   )}
                 </div>
               </div>
-              
-              <div className="flex flex-wrap gap-1 mb-3">
+
+              <div className='mb-3 flex flex-wrap gap-1'>
                 {suggestion.tags.map(tag => (
-                  <span key={tag} className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded">
+                  <span key={tag} className='rounded bg-gray-100 px-2 py-1 text-xs text-gray-600'>
                     {tag}
                   </span>
                 ))}
               </div>
-              
-              <details className="group">
-                <summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800 select-none">
+
+              <details className='group'>
+                <summary className='cursor-pointer select-none text-sm text-blue-600 hover:text-blue-800'>
                   View code snippet
                 </summary>
-                <pre className="mt-2 p-3 bg-gray-100 rounded text-sm overflow-x-auto">
+                <pre className='mt-2 overflow-x-auto rounded bg-gray-100 p-3 text-sm'>
                   <code>{suggestion.code}</code>
                 </pre>
               </details>

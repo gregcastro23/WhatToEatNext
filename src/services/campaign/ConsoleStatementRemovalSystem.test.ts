@@ -1,6 +1,6 @@
 /**
  * ConsoleStatementRemovalSystem.test.ts
- * 
+ *
  * Test suite for ConsoleStatementRemovalSystem
  * Validates selective removal and critical statement preservation
  */
@@ -8,7 +8,12 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
-import { ConsoleStatementRemovalSystem, type ConsoleRemovalConfig, type ConsoleRemovalResult, type ConsoleStatement } from './ConsoleStatementRemovalSystem';
+import {
+  ConsoleStatementRemovalSystem,
+  type ConsoleRemovalConfig,
+  type ConsoleRemovalResult,
+  type ConsoleStatement,
+} from './ConsoleStatementRemovalSystem';
 
 // Mock dependencies
 jest.mock('child_process');
@@ -19,11 +24,11 @@ const mockFs = fs as jest.Mocked<typeof fs>;
 
 describe('ConsoleStatementRemovalSystem', () => {
   let removalSystem: ConsoleStatementRemovalSystem;
-  
+
   beforeEach(() => {
     removalSystem = new ConsoleStatementRemovalSystem();
     jest.clearAllMocks();
-    
+
     // Mock fs.existsSync to return true for script path
     mockFs.existsSync.mockReturnValue(true);
   });
@@ -39,9 +44,9 @@ describe('ConsoleStatementRemovalSystem', () => {
         maxFiles: 15,
         dryRun: false,
         preserveDebugCritical: false,
-        selectiveRemoval: false
+        selectiveRemoval: false,
       };
-      
+
       const system = new ConsoleStatementRemovalSystem(config);
       expect(system).toBeDefined();
     });
@@ -56,9 +61,11 @@ console.warn('warning message');
 console.info('info message');
 console.debug('debug message');
       `;
-      
-      const statements = (removalSystem as unknown as { analyzeFileConsoleStatements: (filePath: string, content: string) => unknown[] }).analyzeFileConsoleStatements('/test/file.ts', content);
-      
+
+      const statements = (
+        removalSystem as unknown as { analyzeFileConsoleStatements: (filePath: string, content: string) => unknown[] }
+      ).analyzeFileConsoleStatements('/test/file.ts', content);
+
       expect(statements).toHaveLength(5);
       expect((statements as Record<string, unknown>)[0].type).toBe('log');
       expect((statements as Record<string, unknown>)[1].type).toBe('error');
@@ -73,9 +80,11 @@ const test = 'value';
 console.log('test message');
 const another = 'value';
       `;
-      
-      const statements = (removalSystem as unknown as { analyzeFileConsoleStatements: (filePath: string, content: string) => unknown[] }).analyzeFileConsoleStatements('/test/file.ts', content);
-      
+
+      const statements = (
+        removalSystem as unknown as { analyzeFileConsoleStatements: (filePath: string, content: string) => unknown[] }
+      ).analyzeFileConsoleStatements('/test/file.ts', content);
+
       expect(statements).toHaveLength(1);
       expect((statements as Record<string, unknown>)[0].line).toBe(3);
       expect((statements as Record<string, unknown>)[0].content).toBe("console.log('test message')");
@@ -84,13 +93,17 @@ const another = 'value';
 
   describe('isConsoleStatementCritical', () => {
     it('should mark error statements as critical', () => {
-      const isCritical = (removalSystem as unknown as { isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean }).isConsoleStatementCritical(
+      const isCritical = (
+        removalSystem as unknown as {
+          isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean;
+        }
+      ).isConsoleStatementCritical(
         '/test/file.ts',
         'console.error("Something went wrong")',
         'try { } catch (e) { console.error("Something went wrong"); }',
-        'error'
+        'error',
       );
-      
+
       expect(isCritical).toBe(true);
     });
 
@@ -99,9 +112,9 @@ const another = 'value';
         '/test/debug.ts',
         'console.log("Debug info")',
         'console.log("Debug info");',
-        'log'
+        'log',
       );
-      
+
       expect(isCritical).toBe(true);
     });
 
@@ -110,9 +123,9 @@ const another = 'value';
         '/test/file.test.ts',
         'console.log("Test output")',
         'console.log("Test output");',
-        'log'
+        'log',
       );
-      
+
       expect(isCritical).toBe(true);
     });
 
@@ -124,25 +137,28 @@ const another = 'value';
           console.log("Error occurred");
         }
       `;
-      
-      const isCritical = (removalSystem as unknown as { isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean }).isConsoleStatementCritical(
-        '/test/file.ts',
-        'console.log("Error occurred")',
-        context,
-        'log'
-      );
-      
+
+      const isCritical = (
+        removalSystem as unknown as {
+          isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean;
+        }
+      ).isConsoleStatementCritical('/test/file.ts', 'console.log("Error occurred")', context, 'log');
+
       expect(isCritical).toBe(true);
     });
 
     it('should mark statements with important patterns as critical', () => {
-      const isCritical = (removalSystem as unknown as { isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean }).isConsoleStatementCritical(
+      const isCritical = (
+        removalSystem as unknown as {
+          isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean;
+        }
+      ).isConsoleStatementCritical(
         '/test/file.ts',
         'console.log("API request failed")',
         'console.log("API request failed");',
-        'log'
+        'log',
       );
-      
+
       expect(isCritical).toBe(true);
     });
 
@@ -151,9 +167,9 @@ const another = 'value';
         '/src/components/Component.ts',
         'console.warn("Deprecated feature")',
         'console.warn("Deprecated feature");',
-        'warn'
+        'warn',
       );
-      
+
       expect(isCritical).toBe(true);
     });
 
@@ -162,9 +178,9 @@ const another = 'value';
         '/src/components/Component.ts',
         'console.log("Simple debug")',
         'console.log("Simple debug");',
-        'log'
+        'log',
       );
-      
+
       expect(isCritical).toBe(false);
     });
   });
@@ -172,14 +188,18 @@ const another = 'value';
   describe('validatePreConditions', () => {
     it('should validate script exists', async () => {
       mockFs.existsSync.mockReturnValue(false);
-      
-      await expect((removalSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions()).rejects.toThrow('Console removal script not found');
+
+      await expect(
+        (removalSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions(),
+      ).rejects.toThrow('Console removal script not found');
     });
 
     it('should check git status when git stash is enabled', async () => {
       mockExecSync.mockReturnValue('');
-      
-      await expect((removalSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions()).resolves.not.toThrow();
+
+      await expect(
+        (removalSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions(),
+      ).resolves.not.toThrow();
       expect(mockExecSync).toHaveBeenCalledWith('git status --porcelain', { encoding: 'utf-8' });
     });
   });
@@ -187,22 +207,25 @@ const another = 'value';
   describe('createSafetyStash', () => {
     it('should create git stash with timestamp', async () => {
       mockExecSync.mockReturnValue('');
-      
-      const stashId = await (removalSystem as unknown as { createSafetyStash: () => Promise<string> }).createSafetyStash();
-      
+
+      const stashId = await (
+        removalSystem as unknown as { createSafetyStash: () => Promise<string> }
+      ).createSafetyStash();
+
       expect(stashId).toContain('console-removal-');
-      expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('git stash push -m "console-removal-'),
-        { encoding: 'utf-8' }
-      );
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -m "console-removal-'), {
+        encoding: 'utf-8',
+      });
     });
 
     it('should handle git stash errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Git error');
       });
-      
-      const stashId = await (removalSystem as unknown as { createSafetyStash: () => Promise<string> }).createSafetyStash();
+
+      const stashId = await (
+        removalSystem as unknown as { createSafetyStash: () => Promise<string> }
+      ).createSafetyStash();
       expect(stashId).toBe('');
     });
   });
@@ -211,7 +234,7 @@ const another = 'value';
     it('should execute script with correct arguments for dry run', async () => {
       const config = { dryRun: true, maxFiles: 10 };
       const system = new ConsoleStatementRemovalSystem(config);
-      
+
       const mockAnalysis: ConsoleStatement[] = [
         {
           file: '/test/file.ts',
@@ -221,21 +244,23 @@ const another = 'value';
           content: 'console.log("test")',
           context: 'console.log("test");',
           isCritical: false,
-          shouldPreserve: false
-        }
+          shouldPreserve: false,
+        },
       ];
-      
+
       mockExecSync.mockReturnValue('Files processed: 5\nTotal console statements fixed: 10');
-      
-      const result = await (system as unknown as { executeScript: (analysis: unknown[]) => Promise<ConsoleRemovalResult> }).executeScript(mockAnalysis);
-      
+
+      const result = await (
+        system as unknown as { executeScript: (analysis: unknown[]) => Promise<ConsoleRemovalResult> }
+      ).executeScript(mockAnalysis);
+
       expect(result.success).toBe(true);
       expect(result.filesProcessed).toBe(5);
       expect(result.consoleStatementsRemoved).toBe(10);
-      
+
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('--dry-run --max-files 10'),
-        expect.any(Object)
+        expect.any(Object),
       );
     });
 
@@ -249,7 +274,7 @@ const another = 'value';
           content: 'console.error("critical")',
           context: 'console.error("critical");',
           isCritical: true,
-          shouldPreserve: true
+          shouldPreserve: true,
         },
         {
           file: '/test/file.ts',
@@ -259,14 +284,16 @@ const another = 'value';
           content: 'console.log("normal")',
           context: 'console.log("normal");',
           isCritical: false,
-          shouldPreserve: false
-        }
+          shouldPreserve: false,
+        },
       ];
-      
+
       mockExecSync.mockReturnValue('Files processed: 1\nTotal console statements fixed: 1');
-      
-      const result = await (removalSystem as unknown as { executeScript: (analysis: unknown[]) => Promise<ConsoleRemovalResult> }).executeScript(mockAnalysis);
-      
+
+      const result = await (
+        removalSystem as unknown as { executeScript: (analysis: unknown[]) => Promise<ConsoleRemovalResult> }
+      ).executeScript(mockAnalysis);
+
       expect(result.consoleStatementsPreserved).toBe(1);
       expect(result.preservedFiles).toContain('/test/file.ts');
     });
@@ -275,9 +302,9 @@ const another = 'value';
       mockExecSync.mockImplementation(() => {
         throw new Error('Script execution failed');
       });
-      
+
       const result = await (removalSystem as any).executeScript([]);
-      
+
       expect(result.success).toBe(false);
       expect(result.errors).toContain(expect.stringContaining('Script execution failed'));
     });
@@ -289,11 +316,11 @@ const another = 'value';
         ❌ Error: Failed to process file
         Total console statements fixed: 10
       `;
-      
+
       mockExecSync.mockReturnValue(output);
-      
+
       const result = await (removalSystem as any).executeScript([]);
-      
+
       expect(result.warnings).toHaveLength(1);
       expect(result.errors).toHaveLength(1);
       expect(result.warnings[0]).toContain('Warning: Some statements preserved');
@@ -311,11 +338,11 @@ const another = 'value';
         buildTime: 2000,
         errors: [],
         warnings: ['Test warning'],
-        preservedFiles: ['/test/debug.ts']
+        preservedFiles: ['/test/debug.ts'],
       };
-      
+
       const report = removalSystem.generateReport(result);
-      
+
       expect(report).toContain('Console Statement Removal Report');
       expect(report).toContain('Success: ✅');
       expect(report).toContain('Files Processed: 10');
@@ -335,11 +362,11 @@ const another = 'value';
         buildTime: 0,
         errors: ['Test error'],
         warnings: [],
-        preservedFiles: []
+        preservedFiles: [],
       };
-      
+
       const report = removalSystem.generateReport(result);
-      
+
       expect(report).toContain('Success: ❌');
       expect(report).toContain('Test error');
       expect(report).toContain('Console removal failed');
@@ -352,9 +379,11 @@ const another = 'value';
       jest.doMock('./LintingWarningAnalyzer.js', () => {
         throw new Error('Module not found');
       });
-      
-      const estimate = await (removalSystem as unknown as { estimateFilesWithConsoleStatements: () => Promise<number> }).estimateFilesWithConsoleStatements();
-      
+
+      const estimate = await (
+        removalSystem as unknown as { estimateFilesWithConsoleStatements: () => Promise<number> }
+      ).estimateFilesWithConsoleStatements();
+
       expect(estimate).toBe(50);
     });
   });
@@ -369,16 +398,18 @@ const another = 'value';
         buildTime: 1500,
         errors: [],
         warnings: [],
-        preservedFiles: ['/test/debug.ts']
+        preservedFiles: ['/test/debug.ts'],
       };
-      
+
       mockFs.writeFileSync.mockImplementation(() => {});
-      
-      await (removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<void> }).saveMetrics(result);
-      
+
+      await (removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<void> }).saveMetrics(
+        result,
+      );
+
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringContaining('.console-removal-metrics.json'),
-        expect.stringContaining('"success":true')
+        expect.stringContaining('"success":true'),
       );
     });
 
@@ -391,14 +422,18 @@ const another = 'value';
         buildTime: 1500,
         errors: [],
         warnings: [],
-        preservedFiles: []
+        preservedFiles: [],
       };
-      
+
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Write failed');
       });
-      
-      await expect((removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<void> }).saveMetrics(result)).resolves.not.toThrow();
+
+      await expect(
+        (removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<void> }).saveMetrics(
+          result,
+        ),
+      ).resolves.not.toThrow();
     });
   });
 });

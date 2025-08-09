@@ -6,14 +6,12 @@ interface LoadingProps {
   text?: string;
 }
 
-const PageLoading: React.FC<LoadingProps> = ({ fullScreen = false, variant = 'spinner', text = 'Loading...' }) => {
-  return (
-    <LoadingComponent
-      fullScreen={fullScreen}
-      variant={variant}
-      text={text}
-    />
-  );
-}
+const PageLoading: React.FC<LoadingProps> = ({
+  fullScreen = false,
+  variant = 'spinner',
+  text = 'Loading...',
+}) => {
+  return <LoadingComponent fullScreen={fullScreen} variant={variant} text={text} />;
+};
 
-export default PageLoading; 
+export default PageLoading;

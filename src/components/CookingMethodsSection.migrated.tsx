@@ -1,6 +1,22 @@
 'use client';
 
-import { ArrowDown, ArrowUp, ChevronDown, ChevronUp, Clock, Droplets, Flame, Globe, Minus, Mountain, Search, Sparkles, ThumbsUp, Wind, Zap } from 'lucide-react';
+import {
+  ArrowDown,
+  ArrowUp,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  Droplets,
+  Flame,
+  Globe,
+  Minus,
+  Mountain,
+  Search,
+  Sparkles,
+  ThumbsUp,
+  Wind,
+  Zap,
+} from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { useServices } from '@/hooks/useServices';
@@ -17,11 +33,7 @@ interface CookingMethod {
   score?: number;
   culturalOrigin?: string;
   variations?: CookingMethod[];
-  elementalEffect?: { Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
-  };
+  elementalEffect?: { Fire: number; Water: number; Earth: number; Air: number };
   duration?: {
     min: number;
     max: number;
@@ -55,24 +67,24 @@ interface CookingMethodsProps {
  *
  * It has been migrated from using direct hook imports to service-based architecture.
  */
-export function CookingMethodsSectionMigrated({ methods,
+export function CookingMethodsSectionMigrated({
+  methods,
   onSelectMethod,
   selectedMethodId,
   showToggle = true,
-  initiallyExpanded = false }: CookingMethodsProps) {
+  initiallyExpanded = false,
+}: CookingMethodsProps) {
   // Replace direct hook with services
-  const {
-    isLoading: servicesLoading,
-    error: servicesError,
-    ingredientService
-  } = useServices();
+  const { isLoading: servicesLoading, error: servicesError, ingredientService } = useServices();
 
   // Component state
   const [isExpanded, setIsExpanded] = useState(initiallyExpanded);
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   const [showIngredientSearch, setShowIngredientSearch] = useState(false);
   const [searchIngredient, setSearchIngredient] = useState('');
-  const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
+  const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>(
+    {},
+  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllMethods, setShowAllMethods] = useState(false);
@@ -118,19 +130,19 @@ export function CookingMethodsSectionMigrated({ methods,
           if (selectedMethod.variations && selectedMethod.variations.length > 0) {
             setExpandedMethods(prev => ({
               ...prev,
-              [selectedMethodId]: true
+              [selectedMethodId]: true,
             }));
           }
 
           // If this is a variation, find and expand its parent method
-          const parentMethod = methods.find(m =>
-            m.variations && m.variations.some(v => v.id === selectedMethodId)
+          const parentMethod = methods.find(
+            m => m.variations && m.variations.some(v => v.id === selectedMethodId),
           );
 
           if (parentMethod) {
             setExpandedMethods(prev => ({
               ...prev,
-              [parentMethod.id]: true
+              [parentMethod.id]: true,
             }));
           }
         }
@@ -162,7 +174,12 @@ export function CookingMethodsSectionMigrated({ methods,
         if (method.elementalEffect) {
           try {
             // Mock elemental harmony calculation
-            const ingredientProps = ingredientData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+            const ingredientProps = ingredientData.elementalProperties || {
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
+              Air: 0.25,
+            };
             const methodProps = method.elementalEffect;
 
             // Simple compatibility calculation based on elemental similarity
@@ -185,8 +202,10 @@ export function CookingMethodsSectionMigrated({ methods,
                   // Simple compatibility calculation for variations
                   let variationHarmony = 0;
                   Object.keys(ingredientProps).forEach(element => {
-                    const ingredientValue = ingredientProps[element as keyof typeof ingredientProps] || 0;
-                    const variationValue = variationElemental[element as keyof typeof variationElemental] || 0;
+                    const ingredientValue =
+                      ingredientProps[element as keyof typeof ingredientProps] || 0;
+                    const variationValue =
+                      variationElemental[element as keyof typeof variationElemental] || 0;
                     variationHarmony += Math.min(ingredientValue, variationValue);
                   });
 
@@ -221,7 +240,7 @@ export function CookingMethodsSectionMigrated({ methods,
     void e.stopPropagation();
     setExpandedMethods(prev => ({
       ...prev,
-      [methodId]: !prev[methodId]
+      [methodId]: !prev[methodId],
     }));
   };
 
@@ -277,14 +296,18 @@ export function CookingMethodsSectionMigrated({ methods,
   };
 
   // Determine if an element is increased or decreased by the method
-  const getElementalDirection = (value: number): {direction: 'increase' | 'decrease' | 'neutral', intensity: number} => {
+  const getElementalDirection = (
+    value: number,
+  ): { direction: 'increase' | 'decrease' | 'neutral'; intensity: number } => {
     if (value > 0.5) return { direction: 'increase', intensity: (value - 0.5) * 2 };
     if (value < 0.5) return { direction: 'decrease', intensity: (0.5 - value) * 2 };
     return { direction: 'neutral', intensity: 0 };
   };
 
   // Get the alchemical label for a method
-  const getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
+  const getAlchemicalLabel = (
+    method: CookingMethod,
+  ): { primary: string; secondary: string } | null => {
     if (!method.alchemicalProperties) return null;
 
     const properties = method.alchemicalProperties;
@@ -294,7 +317,7 @@ export function CookingMethodsSectionMigrated({ methods,
 
     return {
       primary: sortedProps[0][0],
-      secondary: sortedProps[1][0]
+      secondary: sortedProps[1][0],
     };
   };
 
@@ -324,14 +347,14 @@ export function CookingMethodsSectionMigrated({ methods,
             <span className={'titleText-class'}>Loading Cooking Methods...</span>
           </h3>
         </div>
-        <div className="mt-4 p-4 animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className='mt-4 animate-pulse p-4'>
+          <div className='mb-4 h-6 w-3/4 rounded bg-gray-200'></div>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="border rounded-lg p-4">
-                <div className="h-5 bg-gray-200 rounded w-1/2 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+              <div key={i} className='rounded-lg border p-4'>
+                <div className='mb-2 h-5 w-1/2 rounded bg-gray-200'></div>
+                <div className='mb-2 h-3 w-full rounded bg-gray-200'></div>
+                <div className='h-3 w-2/3 rounded bg-gray-200'></div>
               </div>
             ))}
           </div>
@@ -350,7 +373,7 @@ export function CookingMethodsSectionMigrated({ methods,
             <span className={'titleText-class'}>Alchemical Cooking Methods</span>
           </h3>
         </div>
-        <div className="mt-4 p-4 border border-red-200 bg-red-50 text-red-700 rounded-lg">
+        <div className='mt-4 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700'>
           <p>Error loading cooking methods: {servicesError.message}</p>
         </div>
       </div>
@@ -378,11 +401,11 @@ export function CookingMethodsSectionMigrated({ methods,
         {/* Add ingredient search toggle button */}
         <button
           className={`${styles['ingredient-search-toggle']} ${showIngredientSearch ? 'active-class' : ''}`}
-          onClick={(e) => {
+          onClick={e => {
             void e.stopPropagation();
             toggleIngredientSearch();
           }}
-          title="Check ingredient compatibility"
+          title='Check ingredient compatibility'
         >
           <Search size={18} />
         </button>
@@ -400,10 +423,10 @@ export function CookingMethodsSectionMigrated({ methods,
           <div className={styles['search-form']}>
             <div className={styles['search-input-container']}>
               <input
-                type="text"
+                type='text'
                 value={searchIngredient}
-                onChange={(e) => setSearchIngredient(e.target.value)}
-                placeholder="Enter ingredient name..."
+                onChange={e => setSearchIngredient(e.target.value)}
+                placeholder='Enter ingredient name...'
                 className={styles['search-input']}
               />
               <button
@@ -415,11 +438,7 @@ export function CookingMethodsSectionMigrated({ methods,
               </button>
             </div>
 
-            {error && (
-              <div className={styles['search-error']}>
-                {error}
-              </div>
-            )}
+            {error && <div className={styles['search-error']}>{error}</div>}
           </div>
         </div>
       )}
@@ -427,7 +446,7 @@ export function CookingMethodsSectionMigrated({ methods,
       {isExpanded && (
         <div className={styles['cooking-methods-content']}>
           <div className={styles['methods-grid']}>
-            {(displayMethods || []).map((method) => (
+            {(displayMethods || []).map(method => (
               <div
                 key={method.id}
                 className={`${styles['method-card']} ${selectedMethodId === method.id ? 'selected-class' : ''}`}
@@ -438,20 +457,34 @@ export function CookingMethodsSectionMigrated({ methods,
 
                   {method.score !== undefined && (
                     <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
-                      <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
+                      <span className={styles['score-value']}>
+                        {Math.round(method.score * 100)}%
+                      </span>
                       <div className={styles['score-bar']}>
-                        <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
+                        <div
+                          className={styles['score-bar-fill']}
+                          style={{ width: `${Math.round(method.score * 100)}%` }}
+                        ></div>
                       </div>
                     </div>
                   )}
 
                   {/* Show ingredient compatibility if available */}
                   {ingredientCompatibility[method.id] !== undefined && (
-                    <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}>
+                    <div
+                      className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}
+                    >
                       <span>{getCompatibilityLabel(ingredientCompatibility[method.id]).label}</span>
-                      <span className={styles['compatibility-value']}>{Math.round(ingredientCompatibility[method.id] * 100)}%</span>
+                      <span className={styles['compatibility-value']}>
+                        {Math.round(ingredientCompatibility[method.id] * 100)}%
+                      </span>
                       <div className={styles['compatibility-bar']}>
-                        <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}}></div>
+                        <div
+                          className={styles['compatibility-bar-fill']}
+                          style={{
+                            width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`,
+                          }}
+                        ></div>
                       </div>
                     </div>
                   )}
@@ -459,14 +492,17 @@ export function CookingMethodsSectionMigrated({ methods,
                   {method.variations && method.variations.length > 0 && (
                     <button
                       className={styles['toggle-variations']}
-                      onClick={(e) => toggleMethodExpanded(method.id, e)}
-                      aria-label={expandedMethods[method.id] ? "Collapse variations" : "Expand variations"}
+                      onClick={e => toggleMethodExpanded(method.id, e)}
+                      aria-label={
+                        expandedMethods[method.id] ? 'Collapse variations' : 'Expand variations'
+                      }
                     >
                       <span className={styles['variations-count']}>{method.variations.length}</span>
-                      {expandedMethods[method.id] ?
-                        <ChevronUp size={16} /> :
+                      {expandedMethods[method.id] ? (
+                        <ChevronUp size={16} />
+                      ) : (
                         <ChevronDown size={16} />
-                      }
+                      )}
                     </button>
                   )}
                 </div>
@@ -478,23 +514,32 @@ export function CookingMethodsSectionMigrated({ methods,
                   <div className={styles['method-elemental']}>
                     <div className={styles['elemental-label']}>Elemental Effects:</div>
                     <div className={styles['elemental-grid']}>
-                      {Object.entries(getElementalTransformations(method)).map(([element, value]) => {
-                        const { direction, intensity: _intensity } = getElementalDirection(value);
-                        return (
-                          <div key={element} className={`${styles['elemental-effect']} ${styles[`effect-${direction}`]}`}>
-                            {element === 'Fire' && <Flame size={14} />}
-                            {element === 'Water' && <Droplets size={14} />}
-                            {element === 'Earth' && <Mountain size={14} />}
-                            {element === 'Air' && <Wind size={14} />}
-                            <span>{element}</span>
-                            {direction !== 'neutral' && (
-                              <span className={styles['effect-icon']}>
-                                {direction === 'increase' ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })}
+                      {Object.entries(getElementalTransformations(method)).map(
+                        ([element, value]) => {
+                          const { direction, intensity: _intensity } = getElementalDirection(value);
+                          return (
+                            <div
+                              key={element}
+                              className={`${styles['elemental-effect']} ${styles[`effect-${direction}`]}`}
+                            >
+                              {element === 'Fire' && <Flame size={14} />}
+                              {element === 'Water' && <Droplets size={14} />}
+                              {element === 'Earth' && <Mountain size={14} />}
+                              {element === 'Air' && <Wind size={14} />}
+                              <span>{element}</span>
+                              {direction !== 'neutral' && (
+                                <span className={styles['effect-icon']}>
+                                  {direction === 'increase' ? (
+                                    <ArrowUp size={14} />
+                                  ) : (
+                                    <ArrowDown size={14} />
+                                  )}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        },
+                      )}
                     </div>
                   </div>
                 )}
@@ -548,33 +593,45 @@ export function CookingMethodsSectionMigrated({ methods,
                 )}
 
                 {/* Show variations if expanded */}
-                {method.variations && method.variations.length > 0 && expandedMethods[method.id] && (
-                  <div className={styles['method-variations']}>
-                    <div className={styles['variations-label']}>Variations:</div>
-                    <div className={styles['variations-list']}>
-                      {method.variations.map(variation => (
-                        <div
-                          key={variation.id}
-                          className={`${styles['variation-item']} ${selectedMethodId === variation.id ? 'selected-class' : ''}`}
-                          onClick={(e) => {
-                            void e.stopPropagation();
-                            onSelectMethod && onSelectMethod(variation);
-                          }}
-                        >
-                          <h5 className={styles['variation-name']}>{variation.name}</h5>
-                          <p className={styles['variation-description']}>{variation.description}</p>
+                {method.variations &&
+                  method.variations.length > 0 &&
+                  expandedMethods[method.id] && (
+                    <div className={styles['method-variations']}>
+                      <div className={styles['variations-label']}>Variations:</div>
+                      <div className={styles['variations-list']}>
+                        {method.variations.map(variation => (
+                          <div
+                            key={variation.id}
+                            className={`${styles['variation-item']} ${selectedMethodId === variation.id ? 'selected-class' : ''}`}
+                            onClick={e => {
+                              void e.stopPropagation();
+                              onSelectMethod && onSelectMethod(variation);
+                            }}
+                          >
+                            <h5 className={styles['variation-name']}>{variation.name}</h5>
+                            <p className={styles['variation-description']}>
+                              {variation.description}
+                            </p>
 
-                          {/* Show ingredient compatibility for variation if available */}
-                          {ingredientCompatibility[variation.id] !== undefined && (
-                            <div className={`${styles['variation-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
-                              <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label} match with {searchIngredient}</span>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                            {/* Show ingredient compatibility for variation if available */}
+                            {ingredientCompatibility[variation.id] !== undefined && (
+                              <div
+                                className={`${styles['variation-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}
+                              >
+                                <span>
+                                  {
+                                    getCompatibilityLabel(ingredientCompatibility[variation.id])
+                                      .label
+                                  }{' '}
+                                  match with {searchIngredient}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
             ))}
           </div>

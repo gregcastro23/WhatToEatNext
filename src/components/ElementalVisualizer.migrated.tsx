@@ -4,8 +4,6 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useServices } from '@/hooks/useServices';
 import { ElementalProperties } from '@/types';
 
-
-
 interface ElementalVisualizerProps {
   elementalProperties: ElementalProperties;
   userProperties?: ElementalProperties; // Optional comparison properties
@@ -23,22 +21,21 @@ interface ElementalVisualizerProps {
 }
 
 // Constants defined outside component to prevent recreation on each render
-const ELEMENT_COLORS = { Fire: '#FF5722', Water: '#2196F3', Earth: '#8BC34A', Air: '#9C27B0'
-};
+const ELEMENT_COLORS = { Fire: '#FF5722', Water: '#2196F3', Earth: '#8BC34A', Air: '#9C27B0' };
 
-const ELEMENT_ICONS = { Fire: '🔥', Water: '💧', Earth: '🌍', Air: '💨'
-};
+const ELEMENT_ICONS = { Fire: '🔥', Water: '💧', Earth: '🌍', Air: '💨' };
 
-const ELEMENT_GRADIENTS = { Fire: 'linear-gradient(135deg, #FF9800, #F44336)',
+const ELEMENT_GRADIENTS = {
+  Fire: 'linear-gradient(135deg, #FF9800, #F44336)',
   Water: 'linear-gradient(135deg, #03A9F4, #3F51B5)',
   Earth: 'linear-gradient(135deg, #8BC34A, #4CAF50)',
-  Air: 'linear-gradient(135deg, #9C27B0, #673AB7)'
+  Air: 'linear-gradient(135deg, #9C27B0, #673AB7)',
 };
 
 const SIZE_CONFIG = {
   sm: { width: 200, height: 200, fontSize: 12, padding: 15 },
   md: { width: 300, height: 300, fontSize: 14, padding: 20 },
-  lg: { width: 400, height: 400, fontSize: 16, padding: 25 }
+  lg: { width: 400, height: 400, fontSize: 16, padding: 25 },
 };
 
 // Create a module-level cache to limit expensive calculations
@@ -46,7 +43,10 @@ const calculationCache = new Map<string, unknown>();
 const MAX_CACHE_SIZE = 20; // Limit the number of cached results
 
 // Helper function to generate a cache key
-function generateCacheKey(elementalProps: ElementalProperties, userProps?: ElementalProperties): string {
+function generateCacheKey(
+  elementalProps: ElementalProperties,
+  userProps?: ElementalProperties,
+): string {
   const elemStr = JSON.stringify(elementalProps);
   const userStr = userProps ? JSON.stringify(userProps) : '';
   return `${elemStr}|${userStr}`;
@@ -65,26 +65,26 @@ function addToCache(key: string, value: unknown): void {
 // Function to calculate elemental compatibility
 function calculateElementalCompatibility(
   source: ElementalProperties,
-  target: ElementalProperties
+  target: ElementalProperties,
 ): number {
   // Calculate weighted similarity score
   let totalScore = 0;
   let totalWeight = 0;
 
   for (const element in source) {
-    if (Object.prototype.hasOwnProperty.call(source, element) &&
-        Object.prototype.hasOwnProperty.call(target, element)) {
-      const sourceValue = source[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
-      const targetValue = target[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
+    if (
+      Object.prototype.hasOwnProperty.call(source, element) &&
+      Object.prototype.hasOwnProperty.call(target, element)
+    ) {
+      const sourceValue = source[element as 'Fire' | 'Water' | 'Earth' | 'Air'] || 0;
+      const targetValue = target[element as 'Fire' | 'Water' | 'Earth' | 'Air'] || 0;
 
       // Use the source value as weight
       const weight = sourceValue;
 
       // Calculate the similarity for this element (1 - normalized difference)
       const maxValue = Math.max(sourceValue, targetValue);
-      const similarity = maxValue > 0
-        ? 1 - (Math.abs(sourceValue - targetValue) / maxValue)
-        : 1;
+      const similarity = maxValue > 0 ? 1 - Math.abs(sourceValue - targetValue) / maxValue : 1;
 
       totalScore += weight * similarity;
       totalWeight += weight;
@@ -108,7 +108,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
   showRecommendations = false,
   showComparison = false,
   animated = true,
-  className = ''
+  className = '',
 }) => {
   // Access services through the useServices hook
   const { isLoading, error } = useServices();
@@ -127,21 +127,25 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
   }, []);
 
   // Determine styles based on dark mode
-  const styles = useMemo(() => ({
-    text: darkMode ? '#FFFFFF' : '#333333',
-    background: darkMode ? '#1A1A1A' : '#FFFFFF',
-    border: darkMode ? '#333333' : '#E0E0E0',
-    panel: darkMode ? '#222222' : '#F5F5F5',
-    shadow: darkMode ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'
-  }), [darkMode]);
+  const styles = useMemo(
+    () => ({
+      text: darkMode ? '#FFFFFF' : '#333333',
+      background: darkMode ? '#1A1A1A' : '#FFFFFF',
+      border: darkMode ? '#333333' : '#E0E0E0',
+      panel: darkMode ? '#222222' : '#F5F5F5',
+      shadow: darkMode ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+    }),
+    [darkMode],
+  );
 
   // Get size configuration
   const sizeConfig = SIZE_CONFIG[size];
 
   // Generate a cache key for calculations
-  const cacheKey = useMemo(() =>
-    generateCacheKey(elementalProperties, userProperties),
-  [elementalProperties, userProperties]);
+  const cacheKey = useMemo(
+    () => generateCacheKey(elementalProperties, userProperties),
+    [elementalProperties, userProperties],
+  );
 
   // Check cache first for calculations
   const cachedResults = calculationCache.get(cacheKey);
@@ -174,9 +178,10 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
     });
 
     // Calculate compatibility if userProperties is provided
-    const compatibility = showComparison && userProperties
-      ? calculateElementalCompatibility(elementalProperties, userProperties)
-      : null;
+    const compatibility =
+      showComparison && userProperties
+        ? calculateElementalCompatibility(elementalProperties, userProperties)
+        : null;
 
     // Sorted elements by value (descending)
     const sortedElements = Object.entries(elementalProperties)
@@ -184,32 +189,39 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       .map(([element]) => element);
 
     // Recommendations based on elemental properties
-    let recommendations: { flavorProfile: string[]; cuisineAffinity: string[]; wellnessProperties: string[]; } | null = null;
+    let recommendations: {
+      flavorProfile: string[];
+      cuisineAffinity: string[];
+      wellnessProperties: string[];
+    } | null = null;
 
     if (showRecommendations) {
-      const flavorProfiles: Record<string, string[]> = { Fire: ['spicy', 'bold', 'aromatic'],
+      const flavorProfiles: Record<string, string[]> = {
+        Fire: ['spicy', 'bold', 'aromatic'],
         Water: ['delicate', 'refreshing', 'subtle'],
         Earth: ['hearty', 'rich', 'grounding'],
-        Air: ['light', 'crisp', 'aromatic']
+        Air: ['light', 'crisp', 'aromatic'],
       };
 
-      const cuisineAffinities: Record<string, string[]> = { Fire: ['Thai', 'Mexican', 'Indian'],
+      const cuisineAffinities: Record<string, string[]> = {
+        Fire: ['Thai', 'Mexican', 'Indian'],
         Water: ['Japanese', 'Mediterranean', 'Scandinavian'],
         Earth: ['French', 'Italian', 'American'],
-        Air: ['Middle Eastern', 'Greek', 'Vietnamese']
+        Air: ['Middle Eastern', 'Greek', 'Vietnamese'],
       };
 
-      const wellnessProperties: Record<string, string[]> = { Fire: ['energizing', 'warming', 'stimulating'],
+      const wellnessProperties: Record<string, string[]> = {
+        Fire: ['energizing', 'warming', 'stimulating'],
         Water: ['hydrating', 'calming', 'purifying'],
         Earth: ['nourishing', 'stabilizing', 'grounding'],
-        Air: ['refreshing', 'clarifying', 'uplifting']
+        Air: ['refreshing', 'clarifying', 'uplifting'],
       };
 
       // Get recommendations based on dominant element
       recommendations = {
-        flavorProfile: flavorProfiles[dominantElement.toLowerCase() ] || [],
-        cuisineAffinity: cuisineAffinities[dominantElement.toLowerCase() ] || [],
-        wellnessProperties: wellnessProperties[dominantElement.toLowerCase() ] || []
+        flavorProfile: flavorProfiles[dominantElement.toLowerCase()] || [],
+        cuisineAffinity: cuisineAffinities[dominantElement.toLowerCase()] || [],
+        wellnessProperties: wellnessProperties[dominantElement.toLowerCase()] || [],
       };
     }
 
@@ -220,21 +232,32 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       dominantElement,
       compatibility,
       sortedElements,
-      recommendations
+      recommendations,
     };
 
     // Cache the result
     addToCache(cacheKey, result);
 
     return result;
-  }, [elementalProperties, userProperties, showComparison, showRecommendations, cacheKey, cachedResults]);
+  }, [
+    elementalProperties,
+    userProperties,
+    showComparison,
+    showRecommendations,
+    cacheKey,
+    cachedResults,
+  ]);
 
   const total = (cached as any).total as number;
   const normalizedValues = (cached as any).normalizedValues as Record<string, number>;
   const dominantElement = (cached as any).dominantElement as string;
   const compatibility = (cached as any).compatibility as number | null;
   const sortedElements = (cached as any).sortedElements as string[];
-  const recommendations = (cached as any).recommendations as { flavorProfile: string[]; cuisineAffinity: string[]; wellnessProperties: string[] } | null;
+  const recommendations = (cached as any).recommendations as {
+    flavorProfile: string[];
+    cuisineAffinity: string[];
+    wellnessProperties: string[];
+  } | null;
 
   // Toggle details event handler
   const handleToggleDetails = useCallback(() => {
@@ -247,18 +270,18 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
   const renderBarChart = useMemo(() => {
     const barHeight = 30;
     const barSpacing = 10;
-    const chartWidth = sizeConfig.width - (sizeConfig.padding * 2);
+    const chartWidth = sizeConfig.width - sizeConfig.padding * 2;
     const chartHeight = (barHeight + barSpacing) * Object.keys(elementalProperties || {}).length;
 
     return (
       <svg
         width={sizeConfig.width}
-        height={chartHeight + (sizeConfig.padding * 2)}
-        className="elemental-bar-chart"
+        height={chartHeight + sizeConfig.padding * 2}
+        className='elemental-bar-chart'
       >
         {Object.entries(normalizedValues || {}).map(([element, percentage], index) => {
           const numericPercentage = Number(percentage) || 0;
-          const y = (index * (barHeight + barSpacing)) + sizeConfig.padding;
+          const y = index * (barHeight + barSpacing) + sizeConfig.padding;
           const normalizedElement = element.toLowerCase();
 
           return (
@@ -288,9 +311,9 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
               {showLabels && (
                 <text
                   x={sizeConfig.padding + 10}
-                  y={y + (barHeight / 2) + 5}
+                  y={y + barHeight / 2 + 5}
                   fontSize={sizeConfig.fontSize}
-                  fontWeight="bold"
+                  fontWeight='bold'
                   fill={styles.text}
                 >
                   {element}
@@ -300,11 +323,11 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
               {showPercentages && (
                 <text
                   x={sizeConfig.width - sizeConfig.padding - 40}
-                  y={y + (barHeight / 2) + 5}
+                  y={y + barHeight / 2 + 5}
                   fontSize={sizeConfig.fontSize}
-                  fontWeight="bold"
+                  fontWeight='bold'
                   fill={styles.text}
-                  textAnchor="end"
+                  textAnchor='end'
                 >
                   {numericPercentage.toFixed(1)}%
                 </text>
@@ -344,7 +367,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         `M ${centerX} ${centerY}`,
         `L ${x1} ${y1}`,
         `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-        'Z'
+        'Z',
       ].join(' ');
 
       // Create slice object
@@ -353,7 +376,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         percentage: numericPercentage,
         startAngle,
         endAngle,
-        pathData
+        pathData,
       };
 
       // Update start angle for next slice
@@ -363,11 +386,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
     });
 
     return (
-      <svg
-        width={sizeConfig.width}
-        height={sizeConfig.height}
-        className="elemental-pie-chart"
-      >
+      <svg width={sizeConfig.width} height={sizeConfig.height} className='elemental-pie-chart'>
         {/* Render slices */}
         {(slices || []).map((slice, index) => {
           const normalizedElement = slice.element.toLowerCase();
@@ -398,10 +417,10 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
                   x={labelX}
                   y={labelY}
                   fontSize={sizeConfig.fontSize}
-                  fontWeight="bold"
+                  fontWeight='bold'
                   fill={styles.text}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
+                  textAnchor='middle'
+                  dominantBaseline='middle'
                 >
                   {slice.element}
                   {showPercentages && ` (${slice.percentage.toFixed(1)}%)`}
@@ -412,7 +431,15 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         })}
       </svg>
     );
-  }, [normalizedValues, sizeConfig, styles.text, styles.background, animated, showLabels, showPercentages]);
+  }, [
+    normalizedValues,
+    sizeConfig,
+    styles.text,
+    styles.background,
+    animated,
+    showLabels,
+    showPercentages,
+  ]);
 
   // Render radar chart visualization - memoized
   const renderRadarChart = useMemo(() => {
@@ -435,7 +462,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         y: centerY + radius * normalizedValue * Math.sin(angle),
         labelX: centerX + (radius + 20) * Math.cos(angle),
         labelY: centerY + (radius + 20) * Math.sin(angle),
-        angle
+        angle,
       };
     });
 
@@ -443,29 +470,25 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
     const polygonPoints = (points || []).map(p => `${p.x},${p.y}`).join(' ');
 
     // Create the comparison polygon if applicable
-    let comparisonPoints: { x: number; y: number; }[] | null = null;
+    let comparisonPoints: { x: number; y: number }[] | null = null;
     if (showComparison && userProperties) {
       // Calculate total for normalization
       const userTotal = Object.values(userProperties).reduce((sum, value) => sum + value, 0);
 
-      comparisonPoints = (elements || [] as any).map((element: any, i: number) => {
+      comparisonPoints = (elements || ([] as any)).map((element: any, i: number) => {
         const angle = i * angleStep - Math.PI / 2;
-        const value = userProperties[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
+        const value = userProperties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] || 0;
         const normalizedValue = userTotal > 0 ? value / userTotal : 0;
 
         return {
           x: centerX + radius * normalizedValue * Math.cos(angle),
-          y: centerY + radius * normalizedValue * Math.sin(angle)
+          y: centerY + radius * normalizedValue * Math.sin(angle),
         };
       });
     }
 
     return (
-      <svg
-        width={sizeConfig.width}
-        height={sizeConfig.height}
-        className="elemental-radar-chart"
-      >
+      <svg width={sizeConfig.width} height={sizeConfig.height} className='elemental-radar-chart'>
         {/* Background grid */}
         {[0.25, 0.5, 0.75, 1].map((gridLevel, i) => (
           <circle
@@ -473,7 +496,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
             cx={centerX}
             cy={centerY}
             r={radius * gridLevel}
-            fill="none"
+            fill='none'
             stroke={darkMode ? '#333333' : '#E0E0E0'}
             strokeWidth={1}
             strokeDasharray={darkMode ? '4 4' : ''}
@@ -496,8 +519,8 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         {/* Data polygon */}
         <polygon
           points={polygonPoints}
-          fill="rgba(33, 150, 243, 0.3)"
-          stroke="#2196F3"
+          fill='rgba(33, 150, 243, 0.3)'
+          stroke='#2196F3'
           strokeWidth={2}
           opacity={animated ? 0 : 1}
           className={animated ? 'elemental-polygon animate-scale' : ''}
@@ -507,10 +530,10 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         {comparisonPoints && (
           <polygon
             points={(comparisonPoints as any).map((p: any) => `${p.x},${p.y}`)?.join(' ')}
-            fill="rgba(255, 87, 34, 0.3)"
-            stroke="#FF5722"
+            fill='rgba(255, 87, 34, 0.3)'
+            stroke='#FF5722'
             strokeWidth={2}
-            strokeDasharray="5 5"
+            strokeDasharray='5 5'
             opacity={animated ? 0 : 1}
             className={animated ? 'elemental-polygon animate-scale' : ''}
             style={{ animationDelay: '300ms' }}
@@ -524,7 +547,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
             cx={point.x}
             cy={point.y}
             r={5}
-            fill="#2196F3"
+            fill='#2196F3'
             opacity={animated ? 0 : 1}
             className={animated ? 'elemental-point animate-fade-in' : ''}
             style={{ animationDelay: `${i * 100}ms` }}
@@ -532,50 +555,69 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         ))}
 
         {/* Labels */}
-        {showLabels && (points || []).map((point, i) => {
-          // Calculate anchor position based on angle
-          const textAnchor =
-            point.angle > -Math.PI/4 && point.angle < Math.PI/4 ? "start" :
-            point.angle > 3*Math.PI/4 || point.angle < -3*Math.PI/4 ? "end" :
-            "middle";
+        {showLabels &&
+          (points || []).map((point, i) => {
+            // Calculate anchor position based on angle
+            const textAnchor =
+              point.angle > -Math.PI / 4 && point.angle < Math.PI / 4
+                ? 'start'
+                : point.angle > (3 * Math.PI) / 4 || point.angle < (-3 * Math.PI) / 4
+                  ? 'end'
+                  : 'middle';
 
-          // Calculate baseline position based on angle
-          const baseline =
-            point.angle > Math.PI/4 && point.angle < 3*Math.PI/4 ? "hanging" :
-            point.angle > -3*Math.PI/4 && point.angle < -Math.PI/4 ? "text-top" :
-            "middle";
+            // Calculate baseline position based on angle
+            const baseline =
+              point.angle > Math.PI / 4 && point.angle < (3 * Math.PI) / 4
+                ? 'hanging'
+                : point.angle > (-3 * Math.PI) / 4 && point.angle < -Math.PI / 4
+                  ? 'text-top'
+                  : 'middle';
 
-          return (
-            <text
-              key={`label-${i}`}
-              x={point.labelX}
-              y={point.labelY}
-              fontSize={sizeConfig.fontSize}
-              fontWeight="bold"
-              fill={styles.text}
-              textAnchor={textAnchor}
-              dominantBaseline={baseline}
-            >
-              {point.element}
-              {showPercentages && ` (${(normalizedValues[point.element] || 0).toFixed(1)}%)`}
-            </text>
-          );
-        })}
+            return (
+              <text
+                key={`label-${i}`}
+                x={point.labelX}
+                y={point.labelY}
+                fontSize={sizeConfig.fontSize}
+                fontWeight='bold'
+                fill={styles.text}
+                textAnchor={textAnchor}
+                dominantBaseline={baseline}
+              >
+                {point.element}
+                {showPercentages && ` (${(normalizedValues[point.element] || 0).toFixed(1)}%)`}
+              </text>
+            );
+          })}
       </svg>
     );
-  }, [elementalProperties, normalizedValues, sizeConfig, darkMode, showLabels, showPercentages, showComparison, userProperties, animated, styles.text]);
+  }, [
+    elementalProperties,
+    normalizedValues,
+    sizeConfig,
+    darkMode,
+    showLabels,
+    showPercentages,
+    showComparison,
+    userProperties,
+    animated,
+    styles.text,
+  ]);
 
   // Render interactive visualization - memoized
   const renderInteractiveVisualization = useMemo(() => {
     return (
-      <div className="elemental-interactive p-4" style={{
-        width: sizeConfig.width,
-        background: styles.panel,
-        borderRadius: '8px',
-        boxShadow: `0 4px 8px ${styles.shadow}`,
-        color: styles.text
-      }}>
-        <div className="flex flex-col space-y-4">
+      <div
+        className='elemental-interactive p-4'
+        style={{
+          width: sizeConfig.width,
+          background: styles.panel,
+          borderRadius: '8px',
+          boxShadow: `0 4px 8px ${styles.shadow}`,
+          color: styles.text,
+        }}
+      >
+        <div className='flex flex-col space-y-4'>
           {/* Element cards */}
           {(sortedElements || []).map(element => {
             const normalizedElement = element?.toLowerCase();
@@ -584,29 +626,29 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
             return (
               <div
                 key={element}
-                className="elemental-card p-3 rounded-lg transition-all duration-300 cursor-pointer hover:shadow-lg"
+                className='elemental-card cursor-pointer rounded-lg p-3 transition-all duration-300 hover:shadow-lg'
                 style={{
-                  background: ELEMENT_GRADIENTS[normalizedElement as keyof typeof ELEMENT_GRADIENTS] || 'linear-gradient(135deg, #777777, #333333)',
+                  background:
+                    ELEMENT_GRADIENTS[normalizedElement as keyof typeof ELEMENT_GRADIENTS] ||
+                    'linear-gradient(135deg, #777777, #333333)',
                   boxShadow: `0 2px 4px ${styles.shadow}`,
                 }}
                 onClick={handleToggleDetails}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-2">
+                <div className='flex items-center justify-between'>
+                  <div className='flex items-center'>
+                    <span className='mr-2 text-2xl'>
                       {ELEMENT_ICONS[normalizedElement as keyof typeof ELEMENT_ICONS] || '🔮'}
                     </span>
-                    <h3 className="font-bold text-white">{element}</h3>
+                    <h3 className='font-bold text-white'>{element}</h3>
                   </div>
-                  <span className="font-bold text-white">
-                    {percentage.toFixed(1)}%
-                  </span>
+                  <span className='font-bold text-white'>{percentage.toFixed(1)}%</span>
                 </div>
 
                 {/* Progress bar */}
-                <div className="mt-2 bg-white bg-opacity-20 rounded-full h-2">
+                <div className='mt-2 h-2 rounded-full bg-white bg-opacity-20'>
                   <div
-                    className="h-full rounded-full bg-white"
+                    className='h-full rounded-full bg-white'
                     style={{ width: `${percentage}%` }}
                   ></div>
                 </div>
@@ -616,31 +658,32 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
 
           {/* Detailed information (toggled) */}
           {showDetails && (
-            <div className="mt-4 p-4 rounded-lg" style={{ background: styles.background }}>
-              <h3 className="font-bold mb-2">Elemental Details</h3>
+            <div className='mt-4 rounded-lg p-4' style={{ background: styles.background }}>
+              <h3 className='mb-2 font-bold'>Elemental Details</h3>
 
               {/* Dominant element */}
-              <div className="mb-2">
-                <span className="font-medium">Dominant Element:</span> {dominantElement}
+              <div className='mb-2'>
+                <span className='font-medium'>Dominant Element:</span> {dominantElement}
               </div>
 
               {/* Compatibility */}
               {compatibility !== null && (
-                <div className="mb-2">
-                  <span className="font-medium">Compatibility:</span> {(compatibility * 100).toFixed(1)}%
+                <div className='mb-2'>
+                  <span className='font-medium'>Compatibility:</span>{' '}
+                  {(compatibility * 100).toFixed(1)}%
                 </div>
               )}
 
               {/* Recommendations */}
               {recommendations && (
-                <div className="mt-4">
-                  <h4 className="font-medium mb-1">Recommended Flavor Profiles:</h4>
+                <div className='mt-4'>
+                  <h4 className='mb-1 font-medium'>Recommended Flavor Profiles:</h4>
                   <p>{recommendations.flavorProfile?.join(', ')}</p>
 
-                  <h4 className="font-medium mb-1 mt-2">Cuisine Affinities:</h4>
+                  <h4 className='mb-1 mt-2 font-medium'>Cuisine Affinities:</h4>
                   <p>{recommendations.cuisineAffinity?.join(', ')}</p>
 
-                  <h4 className="font-medium mb-1 mt-2">Wellness Properties:</h4>
+                  <h4 className='mb-1 mt-2 font-medium'>Wellness Properties:</h4>
                   <p>{recommendations.wellnessProperties?.join(', ')}</p>
                 </div>
               )}
@@ -649,12 +692,22 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         </div>
       </div>
     );
-  }, [sortedElements, normalizedValues, sizeConfig, styles, showDetails, dominantElement, compatibility, recommendations, handleToggleDetails]);
+  }, [
+    sortedElements,
+    normalizedValues,
+    sizeConfig,
+    styles,
+    showDetails,
+    dominantElement,
+    compatibility,
+    recommendations,
+    handleToggleDetails,
+  ]);
 
   // Show loading state if services aren't ready
   if (isLoading) {
     return (
-      <div className="p-4 text-center">
+      <div className='p-4 text-center'>
         <p>Loading services...</p>
       </div>
     );
@@ -663,7 +716,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
   // Show error state
   if (error) {
     return (
-      <div className="p-4 text-center text-red-500">
+      <div className='p-4 text-center text-red-500'>
         <p>Error: {error.message}</p>
       </div>
     );
@@ -695,11 +748,11 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         border: `1px solid ${styles.border}`,
         borderRadius: '8px',
         padding: `${sizeConfig.padding}px`,
-        boxShadow: `0 2px 8px ${styles.shadow}`
+        boxShadow: `0 2px 8px ${styles.shadow}`,
       }}
     >
       {title && (
-        <h2 className="text-center font-bold mb-4" style={{ fontSize: sizeConfig.fontSize + 4 }}>
+        <h2 className='mb-4 text-center font-bold' style={{ fontSize: sizeConfig.fontSize + 4 }}>
           {title}
         </h2>
       )}
@@ -708,13 +761,10 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
 
       {/* Legend (if enabled) */}
       {showLegend && visualizationType !== 'interactive' && (
-        <div className="elemental-legend mt-4 flex flex-wrap justify-center gap-3">
+        <div className='elemental-legend mt-4 flex flex-wrap justify-center gap-3'>
           {Object.entries(ELEMENT_COLORS || {}).map(([element, color]) => (
-            <div key={element} className="flex items-center">
-              <div
-                className="w-3 h-3 rounded-full mr-1"
-                style={{ backgroundColor: color }}
-              ></div>
+            <div key={element} className='flex items-center'>
+              <div className='mr-1 h-3 w-3 rounded-full' style={{ backgroundColor: color }}></div>
               <span style={{ fontSize: sizeConfig.fontSize - 2 }}>
                 {element.charAt(0).toUpperCase() + element.slice(1)}
               </span>
@@ -725,19 +775,20 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
 
       {/* Compatibility indicator (if comparison is enabled) */}
       {showComparison && compatibility !== null && (
-        <div className="mt-4 text-center">
-          <div className="font-medium" style={{ fontSize: sizeConfig.fontSize }}>
+        <div className='mt-4 text-center'>
+          <div className='font-medium' style={{ fontSize: sizeConfig.fontSize }}>
             Compatibility: {(compatibility * 100).toFixed(1)}%
           </div>
           <div
-            className="mt-1 mx-auto h-2 rounded-full"
+            className='mx-auto mt-1 h-2 rounded-full'
             style={{ width: '80%', backgroundColor: styles.border }}
           >
             <div
-              className="h-full rounded-full"
+              className='h-full rounded-full'
               style={{
                 width: `${compatibility * 100}%`,
-                backgroundColor: compatibility > 0.7 ? '#4CAF50' : compatibility > 0.4 ? '#FFC107' : '#F44336'
+                backgroundColor:
+                  compatibility > 0.7 ? '#4CAF50' : compatibility > 0.4 ? '#FFC107' : '#F44336',
               }}
             ></div>
           </div>

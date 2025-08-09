@@ -5,16 +5,10 @@
 
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
-import {
-  CampaignConfig,
-  SafetySettings,
-  SafetyLevel,
-  ProgressMetrics
-} from '../../../../types/campaign';
+import { CampaignConfig, SafetySettings, SafetyLevel, ProgressMetrics } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
-
 
 describe('Memory Usage Performance Tests', () => {
   let progressTracker: ProgressTracker;
@@ -29,31 +23,35 @@ describe('Memory Usage Performance Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     mockConfig = {
-      phases: [{
-        id: 'memory-test-phase',
-        name: 'Memory Test Phase',
-        description: 'Phase for memory testing',
-        tools: [{
-          scriptPath: 'scripts/memory/test-script.js',
-          parameters: { maxFiles: 100 },
-          batchSize: 100,
-          safetyLevel: SafetyLevel.MEDIUM
-        }],
-        successCriteria: { buildTime: 10 },
-        safetyCheckpoints: []
-      }],
+      phases: [
+        {
+          id: 'memory-test-phase',
+          name: 'Memory Test Phase',
+          description: 'Phase for memory testing',
+          tools: [
+            {
+              scriptPath: 'scripts/memory/test-script.js',
+              parameters: { maxFiles: 100 },
+              batchSize: 100,
+              safetyLevel: SafetyLevel.MEDIUM,
+            },
+          ],
+          successCriteria: { buildTime: 10 },
+          safetyCheckpoints: [],
+        },
+      ],
       safetySettings,
       progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
 
     progressTracker = new ProgressTracker();
@@ -72,7 +70,7 @@ describe('Memory Usage Performance Tests', () => {
         heapTotal: 80 * 1024 * 1024,
         external: 5 * 1024 * 1024,
         rss: 100 * 1024 * 1024,
-        arrayBuffers: 2 * 1024 * 1024
+        arrayBuffers: 2 * 1024 * 1024,
       }) as unknown as typeof process.memoryUsage;
 
       const memoryUsage = await progressTracker.getMemoryUsage();
@@ -90,7 +88,7 @@ describe('Memory Usage Performance Tests', () => {
         heapTotal: 150 * 1024 * 1024,
         external: 10 * 1024 * 1024,
         rss: 200 * 1024 * 1024,
-        arrayBuffers: 5 * 1024 * 1024
+        arrayBuffers: 5 * 1024 * 1024,
       }) as unknown as typeof process.memoryUsage;
 
       const memoryUsage = await progressTracker.getMemoryUsage();
@@ -125,13 +123,13 @@ describe('Memory Usage Performance Tests', () => {
         const baseMemory = 30;
         const variation = Math.sin(callCount * 0.5) * 10; // ±10MB variation
         const heapUsed = (baseMemory + variation) * 1024 * 1024;
-        
+
         return {
           heapUsed,
           heapTotal: heapUsed * 2,
           external: 5 * 1024 * 1024,
           rss: heapUsed * 1.5,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -167,7 +165,7 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: simulatedMemoryLeak * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: simulatedMemoryLeak * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -182,7 +180,7 @@ describe('Memory Usage Performance Tests', () => {
       // Should detect increasing memory usage pattern
       const firstReading = memoryReadings[0];
       const lastReading = memoryReadings[memoryReadings.length - 1];
-      
+
       expect(lastReading).toBeGreaterThan(firstReading);
       expect(lastReading).toBeGreaterThan(50); // Should exceed target, indicating leak
 
@@ -199,7 +197,7 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: memoryUsage * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: memoryUsage * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -210,12 +208,12 @@ describe('Memory Usage Performance Tests', () => {
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: 'INFO',
-          action: 'TEST'
+          action: 'TEST',
         });
       }
 
       const events = safetyProtocol.getSafetyEvents();
-      
+
       // Should limit events to prevent memory issues
       expect(events.length).toBe(500); // Should be trimmed
 
@@ -236,7 +234,7 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: memoryUsage * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: memoryUsage * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -246,7 +244,7 @@ describe('Memory Usage Performance Tests', () => {
           typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: memoryUsage },
-          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
         };
       });
 
@@ -256,7 +254,7 @@ describe('Memory Usage Performance Tests', () => {
       }
 
       const history = progressTracker.getMetricsHistory();
-      
+
       // Should limit history to prevent memory issues
       expect(history.length).toBe(50); // Should be trimmed
 
@@ -281,18 +279,18 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: (baseMemory + memoryIncrease) * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: (baseMemory + memoryIncrease) * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
       // Simulate processing large number of files
       const largeFileList = Array.from({ length: 1000 }, (_, i) => `file${i}.ts`);
-      
+
       // Mock campaign execution with large file processing
       jest.spyOn(campaignController as any, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
         changesApplied: largeFileList.length,
-        success: true
+        success: true,
       });
 
       const phase = mockConfig.phases[0];
@@ -320,7 +318,7 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: (baseMemory + variation) * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: (baseMemory + variation) * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -329,7 +327,7 @@ describe('Memory Usage Performance Tests', () => {
         return Promise.all([
           progressTracker.getMemoryUsage(),
           progressTracker.getProgressMetrics(),
-          safetyProtocol.validateGitState()
+          safetyProtocol.validateGitState(),
         ]);
       });
 
@@ -357,7 +355,7 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: baseMemory * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: baseMemory * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -393,13 +391,13 @@ describe('Memory Usage Performance Tests', () => {
         const cyclicPattern = Math.sin(allocationCount * 0.3) * 8; // ±8MB cyclic pattern
         const growthTrend = allocationCount * 0.1; // Slight growth trend
         const totalMemory = baseMemory + cyclicPattern + growthTrend;
-        
+
         return {
           heapUsed: totalMemory * 1024 * 1024,
           heapTotal: totalMemory * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: totalMemory * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -407,7 +405,7 @@ describe('Memory Usage Performance Tests', () => {
       for (let i = 0; i < 20; i++) {
         const memoryUsage = await progressTracker.getMemoryUsage();
         memorySnapshots.push(memoryUsage);
-        
+
         // Perform some operations to trigger memory allocation
         await progressTracker.getProgressMetrics();
       }
@@ -424,7 +422,8 @@ describe('Memory Usage Performance Tests', () => {
       expect(avgMemory).toBeLessThan(45); // Average should be well under target
 
       // Memory variance should be reasonable
-      const variance = memorySnapshots.reduce((sum, mem) => sum + Math.pow(mem - avgMemory, 2), 0) / memorySnapshots.length;
+      const variance =
+        memorySnapshots.reduce((sum, mem) => sum + Math.pow(mem - avgMemory, 2), 0) / memorySnapshots.length;
       const standardDeviation = Math.sqrt(variance);
       expect(standardDeviation).toBeLessThan(10); // Should have reasonable variance
 
@@ -438,7 +437,7 @@ describe('Memory Usage Performance Tests', () => {
         lintingCheck: [],
         enterpriseCount: [],
         buildTime: [],
-        progressMetrics: []
+        progressMetrics: [],
       };
 
       let operationType = 'default';
@@ -468,7 +467,7 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: baseMemory * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: baseMemory * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024
+          arrayBuffers: 2 * 1024 * 1024,
         };
       }) as unknown as typeof process.memoryUsage;
 
@@ -478,12 +477,12 @@ describe('Memory Usage Performance Tests', () => {
         { name: 'lintingCheck', fn: () => progressTracker.getLintingWarningCount() },
         { name: 'enterpriseCount', fn: () => progressTracker.getEnterpriseSystemCount() },
         { name: 'buildTime', fn: () => progressTracker.getBuildTime() },
-        { name: 'progressMetrics', fn: () => progressTracker.getProgressMetrics() }
+        { name: 'progressMetrics', fn: () => progressTracker.getProgressMetrics() },
       ];
 
       for (const operation of operations) {
         operationType = operation.name;
-        
+
         // Run operation multiple times to get average memory usage
         for (let i = 0; i < 5; i++) {
           await operation.fn();
@@ -495,10 +494,10 @@ describe('Memory Usage Performance Tests', () => {
       // Validate memory usage for each operation type
       for (const [opName, memoryReadings] of Object.entries(operationMemoryUsage)) {
         expect(memoryReadings.length).toBe(5);
-        
+
         const avgMemory = memoryReadings.reduce((sum, mem) => sum + mem, 0) / memoryReadings.length;
         expect(avgMemory).toBeLessThan(50); // All operations should stay under target
-        
+
         // Memory usage should be consistent for the same operation
         const maxMemory = Math.max(...memoryReadings);
         const minMemory = Math.min(...memoryReadings);

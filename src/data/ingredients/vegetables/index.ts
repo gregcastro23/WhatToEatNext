@@ -10,7 +10,6 @@ import { roots } from './roots';
 import { squash } from './squash';
 import { starchyVegetables } from './starchy';
 
-
 // Combine all vegetable categories
 export const vegetables: Record<string, IngredientMapping> = fixIngredientMappings({
   ...leafyGreens,
@@ -20,7 +19,7 @@ export const vegetables: Record<string, IngredientMapping> = fixIngredientMappin
   ...alliums,
   ...squash,
   ...starchyVegetables,
-  ...legumes
+  ...legumes,
 });
 
 // Create enhanced vegetables with additional properties
@@ -38,11 +37,13 @@ export {
   alliums,
   squash,
   starchyVegetables,
-  legumes
+  legumes,
 };
 
 // Helper functions
-export const getVegetablesBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
+export const getVegetablesBySubCategory = (
+  subCategory: string,
+): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
     .filter(([_, value]) => value.subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -56,7 +57,9 @@ export const getSeasonalVegetables = (season: string): Record<string, Ingredient
 
 export const getVegetablesByCookingMethod = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
-    .filter(([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(method))
+    .filter(
+      ([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(method),
+    )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 

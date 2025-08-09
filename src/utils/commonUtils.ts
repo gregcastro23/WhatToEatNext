@@ -5,27 +5,27 @@
 
 // Number Utilities
 export const validateNumber = (value: unknown, defaultValue = 0): number => {
-    // Handle various invalid input cases
-    if (value === null || value === undefined) return defaultValue;
-    
-    // Try to convert to number
-    const num = Number(value);
-    
-    // Check if it's a valid number
-    if (isNaN(num) || !isFinite(num)) return defaultValue;
-    
-    return num;
+  // Handle various invalid input cases
+  if (value === null || value === undefined) return defaultValue;
+
+  // Try to convert to number
+  const num = Number(value);
+
+  // Check if it's a valid number
+  if (isNaN(num) || !isFinite(num)) return defaultValue;
+
+  return num;
 };
 
 export const formatPercentage = (value: unknown, decimals = 2): string => {
-    const num = validateNumber(value, 0);
-    return `${(num * 100).toFixed(decimals)}%`;
+  const num = validateNumber(value, 0);
+  return `${(num * 100).toFixed(decimals)}%`;
 };
 
 export const clamp = (value: number, min: number, max: number): number => {
-    // Ensure value is a number first
-    const validValue = validateNumber(value, min);
-    return Math.min(Math.max(validValue, min), max);
+  // Ensure value is a number first
+  const validValue = validateNumber(value, min);
+  return Math.min(Math.max(validValue, min), max);
 };
 
 // String Utilities
@@ -47,13 +47,13 @@ export function capitalizeFirstLetter(str: string): string {
  */
 export function formatToTitleCase(str: string): string {
   if (!str) return '';
-  
+
   // Replace underscores and hyphens with spaces
   const spacedStr = str.replace(/[_-]/g, ' ');
-  
+
   // Handle camelCase by adding spaces before capital letters
   const withSpaces = spacedStr.replace(/([A-Z])/g, ' $1');
-  
+
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
     .split(' ')
@@ -98,4 +98,4 @@ export function slugify(str: string): string {
     .replace(/--+/g, '-')
     .replace(/^-+/, '')
     .replace(/-+$/, '');
-} 
+}

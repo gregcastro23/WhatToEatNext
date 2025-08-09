@@ -19,23 +19,23 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
-  Air: 0.25
+  Air: 0.25,
 };
 
 /**
  * Validation thresholds for elemental properties
  */
 export const VALIDATION_THRESHOLDS = {
-  MINIMUM_ELEMENT: 0,  // Minimum allowed value for any element
-  MAXIMUM_ELEMENT: 1,  // Maximum allowed value for any element
-  BALANCE_PRECISION: 0.01  // Tolerance for sum of elements to be considered valid (1 ± this value)
+  MINIMUM_ELEMENT: 0, // Minimum allowed value for any element
+  MAXIMUM_ELEMENT: 1, // Maximum allowed value for any element
+  BALANCE_PRECISION: 0.01, // Tolerance for sum of elements to be considered valid (1 ± this value)
 };
 
 export const ELEMENT_AFFINITIES: Record<Element, Element[]> = {
   Fire: ['Air'],
   Water: ['Earth'],
   Air: ['Fire'],
-  Earth: ['Water']
+  Earth: ['Water'],
 };
 
 export const ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
@@ -50,7 +50,7 @@ export const ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
   aquarius: 'Air',
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water'
+  pisces: 'Water',
 } as const;
 
 export const MINIMUM_THRESHOLD = 0.2;
@@ -61,70 +61,70 @@ export const DECANS = {
   aries: [
     { ruler: 'Mars', element: 'Fire', degree: 0 },
     { ruler: 'Sun', element: 'Fire', degree: 10 },
-    { ruler: 'Jupiter', element: 'Fire', degree: 20 }
+    { ruler: 'Jupiter', element: 'Fire', degree: 20 },
   ],
   taurus: [
     { ruler: 'Venus', element: 'Earth', degree: 0 },
     { ruler: 'Mercury', element: 'Earth', degree: 10 },
-    { ruler: 'Saturn', element: 'Earth', degree: 20 }
+    { ruler: 'Saturn', element: 'Earth', degree: 20 },
   ],
   gemini: [
     { ruler: 'Mercury', element: 'Air', degree: 0 },
     { ruler: 'Venus', element: 'Air', degree: 10 },
-    { ruler: 'Uranus', element: 'Air', degree: 20 }
+    { ruler: 'Uranus', element: 'Air', degree: 20 },
   ],
   cancer: [
     { ruler: 'Moon', element: 'Water', degree: 0 },
     { ruler: 'Pluto', element: 'Water', degree: 10 },
-    { ruler: 'Neptune', element: 'Water', degree: 20 }
+    { ruler: 'Neptune', element: 'Water', degree: 20 },
   ],
   leo: [
     { ruler: 'Sun', element: 'Fire', degree: 0 },
     { ruler: 'Jupiter', element: 'Fire', degree: 10 },
-    { ruler: 'Mars', element: 'Fire', degree: 20 }
+    { ruler: 'Mars', element: 'Fire', degree: 20 },
   ],
   virgo: [
     { ruler: 'Mercury', element: 'Earth', degree: 0 },
     { ruler: 'Saturn', element: 'Earth', degree: 10 },
-    { ruler: 'Venus', element: 'Earth', degree: 20 }
+    { ruler: 'Venus', element: 'Earth', degree: 20 },
   ],
   libra: [
     { ruler: 'Venus', element: 'Air', degree: 0 },
     { ruler: 'Uranus', element: 'Air', degree: 10 },
-    { ruler: 'Mercury', element: 'Air', degree: 20 }
+    { ruler: 'Mercury', element: 'Air', degree: 20 },
   ],
   scorpio: [
     { ruler: 'Pluto', element: 'Water', degree: 0 },
     { ruler: 'Neptune', element: 'Water', degree: 10 },
-    { ruler: 'Moon', element: 'Water', degree: 20 }
+    { ruler: 'Moon', element: 'Water', degree: 20 },
   ],
   sagittarius: [
     { ruler: 'Jupiter', element: 'Fire', degree: 0 },
     { ruler: 'Mars', element: 'Fire', degree: 10 },
-    { ruler: 'Sun', element: 'Fire', degree: 20 }
+    { ruler: 'Sun', element: 'Fire', degree: 20 },
   ],
   capricorn: [
     { ruler: 'Saturn', element: 'Earth', degree: 0 },
     { ruler: 'Venus', element: 'Earth', degree: 10 },
-    { ruler: 'Mercury', element: 'Earth', degree: 20 }
+    { ruler: 'Mercury', element: 'Earth', degree: 20 },
   ],
   aquarius: [
     { ruler: 'Uranus', element: 'Air', degree: 0 },
     { ruler: 'Mercury', element: 'Air', degree: 10 },
-    { ruler: 'Venus', element: 'Air', degree: 20 }
+    { ruler: 'Venus', element: 'Air', degree: 20 },
   ],
   pisces: [
     { ruler: 'Neptune', element: 'Water', degree: 0 },
     { ruler: 'Moon', element: 'Water', degree: 10 },
-    { ruler: 'Pluto', element: 'Water', degree: 20 }
-  ]
+    { ruler: 'Pluto', element: 'Water', degree: 20 },
+  ],
 };
 
 export const ELEMENTAL_WEIGHTS = {
   Fire: 1,
   Water: 1,
   Earth: 1,
-  Air: 1
+  Air: 1,
 };
 
 /**
@@ -145,7 +145,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     timeOfDay: ['Noon', 'Early afternoon'],
     tastes: ['spicy', 'bitter'],
     cuisine: ['mexican', 'thai', 'cajun', 'szechuan', 'indian'],
-    effects: ['stimulating', 'energizing', 'warming']
+    effects: ['stimulating', 'energizing', 'warming'],
   },
   Water: {
     qualities: ['Cool', 'Moist', 'Flowing', 'Adaptable', 'Receptive'],
@@ -161,7 +161,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     timeOfDay: ['Evening', 'Night', 'Twilight'],
     tastes: ['sweet', 'bland'],
     cuisine: ['japanese', 'cantonese', 'scandinavian', 'oceanic'],
-    effects: ['cooling', 'calming', 'hydrating']
+    effects: ['cooling', 'calming', 'hydrating'],
   },
   Earth: {
     qualities: ['Cool', 'Dry', 'Stable', 'Solid', 'Grounding'],
@@ -177,13 +177,19 @@ export const ELEMENTAL_CHARACTERISTICS = {
     timeOfDay: ['Late afternoon', 'Early evening'],
     tastes: ['salty', 'umami'],
     cuisine: ['french', 'german', 'russian', 'mediterranean'],
-    effects: ['grounding', 'stabilizing', 'nourishing']
+    effects: ['grounding', 'stabilizing', 'nourishing'],
   },
   Air: {
     qualities: ['Warm', 'Moist', 'Mobile', 'Light', 'Communicative'],
     keywords: ['Intellectual', 'Communication', 'Social', 'Movement', 'Connection'],
     foods: ['Light', 'Raw', 'Fresh', 'Salads', 'Sprouts', 'Herbs'],
-    cookingTechniques: ['Quick steaming', 'Flash cooking', 'Raw preparations', 'Infusing', 'Whipping'],
+    cookingTechniques: [
+      'Quick steaming',
+      'Flash cooking',
+      'Raw preparations',
+      'Infusing',
+      'Whipping',
+    ],
     flavorProfiles: ['Light', 'Aromatic', 'Herbaceous', 'Bright', 'Fresh'],
     seasonalAssociations: ['Spring', 'Dawn'],
     healthBenefits: ['Mental clarity', 'Respiratory support', 'Digestive lightness'],
@@ -193,6 +199,6 @@ export const ELEMENTAL_CHARACTERISTICS = {
     timeOfDay: ['Morning', 'Sunrise'],
     tastes: ['sour', 'tangy', 'astringent'],
     cuisine: ['vietnamese', 'greek', 'levantine', 'persian'],
-    effects: ['lightening', 'clarifying', 'refreshing']
-  }
+    effects: ['lightening', 'clarifying', 'refreshing'],
+  },
 };

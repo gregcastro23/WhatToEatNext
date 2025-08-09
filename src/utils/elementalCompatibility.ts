@@ -21,54 +21,40 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = getCurrentElementalState()
+  userElemental: ElementalProperties = getCurrentElementalState(),
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
   const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });
-  
+
   // Calculate simple similarity score
   const similarity = recipeElementalService.calculateSimilarity(
     recipe.elementalProperties,
-    user.elementalProperties
+    user.elementalProperties,
   );
-  
+
   // Find dominant elements
   const recipeDominant = getDominantElement(recipe.elementalProperties);
   const userDominant = getDominantElement(user.elementalProperties);
-  
+
   // Calculate complementary score - check if dominant elements complement each other
-  const complementaryScore = calculateComplementaryScore(
-    recipeDominant,
-    userDominant
-  );
-  
+  const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
+
   // Calculate balance score - how well the recipe balances user's elemental profile
-  const balanceScore = calculateBalanceScore(
-    recipe.elementalProperties,
-    user.elementalProperties
-  );
-  
+  const balanceScore = calculateBalanceScore(recipe.elementalProperties, user.elementalProperties);
+
   // Calculate overall compatibility (weighted average)
-  const compatibility = (
-    similarity * 0.4 +
-    complementaryScore * 0.3 +
-    balanceScore * 0.3
-  );
-  
+  const compatibility = similarity * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
+
   return {
     compatibility: Math.min(1, Math.max(0, compatibility)),
     dominantPair: {
       recipe: recipeDominant,
-      user: userDominant
+      user: userDominant,
     },
     complementaryScore,
     balanceScore,
-    recommendation: generateRecommendation(
-      compatibility,
-      recipeDominant,
-      userDominant
-    )
+    recommendation: generateRecommendation(compatibility, recipeDominant, userDominant),
   };
 }
 
@@ -76,8 +62,7 @@ export async function calculateElementalCompatibility(
  * Get the dominant element from elemental properties
  */
 function getDominantElement(props: ElementalProperties): keyof ElementalProperties {
-  return Object.entries(props)
-    .sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
+  return Object.entries(props).sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
 }
 
 /**
@@ -86,7 +71,7 @@ function getDominantElement(props: ElementalProperties): keyof ElementalProperti
  */
 function calculateComplementaryScore(
   element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties
+  element2: keyof ElementalProperties,
 ): number {
   // All elements work together in various ways
   if (element1 === element2) {
@@ -103,25 +88,27 @@ function calculateComplementaryScore(
  */
 function calculateBalanceScore(
   recipeProps: ElementalProperties,
-  userProps: ElementalProperties
+  userProps: ElementalProperties,
 ): number {
   // Find user's weakest element
-  const userWeakest = Object.entries(userProps)
-    .sort(([, a], [, b]) => a - b)[0][0] as keyof ElementalProperties;
-  
+  const userWeakest = Object.entries(userProps).sort(
+    ([, a], [, b]) => a - b,
+  )[0][0] as keyof ElementalProperties;
+
   // Find user's strongest element
-  const userStrongest = Object.entries(userProps)
-    .sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
-  
+  const userStrongest = Object.entries(userProps).sort(
+    ([, a], [, b]) => b - a,
+  )[0][0] as keyof ElementalProperties;
+
   // Check if recipe strengthens user's weakest element
   const weakestScore = recipeProps[userWeakest] * 2; // Higher is better
-  
+
   // Check if recipe moderates user's strongest element
   const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
   const strongestScore = 1 - strongestDifference; // Lower difference is better
-  
+
   // Combined balance score
-  return (weakestScore * 0.6) + (strongestScore * 0.4);
+  return weakestScore * 0.6 + strongestScore * 0.4;
 }
 
 /**
@@ -130,7 +117,7 @@ function calculateBalanceScore(
 function generateRecommendation(
   score: number,
   recipeDominant: keyof ElementalProperties,
-  userDominant: keyof ElementalProperties
+  userDominant: keyof ElementalProperties,
 ): string {
   if (score <= 0.4) {
     return `This recipe's ${recipeDominant} energy contrasts with your ${userDominant} energy. This contrasts with your natural balance and might feel disharmonious.`;
@@ -141,4 +128,4 @@ function generateRecommendation(
   } else {
     return `Moderate match. This recipe will provide a different but balanced energy to your ${userDominant} dominant profile.`;
   }
-} 
+}

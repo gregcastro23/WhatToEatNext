@@ -1,10 +1,13 @@
 # Contributing to WhatToEatNext
 
-Thank you for your interest in contributing to WhatToEatNext! This document provides guidelines and instructions for contributing to the project.
+Thank you for your interest in contributing to WhatToEatNext! This document
+provides guidelines and instructions for contributing to the project.
 
 ## Core Principles
 
-Before contributing, please familiarize yourself with our [Elemental Principles](docs/elemental-principles.md), which are fundamental to our project philosophy:
+Before contributing, please familiarize yourself with our
+[Elemental Principles](docs/elemental-principles.md), which are fundamental to
+our project philosophy:
 
 1. All elements (Fire, Water, Earth, Air) are individually valuable
 2. Elements don't oppose each other
@@ -75,6 +78,8 @@ These principles must be reflected in all code contributions.
 
 ## Questions?
 
-If you have questions about contributing, please open an issue labeled "question" and we'll get back to you promptly.
+If you have questions about contributing, please open an issue labeled
+"question" and we'll get back to you promptly.
 
-Thank you for contributing to WhatToEatNext and helping create a more harmonious alchemical system for food recommendations! 
+Thank you for contributing to WhatToEatNext and helping create a more harmonious
+alchemical system for food recommendations!

@@ -1,12 +1,10 @@
 import { IngredientMapping } from '@/data/ingredients/types';
-import {
-    ElementalProperties
-} from '@/types/alchemy';
+import { ElementalProperties } from '@/types/alchemy';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
-  properties: Partial<IngredientMapping>
+  properties: Partial<IngredientMapping>,
 ): IngredientMapping {
   return {
     name: id, // Add the required name property
@@ -14,9 +12,9 @@ function createIngredientMapping(
       Earth: 0.25,
       Water: 0.25,
       Fire: 0.25,
-      Air: 0.25
+      Air: 0.25,
     },
-    ...properties
+    ...properties,
   } as IngredientMapping;
 }
 
@@ -27,7 +25,7 @@ export const ingredientMappings = {
       Fire: 0.7,
       Earth: 0.2,
       Air: 0.1,
-      Water: 0
+      Water: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'],
@@ -37,11 +35,11 @@ export const ingredientMappings = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
           second: { element: 'Air', planet: 'Sun' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
+          third: { element: 'Earth', planet: 'Saturn' },
+        },
+      },
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   garlic: createIngredientMapping('garlic', {
@@ -49,7 +47,7 @@ export const ingredientMappings = {
       Fire: 0.6,
       Earth: 0.3,
       Air: 0.1,
-      Water: 0
+      Water: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'],
@@ -59,11 +57,11 @@ export const ingredientMappings = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
           second: { element: 'Earth', planet: 'Pluto' },
-          third: { element: 'Air', planet: 'Uranus' }
-        }
-      }
+          third: { element: 'Air', planet: 'Uranus' },
+        },
+      },
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   // Spices
@@ -72,14 +70,14 @@ export const ingredientMappings = {
       Fire: 0.8,
       Air: 0.2,
       Earth: 0,
-      Water: 0
+      Water: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'], // Convert to lowercase
-      elementalAffinity: 'Fire'
+      elementalAffinity: 'Fire',
     },
-    season: ['fall', 'winter']
+    season: ['fall', 'winter'],
   }),
 
   cardamom: createIngredientMapping('cardamom', {
@@ -87,24 +85,25 @@ export const ingredientMappings = {
       Air: 0.6,
       Fire: 0.3,
       Earth: 0.1,
-      Water: 0
+      Water: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra'], // Convert to lowercase
-      elementalAffinity: 'Air'
+      elementalAffinity: 'Air',
     },
-    season: ['fall', 'winter']
+    season: ['fall', 'winter'],
   }),
 
-  clove: createIngredientMapping('clove', { // Add name
+  clove: createIngredientMapping('clove', {
+    // Add name
     elementalProperties: {
       Fire: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Water: 0
+      Water: 0,
     },
-    season: ['fall', 'winter']
+    season: ['fall', 'winter'],
   }),
 
   // Cooling Ingredients
@@ -113,24 +112,25 @@ export const ingredientMappings = {
       Water: 0.6,
       Air: 0.4,
       Fire: 0,
-      Earth: 0
+      Earth: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'pisces'], // Convert to lowercase
-      elementalAffinity: 'Water'
+      elementalAffinity: 'Water',
     },
-    season: ['spring', 'summer']
+    season: ['spring', 'summer'],
   }),
 
-  cucumber: createIngredientMapping('cucumber', { // Add name
+  cucumber: createIngredientMapping('cucumber', {
+    // Add name
     elementalProperties: {
       Water: 0.8,
       Air: 0.2,
       Fire: 0,
-      Earth: 0
+      Earth: 0,
     },
-    season: ['summer']
+    season: ['summer'],
   }),
 
   // Earthy Ingredients
@@ -139,35 +139,37 @@ export const ingredientMappings = {
       Earth: 0.7,
       Water: 0.3,
       Fire: 0,
-      Air: 0
+      Air: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Pluto'],
       favorableZodiac: ['capricorn', 'scorpio'], // Convert to lowercase
-      elementalAffinity: 'Earth'
+      elementalAffinity: 'Earth',
     },
-    season: ['fall', 'spring']
+    season: ['fall', 'spring'],
   }),
 
-  seaweed: createIngredientMapping('seaweed', { // Add name
+  seaweed: createIngredientMapping('seaweed', {
+    // Add name
     elementalProperties: {
       Water: 0.6,
       Earth: 0.4,
       Fire: 0,
-      Air: 0
+      Air: 0,
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   // Proteins
-  fish: createIngredientMapping('fish', { // Add name
+  fish: createIngredientMapping('fish', {
+    // Add name
     elementalProperties: {
       Water: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Fire: 0
+      Fire: 0,
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   beef: createIngredientMapping('beef', {
@@ -175,14 +177,14 @@ export const ingredientMappings = {
       Earth: 0.5,
       Fire: 0.5,
       Water: 0,
-      Air: 0
+      Air: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Saturn'],
       favorableZodiac: ['capricorn', 'taurus'], // Convert to lowercase
-      elementalAffinity: 'Earth'
+      elementalAffinity: 'Earth',
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   chicken: createIngredientMapping('chicken', {
@@ -190,14 +192,14 @@ export const ingredientMappings = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.3,
-      Water: 0
+      Water: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['virgo', 'taurus'], // Convert to lowercase
-      elementalAffinity: 'Air'
+      elementalAffinity: 'Air',
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   // Dairy
@@ -206,9 +208,9 @@ export const ingredientMappings = {
       Water: 0.5,
       Earth: 0.5,
       Fire: 0,
-      Air: 0
+      Air: 0,
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   // Vegetables
@@ -217,9 +219,9 @@ export const ingredientMappings = {
       Earth: 0.4,
       Air: 0.4,
       Water: 0.2,
-      Fire: 0
+      Fire: 0,
     },
-    season: ['spring', 'fall']
+    season: ['spring', 'fall'],
   }),
 
   turmeric: createIngredientMapping('turmeric', {
@@ -227,9 +229,9 @@ export const ingredientMappings = {
       Fire: 0.6,
       Earth: 0.4,
       Water: 0,
-      Air: 0
+      Air: 0,
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   chili: createIngredientMapping('chili', {
@@ -237,9 +239,9 @@ export const ingredientMappings = {
       Fire: 0.9,
       Air: 0.1,
       Water: 0,
-      Earth: 0
+      Earth: 0,
     },
-    season: ['summer', 'fall']
+    season: ['summer', 'fall'],
   }),
 
   basil: createIngredientMapping('basil', {
@@ -247,9 +249,9 @@ export const ingredientMappings = {
       Air: 0.5,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0
+      Water: 0,
     },
-    season: ['summer']
+    season: ['summer'],
   }),
 
   sage: createIngredientMapping('sage', {
@@ -257,9 +259,9 @@ export const ingredientMappings = {
       Air: 0.4,
       Earth: 0.4,
       Fire: 0.2,
-      Water: 0
+      Water: 0,
     },
-    season: ['autumn', 'winter']
+    season: ['autumn', 'winter'],
   }),
 
   rosemary: createIngredientMapping('rosemary', {
@@ -267,9 +269,9 @@ export const ingredientMappings = {
       Fire: 0.4,
       Air: 0.3,
       Earth: 0.3,
-      Water: 0
+      Water: 0,
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   thyme: createIngredientMapping('thyme', {
@@ -277,9 +279,9 @@ export const ingredientMappings = {
       Air: 0.5,
       Earth: 0.3,
       Fire: 0.2,
-      Water: 0
+      Water: 0,
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   // Grains
@@ -288,23 +290,23 @@ export const ingredientMappings = {
       Earth: 0.6,
       Water: 0.3,
       Air: 0.1,
-      Fire: 0
+      Fire: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
       favorableZodiac: ['cancer', 'virgo'], // Changed to lowercase
-      elementalAffinity: 'Earth'
+      elementalAffinity: 'Earth',
     },
-    season: ['all']
+    season: ['all'],
   }),
 
   // Fruits
-  'apple': createIngredientMapping('apple', {
+  apple: createIngredientMapping('apple', {
     elementalProperties: {
       Earth: 0.5,
       Water: 0.3,
       Air: 0.2,
-      Fire: 0
+      Fire: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
@@ -314,19 +316,19 @@ export const ingredientMappings = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Venus' },
           second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
+      },
     },
-    season: ['fall']
+    season: ['fall'],
   }),
 
-  'banana': createIngredientMapping('banana', {
+  banana: createIngredientMapping('banana', {
     elementalProperties: {
       Earth: 0.4,
       Water: 0.3,
       Fire: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
@@ -336,20 +338,20 @@ export const ingredientMappings = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Venus' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Fire', planet: 'Sun' }
-        }
-      }
+          third: { element: 'Fire', planet: 'Sun' },
+        },
+      },
     },
-    season: ['year-round']
+    season: ['year-round'],
   }),
 
   // Example ingredient with lunar phase modifiers
-  'brown_rice': createIngredientMapping('brown_rice', {
+  brown_rice: createIngredientMapping('brown_rice', {
     elementalProperties: {
       Earth: 0.5,
       Water: 0.3,
       Air: 0.2,
-      Fire: 0 // Add missing required property
+      Fire: 0, // Add missing required property
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
@@ -359,22 +361,22 @@ export const ingredientMappings = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for soaking and sprouting']
+          preparationTips: ['Best for soaking and sprouting'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for creamy rice dishes']
-        }
-      }
+          preparationTips: ['Ideal for creamy rice dishes'],
+        },
+      },
     },
-    season: ['all']
-  })
+    season: ['all'],
+  }),
 } as const;
 
 // Helper function to get ingredients by dominant element
@@ -382,9 +384,7 @@ export const getIngredientsByElement = (element: keyof ElementalProperties) => {
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
-      const dominantElement = elements.reduce((max, curr) =>
-        curr[1] > max[1] ? curr : max
-      );
+      const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max));
       return dominantElement[0] === element;
     })
     .map(([name]) => name);
@@ -399,14 +399,16 @@ export const getSeasonalIngredients = (season: string) => {
 
 // Helper function to get complementary ingredients
 export const getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {
-  const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties)
-    .reduce((max, curr) => curr[1] > max[1] ? curr : max)[0];
+  const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties).reduce(
+    (max, curr) => (curr[1] > max[1] ? curr : max),
+  )[0];
 
   return Object.entries(ingredientMappings)
     .filter(([name, mapping]) => {
       if (name === ingredient) return false;
-      const complementaryElement = Object.entries(mapping.elementalProperties)
-        .reduce((max, curr) => curr[1] > max[1] ? curr : max)[0];
+      const complementaryElement = Object.entries(mapping.elementalProperties).reduce(
+        (max, curr) => (curr[1] > max[1] ? curr : max),
+      )[0];
       return isComplementaryElement(baseElement, complementaryElement);
     })
     .map(([name]) => name);
@@ -416,11 +418,12 @@ export const getComplementaryIngredients = (ingredient: keyof typeof ingredientM
 const _isComplementaryElement = (element1: string, element2: string): boolean => {
   const complementaryPairs = [
     ['Fire', 'Air'],
-    ['Water', 'Earth']
+    ['Water', 'Earth'],
   ];
 
-  return complementaryPairs.some(pair =>
-    (pair[0] === element1 && pair[1] === element2) ||
-    (pair[1] === element1 && pair[0] === element2)
+  return complementaryPairs.some(
+    pair =>
+      (pair[0] === element1 && pair[1] === element2) ||
+      (pair[1] === element1 && pair[0] === element2),
   );
 };

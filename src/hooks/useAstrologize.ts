@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { AstrologicalService } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 
-
 interface AstrologizeOptions {
   useCurrentTime?: boolean;
   useCurrentLocation?: boolean;
@@ -34,7 +33,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
   const [error, setError] = useState<Error | null>(null);
   const [data, setData] = useState<any>(null);
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
-  
+
   // Default options
   const {
     useCurrentTime = true,
@@ -46,9 +45,9 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
     minute,
     latitude,
     longitude,
-    zodiacSystem = 'tropical'
+    zodiacSystem = 'tropical',
   } = options;
-  
+
   // Get current location if needed
   useEffect(() => {
     if (useCurrentLocation && !location) {
@@ -58,7 +57,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
           if (coords) {
             setLocation({
               latitude: coords.latitude,
-              longitude: coords.longitude
+              longitude: coords.longitude,
             });
           }
         } catch (locationError) {
@@ -67,25 +66,25 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
           setLocation(null);
         }
       };
-      
+
       getLocation();
     } else if (!useCurrentLocation) {
       // Use provided coordinates or null
       setLocation(latitude && longitude ? { latitude, longitude } : null);
     }
   }, [useCurrentLocation, latitude, longitude, location]);
-  
+
   // Fetch data from the API
   const fetchData = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       // Determine if we're using current time or custom time
       let url = '/api/astrologize';
       let method = 'GET';
       let body: string | undefined = undefined;
-      
+
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
         method = 'POST';
@@ -96,7 +95,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
           hour,
           minute,
           zodiacSystem,
-          ...(location && { latitude: location.latitude, longitude: location.longitude })
+          ...(location && { latitude: location.latitude, longitude: location.longitude }),
         });
       } else {
         // Use GET with query params for current time
@@ -106,29 +105,34 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
           params.append('longitude', location.longitude.toString());
         }
         params.append('zodiacSystem', zodiacSystem);
-        
+
         if (params.toString()) {
           url = `/api/astrologize?${params.toString()}`;
         }
       }
-      
-      log.info(`🌟 Making ${method} request to astrologize API:`, { url, body: body ? JSON.parse(body) : 'GET params' });
-      
+
+      log.info(`🌟 Making ${method} request to astrologize API:`, {
+        url,
+        body: body ? JSON.parse(body) : 'GET params',
+      });
+
       // Make the API request
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body
+        body,
       });
-      
+
       if (!response.ok) {
         throw new Error(`API request failed: ${response.status} ${response.statusText}`);
       }
-      
+
       const result = await response.json();
-      log.info('✅ Astrologize API response received:', { dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format' });
+      log.info('✅ Astrologize API response received:', {
+        dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format',
+      });
       setData(result);
     } catch (fetchError) {
       console.error('Error fetching from Astrologize API:', fetchError);
@@ -137,29 +141,19 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
       setLoading(false);
     }
   };
-  
+
   // Fetch data when dependencies change
   useEffect(() => {
     if ((useCurrentLocation && location) || !useCurrentLocation) {
       void fetchData();
     }
-  }, [
-    useCurrentTime, 
-    useCurrentLocation, 
-    year, 
-    month, 
-    date, 
-    hour, 
-    minute, 
-    location,
-    zodiacSystem
-  ]);
-  
+  }, [useCurrentTime, useCurrentLocation, year, month, date, hour, minute, location, zodiacSystem]);
+
   // Return the result
   return {
     loading,
     error,
     data,
-    refetch: fetchData
+    refetch: fetchData,
   };
-} 
+}

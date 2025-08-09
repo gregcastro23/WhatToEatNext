@@ -19,11 +19,6 @@
     "types": ["@testing-library/jest-dom"],
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*",
-    ".next",
-    "tailwind.config.mjs"
-  ],
+  "exclude": ["node_modules", "**/node_modules/*", ".next", "tailwind.config.mjs"],
   "include": ["src/**/*"]
 }

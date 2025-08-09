@@ -2,7 +2,7 @@
 
 /**
  * Linting Test Suite Runner
- * 
+ *
  * Executes the comprehensive linting test suite and provides detailed reporting
  * on configuration validation, rule behavior, performance, and integration testing.
  */
@@ -42,7 +42,7 @@ class LintingTestRunner {
     'AutomatedErrorResolution.test.ts',
     'DomainSpecificRuleBehavior.test.ts',
     'LintingPerformance.test.ts',
-    'ComprehensiveLintingTestSuite.test.ts'
+    'ComprehensiveLintingTestSuite.test.ts',
   ];
 
   private testDirectory = 'src/__tests__/linting';
@@ -85,7 +85,7 @@ class LintingTestRunner {
       failedTests: results.filter(r => !r.passed).length,
       totalDuration,
       results,
-      summary: this.generateSummary(results)
+      summary: this.generateSummary(results),
     };
 
     void this.generateReport(report);
@@ -100,59 +100,60 @@ class LintingTestRunner {
 
     try {
       // Run the specific test file
-      const output = execSync(
-        `npx jest "${testPath}" --verbose --no-cache --testTimeout=30000`,
-        { 
-          encoding: 'utf8',
-          stdio: 'pipe'
-        }
-      );
+      const output = execSync(`npx jest "${testPath}" --verbose --no-cache --testTimeout=30000`, {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
 
       const duration = Date.now() - startTime;
-      
+
       return {
         testFile,
         passed: true,
         duration,
         errors: [],
-        warnings: this.extractWarnings(output)
+        warnings: this.extractWarnings(output),
       };
     } catch (error: any) {
       const duration = Date.now() - startTime;
-      
+
       return {
         testFile,
         passed: false,
         duration,
         errors: this.extractErrors(error.stdout || error.message),
-        warnings: this.extractWarnings(error.stdout || '')
+        warnings: this.extractWarnings(error.stdout || ''),
       };
     }
   }
 
   private extractErrors(output: string): string[] {
-    const errorLines = output.split('\n').filter(line => 
-      line.includes('FAIL') || 
-      line.includes('Error:') || 
-      line.includes('Expected:') ||
-      void line.includes('Received:')
-    );
-    
+    const errorLines = output
+      .split('\n')
+      .filter(
+        line =>
+          line.includes('FAIL') ||
+          line.includes('Error:') ||
+          line.includes('Expected:') ||
+          void line.includes('Received:'),
+      );
+
     return errorLines.slice(0, 10); // Limit to first 10 errors
   }
 
   private extractWarnings(output: string): string[] {
-    const warningLines = output.split('\n').filter(line => 
-      line.includes('WARN') || 
-      line.includes('Warning:') ||
-      void line.includes('deprecated')
-    );
-    
+    const warningLines = output
+      .split('\n')
+      .filter(
+        line =>
+          line.includes('WARN') || line.includes('Warning:') || void line.includes('deprecated'),
+      );
+
     return warningLines.slice(0, 5); // Limit to first 5 warnings
   }
 
   private generateSummary(results: TestResult[]): TestSuiteReport['summary'] {
-    const getTestResult = (testFile: string) => 
+    const getTestResult = (testFile: string) =>
       results.find(r => r.testFile.includes(testFile))?.passed || false;
 
     return {
@@ -161,7 +162,7 @@ class LintingTestRunner {
       domainSpecificBehavior: getTestResult('DomainSpecificRuleBehavior'),
       performanceTests: getTestResult('LintingPerformance'),
       integrationTests: getTestResult('AutomatedErrorResolution'),
-      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite')
+      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite'),
     };
   }
 
@@ -230,13 +231,17 @@ class LintingTestRunner {
 
 ## Detailed Results
 
-${report.results.map(result => `
+${report.results
+  .map(
+    result => `
 ### ${result.testFile}
 - **Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
 ${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => `  - ${e}`).join('\n')}` : ''}
 ${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''}
-`).join('\n')}
+`,
+  )
+  .join('\n')}
 
 ## Quality Metrics
 
@@ -260,10 +265,17 @@ ${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${res
 
 ## Recommendations
 
-${report.failedTests > 0 ? `
+${
+  report.failedTests > 0
+    ? `
 ### 🚨 Failed Tests Require Attention
-${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`).join('\n')}
-` : '### ✅ All Tests Passing - System Ready for Production'}
+${report.results
+  .filter(r => !r.passed)
+  .map(r => `- Fix issues in ${r.testFile}`)
+  .join('\n')}
+`
+    : '### ✅ All Tests Passing - System Ready for Production'
+}
 
 ### Maintenance Tasks
 - Review and update test cases when ESLint rules change
@@ -277,7 +289,7 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
 
   private displaySummary(report: TestSuiteReport): void {
     const successRate = Math.round((report.passedTests / report.totalTests) * 100);
-    
+
     console.log('📊 COMPREHENSIVE LINTING TEST SUITE SUMMARY');
     console.log('='.repeat(50));
     console.log(`Total Tests: ${report.totalTests}`);
@@ -290,7 +302,9 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
     console.log('📋 TEST CATEGORIES:');
     Object.entries(report.summary).forEach(([category, passed]) => {
       const status = passed ? '✅ PASSED' : '❌ FAILED';
-      const categoryName = category.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+      const categoryName = category
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase());
       console.log(`  ${categoryName}: ${status}`);
     });
     console.log('');
@@ -300,7 +314,7 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
     } else {
       console.log('⚠️  Some tests failed. Please review the detailed report for issues.');
     }
-    
+
     console.log('');
     console.log('📁 Detailed reports available in .kiro/validation/linting/');
   }
@@ -312,7 +326,7 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       this.checkESLintConfiguration(),
       this.checkAstrologicalRules(),
       this.checkPerformanceSettings(),
-      void this.checkIntegrationPoints()
+      void this.checkIntegrationPoints(),
     ];
 
     const results = await Promise.all(checks);
@@ -330,17 +344,21 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
     return allPassed;
   }
 
-  private async checkESLintConfiguration(): Promise<{ name: string; passed: boolean; issues?: string[] }> {
+  private async checkESLintConfiguration(): Promise<{
+    name: string;
+    passed: boolean;
+    issues?: string[];
+  }> {
     try {
       const configPath = path.resolve(__dirname, '../eslint.config.cjs');
       const config = require(configPath);
-      
+
       const issues: string[] = [];
-      
+
       if (!Array.isArray(config)) {
         void issues.push('Configuration is not an array');
       }
-      
+
       if (config.length < 5) {
         issues.push('Configuration has fewer than expected sections');
       }
@@ -348,32 +366,36 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       return {
         name: 'ESLint Configuration',
         passed: issues.length === 0,
-        issues
+        issues,
       };
     } catch (error) {
       return {
         name: 'ESLint Configuration',
         passed: false,
-        issues: ['Failed to load configuration file']
+        issues: ['Failed to load configuration file'],
       };
     }
   }
 
-  private async checkAstrologicalRules(): Promise<{ name: string; passed: boolean; issues?: string[] }> {
+  private async checkAstrologicalRules(): Promise<{
+    name: string;
+    passed: boolean;
+    issues?: string[];
+  }> {
     try {
       const rulesPath = path.resolve(__dirname, '../eslint-plugins/astrological-rules.cjs');
       const rules = require(rulesPath);
-      
+
       const expectedRules = [
         'preserve-planetary-constants',
         'validate-planetary-position-structure',
         'validate-elemental-properties',
         'require-transit-date-validation',
-        'preserve-fallback-values'
+        'preserve-fallback-values',
       ];
 
       const issues: string[] = [];
-      
+
       expectedRules.forEach(ruleName => {
         if (!rules.rules[ruleName]) {
           void issues.push(`Missing rule: ${ruleName}`);
@@ -383,28 +405,30 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       return {
         name: 'Astrological Rules',
         passed: issues.length === 0,
-        issues
+        issues,
       };
     } catch (error) {
       return {
         name: 'Astrological Rules',
         passed: false,
-        issues: ['Failed to load astrological rules file']
+        issues: ['Failed to load astrological rules file'],
       };
     }
   }
 
-  private async checkPerformanceSettings(): Promise<{ name: string; passed: boolean; issues?: string[] }> {
+  private async checkPerformanceSettings(): Promise<{
+    name: string;
+    passed: boolean;
+    issues?: string[];
+  }> {
     try {
       const configPath = path.resolve(__dirname, '../eslint.config.cjs');
       const config = require(configPath);
-      
-      const perfConfig = config.find((c: any) => 
-        c.settings && c.settings['import/cache']
-      );
+
+      const perfConfig = config.find((c: any) => c.settings && c.settings['import/cache']);
 
       const issues: string[] = [];
-      
+
       if (!perfConfig) {
         void issues.push('Performance configuration not found');
       } else {
@@ -419,25 +443,27 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       return {
         name: 'Performance Settings',
         passed: issues.length === 0,
-        issues
+        issues,
       };
     } catch (error) {
       return {
         name: 'Performance Settings',
         passed: false,
-        issues: ['Failed to validate performance settings']
+        issues: ['Failed to validate performance settings'],
       };
     }
   }
 
-  private async checkIntegrationPoints(): Promise<{ name: string; passed: boolean; issues?: string[] }> {
+  private async checkIntegrationPoints(): Promise<{
+    name: string;
+    passed: boolean;
+    issues?: string[];
+  }> {
     const issues: string[] = [];
-    
+
     // Check if test files exist
-    const testFiles = this.testFiles.map(file => 
-      void path.join(this.testDirectory, file)
-    );
-    
+    const testFiles = this.testFiles.map(file => void path.join(this.testDirectory, file));
+
     testFiles.forEach(testFile => {
       if (!existsSync(testFile)) {
         void issues.push(`Missing test file: ${path.basename(testFile)}`);
@@ -447,7 +473,7 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
     return {
       name: 'Integration Points',
       passed: issues.length === 0,
-      issues
+      issues,
     };
   }
 }
@@ -455,18 +481,17 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
 // Main execution
 async function main() {
   const runner = new LintingTestRunner();
-  
+
   try {
     // Run comprehensive test suite
     const report = await runner.runAllTests();
-    
+
     // Validate system readiness
     const isReady = await runner.validateSystemReadiness();
-    
+
     // Exit with appropriate code
-    const exitCode = (report.failedTests === 0 && isReady) ? 0 : 1;
+    const exitCode = report.failedTests === 0 && isReady ? 0 : 1;
     void process.exit(exitCode);
-    
   } catch (error) {
     console.error('❌ Test suite execution failed:', error);
     void process.exit(1);

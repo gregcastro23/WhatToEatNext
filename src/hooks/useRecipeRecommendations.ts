@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 
-import { Element } from "@/types/alchemy";
+import { Element } from '@/types/alchemy';
 
 // Mock useAlchemical hook since the import is missing
 const useAlchemical = () => ({
   planetaryPositions: {},
-  isLoading: false
+  isLoading: false,
 });
 
 export interface Recipe {
@@ -15,7 +15,7 @@ export interface Recipe {
   ingredients: string[];
   cookingMethod: string;
   cuisine: string;
-  elementalProfile: { Fire: number; Water: number; Earth: number; Air: number; };
+  elementalProfile: { Fire: number; Water: number; Earth: number; Air: number };
   score?: number;
 }
 
@@ -30,17 +30,19 @@ export interface RecipeRecommendationsData {
   };
 }
 
-export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommendationsData['filters']>) {
+export function useRecipeRecommendations(
+  initialFilters?: Partial<RecipeRecommendationsData['filters']>,
+) {
   const { planetaryPositions, isLoading: astroLoading } = useAlchemical();
-  
+
   const [state, setState] = useState<RecipeRecommendationsData>({
     recipes: [],
     isLoading: true,
     error: null,
     filters: {
       maxResults: 10,
-      ...initialFilters
-    }
+      ...initialFilters,
+    },
   });
 
   const currentElementalProfile = useMemo(() => {
@@ -51,10 +53,18 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     const elementMap = {
-      aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
-      taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
-      gemini: 'Air', libra: 'Air', aquarius: 'Air',
-      cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+      aries: 'Fire',
+      leo: 'Fire',
+      sagittarius: 'Fire',
+      taurus: 'Earth',
+      virgo: 'Earth',
+      capricorn: 'Earth',
+      gemini: 'Air',
+      libra: 'Air',
+      aquarius: 'Air',
+      cancer: 'Water',
+      scorpio: 'Water',
+      pisces: 'Water',
     };
 
     Object.values(planetaryPositions || {}).forEach(position => {
@@ -68,8 +78,12 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
     });
 
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
-    
-    return { Fire: total > 0 ? elementCounts.Fire / total : 0.25, Water: total > 0 ? elementCounts.Water / total : 0.25, Earth: total > 0 ? elementCounts.Earth / total : 0.25, Air: total > 0 ? elementCounts.Air / total : 0.25
+
+    return {
+      Fire: total > 0 ? elementCounts.Fire / total : 0.25,
+      Water: total > 0 ? elementCounts.Water / total : 0.25,
+      Earth: total > 0 ? elementCounts.Earth / total : 0.25,
+      Air: total > 0 ? elementCounts.Air / total : 0.25,
     };
   }, [planetaryPositions]);
 
@@ -89,7 +103,7 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
             ingredients: ['salmon', 'herbs', 'lemon'],
             cookingMethod: 'grilling',
             cuisine: 'mediterranean',
-            elementalProfile: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 }
+            elementalProfile: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
           },
           {
             id: 'vegetable-soup',
@@ -98,7 +112,7 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
             ingredients: ['vegetables', 'broth', 'herbs'],
             cookingMethod: 'boiling',
             cuisine: 'comfort',
-            elementalProfile: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 }
+            elementalProfile: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
           },
           {
             id: 'roasted-root-vegetables',
@@ -107,25 +121,30 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
             ingredients: ['carrots', 'potatoes', 'herbs'],
             cookingMethod: 'roasting',
             cuisine: 'rustic',
-            elementalProfile: { Fire: 0.2, Water: 0.1, Earth: 0.6, Air: 0.1 }
-          }
+            elementalProfile: { Fire: 0.2, Water: 0.1, Earth: 0.6, Air: 0.1 },
+          },
         ];
 
         // Calculate compatibility scores
         const recipesWithScores = (sampleRecipes || []).map(recipe => {
-          const score = calculateElementalCompatibility(recipe.elementalProfile, currentElementalProfile);
+          const score = calculateElementalCompatibility(
+            recipe.elementalProfile,
+            currentElementalProfile,
+          );
           return { ...recipe, score };
         });
 
         // Apply filters
         let filteredRecipes = recipesWithScores;
-        
+
         if (state.filters.cuisine) {
           filteredRecipes = filteredRecipes.filter(r => r.cuisine === state.filters.cuisine);
         }
-        
+
         if (state.filters.cookingMethod) {
-          filteredRecipes = filteredRecipes.filter(r => r.cookingMethod === state.filters.cookingMethod);
+          filteredRecipes = filteredRecipes.filter(
+            r => r.cookingMethod === state.filters.cookingMethod,
+          );
         }
 
         // Sort by score and limit results
@@ -136,13 +155,13 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
         setState(prev => ({
           ...prev,
           recipes: filteredRecipes,
-          isLoading: false
+          isLoading: false,
         }));
       } catch (error) {
         setState(prev => ({
           ...prev,
           isLoading: false,
-          error: error instanceof Error ? error.message : 'Unknown error'
+          error: error instanceof Error ? error.message : 'Unknown error',
         }));
       }
     }
@@ -153,26 +172,27 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
   const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {
     setState(prev => ({
       ...prev,
-      filters: { ...prev.filters, ...newFilters }
+      filters: { ...prev.filters, ...newFilters },
     }));
   };
 
   return {
     ...state,
     updateFilters,
-    currentElementalProfile
+    currentElementalProfile,
   };
 }
 
 function calculateElementalCompatibility(
   recipeProfile: { Fire: number; Water: number; Earth: number; Air: number },
-  currentProfile: { Fire: number; Water: number; Earth: number; Air: number }
+  currentProfile: { Fire: number; Water: number; Earth: number; Air: number },
 ): number {
   // Simple compatibility calculation - can be enhanced
-  const diff = Math.abs(recipeProfile.Fire - currentProfile.Fire) +
-               Math.abs(recipeProfile.Water - currentProfile.Water) +
-               Math.abs(recipeProfile.Earth - currentProfile.Earth) +
-               Math.abs(recipeProfile.Air - currentProfile.Air);
-  
-  return Math.max(0, 1 - (diff / 2)); // Convert difference to compatibility score
-} 
+  const diff =
+    Math.abs(recipeProfile.Fire - currentProfile.Fire) +
+    Math.abs(recipeProfile.Water - currentProfile.Water) +
+    Math.abs(recipeProfile.Earth - currentProfile.Earth) +
+    Math.abs(recipeProfile.Air - currentProfile.Air);
+
+  return Math.max(0, 1 - diff / 2); // Convert difference to compatibility score
+}

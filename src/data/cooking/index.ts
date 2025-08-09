@@ -32,7 +32,7 @@ export const cookingMethods = allCookingMethods;
  */
 export const getAstrologicalEffect = (
   method: CookingMethod,
-  astroState: AstrologicalState
+  astroState: AstrologicalState,
 ): number => {
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
@@ -42,16 +42,12 @@ export const getAstrologicalEffect = (
   // Check zodiac sign
   if (
     astroState.sunSign &&
-    methodData.astrologicalInfluences.favorableZodiac?.includes(
-      astroState.sunSign
-    )
+    methodData.astrologicalInfluences.favorableZodiac?.includes(astroState.sunSign)
   ) {
     effectScore += 0.2;
   } else if (
     astroState.sunSign &&
-    methodData.astrologicalInfluences.unfavorableZodiac?.includes(
-      astroState.sunSign
-    )
+    methodData.astrologicalInfluences.unfavorableZodiac?.includes(astroState.sunSign)
   ) {
     effectScore -= 0.2;
   }
@@ -61,8 +57,7 @@ export const getAstrologicalEffect = (
     astroState.lunarPhase &&
     methodData.astrologicalInfluences.lunarPhaseEffect?.[astroState.lunarPhase]
   ) {
-    effectScore *=
-      methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
+    effectScore *= methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
   }
 
   // Keep score within 0.0-1.0 range
@@ -77,7 +72,7 @@ export const calculateModifiedElementalEffect = (
   astroState: AstrologicalState,
   duration: number,
   _temperature?: number,
-  _currentSeason?: Season
+  _currentSeason?: Season,
 ): ElementalProperties => {
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.elementalEffect) {
@@ -88,10 +83,7 @@ export const calculateModifiedElementalEffect = (
   const baseEffect = { ...methodData.elementalEffect };
 
   // Apply duration modifier (simplified)
-  const normalizedDuration = Math.min(
-    1.0,
-    duration / (methodData.duration.max || 60)
-  );
+  const normalizedDuration = Math.min(1.0, duration / (methodData.duration.max || 60));
   if (normalizedDuration > 0.7) {
     // Longer cooking enhances Fire and reduces Water
     baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2);
@@ -146,16 +138,17 @@ export function getCookingMethod(name: string): CookingMethodData | undefined {
  * @param names Array of cooking method names to retrieve
  * @returns Object containing the requested cooking methods (key: name, value: data)
  */
-export function getCookingMethods(
-  names: string[]
-): Record<string, CookingMethodData> {
-  return names.reduce((methods, name) => {
-    const method = getCookingMethod(name);
-    if (method) {
-      methods[name] = method;
-    }
-    return methods;
-  }, {} as Record<string, CookingMethodData>);
+export function getCookingMethods(names: string[]): Record<string, CookingMethodData> {
+  return names.reduce(
+    (methods, name) => {
+      const method = getCookingMethod(name);
+      if (method) {
+        methods[name] = method;
+      }
+      return methods;
+    },
+    {} as Record<string, CookingMethodData>,
+  );
 }
 
 /**
@@ -171,9 +164,7 @@ export function getAllCookingMethodNames(): string[] {
  * @param category The category name: 'dry', 'wet', 'molecular', 'traditional', 'raw'
  * @returns Record of cooking methods in that category or empty object if category not found
  */
-export function getCookingMethodsByCategory(
-  category: string
-): Record<string, CookingMethodData> {
+export function getCookingMethodsByCategory(category: string): Record<string, CookingMethodData> {
   switch (category.toLowerCase()) {
     case 'dry':
       return dryCookingMethods;
@@ -198,7 +189,7 @@ export function getCookingMethodsByCategory(
  */
 export function getCookingMethodsByTemperature(
   minTemp: number,
-  maxTemp: number
+  maxTemp: number,
 ): Record<string, CookingMethodData> {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
@@ -207,15 +198,13 @@ export function getCookingMethodsByTemperature(
       // Check if the method has optimal temperatures and at least one falls within range
       if (!methodData?.optimalTemperatures) return false;
 
-      return Object.values(methodData.optimalTemperatures).some(
-        (temp) => {
-          // Pattern KK-10: Final Arithmetic Elimination for data layer operations
-          const numericTemp = Number(temp) || 0;
-          const numericMinTemp = Number(minTemp) || 0;
-          const numericMaxTemp = Number(maxTemp) || 999;
-          return numericTemp >= numericMinTemp && numericTemp <= numericMaxTemp;
-        }
-      );
+      return Object.values(methodData.optimalTemperatures).some(temp => {
+        // Pattern KK-10: Final Arithmetic Elimination for data layer operations
+        const numericTemp = Number(temp) || 0;
+        const numericMinTemp = Number(minTemp) || 0;
+        const numericMaxTemp = Number(maxTemp) || 999;
+        return numericTemp >= numericMinTemp && numericTemp <= numericMaxTemp;
+      });
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 }
@@ -225,11 +214,9 @@ export function getCookingMethodsByTemperature(
  * @param descending Whether to sort in descending order (most sustainable first)
  * @returns Array of cooking methods sorted by sustainability rating
  */
-export function getCookingMethodsBySustainability(
-  descending = true
-): CookingMethodData[] {
-  return (Object.values(allCookingMethods) )
-    .filter((method) => {
+export function getCookingMethodsBySustainability(descending = true): CookingMethodData[] {
+  return Object.values(allCookingMethods)
+    .filter(method => {
       // Apply safe type casting for method property access
       const methodData = method as any;
       return methodData?.sustainabilityRating !== undefined;

@@ -10,7 +10,7 @@ export function enhanceSecurity() {
     // Set security-related headers if we're in a browser environment
     if (typeof window !== 'undefined') {
       // Prevent XSS by implementing noopener on external links
-      document.addEventListener('click', (event) => {
+      document.addEventListener('click', event => {
         const target = event.target as HTMLElement;
         if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {
           target.setAttribute('rel', 'noopener noreferrer');
@@ -21,11 +21,14 @@ export function enhanceSecurity() {
       const sanitizeInputs = () => {
         const inputs = document.querySelectorAll('input, textarea');
         inputs.forEach(input => {
-          input.addEventListener('input', (e) => {
+          input.addEventListener('input', e => {
             const target = e.target as HTMLInputElement;
             // Basic sanitization - strip out potentially harmful tags
             if (target.value) {
-              target.value = target.value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+              target.value = target.value.replace(
+                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+                '',
+              );
             }
           });
         });
@@ -41,10 +44,10 @@ export function enhanceSecurity() {
 
     // Log security initialization
     logger.info('Security enhancements initialized');
-    
+
     return true;
   } catch (error) {
     logger.error('Failed to initialize security enhancements', error);
     return false;
   }
-} 
+}

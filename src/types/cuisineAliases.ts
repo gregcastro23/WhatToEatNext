@@ -1,6 +1,6 @@
 /**
  * Cuisine Type Aliases System
- * 
+ *
  * This system unifies regional cuisines under broader ethnic categories
  * to provide consistent cuisine type handling across the application.
  */
@@ -11,9 +11,9 @@
  * Primary Cuisine Types
  * These are the main ethnic cuisine categories that regional cuisines map to
  */
-export type PrimaryCuisineType = 
+export type PrimaryCuisineType =
   | 'Chinese'
-  | 'Japanese' 
+  | 'Japanese'
   | 'Korean'
   | 'Indian'
   | 'Thai'
@@ -38,132 +38,132 @@ export type PrimaryCuisineType =
  */
 export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   // Chinese Regional Cuisines
-  'sichuanese': 'Chinese',
-  'cantonese': 'Chinese', 
-  'shanghainese': 'Chinese',
-  'hunanese': 'Chinese',
-  'northern': 'Chinese',
-  'sichuan': 'Chinese',
-  'canton': 'Chinese',
-  'shanghai': 'Chinese',
-  'hunan': 'Chinese',
-  
+  sichuanese: 'Chinese',
+  cantonese: 'Chinese',
+  shanghainese: 'Chinese',
+  hunanese: 'Chinese',
+  northern: 'Chinese',
+  sichuan: 'Chinese',
+  canton: 'Chinese',
+  shanghai: 'Chinese',
+  hunan: 'Chinese',
+
   // Japanese Regional Cuisines
-  'tokyo': 'Japanese',
-  'osaka': 'Japanese',
-  'kyoto': 'Japanese',
-  'hokkaido': 'Japanese',
-  
+  tokyo: 'Japanese',
+  osaka: 'Japanese',
+  kyoto: 'Japanese',
+  hokkaido: 'Japanese',
+
   // Korean Regional Cuisines
-  'seoul': 'Korean',
-  'busan': 'Korean',
-  'jeju': 'Korean',
-  
+  seoul: 'Korean',
+  busan: 'Korean',
+  jeju: 'Korean',
+
   // Indian Regional Cuisines
-  'punjabi': 'Indian',
-  'bengali': 'Indian',
-  'gujarati': 'Indian',
-  'marathi': 'Indian',
-  'tamil': 'Indian',
-  'telugu': 'Indian',
-  'kannada': 'Indian',
-  'malayalam': 'Indian',
-  'kashmiri': 'Indian',
-  'rajasthani': 'Indian',
-  'hyderabadi': 'Indian',
-  'lucknowi': 'Indian',
-  
+  punjabi: 'Indian',
+  bengali: 'Indian',
+  gujarati: 'Indian',
+  marathi: 'Indian',
+  tamil: 'Indian',
+  telugu: 'Indian',
+  kannada: 'Indian',
+  malayalam: 'Indian',
+  kashmiri: 'Indian',
+  rajasthani: 'Indian',
+  hyderabadi: 'Indian',
+  lucknowi: 'Indian',
+
   // Thai Regional Cuisines
-  'bangkok': 'Thai',
-  'chiangmai': 'Thai',
-  'southernthai': 'Thai',
-  'northeastern': 'Thai',
-  
+  bangkok: 'Thai',
+  chiangmai: 'Thai',
+  southernthai: 'Thai',
+  northeastern: 'Thai',
+
   // Vietnamese Regional Cuisines
-  'hanoi': 'Vietnamese',
-  'saigon': 'Vietnamese',
-  'hue': 'Vietnamese',
-  
+  hanoi: 'Vietnamese',
+  saigon: 'Vietnamese',
+  hue: 'Vietnamese',
+
   // Italian Regional Cuisines
-  'tuscan': 'Italian',
-  'sicilian': 'Italian',
-  'lombard': 'Italian',
-  'venetian': 'Italian',
-  'roman': 'Italian',
-  'neapolitan': 'Italian',
-  'piedmontese': 'Italian',
-  'ligurian': 'Italian',
-  'emilian': 'Italian',
-  'sardinian': 'Italian',
-  
+  tuscan: 'Italian',
+  sicilian: 'Italian',
+  lombard: 'Italian',
+  venetian: 'Italian',
+  roman: 'Italian',
+  neapolitan: 'Italian',
+  piedmontese: 'Italian',
+  ligurian: 'Italian',
+  emilian: 'Italian',
+  sardinian: 'Italian',
+
   // French Regional Cuisines
-  'provencal': 'French',
-  'norman': 'French',
-  'alsatian': 'French',
-  'lyonnais': 'French',
-  'bordeaux': 'French',
-  'burgundian': 'French',
-  'breton': 'French',
-  
+  provencal: 'French',
+  norman: 'French',
+  alsatian: 'French',
+  lyonnais: 'French',
+  bordeaux: 'French',
+  burgundian: 'French',
+  breton: 'French',
+
   // Spanish Regional Cuisines
-  'catalan': 'Spanish',
-  'andalusian': 'Spanish',
-  'basque': 'Spanish',
-  'galician': 'Spanish',
-  'valencian': 'Spanish',
-  'castilian': 'Spanish',
-  
+  catalan: 'Spanish',
+  andalusian: 'Spanish',
+  basque: 'Spanish',
+  galician: 'Spanish',
+  valencian: 'Spanish',
+  castilian: 'Spanish',
+
   // Mexican Regional Cuisines
-  'yucatecan': 'Mexican',
-  'oaxacan': 'Mexican',
-  'poblano': 'Mexican',
-  'veracruzano': 'Mexican',
-  'jaliscan': 'Mexican',
-  'sonoran': 'Mexican',
-  
+  yucatecan: 'Mexican',
+  oaxacan: 'Mexican',
+  poblano: 'Mexican',
+  veracruzano: 'Mexican',
+  jaliscan: 'Mexican',
+  sonoran: 'Mexican',
+
   // American Regional Cuisines
-  'southern': 'American',
-  'newengland': 'American',
-  'californian': 'American',
-  'texmex': 'American',
-  'cajun': 'American',
-  'creole': 'American',
-  'southwestern': 'American',
-  'midwestern': 'American',
-  'pacificnorthwest': 'American',
-  
+  southern: 'American',
+  newengland: 'American',
+  californian: 'American',
+  texmex: 'American',
+  cajun: 'American',
+  creole: 'American',
+  southwestern: 'American',
+  midwestern: 'American',
+  pacificnorthwest: 'American',
+
   // Middle Eastern Regional Cuisines
-  'lebanese': 'Middle-Eastern',
-  'syrian': 'Middle-Eastern',
-  'jordanian': 'Middle-Eastern',
-  'palestinian': 'Middle-Eastern',
-  'iraqi': 'Middle-Eastern',
-  'iranian': 'Middle-Eastern',
-  'turkish': 'Middle-Eastern',
-  
+  lebanese: 'Middle-Eastern',
+  syrian: 'Middle-Eastern',
+  jordanian: 'Middle-Eastern',
+  palestinian: 'Middle-Eastern',
+  iraqi: 'Middle-Eastern',
+  iranian: 'Middle-Eastern',
+  turkish: 'Middle-Eastern',
+
   // African Regional Cuisines (North African primarily assigned to African)
-  'ethiopian': 'African',
-  'nigerian': 'African',
-  'ghanaian': 'African',
-  'kenyan': 'African',
-  'southafrican': 'African',
-  'egyptian': 'African',
-  'moroccan': 'African',
-  'tunisian': 'African',
-  'algerian': 'African',
-  'libyan': 'African',
-  
+  ethiopian: 'African',
+  nigerian: 'African',
+  ghanaian: 'African',
+  kenyan: 'African',
+  southafrican: 'African',
+  egyptian: 'African',
+  moroccan: 'African',
+  tunisian: 'African',
+  algerian: 'African',
+  libyan: 'African',
+
   // Mediterranean Regional Cuisines (European Mediterranean focus)
-  'greek': 'Mediterranean',
-  'cypriot': 'Mediterranean',
-  'maltese': 'Mediterranean',
-  
+  greek: 'Mediterranean',
+  cypriot: 'Mediterranean',
+  maltese: 'Mediterranean',
+
   // Russian Regional Cuisines
-  'moscow': 'Russian',
-  'stpetersburg': 'Russian',
-  'siberian': 'Russian',
-  'caucasian': 'Russian',
-  'centralasian': 'Russian',
+  moscow: 'Russian',
+  stpetersburg: 'Russian',
+  siberian: 'Russian',
+  caucasian: 'Russian',
+  centralasian: 'Russian',
 };
 
 // ========== ALIAS RESOLUTION FUNCTIONS ==========
@@ -218,9 +218,23 @@ export function getPrimaryCuisine(regionalCuisine: string): PrimaryCuisineType |
  */
 export function isValidPrimaryCuisine(cuisineName: string): cuisineName is PrimaryCuisineType {
   const primaryCuisines: PrimaryCuisineType[] = [
-    'Chinese', 'Japanese', 'Korean', 'Indian', 'Thai', 'Vietnamese',
-    'Italian', 'French', 'Greek', 'Spanish', 'Mexican', 'American',
-    'African', 'Middle-Eastern', 'Mediterranean', 'Russian', 'Fusion'
+    'Chinese',
+    'Japanese',
+    'Korean',
+    'Indian',
+    'Thai',
+    'Vietnamese',
+    'Italian',
+    'French',
+    'Greek',
+    'Spanish',
+    'Mexican',
+    'American',
+    'African',
+    'Middle-Eastern',
+    'Mediterranean',
+    'Russian',
+    'Fusion',
   ];
   return primaryCuisines.includes(cuisineName as PrimaryCuisineType);
 }
@@ -235,12 +249,12 @@ export function normalizeCuisineName(cuisineName: string): string {
   if (isRegionalCuisine(cuisineName)) {
     return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase();
   }
-  
+
   // For primary cuisines, return with proper casing
   if (isValidPrimaryCuisine(cuisineName)) {
     return cuisineName;
   }
-  
+
   // Otherwise, return the original name with proper casing
   return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase();
 }
@@ -273,4 +287,4 @@ export type CuisineAliasMap = typeof CUISINE_ALIASES;
 /**
  * CuisineType alias for backwards compatibility
  */
-export type CuisineType = PrimaryCuisineType; 
+export type CuisineType = PrimaryCuisineType;

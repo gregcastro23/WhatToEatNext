@@ -12,42 +12,42 @@ export interface ErrorBoundaryProps {
    * The component(s) to be wrapped by the error boundary
    */
   children: ReactNode;
-  
+
   /**
    * Custom fallback component to render when an error occurs
    */
   FallbackComponent?: React.ComponentType<ErrorFallbackProps>;
-  
+
   /**
    * Component or feature name for better error reporting
    */
   componentName?: string;
-  
+
   /**
    * Maximum number of retries before showing the fallback UI
    */
   maxRetries?: number;
-  
+
   /**
    * Delay between automatic retries in milliseconds
    */
   retryDelay?: number;
-  
+
   /**
    * Whether errors should be reported to monitoring
    */
   reportErrors?: boolean;
-  
+
   /**
    * Optional callback when an error occurs
    */
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
-  
+
   /**
    * Optional callback after successful recovery
    */
   onRecovery?: () => void;
-  
+
   /**
    * Error type for styling variations
    */
@@ -59,27 +59,27 @@ export interface ErrorFallbackProps {
    * The error that occurred
    */
   error: Error;
-  
+
   /**
    * Function to try recovery
    */
   resetError: () => void;
-  
+
   /**
    * Component that had the error
    */
   componentName: string;
-  
+
   /**
    * Number of retries that have been attempted
    */
   retryCount: number;
-  
+
   /**
    * Whether a retry is currently in progress
    */
   isRetrying: boolean;
-  
+
   /**
    * Error type for styling variations
    */
@@ -91,17 +91,17 @@ interface ErrorBoundaryState {
    * Whether an error has occurred
    */
   hasError: boolean;
-  
+
   /**
    * The error that occurred
    */
   error: Error | null;
-  
+
   /**
    * Number of retries that have been attempted
    */
   retryCount: number;
-  
+
   /**
    * Whether a retry is currently in progress
    */
@@ -119,30 +119,25 @@ const DefaultFallback: React.FC<ErrorFallbackProps> = ({
   isRetrying,
   errorType = 'default',
 }) => {
-  const errorClassName = errorType === 'default'
-    ? "error-boundary-fallback"
-    : `error-boundary-fallback ${errorType}-error`;
-    
+  const errorClassName =
+    errorType === 'default'
+      ? 'error-boundary-fallback'
+      : `error-boundary-fallback ${errorType}-error`;
+
   return (
-    <div className={errorClassName} role="alert">
-      <div className="error-boundary-content">
-        <h2 className="error-boundary-title">Something went wrong</h2>
-        <p className="error-boundary-message">
+    <div className={errorClassName} role='alert'>
+      <div className='error-boundary-content'>
+        <h2 className='error-boundary-title'>Something went wrong</h2>
+        <p className='error-boundary-message'>
           {componentName ? `Error in ${componentName}` : 'An error occurred'}
         </p>
-        <pre className="error-boundary-details">
-          {error.message}
-        </pre>
+        <pre className='error-boundary-details'>{error.message}</pre>
         {retryCount > 0 && (
-          <p className="error-boundary-retry-count">
+          <p className='error-boundary-retry-count'>
             Recovery attempted {retryCount} time{retryCount !== 1 ? 's' : ''}
           </p>
         )}
-        <button 
-          onClick={resetError}
-          disabled={isRetrying}
-          className="error-boundary-retry-button"
-        >
+        <button onClick={resetError} disabled={isRetrying} className='error-boundary-retry-button'>
           {isRetrying ? 'Retrying...' : 'Try Again'}
         </button>
       </div>
@@ -163,7 +158,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     retryDelay: 1000,
     reportErrors: true,
     componentName: 'Unknown Component',
-    errorType: 'default'
+    errorType: 'default',
   };
 
   /**
@@ -175,7 +170,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       hasError: false,
       error: null,
       retryCount: 0,
-      isRetrying: false
+      isRetrying: false,
     };
   }
 
@@ -185,7 +180,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     return {
       hasError: true,
-      error
+      error,
     };
   }
 
@@ -194,20 +189,22 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
    */
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     const { componentName, onError, reportErrors } = this.props;
-    
+
     // Process error with our error handling system
     if (reportErrors) {
       ErrorHandler.log(error, {
         type: ErrorType.UI,
         severity: ErrorSeverity.ERROR,
         component: componentName,
-        context: { errorInfo }
+        context: { errorInfo },
       });
     } else {
       // Just log locally if not reporting to monitoring
-      logger.error(`Error in ${componentName || 'component'}:`, error, { component: 'ErrorBoundary' });
+      logger.error(`Error in ${componentName || 'component'}:`, error, {
+        component: 'ErrorBoundary',
+      });
     }
-    
+
     // Call user-provided onError handler if available
     if (onError) {
       onError(error, errorInfo);
@@ -225,7 +222,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         hasError: false,
         error: null,
         retryCount: this.state.retryCount + 1,
-        isRetrying: false
+        isRetrying: false,
       });
       if (onRecovery) {
         onRecovery();
@@ -238,7 +235,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
    */
   componentDidUpdate(prevProps: ErrorBoundaryProps, prevState: ErrorBoundaryState): void {
     const { maxRetries = 3, retryDelay = 1000 } = this.props;
-    
+
     // Auto-retry logic
     if (this.state.hasError && !prevState.hasError && this.state.retryCount < maxRetries) {
       this.setState({ isRetrying: true });
@@ -249,14 +246,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   render(): ReactNode {
-    const { 
+    const {
       children,
       FallbackComponent = DefaultFallback,
       componentName = 'Unknown Component',
-      errorType = 'default'
+      errorType = 'default',
     } = this.props;
     const { hasError, error, retryCount, isRetrying } = this.state;
-    
+
     if (hasError && error) {
       return (
         <FallbackComponent

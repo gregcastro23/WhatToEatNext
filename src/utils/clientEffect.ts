@@ -34,4 +34,4 @@ export const serverOnly = (callback: () => void) => {
   if (isServer) {
     callback();
   }
-}; 
+};

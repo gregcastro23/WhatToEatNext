@@ -31,8 +31,6 @@ export const createAstrologicalBridge = (): AstrologicalBridge => ({
   validateElementalProperties(obj: unknown): obj is ElementalProperties {
     if (!obj || typeof obj !== 'object') return false;
     const props = obj as Record<string, unknown>;
-    return ['Fire', 'Water', 'Earth', 'Air'].every(
-      element => typeof props[element] === 'number'
-    );
-  }
+    return ['Fire', 'Water', 'Earth', 'Air'].every(element => typeof props[element] === 'number');
+  },
 });

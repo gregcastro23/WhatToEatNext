@@ -16,24 +16,24 @@ const CONFIG = {
       /^(zodiac|lunar|solar|celestial|astronomical|aspect)/i,
       /^(retrograde|direct|stationary|conjunction|opposition)/i,
       /^(ascendant|descendant|midheaven|nadir|house|cusp)/i,
-      /^(decan|triplicity|quadruplicity|modality|polarity)/i
+      /^(decan|triplicity|quadruplicity|modality|polarity)/i,
     ],
     // Campaign and enterprise intelligence patterns
     campaign: [
       /^(campaign|progress|metrics|safety|intelligence|enterprise)/i,
       /^(ml|predictive|analytics|monitoring|tracking|reporting)/i,
       /^(service|integration|pattern|protocol|validation)/i,
-      /^(score|status|data|analysis|engine|model)/i
+      /^(score|status|data|analysis|engine|model)/i,
     ],
     // Test patterns
     test: [
       /^(mock|stub|test|expect|jest|describe|it|before|after)/i,
       /^(spy|fixture|snapshot|setup|teardown|helper)/i,
-      /^(dummy|fake|sample|example|demo)/i
-    ]
+      /^(dummy|fake|sample|example|demo)/i,
+    ],
   },
   maxFilesPerRun: 20,
-  dryRun: false
+  dryRun: false,
 };
 
 // Track metrics
@@ -42,7 +42,7 @@ const metrics = {
   filesModified: 0,
   variablesFixed: 0,
   variablesPreserved: 0,
-  errors: []
+  errors: [],
 };
 
 /**
@@ -67,7 +67,7 @@ function getUnusedVariablesFromESLint(filePath) {
   try {
     const output = execSync(`npx eslint "${filePath}" --format json`, {
       encoding: 'utf8',
-      stdio: 'pipe'
+      stdio: 'pipe',
     });
 
     const results = JSON.parse(output);
@@ -76,16 +76,17 @@ function getUnusedVariablesFromESLint(filePath) {
     if (results.length > 0) {
       const messages = results[0].messages || [];
       messages.forEach(msg => {
-        if (msg.ruleId === '@typescript-eslint/no-unused-vars' ||
-            msg.ruleId === 'no-unused-vars') {
+        if (msg.ruleId === '@typescript-eslint/no-unused-vars' || msg.ruleId === 'no-unused-vars') {
           // Extract variable name from message
-          const match = msg.message.match(/'([^']+)' is (defined but never used|assigned a value but never used)/);
+          const match = msg.message.match(
+            /'([^']+)' is (defined but never used|assigned a value but never used)/,
+          );
           if (match) {
             unusedVars.push({
               name: match[1],
               line: msg.line,
               column: msg.column,
-              message: msg.message
+              message: msg.message,
             });
           }
         }
@@ -131,7 +132,11 @@ function processUnusedVariables(filePath) {
 
           if (beforeCount > 0) {
             modifiedContent = modifiedContent.replace(regex, newName);
-            const afterCount = (modifiedContent.match(new RegExp(`\\b${newName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g')) || []).length;
+            const afterCount = (
+              modifiedContent.match(
+                new RegExp(`\\b${newName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g'),
+              ) || []
+            ).length;
 
             if (afterCount > 0) {
               fixedVariables.push(`Preserved ${preserveDomain} variable: ${name} → ${newName}`);
@@ -145,7 +150,10 @@ function processUnusedVariables(filePath) {
           const newName = '_' + name;
 
           // More targeted replacement for parameters
-          const paramRegex = new RegExp(`\\b${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b(?=\\s*[,:)])`, 'g');
+          const paramRegex = new RegExp(
+            `\\b${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b(?=\\s*[,:)])`,
+            'g',
+          );
           const beforeCount = (modifiedContent.match(paramRegex) || []).length;
 
           if (beforeCount > 0) {
@@ -179,7 +187,6 @@ function processUnusedVariables(filePath) {
         fixedVariables.forEach(fix => console.log(`    ${fix}`));
       }
     }
-
   } catch (error) {
     metrics.errors.push({ file: filePath, error: error.message });
     console.error(`❌ Error processing ${filePath}: ${error.message}`);
@@ -204,8 +211,10 @@ function getFilesToProcess() {
           scanDirectory(fullPath);
         }
       } else if (stat.isFile()) {
-        if (CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
-            !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
+          !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))
+        ) {
           files.push(fullPath);
         }
       }
@@ -295,7 +304,9 @@ function main() {
   }
 
   if (files.length > filesToProcess.length) {
-    console.log(`\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`);
+    console.log(
+      `\n📝 Note: ${files.length - filesToProcess.length} files remaining. Run again to process more.`,
+    );
   }
 }
 

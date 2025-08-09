@@ -2,75 +2,88 @@ import { PlanetData } from './types';
 
 const jupiterData: PlanetData = {
   'Dignity Effect': {
-    'pisces': 1,
-    'sagittarius': 1,
-    'cancer': 2,
-    'gemini': -1,
-    'virgo': -1,
-    'capricorn': -2
+    pisces: 1,
+    sagittarius: 1,
+    cancer: 2,
+    gemini: -1,
+    virgo: -1,
+    capricorn: -2,
   },
-  'Elements': ['Air', 'Fire'],
-  'Alchemy': {
-    'Spirit': 1,
-    'Essence': 1,
-    'Matter': 0,
-    'Substance': 0
+  Elements: ['Air', 'Fire'],
+  Alchemy: {
+    Spirit: 1,
+    Essence: 1,
+    Matter: 0,
+    Substance: 0,
   },
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Fire',
-  'AstronomicalData': {
-    'DistanceFromSun': '484 million miles (778 million kilometers)',
-    'DistanceFromEarth': {
-      'Minimum': '365 million miles (588 million kilometers)',
-      'Maximum': '601 million miles (968 million kilometers)'
+  AstronomicalData: {
+    DistanceFromSun: '484 million miles (778 million kilometers)',
+    DistanceFromEarth: {
+      Minimum: '365 million miles (588 million kilometers)',
+      Maximum: '601 million miles (968 million kilometers)',
     },
-    'Diameter': '86,881 miles (139,820 kilometers)',
-    'SurfaceTemperature': '-234 degrees Fahrenheit (-145 Celsius) cloud tops',
-    'AtmosphericComposition': 'Primarily hydrogen and helium with traces of methane, ammonia, and water',
-    'RotationPeriod': '9.93 Earth hours',
-    'OrbitPeriod': '11.86 Earth years',
+    Diameter: '86,881 miles (139,820 kilometers)',
+    SurfaceTemperature: '-234 degrees Fahrenheit (-145 Celsius) cloud tops',
+    AtmosphericComposition:
+      'Primarily hydrogen and helium with traces of methane, ammonia, and water',
+    RotationPeriod: '9.93 Earth hours',
+    OrbitPeriod: '11.86 Earth years',
     'Axial Tilt': '3.13 degrees',
-    'PhaseCycle': '399 days (synodic period)',
-    'SunlightTravelTime': '43 minutes',
-    'PhysicalCharacteristics': {
-      'Surface': 'Gas giant with no solid surface, characterized by colorful bands and the Great Red Spot',
-      'MagneticField': 'Strongest magnetic field of any planet in the solar system',
-      'Composition': 'Mostly hydrogen and helium, possibly with a rocky core',
-      'NotableFeatures': 'Largest planet in our solar system, 79 known moons, visible rings, Great Red Spot (giant storm)'
-    }
+    PhaseCycle: '399 days (synodic period)',
+    SunlightTravelTime: '43 minutes',
+    PhysicalCharacteristics: {
+      Surface:
+        'Gas giant with no solid surface, characterized by colorful bands and the Great Red Spot',
+      MagneticField: 'Strongest magnetic field of any planet in the solar system',
+      Composition: 'Mostly hydrogen and helium, possibly with a rocky core',
+      NotableFeatures:
+        'Largest planet in our solar system, 79 known moons, visible rings, Great Red Spot (giant storm)',
+    },
   },
-  'AstrologicalProperties': {
-    'AlchemicalName': 'Zeus',
-    'BeneficType': 'Greater benefic',
-    'DualDomicile': {
-      'Spring': 'Pisces (yin)',
-      'Autumn': 'Sagittarius (yang)'
+  AstrologicalProperties: {
+    AlchemicalName: 'Zeus',
+    BeneficType: 'Greater benefic',
+    DualDomicile: {
+      Spring: 'Pisces (yin)',
+      Autumn: 'Sagittarius (yang)',
     },
-    'HouseJoy': 9,
-    'CyclePeriod': {
-      'Return': '12 years',
-      'Retrograde': '4 months yearly'
+    HouseJoy: 9,
+    CyclePeriod: {
+      Return: '12 years',
+      Retrograde: '4 months yearly',
     },
-    'Exaltation': 'Cancer',
-    'Fall': 'Capricorn',
-    'Detriment': ['Gemini', 'Virgo'],
-    'Keywords': ['Expansion', 'Growth', 'Abundance', 'Luck', 'Optimism', 'Wisdom', 'Philosophy', 'Teaching', 'Travel'],
-    'Colors': ['Royal Purple', 'Deep Blue', 'Indigo', 'Gold', 'Yellow', 'Royal Blue'],
-    'Day': 'Thursday',
-    'Metal': 'Tin',
-    'BodyParts': ['Liver', 'Thighs', 'Hips', 'Blood', 'Fat tissues', 'Growth mechanisms'],
-    'Animals': ['Eagle', 'Elephant', 'Deer', 'Horse', 'Dolphin'],
-    'Stones': ['Sapphire', 'Lapis Lazuli', 'Amethyst', 'Turquoise', 'Blue Topaz']
+    Exaltation: 'Cancer',
+    Fall: 'Capricorn',
+    Detriment: ['Gemini', 'Virgo'],
+    Keywords: [
+      'Expansion',
+      'Growth',
+      'Abundance',
+      'Luck',
+      'Optimism',
+      'Wisdom',
+      'Philosophy',
+      'Teaching',
+      'Travel',
+    ],
+    Colors: ['Royal Purple', 'Deep Blue', 'Indigo', 'Gold', 'Yellow', 'Royal Blue'],
+    Day: 'Thursday',
+    Metal: 'Tin',
+    BodyParts: ['Liver', 'Thighs', 'Hips', 'Blood', 'Fat tissues', 'Growth mechanisms'],
+    Animals: ['Eagle', 'Elephant', 'Deer', 'Horse', 'Dolphin'],
+    Stones: ['Sapphire', 'Lapis Lazuli', 'Amethyst', 'Turquoise', 'Blue Topaz'],
   },
-  'ElementalConnections': {
-    'DayEmission': 'Spirit - "that which animates"',
-    'NightEmission': 'Essence - "that which an object cannot exist without"',
-    'ElementalBridges': ['Connects Air and Fire', 'Bridges intellect and passion'],
-    'SharedElements': {
-      'Air': ['Mercury', 'Saturn'],
-      'Fire': ['Mars', 'Sun']
+  ElementalConnections: {
+    DayEmission: 'Spirit - "that which animates"',
+    NightEmission: 'Essence - "that which an object cannot exist without"',
+    ElementalBridges: ['Connects Air and Fire', 'Bridges intellect and passion'],
+    SharedElements: {
+      Air: ['Mercury', 'Saturn'],
+      Fire: ['Mars', 'Sun'],
     },
-    'AssociatedQualities': [
+    AssociatedQualities: [
       'Expansive',
       'Warm',
       'Moist',
@@ -80,11 +93,11 @@ const jupiterData: PlanetData = {
       'Educational',
       'Philosophical',
       'Benevolent',
-      'Growth-oriented'
-    ]
+      'Growth-oriented',
+    ],
   },
-  'HerbalAssociations': {
-    'Herbs': [
+  HerbalAssociations: {
+    Herbs: [
       'Sage',
       'Dandelion',
       'Borage',
@@ -102,9 +115,9 @@ const jupiterData: PlanetData = {
       'Chicory',
       'Fenugreek',
       'Licorice Root',
-      'Burdock'
+      'Burdock',
     ],
-    'Flowers': [
+    Flowers: [
       'Dandelion',
       'Honeysuckle',
       'Violet',
@@ -114,10 +127,10 @@ const jupiterData: PlanetData = {
       'Blue Flag',
       'Clematis',
       'Purple Amaranth',
-      'Blue Salvia'
+      'Blue Salvia',
     ],
-    'Woods': ['Oak', 'Pine', 'Cedar', 'Fig', 'Ash'],
-    'Scents': [
+    Woods: ['Oak', 'Pine', 'Cedar', 'Fig', 'Ash'],
+    Scents: [
       'Frankincense',
       'Nutmeg',
       'Cinnamon',
@@ -127,10 +140,10 @@ const jupiterData: PlanetData = {
       'Clove',
       'Sandalwood',
       'Benzoin',
-      'Vanilla'
-    ]
+      'Vanilla',
+    ],
   },
-  'FoodAssociations': [
+  FoodAssociations: [
     'rich and abundant foods',
     'exotic spices',
     'saffron',
@@ -157,17 +170,17 @@ const jupiterData: PlanetData = {
     'multi-course meals',
     'lavish banquet foods',
     'wholesome breads',
-    'holiday foods'
+    'holiday foods',
   ],
-  'FlavorProfiles': {
-    'Sweet': 0.7,
-    'Sour': 0.2,
-    'Salty': 0.4,
-    'Bitter': 0.2,
-    'Umami': 0.7,
-    'Spicy': 0.5
+  FlavorProfiles: {
+    Sweet: 0.7,
+    Sour: 0.2,
+    Salty: 0.4,
+    Bitter: 0.2,
+    Umami: 0.7,
+    Spicy: 0.5,
   },
-  'CulinaryInfluences': [
+  CulinaryInfluences: [
     'Expands and enhances flavors',
     'Improves fermentation and aging processes',
     'Supports traditional cooking methods',
@@ -179,146 +192,177 @@ const jupiterData: PlanetData = {
     'Promotes abundance and prosperity',
     'Facilitates celebratory and festive meals',
     'Encourages educational cooking experiences',
-    'Inspires culinary wisdom and tradition'
+    'Inspires culinary wisdom and tradition',
   ],
-  'AspectsEffect': {
-    'Sun': {
-      'Conjunction': 0.8,
-      'Opposition': 0.4,
-      'Trine': 0.6,
-      'Square': 0.2,
-      'Sextile': 0.5
+  AspectsEffect: {
+    Sun: {
+      Conjunction: 0.8,
+      Opposition: 0.4,
+      Trine: 0.6,
+      Square: 0.2,
+      Sextile: 0.5,
     },
-    'Moon': {
-      'Conjunction': 0.7,
-      'Opposition': 0.3,
-      'Trine': 0.6,
-      'Square': 0.2,
-      'Sextile': 0.4
+    Moon: {
+      Conjunction: 0.7,
+      Opposition: 0.3,
+      Trine: 0.6,
+      Square: 0.2,
+      Sextile: 0.4,
     },
-    'Mercury': {
-      'Conjunction': 0.5,
-      'Opposition': 0.1,
-      'Trine': 0.4,
-      'Square': 0.0,
-      'Sextile': 0.3
+    Mercury: {
+      Conjunction: 0.5,
+      Opposition: 0.1,
+      Trine: 0.4,
+      Square: 0.0,
+      Sextile: 0.3,
     },
-    'Saturn': {
-      'Conjunction': 0.3,
-      'Opposition': -0.2,
-      'Trine': 0.4,
-      'Square': -0.1,
-      'Sextile': 0.2
+    Saturn: {
+      Conjunction: 0.3,
+      Opposition: -0.2,
+      Trine: 0.4,
+      Square: -0.1,
+      Sextile: 0.2,
     },
-    'Venus': {
-      'Conjunction': 0.8,
-      'Opposition': 0.3,
-      'Trine': 0.6,
-      'Square': 0.2,
-      'Sextile': 0.5
+    Venus: {
+      Conjunction: 0.8,
+      Opposition: 0.3,
+      Trine: 0.6,
+      Square: 0.2,
+      Sextile: 0.5,
     },
-    'Mars': {
-      'Conjunction': 0.6,
-      'Opposition': 0.1,
-      'Trine': 0.5,
-      'Square': 0.0,
-      'Sextile': 0.3
-    }
+    Mars: {
+      Conjunction: 0.6,
+      Opposition: 0.1,
+      Trine: 0.5,
+      Square: 0.0,
+      Sextile: 0.3,
+    },
   },
-  'PlanetSpecific': {
-    'ZodiacTransit': {
-      'sagittarius': {
-        'FoodFocus': 'Abundant, celebratory dishes with exotic spices and foreign influences',
-        'Elements': {
-          'Fire': 0.8,
-          'Earth': 0.2,
-          'Air': 0.4,
-          'Water': 0.2
+  PlanetSpecific: {
+    ZodiacTransit: {
+      sagittarius: {
+        FoodFocus: 'Abundant, celebratory dishes with exotic spices and foreign influences',
+        Elements: {
+          Fire: 0.8,
+          Earth: 0.2,
+          Air: 0.4,
+          Water: 0.2,
         },
-        'Ingredients': ['international spices', 'game meats', 'exotic fruits', 'hearty stews', 'celebratory dishes', 'festive breads']
+        Ingredients: [
+          'international spices',
+          'game meats',
+          'exotic fruits',
+          'hearty stews',
+          'celebratory dishes',
+          'festive breads',
+        ],
       },
-      'pisces': {
-        'FoodFocus': 'Spiritual and healing foods, seafood, and dishes with subtle, complex flavors',
-        'Elements': {
-          'Fire': 0.2,
-          'Earth': 0.1,
-          'Air': 0.2,
-          'Water': 0.9
+      pisces: {
+        FoodFocus: 'Spiritual and healing foods, seafood, and dishes with subtle, complex flavors',
+        Elements: {
+          Fire: 0.2,
+          Earth: 0.1,
+          Air: 0.2,
+          Water: 0.9,
         },
-        'Ingredients': ['seafood', 'healing herbs', 'infused oils', 'mead', 'fermented foods', 'sacred recipes']
+        Ingredients: [
+          'seafood',
+          'healing herbs',
+          'infused oils',
+          'mead',
+          'fermented foods',
+          'sacred recipes',
+        ],
       },
-      'aries': {
-        'FoodFocus': 'Bold, pioneering fusion dishes with adventurous flavors and innovative techniques',
-        'Elements': {
-          'Fire': 0.9,
-          'Earth': 0.1,
-          'Air': 0.4,
-          'Water': 0.1
+      aries: {
+        FoodFocus:
+          'Bold, pioneering fusion dishes with adventurous flavors and innovative techniques',
+        Elements: {
+          Fire: 0.9,
+          Earth: 0.1,
+          Air: 0.4,
+          Water: 0.1,
         },
-        'Ingredients': ['chili peppers', 'global spice blends', 'large roasted meats', 'abundant platters', 'adventurous combinations']
+        Ingredients: [
+          'chili peppers',
+          'global spice blends',
+          'large roasted meats',
+          'abundant platters',
+          'adventurous combinations',
+        ],
       },
-      'taurus': {
-        'FoodFocus': 'Rich, indulgent comfort foods with emphasis on quality and luxury ingredients',
-        'Elements': {
-          'Fire': 0.3,
-          'Earth': 0.8,
-          'Air': 0.1,
-          'Water': 0.2
+      taurus: {
+        FoodFocus: 'Rich, indulgent comfort foods with emphasis on quality and luxury ingredients',
+        Elements: {
+          Fire: 0.3,
+          Earth: 0.8,
+          Air: 0.1,
+          Water: 0.2,
         },
-        'Ingredients': ['truffles', 'aged cheeses', 'fine chocolate', 'rich desserts', 'quality meats', 'decadent sauces']
-      }
+        Ingredients: [
+          'truffles',
+          'aged cheeses',
+          'fine chocolate',
+          'rich desserts',
+          'quality meats',
+          'decadent sauces',
+        ],
+      },
     },
-    'Retrograde': {
-      'CulinaryEffect': 'Reevaluation of rich dishes, moderation in abundance, return to simpler preparations',
-      'ElementalShift': {
-        'Spirit': 0.8,
-        'Essence': 0.6,
-        'Matter': 0.2,
-        'Substance': 0.1
-      }
+    Retrograde: {
+      CulinaryEffect:
+        'Reevaluation of rich dishes, moderation in abundance, return to simpler preparations',
+      ElementalShift: {
+        Spirit: 0.8,
+        Essence: 0.6,
+        Matter: 0.2,
+        Substance: 0.1,
+      },
     },
-    'CulinaryTemperament': {
-      'FireJupiter': {
-        'FoodFocus': 'Bold, expansive flavors with emphasis on global traditions and fire cooking methods',
-        'Elements': {
-          'Fire': 0.9,
-          'Earth': 0.3,
-          'Air': 0.4,
-          'Water': 0.2
+    CulinaryTemperament: {
+      FireJupiter: {
+        FoodFocus:
+          'Bold, expansive flavors with emphasis on global traditions and fire cooking methods',
+        Elements: {
+          Fire: 0.9,
+          Earth: 0.3,
+          Air: 0.4,
+          Water: 0.2,
         },
-        'Recommendations': [
+        Recommendations: [
           'feast-style service',
           'multicultural fusion',
           'generous portions',
           'celebratory ingredients',
-          'culinary education'
-        ]
+          'culinary education',
+        ],
       },
-      'AirJupiter': {
-        'FoodFocus': 'Intellectual approaches to cuisine with emphasis on philosophy and global knowledge',
-        'Elements': {
-          'Fire': 0.3,
-          'Earth': 0.2,
-          'Air': 0.9,
-          'Water': 0.3
+      AirJupiter: {
+        FoodFocus:
+          'Intellectual approaches to cuisine with emphasis on philosophy and global knowledge',
+        Elements: {
+          Fire: 0.3,
+          Earth: 0.2,
+          Air: 0.9,
+          Water: 0.3,
         },
-        'Recommendations': [
+        Recommendations: [
           'cuisine theory',
           'innovative presentations',
           'culinary storytelling',
           'educational dining',
-          'historical influences'
-        ]
-      }
+          'historical influences',
+        ],
+      },
     },
-    'CulinaryTechniques': {
-      'Abundance': 0.9,
+    CulinaryTechniques: {
+      Abundance: 0.9,
       'Cultural Fusion': 0.8,
       'Educational Dining': 0.7,
       'Festive Preparation': 0.9,
-      'Generous Hospitality': 0.9
-    }
-  }
+      'Generous Hospitality': 0.9,
+    },
+  },
 };
 
-export default jupiterData; 
+export default jupiterData;

@@ -18,7 +18,7 @@ lintResults.forEach(fileResult => {
         line: message.line,
         column: message.column,
         message: message.message,
-        suggestions: message.suggestions || []
+        suggestions: message.suggestions || [],
       });
     }
   });

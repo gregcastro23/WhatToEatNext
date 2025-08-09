@@ -2,17 +2,15 @@
 // This file intentionally has linting issues to test the auto-fix system
 
 const testFunction = (): string => {
-  console.log("Hello world")  // Missing semicolon
-
-
+  console.log('Hello world'); // Missing semicolon
 
   // Multiple empty lines above
 
-  const unusedVariable = "test";;  // Double semicolon
+  const unusedVariable = 'test'; // Double semicolon
 
   // Trailing whitespace on next line
 
-  return "success"  // Missing semicolon
-}
+  return 'success'; // Missing semicolon
+};
 
 export default testFunction;

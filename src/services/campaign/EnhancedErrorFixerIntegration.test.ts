@@ -1,6 +1,6 @@
 /**
  * Tests for Enhanced Error Fixer Integration
- * 
+ *
  * Verifies wrapper functionality, batch processing, and build validation
  */
 
@@ -26,11 +26,13 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: FixerOptions = {
         maxFiles: 15,
         autoFix: true,
-        validateSafety: true
+        validateSafety: true,
       };
 
       // Use reflection to access private method
-      const buildMethod = (integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] }).buildFixerArguments.bind(integration);
+      const buildMethod = (
+        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] }
+      ).buildFixerArguments.bind(integration);
       const args = buildMethod(options);
 
       expect(args).toContain('--max-files=15');
@@ -42,10 +44,12 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: FixerOptions = {
         dryRun: true,
         silent: true,
-        json: true
+        json: true,
       };
 
-      const buildMethod = (integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] }).buildFixerArguments.bind(integration);
+      const buildMethod = (
+        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] }
+      ).buildFixerArguments.bind(integration);
       const args = buildMethod(options);
 
       expect(args).toContain('--dry-run');
@@ -64,7 +68,11 @@ describe('EnhancedErrorFixerIntegration', () => {
 ✅ Build validation passed
       `.trim();
 
-      const parseMethod = (integration as unknown as { parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown> }).parseFixerOutput.bind(integration);
+      const parseMethod = (
+        integration as unknown as {
+          parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>;
+        }
+      ).parseFixerOutput.bind(integration);
       const result = parseMethod(mockOutput, true);
 
       expect(result.success).toBe(true);
@@ -80,7 +88,11 @@ describe('EnhancedErrorFixerIntegration', () => {
 ⚠️ Warning: Safety score below threshold
       `.trim();
 
-      const parseMethod = (integration as unknown as { parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown> }).parseFixerOutput.bind(integration);
+      const parseMethod = (
+        integration as unknown as {
+          parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>;
+        }
+      ).parseFixerOutput.bind(integration);
       const result = parseMethod(mockOutput, false);
 
       expect(result.warnings).toHaveLength(2);
@@ -94,13 +106,15 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should return true when build succeeds', async () => {
       mockExecSync.mockReturnValue('Build successful');
 
-      const validateMethod = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(integration);
+      const validateMethod = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(
+        integration,
+      );
       const result = await validateMethod();
 
       expect(result).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', {
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       });
     });
 
@@ -109,7 +123,9 @@ describe('EnhancedErrorFixerIntegration', () => {
         throw new Error('Build failed');
       });
 
-      const validateMethod = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(integration);
+      const validateMethod = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(
+        integration,
+      );
       const result = await validateMethod();
 
       expect(result).toBe(false);
@@ -120,14 +136,16 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should return current error count', async () => {
       mockExecSync.mockReturnValue('123\n');
 
-      const countMethod = (integration as unknown as { getCurrentErrorCount: () => Promise<number> }).getCurrentErrorCount.bind(integration);
+      const countMethod = (
+        integration as unknown as { getCurrentErrorCount: () => Promise<number> }
+      ).getCurrentErrorCount.bind(integration);
       const count = await countMethod();
 
       expect(count).toBe(123);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
-        { encoding: 'utf8', stdio: 'pipe' }
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
     });
 
     it('should return 0 when no errors found', async () => {
@@ -135,7 +153,9 @@ describe('EnhancedErrorFixerIntegration', () => {
         throw new Error('No matches found');
       });
 
-      const countMethod = (integration as unknown as { getCurrentErrorCount: () => Promise<number> }).getCurrentErrorCount.bind(integration);
+      const countMethod = (
+        integration as unknown as { getCurrentErrorCount: () => Promise<number> }
+      ).getCurrentErrorCount.bind(integration);
       const count = await countMethod();
 
       expect(count).toBe(0);
@@ -152,7 +172,7 @@ describe('EnhancedErrorFixerIntegration', () => {
           if (event === 'close') {
             callback(0); // Success exit code
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as ReturnType<typeof spawn>);
@@ -161,15 +181,20 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: FixerOptions = {
         maxFiles: 10,
         autoFix: true,
-        validateSafety: true
+        validateSafety: true,
       };
 
       const result = await integration.executeEnhancedFixer(options);
 
       expect(mockSpawn).toHaveBeenCalledWith(
         'node',
-        ['scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js', '--max-files=10', '--auto-fix', '--validate-safety'],
-        { stdio: ['pipe', 'pipe', 'pipe'], cwd: process.cwd() }
+        [
+          'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+          '--max-files=10',
+          '--auto-fix',
+          '--validate-safety',
+        ],
+        { stdio: ['pipe', 'pipe', 'pipe'], cwd: process.cwd() },
       );
 
       expect(result.success).toBe(true);
@@ -187,7 +212,7 @@ describe('EnhancedErrorFixerIntegration', () => {
           if (event === 'close') {
             callback(0);
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as ReturnType<typeof spawn>);
@@ -203,7 +228,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         batchSize: 15,
         buildValidationInterval: 5,
         maxBatches: 3,
-        stopOnBuildFailure: true
+        stopOnBuildFailure: true,
       };
 
       const results = await integration.executeBatchProcessing(options);
@@ -221,19 +246,21 @@ describe('EnhancedErrorFixerIntegration', () => {
           if (event === 'close') {
             callback(0);
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as ReturnType<typeof spawn>);
       mockExecSync
-        .mockImplementationOnce(() => { throw new Error('Build failed'); }) // Build validation fails
+        .mockImplementationOnce(() => {
+          throw new Error('Build failed');
+        }) // Build validation fails
         .mockReturnValue('50\n'); // Error count
 
       const options: BatchProcessingOptions = {
         batchSize: 10,
         buildValidationInterval: 5,
         maxBatches: 5,
-        stopOnBuildFailure: true
+        stopOnBuildFailure: true,
       };
 
       const results = await integration.executeBatchProcessing(options);
@@ -253,7 +280,7 @@ describe('EnhancedErrorFixerIntegration', () => {
           if (event === 'close') {
             callback(0);
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as ReturnType<typeof spawn>);
@@ -277,7 +304,7 @@ describe('EnhancedErrorFixerIntegration', () => {
           if (event === 'close') {
             callback(0);
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as ReturnType<typeof spawn>);
@@ -298,7 +325,7 @@ describe('EnhancedErrorFixerIntegration', () => {
           if (event === 'close') {
             callback(1); // Failure exit code
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as ReturnType<typeof spawn>);

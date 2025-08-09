@@ -2,7 +2,10 @@
 
 ## Overview
 
-This guide provides comprehensive instructions for working with the four-element system (Fire, Water, Earth, Air) in WhatToEatNext. It covers elemental calculations, compatibility logic, and the critical self-reinforcement principles that govern all elemental interactions.
+This guide provides comprehensive instructions for working with the four-element
+system (Fire, Water, Earth, Air) in WhatToEatNext. It covers elemental
+calculations, compatibility logic, and the critical self-reinforcement
+principles that govern all elemental interactions.
 
 ## Core Elemental Principles
 
@@ -21,7 +24,8 @@ interface ElementalProperties {
 
 ### 2. Self-Reinforcement Principle
 
-**CRITICAL**: Elements work best with themselves. This is the fundamental principle that governs all elemental calculations.
+**CRITICAL**: Elements work best with themselves. This is the fundamental
+principle that governs all elemental calculations.
 
 ```typescript
 // ✅ CORRECT: Self-reinforcement compatibility matrix
@@ -90,7 +94,7 @@ export function calculateBaseElementalProperties(
     // Weight by planet importance
     let weight = 1.0;
     const planetLower = planet?.toLowerCase();
-    
+
     if (planetLower === 'sun' || planetLower === 'moon') {
       weight = 2.5;
     } else if (['mercury', 'venus', 'mars'].includes(planetLower)) {
@@ -130,7 +134,7 @@ export function calculateElementalCompatibility(
 
     // Self-reinforcement: same elements have highest compatibility
     const elementCompatibility = key === getDominantElement(properties2) ? 0.9 : 0.7;
-    
+
     compatibility += elementCompatibility * weight;
     totalWeight += weight;
   });
@@ -155,7 +159,7 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
 export function calculateElementalBalance(properties: ElementalProperties): number {
   const values = Object.values(properties);
   const average = values.reduce((sum, val) => sum + val, 0) / values.length;
-  
+
   return values.reduce((acc, val) => acc + Math.abs(val - average), 0) / values.length;
 }
 ```
@@ -165,7 +169,7 @@ export function calculateElementalBalance(properties: ElementalProperties): numb
 ```typescript
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
   const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
-  
+
   if (total === 0) {
     return { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
   }
@@ -197,7 +201,7 @@ export function applySeasonalAdjustments(
   season: string
 ): ElementalProperties {
   const seasonalMod = SEASONAL_MODIFIERS[season?.toLowerCase()] || SEASONAL_MODIFIERS.spring;
-  
+
   return {
     Fire: baseProperties.Fire * (1 + seasonalMod.Fire * 0.2),
     Water: baseProperties.Water * (1 + seasonalMod.Water * 0.2),
@@ -226,7 +230,7 @@ export function applyLunarPhaseAdjustments(
   lunarPhase: string
 ): ElementalProperties {
   const lunarMod = LUNAR_PHASE_MODIFIERS[lunarPhase?.toLowerCase()] || LUNAR_PHASE_MODIFIERS['full moon'];
-  
+
   return {
     Fire: baseProperties.Fire * (1 + lunarMod.Fire * 0.15),
     Water: baseProperties.Water * (1 + lunarMod.Water * 0.15),
@@ -249,7 +253,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   ) => {
     // Calculate base elemental properties
     const baseProperties = calculateBaseElementalProperties(planetaryPositions);
-    
+
     // Context-specific elemental adjustments
     const contextElementalMultipliers = {
       ingredient: { Fire: 1.1, Water: 1.05, Earth: 1.0, Air: 1.1 },
@@ -257,10 +261,10 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       cuisine: { Fire: 1.2, Water: 1.15, Earth: 1.1, Air: 1.2 },
       cooking: { Fire: 1.05, Water: 1.0, Earth: 1.0, Air: 1.05 }
     };
-    
+
     const elementalMultipliers = contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] || contextElementalMultipliers.ingredient;
     const preferenceMultiplier = preferences.intensity || 1.0;
-    
+
     // Apply context-specific adjustments
     const adjustedProperties = {
       Fire: Math.min(1.0, baseProperties.Fire * elementalMultipliers.Fire * preferenceMultiplier),
@@ -268,15 +272,15 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       Earth: Math.min(1.0, baseProperties.Earth * elementalMultipliers.Earth * preferenceMultiplier),
       Air: Math.min(1.0, baseProperties.Air * elementalMultipliers.Air * preferenceMultiplier)
     };
-    
+
     // Normalize adjusted properties
     const normalizedProperties = normalizeElementalProperties(adjustedProperties);
-    
+
     // Calculate elemental balance and harmony
     const balance = calculateElementalBalance(normalizedProperties);
     const dominantElement = getDominantElement(normalizedProperties);
     const harmony = calculateElementalHarmony(normalizedProperties);
-    
+
     return {
       context,
       preferences,
@@ -309,7 +313,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     const baseSeasonalModifiers = SEASONAL_MODIFIERS;
     const normalizedSeason = season.toLowerCase();
     const baseModifier = baseSeasonalModifiers[normalizedSeason as keyof typeof baseSeasonalModifiers] || baseSeasonalModifiers.spring;
-    
+
     // Context-specific seasonal adjustments
     const contextSeasonalMultipliers = {
       food: { enhancementFactor: 1.2, categoryBoost: 0.15 },
@@ -317,9 +321,9 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
       recipe: { enhancementFactor: 1.15, categoryBoost: 0.12 },
       nutrition: { enhancementFactor: 1.25, categoryBoost: 0.2 }
     };
-    
+
     const contextMod = contextSeasonalMultipliers[context as keyof typeof contextSeasonalMultipliers] || contextSeasonalMultipliers.food;
-    
+
     // Enhanced seasonal modifiers with contextual adjustments
     const enhancedSeasonalModifier = {
       Fire: baseModifier.Fire * contextMod.enhancementFactor,
@@ -327,14 +331,14 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
       Earth: baseModifier.Earth * contextMod.enhancementFactor,
       Air: baseModifier.Air * contextMod.enhancementFactor
     };
-    
+
     // Normalize enhanced modifiers
     const totalElemental = Object.values(enhancedSeasonalModifier).reduce((sum, val) => sum + val, 0);
     const normalizedSeasonalModifier = Object.entries(enhancedSeasonalModifier).reduce((acc, [element, value]) => {
       acc[element as keyof typeof enhancedSeasonalModifier] = value / totalElemental;
       return acc;
     }, {} as Record<string, number>);
-    
+
     return {
       season: normalizedSeason,
       context,
@@ -358,7 +362,7 @@ describe('Elemental Calculations', () => {
   test('should normalize elemental properties correctly', () => {
     const unbalanced = { Fire: 2, Water: 1, Earth: 1, Air: 0 };
     const normalized = normalizeElementalProperties(unbalanced);
-    
+
     const sum = Object.values(normalized).reduce((a, b) => a + b, 0);
     expect(sum).toBeCloseTo(1.0, 3);
     expect(normalized.Fire).toBeGreaterThan(normalized.Water);
@@ -393,20 +397,20 @@ describe('Elemental Self-Reinforcement', () => {
   test('same elements have highest compatibility', () => {
     const fireProps = { Fire: 0.8, Water: 0.1, Earth: 0.1, Air: 0.0 };
     const otherFireProps = { Fire: 0.7, Water: 0.2, Earth: 0.1, Air: 0.0 };
-    
+
     const compatibility = calculateElementalCompatibility(fireProps, otherFireProps);
     expect(compatibility).toBeGreaterThanOrEqual(0.9);
   });
-  
+
   test('different elements have good compatibility', () => {
     const fireProps = { Fire: 0.8, Water: 0.1, Earth: 0.1, Air: 0.0 };
     const waterProps = { Fire: 0.1, Water: 0.8, Earth: 0.1, Air: 0.0 };
-    
+
     const compatibility = calculateElementalCompatibility(fireProps, waterProps);
     expect(compatibility).toBeGreaterThanOrEqual(0.7);
     expect(compatibility).toBeLessThan(0.9);
   });
-  
+
   test('no compatibility scores below 0.7', () => {
     const testCombinations = [
       [{ Fire: 1, Water: 0, Earth: 0, Air: 0 }, { Fire: 0, Water: 1, Earth: 0, Air: 0 }],
@@ -414,7 +418,7 @@ describe('Elemental Self-Reinforcement', () => {
       [{ Fire: 0, Water: 0, Earth: 1, Air: 0 }, { Fire: 0, Water: 0, Earth: 0, Air: 1 }],
       [{ Fire: 0, Water: 0, Earth: 0, Air: 1 }, { Fire: 1, Water: 0, Earth: 0, Air: 0 }]
     ];
-    
+
     testCombinations.forEach(([props1, props2]) => {
       const compatibility = calculateElementalCompatibility(props1, props2);
       expect(compatibility).toBeGreaterThanOrEqual(0.7);
@@ -433,16 +437,16 @@ describe('Anti-Pattern Detection', () => {
         return 0.3; // Opposition logic detected
       }
     `;
-    
+
     expect(() => validateCodeForOppositionLogic(codeSnippet))
       .toThrow('Opposition logic detected');
   });
-  
+
   test('detects compatibility penalties', () => {
     const codeSnippet = `
       return baseScore * (isDifferentElement ? 0.5 : 1.0);
     `;
-    
+
     expect(() => validateCodeForPenalties(codeSnippet))
       .toThrow('Compatibility penalty detected');
   });
@@ -460,7 +464,7 @@ function enhanceIngredientElementally(
 ): Ingredient {
   const currentProperties = ingredient.elementalProperties;
   const dominantElement = getDominantElement(currentProperties);
-  
+
   // Self-reinforcement: enhance if target matches dominant
   if (dominantElement === targetElement) {
     return {
@@ -471,7 +475,7 @@ function enhanceIngredientElementally(
       }
     };
   }
-  
+
   // Gentle enhancement for different elements
   return {
     ...ingredient,
@@ -489,11 +493,11 @@ function enhanceIngredientElementally(
 function balanceRecipeElementally(recipe: Recipe): Recipe {
   const currentBalance = calculateElementalBalance(recipe.ingredients);
   const dominantElement = getDominantElement(currentBalance);
-  
+
   // Self-reinforcement: enhance the dominant element
   const enhancedIngredients = recipe.ingredients.map(ingredient => {
     const ingDominant = getDominantElement(ingredient.elementalProperties);
-    
+
     if (ingDominant === dominantElement) {
       // Boost ingredients that match the dominant element
       return {
@@ -502,10 +506,10 @@ function balanceRecipeElementally(recipe: Recipe): Recipe {
         elementalProperties: enhanceElementalProperties(ingredient.elementalProperties, dominantElement)
       };
     }
-    
+
     return ingredient;
   });
-  
+
   return { ...recipe, ingredients: enhancedIngredients };
 }
 ```
@@ -515,6 +519,7 @@ function balanceRecipeElementally(recipe: Recipe): Recipe {
 ### Checklist for Elemental Code Reviews
 
 **Required Checks:**
+
 - [ ] No opposition logic (Fire vs Water, Earth vs Air)
 - [ ] All compatibility scores ≥ 0.7
 - [ ] Same-element combinations score ≥ 0.9
@@ -524,6 +529,7 @@ function balanceRecipeElementally(recipe: Recipe): Recipe {
 - [ ] Consistent use of elemental utility functions
 
 **Red Flags to Watch For:**
+
 - Hardcoded opposition relationships
 - Compatibility scores below 0.7
 - Complex balancing that reduces elemental strength
@@ -536,4 +542,5 @@ function balanceRecipeElementally(recipe: Recipe): Recipe {
 - `src/calculations/core/elementalCalculations.ts` - Core elemental calculations
 - `src/utils/elemental/elementalUtils.ts` - Elemental utility functions
 - `src/constants/elementalProperties.ts` - Elemental constants and mappings
-- `src/__tests__/utils/elementalCompatibility.test.ts` - Elemental compatibility tests
+- `src/__tests__/utils/elementalCompatibility.test.ts` - Elemental compatibility
+  tests

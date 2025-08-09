@@ -23,23 +23,23 @@ const mockESLintOutput = [
         message: 'There should be at least one empty line between import groups',
         line: 1,
         column: 1,
-        fix: { range: [51, 51], text: '\n' }
+        fix: { range: [51, 51], text: '\n' },
       },
       {
         ruleId: '@typescript-eslint/no-explicit-any',
         severity: 1,
         message: 'Unexpected any. Specify a different type.',
         line: 15,
-        column: 10
+        column: 10,
       },
       {
         ruleId: 'react-hooks/exhaustive-deps',
         severity: 1,
         message: 'React Hook useEffect has a missing dependency',
         line: 25,
-        column: 5
-      }
-    ]
+        column: 5,
+      },
+    ],
   },
   {
     filePath: '/project/src/calculations/astrology.ts',
@@ -49,16 +49,16 @@ const mockESLintOutput = [
         severity: 1,
         message: "'planetPosition' is defined but never used",
         line: 10,
-        column: 7
+        column: 7,
       },
       {
         ruleId: 'no-console',
         severity: 1,
         message: 'Unexpected console statement',
         line: 20,
-        column: 5
-      }
-    ]
+        column: 5,
+      },
+    ],
   },
   {
     filePath: '/project/src/services/campaign/CampaignController.ts',
@@ -68,17 +68,17 @@ const mockESLintOutput = [
         severity: 1,
         message: 'Function has a complexity of 12. Maximum allowed is 10.',
         line: 50,
-        column: 1
+        column: 1,
       },
       {
         ruleId: 'no-console',
         severity: 1,
         message: 'Unexpected console statement',
         line: 75,
-        column: 5
-      }
-    ]
-  }
+        column: 5,
+      },
+    ],
+  },
 ];
 
 /**
@@ -92,10 +92,30 @@ function demonstrateErrorClassification() {
 
   // Classify different types of errors
   const testCases = [
-    { rule: 'import/order', message: 'Import order incorrect', file: 'src/App.tsx', hasAutoFix: true },
-    { rule: '@typescript-eslint/no-explicit-any', message: 'Unexpected any', file: 'src/utils.ts', hasAutoFix: false },
-    { rule: 'react-hooks/exhaustive-deps', message: 'Missing dependency', file: 'src/components/Component.tsx', hasAutoFix: true },
-    { rule: 'no-console', message: 'Console statement', file: 'src/calculations/astrology.ts', hasAutoFix: false }
+    {
+      rule: 'import/order',
+      message: 'Import order incorrect',
+      file: 'src/App.tsx',
+      hasAutoFix: true,
+    },
+    {
+      rule: '@typescript-eslint/no-explicit-any',
+      message: 'Unexpected any',
+      file: 'src/utils.ts',
+      hasAutoFix: false,
+    },
+    {
+      rule: 'react-hooks/exhaustive-deps',
+      message: 'Missing dependency',
+      file: 'src/components/Component.tsx',
+      hasAutoFix: true,
+    },
+    {
+      rule: 'no-console',
+      message: 'Console statement',
+      file: 'src/calculations/astrology.ts',
+      hasAutoFix: false,
+    },
   ];
 
   testCases.forEach(testCase => {
@@ -103,15 +123,23 @@ function demonstrateErrorClassification() {
       testCase.rule,
       testCase.message,
       testCase.file,
-      testCase.hasAutoFix
+      testCase.hasAutoFix,
     );
 
     log.info(`\n📋 Rule: ${testCase.rule}`);
-    log.info(`   Category: ${classification.category.primary} (${classification.category.secondary})`);
-    log.info(`   Severity: ${classification.severity.level} (${classification.severity.score}/100)`);
-    log.info(`   Auto-fix: ${classification.autoFixCapability.canAutoFix ? '✅' : '❌'} (${Math.round(classification.autoFixCapability.confidence * 100)}% confidence)`);
+    log.info(
+      `   Category: ${classification.category.primary} (${classification.category.secondary})`,
+    );
+    log.info(
+      `   Severity: ${classification.severity.level} (${classification.severity.score}/100)`,
+    );
+    log.info(
+      `   Auto-fix: ${classification.autoFixCapability.canAutoFix ? '✅' : '❌'} (${Math.round(classification.autoFixCapability.confidence * 100)}% confidence)`,
+    );
     log.info(`   Risk: ${classification.riskProfile.overall}`);
-    log.info(`   Domain Impact: ${classification.domainImpact.specialHandlingRequired ? 'Requires special handling' : 'Standard handling'}`);
+    log.info(
+      `   Domain Impact: ${classification.domainImpact.specialHandlingRequired ? 'Requires special handling' : 'Standard handling'}`,
+    );
   });
 }
 
@@ -130,7 +158,7 @@ async function demonstrateDomainContextDetection() {
     'src/services/campaign/CampaignController.ts',
     'src/components/__tests__/Component.test.tsx',
     'src/scripts/build.js',
-    'src/data/planets/mars.ts'
+    'src/data/planets/mars.ts',
   ];
 
   for (const file of testFiles) {
@@ -139,17 +167,23 @@ async function demonstrateDomainContextDetection() {
       const mockAnalysis = {
         filePath: file,
         domainContext: {
-          type: file.includes('calculation') || file.includes('planets') ? 'astrological' :
-                file.includes('campaign') ? 'campaign' :
-                file.includes('test') ? 'test' :
-                file.includes('script') ? 'script' : 'component',
+          type:
+            file.includes('calculation') || file.includes('planets')
+              ? 'astrological'
+              : file.includes('campaign')
+                ? 'campaign'
+                : file.includes('test')
+                  ? 'test'
+                  : file.includes('script')
+                    ? 'script'
+                    : 'component',
           confidence: 0.8,
           indicators: [],
           specialRules: [],
-          handlingRecommendations: []
+          handlingRecommendations: [],
         },
         riskFactors: [],
-        preservationRequirements: []
+        preservationRequirements: [],
       };
 
       log.info(`\n📁 File: ${file}`);
@@ -157,13 +191,15 @@ async function demonstrateDomainContextDetection() {
       log.info(`   Confidence: ${Math.round(mockAnalysis.domainContext.confidence * 100)}%`);
 
       // Get domain-specific recommendations
-      const recommendations = detector.getDomainLintingRecommendations(mockAnalysis.domainContext as unknown as {
-        type: string;
-        confidence: number;
-        indicators: unknown[];
-        specialRules: unknown[];
-        handlingRecommendations: unknown[];
-      });
+      const recommendations = detector.getDomainLintingRecommendations(
+        mockAnalysis.domainContext as unknown as {
+          type: string;
+          confidence: number;
+          indicators: unknown[];
+          specialRules: unknown[];
+          handlingRecommendations: unknown[];
+        },
+      );
       if (recommendations.rulesToDisable.length > 0) {
         log.info(`   Rules to disable: ${recommendations.rulesToDisable.join(', ')}`);
       }
@@ -187,24 +223,38 @@ function demonstrateResolutionStrategies() {
   const classifier = new ErrorClassificationSystem();
 
   // Create mock contexts for strategy generation
-      const testContexts: Array<{
-        errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>;
-        domainContext: { type: string; confidence: number };
-        fileAnalysis: { filePath: string; riskFactors: unknown[]; preservationRequirements: unknown[] };
-        projectContext: { hasTests: boolean; teamSize: string; riskTolerance: string };
-      }> = [
+  const testContexts: Array<{
+    errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>;
+    domainContext: { type: string; confidence: number };
+    fileAnalysis: { filePath: string; riskFactors: unknown[]; preservationRequirements: unknown[] };
+    projectContext: { hasTests: boolean; teamSize: string; riskTolerance: string };
+  }> = [
     {
-        errorClassification: classifier.classifyError('import/order', 'Import order incorrect', 'src/App.tsx', true),
-        domainContext: { type: 'component', confidence: 0.9 },
-        fileAnalysis: { filePath: 'src/App.tsx', riskFactors: [], preservationRequirements: [] },
-        projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'moderate' }
+      errorClassification: classifier.classifyError(
+        'import/order',
+        'Import order incorrect',
+        'src/App.tsx',
+        true,
+      ),
+      domainContext: { type: 'component', confidence: 0.9 },
+      fileAnalysis: { filePath: 'src/App.tsx', riskFactors: [], preservationRequirements: [] },
+      projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'moderate' },
     },
     {
-        errorClassification: classifier.classifyError('@typescript-eslint/no-explicit-any', 'Unexpected any', 'src/calculations/astrology.ts', false),
-        domainContext: { type: 'astrological', confidence: 0.95 },
-        fileAnalysis: { filePath: 'src/calculations/astrology.ts', riskFactors: [], preservationRequirements: [] },
-        projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'conservative' }
-    }
+      errorClassification: classifier.classifyError(
+        '@typescript-eslint/no-explicit-any',
+        'Unexpected any',
+        'src/calculations/astrology.ts',
+        false,
+      ),
+      domainContext: { type: 'astrological', confidence: 0.95 },
+      fileAnalysis: {
+        filePath: 'src/calculations/astrology.ts',
+        riskFactors: [],
+        preservationRequirements: [],
+      },
+      projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'conservative' },
+    },
   ];
 
   testContexts.forEach((context, index) => {
@@ -256,9 +306,9 @@ function demonstrateCompleteWorkflow() {
             riskLevel: 'low',
             requiredValidation: [],
             estimatedEffort: 0.1,
-            dependencies: []
-          }
-        } as LintingIssue
+            dependencies: [],
+          },
+        } as LintingIssue,
       ],
       typescript: [
         {
@@ -277,9 +327,9 @@ function demonstrateCompleteWorkflow() {
             riskLevel: 'medium',
             requiredValidation: [],
             estimatedEffort: 10,
-            dependencies: []
-          }
-        } as LintingIssue
+            dependencies: [],
+          },
+        } as LintingIssue,
       ],
       react: [
         {
@@ -298,21 +348,23 @@ function demonstrateCompleteWorkflow() {
             riskLevel: 'high',
             requiredValidation: [],
             estimatedEffort: 5,
-            dependencies: []
-          }
-        } as LintingIssue
-      ]
+            dependencies: [],
+          },
+        } as LintingIssue,
+      ],
     },
     byPriority: {},
     byFile: {},
     autoFixable: [],
-    requiresManualReview: []
+    requiresManualReview: [],
   };
 
   // Populate derived fields
   const allIssues = Object.values(mockCategorizedErrors.byCategory).flat();
   mockCategorizedErrors.autoFixable = allIssues.filter(i => i.autoFixable);
-  mockCategorizedErrors.requiresManualReview = allIssues.filter(i => i.resolutionStrategy.type === 'manual-review');
+  mockCategorizedErrors.requiresManualReview = allIssues.filter(
+    i => i.resolutionStrategy.type === 'manual-review',
+  );
 
   // Group by priority and file
   for (const issue of allIssues) {
@@ -350,7 +402,9 @@ function demonstrateCompleteWorkflow() {
     log.info(`     Issues: ${phase.issues.length}`);
     log.info(`     Time: ${phase.estimatedTime} minutes`);
     log.info(`     Risk: ${phase.riskLevel}`);
-    log.info(`     Dependencies: ${phase.dependencies.length > 0 ? phase.dependencies.join(', ') : 'None'}`);
+    log.info(
+      `     Dependencies: ${phase.dependencies.length > 0 ? phase.dependencies.join(', ') : 'None'}`,
+    );
   });
 
   if (plan.riskAssessment.mitigations.length > 0) {
@@ -387,7 +441,6 @@ async function runDemonstration() {
     log.info('• ✅ Resolution strategy generation');
     log.info('• ✅ Risk assessment and mitigation planning');
     log.info('• ✅ Comprehensive workflow integration');
-
   } catch (error) {
     console.error('❌ Demonstration failed:', error);
   }

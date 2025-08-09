@@ -16,7 +16,7 @@ const mockIngredient = {
   water: 0.7,
   fire: 0.3,
   earth: 0.4,
-  air: 0.2
+  air: 0.2,
 };
 
 // Create mock cooking methods
@@ -30,7 +30,7 @@ const mockCookingMethods = [
   { name: 'braising', element: 'water' },
   { name: 'poaching', element: 'water' },
   { name: 'frying', element: 'fire' },
-  { name: 'fermenting', element: 'earth' }
+  { name: 'fermenting', element: 'earth' },
 ];
 
 // Run the test
@@ -42,7 +42,11 @@ console.log('Elemental Character:', mockIngredient.elementalCharacter);
 
 // Get recommendations
 try {
-  const recommendations = getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods, 5);
+  const recommendations = getRecommendedCookingMethodsForIngredient(
+    mockIngredient,
+    mockCookingMethods,
+    5,
+  );
   console.log('\nRECOMMENDATIONS:');
   recommendations.forEach((rec, index) => {
     console.log(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
@@ -52,4 +56,4 @@ try {
   if (error.stack) {
     console.error(error.stack);
   }
-} 
+}

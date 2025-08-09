@@ -12,7 +12,7 @@ import { SafetyProtocol } from './SafetyProtocol';
 
 // Mock child_process for testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn()
+  execSync: jest.fn(),
 }));
 
 // Mock fs for testing
@@ -20,7 +20,7 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
   readFileSync: jest.fn(),
   writeFileSync: jest.fn(),
-  mkdirSync: jest.fn()
+  mkdirSync: jest.fn(),
 }));
 
 const { execSync } = require('child_process');
@@ -32,14 +32,14 @@ describe('Git Safety Management - Task 6.1', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     mockSettings = {
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     // Mock git repository existence
@@ -54,8 +54,10 @@ describe('Git Safety Management - Task 6.1', () => {
       if (command.includes('git status --porcelain')) return '';
       if (command.includes('git branch --show-current')) return 'main';
       if (command.includes('git stash push')) return 'Saved working directory';
-      if (command.includes('git stash list --oneline')) return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
-      if (command.includes('git stash list')) return 'stash@{0}: On main: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
+      if (command.includes('git stash list --oneline'))
+        return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
+      if (command.includes('git stash list'))
+        return 'stash@{0}: On main: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
       if (command.includes('git stash apply')) return 'Applied stash';
       if (command.includes('git stash drop')) return 'Dropped stash';
       return '';
@@ -74,7 +76,7 @@ describe('Git Safety Management - Task 6.1', () => {
       expect(stashId).toMatch(/^campaign-phase1-\d+-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z$/);
       expect(execSync).toHaveBeenCalledWith(
         expect.stringMatching(/git stash push -u -m "campaign-phase1-\d+-.*: Before TypeScript error fixes"/),
-        expect.any(Object)
+        expect.any(Object),
       );
     });
 
@@ -87,7 +89,7 @@ describe('Git Safety Management - Task 6.1', () => {
       expect(stashId).toMatch(/^campaign-phase1-\d+-/);
       expect(execSync).toHaveBeenCalledWith(
         expect.stringMatching(/git stash push -u -m ".*Checkpoint before Enhanced Error Fixer v3.0 in phase1"/),
-        expect.any(Object)
+        expect.any(Object),
       );
     });
 
@@ -117,14 +119,11 @@ describe('Git Safety Management - Task 6.1', () => {
     test('should apply specific stash by ID', async () => {
       // First create a stash
       const stashId = await safetyProtocol.createStash('test stash');
-      
+
       // Then apply it
       await safetyProtocol.applyStash(stashId);
 
-      expect(execSync).toHaveBeenCalledWith(
-        'git stash apply stash@{0}',
-        expect.any(Object)
-      );
+      expect(execSync).toHaveBeenCalledWith('git stash apply stash@{0}', expect.any(Object));
     });
 
     test('should automatically apply latest stash for rollback', async () => {
@@ -135,10 +134,7 @@ describe('Git Safety Management - Task 6.1', () => {
       const appliedStashId = await safetyProtocol.autoApplyLatestStash();
 
       expect(appliedStashId).toMatch(/^campaign-\d+-/);
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringMatching(/git stash apply stash@\{\d+\}/),
-        expect.any(Object)
-      );
+      expect(execSync).toHaveBeenCalledWith(expect.stringMatching(/git stash apply stash@\{\d+\}/), expect.any(Object));
     });
 
     test('should apply stash by phase for targeted rollbacks', async () => {
@@ -156,7 +152,9 @@ describe('Git Safety Management - Task 6.1', () => {
     });
 
     test('should handle no stashes available for auto-apply', async () => {
-      await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow('No stashes available for automatic rollback');
+      await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow(
+        'No stashes available for automatic rollback',
+      );
     });
   });
 
@@ -173,22 +171,24 @@ describe('Git Safety Management - Task 6.1', () => {
         return false;
       });
 
-      mockFs.readFileSync.mockReturnValue(JSON.stringify({
-        counter: 2,
-        stashes: {
-          'old-stash-1': {
-            id: 'old-stash-1',
-            description: 'Old stash',
-            timestamp: oldDate.toISOString(),
-            branch: 'main',
-            ref: 'stash@{1}'
-          }
-        }
-      }));
+      mockFs.readFileSync.mockReturnValue(
+        JSON.stringify({
+          counter: 2,
+          stashes: {
+            'old-stash-1': {
+              id: 'old-stash-1',
+              description: 'Old stash',
+              timestamp: oldDate.toISOString(),
+              branch: 'main',
+              ref: 'stash@{1}',
+            },
+          },
+        }),
+      );
 
       // Create new safety protocol to load the old stash
       const newSafetyProtocol = new SafetyProtocol(mockSettings);
-      
+
       await newSafetyProtocol.cleanupOldStashes();
 
       expect(execSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect.any(Object));
@@ -208,7 +208,7 @@ describe('Git Safety Management - Task 6.1', () => {
     test('should provide stash statistics', async () => {
       // Create a fresh safety protocol to avoid interference from other tests
       const freshProtocol = new SafetyProtocol(mockSettings);
-      
+
       await freshProtocol.createStash('phase1 work', 'phase1');
       await freshProtocol.createStash('phase2 work', 'phase2');
       await freshProtocol.createStash('more phase1 work', 'phase1');
@@ -229,7 +229,7 @@ describe('Git Safety Management - Task 6.1', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringMatching(/\.kiro[\/\\]campaign-stashes\.json$/),
-        expect.stringContaining('"counter":')
+        expect.stringContaining('"counter":'),
       );
     });
 
@@ -242,9 +242,9 @@ describe('Git Safety Management - Task 6.1', () => {
             description: 'Test stash',
             timestamp: new Date().toISOString(),
             branch: 'main',
-            ref: 'stash@{0}'
-          }
-        }
+            ref: 'stash@{0}',
+          },
+        },
       };
 
       // Mock file existence for this specific test
@@ -301,7 +301,7 @@ describe('Git Safety Management - Task 6.1', () => {
 
       const settingsWithoutAutoRollback = {
         ...mockSettings,
-        automaticRollbackEnabled: false
+        automaticRollbackEnabled: false,
       };
 
       const protocol = new SafetyProtocol(settingsWithoutAutoRollback);
@@ -343,18 +343,20 @@ describe('Git Safety Management - Task 6.1', () => {
       });
 
       // Mock old stash
-      mockFs.readFileSync.mockReturnValue(JSON.stringify({
-        counter: 1,
-        stashes: {
-          'old-stash': {
-            id: 'old-stash',
-            description: 'Old stash',
-            timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old
-            branch: 'main',
-            ref: 'stash@{0}'
-          }
-        }
-      }));
+      mockFs.readFileSync.mockReturnValue(
+        JSON.stringify({
+          counter: 1,
+          stashes: {
+            'old-stash': {
+              id: 'old-stash',
+              description: 'Old stash',
+              timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old
+              branch: 'main',
+              ref: 'stash@{0}',
+            },
+          },
+        }),
+      );
 
       const newProtocol = new SafetyProtocol(mockSettings);
       await newProtocol.cleanupOldStashes();

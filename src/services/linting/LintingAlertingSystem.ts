@@ -111,7 +111,9 @@ export class LintingAlertingSystem {
       await this.triggerAutoResponses(activeAlerts, performanceEvents);
     }
 
-    console.log(`✅ Processed ${activeAlerts.length} active alerts and ${performanceEvents.length} performance events`);
+    console.log(
+      `✅ Processed ${activeAlerts.length} active alerts and ${performanceEvents.length} performance events`,
+    );
   }
 
   /**
@@ -137,11 +139,13 @@ export class LintingAlertingSystem {
           value,
           threshold: threshold.threshold,
           impact: this.calculateImpact(threshold.severity),
-          autoResponseTriggered: false
+          autoResponseTriggered: false,
         };
 
         events.push(event);
-        console.log(`⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`);
+        console.log(
+          `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`,
+        );
       }
     }
 
@@ -228,9 +232,9 @@ export class LintingAlertingSystem {
       data: {
         metric: alert.metric,
         currentValue: alert.currentValue,
-        threshold: alert.threshold
+        threshold: alert.threshold,
       },
-      actions: this.generateKiroActions(alert)
+      actions: this.generateKiroActions(alert),
     };
 
     const kiroFile = '.kiro/notifications/linting-alerts.json';
@@ -254,7 +258,7 @@ export class LintingAlertingSystem {
       current_value: alert.currentValue,
       threshold: alert.threshold,
       message: alert.message,
-      source: 'linting-excellence-dashboard'
+      source: 'linting-excellence-dashboard',
     };
 
     try {
@@ -362,7 +366,7 @@ export class LintingAlertingSystem {
         type: 'command',
         label: 'Fix Parser Errors',
         command: 'yarn tsc --noEmit',
-        description: 'Run TypeScript compiler to identify syntax errors'
+        description: 'Run TypeScript compiler to identify syntax errors',
       });
     }
 
@@ -371,7 +375,7 @@ export class LintingAlertingSystem {
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
         campaign: 'explicit-any-elimination',
-        description: 'Launch systematic explicit any type elimination'
+        description: 'Launch systematic explicit any type elimination',
       });
     }
 
@@ -380,7 +384,7 @@ export class LintingAlertingSystem {
         type: 'command',
         label: 'Fix Import Order',
         command: 'yarn lint:fix',
-        description: 'Automatically organize imports with enhanced rules'
+        description: 'Automatically organize imports with enhanced rules',
       });
     }
 
@@ -425,23 +429,23 @@ export class LintingAlertingSystem {
         {
           type: 'console',
           config: {},
-          severityFilter: ['warning', 'error', 'critical']
+          severityFilter: ['warning', 'error', 'critical'],
         },
         {
           type: 'file',
           config: { file: '.kiro/metrics/alerts.log' },
-          severityFilter: ['error', 'critical']
+          severityFilter: ['error', 'critical'],
         },
         {
           type: 'kiro',
           config: {},
-          severityFilter: ['critical']
-        }
+          severityFilter: ['critical'],
+        },
       ],
       regressionDetection: {
         enabled: true,
         sensitivity: 'medium',
-        cooldownPeriod: 15 // 15 minutes
+        cooldownPeriod: 15, // 15 minutes
       },
       performanceMonitoring: {
         enabled: true,
@@ -450,21 +454,21 @@ export class LintingAlertingSystem {
             metric: 'duration',
             threshold: 30000, // 30 seconds
             severity: 'warning',
-            message: 'Linting duration exceeds 30 seconds'
+            message: 'Linting duration exceeds 30 seconds',
           },
           {
             metric: 'memory',
             threshold: 512, // 512 MB
             severity: 'warning',
-            message: 'Memory usage exceeds 512MB'
+            message: 'Memory usage exceeds 512MB',
           },
           {
             metric: 'cacheHitRate',
             threshold: 0.5, // 50%
             severity: 'warning',
-            message: 'Cache hit rate below 50%'
-          }
-        ]
+            message: 'Cache hit rate below 50%',
+          },
+        ],
       },
       autoResponse: {
         enabled: true,
@@ -472,15 +476,15 @@ export class LintingAlertingSystem {
           {
             trigger: 'performance_degradation',
             action: 'enableCache',
-            parameters: {}
+            parameters: {},
           },
           {
             trigger: 'memory_exceeded',
             action: 'reduceBatchSize',
-            parameters: { newSize: 10 }
-          }
-        ]
-      }
+            parameters: { newSize: 10 },
+          },
+        ],
+      },
     };
   }
 
@@ -543,7 +547,7 @@ export class LintingAlertingSystem {
       alerts: [],
       suppressedAlerts: [],
       resolvedAlerts: [],
-      performanceEvents: []
+      performanceEvents: [],
     };
   }
 
@@ -556,7 +560,10 @@ export class LintingAlertingSystem {
       case 'cacheHitRate':
         return metrics.performanceMetrics.cacheHitRate;
       case 'filesPerSecond':
-        return metrics.performanceMetrics.filesProcessed / (metrics.performanceMetrics.lintingDuration / 1000);
+        return (
+          metrics.performanceMetrics.filesProcessed /
+          (metrics.performanceMetrics.lintingDuration / 1000)
+        );
       default:
         return 0;
     }
@@ -580,7 +587,11 @@ export class LintingAlertingSystem {
     }
   }
 
-  private shouldTriggerAction(action: AutoResponseAction, alerts: Alert[], events: PerformanceEvent[]): boolean {
+  private shouldTriggerAction(
+    action: AutoResponseAction,
+    alerts: Alert[],
+    events: PerformanceEvent[],
+  ): boolean {
     switch (action.trigger) {
       case 'performance_degradation':
         return events.some(e => e.type === 'threshold_exceeded' && e.impact === 'high');

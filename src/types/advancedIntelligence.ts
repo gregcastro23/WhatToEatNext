@@ -48,12 +48,15 @@ export interface PredictiveRecipeAnalysis {
     zodiacSign: ZodiacSign;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
-    planetaryPositions?: Record<string, {
-      longitude: number;
-      latitude?: number;
-      retrograde?: boolean;
-      house?: number;
-    }>;
+    planetaryPositions?: Record<
+      string,
+      {
+        longitude: number;
+        latitude?: number;
+        retrograde?: boolean;
+        house?: number;
+      }
+    >;
   };
   predictionFactors: {
     elementalAlignment: number;

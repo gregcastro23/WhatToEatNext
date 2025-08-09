@@ -12,7 +12,7 @@ interface CircuitBreakerOptions {
 enum CircuitState {
   CLOSED = 'CLOSED',
   OPEN = 'OPEN',
-  HALF_OPEN = 'HALF_OPEN'
+  HALF_OPEN = 'HALF_OPEN',
 }
 
 export class CircuitBreaker {
@@ -26,7 +26,7 @@ export class CircuitBreaker {
       failureThreshold: 3,
       resetTimeout: 60000, // 1 minute
       monitoringWindow: 300000, // 5 minutes
-      ...options
+      ...options,
     };
   }
 
@@ -49,11 +49,11 @@ export class CircuitBreaker {
       return result;
     } catch (error) {
       this.onFailure();
-      
+
       if (fallback) {
         return fallback();
       }
-      
+
       throw error;
     }
   }
@@ -87,5 +87,5 @@ export class CircuitBreaker {
 export const astrologizeApiCircuitBreaker = new CircuitBreaker({
   failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback
   resetTimeout: 60000, // 1 minute before retry (faster recovery)
-  monitoringWindow: 300000 // 5 minutes
+  monitoringWindow: 300000, // 5 minutes
 });

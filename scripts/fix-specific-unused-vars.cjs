@@ -9,82 +9,82 @@ const specificFixes = [
   {
     pattern: /\(id: string\)/g,
     replacement: '(_id: string)',
-    description: 'Fix unused parameter id'
+    description: 'Fix unused parameter id',
   },
   {
     pattern: /\(category: string\)/g,
     replacement: '(_category: string)',
-    description: 'Fix unused parameter category'
+    description: 'Fix unused parameter category',
   },
   {
     pattern: /\(criterion: string\)/g,
     replacement: '(_criterion: string)',
-    description: 'Fix unused parameter criterion'
+    description: 'Fix unused parameter criterion',
   },
   {
     pattern: /\(requirement: string\)/g,
     replacement: '(_requirement: string)',
-    description: 'Fix unused parameter requirement'
+    description: 'Fix unused parameter requirement',
   },
   {
     pattern: /\(ruleName: string\)/g,
     replacement: '(_ruleName: string)',
-    description: 'Fix unused parameter ruleName'
+    description: 'Fix unused parameter ruleName',
   },
 
   // Variable assignments
   {
     pattern: /const results = /g,
     replacement: 'const _results = ',
-    description: 'Fix unused variable results'
+    description: 'Fix unused variable results',
   },
   {
     pattern: /const executionTime = /g,
     replacement: 'const _executionTime = ',
-    description: 'Fix unused variable executionTime'
+    description: 'Fix unused variable executionTime',
   },
   {
     pattern: /const firstRunTime = /g,
     replacement: 'const _firstRunTime = ',
-    description: 'Fix unused variable firstRunTime'
+    description: 'Fix unused variable firstRunTime',
   },
   {
     pattern: /const secondRunTime = /g,
     replacement: 'const _secondRunTime = ',
-    description: 'Fix unused variable secondRunTime'
+    description: 'Fix unused variable secondRunTime',
   },
   {
     pattern: /const result = /g,
     replacement: 'const _result = ',
-    description: 'Fix unused variable result'
+    description: 'Fix unused variable result',
   },
   {
     pattern: /const validator = /g,
     replacement: 'const _validator = ',
-    description: 'Fix unused variable validator'
+    description: 'Fix unused variable validator',
   },
   {
     pattern: /const content = /g,
     replacement: 'const _content = ',
-    description: 'Fix unused variable content'
+    description: 'Fix unused variable content',
   },
   {
     pattern: /const id = /g,
     replacement: 'const _id = ',
-    description: 'Fix unused variable id'
+    description: 'Fix unused variable id',
   },
   {
     pattern: /const state = /g,
     replacement: 'const _state = ',
-    description: 'Fix unused variable state'
+    description: 'Fix unused variable state',
   },
 
   // Import fixes
   {
     pattern: /import { startTransition } from 'react';/g,
-    replacement: 'import { startTransition as _startTransition } from \'react\';',
-    description: 'Fix unused import startTransition'
-  }
+    replacement: "import { startTransition as _startTransition } from 'react';",
+    description: 'Fix unused import startTransition',
+  },
 ];
 
 function applyFixesToFile(filePath, fixes) {
@@ -165,7 +165,7 @@ function main() {
   const commonFiles = [
     'src/components/ui/Button.tsx',
     'src/components/ui/Input.tsx',
-    'src/app/page.tsx'
+    'src/app/page.tsx',
   ];
 
   commonFiles.forEach(file => {
@@ -189,7 +189,9 @@ function main() {
   // Check improvement
   console.log('\n📊 Checking improvement...');
   try {
-    const newCount = parseInt(execSync('yarn lint 2>&1 | grep "no-unused-vars" | wc -l', { encoding: 'utf8' }).trim());
+    const newCount = parseInt(
+      execSync('yarn lint 2>&1 | grep "no-unused-vars" | wc -l', { encoding: 'utf8' }).trim(),
+    );
     console.log(`📈 Remaining unused variable warnings: ${newCount}`);
   } catch (error) {
     console.log('Could not count remaining unused variables');

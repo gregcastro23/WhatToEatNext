@@ -2,10 +2,10 @@
 
 /**
  * CLI script for TypeScript Error Analyzer
- * 
+ *
  * Usage:
  *   npx ts-node src/services/campaign/analyze-typescript-errors.ts [options]
- * 
+ *
  * Options:
  *   --save          Save analysis results to file
  *   --json          Output results in JSON format
@@ -17,7 +17,7 @@ import { TypeScriptErrorAnalyzer } from './TypeScriptErrorAnalyzer';
 
 async function main() {
   const args = process.argv.slice(2);
-  
+
   if (args.includes('--help')) {
     console.log(`
 TypeScript Error Analyzer CLI
@@ -53,7 +53,9 @@ Examples:
     if (args.includes('--count-only')) {
       const count = await analyzer.getCurrentErrorCount();
       if (args.includes('--json')) {
-        console.log(JSON.stringify({ currentErrorCount: count, timestamp: new Date().toISOString() }));
+        console.log(
+          JSON.stringify({ currentErrorCount: count, timestamp: new Date().toISOString() }),
+        );
       } else {
         console.log(`Current TypeScript errors: ${count}`);
       }
@@ -72,7 +74,6 @@ Examples:
     if (args.includes('--save')) {
       await analyzer.saveAnalysis(result);
     }
-
   } catch (error) {
     console.error('❌ Analysis failed:', error);
     process.exit(1);

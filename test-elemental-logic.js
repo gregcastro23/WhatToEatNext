@@ -19,12 +19,12 @@ if (!fs.existsSync(TEST_DIR)) {
 // Create a temporary fix script specifically for testing
 const createTempFixScript = () => {
   const originalFixScript = fs.readFileSync(path.join(__dirname, 'fix-elemental-logic.js'), 'utf8');
-  
+
   // Modify the script to look in the current directory instead of src/lib
   const modifiedFixScript = originalFixScript
     .replace(/const SEARCH_DIRS = \['src', 'lib'\];/, "const SEARCH_DIRS = ['.'];")
     .replace(/const ROOT_DIR = process\.cwd\(\);/, `const ROOT_DIR = process.cwd();`);
-  
+
   // Write the modified script to the test directory
   fs.writeFileSync(path.join(TEST_DIR, 'temp-fix-script.js'), modifiedFixScript);
   console.log('Created temporary fix script for testing');
@@ -45,7 +45,7 @@ function getOppositeElement(element) {
   };
   return opposites[element];
 }
-`
+`,
   },
   {
     name: 'elementComparison.ts',
@@ -79,7 +79,7 @@ function getElementalCompatibility(
   // Fallback
   return 0.3;
 }
-`
+`,
   },
   {
     name: 'balancing.js',
@@ -93,7 +93,7 @@ function getBalancingElement(element) {
   if (element === 'Air') return 'Earth';
   return 'balanced';
 }
-`
+`,
   },
   {
     name: 'elementPairs.js',
@@ -111,8 +111,8 @@ function calculateElementalBalance(properties) {
     return 'Balanced';
   }
 }
-`
-  }
+`,
+  },
 ];
 
 // Create test files
@@ -128,7 +128,7 @@ createTempFixScript();
 function testFixedFile(filename, patterns) {
   const content = fs.readFileSync(path.join(TEST_DIR, filename), 'utf8');
   let passed = true;
-  
+
   for (const pattern of patterns) {
     if (pattern.type === 'contains') {
       if (!content.includes(pattern.value)) {
@@ -146,7 +146,7 @@ function testFixedFile(filename, patterns) {
       }
     }
   }
-  
+
   return passed;
 }
 
@@ -159,62 +159,61 @@ const originalDir = process.cwd();
 try {
   // Change to test directory to run the script
   process.chdir(TEST_DIR);
-  
+
   // Run the modified script
   execSync('node temp-fix-script.js', { stdio: 'inherit' });
-  
+
   // Change back to original directory
   process.chdir(originalDir);
-  
+
   // Test the fixed files
   console.log('\nVerifying fixes in test files:');
-  
+
   let testsPass = true;
-  
+
   // Check opposites.js
   const oppositesTests = [
     { type: 'contains', value: "Fire: 'Fire'" },
     { type: 'contains', value: "Water: 'Water'" },
     { type: 'contains', value: "Earth: 'Earth'" },
     { type: 'contains', value: "Air: 'Air'" },
-    { type: 'not_contains', value: "Fire: 'Water'" }
+    { type: 'not_contains', value: "Fire: 'Water'" },
   ];
   const oppositesPassed = testFixedFile('opposites.js', oppositesTests);
   testsPass = testsPass && oppositesPassed;
-  
+
   // Check elementComparison.ts
   const comparisonTests = [
-    { type: 'not_contains', value: "// Opposing elements with low compatibility" },
-    { type: 'not_contains', value: "return 0.2; // Opposing elements have low compatibility" },
-    { type: 'contains', value: "All different elements have good compatibility" }
+    { type: 'not_contains', value: '// Opposing elements with low compatibility' },
+    { type: 'not_contains', value: 'return 0.2; // Opposing elements have low compatibility' },
+    { type: 'contains', value: 'All different elements have good compatibility' },
   ];
   const comparisonPassed = testFixedFile('elementComparison.ts', comparisonTests);
   testsPass = testsPass && comparisonPassed;
-  
+
   // Check balancing.js
   const balancingTests = [
-    { type: 'contains', value: "return element;" },
-    { type: 'contains', value: "Elements work best with themselves" },
-    { type: 'not_contains', value: "if (element === 'Fire') return 'Water';" }
+    { type: 'contains', value: 'return element;' },
+    { type: 'contains', value: 'Elements work best with themselves' },
+    { type: 'not_contains', value: "if (element === 'Fire') return 'Water';" },
   ];
   const balancingPassed = testFixedFile('balancing.js', balancingTests);
   testsPass = testsPass && balancingPassed;
-  
+
   // Check elementPairs.js
   const pairsTests = [
-    { type: 'not_contains', value: "const fireWater = properties.Fire + properties.Water;" },
-    { type: 'not_contains', value: "const earthAir = properties.Earth + properties.Air;" }
+    { type: 'not_contains', value: 'const fireWater = properties.Fire + properties.Water;' },
+    { type: 'not_contains', value: 'const earthAir = properties.Earth + properties.Air;' },
   ];
   const pairsPassed = testFixedFile('elementPairs.js', pairsTests);
   testsPass = testsPass && pairsPassed;
-  
+
   // Output test results
   if (testsPass) {
     console.log('\n✅ All tests PASSED! The fix-elemental-logic.js script is working correctly.');
   } else {
     console.log('\n❌ Some tests FAILED. The fix-elemental-logic.js script may need adjustments.');
   }
-  
 } catch (error) {
   console.error('Error running tests:', error);
   process.chdir(originalDir); // Ensure we change back to original directory
@@ -229,14 +228,14 @@ if (fs.existsSync(TEST_DIR)) {
       fs.unlinkSync(filePath);
     }
   });
-  
+
   // Delete the temporary fix script
   const tempFixScriptPath = path.join(TEST_DIR, 'temp-fix-script.js');
   if (fs.existsSync(tempFixScriptPath)) {
     fs.unlinkSync(tempFixScriptPath);
   }
-  
+
   fs.rmdirSync(TEST_DIR);
 }
 
-console.log('Test cleanup complete.'); 
+console.log('Test cleanup complete.');

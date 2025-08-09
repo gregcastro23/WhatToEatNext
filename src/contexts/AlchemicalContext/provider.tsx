@@ -29,27 +29,28 @@ function deepEqual<T>(obj1: T, obj2: T): boolean {
   if (obj1 === obj2) return true;
   if (obj1 == null || obj2 == null) return false;
   if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false;
-  
+
   const keys1 = Object.keys(obj1 as object);
   const keys2 = Object.keys(obj2 as object);
-  
+
   if (keys1.length !== keys2.length) return false;
-  
+
   for (const key of keys1) {
     if (!keys2.includes(key)) return false;
-    if (!deepEqual((obj1 as Record<string, unknown>)[key], (obj2 as Record<string, unknown>)[key])) return false;
+    if (!deepEqual((obj1 as Record<string, unknown>)[key], (obj2 as Record<string, unknown>)[key]))
+      return false;
   }
-  
+
   return true;
 }
 
 // Calculate active planets based on dignity and other factors
 const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => {
   if (!positions) return [];
-  
+
   // Basic implementation just returns the major planets
   const activePlanets: string[] = [];
-  
+
   try {
     // Add main planets (using capitalized names to match proven working implementation)
     const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
@@ -58,7 +59,7 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
         activePlanets.push(planet);
       }
     });
-    
+
     // Always include luminaries (Sun and Moon) as they're constantly active
     if (!activePlanets.includes('Sun')) activePlanets.push('Sun');
     if (!activePlanets.includes('Moon')) activePlanets.push('Moon');
@@ -67,14 +68,16 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
     // Return at least the sun and moon as fallback (capitalized)
     return ['Sun', 'Moon'];
   }
-  
+
   return activePlanets;
 };
 
 // Safe type conversion function to replace 'as any' casts
-const convertToCalculationFormat = (positions: PlanetaryPositionsType): CalculationCompatiblePositions => {
+const convertToCalculationFormat = (
+  positions: PlanetaryPositionsType,
+): CalculationCompatiblePositions => {
   const converted: CalculationCompatiblePositions = {};
-  
+
   Object.entries(positions).forEach(([planet, position]) => {
     if (position && typeof position === 'object') {
       converted[planet] = {
@@ -82,16 +85,16 @@ const convertToCalculationFormat = (positions: PlanetaryPositionsType): Calculat
         degree: position.degree,
         isRetrograde: position.isRetrograde,
         // Preserve any additional properties safely
-        ...position
+        ...position,
       };
     }
   });
-  
+
   return converted;
 };
 
 // Export the provider component
-export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(alchemicalReducer, defaultState);
   const [planetaryPositions, setPlanetaryPositions] = useState<PlanetaryPositionsType>({});
   const [isDaytime, setIsDaytime] = useState(true);
@@ -115,23 +118,31 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         logger.debug('Synchronizing alchemical values from astrologicalState to root state');
         dispatch({
           type: 'SET_ALCHEMICAL_VALUES',
-          payload: (state.astrologicalState.alchemicalValues && Object.keys(state.astrologicalState.alchemicalValues).length === 4)
-            ? state.astrologicalState.alchemicalValues as { Spirit: number; Essence: number; Matter: number; Substance: number }
-            : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
+          payload:
+            state.astrologicalState.alchemicalValues &&
+            Object.keys(state.astrologicalState.alchemicalValues).length === 4
+              ? (state.astrologicalState.alchemicalValues as {
+                  Spirit: number;
+                  Essence: number;
+                  Matter: number;
+                  Substance: number;
+                })
+              : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
         });
       }
     } else if (state.astrologicalState) {
       // If astrologicalState exists but doesn't have alchemicalValues, add them from root state
       const updatedAstroState = {
         ...state.astrologicalState,
-        alchemicalValues: (state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4)
-          ? state.alchemicalValues
-          : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
+        alchemicalValues:
+          state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4
+            ? state.alchemicalValues
+            : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
       };
-      
+
       dispatch({
         type: 'SET_ASTROLOGICAL_STATE',
-        payload: updatedAstroState
+        payload: updatedAstroState,
       });
     }
   }, [state.astrologicalState]);
@@ -144,11 +155,11 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         logger.debug('Skipping identical planetary positions update');
         return prev;
       }
-      
+
       logger.info('Updating planetary positions', {
         sun: positions.Sun.sign,
         moon: positions.Moon.sign,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
       return positions;
     });
@@ -157,77 +168,80 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
   const refreshPlanetaryPositions = useCallback(async () => {
     try {
       logger.debug('Refreshing planetary positions...');
-      
+
       // Use reliable hardcoded positions
       const positions = safeAstrology.getReliablePlanetaryPositions();
-      
+
       // Normalize keys to capitalized format for consistency with proven working implementation
       const normalizedPositions: PlanetaryPositionsType = {};
       Object.entries(positions).forEach(([key, data]) => {
         if (!data || typeof data !== 'object') return;
-        
+
         const planet = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
         normalizedPositions[planet] = {
           sign: data.sign?.toLowerCase() || 'unknown',
           degree: typeof data.degree === 'number' ? data.degree : 0,
           exactLongitude: typeof data.exactLongitude === 'number' ? data.exactLongitude : 0,
-          isRetrograde: !!data.isRetrograde
+          isRetrograde: !!data.isRetrograde,
         };
       });
 
       updatePlanetaryPositions(normalizedPositions);
-      
+
       // Import calculation utilities
-      const { 
-        calculateElementalValues, 
-        calculatePlanetaryAlchemicalValues, 
-        calculateElementalBalance 
+      const {
+        calculateElementalValues,
+        calculatePlanetaryAlchemicalValues,
+        calculateElementalBalance,
       } = await import('@/utils/alchemicalCalculations');
-      
+
       // Calculate elemental and alchemical values using type-safe conversion
       const compatiblePositions = convertToCalculationFormat(normalizedPositions);
       const elementalValues = calculateElementalValues(compatiblePositions);
       const planetaryValues = calculatePlanetaryAlchemicalValues(compatiblePositions);
       const elementalBalance = calculateElementalBalance(compatiblePositions);
-      
+
       // Combine elemental and planetary influences (weighted average)
       const combinedAlchemicalValues = {
-        Spirit: (elementalValues.Spirit * 0.5) + (planetaryValues.Spirit * 0.5),
-        Essence: (elementalValues.Essence * 0.5) + (planetaryValues.Essence * 0.5),
-        Matter: (elementalValues.Matter * 0.5) + (planetaryValues.Matter * 0.5),
-        Substance: (elementalValues.Substance * 0.5) + (planetaryValues.Substance * 0.5)
+        Spirit: elementalValues.Spirit * 0.5 + planetaryValues.Spirit * 0.5,
+        Essence: elementalValues.Essence * 0.5 + planetaryValues.Essence * 0.5,
+        Matter: elementalValues.Matter * 0.5 + planetaryValues.Matter * 0.5,
+        Substance: elementalValues.Substance * 0.5 + planetaryValues.Substance * 0.5,
       };
-      
+
       // Normalize alchemical values to ensure they sum to approximately 1
-      const total = combinedAlchemicalValues.Spirit + combinedAlchemicalValues.Essence + 
-                    combinedAlchemicalValues.Matter + combinedAlchemicalValues.Substance;
-      
+      const total =
+        combinedAlchemicalValues.Spirit +
+        combinedAlchemicalValues.Essence +
+        combinedAlchemicalValues.Matter +
+        combinedAlchemicalValues.Substance;
+
       const normalizedAlchemicalValues = {
         Spirit: combinedAlchemicalValues.Spirit / total,
         Essence: combinedAlchemicalValues.Essence / total,
         Matter: combinedAlchemicalValues.Matter / total,
-        Substance: combinedAlchemicalValues.Substance / total
+        Substance: combinedAlchemicalValues.Substance / total,
       };
-      
+
       logger.debug('Calculated alchemical values:', normalizedAlchemicalValues);
-      
+
       // Update state with calculated values
       const activePlanets = calculateActivePlanets(normalizedPositions);
       const sunSign = normalizedPositions.Sun.sign || 'aries';
       const moonSign = normalizedPositions.Moon.sign || 'taurus';
-      
+
       // First update the alchemical values at the root of the state
       dispatch({
         type: 'SET_ALCHEMICAL_VALUES',
-        payload: normalizedAlchemicalValues
+        payload: normalizedAlchemicalValues,
       });
-      
+
       // Update elemental state
       dispatch({
         type: 'SET_ELEMENTAL_STATE',
-        payload: elementalBalance
+        payload: elementalBalance,
       });
-      
+
       // Sync with ElementalCalculator
       try {
         const { ElementalCalculator } = await import('@/services/ElementalCalculator');
@@ -235,7 +249,7 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       } catch (error) {
         logger.error('Error syncing ElementalCalculator state:', error);
       }
-      
+
       // Then update the astrological state with the same values
       const astrologicalState: AstrologicalState = {
         sunSign,
@@ -251,25 +265,25 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         calculationError: false,
         alchemicalValues: normalizedAlchemicalValues,
         currentZodiac: sunSign,
-        moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase())
+        moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase()),
       };
-      
+
       dispatch({
         type: 'SET_ASTROLOGICAL_STATE',
-        payload: astrologicalState
+        payload: astrologicalState,
       });
-      
+
       return normalizedPositions;
     } catch (error) {
       logger.error('Error refreshing planetary positions:', error);
       dispatch({
         type: 'SET_ERROR',
-        payload: { message: 'Failed to refresh planetary positions' }
+        payload: { message: 'Failed to refresh planetary positions' },
       });
       // Pattern JJ-2: AlchemicalState Interface Completion - Return proper structure instead of empty object
       return {
         Sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false },
-        Moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false }
+        Moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false },
       };
     }
   }, [isDaytime, updatePlanetaryPositions]);
@@ -282,36 +296,43 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
     return 'night';
   };
 
-  const setDaytime = useCallback((value: boolean) => {
-    setIsDaytime(value);
-    logger.debug(`Setting isDaytime to ${value}`);
-    // Refresh planetary positions on daytime change
-    if (isInitialized) {
-      void refreshPlanetaryPositions();
-    }
-  }, [isInitialized, refreshPlanetaryPositions]);
+  const setDaytime = useCallback(
+    (value: boolean) => {
+      setIsDaytime(value);
+      logger.debug(`Setting isDaytime to ${value}`);
+      // Refresh planetary positions on daytime change
+      if (isInitialized) {
+        void refreshPlanetaryPositions();
+      }
+    },
+    [isInitialized, refreshPlanetaryPositions],
+  );
 
   const updateState = useCallback((updatedState: Partial<AlchemicalState>) => {
     dispatch({
       type: 'UPDATE_STATE',
-      payload: updatedState
+      payload: updatedState,
     });
   }, []);
 
   return (
-    <AlchemicalContext.Provider 
-      value={{ 
-        state, 
-        dispatch, 
+    <AlchemicalContext.Provider
+      value={{
+        state,
+        dispatch,
         planetaryPositions: planetaryPositions as Record<string, unknown>,
-        isDaytime, 
-        updatePlanetaryPositions: updatePlanetaryPositions as (positions: Record<string, unknown>) => void,
-        refreshPlanetaryPositions: refreshPlanetaryPositions as () => Promise<Record<string, unknown>>,
+        isDaytime,
+        updatePlanetaryPositions: updatePlanetaryPositions as (
+          positions: Record<string, unknown>,
+        ) => void,
+        refreshPlanetaryPositions: refreshPlanetaryPositions as () => Promise<
+          Record<string, unknown>
+        >,
         setDaytime,
-        updateState
+        updateState,
       }}
     >
       {children}
     </AlchemicalContext.Provider>
   );
-}; 
+};

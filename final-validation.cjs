@@ -12,50 +12,58 @@ const validations = [
     check: () => {
       const appContent = fs.readFileSync('App.tsx', 'utf8');
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
-      
-      return appContent.includes('MainPageLayout') &&
-             layoutContent.includes('CuisineRecommender') &&
-             layoutContent.includes('IngredientRecommender') &&
-             layoutContent.includes('CookingMethodsSection') &&
-             layoutContent.includes('RecipeBuilderSimple');
-    }
+
+      return (
+        appContent.includes('MainPageLayout') &&
+        layoutContent.includes('CuisineRecommender') &&
+        layoutContent.includes('IngredientRecommender') &&
+        layoutContent.includes('CookingMethodsSection') &&
+        layoutContent.includes('RecipeBuilderSimple')
+      );
+    },
   },
   {
     id: '1.2',
     name: 'Data Flow - Component interactions and data flow working',
     check: () => {
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
-      
-      return layoutContent.includes('MainPageContext') &&
-             layoutContent.includes('updateSelectedIngredients') &&
-             layoutContent.includes('updateSelectedCuisine') &&
-             layoutContent.includes('notifyComponentUpdate') &&
-             layoutContent.includes('subscribeToUpdates');
-    }
+
+      return (
+        layoutContent.includes('MainPageContext') &&
+        layoutContent.includes('updateSelectedIngredients') &&
+        layoutContent.includes('updateSelectedCuisine') &&
+        layoutContent.includes('notifyComponentUpdate') &&
+        layoutContent.includes('subscribeToUpdates')
+      );
+    },
   },
   {
     id: '8.1',
     name: 'Navigation - Navigation works correctly to all pages',
     check: () => {
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
-      
-      return layoutContent.includes('handleSectionNavigate') &&
-             layoutContent.includes('scrollIntoView') &&
-             layoutContent.includes('Cuisine Recommendations') &&
-             layoutContent.includes('Ingredient Recommendations') &&
-             layoutContent.includes('Cooking Methods');
-    }
+
+      return (
+        layoutContent.includes('handleSectionNavigate') &&
+        layoutContent.includes('scrollIntoView') &&
+        layoutContent.includes('Cuisine Recommendations') &&
+        layoutContent.includes('Ingredient Recommendations') &&
+        layoutContent.includes('Cooking Methods')
+      );
+    },
   },
   {
     id: '8.2',
     name: 'Debug Panel - Debug panel functions properly',
     check: () => {
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
-      
-      return layoutContent.includes('debugMode') &&
-             layoutContent.includes('ConsolidatedDebugInfo') &&
-             layoutContent.includes('logger.debug');
-    }
+
+      return (
+        layoutContent.includes('debugMode') &&
+        layoutContent.includes('ConsolidatedDebugInfo') &&
+        layoutContent.includes('logger.debug')
+      );
+    },
   },
   {
     id: '9.5',
@@ -63,12 +71,14 @@ const validations = [
     check: () => {
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
       const appContent = fs.readFileSync('App.tsx', 'utf8');
-      
-      return layoutContent.includes('md:text-4xl') &&
-             layoutContent.includes('flex-wrap') &&
-             appContent.includes('min-h-screen') &&
-             layoutContent.includes('container mx-auto px-4');
-    }
+
+      return (
+        layoutContent.includes('md:text-4xl') &&
+        layoutContent.includes('flex-wrap') &&
+        appContent.includes('min-h-screen') &&
+        layoutContent.includes('container mx-auto px-4')
+      );
+    },
   },
   {
     id: '10.5',
@@ -80,11 +90,11 @@ const validations = [
         'src/components/error-boundaries/ErrorBoundary.tsx',
         'src/contexts/AlchemicalContext/index.ts',
         'src/utils/logger.ts',
-        'src/components/recipes/RecipeBuilderSimple.tsx'
+        'src/components/recipes/RecipeBuilderSimple.tsx',
       ];
-      
+
       return requiredFiles.every(file => fs.existsSync(file));
-    }
+    },
   },
   {
     id: 'BUILD',
@@ -92,7 +102,7 @@ const validations = [
     check: () => {
       // Check if .next directory exists (indicating successful build)
       return fs.existsSync('.next') && fs.existsSync('.next/BUILD_ID');
-    }
+    },
   },
   {
     id: 'ERROR_HANDLING',
@@ -100,12 +110,14 @@ const validations = [
     check: () => {
       const appContent = fs.readFileSync('App.tsx', 'utf8');
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
-      
-      return appContent.includes('ErrorBoundary') &&
-             appContent.includes('AppErrorFallback') &&
-             layoutContent.includes('SectionErrorFallback') &&
-             appContent.includes('onError');
-    }
+
+      return (
+        appContent.includes('ErrorBoundary') &&
+        appContent.includes('AppErrorFallback') &&
+        layoutContent.includes('SectionErrorFallback') &&
+        appContent.includes('onError')
+      );
+    },
   },
   {
     id: 'LOADING_STATES',
@@ -113,12 +125,14 @@ const validations = [
     check: () => {
       const appContent = fs.readFileSync('App.tsx', 'utf8');
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
-      
-      return appContent.includes('Suspense') &&
-             appContent.includes('MainPageLoadingFallback') &&
-             layoutContent.includes('ComponentLoadingFallback') &&
-             layoutContent.includes('loading');
-    }
+
+      return (
+        appContent.includes('Suspense') &&
+        appContent.includes('MainPageLoadingFallback') &&
+        layoutContent.includes('ComponentLoadingFallback') &&
+        layoutContent.includes('loading')
+      );
+    },
   },
   {
     id: 'CONTEXT_INTEGRATION',
@@ -126,12 +140,14 @@ const validations = [
     check: () => {
       const appContent = fs.readFileSync('App.tsx', 'utf8');
       const layoutContent = fs.readFileSync('src/components/layout/MainPageLayout.tsx', 'utf8');
-      
-      return appContent.includes('AlchemicalProvider') &&
-             layoutContent.includes('useAlchemical') &&
-             layoutContent.includes('MainPageContext.Provider');
-    }
-  }
+
+      return (
+        appContent.includes('AlchemicalProvider') &&
+        layoutContent.includes('useAlchemical') &&
+        layoutContent.includes('MainPageContext.Provider')
+      );
+    },
+  },
 ];
 
 let passed = 0;

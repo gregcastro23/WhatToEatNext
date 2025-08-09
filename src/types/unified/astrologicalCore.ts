@@ -1,14 +1,14 @@
 // Unified Astrological Type Hub - Single Source of Truth
 
 // Re-export all astrological types from their sources
-export type { 
+export type {
   ElementalProperties,
-  PlanetaryPosition, 
+  PlanetaryPosition,
   AstrologicalState,
   ZodiacSign,
   LunarPhase,
   Recipe,
-  Ingredient
+  Ingredient,
 } from '../alchemy';
 
 export type { Recipe as UnifiedRecipe } from '../recipe';

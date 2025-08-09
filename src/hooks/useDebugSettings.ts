@@ -22,7 +22,7 @@ const DEFAULT_SETTINGS: DebugSettings = {
   showAstrologicalData: true,
   showComponentStates: true,
   opacity: 0.9,
-  size: 'medium'
+  size: 'medium',
 };
 
 const STORAGE_KEY = 'debug-panel-settings';
@@ -44,16 +44,19 @@ export const useDebugSettings = () => {
   }, []);
 
   // Save settings to localStorage whenever they change
-  const saveSettings = useCallback((newSettings: Partial<DebugSettings>) => {
-    const updatedSettings = { ...settings, ...newSettings };
-    setSettings(updatedSettings);
-    
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings));
-    } catch (error) {
-      console.warn('[Debug Settings] Failed to save settings:', error);
-    }
-  }, [settings]);
+  const saveSettings = useCallback(
+    (newSettings: Partial<DebugSettings>) => {
+      const updatedSettings = { ...settings, ...newSettings };
+      setSettings(updatedSettings);
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings));
+      } catch (error) {
+        console.warn('[Debug Settings] Failed to save settings:', error);
+      }
+    },
+    [settings],
+  );
 
   // Individual setting updaters
   const toggleVisibility = useCallback(() => {
@@ -64,13 +67,19 @@ export const useDebugSettings = () => {
     saveSettings({ isCollapsed: !settings.isCollapsed });
   }, [settings.isCollapsed, saveSettings]);
 
-  const setPosition = useCallback((position: DebugSettings['position']) => {
-    saveSettings({ position, customPosition: undefined });
-  }, [saveSettings]);
+  const setPosition = useCallback(
+    (position: DebugSettings['position']) => {
+      saveSettings({ position, customPosition: undefined });
+    },
+    [saveSettings],
+  );
 
-  const setCustomPosition = useCallback((x: number, y: number) => {
-    saveSettings({ customPosition: { x, y }, position: 'bottom-right' });
-  }, [saveSettings]);
+  const setCustomPosition = useCallback(
+    (x: number, y: number) => {
+      saveSettings({ customPosition: { x, y }, position: 'bottom-right' });
+    },
+    [saveSettings],
+  );
 
   const togglePerformanceMetrics = useCallback(() => {
     saveSettings({ showPerformanceMetrics: !settings.showPerformanceMetrics });
@@ -84,13 +93,19 @@ export const useDebugSettings = () => {
     saveSettings({ showComponentStates: !settings.showComponentStates });
   }, [settings.showComponentStates, saveSettings]);
 
-  const setOpacity = useCallback((opacity: number) => {
-    saveSettings({ opacity: Math.max(0.1, Math.min(1, opacity)) });
-  }, [saveSettings]);
+  const setOpacity = useCallback(
+    (opacity: number) => {
+      saveSettings({ opacity: Math.max(0.1, Math.min(1, opacity)) });
+    },
+    [saveSettings],
+  );
 
-  const setSize = useCallback((size: DebugSettings['size']) => {
-    saveSettings({ size });
-  }, [saveSettings]);
+  const setSize = useCallback(
+    (size: DebugSettings['size']) => {
+      saveSettings({ size });
+    },
+    [saveSettings],
+  );
 
   const resetSettings = useCallback(() => {
     setSettings(DEFAULT_SETTINGS);
@@ -113,6 +128,6 @@ export const useDebugSettings = () => {
     setOpacity,
     setSize,
     resetSettings,
-    saveSettings
+    saveSettings,
   };
 };

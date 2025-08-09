@@ -5,11 +5,11 @@ import { log } from '@/services/LoggingService';
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang='en'>
         <Head>
           {/* Targeted critical initialization focused on Chrome Extension API issues */}
           <script
-            id="critical-init"
+            id='critical-init'
             dangerouslySetInnerHTML={{
               __html: `
               // Critical initialization to prevent Chrome Extension API errors
@@ -65,7 +65,7 @@ class MyDocument extends Document {
                   console.error('[CriticalInit] Error during initialization:', e);
                 }
               })();
-              `
+              `,
             }}
           />
         </Head>
@@ -78,4 +78,4 @@ class MyDocument extends Document {
   }
 }
 
-export default MyDocument; 
+export default MyDocument;

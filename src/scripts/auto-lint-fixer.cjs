@@ -26,7 +26,7 @@ class AutoLintFixer {
       info: (msg, ...args) => console.log(`[AUTO-LINT] ${msg}`, ...args),
       warn: (msg, ...args) => console.warn(`[AUTO-LINT WARN] ${msg}`, ...args),
       error: (msg, ...args) => console.error(`[AUTO-LINT ERROR] ${msg}`, ...args),
-      success: (msg, ...args) => console.log(`[AUTO-LINT SUCCESS] ${msg}`, ...args)
+      success: (msg, ...args) => console.log(`[AUTO-LINT SUCCESS] ${msg}`, ...args),
     };
   }
 
@@ -47,7 +47,7 @@ class AutoLintFixer {
 
       const rateLimitData = JSON.parse(fs.readFileSync(this.rateLimitFile, 'utf8'));
       const now = Date.now();
-      const oneHourAgo = now - (60 * 60 * 1000);
+      const oneHourAgo = now - 60 * 60 * 1000;
 
       // Filter executions within the last hour
       const recentExecutions = rateLimitData.executions.filter(time => time > oneHourAgo);
@@ -55,7 +55,7 @@ class AutoLintFixer {
       if (recentExecutions.length >= this.maxExecutionsPerHour) {
         return {
           allowed: false,
-          reason: `Rate limit exceeded: ${recentExecutions.length}/${this.maxExecutionsPerHour} executions in last hour`
+          reason: `Rate limit exceeded: ${recentExecutions.length}/${this.maxExecutionsPerHour} executions in last hour`,
         };
       }
 
@@ -65,7 +65,7 @@ class AutoLintFixer {
         const remainingCooldown = this.cooldownMs - (now - lastExecution);
         return {
           allowed: false,
-          reason: `Cooldown period: ${remainingCooldown}ms remaining`
+          reason: `Cooldown period: ${remainingCooldown}ms remaining`,
         };
       }
 
@@ -88,7 +88,7 @@ class AutoLintFixer {
       }
 
       const now = Date.now();
-      const oneHourAgo = now - (60 * 60 * 1000);
+      const oneHourAgo = now - 60 * 60 * 1000;
 
       // Keep only executions within the last hour and add current
       rateLimitData.executions = rateLimitData.executions
@@ -150,7 +150,7 @@ class AutoLintFixer {
       const output = execSync(command, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000, // 30 second timeout
       });
 
       this.log.info('ESLint auto-fix completed successfully');
@@ -206,18 +206,27 @@ class AutoLintFixer {
         const trimmed = line.trim();
 
         // Skip if line is empty, comment, or already has semicolon
-        if (!trimmed || trimmed.startsWith('//') || trimmed.startsWith('/*') ||
-            trimmed.endsWith(';') || trimmed.endsWith('{') || trimmed.endsWith('}') ||
-            trimmed.endsWith(',') || trimmed.includes('//')) {
+        if (
+          !trimmed ||
+          trimmed.startsWith('//') ||
+          trimmed.startsWith('/*') ||
+          trimmed.endsWith(';') ||
+          trimmed.endsWith('{') ||
+          trimmed.endsWith('}') ||
+          trimmed.endsWith(',') ||
+          trimmed.includes('//')
+        ) {
           return line;
         }
 
         // Add semicolon for obvious statements (very conservative)
-        if (trimmed.match(/^(const|let|var|return|throw|break|continue)\s+/) ||
-            trimmed.match(/^\w+\s*=\s*/) ||
-            trimmed.match(/^this\.\w+\s*=/) ||
-            trimmed.match(/^\w+\(\)$/) ||
-            trimmed.match(/^console\.(log|warn|error|info)\(/)) {
+        if (
+          trimmed.match(/^(const|let|var|return|throw|break|continue)\s+/) ||
+          trimmed.match(/^\w+\s*=\s*/) ||
+          trimmed.match(/^this\.\w+\s*=/) ||
+          trimmed.match(/^\w+\(\)$/) ||
+          trimmed.match(/^console\.(log|warn|error|info)\(/)
+        ) {
           return line + ';';
         }
 
@@ -256,7 +265,7 @@ class AutoLintFixer {
       execSync(command, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000 // 60 second timeout
+        timeout: 60000, // 60 second timeout
       });
 
       this.log.success('TypeScript validation passed');
@@ -280,7 +289,7 @@ class AutoLintFixer {
         /null null/g,
         /;;+/g,
         /\{\s*\}/g, // Empty objects that might indicate corruption
-        /\[\s*\]/g  // Empty arrays that might indicate corruption
+        /\[\s*\]/g, // Empty arrays that might indicate corruption
       ];
 
       const issues = [];
@@ -343,7 +352,7 @@ class AutoLintFixer {
         // Domain-specific calculations
         /calculateElementalCompatibility/,
         /getReliablePlanetaryPositions/,
-        /validateTransitDate/
+        /validateTransitDate/,
       ];
 
       const issues = [];
@@ -352,7 +361,9 @@ class AutoLintFixer {
         const currentMatches = (currentContent.match(pattern) || []).length;
 
         if (originalMatches !== currentMatches) {
-          issues.push(`Critical pattern ${index + 1} count changed: ${originalMatches} -> ${currentMatches}`);
+          issues.push(
+            `Critical pattern ${index + 1} count changed: ${originalMatches} -> ${currentMatches}`,
+          );
         }
       });
 
@@ -400,8 +411,8 @@ class AutoLintFixer {
         validation: {
           typescript: null,
           syntax: null,
-          criticalPatterns: null
-        }
+          criticalPatterns: null,
+        },
       };
 
       try {
@@ -435,7 +446,10 @@ class AutoLintFixer {
           }
 
           // Critical patterns check
-          results.validation.criticalPatterns = this.validateCriticalPatterns(filePath, originalContent);
+          results.validation.criticalPatterns = this.validateCriticalPatterns(
+            filePath,
+            originalContent,
+          );
           if (!results.validation.criticalPatterns.success) {
             this.log.error('Critical patterns validation failed');
             rollbackRequired = true;
@@ -453,7 +467,7 @@ class AutoLintFixer {
               success: false,
               rolledBack: true,
               reason: 'Validation failed, file restored from backup',
-              results
+              results,
             };
           } else {
             this.log.error('Automatic rollback failed - manual intervention required');
@@ -461,7 +475,7 @@ class AutoLintFixer {
               success: false,
               rolledBack: false,
               reason: 'Validation failed and rollback failed - manual intervention required',
-              results
+              results,
             };
           }
         }
@@ -474,9 +488,8 @@ class AutoLintFixer {
           success: true,
           duration,
           results,
-          message: 'All fixes applied and validated successfully'
+          message: 'All fixes applied and validated successfully',
         };
-
       } catch (error) {
         this.log.error('Unexpected error during processing:', error.message);
 
@@ -486,15 +499,14 @@ class AutoLintFixer {
           success: false,
           rolledBack: rollbackSuccess,
           error: error.message,
-          results
+          results,
         };
       }
-
     } catch (error) {
       this.log.error('Fatal error in auto-lint-fixer:', error.message);
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -510,7 +522,8 @@ if (require.main === module) {
   }
 
   const fixer = new AutoLintFixer();
-  fixer.fixFile(filePath)
+  fixer
+    .fixFile(filePath)
     .then(result => {
       if (result.success) {
         console.log('✅ Auto-lint fix completed successfully');

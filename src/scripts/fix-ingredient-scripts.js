@@ -22,7 +22,7 @@ const TARGET_FILES = [
 // console.log('Starting to fix bug in ingredient category scripts...');
 
 // Process each target file
-TARGET_FILES.forEach((filename) => {
+TARGET_FILES.forEach(filename => {
   const filePath = path.resolve(process.cwd(), 'src/scripts', filename);
 
   if (!fs.existsSync(filePath)) {

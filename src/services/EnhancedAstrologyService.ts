@@ -1,6 +1,6 @@
 /**
  * Enhanced Astrology Service
- * 
+ *
  * Provides the most accurate astronomical data by combining multiple sources:
  * 1. Astrologize API (primary)
  * 2. Swiss Ephemeris data (high accuracy fallback)
@@ -8,8 +8,18 @@
  * 4. Existing fallback calculations (final fallback)
  */
 
-import { getTransitForDate, getSeasonalAnalysis, getAvailableYears } from '@/data/transits/comprehensiveTransitDatabase';
-import { PlanetaryPosition, CelestialPosition, ZodiacSign, Planet, AstrologicalState } from '@/types/celestial';
+import {
+  getTransitForDate,
+  getSeasonalAnalysis,
+  getAvailableYears,
+} from '@/data/transits/comprehensiveTransitDatabase';
+import {
+  PlanetaryPosition,
+  CelestialPosition,
+  ZodiacSign,
+  Planet,
+  AstrologicalState,
+} from '@/types/celestial';
 import { getFallbackPlanetaryPositions } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
 
@@ -59,7 +69,7 @@ export class EnhancedAstrologyService {
    */
   async getEnhancedPlanetaryPositions(date: Date = new Date()): Promise<EnhancedAstrologicalData> {
     const cacheKey = date.toISOString().split('T')[0];
-    
+
     if (this.cache.has(cacheKey)) {
       const cached = this.cache.get(cacheKey);
       if (cached && Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
@@ -72,7 +82,7 @@ export class EnhancedAstrologyService {
       const enhancedData = await this.calculateEnhancedPositions(date);
       this.cache.set(cacheKey, enhancedData);
       this.cleanCache();
-      
+
       logger.info(`Enhanced astrological data calculated for ${date.toDateString()}`);
       return enhancedData;
     } catch (error) {
@@ -88,18 +98,18 @@ export class EnhancedAstrologyService {
     const currentSeason = getTransitForDate(date);
     const year = date.getFullYear().toString();
     const availableYears = getAvailableYears();
-    
+
     // Get seasonal analysis for the next 3 months
     const endDate = new Date(date);
     endDate.setMonth(endDate.getMonth() + 3);
-    
+
     const seasonalAnalysis = getSeasonalAnalysis(date, endDate);
-    
+
     // Get upcoming transits (next 30 days)
     const upcomingEndDate = new Date(date);
     upcomingEndDate.setDate(upcomingEndDate.getDate() + 30);
     const upcomingAnalysis = getSeasonalAnalysis(date, upcomingEndDate);
-    
+
     return {
       currentSeason: currentSeason as unknown as Season,
       upcomingTransits: (upcomingAnalysis?.seasons as unknown as Element[]) || [],
@@ -107,7 +117,7 @@ export class EnhancedAstrologyService {
       keyAspects: (seasonalAnalysis?.keyAspects as unknown as Planet[]) || [],
       retrogradePlanets: seasonalAnalysis?.retrogradePlanets || [],
       eclipseSeasons: [], // TODO: Implement eclipse season calculation
-      majorTransits: [] // TODO: Implement major transit calculation
+      majorTransits: [], // TODO: Implement major transit calculation
     };
   }
 
@@ -124,7 +134,7 @@ export class EnhancedAstrologyService {
   }> {
     const transitAnalysis = await this.getTransitAnalysis(date);
     const currentSeason = transitAnalysis.currentSeason;
-    
+
     if (!currentSeason) {
       // Fallback to basic seasonal analysis
       const month = date.getMonth();
@@ -135,17 +145,38 @@ export class EnhancedAstrologyService {
         dominantElements: basicSeasonalData.dominantElements,
         recommendedCuisines: basicSeasonalData.recommendedCuisines,
         recommendedCookingMethods: basicSeasonalData.cookingMethods,
-        alchemicalProperties: basicSeasonalData.alchemicalProperties
+        alchemicalProperties: basicSeasonalData.alchemicalProperties,
       };
     }
 
     return {
-      seasonalThemes: ((currentSeason as unknown as Record<string, unknown>).seasonalThemes as string[]) || [],
-      culinaryInfluences: ((currentSeason as unknown as Record<string, unknown>).culinaryInfluences as string[]) || [],
-      dominantElements: ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<string, number>) || {},
-      recommendedCuisines: this.getRecommendedCuisines((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<string, number> || {}),
-      recommendedCookingMethods: this.getRecommendedCookingMethods((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<string, number> || {}),
-      alchemicalProperties: ((currentSeason as unknown as Record<string, unknown>).alchemicalProperties as Record<string, number>) || {}
+      seasonalThemes:
+        ((currentSeason as unknown as Record<string, unknown>).seasonalThemes as string[]) || [],
+      culinaryInfluences:
+        ((currentSeason as unknown as Record<string, unknown>).culinaryInfluences as string[]) ||
+        [],
+      dominantElements:
+        ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<
+          string,
+          number
+        >) || {},
+      recommendedCuisines: this.getRecommendedCuisines(
+        ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<
+          string,
+          number
+        >) || {},
+      ),
+      recommendedCookingMethods: this.getRecommendedCookingMethods(
+        ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<
+          string,
+          number
+        >) || {},
+      ),
+      alchemicalProperties:
+        ((currentSeason as unknown as Record<string, unknown>).alchemicalProperties as Record<
+          string,
+          number
+        >) || {},
     };
   }
 
@@ -192,13 +223,13 @@ export class EnhancedAstrologyService {
 
     // Get seasonal transit information
     const seasonalTransit = getTransitForDate(date);
-    
+
     // Get sidereal time
     const siderealTime = swissEphemerisService.getSiderealTime(date);
 
     // Calculate dominant elements from positions
     const dominantElements = this.calculateDominantElements(primaryPositions);
-    
+
     // Get retrograde planets
     const retrogradePlanets = Object.entries(primaryPositions)
       .filter(([_, position]) => position.isRetrograde)
@@ -220,7 +251,7 @@ export class EnhancedAstrologyService {
       dominantElements,
       retrogradePlanets,
       specialEvents,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
   }
 
@@ -230,20 +261,20 @@ export class EnhancedAstrologyService {
   private async getAstrologizePositions(date: Date): Promise<Record<string, CelestialPosition>> {
     try {
       const astrologizePositions = await getCurrentPlanetaryPositions();
-      
+
       // Convert to CelestialPosition format
       const celestialPositions: Record<string, CelestialPosition> = {};
-      
+
       Object.entries(astrologizePositions).forEach(([planet, position]) => {
         celestialPositions[planet] = {
           sign: position.sign,
           degree: position.degree,
           exactLongitude: position.exactLongitude,
           isRetrograde: position.isRetrograde,
-          minutes: position.minute
+          minutes: position.minute,
         };
       });
-      
+
       return celestialPositions;
     } catch (error) {
       logger.error('Error fetching Astrologize positions:', error);
@@ -254,14 +285,24 @@ export class EnhancedAstrologyService {
   /**
    * Calculate dominant elements from planetary positions
    */
-  private calculateDominantElements(positions: Record<string, CelestialPosition>): Record<string, number> {
+  private calculateDominantElements(
+    positions: Record<string, CelestialPosition>,
+  ): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
-    
+
     const signElements: Record<ZodiacSign, string> = {
-      'aries': 'Fire', 'leo': 'Fire', 'sagittarius': 'Fire',
-      'taurus': 'Earth', 'virgo': 'Earth', 'capricorn': 'Earth',
-      'gemini': 'Air', 'libra': 'Air', 'aquarius': 'Air',
-      'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
+      aries: 'Fire',
+      leo: 'Fire',
+      sagittarius: 'Fire',
+      taurus: 'Earth',
+      virgo: 'Earth',
+      capricorn: 'Earth',
+      gemini: 'Air',
+      libra: 'Air',
+      aquarius: 'Air',
+      cancer: 'Water',
+      scorpio: 'Water',
+      pisces: 'Water',
     };
 
     Object.values(positions).forEach(position => {
@@ -287,7 +328,7 @@ export class EnhancedAstrologyService {
    */
   private getRecommendedCuisines(dominantElements: Record<string, number>): string[] {
     const recommendations: string[] = [];
-    
+
     if (dominantElements.Fire > 0.3) {
       recommendations.push('Mexican', 'Thai', 'Indian', 'Korean');
     }
@@ -301,7 +342,9 @@ export class EnhancedAstrologyService {
       recommendations.push('Seafood-focused', 'Nordic', 'Coastal Mediterranean', 'Pacific Rim');
     }
 
-    return recommendations.length > 0 ? recommendations : ['Italian', 'Mediterranean', 'Asian Fusion'];
+    return recommendations.length > 0
+      ? recommendations
+      : ['Italian', 'Mediterranean', 'Asian Fusion'];
   }
 
   /**
@@ -309,7 +352,7 @@ export class EnhancedAstrologyService {
    */
   private getRecommendedCookingMethods(dominantElements: Record<string, number>): string[] {
     const recommendations: string[] = [];
-    
+
     if (dominantElements.Fire > 0.3) {
       recommendations.push('Grilling', 'Stir-frying', 'High-heat roasting', 'Spicy seasoning');
     }
@@ -338,30 +381,33 @@ export class EnhancedAstrologyService {
     alchemicalProperties: Record<string, number>;
   } {
     const seasonalData = {
-      0: { // January
+      0: {
+        // January
         themes: ['New beginnings', 'Comfort', 'Warmth'],
         culinaryInfluences: ['Hearty dishes', 'Slow cooking', 'Warm spices'],
         dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 },
         recommendedCuisines: ['Italian', 'French', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Braising', 'Baking'],
-        alchemicalProperties: { Spirit: 0.2, Essence: 0.3, Matter: 0.4, Substance: 0.1 }
+        alchemicalProperties: { Spirit: 0.2, Essence: 0.3, Matter: 0.4, Substance: 0.1 },
       },
-      1: { // February
+      1: {
+        // February
         themes: ['Romance', 'Indulgence', 'Rich flavors'],
         culinaryInfluences: ['Rich sauces', 'Chocolate', 'Comfort foods'],
         dominantElements: { Fire: 0.2, Earth: 0.5, Air: 0.2, Water: 0.1 },
         recommendedCuisines: ['French', 'Italian', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Baking', 'Rich sauces'],
-        alchemicalProperties: { Spirit: 0.1, Essence: 0.4, Matter: 0.4, Substance: 0.1 }
+        alchemicalProperties: { Spirit: 0.1, Essence: 0.4, Matter: 0.4, Substance: 0.1 },
       },
-      2: { // March
+      2: {
+        // March
         themes: ['Spring awakening', 'Fresh ingredients', 'Light dishes'],
         culinaryInfluences: ['Fresh herbs', 'Light sauces', 'Spring vegetables'],
         dominantElements: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
         recommendedCuisines: ['Mediterranean', 'Asian', 'Fresh cuisine'],
         cookingMethods: ['Quick cooking', 'Fresh preparation', 'Light cooking'],
-        alchemicalProperties: { Spirit: 0.4, Essence: 0.2, Matter: 0.2, Substance: 0.2 }
-      }
+        alchemicalProperties: { Spirit: 0.4, Essence: 0.2, Matter: 0.2, Substance: 0.2 },
+      },
       // Add more months as needed...
     };
 
@@ -374,13 +420,13 @@ export class EnhancedAstrologyService {
   private cleanCache(): void {
     const now = Date.now();
     const keysToDelete: string[] = [];
-    
+
     this.cache.forEach((value, key) => {
       if (now - value.lastUpdated.getTime() > this.cacheExpiration) {
         keysToDelete.push(key);
       }
     });
-    
+
     keysToDelete.forEach(key => this.cache.delete(key));
   }
 
@@ -397,7 +443,7 @@ export class EnhancedAstrologyService {
       astrologizeAvailable: Date.now() - this.lastAstrologizeCheck < this.astrologizeCheckInterval,
       swissEphemerisAvailable: true, // Always available as it's local data
       transitDatabaseAvailable: true, // Always available as it's local data
-      lastAstrologizeCheck: new Date(this.lastAstrologizeCheck)
+      lastAstrologizeCheck: new Date(this.lastAstrologizeCheck),
     };
   }
 
@@ -415,8 +461,11 @@ export class EnhancedAstrologyService {
 export const enhancedAstrologyService = new EnhancedAstrologyService();
 
 // Export convenience functions
-export const getEnhancedPlanetaryPositions = (_date?: Date) => enhancedAstrologyService.getEnhancedPlanetaryPositions(_date);
-export const getTransitAnalysis = (_date?: Date) => enhancedAstrologyService.getTransitAnalysis(_date);
-export const getSeasonalRecommendations = (_date?: Date) => enhancedAstrologyService.getSeasonalRecommendations(_date);
+export const getEnhancedPlanetaryPositions = (_date?: Date) =>
+  enhancedAstrologyService.getEnhancedPlanetaryPositions(_date);
+export const getTransitAnalysis = (_date?: Date) =>
+  enhancedAstrologyService.getTransitAnalysis(_date);
+export const getSeasonalRecommendations = (_date?: Date) =>
+  enhancedAstrologyService.getSeasonalRecommendations(_date);
 export const getDataSourceInfo = () => enhancedAstrologyService.getDataSourceInfo();
-export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize(); 
+export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize();

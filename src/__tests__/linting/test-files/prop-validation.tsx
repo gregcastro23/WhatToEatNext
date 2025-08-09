@@ -1,4 +1,3 @@
-
 interface Props {
   required: string;
   optional?: number;
@@ -9,7 +8,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
   const handleClick = () => {
     callback(required);
   };
-  
+
   return (
     <div>
       <p>{required}</p>

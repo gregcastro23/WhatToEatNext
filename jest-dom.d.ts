@@ -99,4 +99,4 @@ declare global {
 }
 
 // This module declaration allows TypeScript to recognize the jest-dom types
-declare module '@testing-library/jest-dom'; 
+declare module '@testing-library/jest-dom';

@@ -1,6 +1,6 @@
 /**
  * Domain-Specific Rule Behavior Tests
- * 
+ *
  * Tests the behavior of domain-specific linting rules for astrological calculations
  * by directly testing the rule logic and integration patterns.
  */
@@ -23,7 +23,7 @@ describe('Domain-Specific Rule Behavior', () => {
         'RETROGRADE_PHASES',
         'ELEMENTAL_COMPATIBILITY',
         'SELF_REINFORCEMENT_THRESHOLD',
-        'HARMONY_THRESHOLD'
+        'HARMONY_THRESHOLD',
       ];
 
       // Test that these constants are recognized as protected
@@ -49,7 +49,7 @@ describe('Domain-Specific Rule Behavior', () => {
       const RELIABLE_POSITIONS = {
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
-        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
       };
 
       // Fallback positions should maintain structure
@@ -70,20 +70,20 @@ describe('Domain-Specific Rule Behavior', () => {
         sign: 'aries',
         degree: 15.5,
         exactLongitude: 15.5,
-        isRetrograde: false
+        isRetrograde: false,
       };
 
-      const positions = { 
+      const positions = {
         sun: validPosition,
         moon: validPosition,
         mercury: validPosition,
         venus: validPosition,
         mars: validPosition,
         jupiter: validPosition,
-        saturn: validPosition
+        saturn: validPosition,
       };
       const result = validatePlanetaryPositions(positions);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -91,13 +91,13 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should detect missing required properties', () => {
       const incompletePosition = {
         sign: 'aries',
-        degree: 15.5
+        degree: 15.5,
         // Missing exactLongitude and isRetrograde
       };
 
       const positions = { sun: incompletePosition };
       const result = validatePlanetaryPositions(positions);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors.some(error => error.includes('exactLongitude'))).toBe(true);
       expect(result.errors.some(error => error.includes('isRetrograde'))).toBe(true);
@@ -108,12 +108,12 @@ describe('Domain-Specific Rule Behavior', () => {
         sign: 'aries',
         degree: 35, // Too high (should be < 30)
         exactLongitude: 35,
-        isRetrograde: false
+        isRetrograde: false,
       };
 
       const positions = { sun: invalidPosition };
       const result = validatePlanetaryPositions(positions, { strictMode: true });
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors.some(error => error.includes('35'))).toBe(true);
     });
@@ -123,12 +123,12 @@ describe('Domain-Specific Rule Behavior', () => {
         sign: 'aries',
         degree: 15,
         exactLongitude: 15,
-        isRetrograde: true // Sun cannot be retrograde
+        isRetrograde: true, // Sun cannot be retrograde
       };
 
       const positions = { sun: sunRetrograde };
       const result = validatePlanetaryPositions(positions);
-      
+
       expect(result.warnings.some(warning => warning.includes('cannot be retrograde'))).toBe(true);
     });
   });
@@ -139,7 +139,7 @@ describe('Domain-Specific Rule Behavior', () => {
         Fire: 0.7,
         Water: 0.1,
         Earth: 0.1,
-        Air: 0.1
+        Air: 0.1,
       };
 
       expect(validateElementalProperties(validProperties)).toBe(true);
@@ -148,7 +148,7 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should reject missing elements', () => {
       const incompleteProperties = {
         Fire: 0.8,
-        Water: 0.2
+        Water: 0.2,
         // Missing Earth and Air
       };
 
@@ -160,7 +160,7 @@ describe('Domain-Specific Rule Behavior', () => {
         Fire: 1.5, // Too high
         Water: -0.1, // Too low
         Earth: 0.3,
-        Air: 0.2
+        Air: 0.2,
       };
 
       expect(validateElementalProperties(invalidProperties)).toBe(false);
@@ -169,11 +169,11 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should normalize elemental properties when needed', () => {
       const partialProperties = {
         Fire: 0.8,
-        Water: 0.2
+        Water: 0.2,
       };
 
       const normalized = normalizeElementalProperties(partialProperties);
-      
+
       expect(normalized.Fire).toBe(0.8);
       expect(normalized.Water).toBe(0.2);
       expect(normalized.Earth).toBe(0.25); // Default value
@@ -186,15 +186,13 @@ describe('Domain-Specific Rule Behavior', () => {
         Fire: 0.8, // Dominant element
         Water: 0.1,
         Earth: 0.05,
-        Air: 0.05
+        Air: 0.05,
       };
 
       expect(validateElementalProperties(fireProperties)).toBe(true);
-      
+
       // Fire should remain the dominant element
-      const maxElement = Object.entries(fireProperties).reduce((max, current) => 
-        current[1] > max[1] ? current : max
-      );
+      const maxElement = Object.entries(fireProperties).reduce((max, current) => (current[1] > max[1] ? current : max));
       expect(maxElement[0]).toBe('Fire');
       expect(maxElement[1]).toBeGreaterThanOrEqual(0.7); // Strong self-reinforcement
     });
@@ -204,30 +202,30 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should validate transit date structures', () => {
       const mockTransitDates = {
         aries: { Start: '2024-03-20', End: '2024-04-19' },
-        taurus: { Start: '2024-04-20', End: '2024-05-20' }
+        taurus: { Start: '2024-04-20', End: '2024-05-20' },
       };
 
       const validDate = new Date('2024-04-01');
       const result = validateTransitDate('mars', validDate, 'aries', mockTransitDates);
-      
+
       expect(result).toBe(true);
     });
 
     test('should detect invalid transit dates', () => {
       const mockTransitDates = {
-        aries: { Start: '2024-03-20', End: '2024-04-19' }
+        aries: { Start: '2024-03-20', End: '2024-04-19' },
       };
 
       const invalidDate = new Date('2024-05-01'); // Outside aries period
       const result = validateTransitDate('mars', invalidDate, 'aries', mockTransitDates);
-      
+
       expect(result).toBe(false);
     });
 
     test('should handle missing transit data gracefully', () => {
       const emptyTransitDates = {};
       const testDate = new Date('2024-04-01');
-      
+
       const result = validateTransitDate('mars', testDate, 'aries', emptyTransitDates);
       expect(result).toBe(false); // Should fail gracefully
     });
@@ -235,14 +233,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
   describe('Fallback Value Preservation', () => {
     test('should identify fallback variable patterns', () => {
-      const FALLBACK_PATTERNS = [
-        /FALLBACK/i,
-        /DEFAULT/i,
-        /RELIABLE/i,
-        /MARCH2025/i,
-        /BACKUP/i,
-        /CACHED/i
-      ];
+      const FALLBACK_PATTERNS = [/FALLBACK/i, /DEFAULT/i, /RELIABLE/i, /MARCH2025/i, /BACKUP/i, /CACHED/i];
 
       const fallbackVariables = [
         'FALLBACK_POSITIONS',
@@ -250,7 +241,7 @@ describe('Domain-Specific Rule Behavior', () => {
         'RELIABLE_DATA',
         'MARCH2025_POSITIONS',
         'BACKUP_CALCULATIONS',
-        'CACHED_RESULTS'
+        'CACHED_RESULTS',
       ];
 
       fallbackVariables.forEach(variable => {
@@ -262,14 +253,14 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should preserve fallback data integrity', () => {
       const FALLBACK_POSITIONS = {
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
       };
 
       // Fallback data should never be null or undefined
       expect(FALLBACK_POSITIONS).not.toBeNull();
       expect(FALLBACK_POSITIONS).not.toBeUndefined();
       expect(Object.keys(FALLBACK_POSITIONS).length).toBeGreaterThan(0);
-      
+
       // Each fallback position should be valid
       Object.values(FALLBACK_POSITIONS).forEach(position => {
         expect(position).not.toBeNull();
@@ -283,14 +274,14 @@ describe('Domain-Specific Rule Behavior', () => {
       const RELIABLE_CONSTANTS = {
         DEGREES_PER_SIGN: 30,
         SELF_REINFORCEMENT_THRESHOLD: 0.3,
-        HARMONY_THRESHOLD: 0.7
+        HARMONY_THRESHOLD: 0.7,
       };
 
       // Constants should maintain their types
       expect(typeof RELIABLE_CONSTANTS.DEGREES_PER_SIGN).toBe('number');
       expect(typeof RELIABLE_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD).toBe('number');
       expect(typeof RELIABLE_CONSTANTS.HARMONY_THRESHOLD).toBe('number');
-      
+
       // Values should be within expected ranges
       expect(RELIABLE_CONSTANTS.DEGREES_PER_SIGN).toBe(30);
       expect(RELIABLE_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD).toBeGreaterThan(0);
@@ -309,60 +300,54 @@ describe('Domain-Specific Rule Behavior', () => {
         'retrograde',
         'planetaryPosition',
         'transitDate',
-        'elementalProperties'
+        'elementalProperties',
       ];
 
       astrologicalVariables.forEach(variable => {
         // Should follow camelCase or contain astrological terms
         expect(variable).toMatch(/^[a-z][a-zA-Z]*$/);
-        
+
         // Should contain meaningful astrological terms
-        const astrologicalTerms = ['planet', 'position', 'degree', 'sign', 'longitude', 'retrograde', 'transit', 'elemental'];
-        const containsAstrologicalTerm = astrologicalTerms.some(term => 
-          variable.toLowerCase().includes(term.toLowerCase())
+        const astrologicalTerms = [
+          'planet',
+          'position',
+          'degree',
+          'sign',
+          'longitude',
+          'retrograde',
+          'transit',
+          'elemental',
+        ];
+        const containsAstrologicalTerm = astrologicalTerms.some(term =>
+          variable.toLowerCase().includes(term.toLowerCase()),
         );
         expect(containsAstrologicalTerm).toBe(true);
       });
     });
 
     test('should preserve calculation accuracy variables', () => {
-      const accuracyVariables = [
-        'exactLongitude',
-        'precisePosition',
-        'calculatedDegree',
-        'validatedTransit'
-      ];
+      const accuracyVariables = ['exactLongitude', 'precisePosition', 'calculatedDegree', 'validatedTransit'];
 
       accuracyVariables.forEach(variable => {
         // Should indicate precision or validation
         const precisionTerms = ['exact', 'precise', 'calculated', 'validated'];
-        const indicatesPrecision = precisionTerms.some(term => 
-          variable.toLowerCase().includes(term.toLowerCase())
-        );
+        const indicatesPrecision = precisionTerms.some(term => variable.toLowerCase().includes(term.toLowerCase()));
         expect(indicatesPrecision).toBe(true);
       });
     });
 
     test('should handle mathematical calculation variables', () => {
-      const mathVariables = [
-        'DEGREES_PER_SIGN',
-        'SIGNS_PER_CIRCLE',
-        'MAX_LONGITUDE',
-        'PI',
-        'RADIANS_TO_DEGREES'
-      ];
+      const mathVariables = ['DEGREES_PER_SIGN', 'SIGNS_PER_CIRCLE', 'MAX_LONGITUDE', 'PI', 'RADIANS_TO_DEGREES'];
 
       mathVariables.forEach(variable => {
         // Mathematical constants should be uppercase
         if (variable.includes('_')) {
           expect(variable).toMatch(/^[A-Z_]+$/);
         }
-        
+
         // Should contain mathematical terms
         const mathTerms = ['DEGREES', 'SIGNS', 'LONGITUDE', 'PI', 'RADIANS'];
-        const containsMathTerm = mathTerms.some(term => 
-          variable.includes(term)
-        );
+        const containsMathTerm = mathTerms.some(term => variable.includes(term));
         expect(containsMathTerm).toBe(true);
       });
     });
@@ -382,18 +367,18 @@ describe('Domain-Specific Rule Behavior', () => {
         sign: 'aries',
         degree: 15.5,
         exactLongitude: 15.5,
-        isRetrograde: false
+        isRetrograde: false,
       };
 
       // Should validate correctly with TypeScript types
-      const positions = { 
+      const positions = {
         sun: position,
         moon: position,
         mercury: position,
         venus: position,
         mars: position,
         jupiter: position,
-        saturn: position
+        saturn: position,
       };
       const result = validatePlanetaryPositions(positions);
       expect(result.isValid).toBe(true);
@@ -418,7 +403,7 @@ describe('Domain-Specific Rule Behavior', () => {
         console.info(`Calculating position for ${planet}`); // Should be allowed
         console.debug(`Position data:`, position); // Should be allowed
         console.warn(`Validation warning for ${planet}`); // Should be allowed
-        
+
         return position;
       };
 
@@ -428,25 +413,22 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should handle complex astrological expressions', () => {
       // Complex calculations should be allowed without complexity warnings
-      const calculatePlanetaryInfluence = (
-        planetPosition: any,
-        elementalProperties: any,
-        transitDates: any
-      ) => {
+      const calculatePlanetaryInfluence = (planetPosition: any, elementalProperties: any, transitDates: any) => {
         const baseInfluence = planetPosition.degree / 30;
-        const elementalModifier = elementalProperties.Fire * 0.8 + 
-                                 elementalProperties.Water * 0.6 +
-                                 elementalProperties.Earth * 0.7 +
-                                 elementalProperties.Air * 0.9;
+        const elementalModifier =
+          elementalProperties.Fire * 0.8 +
+          elementalProperties.Water * 0.6 +
+          elementalProperties.Earth * 0.7 +
+          elementalProperties.Air * 0.9;
         const transitModifier = transitDates ? 1.1 : 0.9;
-        
+
         return Math.min(1.0, baseInfluence * elementalModifier * transitModifier);
       };
 
       const result = calculatePlanetaryInfluence(
         { degree: 15 },
         { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
-        true
+        true,
       );
 
       expect(result).toBeGreaterThan(0);
@@ -457,14 +439,14 @@ describe('Domain-Specific Rule Behavior', () => {
   describe('Performance and Reliability', () => {
     test('should handle large datasets efficiently', () => {
       const largePlanetaryData: Record<string, any> = {};
-      
+
       // Create 100 planetary positions
       for (let i = 0; i < 100; i++) {
         largePlanetaryData[`planet${i}`] = {
           sign: 'aries',
           degree: i % 30,
           exactLongitude: i % 360,
-          isRetrograde: i % 2 === 0
+          isRetrograde: i % 2 === 0,
         };
       }
 
@@ -489,17 +471,17 @@ describe('Domain-Specific Rule Behavior', () => {
           sign: 'aries',
           degree: edgeCase.degree,
           exactLongitude: edgeCase.exactLongitude,
-          isRetrograde: false
+          isRetrograde: false,
         };
 
-        const positions = { 
+        const positions = {
           sun: position,
           moon: position,
           mercury: position,
           venus: position,
           mars: position,
           jupiter: position,
-          saturn: position
+          saturn: position,
         };
         const result = validatePlanetaryPositions(positions);
         expect(result.isValid).toBe(true);
@@ -508,14 +490,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should handle error conditions gracefully', () => {
       // Test with malformed data
-      const malformedData = [
-        null,
-        undefined,
-        {},
-        { invalidStructure: true },
-        { sun: null },
-        { sun: { sign: null } }
-      ];
+      const malformedData = [null, undefined, {}, { invalidStructure: true }, { sun: null }, { sun: { sign: null } }];
 
       malformedData.forEach(data => {
         expect(() => {

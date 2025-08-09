@@ -15,22 +15,23 @@ function validateSyntax() {
   try {
     const tscOutput = execSync('npx tsc --noEmit --skipLibCheck 2>&1 || true', {
       encoding: 'utf8',
-      stdio: 'pipe'
+      stdio: 'pipe',
     });
 
     const lines = tscOutput.split('\n');
     const errors = lines.filter(line => line.includes('error TS'));
-    const parsingErrors = errors.filter(line =>
-      line.includes('JSX element') ||
-      line.includes('Unexpected token') ||
-      line.includes('Expected') ||
-      line.includes('Identifier expected') ||
-      line.includes('Expression expected') ||
-      line.includes('error TS17008') || // JSX element has no corresponding closing tag
-      line.includes('error TS1382') ||  // Unexpected token
-      line.includes('error TS17002') || // Expected corresponding JSX closing tag
-      line.includes('error TS1005') ||  // Expected token
-      line.includes('error TS1003')     // Identifier expected
+    const parsingErrors = errors.filter(
+      line =>
+        line.includes('JSX element') ||
+        line.includes('Unexpected token') ||
+        line.includes('Expected') ||
+        line.includes('Identifier expected') ||
+        line.includes('Expression expected') ||
+        line.includes('error TS17008') || // JSX element has no corresponding closing tag
+        line.includes('error TS1382') || // Unexpected token
+        line.includes('error TS17002') || // Expected corresponding JSX closing tag
+        line.includes('error TS1005') || // Expected token
+        line.includes('error TS1003'), // Identifier expected
     );
 
     console.log(`📊 Validation Results:`);
@@ -57,7 +58,9 @@ function validateSyntax() {
       console.log('✅ No critical parsing errors found!');
 
       if (errors.length > 0) {
-        console.log(`\n📝 Note: ${errors.length} other TypeScript errors exist but are not critical parsing errors.`);
+        console.log(
+          `\n📝 Note: ${errors.length} other TypeScript errors exist but are not critical parsing errors.`,
+        );
         console.log('   These may include type errors, unused variables, etc.');
       }
 
@@ -74,13 +77,17 @@ function validateTestFiles() {
 
   try {
     // Check if test files compile successfully
-    const testOutput = execSync('npx tsc --noEmit --skipLibCheck src/__tests__/**/*.ts src/__tests__/**/*.tsx 2>&1 || true', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const testOutput = execSync(
+      'npx tsc --noEmit --skipLibCheck src/__tests__/**/*.ts src/__tests__/**/*.tsx 2>&1 || true',
+      {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      },
+    );
 
     const testErrors = (testOutput.match(/error TS/g) || []).length;
-    const testParsingErrors = (testOutput.match(/error TS(17008|1382|17002|1005|1003)/g) || []).length;
+    const testParsingErrors = (testOutput.match(/error TS(17008|1382|17002|1005|1003)/g) || [])
+      .length;
 
     console.log(`📊 Test File Validation:`);
     console.log(`   Test file errors: ${testErrors}`);
@@ -104,14 +111,14 @@ function generateReport() {
     results: {
       totalErrors: 0,
       parsingErrors: 0,
-      testFileErrors: 0
-    }
+      testFileErrors: 0,
+    },
   };
 
   try {
     const tscOutput = execSync('npx tsc --noEmit --skipLibCheck 2>&1 || true', {
       encoding: 'utf8',
-      stdio: 'pipe'
+      stdio: 'pipe',
     });
 
     const errors = (tscOutput.match(/error TS/g) || []).length;
@@ -151,5 +158,5 @@ if (require.main === module) {
 module.exports = {
   validateSyntax,
   validateTestFiles,
-  generateReport
+  generateReport,
 };

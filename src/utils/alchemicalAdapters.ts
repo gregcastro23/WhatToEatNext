@@ -12,7 +12,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
     strength: engineData?.strength,
     source: engineData?.source,
     // Preserve other properties
-    ...engineData
+    ...engineData,
   };
 }
 
@@ -20,11 +20,11 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
 export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): unknown {
   // Apply safe type casting for ElementalAffinity property access
   const affinityData = standardAffinity as any;
-  
+
   return {
     ...standardAffinity,
     element: affinityData?.base,
     strength: affinityData?.strength || 1,
-    source: affinityData?.source || 'default'
+    source: affinityData?.source || 'default',
   };
-} 
+}

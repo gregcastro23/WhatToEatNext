@@ -1,26 +1,36 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState, useEffect, useCallback, createContext, useContext, useMemo, memo, lazy, Suspense } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  useContext,
+  useMemo,
+  memo,
+  lazy,
+  Suspense,
+} from 'react';
 
 import ErrorBoundary from '@/components/error-boundaries/ErrorBoundary';
 import { ComponentFallbacks } from '@/components/fallbacks/ComponentFallbacks';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { 
+import {
   useAgentHooks,
   usePlanetaryDataValidationHook,
   useIngredientConsistencyHook,
   useTypeScriptCampaignHook,
   useBuildQualityMonitoringHook,
-  useQualityMetricsHook
+  useQualityMetricsHook,
 } from '@/hooks/useAgentHooks';
-import { 
-  useNavigationState, 
-  useScrollPreservation, 
+import {
+  useNavigationState,
+  useScrollPreservation,
   useAutoStateCleanup,
   useAstrologicalStatePreservation,
   useCulturalSensitivityGuidance,
-  usePerformanceOptimizationGuidance
+  usePerformanceOptimizationGuidance,
 } from '@/hooks/useStatePreservation';
 import { useDevelopmentExperienceOptimizations } from '@/utils/developmentExperienceOptimizations';
 import { logger } from '@/utils/logger';
@@ -56,18 +66,18 @@ interface MainPageContextType {
   selectedCuisine: string | null;
   selectedCookingMethods: string[];
   currentRecipe: Record<string, unknown> | null;
-  
+
   // Navigation state
   activeSection: string | null;
   navigationHistory: string[];
-  
+
   // Update functions
   updateSelectedIngredients: (ingredients: string[]) => void;
   updateSelectedCuisine: (cuisine: string | null) => void;
   updateSelectedCookingMethods: (methods: string[]) => void;
   updateCurrentRecipe: (recipe: Record<string, unknown> | null) => void;
   setActiveSection: (section: string | null) => void;
-  
+
   // Cross-component communication
   notifyComponentUpdate: (componentId: string, data: unknown) => void;
   subscribeToUpdates: (componentId: string, callback: (data: unknown) => void) => () => void;
@@ -84,16 +94,16 @@ export const useMainPageContext = () => {
 };
 
 // Memoized loading fallback component for better performance
-const _ComponentLoadingFallback = memo(function ComponentLoadingFallback({ 
-  componentName 
-}: { 
-  componentName: string 
+const _ComponentLoadingFallback = memo(function ComponentLoadingFallback({
+  componentName,
+}: {
+  componentName: string;
 }) {
   return (
-    <div className="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
-      <div className="flex items-center space-x-3">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
-        <span className="text-gray-600">Loading {componentName}...</span>
+    <div className='flex items-center justify-center rounded-lg bg-gray-50 p-8'>
+      <div className='flex items-center space-x-3'>
+        <div className='h-6 w-6 animate-spin rounded-full border-b-2 border-indigo-600'></div>
+        <span className='text-gray-600'>Loading {componentName}...</span>
       </div>
     </div>
   );
@@ -103,11 +113,11 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   children,
   debugMode = process.env.NODE_ENV === 'development',
   loading = false,
-  onSectionNavigate
+  onSectionNavigate,
 }) {
   const router = useRouter();
   const { state, planetaryPositions, isDaytime } = useAlchemical();
-  
+
   // Use new state preservation hooks
   const { saveState: saveNavState, getState: getNavState } = useNavigationState();
   const { restoreScrollPosition } = useScrollPreservation('main-page');
@@ -116,14 +126,14 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   // Enhanced hooks with steering file intelligence
   const steeringIntelligence = useSteeringFileIntelligence();
   // Temporarily disabled for testing
-  // const { 
-  //   saveAstrologicalState, 
+  // const {
+  //   saveAstrologicalState,
   //   restoreAstrologicalState,
   //   validateElementalCompatibility,
   //   getArchitecturalGuidance,
   //   getTechnologyStackGuidance
   // } = useAstrologicalStatePreservation('main-page-layout');
-  
+
   // Temporarily disabled for testing
   // const { validateCulturalContent, getInclusiveLanguageGuidelines } = useCulturalSensitivityGuidance();
   // const { getOptimizationRecommendations, validatePerformanceMetrics } = usePerformanceOptimizationGuidance();
@@ -138,12 +148,14 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   // });
 
   // const { validationResult: planetaryValidation, validatePlanetaryData } = usePlanetaryDataValidationHook(true);
-  
+
   // Temporary placeholders for disabled hooks
   const agentHookState = null;
   const planetaryValidation = null;
-  const { validationResult: ingredientValidation, validateIngredients } = useIngredientConsistencyHook();
-  const { campaignTrigger: typescriptTrigger, checkErrorThreshold } = useTypeScriptCampaignHook(true);
+  const { validationResult: ingredientValidation, validateIngredients } =
+    useIngredientConsistencyHook();
+  const { campaignTrigger: typescriptTrigger, checkErrorThreshold } =
+    useTypeScriptCampaignHook(true);
   const { qualityResult: buildQuality, monitorBuildQuality } = useBuildQualityMonitoringHook();
   const { metrics: qualityMetrics, updateMetrics } = useQualityMetricsHook(30000); // 30 seconds
 
@@ -155,14 +167,16 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     updatePerformanceMetrics: updateDevMetrics,
     getDevelopmentMetrics,
     getPerformanceOptimizationRecommendations: getDevOptimizationRecommendations,
-    applyAutomaticOptimizations
+    applyAutomaticOptimizations,
   } = useDevelopmentExperienceOptimizations();
 
-  const [sectionStates, setSectionStates] = useState<Record<string, { loading: boolean; error: string | null }>>({
+  const [sectionStates, setSectionStates] = useState<
+    Record<string, { loading: boolean; error: string | null }>
+  >({
     cuisine: { loading: false, error: null },
     ingredients: { loading: false, error: null },
     cooking: { loading: false, error: null },
-    recipe: { loading: false, error: null }
+    recipe: { loading: false, error: null },
   });
 
   // Main Page Context State - Initialize from preserved state
@@ -172,14 +186,20 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   const [currentRecipe, setCurrentRecipe] = useState<Record<string, unknown> | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [navigationHistory, setNavigationHistory] = useState<string[]>([]);
-  
+
   // Component update subscribers
-  const [updateSubscribers, setUpdateSubscribers] = useState<Record<string, ((data: unknown) => void)[]>>({});
+  const [updateSubscribers, setUpdateSubscribers] = useState<
+    Record<string, ((data: unknown) => void)[]>
+  >({});
 
   // Steering file intelligence state
-  const [astrologicalGuidance, setAstrologicalGuidance] = useState<Record<string, unknown> | null>(null);
+  const [astrologicalGuidance, setAstrologicalGuidance] = useState<Record<string, unknown> | null>(
+    null,
+  );
   const [performanceMetrics, setPerformanceMetrics] = useState<Record<string, unknown>>({});
-  const [culturalValidation, setCulturalValidation] = useState<Record<string, unknown> | null>(null);
+  const [culturalValidation, setCulturalValidation] = useState<Record<string, unknown> | null>(
+    null,
+  );
 
   // Initialize state from preserved navigation state
   useEffect(() => {
@@ -203,10 +223,10 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       if (restoredState.navigationHistory.length > 0) {
         setNavigationHistory(restoredState.navigationHistory);
       }
-      
+
       logger.debug('Restored main page context from enhanced state preservation');
     }
-    
+
     // Restore scroll position after a short delay to ensure DOM is ready
     setTimeout(() => {
       restoreScrollPosition();
@@ -219,11 +239,11 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       try {
         const guidance = await steeringIntelligence.getGuidance();
         setAstrologicalGuidance(guidance);
-        
+
         // Apply architectural guidance for component optimization - temporarily disabled
         // const archGuidance = getArchitecturalGuidance();
         // logger.debug('Applied architectural guidance from steering files:', archGuidance);
-        
+
         // Validate cultural content if we have any - temporarily disabled
         // if (selectedCuisine || selectedIngredients.length > 0) {
         //   const validation = validateCulturalContent({
@@ -231,16 +251,15 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
         //     cuisineDescriptions: selectedCuisine ? [selectedCuisine] : []
         //   });
         //   setCulturalValidation(validation);
-        //   
+        //
         //   if (!validation.isCompliant) {
         //     logger.warn('Cultural sensitivity issues detected:', validation.issues);
         //   }
         // }
-        
+
         // Get performance optimization recommendations - temporarily disabled
         // const perfRecommendations = getOptimizationRecommendations('main-page-layout');
         // logger.debug('Performance optimization recommendations:', perfRecommendations);
-        
       } catch (error) {
         logger.error('Error initializing steering file intelligence:', error);
       }
@@ -252,26 +271,33 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   // Monitor performance metrics using steering file guidance
   useEffect(() => {
     const startTime = performance.now();
-    
+
     const measurePerformance = () => {
       const renderTime = performance.now() - startTime;
-      const memoryUsage = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize / 1024 / 1024 || 0;
-      
+      const memoryUsage =
+        (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory
+          ?.usedJSHeapSize /
+          1024 /
+          1024 || 0;
+
       const metrics = {
         renderTime,
         memoryUsage,
         componentCount: Object.keys(sectionStates).length,
-        activeSubscribers: Object.values(updateSubscribers).reduce((sum, subs) => sum + subs.length, 0)
+        activeSubscribers: Object.values(updateSubscribers).reduce(
+          (sum, subs) => sum + subs.length,
+          0,
+        ),
       };
-      
+
       setPerformanceMetrics(metrics);
-      
+
       // Validate performance against steering file thresholds - temporarily disabled
       // const validation = validatePerformanceMetrics({
       //   renderTime,
       //   memoryUsage
       // });
-      // 
+      //
       // if (!validation.isOptimal) {
       //   logger.warn('Performance issues detected:', validation.issues);
       //   logger.info('Performance recommendations:', validation.recommendations);
@@ -280,7 +306,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
 
     // Measure performance after component mounts and updates
     const timeoutId = setTimeout(measurePerformance, 100);
-    
+
     return () => clearTimeout(timeoutId);
   }, [sectionStates, updateSubscribers]);
 
@@ -290,10 +316,19 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       try {
         // Calculate elemental properties from current selections
         const elementalProps: ElementalProperties = {
-          Fire: selectedCookingMethods.filter(method => method.includes('grill') || method.includes('sauté')).length * 0.3,
-          Water: selectedIngredients.filter(ing => ing.includes('soup') || ing.includes('steam')).length * 0.3,
-          Earth: selectedIngredients.filter(ing => ing.includes('root') || ing.includes('grain')).length * 0.3,
-          Air: selectedIngredients.filter(ing => ing.includes('herb') || ing.includes('spice')).length * 0.3
+          Fire:
+            selectedCookingMethods.filter(
+              method => method.includes('grill') || method.includes('sauté'),
+            ).length * 0.3,
+          Water:
+            selectedIngredients.filter(ing => ing.includes('soup') || ing.includes('steam'))
+              .length * 0.3,
+          Earth:
+            selectedIngredients.filter(ing => ing.includes('root') || ing.includes('grain'))
+              .length * 0.3,
+          Air:
+            selectedIngredients.filter(ing => ing.includes('herb') || ing.includes('spice'))
+              .length * 0.3,
         };
 
         // Save astrological state with steering file intelligence
@@ -317,13 +352,20 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     if (selectedIngredients.length > 0 || selectedCuisine || selectedCookingMethods.length > 0) {
       saveEnhancedState();
     }
-  }, [selectedIngredients, selectedCuisine, selectedCookingMethods, currentRecipe, activeSection, navigationHistory]);
+  }, [
+    selectedIngredients,
+    selectedCuisine,
+    selectedCookingMethods,
+    currentRecipe,
+    activeSection,
+    navigationHistory,
+  ]);
 
   // Initialize agent hooks for automated quality assurance - temporarily disabled for testing
   // useEffect(() => {
   //   startAgentHooks();
   //   logger.info('Agent hooks started for automated quality assurance');
-  //   
+  //
   //   return () => {
   //     stopAgentHooks();
   //     logger.info('Agent hooks stopped');
@@ -339,20 +381,26 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
           Fire: ingredient.includes('spice') || ingredient.includes('pepper') ? 0.8 : 0.2,
           Water: ingredient.includes('soup') || ingredient.includes('broth') ? 0.8 : 0.2,
           Earth: ingredient.includes('root') || ingredient.includes('grain') ? 0.8 : 0.2,
-          Air: ingredient.includes('herb') || ingredient.includes('leaf') ? 0.8 : 0.2
+          Air: ingredient.includes('herb') || ingredient.includes('leaf') ? 0.8 : 0.2,
         } as ElementalProperties,
-        category: ingredient.includes('spice') ? 'spices' : 
-                 ingredient.includes('herb') ? 'herbs' : 
-                 ingredient.includes('grain') ? 'grains' : 'other'
+        category: ingredient.includes('spice')
+          ? 'spices'
+          : ingredient.includes('herb')
+            ? 'herbs'
+            : ingredient.includes('grain')
+              ? 'grains'
+              : 'other',
       }));
 
-      validateIngredients(ingredientsWithElementalProps).then(result => {
-        if (result && !result.isValid) {
-          logger.warn('Ingredient consistency validation failed:', result.issues);
-        }
-      }).catch(error => {
-        logger.error('Error validating ingredient consistency:', error);
-      });
+      validateIngredients(ingredientsWithElementalProps)
+        .then(result => {
+          if (result && !result.isValid) {
+            logger.warn('Ingredient consistency validation failed:', result.issues);
+          }
+        })
+        .catch(error => {
+          logger.error('Error validating ingredient consistency:', error);
+        });
     }
   }, [selectedIngredients]);
 
@@ -364,7 +412,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
           buildTime: performanceMetrics.renderTime || 0,
           memoryUsage: performanceMetrics.memoryUsage || 0,
           bundleSize: 150 * 1024, // Estimated 150KB for main page
-          errorCount: 0 // No build errors in this context
+          errorCount: 0, // No build errors in this context
         };
 
         const qualityResult = await monitorBuildQuality(buildMetrics);
@@ -378,10 +426,10 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
 
     // Monitor quality every 30 seconds
     const qualityInterval = setInterval(() => void monitorQuality(), 30000);
-    
+
     // Initial quality check
     monitorQuality();
-    
+
     return () => clearInterval(qualityInterval);
   }, [performanceMetrics, monitorBuildQuality]);
 
@@ -396,7 +444,6 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
         if (selectedIngredients.length > 0) {
           logger.debug(`Testing core nutritional services for ${selectedIngredients[0]}`);
         }
-
       } catch (error) {
         logger.error('Error testing MCP server integration:', error);
       }
@@ -420,7 +467,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
           bundleSize: 150 * 1024, // Estimated bundle size
           errorCount: 0, // No compilation errors in runtime
           warningCount: 0,
-          hotReloadTime: 0
+          hotReloadTime: 0,
         };
 
         updateDevMetrics(devMetrics);
@@ -435,7 +482,10 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
         if (debugMode && process.env.NODE_ENV === 'development') {
           const optimizationResults = applyAutomaticOptimizations();
           if (optimizationResults.applied.length > 0) {
-            logger.info('Applied automatic development optimizations:', optimizationResults.applied);
+            logger.info(
+              'Applied automatic development optimizations:',
+              optimizationResults.applied,
+            );
           }
           if (optimizationResults.errors.length > 0) {
             logger.warn('Development optimization errors:', optimizationResults.errors);
@@ -447,7 +497,6 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
         if (debugMode) {
           logger.debug('Current development metrics:', currentDevMetrics);
         }
-
       } catch (error) {
         logger.error('Error applying development experience optimizations:', error);
       }
@@ -460,22 +509,32 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     const devOptimizationInterval = setInterval(() => void applyDevOptimizations(), 60000); // Every minute
 
     return () => clearInterval(devOptimizationInterval);
-  }, [performanceMetrics, updateDevMetrics, getDevOptimizationRecommendations, applyAutomaticOptimizations, getDevelopmentMetrics, debugMode]);
+  }, [
+    performanceMetrics,
+    updateDevMetrics,
+    getDevOptimizationRecommendations,
+    applyAutomaticOptimizations,
+    getDevelopmentMetrics,
+    debugMode,
+  ]);
 
   // Log quality metrics and campaign triggers for debugging
   useEffect(() => {
     if (debugMode) {
       logger.debug('Quality Metrics:', qualityMetrics);
       logger.debug('Agent Hook State:', agentHookState);
-      
+
       if (planetaryValidation && !(planetaryValidation as Record<string, unknown>).isValid) {
-        logger.warn('Planetary validation issues:', (planetaryValidation as Record<string, unknown>).issues);
+        logger.warn(
+          'Planetary validation issues:',
+          (planetaryValidation as Record<string, unknown>).issues,
+        );
       }
-      
+
       if (typescriptTrigger?.triggered) {
         logger.warn('TypeScript campaign trigger active:', typescriptTrigger);
       }
-      
+
       if (buildQuality && !buildQuality.isValid) {
         logger.warn('Build quality issues:', buildQuality.issues);
       }
@@ -487,9 +546,15 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       const devMetrics = getDevelopmentMetrics();
       logger.debug('Development Experience Metrics:', devMetrics);
     }
-  }, [debugMode, qualityMetrics, agentHookState, planetaryValidation, typescriptTrigger, buildQuality, getDevelopmentMetrics]);
-
-
+  }, [
+    debugMode,
+    qualityMetrics,
+    agentHookState,
+    planetaryValidation,
+    typescriptTrigger,
+    buildQuality,
+    getDevelopmentMetrics,
+  ]);
 
   // Save state changes using enhanced state preservation
   useEffect(() => {
@@ -500,9 +565,17 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       currentRecipe,
       activeSection,
       navigationHistory,
-      scrollPosition: window.scrollY
+      scrollPosition: window.scrollY,
     });
-  }, [selectedIngredients, selectedCuisine, selectedCookingMethods, currentRecipe, activeSection, navigationHistory, saveNavState]);
+  }, [
+    selectedIngredients,
+    selectedCuisine,
+    selectedCookingMethods,
+    currentRecipe,
+    activeSection,
+    navigationHistory,
+    saveNavState,
+  ]);
 
   // Context update functions
   const updateSelectedIngredients = useCallback((ingredients: string[]) => {
@@ -537,124 +610,146 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   }, []);
 
   // Cross-component communication
-  const notifyComponentUpdate = useCallback((componentId: string, data: unknown) => {
-    const subscribers = updateSubscribers[componentId] || [];
-    subscribers.forEach(callback => {
-      try {
-        callback(data);
-      } catch (error) {
-        logger.error(`Error in component update callback for ${componentId}:`, error);
-      }
-    });
-  }, [updateSubscribers]);
+  const notifyComponentUpdate = useCallback(
+    (componentId: string, data: unknown) => {
+      const subscribers = updateSubscribers[componentId] || [];
+      subscribers.forEach(callback => {
+        try {
+          callback(data);
+        } catch (error) {
+          logger.error(`Error in component update callback for ${componentId}:`, error);
+        }
+      });
+    },
+    [updateSubscribers],
+  );
 
-  const subscribeToUpdates = useCallback((componentId: string, callback: (data: unknown) => void) => {
-    setUpdateSubscribers(prev => ({
-      ...prev,
-      [componentId]: [...(prev[componentId] || []), callback]
-    }));
-
-    // Return unsubscribe function
-    return () => {
+  const subscribeToUpdates = useCallback(
+    (componentId: string, callback: (data: unknown) => void) => {
       setUpdateSubscribers(prev => ({
         ...prev,
-        [componentId]: (prev[componentId] || []).filter(cb => cb !== callback)
+        [componentId]: [...(prev[componentId] || []), callback],
       }));
-    };
-  }, []);
+
+      // Return unsubscribe function
+      return () => {
+        setUpdateSubscribers(prev => ({
+          ...prev,
+          [componentId]: (prev[componentId] || []).filter(cb => cb !== callback),
+        }));
+      };
+    },
+    [],
+  );
 
   // Memoized context value to prevent unnecessary re-renders
-  const contextValue: MainPageContextType = useMemo(() => ({
-    // Shared state
-    selectedIngredients,
-    selectedCuisine,
-    selectedCookingMethods,
-    currentRecipe,
-    activeSection,
-    navigationHistory,
-    
-    // Update functions
-    updateSelectedIngredients,
-    updateSelectedCuisine,
-    updateSelectedCookingMethods,
-    updateCurrentRecipe,
-    setActiveSection: handleSetActiveSection,
-    
-    // Cross-component communication
-    notifyComponentUpdate,
-    subscribeToUpdates
-  }), [
-    selectedIngredients,
-    selectedCuisine,
-    selectedCookingMethods,
-    currentRecipe,
-    activeSection,
-    navigationHistory,
-    updateSelectedIngredients,
-    updateSelectedCuisine,
-    updateSelectedCookingMethods,
-    updateCurrentRecipe,
-    handleSetActiveSection,
-    notifyComponentUpdate,
-    subscribeToUpdates
-  ]);
+  const contextValue: MainPageContextType = useMemo(
+    () => ({
+      // Shared state
+      selectedIngredients,
+      selectedCuisine,
+      selectedCookingMethods,
+      currentRecipe,
+      activeSection,
+      navigationHistory,
+
+      // Update functions
+      updateSelectedIngredients,
+      updateSelectedCuisine,
+      updateSelectedCookingMethods,
+      updateCurrentRecipe,
+      setActiveSection: handleSetActiveSection,
+
+      // Cross-component communication
+      notifyComponentUpdate,
+      subscribeToUpdates,
+    }),
+    [
+      selectedIngredients,
+      selectedCuisine,
+      selectedCookingMethods,
+      currentRecipe,
+      activeSection,
+      navigationHistory,
+      updateSelectedIngredients,
+      updateSelectedCuisine,
+      updateSelectedCookingMethods,
+      updateCurrentRecipe,
+      handleSetActiveSection,
+      notifyComponentUpdate,
+      subscribeToUpdates,
+    ],
+  );
 
   // Handle section navigation with enhanced context preservation and smooth transitions
-  const handleSectionNavigate = useCallback((sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      // Add smooth transition effect
-      element.style.transition = 'all 0.3s ease-in-out';
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      
-      // Update active section and navigation history
-      handleSetActiveSection(sectionId);
-      onSectionNavigate?.(sectionId);
-      
-      // Save navigation state using enhanced preservation system
-      saveNavState({
-        selectedIngredients,
-        selectedCuisine,
-        selectedCookingMethods,
-        currentRecipe,
-        activeSection: sectionId,
-        navigationHistory: [...navigationHistory, sectionId].slice(-10), // Keep last 10
-        scrollPosition: window.scrollY
-      });
-      
-      // Add visual feedback for navigation
-      element.classList.add('highlight-section');
-      setTimeout(() => {
-        element.classList.remove('highlight-section');
-        element.style.transition = '';
-      }, 1000);
-    }
-  }, [onSectionNavigate, handleSetActiveSection, navigationHistory, saveNavState, selectedIngredients, selectedCuisine, selectedCookingMethods, currentRecipe]);
+  const handleSectionNavigate = useCallback(
+    (sectionId: string) => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        // Add smooth transition effect
+        element.style.transition = 'all 0.3s ease-in-out';
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Update active section and navigation history
+        handleSetActiveSection(sectionId);
+        onSectionNavigate?.(sectionId);
+
+        // Save navigation state using enhanced preservation system
+        saveNavState({
+          selectedIngredients,
+          selectedCuisine,
+          selectedCookingMethods,
+          currentRecipe,
+          activeSection: sectionId,
+          navigationHistory: [...navigationHistory, sectionId].slice(-10), // Keep last 10
+          scrollPosition: window.scrollY,
+        });
+
+        // Add visual feedback for navigation
+        element.classList.add('highlight-section');
+        setTimeout(() => {
+          element.classList.remove('highlight-section');
+          element.style.transition = '';
+        }, 1000);
+      }
+    },
+    [
+      onSectionNavigate,
+      handleSetActiveSection,
+      navigationHistory,
+      saveNavState,
+      selectedIngredients,
+      selectedCuisine,
+      selectedCookingMethods,
+      currentRecipe,
+    ],
+  );
 
   // Update section loading state
-  const updateSectionState = useCallback((sectionId: string, updates: Partial<{ loading: boolean; error: string | null }>) => {
-    setSectionStates(prev => ({
-      ...prev,
-      [sectionId]: { ...prev[sectionId], ...updates }
-    }));
-  }, []);
+  const updateSectionState = useCallback(
+    (sectionId: string, updates: Partial<{ loading: boolean; error: string | null }>) => {
+      setSectionStates(prev => ({
+        ...prev,
+        [sectionId]: { ...prev[sectionId], ...updates },
+      }));
+    },
+    [],
+  );
 
   // Section error boundary fallback
-  const SectionErrorFallback: React.FC<{ error: Error; sectionId: string; onRetry: () => void }> = ({ 
-    error, 
-    sectionId, 
-    onRetry 
-  }) => (
-    <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-      <h3 className="text-lg font-semibold text-red-800 mb-2">
-        Section Error: {sectionId}
-      </h3>
-      <p className="text-red-600 mb-4">
+  const SectionErrorFallback: React.FC<{
+    error: Error;
+    sectionId: string;
+    onRetry: () => void;
+  }> = ({ error, sectionId, onRetry }) => (
+    <div className='rounded-lg border border-red-200 bg-red-50 p-6 text-center'>
+      <h3 className='mb-2 text-lg font-semibold text-red-800'>Section Error: {sectionId}</h3>
+      <p className='mb-4 text-red-600'>
         {error.message || 'An unexpected error occurred in this section.'}
       </p>
       <button
         onClick={onRetry}
-        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+        className='rounded bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700'
       >
         Retry Section
       </button>
@@ -669,35 +764,28 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     className?: string;
   }> = ({ id, title, children, className = '' }) => {
     const [retryKey, setRetryKey] = useState(0);
-    
+
     const handleRetry = useCallback(() => {
       setRetryKey(prev => prev + 1);
       updateSectionState(id, { loading: false, error: null });
     }, [id]);
 
     return (
-      <section 
-        id={id} 
-        className={`bg-white rounded-lg shadow-md p-6 scroll-mt-20 ${className}`}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
+      <section id={id} className={`scroll-mt-20 rounded-lg bg-white p-6 shadow-md ${className}`}>
+        <div className='mb-4 flex items-center justify-between'>
+          <h2 className='text-2xl font-semibold text-gray-800'>{title}</h2>
           {sectionStates[id].loading && (
-            <div className="flex items-center text-blue-600">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-              <span className="text-sm">Loading...</span>
+            <div className='flex items-center text-blue-600'>
+              <div className='mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600'></div>
+              <span className='text-sm'>Loading...</span>
             </div>
           )}
         </div>
-        
+
         <ErrorBoundary
           key={retryKey}
-          fallback={(error) => (
-            <SectionErrorFallback 
-              error={error} 
-              sectionId={id} 
-              onRetry={handleRetry} 
-            />
+          fallback={error => (
+            <SectionErrorFallback error={error} sectionId={id} onRetry={handleRetry} />
           )}
         >
           {children}
@@ -708,202 +796,211 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
 
   return (
     <MainPageContext.Provider value={contextValue}>
-      <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header Section */}
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-indigo-900">
-            What to Eat Next
-          </h1>
-          <p className="text-indigo-600 mb-4">
-            Food recommendations based on the current celestial energies
-          </p>
-          
-          {/* Loading Status Indicator */}
-          <div className="inline-block bg-white px-4 py-2 rounded-lg shadow-sm">
-            {loading ? (
-              <div className="flex items-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-600 mr-2"></div>
-                <p className="text-sm text-gray-600">Loading astrological data...</p>
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                <p className="text-sm text-gray-600">
-                  Connected • {isDaytime ? 'Day' : 'Night'} • {state.astrologicalState.sunSign || 'Loading...'}
-                </p>
-              </div>
-            )}
-          </div>
-        </header>
-        
-        {/* Sticky Navigation with Jump Links */}
-        <nav className="flex flex-wrap justify-center gap-4 mb-8 bg-white rounded-lg shadow-md p-4 sticky top-2 z-10">
-          <button
-            onClick={() => handleSectionNavigate('cuisine')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
-          >
-            Cuisine Recommendations
-          </button>
-          <button
-            onClick={() => handleSectionNavigate('ingredients')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
-          >
-            Ingredient Recommendations
-          </button>
-          <button
-            onClick={() => handleSectionNavigate('cooking')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
-          >
-            Cooking Methods
-          </button>
-          <button
-            onClick={() => handleSectionNavigate('recipe')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
-          >
-            Recipe Builder
-          </button>
-        </nav>
-        
-        {/* Main Content - Single Column Stacked Layout */}
-        <main className="flex flex-col gap-8 max-w-6xl mx-auto">
-          {/* Cuisine Recommender Section */}
-          <SectionWrapper id="cuisine" title="Cuisine Recommendations">
-            <ErrorBoundary
-              fallback={(error) => (
-                <ComponentFallbacks.CuisineRecommender 
-                  onRetry={() => window.location.reload()}
-                  error={error}
-                />
+      <div className='min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800'>
+        <div className='container mx-auto px-4 py-8'>
+          {/* Header Section */}
+          <header className='mb-8 text-center'>
+            <h1 className='mb-2 text-3xl font-bold text-indigo-900 md:text-4xl'>
+              What to Eat Next
+            </h1>
+            <p className='mb-4 text-indigo-600'>
+              Food recommendations based on the current celestial energies
+            </p>
+
+            {/* Loading Status Indicator */}
+            <div className='inline-block rounded-lg bg-white px-4 py-2 shadow-sm'>
+              {loading ? (
+                <div className='flex items-center'>
+                  <div className='mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-indigo-600'></div>
+                  <p className='text-sm text-gray-600'>Loading astrological data...</p>
+                </div>
+              ) : (
+                <div className='flex items-center'>
+                  <div className='mr-2 h-2 w-2 rounded-full bg-green-500'></div>
+                  <p className='text-sm text-gray-600'>
+                    Connected • {isDaytime ? 'Day' : 'Night'} •{' '}
+                    {state.astrologicalState.sunSign || 'Loading...'}
+                  </p>
+                </div>
               )}
+            </div>
+          </header>
+
+          {/* Sticky Navigation with Jump Links */}
+          <nav className='sticky top-2 z-10 mb-8 flex flex-wrap justify-center gap-4 rounded-lg bg-white p-4 shadow-md'>
+            <button
+              onClick={() => handleSectionNavigate('cuisine')}
+              className='rounded px-3 py-1 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800'
             >
-              <Suspense fallback={<ComponentFallbacks.Loading componentName="Cuisine Recommender" />}>
-                <CuisineRecommender />
-              </Suspense>
-            </ErrorBoundary>
-          </SectionWrapper>
-          
-          {/* Ingredient Recommender Section */}
-          <SectionWrapper id="ingredients" title="Ingredient Recommendations">
-            <ErrorBoundary
-              fallback={(error) => (
-                <ComponentFallbacks.IngredientRecommender 
-                  onRetry={() => window.location.reload()}
-                  error={error}
-                />
-              )}
+              Cuisine Recommendations
+            </button>
+            <button
+              onClick={() => handleSectionNavigate('ingredients')}
+              className='rounded px-3 py-1 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800'
             >
-              <Suspense fallback={<ComponentFallbacks.Loading componentName="Ingredient Recommender" />}>
-                <IngredientRecommender 
-                  isFullPageVersion={false}
-                  maxDisplayed={8}
-                />
-              </Suspense>
-            </ErrorBoundary>
-          </SectionWrapper>
-          
-          {/* Cooking Methods Section */}
-          <SectionWrapper id="cooking" title="Cooking Methods">
-            <ErrorBoundary
-              fallback={(error) => (
-                <ComponentFallbacks.CookingMethods 
-                  onRetry={() => window.location.reload()}
-                  error={error}
-                />
-              )}
+              Ingredient Recommendations
+            </button>
+            <button
+              onClick={() => handleSectionNavigate('cooking')}
+              className='rounded px-3 py-1 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800'
             >
-              <Suspense fallback={<ComponentFallbacks.Loading componentName="Cooking Methods" />}>
-                <CookingMethodsSection 
-                  isMainPageVersion={true}
-                  maxDisplayed={6}
-                  onViewMore={() => router.push('/cooking-methods')}
-                />
-              </Suspense>
-            </ErrorBoundary>
-          </SectionWrapper>
-          
-          {/* Recipe Builder Section */}
-          <SectionWrapper id="recipe" title="Recipe Builder">
-            <ErrorBoundary
-              fallback={(error) => (
-                <ComponentFallbacks.RecipeBuilder 
-                  onRetry={() => window.location.reload()}
-                  error={error}
-                />
-              )}
+              Cooking Methods
+            </button>
+            <button
+              onClick={() => handleSectionNavigate('recipe')}
+              className='rounded px-3 py-1 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800'
             >
-              <Suspense fallback={<ComponentFallbacks.Loading componentName="Recipe Builder" />}>
-                <RecipeBuilderSimple />
-              </Suspense>
-            </ErrorBoundary>
-          </SectionWrapper>
-          
-          {/* Additional children if provided */}
-          {children}
-        </main>
-        
-        {/* Footer */}
-        <footer className="mt-12 text-center">
-          <div className="mx-auto mb-4" style={{ maxWidth: '250px' }}>
-            <form action="https://www.paypal.com/ncp/payment/SVN6Q368TKKLS" method="post" target="_blank">
-              <input 
-                type="submit" 
-                value="HELP" 
-                style={{
-                  textAlign: 'center',
-                  border: 'none',
-                  borderRadius: '0.25rem',
-                  width: '100%',
-                  padding: '0 2rem',
-                  height: '2.625rem',
-                  fontWeight: 'bold',
-                  backgroundColor: '#FFD140',
-                  color: '#000000',
-                  fontFamily: '"Helvetica Neue", Arial, sans-serif',
-                  fontSize: '1rem',
-                  lineHeight: '1.25rem',
-                  cursor: 'pointer'
-                }}
-              />
-            </form>
-          </div>
-        </footer>
+              Recipe Builder
+            </button>
+          </nav>
+
+          {/* Main Content - Single Column Stacked Layout */}
+          <main className='mx-auto flex max-w-6xl flex-col gap-8'>
+            {/* Cuisine Recommender Section */}
+            <SectionWrapper id='cuisine' title='Cuisine Recommendations'>
+              <ErrorBoundary
+                fallback={error => (
+                  <ComponentFallbacks.CuisineRecommender
+                    onRetry={() => window.location.reload()}
+                    error={error}
+                  />
+                )}
+              >
+                <Suspense
+                  fallback={<ComponentFallbacks.Loading componentName='Cuisine Recommender' />}
+                >
+                  <CuisineRecommender />
+                </Suspense>
+              </ErrorBoundary>
+            </SectionWrapper>
+
+            {/* Ingredient Recommender Section */}
+            <SectionWrapper id='ingredients' title='Ingredient Recommendations'>
+              <ErrorBoundary
+                fallback={error => (
+                  <ComponentFallbacks.IngredientRecommender
+                    onRetry={() => window.location.reload()}
+                    error={error}
+                  />
+                )}
+              >
+                <Suspense
+                  fallback={<ComponentFallbacks.Loading componentName='Ingredient Recommender' />}
+                >
+                  <IngredientRecommender isFullPageVersion={false} maxDisplayed={8} />
+                </Suspense>
+              </ErrorBoundary>
+            </SectionWrapper>
+
+            {/* Cooking Methods Section */}
+            <SectionWrapper id='cooking' title='Cooking Methods'>
+              <ErrorBoundary
+                fallback={error => (
+                  <ComponentFallbacks.CookingMethods
+                    onRetry={() => window.location.reload()}
+                    error={error}
+                  />
+                )}
+              >
+                <Suspense fallback={<ComponentFallbacks.Loading componentName='Cooking Methods' />}>
+                  <CookingMethodsSection
+                    isMainPageVersion={true}
+                    maxDisplayed={6}
+                    onViewMore={() => router.push('/cooking-methods')}
+                  />
+                </Suspense>
+              </ErrorBoundary>
+            </SectionWrapper>
+
+            {/* Recipe Builder Section */}
+            <SectionWrapper id='recipe' title='Recipe Builder'>
+              <ErrorBoundary
+                fallback={error => (
+                  <ComponentFallbacks.RecipeBuilder
+                    onRetry={() => window.location.reload()}
+                    error={error}
+                  />
+                )}
+              >
+                <Suspense fallback={<ComponentFallbacks.Loading componentName='Recipe Builder' />}>
+                  <RecipeBuilderSimple />
+                </Suspense>
+              </ErrorBoundary>
+            </SectionWrapper>
+
+            {/* Additional children if provided */}
+            {children}
+          </main>
+
+          {/* Footer */}
+          <footer className='mt-12 text-center'>
+            <div className='mx-auto mb-4' style={{ maxWidth: '250px' }}>
+              <form
+                action='https://www.paypal.com/ncp/payment/SVN6Q368TKKLS'
+                method='post'
+                target='_blank'
+              >
+                <input
+                  type='submit'
+                  value='HELP'
+                  style={{
+                    textAlign: 'center',
+                    border: 'none',
+                    borderRadius: '0.25rem',
+                    width: '100%',
+                    padding: '0 2rem',
+                    height: '2.625rem',
+                    fontWeight: 'bold',
+                    backgroundColor: '#FFD140',
+                    color: '#000000',
+                    fontFamily: '"Helvetica Neue", Arial, sans-serif',
+                    fontSize: '1rem',
+                    lineHeight: '1.25rem',
+                    cursor: 'pointer',
+                  }}
+                />
+              </form>
+            </div>
+          </footer>
+        </div>
+
+        {/* Debug Panel - Fixed Bottom Right */}
+        {debugMode && (
+          <Suspense fallback={null}>
+            <ConsolidatedDebugInfo
+              position='bottom-right'
+              collapsible={true}
+              showPerformanceMetrics={true}
+              showAstrologicalData={true}
+              showComponentStates={true}
+            />
+          </Suspense>
+        )}
+
+        {/* CSS for smooth navigation transitions */}
+        <style jsx>{`
+          .highlight-section {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+          }
+
+          section {
+            transition:
+              transform 0.3s ease-in-out,
+              box-shadow 0.3s ease-in-out,
+              border 0.3s ease-in-out;
+          }
+
+          nav button:hover {
+            transform: translateY(-1px);
+          }
+
+          nav button:active {
+            transform: translateY(0);
+          }
+        `}</style>
       </div>
-      
-      {/* Debug Panel - Fixed Bottom Right */}
-      {debugMode && (
-        <Suspense fallback={null}>
-          <ConsolidatedDebugInfo 
-            position="bottom-right"
-            collapsible={true}
-            showPerformanceMetrics={true}
-            showAstrologicalData={true}
-            showComponentStates={true}
-          />
-        </Suspense>
-      )}
-      
-      {/* CSS for smooth navigation transitions */}
-      <style jsx>{`
-        .highlight-section {
-          transform: scale(1.02);
-          box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-          border: 2px solid rgba(99, 102, 241, 0.3);
-        }
-        
-        section {
-          transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
-        }
-        
-        nav button:hover {
-          transform: translateY(-1px);
-        }
-        
-        nav button:active {
-          transform: translateY(0);
-        }
-      `}</style>
-    </div>
     </MainPageContext.Provider>
   );
 });

@@ -1,13 +1,19 @@
 # Key Architecture Principles
 
-This document outlines the core architectural principles that should guide all development work in the WhatToEatNext application, especially during the TypeScript refactoring phases. Following these principles ensures consistency, maintainability, and long-term success of the codebase.
+This document outlines the core architectural principles that should guide all
+development work in the WhatToEatNext application, especially during the
+TypeScript refactoring phases. Following these principles ensures consistency,
+maintainability, and long-term success of the codebase.
 
 ## 1. Singleton Implementation for Services
 
 ### Principle
-Services should follow the singleton pattern, with a single instance accessible throughout the application.
+
+Services should follow the singleton pattern, with a single instance accessible
+throughout the application.
 
 ### Implementation Guidelines
+
 - Use dependency injection container to manage service instances
 - Register services as singletons at application startup
 - Access services through hooks or provider patterns
@@ -35,9 +41,12 @@ serviceContainer.registerSingleton<IElementalCalculator>('elementalCalculator', 
 ## 2. Interface-Based Design
 
 ### Principle
-Define service contracts through interfaces, decoupling implementation details from service consumers.
+
+Define service contracts through interfaces, decoupling implementation details
+from service consumers.
 
 ### Implementation Guidelines
+
 - Create clear, comprehensive interfaces for all services
 - Define interfaces first, implementations second
 - Keep interfaces focused on specific functionality domains
@@ -56,14 +65,14 @@ export interface IAstrologyService {
    * @returns A promise resolving to an object with planetary positions
    */
   getCurrentPlanetaryPositions(): Promise<Record<string, PlanetaryPosition>>;
-  
+
   /**
    * Gets planetary positions for a specific date
    * @param date The date to calculate positions for
    * @returns A promise resolving to an object with planetary positions
    */
   getPlanetaryPositions(date: Date): Promise<Record<string, PlanetaryPosition>>;
-  
+
   /**
    * Determines if the current time is daytime based on user's location
    * @returns A promise resolving to true if daytime, false if nighttime
@@ -75,9 +84,12 @@ export interface IAstrologyService {
 ## 3. Clear Dependency Management
 
 ### Principle
-Services should explicitly declare their dependencies, making relationships transparent and testable.
+
+Services should explicitly declare their dependencies, making relationships
+transparent and testable.
 
 ### Implementation Guidelines
+
 - Use constructor injection for service dependencies
 - Declare dependencies in the constructor signature
 - Use meaningful parameter names that match dependency roles
@@ -100,15 +112,15 @@ export class AstrologyService implements IAstrologyService {
     private readonly cacheService: ICacheService,
     private readonly locationService: ILocationService
   ) {}
-  
+
   async getCurrentPlanetaryPositions(): Promise<Record<string, PlanetaryPosition>> {
     // Implementation using injected dependencies
   }
-  
+
   async getPlanetaryPositions(date: Date): Promise<Record<string, PlanetaryPosition>> {
     // Implementation using injected dependencies
   }
-  
+
   async isDaytime(): Promise<boolean> {
     // Implementation using injected dependencies
   }
@@ -118,9 +130,12 @@ export class AstrologyService implements IAstrologyService {
 ## 4. Consistent Error Handling
 
 ### Principle
-Implement standardized error handling and reporting across all services and components.
+
+Implement standardized error handling and reporting across all services and
+components.
 
 ### Implementation Guidelines
+
 - Create custom error classes for different error categories
 - Use consistent error formats and messaging
 - Propagate errors with appropriate context
@@ -156,8 +171,8 @@ try {
   // Operation that might fail
 } catch (error) {
   throw new ServiceError(
-    'Failed to fetch planetary positions', 
-    'AstrologyService', 
+    'Failed to fetch planetary positions',
+    'AstrologyService',
     'getCurrentPlanetaryPositions',
     error instanceof Error ? error : new Error(String(error))
   );
@@ -167,9 +182,12 @@ try {
 ## 5. Proper Initialization Flow
 
 ### Principle
-Services should follow a clear, predictable initialization sequence, avoiding race conditions and ensuring dependencies are available.
+
+Services should follow a clear, predictable initialization sequence, avoiding
+race conditions and ensuring dependencies are available.
 
 ### Implementation Guidelines
+
 - Use asynchronous initialization when needed
 - Signal initialization state through flags or promises
 - Implement timeout and retry mechanisms for critical services
@@ -187,43 +205,43 @@ import { IElementalCalculator } from './interfaces/IElementalCalculator';
 
 export class ServiceInitializer {
   private static initPromise: Promise<void> | null = null;
-  
+
   /**
    * Initialize all services in the correct order
    */
   static async initialize(): Promise<void> {
     // Only initialize once
     if (this.initPromise) return this.initPromise;
-    
+
     this.initPromise = (async () => {
       try {
         // Get service instances
         const astrologyService = serviceContainer.resolve<IAstrologyService>('astrologyService');
         const elementalCalculator = serviceContainer.resolve<IElementalCalculator>('elementalCalculator');
-        
+
         // Initialize services in dependency order
         await this.initializeWithTimeout(
           astrologyService.initialize(),
           'AstrologyService',
           5000
         );
-        
+
         await this.initializeWithTimeout(
           elementalCalculator.initialize(),
           'ElementalCalculator',
           2000
         );
-        
+
         console.log('All services initialized successfully');
       } catch (error) {
         console.error('Service initialization failed:', error);
         throw error;
       }
     })();
-    
+
     return this.initPromise;
   }
-  
+
   /**
    * Initialize a service with timeout
    */
@@ -235,7 +253,7 @@ export class ServiceInitializer {
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(() => reject(new Error(`${serviceName} initialization timed out after ${timeoutMs}ms`)), timeoutMs);
     });
-    
+
     return Promise.race([promise, timeoutPromise]);
   }
 }
@@ -244,9 +262,12 @@ export class ServiceInitializer {
 ## 6. Legacy Service Compatibility
 
 ### Principle
-Maintain backward compatibility with legacy code while implementing the new architecture.
+
+Maintain backward compatibility with legacy code while implementing the new
+architecture.
 
 ### Implementation Guidelines
+
 - Create adapter services bridging new and old implementations
 - Use feature flags to toggle between implementations
 - Gradually migrate components to new services
@@ -270,10 +291,10 @@ export class LegacyAstrologyAdapter implements IAstrologyService {
   async getCurrentPlanetaryPositions(): Promise<Record<string, PlanetaryPosition>> {
     // Call legacy API
     const legacyData = await legacyAstrologyAPI.getCurrentPositions();
-    
+
     // Transform to new format
     const result: Record<string, PlanetaryPosition> = {};
-    
+
     Object.entries(legacyData).forEach(([planet, data]) => {
       result[planet] = {
         planet,
@@ -283,10 +304,10 @@ export class LegacyAstrologyAdapter implements IAstrologyService {
         isRetrograde: data.isRetro
       };
     });
-    
+
     return result;
   }
-  
+
   // Implement other methods from IAstrologyService
 }
 ```
@@ -294,9 +315,12 @@ export class LegacyAstrologyAdapter implements IAstrologyService {
 ## 7. Testability
 
 ### Principle
-Code should be designed for testability, enabling isolated and comprehensive testing.
+
+Code should be designed for testability, enabling isolated and comprehensive
+testing.
 
 ### Implementation Guidelines
+
 - Keep services focused on a single responsibility
 - Use dependency injection to enable mock replacement
 - Create test helpers for common testing patterns
@@ -318,25 +342,25 @@ describe('AstrologyService', () => {
   let cacheService: any;
   let locationService: any;
   let service: AstrologyService;
-  
+
   beforeEach(() => {
     // Create mock dependencies
     httpClient = mockHttpClient();
     cacheService = mockCacheService();
     locationService = mockLocationService();
-    
+
     // Create service with mocked dependencies
     service = new AstrologyService(httpClient, cacheService, locationService);
   });
-  
+
   describe('getCurrentPlanetaryPositions', () => {
     it('should fetch planetary positions from API', async () => {
       // Arrange
       httpClient.get.mockResolvedValue({ data: mockPlanetaryData });
-      
+
       // Act
       const result = await service.getCurrentPlanetaryPositions();
-      
+
       // Assert
       expect(result).toEqual(mockPlanetaryData);
       expect(httpClient.get).toHaveBeenCalledWith('/api/planetary-positions');
@@ -348,9 +372,11 @@ describe('AstrologyService', () => {
 ## 8. Performance Considerations
 
 ### Principle
+
 Implement performant code that remains responsive and efficient at scale.
 
 ### Implementation Guidelines
+
 - Cache expensive calculations and API calls
 - Implement request batching for related data
 - Use lazy loading for non-critical services
@@ -366,24 +392,24 @@ import { ICacheService } from './interfaces/ICacheService';
 
 export class CacheService implements ICacheService {
   private cache = new Map<string, { value: any; expiry: number }>();
-  
+
   set(key: string, value: any, ttlMs: number = 5 * 60 * 1000): void {
     const expiry = Date.now() + ttlMs;
     this.cache.set(key, { value, expiry });
   }
-  
+
   get<T>(key: string): T | null {
     const item = this.cache.get(key);
-    
+
     if (!item) return null;
     if (item.expiry < Date.now()) {
       this.cache.delete(key);
       return null;
     }
-    
+
     return item.value as T;
   }
-  
+
   has(key: string): boolean {
     const item = this.cache.get(key);
     if (!item) return false;
@@ -393,11 +419,11 @@ export class CacheService implements ICacheService {
     }
     return true;
   }
-  
+
   delete(key: string): void {
     this.cache.delete(key);
   }
-  
+
   clear(): void {
     this.cache.clear();
   }
@@ -407,9 +433,12 @@ export class CacheService implements ICacheService {
 ## 9. Documentation
 
 ### Principle
-Code should be self-documenting with clear interfaces, meaningful names, and explicit documentation.
+
+Code should be self-documenting with clear interfaces, meaningful names, and
+explicit documentation.
 
 ### Implementation Guidelines
+
 - Use TypeScript interfaces to document contracts
 - Add JSDoc comments to methods and classes
 - Create dedicated documentation for complex systems
@@ -419,14 +448,14 @@ Code should be self-documenting with clear interfaces, meaningful names, and exp
 
 ### Example
 
-```typescript
+````typescript
 /**
  * Calculates elemental properties based on planetary positions
- * 
+ *
  * @param positions - An object containing planetary positions
  * @param isDaytime - Whether the calculation should use daytime or nighttime values
  * @returns An object containing the calculated elemental properties
- * 
+ *
  * @example
  * ```ts
  * const positions = await astrologyService.getCurrentPlanetaryPositions();
@@ -439,8 +468,11 @@ export function calculateElementalProperties(
 ): ElementalProperties {
   // Implementation details
 }
-```
+````
 
 ## Conclusion
 
-Following these core architectural principles will ensure that the WhatToEatNext application maintains a high level of quality, maintainability, and extensibility. These principles should be treated as guidelines for all development work and used to evaluate code quality during reviews. 
+Following these core architectural principles will ensure that the WhatToEatNext
+application maintains a high level of quality, maintainability, and
+extensibility. These principles should be treated as guidelines for all
+development work and used to evaluate code quality during reviews.

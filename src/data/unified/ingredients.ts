@@ -2,17 +2,14 @@
 // This file provides a unified interface for accessing ingredients with enhanced alchemical properties
 // It acts as an adapter/enhancer for existing ingredient data rather than duplicating it
 
-
-import type { 
-  UnifiedIngredient 
-} from "@/types";
-import type { 
-  IngredientMapping, 
-  ElementalProperties, 
+import type { UnifiedIngredient } from '@/types';
+import type {
+  IngredientMapping,
+  ElementalProperties,
   ThermodynamicMetrics,
   ThermodynamicProperties,
-  AlchemicalProperties 
-} from "@/types/alchemy";
+  AlchemicalProperties,
+} from '@/types/alchemy';
 
 // TODO: Fix import - add what to import from "./unifiedTypes.ts"
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
@@ -34,7 +31,7 @@ const proteins = {
   ...meats,
   ...poultry,
   ...seafood,
-  ...plantBased
+  ...plantBased,
 };
 
 /**
@@ -43,15 +40,17 @@ const proteins = {
  */
 function calculateKalchm(alchemical: AlchemicalProperties): number {
   const { Spirit, Essence, Matter, Substance } = alchemical;
-  
+
   // Prevent division by zero or negative values
   const safespirit = Math.max(0.001, Spirit);
   const safeessence = Math.max(0.001, Essence);
   const safematter = Math.max(0.001, Matter);
   const safesubstance = Math.max(0.001, Substance);
-  
-  return (Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence)) / 
-         (Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance));
+
+  return (
+    (Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence)) /
+    (Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance))
+  );
 }
 
 /**
@@ -59,82 +58,93 @@ function calculateKalchm(alchemical: AlchemicalProperties): number {
  * monica = -gregsEnergy / (reactivity * ln(kalchm))
  */
 function calculateMonica(
-  kalchm: number, 
-  thermodynamics: ThermodynamicProperties | ThermodynamicMetrics
+  kalchm: number,
+  thermodynamics: ThermodynamicProperties | ThermodynamicMetrics,
 ): number {
   if (!thermodynamics || kalchm <= 0) return 0;
-  
+
   // ✅ Pattern MM-1: Safe type assertion for thermodynamics access
-  const thermoData = (thermodynamics as unknown) as Record<string, unknown>;
+  const thermoData = thermodynamics as unknown as Record<string, unknown>;
   const reactivity = Number(thermoData.reactivity) || 0;
   const gregsEnergy = Number(thermoData.gregsEnergy);
   const energy = Number(thermoData.energy) || 0;
-  
+
   // Use gregsEnergy if available, otherwise use energy
-  const energyValue = gregsEnergy !== undefined ? gregsEnergy : (energy || 0);
-  
+  const energyValue = gregsEnergy !== undefined ? gregsEnergy : energy || 0;
+
   // Safe calculation of logarithm
   const lnK = Math.log(Math.max(0.001, kalchm));
-  
+
   // Calculate monica value
   if (lnK !== 0 && reactivity !== 0) {
     return -energyValue / (reactivity * lnK);
   }
-  
+
   return 0;
 }
 
 /**
  * Enhance existing ingredient with unified properties
  */
-function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string): UnifiedIngredient {
+function enhanceIngredient(
+  ingredient: IngredientMapping,
+  sourceCategory: string,
+): UnifiedIngredient {
   // Create alchemical properties if not present - ensure it's the correct type
   // ✅ Pattern GG-6: Safe property access for alchemical properties
-  const alchemicalData = (ingredient.alchemicalProperties as unknown) as Record<string, unknown>;
+  const alchemicalData = ingredient.alchemicalProperties as unknown as Record<string, unknown>;
   const alchemicalProperties: AlchemicalProperties = {
     Spirit: Number(alchemicalData.Spirit) || 0.25,
     Essence: Number(alchemicalData.Essence) || 0.25,
     Matter: Number(alchemicalData.Matter) || 0.25,
-    Substance: Number(alchemicalData.Substance) || 0.25
+    Substance: Number(alchemicalData.Substance) || 0.25,
   };
-  
+
   // Calculate Kalchm value
   const kalchm = calculateKalchm(alchemicalProperties);
-  
+
   // Get or create thermodynamic properties
-  const thermodynamics = ingredient.thermodynamicProperties || 
-                        ingredient.energyValues || 
-                        { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 - (0.5 * 0.5) };
-  
+  const thermodynamics = ingredient.thermodynamicProperties ||
+    ingredient.energyValues || {
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0.5 - 0.5 * 0.5,
+    };
+
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility
-  const monica = calculateMonica(kalchm, (thermodynamics as unknown) as ThermodynamicProperties | ThermodynamicMetrics);
-  
+  const monica = calculateMonica(
+    kalchm,
+    thermodynamics as unknown as ThermodynamicProperties | ThermodynamicMetrics,
+  );
+
   // Create enhanced unified ingredient
   return {
     // ✅ Pattern GG-6: Safe property access for core ingredient properties
     name: String((ingredient as Record<string, unknown>).name || ''),
     category: String((ingredient as Record<string, unknown>).category || sourceCategory),
     subcategory: String((ingredient as Record<string, unknown>).subCategory || ''),
-    
+
     // ✅ Pattern GG-6: Safe property access for elemental properties
-    elementalProperties: ((ingredient as Record<string, unknown>).elementalPropertiesState as ElementalProperties) || 
-                        ((ingredient as Record<string, unknown>).elementalProperties as ElementalProperties) || 
-                        createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+    elementalProperties:
+      ((ingredient as Record<string, unknown>).elementalPropertiesState as ElementalProperties) ||
+      ((ingredient as Record<string, unknown>).elementalProperties as ElementalProperties) ||
+      createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
     alchemicalProperties,
-    
+
     // New calculated values
     kalchm,
     monica,
-    
+
     // Reference to original ingredient data
     originalData: ingredient,
-    
+
     // ✅ Pattern KK-1: Safe date conversion for metadata
     metadata: {
       sourceFile: `ingredients/${sourceCategory}`,
       enhancedAt: new Date().toISOString(),
-      kalchmCalculated: true
-    }
+      kalchmCalculated: true,
+    },
   };
 }
 
@@ -143,25 +153,55 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
  */
 function createUnifiedCollection(
   sourceCollection: { [key: string]: IngredientMapping },
-  category: string
+  category: string,
 ): { [key: string]: UnifiedIngredient } {
   // ✅ Pattern GG-6: Safe array operation for source collection
-  return Object.entries(sourceCollection || {}).reduce((result, [key, ingredient]) => {
-    result[key] = enhanceIngredient(ingredient, category);
-    return result;
-  }, {} as Record<string, UnifiedIngredient>);
+  return Object.entries(sourceCollection || {}).reduce(
+    (result, [key, ingredient]) => {
+      result[key] = enhanceIngredient(ingredient, category);
+      return result;
+    },
+    {} as Record<string, UnifiedIngredient>,
+  );
 }
 
 // ✅ Pattern MM-1: Safe Record type casting for createUnifiedCollection compatibility
-export const unifiedFruits = createUnifiedCollection(fruits as { [key: string]: IngredientMapping }, 'fruits');
-export const unifiedVegetables = createUnifiedCollection(vegetables as { [key: string]: IngredientMapping }, 'vegetables');
-export const unifiedHerbs = createUnifiedCollection(herbs as { [key: string]: IngredientMapping }, 'herbs');
-export const unifiedSpices = createUnifiedCollection((spices as unknown) as { [key: string]: IngredientMapping }, 'spices');
-export const unifiedGrains = createUnifiedCollection(grains as { [key: string]: IngredientMapping }, 'grains');
-export const unifiedOils = createUnifiedCollection(oils as { [key: string]: IngredientMapping }, 'oils');
-export const unifiedVinegars = createUnifiedCollection(vinegars as { [key: string]: IngredientMapping }, 'vinegars');
-export const unifiedSeasonings = createUnifiedCollection(seasonings as { [key: string]: IngredientMapping }, 'seasonings');
-export const unifiedProteins = createUnifiedCollection(proteins as { [key: string]: IngredientMapping }, 'proteins');
+export const unifiedFruits = createUnifiedCollection(
+  fruits as { [key: string]: IngredientMapping },
+  'fruits',
+);
+export const unifiedVegetables = createUnifiedCollection(
+  vegetables as { [key: string]: IngredientMapping },
+  'vegetables',
+);
+export const unifiedHerbs = createUnifiedCollection(
+  herbs as { [key: string]: IngredientMapping },
+  'herbs',
+);
+export const unifiedSpices = createUnifiedCollection(
+  spices as unknown as { [key: string]: IngredientMapping },
+  'spices',
+);
+export const unifiedGrains = createUnifiedCollection(
+  grains as { [key: string]: IngredientMapping },
+  'grains',
+);
+export const unifiedOils = createUnifiedCollection(
+  oils as { [key: string]: IngredientMapping },
+  'oils',
+);
+export const unifiedVinegars = createUnifiedCollection(
+  vinegars as { [key: string]: IngredientMapping },
+  'vinegars',
+);
+export const unifiedSeasonings = createUnifiedCollection(
+  seasonings as { [key: string]: IngredientMapping },
+  'seasonings',
+);
+export const unifiedProteins = createUnifiedCollection(
+  proteins as { [key: string]: IngredientMapping },
+  'proteins',
+);
 
 // Combine all unified collections
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
@@ -173,7 +213,7 @@ export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
   ...unifiedOils,
   ...unifiedVinegars,
   ...unifiedSeasonings,
-  ...unifiedProteins
+  ...unifiedProteins,
 };
 
 // Helper functions for working with unified ingredients
@@ -186,11 +226,11 @@ export function getUnifiedIngredient(name: string): UnifiedIngredient | undefine
   if (unifiedIngredients[name]) {
     return unifiedIngredients[name];
   }
-  
+
   // ✅ Pattern KK-1: Safe string conversion for case-insensitive search
   const normalizedName = String(name || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).find(
-    ingredient => String(ingredient.name || '').toLowerCase() === normalizedName
+    ingredient => String(ingredient.name || '').toLowerCase() === normalizedName,
   );
 }
 
@@ -207,8 +247,8 @@ export function getIngredientById(id: string): UnifiedIngredient | undefined {
 export function getUnifiedIngredientsByCategory(category: string): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe string conversion for category comparison
   const categoryLower = String(category || '').toLowerCase();
-  return Object.values(unifiedIngredients || {}).filter(ingredient => 
-    String(ingredient.category || '').toLowerCase() === categoryLower
+  return Object.values(unifiedIngredients || {}).filter(
+    ingredient => String(ingredient.category || '').toLowerCase() === categoryLower,
   );
 }
 
@@ -225,8 +265,8 @@ export function getIngredientsByCategory(category: string): UnifiedIngredient[] 
 export function getUnifiedIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe string conversion for subcategory comparison
   const subcategoryLower = String(subcategory || '').toLowerCase();
-  return Object.values(unifiedIngredients || {}).filter(ingredient => 
-    String(ingredient.subcategory || '').toLowerCase() === subcategoryLower
+  return Object.values(unifiedIngredients || {}).filter(
+    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,
   );
 }
 
@@ -236,8 +276,8 @@ export function getUnifiedIngredientsBySubcategory(subcategory: string): Unified
 export function getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe string conversion for subcategory comparison
   const subcategoryLower = String(subcategory || '').toLowerCase();
-  return Object.values(unifiedIngredients || {}).filter(ingredient => 
-    String(ingredient.subcategory || '').toLowerCase() === subcategoryLower
+  return Object.values(unifiedIngredients || {}).filter(
+    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,
   );
 }
 
@@ -254,7 +294,10 @@ export function getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
 /**
  * Get ingredients by Kalchm range (alias for backward compatibility)
  */
-export function getIngredientsByKalchmRange(min: number = 1.5, max: number = Infinity): UnifiedIngredient[] {
+export function getIngredientsByKalchmRange(
+  min: number = 1.5,
+  max: number = Infinity,
+): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
@@ -280,7 +323,10 @@ export function getIngredientsByMonicaRange(min: number, max: number): UnifiedIn
 /**
  * Find ingredients by elemental properties
  */
-export function getIngredientsByElement(element: keyof ElementalProperties, threshold = 0.6): UnifiedIngredient[] {
+export function getIngredientsByElement(
+  element: keyof ElementalProperties,
+  threshold = 0.6,
+): UnifiedIngredient[] {
   // ✅ Pattern GG-6: Safe property access for elemental properties
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
@@ -288,8 +334,8 @@ export function getIngredientsByElement(element: keyof ElementalProperties, thre
       return props && Number(props[element] || 0) >= threshold;
     })
     .sort((a, b) => {
-      const valueA = Number((a.elementalProperties[element]) || 0);
-      const valueB = Number((b.elementalProperties[element]) || 0);
+      const valueA = Number(a.elementalProperties[element] || 0);
+      const valueB = Number(b.elementalProperties[element] || 0);
       return valueB - valueA;
     });
 }
@@ -299,30 +345,32 @@ export function getIngredientsByElement(element: keyof ElementalProperties, thre
  */
 export function findComplementaryIngredients(
   ingredient: UnifiedIngredient | string,
-  maxResults: number = 10
+  maxResults: number = 10,
 ): UnifiedIngredient[] {
   // If string is provided, convert to ingredient
-  const targetIngredient = typeof ingredient === 'string' 
-    ? getUnifiedIngredient(ingredient) 
-    : ingredient;
-    
+  const targetIngredient =
+    typeof ingredient === 'string' ? getUnifiedIngredient(ingredient) : ingredient;
+
   if (!targetIngredient) {
     return [];
   }
-  
+
   // ✅ Pattern KK-1: Safe division for complementary relationship criteria
   const targetKalchmRatio = 1 / Math.max(0.001, Number(targetIngredient.kalchm || 0.001));
   const targetMonicaSum = 0; // Ideal balanced sum
-  
+
   // ✅ Pattern KK-1: Safe number conversion for complementarity calculations
   return Object.values(unifiedIngredients || {})
     .filter(other => String(other.name || '') !== String(targetIngredient.name || ''))
     .map(other => ({
       ingredient: other,
-      complementarityScore: (
+      complementarityScore:
         (1 - Math.abs(Number(other.kalchm || 0) - targetKalchmRatio)) * 0.5 +
-        (1 - Math.abs((Number(targetIngredient.monica || 0) + Number(other.monica || 0)) - targetMonicaSum)) * 0.5
-      )
+        (1 -
+          Math.abs(
+            Number(targetIngredient.monica || 0) + Number(other.monica || 0) - targetMonicaSum,
+          )) *
+          0.5,
     }))
     .sort((a, b) => Number(b.complementarityScore || 0) - Number(a.complementarityScore || 0))
     .slice(0, maxResults)
@@ -333,4 +381,4 @@ export function findComplementaryIngredients(
 export type { UnifiedIngredient } from './unifiedTypes';
 
 // Export default
-export default unifiedIngredients; 
+export default unifiedIngredients;

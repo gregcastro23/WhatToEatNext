@@ -2,15 +2,15 @@
 
 /**
  * Console Statement Cleanup Script
- * 
+ *
  * Safely removes development console statements while preserving:
  * - Astrological debugging patterns
  * - Campaign monitoring systems
  * - Error logging in production
  * - Critical debugging information
- * 
+ *
  * Target: 1,517 console statement issues
- * 
+ *
  * SAFETY FEATURES:
  * - Git stash before execution
  * - TypeScript compilation validation
@@ -31,20 +31,20 @@ const PRESERVE_PATTERNS = [
   /console\.(log|debug|info)\([^)]*elemental/i,
   /console\.(log|debug|info)\([^)]*kalchm/i,
   /console\.(log|debug|info)\([^)]*monica/i,
-  
+
   // Campaign monitoring systems
   /console\.(log|debug|info)\([^)]*campaign/i,
   /console\.(log|debug|info)\([^)]*phase/i,
   /console\.(log|debug|info)\([^)]*wave/i,
   /console\.(log|debug|info)\([^)]*typescript.*error/i,
   /console\.(log|debug|info)\([^)]*linting.*progress/i,
-  
+
   // Error handling (preserve in production)
   /console\.(error|warn)\(/,
   /console\.log\([^)]*error[^)]*\)/i,
   /console\.log\([^)]*exception[^)]*\)/i,
   /console\.log\([^)]*failed[^)]*\)/i,
-  
+
   // Critical system information
   /console\.log\([^)]*build[^)]*\)/i,
   /console\.log\([^)]*deploy[^)]*\)/i,
@@ -56,28 +56,28 @@ const SAFE_REMOVAL_PATTERNS = [
   {
     name: 'simpleDebugLog',
     pattern: /^\s*console\.log\(['"`][^'"`]*['"`]\);\s*$/gm,
-    description: 'Simple string-only console.log statements'
+    description: 'Simple string-only console.log statements',
   },
   {
     name: 'basicVariableLog',
     pattern: /^\s*console\.log\(\w+\);\s*$/gm,
-    description: 'Basic variable logging'
+    description: 'Basic variable logging',
   },
   {
     name: 'simpleObjectLog',
     pattern: /^\s*console\.log\(['"`][^'"`]*['"`],\s*\w+\);\s*$/gm,
-    description: 'Simple object logging with string prefix'
+    description: 'Simple object logging with string prefix',
   },
   {
     name: 'developmentOnlyLog',
-    pattern: /^\s*console\.log\(['"`].*debug.*['"`][^)]*\);\s*$/gmi,
-    description: 'Development debugging statements'
+    pattern: /^\s*console\.log\(['"`].*debug.*['"`][^)]*\);\s*$/gim,
+    description: 'Development debugging statements',
   },
   {
     name: 'testingLog',
-    pattern: /^\s*console\.log\(['"`].*test.*['"`][^)]*\);\s*$/gmi,
-    description: 'Testing-related console statements'
-  }
+    pattern: /^\s*console\.log\(['"`].*test.*['"`][^)]*\);\s*$/gim,
+    description: 'Testing-related console statements',
+  },
 ];
 
 class ConsoleCleanupProcessor {
@@ -129,12 +129,14 @@ class ConsoleCleanupProcessor {
       if (modified) {
         const newContent = processedLines.join('\n');
         fs.writeFileSync(filePath, newContent, 'utf8');
-        
+
         this.filesProcessed++;
         this.totalRemovals += fileRemovals;
         this.preservedStatements += filePreservations;
 
-        console.log(`✓ ${path.relative(process.cwd(), filePath)}: ${fileRemovals} removed, ${filePreservations} preserved`);
+        console.log(
+          `✓ ${path.relative(process.cwd(), filePath)}: ${fileRemovals} removed, ${filePreservations} preserved`,
+        );
       }
 
       return { modified, removals: fileRemovals, preserved: filePreservations };
@@ -177,7 +179,7 @@ class ConsoleCleanupProcessor {
     console.log(`🗑️  Console statements removed: ${this.totalRemovals}`);
     console.log(`🛡️  Statements preserved: ${this.preservedStatements}`);
     console.log(`❌ Errors encountered: ${this.errors.length}`);
-    
+
     if (this.errors.length > 0) {
       console.log('\n⚠️  ERRORS:');
       this.errors.forEach(({ file, error }) => {
@@ -191,8 +193,11 @@ class ConsoleCleanupProcessor {
     console.log('  - Error handling (console.error/warn)');
     console.log('  - Critical system information');
 
-    const reductionPercentage = this.totalRemovals > 0 ? ((this.totalRemovals / 1517) * 100).toFixed(1) : '0.0';
-    console.log(`\n🎯 Target Progress: ${this.totalRemovals}/1517 console issues (${reductionPercentage}% of target)`);
+    const reductionPercentage =
+      this.totalRemovals > 0 ? ((this.totalRemovals / 1517) * 100).toFixed(1) : '0.0';
+    console.log(
+      `\n🎯 Target Progress: ${this.totalRemovals}/1517 console issues (${reductionPercentage}% of target)`,
+    );
     console.log('='.repeat(60));
   }
 }
@@ -200,7 +205,7 @@ class ConsoleCleanupProcessor {
 // Main execution
 async function main() {
   const processor = new ConsoleCleanupProcessor();
-  
+
   console.log('🚀 Starting Console Statement Cleanup');
   console.log('Target: 1,517 console statement issues');
   console.log('Strategy: Conservative removal with domain preservation\n');
@@ -210,21 +215,21 @@ async function main() {
 
   // Get TypeScript/JavaScript files
   const srcDir = path.join(process.cwd(), 'src');
-  
+
   function getFiles(dir, files = []) {
     const entries = fs.readdirSync(dir);
-    
+
     for (const entry of entries) {
       const fullPath = path.join(dir, entry);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         getFiles(fullPath, files);
       } else if (/\.(ts|tsx|js|jsx)$/.test(entry)) {
         files.push(fullPath);
       }
     }
-    
+
     return files;
   }
 
@@ -235,12 +240,14 @@ async function main() {
   const batchSize = 10;
   for (let i = 0; i < files.length; i += batchSize) {
     const batch = files.slice(i, i + batchSize);
-    
-    console.log(`📦 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(files.length/batchSize)}`);
-    
+
+    console.log(
+      `📦 Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(files.length / batchSize)}`,
+    );
+
     // Process batch
     batch.forEach(file => processor.processFile(file));
-    
+
     // Validate build after each batch
     if (processor.filesProcessed > 0 && (i + batchSize) % 20 === 0) {
       if (!processor.validateBuild()) {
@@ -260,7 +267,7 @@ async function main() {
   }
 
   processor.generateReport();
-  
+
   if (processor.totalRemovals > 0) {
     console.log('\n✅ Console cleanup completed successfully!');
     console.log('💡 Changes have been applied. Run "git status" to review.');

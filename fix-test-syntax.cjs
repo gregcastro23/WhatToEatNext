@@ -2,7 +2,7 @@
 
 /**
  * Quick Test Syntax Fix Script
- * 
+ *
  * Fixes malformed object syntax in test files caused by previous operations
  */
 
@@ -13,7 +13,7 @@ function fixTestFileSyntax(filePath) {
   try {
     let content = fs.readFileSync(filePath, 'utf8');
     let modified = false;
-    
+
     // Fix malformed object syntax patterns
     const fixes = [
       // Fix ({, to ({
@@ -23,9 +23,9 @@ function fixTestFileSyntax(filePath) {
       // Fix function(); to function()
       { pattern: /(\w+\(\))\s*;/g, replacement: '$1' },
       // Fix extra })); patterns
-      { pattern: /\}\)\);\s*\}\)\);/g, replacement: '}));' }
+      { pattern: /\}\)\);\s*\}\)\);/g, replacement: '}));' },
     ];
-    
+
     for (const fix of fixes) {
       const newContent = content.replace(fix.pattern, fix.replacement);
       if (newContent !== content) {
@@ -33,13 +33,13 @@ function fixTestFileSyntax(filePath) {
         modified = true;
       }
     }
-    
+
     if (modified) {
       fs.writeFileSync(filePath, content);
       console.log(`✓ Fixed syntax in ${path.basename(filePath)}`);
       return true;
     }
-    
+
     return false;
   } catch (error) {
     console.error(`❌ Error fixing ${filePath}:`, error.message);
@@ -55,7 +55,7 @@ const testFiles = [
   'src/__tests__/linting/ConfigurationFileRuleValidation.test.ts',
   'src/__tests__/linting/PerformanceOptimizationValidation.test.ts',
   'src/__tests__/linting/AstrologicalRuleValidation.test.ts',
-  'src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts'
+  'src/__tests__/linting/ZeroErrorAchievementDashboard.test.ts',
 ];
 
 let fixedCount = 0;

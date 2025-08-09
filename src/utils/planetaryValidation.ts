@@ -47,7 +47,7 @@ const VALIDATION_TOLERANCES = {
   POSITION_DEGREES: 0.1,
   TRANSIT_DAYS: 1,
   TEST_PASS_THRESHOLD: 95,
-  API_TIMEOUT_MS: 5000
+  API_TIMEOUT_MS: 5000,
 };
 
 /**
@@ -83,26 +83,28 @@ export async function validatePlanetaryData(): Promise<ValidationResult> {
     warnings.push(...elementalValidation.warnings);
 
     const duration = Date.now() - startTime;
-    const isValid = errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0;
+    const isValid =
+      errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0;
 
     const summary = generateValidationSummary(isValid, errors, warnings, duration);
 
-    logger.info(`Planetary validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`);
+    logger.info(
+      `Planetary validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`,
+    );
 
     return {
       isValid,
       errors,
       warnings,
       summary,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-
   } catch (error) {
     const criticalError: ValidationError = {
       type: 'DATA_CORRUPTION',
       severity: 'CRITICAL',
       message: `Validation process failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     return {
@@ -110,7 +112,7 @@ export async function validatePlanetaryData(): Promise<ValidationResult> {
       errors: [criticalError],
       warnings,
       summary: 'Critical validation failure - process could not complete',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
   }
 }
@@ -118,7 +120,10 @@ export async function validatePlanetaryData(): Promise<ValidationResult> {
 /**
  * Validate transit dates against current astronomical data
  */
-async function validateTransitDates(): Promise<{ errors: ValidationError[], warnings: ValidationWarning[] }> {
+async function validateTransitDates(): Promise<{
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+}> {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
@@ -144,7 +149,7 @@ async function validateTransitDates(): Promise<{ errors: ValidationError[], warn
             type: 'DATA_OUTDATED',
             planet: planetName,
             message: `No transit dates found for ${planetName}`,
-            timestamp: new Date()
+            timestamp: new Date(),
           });
         }
       } catch (error) {
@@ -153,17 +158,16 @@ async function validateTransitDates(): Promise<{ errors: ValidationError[], warn
           type: 'DATA_OUTDATED',
           planet: planetName,
           message: `Could not load transit data for ${planetName}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       }
     }
-
   } catch (error) {
     errors.push({
       type: 'DATA_CORRUPTION',
       severity: 'MEDIUM',
       message: `Transit date validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -176,8 +180,8 @@ async function validateTransitDates(): Promise<{ errors: ValidationError[], warn
 function validatePlanetTransitDates(
   planetName: string,
   transitDates: Record<string, unknown>,
-  currentDate: Date
-): { errors: ValidationError[], warnings: ValidationWarning[] } {
+  currentDate: Date,
+): { errors: ValidationError[]; warnings: ValidationWarning[] } {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
@@ -205,7 +209,7 @@ function validatePlanetTransitDates(
             type: 'DATA_OUTDATED',
             planet: planetName,
             message: `Invalid transit dates for ${planetName} in ${sign}: Start=${(transit as { Start: string }).Start}, End=${(transit as { End: string }).End}`,
-            timestamp: new Date()
+            timestamp: new Date(),
           });
           continue;
         }
@@ -216,18 +220,20 @@ function validatePlanetTransitDates(
             type: 'DATA_OUTDATED',
             planet: planetName,
             message: `Transit start date is after end date for ${planetName} in ${sign}`,
-            timestamp: new Date()
+            timestamp: new Date(),
           });
         }
 
         // Check if dates are too far in the past or future
-        const daysDiff = Math.abs(currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
-        if (daysDiff > 365 * 2) { // More than 2 years old
+        const daysDiff =
+          Math.abs(currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+        if (daysDiff > 365 * 2) {
+          // More than 2 years old
           warnings.push({
             type: 'DATA_OUTDATED',
             planet: planetName,
             message: `Transit data for ${planetName} in ${sign} is ${Math.round(daysDiff)} days old`,
-            timestamp: new Date()
+            timestamp: new Date(),
           });
         }
       } else if (typeof transit === 'object' && Object.keys(transit).length > 0) {
@@ -243,20 +249,19 @@ function validatePlanetTransitDates(
                 type: 'DATA_OUTDATED',
                 planet: planetName,
                 message: `Invalid nested transit dates for ${planetName} in ${sign}.${key}`,
-                timestamp: new Date()
+                timestamp: new Date(),
               });
             }
           }
         }
       }
     }
-
   } catch (error) {
     warnings.push({
       type: 'DATA_OUTDATED',
       planet: planetName,
       message: `Error validating transit dates for ${planetName}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -266,7 +271,10 @@ function validatePlanetTransitDates(
 /**
  * Check position consistency between calculated and stored data
  */
-async function validatePositionConsistency(): Promise<{ errors: ValidationError[], warnings: ValidationWarning[] }> {
+async function validatePositionConsistency(): Promise<{
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+}> {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
@@ -277,7 +285,12 @@ async function validatePositionConsistency(): Promise<{ errors: ValidationError[
     // Compare with expected ranges based on transit dates
     for (const [planetName, position] of Object.entries(currentPositions)) {
       if (typeof position === 'object' && position !== null) {
-        const pos = position as unknown as { degree: number; exactLongitude: number; sign: string; isRetrograde: boolean };
+        const pos = position as unknown as {
+          degree: number;
+          exactLongitude: number;
+          sign: string;
+          isRetrograde: boolean;
+        };
 
         if (typeof pos.degree === 'number' && typeof pos.exactLongitude === 'number') {
           // Validate degree is within valid range (0-30)
@@ -288,7 +301,7 @@ async function validatePositionConsistency(): Promise<{ errors: ValidationError[
               planet: planetName,
               actualValue: pos.degree,
               message: `Invalid degree value for ${planetName}: ${pos.degree} (should be 0-30)`,
-              timestamp: new Date()
+              timestamp: new Date(),
             });
           }
 
@@ -300,7 +313,7 @@ async function validatePositionConsistency(): Promise<{ errors: ValidationError[
               planet: planetName,
               actualValue: pos.exactLongitude,
               message: `Invalid longitude value for ${planetName}: ${pos.exactLongitude} (should be 0-360)`,
-              timestamp: new Date()
+              timestamp: new Date(),
             });
           }
 
@@ -311,13 +324,12 @@ async function validatePositionConsistency(): Promise<{ errors: ValidationError[
         }
       }
     }
-
   } catch (error) {
     errors.push({
       type: 'API_TIMEOUT',
       severity: 'MEDIUM',
       message: `Position consistency check failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -329,14 +341,14 @@ async function validatePositionConsistency(): Promise<{ errors: ValidationError[
  */
 async function validatePositionChange(
   planetName: string,
-  currentPosition: { degree: number, exactLongitude: number, sign: string }
-): Promise<{ errors: ValidationError[], warnings: ValidationWarning[] }> {
+  currentPosition: { degree: number; exactLongitude: number; sign: string },
+): Promise<{ errors: ValidationError[]; warnings: ValidationWarning[] }> {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
   try {
     // Get expected daily motion for the planet
-  const _dailyMotion = getPlanetaryDailyMotion(planetName);
+    const _dailyMotion = getPlanetaryDailyMotion(planetName);
 
     // For now, just validate the position is reasonable
     // In a full implementation, we would compare with previous positions
@@ -348,17 +360,16 @@ async function validatePositionChange(
         type: 'MINOR_DRIFT',
         planet: planetName,
         message: `${planetName} in unexpected sign ${currentPosition.sign}, expected one of: ${expectedSigns.join(', ')}`,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
     }
-
   } catch (error) {
     // Non-critical error, just log it
     warnings.push({
       type: 'MINOR_DRIFT',
       planet: planetName,
       message: `Could not validate position change for ${planetName}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -370,16 +381,16 @@ async function validatePositionChange(
  */
 function getPlanetaryDailyMotion(planetName: string): number {
   const dailyMotions: Record<string, number> = {
-    'sun': 1.0,
-    'moon': 13.2,
-    'mercury': 1.4,
-    'venus': 1.2,
-    'mars': 0.5,
-    'jupiter': 0.08,
-    'saturn': 0.03,
-    'uranus': 0.01,
-    'neptune': 0.006,
-    'pluto': 0.004
+    sun: 1.0,
+    moon: 13.2,
+    mercury: 1.4,
+    venus: 1.2,
+    mars: 0.5,
+    jupiter: 0.08,
+    saturn: 0.03,
+    uranus: 0.01,
+    neptune: 0.006,
+    pluto: 0.004,
   };
 
   return dailyMotions[planetName.toLowerCase()] || 0.1;
@@ -463,7 +474,11 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
 
     for (const planet of requiredPlanets) {
       if (positions[planet] && typeof positions[planet] === 'object') {
-        const pos = positions[planet] as unknown as { degree: number; exactLongitude: number; sign: string };
+        const pos = positions[planet] as unknown as {
+          degree: number;
+          exactLongitude: number;
+          sign: string;
+        };
         if (typeof pos.degree === 'number' && typeof pos.exactLongitude === 'number' && pos.sign) {
           passedChecks++;
         }
@@ -480,16 +495,15 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
       details: {
         passedChecks,
         totalChecks,
-        successRate: (passedChecks / totalChecks) * 100
-      }
+        successRate: (passedChecks / totalChecks) * 100,
+      },
     };
-
   } catch (error) {
     return {
       testName: 'Planetary Position Accuracy',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -528,16 +542,15 @@ async function testTransitDateValidation(): Promise<TestResult> {
       details: {
         validTransits,
         totalPlanets,
-        successRate: (validTransits / totalPlanets) * 100
-      }
+        successRate: (validTransits / totalPlanets) * 100,
+      },
     };
-
   } catch (error) {
     return {
       testName: 'Transit Date Validation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -550,7 +563,16 @@ async function testRetrogradeDetection(): Promise<TestResult> {
 
   try {
     const positions = await getReliablePlanetaryPositions();
-    const retrogradeCapablePlanets = ['mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'];
+    const retrogradeCapablePlanets = [
+      'mercury',
+      'venus',
+      'mars',
+      'jupiter',
+      'saturn',
+      'uranus',
+      'neptune',
+      'pluto',
+    ];
 
     let validRetrogradeData = 0;
     const totalPlanets = retrogradeCapablePlanets.length;
@@ -574,16 +596,15 @@ async function testRetrogradeDetection(): Promise<TestResult> {
       details: {
         validRetrogradeData,
         totalPlanets,
-        successRate: (validRetrogradeData / totalPlanets) * 100
-      }
+        successRate: (validRetrogradeData / totalPlanets) * 100,
+      },
     };
-
   } catch (error) {
     return {
       testName: 'Retrograde Detection',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -597,8 +618,16 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
   try {
     const positions = await getReliablePlanetaryPositions();
 
-    const northNode = positions.northNode as unknown as { exactLongitude: number; sign: string; degree: number };
-    const southNode = positions.southNode as unknown as { exactLongitude: number; sign: string; degree: number };
+    const northNode = positions.northNode as unknown as {
+      exactLongitude: number;
+      sign: string;
+      degree: number;
+    };
+    const southNode = positions.southNode as unknown as {
+      exactLongitude: number;
+      sign: string;
+      degree: number;
+    };
 
     let passed = true;
     const details: Record<string, unknown> = {};
@@ -633,15 +662,14 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
       passed,
       duration,
       details,
-      error: passed ? undefined : `Lunar nodes validation failed: ${JSON.stringify(details)}`
+      error: passed ? undefined : `Lunar nodes validation failed: ${JSON.stringify(details)}`,
     };
-
   } catch (error) {
     return {
       testName: 'Lunar Node Calculation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -679,16 +707,15 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
       details: {
         validPositions,
         totalRequired: requiredPlanets.length,
-        successRate: (validPositions / requiredPlanets.length) * 100
-      }
+        successRate: (validPositions / requiredPlanets.length) * 100,
+      },
     };
-
   } catch (error) {
     return {
       testName: 'API Fallback Mechanism',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -696,7 +723,10 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
 /**
  * Validate elemental properties consistency
  */
-async function validateElementalProperties(): Promise<{ errors: ValidationError[], warnings: ValidationWarning[] }> {
+async function validateElementalProperties(): Promise<{
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+}> {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
@@ -711,7 +741,9 @@ async function validateElementalProperties(): Promise<{ errors: ValidationError[
         // Check elemental properties
         if (planetData?.Elements && Array.isArray(planetData.Elements)) {
           const validElements = ['Fire', 'Water', 'Earth', 'Air'];
-          const invalidElements = planetData.Elements.filter((el: string) => !validElements.includes(el));
+          const invalidElements = planetData.Elements.filter(
+            (el: string) => !validElements.includes(el),
+          );
 
           if (invalidElements.length > 0) {
             errors.push({
@@ -719,7 +751,7 @@ async function validateElementalProperties(): Promise<{ errors: ValidationError[
               severity: 'MEDIUM',
               planet: planetName,
               message: `Invalid elements for ${planetName}: ${invalidElements.join(', ')}`,
-              timestamp: new Date()
+              timestamp: new Date(),
             });
           }
         }
@@ -727,8 +759,8 @@ async function validateElementalProperties(): Promise<{ errors: ValidationError[
         // Check alchemical properties
         if (planetData?.Alchemy) {
           const requiredAlchemical = ['Spirit', 'Essence', 'Matter', 'Substance'];
-          const missingAlchemical = requiredAlchemical.filter(prop =>
-            typeof planetData.Alchemy[prop] !== 'number'
+          const missingAlchemical = requiredAlchemical.filter(
+            prop => typeof planetData.Alchemy[prop] !== 'number',
           );
 
           if (missingAlchemical.length > 0) {
@@ -736,27 +768,25 @@ async function validateElementalProperties(): Promise<{ errors: ValidationError[
               type: 'DATA_OUTDATED',
               planet: planetName,
               message: `Missing alchemical properties for ${planetName}: ${missingAlchemical.join(', ')}`,
-              timestamp: new Date()
+              timestamp: new Date(),
             });
           }
         }
-
       } catch (error) {
         // Only treat as warning since elemental properties validation is not critical
         warnings.push({
           type: 'DATA_OUTDATED',
           planet: planetName,
           message: `Could not validate elemental properties for ${planetName}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       }
     }
-
   } catch (error) {
     warnings.push({
       type: 'DATA_OUTDATED',
       message: `Elemental properties validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -766,7 +796,10 @@ async function validateElementalProperties(): Promise<{ errors: ValidationError[
 /**
  * Analyze test results and generate validation errors
  */
-function analyzeTestResults(testResults: TestResult[]): { errors: ValidationError[], warnings: ValidationWarning[] } {
+function analyzeTestResults(testResults: TestResult[]): {
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+} {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
@@ -779,29 +812,33 @@ function analyzeTestResults(testResults: TestResult[]): { errors: ValidationErro
       type: 'TEST_FAILURE',
       severity: 'HIGH',
       message: `Test pass rate ${passRate.toFixed(1)}% below threshold ${VALIDATION_TOLERANCES.TEST_PASS_THRESHOLD}%`,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
   // Check individual test failures
   for (const test of testResults) {
     if (!test.passed) {
-      const severity = test.testName.includes('Accuracy') || test.testName.includes('Fallback') ? 'HIGH' : 'MEDIUM';
+      const severity =
+        test.testName.includes('Accuracy') || test.testName.includes('Fallback')
+          ? 'HIGH'
+          : 'MEDIUM';
 
       errors.push({
         type: 'TEST_FAILURE',
-        severity: severity ,
+        severity: severity,
         message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
     }
 
     // Check for slow tests
-    if (test.duration > 10000) { // More than 10 seconds
+    if (test.duration > 10000) {
+      // More than 10 seconds
       warnings.push({
         type: 'API_SLOW',
         message: `Test ${test.testName} took ${test.duration}ms (>10s)`,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
     }
   }
@@ -816,7 +853,7 @@ function generateValidationSummary(
   isValid: boolean,
   errors: ValidationError[],
   warnings: ValidationWarning[],
-  duration: number
+  duration: number,
 ): string {
   const criticalErrors = errors.filter(e => e.severity === 'CRITICAL').length;
   const highErrors = errors.filter(e => e.severity === 'HIGH').length;
@@ -865,6 +902,8 @@ export function shouldRollback(validationResult: ValidationResult): boolean {
  * Export validation functions for testing
  */
 export {
-    runAstronomicalTests,
-    validateElementalProperties, validatePositionConsistency, validateTransitDates
+  runAstronomicalTests,
+  validateElementalProperties,
+  validatePositionConsistency,
+  validateTransitDates,
 };

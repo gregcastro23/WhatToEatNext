@@ -1,9 +1,7 @@
 // Removed unused ElementalProperties import
 import type { RecipeIngredient } from '@/types/recipe';
 
-export function validateIngredientData(
-  recipes: { ingredients: RecipeIngredient[] }[]
-): boolean {
+export function validateIngredientData(recipes: { ingredients: RecipeIngredient[] }[]): boolean {
   const missingElementals: RecipeIngredient[] = [];
 
   recipes.forEach(recipe => {
@@ -16,7 +14,10 @@ export function validateIngredientData(
         // Ensure all elemental properties exist
         const elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
         elements.forEach(element => {
-          if (ingredient.elementalProperties && ingredient.elementalProperties[element] === undefined) {
+          if (
+            ingredient.elementalProperties &&
+            ingredient.elementalProperties[element] === undefined
+          ) {
             if (ingredient.elementalProperties) {
               ingredient.elementalProperties[element] = 0;
             }
@@ -27,7 +28,10 @@ export function validateIngredientData(
   });
 
   if (missingElementals.length > 0) {
-    console.warn(`Found ${missingElementals.length} ingredients with missing elemental properties:`, missingElementals);
+    console.warn(
+      `Found ${missingElementals.length} ingredients with missing elemental properties:`,
+      missingElementals,
+    );
   }
 
   return missingElementals.length === 0;
@@ -56,9 +60,13 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
     } else {
       // Check that each element has a valid value
       (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
-        if (ingredient.elementalProperties &&
-            ingredient.elementalProperties[element] === undefined) {
-          errors.push(`Ingredient ${ingredient.name || index} is missing ${element} elementalProperty`);
+        if (
+          ingredient.elementalProperties &&
+          ingredient.elementalProperties[element] === undefined
+        ) {
+          errors.push(
+            `Ingredient ${ingredient.name || index} is missing ${element} elementalProperty`,
+          );
           if (ingredient.elementalProperties) {
             ingredient.elementalProperties[element] = 0;
           }

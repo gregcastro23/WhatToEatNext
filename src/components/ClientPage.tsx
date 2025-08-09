@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 
-
 import AstrologicalClock from '@/components/AstrologicalClock';
 import CookingMethods from '@/components/CookingMethods';
 import CuisineRecommender from '@/components/CuisineRecommender';
@@ -24,64 +23,72 @@ const OptimizedCuisineRecommender = React.memo(CuisineRecommender);
 const OptimizedCookingMethods = React.memo(CookingMethods);
 
 // Dynamic imports with better error handling
-const FoodRecommender = dynamic(
-  () => import('@/components/FoodRecommender'),
-  { loading: () => <Loading />, ssr: false }
-);
+const FoodRecommender = dynamic(() => import('@/components/FoodRecommender'), {
+  loading: () => <Loading />,
+  ssr: false,
+});
 
 export function ClientPage() {
   const [renderCount, setRenderCount] = useState(0);
-  
+
   useEffect(() => {
     setRenderCount(prev => {
       log.info(`ClientPage rendered ${prev + 1} times`);
       return prev + 1;
     });
   }, []);
-  
+
   return (
-    <main className="flex flex-col items-center p-6 w-full max-w-screen-xl mx-auto">
-      <div style={{ fontSize: '10px', color: '#999', textAlign: 'right', width: '100%', marginBottom: '8px' }}>
+    <main className='mx-auto flex w-full max-w-screen-xl flex-col items-center p-6'>
+      <div
+        style={{
+          fontSize: '10px',
+          color: '#999',
+          textAlign: 'right',
+          width: '100%',
+          marginBottom: '8px',
+        }}
+      >
         ClientPage renders: {renderCount}
       </div>
-      
+
       <PlanetaryPositionInitializer />
-      
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div className='grid w-full grid-cols-1 gap-6 md:grid-cols-2'>
         {/* Left Column - Celestial Info */}
-        <div className="space-y-6">
-          <OptimizedComponentWrapper name="ElementalEnergyDisplay">
+        <div className='space-y-6'>
+          <OptimizedComponentWrapper name='ElementalEnergyDisplay'>
             <OptimizedElementalEnergyDisplay />
           </OptimizedComponentWrapper>
-          
-          <OptimizedComponentWrapper name="MoonDisplay">
+
+          <OptimizedComponentWrapper name='MoonDisplay'>
             <OptimizedMoonDisplay />
           </OptimizedComponentWrapper>
-          
-          <OptimizedComponentWrapper name="SunDisplay">
+
+          <OptimizedComponentWrapper name='SunDisplay'>
             <OptimizedSunDisplay />
           </OptimizedComponentWrapper>
-          
-          <OptimizedComponentWrapper name="AstrologicalClock">
+
+          <OptimizedComponentWrapper name='AstrologicalClock'>
             <OptimizedAstrologicalClock />
           </OptimizedComponentWrapper>
-          
-          <OptimizedComponentWrapper name="FoodRecommender">
+
+          <OptimizedComponentWrapper name='FoodRecommender'>
             <FoodRecommender />
           </OptimizedComponentWrapper>
         </div>
-        
+
         {/* Right Column - Food Recommendations */}
-        <div className="space-y-6">
-          <OptimizedComponentWrapper name="CuisineRecommender">
+        <div className='space-y-6'>
+          <OptimizedComponentWrapper name='CuisineRecommender'>
             <OptimizedCuisineRecommender />
           </OptimizedComponentWrapper>
-          
-          <OptimizedComponentWrapper name="CookingMethods">
+
+          <OptimizedComponentWrapper name='CookingMethods'>
             <OptimizedCookingMethods />
           </OptimizedComponentWrapper>
         </div>
       </div>
     </main>
   );
-} 
+}

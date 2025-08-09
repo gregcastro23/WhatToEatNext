@@ -1,6 +1,6 @@
 /**
  * Standardized Celestial and Astrological Type Definitions
- * 
+ *
  * This file provides consistent type definitions for celestial bodies, positions,
  * and astrological states used throughout the application.
  */
@@ -14,16 +14,16 @@
  * Standard Planet type - capitalized format for consistency
  * Used for planetary influences in astrological calculations
  */
-export type Planet = 
-  | 'Sun' 
-  | 'Moon' 
-  | 'Mercury' 
-  | 'Venus' 
-  | 'Mars' 
-  | 'Jupiter' 
-  | 'Saturn' 
-  | 'Uranus' 
-  | 'Neptune' 
+export type Planet =
+  | 'Sun'
+  | 'Moon'
+  | 'Mercury'
+  | 'Venus'
+  | 'Mars'
+  | 'Jupiter'
+  | 'Saturn'
+  | 'Uranus'
+  | 'Neptune'
   | 'Pluto'
   | 'Ascendant';
 
@@ -41,10 +41,19 @@ export type PlanetName = Planet;
 /**
  * Standard ZodiacSign type - lowercase format for consistency
  */
-export type ZodiacSign = 
-  | 'aries' | 'taurus' | 'gemini' | 'cancer' 
-  | 'leo' | 'virgo' | 'libra' | 'scorpio' 
-  | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+export type ZodiacSign =
+  | 'aries'
+  | 'taurus'
+  | 'gemini'
+  | 'cancer'
+  | 'leo'
+  | 'virgo'
+  | 'libra'
+  | 'scorpio'
+  | 'sagittarius'
+  | 'capricorn'
+  | 'aquarius'
+  | 'pisces';
 
 // Element types
 export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
@@ -150,9 +159,15 @@ export interface ThermodynamicProperties {
 /**
  * Standard LunarPhase type - spaces format for display
  */
-export type LunarPhase = 
-  | 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' 
-  | 'full moon' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+export type LunarPhase =
+  | 'new moon'
+  | 'waxing crescent'
+  | 'first quarter'
+  | 'waxing gibbous'
+  | 'full moon'
+  | 'waning gibbous'
+  | 'last quarter'
+  | 'waning crescent';
 
 /**
  * Planetary dignity types
@@ -173,25 +188,25 @@ export interface AstrologicalState {
   dominantElement?: Element;
   dominantModality?: Modality;
   aspects?: PlanetaryAspect[];
-  
+
   // Missing properties found in error analysis
   zodiacSign?: ZodiacSign; // Used extensively in alchemical calculations
-  ascendantSign?: ZodiacSign; // Used in birth chart calculations  
+  ascendantSign?: ZodiacSign; // Used in birth chart calculations
   planetaryAlignment?: PlanetaryAlignment; // Alternative name for currentPlanetaryAlignment
   dominantPlanets?: string[]; // Used in recommendation engine
-  
+
   // Planetary positions for test compatibility
   planetaryPositions?: Record<string, CelestialPosition>;
-  
+
   // Additional properties for compatibility
   sunSign?: ZodiacSign;
   moonSign?: ZodiacSign;
   alchemicalValues?: AlchemicalProperties;
   tarotElementBoosts?: Record<string, number>;
   tarotPlanetaryBoosts?: Record<string, number>;
-  
+
   // Optional tracking fields
   loading?: boolean;
   isReady?: boolean;
   renderCount?: number;
-} 
+}

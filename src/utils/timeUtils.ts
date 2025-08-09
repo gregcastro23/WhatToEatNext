@@ -1,7 +1,7 @@
 /**
  * Time Utilities for Advanced Intelligence Systems
  * Phase 2D: Advanced Intelligence Systems Integration
- * 
+ *
  * Provides utility functions for time calculations, formatting, and analysis
  * used by predictive, ML, and advanced analytics intelligence services.
  */
@@ -24,11 +24,11 @@ export function getCurrentDate(): string {
  * Get current time in HH:MM:SS format
  */
 export function getCurrentTime(): string {
-  return new Date().toLocaleTimeString('en-US', { 
+  return new Date().toLocaleTimeString('en-US', {
     hour12: false,
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit'
+    second: '2-digit',
   });
 }
 
@@ -82,9 +82,11 @@ export function getTimeBasedCacheKey(prefix: string, intervalMinutes: number = 5
 /**
  * Calculate execution time for performance monitoring
  */
-export function measureExecutionTime<T>(fn: () => T | Promise<T>): Promise<{ result: T; executionTime: number }> {
+export function measureExecutionTime<T>(
+  fn: () => T | Promise<T>,
+): Promise<{ result: T; executionTime: number }> {
   const startTime = performance.now();
-  
+
   return Promise.resolve(fn()).then(result => {
     const executionTime = performance.now() - startTime;
     return { result, executionTime };
@@ -96,7 +98,7 @@ export function measureExecutionTime<T>(fn: () => T | Promise<T>): Promise<{ res
  */
 export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
   const month = new Date().getMonth();
-  
+
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'autumn';
@@ -117,17 +119,17 @@ export function isOptimalCookingTime(): boolean {
  */
 export function getTimeBasedConfidence(): number {
   const hour = new Date().getHours();
-  
+
   // Peak confidence during optimal cooking hours
   if ((hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)) {
     return 0.9;
   }
-  
+
   // Good confidence during regular hours
   if (hour >= 5 && hour <= 22) {
     return 0.8;
   }
-  
+
   // Lower confidence during late night/early morning
   return 0.6;
 }
@@ -142,7 +144,7 @@ export function formatTimestamp(timestamp: string): string {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 }
 
@@ -158,7 +160,7 @@ export function getTimeBasedContext(): {
   const season = getCurrentSeason();
   const isOptimalTime = isOptimalCookingTime();
   const timeConfidence = getTimeBasedConfidence();
-  
+
   let recommendation = '';
   if (isOptimalTime) {
     recommendation = 'Optimal cooking time - high confidence in recommendations';
@@ -167,11 +169,11 @@ export function getTimeBasedContext(): {
   } else {
     recommendation = 'Consider timing for optimal results';
   }
-  
+
   return {
     season,
     isOptimalTime,
     timeConfidence,
-    recommendation
+    recommendation,
   };
-} 
+}

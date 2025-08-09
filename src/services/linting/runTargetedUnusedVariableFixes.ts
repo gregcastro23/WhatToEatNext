@@ -2,7 +2,7 @@
 
 /**
  * Run Targeted Unused Variable Fixes
- * 
+ *
  * Executes safe, targeted fixes for unused variables while preserving
  * critical astrological and campaign system variables.
  */
@@ -15,15 +15,18 @@ import { UnusedVariableTargetedFixer } from './UnusedVariableTargetedFixer';
 
 async function main() {
   log.info('🚀 Starting Targeted Unused Variable Fixes\n');
-  
+
   const fixer = new UnusedVariableTargetedFixer();
-  
+
   // Get initial count
   const getUnusedCount = () => {
     try {
-      const output = execSync('yarn lint --format=compact 2>&1 | grep "@typescript-eslint/no-unused-vars" | wc -l', {
-        encoding: 'utf8'
-      });
+      const output = execSync(
+        'yarn lint --format=compact 2>&1 | grep "@typescript-eslint/no-unused-vars" | wc -l',
+        {
+          encoding: 'utf8',
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -40,11 +43,11 @@ async function main() {
   log.info('='.repeat(50));
   log.info('STEP 1: Fixing Unused Function Parameters');
   log.info('='.repeat(50));
-  
+
   const paramResult = await fixer.fixUnusedFunctionParameters();
   totalFixed += paramResult.variablesFixed;
   totalErrors += paramResult.errors.length;
-  
+
   log.info(`\n📊 Parameters fixed: ${paramResult.variablesFixed}`);
   log.info(`📄 Files processed: ${paramResult.filesProcessed}`);
   if (paramResult.errors.length > 0) {
@@ -55,11 +58,11 @@ async function main() {
   log.info('\n' + '='.repeat(50));
   log.info('STEP 2: Fixing Unused Destructured Variables');
   log.info('='.repeat(50));
-  
+
   const destructuredResult = await fixer.fixUnusedDestructuredVariables();
   totalFixed += destructuredResult.variablesFixed;
   totalErrors += destructuredResult.errors.length;
-  
+
   log.info(`\n📊 Variables fixed: ${destructuredResult.variablesFixed}`);
   log.info(`📄 Files processed: ${destructuredResult.filesProcessed}`);
   if (destructuredResult.errors.length > 0) {
@@ -70,10 +73,10 @@ async function main() {
   log.info('\n' + '='.repeat(50));
   log.info('STEP 3: Removing Unused Imports');
   log.info('='.repeat(50));
-  
+
   const importResult = await fixer.removeUnusedImports();
   totalErrors += importResult.errors.length;
-  
+
   if (importResult.warnings.length > 0) {
     log.info(`⚠️  Warnings: ${importResult.warnings.length}`);
   }
@@ -94,12 +97,12 @@ async function main() {
 
   // Validate changes
   const isValid = await fixer.validateChanges();
-  
+
   if (isValid) {
     log.info('\n🎉 Targeted unused variable fixes completed successfully!');
     log.info('✅ Build validation passed');
     log.info('✅ No functionality was broken');
-    
+
     if (totalFixed > 0) {
       log.info(`\n📈 Successfully fixed ${totalFixed} unused variables`);
       log.info('🔧 All fixes used safe prefixing with underscore');

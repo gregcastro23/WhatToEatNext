@@ -18,7 +18,7 @@ export function isNotNullOrUndefined<T>(value: T | null | undefined): value is T
 export function safeGet<T, K extends keyof T>(
   obj: T | null | undefined,
   key: K,
-  defaultValue: T[K]
+  defaultValue: T[K],
 ): T[K] {
   return obj?.[key] ?? defaultValue;
 }
@@ -29,7 +29,7 @@ export function safeGet<T, K extends keyof T>(
 export function safeArrayAccess<T>(
   array: T[] | null | undefined,
   index: number,
-  defaultValue: T
+  defaultValue: T,
 ): T {
   return array?.[index] ?? defaultValue;
 }
@@ -58,7 +58,10 @@ export function safeBoolean(value: boolean | null | undefined, defaultValue = fa
 /**
  * Assert that value is not null/undefined (throws if it is)
  */
-export function assertNotNull<T>(value: T | null | undefined, message?: string): asserts value is T {
+export function assertNotNull<T>(
+  value: T | null | undefined,
+  message?: string,
+): asserts value is T {
   if (value === null || value === undefined) {
     throw new Error(message || 'Value is null or undefined');
   }
@@ -79,7 +82,7 @@ export function safeCall<T extends (...args: unknown[]) => unknown>(
  */
 export function hasProperty<T extends object, K extends PropertyKey>(
   obj: T | null | undefined,
-  key: K
+  key: K,
 ): obj is T & Record<K, unknown> {
   return obj != null && key in obj;
 }

@@ -50,12 +50,14 @@ yarn test --run
 
 #### Issue 1: TypeScript Compilation Explosion
 
-**Symptoms**: 
+**Symptoms**:
+
 - Error count increases dramatically (>100 new errors)
 - Build fails completely
 - IDE shows red squiggles everywhere
 
 **Root Causes**:
+
 - Import/export corruption
 - Type definition corruption
 - Circular dependency introduction
@@ -91,11 +93,13 @@ node src/services/campaign/test-enhanced-fixer-integration.js --emergency-mode
 #### Issue 2: Build Performance Catastrophic Degradation
 
 **Symptoms**:
+
 - Build time >60 seconds (was <10 seconds)
 - Memory usage >500MB (was <50MB)
 - System becomes unresponsive
 
 **Root Causes**:
+
 - Circular dependency loops
 - Memory leaks in generated code
 - Cache corruption
@@ -126,11 +130,13 @@ yarn install
 #### Issue 3: Linting Warning Explosion
 
 **Symptoms**:
+
 - Warning count increases instead of decreases
 - New warning categories appear
 - ESLint crashes or hangs
 
 **Root Causes**:
+
 - ESLint configuration corruption
 - New code patterns introduced
 - Rule conflicts
@@ -155,11 +161,13 @@ node src/services/campaign/test-console-removal.js --dry-run --conservative
 #### Issue 4: Git Stash Corruption
 
 **Symptoms**:
+
 - Cannot create new stashes
 - Cannot apply existing stashes
 - Git operations fail
 
 **Root Causes**:
+
 - Git repository corruption
 - Disk space exhaustion
 - File permission issues
@@ -361,7 +369,7 @@ try {
     // Get TypeScript errors
     const tsErrors = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', { encoding: 'utf8' });
     const errorLines = tsErrors.split('\n').filter(line => line.includes('error TS'));
-    
+
     // Categorize errors
     const errorCategories = {};
     errorLines.forEach(line => {
@@ -371,14 +379,14 @@ try {
             errorCategories[errorCode] = (errorCategories[errorCode] || 0) + 1;
         }
     });
-    
+
     console.log('Error Distribution:');
     Object.entries(errorCategories)
         .sort(([,a], [,b]) => b - a)
         .forEach(([code, count]) => {
             console.log(\`  \${code}: \${count} errors\`);
         });
-    
+
     // Get most problematic files
     const fileErrors = {};
     errorLines.forEach(line => {
@@ -388,7 +396,7 @@ try {
             fileErrors[file] = (fileErrors[file] || 0) + 1;
         }
     });
-    
+
     console.log('\nMost Problematic Files:');
     Object.entries(fileErrors)
         .sort(([,a], [,b]) => b - a)
@@ -396,7 +404,7 @@ try {
         .forEach(([file, count]) => {
             console.log(\`  \${file}: \${count} errors\`);
         });
-        
+
 } catch (error) {
     console.log('No TypeScript errors found or analysis failed');
 }
@@ -435,6 +443,7 @@ After recovery operations:
 If recovery fails completely:
 
 1. **Document Everything**:
+
    ```bash
    # Create comprehensive failure report
    cat > EMERGENCY_REPORT_$(date +%Y%m%d_%H%M%S).txt << 'EOF'
@@ -452,6 +461,7 @@ If recovery fails completely:
    ```
 
 2. **Preserve Evidence**:
+
    ```bash
    # Create evidence archive
    mkdir -p emergency-evidence/
@@ -485,19 +495,19 @@ while true; do
     TIMESTAMP=$(date)
     ERROR_COUNT=$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS")
     WARNING_COUNT=$(yarn lint 2>&1 | grep -c "warning")
-    
+
     echo "$TIMESTAMP - Errors: $ERROR_COUNT, Warnings: $WARNING_COUNT" >> $LOGFILE
-    
+
     if [ "$ERROR_COUNT" -gt "$ALERT_THRESHOLD_ERRORS" ]; then
         echo "ALERT: Error count exceeded threshold ($ERROR_COUNT > $ALERT_THRESHOLD_ERRORS)" >> $LOGFILE
         # Could send notification here
     fi
-    
+
     if [ "$WARNING_COUNT" -gt "$ALERT_THRESHOLD_WARNINGS" ]; then
         echo "ALERT: Warning count exceeded threshold ($WARNING_COUNT > $ALERT_THRESHOLD_WARNINGS)" >> $LOGFILE
         # Could send notification here
     fi
-    
+
     sleep 300  # Check every 5 minutes
 done
 EOF
@@ -516,7 +526,7 @@ CHECKPOINT_INTERVAL=1800  # 30 minutes
 
 while true; do
     sleep $CHECKPOINT_INTERVAL
-    
+
     # Only create checkpoint if system is healthy
     if yarn build >/dev/null 2>&1 && yarn test --run --silent >/dev/null 2>&1; then
         CHECKPOINT_NAME="AUTO_CHECKPOINT_$(date +%Y%m%d_%H%M%S)"
@@ -534,7 +544,8 @@ chmod +x auto-checkpoint.sh
 
 ## Conclusion
 
-This troubleshooting guide provides comprehensive recovery procedures for all known failure scenarios in the Perfect Codebase Campaign. Remember:
+This troubleshooting guide provides comprehensive recovery procedures for all
+known failure scenarios in the Perfect Codebase Campaign. Remember:
 
 1. **Safety First**: Always create backups before attempting recovery
 2. **Document Everything**: Keep detailed logs of failures and recovery attempts
@@ -546,6 +557,6 @@ This troubleshooting guide provides comprehensive recovery procedures for all kn
 
 ---
 
-*Last updated: January 15, 2025*  
-*Version: 1.0.0*  
-*Status: ✅ TROUBLESHOOTING GUIDE COMPLETE*
+_Last updated: January 15, 2025_  
+_Version: 1.0.0_  
+_Status: ✅ TROUBLESHOOTING GUIDE COMPLETE_

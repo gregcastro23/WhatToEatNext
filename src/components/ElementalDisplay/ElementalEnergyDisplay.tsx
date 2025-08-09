@@ -3,13 +3,11 @@
 import { isEqual } from 'lodash';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 
-
 import { calculateElementalEnergies } from '@/calculations/elementalcalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { log } from '@/services/LoggingService';
 import { ElementType, ElementalEnergy } from '@/types/elements';
 import { getCachedCalculation } from '@/utils/calculationCache';
-
 
 interface ElementalEnergyDisplayProps {
   showDebug?: boolean;
@@ -50,7 +48,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
       const result = getCachedCalculation(
         'elementalEnergies',
         { positions: planetaryPositions, isDaytime },
-        () => calculateElementalEnergies(planetaryPositions, isDaytime)
+        () => calculateElementalEnergies(planetaryPositions, isDaytime),
       );
 
       if (!result || !Array.isArray(result)) {
@@ -74,13 +72,13 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
     }
 
     const newEnergies = calculateEnergies();
-    
+
     // Only update state if energies have changed
     if (!isEqual(energies, newEnergies)) {
       if (showDebug) log.info('Updating energy values:', newEnergies);
       setEnergies(newEnergies);
     }
-    
+
     setLastPositions(planetaryPositions);
   }, [planetaryPositions, isDaytime, calculateEnergies, showDebug, energies, lastPositions]); // Added energies and lastPositions to deps
 
@@ -91,41 +89,41 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
 
   if (!sortedEnergies.length) {
     return (
-      <div className="p-4 text-center">
+      <div className='p-4 text-center'>
         <p>Loading elemental energies...</p>
       </div>
     );
   }
 
   return (
-    <div className="elemental-display">
+    <div className='elemental-display'>
       {showDebug && (
-        <div className="debug-info text-xs text-gray-500 mb-2">
+        <div className='debug-info mb-2 text-xs text-gray-500'>
           Render count: {renderCount} | Elements: {sortedEnergies.length}
         </div>
       )}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {sortedEnergies.map((element) => (
-          <div 
-            key={element.type} 
-            className="element-card p-3 rounded-lg shadow-md"
+      <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+        {sortedEnergies.map(element => (
+          <div
+            key={element.type}
+            className='element-card rounded-lg p-3 shadow-md'
             style={{
               backgroundColor: getElementColor(element.type, 0.2),
               borderColor: getElementColor(element.type, 1),
-              borderWidth: '2px'
+              borderWidth: '2px',
             }}
           >
-            <h3 className="font-bold">{capitalizeFirstLetter(element.type)}</h3>
-            <div className="strength-bar h-4 rounded bg-gray-200 mt-2">
-              <div 
-                className="h-full rounded"
-                style={{ 
+            <h3 className='font-bold'>{capitalizeFirstLetter(element.type)}</h3>
+            <div className='strength-bar mt-2 h-4 rounded bg-gray-200'>
+              <div
+                className='h-full rounded'
+                style={{
                   width: `${Math.max(5, Math.min(100, element.strength * 100))}%`,
-                  backgroundColor: getElementColor(element.type, 0.8) 
+                  backgroundColor: getElementColor(element.type, 0.8),
                 }}
               ></div>
             </div>
-            <p className="text-sm mt-1">{Math.round(element.strength * 100)}%</p>
+            <p className='mt-1 text-sm'>{Math.round(element.strength * 100)}%</p>
           </div>
         ))}
       </div>
@@ -143,9 +141,9 @@ function getElementColor(elementType: ElementType, opacity: number = 1): string 
     Fire: `rgba(255, 59, 48, ${opacity})`,
     Water: `rgba(0, 122, 255, ${opacity})`,
     Air: `rgba(255, 204, 0, ${opacity})`,
-    Earth: `rgba(52, 199, 89, ${opacity})`
+    Earth: `rgba(52, 199, 89, ${opacity})`,
   } as unknown as Record<ElementType, string>;
-  
+
   return colors[elementType] || `rgba(155, 155, 155, ${opacity})`;
 }
 
@@ -153,4 +151,4 @@ function getElementColor(elementType: ElementType, opacity: number = 1): string 
 export default React.memo(ElementalEnergyDisplay, (prevProps, nextProps) => {
   // Only re-render if showDebug changes
   return prevProps.showDebug === nextProps.showDebug;
-}); 
+});

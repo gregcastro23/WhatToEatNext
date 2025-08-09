@@ -24,17 +24,17 @@ class SafeJSXEntityFixer {
    */
   getFilesWithJSXEntityIssues() {
     try {
-      const output = execSync(
-        'npx eslint --config eslint.config.cjs src --format=json',
-        { encoding: 'utf8', stdio: 'pipe' }
-      );
+      const output = execSync('npx eslint --config eslint.config.cjs src --format=json', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
 
       const results = JSON.parse(output);
       const filesWithIssues = new Map();
 
       for (const result of results) {
         const entityMessages = result.messages.filter(
-          msg => msg.ruleId === 'react/no-unescaped-entities'
+          msg => msg.ruleId === 'react/no-unescaped-entities',
         );
 
         if (entityMessages.length > 0) {
@@ -55,9 +55,9 @@ class SafeJSXEntityFixer {
   isTemplateLiteral(line) {
     // Check for template literal patterns
     const templatePatterns = [
-      /`[^`]*\$\{[^}]*\}[^`]*`/,  // Template literal with interpolation
-      /`[^`]*`/,                   // Simple template literal
-      /\$\{[^}]*\}/,              // Template interpolation
+      /`[^`]*\$\{[^}]*\}[^`]*`/, // Template literal with interpolation
+      /`[^`]*`/, // Simple template literal
+      /\$\{[^}]*\}/, // Template interpolation
     ];
 
     return templatePatterns.some(pattern => pattern.test(line));
@@ -172,15 +172,16 @@ class SafeJSXEntityFixer {
         }
 
         // Apply the fix
-        const newLine = line.substring(0, columnIndex) +
-                       replacement +
-                       line.substring(columnIndex + 1);
+        const newLine =
+          line.substring(0, columnIndex) + replacement + line.substring(columnIndex + 1);
 
         lines[lineIndex] = newLine;
         modified = true;
         fileFixCount++;
 
-        console.log(`Fixed '${charToFix}' -> '${replacement}' in ${filePath}:${message.line}:${message.column}`);
+        console.log(
+          `Fixed '${charToFix}' -> '${replacement}' in ${filePath}:${message.line}:${message.column}`,
+        );
       }
 
       if (modified) {
@@ -189,7 +190,6 @@ class SafeJSXEntityFixer {
         this.totalFixes += fileFixCount;
         console.log(`✅ Fixed ${fileFixCount} JSX entities in ${filePath}`);
       }
-
     } catch (error) {
       this.errors.push({ file: filePath, error: error.message });
       console.error(`❌ Error fixing ${filePath}:`, error.message);
@@ -250,10 +250,10 @@ class SafeJSXEntityFixer {
       summary: {
         filesProcessed: this.fixedFiles.length,
         totalFixes: this.totalFixes,
-        errors: this.errors.length
+        errors: this.errors.length,
       },
       fixedFiles: this.fixedFiles,
-      errors: this.errors
+      errors: this.errors,
     };
 
     fs.writeFileSync('jsx-entity-fixes-report.json', JSON.stringify(report, null, 2));

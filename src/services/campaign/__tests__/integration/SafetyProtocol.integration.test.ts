@@ -13,7 +13,7 @@ import {
   SafetyEventType,
   SafetyEventSeverity,
   CampaignConfig,
-  SafetyLevel
+  SafetyLevel,
 } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
@@ -40,31 +40,35 @@ describe('Safety Protocol Integration Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     mockConfig = {
-      phases: [{
-        id: 'test-phase',
-        name: 'Test Phase',
-        description: 'Test phase for safety protocol integration',
-        tools: [{
-          scriptPath: 'scripts/test-script.js',
-          parameters: { maxFiles: 10, autoFix: true },
-          batchSize: 10,
-          safetyLevel: SafetyLevel.HIGH
-        }],
-        successCriteria: { typeScriptErrors: 0 },
-        safetyCheckpoints: []
-      }],
+      phases: [
+        {
+          id: 'test-phase',
+          name: 'Test Phase',
+          description: 'Test phase for safety protocol integration',
+          tools: [
+            {
+              scriptPath: 'scripts/test-script.js',
+              parameters: { maxFiles: 10, autoFix: true },
+              batchSize: 10,
+              safetyLevel: SafetyLevel.HIGH,
+            },
+          ],
+          successCriteria: { typeScriptErrors: 0 },
+          safetyCheckpoints: [],
+        },
+      ],
       safetySettings: mockSafetySettings,
       progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
 
     safetyProtocol = new SafetyProtocol(mockSafetySettings);
@@ -73,7 +77,7 @@ describe('Safety Protocol Integration Tests', () => {
 
     // Reset mocks
     jest.clearAllMocks();
-    
+
     // Default mock implementations
     mockExecSync.mockReturnValue('');
     mockFs.existsSync.mockReturnValue(true);
@@ -109,7 +113,7 @@ describe('Safety Protocol Integration Tests', () => {
         mockFs.readFileSync.mockReturnValue(corruptedContent);
 
         // Create a stash first
-        mockExecSync.mockImplementation((command) => {
+        mockExecSync.mockImplementation(command => {
           const cmd = command.toString();
           if (cmd.includes('git stash push')) return '';
           if (cmd.includes('git stash list')) return 'stash@{0}: emergency-stash';
@@ -120,17 +124,14 @@ describe('Safety Protocol Integration Tests', () => {
         });
 
         const stashId = await safetyProtocol.createStash('Emergency stash');
-        
+
         const report = await safetyProtocol.detectCorruption(['test-file.ts']);
-        
+
         if (report.severity === CorruptionSeverity.CRITICAL) {
           await safetyProtocol.emergencyRollback();
         }
 
-        expect(mockExecSync).toHaveBeenCalledWith(
-          expect.stringContaining('git stash apply'),
-          expect.any(Object)
-        );
+        expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object));
       });
     });
 
@@ -220,10 +221,7 @@ import type type Something, { a, b } from './module';
 
         const report = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
 
-        expect(mockExecSync).toHaveBeenCalledWith(
-          'yarn tsc --noEmit --skipLibCheck 2>&1',
-          expect.any(Object)
-        );
+        expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object));
         expect(report.severity).toBe(CorruptionSeverity.LOW);
       });
 
@@ -266,12 +264,12 @@ import type type Something, { a, b } from './module';
 
     it('should monitor files in real-time during script execution', async () => {
       const testFiles = ['file1.ts', 'file2.ts'];
-      
+
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: [],
         corruptionPatterns: [],
         severity: CorruptionSeverity.LOW,
-        recommendedAction: RecoveryAction.CONTINUE
+        recommendedAction: RecoveryAction.CONTINUE,
       });
 
       safetyProtocol.startRealTimeMonitoring(testFiles, 1000);
@@ -286,16 +284,18 @@ import type type Something, { a, b } from './module';
 
     it('should trigger emergency rollback on critical corruption during monitoring', async () => {
       const testFiles = ['file1.ts'];
-      
+
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: ['file1.ts'],
-        corruptionPatterns: [{
-          pattern: 'CRITICAL_CORRUPTION',
-          description: 'Critical corruption detected',
-          files: ['file1.ts']
-        }],
+        corruptionPatterns: [
+          {
+            pattern: 'CRITICAL_CORRUPTION',
+            description: 'Critical corruption detected',
+            files: ['file1.ts'],
+          },
+        ],
         severity: CorruptionSeverity.CRITICAL,
-        recommendedAction: RecoveryAction.EMERGENCY_RESTORE
+        recommendedAction: RecoveryAction.EMERGENCY_RESTORE,
       });
 
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
@@ -313,12 +313,12 @@ import type type Something, { a, b } from './module';
 
     it('should record safety events during real-time monitoring', async () => {
       const testFiles = ['file1.ts'];
-      
+
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
         severity: CorruptionSeverity.MEDIUM,
-        recommendedAction: RecoveryAction.RETRY
+        recommendedAction: RecoveryAction.RETRY,
       });
 
       safetyProtocol.startRealTimeMonitoring(testFiles, 1000);
@@ -338,7 +338,7 @@ import type type Something, { a, b } from './module';
 
   describe('Git Operations Integration', () => {
     beforeEach(() => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
         if (cmd.includes('git status --porcelain')) return '';
         if (cmd.includes('git stash push')) return '';
@@ -371,10 +371,7 @@ import type type Something, { a, b } from './module';
       const appliedStashId = await safetyProtocol.applyStashByPhase('phase1');
 
       expect(appliedStashId).toMatch(/^campaign-phase1-\d+-/);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('git stash apply'),
-        expect.any(Object)
-      );
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object));
     });
 
     it('should validate git state before operations', async () => {
@@ -385,7 +382,7 @@ import type type Something, { a, b } from './module';
     });
 
     it('should handle git operation failures gracefully', async () => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
         }
@@ -393,7 +390,7 @@ import type type Something, { a, b } from './module';
       });
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
-        'Failed to create git stash: Git stash failed'
+        'Failed to create git stash: Git stash failed',
       );
 
       const events = safetyProtocol.getSafetyEvents();
@@ -403,7 +400,7 @@ import type type Something, { a, b } from './module';
 
   describe('Stash Management and Cleanup', () => {
     beforeEach(() => {
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
         if (cmd.includes('git status --porcelain')) return '';
         if (cmd.includes('git stash push')) return '';
@@ -428,7 +425,7 @@ import type type Something, { a, b } from './module';
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}'
+        ref: 'stash@{1}',
       };
 
       const recentStash = {
@@ -436,7 +433,7 @@ import type type Something, { a, b } from './module';
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       };
 
       (safetyProtocol as any).stashes.set('old-stash', oldStash);
@@ -468,14 +465,14 @@ import type type Something, { a, b } from './module';
   describe('Integration with Campaign Controller', () => {
     it('should integrate safety protocols with phase execution', async () => {
       const phase = mockConfig.phases[0];
-      
+
       // Mock successful execution with safety protocols
       jest.spyOn(campaignController as any, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1');
       jest.spyOn(campaignController as any, 'getCurrentMetrics').mockResolvedValue({
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       });
 
       const result = await campaignController.executePhase(phase);
@@ -487,18 +484,18 @@ import type type Something, { a, b } from './module';
 
     it('should handle rollback scenarios during phase execution', async () => {
       const phase = mockConfig.phases[0];
-      
+
       // Mock validation failure that triggers rollback
       jest.spyOn(campaignController as any, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Corruption detected'],
-        warnings: []
+        warnings: [],
       });
 
       jest.spyOn(campaignController, 'rollbackToCheckpoint').mockResolvedValue();
 
       await expect(campaignController.executePhase(phase)).rejects.toThrow(
-        'Tool execution failed: Corruption detected'
+        'Tool execution failed: Corruption detected',
       );
 
       expect(campaignController.rollbackToCheckpoint).toHaveBeenCalled();
@@ -529,7 +526,7 @@ import type type Something, { a, b } from './module';
 
     it('should handle mixed file types appropriately', async () => {
       const files = ['script.ts', 'style.css', 'config.json', 'readme.md'];
-      
+
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('valid content');
 
@@ -563,7 +560,7 @@ import type type Something, { a, b } from './module';
     it('should maintain event history with proper severity levels', async () => {
       // Generate events of different severities
       await safetyProtocol.createStash('Info event'); // INFO
-      
+
       mockFs.readFileSync.mockReturnValue('<<<<<<< HEAD\nconflict\n>>>>>>> branch');
       await safetyProtocol.detectCorruption(['test-file.ts']); // CRITICAL
 

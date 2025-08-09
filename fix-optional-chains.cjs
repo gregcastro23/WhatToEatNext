@@ -24,26 +24,26 @@ const CONFIG = {
     // Preserve campaign system patterns
     /campaign|metrics|progress|safety/i,
     // Preserve test patterns
-    /test|mock|stub/i
+    /test|mock|stub/i,
   ],
   safePatterns: [
     // Safe patterns to convert
     {
       pattern: /(\w+)\s*&&\s*\1\.(\w+)/g,
       replacement: '$1?.$2',
-      description: 'Convert obj && obj.prop to obj?.prop'
+      description: 'Convert obj && obj.prop to obj?.prop',
     },
     {
       pattern: /(\w+)\s*&&\s*\1\[([^\]]+)\]/g,
       replacement: '$1?.[$2]',
-      description: 'Convert obj && obj[key] to obj?.[key]'
+      description: 'Convert obj && obj[key] to obj?.[key]',
     },
     {
       pattern: /(\w+)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g,
       replacement: '$1?.$2?.$3',
-      description: 'Convert obj && obj.prop && obj.prop.nested to obj?.prop?.nested'
-    }
-  ]
+      description: 'Convert obj && obj.prop && obj.prop.nested to obj?.prop?.nested',
+    },
+  ],
 };
 
 class OptionalChainFixer {
@@ -62,7 +62,7 @@ class OptionalChainFixer {
 
       const lintOutput = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -E "prefer-optional-chain"',
-        { encoding: 'utf8', stdio: 'pipe' }
+        { encoding: 'utf8', stdio: 'pipe' },
       );
 
       const files = new Set();
@@ -81,7 +81,6 @@ class OptionalChainFixer {
       const fileArray = Array.from(files);
       console.log(`📊 Found ${fileArray.length} files with prefer-optional-chain issues`);
       return fileArray.slice(0, CONFIG.maxFiles);
-
     } catch (error) {
       console.warn('⚠️ Could not get lint output, scanning common directories...');
       return this.scanCommonDirectories();
@@ -177,7 +176,10 @@ class OptionalChainFixer {
       }
 
       // Apply fixes
-      const { content: modifiedContent, fixCount } = this.applyOptionalChainFixes(content, filePath);
+      const { content: modifiedContent, fixCount } = this.applyOptionalChainFixes(
+        content,
+        filePath,
+      );
 
       if (fixCount > 0) {
         if (!CONFIG.dryRun) {
@@ -191,7 +193,6 @@ class OptionalChainFixer {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
       this.errors.push({ file: filePath, error: error.message });

@@ -1,10 +1,12 @@
 # 🔄 Development Workflows Guide
 
-This guide covers common development workflows for the WhatToEatNext project, from basic tasks to advanced astrological feature development.
+This guide covers common development workflows for the WhatToEatNext project,
+from basic tasks to advanced astrological feature development.
 
 ## 🎯 Overview of Development Workflows
 
 ### Workflow Categories
+
 1. **Basic Development** - Standard coding tasks and maintenance
 2. **Astrological Feature Development** - Cosmic-aware feature implementation
 3. **Quality Assurance** - Testing, validation, and campaign management
@@ -12,6 +14,7 @@ This guide covers common development workflows for the WhatToEatNext project, fr
 5. **Performance Optimization** - Speed and reliability improvements
 
 ### Core Principles
+
 - **Elemental Harmony** - All features respect the four-element system
 - **Cultural Sensitivity** - Inclusive design in every workflow
 - **Quality First** - Comprehensive testing and validation
@@ -20,6 +23,7 @@ This guide covers common development workflows for the WhatToEatNext project, fr
 ## 🚀 Workflow 1: Basic Development Tasks
 
 ### 1.1 Setting Up for Development
+
 ```bash
 # Clone and setup
 git clone https://github.com/your-org/WhatToEatNext.git
@@ -36,6 +40,7 @@ npm run test:watch
 ```
 
 ### 1.2 Daily Development Routine
+
 ```bash
 # Morning routine
 git pull origin main                    # Get latest changes
@@ -56,6 +61,7 @@ git push origin feature/your-feature    # Push changes
 ```
 
 ### 1.3 Code Quality Workflow
+
 ```bash
 # Before committing
 npm run lint:fix                       # Auto-fix linting issues
@@ -72,6 +78,7 @@ npm run campaign:lint                  # Run linting improvements
 ## 🌟 Workflow 2: Astrological Feature Development
 
 ### 2.1 Planning Astrological Features
+
 ```typescript
 // Step 1: Define the astrological concept
 interface AstrologicalFeature {
@@ -93,6 +100,7 @@ interface ImplementationPlan {
 ```
 
 ### 2.2 Implementing Astrological Calculations
+
 ```typescript
 // Template for astrological calculations
 async function calculateAstrologicalFeature(
@@ -102,21 +110,21 @@ async function calculateAstrologicalFeature(
   try {
     // Step 1: Get reliable planetary positions
     const positions = await getReliablePlanetaryPositions(date);
-    
+
     // Step 2: Validate astronomical data
     if (!validatePlanetaryPositions(positions)) {
       throw new Error('Invalid planetary positions');
     }
-    
+
     // Step 3: Apply astrological logic
     const astrologicalInfluence = calculateInfluence(positions, userProfile);
-    
+
     // Step 4: Apply elemental principles
     const elementalHarmony = calculateElementalHarmony(astrologicalInfluence);
-    
+
     // Step 5: Generate recommendations
     const recommendations = generateRecommendations(elementalHarmony);
-    
+
     return {
       influence: astrologicalInfluence,
       harmony: elementalHarmony,
@@ -124,10 +132,10 @@ async function calculateAstrologicalFeature(
       timing: calculateOptimalTiming(positions),
       confidence: calculateConfidence(positions)
     };
-    
+
   } catch (error) {
     logger.error('Astrological calculation failed', error);
-    
+
     // Fallback to cached or default values
     return getFallbackAstrologicalResult(date, userProfile);
   }
@@ -135,32 +143,33 @@ async function calculateAstrologicalFeature(
 ```
 
 ### 2.3 Astrological Feature Testing
+
 ```typescript
 // Test template for astrological features
 describe('Astrological Feature', () => {
   test('calculates correctly with valid planetary positions', async () => {
     const testDate = new Date('2024-05-16T12:00:00Z');
     const result = await calculateAstrologicalFeature(testDate);
-    
+
     expect(result).toBeDefined();
     expect(result.confidence).toBeGreaterThan(0.7);
     expect(result.harmony).toMatchElementalPrinciples();
   });
-  
+
   test('handles API failures gracefully', async () => {
     // Mock API failure
     jest.spyOn(global, 'fetch').mockRejectedValue(new Error('API Error'));
-    
+
     const result = await calculateAstrologicalFeature();
-    
+
     expect(result).toBeDefined();
     expect(result.recommendations).toHaveLength(expect.any(Number));
   });
-  
+
   test('respects elemental self-reinforcement', () => {
     const fireProps = { fire: 0.8, water: 0.1, earth: 0.1, air: 0.0 };
     const compatibility = calculateElementalCompatibility(fireProps, fireProps);
-    
+
     expect(compatibility).toBeGreaterThanOrEqual(0.9);
   });
 });
@@ -169,6 +178,7 @@ describe('Astrological Feature', () => {
 ## 🧪 Workflow 3: Quality Assurance and Testing
 
 ### 3.1 Comprehensive Testing Workflow
+
 ```bash
 # Unit testing
 npm run test:unit                      # Run unit tests
@@ -188,6 +198,7 @@ npm run test:coverage:open           # Open coverage in browser
 ```
 
 ### 3.2 Campaign System Workflow
+
 ```bash
 # Check current quality metrics
 npm run campaign:status              # View current error counts and metrics
@@ -208,6 +219,7 @@ npm run campaign:emergency-stop     # Stop all running campaigns
 ```
 
 ### 3.3 Quality Gates Workflow
+
 ```typescript
 // Pre-commit quality checks
 interface QualityGates {
@@ -216,19 +228,19 @@ interface QualityGates {
     warningCount: number;            // Must be < 1000
     strictMode: boolean;             // Must be true
   };
-  
+
   testing: {
     coverage: number;                // Must be > 80%
     passingTests: number;            // Must be 100%
     astrologicalValidation: boolean; // Must pass
   };
-  
+
   linting: {
     errorCount: number;              // Must be 0
     warningCount: number;            // Must be < 10000 (development)
     elementalPrincipleCompliance: boolean; // Must be true
   };
-  
+
   performance: {
     buildTime: number;               // Must be < 60 seconds
     bundleSize: number;              // Must be < 5MB
@@ -240,6 +252,7 @@ interface QualityGates {
 ## 🌍 Workflow 4: Cultural Integration
 
 ### 4.1 Adding New Cuisines
+
 ```typescript
 // Step 1: Research and consultation
 interface CuisineResearch {
@@ -262,6 +275,7 @@ interface CuisineIntegration {
 ```
 
 ### 4.2 Cultural Sensitivity Workflow
+
 ```bash
 # Before adding cultural content
 1. Research authentic sources
@@ -283,6 +297,7 @@ interface CuisineIntegration {
 ```
 
 ### 4.3 Inclusive Design Workflow
+
 ```typescript
 // Inclusive design checklist
 interface InclusiveDesign {
@@ -292,14 +307,14 @@ interface InclusiveDesign {
     colorBlindFriendly: boolean;
     multipleLanguageSupport: boolean;
   };
-  
+
   culturalInclusion: {
     diverseRepresentation: boolean;
     noAssumptions: boolean;
     progressiveDisclosure: boolean;
     respectfulLanguage: boolean;
   };
-  
+
   astrologicalInclusion: {
     optionalFeatures: boolean;
     comfortLevelSettings: boolean;
@@ -312,6 +327,7 @@ interface InclusiveDesign {
 ## ⚡ Workflow 5: Performance Optimization
 
 ### 5.1 Performance Monitoring Workflow
+
 ```bash
 # Performance analysis
 npm run analyze:bundle              # Analyze bundle size
@@ -327,12 +343,13 @@ npm run optimize:calculations      # Calculation performance tuning
 ```
 
 ### 5.2 Caching Strategy Workflow
+
 ```typescript
 // Caching implementation pattern
 class AstronomicalCache {
   private cache = new Map<string, CacheEntry>();
   private readonly CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
-  
+
   async get<T>(
     key: string,
     fetcher: () => Promise<T>,
@@ -343,25 +360,25 @@ class AstronomicalCache {
     if (cached && this.isValid(cached)) {
       return cached.data;
     }
-    
+
     // Fetch new data
     const data = await fetcher();
-    
+
     // Validate if validator provided
     if (validator && !validator(data)) {
       throw new Error('Data validation failed');
     }
-    
+
     // Cache the result
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
       key
     });
-    
+
     return data;
   }
-  
+
   private isValid(entry: CacheEntry): boolean {
     return Date.now() - entry.timestamp < this.CACHE_DURATION;
   }
@@ -369,25 +386,26 @@ class AstronomicalCache {
 ```
 
 ### 5.3 Performance Testing Workflow
+
 ```typescript
 // Performance test template
 describe('Performance Tests', () => {
   test('astrological calculations complete within 2 seconds', async () => {
     const startTime = performance.now();
-    
+
     await calculateAstrologicalRecommendations();
-    
+
     const duration = performance.now() - startTime;
     expect(duration).toBeLessThan(2000);
   });
-  
+
   test('cache hit rate exceeds 80%', async () => {
     const cache = new AstronomicalCache();
     const cacheStats = await cache.getStatistics();
-    
+
     expect(cacheStats.hitRate).toBeGreaterThan(0.8);
   });
-  
+
   test('bundle size remains under 5MB', () => {
     const bundleSize = getBundleSize();
     expect(bundleSize).toBeLessThan(5 * 1024 * 1024);
@@ -398,6 +416,7 @@ describe('Performance Tests', () => {
 ## 🔧 Workflow 6: Advanced Development Patterns
 
 ### 6.1 Spec-Driven Development Workflow
+
 ```bash
 # Create new feature spec
 kiro spec create feature-name
@@ -415,6 +434,7 @@ kiro spec validate                  # Validate implementation
 ```
 
 ### 6.2 Campaign Development Workflow
+
 ```typescript
 // Creating custom campaigns
 interface CustomCampaign {
@@ -431,22 +451,23 @@ class CustomQualityCampaign extends CampaignController {
   async execute(): Promise<CampaignResult> {
     // Phase 1: Analysis
     const analysis = await this.analyzeCurrentState();
-    
+
     // Phase 2: Planning
     const plan = await this.createImprovementPlan(analysis);
-    
+
     // Phase 3: Execution with safety protocols
     const result = await this.executeWithSafety(plan);
-    
+
     // Phase 4: Validation
     await this.validateResults(result);
-    
+
     return result;
   }
 }
 ```
 
 ### 6.3 MCP Integration Workflow
+
 ```python
 # Creating custom MCP servers
 from mcp import FastMCP
@@ -459,11 +480,11 @@ def calculate_custom_aspect(date: str, aspect_type: str) -> dict:
     try:
         # Implement custom calculation
         result = perform_calculation(date, aspect_type)
-        
+
         # Validate result
         if not validate_result(result):
             raise ValueError("Invalid calculation result")
-            
+
         return {
             "success": True,
             "data": result,
@@ -483,6 +504,7 @@ if __name__ == "__main__":
 ## 🎯 Workflow Best Practices
 
 ### Do's ✅
+
 - **Always validate astrological data** before using in calculations
 - **Implement comprehensive fallbacks** for all critical features
 - **Follow elemental principles** in all compatibility calculations
@@ -492,6 +514,7 @@ if __name__ == "__main__":
 - **Document cultural considerations** for all new features
 
 ### Don'ts ❌
+
 - **Never implement opposing elements** (Fire vs Water logic)
 - **Don't skip cultural sensitivity review** for new features
 - **Avoid hardcoding astrological assumptions** about users
@@ -500,6 +523,7 @@ if __name__ == "__main__":
 - **Don't bypass quality gates** even for urgent fixes
 
 ### Common Pitfalls
+
 1. **Forgetting fallback mechanisms** - Always implement backup strategies
 2. **Ignoring cultural sensitivity** - Every feature needs cultural review
 3. **Skipping elemental validation** - All calculations must follow principles
@@ -509,6 +533,7 @@ if __name__ == "__main__":
 ## 📚 Workflow Resources
 
 ### Essential Commands Reference
+
 ```bash
 # Development
 npm run dev                         # Start development server
@@ -531,13 +556,20 @@ npm run optimize:calculations      # Calculation optimization
 ```
 
 ### Documentation Links
+
 - **[Architecture Guide](architecture-guide.md)** - System design and patterns
-- **[Astrological Integration](../guides/astrological-integration.md)** - Cosmic feature development
-- **[Cultural Sensitivity](../guides/cultural-sensitivity.md)** - Inclusive design guidelines
-- **[Campaign System](../../src/services/campaign/README.md)** - Quality improvement system
+- **[Astrological Integration](../guides/astrological-integration.md)** - Cosmic
+  feature development
+- **[Cultural Sensitivity](../guides/cultural-sensitivity.md)** - Inclusive
+  design guidelines
+- **[Campaign System](../../src/services/campaign/README.md)** - Quality
+  improvement system
 
 ---
 
-**These workflows provide structured approaches to common development tasks while maintaining the project's high standards for quality, cultural sensitivity, and astrological accuracy.** 🌟
+**These workflows provide structured approaches to common development tasks
+while maintaining the project's high standards for quality, cultural
+sensitivity, and astrological accuracy.** 🌟
 
-*Ready to start developing? Choose the workflow that matches your current task and follow the step-by-step guidance provided.*
+_Ready to start developing? Choose the workflow that matches your current task
+and follow the step-by-step guidance provided._

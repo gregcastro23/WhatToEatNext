@@ -1,9 +1,14 @@
-import { ThermodynamicMetrics } from "@/types/alchemical";
-import { ElementalProperties, Planet, ZodiacSign , PlanetaryAlignment , Element } from "@/types/alchemy";
-import { CookingMethod } from "@/types/cooking";
-import { Ingredient } from "@/types/ingredient";
-import { Recipe } from "@/types/recipe";
-
+import { ThermodynamicMetrics } from '@/types/alchemical';
+import {
+  ElementalProperties,
+  Planet,
+  ZodiacSign,
+  PlanetaryAlignment,
+  Element,
+} from '@/types/alchemy';
+import { CookingMethod } from '@/types/cooking';
+import { Ingredient } from '@/types/ingredient';
+import { Recipe } from '@/types/recipe';
 
 /**
  * Filter criteria for recipe recommendations
@@ -98,22 +103,30 @@ export interface RecommendationServiceInterface {
   /**
    * Get recommended recipes based on criteria
    */
-  getRecommendedRecipes(criteria: RecipeRecommendationCriteria): Promise<RecommendationResult<Recipe>>;
+  getRecommendedRecipes(
+    criteria: RecipeRecommendationCriteria,
+  ): Promise<RecommendationResult<Recipe>>;
 
   /**
    * Get recommended ingredients based on criteria
    */
-  getRecommendedIngredients(criteria: IngredientRecommendationCriteria): Promise<RecommendationResult<Ingredient>>;
+  getRecommendedIngredients(
+    criteria: IngredientRecommendationCriteria,
+  ): Promise<RecommendationResult<Ingredient>>;
 
   /**
    * Get recommended cuisines based on criteria
    */
-  getRecommendedCuisines(criteria: CuisineRecommendationCriteria): Promise<RecommendationResult<string>>;
+  getRecommendedCuisines(
+    criteria: CuisineRecommendationCriteria,
+  ): Promise<RecommendationResult<string>>;
 
   /**
    * Get recommended cooking methods based on criteria
    */
-  getRecommendedCookingMethods(criteria: CookingMethodRecommendationCriteria): Promise<RecommendationResult<CookingMethod>>;
+  getRecommendedCookingMethods(
+    criteria: CookingMethodRecommendationCriteria,
+  ): Promise<RecommendationResult<CookingMethod>>;
 
   /**
    * Calculate compatibility score between elemental properties
@@ -126,7 +139,7 @@ export interface RecommendationServiceInterface {
   getRecommendationsForElements(
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
-    limit?: number
+    limit?: number,
   ): Promise<RecommendationResult<unknown>>;
 
   /**
@@ -135,11 +148,11 @@ export interface RecommendationServiceInterface {
   getRecommendationsForPlanetaryAlignment(
     planetaryPositions: Record<string, { sign: string; degree: number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
-    limit?: number
+    limit?: number,
   ): Promise<RecommendationResult<unknown>>;
 
   /**
    * Calculate thermodynamic metrics based on elemental properties
    */
   calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics;
-} 
+}

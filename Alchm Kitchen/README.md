@@ -2,17 +2,27 @@
 
 🍳 **Astrological Food Recommendation System with Alchemical Integration**
 
-The Alchm Kitchen is a sophisticated food recommendation system that combines astrological calculations, elemental matching, and alchemical principles (Monica/Kalchm constants) to provide personalized cuisine and recipe suggestions.
+The Alchm Kitchen is a sophisticated food recommendation system that combines
+astrological calculations, elemental matching, and alchemical principles
+(Monica/Kalchm constants) to provide personalized cuisine and recipe
+suggestions.
 
 ## 🌟 Features
 
-- **Astrological Integration**: Real-time planetary positions and zodiac influences
-- **Elemental Matching**: Fire, Water, Earth, Air compatibility with current cosmic state
-- **Monica/Kalchm Constants**: Advanced alchemical calculations for optimal food harmony
-- **Cuisine Recommendations**: Personalized cuisine suggestions based on celestial alignment
-- **Recipe Suggestions**: Detailed recipes with elemental properties and cooking methods
-- **Sauce Pairings**: Harmonious sauce recommendations with astrological compatibility
-- **Seasonal Optimization**: Seasonal adjustments for optimal culinary experiences
+- **Astrological Integration**: Real-time planetary positions and zodiac
+  influences
+- **Elemental Matching**: Fire, Water, Earth, Air compatibility with current
+  cosmic state
+- **Monica/Kalchm Constants**: Advanced alchemical calculations for optimal food
+  harmony
+- **Cuisine Recommendations**: Personalized cuisine suggestions based on
+  celestial alignment
+- **Recipe Suggestions**: Detailed recipes with elemental properties and cooking
+  methods
+- **Sauce Pairings**: Harmonious sauce recommendations with astrological
+  compatibility
+- **Seasonal Optimization**: Seasonal adjustments for optimal culinary
+  experiences
 
 ## 🚀 Quick Integration
 
@@ -26,7 +36,7 @@ function YourApp() {
   return (
     <div>
       <h1>Your Application</h1>
-      <AlchmKitchenTab 
+      <AlchmKitchenTab
         title="Alchm Kitchen"
         allowFullscreen={true}
         onLoad={() => console.log('Kitchen loaded!')}
@@ -72,7 +82,7 @@ function TabbedApp() {
       {/* Tab Content */}
       {activeTab === 'main' && <div>Your main app content</div>}
       {activeTab === 'kitchen' && (
-        <AlchmKitchenTab 
+        <AlchmKitchenTab
           title="Alchm Kitchen"
           style={{ height: 'calc(100vh - 100px)' }}
         />
@@ -84,23 +94,25 @@ function TabbedApp() {
 
 ## 📋 Component Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | string | "Alchm Kitchen" | Title displayed in the header |
-| `className` | string | "" | Additional CSS classes |
-| `style` | CSSProperties | {} | Inline styles for the container |
-| `showHeader` | boolean | true | Whether to show the header bar |
-| `allowFullscreen` | boolean | true | Enable fullscreen toggle |
-| `onLoad` | function | undefined | Callback when iframe loads |
-| `onError` | function | undefined | Callback when iframe fails to load |
+| Prop              | Type          | Default         | Description                        |
+| ----------------- | ------------- | --------------- | ---------------------------------- |
+| `title`           | string        | "Alchm Kitchen" | Title displayed in the header      |
+| `className`       | string        | ""              | Additional CSS classes             |
+| `style`           | CSSProperties | {}              | Inline styles for the container    |
+| `showHeader`      | boolean       | true            | Whether to show the header bar     |
+| `allowFullscreen` | boolean       | true            | Enable fullscreen toggle           |
+| `onLoad`          | function      | undefined       | Callback when iframe loads         |
+| `onError`         | function      | undefined       | Callback when iframe fails to load |
 
 ## 🔧 Development Setup
 
 ### Prerequisites
+
 - Node.js >= 20.18.0
 - Yarn >= 1.22.0
 
 ### Local Development
+
 ```bash
 # Clone the repository
 git clone <your-repo-url>
@@ -116,6 +128,7 @@ yarn dev
 ```
 
 ### Production Deployment
+
 The Alchm Kitchen is deployed at: **https://v0-alchm-kitchen.vercel.app/**
 
 ## 🧪 API Endpoints
@@ -130,6 +143,7 @@ The Alchm Kitchen provides several API endpoints for integration:
 ## 🌙 Astrological Features
 
 ### Planetary Influences
+
 - **Sun**: Active energy, heat, transformation
 - **Moon**: Passive energy, cooling, preservation
 - **Mercury**: Movement, change, volatility
@@ -139,12 +153,14 @@ The Alchm Kitchen provides several API endpoints for integration:
 - **Saturn**: Structure, discipline, grounding
 
 ### Elemental System
+
 - **Fire**: Active energy, heat, transformation
 - **Water**: Passive energy, cooling, preservation
 - **Earth**: Stability, grounding, structure
 - **Air**: Movement, change, volatility
 
 ### Alchemical Constants
+
 - **Monica Constant**: Dynamic system constant relating energy to equilibrium
 - **Kalchm (K_alchm)**: Alchemical equilibrium constant
 - **Greg's Energy**: Overall energy balance calculation
@@ -152,6 +168,7 @@ The Alchm Kitchen provides several API endpoints for integration:
 ## 🍽️ Cuisine Integration
 
 The system includes comprehensive cuisine data with:
+
 - Elemental properties for each cuisine
 - Astrological influences and zodiac alignments
 - Seasonal optimization factors
@@ -161,6 +178,7 @@ The system includes comprehensive cuisine data with:
 ## 🔮 Recipe Recommendations
 
 Recipes are enhanced with:
+
 - Elemental matching scores
 - Astrological alignment percentages
 - Seasonal optimization factors
@@ -171,6 +189,7 @@ Recipes are enhanced with:
 ## 🌿 Sauce Pairings
 
 Sauce recommendations include:
+
 - Cuisine-specific compatibility
 - Current moment elemental alignment
 - Planetary hour optimization
@@ -180,6 +199,7 @@ Sauce recommendations include:
 ## 📱 Responsive Design
 
 The Alchm Kitchen is fully responsive and works on:
+
 - Desktop computers
 - Tablets
 - Mobile devices
@@ -195,6 +215,7 @@ The Alchm Kitchen is fully responsive and works on:
 ## 🛠️ Customization
 
 ### Styling
+
 ```tsx
 <AlchmKitchenTab
   style={{
@@ -206,6 +227,7 @@ The Alchm Kitchen is fully responsive and works on:
 ```
 
 ### Event Handling
+
 ```tsx
 <AlchmKitchenTab
   onLoad={() => {
@@ -222,6 +244,7 @@ The Alchm Kitchen is fully responsive and works on:
 ## 📞 Support
 
 For integration support or questions:
+
 - Check the configuration in `integration-config.json`
 - Review the example in `IntegrationExample.tsx`
 - Ensure your environment meets the prerequisites
@@ -236,4 +259,4 @@ For integration support or questions:
 
 ---
 
-**Made with 🌟 by the Alchm Kitchen Team** 
+**Made with 🌟 by the Alchm Kitchen Team**

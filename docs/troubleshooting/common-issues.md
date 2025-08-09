@@ -1,17 +1,20 @@
 # 🔧 Common Issues and Solutions
 
-This guide covers the most frequently encountered issues in the WhatToEatNext project and their proven solutions.
+This guide covers the most frequently encountered issues in the WhatToEatNext
+project and their proven solutions.
 
 ## 🚨 Critical Issues (Immediate Action Required)
 
 ### Build Completely Broken
 
 **Symptoms:**
+
 - `npm run build` fails with errors
 - Development server won't start
 - TypeScript compilation errors prevent startup
 
 **Immediate Solutions:**
+
 ```bash
 # Emergency reset procedure
 git stash                          # Save current work
@@ -26,6 +29,7 @@ yarn build
 ```
 
 **Root Causes:**
+
 - Dependency version conflicts
 - Corrupted node_modules
 - Invalid TypeScript configuration
@@ -34,11 +38,13 @@ yarn build
 ### Astrological Calculations Completely Failing
 
 **Symptoms:**
+
 - All planetary position requests return errors
 - Fallback mechanisms not working
 - "Invalid planetary positions" errors everywhere
 
 **Immediate Solutions:**
+
 ```bash
 # Enable emergency fallback mode
 npm run fallback:enable
@@ -51,6 +57,7 @@ npm run test:api-connectivity
 ```
 
 **Emergency Fallback:**
+
 ```typescript
 // Temporary hardcoded positions (March 28, 2025)
 const EMERGENCY_POSITIONS = {
@@ -65,11 +72,13 @@ const EMERGENCY_POSITIONS = {
 ### TypeScript Errors Overwhelming System
 
 **Symptoms:**
+
 - Error count > 1000
 - Build times extremely slow
 - IDE becomes unresponsive
 
 **Solutions:**
+
 ```bash
 # Check current error count
 npm run type-check 2>&1 | grep -c "error TS"
@@ -85,6 +94,7 @@ npm run fix:critical-errors
 ```
 
 **Prevention:**
+
 ```bash
 # Set up pre-commit hooks
 npm run setup:git-hooks
@@ -102,11 +112,13 @@ npm run setup:git-hooks
 ### Performance Severely Degraded
 
 **Symptoms:**
+
 - Astrological calculations > 10 seconds
 - Page load times > 5 seconds
 - Memory usage continuously growing
 
 **Immediate Actions:**
+
 ```bash
 # Clear all caches
 npm run cache:clear
@@ -122,6 +134,7 @@ npm run dev:performance
 ```
 
 **Quick Fixes:**
+
 ```typescript
 // Enable calculation caching
 const memoizedCalculation = useMemo(() => {
@@ -135,11 +148,13 @@ const throttledApiCall = throttle(apiCall, 1000);
 ### Kiro Integration Broken
 
 **Symptoms:**
+
 - Steering files not loading
 - Agent hooks not triggering
 - MCP servers disconnected
 
 **Solutions:**
+
 ```bash
 # Restart Kiro completely
 # Close Kiro application and reopen
@@ -159,22 +174,24 @@ npm run mcp:reconnect
 ### Elemental Compatibility Scores Below 0.7
 
 **Symptoms:**
+
 - Compatibility calculations returning < 0.7
 - "Opposition logic detected" warnings
 - Inconsistent elemental recommendations
 
 **Solutions:**
+
 ```typescript
 // Fix compatibility calculation
 function calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
-  
+
   // Same elements: highest compatibility
   if (sourceDominant === targetDominant) {
     return Math.max(0.9, baseCompatibility);
   }
-  
+
   // Different elements: good compatibility
   return Math.max(0.7, baseCompatibility);
 }
@@ -190,6 +207,7 @@ function validateCompatibilityScore(score: number): boolean {
 ```
 
 **Code Review Checklist:**
+
 - [ ] No opposition logic (Fire vs Water)
 - [ ] All compatibility scores ≥ 0.7
 - [ ] Same-element combinations ≥ 0.9
@@ -198,11 +216,13 @@ function validateCompatibilityScore(score: number): boolean {
 ### Transit Date Validation Failures
 
 **Symptoms:**
+
 - "Invalid transit date" warnings
 - Planetary positions don't match expected signs
 - Fallback positions used frequently
 
 **Solutions:**
+
 ```bash
 # Update transit data
 npm run update:transit-dates
@@ -218,6 +238,7 @@ npm run test:transit-validation
 ```
 
 **Manual Update Process:**
+
 ```typescript
 // Update src/data/planets/[planet].ts
 export const TransitDates = {
@@ -236,11 +257,13 @@ export const TransitDates = {
 ### API Rate Limiting Issues
 
 **Symptoms:**
+
 - "Rate limit exceeded" errors
 - API calls failing frequently
 - Fallback mode activated often
 
 **Solutions:**
+
 ```typescript
 // Implement intelligent caching
 const CACHE_CONFIG = {
@@ -268,11 +291,13 @@ function trackApiUsage(endpoint: string) {
 ### Linting Warnings Excessive
 
 **Symptoms:**
+
 - ESLint warnings > 5000
 - Code quality metrics declining
 - Inconsistent code style
 
 **Solutions:**
+
 ```bash
 # Run automated linting campaign
 npm run campaign:lint
@@ -296,11 +321,13 @@ module.exports = {
 ### Bundle Size Too Large
 
 **Symptoms:**
+
 - Bundle size > 5MB
 - Slow initial page load
 - Poor performance on mobile
 
 **Solutions:**
+
 ```bash
 # Analyze bundle composition
 npm run analyze:bundle
@@ -313,6 +340,7 @@ npm run optimize:assets
 ```
 
 **Code Splitting Example:**
+
 ```typescript
 // Lazy load astrological components
 const AstrologyChart = lazy(() => import('./components/AstrologyChart'));
@@ -327,11 +355,13 @@ const PlanetaryDisplay = lazy(() => import('./components/PlanetaryDisplay'));
 ### Memory Leaks in Calculations
 
 **Symptoms:**
+
 - Memory usage grows over time
 - Browser becomes sluggish
 - Calculation performance degrades
 
 **Solutions:**
+
 ```typescript
 // Proper cleanup in useEffect
 useEffect(() => {
@@ -362,6 +392,7 @@ useEffect(() => {
 ## 🔍 Diagnostic Commands
 
 ### System Health Check
+
 ```bash
 # Comprehensive system check
 npm run health:check
@@ -374,6 +405,7 @@ npm run health:kiro
 ```
 
 ### Debug Information
+
 ```bash
 # Generate debug report
 npm run debug:report
@@ -390,6 +422,7 @@ npm run profile:bundle
 ```
 
 ### Testing Commands
+
 ```bash
 # Run all tests
 npm test
@@ -407,6 +440,7 @@ npm run test:coverage
 ## 📊 Monitoring and Alerts
 
 ### Key Metrics to Monitor
+
 ```typescript
 interface SystemMetrics {
   astrologicalCalculationTime: number; // Target: < 2 seconds
@@ -419,6 +453,7 @@ interface SystemMetrics {
 ```
 
 ### Automated Alerts
+
 ```bash
 # Set up monitoring alerts
 npm run setup:monitoring
@@ -433,6 +468,7 @@ npm run test:alerts
 ## 🎯 Prevention Strategies
 
 ### Daily Maintenance
+
 ```bash
 # Run daily health check
 npm run health:daily
@@ -448,6 +484,7 @@ npm run validate:data
 ```
 
 ### Code Quality Gates
+
 ```bash
 # Pre-commit checks
 npm run pre-commit:check
@@ -460,6 +497,7 @@ npm run ci:validate
 ```
 
 ### Proactive Monitoring
+
 ```typescript
 // Set up performance monitoring
 const performanceMonitor = new PerformanceMonitor({
@@ -478,18 +516,25 @@ const performanceMonitor = new PerformanceMonitor({
 ## 📚 Additional Resources
 
 ### Documentation Links
-- **[Astrological Debugging Guide](astrological-debugging.md)** - Specialized astronomical debugging
-- **[Performance Optimization Guide](performance-optimization.md)** - Performance tuning
-- **[Escalation Procedures](escalation-procedures.md)** - When to escalate issues
-- **[Campaign System Debugging](campaign-system-debugging.md)** - Campaign troubleshooting
+
+- **[Astrological Debugging Guide](astrological-debugging.md)** - Specialized
+  astronomical debugging
+- **[Performance Optimization Guide](performance-optimization.md)** -
+  Performance tuning
+- **[Escalation Procedures](escalation-procedures.md)** - When to escalate
+  issues
+- **[Campaign System Debugging](campaign-system-debugging.md)** - Campaign
+  troubleshooting
 
 ### Community Resources
+
 - **GitHub Issues**: Search existing issues before creating new ones
 - **Discussions**: Community Q&A and best practices
 - **Wiki**: Detailed technical documentation
 - **Code Examples**: Reference implementations
 
 ### Emergency Contacts
+
 - **Critical Issues**: Use escalation procedures
 - **Security Issues**: Report immediately through secure channels
 - **Performance Issues**: Check monitoring dashboards first
@@ -497,4 +542,5 @@ const performanceMonitor = new PerformanceMonitor({
 
 ---
 
-**Remember**: Most issues have been encountered before. Check this guide, search the documentation, and use the diagnostic tools before escalating. 🌟
+**Remember**: Most issues have been encountered before. Check this guide, search
+the documentation, and use the diagnostic tools before escalating. 🌟

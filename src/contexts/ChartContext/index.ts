@@ -8,4 +8,4 @@ export * from './context';
 export * from './hooks';
 
 // Export the provider
-export * from './provider'; 
+export * from './provider';

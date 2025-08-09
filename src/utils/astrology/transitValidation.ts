@@ -30,7 +30,7 @@ export function validateTransitDate(
   planet: string,
   date: Date,
   sign: string,
-  transitDates: PlanetTransitDates
+  transitDates: PlanetTransitDates,
 ): boolean {
   try {
     if (!transitDates || !transitDates[sign]) {
@@ -57,7 +57,9 @@ export function validateTransitDate(
     const isValid = date >= startDate && date <= endDate;
 
     if (!isValid) {
-      logger.debug(`Date ${date.toISOString().split('T')[0]} is outside transit period for ${planet} in ${sign} (${transit.Start} to ${transit.End})`);
+      logger.debug(
+        `Date ${date.toISOString().split('T')[0]} is outside transit period for ${planet} in ${sign} (${transit.Start} to ${transit.End})`,
+      );
     }
 
     return isValid;
@@ -73,7 +75,7 @@ export function validateTransitDate(
 export function getCurrentTransitSign(
   planet: string,
   date: Date,
-  transitDates: PlanetTransitDates
+  transitDates: PlanetTransitDates,
 ): string | null {
   try {
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases');
@@ -98,7 +100,7 @@ export function getCurrentTransitSign(
 export function validateRetrogradePhase(
   planet: string,
   date: Date,
-  transitDates: PlanetTransitDates
+  transitDates: PlanetTransitDates,
 ): { isRetrograde: boolean; phase?: string } {
   try {
     if (!transitDates.RetrogradePhases) {
@@ -175,8 +177,16 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     const sortedTransits = signs
       .map(sign => ({
         sign,
-        start: new Date((transitDates[sign] as { Start: string | number | Date; End: string | number | Date }).Start),
-        end: new Date((transitDates[sign] as { Start: string | number | Date; End: string | number | Date }).End)
+        start: new Date(
+          (
+            transitDates[sign] as { Start: string | number | Date; End: string | number | Date }
+          ).Start,
+        ),
+        end: new Date(
+          (
+            transitDates[sign] as { Start: string | number | Date; End: string | number | Date }
+          ).End,
+        ),
       }))
       .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()))
       .sort((a, b) => a.start.getTime() - b.start.getTime());
@@ -188,7 +198,9 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
       // Check for gaps
       const daysBetween = (next.start.getTime() - current.end.getTime()) / (1000 * 60 * 60 * 24);
       if (daysBetween > 1) {
-        warnings.push(`Gap of ${Math.round(daysBetween)} days between ${current.sign} and ${next.sign}`);
+        warnings.push(
+          `Gap of ${Math.round(daysBetween)} days between ${current.sign} and ${next.sign}`,
+        );
       }
 
       // Check for overlaps
@@ -211,11 +223,15 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
         const endDate = new Date(phaseData.End);
 
         if (isNaN(startDate.getTime())) {
-          errors.push(`Invalid Start date format for retrograde phase ${phaseName}: ${phaseData.Start}`);
+          errors.push(
+            `Invalid Start date format for retrograde phase ${phaseName}: ${phaseData.Start}`,
+          );
         }
 
         if (isNaN(endDate.getTime())) {
-          errors.push(`Invalid End date format for retrograde phase ${phaseName}: ${phaseData.End}`);
+          errors.push(
+            `Invalid End date format for retrograde phase ${phaseName}: ${phaseData.End}`,
+          );
         }
 
         if (startDate >= endDate) {
@@ -227,14 +243,14 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     return {
       isValid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   } catch (error) {
     errors.push(`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     return {
       isValid: false,
       errors,
-      warnings
+      warnings,
     };
   }
 }
@@ -242,7 +258,9 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
 /**
  * Load and validate planet transit dates from data files
  */
-export async function loadPlanetTransitDates(planetName: string): Promise<PlanetTransitDates | null> {
+export async function loadPlanetTransitDates(
+  planetName: string,
+): Promise<PlanetTransitDates | null> {
   try {
     // Dynamic import to load planet data
     const planetModule = await import(`@/data/planets/${planetName.toLowerCase()}`);
@@ -278,7 +296,7 @@ export async function loadPlanetTransitDates(planetName: string): Promise<Planet
 export async function validatePlanetaryPosition(
   planetName: string,
   position: { sign: string; degree: number; exactLongitude: number },
-  date: Date = new Date()
+  date: Date = new Date(),
 ): Promise<boolean> {
   try {
     const transitDates = await loadPlanetTransitDates(planetName);
@@ -291,7 +309,9 @@ export async function validatePlanetaryPosition(
     const isValid = validateTransitDate(planetName, date, position.sign, transitDates);
 
     if (!isValid) {
-      logger.warn(`Position validation failed for ${planetName}: ${position.sign} at ${position.degree}° on ${date.toISOString().split('T')[0]}`);
+      logger.warn(
+        `Position validation failed for ${planetName}: ${position.sign} at ${position.degree}° on ${date.toISOString().split('T')[0]}`,
+      );
     }
 
     return isValid;
@@ -306,13 +326,32 @@ export async function validatePlanetaryPosition(
  */
 export const TRANSIT_CONSTANTS = {
   VALID_SIGNS: [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ],
   DEGREES_PER_SIGN: 30,
   MAX_LONGITUDE: 360,
   DATE_FORMAT: 'YYYY-MM-DD',
-  RETROGRADE_PLANETS: ['mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'],
+  RETROGRADE_PLANETS: [
+    'mercury',
+    'venus',
+    'mars',
+    'jupiter',
+    'saturn',
+    'uranus',
+    'neptune',
+    'pluto',
+  ],
   ALWAYS_DIRECT: ['sun', 'moon'],
-  ALWAYS_RETROGRADE: ['northNode', 'southNode']
+  ALWAYS_RETROGRADE: ['northNode', 'southNode'],
 } as const;

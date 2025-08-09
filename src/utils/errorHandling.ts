@@ -15,7 +15,7 @@ export enum ErrorType {
   ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION',
   DATA_PROCESSING = 'DATA_PROCESSING',
   COMPONENT_ERROR = 'COMPONENT_ERROR',
-  UNKNOWN = 'UNKNOWN'
+  UNKNOWN = 'UNKNOWN',
 }
 
 // Error severity levels
@@ -23,7 +23,7 @@ export enum ErrorSeverity {
   LOW = 'LOW',
   MEDIUM = 'MEDIUM',
   HIGH = 'HIGH',
-  CRITICAL = 'CRITICAL'
+  CRITICAL = 'CRITICAL',
 }
 
 // Enhanced error interface
@@ -47,17 +47,19 @@ export interface ErrorRecoveryStrategy {
 
 // User-friendly error messages
 const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
-  [ErrorType.NETWORK]: 'Unable to connect to the server. Please check your internet connection and try again.',
+  [ErrorType.NETWORK]:
+    'Unable to connect to the server. Please check your internet connection and try again.',
   [ErrorType.VALIDATION]: 'Please check your input and try again.',
   [ErrorType.AUTHENTICATION]: 'Please log in to continue.',
-  [ErrorType.AUTHORIZATION]: 'You don\'t have permission to access this resource.',
+  [ErrorType.AUTHORIZATION]: "You don't have permission to access this resource.",
   [ErrorType.NOT_FOUND]: 'The requested information could not be found.',
   [ErrorType.SERVER_ERROR]: 'A server error occurred. Please try again later.',
   [ErrorType.CLIENT_ERROR]: 'An error occurred while processing your request.',
-  [ErrorType.ASTROLOGICAL_CALCULATION]: 'Unable to calculate astrological data. Using cached information.',
+  [ErrorType.ASTROLOGICAL_CALCULATION]:
+    'Unable to calculate astrological data. Using cached information.',
   [ErrorType.DATA_PROCESSING]: 'Error processing data. Please try again.',
   [ErrorType.COMPONENT_ERROR]: 'A component failed to load. Please refresh the page.',
-  [ErrorType.UNKNOWN]: 'An unexpected error occurred. Please try again.'
+  [ErrorType.UNKNOWN]: 'An unexpected error occurred. Please try again.',
 };
 
 // Create enhanced error
@@ -66,7 +68,7 @@ export function createEnhancedError(
   type: ErrorType = ErrorType.UNKNOWN,
   severity: ErrorSeverity = ErrorSeverity.MEDIUM,
   context?: Record<string, unknown>,
-  originalError?: Error
+  originalError?: Error,
 ): EnhancedError {
   const error = new Error(message) as EnhancedError;
 
@@ -94,7 +96,7 @@ function isRecoverable(type: ErrorType): boolean {
     ErrorType.NETWORK,
     ErrorType.ASTROLOGICAL_CALCULATION,
     ErrorType.DATA_PROCESSING,
-    ErrorType.COMPONENT_ERROR
+    ErrorType.COMPONENT_ERROR,
   ].includes(type);
 }
 
@@ -104,7 +106,7 @@ function isRetryable(type: ErrorType): boolean {
     ErrorType.NETWORK,
     ErrorType.SERVER_ERROR,
     ErrorType.ASTROLOGICAL_CALCULATION,
-    ErrorType.DATA_PROCESSING
+    ErrorType.DATA_PROCESSING,
   ].includes(type);
 }
 
@@ -113,7 +115,11 @@ export function classifyError(error: Error | string): ErrorType {
   const message = typeof error === 'string' ? error : error.message;
   const lowerMessage = message.toLowerCase();
 
-  if (lowerMessage.includes('network') || lowerMessage.includes('fetch') || lowerMessage.includes('connection')) {
+  if (
+    lowerMessage.includes('network') ||
+    lowerMessage.includes('fetch') ||
+    lowerMessage.includes('connection')
+  ) {
     return ErrorType.NETWORK;
   }
 
@@ -133,11 +139,19 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.NOT_FOUND;
   }
 
-  if (lowerMessage.includes('server') || lowerMessage.includes('500') || lowerMessage.includes('503')) {
+  if (
+    lowerMessage.includes('server') ||
+    lowerMessage.includes('500') ||
+    lowerMessage.includes('503')
+  ) {
     return ErrorType.SERVER_ERROR;
   }
 
-  if (lowerMessage.includes('planetary') || lowerMessage.includes('astrological') || lowerMessage.includes('zodiac')) {
+  if (
+    lowerMessage.includes('planetary') ||
+    lowerMessage.includes('astrological') ||
+    lowerMessage.includes('zodiac')
+  ) {
     return ErrorType.ASTROLOGICAL_CALCULATION;
   }
 
@@ -160,11 +174,14 @@ export class ErrorHandler {
   }
 
   // Handle error with recovery attempts
-  async handleError(error: Error | EnhancedError, context?: Record<string, unknown>): Promise<unknown> {
+  async handleError(
+    error: Error | EnhancedError,
+    context?: Record<string, unknown>,
+  ): Promise<unknown> {
     let enhancedError: EnhancedError;
 
     if ('type' in error && 'severity' in error) {
-      enhancedError = error ;
+      enhancedError = error;
     } else {
       const type = classifyError(error);
       const severity = this.determineSeverity(type);
@@ -190,7 +207,9 @@ export class ErrorHandler {
   }
 
   // Attempt error recovery
-  private async attemptRecovery(error: EnhancedError): Promise<{ success: boolean; data?: unknown }> {
+  private async attemptRecovery(
+    error: EnhancedError,
+  ): Promise<{ success: boolean; data?: unknown }> {
     for (const strategy of this.recoveryStrategies) {
       if (strategy.canRecover(error)) {
         try {
@@ -248,7 +267,7 @@ export class ErrorHandler {
       userMessage: error.userMessage,
       context: error.context,
       timestamp: error.timestamp,
-      stack: error.stack
+      stack: error.stack,
     };
 
     switch (error.severity) {
@@ -296,7 +315,7 @@ export class ErrorHandler {
       total: this.errorQueue.length,
       byType,
       bySeverity,
-      recent: this.errorQueue.slice(-10) // Last 10 errors
+      recent: this.errorQueue.slice(-10), // Last 10 errors
     };
   }
 
@@ -311,8 +330,8 @@ export const globalErrorHandler = new ErrorHandler();
 
 // Default recovery strategies
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: (error) => error.type === ErrorType.ASTROLOGICAL_CALCULATION,
-  recover: async (error) => {
+  canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,
+  recover: async error => {
     logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`);
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData');
@@ -326,14 +345,14 @@ globalErrorHandler.addRecoveryStrategy({
     return {
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
-      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     };
-  }
+  },
 });
 
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: (error) => error.type === ErrorType.NETWORK,
-  recover: async (error) => {
+  canRecover: error => error.type === ErrorType.NETWORK,
+  recover: async error => {
     logger.info(`Attempting to recover from network error: ${error.errorId}`);
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
@@ -344,23 +363,20 @@ globalErrorHandler.addRecoveryStrategy({
       }
     }
     throw new Error('No cached data available for network recovery');
-  }
+  },
 });
 
 // Utility functions for common error scenarios
 export function handleAsyncError<T>(
   promise: Promise<T>,
-  context?: Record<string, unknown>
+  context?: Record<string, unknown>,
 ): Promise<T> {
   return promise.catch(error => {
     return globalErrorHandler.handleError(error, context);
   });
 }
 
-export function handleSyncError<T>(
-  fn: () => T,
-  context?: Record<string, unknown>
-): T {
+export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown>): T {
   try {
     return fn();
   } catch (error) {
@@ -389,34 +405,55 @@ export function useErrorHandler() {
 // Error boundary helper for specific error types
 export function createErrorBoundaryForType(errorType: ErrorType) {
   return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
-    return React.createElement(ErrorBoundary, {
-      fallback: (error: Error, errorInfo: React.ErrorInfo) => {
-        const enhancedError = createEnhancedError(
-          error.message,
-          errorType,
-          ErrorSeverity.MEDIUM,
-          { componentStack: errorInfo.componentStack }
-        );
+    return React.createElement(
+      ErrorBoundary,
+      {
+        fallback: (error: Error, errorInfo: React.ErrorInfo) => {
+          const enhancedError = createEnhancedError(
+            error.message,
+            errorType,
+            ErrorSeverity.MEDIUM,
+            { componentStack: errorInfo.componentStack },
+          );
 
-        return React.createElement('div', {
-          className: "bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2"
-        }, [
-          React.createElement('h4', {
-            key: 'title',
-            className: "text-yellow-800 font-medium mb-2"
-          }, `${errorType} Error`),
-          React.createElement('p', {
-            key: 'message',
-            className: "text-yellow-700 text-sm mb-3"
-          }, enhancedError.userMessage),
-          React.createElement('button', {
-            key: 'button',
-            onClick: () => window.location.reload(),
-            className: "bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors"
-          }, 'Reload Page')
-        ]);
-      }
-    }, children);
+          return React.createElement(
+            'div',
+            {
+              className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2',
+            },
+            [
+              React.createElement(
+                'h4',
+                {
+                  key: 'title',
+                  className: 'text-yellow-800 font-medium mb-2',
+                },
+                `${errorType} Error`,
+              ),
+              React.createElement(
+                'p',
+                {
+                  key: 'message',
+                  className: 'text-yellow-700 text-sm mb-3',
+                },
+                enhancedError.userMessage,
+              ),
+              React.createElement(
+                'button',
+                {
+                  key: 'button',
+                  onClick: () => window.location.reload(),
+                  className:
+                    'bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors',
+                },
+                'Reload Page',
+              ),
+            ],
+          );
+        },
+      },
+      children,
+    );
   };
 }
 

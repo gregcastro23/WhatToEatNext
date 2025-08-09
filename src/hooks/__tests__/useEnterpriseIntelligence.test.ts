@@ -15,8 +15,8 @@ jest.mock('@/utils/logger', () => ({
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn()
-  }
+    debug: jest.fn(),
+  },
 }));
 
 describe('useEnterpriseIntelligence', () => {
@@ -27,8 +27,8 @@ describe('useEnterpriseIntelligence', () => {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   };
 
   const mockIngredientData = {
@@ -41,10 +41,10 @@ describe('useEnterpriseIntelligence', () => {
           Fire: 0.2,
           Water: 0.3,
           Earth: 0.3,
-          Air: 0.2
-        }
-      }
-    ]
+          Air: 0.2,
+        },
+      },
+    ],
   };
 
   const mockAstrologicalContext = {
@@ -54,9 +54,9 @@ describe('useEnterpriseIntelligence', () => {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     } as ElementalProperties,
-    planetaryPositions: {}
+    planetaryPositions: {},
   };
 
   it('should initialize with default state', () => {
@@ -77,7 +77,7 @@ describe('useEnterpriseIntelligence', () => {
       const analysis = await result.current.actions.performAnalysis(
         mockRecipeData,
         mockIngredientData,
-        mockAstrologicalContext
+        mockAstrologicalContext,
       );
       expect(analysis).toBeDefined();
     });
@@ -92,11 +92,7 @@ describe('useEnterpriseIntelligence', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
-      await result.current.actions.performAnalysis(
-        mockRecipeData,
-        mockIngredientData,
-        mockAstrologicalContext
-      );
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext);
     });
 
     expect(result.current.recommendations).toBeDefined();
@@ -111,11 +107,7 @@ describe('useEnterpriseIntelligence', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
-      await result.current.actions.performAnalysis(
-        mockRecipeData,
-        mockIngredientData,
-        mockAstrologicalContext
-      );
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext);
     });
 
     expect(result.current.systemHealth).toBeDefined();
@@ -132,7 +124,7 @@ describe('useEnterpriseIntelligence', () => {
     act(() => {
       result.current.actions.updateConfig({
         enableRecipeIntelligence: false,
-        logLevel: 'error'
+        logLevel: 'error',
       });
     });
 
@@ -159,11 +151,7 @@ describe('useEnterpriseIntelligence', () => {
 
     // First perform an analysis
     await act(async () => {
-      await result.current.actions.performAnalysis(
-        mockRecipeData,
-        mockIngredientData,
-        mockAstrologicalContext
-      );
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext);
     });
 
     expect(result.current.state.analysis).toBeDefined();
@@ -183,11 +171,7 @@ describe('useEnterpriseIntelligence', () => {
 
     // Test with invalid data that might cause errors
     await act(async () => {
-      const analysis = await result.current.actions.performAnalysis(
-        null,
-        null,
-        mockAstrologicalContext
-      );
+      const analysis = await result.current.actions.performAnalysis(null, null, mockAstrologicalContext);
       // Should still return an analysis even with null data
       expect(analysis).toBeDefined();
     });

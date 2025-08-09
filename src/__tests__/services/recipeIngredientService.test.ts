@@ -12,24 +12,24 @@ describe('Recipe Ingredient Processing', () => {
           amount: 2,
           unit: 'whole',
           category: 'vegetables',
-          elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 }
+          elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 },
         },
         {
           name: 'Onion',
           amount: 1,
           unit: 'medium',
           category: 'vegetables',
-          elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
-        }
-      ]
+          elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
+        },
+      ],
     };
-    
+
     // Test that we can standardize a recipe with ingredients
     const result = recipeElementalService.standardizeRecipe(recipe);
-    
+
     // Verify the result has elemental properties
     expect(result.elementalProperties).toBeDefined();
-    
+
     // Check that derived elemental properties reflect the ingredients
     const derivedProps = recipeElementalService.deriveElementalProperties(recipe);
     expect(derivedProps.Fire).toBeGreaterThan(0.2); // Should have significant Fire due to tomato
@@ -44,15 +44,15 @@ describe('Recipe Ingredient Processing', () => {
           name: 'Test Ingredient',
           amount: 1,
           unit: 'piece',
-          category: 'other'
+          category: 'other',
           // No elemental properties
-        }
-      ]
+        },
+      ],
     };
-    
+
     // Should not throw errors when ingredients lack elemental properties
     const result = recipeElementalService.deriveElementalProperties(recipe);
-    
+
     // Should still produce normalized elemental properties
     const sum = Object.values(result).reduce((a, b) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
@@ -68,22 +68,22 @@ describe('Recipe Ingredient Processing', () => {
           amount: 2,
           unit: 'cup',
           category: 'vegetables',
-          elementalProperties: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 }
+          elementalProperties: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
         },
         {
           name: 'Ingredient2',
           amount: 1,
           unit: 'cup',
           category: 'vegetables',
-          elementalProperties: { Fire: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 }
-        }
+          elementalProperties: { Fire: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 },
+        },
       ],
       cuisine: 'Thai',
-      cookingMethod: ['frying'] as string[]
+      cookingMethod: ['frying'] as string[],
     };
-    
+
     const result = recipeElementalService.deriveElementalProperties(recipe);
-    
+
     // Since we have one ingredient with high Fire and one with high Water,
     // plus Thai cuisine (Fire) and frying method (Fire), we expect Fire to be dominant
     expect(result.Fire).toBeGreaterThan(result.Water);
@@ -95,12 +95,12 @@ describe('Recipe Ingredient Processing', () => {
     const recipe: Partial<Recipe> = {
       id: 'test-recipe',
       name: 'Test Recipe',
-      ingredients: []
+      ingredients: [],
     };
-    
+
     // Should not throw errors with empty ingredients
     const result = recipeElementalService.deriveElementalProperties(recipe);
-    
+
     // Should still produce normalized elemental properties
     const sum = Object.values(result).reduce((a, b) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
@@ -109,15 +109,15 @@ describe('Recipe Ingredient Processing', () => {
   it('should handle recipes with undefined ingredients', () => {
     const recipe: Partial<Recipe> = {
       id: 'test-recipe',
-      name: 'Test Recipe'
+      name: 'Test Recipe',
       // No ingredients property
     };
-    
+
     // Should not throw errors with undefined ingredients
     const result = recipeElementalService.deriveElementalProperties(recipe);
-    
+
     // Should still produce normalized elemental properties
     const sum = Object.values(result).reduce((a, b) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
   });
-}); 
+});

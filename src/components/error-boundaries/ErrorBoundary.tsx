@@ -28,7 +28,7 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
   errorInfo,
   onRetry,
   retryCount,
-  maxRetries = 3
+  maxRetries = 3,
 }: {
   error: Error;
   errorInfo: ErrorInfo;
@@ -39,44 +39,42 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
   const isDevelopment = process.env.NODE_ENV === 'development';
 
   return (
-    <div className="bg-red-50 border border-red-200 rounded-lg p-6 m-4">
-      <div className="flex items-center space-x-2 mb-4">
-        <div className="flex-shrink-0">
-          <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+    <div className='m-4 rounded-lg border border-red-200 bg-red-50 p-6'>
+      <div className='mb-4 flex items-center space-x-2'>
+        <div className='flex-shrink-0'>
+          <svg className='h-5 w-5 text-red-400' viewBox='0 0 20 20' fill='currentColor'>
+            <path
+              fillRule='evenodd'
+              d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+              clipRule='evenodd'
+            />
           </svg>
         </div>
-        <h3 className="text-lg font-medium text-red-800">
-          Something went wrong
-        </h3>
+        <h3 className='text-lg font-medium text-red-800'>Something went wrong</h3>
       </div>
 
-      <div className="mb-4">
-        <p className="text-red-700 mb-2">
+      <div className='mb-4'>
+        <p className='mb-2 text-red-700'>
           We encountered an unexpected error. This has been logged and we're working to fix it.
         </p>
 
         {isDevelopment && (
-          <details className="mt-4">
-            <summary className="cursor-pointer text-red-600 font-medium mb-2">
+          <details className='mt-4'>
+            <summary className='mb-2 cursor-pointer font-medium text-red-600'>
               Technical Details (Development Mode)
             </summary>
-            <div className="bg-red-100 p-3 rounded border text-sm font-mono">
-              <div className="mb-2">
+            <div className='rounded border bg-red-100 p-3 font-mono text-sm'>
+              <div className='mb-2'>
                 <strong>Error:</strong> {error.message}
               </div>
-              <div className="mb-2">
+              <div className='mb-2'>
                 <strong>Stack:</strong>
-                <pre className="whitespace-pre-wrap text-xs mt-1">
-                  {error.stack}
-                </pre>
+                <pre className='mt-1 whitespace-pre-wrap text-xs'>{error.stack}</pre>
               </div>
               {errorInfo.componentStack && (
                 <div>
                   <strong>Component Stack:</strong>
-                  <pre className="whitespace-pre-wrap text-xs mt-1">
-                    {errorInfo.componentStack}
-                  </pre>
+                  <pre className='mt-1 whitespace-pre-wrap text-xs'>{errorInfo.componentStack}</pre>
                 </div>
               )}
             </div>
@@ -84,11 +82,11 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
         )}
       </div>
 
-      <div className="flex items-center space-x-3">
+      <div className='flex items-center space-x-3'>
         {retryCount < maxRetries && (
           <button
             onClick={onRetry}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            className='rounded bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
           >
             Try Again ({maxRetries - retryCount} attempts left)
           </button>
@@ -96,13 +94,13 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
 
         <button
           onClick={() => window.location.reload()}
-          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+          className='rounded bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
         >
           Reload Page
         </button>
 
         {retryCount >= maxRetries && (
-          <p className="text-red-600 text-sm">
+          <p className='text-sm text-red-600'>
             Maximum retry attempts reached. Please reload the page or contact support.
           </p>
         )}
@@ -123,7 +121,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       errorInfo: null,
       errorId: '',
       retryCount: 0,
-      lastResetKeys: props.resetKeys
+      lastResetKeys: props.resetKeys,
     };
   }
 
@@ -134,7 +132,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     return {
       hasError: true,
       error,
-      errorId
+      errorId,
     };
   }
 
@@ -145,12 +143,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       stack: error.stack,
       componentStack: errorInfo.componentStack,
       errorId: this.state.errorId,
-      retryCount: this.state.retryCount
+      retryCount: this.state.retryCount,
     });
 
     // Update state with error info
     this.setState({
-      errorInfo
+      errorInfo,
     });
 
     // Call custom error handler if provided
@@ -159,10 +157,16 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     // Report to external error tracking service if available
-    if (typeof window !== 'undefined' && (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError) {
-      (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError?.(error, {
+    if (
+      typeof window !== 'undefined' &&
+      (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void })
+        .reportError
+    ) {
+      (
+        window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }
+      ).reportError?.(error, {
         componentStack: errorInfo.componentStack,
-        errorId: this.state.errorId
+        errorId: this.state.errorId,
       });
     }
   }
@@ -173,9 +177,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     // Reset error state if resetKeys have changed
     if (hasError && resetKeys && lastResetKeys) {
-      const hasResetKeyChanged = resetKeys.some((key, index) =>
-        key !== lastResetKeys[index]
-      );
+      const hasResetKeyChanged = resetKeys.some((key, index) => key !== lastResetKeys[index]);
 
       if (hasResetKeyChanged) {
         this.resetErrorBoundary();
@@ -205,7 +207,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       errorInfo: null,
       errorId: '',
       retryCount: prevState.retryCount + 1,
-      lastResetKeys: this.props.resetKeys
+      lastResetKeys: this.props.resetKeys,
     }));
   };
 
@@ -239,11 +241,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     // If isolate is true, wrap children in an additional error boundary
     if (isolate) {
-      return (
-        <div className="error-boundary-isolation">
-          {children}
-        </div>
-      );
+      return <div className='error-boundary-isolation'>{children}</div>;
     }
 
     return children;
@@ -255,7 +253,7 @@ export default ErrorBoundary;
 // Higher-order component for easy error boundary wrapping
 export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
-  errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
+  errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>,
 ) {
   const WrappedComponent = (props: P) => (
     <ErrorBoundary {...errorBoundaryProps}>
@@ -275,12 +273,18 @@ export function useErrorHandler() {
       error: error.message,
       stack: error.stack,
       context,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     // Report to external service if available
-    if (typeof window !== 'undefined' && (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError) {
-      (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError?.(error, context);
+    if (
+      typeof window !== 'undefined' &&
+      (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void })
+        .reportError
+    ) {
+      (
+        window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }
+      ).reportError?.(error, context);
     }
   }, []);
 
@@ -288,10 +292,7 @@ export function useErrorHandler() {
 }
 
 // Async error boundary for handling promise rejections
-export class AsyncErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class AsyncErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = {
@@ -299,7 +300,7 @@ export class AsyncErrorBoundary extends Component<
       error: null,
       errorInfo: null,
       errorId: '',
-      retryCount: 0
+      retryCount: 0,
     };
   }
 
@@ -319,13 +320,13 @@ export class AsyncErrorBoundary extends Component<
       hasError: true,
       error,
       errorInfo: { componentStack: 'Async Error (Promise Rejection)' } as ErrorInfo,
-      errorId: `async_error_${Date.now()}`
+      errorId: `async_error_${Date.now()}`,
     });
 
     logger.error('Unhandled promise rejection:', {
       error: error.message,
       stack: error.stack,
-      reason: event.reason
+      reason: event.reason,
     });
 
     // Prevent the default browser behavior

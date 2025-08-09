@@ -18,51 +18,51 @@ class TypeHarmonyFixer {
     this.useBridges = true;
     this.strategy = 'harmony';
     this.maxFiles = 10;
-    
+
     // Type Harmony patterns proven to work
     this.harmonyPatterns = {
       // TS18048: Possibly undefined
-      'possibly_undefined': {
+      possibly_undefined: {
         pattern: /(\w+)\s*!==\s*undefined\s*&&\s*([^<>=]+)\s*([<>])\s*\1/g,
-        fix: (match, varName, expression, operator) => 
-          `${varName} !== undefined && ${varName} !== null && ${expression} ${operator} ${varName}`
+        fix: (match, varName, expression, operator) =>
+          `${varName} !== undefined && ${varName} !== null && ${expression} ${operator} ${varName}`,
       },
-      
+
       // TS2345: Argument type mismatch - array initialization
-      'array_init_never': {
+      array_init_never: {
         pattern: /const\s+(\w+)\s*=\s*\[\]\s*;/g,
-        fix: (match, varName) => `const ${varName}: string[] = [];`
+        fix: (match, varName) => `const ${varName}: string[] = [];`,
       },
-      
+
       // TS2322: Type assignment - lunar phase
-      'lunar_phase_unknown': {
+      lunar_phase_unknown: {
         pattern: /name:\s*'Unknown'/g,
-        fix: () => `name: 'new moon' as LunarPhase`
+        fix: () => `name: 'new moon' as LunarPhase`,
       },
-      
+
       // TS2740: Missing properties - empty object
-      'empty_object_record': {
+      empty_object_record: {
         pattern: /:\s*\{\}\s*([,}])/g,
-        fix: (match, ending) => `: {} as Record<Planet, PlanetaryPosition>${ending}`
+        fix: (match, ending) => `: {} as Record<Planet, PlanetaryPosition>${ending}`,
       },
-      
+
       // TS2339: Property access on never
-      'never_type_any': {
+      never_type_any: {
         pattern: /let\s+(\w+)\s*=\s*null\s*;/g,
-        fix: (match, varName) => `let ${varName}: any = null;`
+        fix: (match, varName) => `let ${varName}: any = null;`,
       },
-      
+
       // Safe property extraction
-      'safe_property_access': {
+      safe_property_access: {
         pattern: /(\w+)\.(\w+)\.(\w+)/g,
-        fix: (match, obj, prop1, prop2) => `${obj}?.${prop1}?.${prop2}`
+        fix: (match, obj, prop1, prop2) => `${obj}?.${prop1}?.${prop2}`,
       },
-      
+
       // Nullish coalescing for defaults
-      'default_values': {
+      default_values: {
         pattern: /(\w+\.strength)\s*\*\s*([\d.]+)/g,
-        fix: (match, prop, multiplier) => `(${prop} ?? 1.0) * ${multiplier}`
-      }
+        fix: (match, prop, multiplier) => `(${prop} ?? 1.0) * ${multiplier}`,
+      },
     };
   }
 
@@ -70,26 +70,27 @@ class TypeHarmonyFixer {
     console.log('🌟 TYPE HARMONY CAMPAIGN - REVOLUTIONARY ERROR FIXER');
     console.log('Strategy: Architectural bridges over forced conformity');
     console.log('Target: 43% error reduction');
-    
+
     try {
       // Parse command line arguments
       this.parseArgs();
-      
+
       // Get initial error count
       const initialErrors = this.getErrorCount();
       console.log(`Initial error count: ${initialErrors}`);
-      
+
       // Get files with most errors
       const targetFiles = await this.getHighErrorFiles();
-      
+
       // Process files in batches
       await this.processFiles(targetFiles);
-      
+
       // Validate after fixes
       const finalErrors = this.getErrorCount();
       console.log(`Final error count: ${finalErrors}`);
-      console.log(`Errors reduced: ${initialErrors - finalErrors} (${((initialErrors - finalErrors) / initialErrors * 100).toFixed(1)}%)`);
-      
+      console.log(
+        `Errors reduced: ${initialErrors - finalErrors} (${(((initialErrors - finalErrors) / initialErrors) * 100).toFixed(1)}%)`,
+      );
     } catch (error) {
       console.error('❌ Type Harmony Campaign failed:', error.message);
       console.log('🔄 Initiating automatic rollback...');
@@ -114,7 +115,7 @@ class TypeHarmonyFixer {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
         encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe']
+        stdio: ['pipe', 'pipe', 'pipe'],
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -127,10 +128,12 @@ class TypeHarmonyFixer {
     try {
       const output = execSync(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "^src/[^:]+:" | sed \'s/([0-9]*,[0-9]*).*//\' | sort | uniq -c | sort -nr | head -20',
-        { encoding: 'utf8' }
+        { encoding: 'utf8' },
       );
-      
-      const files = output.trim().split('\n')
+
+      const files = output
+        .trim()
+        .split('\n')
         .map(line => {
           const match = line.match(/^\s*(\d+)\s+(.+)$/);
           if (match) {
@@ -140,7 +143,7 @@ class TypeHarmonyFixer {
         })
         .filter(Boolean)
         .slice(0, this.maxFiles);
-      
+
       console.log(`Found ${files.length} high-error files to process`);
       return files;
     } catch (error) {
@@ -152,33 +155,32 @@ class TypeHarmonyFixer {
   async processFiles(files) {
     for (const fileInfo of files) {
       console.log(`\nProcessing ${fileInfo.file} (${fileInfo.count} errors)...`);
-      
+
       try {
         // Create safety checkpoint
         this.createCheckpoint(fileInfo.file);
-        
+
         // Read file content
         const content = fs.readFileSync(fileInfo.file, 'utf8');
         let newContent = content;
-        
+
         // Apply Type Harmony patterns
         if (this.strategy === 'harmony') {
           newContent = this.applyHarmonyPatterns(newContent, fileInfo.file);
         }
-        
+
         // Only write if content changed
         if (newContent !== content) {
           fs.writeFileSync(fileInfo.file, newContent);
           this.processedFiles++;
           console.log(`✅ Applied Type Harmony patterns to ${fileInfo.file}`);
         }
-        
+
         // Validate build every 5 files
         if (this.processedFiles % 5 === 0) {
           console.log('🔍 Running build validation...');
           this.validateBuild();
         }
-        
       } catch (error) {
         console.error(`❌ Error processing ${fileInfo.file}:`, error.message);
         this.rollbackFile(fileInfo.file);
@@ -189,7 +191,7 @@ class TypeHarmonyFixer {
   applyHarmonyPatterns(content, filePath) {
     let newContent = content;
     let totalReplacements = 0;
-    
+
     // Apply each harmony pattern
     for (const [patternName, pattern] of Object.entries(this.harmonyPatterns)) {
       const replacements = (newContent.match(pattern.pattern) || []).length;
@@ -199,38 +201,42 @@ class TypeHarmonyFixer {
         console.log(`  Applied ${patternName}: ${replacements} fixes`);
       }
     }
-    
+
     // Apply bridge imports if needed
     if (this.useBridges && totalReplacements > 0) {
       newContent = this.addBridgeImports(newContent, filePath);
     }
-    
+
     this.fixedErrors += totalReplacements;
     return newContent;
   }
 
   addBridgeImports(content, filePath) {
     // Check if we need bridge imports
-    const needsBridge = content.includes('as LunarPhase') || 
-                       content.includes('as Record<Planet') ||
-                       content.includes('?.');
-    
+    const needsBridge =
+      content.includes('as LunarPhase') ||
+      content.includes('as Record<Planet') ||
+      content.includes('?.');
+
     if (!needsBridge) return content;
-    
+
     // Check if imports already exist
     if (content.includes('@/types/bridges/astrologicalBridge')) {
       return content;
     }
-    
+
     // Add bridge imports at the top of the file
     const importStatement = `import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';\n`;
-    
+
     // Find the right place to insert (after existing imports)
     const importMatch = content.match(/^(import[\s\S]*?)\n\n/m);
     if (importMatch) {
-      return content.replace(importMatch[0], importMatch[0].trimEnd() + '\n' + importStatement + '\n\n');
+      return content.replace(
+        importMatch[0],
+        importMatch[0].trimEnd() + '\n' + importStatement + '\n\n',
+      );
     }
-    
+
     // If no imports, add at the beginning
     return importStatement + '\n' + content;
   }

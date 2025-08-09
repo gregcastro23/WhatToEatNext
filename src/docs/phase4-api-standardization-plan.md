@@ -2,7 +2,10 @@
 
 ## Overview
 
-Phase 4 focuses on standardizing the API layer of the WhatToEatNext application. Following the successful migration of components to service-based architecture in Phase 3, we now need to ensure that all API endpoints follow consistent patterns, have proper error handling, and use standardized interfaces.
+Phase 4 focuses on standardizing the API layer of the WhatToEatNext application.
+Following the successful migration of components to service-based architecture
+in Phase 3, we now need to ensure that all API endpoints follow consistent
+patterns, have proper error handling, and use standardized interfaces.
 
 ## Objectives
 
@@ -15,7 +18,8 @@ Phase 4 focuses on standardizing the API layer of the WhatToEatNext application.
 
 ## Current API Status
 
-During Phase 3, we migrated components to use service-based architecture, but we did not standardize the API endpoints themselves. Currently, we have a mix of:
+During Phase 3, we migrated components to use service-based architecture, but we
+did not standardize the API endpoints themselves. Currently, we have a mix of:
 
 - Direct data imports
 - Service methods with inconsistent return types
@@ -28,6 +32,7 @@ During Phase 3, we migrated components to use service-based architecture, but we
 ### 1. API Documentation and Analysis
 
 **Tasks:**
+
 - Create an inventory of all current API endpoints
 - Document their inputs, outputs, and behavior
 - Identify inconsistencies and areas for improvement
@@ -38,6 +43,7 @@ During Phase 3, we migrated components to use service-based architecture, but we
 ### 2. Define API Standards
 
 **Tasks:**
+
 - Create standardized interfaces for common request/response patterns
 - Define error handling conventions
 - Establish naming conventions for endpoints and parameters
@@ -49,6 +55,7 @@ During Phase 3, we migrated components to use service-based architecture, but we
 ### 3. Implement Service Layer Standardization
 
 **Tasks:**
+
 - Refactor service methods to follow the new standards
 - Implement consistent error handling
 - Add input validation
@@ -60,6 +67,7 @@ During Phase 3, we migrated components to use service-based architecture, but we
 ### 4. API Performance Optimization
 
 **Tasks:**
+
 - Implement efficient caching strategies
 - Add support for partial data fetching
 - Optimize data transformations
@@ -70,6 +78,7 @@ During Phase 3, we migrated components to use service-based architecture, but we
 ### 5. Testing Framework
 
 **Tasks:**
+
 - Create a testing framework for API endpoints
 - Add unit tests for each service method
 - Implement integration tests for service interactions
@@ -131,6 +140,7 @@ interface ApiResponse<T> {
 ### Error Handling
 
 All service methods should:
+
 1. Use try/catch blocks for error handling
 2. Return standardized error objects
 3. Log errors appropriately
@@ -143,7 +153,7 @@ All service methods should include proper JSDoc comments:
 ```typescript
 /**
  * Gets a recipe by its ID.
- * 
+ *
  * @param params - The parameters for the request
  * @param params.id - The unique identifier of the recipe
  * @returns A promise that resolves to the recipe data
@@ -202,12 +212,12 @@ After completing Phase 4:
 
 ## Risks and Mitigations
 
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| Breaking changes affect existing components | High | Medium | Create adapter layer for backward compatibility |
-| Inconsistent implementation across teams | Medium | Medium | Provide clear guidelines and code review process |
-| Performance degradation from additional layers | Medium | Low | Benchmark before and after, optimize where needed |
-| Extended timeline due to scope creep | Medium | High | Clearly define MVP requirements and use phased approach |
+| Risk                                           | Impact | Likelihood | Mitigation                                              |
+| ---------------------------------------------- | ------ | ---------- | ------------------------------------------------------- |
+| Breaking changes affect existing components    | High   | Medium     | Create adapter layer for backward compatibility         |
+| Inconsistent implementation across teams       | Medium | Medium     | Provide clear guidelines and code review process        |
+| Performance degradation from additional layers | Medium | Low        | Benchmark before and after, optimize where needed       |
+| Extended timeline due to scope creep           | Medium | High       | Clearly define MVP requirements and use phased approach |
 
 ## Next Steps
 
@@ -219,27 +229,34 @@ After completing Phase 4:
 
 ## Conclusion
 
-Phase 4 will build on the foundation laid in Phase 3, creating a robust and consistent API layer. This standardization will improve developer experience, reduce bugs, and prepare the application for future scaling and features.
+Phase 4 will build on the foundation laid in Phase 3, creating a robust and
+consistent API layer. This standardization will improve developer experience,
+reduce bugs, and prepare the application for future scaling and features.
 
 ## Progress Update
 
 ### Completed Tasks
 
 1. **API Interface Definition**
-   - Created `RecipeApiInterfaces.ts` with standardized interfaces for all recipe API requests and responses
-   - Defined a consistent `ApiResponse<T>` pattern with success/error fields and metadata
+   - Created `RecipeApiInterfaces.ts` with standardized interfaces for all
+     recipe API requests and responses
+   - Defined a consistent `ApiResponse<T>` pattern with success/error fields and
+     metadata
    - Created error code enums for better error categorization
    - Implemented pagination parameters across all applicable interfaces
 
 2. **API Response Utilities**
-   - Created `apiResponseUtils.ts` with helper functions for generating standardized responses
+   - Created `apiResponseUtils.ts` with helper functions for generating
+     standardized responses
    - Implemented consistent error handling and response formats
    - Added support for pagination metadata in collection responses
-   - Created specialized response creators for common scenarios (not found, invalid parameters, etc.)
+   - Created specialized response creators for common scenarios (not found,
+     invalid parameters, etc.)
 
 3. **Service Interface Updates**
    - Updated `RecipeServiceInterface` to use the standardized API patterns
-   - Changed method signatures to accept parameter objects and return `ApiResponse<T>`
+   - Changed method signatures to accept parameter objects and return
+     `ApiResponse<T>`
    - Added proper JSDoc documentation to all interface methods
 
 4. **Recipe Service Implementation**
@@ -250,7 +267,8 @@ Phase 4 will build on the foundation laid in Phase 3, creating a robust and cons
 
 5. **API Endpoint Standardization**
    - Updated `/api/recipes` route to use standardized response formats
-   - Created dedicated endpoints for specific use cases (`/api/recipes/[id]`, `/api/recipes/best-matches`)
+   - Created dedicated endpoints for specific use cases (`/api/recipes/[id]`,
+     `/api/recipes/best-matches`)
    - Improved error handling and HTTP status code usage
    - Added consistent parameter handling for all endpoints
 
@@ -263,7 +281,8 @@ Phase 4 will build on the foundation laid in Phase 3, creating a robust and cons
 
 1. **Complete Remaining Service Updates**
    - Update any remaining recipe service implementations
-   - Apply the same standardization to other service domains (ingredients, astrological, etc.)
+   - Apply the same standardization to other service domains (ingredients,
+     astrological, etc.)
 
 2. **API Documentation**
    - Generate API documentation from JSDoc comments
@@ -294,4 +313,4 @@ Phase 4 will build on the foundation laid in Phase 3, creating a robust and cons
 3. **Error Handling**
    - Structured error responses make debugging easier
    - Error codes allow for better client-side handling
-   - Consistent error logging improves observability 
+   - Consistent error logging improves observability

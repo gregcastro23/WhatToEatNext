@@ -44,30 +44,28 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
   };
 
   return (
-    <div className="location-button">
-      <button 
+    <div className='location-button'>
+      <button
         onClick={handleLocationClick}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'
       >
         Use My Location
       </button>
       {locationStatus && (
-        <div className="location-status mt-2 text-sm text-gray-600">
-          {locationStatus}
-        </div>
+        <div className='location-status mt-2 text-sm text-gray-600'>{locationStatus}</div>
       )}
-      <form onSubmit={handleManualLocation} className="mt-4">
+      <form onSubmit={handleManualLocation} className='mt-4'>
         <input
-          type="text"
+          type='text'
           value={manualLocation}
-          onChange={(e) => setManualLocation(e.target.value)}
-          placeholder="Enter city or coordinates"
-          className="p-2 border rounded"
+          onChange={e => setManualLocation(e.target.value)}
+          placeholder='Enter city or coordinates'
+          className='rounded border p-2'
         />
-        <button type="submit" className="ml-2 p-2 bg-green-500 text-white rounded">
+        <button type='submit' className='ml-2 rounded bg-green-500 p-2 text-white'>
           Set Location
         </button>
       </form>
     </div>
   );
-}; 
+};

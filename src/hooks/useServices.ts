@@ -1,6 +1,6 @@
 /**
  * useServices.ts
- * 
+ *
  * A React hook that provides access to the application services.
  * Ensures that services are initialized before they are used.
  */
@@ -21,9 +21,9 @@ export function useServices() {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(!servicesManager.isInitialized);
   const [status, setStatus] = useState<InitializationStatus>(
-    servicesManager.isInitialized 
-      ? InitializationStatus.COMPLETED 
-      : InitializationStatus.NOT_STARTED
+    servicesManager.isInitialized
+      ? InitializationStatus.COMPLETED
+      : InitializationStatus.NOT_STARTED,
   );
 
   useEffect(() => {
@@ -33,13 +33,13 @@ export function useServices() {
     }
 
     let isMounted = true;
-    
+
     const initializeServices = async () => {
       try {
         setIsLoading(true);
         setStatus(InitializationStatus.IN_PROGRESS);
         await servicesManager.initialize();
-        
+
         if (isMounted) {
           setIsInitialized(true);
           setIsLoading(false);
@@ -49,7 +49,7 @@ export function useServices() {
       } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));
         logger.error('Error initializing services:', error);
-        
+
         if (isMounted) {
           setError(error);
           setIsLoading(false);
@@ -67,9 +67,7 @@ export function useServices() {
   }, []);
 
   // Get all services from the manager
-  const services = servicesManager.isInitialized 
-    ? servicesManager.getServices() 
-    : null;
+  const services = servicesManager.isInitialized ? servicesManager.getServices() : null;
 
   return {
     isInitialized,
@@ -84,8 +82,8 @@ export function useServices() {
     ingredientService: services?.ingredientService,
     recipeService: services?.recipeService,
     recommendationService: services?.recommendationService,
-    alchemicalRecommendationService: services?.alchemicalRecommendationService
+    alchemicalRecommendationService: services?.alchemicalRecommendationService,
   };
 }
 
-export default useServices; 
+export default useServices;

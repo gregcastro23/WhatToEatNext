@@ -71,4 +71,4 @@ export interface RecipeCollection extends ItemCollection<RecipeItem> {
   byCuisine: Record<string, RecipeItem[]>;
   byDifficulty: Record<string, RecipeItem[]>;
   byCookingMethod: Record<string, RecipeItem[]>;
-} 
+}

@@ -142,14 +142,14 @@ export class DependencySecurityMonitor {
         securityReport: {
           vulnerabilities: [],
           summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
-          recommendations: []
+          recommendations: [],
         },
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
-          summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
-        }
+          summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 },
+        },
       };
 
       // Step 1: Scan for security vulnerabilities
@@ -158,7 +158,9 @@ export class DependencySecurityMonitor {
           result.securityReport = await this.scanSecurityVulnerabilities();
           result.vulnerabilitiesFound = result.securityReport.summary.total;
         } catch (error) {
-          result.errors.push(`Security scan failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+          result.errors.push(
+            `Security scan failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          );
         }
       }
 
@@ -168,17 +170,23 @@ export class DependencySecurityMonitor {
         result.updatesAvailable = result.updateReport.summary.total;
         result.dependenciesScanned = await this.getDependencyCount();
       } catch (error) {
-        result.errors.push(`Dependency update check failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+        result.errors.push(
+          `Dependency update check failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        );
       }
 
       // Step 3: Apply security patches automatically if enabled
       if (this.config.autoUpdateEnabled) {
         try {
-          const securityUpdates = await this.applySecurityPatches(result.securityReport.vulnerabilities);
+          const securityUpdates = await this.applySecurityPatches(
+            result.securityReport.vulnerabilities,
+          );
           result.securityPatchesApplied = securityUpdates.length;
           result.updateReport.appliedUpdates.push(...securityUpdates);
         } catch (error) {
-          result.errors.push(`Security patch application failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+          result.errors.push(
+            `Security patch application failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          );
         }
       }
 
@@ -189,7 +197,9 @@ export class DependencySecurityMonitor {
           result.updatesApplied = safeUpdates.length;
           result.updateReport.appliedUpdates.push(...safeUpdates);
         } catch (error) {
-          result.errors.push(`Safe update application failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+          result.errors.push(
+            `Safe update application failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          );
         }
       }
 
@@ -198,7 +208,9 @@ export class DependencySecurityMonitor {
         try {
           result.compatibilityTestsPassed = await this.runCompatibilityTests();
         } catch (error) {
-          result.errors.push(`Compatibility testing failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
+          result.errors.push(
+            `Compatibility testing failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          );
           result.compatibilityTestsPassed = false;
         }
       }
@@ -207,11 +219,10 @@ export class DependencySecurityMonitor {
       logger.info(`Dependency and security monitoring completed in ${executionTime}ms`, {
         dependenciesScanned: result.dependenciesScanned,
         vulnerabilitiesFound: result.vulnerabilitiesFound,
-        updatesApplied: result.updatesApplied
+        updatesApplied: result.updatesApplied,
       });
 
       return result;
-
     } catch (error) {
       logger.error('Dependency and security monitoring failed', error);
       return {
@@ -226,14 +237,14 @@ export class DependencySecurityMonitor {
         securityReport: {
           vulnerabilities: [],
           summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
-          recommendations: []
+          recommendations: [],
         },
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
-          summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
-        }
+          summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 },
+        },
       };
     }
   }
@@ -246,7 +257,7 @@ export class DependencySecurityMonitor {
       const auditOutput = execSync('yarn audit --json', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000
+        timeout: 60000,
       });
 
       const auditData = JSON.parse(auditOutput);
@@ -263,7 +274,7 @@ export class DependencySecurityMonitor {
             name?: string;
             [key: string]: unknown;
           };
-          
+
           const vulnerability: SecurityVulnerability = {
             packageName,
             currentVersion: vuln.via?.[0]?.range || 'unknown',
@@ -272,7 +283,7 @@ export class DependencySecurityMonitor {
             cve: vuln.via?.[0]?.source || 'N/A',
             description: vuln.via?.[0]?.title || 'No description available',
             fixedVersion: vuln.fixAvailable?.version,
-            patchAvailable: !!vuln.fixAvailable
+            patchAvailable: !!vuln.fixAvailable,
           };
 
           vulnerabilities.push(vulnerability);
@@ -286,15 +297,14 @@ export class DependencySecurityMonitor {
       return {
         vulnerabilities,
         summary,
-        recommendations
+        recommendations,
       };
-
     } catch (error) {
       logger.error('Security vulnerability scan failed', error);
       return {
         vulnerabilities: [],
         summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
-        recommendations: ['Failed to scan for vulnerabilities. Please run yarn audit manually.']
+        recommendations: ['Failed to scan for vulnerabilities. Please run yarn audit manually.'],
       };
     }
   }
@@ -307,7 +317,7 @@ export class DependencySecurityMonitor {
       const outdatedOutput = execSync('yarn outdated --json', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000
+        timeout: 60000,
       });
 
       const outdatedData = JSON.parse(outdatedOutput || '{}');
@@ -323,10 +333,10 @@ export class DependencySecurityMonitor {
           location?: string;
           [key: string]: unknown;
         };
-        
+
         const updateType = this.determineUpdateType(info.current, info.latest);
         const breakingChanges = updateType === 'major';
-        
+
         const update: DependencyUpdate = {
           packageName,
           currentVersion: info.current,
@@ -335,7 +345,7 @@ export class DependencySecurityMonitor {
           changelogUrl: await this.getChangelogUrl(packageName),
           breakingChanges,
           securityFix: false, // Will be determined by cross-referencing with security scan
-          testingRequired: breakingChanges || this.requiresTesting(packageName)
+          testingRequired: breakingChanges || this.requiresTesting(packageName),
         };
 
         availableUpdates.push(update);
@@ -347,9 +357,8 @@ export class DependencySecurityMonitor {
         availableUpdates,
         appliedUpdates: [],
         failedUpdates: [],
-        summary
+        summary,
       };
-
     } catch (error) {
       // yarn outdated returns non-zero exit code when updates are available
       if ((error as unknown as { stdout?: string }).stdout) {
@@ -361,12 +370,12 @@ export class DependencySecurityMonitor {
           logger.error('Failed to parse yarn outdated output', parseError);
         }
       }
-      
+
       return {
         availableUpdates: [],
         appliedUpdates: [],
         failedUpdates: [],
-        summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
+        summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 },
       };
     }
   }
@@ -374,7 +383,9 @@ export class DependencySecurityMonitor {
   /**
    * Apply security patches automatically
    */
-  async applySecurityPatches(vulnerabilities: SecurityVulnerability[]): Promise<DependencyUpdate[]> {
+  async applySecurityPatches(
+    vulnerabilities: SecurityVulnerability[],
+  ): Promise<DependencyUpdate[]> {
     const appliedUpdates: DependencyUpdate[] = [];
 
     for (const vuln of vulnerabilities) {
@@ -390,14 +401,14 @@ export class DependencySecurityMonitor {
 
       try {
         // Apply the security fix
-        const updateCommand = vuln.fixedVersion 
+        const updateCommand = vuln.fixedVersion
           ? `yarn add ${vuln.packageName}@${vuln.fixedVersion}`
           : `yarn audit --fix`;
 
         execSync(updateCommand, {
           encoding: 'utf8',
           stdio: 'pipe',
-          timeout: 120000
+          timeout: 120000,
         });
 
         const update: DependencyUpdate = {
@@ -407,12 +418,11 @@ export class DependencySecurityMonitor {
           updateType: 'patch',
           breakingChanges: false,
           securityFix: true,
-          testingRequired: false
+          testingRequired: false,
         };
 
         appliedUpdates.push(update);
         logger.info(`Applied security patch for ${vuln.packageName}`);
-
       } catch (error) {
         logger.error(`Failed to apply security patch for ${vuln.packageName}`, error);
       }
@@ -444,15 +454,17 @@ export class DependencySecurityMonitor {
       try {
         // Apply the update
         const updateCommand = `yarn add ${update.packageName}@${update.latestVersion}`;
-        
+
         execSync(updateCommand, {
           encoding: 'utf8',
           stdio: 'pipe',
-          timeout: 120000
+          timeout: 120000,
         });
 
         appliedUpdates.push(update);
-        logger.info(`Applied update for ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`);
+        logger.info(
+          `Applied update for ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`,
+        );
 
         // Run tests if required
         if (strategy.testingRequired && this.config.compatibilityTestingEnabled) {
@@ -461,7 +473,6 @@ export class DependencySecurityMonitor {
             logger.warn(`Tests failed after updating ${update.packageName}, consider rollback`);
           }
         }
-
       } catch (error) {
         logger.error(`Failed to apply update for ${update.packageName}`, error);
       }
@@ -479,14 +490,14 @@ export class DependencySecurityMonitor {
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 300000
+        timeout: 300000,
       });
 
       // Run test suite
       execSync('yarn test', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 300000
+        timeout: 300000,
       });
 
       return true;
@@ -504,9 +515,9 @@ export class DependencySecurityMonitor {
 
     for (const [packageName, updateInfo] of Object.entries(outdatedData)) {
       const info = updateInfo as any;
-      
+
       const updateType = this.determineUpdateType(info.current, info.latest);
-      
+
       const update: DependencyUpdate = {
         packageName,
         currentVersion: info.current,
@@ -514,7 +525,7 @@ export class DependencySecurityMonitor {
         updateType,
         breakingChanges: updateType === 'major',
         securityFix: false,
-        testingRequired: updateType === 'major' || this.requiresTesting(packageName)
+        testingRequired: updateType === 'major' || this.requiresTesting(packageName),
       };
 
       availableUpdates.push(update);
@@ -526,13 +537,19 @@ export class DependencySecurityMonitor {
       availableUpdates,
       appliedUpdates: [],
       failedUpdates: [],
-      summary
+      summary,
     };
   }
 
   private determineUpdateType(current: string, latest: string): 'major' | 'minor' | 'patch' {
-    const currentParts = current.replace(/[^0-9.]/g, '').split('.').map(Number);
-    const latestParts = latest.replace(/[^0-9.]/g, '').split('.').map(Number);
+    const currentParts = current
+      .replace(/[^0-9.]/g, '')
+      .split('.')
+      .map(Number);
+    const latestParts = latest
+      .replace(/[^0-9.]/g, '')
+      .split('.')
+      .map(Number);
 
     if (latestParts[0] > currentParts[0]) return 'major';
     if (latestParts[1] > currentParts[1]) return 'minor';
@@ -541,7 +558,7 @@ export class DependencySecurityMonitor {
 
   private shouldAutoFixVulnerability(severity: string): boolean {
     const { securityThresholds } = this.config;
-    
+
     switch (severity) {
       case 'critical':
         return securityThresholds.autoFixCritical;
@@ -570,7 +587,7 @@ export class DependencySecurityMonitor {
       /^@types\//,
       /^eslint/,
       /^jest/,
-      /^babel/
+      /^babel/,
     ];
 
     return testingRequiredPatterns.some(pattern => pattern.test(packageName));
@@ -581,7 +598,7 @@ export class DependencySecurityMonitor {
       const packageInfo = execSync(`yarn info ${packageName} --json`, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 10000
+        timeout: 10000,
       });
 
       const info = JSON.parse(packageInfo);
@@ -597,7 +614,7 @@ export class DependencySecurityMonitor {
       execSync('yarn test --testNamePattern=".*" --bail', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000
+        timeout: 60000,
       });
       return true;
     } catch (error) {
@@ -616,15 +633,22 @@ export class DependencySecurityMonitor {
     }
   }
 
-  private generateSecurityRecommendations(vulnerabilities: SecurityVulnerability[], summary: SecuritySummary): string[] {
+  private generateSecurityRecommendations(
+    vulnerabilities: SecurityVulnerability[],
+    summary: SecuritySummary,
+  ): string[] {
     const recommendations: string[] = [];
 
     if (summary.critical > 0) {
-      recommendations.push(`🚨 ${summary.critical} critical vulnerabilities found - immediate action required`);
+      recommendations.push(
+        `🚨 ${summary.critical} critical vulnerabilities found - immediate action required`,
+      );
     }
 
     if (summary.high > 0) {
-      recommendations.push(`⚠️ ${summary.high} high severity vulnerabilities found - update as soon as possible`);
+      recommendations.push(
+        `⚠️ ${summary.high} high severity vulnerabilities found - update as soon as possible`,
+      );
     }
 
     if (summary.moderate > 0) {
@@ -660,7 +684,7 @@ export const DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       pattern: /.*/,
       updateType: 'patch',
       requiresManualApproval: false,
-      testingRequired: false
+      testingRequired: false,
     },
     {
       name: 'TypeScript ecosystem',
@@ -668,7 +692,7 @@ export const DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       pattern: /^(@types\/|typescript|ts-)/,
       updateType: 'minor',
       requiresManualApproval: true,
-      testingRequired: true
+      testingRequired: true,
     },
     {
       name: 'React ecosystem',
@@ -676,7 +700,7 @@ export const DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       pattern: /^(react|@react|next)/,
       updateType: 'minor',
       requiresManualApproval: true,
-      testingRequired: true
+      testingRequired: true,
     },
     {
       name: 'Development tools',
@@ -684,8 +708,8 @@ export const DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       pattern: /^(eslint|prettier|jest|babel)/,
       updateType: 'minor',
       requiresManualApproval: false,
-      testingRequired: true
-    }
+      testingRequired: true,
+    },
   ],
   securityThresholds: {
     critical: 0,
@@ -693,13 +717,13 @@ export const DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
     moderate: 10,
     low: 20,
     autoFixCritical: true,
-    autoFixHigh: false
+    autoFixHigh: false,
   },
   excludedPackages: [
     // Packages to never auto-update
     'react',
     'react-dom',
     'next',
-    'typescript'
-  ]
+    'typescript',
+  ],
 };

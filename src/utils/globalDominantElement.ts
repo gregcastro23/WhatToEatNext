@@ -3,12 +3,14 @@ import { getDominantElement as coreGetDominantElement } from '@/calculations/cor
 // Ensure a global fallback for dynamic usages that expect getDominantElement to be available.
 if (typeof globalThis.getDominantElement === 'undefined') {
   // Use the core implementation if available; otherwise provide a safe fallback.
-  globalThis.getDominantElement = coreGetDominantElement ?? ((props: Record<string, number>) => {
-    if (!props) return 'Fire';
-    const entries = Object.entries(props);
-    if (entries.length === 0) return 'Fire';
-    return entries.sort((a, b) => b[1] - a[1])[0][0];
-  });
+  globalThis.getDominantElement =
+    coreGetDominantElement ??
+    ((props: Record<string, number>) => {
+      if (!props) return 'Fire';
+      const entries = Object.entries(props);
+      if (entries.length === 0) return 'Fire';
+      return entries.sort((a, b) => b[1] - a[1])[0][0];
+    });
 }
 
 if (typeof globalThis.getElementalCharacteristics === 'undefined') {
@@ -21,7 +23,7 @@ if (typeof globalThis.getElementalCharacteristics === 'undefined') {
 }
 
 const ensureGlobalFn = (name: string, fn: (...args: unknown[]) => unknown) => {
-  if (typeof (globalThis[name as keyof typeof globalThis]) === 'undefined') {
+  if (typeof globalThis[name as keyof typeof globalThis] === 'undefined') {
     (globalThis as Record<string, unknown>)[name] = fn;
   }
 };
@@ -34,4 +36,4 @@ ensureGlobalFn('getElementalProfile', (props: Record<string, number>) => ({
 
 // Add other frequently-missing helpers here as needed
 
-export {}; // Module has side-effects only 
+export {}; // Module has side-effects only

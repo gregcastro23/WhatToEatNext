@@ -1,10 +1,12 @@
 # 🤖 Kiro Integration Issues
 
-This guide addresses common issues with Kiro integration, including steering files, agent hooks, MCP servers, and workspace optimization features.
+This guide addresses common issues with Kiro integration, including steering
+files, agent hooks, MCP servers, and workspace optimization features.
 
 ## 🎯 Quick Diagnostics
 
 ### Kiro Health Check Commands
+
 ```bash
 # Comprehensive Kiro system check
 npm run kiro:health-check
@@ -17,6 +19,7 @@ npm run kiro:check-settings
 ```
 
 ### Kiro Status Indicators
+
 ```typescript
 interface KiroSystemHealth {
   steeringFiles: 'loaded' | 'partial' | 'failed';
@@ -32,7 +35,9 @@ interface KiroSystemHealth {
 ### Common Steering File Problems
 
 #### Issue: Steering Files Not Loading
+
 **Symptoms:**
+
 ```
 Kiro doesn't understand project context
 Generic responses instead of domain-specific help
@@ -40,6 +45,7 @@ No astrological knowledge in suggestions
 ```
 
 **Debugging Steps:**
+
 ```bash
 # 1. Check if steering files exist
 ls -la .kiro/steering/
@@ -57,6 +63,7 @@ file .kiro/steering/*.md
 ```
 
 **Solutions:**
+
 ```bash
 # Recreate missing steering files
 npm run kiro:setup-steering
@@ -72,7 +79,9 @@ npm run kiro:fix-steering-syntax
 ```
 
 #### Issue: Steering File Syntax Errors
+
 **Symptoms:**
+
 ```
 Kiro shows parsing errors
 Steering files partially loaded
@@ -80,6 +89,7 @@ Inconsistent context understanding
 ```
 
 **Common Syntax Issues:**
+
 ```markdown
 <!-- WRONG: Invalid front-matter -->
 ---
@@ -101,16 +111,17 @@ fileMatchPattern: 'src/calculations/**'
 ```
 
 **Validation Script:**
+
 ```typescript
 // Validate steering file syntax
 function validateSteeringFiles() {
   const steeringDir = '.kiro/steering';
   const files = fs.readdirSync(steeringDir).filter(f => f.endsWith('.md'));
-  
+
   for (const file of files) {
     const filePath = path.join(steeringDir, file);
     const content = fs.readFileSync(filePath, 'utf8');
-    
+
     // Check front-matter syntax
     if (content.startsWith('---')) {
       const frontMatterEnd = content.indexOf('---', 3);
@@ -126,7 +137,7 @@ function validateSteeringFiles() {
         }
       }
     }
-    
+
     // Check file references
     const fileRefs = content.match(/#\[\[file:[^\]]+\]\]/g) || [];
     for (const ref of fileRefs) {
@@ -140,7 +151,9 @@ function validateSteeringFiles() {
 ```
 
 #### Issue: Steering File Context Not Applied
+
 **Symptoms:**
+
 ```
 Kiro loads files but doesn't apply context
 Suggestions don't reflect project knowledge
@@ -148,6 +161,7 @@ Astrological principles not enforced
 ```
 
 **Debugging Process:**
+
 ```bash
 # 1. Check inclusion patterns
 grep -r "inclusion:" .kiro/steering/
@@ -163,6 +177,7 @@ find .kiro/steering -name "*.md" -exec grep -l "conflicting" {} \;
 ```
 
 **Solutions:**
+
 ```markdown
 <!-- Ensure proper inclusion patterns -->
 ---
@@ -187,7 +202,9 @@ contextKey: 'astrology'
 ### Common Agent Hook Problems
 
 #### Issue: Agent Hooks Not Triggering
+
 **Symptoms:**
+
 ```
 File changes don't trigger hooks
 Planetary data validation not running
@@ -196,6 +213,7 @@ Campaign triggers not activating
 ```
 
 **Debugging Steps:**
+
 ```bash
 # 1. Check hook configurations
 ls -la .kiro/hooks/
@@ -213,6 +231,7 @@ grep -r "file_change:" .kiro/hooks/
 ```
 
 **Hook Configuration Validation:**
+
 ```yaml
 # Correct hook configuration format
 name: "Planetary Data Validator"
@@ -230,6 +249,7 @@ rollback: git_stash
 ```
 
 **Common Hook Configuration Errors:**
+
 ```yaml
 # WRONG: Invalid trigger syntax
 trigger: "src/data/planets/*.ts"
@@ -255,7 +275,9 @@ rollback: git_stash
 ```
 
 #### Issue: Hook Actions Failing
+
 **Symptoms:**
+
 ```
 Hooks trigger but actions fail
 Error messages in Kiro's Agent Hooks panel
@@ -263,6 +285,7 @@ Validation scripts not executing properly
 ```
 
 **Debugging Process:**
+
 ```bash
 # 1. Check action script existence
 ls -la src/scripts/validate-planetary-data.js
@@ -278,6 +301,7 @@ npm list --depth=0
 ```
 
 **Action Script Template:**
+
 ```javascript
 // src/scripts/validate-planetary-data.js
 const fs = require('fs');
@@ -286,49 +310,49 @@ const path = require('path');
 async function validatePlanetaryData() {
   try {
     console.log('🌟 Validating planetary data...');
-    
+
     // Check all planet files
     const planetsDir = 'src/data/planets';
     const planetFiles = fs.readdirSync(planetsDir).filter(f => f.endsWith('.ts'));
-    
+
     for (const file of planetFiles) {
       const filePath = path.join(planetsDir, file);
       const planet = path.basename(file, '.ts');
-      
+
       console.log(`Validating ${planet}...`);
-      
+
       // Validate file can be required
       try {
         const planetData = require(path.resolve(filePath));
-        
+
         if (!planetData.TransitDates) {
           throw new Error(`Missing TransitDates in ${planet}`);
         }
-        
+
         // Validate date formats
         for (const [sign, dates] of Object.entries(planetData.TransitDates)) {
           if (!dates.Start || !dates.End) {
             throw new Error(`Invalid dates for ${planet} in ${sign}`);
           }
-          
+
           const startDate = new Date(dates.Start);
           const endDate = new Date(dates.End);
-          
+
           if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
             throw new Error(`Invalid date format for ${planet} in ${sign}`);
           }
         }
-        
+
         console.log(`✅ ${planet} validation passed`);
-        
+
       } catch (error) {
         console.error(`❌ ${planet} validation failed:`, error.message);
         process.exit(1);
       }
     }
-    
+
     console.log('🎉 All planetary data validated successfully');
-    
+
   } catch (error) {
     console.error('❌ Planetary data validation failed:', error);
     process.exit(1);
@@ -348,7 +372,9 @@ module.exports = { validatePlanetaryData };
 ### Common MCP Server Problems
 
 #### Issue: MCP Servers Not Connecting
+
 **Symptoms:**
+
 ```
 MCP servers show as "Disconnected" in Kiro
 API calls through MCP failing
@@ -356,6 +382,7 @@ Fallback to local data always triggered
 ```
 
 **Debugging Steps:**
+
 ```bash
 # 1. Check MCP configuration
 cat .kiro/settings/mcp.json
@@ -373,6 +400,7 @@ pip3 list | grep mcp
 ```
 
 **MCP Configuration Validation:**
+
 ```json
 {
   "mcpServers": {
@@ -391,6 +419,7 @@ pip3 list | grep mcp
 ```
 
 **Common MCP Configuration Errors:**
+
 ```json
 // WRONG: Missing required fields
 {
@@ -415,7 +444,9 @@ pip3 list | grep mcp
 ```
 
 #### Issue: MCP Server Installation Problems
+
 **Symptoms:**
+
 ```
 "uvx: command not found"
 "No module named 'mcp'"
@@ -423,6 +454,7 @@ Python dependency errors
 ```
 
 **Installation Solutions:**
+
 ```bash
 # 1. Install uv (Python package manager)
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -442,6 +474,7 @@ python3 mcp-servers/astrology-server.py
 ```
 
 **MCP Server Test Script:**
+
 ```python
 #!/usr/bin/env python3
 # test-mcp-server.py
@@ -452,12 +485,12 @@ import json
 
 def test_mcp_server():
     """Test MCP server functionality"""
-    
+
     print("🧪 Testing MCP Server...")
-    
+
     # Test 1: Check uvx availability
     try:
-        result = subprocess.run(['uvx', '--version'], 
+        result = subprocess.run(['uvx', '--version'],
                               capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             print("✅ uvx is available")
@@ -467,7 +500,7 @@ def test_mcp_server():
     except (subprocess.TimeoutExpired, FileNotFoundError):
         print("❌ uvx not found - install uv first")
         return False
-    
+
     # Test 2: Check MCP server file
     import os
     if not os.path.exists('mcp-servers/astrology-server.py'):
@@ -475,10 +508,10 @@ def test_mcp_server():
         return False
     else:
         print("✅ MCP server file exists")
-    
+
     # Test 3: Test server execution
     try:
-        result = subprocess.run(['python3', 'mcp-servers/astrology-server.py', '--test'], 
+        result = subprocess.run(['python3', 'mcp-servers/astrology-server.py', '--test'],
                               capture_output=True, text=True, timeout=30)
         if result.returncode == 0:
             print("✅ MCP server executes successfully")
@@ -488,7 +521,7 @@ def test_mcp_server():
     except subprocess.TimeoutExpired:
         print("❌ MCP server test timed out")
         return False
-    
+
     print("🎉 MCP server test completed successfully")
     return True
 
@@ -498,7 +531,9 @@ if __name__ == "__main__":
 ```
 
 #### Issue: MCP Server API Failures
+
 **Symptoms:**
+
 ```
 MCP server connects but API calls fail
 Timeout errors from external APIs
@@ -507,6 +542,7 @@ Authentication failures
 ```
 
 **API Debugging Process:**
+
 ```bash
 # 1. Test API connectivity directly
 curl -X GET "https://api.astronomyapi.com/api/v2/studio/moon-phase" \
@@ -524,6 +560,7 @@ npm run check:api-limits
 ```
 
 **MCP Server Error Handling:**
+
 ```python
 # mcp-servers/astrology-server.py
 import asyncio
@@ -534,14 +571,14 @@ class AstrologyMCPServer:
     def __init__(self):
         self.timeout = aiohttp.ClientTimeout(total=5.0)
         self.session: Optional[aiohttp.ClientSession] = None
-    
+
     async def get_planetary_positions(self, date: str = None):
         """Get planetary positions with proper error handling"""
-        
+
         try:
             if not self.session:
                 self.session = aiohttp.ClientSession(timeout=self.timeout)
-            
+
             # Try primary API
             try:
                 async with self.session.get(
@@ -554,19 +591,19 @@ class AstrologyMCPServer:
                         return {"source": "api", "data": data}
                     else:
                         print(f"API returned status {response.status}")
-                        
+
             except asyncio.TimeoutError:
                 print("API request timed out")
             except aiohttp.ClientError as e:
                 print(f"API request failed: {e}")
-            
+
             # Fallback to local data
             return self.get_fallback_positions()
-            
+
         except Exception as e:
             print(f"Unexpected error: {e}")
             return self.get_fallback_positions()
-    
+
     def get_fallback_positions(self):
         """Return reliable fallback positions"""
         return {
@@ -584,7 +621,9 @@ class AstrologyMCPServer:
 ### Common Workspace Settings Problems
 
 #### Issue: TypeScript IntelliSense Not Working
+
 **Symptoms:**
+
 ```
 No auto-completion for astrological types
 Import suggestions not working
@@ -592,6 +631,7 @@ Type errors not showing in editor
 ```
 
 **Solutions:**
+
 ```json
 // .kiro/settings/workspace.json
 {
@@ -601,18 +641,20 @@ Type errors not showing in editor
   "typescript.inlayHints.parameterNames.enabled": "all",
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-  
+
   // Ensure TypeScript server is using project config
   "typescript.preferences.useAliasesForRenames": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
-  
+
   // Path mapping for astrological modules
   "typescript.preferences.includePackageJsonAutoImports": "on"
 }
 ```
 
 #### Issue: File Associations Not Working
+
 **Symptoms:**
+
 ```
 .astro files not recognized as TypeScript
 .alchm files not getting syntax highlighting
@@ -620,6 +662,7 @@ Custom file types not supported
 ```
 
 **File Association Configuration:**
+
 ```json
 // .kiro/settings/workspace.json
 {
@@ -629,7 +672,7 @@ Custom file types not supported
     "*.planetary": "json",
     "*.elemental": "yaml"
   },
-  
+
   "emmet.includeLanguages": {
     "astro": "html",
     "alchm": "typescript"
@@ -638,7 +681,9 @@ Custom file types not supported
 ```
 
 #### Issue: Search and Navigation Problems
+
 **Symptoms:**
+
 ```
 Search includes too many irrelevant files
 Navigation slow in large directories
@@ -646,6 +691,7 @@ File explorer not optimized for project structure
 ```
 
 **Search Optimization:**
+
 ```json
 // .kiro/settings/workspace.json
 {
@@ -658,14 +704,14 @@ File explorer not optimized for project structure
     "**/.tsbuildinfo": true,
     "**/coverage": true
   },
-  
+
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/.next": true
   },
-  
+
   "files.watcherExclude": {
     "**/node_modules/**": true,
     "**/.next/**": true,
@@ -679,7 +725,9 @@ File explorer not optimized for project structure
 ### Kiro Performance Issues
 
 #### Issue: Kiro Slow or Unresponsive
+
 **Symptoms:**
+
 ```
 Kiro takes long time to respond
 High CPU usage from Kiro process
@@ -687,6 +735,7 @@ Memory usage continuously growing
 ```
 
 **Performance Optimization:**
+
 ```json
 // .kiro/settings/workspace.json
 {
@@ -697,15 +746,15 @@ Memory usage continuously growing
     "**/dist/**": true,
     "**/*.log": true
   },
-  
+
   // Optimize TypeScript performance
   "typescript.preferences.includePackageJsonAutoImports": "off",
   "typescript.suggest.autoImports": false,
-  
+
   // Reduce extension overhead
   "extensions.autoUpdate": false,
   "extensions.autoCheckUpdates": false,
-  
+
   // Optimize editor performance
   "editor.semanticHighlighting.enabled": false,
   "editor.bracketPairColorization.enabled": false
@@ -713,7 +762,9 @@ Memory usage continuously growing
 ```
 
 #### Issue: Kiro Context Confusion
+
 **Symptoms:**
+
 ```
 Kiro provides conflicting advice
 Context switching between different domains
@@ -721,6 +772,7 @@ Inconsistent understanding of project
 ```
 
 **Context Management:**
+
 ```bash
 # 1. Clear Kiro context cache
 rm -rf ~/.kiro/cache/
@@ -739,6 +791,7 @@ grep -r "inclusion:" .kiro/steering/ | sort
 ### Kiro Integration Testing
 
 #### Automated Kiro Testing
+
 ```bash
 #!/bin/bash
 # test-kiro-integration.sh
@@ -749,7 +802,7 @@ echo "🤖 Testing Kiro Integration..."
 echo "Testing steering files..."
 if [ -d ".kiro/steering" ]; then
     echo "✅ Steering directory exists"
-    
+
     for file in product.md structure.md tech.md astrology-rules.md elemental-principles.md campaign-integration.md; do
         if [ -f ".kiro/steering/$file" ]; then
             echo "✅ $file exists"
@@ -765,7 +818,7 @@ fi
 echo "Testing agent hooks..."
 if [ -d ".kiro/hooks" ]; then
     echo "✅ Hooks directory exists"
-    
+
     hook_count=$(ls .kiro/hooks/*.md 2>/dev/null | wc -l)
     if [ $hook_count -gt 0 ]; then
         echo "✅ Found $hook_count hook files"
@@ -780,7 +833,7 @@ fi
 echo "Testing MCP configuration..."
 if [ -f ".kiro/settings/mcp.json" ]; then
     echo "✅ MCP configuration exists"
-    
+
     # Validate JSON syntax
     if python3 -m json.tool .kiro/settings/mcp.json > /dev/null 2>&1; then
         echo "✅ MCP configuration is valid JSON"
@@ -803,6 +856,7 @@ echo "🎉 Kiro integration test completed"
 ```
 
 #### Manual Kiro Testing Checklist
+
 ```
 □ Steering files load correctly
 □ Kiro understands astrological concepts
@@ -818,4 +872,6 @@ echo "🎉 Kiro integration test completed"
 
 ---
 
-**Remember**: Kiro integration issues are often configuration-related. Start with the basics: file existence, syntax validation, and permissions. Most issues can be resolved by restarting Kiro after fixing configuration problems. 🤖
+**Remember**: Kiro integration issues are often configuration-related. Start
+with the basics: file existence, syntax validation, and permissions. Most issues
+can be resolved by restarting Kiro after fixing configuration problems. 🤖

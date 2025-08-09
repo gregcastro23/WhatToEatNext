@@ -11,21 +11,22 @@ interface AlchmKitchenTabProps {
 }
 
 const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
-  title = "Alchm Kitchen",
-  className = "",
+  title = 'Alchm Kitchen',
+  className = '',
   style = {},
   showHeader = true,
   allowFullscreen = true,
   onLoad,
-  onError
+  onError,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const alchmKitchenUrl = process.env.NODE_ENV === 'development' 
-    ? 'http://localhost:3003' 
-    : 'https://v0-alchm-kitchen.vercel.app';
+  const alchmKitchenUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3003'
+      : 'https://v0-alchm-kitchen.vercel.app';
 
   const handleIframeLoad = () => {
     setIsLoading(false);
@@ -53,14 +54,14 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
     left: isFullscreen ? '0' : 'auto',
     zIndex: isFullscreen ? 9999 : 'auto',
     backgroundColor: '#fff',
-    ...style
+    ...style,
   };
 
   const iframeStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
     border: 'none',
-    display: isLoading ? 'none' : 'block'
+    display: isLoading ? 'none' : 'block',
   };
 
   const loadingStyle: React.CSSProperties = {
@@ -69,7 +70,7 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
     justifyContent: 'center',
     height: '100%',
     backgroundColor: '#f8fafc',
-    color: '#64748b'
+    color: '#64748b',
   };
 
   const errorStyle: React.CSSProperties = {
@@ -81,7 +82,7 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
     backgroundColor: '#fef2f2',
     color: '#dc2626',
     padding: '20px',
-    textAlign: 'center'
+    textAlign: 'center',
   };
 
   const headerStyle: React.CSSProperties = {
@@ -91,7 +92,7 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
     padding: '12px 16px',
     backgroundColor: '#1e293b',
     color: '#f8fafc',
-    borderBottom: '1px solid #334155'
+    borderBottom: '1px solid #334155',
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -102,7 +103,7 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
     borderRadius: '4px',
     cursor: 'pointer',
     fontSize: '12px',
-    transition: 'all 0.2s'
+    transition: 'all 0.2s',
   };
 
   return (
@@ -127,7 +128,7 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
               <button
                 onClick={toggleFullscreen}
                 style={{ ...buttonStyle, backgroundColor: '#dc2626' }}
-                title="Close"
+                title='Close'
               >
                 ✕
               </button>
@@ -151,9 +152,7 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
       {hasError && (
         <div style={errorStyle}>
           <div style={{ fontSize: '24px', marginBottom: '8px' }}>⚠️</div>
-          <div style={{ fontWeight: '500', marginBottom: '8px' }}>
-            Failed to load Alchm Kitchen
-          </div>
+          <div style={{ fontWeight: '500', marginBottom: '8px' }}>Failed to load Alchm Kitchen</div>
           <div style={{ fontSize: '12px', marginBottom: '16px' }}>
             Please check your connection and try again
           </div>
@@ -165,7 +164,7 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
               border: 'none',
               padding: '8px 16px',
               borderRadius: '4px',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             Retry
@@ -179,11 +178,11 @@ const AlchmKitchenTab: React.FC<AlchmKitchenTabProps> = ({
         onLoad={handleIframeLoad}
         onError={handleIframeError}
         title={title}
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
-        allow="fullscreen"
+        sandbox='allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox'
+        allow='fullscreen'
       />
     </div>
   );
 };
 
-export default AlchmKitchenTab; 
+export default AlchmKitchenTab;

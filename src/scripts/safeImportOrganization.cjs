@@ -2,7 +2,7 @@
 
 /**
  * Safe Import Organization Script
- * 
+ *
  * This script safely addresses task 9 from the linting-excellence spec:
  * - Remove duplicate import statements across all files
  * - Organize imports according to established patterns (external, internal, relative)
@@ -33,32 +33,32 @@ class SafeImportOrganizer {
     const relativePath = path.relative(this.srcDir, filePath);
     const backupPath = path.join(this.backupDir, relativePath);
     const backupDir = path.dirname(backupPath);
-    
+
     if (!fs.existsSync(backupDir)) {
       fs.mkdirSync(backupDir, { recursive: true });
     }
-    
+
     fs.copyFileSync(filePath, backupPath);
   }
 
   async getImportIssues() {
     console.log('🔍 Analyzing import issues with ESLint...');
-    
+
     try {
       // Run ESLint to get import-related issues
       const eslintCmd = 'yarn lint src/ --format=json';
-      const eslintOutput = execSync(eslintCmd, { 
+      const eslintOutput = execSync(eslintCmd, {
         encoding: 'utf8',
         stdio: 'pipe',
-        maxBuffer: 10 * 1024 * 1024
+        maxBuffer: 10 * 1024 * 1024,
       });
-      
+
       const results = JSON.parse(eslintOutput);
       const importIssues = {
         duplicates: [],
         order: [],
         cycles: [],
-        named: []
+        named: [],
       };
 
       for (const result of results) {
@@ -67,25 +67,28 @@ class SafeImportOrganizer {
             importIssues.duplicates.push({
               file: result.filePath,
               line: message.line,
-              message: message.message
+              message: message.message,
             });
           } else if (message.ruleId === 'import/order') {
             importIssues.order.push({
               file: result.filePath,
               line: message.line,
-              message: message.message
+              message: message.message,
             });
           } else if (message.ruleId === 'import/no-cycle') {
             importIssues.cycles.push({
               file: result.filePath,
               line: message.line,
-              message: message.message
+              message: message.message,
             });
-          } else if (message.ruleId?.includes('import/named') || message.ruleId?.includes('import/default')) {
+          } else if (
+            message.ruleId?.includes('import/named') ||
+            message.ruleId?.includes('import/default')
+          ) {
             importIssues.named.push({
               file: result.filePath,
               line: message.line,
-              message: message.message
+              message: message.message,
             });
           }
         }
@@ -100,16 +103,16 @@ class SafeImportOrganizer {
 
   async fixImportOrderWithESLint() {
     console.log('🔧 Fixing import order using ESLint --fix...');
-    
+
     try {
       // Use ESLint --fix specifically for import/order rule
       const fixCmd = 'yarn lint src/ --fix --rule "import/order: error"';
-      execSync(fixCmd, { 
+      execSync(fixCmd, {
         stdio: 'pipe',
         maxBuffer: 10 * 1024 * 1024,
-        timeout: 120000 // 2 minute timeout
+        timeout: 120000, // 2 minute timeout
       });
-      
+
       console.log('✅ Import order fixed using ESLint --fix');
       return true;
     } catch (error) {
@@ -120,16 +123,16 @@ class SafeImportOrganizer {
 
   async fixDuplicateImportsWithESLint() {
     console.log('🔧 Fixing duplicate imports using ESLint --fix...');
-    
+
     try {
       // Use ESLint --fix specifically for import/no-duplicates rule
       const fixCmd = 'yarn lint src/ --fix --rule "import/no-duplicates: error"';
-      execSync(fixCmd, { 
+      execSync(fixCmd, {
         stdio: 'pipe',
         maxBuffer: 10 * 1024 * 1024,
-        timeout: 120000 // 2 minute timeout
+        timeout: 120000, // 2 minute timeout
       });
-      
+
       console.log('✅ Duplicate imports fixed using ESLint --fix');
       return true;
     } catch (error) {
@@ -140,12 +143,12 @@ class SafeImportOrganizer {
 
   async validateBuildSafety() {
     console.log('🔍 Validating build safety...');
-    
+
     try {
       // Quick syntax check first
-      execSync('yarn tsc --noEmit --skipLibCheck', { 
+      execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 60000
+        timeout: 60000,
       });
       console.log('✅ Build validation passed');
       return true;
@@ -157,12 +160,12 @@ class SafeImportOrganizer {
 
   async createFullBackup() {
     console.log('💾 Creating full backup of src directory...');
-    
+
     try {
       // Create timestamped backup
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const fullBackupDir = path.join(process.cwd(), `.import-backup-${timestamp}`);
-      
+
       execSync(`cp -r src/ "${fullBackupDir}"`, { stdio: 'pipe' });
       console.log(`✅ Full backup created: ${fullBackupDir}`);
       return fullBackupDir;
@@ -174,16 +177,16 @@ class SafeImportOrganizer {
 
   async detectCircularDependencies() {
     console.log('🔍 Detecting circular dependencies...');
-    
+
     try {
       // Use ESLint to detect circular dependencies
       const eslintCmd = 'yarn lint src/ --rule "import/no-cycle: error" --format=json';
-      const eslintOutput = execSync(eslintCmd, { 
+      const eslintOutput = execSync(eslintCmd, {
         encoding: 'utf8',
         stdio: 'pipe',
-        maxBuffer: 10 * 1024 * 1024
+        maxBuffer: 10 * 1024 * 1024,
       });
-      
+
       const results = JSON.parse(eslintOutput);
       const cycles = [];
 
@@ -193,7 +196,7 @@ class SafeImportOrganizer {
             cycles.push({
               file: result.filePath,
               line: message.line,
-              message: message.message
+              message: message.message,
             });
           }
         }
@@ -207,11 +210,17 @@ class SafeImportOrganizer {
   }
 
   generateReport(beforeIssues, afterIssues, backupLocation) {
-    const totalBefore = beforeIssues.duplicates.length + beforeIssues.order.length + 
-                       beforeIssues.cycles.length + beforeIssues.named.length;
-    const totalAfter = afterIssues.duplicates.length + afterIssues.order.length + 
-                      afterIssues.cycles.length + afterIssues.named.length;
-    
+    const totalBefore =
+      beforeIssues.duplicates.length +
+      beforeIssues.order.length +
+      beforeIssues.cycles.length +
+      beforeIssues.named.length;
+    const totalAfter =
+      afterIssues.duplicates.length +
+      afterIssues.order.length +
+      afterIssues.cycles.length +
+      afterIssues.named.length;
+
     const report = `
 # Safe Import Organization Report
 
@@ -237,9 +246,10 @@ class SafeImportOrganizer {
 Full backup created at: ${backupLocation}
 
 ## Remaining Circular Dependencies
-${afterIssues.cycles.length > 0 ? 
-  afterIssues.cycles.map(cycle => `- ${cycle.file}:${cycle.line} - ${cycle.message}`).join('\n') :
-  'None detected'
+${
+  afterIssues.cycles.length > 0
+    ? afterIssues.cycles.map(cycle => `- ${cycle.file}:${cycle.line} - ${cycle.message}`).join('\n')
+    : 'None detected'
 }
 
 Generated: ${new Date().toISOString()}
@@ -251,8 +261,8 @@ Generated: ${new Date().toISOString()}
 
   async run() {
     console.log('🚀 Starting Safe Import Organization');
-    console.log('=' .repeat(60));
-    
+    console.log('='.repeat(60));
+
     try {
       // Step 1: Create full backup
       const backupLocation = await this.createFullBackup();
@@ -269,9 +279,12 @@ Generated: ${new Date().toISOString()}
 
       // Step 3: Analyze current issues
       const beforeIssues = await this.getImportIssues();
-      const totalIssues = beforeIssues.duplicates.length + beforeIssues.order.length + 
-                         beforeIssues.cycles.length + beforeIssues.named.length;
-      
+      const totalIssues =
+        beforeIssues.duplicates.length +
+        beforeIssues.order.length +
+        beforeIssues.cycles.length +
+        beforeIssues.named.length;
+
       console.log(`📊 Found ${totalIssues} import issues:`);
       console.log(`   - Duplicate imports: ${beforeIssues.duplicates.length}`);
       console.log(`   - Import order issues: ${beforeIssues.order.length}`);
@@ -309,7 +322,7 @@ Generated: ${new Date().toISOString()}
 
       // Step 7: Analyze final state
       const afterIssues = await this.getImportIssues();
-      
+
       // Step 8: Detect remaining circular dependencies
       const cycles = await this.detectCircularDependencies();
       afterIssues.cycles = cycles;
@@ -317,10 +330,13 @@ Generated: ${new Date().toISOString()}
       // Step 9: Generate report
       this.generateReport(beforeIssues, afterIssues, backupLocation);
 
-      const totalAfter = afterIssues.duplicates.length + afterIssues.order.length + 
-                        afterIssues.cycles.length + afterIssues.named.length;
+      const totalAfter =
+        afterIssues.duplicates.length +
+        afterIssues.order.length +
+        afterIssues.cycles.length +
+        afterIssues.named.length;
 
-      console.log('=' .repeat(60));
+      console.log('='.repeat(60));
       console.log(`✅ Safe import organization completed!`);
       console.log(`   Issues before: ${totalIssues}`);
       console.log(`   Issues after: ${totalAfter}`);
@@ -330,7 +346,6 @@ Generated: ${new Date().toISOString()}
       if (afterIssues.cycles.length > 0) {
         console.log(`⚠️ ${afterIssues.cycles.length} circular dependencies detected (see report)`);
       }
-
     } catch (error) {
       console.error('❌ Safe import organization failed:', error);
       process.exit(1);

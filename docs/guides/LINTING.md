@@ -1,17 +1,21 @@
 # Linting Guide for WhatToEatNext
 
-This document describes the approach for fixing linting issues in the WhatToEatNext project.
+This document describes the approach for fixing linting issues in the
+WhatToEatNext project.
 
 ## Overview
 
-The project uses ESLint with TypeScript support to maintain code quality. We've created a safe script that helps fix common linting issues without corrupting files.
+The project uses ESLint with TypeScript support to maintain code quality. We've
+created a safe script that helps fix common linting issues without corrupting
+files.
 
 ## Safety Measures
 
 Our `fix-linting-issues.js` script implements several safeguards:
 
 1. **Backups**: Creates backups of all files before modification
-2. **Content Validation**: Validates the modified content to ensure it's not corrupted
+2. **Content Validation**: Validates the modified content to ensure it's not
+   corrupted
 3. **Precision**: Uses precise fixes rather than broad replacements
 4. **Error Handling**: Comprehensive error handling to prevent problems
 5. **Restoration**: Provides functionality to restore from backups if needed
@@ -19,7 +23,8 @@ Our `fix-linting-issues.js` script implements several safeguards:
 
 ## Running the Linting Fix
 
-We recommend using the included shell script to run the linting fix in a controlled manner:
+We recommend using the included shell script to run the linting fix in a
+controlled manner:
 
 ```bash
 ./src/scripts/run-lint-fix.sh
@@ -66,8 +71,10 @@ If you encounter any issues:
 
 1. Check the log file (`lint-fix-log.txt`) for details
 2. Restore from backups using the restore command
-3. For major issues, manually restore the specific file from the backup directory
+3. For major issues, manually restore the specific file from the backup
+   directory
 
 ## Backup Location
 
-All original files are backed up to `./lint-fix-backups/` with the original directory structure preserved. 
+All original files are backed up to `./lint-fix-backups/` with the original
+directory structure preserved.

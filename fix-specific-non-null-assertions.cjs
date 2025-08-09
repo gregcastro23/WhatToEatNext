@@ -28,7 +28,7 @@ class SpecificNonNullAssertionFixer {
     if (modifiedContent.includes('resolutionStrategy!')) {
       modifiedContent = modifiedContent.replace(
         /resolutionStrategy!/g,
-        "resolutionStrategy || 'unknown'"
+        "resolutionStrategy || 'unknown'",
       );
       fixes++;
       console.log(`  📝 Fixed resolutionStrategy! assertion`);
@@ -69,7 +69,6 @@ class SpecificNonNullAssertionFixer {
       } else {
         console.log(`  ℹ️ No fixable non-null assertions found`);
       }
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
     }
@@ -82,9 +81,7 @@ class SpecificNonNullAssertionFixer {
     console.log('🚀 Starting Specific Non-Null Assertion Fixing Process');
 
     // Target the specific file we know has issues
-    const targetFiles = [
-      'src/services/CampaignConflictResolver.ts'
-    ];
+    const targetFiles = ['src/services/CampaignConflictResolver.ts'];
 
     for (const file of targetFiles) {
       if (fs.existsSync(file)) {

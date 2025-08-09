@@ -39,7 +39,10 @@
   animation: slideIn 0.3s ease forwards;
   transform-origin: top right;
   max-height: 500px;
-  transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .notification.hiding {
@@ -155,25 +158,25 @@
   .notification {
     background-color: #2d3748;
   }
-  
+
   .notificationMessage {
     color: #e2e8f0;
   }
-  
+
   .dismissButton {
     color: #a0aec0;
   }
-  
+
   .dismissButton:hover {
     color: #fff;
   }
-  
+
   .notificationDetails summary {
     color: #a0aec0;
   }
-  
+
   .notificationDetails pre {
     background-color: #1a202c;
     color: #e2e8f0;
   }
-} 
+}

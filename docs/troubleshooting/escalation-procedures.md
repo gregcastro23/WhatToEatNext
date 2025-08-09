@@ -1,16 +1,20 @@
 # 📞 Escalation Procedures
 
-This guide defines when and how to escalate issues within the WhatToEatNext project, ensuring appropriate response times and expertise for different types of problems.
+This guide defines when and how to escalate issues within the WhatToEatNext
+project, ensuring appropriate response times and expertise for different types
+of problems.
 
 ## 🎯 Escalation Matrix
 
 ### Issue Severity Classification
 
 #### 🔴 P0 - Critical (Immediate Escalation)
+
 **Response Time**: 15 minutes  
-**Resolution Time**: 2 hours  
+**Resolution Time**: 2 hours
 
 **Criteria:**
+
 - Complete system failure or unavailability
 - Data corruption or loss
 - Security vulnerabilities or breaches
@@ -18,6 +22,7 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 - Production deployment blocking issues
 
 **Examples:**
+
 ```
 ❌ Build completely broken, cannot deploy
 ❌ All astrological APIs failing with no fallback
@@ -27,10 +32,12 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 ```
 
 #### 🟡 P1 - High (Same Day Escalation)
+
 **Response Time**: 2 hours  
-**Resolution Time**: 24 hours  
+**Resolution Time**: 24 hours
 
 **Criteria:**
+
 - Major feature completely non-functional
 - Performance severely degraded (>10x slower)
 - Incorrect astrological calculations affecting recommendations
@@ -38,6 +45,7 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 - Critical TypeScript errors preventing development
 
 **Examples:**
+
 ```
 ⚠️ Planetary position calculations returning wrong signs
 ⚠️ Elemental compatibility scores below 0.7
@@ -47,10 +55,12 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 ```
 
 #### 🟢 P2 - Medium (Next Business Day)
+
 **Response Time**: 24 hours  
-**Resolution Time**: 1 week  
+**Resolution Time**: 1 week
 
 **Criteria:**
+
 - Minor feature issues or inconsistencies
 - Performance slightly degraded but usable
 - UI/UX problems affecting user experience
@@ -58,6 +68,7 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 - Non-critical linting or code quality issues
 
 **Examples:**
+
 ```
 ⚠️ Some ingredient recommendations not optimal
 ⚠️ UI components not responsive on mobile
@@ -67,10 +78,12 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 ```
 
 #### 🔵 P3 - Low (Best Effort)
+
 **Response Time**: 1 week  
-**Resolution Time**: Next release cycle  
+**Resolution Time**: Next release cycle
 
 **Criteria:**
+
 - Enhancement requests
 - Minor UI inconsistencies
 - Non-critical warnings or logs
@@ -78,6 +91,7 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 - Nice-to-have features
 
 **Examples:**
+
 ```
 💡 Request for new astrological feature
 💡 Minor styling improvements
@@ -91,6 +105,7 @@ This guide defines when and how to escalate issues within the WhatToEatNext proj
 ### P0 Critical Issue Response
 
 #### Immediate Actions (0-15 minutes)
+
 ```bash
 # 1. Assess and contain the issue
 npm run emergency:assess          # Quick system assessment
@@ -108,6 +123,7 @@ npm run emergency:contain         # Contain the issue if possible
 ```
 
 #### Response Team Assembly (15-30 minutes)
+
 ```
 Primary Responder: On-call engineer or issue reporter
 Technical Lead: Senior developer familiar with affected system
@@ -117,6 +133,7 @@ Communications Lead: For stakeholder updates
 ```
 
 #### Resolution Process (30 minutes - 2 hours)
+
 ```bash
 # 1. Implement immediate workaround if possible
 npm run emergency:workaround      # Apply temporary fix
@@ -139,6 +156,7 @@ npm run logs:critical            # Gather all relevant logs
 ### P1 High Priority Response
 
 #### Initial Response (0-2 hours)
+
 ```bash
 # 1. Acknowledge and assess
 npm run health:check             # System health assessment
@@ -155,6 +173,7 @@ npm run logs:recent             # Gather recent logs and metrics
 ```
 
 #### Resolution Process (2-24 hours)
+
 ```
 1. Root Cause Analysis
    - Identify the underlying cause
@@ -186,27 +205,27 @@ graph TD
     A[Issue Identified] --> B{Can I resolve this myself?}
     B -->|Yes| C[Attempt Resolution]
     B -->|No| D{Is it documented?}
-    
+
     C --> E{Resolved?}
     E -->|Yes| F[Document Solution]
     E -->|No| G{Spent > 2 hours?}
-    
+
     D -->|Yes| H[Follow Documentation]
     D -->|No| I{Is it P0/P1?}
-    
+
     G -->|Yes| J[Escalate to Team]
     G -->|No| C
-    
+
     H --> K{Resolved?}
     K -->|Yes| F
     K -->|No| L{Documentation Incorrect?}
-    
+
     I -->|Yes| M[Immediate Escalation]
     I -->|No| N[Create Issue & Research]
-    
+
     L -->|Yes| O[Update Documentation & Escalate]
     L -->|No| J
-    
+
     J --> P[Team Review]
     M --> Q[Emergency Response]
     N --> R[Continue Investigation]
@@ -215,6 +234,7 @@ graph TD
 ### Escalation Triggers
 
 #### Automatic Escalation Triggers
+
 ```typescript
 // Automated monitoring that triggers escalation
 interface EscalationTrigger {
@@ -253,6 +273,7 @@ const ESCALATION_TRIGGERS: EscalationTrigger[] = [
 ```
 
 #### Manual Escalation Criteria
+
 ```
 Escalate immediately if:
 ✅ You've spent 2+ hours without progress
@@ -275,9 +296,11 @@ Consider escalation if:
 ### Technical Expertise Areas
 
 #### Astrological Calculations Team
+
 **Contact**: astrology-team@company.com  
 **Slack**: #astrology-dev  
 **Expertise**:
+
 - Planetary position calculations
 - Transit date validation
 - Elemental compatibility algorithms
@@ -285,6 +308,7 @@ Consider escalation if:
 - Fallback mechanism design
 
 **Escalate for**:
+
 - Incorrect planetary positions
 - Transit date validation failures
 - Elemental compatibility scores < 0.7
@@ -292,9 +316,11 @@ Consider escalation if:
 - Astronomical calculation performance
 
 #### Campaign System Team
+
 **Contact**: campaign-team@company.com  
 **Slack**: #campaign-system  
 **Expertise**:
+
 - Automated code quality improvement
 - TypeScript error reduction campaigns
 - Build system optimization
@@ -302,6 +328,7 @@ Consider escalation if:
 - Progress tracking and metrics
 
 **Escalate for**:
+
 - Campaign system failures
 - TypeScript error count explosions
 - Build performance issues
@@ -309,9 +336,11 @@ Consider escalation if:
 - Metrics collection problems
 
 #### Performance and Infrastructure Team
+
 **Contact**: performance-team@company.com  
 **Slack**: #performance  
 **Expertise**:
+
 - System performance optimization
 - Memory leak detection and resolution
 - Bundle size optimization
@@ -319,6 +348,7 @@ Consider escalation if:
 - Monitoring and alerting
 
 **Escalate for**:
+
 - Performance degradation > 2x
 - Memory leaks or excessive usage
 - Bundle size > 10MB
@@ -326,9 +356,11 @@ Consider escalation if:
 - System resource exhaustion
 
 #### Cultural Sensitivity Team
+
 **Contact**: cultural-team@company.com  
 **Slack**: #cultural-sensitivity  
 **Expertise**:
+
 - Cultural appropriation prevention
 - Inclusive design practices
 - Respectful representation
@@ -336,6 +368,7 @@ Consider escalation if:
 - Ethical AI implementation
 
 **Escalate for**:
+
 - Cultural appropriation concerns
 - Representation issues
 - Community feedback about sensitivity
@@ -345,28 +378,35 @@ Consider escalation if:
 ### External Escalation Contacts
 
 #### Security Issues
+
 **Contact**: security@company.com  
-**Process**: 
+**Process**:
+
 1. Do NOT post in public channels
 2. Send encrypted email to security team
 3. Include detailed vulnerability report
 4. Wait for security team response before any action
 
 #### Legal/Compliance Issues
+
 **Contact**: legal@company.com  
 **Process**:
+
 1. Immediate notification for any legal concerns
 2. Document all relevant information
 3. Preserve evidence if applicable
 4. Follow legal team guidance exactly
 
 #### Vendor/API Issues
+
 **Primary APIs**:
+
 - **Astronomy APIs**: Contact API provider support
 - **Nutritional APIs**: USDA/Spoonacular support channels
 - **Infrastructure**: Cloud provider support
 
 **Process**:
+
 1. Check API status pages first
 2. Review API documentation for known issues
 3. Contact vendor support with detailed information
@@ -377,6 +417,7 @@ Consider escalation if:
 ### Issue Report Template
 
 #### P0 Critical Issue Report
+
 ```markdown
 # P0 CRITICAL ISSUE
 
@@ -420,6 +461,7 @@ Brief description of the critical issue
 ```
 
 #### P1 High Priority Issue Report
+
 ```markdown
 # P1 HIGH PRIORITY ISSUE
 
@@ -459,6 +501,7 @@ Description of the high priority issue
 ### Communication Templates
 
 #### Stakeholder Update Template
+
 ```markdown
 Subject: [P0/P1] Issue Update - [Brief Description]
 
@@ -482,6 +525,7 @@ Subject: [P0/P1] Issue Update - [Brief Description]
 ```
 
 #### Post-Incident Report Template
+
 ```markdown
 # Post-Incident Report
 
@@ -515,6 +559,7 @@ Subject: [P0/P1] Issue Update - [Brief Description]
 ### Regular Review Process
 
 #### Monthly Escalation Review
+
 ```
 Review Agenda:
 1. Escalation volume and trends
@@ -533,6 +578,7 @@ Metrics to Track:
 ```
 
 #### Quarterly Process Updates
+
 ```
 Update Process:
 1. Review escalation procedures
@@ -546,6 +592,7 @@ Update Process:
 ### Continuous Improvement
 
 #### Feedback Collection
+
 ```typescript
 // Escalation feedback form
 interface EscalationFeedback {
@@ -561,6 +608,7 @@ interface EscalationFeedback {
 ```
 
 #### Process Metrics
+
 ```typescript
 // Track escalation process health
 interface EscalationMetrics {
@@ -579,6 +627,7 @@ interface EscalationMetrics {
 ### New Team Member Escalation Training
 
 #### Training Checklist
+
 ```
 □ Review escalation procedures document
 □ Understand severity classification
@@ -591,6 +640,7 @@ interface EscalationMetrics {
 ```
 
 #### Escalation Simulation Exercises
+
 ```
 Scenario 1: P0 Critical - Complete system failure
 - Practice immediate response procedures
@@ -611,6 +661,7 @@ Scenario 3: Cultural Sensitivity Issue
 ### Regular Team Training
 
 #### Monthly Training Topics
+
 ```
 Month 1: Escalation Basics and Severity Classification
 Month 2: Technical Debugging and Investigation
@@ -622,4 +673,6 @@ Month 6: Post-Incident Analysis and Improvement
 
 ---
 
-**Remember**: Escalation is not a sign of failure - it's a sign of good judgment. When in doubt, escalate early rather than late. The goal is to resolve issues effectively while learning and improving our processes. 🚀
+**Remember**: Escalation is not a sign of failure - it's a sign of good
+judgment. When in doubt, escalate early rather than late. The goal is to resolve
+issues effectively while learning and improving our processes. 🚀

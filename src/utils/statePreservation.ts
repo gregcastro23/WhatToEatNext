@@ -25,7 +25,7 @@ const STATE_KEYS = {
   MAIN_PAGE_STATE: 'mainPageState',
   NAVIGATION_STATE: 'navigationState',
   COMPONENT_STATES: 'componentStates',
-  SCROLL_POSITIONS: 'scrollPositions'
+  SCROLL_POSITIONS: 'scrollPositions',
 } as const;
 
 // State expiration time (1 hour)
@@ -75,7 +75,7 @@ export function saveNavigationState(state: Partial<NavigationState>): void {
 
   const stateWithTimestamp: ComponentState = {
     timestamp: Date.now(),
-    data: updatedState
+    data: updatedState,
   };
 
   safeSetItem(STATE_KEYS.NAVIGATION_STATE, JSON.stringify(stateWithTimestamp));
@@ -95,7 +95,7 @@ export function getNavigationState(): NavigationState {
     selectedIngredientCategory: null,
     selectedIngredient: null,
     selectedCookingMethod: null,
-    scrollPosition: 0
+    scrollPosition: 0,
   };
 
   const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE);
@@ -121,7 +121,7 @@ export function saveComponentState(componentId: string, state: unknown): void {
   const allStates = getComponentStates();
   allStates[componentId] = {
     timestamp: Date.now(),
-    data: state
+    data: state,
   };
 
   safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
@@ -163,7 +163,7 @@ export function saveScrollPosition(sectionId: string, position: number): void {
   const positions = getScrollPositions();
   positions[sectionId] = {
     timestamp: Date.now(),
-    data: position
+    data: position,
   };
 
   safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(positions));
@@ -298,6 +298,6 @@ export function createStatePreservationHook(componentId: string) {
       const allStates = getComponentStates();
       delete allStates[componentId];
       safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
-    }
+    },
   };
 }

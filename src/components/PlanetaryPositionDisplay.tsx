@@ -9,9 +9,9 @@ interface PlanetaryPositionDisplayProps {
   };
 }
 
-export const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> = ({ 
-  planet, 
-  position 
+export const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> = ({
+  planet,
+  position,
 }) => {
   const formatDegree = (degree: number): string => {
     const wholeDegree = Math.floor(degree);
@@ -32,22 +32,23 @@ export const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> =
     neptune: '♆',
     pluto: '♇',
     northnode: '☊',
-    southnode: '☋'
+    southnode: '☋',
   };
 
   const symbol = planetSymbols[planet.toLowerCase()] || planet;
   const displayName = planet.charAt(0).toUpperCase() + planet.slice(1);
 
   return (
-    <div className="flex justify-between items-center py-1">
-      <span className="text-gray-300 flex items-center">
-        <span className="text-xl mr-2">{symbol}</span>
+    <div className='flex items-center justify-between py-1'>
+      <span className='flex items-center text-gray-300'>
+        <span className='mr-2 text-xl'>{symbol}</span>
         {displayName}:
       </span>
-      <span className="text-cyan-200">
-        {position.sign.charAt(0).toUpperCase() + position.sign.slice(1)} {formatDegree(position.degree)}
-        {position.isRetrograde && <span className="text-orange-300 ml-1">℞</span>}
+      <span className='text-cyan-200'>
+        {position.sign.charAt(0).toUpperCase() + position.sign.slice(1)}{' '}
+        {formatDegree(position.degree)}
+        {position.isRetrograde && <span className='ml-1 text-orange-300'>℞</span>}
       </span>
     </div>
   );
-}; 
+};

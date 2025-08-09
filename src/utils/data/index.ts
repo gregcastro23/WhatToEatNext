@@ -12,16 +12,14 @@ export * from './processing';
 
 // Re-export commonly used functions for backward compatibility
 export {
-    cleanupIngredientsDatabase,
-    mergeElementalProperties, standardizeElementalAffinity,
-    standardizeIngredient,
-    standardizeRecipe,
-    validateIngredient,
-    validateRecipe
+  cleanupIngredientsDatabase,
+  mergeElementalProperties,
+  standardizeElementalAffinity,
+  standardizeIngredient,
+  standardizeRecipe,
+  validateIngredient,
+  validateRecipe,
 } from './processing';
 
 // Type exports
-export type {
-    DataCleanupResult,
-    StandardizationOptions, ValidationResult
-} from './processing';
+export type { DataCleanupResult, StandardizationOptions, ValidationResult } from './processing';

@@ -1,5 +1,6 @@
 // Unified TimeFactors interface
-export interface TimeFactors {time: number;
+export interface TimeFactors {
+  time: number;
   season: string;
   moonPhase?: string;
   dayOfWeek?: string;

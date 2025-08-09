@@ -1,22 +1,20 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-white">
-      <div className="max-w-md w-full text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">
-          Page Not Found
-        </h2>
-        <p className="text-gray-600 mb-8">
+    <div className='flex min-h-screen items-center justify-center bg-white p-4'>
+      <div className='w-full max-w-md text-center'>
+        <h2 className='mb-4 text-2xl font-bold text-gray-900'>Page Not Found</h2>
+        <p className='mb-8 text-gray-600'>
           The page you're looking for doesn't exist or has been moved.
         </p>
         <Link
-          href="/"
-          className="inline-block px-4 py-2 bg-primary text-white rounded hover:bg-primary/80 transition-colors"
+          href='/'
+          className='bg-primary hover:bg-primary/80 inline-block rounded px-4 py-2 text-white transition-colors'
         >
           Return Home
         </Link>
       </div>
     </div>
-  )
-} 
+  );
+}

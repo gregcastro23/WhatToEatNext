@@ -11,7 +11,7 @@ import { SafetyProtocol } from './SafetyProtocol';
 
 // Mock child_process for testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn()
+  execSync: jest.fn(),
 }));
 
 // Mock fs for testing
@@ -19,7 +19,7 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
   readFileSync: jest.fn(),
   writeFileSync: jest.fn(),
-  mkdirSync: jest.fn()
+  mkdirSync: jest.fn(),
 }));
 
 const { execSync } = require('child_process');
@@ -31,14 +31,14 @@ describe('Corruption Detection System - Task 6.2', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     mockSettings = {
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     // Mock git repository existence
@@ -54,7 +54,8 @@ describe('Corruption Detection System - Task 6.2', () => {
       if (command.includes('git status --porcelain')) return '';
       if (command.includes('git branch --show-current')) return 'main';
       if (command.includes('git stash push')) return 'Saved working directory';
-      if (command.includes('git stash list --oneline')) return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
+      if (command.includes('git stash list --oneline'))
+        return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
       if (command.includes('yarn tsc --noEmit')) return 'No TypeScript errors';
       return '';
     });
@@ -210,7 +211,9 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(true);
+      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(
+        true,
+      );
     });
 
     test('should detect duplicate destructuring braces (critical)', async () => {
@@ -223,7 +226,9 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import'))).toBe(true);
+      expect(
+        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),
+      ).toBe(true);
     });
 
     test('should detect corrupted namespace import syntax (critical)', async () => {
@@ -236,7 +241,9 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(true);
+      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(
+        true,
+      );
     });
 
     test('should detect malformed import statements', async () => {
@@ -251,7 +258,9 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax'))).toBe(true);
+      expect(
+        report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),
+      ).toBe(true);
     });
 
     test('should skip non-JavaScript/TypeScript files', async () => {
@@ -265,11 +274,11 @@ import React, { Component } from 'undefined';
   describe('Real-time Monitoring during Script Execution', () => {
     test('should start real-time monitoring', async () => {
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-      
+
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Starting real-time corruption monitoring for 1 files')
+        expect.stringContaining('Starting real-time corruption monitoring for 1 files'),
       );
 
       // Clean up
@@ -279,13 +288,11 @@ import React, { Component } from 'undefined';
 
     test('should stop real-time monitoring', async () => {
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-      
+
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
       safetyProtocol.stopRealTimeMonitoring();
 
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Real-time corruption monitoring stopped')
-      );
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Real-time corruption monitoring stopped'));
 
       consoleSpy.mockRestore();
     });
@@ -317,7 +324,7 @@ import React, { Component } from 'undefined';
 
     test('should handle monitoring errors gracefully', async () => {
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-      
+
       // Mock file read error during monitoring
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('Monitoring error');
@@ -330,9 +337,7 @@ import React, { Component } from 'undefined';
 
       safetyProtocol.stopRealTimeMonitoring();
 
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error during real-time monitoring')
-      );
+      expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringContaining('Error during real-time monitoring'));
 
       consoleErrorSpy.mockRestore();
     });
@@ -351,7 +356,7 @@ import React, { Component } from 'undefined';
         if (command.includes('yarn tsc --noEmit')) {
           return [
             'test-file.ts(10,5) error TS1005 Unexpected token',
-            'test-file.ts(15,10) error TS1109 Expression expected'
+            'test-file.ts(15,10) error TS1109 Expression expected',
           ].join('\\n');
         }
         return '';
@@ -412,7 +417,6 @@ import React, { Component } from 'undefined';
       mockFs.readFileSync.mockReturnValue(highSeverityContent);
 
       const report = await safetyProtocol.detectCorruption(['test-file.ts']);
-
     });
 
     test('should recommend retry for medium severity corruption', async () => {
@@ -505,7 +509,7 @@ import React, { Component } from 'undefined';
 
     test('should provide detailed corruption analysis', async () => {
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-      
+
       const corruptedContent = `
         // Empty corrupted content for testing
       `;
@@ -514,12 +518,8 @@ import React, { Component } from 'undefined';
 
       await safetyProtocol.detectCorruption(['test-file.ts']);
 
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Analyzing 1 files for corruption patterns')
-      );
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Corruption analysis complete')
-      );
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Analyzing 1 files for corruption patterns'));
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Corruption analysis complete'));
 
       consoleSpy.mockRestore();
     });

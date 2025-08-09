@@ -3,7 +3,14 @@ export { GlobalErrorBoundary } from './GlobalErrorBoundary';
 export { ComponentErrorBoundary } from './ComponentErrorBoundary';
 export { ErrorLoggerProvider, useErrorLogger, useComponentErrorLogger } from './ErrorLogger';
 export { ErrorRecoverySystem, useErrorRecovery, RecoveryStatus } from './ErrorRecoverySystem';
-export { SafetyWrapper, CuisineSafetyWrapper, IngredientSafetyWrapper, CookingSafetyWrapper, RecipeSafetyWrapper, DebugSafetyWrapper } from './SafetyWrapper';
+export {
+  SafetyWrapper,
+  CuisineSafetyWrapper,
+  IngredientSafetyWrapper,
+  CookingSafetyWrapper,
+  RecipeSafetyWrapper,
+  DebugSafetyWrapper,
+} from './SafetyWrapper';
 export { ErrorMonitoringDashboard } from './ErrorMonitoringDashboard';
 export { SafetyInfrastructureProvider } from './SafetyInfrastructureProvider';
 

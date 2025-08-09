@@ -24,7 +24,7 @@ class DirectJSXEntityFixer {
   findTSXFiles() {
     try {
       return glob.sync('src/**/*.tsx', {
-        ignore: ['**/node_modules/**', '**/*.test.tsx', '**/*.spec.tsx']
+        ignore: ['**/node_modules/**', '**/*.test.tsx', '**/*.spec.tsx'],
       });
     } catch (error) {
       console.error('Error finding TSX files:', error.message);
@@ -37,9 +37,9 @@ class DirectJSXEntityFixer {
    */
   isTemplateLiteral(line) {
     const templatePatterns = [
-      /`[^`]*\$\{[^}]*\}[^`]*`/,  // Template literal with interpolation
-      /`[^`]*`/,                   // Simple template literal
-      /\$\{[^}]*\}/,              // Template interpolation
+      /`[^`]*\$\{[^}]*\}[^`]*`/, // Template literal with interpolation
+      /`[^`]*`/, // Simple template literal
+      /\$\{[^}]*\}/, // Template interpolation
     ];
 
     return templatePatterns.some(pattern => pattern.test(line));
@@ -166,11 +166,14 @@ class DirectJSXEntityFixer {
         if (fixes.length > 0) {
           let newLine = line;
           fixes.reverse().forEach(fix => {
-            newLine = newLine.substring(0, fix.position) +
-                     fix.replacement +
-                     newLine.substring(fix.position + 1);
+            newLine =
+              newLine.substring(0, fix.position) +
+              fix.replacement +
+              newLine.substring(fix.position + 1);
 
-            console.log(`Fixed '${fix.char}' -> '${fix.replacement}' in ${filePath}:${lineIndex + 1}:${fix.position + 1}`);
+            console.log(
+              `Fixed '${fix.char}' -> '${fix.replacement}' in ${filePath}:${lineIndex + 1}:${fix.position + 1}`,
+            );
             fileFixCount++;
           });
 
@@ -185,7 +188,6 @@ class DirectJSXEntityFixer {
         this.totalFixes += fileFixCount;
         console.log(`✅ Fixed ${fileFixCount} JSX entities in ${filePath}`);
       }
-
     } catch (error) {
       this.errors.push({ file: filePath, error: error.message });
       console.error(`❌ Error processing ${filePath}:`, error.message);
@@ -239,10 +241,10 @@ class DirectJSXEntityFixer {
       summary: {
         filesProcessed: this.fixedFiles.length,
         totalFixes: this.totalFixes,
-        errors: this.errors.length
+        errors: this.errors.length,
       },
       fixedFiles: this.fixedFiles,
-      errors: this.errors
+      errors: this.errors,
     };
 
     fs.writeFileSync('jsx-entity-fixes-direct-report.json', JSON.stringify(report, null, 2));

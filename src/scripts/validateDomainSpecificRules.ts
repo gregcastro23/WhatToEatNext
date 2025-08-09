@@ -50,7 +50,7 @@ class DomainSpecificRuleValidator {
     const astroFiles = [
       'src/calculations/culinary/culinaryAstrology.ts',
       'src/utils/reliableAstronomy.ts',
-      'src/data/planets/mars.ts'
+      'src/data/planets/mars.ts',
     ];
 
     for (const file of astroFiles) {
@@ -65,7 +65,7 @@ class DomainSpecificRuleValidator {
 
     const campaignFiles = [
       'src/services/campaign/CampaignController.ts',
-      'src/services/campaign/ProgressTracker.ts'
+      'src/services/campaign/ProgressTracker.ts',
     ];
 
     for (const file of campaignFiles) {
@@ -81,7 +81,7 @@ class DomainSpecificRuleValidator {
     try {
       const testCount = execSync('find src -name "*.test.ts" -o -name "*.test.tsx" | wc -l', {
         encoding: 'utf8',
-        cwd: this.projectRoot
+        cwd: this.projectRoot,
       }).trim();
 
       console.log(`   ✅ Found ${testCount} test files`);

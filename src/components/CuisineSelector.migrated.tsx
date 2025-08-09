@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
-import type { Modality } from "@/data/ingredients/types";
+import type { Modality } from '@/data/ingredients/types';
 import { useServices } from '@/hooks/useServices';
 import { CuisineType, LunarPhaseWithSpaces, ZodiacSign } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
@@ -32,7 +32,7 @@ function CuisineSelectorMigrated({
   planetaryPositions: propPlanetaryPositions,
   isDaytime: propIsDaytime,
   currentZodiac: propCurrentZodiac,
-  currentLunarPhase: propCurrentLunarPhase
+  currentLunarPhase: propCurrentLunarPhase,
 }: CuisineSelectorProps) {
   // Replace context access with services
   const {
@@ -40,14 +40,16 @@ function CuisineSelectorMigrated({
     error: servicesError,
     astrologyService,
     recipeService,
-    recommendationService
+    recommendationService,
   } = useServices();
 
   // Component state
   const [modalityFilter, setModalityFilter] = useState<string>('all');
   const [zodiacFilter, setZodiacFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('default');
-  const [resolvedPlanetaryPositions, setResolvedPlanetaryPositions] = useState<Record<string, any>>({});
+  const [resolvedPlanetaryPositions, setResolvedPlanetaryPositions] = useState<Record<string, any>>(
+    {},
+  );
   const [_resolvedIsDaytime, setResolvedIsDaytime] = useState<boolean>(true);
   const [resolvedCurrentZodiac, setResolvedCurrentZodiac] = useState<ZodiacSign | null>(null);
   const [resolvedLunarPhase, setResolvedLunarPhase] = useState<LunarPhaseWithSpaces | null>(null);
@@ -57,8 +59,18 @@ function CuisineSelectorMigrated({
 
   // Define all zodiac signs for the filter dropdown
   const currentZodiacSigns = [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
 
   // Load astrological data if needed
@@ -72,13 +84,22 @@ function CuisineSelectorMigrated({
         // Apply safe type casting for astrology service access
         const serviceData = astrologyService as unknown as Record<string, unknown>;
 
-        setResolvedPlanetaryPositions(propPlanetaryPositions || await astrologyService.getCurrentPlanetaryPositions());
-        setResolvedIsDaytime(propIsDaytime !== undefined ? propIsDaytime : await astrologyService.isDaytime());
-        setResolvedCurrentZodiac(propCurrentZodiac || await astrologyService.getCurrentZodiacSign());
+        setResolvedPlanetaryPositions(
+          propPlanetaryPositions || (await astrologyService.getCurrentPlanetaryPositions()),
+        );
+        setResolvedIsDaytime(
+          propIsDaytime !== undefined ? propIsDaytime : await astrologyService.isDaytime(),
+        );
+        setResolvedCurrentZodiac(
+          propCurrentZodiac || (await astrologyService.getCurrentZodiacSign()),
+        );
 
         // Use safe method access for lunar phase
-        const lunarPhase = propCurrentLunarPhase ||
-          (serviceData.getCurrentLunarPhase ? await (serviceData.getCurrentLunarPhase as () => Promise<string>)() : 'full moon');
+        const lunarPhase =
+          propCurrentLunarPhase ||
+          (serviceData.getCurrentLunarPhase
+            ? await (serviceData.getCurrentLunarPhase as () => Promise<string>)()
+            : 'full moon');
         setResolvedLunarPhase(lunarPhase as LunarPhaseWithSpaces);
       } catch (err) {
         console.error('Error loading astrological data:', err);
@@ -93,12 +114,16 @@ function CuisineSelectorMigrated({
     propPlanetaryPositions,
     propIsDaytime,
     propCurrentZodiac,
-    propCurrentLunarPhase
+    propCurrentLunarPhase,
   ]);
 
   // Load cuisines from recommendation service
   useEffect(() => {
-    if (servicesLoading || !recommendationService || Object.keys(resolvedPlanetaryPositions || {}).length === 0) {
+    if (
+      servicesLoading ||
+      !recommendationService ||
+      Object.keys(resolvedPlanetaryPositions || {}).length === 0
+    ) {
       return;
     }
 
@@ -108,26 +133,36 @@ function CuisineSelectorMigrated({
 
         // Get recommended cuisines based on planetary positions
         const result = await recommendationService.getRecommendedCuisines({
-          planetaryPositions: Object.entries(resolvedPlanetaryPositions).reduce((acc, [planet, degree]) => {
-            // Apply safe type casting for astrology service access
-            const serviceData = astrologyService as unknown as Record<string, unknown>;
-            const getZodiacSignForDegree = serviceData.getZodiacSignForDegree as ((degree: number) => string) | undefined;
-            const zodiacSign = getZodiacSignForDegree ?
-              getZodiacSignForDegree(Number(degree)) : 'aries';
+          planetaryPositions: Object.entries(resolvedPlanetaryPositions).reduce(
+            (acc, [planet, degree]) => {
+              // Apply safe type casting for astrology service access
+              const serviceData = astrologyService as unknown as Record<string, unknown>;
+              const getZodiacSignForDegree = serviceData.getZodiacSignForDegree as
+                | ((degree: number) => string)
+                | undefined;
+              const zodiacSign = getZodiacSignForDegree
+                ? getZodiacSignForDegree(Number(degree))
+                : 'aries';
 
-            acc[planet] = {
-              sign: zodiacSign,
-              degree: Number(degree)
-            };
-            return acc;
-          }, {} as Record<string, { sign: string; degree: number }>),
-          limit: 20 // Get a good selection of cuisines
+              acc[planet] = {
+                sign: zodiacSign,
+                degree: Number(degree),
+              };
+              return acc;
+            },
+            {} as Record<string, { sign: string; degree: number }>,
+          ),
+          limit: 20, // Get a good selection of cuisines
         });
 
         // Transform to ElementalItem format for compatibility with existing component
         const cuisines: ElementalItem[] = (result.items || []).map((cuisine, _index) => {
           // Extract elemental properties from context if available
-          const elementalProps = result.context?.elementalState?.[cuisine] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+          const elementalProps = result.context?.elementalState?.[cuisine] || {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25,
           };
 
           // Get score from result
@@ -143,7 +178,7 @@ function CuisineSelectorMigrated({
             // Extract zodiac influences if available
             zodiacInfluences: result.context?.zodiacInfluences?.[cuisine] || [],
             // Add any planetary dignities if available
-            planetaryDignities: result.context?.planetaryDignities?.[cuisine] || {}
+            planetaryDignities: result.context?.planetaryDignities?.[cuisine] || {},
           };
         });
 
@@ -188,7 +223,12 @@ function CuisineSelectorMigrated({
     if (cuisineData.modality) return cuisineData.modality as Modality;
 
     // Otherwise determine from elemental state
-    const elementalState = cuisineData.elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const elementalState = (cuisineData.elementalState as ElementalProperties) || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    };
     return determineModalityFromElements(elementalState);
   };
 
@@ -196,7 +236,10 @@ function CuisineSelectorMigrated({
   const filteredCuisines = useMemo(() => {
     return (sortedCuisines || []).filter(cuisine => {
       // Apply modality filter
-      if (modalityFilter !== 'all' && getCuisineModality(cuisine as unknown as CuisineType) !== modalityFilter) {
+      if (
+        modalityFilter !== 'all' &&
+        getCuisineModality(cuisine as unknown as CuisineType) !== modalityFilter
+      ) {
         return false;
       }
 
@@ -205,16 +248,20 @@ function CuisineSelectorMigrated({
         // Check if cuisine has zodiac influences and includes the selected zodiac
         // Apply safe type casting for zodiac influences access
         const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
-        const zodiacInfluences: string[] = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData as string[] : [];
+        const zodiacInfluences: string[] = Array.isArray(zodiacInfluencesData)
+          ? (zodiacInfluencesData as string[])
+          : [];
 
         if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
           // Also check for planetary dignities if cuisines were transformed
           if ('planetaryDignities' in cuisine) {
-            const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some((dignity) => {
-              const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
-              if (!signs) return false;
-              return Array.isArray(signs) ? signs.includes(zodiacFilter) : signs === zodiacFilter;
-            });
+            const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some(
+              dignity => {
+                const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
+                if (!signs) return false;
+                return Array.isArray(signs) ? signs.includes(zodiacFilter) : signs === zodiacFilter;
+              },
+            );
 
             if (!hasPlanetaryMatch) {
               return false;
@@ -252,21 +299,31 @@ function CuisineSelectorMigrated({
 
   // Get the zodiac signs for filtering
   const zodiacSigns: ZodiacSign[] = [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
   ];
 
   // Handle loading state
   if (servicesLoading || loading) {
     return (
-      <div className="cuisine-selector p-4">
-        <h2 className="text-xl font-bold mb-4">Select a Cuisine</h2>
-        <div className="p-4 text-center">
-          <div className="animate-pulse">
-            <div className="h-4 bg-blue-200 rounded w-3/4 mx-auto mb-2"></div>
-            <div className="h-4 bg-blue-200 rounded w-1/2 mx-auto"></div>
+      <div className='cuisine-selector p-4'>
+        <h2 className='mb-4 text-xl font-bold'>Select a Cuisine</h2>
+        <div className='p-4 text-center'>
+          <div className='animate-pulse'>
+            <div className='mx-auto mb-2 h-4 w-3/4 rounded bg-blue-200'></div>
+            <div className='mx-auto h-4 w-1/2 rounded bg-blue-200'></div>
           </div>
-          <p className="mt-4 text-blue-600">Loading cuisines...</p>
+          <p className='mt-4 text-blue-600'>Loading cuisines...</p>
         </div>
       </div>
     );
@@ -275,11 +332,11 @@ function CuisineSelectorMigrated({
   // Handle error state
   if (servicesError || error) {
     return (
-      <div className="cuisine-selector p-4">
-        <h2 className="text-xl font-bold mb-4">Select a Cuisine</h2>
-        <div className="p-4 text-center text-red-600 border border-red-200 rounded bg-red-50">
+      <div className='cuisine-selector p-4'>
+        <h2 className='mb-4 text-xl font-bold'>Select a Cuisine</h2>
+        <div className='rounded border border-red-200 bg-red-50 p-4 text-center text-red-600'>
           <p>Error loading cuisine data: {(servicesError || error)?.message}</p>
-          <p className="text-sm mt-2">Please try refreshing the page.</p>
+          <p className='mt-2 text-sm'>Please try refreshing the page.</p>
         </div>
       </div>
     );
@@ -288,34 +345,41 @@ function CuisineSelectorMigrated({
   // Handle empty state
   if ((filteredCuisines || []).length === 0) {
     return (
-      <div className="cuisine-selector p-4">
-        <h2 className="text-xl font-bold mb-4">Select a Cuisine</h2>
-        <div className="filters mb-6 flex flex-wrap gap-4">
+      <div className='cuisine-selector p-4'>
+        <h2 className='mb-4 text-xl font-bold'>Select a Cuisine</h2>
+        <div className='filters mb-6 flex flex-wrap gap-4'>
           {/* Filter UI elements */}
-          <div className="filter-group">
-            <label htmlFor="modality-filter" className="block text-sm font-medium text-gray-700 mb-1">Quality:</label>
-            <select
-              id="modality-filter"
-              value={modalityFilter}
-              onChange={(e) => setModalityFilter(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+          <div className='filter-group'>
+            <label
+              htmlFor='modality-filter'
+              className='mb-1 block text-sm font-medium text-gray-700'
             >
-              <option value="all">All Qualities</option>
-              <option value="Cardinal">Cardinal</option>
-              <option value="Fixed">Fixed</option>
-              <option value="Mutable">Mutable</option>
+              Quality:
+            </label>
+            <select
+              id='modality-filter'
+              value={modalityFilter}
+              onChange={e => setModalityFilter(e.target.value)}
+              className='focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-opacity-50'
+            >
+              <option value='all'>All Qualities</option>
+              <option value='Cardinal'>Cardinal</option>
+              <option value='Fixed'>Fixed</option>
+              <option value='Mutable'>Mutable</option>
             </select>
           </div>
 
-          <div className="filter-group">
-            <label htmlFor="zodiac-filter" className="block text-sm font-medium text-gray-700 mb-1">Zodiac Influence:</label>
+          <div className='filter-group'>
+            <label htmlFor='zodiac-filter' className='mb-1 block text-sm font-medium text-gray-700'>
+              Zodiac Influence:
+            </label>
             <select
-              id="zodiac-filter"
+              id='zodiac-filter'
               value={zodiacFilter}
-              onChange={(e) => setZodiacFilter(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+              onChange={e => setZodiacFilter(e.target.value)}
+              className='focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-opacity-50'
             >
-              <option value="all">All Signs</option>
+              <option value='all'>All Signs</option>
               {(currentZodiacSigns || []).map(sign => (
                 <option key={sign} value={sign}>
                   {sign.charAt(0).toUpperCase() + sign.slice(1)}
@@ -326,7 +390,7 @@ function CuisineSelectorMigrated({
           </div>
         </div>
 
-        <div className="empty-state p-6 text-center bg-gray-50 rounded-lg">
+        <div className='empty-state rounded-lg bg-gray-50 p-6 text-center'>
           <p>No cuisines match your current filters. Try adjusting your criteria.</p>
         </div>
       </div>
@@ -335,34 +399,38 @@ function CuisineSelectorMigrated({
 
   // Main component UI
   return (
-    <div className="cuisine-selector">
-      <h2 className="text-xl font-bold mb-4">Select a Cuisine</h2>
+    <div className='cuisine-selector'>
+      <h2 className='mb-4 text-xl font-bold'>Select a Cuisine</h2>
 
-      <div className="filters mb-6 flex flex-wrap gap-4">
-        <div className="filter-group">
-          <label htmlFor="modality-filter" className="block text-sm font-medium text-gray-700 mb-1">Quality:</label>
+      <div className='filters mb-6 flex flex-wrap gap-4'>
+        <div className='filter-group'>
+          <label htmlFor='modality-filter' className='mb-1 block text-sm font-medium text-gray-700'>
+            Quality:
+          </label>
           <select
-            id="modality-filter"
+            id='modality-filter'
             value={modalityFilter}
-            onChange={(e) => setModalityFilter(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+            onChange={e => setModalityFilter(e.target.value)}
+            className='focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-opacity-50'
           >
-            <option value="all">All Qualities</option>
-            <option value="Cardinal">Cardinal</option>
-            <option value="Fixed">Fixed</option>
-            <option value="Mutable">Mutable</option>
+            <option value='all'>All Qualities</option>
+            <option value='Cardinal'>Cardinal</option>
+            <option value='Fixed'>Fixed</option>
+            <option value='Mutable'>Mutable</option>
           </select>
         </div>
 
-        <div className="filter-group">
-          <label htmlFor="zodiac-filter" className="block text-sm font-medium text-gray-700 mb-1">Zodiac Influence:</label>
+        <div className='filter-group'>
+          <label htmlFor='zodiac-filter' className='mb-1 block text-sm font-medium text-gray-700'>
+            Zodiac Influence:
+          </label>
           <select
-            id="zodiac-filter"
+            id='zodiac-filter'
             value={zodiacFilter}
-            onChange={(e) => setZodiacFilter(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+            onChange={e => setZodiacFilter(e.target.value)}
+            className='focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-opacity-50'
           >
-            <option value="all">All Signs</option>
+            <option value='all'>All Signs</option>
             {(currentZodiacSigns || []).map(sign => (
               <option key={sign} value={sign}>
                 {sign.charAt(0).toUpperCase() + sign.slice(1)}
@@ -372,89 +440,107 @@ function CuisineSelectorMigrated({
           </select>
         </div>
 
-        <div className="filter-group">
-          <label htmlFor="sort-by" className="block text-sm font-medium text-gray-700 mb-1">Sort By:</label>
+        <div className='filter-group'>
+          <label htmlFor='sort-by' className='mb-1 block text-sm font-medium text-gray-700'>
+            Sort By:
+          </label>
           <select
-            id="sort-by"
+            id='sort-by'
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+            onChange={e => setSortBy(e.target.value)}
+            className='focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-opacity-50'
           >
-            <option value="default">Default</option>
-            <option value="alchemical">Alchemical Compatibility</option>
+            <option value='default'>Default</option>
+            <option value='alchemical'>Alchemical Compatibility</option>
           </select>
         </div>
       </div>
 
       {resolvedCurrentZodiac && (
-        <div className="current-influences p-3 bg-blue-50 rounded-lg mb-4">
-          <p>Current influences: <span className="font-semibold">{resolvedCurrentZodiac.charAt(0).toUpperCase() + resolvedCurrentZodiac.slice(1)}</span>
+        <div className='current-influences mb-4 rounded-lg bg-blue-50 p-3'>
+          <p>
+            Current influences:{' '}
+            <span className='font-semibold'>
+              {resolvedCurrentZodiac.charAt(0).toUpperCase() + resolvedCurrentZodiac.slice(1)}
+            </span>
             {resolvedLunarPhase && (
-              <span> - {resolvedLunarPhase.split(/(?=[A-Z])/).join(" ")}</span>
+              <span> - {resolvedLunarPhase.split(/(?=[A-Z])/).join(' ')}</span>
             )}
           </p>
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {(filteredCuisines || []).map((cuisine) => {
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
+        {(filteredCuisines || []).map(cuisine => {
           // Determine if current zodiac is favorable for this cuisine
-          const isZodiacFavorable = resolvedCurrentZodiac &&
-            ((Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences.includes(resolvedCurrentZodiac) : cuisine.zodiacInfluences === resolvedCurrentZodiac) ||
-             Object.values(cuisine.planetaryDignities || {}).some((dignity) => {
-               const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
-               if (!signs) return false;
-               return Array.isArray(signs) ? signs.includes(resolvedCurrentZodiac) : signs === resolvedCurrentZodiac;
-             }
-             ));
+          const isZodiacFavorable =
+            resolvedCurrentZodiac &&
+            ((Array.isArray(cuisine.zodiacInfluences)
+              ? cuisine.zodiacInfluences.includes(resolvedCurrentZodiac)
+              : cuisine.zodiacInfluences === resolvedCurrentZodiac) ||
+              Object.values(cuisine.planetaryDignities || {}).some(dignity => {
+                const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
+                if (!signs) return false;
+                return Array.isArray(signs)
+                  ? signs.includes(resolvedCurrentZodiac)
+                  : signs === resolvedCurrentZodiac;
+              }));
 
           return (
             <button
               key={cuisine.id}
               onClick={() => handleCuisineSelect(cuisine.name)}
-              className={`
-                p-4 rounded-lg shadow-md transition-all
-                ${selectedCuisine === cuisine.name
+              className={`rounded-lg p-4 shadow-md transition-all ${
+                selectedCuisine === cuisine.name
                   ? 'bg-primary text-white'
                   : isZodiacFavorable
                     ? 'bg-blue-50 hover:bg-blue-100'
                     : 'bg-white hover:bg-gray-50'
-                }
-              `}
+              } `}
             >
-              <span className="text-lg font-medium">{cuisine.name}</span>
+              <span className='text-lg font-medium'>{cuisine.name}</span>
 
-              <div className="cuisine-modality flex justify-between items-center mt-2">
-                <span className={`modality-badge ${getCuisineModality(cuisine as unknown as CuisineType).toLowerCase()}`}>
+              <div className='cuisine-modality mt-2 flex items-center justify-between'>
+                <span
+                  className={`modality-badge ${getCuisineModality(cuisine as unknown as CuisineType).toLowerCase()}`}
+                >
                   {getCuisineModality(cuisine as unknown as CuisineType)}
                 </span>
 
                 {/* Display alchemical compatibility if available */}
                 {'gregsEnergy' in cuisine && (
-                  <span className="alchemical-score text-sm">
+                  <span className='alchemical-score text-sm'>
                     Compatibility: {Math.round((cuisine.gregsEnergy as number) * 100)}%
                   </span>
                 )}
               </div>
 
               {/* Display zodiac influences if available */}
-              {Boolean(cuisine.zodiacInfluences) && (() => {
-                // Apply safe type casting for zodiac influences access
-                const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
-                const zodiacInfluences: string[] = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData as string[] : [];
+              {Boolean(cuisine.zodiacInfluences) &&
+                (() => {
+                  // Apply safe type casting for zodiac influences access
+                  const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
+                  const zodiacInfluences: string[] = Array.isArray(zodiacInfluencesData)
+                    ? (zodiacInfluencesData as string[])
+                    : [];
 
-                return zodiacInfluences.length > 0 && (
-                  <div className="zodiac-influences text-xs mt-2">
-                    <span>Zodiac influences: </span>
-                    {zodiacInfluences.map((sign: string, i: number) => (
-                      <span key={sign} className={`${resolvedCurrentZodiac === sign ? 'font-bold' : ''}`}>
-                        {sign.charAt(0).toUpperCase() + sign.slice(1)}
-                        {i < zodiacInfluences.length - 1 ? ', ' : ''}
-                      </span>
-                    ))}
-                  </div>
-                );
-              })()}
+                  return (
+                    zodiacInfluences.length > 0 && (
+                      <div className='zodiac-influences mt-2 text-xs'>
+                        <span>Zodiac influences: </span>
+                        {zodiacInfluences.map((sign: string, i: number) => (
+                          <span
+                            key={sign}
+                            className={`${resolvedCurrentZodiac === sign ? 'font-bold' : ''}`}
+                          >
+                            {sign.charAt(0).toUpperCase() + sign.slice(1)}
+                            {i < zodiacInfluences.length - 1 ? ', ' : ''}
+                          </span>
+                        ))}
+                      </div>
+                    )
+                  );
+                })()}
             </button>
           );
         })}

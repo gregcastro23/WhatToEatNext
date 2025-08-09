@@ -7,26 +7,40 @@ import { planetaryModifiers } from './planetaryCycles';
  */
 export function validatePlanetaryModifiers(): string[] {
   const issues: string[] = [];
-  
+
   // Required planets
   const requiredPlanets = [
-    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 
-    'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'
+    'Sun',
+    'Moon',
+    'Mercury',
+    'Venus',
+    'Mars',
+    'Jupiter',
+    'Saturn',
+    'Uranus',
+    'Neptune',
+    'Pluto',
   ];
-  
+
   // Check if all required planets exist
   for (const planet of requiredPlanets) {
     if (!planetaryModifiers[planet]) {
       issues.push(`Missing planetary modifier for ${planet}`);
     }
   }
-  
+
   // Check if all planets have all required attributes
   const requiredAttributes = [
-    'Fire', 'Water', 'Air', 'Earth',
-    'Spirit', 'Essence', 'Matter', 'Substance'
+    'Fire',
+    'Water',
+    'Air',
+    'Earth',
+    'Spirit',
+    'Essence',
+    'Matter',
+    'Substance',
   ];
-  
+
   for (const planet in planetaryModifiers) {
     for (const attr of requiredAttributes) {
       if (planetaryModifiers[planet][attr] === undefined) {
@@ -34,7 +48,7 @@ export function validatePlanetaryModifiers(): string[] {
       }
     }
   }
-  
+
   // Check that all modifier values are within a reasonable range (-1 to 1)
   for (const planet in planetaryModifiers) {
     for (const attr in planetaryModifiers[planet]) {
@@ -44,7 +58,7 @@ export function validatePlanetaryModifiers(): string[] {
       }
     }
   }
-  
+
   return issues;
 }
 
@@ -53,7 +67,7 @@ export function validatePlanetaryModifiers(): string[] {
  */
 export function logPlanetaryConsistencyCheck(): void {
   const issues = validatePlanetaryModifiers();
-  
+
   if (issues.length === 0) {
     if (typeof logger !== 'undefined' && logger.info) {
       logger.info('✅ Planetary modifiers are consistent');
@@ -64,4 +78,4 @@ export function logPlanetaryConsistencyCheck(): void {
       issues.forEach(issue => logger.error(`- ${issue}`));
     }
   }
-} 
+}

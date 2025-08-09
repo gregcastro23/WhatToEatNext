@@ -68,7 +68,6 @@ class LogicalOrChainFixer {
       } else {
         console.log(`  ℹ️ No fixable logical OR patterns found`);
       }
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
     }
@@ -81,9 +80,7 @@ class LogicalOrChainFixer {
     console.log('🚀 Starting Logical OR Chain Fixing Process');
 
     // Target the specific file we know has issues
-    const targetFiles = [
-      'src/components/ChakraDisplay.migrated.tsx'
-    ];
+    const targetFiles = ['src/components/ChakraDisplay.migrated.tsx'];
 
     for (const file of targetFiles) {
       if (fs.existsSync(file)) {

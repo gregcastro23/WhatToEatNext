@@ -1,5 +1,5 @@
-import { cuisines } from "@/data/cuisines";
-import type { Dish } from "@/types";
+import { cuisines } from '@/data/cuisines';
+import type { Dish } from '@/types';
 import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
 
 /**
@@ -20,10 +20,10 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
   const month = now.getMonth();
 
   // Astronomical seasons (approximate dates)
-  if (month >= 2 && month <= 4) return 'spring';  // March 20 - June 20
-  if (month >= 5 && month <= 7) return 'summer';  // June 21 - September 21
-  if (month >= 8 && month <= 10) return 'fall';   // September 22 - December 20
-  return 'winter';                                // December 21 - March 19
+  if (month >= 2 && month <= 4) return 'spring'; // March 20 - June 20
+  if (month >= 5 && month <= 7) return 'summer'; // June 21 - September 21
+  if (month >= 8 && month <= 10) return 'fall'; // September 22 - December 20
+  return 'winter'; // December 21 - March 19
 }
 
 /**
@@ -32,10 +32,10 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
  * @returns Season
  */
 export const getSeason = (month: number): Season => {
-  if ([11, 0, 1].includes(month)) return "winter";
-  if ([2, 3, 4].includes(month)) return "spring";
-  if ([5, 6, 7].includes(month)) return "summer";
-  return "fall";
+  if ([11, 0, 1].includes(month)) return 'winter';
+  if ([2, 3, 4].includes(month)) return 'spring';
+  if ([5, 6, 7].includes(month)) return 'summer';
+  return 'fall';
 };
 
 /**
@@ -68,10 +68,10 @@ export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
  * @returns Meal period
  */
 export const getMealPeriod = (hour: number): string => {
-  if (hour >= 5 && hour < 11) return "breakfast";
-  if (hour >= 11 && hour < 16) return "lunch";
-  if (hour >= 16 && hour < 23) return "dinner";
-  return "breakfast";
+  if (hour >= 5 && hour < 11) return 'breakfast';
+  if (hour >= 11 && hour < 16) return 'lunch';
+  if (hour >= 16 && hour < 23) return 'dinner';
+  return 'breakfast';
 };
 
 /**
@@ -120,7 +120,7 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
       Object.keys(mealTimeDishes).forEach(season => {
         const seasonDishes = mealTimeDishes[season];
         if (Array.isArray(seasonDishes)) {
-          allDishes = [...allDishes, ...seasonDishes as unknown as Dish[]];
+          allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
         }
       });
     }

@@ -1,41 +1,48 @@
 # TypeScript Error Fixing in Data Directory
 
-I need to systematically fix TypeScript errors in the `src/data` directory of my WhatToEatNext project. The codebase contains several common error patterns:
+I need to systematically fix TypeScript errors in the `src/data` directory of my
+WhatToEatNext project. The codebase contains several common error patterns:
 
 ## Common Error Types:
 
-1. **Record Type Syntax Errors**: Using semicolons instead of commas in Record type definitions
+1. **Record Type Syntax Errors**: Using semicolons instead of commas in Record
+   type definitions
+
    ```typescript
    // INCORRECT
    Record<string; number>
-   
+
    // CORRECT
    Record<string, number>
    ```
 
-2. **Missing Parentheses**: Missing closing parentheses in conditional statements
+2. **Missing Parentheses**: Missing closing parentheses in conditional
+   statements
+
    ```typescript
    // INCORRECT
    if (profile.culinaryAffinity.includes(cuisineName.toLowerCase()) {
-   
+
    // CORRECT
    if (profile.culinaryAffinity.includes(cuisineName.toLowerCase())) {
    ```
 
 3. **Improper `any` Usage**: Using `any` directly without proper initialization
+
    ```typescript
    // INCORRECT
    elementalProperties: any,
-   
+
    // CORRECT
    elementalProperties: { Fire: 0.3, water: 0.3, Air: 0.2, earth: 0.2 },
    ```
 
 4. **Return Type Syntax**: Incorrect function return type syntax
+
    ```typescript
    // INCORRECT
    function getSeasonalScore(...): number {
-   
+
    // CORRECT
    function getSeasonalScore(...): number {
    ```
@@ -69,7 +76,12 @@ I need to systematically fix TypeScript errors in the `src/data` directory of my
    - Confirm all errors are fixed before moving to the next file
 
 ## Note:
-The application uses the core alchemical engine with Kalchm and Monica constants for calculations. All fixes should maintain compatibility with the existing logic and variable names to ensure the formulas continue to work correctly.
+
+The application uses the core alchemical engine with Kalchm and Monica constants
+for calculations. All fixes should maintain compatibility with the existing
+logic and variable names to ensure the formulas continue to work correctly.
 
 ## Goal:
-Fix all TypeScript errors in the data directory to allow the project to build successfully without TypeScript compiler errors. 
+
+Fix all TypeScript errors in the data directory to allow the project to build
+successfully without TypeScript compiler errors.

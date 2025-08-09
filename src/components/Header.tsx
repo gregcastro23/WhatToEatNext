@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 interface HeaderProps {
   onServingsChange: (multiplier: number) => void;
 }
@@ -16,16 +15,10 @@ export default function Header({ onServingsChange }: HeaderProps) {
 
   return (
     // ... existing header JSX ...
-    <div className="servings-control">
-      <label htmlFor="servings">Servings:</label>
-      <input
-        type="number"
-        id="servings"
-        min="1"
-        value={servings}
-        onChange={handleServingsChange}
-      />
+    <div className='servings-control'>
+      <label htmlFor='servings'>Servings:</label>
+      <input type='number' id='servings' min='1' value={servings} onChange={handleServingsChange} />
     </div>
     // ... existing header JSX ...
   );
-} 
+}

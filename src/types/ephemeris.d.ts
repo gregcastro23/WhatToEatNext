@@ -1,10 +1,10 @@
 declare module 'ephemeris' {
   export function loadEphemeris(): Promise<void>;
-  
+
   export declare class Ephemeris {
     static getPlanetPosition(
       planet: string,
-      julianDate: number
+      julianDate: number,
     ): {
       longitude: number;
       latitude: number;
@@ -13,4 +13,4 @@ declare module 'ephemeris' {
   }
 
   export function toJulian(date: Date): number;
-} 
+}

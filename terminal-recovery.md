@@ -3,6 +3,7 @@
 ## Immediate Steps (Terminal Completely Blank)
 
 ### Step 1: Force Kill All Node Processes
+
 ```bash
 # In a new terminal window/tab:
 sudo pkill -9 node
@@ -11,6 +12,7 @@ sudo pkill -9 yarn
 ```
 
 ### Step 2: Clear All Locks and Caches
+
 ```bash
 # Remove all campaign locks
 rm -f .explicit-any-campaign-progress.json
@@ -28,6 +30,7 @@ rm -rf .jest-cache
 ```
 
 ### Step 3: Reset Terminal State
+
 ```bash
 # Reset terminal
 reset
@@ -40,6 +43,7 @@ clear && printf '\e[3J'
 ```
 
 ### Step 4: Restart Kiro
+
 1. Close Kiro completely
 2. Wait 10 seconds
 3. Reopen Kiro
@@ -48,6 +52,7 @@ clear && printf '\e[3J'
 ## If Terminal Still Blank
 
 ### Check System Resources
+
 ```bash
 # Check memory usage
 free -h
@@ -60,6 +65,7 @@ df -h
 ```
 
 ### Check for Zombie Processes
+
 ```bash
 # Find zombie processes
 ps aux | grep -E "(tsc|lint|campaign|batch)" | grep -v grep
@@ -71,6 +77,7 @@ sudo pkill -9 -f "campaign"
 ```
 
 ### Nuclear Option - Complete Reset
+
 ```bash
 # Kill ALL Node.js processes system-wide
 sudo pkill -9 node
@@ -86,9 +93,11 @@ sudo systemctl restart nodejs || echo "No nodejs service"
 ## Prevention Measures
 
 The fixes I implemented include:
+
 1. **Timeout Protection**: All execSync calls now have 30-second timeouts
 2. **Loop Limits**: While loops now have maximum iteration counts
-3. **Process Monitoring**: TerminalFreezePreventionSystem monitors long-running processes
+3. **Process Monitoring**: TerminalFreezePreventionSystem monitors long-running
+   processes
 4. **Emergency Stop**: SIGINT/SIGTERM handlers for clean shutdown
 
 ## Manual Recovery Commands
@@ -109,6 +118,7 @@ node src/services/campaign/terminal-freeze-diagnostic.js --emergency
 ## Root Cause Analysis
 
 The terminal freeze was caused by:
+
 1. **Infinite while(true) loops** in campaign systems
 2. **No timeouts** on execSync calls to TypeScript/lint
 3. **No process monitoring** for stuck operations

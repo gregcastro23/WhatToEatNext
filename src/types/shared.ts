@@ -1,16 +1,16 @@
 /**
  * Shared Type Definitions
- * 
+ *
  * This file contains centralized type definitions used across the application
  * to prevent duplication and ensure consistency.
  */
 
 import { Element, ZodiacSign, Planet } from '@/types/celestial';
 
-import { 
+import {
   ElementalProperties,
   isElementalProperties,
-  DEFAULT_ELEMENTAL_PROPERTIES
+  DEFAULT_ELEMENTAL_PROPERTIES,
 } from './elemental';
 
 // ========== ELEMENTAL TYPES ==========
@@ -21,14 +21,9 @@ import {
 // Element type imported from @/types/celestial
 
 // Re-export the elemental properties types
-export type {
-  ElementalProperties
-};
+export type { ElementalProperties };
 // Re-export utility functions and constants
-export {
-  isElementalProperties,
-  DEFAULT_ELEMENTAL_PROPERTIES
-};
+export { isElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES };
 
 // Re-export celestial types that are commonly needed
 export type { Element, ZodiacSign, Planet };
@@ -69,7 +64,15 @@ export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Ne
 /**
  * Lunar phases with spaces (UI friendly)
  */
-export type LunarPhaseWithSpaces = 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' | 'full moon' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+export type LunarPhaseWithSpaces =
+  | 'new moon'
+  | 'waxing crescent'
+  | 'first quarter'
+  | 'waxing gibbous'
+  | 'full moon'
+  | 'waning gibbous'
+  | 'last quarter'
+  | 'waning crescent';
 
 /**
  * Default LunarPhase type using spaces format
@@ -80,40 +83,40 @@ export type LunarPhase = LunarPhaseWithSpaces;
  * Standardized MoonPhase type to be used throughout the codebase.
  * This includes all possible moon phase values in uppercase format.
  */
-export type MoonPhase = 
-  | 'NEW_MOON' 
-  | 'WAXING_CRESCENT' 
-  | 'FIRST_QUARTER' 
-  | 'WAXING_GIBBOUS' 
-  | 'FULL_MOON' 
-  | 'WANING_GIBBOUS' 
-  | 'LAST_QUARTER' 
+export type MoonPhase =
+  | 'NEW_MOON'
+  | 'WAXING_CRESCENT'
+  | 'FIRST_QUARTER'
+  | 'WAXING_GIBBOUS'
+  | 'FULL_MOON'
+  | 'WANING_GIBBOUS'
+  | 'LAST_QUARTER'
   | 'WANING_CRESCENT';
 
 /**
  * MoonPhase with spaces format for display purposes
  */
-export type MoonPhaseWithSpaces = 
-  | 'New Moon' 
-  | 'Waxing Crescent' 
-  | 'First Quarter' 
-  | 'Waxing Gibbous' 
-  | 'Full Moon' 
-  | 'Waning Gibbous' 
-  | 'Last Quarter' 
+export type MoonPhaseWithSpaces =
+  | 'New Moon'
+  | 'Waxing Crescent'
+  | 'First Quarter'
+  | 'Waxing Gibbous'
+  | 'Full Moon'
+  | 'Waning Gibbous'
+  | 'Last Quarter'
   | 'Waning Crescent';
 
 /**
  * MoonPhase with underscores format for storage and API purposes
  */
-export type MoonPhaseWithUnderscores = 
-  | 'new_moon' 
-  | 'waxing_crescent' 
-  | 'first_quarter' 
-  | 'waxing_gibbous' 
-  | 'full_moon' 
-  | 'waning_gibbous' 
-  | 'last_quarter' 
+export type MoonPhaseWithUnderscores =
+  | 'new_moon'
+  | 'waxing_crescent'
+  | 'first_quarter'
+  | 'waxing_gibbous'
+  | 'full_moon'
+  | 'waning_gibbous'
+  | 'last_quarter'
   | 'waning_crescent';
 
 /**
@@ -133,42 +136,42 @@ export type LowercaseMoonPhaseWithSpaces =
  * Mapping between different lunar phase formats
  */
 export const MOON_PHASE_MAP: Record<MoonPhaseWithUnderscores, MoonPhase> = {
-  'new_moon': 'NEW_MOON',
-  'waxing_crescent': 'WAXING_CRESCENT',
-  'first_quarter': 'FIRST_QUARTER',
-  'waxing_gibbous': 'WAXING_GIBBOUS',
-  'full_moon': 'FULL_MOON',
-  'waning_gibbous': 'WANING_GIBBOUS',
-  'last_quarter': 'LAST_QUARTER',
-  'waning_crescent': 'WANING_CRESCENT'
+  new_moon: 'NEW_MOON',
+  waxing_crescent: 'WAXING_CRESCENT',
+  first_quarter: 'FIRST_QUARTER',
+  waxing_gibbous: 'WAXING_GIBBOUS',
+  full_moon: 'FULL_MOON',
+  waning_gibbous: 'WANING_GIBBOUS',
+  last_quarter: 'LAST_QUARTER',
+  waning_crescent: 'WANING_CRESCENT',
 };
 
 /**
  * Mapping from MoonPhase to MoonPhaseWithSpaces for display
  */
 export const MOON_PHASE_TO_DISPLAY: Record<MoonPhase, MoonPhaseWithSpaces> = {
-  'NEW_MOON': 'New Moon',
-  'WAXING_CRESCENT': 'Waxing Crescent',
-  'FIRST_QUARTER': 'First Quarter',
-  'WAXING_GIBBOUS': 'Waxing Gibbous',
-  'FULL_MOON': 'Full Moon',
-  'WANING_GIBBOUS': 'Waning Gibbous',
-  'LAST_QUARTER': 'Last Quarter',
-  'WANING_CRESCENT': 'Waning Crescent'
+  NEW_MOON: 'New Moon',
+  WAXING_CRESCENT: 'Waxing Crescent',
+  FIRST_QUARTER: 'First Quarter',
+  WAXING_GIBBOUS: 'Waxing Gibbous',
+  FULL_MOON: 'Full Moon',
+  WANING_GIBBOUS: 'Waning Gibbous',
+  LAST_QUARTER: 'Last Quarter',
+  WANING_CRESCENT: 'Waning Crescent',
 };
 
 /**
  * Mapping from MoonPhase to lowercase moon phases with spaces
  */
 export const MOON_PHASE_TO_LOWERCASE: Record<MoonPhase, LowercaseMoonPhaseWithSpaces> = {
-  'NEW_MOON': 'new moon',
-  'WAXING_CRESCENT': 'waxing crescent',
-  'FIRST_QUARTER': 'first quarter',
-  'WAXING_GIBBOUS': 'waxing gibbous',
-  'FULL_MOON': 'full moon',
-  'WANING_GIBBOUS': 'waning gibbous',
-  'LAST_QUARTER': 'last quarter',
-  'WANING_CRESCENT': 'waning crescent'
+  NEW_MOON: 'new moon',
+  WAXING_CRESCENT: 'waxing crescent',
+  FIRST_QUARTER: 'first quarter',
+  WAXING_GIBBOUS: 'waxing gibbous',
+  FULL_MOON: 'full moon',
+  WANING_GIBBOUS: 'waning gibbous',
+  LAST_QUARTER: 'last quarter',
+  WANING_CRESCENT: 'waning crescent',
 };
 
 /**
@@ -182,7 +185,7 @@ export const LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, MoonP
   'full moon': 'FULL_MOON',
   'waning gibbous': 'WANING_GIBBOUS',
   'last quarter': 'LAST_QUARTER',
-  'waning crescent': 'WANING_CRESCENT'
+  'waning crescent': 'WANING_CRESCENT',
 };
 
 /**
@@ -230,19 +233,19 @@ export interface ThermodynamicProperties {
 /**
  * Comprehensive cooking methods including traditional, modern, and molecular techniques
  */
-export type CookingMethod = 
+export type CookingMethod =
   // Basic/Traditional methods
-  | 'baking' 
-  | 'boiling' 
-  | 'roasting' 
-  | 'steaming' 
-  | 'frying' 
-  | 'grilling' 
-  | 'sauteing' 
+  | 'baking'
+  | 'boiling'
+  | 'roasting'
+  | 'steaming'
+  | 'frying'
+  | 'grilling'
+  | 'sauteing'
   | 'raw'
   // Dry heat methods
   | 'broiling'
-  // Wet methods  
+  // Wet methods
   | 'simmering'
   // Specialized frying
   | 'stir-frying'
@@ -253,4 +256,4 @@ export type CookingMethod =
   | 'gelification'
   | 'spherification'
   // Template/placeholder
-  | 'method_name'; 
+  | 'method_name';

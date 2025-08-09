@@ -13,12 +13,12 @@ async function testUnusedExportAnalyzer() {
 
   try {
     const analyzer = new UnusedExportAnalyzer('src');
-    
+
     console.log('📊 Starting analysis...');
     const startTime = Date.now();
-    
+
     const result = await analyzer.analyzeUnusedExports();
-    
+
     const endTime = Date.now();
     const duration = (endTime - startTime) / 1000;
 
@@ -44,7 +44,11 @@ async function testUnusedExportAnalyzer() {
     console.log('\n🎯 TOP TRANSFORMATION CANDIDATES');
     console.log('=================================');
 
-    const allFiles = [...result.highPriorityFiles, ...result.mediumPriorityFiles, ...result.lowPriorityFiles];
+    const allFiles = [
+      ...result.highPriorityFiles,
+      ...result.mediumPriorityFiles,
+      ...result.lowPriorityFiles,
+    ];
     const topCandidates = allFiles
       .filter(f => f.transformationCandidates.length > 0)
       .sort((a, b) => b.safetyScore - a.safetyScore)
@@ -57,10 +61,12 @@ async function testUnusedExportAnalyzer() {
       console.log(`   Safety Score: ${file.safetyScore}`);
       console.log(`   Unused Exports: ${file.unusedExports.length}`);
       console.log(`   Candidates: ${file.transformationCandidates.length}`);
-      
+
       if (file.transformationCandidates.length > 0) {
         const topCandidate = file.transformationCandidates[0];
-        console.log(`   Top Candidate: ${topCandidate.export.exportName} -> ${topCandidate.intelligenceSystemName}`);
+        console.log(
+          `   Top Candidate: ${topCandidate.export.exportName} -> ${topCandidate.intelligenceSystemName}`,
+        );
         console.log(`   Complexity: ${topCandidate.transformationComplexity}`);
         console.log(`   Benefit: ${topCandidate.estimatedBenefit}`);
       }
@@ -69,26 +75,25 @@ async function testUnusedExportAnalyzer() {
     // Generate and save report
     console.log('\n📄 Generating detailed report...');
     const report = analyzer.generateReport(result);
-    
+
     const reportPath = '.unused-export-analysis-report.md';
     await fs.promises.writeFile(reportPath, report);
     console.log(`📝 Report saved to: ${reportPath}`);
 
     console.log('\n🎉 Test completed successfully!');
-    
+
     return {
       success: true,
       duration,
       totalFiles: result.totalFiles,
       totalUnusedExports: result.totalUnusedExports,
-      transformationCandidates: result.summary.totalTransformationCandidates
+      transformationCandidates: result.summary.totalTransformationCandidates,
     };
-
   } catch (error) {
     console.error('❌ Test failed:', error);
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }

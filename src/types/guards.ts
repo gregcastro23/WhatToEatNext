@@ -40,7 +40,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
 
 /** Check for embedded AstrologicalProfile field on a broader object. */
 export function hasAstrologicalProfile(
-  obj: unknown
+  obj: unknown,
 ): obj is { astrologicalProfile: AstrologicalProfile } {
   return (
     !!obj &&
@@ -86,4 +86,4 @@ export function isIngredient(obj: unknown): obj is Ingredient {
     Array.isArray(maybe.qualities) ||
     !!maybe.elementalProperties
   );
-} 
+}

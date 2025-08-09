@@ -1,6 +1,8 @@
 # WhatToEatNext Type System
 
-This directory contains all the type definitions used throughout the WhatToEatNext application. The type system is designed to ensure consistency and type safety across the codebase.
+This directory contains all the type definitions used throughout the
+WhatToEatNext application. The type system is designed to ensure consistency and
+type safety across the codebase.
 
 ## Core Principles
 
@@ -142,4 +144,4 @@ const { standard, withSpaces, withUnderscores } = convertLunarPhaseFormat('waxin
 3. Use validation functions for external/API data
 4. Define new types in the appropriate file and re-export from `index.ts`
 5. Add type guards and validation functions for new types
-6. Document complex types with JSDoc comments 
+6. Document complex types with JSDoc comments

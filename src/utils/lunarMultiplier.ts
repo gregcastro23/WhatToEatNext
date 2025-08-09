@@ -7,9 +7,9 @@ import { LunarPhase } from '@/types/alchemy';
  */
 export const getLunarMultiplier = (phase: LunarPhase | null | undefined): number => {
   if (!phase) return 1.0;
-  
+
   // Use the proper format of lunar phases (with spaces instead of underscores)
-  switch(phase) {
+  switch (phase) {
     case 'full moon':
       return 1.5; // Strongest influence
     case 'waxing gibbous':
@@ -25,4 +25,4 @@ export const getLunarMultiplier = (phase: LunarPhase | null | undefined): number
     default:
       return 1.0; // Baseline influence
   }
-}; 
+};

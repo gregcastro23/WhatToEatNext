@@ -5,11 +5,20 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PeopleIcon from '@mui/icons-material/People';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import {
-  Card, CardContent, CardActions,
-  Typography, Button, Chip, Grid,
-  CircularProgress, Alert, Box,
-  Accordion, AccordionSummary, AccordionDetails,
-  LinearProgress
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+  Chip,
+  Grid,
+  CircularProgress,
+  Alert,
+  Box,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  LinearProgress,
 } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 
@@ -17,18 +26,17 @@ import type { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useServices } from '@/hooks/useServices';
 import type { OptimizedRecipeResult } from '@/services/AlchemicalTransformationService';
 import * as astrologize from '@/services/astrologizeApi';
-import type { 
+import type {
   ElementalProperties,
   LunarPhaseWithSpaces,
   ZodiacSign,
-  Element 
+  Element,
 } from '@/types/alchemy';
 import type { Recipe as RecipeType } from '@/types/recipe';
 import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';
 import { getTimeFactors } from '@/utils/time';
 
 import PlanetaryTimeDisplay from '../PlanetaryTimeDisplay';
-
 
 // Comprehensive interfaces following TypeScript standards
 interface Dish {
@@ -39,12 +47,15 @@ interface Dish {
   timeToMake: string;
   mealType?: string | string[];
   season?: string | string[];
-  ingredients?: Array<string | {
-    name: string;
-    amount: number;
-    unit: string;
-    category?: string;
-  }>;
+  ingredients?: Array<
+    | string
+    | {
+        name: string;
+        amount: number;
+        unit: string;
+        category?: string;
+      }
+  >;
   instructions?: string[];
   elementalProperties?: ElementalProperties;
   numberOfServings?: number;
@@ -98,22 +109,35 @@ const RecipeCard: React.FC<{
 
   const getElementColor = (element: Element): string => {
     switch (element.toLowerCase()) {
-      case 'fire': return '#ef4444';
-      case 'water': return '#3b82f6';
-      case 'earth': return '#22c55e';
-      case 'air': return '#a855f7';
-      default: return '#9ca3af';
+      case 'fire':
+        return '#ef4444';
+      case 'water':
+        return '#3b82f6';
+      case 'earth':
+        return '#22c55e';
+      case 'air':
+        return '#a855f7';
+      default:
+        return '#9ca3af';
     }
   };
 
   const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
   const instructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
-  const seasons = Array.isArray(recipe.season) ? recipe.season : recipe.season ? [recipe.season] : [];
-  const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : recipe.mealType ? [recipe.mealType] : [];
+  const seasons = Array.isArray(recipe.season)
+    ? recipe.season
+    : recipe.season
+      ? [recipe.season]
+      : [];
+  const mealTypes = Array.isArray(recipe.mealType)
+    ? recipe.mealType
+    : recipe.mealType
+      ? [recipe.mealType]
+      : [];
 
   return (
-    <Card 
-      sx={{ 
+    <Card
+      sx={{
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -121,52 +145,47 @@ const RecipeCard: React.FC<{
         transition: 'all 0.3s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: 3
-        }
+          boxShadow: 3,
+        },
       }}
     >
       <CardContent sx={{ flexGrow: 1 }}>
-        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-          <Typography variant="h6" component="h3" gutterBottom>
+        <Box display='flex' justifyContent='space-between' alignItems='flex-start' mb={2}>
+          <Typography variant='h6' component='h3' gutterBottom>
             {recipe.name}
           </Typography>
-          <Chip 
+          <Chip
             label={`${Math.round(matchPercentage)}%`}
             color={matchPercentage > 75 ? 'success' : matchPercentage > 50 ? 'warning' : 'default'}
-            size="small"
+            size='small'
           />
         </Box>
 
-        <Typography variant="body2" color="text.secondary" paragraph>
+        <Typography variant='body2' color='text.secondary' paragraph>
           {recipe.description}
         </Typography>
 
-        <Box display="flex" gap={1} flexWrap="wrap" mb={2}>
-          <Chip 
-            icon={<RestaurantIcon />}
-            label={recipe.cuisine}
-            size="small"
-            variant="outlined"
-          />
-          <Chip 
+        <Box display='flex' gap={1} flexWrap='wrap' mb={2}>
+          <Chip icon={<RestaurantIcon />} label={recipe.cuisine} size='small' variant='outlined' />
+          <Chip
             icon={<AccessTimeIcon />}
             label={recipe.timeToMake}
-            size="small"
-            variant="outlined"
+            size='small'
+            variant='outlined'
           />
           {recipe.numberOfServings && (
-            <Chip 
+            <Chip
               icon={<PeopleIcon />}
               label={`${recipe.numberOfServings} servings`}
-              size="small"
-              variant="outlined"
+              size='small'
+              variant='outlined'
             />
           )}
         </Box>
 
         {seasons.length > 0 && (
           <Box mb={1}>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant='caption' color='text.secondary'>
               Seasons: {seasons.join(', ')}
             </Typography>
           </Box>
@@ -174,7 +193,7 @@ const RecipeCard: React.FC<{
 
         {mealTypes.length > 0 && (
           <Box mb={2}>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant='caption' color='text.secondary'>
               Meal Types: {mealTypes.join(', ')}
             </Typography>
           </Box>
@@ -182,31 +201,29 @@ const RecipeCard: React.FC<{
 
         {recipe.elementalProperties && (
           <Box mb={2}>
-            <Typography variant="caption" color="text.secondary" gutterBottom>
+            <Typography variant='caption' color='text.secondary' gutterBottom>
               Elemental Properties:
             </Typography>
             <Grid container spacing={1}>
               {Object.entries(recipe.elementalProperties).map(([element, value]) => (
                 <Grid item xs={6} key={element}>
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <Typography variant="caption" sx={{ minWidth: 40 }}>
+                  <Box display='flex' alignItems='center' gap={1}>
+                    <Typography variant='caption' sx={{ minWidth: 40 }}>
                       {element}
                     </Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <LinearProgress
+                      variant='determinate'
                       value={value * 100}
-                      sx={{ 
-                        flexGrow: 1, 
-                        height: 6, 
+                      sx={{
+                        flexGrow: 1,
+                        height: 6,
                         borderRadius: 1,
                         '& .MuiLinearProgress-bar': {
-                          backgroundColor: getElementColor(element as Element)
-                        }
+                          backgroundColor: getElementColor(element as Element),
+                        },
                       }}
                     />
-                    <Typography variant="caption">
-                      {Math.round(value * 100)}%
-                    </Typography>
+                    <Typography variant='caption'>{Math.round(value * 100)}%</Typography>
                   </Box>
                 </Grid>
               ))}
@@ -216,11 +233,7 @@ const RecipeCard: React.FC<{
       </CardContent>
 
       <CardActions>
-        <Button 
-          size="small" 
-          onClick={() => setExpanded(!expanded)}
-          endIcon={<ExpandMoreIcon />}
-        >
+        <Button size='small' onClick={() => setExpanded(!expanded)} endIcon={<ExpandMoreIcon />}>
           {expanded ? 'Less Details' : 'More Details'}
         </Button>
       </CardActions>
@@ -229,16 +242,16 @@ const RecipeCard: React.FC<{
         <CardContent>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle2">
-                Ingredients ({ingredients.length})
-              </Typography>
+              <Typography variant='subtitle2'>Ingredients ({ingredients.length})</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Box>
                 {ingredients.map((ingredient, index) => (
-                  <Typography key={index} variant="body2" gutterBottom>
-                    • {typeof ingredient === 'string' ? ingredient : 
-                       `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`}
+                  <Typography key={index} variant='body2' gutterBottom>
+                    •{' '}
+                    {typeof ingredient === 'string'
+                      ? ingredient
+                      : `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`}
                   </Typography>
                 ))}
               </Box>
@@ -248,14 +261,12 @@ const RecipeCard: React.FC<{
           {instructions.length > 0 && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle2">
-                  Instructions ({instructions.length})
-                </Typography>
+                <Typography variant='subtitle2'>Instructions ({instructions.length})</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Box>
                   {instructions.map((instruction, index) => (
-                    <Typography key={index} variant="body2" paragraph>
+                    <Typography key={index} variant='body2' paragraph>
                       {index + 1}. {instruction}
                     </Typography>
                   ))}
@@ -278,7 +289,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     astrologyService,
     recommendationService,
     recipeService,
-    alchemicalRecommendationService
+    alchemicalRecommendationService,
   } = servicesData;
   const elementalCalculatorService = (servicesData as Record<string, unknown>).elementalCalculator;
 
@@ -289,10 +300,10 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, number>>({});
   const [isDaytime, setIsDaytime] = useState<boolean>(true);
   const [elementalState, setElementalState] = useState<ElementalProperties>({
-    Fire: 0.25, 
-    Water: 0.25, 
-    Earth: 0.25, 
-    Air: 0.25
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
   });
   const [zodiacSign, setZodiacSign] = useState<ZodiacSign | undefined>(undefined);
   const [lunarPhase, setLunarPhase] = useState<string | null>(null);
@@ -314,7 +325,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
           lunarPhase: 'new moon',
           currentSeason: 'spring',
           dominantElements: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-          activePlanets: Object.keys(data)
+          activePlanets: Object.keys(data),
         };
         setAstroData(astroData);
       } catch (err) {
@@ -331,9 +342,16 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   // Load astrological data when services are available
   useEffect(() => {
     // ✅ Pattern MM-1: Safe type assertion for service access
-    const servicesData = (useServices() as unknown) as Record<string, unknown>;
-    const elementalCalculatorService = servicesData.elementalCalculator as { calculateElementalProperties: (positions: Record<string, number>, daytime: boolean) => Promise<ElementalProperties> } | undefined;
-    
+    const servicesData = useServices() as unknown as Record<string, unknown>;
+    const elementalCalculatorService = servicesData.elementalCalculator as
+      | {
+          calculateElementalProperties: (
+            positions: Record<string, number>,
+            daytime: boolean,
+          ) => Promise<ElementalProperties>;
+        }
+      | undefined;
+
     if (servicesLoading || !astrologyService || !elementalCalculatorService) {
       return;
     }
@@ -341,50 +359,61 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     const loadAstrologicalData = async () => {
       try {
         setError(null);
-        
+
         // Get current planetary positions
         const positions = await astrologyService.getCurrentPlanetaryPositions();
         const formattedPositions: { [key: string]: number } = {};
-        
+
         // Convert positions to degree values with proper error handling
         // ✅ Pattern GG-6: Safe property access for planetary positions
         Object.entries(positions || {}).forEach(([planet, data]) => {
-          const positionData = (data as unknown) as Record<string, unknown>;
-          if (positionData && typeof positionData === 'object' && positionData.exactLongitude !== undefined) {
+          const positionData = data as unknown as Record<string, unknown>;
+          if (
+            positionData &&
+            typeof positionData === 'object' &&
+            positionData.exactLongitude !== undefined
+          ) {
             formattedPositions[planet] = Number(positionData.exactLongitude || 0);
           }
         });
-        
+
         setPlanetaryPositions(formattedPositions);
-        
+
         // Get daytime status
         const daytime = await astrologyService.isDaytime();
         setIsDaytime(daytime);
-        
+
         // Get zodiac sign
         // ✅ Pattern MM-1: Safe type assertion for service access
-        const astrologyServiceData = (astrologyService as unknown) as Record<string, unknown>;
+        const astrologyServiceData = astrologyService as unknown as Record<string, unknown>;
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const chartMethod = astrologyServiceData.getChartData as (() => Promise<Record<string, unknown>>) | undefined;
+        const chartMethod = astrologyServiceData.getChartData as
+          | (() => Promise<Record<string, unknown>>)
+          | undefined;
         if (chartMethod) {
           const chartData = await chartMethod();
-          const sunData = (chartData.Sun ) as Record<string, unknown>;
+          const sunData = chartData.Sun as Record<string, unknown>;
           if (sunData.sign) {
             setZodiacSign(String(sunData.sign) as ZodiacSign);
           }
         }
-        
+
         // Get lunar phase
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const lunarMethod = astrologyServiceData.getCurrentLunarPhase as (() => Promise<string>) | undefined;
+        const lunarMethod = astrologyServiceData.getCurrentLunarPhase as
+          | (() => Promise<string>)
+          | undefined;
         if (lunarMethod) {
           const phase = await lunarMethod();
           setLunarPhase(String(phase || ''));
         }
-        
+
         // Calculate elemental properties based on planetary positions
         if (elementalCalculatorService) {
-          const properties = await elementalCalculatorService.calculateElementalProperties(formattedPositions, daytime);
+          const properties = await elementalCalculatorService.calculateElementalProperties(
+            formattedPositions,
+            daytime,
+          );
           setElementalState(properties);
         }
       } catch (err) {
@@ -393,7 +422,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         console.error('Error loading astrological data:', err);
       }
     };
-    
+
     void loadAstrologicalData();
   }, [servicesLoading, astrologyService, elementalCalculatorService]);
 
@@ -407,9 +436,11 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       try {
         setError(null);
         // ✅ Pattern MM-1: Safe type assertion for service access
-        const recipeServiceData = (recipeService as unknown) as Record<string, unknown>;
+        const recipeServiceData = recipeService as unknown as Record<string, unknown>;
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const cuisinesMethod = recipeServiceData.getAllCuisines as (() => Promise<Record<string, CuisineData>>) | undefined;
+        const cuisinesMethod = recipeServiceData.getAllCuisines as
+          | (() => Promise<Record<string, CuisineData>>)
+          | undefined;
         if (cuisinesMethod) {
           const cuisinesData = await cuisinesMethod();
           setCuisines(cuisinesData || {});
@@ -422,7 +453,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         console.error('Error loading cuisines data:', err);
       }
     };
-    
+
     void loadCuisinesData();
   }, [servicesLoading, recipeService]);
 
@@ -432,10 +463,10 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       id: key,
       name: cuisine.name || key,
       elementalProperties: cuisine.elementalProperties || {
-        Fire: 0.25, 
-        Water: 0.25, 
-        Earth: 0.25, 
-        Air: 0.25
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
       },
     })) as ElementalItem[];
   }, [cuisines]);
@@ -451,7 +482,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       try {
         setError(null);
         const recipesData = await recipeService.searchRecipes(String(filters.dietaryPreference));
-        setRecipes((recipesData as unknown) as RecipeType[]);
+        setRecipes(recipesData as unknown as RecipeType[]);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to fetch recipes: ${errorMessage}`);
@@ -468,21 +499,21 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   const allRecipes = useMemo(() => {
     return Object.entries(cuisines || {}).flatMap(([_cuisineKey, cuisine]) =>
       Object.entries(cuisine.dishes || {}).flatMap(([mealType, mealTypeData]) =>
-        Object.entries(mealTypeData as Record<string, Dish[]> || {}).flatMap(
+        Object.entries((mealTypeData as Record<string, Dish[]>) || {}).flatMap(
           ([season, recipes]) =>
             (recipes || []).map((recipe: Dish) => ({
               ...recipe,
               mealType,
-              season
-            }))
-        )
-      )
+              season,
+            })),
+        ),
+      ),
     );
   }, [cuisines]);
 
   // Apply filters based on user preferences with enhanced filtering
   const filteredRecipes = useMemo(() => {
-    return allRecipes.filter((recipe) => {
+    return allRecipes.filter(recipe => {
       // Cooking time filter
       if (
         filters.cookingTime !== 'all' &&
@@ -490,50 +521,72 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       ) {
         return false;
       }
-      
+
       // Add more comprehensive filters here
       if (filters.dietaryPreference !== 'all') {
         // Add dietary preference logic
       }
-      
+
       return true;
     });
   }, [allRecipes, filters]);
 
   // Multi-factor scoring system
-  const calculateRecommendationScore = (item: unknown, astroData: Record<string, unknown>): RecommendationScore => {
+  const calculateRecommendationScore = (
+    item: unknown,
+    astroData: Record<string, unknown>,
+  ): RecommendationScore => {
     // ✅ Pattern MM-1: Safe type assertion for item properties
-    const itemData = (item ) as Record<string, unknown>;
-    const elementalMatch = calculateElementalMatch(itemData.elementalProperties as ElementalProperties, astroData.dominantElements as ElementalProperties) * 0.4;
-    const planetaryInfluence = calculatePlanetaryInfluence(itemData.planetaryRulers as string[], astroData.activePlanets as string[]) * 0.3;
-    const seasonalAlignment = calculateSeasonalAlignment(itemData.seasonality as Record<string, number>, String(astroData.currentSeason || '')) * 0.2;
-    const lunarPhaseBonus = calculateLunarPhaseBonus(itemData.lunarAffinities as Record<string, number>, String(astroData.lunarPhase || '')) * 0.1;
-    
+    const itemData = item as Record<string, unknown>;
+    const elementalMatch =
+      calculateElementalMatch(
+        itemData.elementalProperties as ElementalProperties,
+        astroData.dominantElements as ElementalProperties,
+      ) * 0.4;
+    const planetaryInfluence =
+      calculatePlanetaryInfluence(
+        itemData.planetaryRulers as string[],
+        astroData.activePlanets as string[],
+      ) * 0.3;
+    const seasonalAlignment =
+      calculateSeasonalAlignment(
+        itemData.seasonality as Record<string, number>,
+        String(astroData.currentSeason || ''),
+      ) * 0.2;
+    const lunarPhaseBonus =
+      calculateLunarPhaseBonus(
+        itemData.lunarAffinities as Record<string, number>,
+        String(astroData.lunarPhase || ''),
+      ) * 0.1;
+
     const total = elementalMatch + planetaryInfluence + seasonalAlignment + lunarPhaseBonus;
-    
+
     return {
       total: Math.min(100, total * 100),
       elemental: elementalMatch * 100,
       planetary: planetaryInfluence * 100,
       seasonal: seasonalAlignment * 100,
-      lunar: lunarPhaseBonus * 100
+      lunar: lunarPhaseBonus * 100,
     };
   };
 
   // Helper functions for scoring calculations
-  const calculateElementalMatch = (itemProps?: ElementalProperties, systemProps?: ElementalProperties): number => {
+  const calculateElementalMatch = (
+    itemProps?: ElementalProperties,
+    systemProps?: ElementalProperties,
+  ): number => {
     if (!itemProps || !systemProps) return 0.5;
-    
+
     let similarity = 0;
     let totalWeight = 0;
-    
+
     Object.entries(itemProps).forEach(([element, value]) => {
       const systemValue = systemProps[element as keyof ElementalProperties] || 0;
       const weight = systemValue + 0.25;
       similarity += (1 - Math.abs(value - systemValue)) * weight;
       totalWeight += weight;
     });
-    
+
     return totalWeight > 0 ? similarity / totalWeight : 0.5;
   };
 
@@ -543,12 +596,18 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     return matches.length / Math.max(rulers.length, 1);
   };
 
-  const calculateSeasonalAlignment = (seasonality?: Record<string, number>, currentSeason?: string): number => {
+  const calculateSeasonalAlignment = (
+    seasonality?: Record<string, number>,
+    currentSeason?: string,
+  ): number => {
     if (!seasonality || !currentSeason) return 0.5;
     return Number(seasonality[currentSeason]) || 0.3;
   };
 
-  const calculateLunarPhaseBonus = (affinities?: Record<string, number>, phase?: string): number => {
+  const calculateLunarPhaseBonus = (
+    affinities?: Record<string, number>,
+    phase?: string,
+  ): number => {
     if (!affinities || !phase) return 0;
     return Number(affinities[phase]) || 0;
   };
@@ -556,9 +615,9 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   // Use the alchemical recommendation service to get optimized recipes
   useEffect(() => {
     if (
-      servicesLoading || 
-      !alchemicalRecommendationService || 
-      !planetaryPositions || 
+      servicesLoading ||
+      !alchemicalRecommendationService ||
+      !planetaryPositions ||
       Object.keys(planetaryPositions).length === 0 ||
       filteredRecipes.length === 0
     ) {
@@ -568,48 +627,52 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     const getOptimizedRecipes = async () => {
       try {
         setError(null);
-        
+
         // Prepare the recipe objects for optimization
-        const preparedRecipes = filteredRecipes.map((recipe) => ({
+        const preparedRecipes = filteredRecipes.map(recipe => ({
           ...recipe,
           ingredients: Array.isArray(recipe.ingredients)
-            ? recipe.ingredients.map((i) =>
+            ? recipe.ingredients.map(i =>
                 typeof i === 'string'
                   ? {
                       name: i,
                       amount: 1,
                       unit: 'unit',
-                      category: 'general'
+                      category: 'general',
                     }
-                  : i
+                  : i,
               )
             : [],
           instructions: recipe.instructions || [],
           numberOfServings: recipe.numberOfServings || 4,
           elementalProperties: recipe.elementalProperties || {
-            Fire: 0.25, 
-            Water: 0.25, 
-            Earth: 0.25, 
-            Air: 0.25
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25,
           },
         }));
 
         // ✅ Pattern MM-1: Safe type assertion for service access
-        const serviceData = (alchemicalRecommendationService as unknown) as Record<string, unknown>;
+        const serviceData = alchemicalRecommendationService as unknown as Record<string, unknown>;
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const optimizeMethod = serviceData.getOptimizedRecipes as ((recipes: unknown[], positions: unknown, daytime: boolean, options: unknown) => Promise<unknown[]>) | undefined;
+        const optimizeMethod = serviceData.getOptimizedRecipes as
+          | ((
+              recipes: unknown[],
+              positions: unknown,
+              daytime: boolean,
+              options: unknown,
+            ) => Promise<unknown[]>)
+          | undefined;
         if (optimizeMethod) {
-          const optimized = await optimizeMethod(
-            preparedRecipes,
-            planetaryPositions,
-            isDaytime,
-            {
-              currentZodiacSign: zodiacSign,
-              lunarPhase: lunarPhase ? (normalizeLunarPhase(lunarPhase) as LunarPhaseWithSpaces) : undefined,
-              count: 6
-            }
-          );
-          setOptimizedRecipes((optimized as unknown) as OptimizedRecipeResult[]);
+          const optimized = await optimizeMethod(preparedRecipes, planetaryPositions, isDaytime, {
+            currentZodiacSign: zodiacSign,
+            lunarPhase: lunarPhase
+              ? (normalizeLunarPhase(lunarPhase) as LunarPhaseWithSpaces)
+              : undefined,
+            count: 6,
+          });
+          setOptimizedRecipes(optimized as unknown as OptimizedRecipeResult[]);
         }
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
@@ -626,26 +689,31 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     isDaytime,
     zodiacSign,
     lunarPhase,
-    filteredRecipes
+    filteredRecipes,
   ]);
 
   // Helper function to get element color
   const getElementColor = (element: string): string => {
     switch (element.toLowerCase()) {
-      case 'fire': return '#ef4444';
-      case 'water': return '#3b82f6';
-      case 'earth': return '#22c55e';
-      case 'air': return '#a855f7';
-      default: return '#9ca3af';
+      case 'fire':
+        return '#ef4444';
+      case 'water':
+        return '#3b82f6';
+      case 'earth':
+        return '#22c55e';
+      case 'air':
+        return '#a855f7';
+      default:
+        return '#9ca3af';
     }
   };
 
   // Show loading state when services are loading
   if (servicesLoading || isLoading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" p={3}>
+      <Box display='flex' justifyContent='center' alignItems='center' p={3}>
         <CircularProgress />
-        <Typography variant="body2" sx={{ ml: 2 }}>
+        <Typography variant='body2' sx={{ ml: 2 }}>
           Loading astrological recommendations...
         </Typography>
       </Box>
@@ -655,7 +723,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   // Show error state when services fail to load
   if (servicesError || error) {
     return (
-      <Alert severity="error" sx={{ mb: 2 }}>
+      <Alert severity='error' sx={{ mb: 2 }}>
         {servicesError?.message || error}
       </Alert>
     );
@@ -674,31 +742,29 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       {/* Elemental Status */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant='h6' gutterBottom>
             Current Elemental State
           </Typography>
           <Grid container spacing={2}>
             {Object.entries(elementalState).map(([element, value]) => (
               <Grid item xs={6} md={3} key={element}>
-                <Card variant="outlined" sx={{ textAlign: 'center', p: 2 }}>
-                  <Typography variant="subtitle1" gutterBottom>
+                <Card variant='outlined' sx={{ textAlign: 'center', p: 2 }}>
+                  <Typography variant='subtitle1' gutterBottom>
                     {element}
                   </Typography>
-                  <LinearProgress 
-                    variant="determinate" 
+                  <LinearProgress
+                    variant='determinate'
                     value={value * 100}
-                    sx={{ 
+                    sx={{
                       mb: 1,
                       height: 8,
                       borderRadius: 1,
                       '& .MuiLinearProgress-bar': {
-                        backgroundColor: getElementColor(element)
-                      }
+                        backgroundColor: getElementColor(element),
+                      },
                     }}
                   />
-                  <Typography variant="body2">
-                    {Math.round(value * 100)}%
-                  </Typography>
+                  <Typography variant='body2'>{Math.round(value * 100)}%</Typography>
                 </Card>
               </Grid>
             ))}
@@ -709,7 +775,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       {/* Recipe Recommendations */}
       <Card>
         <CardContent>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant='h6' gutterBottom>
             Recommended Recipes
           </Typography>
           {optimizedRecipes.length > 0 ? (
@@ -717,19 +783,21 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
               {optimizedRecipes.map(({ recipe, compatibility, dominantElement }) => (
                 <Grid item xs={12} md={6} lg={4} key={`${recipe.cuisine}-${recipe.name}`}>
                   <RecipeCard
-                    recipe={{
-                      ...recipe,
-                      season: Array.isArray(recipe.season)
-                        ? recipe.season
-                        : recipe.season
-                        ? [recipe.season]
-                        : [],
-                      mealType: Array.isArray(recipe.mealType)
-                        ? recipe.mealType
-                        : recipe.mealType
-                        ? [recipe.mealType]
-                        : []
-                    } as Dish}
+                    recipe={
+                      {
+                        ...recipe,
+                        season: Array.isArray(recipe.season)
+                          ? recipe.season
+                          : recipe.season
+                            ? [recipe.season]
+                            : [],
+                        mealType: Array.isArray(recipe.mealType)
+                          ? recipe.mealType
+                          : recipe.mealType
+                            ? [recipe.mealType]
+                            : [],
+                      } as Dish
+                    }
                     elementalHighlight={dominantElement}
                     matchPercentage={compatibility * 100}
                   />
@@ -737,10 +805,10 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
               ))}
             </Grid>
           ) : (
-            <Box textAlign="center" py={4}>
-              <Typography variant="body1" color="text.secondary">
-                No recipes match your current criteria. Try adjusting the elemental
-                state or filters.
+            <Box textAlign='center' py={4}>
+              <Typography variant='body1' color='text.secondary'>
+                No recipes match your current criteria. Try adjusting the elemental state or
+                filters.
               </Typography>
             </Box>
           )}
@@ -750,4 +818,4 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   );
 };
 
-export default React.memo(RecipeRecommendationsMigrated); 
+export default React.memo(RecipeRecommendationsMigrated);

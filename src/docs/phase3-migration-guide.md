@@ -1,6 +1,7 @@
 # Phase 3: Component Integration Guide
 
-This guide provides instructions for migrating React components to the new service architecture implemented in Phase 1 and Phase 2.
+This guide provides instructions for migrating React components to the new
+service architecture implemented in Phase 1 and Phase 2.
 
 ## Table of Contents
 
@@ -14,14 +15,16 @@ This guide provides instructions for migrating React components to the new servi
 
 ## Overview
 
-Phase 3 focuses on updating React components to use the new service architecture. The key goals are:
+Phase 3 focuses on updating React components to use the new service
+architecture. The key goals are:
 
 - Replace direct service imports with the `useServices` hook
 - Ensure proper initialization and error handling
 - Remove direct service instantiation
 - Provide consistent loading states
 
-This approach centralizes service management, improves error handling, and creates a more maintainable architecture.
+This approach centralizes service management, improves error handling, and
+creates a more maintainable architecture.
 
 ## Migration Steps
 
@@ -51,9 +54,9 @@ Replace direct service imports with the `useServices` hook:
 import { useServices } from '@/hooks/useServices';
 
 const MyComponent = () => {
-  const { 
-    astrologyService, 
-    alchemicalEngine 
+  const {
+    astrologyService,
+    alchemicalEngine
   } = useServices();
   // ...
 };
@@ -84,10 +87,10 @@ useEffect(() => {
 Use the loading and error states provided by the `useServices` hook:
 
 ```jsx
-const { 
-  isLoading, 
-  error, 
-  astrologyService 
+const {
+  isLoading,
+  error,
+  astrologyService
 } = useServices();
 
 // Show loading state
@@ -121,7 +124,7 @@ function MyComponent() {
     error,
     status,
     isInitialized,
-    
+
     // Services
     alchemicalEngine,
     astrologyService,
@@ -143,7 +146,7 @@ Always check for loading and error states before using services:
 function MyComponent() {
   const { isLoading, error, astrologyService } = useServices();
   const [data, setData] = useState(null);
-  
+
   useEffect(() => {
     // Skip if services aren't loaded yet
     if (isLoading || error || !astrologyService) {
@@ -207,14 +210,14 @@ import React, { useState, useEffect } from 'react';
 import { useServices } from '@/hooks/useServices';
 
 const MultiServiceComponent = () => {
-  const { 
-    isLoading, 
-    error, 
+  const {
+    isLoading,
+    error,
     astrologyService,
     alchemicalEngine,
     ingredientService
   } = useServices();
-  
+
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
@@ -223,15 +226,15 @@ const MultiServiceComponent = () => {
     const getRecommendations = async () => {
       // 1. Get planetary positions from astrologyService
       const positions = await astrologyService.getCurrentPlanetaryPositions();
-      
+
       // 2. Calculate alchemical properties using alchemicalEngine
       const formattedPositions = convertPositions(positions);
       const thermodynamics = alchemicalEngine.alchemize(formattedPositions);
-      
+
       // 3. Get ingredient recommendations based on those properties
       const elemental = deriveElementalProperties(thermodynamics);
       const ingredients = ingredientService.getRecommendedIngredients(elemental);
-      
+
       setRecommendations(ingredients);
     };
 
@@ -259,7 +262,8 @@ Use this checklist to ensure your component migration is complete:
 
 ### Component Re-renders Too Often
 
-If your component re-renders too often, you might be using services directly in your render function. Move service calls to useEffect:
+If your component re-renders too often, you might be using services directly in
+your render function. Move service calls to useEffect:
 
 ```jsx
 // Problematic
@@ -283,7 +287,8 @@ useEffect(() => {
 
 ### Services Are Undefined
 
-If services are undefined despite the loading state being false, ensure you're checking for the service existence:
+If services are undefined despite the loading state being false, ensure you're
+checking for the service existence:
 
 ```jsx
 const { isLoading, astrologyService } = useServices();
@@ -316,16 +321,17 @@ useEffect(() => {
 
 ### Legacy Context Usage
 
-If your component uses both the new services and legacy contexts, separate the concerns:
+If your component uses both the new services and legacy contexts, separate the
+concerns:
 
 ```jsx
 const MyComponent = () => {
   // New services architecture
   const { astrologyService, alchemicalEngine } = useServices();
-  
+
   // Legacy context (still needed during migration)
   const { state } = useAlchemical();
-  
+
   // Use both as needed, but migrate functionality to new services gradually
 };
-``` 
+```

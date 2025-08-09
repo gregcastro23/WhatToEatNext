@@ -1,25 +1,24 @@
 #!/usr/bin/env node
 
 import fs from 'fs';
-import path from 'path';
 
-const ALCHEMICAL_ENGINE_TEMPLATE = `import type { 
+const ALCHEMICAL_ENGINE_TEMPLATE = `import type {
   ElementalProperties,
   LunarPhase,
   ZodiacSign,
   AstrologicalState,
   Recipe,
-  Ingredient 
+  Ingredient
 } from '@/types/alchemy';
 import { ElementalCalculator } from "@/services/ElementalCalculator";
 import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
 
 // Default balanced elemental properties
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = { 
-  Fire: 0.25, 
-  Water: 0.25, 
-  Earth: 0.25, 
-  Air: 0.25 
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
+  Air: 0.25
 };
 
 /**
@@ -209,12 +208,12 @@ export class AlchemicalEngineBase {
     const harmony = this.calculateHarmonyBetween(recipeElements, userElements);
     const astroModifier = this.getAstrologicalModifiers(astrologicalState);
     const seasonModifier = this.seasonalModifiers[season] || this.seasonalModifiers.spring;
-    
+
     // Apply modifiers
-    const modifiedHarmony = harmony * 0.6 + 
+    const modifiedHarmony = harmony * 0.6 +
       this.calculateHarmonyBetween(recipeElements, astroModifier) * 0.25 +
       this.calculateHarmonyBetween(recipeElements, seasonModifier) * 0.15;
-    
+
     return Math.max(0, Math.min(1, modifiedHarmony));
   }
 
@@ -236,16 +235,16 @@ export class AlchemicalEngineBase {
     const { sunSign, moonPhase } = astrologicalState;
     const sunElement = this.zodiacElements[sunSign]?.baseElement || 'Fire';
     const moonModifier = this.lunarPhaseModifiers[moonPhase] || this.lunarPhaseModifiers['new Moon'];
-    
+
     // Blend Sunsun and Moonmoon influences
     const modifiers = { ...DEFAULT_ELEMENTAL_PROPERTIES };
     modifiers[sunElement] += 0.1;
-    
+
     // Apply lunar phase modifiers
     for (const element of Object.keys(modifiers) as (keyof ElementalProperties)[]) {
       modifiers[element] = (modifiers[element] + moonModifier[element]) / 2;
     }
-    
+
     return modifiers;
   }
 
@@ -253,7 +252,7 @@ export class AlchemicalEngineBase {
     if (!recipe.elementalProperties) {
       return 0.5; // Default neutral harmony
     }
-    
+
     return this.calculateHarmonyScore(recipe.elementalProperties);
   }
 
@@ -261,7 +260,7 @@ export class AlchemicalEngineBase {
     const values = Object.values(elements);
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
-    
+
     // Lower variance indicates better balance/harmony
     return Math.max(0, 1 - variance * 4);
   }
@@ -274,12 +273,12 @@ export class AlchemicalEngineBase {
     if (recipe.elementalProperties) {
       return recipe.elementalProperties;
     }
-    
+
     // Calculate from ingredients if available
     if (recipe.ingredients?.length) {
       return this.calculator.calculateFromIngredients(recipe.ingredients);
     }
-    
+
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -297,7 +296,7 @@ export default AlchemicalEngineBase;
 `;
 
 const ELEMENTAL_UTILS_TEMPLATE = `import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import type { 
+import type {
   ElementalProperties,
   Recipe,
   Element,
@@ -425,7 +424,7 @@ export const elementalUtils = {
     if (!recipe?.ingredients?.length) {
       return ElementalCalculator.getCurrentElementalState();
     }
-    
+
     return ElementalCalculator.calculateFromIngredients(recipe.ingredients);
   },
 
@@ -443,11 +442,11 @@ export const elementalUtils = {
     if (recipe.elementalProperties) {
       return recipe.elementalProperties;
     }
-    
+
     if (recipe.ingredients?.length) {
       return ElementalCalculator.calculateFromIngredients(recipe.ingredients);
     }
-    
+
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   },
 
@@ -524,7 +523,7 @@ export const elementalUtils = {
 
   getSuggestedCookingTechniques(properties: ElementalProperties): string[] {
     const techniques: string[] = [];
-    
+
     if (properties.Fire > 0.3) {
       techniques.push('grilling', 'roasting', 'searing');
     }
@@ -537,13 +536,13 @@ export const elementalUtils = {
     if (properties.Air > 0.3) {
       techniques.push('smoking', 'dehydrating', 'whipping');
     }
-    
+
     return techniques;
   },
 
   getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
     const times: string[] = [];
-    
+
     if (properties.Fire > 0.3) {
       times.push('noon', 'afternoon');
     }
@@ -556,7 +555,7 @@ export const elementalUtils = {
     if (properties.Air > 0.3) {
       times.push('morning', 'dawn');
     }
-    
+
     return times;
   },
 
@@ -570,9 +569,9 @@ export default elementalUtils;
 
 function createRestoreScript() {
   console.log('🔧 Creating restoration script for critical files...');
-  
+
   const dryRun = process.argv.includes('--dry-run');
-  
+
   if (dryRun) {
     console.log('📋 DRY RUN MODE - No files will be modified');
     console.log('Files to restore:');
@@ -584,11 +583,11 @@ function createRestoreScript() {
   try {
     // Backup existing files
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    
+
     // Restore alchemicalEngine.ts
     const alchemicalEnginePath = 'src/lib/alchemicalEngine.ts';
     if (fs.existsSync(alchemicalEnginePath)) {
-      fs.copyFileSync(alchemicalEnginePath, \`\${alchemicalEnginePath}.backup-\${timestamp}\`);
+      fs.copyFileSync(alchemicalEnginePath, `${alchemicalEnginePath}.backup-${timestamp}`);
     }
     fs.writeFileSync(alchemicalEnginePath, ALCHEMICAL_ENGINE_TEMPLATE);
     console.log('✅ Restored src/lib/alchemicalEngine.ts');
@@ -596,7 +595,7 @@ function createRestoreScript() {
     // Restore elementalUtils.ts
     const elementalUtilsPath = 'src/utils/elementalUtils.ts';
     if (fs.existsSync(elementalUtilsPath)) {
-      fs.copyFileSync(elementalUtilsPath, \`\${elementalUtilsPath}.backup-\${timestamp}\`);
+      fs.copyFileSync(elementalUtilsPath, `${elementalUtilsPath}.backup-${timestamp}`);
     }
     fs.writeFileSync(elementalUtilsPath, ELEMENTAL_UTILS_TEMPLATE);
     console.log('✅ Restored src/utils/elementalUtils.ts');
@@ -604,13 +603,12 @@ function createRestoreScript() {
     console.log('🎉 Critical file restoration complete!');
     console.log('📊 Expected error reduction: ~266 errors');
     console.log('🔨 Run "yarn build" to verify fixes');
-
   } catch (error) {
     console.error('❌ Error during restoration:', error.message);
     process.exit(1);
   }
 }
 
-if (import.meta.url === \`file://\${process.argv[1]}\`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   createRestoreScript();
-} 
+}

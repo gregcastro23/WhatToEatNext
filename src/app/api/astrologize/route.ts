@@ -24,7 +24,7 @@ interface AstrologizeRequest {
 // Default location (New York City)
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
-  longitude: -73.7976
+  longitude: -73.7976,
 };
 
 /**
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       minute = new Date().getMinutes(),
       latitude = DEFAULT_LOCATION.latitude,
       longitude = DEFAULT_LOCATION.longitude,
-      zodiacSystem = 'tropical' // Default to tropical zodiac
+      zodiacSystem = 'tropical', // Default to tropical zodiac
     } = body;
 
     // Convert conventional month (1-12) to 0-indexed month (0-11) for the API
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       minute,
       latitude,
       longitude,
-      ayanamsa: zodiacSystem.toUpperCase() === 'TROPICAL' ? 'TROPICAL' : 'LAHIRI' // Default to Lahiri for sidereal
+      ayanamsa: zodiacSystem.toUpperCase() === 'TROPICAL' ? 'TROPICAL' : 'LAHIRI', // Default to Lahiri for sidereal
     };
 
     // Development logging for API payload
@@ -95,13 +95,9 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(data);
-
   } catch (error) {
     console.error('Error calling astrologize API:', error);
-    return NextResponse.json(
-      { error: 'Failed to get astrological data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get astrological data' }, { status: 500 });
   }
 }
 
@@ -127,21 +123,25 @@ export async function GET(request: Request) {
     minute: now.getMinutes(),
     latitude,
     longitude,
-    zodiacSystem
+    zodiacSystem,
   };
 
   // Forward to POST handler
-  return POST(new Request(request.url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }));
+  return POST(
+    new Request(request.url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }),
+  );
 }
 
 /**
  * Extract planetary positions from astrologize API response
  */
-function extractPlanetaryPositions(data: Record<string, any>): Record<string, PlanetPosition> | null {
+function extractPlanetaryPositions(
+  data: Record<string, any>,
+): Record<string, PlanetPosition> | null {
   try {
     // Try to extract from _celestialBodies structure
     const celestialBodies = data._celestialBodies;
@@ -149,16 +149,16 @@ function extractPlanetaryPositions(data: Record<string, any>): Record<string, Pl
       const positions: Record<string, PlanetPosition> = {};
 
       const planetMap = {
-        'sun': 'Sun',
-        'moon': 'Moon',
-        'mercury': 'Mercury',
-        'venus': 'Venus',
-        'mars': 'Mars',
-        'jupiter': 'Jupiter',
-        'saturn': 'Saturn',
-        'uranus': 'Uranus',
-        'neptune': 'Neptune',
-        'pluto': 'Pluto'
+        sun: 'Sun',
+        moon: 'Moon',
+        mercury: 'Mercury',
+        venus: 'Venus',
+        mars: 'Mars',
+        jupiter: 'Jupiter',
+        saturn: 'Saturn',
+        uranus: 'Uranus',
+        neptune: 'Neptune',
+        pluto: 'Pluto',
       };
 
       Object.entries(planetMap).forEach(([apiKey, planetName]) => {
@@ -174,7 +174,7 @@ function extractPlanetaryPositions(data: Record<string, any>): Record<string, Pl
               degree: arcDegrees.degrees || 0,
               minute: arcDegrees.minutes || 0,
               exactLongitude: ((decimalDegrees % 360) + 360) % 360,
-              isRetrograde: planetData.isRetrograde || false
+              isRetrograde: planetData.isRetrograde || false,
             };
           }
         }
@@ -184,12 +184,18 @@ function extractPlanetaryPositions(data: Record<string, any>): Record<string, Pl
     }
 
     // Try alternative structure if available
-    const astrologyInfo = (data as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, any> } } }).astrology_info?.horoscope_parameters?.planets;
+    const astrologyInfo = (
+      data as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, any> } } }
+    ).astrology_info?.horoscope_parameters?.planets;
     if (astrologyInfo) {
       const positions: Record<string, PlanetPosition> = {};
 
       Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, any]) => {
-        const typedPlanetData = planetData as { sign?: string; angle?: number; isRetrograde?: boolean };
+        const typedPlanetData = planetData as {
+          sign?: string;
+          angle?: number;
+          isRetrograde?: boolean;
+        };
         if (typedPlanetData?.sign && typedPlanetData?.angle !== undefined) {
           const totalDegrees = typedPlanetData.angle;
           const degrees = Math.floor(totalDegrees);
@@ -200,7 +206,7 @@ function extractPlanetaryPositions(data: Record<string, any>): Record<string, Pl
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,
-            isRetrograde: Boolean(typedPlanetData.isRetrograde)
+            isRetrograde: Boolean(typedPlanetData.isRetrograde),
           };
         }
       });

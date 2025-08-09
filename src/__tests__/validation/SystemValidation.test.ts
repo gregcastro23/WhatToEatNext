@@ -71,13 +71,13 @@ describe('System Validation - Task 11.2', () => {
 
     test('Elemental compatibility matrix is valid', () => {
       const { ELEMENTAL_COMPATIBILITY } = require('../../utils/steeringFileIntelligence');
-      
+
       // Check self-reinforcement principle (same elements ≥ 0.9)
       expect(ELEMENTAL_COMPATIBILITY.Fire.Fire).toBeGreaterThanOrEqual(0.9);
       expect(ELEMENTAL_COMPATIBILITY.Water.Water).toBeGreaterThanOrEqual(0.9);
       expect(ELEMENTAL_COMPATIBILITY.Earth.Earth).toBeGreaterThanOrEqual(0.9);
       expect(ELEMENTAL_COMPATIBILITY.Air.Air).toBeGreaterThanOrEqual(0.9);
-      
+
       // Check no opposing elements (all combinations ≥ 0.7)
       Object.values(ELEMENTAL_COMPATIBILITY).forEach(elementRow => {
         if (elementRow && typeof elementRow === 'object') {
@@ -150,9 +150,9 @@ describe('System Validation - Task 11.2', () => {
       const campaignFiles = [
         '../../services/campaign/CampaignController',
         '../../services/campaign/ProgressTracker',
-        '../../services/campaign/SafetyProtocol'
+        '../../services/campaign/SafetyProtocol',
       ];
-      
+
       campaignFiles.forEach(file => {
         expect(() => require(file)).not.toThrow();
       });
@@ -172,9 +172,9 @@ describe('System Validation - Task 11.2', () => {
         '../../hooks/useStatePreservation',
         '../../components/layout/MainPageLayout',
         '../../contexts/AlchemicalContext',
-        '../../utils/errorHandling'
+        '../../utils/errorHandling',
       ];
-      
+
       criticalModules.forEach(module => {
         expect(() => require(module)).not.toThrow();
       });
@@ -185,15 +185,15 @@ describe('System Validation - Task 11.2', () => {
       const logger = require('../../utils/logger').logger;
       const intelligence = require('../../utils/steeringFileIntelligence');
       const hooks = require('../../hooks/useStatePreservation');
-      
+
       expect(logger).toBeDefined();
       expect(intelligence.useSteeringFileIntelligence).toBeDefined();
       expect(hooks.useAstrologicalStatePreservation).toBeDefined();
-      
+
       // Test that they can be used together
       const componentLogger = logger.createLogger('ValidationTest');
       componentLogger.info('System validation complete');
-      
+
       expect(logger.getComponents()).toContain('ValidationTest');
     });
 

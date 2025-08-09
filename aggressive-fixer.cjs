@@ -19,7 +19,7 @@ class AggressiveFixer {
       'no-non-null-assertion': 0,
       'no-unnecessary-type-assertion': 0,
       'no-floating-promises': 0,
-      'no-misused-promises': 0
+      'no-misused-promises': 0,
     };
   }
 
@@ -33,27 +33,34 @@ class AggressiveFixer {
       // Get files with prefer-optional-chain issues
       const optionalChainFiles = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -B1 "prefer-optional-chain" | grep "^/" | sort | uniq',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).split('\n').filter(f => f.trim());
+        { encoding: 'utf8', stdio: 'pipe' },
+      )
+        .split('\n')
+        .filter(f => f.trim());
 
       // Get files with floating promise issues
       const floatingPromiseFiles = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -B1 "no-floating-promises" | grep "^/" | sort | uniq',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).split('\n').filter(f => f.trim());
+        { encoding: 'utf8', stdio: 'pipe' },
+      )
+        .split('\n')
+        .filter(f => f.trim());
 
       // Get files with misused promise issues
       const misusedPromiseFiles = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -B1 "no-misused-promises" | grep "^/" | sort | uniq',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).split('\n').filter(f => f.trim());
+        { encoding: 'utf8', stdio: 'pipe' },
+      )
+        .split('\n')
+        .filter(f => f.trim());
 
       // Combine and deduplicate
-      const allFiles = [...new Set([...optionalChainFiles, ...floatingPromiseFiles, ...misusedPromiseFiles])];
+      const allFiles = [
+        ...new Set([...optionalChainFiles, ...floatingPromiseFiles, ...misusedPromiseFiles]),
+      ];
 
       console.log(`📊 Found ${allFiles.length} files with target issues`);
       return allFiles.slice(0, 20); // Limit to top 20 files
-
     } catch (error) {
       console.warn('⚠️ Could not analyze lint output, using fallback files');
       return [
@@ -61,7 +68,7 @@ class AggressiveFixer {
         'src/components/CookingMethodsSection.migrated.tsx',
         'src/services/CampaignConflictResolver.ts',
         'src/services/CurrentMomentManager.ts',
-        'src/app/api/astrologize/route.ts'
+        'src/app/api/astrologize/route.ts',
       ];
     }
   }
@@ -129,7 +136,7 @@ class AggressiveFixer {
       // obj && obj.prop && obj.prop.nested -> obj?.prop?.nested
       { pattern: /(\w+)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g, replacement: '$1?.$2?.$3' },
       // More complex nested patterns
-      { pattern: /(\w+)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\[([^\]]+)\]/g, replacement: '$1?.$2?.[$3]' }
+      { pattern: /(\w+)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\[([^\]]+)\]/g, replacement: '$1?.$2?.[$3]' },
     ];
 
     for (const { pattern, replacement } of patterns) {
@@ -157,12 +164,18 @@ class AggressiveFixer {
       const originalLine = line;
 
       // Pattern 1: Standalone method calls that return promises
-      if (/^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
-          !line.includes('await') && !line.includes('void') && !line.includes('return') &&
-          !line.includes('console') && !line.includes('expect')) {
-
-        line = line.replace(/^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
-                           '$1void $2');
+      if (
+        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
+        !line.includes('await') &&
+        !line.includes('void') &&
+        !line.includes('return') &&
+        !line.includes('console') &&
+        !line.includes('expect')
+      ) {
+        line = line.replace(
+          /^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
+          '$1void $2',
+        );
 
         if (line !== originalLine) {
           fixes++;
@@ -170,8 +183,12 @@ class AggressiveFixer {
       }
 
       // Pattern 2: Promise constructor calls
-      else if (/^\s*new\s+Promise\s*\(/.test(line) &&
-               !line.includes('await') && !line.includes('return') && !line.includes('=')) {
+      else if (
+        /^\s*new\s+Promise\s*\(/.test(line) &&
+        !line.includes('await') &&
+        !line.includes('return') &&
+        !line.includes('=')
+      ) {
         line = line.replace(/^(\s*)(new\s+Promise\s*\(.*)$/, '$1void $2');
         if (line !== originalLine) {
           fixes++;
@@ -179,9 +196,13 @@ class AggressiveFixer {
       }
 
       // Pattern 3: Async function calls
-      else if (/^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\(.*\)\s*;?\s*$/.test(line) &&
-               (line.includes('async') || line.includes('Async') || line.includes('Promise')) &&
-               !line.includes('await') && !line.includes('void') && !line.includes('return')) {
+      else if (
+        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\(.*\)\s*;?\s*$/.test(line) &&
+        (line.includes('async') || line.includes('Async') || line.includes('Promise')) &&
+        !line.includes('await') &&
+        !line.includes('void') &&
+        !line.includes('return')
+      ) {
         line = line.replace(/^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\s*\(.*\)\s*;?\s*)$/, '$1void $2');
         if (line !== originalLine) {
           fixes++;
@@ -206,9 +227,16 @@ class AggressiveFixer {
     const matches1 = [...modifiedContent.matchAll(eventHandlerPattern)];
     for (const match of matches1) {
       const [fullMatch, eventName, functionName] = match;
-      if (functionName.includes('async') || functionName.includes('handle') ||
-          functionName.includes('submit') || functionName.includes('load')) {
-        modifiedContent = modifiedContent.replace(fullMatch, `${eventName}={() => void ${functionName}()}`);
+      if (
+        functionName.includes('async') ||
+        functionName.includes('handle') ||
+        functionName.includes('submit') ||
+        functionName.includes('load')
+      ) {
+        modifiedContent = modifiedContent.replace(
+          fullMatch,
+          `${eventName}={() => void ${functionName}()}`,
+        );
         fixes++;
       }
     }
@@ -218,7 +246,11 @@ class AggressiveFixer {
     const matches2 = [...modifiedContent.matchAll(booleanPromisePattern)];
     for (const match of matches2) {
       const [fullMatch, functionCall] = match;
-      if (functionCall.includes('async') || functionCall.includes('Promise') || functionCall.includes('fetch')) {
+      if (
+        functionCall.includes('async') ||
+        functionCall.includes('Promise') ||
+        functionCall.includes('fetch')
+      ) {
         modifiedContent = modifiedContent.replace(fullMatch, `if (await ${functionCall})`);
         fixes++;
       }
@@ -259,7 +291,7 @@ class AggressiveFixer {
     const specificPatterns = [
       { from: /resolutionStrategy!/g, to: "resolutionStrategy || 'unknown'" },
       { from: /conflict\.id!/g, to: "conflict?.id || 'unknown'" },
-      { from: /result\.data!/g, to: "result?.data" }
+      { from: /result\.data!/g, to: 'result?.data' },
     ];
 
     for (const { from, to } of specificPatterns) {
@@ -287,13 +319,17 @@ class AggressiveFixer {
       }
 
       const content = fs.readFileSync(filePath, 'utf8');
-      const { content: modifiedContent, fixes, details } = this.applyAggressiveFixes(content, filePath);
+      const {
+        content: modifiedContent,
+        fixes,
+        details,
+      } = this.applyAggressiveFixes(content, filePath);
 
       if (fixes > 0) {
         fs.writeFileSync(filePath, modifiedContent, 'utf8');
 
         const fixSummary = Object.entries(details)
-          .filter(([,count]) => count > 0)
+          .filter(([, count]) => count > 0)
           .map(([type, count]) => `${type}(${count})`)
           .join(', ');
 
@@ -304,7 +340,6 @@ class AggressiveFixer {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
     }

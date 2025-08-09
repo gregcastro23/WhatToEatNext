@@ -2,13 +2,13 @@
 
 import React from 'react';
 
-import { 
-  CHAKRA_SYMBOLS, 
-  CHAKRA_BG_COLORS, 
-  CHAKRA_TEXT_COLORS, 
+import {
+  CHAKRA_SYMBOLS,
+  CHAKRA_BG_COLORS,
+  CHAKRA_TEXT_COLORS,
   CHAKRA_SANSKRIT_NAMES,
   normalizeChakraKey,
-  getChakraDisplayName
+  getChakraDisplayName,
 } from '@/constants/chakraSymbols';
 import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
@@ -24,7 +24,12 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const contextChakraEnergies = astroState.chakraEnergies;
   const contextLoading = astroState.loading || false;
   const contextError = astroState.error;
-  const { chakraEnergies: foodChakraEnergies, loading: foodLoading, error: foodError, chakraRecommendations } = useChakraInfluencedFood({ limit: 50 });
+  const {
+    chakraEnergies: foodChakraEnergies,
+    loading: foodLoading,
+    error: foodError,
+    chakraRecommendations,
+  } = useChakraInfluencedFood({ limit: 50 });
   const { isDaytime } = useAlchemical();
 
   // Merge chakra data - prioritize the data from useChakraInfluencedFood
@@ -34,13 +39,13 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
 
   // Enhanced chakra symbols with more recognizable unicode characters
   const ENHANCED_CHAKRA_SYMBOLS: Record<string, string> = {
-    root: '⏣',         // Base/Foundation symbol
-    sacral: '☾',        // Crescent moon
-    solarPlexus: '☀',   // Sun
-    heart: '♥',         // Heart
-    throat: '◯',        // Circle
-    brow: '👁',         // Eye
-    crown: '✧',         // Star
+    root: '⏣', // Base/Foundation symbol
+    sacral: '☾', // Crescent moon
+    solarPlexus: '☀', // Sun
+    heart: '♥', // Heart
+    throat: '◯', // Circle
+    brow: '👁', // Eye
+    crown: '✧', // Star
   };
 
   // Chakra descriptions to provide context for energy values
@@ -51,7 +56,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
     heart: 'Love, compassion, healing, balance',
     throat: 'Communication, expression, truth',
     brow: 'Intuition, insight, imagination',
-    crown: 'Spiritual connection, consciousness, enlightenment'
+    crown: 'Spiritual connection, consciousness, enlightenment',
   };
 
   // Energy states for each chakra
@@ -62,7 +67,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
     heart: 'Essence/Spirit',
     throat: 'Substance',
     brow: 'Essence',
-    crown: 'Spirit'
+    crown: 'Spirit',
   };
 
   // Planetary correspondences for each chakra with day/night distinctions
@@ -75,7 +80,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
         heart: ['Sun', 'Venus'],
         solarPlexus: ['Mars', 'Jupiter'],
         sacral: ['Moon', 'Venus'],
-        root: ['Uranus', 'Pluto']
+        root: ['Uranus', 'Pluto'],
       };
     } else {
       return {
@@ -85,7 +90,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
         heart: ['Venus'],
         solarPlexus: ['Mars', 'Jupiter'],
         sacral: ['Moon', 'Venus'],
-        root: ['Saturn', 'Mars', 'Venus', 'Moon', 'Uranus', 'Pluto']
+        root: ['Saturn', 'Mars', 'Venus', 'Moon', 'Uranus', 'Pluto'],
       };
     }
   })();
@@ -105,10 +110,10 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const getChakraColor = (chakra: string, _energy: number): string => {
     const normalizedKey = normalizeChakraKey(chakra);
     if (!normalizedKey) return 'bg-gray-200'; // Fallback color
-    
+
     const baseColorClass = CHAKRA_BG_COLORS[normalizedKey];
     if (!baseColorClass) return 'bg-gray-200';
-    
+
     return baseColorClass;
   };
 
@@ -121,7 +126,9 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   // Get chakra symbol from enhanced set
   const getChakraSymbol = (chakra: string): string => {
     const normalizedKey = normalizeChakraKey(chakra);
-    return normalizedKey ? ENHANCED_CHAKRA_SYMBOLS[normalizedKey] || CHAKRA_SYMBOLS[normalizedKey] || '•' : '•';
+    return normalizedKey
+      ? ENHANCED_CHAKRA_SYMBOLS[normalizedKey] || CHAKRA_SYMBOLS[normalizedKey] || '•'
+      : '•';
   };
 
   // Get chakra display name
@@ -165,10 +172,10 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   // Ensure all chakras have some energy value
   const ensureChakraEnergies = (energies: unknown): Record<string, number> | null => {
     if (!energies || typeof energies !== 'object') return null;
-    
+
     // Create a new object with guaranteed values for all chakras
     const ensuredEnergies = { ...(energies as Record<string, number>) };
-    
+
     // Make sure each chakra has at least a minimal value
     CHAKRA_ORDER.forEach(chakra => {
       // If chakra has no value or value is too low, give it a minimum value
@@ -176,56 +183,62 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
         ensuredEnergies[chakra] = 1 + Math.random() * 2; // Random value between 1-3
       }
     });
-    
+
     return ensuredEnergies;
   };
 
   if (isLoading) {
-    return <div className="text-center p-6">
-      <div className="animate-pulse h-4 bg-gray-200 rounded w-3/4 mx-auto mb-4"></div>
-      <div className="animate-pulse h-32 bg-gray-100 rounded w-full mx-auto"></div>
-    </div>;
+    return (
+      <div className='p-6 text-center'>
+        <div className='mx-auto mb-4 h-4 w-3/4 animate-pulse rounded bg-gray-200'></div>
+        <div className='mx-auto h-32 w-full animate-pulse rounded bg-gray-100'></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-red-500 text-center p-4 border border-red-200 rounded bg-red-50">
-      <p className="font-medium">Error Loading Chakra Data</p>
-      <p className="text-sm mt-1">{error}</p>
-    </div>;
+    return (
+      <div className='rounded border border-red-200 bg-red-50 p-4 text-center text-red-500'>
+        <p className='font-medium'>Error Loading Chakra Data</p>
+        <p className='mt-1 text-sm'>{error}</p>
+      </div>
+    );
   }
 
   if (!chakraEnergies) {
-    return <div className="text-center p-4 border border-gray-200 rounded bg-gray-50">
-      <p className="font-medium">No Chakra Energy Data Available</p>
-      <p className="text-sm mt-1">Try refreshing the recommendations</p>
-    </div>;
+    return (
+      <div className='rounded border border-gray-200 bg-gray-50 p-4 text-center'>
+        <p className='font-medium'>No Chakra Energy Data Available</p>
+        <p className='mt-1 text-sm'>Try refreshing the recommendations</p>
+      </div>
+    );
   }
 
   // Ensure all chakras have energy values
   const validatedChakraEnergies = ensureChakraEnergies(chakraEnergies);
 
   // Prepare chakra data in the correct order
-  const orderedChakras = CHAKRA_ORDER
-    .filter(chakraKey => validatedChakraEnergies && chakraKey in validatedChakraEnergies)
-    .map(chakraKey => ({
-      key: chakraKey,
-      energy: validatedChakraEnergies?.[chakraKey ] || 0
-    }));
+  const orderedChakras = CHAKRA_ORDER.filter(
+    chakraKey => validatedChakraEnergies && chakraKey in validatedChakraEnergies,
+  ).map(chakraKey => ({
+    key: chakraKey,
+    energy: validatedChakraEnergies?.[chakraKey] || 0,
+  }));
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-xl font-semibold">Chakra Planetary Energies</h2>
-        <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
-          {isDaytime ? "☀️ Daytime" : "🌙 Nighttime"} • Energy scale: 0-10
+    <div className='space-y-6'>
+      <div className='mb-2 flex items-center justify-between'>
+        <h2 className='text-xl font-semibold'>Chakra Planetary Energies</h2>
+        <div className='rounded bg-gray-50 px-2 py-1 text-xs text-gray-500'>
+          {isDaytime ? '☀️ Daytime' : '🌙 Nighttime'} • Energy scale: 0-10
         </div>
       </div>
-      
-      <div className="text-sm text-gray-600 mb-4">
-        Chakra energy levels reflect the current planetary influences and their effects on your energy centers.
-        Higher values indicate stronger activation of that chakra's qualities.
+
+      <div className='mb-4 text-sm text-gray-600'>
+        Chakra energy levels reflect the current planetary influences and their effects on your
+        energy centers. Higher values indicate stronger activation of that chakra's qualities.
       </div>
-      
+
       <div className={`space-y-4 ${compact ? 'text-sm' : ''}`}>
         {orderedChakras.map(({ key: chakra, energy }) => {
           const normalizedKey = normalizeChakraKey(chakra);
@@ -243,41 +256,40 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
           const energyLevel = formatEnergyLevel(energy);
 
           // Get recommendations for this chakra
-          const recommendations = chakraRecommendations?.[normalizedKey] 
-            ? chakraRecommendations[normalizedKey].slice(0, 3) 
+          const recommendations = chakraRecommendations?.[normalizedKey]
+            ? chakraRecommendations[normalizedKey].slice(0, 3)
             : [];
 
           return (
-            <div key={chakra} className="p-4 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="flex items-center mb-3">
-                <div className={`${colorClass} w-10 h-10 flex items-center justify-center rounded-full mr-3 shadow-sm`}>
-                  <span className="text-white text-xl">{symbol}</span>
+            <div
+              key={chakra}
+              className='rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
+            >
+              <div className='mb-3 flex items-center'>
+                <div
+                  className={`${colorClass} mr-3 flex h-10 w-10 items-center justify-center rounded-full shadow-sm`}
+                >
+                  <span className='text-xl text-white'>{symbol}</span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-baseline">
-                    <h3 className="font-medium text-lg">{displayName}</h3>
-                    <span className="text-sm text-gray-500 ml-2">{sanskritName}</span>
+                <div className='flex-1'>
+                  <div className='flex items-baseline'>
+                    <h3 className='text-lg font-medium'>{displayName}</h3>
+                    <span className='ml-2 text-sm text-gray-500'>{sanskritName}</span>
                   </div>
-                  <div className="text-xs text-gray-500 flex flex-wrap items-center">
-                    <span className="mr-3">Energy state: {energyState}</span>
-                    {planets.length > 0 && (
-                      <span>Planets: {planets.join(', ')}</span>
-                    )}
+                  <div className='flex flex-wrap items-center text-xs text-gray-500'>
+                    <span className='mr-3'>Energy state: {energyState}</span>
+                    {planets.length > 0 && <span>Planets: {planets.join(', ')}</span>}
                   </div>
                 </div>
-                <div className="ml-auto flex flex-col items-end">
-                  <div className={`${textColorClass} text-xl font-bold`}>
-                    {energy.toFixed(1)}
-                  </div>
-                  <div className="text-xs font-medium">
-                    {energyLevel}
-                  </div>
+                <div className='ml-auto flex flex-col items-end'>
+                  <div className={`${textColorClass} text-xl font-bold`}>{energy.toFixed(1)}</div>
+                  <div className='text-xs font-medium'>{energyLevel}</div>
                 </div>
               </div>
-              
-              <div className="mb-3">
-                <div className="text-xs text-gray-500 mb-1">Energy Level</div>
-                <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+
+              <div className='mb-3'>
+                <div className='mb-1 text-xs text-gray-500'>Energy Level</div>
+                <div className='h-3 overflow-hidden rounded-full bg-gray-100'>
                   <div
                     className={`h-full rounded-full ${colorClass}`}
                     style={{ width: `${intensity}%` }}
@@ -285,18 +297,16 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
                 </div>
               </div>
 
-              <div className="text-xs text-gray-600 mb-3 line-clamp-2">
-                {description}
-              </div>
+              <div className='mb-3 line-clamp-2 text-xs text-gray-600'>{description}</div>
 
               {recommendations.length > 0 && (
-                <div className="mt-2">
-                  <div className="text-xs font-medium mb-1">Recommended foods:</div>
-                  <div className="flex flex-wrap gap-1">
+                <div className='mt-2'>
+                  <div className='mb-1 text-xs font-medium'>Recommended foods:</div>
+                  <div className='flex flex-wrap gap-1'>
                     {recommendations.map((ingredient, idx) => (
-                      <span 
-                        key={idx} 
-                        className={`px-2 py-1 rounded-full text-xs ${colorClass.replace('bg-', 'bg-opacity-20 text-')}`}
+                      <span
+                        key={idx}
+                        className={`rounded-full px-2 py-1 text-xs ${colorClass.replace('bg-', 'text- bg-opacity-20')}`}
                       >
                         {ingredient.name}
                       </span>
@@ -312,4 +322,4 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   );
 };
 
-export default ChakraEnergiesDisplay; 
+export default ChakraEnergiesDisplay;

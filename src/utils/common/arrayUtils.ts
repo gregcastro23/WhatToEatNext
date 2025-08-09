@@ -27,23 +27,23 @@ export function toArray<T>(value: T | T[] | undefined | null): T[] {
  * Safely check if array includes a value when the array might be a single value
  */
 export function safeIncludes<T>(
-  arr: T | T[] | undefined | null, 
-  value: T, 
-  compareFn?: (a: T, b: T) => boolean
+  arr: T | T[] | undefined | null,
+  value: T,
+  compareFn?: (a: T, b: T) => boolean,
 ): boolean {
   const array = toArray(arr);
   if (compareFn) {
     return (array || []).some(item => compareFn(item, value));
   }
-  return (Array.isArray(array) ? array.includes(value) : array === value);
+  return Array.isArray(array) ? array.includes(value) : array === value;
 }
 
 /**
  * Safely apply the array.some() method when the array might be a single value
  */
 export function safeSome<T>(
-  arr: T | T[] | undefined | null, 
-  predicate: (value: T, index: number, array: T[]) => boolean
+  arr: T | T[] | undefined | null,
+  predicate: (value: T, index: number, array: T[]) => boolean,
 ): boolean {
   const array = toArray(arr);
   return (array || []).some(predicate);
@@ -53,8 +53,8 @@ export function safeSome<T>(
  * Safely apply the array.every() method when the array might be a single value
  */
 export function safeEvery<T>(
-  arr: T | T[] | undefined | null, 
-  predicate: (value: T, index: number, array: T[]) => boolean
+  arr: T | T[] | undefined | null,
+  predicate: (value: T, index: number, array: T[]) => boolean,
 ): boolean {
   const array = toArray(arr);
   if ((array || []).length === 0) return true;
@@ -65,8 +65,8 @@ export function safeEvery<T>(
  * Safely apply the array.map() method when the array might be a single value
  */
 export function safeMap<T, U>(
-  arr: T | T[] | undefined | null, 
-  mapFn: (value: T, index: number, array: T[]) => U
+  arr: T | T[] | undefined | null,
+  mapFn: (value: T, index: number, array: T[]) => U,
 ): U[] {
   const array = toArray(arr);
   return (array || []).map(mapFn);
@@ -76,8 +76,8 @@ export function safeMap<T, U>(
  * Safely apply the array.filter() method when the array might be a single value
  */
 export function safeFilter<T>(
-  arr: T | T[] | undefined | null, 
-  predicate: (value: T, index: number, array: T[]) => boolean
+  arr: T | T[] | undefined | null,
+  predicate: (value: T, index: number, array: T[]) => boolean,
 ): T[] {
   const array = toArray(arr);
   return (array || []).filter(predicate);
@@ -94,10 +94,7 @@ export function safeFirst<T>(arr: T | T[] | undefined | null): T | undefined {
 /**
  * Safely join an array to a string when the value might be a single item
  */
-export function safeJoin<T>(
-  arr: T | T[] | undefined | null, 
-  separator: string = ', '
-): string {
+export function safeJoin<T>(arr: T | T[] | undefined | null, separator: string = ', '): string {
   const array = toArray(arr);
   return array.join(separator);
-} 
+}

@@ -10,7 +10,7 @@ interface IngredientRecommendationsProps {
 }
 
 export const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
-  astrologicalState
+  astrologicalState,
 }) => {
   const recommendedIngredients = useMemo(() => {
     return getTopIngredientMatches(astrologicalState, 5);
@@ -28,14 +28,20 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
           <li key={ingredient.name} className={styles.item}>
             <div className={styles.name}>{ingredient.name}</div>
             <div className={styles.details}>
-              <div>Element: {typeof ingredient.astrologicalProfile.elementalAffinity === 'object' 
-                ? ingredient.astrologicalProfile.elementalAffinity.base 
-                : (typeof ingredient.astrologicalProfile.elementalAffinity === 'string' 
-                  ? ingredient.astrologicalProfile.elementalAffinity 
-                  : 'Unknown')}</div>
-              <div>Planets: {Array.isArray(ingredient.astrologicalProfile.rulingPlanets) 
-                ? ingredient.astrologicalProfile.rulingPlanets.join(', ') 
-                : 'Unknown'}</div>
+              <div>
+                Element:{' '}
+                {typeof ingredient.astrologicalProfile.elementalAffinity === 'object'
+                  ? ingredient.astrologicalProfile.elementalAffinity.base
+                  : typeof ingredient.astrologicalProfile.elementalAffinity === 'string'
+                    ? ingredient.astrologicalProfile.elementalAffinity
+                    : 'Unknown'}
+              </div>
+              <div>
+                Planets:{' '}
+                {Array.isArray(ingredient.astrologicalProfile.rulingPlanets)
+                  ? ingredient.astrologicalProfile.rulingPlanets.join(', ')
+                  : 'Unknown'}
+              </div>
             </div>
           </li>
         ))}

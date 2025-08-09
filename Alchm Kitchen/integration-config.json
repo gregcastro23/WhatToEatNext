@@ -41,14 +41,7 @@
     "yarnVersion": ">=1.22.0"
   },
   "dependencies": {
-    "required": [
-      "next",
-      "react",
-      "react-dom",
-      "astronomia",
-      "astronomy-engine",
-      "lucide-react"
-    ]
+    "required": ["next", "react", "react-dom", "astronomia", "astronomy-engine", "lucide-react"]
   },
   "environment": {
     "variables": {
@@ -56,4 +49,4 @@
       "NEXT_PUBLIC_APP_URL": "https://v0-alchm-kitchen.vercel.app"
     }
   }
-} 
+}

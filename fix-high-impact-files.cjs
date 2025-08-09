@@ -16,7 +16,7 @@ const HIGH_IMPACT_FILES = [
   'src/services/EnterpriseIntelligenceIntegration.ts',
   'src/components/IngredientRecommender.tsx',
   'src/calculations/alchemicalEngine.ts',
-  'src/services/PredictiveIntelligenceService.ts'
+  'src/services/PredictiveIntelligenceService.ts',
 ];
 
 // Patterns to preserve (enterprise intelligence patterns)
@@ -34,7 +34,7 @@ const PRESERVE_PATTERNS = [
   /degree/i,
   /sign/i,
   /longitude/i,
-  /position/i
+  /position/i,
 ];
 
 class HighImpactFileFixer {
@@ -64,7 +64,7 @@ class HighImpactFileFixer {
     // Fix unused imports - remove completely unused ones
     const importRegex = /import\s+(?:{[^}]*}|\*\s+as\s+\w+|\w+)\s+from\s+['"][^'"]+['"];?\s*\n/g;
     const imports = content.match(importRegex) || [];
-    
+
     imports.forEach(importStatement => {
       const importedItems = this.extractImportedItems(importStatement);
       const usedItems = importedItems.filter(item => {
@@ -95,7 +95,7 @@ class HighImpactFileFixer {
     let match;
     while ((match = varDeclarationRegex.exec(content)) !== null) {
       const varName = match[1];
-      
+
       if (this.shouldPreserveVariable(varName)) {
         this.preservedCount++;
         continue;
@@ -103,17 +103,16 @@ class HighImpactFileFixer {
 
       const usageRegex = new RegExp(`\\b${varName}\\b`, 'g');
       const matches = (content.match(usageRegex) || []).length;
-      
-      if (matches === 1) { // Only declared, never used
+
+      if (matches === 1) {
+        // Only declared, never used
         if (!varName.startsWith('_') && !varName.startsWith('UNUSED_')) {
-          const newVarName = varName.startsWith('test') || varName.startsWith('mock') || varName.startsWith('stub') 
-            ? `_${varName}` 
-            : `UNUSED_${varName}`;
-          
-          fixedContent = fixedContent.replace(
-            new RegExp(`\\b${varName}\\b`, 'g'),
-            newVarName
-          );
+          const newVarName =
+            varName.startsWith('test') || varName.startsWith('mock') || varName.startsWith('stub')
+              ? `_${varName}`
+              : `UNUSED_${varName}`;
+
+          fixedContent = fixedContent.replace(new RegExp(`\\b${varName}\\b`, 'g'), newVarName);
           localFixCount++;
         }
       }
@@ -126,35 +125,35 @@ class HighImpactFileFixer {
 
   extractImportedItems(importStatement) {
     const items = [];
-    
+
     // Handle named imports: import { a, b, c } from 'module'
     const namedImportMatch = importStatement.match(/import\s+{([^}]+)}\s+from/);
     if (namedImportMatch) {
       const namedItems = namedImportMatch[1].split(',').map(item => item.trim());
       items.push(...namedItems);
     }
-    
+
     // Handle default imports: import Something from 'module'
     const defaultImportMatch = importStatement.match(/import\s+(\w+)\s+from/);
     if (defaultImportMatch && !namedImportMatch) {
       items.push(defaultImportMatch[1]);
     }
-    
+
     // Handle namespace imports: import * as Something from 'module'
     const namespaceImportMatch = importStatement.match(/import\s+\*\s+as\s+(\w+)\s+from/);
     if (namespaceImportMatch) {
       items.push(namespaceImportMatch[1]);
     }
-    
+
     return items;
   }
 
   reconstructImport(originalImport, usedItems) {
     const moduleMatch = originalImport.match(/from\s+['"]([^'"]+)['"]/);
     if (!moduleMatch) return originalImport;
-    
+
     const moduleName = moduleMatch[1];
-    
+
     if (usedItems.length === 1 && !originalImport.includes('{')) {
       // Default import
       return `import ${usedItems[0]} from '${moduleName}';\n`;
@@ -224,7 +223,7 @@ class HighImpactFileFixer {
     // Extract all imports
     const importRegex = /^import\s+.*?from\s+['"][^'"]+['"];?\s*$/gm;
     const imports = content.match(importRegex) || [];
-    
+
     if (imports.length === 0) return fixedContent;
 
     // Categorize imports
@@ -253,17 +252,18 @@ class HighImpactFileFixer {
       ...(builtinImports.length > 0 && externalImports.length > 0 ? [''] : []),
       ...externalImports,
       ...(externalImports.length > 0 && internalImports.length > 0 ? [''] : []),
-      ...internalImports
+      ...internalImports,
     ].join('\n');
 
     // Replace the import section
     const firstImportIndex = content.search(importRegex);
-    const lastImportIndex = content.lastIndexOf(imports[imports.length - 1]) + imports[imports.length - 1].length;
-    
+    const lastImportIndex =
+      content.lastIndexOf(imports[imports.length - 1]) + imports[imports.length - 1].length;
+
     if (firstImportIndex !== -1 && lastImportIndex !== -1) {
       const beforeImports = content.substring(0, firstImportIndex);
       const afterImports = content.substring(lastImportIndex);
-      
+
       fixedContent = beforeImports + sortedImports + '\n' + afterImports;
       localFixCount = 1;
     }
@@ -281,7 +281,7 @@ class HighImpactFileFixer {
       }
 
       this.log(`Processing ${filePath}...`);
-      
+
       let content = fs.readFileSync(filePath, 'utf8');
       const originalContent = content;
 
@@ -341,7 +341,7 @@ class HighImpactFileFixer {
     this.log(`Total fixes applied: ${this.fixedCount}`);
     this.log(`Variables preserved: ${this.preservedCount}`);
     this.log(`Build validation: ${buildValid ? 'PASSED' : 'FAILED'}`);
-    
+
     if (this.errors.length > 0) {
       this.log('\nErrors encountered:');
       this.errors.forEach(error => this.log(`  - ${error}`));
@@ -353,7 +353,7 @@ class HighImpactFileFixer {
       totalFixes: this.fixedCount,
       preservedVariables: this.preservedCount,
       buildValid,
-      errors: this.errors
+      errors: this.errors,
     };
   }
 }
@@ -361,12 +361,15 @@ class HighImpactFileFixer {
 // Run the fixer
 if (require.main === module) {
   const fixer = new HighImpactFileFixer();
-  fixer.run().then(result => {
-    process.exit(result.buildValid && result.errors.length === 0 ? 0 : 1);
-  }).catch(error => {
-    console.error('Fatal error:', error);
-    process.exit(1);
-  });
+  fixer
+    .run()
+    .then(result => {
+      process.exit(result.buildValid && result.errors.length === 0 ? 0 : 1);
+    })
+    .catch(error => {
+      console.error('Fatal error:', error);
+      process.exit(1);
+    });
 }
 
 module.exports = HighImpactFileFixer;

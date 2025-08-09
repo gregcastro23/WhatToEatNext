@@ -1,6 +1,6 @@
 /**
  * Analysis Result Type Definitions
- * 
+ *
  * Specific interface definitions to replace any types in enterprise intelligence
  * analysis results and reduce explicit-any usage.
  */

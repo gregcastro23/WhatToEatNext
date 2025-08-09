@@ -24,28 +24,28 @@ const CONFIG = {
     // Preserve test files where assertions might be intentional
     /\.test\.|\.spec\.|__tests__/i,
     // Preserve external library integrations
-    /astronomy-engine|astronomia|suncalc/i
+    /astronomy-engine|astronomia|suncalc/i,
   ],
   replacementPatterns: [
     {
       // Replace simple property access assertions
       pattern: /(\w+)!\.(\w+)/g,
       replacement: (match, obj, prop) => `${obj} && ${obj}.${prop}`,
-      description: 'Replace obj!.prop with obj && obj.prop'
+      description: 'Replace obj!.prop with obj && obj.prop',
     },
     {
       // Replace array access assertions
       pattern: /(\w+)!\[([^\]]+)\]/g,
       replacement: (match, obj, index) => `${obj} && ${obj}[${index}]`,
-      description: 'Replace obj![index] with obj && obj[index]'
+      description: 'Replace obj![index] with obj && obj[index]',
     },
     {
       // Replace method call assertions
       pattern: /(\w+)!\.(\w+)\(/g,
       replacement: (match, obj, method) => `${obj}?.${method}(`,
-      description: 'Replace obj!.method( with obj?.method('
-    }
-  ]
+      description: 'Replace obj!.method( with obj?.method(',
+    },
+  ],
 };
 
 class NonNullAssertionFixer {
@@ -64,7 +64,7 @@ class NonNullAssertionFixer {
 
       const lintOutput = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -E "no-non-null-assertion"',
-        { encoding: 'utf8', stdio: 'pipe' }
+        { encoding: 'utf8', stdio: 'pipe' },
       );
 
       const files = new Set();
@@ -83,7 +83,6 @@ class NonNullAssertionFixer {
       const fileArray = Array.from(files);
       console.log(`📊 Found ${fileArray.length} files with no-non-null-assertion issues`);
       return fileArray.slice(0, CONFIG.maxFiles);
-
     } catch (error) {
       console.warn('⚠️ Could not get lint output, scanning common directories...');
       return this.scanCommonDirectories();
@@ -234,7 +233,10 @@ function isDefined<T>(value: T | null | undefined): value is T {
       }
 
       // Apply fixes
-      const { content: modifiedContent, fixCount } = this.applyNonNullAssertionFixes(content, filePath);
+      const { content: modifiedContent, fixCount } = this.applyNonNullAssertionFixes(
+        content,
+        filePath,
+      );
 
       if (fixCount > 0) {
         // Add type guard utilities if needed
@@ -251,7 +253,6 @@ function isDefined<T>(value: T | null | undefined): value is T {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
       this.errors.push({ file: filePath, error: error.message });

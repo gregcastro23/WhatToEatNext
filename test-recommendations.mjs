@@ -16,7 +16,7 @@ const mockIngredient = {
   water: 0.7,
   fire: 0.3,
   earth: 0.4,
-  air: 0.2
+  air: 0.2,
 };
 
 // Create mock cooking methods
@@ -30,7 +30,7 @@ const mockCookingMethods = [
   { name: 'braising', element: 'water' },
   { name: 'poaching', element: 'water' },
   { name: 'frying', element: 'fire' },
-  { name: 'fermenting', element: 'earth' }
+  { name: 'fermenting', element: 'earth' },
 ];
 
 // Run the test
@@ -44,9 +44,18 @@ console.log('Elemental Character:', mockIngredient.elementalCharacter);
 try {
   console.log('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
   const methods = mockCookingMethods.map(m => m.name);
-  const holisticRecs = getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, methods, 5);
+  const holisticRecs = getHolisticCookingRecommendations(
+    mockIngredient,
+    undefined,
+    undefined,
+    true,
+    methods,
+    5,
+  );
   holisticRecs.forEach((rec, index) => {
-    console.log(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
+    console.log(
+      `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
+    );
   });
 } catch (error) {
   console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error);
@@ -58,7 +67,11 @@ try {
 // Test the ingredient-specific function
 try {
   console.log('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
-  const recommendations = getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods, 5);
+  const recommendations = getRecommendedCookingMethodsForIngredient(
+    mockIngredient,
+    mockCookingMethods,
+    5,
+  );
   recommendations.forEach((rec, index) => {
     console.log(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
   });
@@ -67,4 +80,4 @@ try {
   if (error.stack) {
     console.error(error.stack);
   }
-} 
+}

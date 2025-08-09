@@ -63,18 +63,15 @@ export default function SauceExplorer() {
   const [selectedCuisine, setSelectedCuisine] = useState<string>('');
   const [selectedProtein, setSelectedProtein] = useState<string>('');
   const [selectedVegetable, setSelectedVegetable] = useState<string>('');
-  const [selectedCookingMethod, setSelectedCookingMethod] =
-    useState<string>('');
+  const [selectedCookingMethod, setSelectedCookingMethod] = useState<string>('');
 
   // State for elemental profile sliders
-  const [elementalProfile, setElementalProfile] = useState<ElementalProperties>(
-    {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    }
-  );
+  const [elementalProfile, setElementalProfile] = useState<ElementalProperties>({
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  });
 
   // State for all cuisines
   const [allCuisines, setAllCuisines] = useState<CuisineRecord>({});
@@ -94,17 +91,14 @@ export default function SauceExplorer() {
   }, []);
 
   // Handle elemental profile change
-  const handleElementChange = (
-    element: keyof ElementalProperties,
-    value: number
-  ) => {
+  const handleElementChange = (element: keyof ElementalProperties, value: number) => {
     // Normalize all elements to ensure they sum to 1
     const newProfile = { ...elementalProfile, [element]: value };
     const sum = Object.values(newProfile).reduce((acc, val) => acc + val, 0);
 
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;
-      Object.keys(newProfile).forEach((key) => {
+      Object.keys(newProfile).forEach(key => {
         normalized[key as keyof ElementalProperties] =
           newProfile[key as keyof ElementalProperties] / sum;
       });
@@ -176,60 +170,58 @@ export default function SauceExplorer() {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-2">Sauce Explorer</h1>
-      <p className="text-gray-600 mb-8">
-        Discover the perfect sauce for your cooking based on cuisine,
-        ingredients, and elemental properties.
+    <div className='container mx-auto px-4 py-8'>
+      <h1 className='mb-2 text-3xl font-bold'>Sauce Explorer</h1>
+      <p className='mb-8 text-gray-600'>
+        Discover the perfect sauce for your cooking based on cuisine, ingredients, and elemental
+        properties.
       </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className='grid grid-cols-1 gap-6 lg:grid-cols-3'>
         {/* Filters Section */}
-        <div className="lg:col-span-1 bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <Filter className="w-5 h-5 mr-2" />
+        <div className='rounded-lg bg-white p-6 shadow-md lg:col-span-1'>
+          <h2 className='mb-4 flex items-center text-xl font-semibold'>
+            <Filter className='mr-2 h-5 w-5' />
             Filters
           </h2>
 
           {/* Cuisine Selection */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <Globe className="w-4 h-4 mr-1" />
+          <div className='mb-6'>
+            <label className='mb-2 block flex items-center text-sm font-medium text-gray-700'>
+              <Globe className='mr-1 h-4 w-4' />
               Cuisine
             </label>
             <select
               value={selectedCuisine}
-              onChange={(e) => {
+              onChange={e => {
                 setSelectedCuisine(e.target.value);
                 resetFilters();
               }}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className='w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500'
             >
-              <option value="">All Cuisines</option>
-              {Object.entries(allCuisines).map(
-                ([id, cuisine]: [string, Cuisine]) => (
-                  <option key={id} value={id}>
-                    {cuisine.name || id}
-                  </option>
-                )
-              )}
+              <option value=''>All Cuisines</option>
+              {Object.entries(allCuisines).map(([id, cuisine]: [string, Cuisine]) => (
+                <option key={id} value={id}>
+                  {cuisine.name || id}
+                </option>
+              ))}
             </select>
           </div>
 
           {/* Protein Selection - only show if cuisine is selected */}
           {selectedCuisine && (
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <Beef className="w-4 h-4 mr-1" />
+            <div className='mb-6'>
+              <label className='mb-2 block flex items-center text-sm font-medium text-gray-700'>
+                <Beef className='mr-1 h-4 w-4' />
                 Protein
               </label>
               <select
                 value={selectedProtein}
-                onChange={(e) => setSelectedProtein(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={e => setSelectedProtein(e.target.value)}
+                className='w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500'
               >
-                <option value="">Any Protein</option>
-                {getProteinOptions().map((protein) => (
+                <option value=''>Any Protein</option>
+                {getProteinOptions().map(protein => (
                   <option key={protein} value={protein}>
                     {protein.charAt(0).toUpperCase() + protein.slice(1)}
                   </option>
@@ -240,18 +232,18 @@ export default function SauceExplorer() {
 
           {/* Vegetable Selection - only show if cuisine is selected */}
           {selectedCuisine && (
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <Carrot className="w-4 h-4 mr-1" />
+            <div className='mb-6'>
+              <label className='mb-2 block flex items-center text-sm font-medium text-gray-700'>
+                <Carrot className='mr-1 h-4 w-4' />
                 Vegetable
               </label>
               <select
                 value={selectedVegetable}
-                onChange={(e) => setSelectedVegetable(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={e => setSelectedVegetable(e.target.value)}
+                className='w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500'
               >
-                <option value="">Any Vegetable</option>
-                {getVegetableOptions().map((vegetable) => (
+                <option value=''>Any Vegetable</option>
+                {getVegetableOptions().map(vegetable => (
                   <option key={vegetable} value={vegetable}>
                     {vegetable.charAt(0).toUpperCase() + vegetable.slice(1)}
                   </option>
@@ -262,18 +254,18 @@ export default function SauceExplorer() {
 
           {/* Cooking Method Selection - only show if cuisine is selected */}
           {selectedCuisine && (
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <ChefHat className="w-4 h-4 mr-1" />
+            <div className='mb-6'>
+              <label className='mb-2 block flex items-center text-sm font-medium text-gray-700'>
+                <ChefHat className='mr-1 h-4 w-4' />
                 Cooking Method
               </label>
               <select
                 value={selectedCookingMethod}
-                onChange={(e) => setSelectedCookingMethod(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={e => setSelectedCookingMethod(e.target.value)}
+                className='w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500'
               >
-                <option value="">Any Method</option>
-                {getCookingMethodOptions().map((method) => (
+                <option value=''>Any Method</option>
+                {getCookingMethodOptions().map(method => (
                   <option key={method} value={method}>
                     {method.charAt(0).toUpperCase() + method.slice(1)}
                   </option>
@@ -283,118 +275,108 @@ export default function SauceExplorer() {
           )}
 
           {/* Elemental Profile Sliders */}
-          <div className="mt-8 mb-4">
-            <h3 className="text-sm font-medium text-gray-700 mb-3">
-              Elemental Profile
-            </h3>
+          <div className='mb-4 mt-8'>
+            <h3 className='mb-3 text-sm font-medium text-gray-700'>Elemental Profile</h3>
 
             {/* Fire Element */}
-            <div className="mb-4">
-              <div className="flex justify-between mb-1">
-                <label className="text-xs flex items-center text-red-600">
-                  <Flame className="w-3 h-3 mr-1" />
+            <div className='mb-4'>
+              <div className='mb-1 flex justify-between'>
+                <label className='flex items-center text-xs text-red-600'>
+                  <Flame className='mr-1 h-3 w-3' />
                   Fire
                 </label>
-                <span className="text-xs text-gray-500">
+                <span className='text-xs text-gray-500'>
                   {Math.round(elementalProfile.Fire * 100)}%
                 </span>
               </div>
               <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
+                type='range'
+                min='0'
+                max='1'
+                step='0.01'
                 value={elementalProfile.Fire}
-                onChange={(e) =>
-                  handleElementChange('Fire', parseFloat(e.target.value))
-                }
-                className="w-full h-2 bg-red-100 rounded-lg appearance-none cursor-pointer accent-red-500"
+                onChange={e => handleElementChange('Fire', parseFloat(e.target.value))}
+                className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-red-100 accent-red-500'
               />
             </div>
 
             {/* Water Element */}
-            <div className="mb-4">
-              <div className="flex justify-between mb-1">
-                <label className="text-xs flex items-center text-blue-600">
-                  <Droplet className="w-3 h-3 mr-1" />
+            <div className='mb-4'>
+              <div className='mb-1 flex justify-between'>
+                <label className='flex items-center text-xs text-blue-600'>
+                  <Droplet className='mr-1 h-3 w-3' />
                   Water
                 </label>
-                <span className="text-xs text-gray-500">
+                <span className='text-xs text-gray-500'>
                   {Math.round(elementalProfile.Water * 100)}%
                 </span>
               </div>
               <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
+                type='range'
+                min='0'
+                max='1'
+                step='0.01'
                 value={elementalProfile.Water}
-                onChange={(e) =>
-                  handleElementChange('Water', parseFloat(e.target.value))
-                }
-                className="w-full h-2 bg-blue-100 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                onChange={e => handleElementChange('Water', parseFloat(e.target.value))}
+                className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-blue-100 accent-blue-500'
               />
             </div>
 
             {/* Earth Element */}
-            <div className="mb-4">
-              <div className="flex justify-between mb-1">
-                <label className="text-xs flex items-center text-amber-600">
-                  <Mountain className="w-3 h-3 mr-1" />
+            <div className='mb-4'>
+              <div className='mb-1 flex justify-between'>
+                <label className='flex items-center text-xs text-amber-600'>
+                  <Mountain className='mr-1 h-3 w-3' />
                   Earth
                 </label>
-                <span className="text-xs text-gray-500">
+                <span className='text-xs text-gray-500'>
                   {Math.round(elementalProfile.Earth * 100)}%
                 </span>
               </div>
               <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
+                type='range'
+                min='0'
+                max='1'
+                step='0.01'
                 value={elementalProfile.Earth}
-                onChange={(e) =>
-                  handleElementChange('Earth', parseFloat(e.target.value))
-                }
-                className="w-full h-2 bg-amber-100 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                onChange={e => handleElementChange('Earth', parseFloat(e.target.value))}
+                className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-amber-100 accent-amber-500'
               />
             </div>
 
             {/* Air Element */}
-            <div className="mb-4">
-              <div className="flex justify-between mb-1">
-                <label className="text-xs flex items-center text-purple-600">
-                  <Wind className="w-3 h-3 mr-1" />
+            <div className='mb-4'>
+              <div className='mb-1 flex justify-between'>
+                <label className='flex items-center text-xs text-purple-600'>
+                  <Wind className='mr-1 h-3 w-3' />
                   Air
                 </label>
-                <span className="text-xs text-gray-500">
+                <span className='text-xs text-gray-500'>
                   {Math.round(elementalProfile.Air * 100)}%
                 </span>
               </div>
               <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
+                type='range'
+                min='0'
+                max='1'
+                step='0.01'
                 value={elementalProfile.Air}
-                onChange={(e) =>
-                  handleElementChange('Air', parseFloat(e.target.value))
-                }
-                className="w-full h-2 bg-purple-100 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                onChange={e => handleElementChange('Air', parseFloat(e.target.value))}
+                className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-purple-100 accent-purple-500'
               />
             </div>
 
             {/* Reset buttons */}
-            <div className="flex gap-2 mt-6">
+            <div className='mt-6 flex gap-2'>
               <button
                 onClick={resetFilters}
-                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm flex items-center"
+                className='flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700'
               >
                 Reset Filters
               </button>
               <button
                 onClick={resetElementalProfile}
-                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm flex items-center"
+                className='flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700'
               >
                 Balance Elements
               </button>
@@ -403,75 +385,52 @@ export default function SauceExplorer() {
         </div>
 
         {/* Results Section */}
-        <div className="lg:col-span-2">
+        <div className='lg:col-span-2'>
           {/* Display title with selected filters */}
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold flex items-center">
-              <Utensils className="w-5 h-5 mr-2" />
+          <div className='mb-6'>
+            <h2 className='flex items-center text-xl font-semibold'>
+              <Utensils className='mr-2 h-5 w-5' />
               {selectedCuisine
-                ? `${
-                    allCuisines[selectedCuisine].name || selectedCuisine
-                  } Sauces`
+                ? `${allCuisines[selectedCuisine].name || selectedCuisine} Sauces`
                 : 'All Cuisine Sauces'}
             </h2>
 
             {/* Active filters display */}
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className='mt-2 flex flex-wrap gap-2'>
               {selectedProtein && (
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full flex items-center">
-                  <Beef className="w-3 h-3 mr-1" />
+                <span className='flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700'>
+                  <Beef className='mr-1 h-3 w-3' />
                   Protein: {selectedProtein}
                 </span>
               )}
 
               {selectedVegetable && (
-                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full flex items-center">
-                  <Carrot className="w-3 h-3 mr-1" />
+                <span className='flex items-center rounded-full bg-green-100 px-2 py-1 text-xs text-green-700'>
+                  <Carrot className='mr-1 h-3 w-3' />
                   Vegetable: {selectedVegetable}
                 </span>
               )}
 
               {selectedCookingMethod && (
-                <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full flex items-center">
-                  <ChefHat className="w-3 h-3 mr-1" />
+                <span className='flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-700'>
+                  <ChefHat className='mr-1 h-3 w-3' />
                   Method: {selectedCookingMethod}
                 </span>
               )}
 
               {/* Display dominant element */}
-              {Object.entries(elementalProfile).sort(
-                ([, a], [, b]) => b - a
-              )[0][0] !== 'Fire' &&
-                Object.entries(elementalProfile).sort(
-                  ([, a], [, b]) => b - a
-                )[0][1] > 0.3 && (
-                  <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full flex items-center">
-                    {Object.entries(elementalProfile).sort(
-                      ([, a], [, b]) => b - a
-                    )[0][0] === 'Water' && (
-                      <Droplet className="w-3 h-3 mr-1 text-blue-500" />
-                    )}
-                    {Object.entries(elementalProfile).sort(
-                      ([, a], [, b]) => b - a
-                    )[0][0] === 'Earth' && (
-                      <Mountain className="w-3 h-3 mr-1 text-amber-500" />
-                    )}
-                    {Object.entries(elementalProfile).sort(
-                      ([, a], [, b]) => b - a
-                    )[0][0] === 'Air' && (
-                      <Wind className="w-3 h-3 mr-1 text-purple-500" />
-                    )}
-                    {Object.entries(elementalProfile).sort(
-                      ([, a], [, b]) => b - a
-                    )[0][0] === 'Fire' && (
-                      <Flame className="w-3 h-3 mr-1 text-red-500" />
-                    )}
-                    Dominant:{' '}
-                    {
-                      Object.entries(elementalProfile).sort(
-                        ([, a], [, b]) => b - a
-                      )[0][0]
-                    }
+              {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] !== 'Fire' &&
+                Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][1] > 0.3 && (
+                  <span className='flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700'>
+                    {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
+                      'Water' && <Droplet className='mr-1 h-3 w-3 text-blue-500' />}
+                    {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
+                      'Earth' && <Mountain className='mr-1 h-3 w-3 text-amber-500' />}
+                    {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
+                      'Air' && <Wind className='mr-1 h-3 w-3 text-purple-500' />}
+                    {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
+                      'Fire' && <Flame className='mr-1 h-3 w-3 text-red-500' />}
+                    Dominant: {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0]}
                   </span>
                 )}
             </div>

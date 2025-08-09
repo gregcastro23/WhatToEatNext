@@ -1,7 +1,7 @@
 import { log } from '@/services/LoggingService';
 /**
  * Chrome API Initializer
- * 
+ *
  * This utility helps initialize mock Chrome extension API objects safely
  * to prevent errors related to missing extension APIs in the browser.
  */
@@ -13,17 +13,22 @@ export function initializeChromeApis(): void {
     }
 
     // Install global error handler for extension-related errors
-    window.addEventListener('error', function(e) {
-      if (e.message && (
-        e.message.includes('chrome') || 
-        e.message.includes('extension') ||
-        e.message.includes('Cannot read properties of undefined (reading')
-      )) {
-        console.warn('[ChromeAPI] Safely suppressed error:', e.message);
-        return true; // Prevent default error handling
-      }
-      return false; // Let other errors propagate normally
-    }, true);
+    window.addEventListener(
+      'error',
+      function (e) {
+        if (
+          e.message &&
+          (e.message.includes('chrome') ||
+            e.message.includes('extension') ||
+            e.message.includes('Cannot read properties of undefined (reading'))
+        ) {
+          console.warn('[ChromeAPI] Safely suppressed error:', e.message);
+          return true; // Prevent default error handling
+        }
+        return false; // Let other errors propagate normally
+      },
+      true,
+    );
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
@@ -32,12 +37,15 @@ export function initializeChromeApis(): void {
 
     // Initialize tabs API with safe methods
     // Apply Pattern GG-6: Enhanced property access with type guards
-    const chromeObj = (window as unknown as Record<string, unknown>).chrome as Record<string, unknown>;
+    const chromeObj = (window as unknown as Record<string, unknown>).chrome as Record<
+      string,
+      unknown
+    >;
     if (!chromeObj.tabs) {
       chromeObj.tabs = {
-        create: function(options: { url?: string }) {
+        create: function (options: { url?: string }) {
           log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
-          
+
           // Safely handle URL opening
           if (options?.url) {
             try {
@@ -52,15 +60,15 @@ export function initializeChromeApis(): void {
               console.warn('[ChromeAPI] Error opening URL:', e);
             }
           }
-          
+
           return Promise.resolve({ id: 999, url: options.url || 'about:blank' });
         },
-        query: function() {
+        query: function () {
           return Promise.resolve([{ id: 1, active: true, windowId: 1 }]);
         },
-        update: function() {
+        update: function () {
           return Promise.resolve({});
-        }
+        },
       };
     }
 
@@ -69,17 +77,17 @@ export function initializeChromeApis(): void {
     if (!chromeObj.runtime) {
       chromeObj.runtime = {
         lastError: null,
-        getURL: function(path: string) {
+        getURL: function (path: string) {
           return window.location.origin + '/' + path;
         },
-        sendMessage: function(message: unknown) {
+        sendMessage: function (message: unknown) {
           log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message as any);
           return Promise.resolve({ success: true });
         },
         onMessage: {
-          addListener: function() {},
-          removeListener: function() {}
-        }
+          addListener: function () {},
+          removeListener: function () {},
+        },
       };
     }
 
@@ -87,12 +95,12 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.extension) {
       chromeObj.extension = {
-        getURL: function(path: string) {
+        getURL: function (path: string) {
           return window.location.origin + '/' + path;
         },
-        getBackgroundPage: function() {
+        getBackgroundPage: function () {
           return window;
-        }
+        },
       };
     }
 
@@ -100,12 +108,15 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.storage) {
       const mockStorage: Record<string, Record<string, string>> = {};
-      
+
       chromeObj.storage = {
         local: {
-          get: function(keys: string | string[] | null, callback?: (items: Record<string, string[]>) => void) {
+          get: function (
+            keys: string | string[] | null,
+            callback?: (items: Record<string, string[]>) => void,
+          ) {
             let result: Record<string, Record<string, string>> = {};
-            
+
             if (!keys) {
               result = { ...mockStorage };
             } else if (Array.isArray(keys)) {
@@ -119,20 +130,20 @@ export function initializeChromeApis(): void {
                 result[keys] = mockStorage[keys];
               }
             }
-            
+
             if (callback) {
               setTimeout(() => callback(result as unknown as Record<string, string[]>), 0);
             }
             return Promise.resolve(result);
           },
-          set: function(items: Record<string, Record<string, string>>, callback?: () => void) {
+          set: function (items: Record<string, Record<string, string>>, callback?: () => void) {
             Object.assign(mockStorage, items);
             if (callback) {
               setTimeout(callback, 0);
             }
             return Promise.resolve();
           },
-          remove: function(keys: string | string[], callback?: () => void) {
+          remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys)) {
               keys.forEach(key => delete mockStorage[key]);
             } else {
@@ -142,18 +153,18 @@ export function initializeChromeApis(): void {
               setTimeout(callback, 0);
             }
             return Promise.resolve();
-          }
+          },
         },
         sync: {
-          get: function(keys: unknown, callback?: Function) {
+          get: function (keys: unknown, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0);
             return Promise.resolve({});
           },
-          set: function(items: unknown, callback?: Function) {
+          set: function (items: unknown, callback?: Function) {
             if (callback) setTimeout(callback, 0);
             return Promise.resolve();
-          }
-        }
+          },
+        },
       };
     }
 
@@ -164,4 +175,4 @@ export function initializeChromeApis(): void {
 }
 
 // Export default for easy importing
-export default { initializeChromeApis }; 
+export default { initializeChromeApis };

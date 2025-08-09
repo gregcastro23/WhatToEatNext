@@ -24,7 +24,7 @@ const CONFIG = {
     // Preserve external library integrations
     /astronomy-engine|astronomia|suncalc/i,
     // Preserve test files where assertions might be intentional
-    /\.test\.|\.spec\.|__tests__/i
+    /\.test\.|\.spec\.|__tests__/i,
   ],
   safeRemovalPatterns: [
     {
@@ -34,7 +34,7 @@ const CONFIG = {
       validate: (match, value, type) => {
         // Only remove if it's clearly redundant (basic validation)
         return !value.includes('unknown') && !value.includes('any');
-      }
+      },
     },
     {
       // Remove angle bracket assertions <Type>value where not needed
@@ -43,9 +43,9 @@ const CONFIG = {
       validate: (match, type, value) => {
         // Only remove simple cases
         return !value.includes('(') && !value.includes('[');
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
 
 class UnnecessaryTypeAssertionFixer {
@@ -64,7 +64,7 @@ class UnnecessaryTypeAssertionFixer {
 
       const lintOutput = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -E "no-unnecessary-type-assertion"',
-        { encoding: 'utf8', stdio: 'pipe' }
+        { encoding: 'utf8', stdio: 'pipe' },
       );
 
       const files = new Set();
@@ -83,7 +83,6 @@ class UnnecessaryTypeAssertionFixer {
       const fileArray = Array.from(files);
       console.log(`📊 Found ${fileArray.length} files with no-unnecessary-type-assertion issues`);
       return fileArray.slice(0, CONFIG.maxFiles);
-
     } catch (error) {
       console.warn('⚠️ Could not get lint output, scanning common directories...');
       return this.scanCommonDirectories();
@@ -154,7 +153,7 @@ class UnnecessaryTypeAssertionFixer {
     // Find all type assertions
     const typeAssertions = [
       ...content.matchAll(/\([^)]+\s+as\s+\w+\)/g),
-      ...content.matchAll(/<\w+>[^<>\s]+/g)
+      ...content.matchAll(/<\w+>[^<>\s]+/g),
     ];
 
     if (typeAssertions.length === 0) {
@@ -170,13 +169,14 @@ class UnnecessaryTypeAssertionFixer {
 
       const eslintOutput = execSync(
         `yarn eslint --no-eslintrc --config eslint.config.cjs "${tempFile}" --format json`,
-        { encoding: 'utf8', stdio: 'pipe' }
+        { encoding: 'utf8', stdio: 'pipe' },
       );
 
       const eslintResults = JSON.parse(eslintOutput);
-      const unnecessaryAssertions = eslintResults[0]?.messages?.filter(
-        msg => msg.ruleId === '@typescript-eslint/no-unnecessary-type-assertion'
-      ) || [];
+      const unnecessaryAssertions =
+        eslintResults[0]?.messages?.filter(
+          msg => msg.ruleId === '@typescript-eslint/no-unnecessary-type-assertion',
+        ) || [];
 
       // Remove the temp file
       fs.unlinkSync(tempFile);
@@ -201,7 +201,6 @@ class UnnecessaryTypeAssertionFixer {
           }
         }
       }
-
     } catch (error) {
       console.warn(`  ⚠️ Could not analyze with ESLint, using pattern matching`);
 
@@ -277,7 +276,10 @@ class UnnecessaryTypeAssertionFixer {
       }
 
       // Apply fixes
-      const { content: modifiedContent, fixCount } = this.applyUnnecessaryAssertionFixes(content, filePath);
+      const { content: modifiedContent, fixCount } = this.applyUnnecessaryAssertionFixes(
+        content,
+        filePath,
+      );
 
       if (fixCount > 0) {
         if (!CONFIG.dryRun) {
@@ -291,7 +293,6 @@ class UnnecessaryTypeAssertionFixer {
       }
 
       this.processedFiles++;
-
     } catch (error) {
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
       this.errors.push({ file: filePath, error: error.message });

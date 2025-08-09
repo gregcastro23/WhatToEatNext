@@ -11,9 +11,9 @@ const fixes = [
       {
         from: /  CampaignTestContext\n/g,
         to: '  CampaignTestContext as _CampaignTestContext\n',
-        description: 'Alias unused import CampaignTestContext'
-      }
-    ]
+        description: 'Alias unused import CampaignTestContext',
+      },
+    ],
   },
   {
     file: 'src/__tests__/integration/MainPageIntegration.test.tsx',
@@ -21,45 +21,45 @@ const fixes = [
       {
         from: /\.mockImplementation\(\(id\) =>/g,
         to: '.mockImplementation((_id) =>',
-        description: 'Prefix unused parameter id'
-      }
-    ]
+        description: 'Prefix unused parameter id',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/AstrologicalRulesValidation.test.ts',
     replacements: [
       {
         from: /import path from 'path';/g,
-        to: 'import path as _path from \'path\';',
-        description: 'Alias unused import path'
-      }
-    ]
+        to: "import path as _path from 'path';",
+        description: 'Alias unused import path',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/AutomatedErrorResolution.test.ts',
     replacements: [
       {
         from: /import { execSync } from 'child_process';/g,
-        to: 'import { execSync as _execSync } from \'child_process\';',
-        description: 'Alias unused import execSync'
+        to: "import { execSync as _execSync } from 'child_process';",
+        description: 'Alias unused import execSync',
       },
       {
         from: /import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';/g,
-        to: 'import { writeFileSync, readFileSync as _readFileSync, existsSync, mkdirSync } from \'fs\';',
-        description: 'Alias unused import readFileSync from fs'
-      }
-    ]
+        to: "import { writeFileSync, readFileSync as _readFileSync, existsSync, mkdirSync } from 'fs';",
+        description: 'Alias unused import readFileSync from fs',
+      },
+    ],
   },
   {
     file: 'src/__tests__/linting/DomainSpecificRuleValidation.test.ts',
     replacements: [
       {
         from: /import { readFileSync } from 'fs';/g,
-        to: 'import { readFileSync as _readFileSync } from \'fs\';',
-        description: 'Alias unused import readFileSync'
-      }
-    ]
-  }
+        to: "import { readFileSync as _readFileSync } from 'fs';",
+        description: 'Alias unused import readFileSync',
+      },
+    ],
+  },
 ];
 
 function applyFix(fix) {
@@ -89,7 +89,6 @@ function applyFix(fix) {
       console.log(`ℹ️  No changes needed in ${fix.file}`);
       return false;
     }
-
   } catch (error) {
     console.error(`❌ Error processing ${fix.file}: ${error.message}`);
     return false;
@@ -126,7 +125,9 @@ function main() {
   // Check lint improvement
   console.log('\n📋 Checking lint improvement...');
   try {
-    const lintOutput = execSync('yarn lint 2>&1 | grep "no-unused-vars" | wc -l', { encoding: 'utf8' });
+    const lintOutput = execSync('yarn lint 2>&1 | grep "no-unused-vars" | wc -l', {
+      encoding: 'utf8',
+    });
     const unusedVarsCount = parseInt(lintOutput.trim());
     console.log(`📊 Remaining unused variable warnings: ${unusedVarsCount}`);
   } catch (error) {

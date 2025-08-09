@@ -31,11 +31,13 @@ describe('ExplicitAnyEliminationSystem', () => {
         maxFiles: 25,
         autoFix: true,
         aggressive: true,
-        validateSafety: true
+        validateSafety: true,
       };
 
       // Use reflection to access private method
-      const buildMethod = (system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }).buildFixerArguments.bind(system);
+      const buildMethod = (
+        system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }
+      ).buildFixerArguments.bind(system);
       const args = buildMethod(options);
 
       expect(args).toContain('--max-files=25');
@@ -48,10 +50,12 @@ describe('ExplicitAnyEliminationSystem', () => {
       const options: ExplicitAnyOptions = {
         dryRun: true,
         silent: true,
-        json: true
+        json: true,
       };
 
-      const buildMethod = (system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }).buildFixerArguments.bind(system);
+      const buildMethod = (
+        system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }
+      ).buildFixerArguments.bind(system);
       const args = buildMethod(options);
 
       expect(args).toContain('--dry-run');
@@ -67,10 +71,10 @@ describe('ExplicitAnyEliminationSystem', () => {
       const count = await system.getCurrentExplicitAnyCount();
 
       expect(count).toBe(624);
-      expect(mockExecSync).toHaveBeenCalledWith(
-        'yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any"',
-        { encoding: 'utf8', stdio: 'pipe' }
-      );
+      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any"', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
     });
 
     it('should return 0 when no explicit-any warnings found', async () => {
@@ -127,7 +131,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         reductionAchieved: 500,
         reductionPercentage: 50,
         campaignTarget: 75.5,
-        isTargetMet: false
+        isTargetMet: false,
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -166,7 +170,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         reductionAchieved: 400,
         reductionPercentage: 40,
         campaignTarget: 75.5,
-        isTargetMet: false
+        isTargetMet: false,
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -197,7 +201,7 @@ describe('ExplicitAnyEliminationSystem', () => {
           if (event === 'close') {
             callback(0); // Success exit code
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
@@ -209,15 +213,20 @@ describe('ExplicitAnyEliminationSystem', () => {
       const options: ExplicitAnyOptions = {
         maxFiles: 20,
         autoFix: true,
-        validateSafety: true
+        validateSafety: true,
       };
 
       const result = await system.executeExplicitAnyFixer(options);
 
       expect(mockSpawn).toHaveBeenCalledWith(
         'node',
-        ['scripts/typescript-fixes/fix-explicit-any-systematic.js', '--max-files=20', '--auto-fix', '--validate-safety'],
-        { stdio: ['pipe', 'pipe', 'pipe'], cwd: process.cwd() }
+        [
+          'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+          '--max-files=20',
+          '--auto-fix',
+          '--validate-safety',
+        ],
+        { stdio: ['pipe', 'pipe', 'pipe'], cwd: process.cwd() },
       );
 
       expect(result.success).toBe(true);
@@ -238,7 +247,7 @@ describe('ExplicitAnyEliminationSystem', () => {
           if (event === 'close') {
             callback(0);
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
@@ -250,7 +259,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         reductionAchieved: 800,
         reductionPercentage: 80,
         campaignTarget: 75.5,
-        isTargetMet: true
+        isTargetMet: true,
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -277,15 +286,14 @@ describe('ExplicitAnyEliminationSystem', () => {
           if (event === 'close') {
             callback(0);
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
 
       // Mock no progress scenario
       mockFs.existsSync.mockReturnValue(false);
-      mockExecSync
-        .mockReturnValue('100\n'); // Same count every time
+      mockExecSync.mockReturnValue('100\n'); // Same count every time
 
       const results = await system.executeBatchProcessing(5);
 
@@ -302,7 +310,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         reductionAchieved: 755,
         reductionPercentage: 75.5,
         campaignTarget: 75.5,
-        isTargetMet: true
+        isTargetMet: true,
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -329,7 +337,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         reductionAchieved: 600,
         reductionPercentage: 60,
         campaignTarget: 75.5,
-        isTargetMet: false
+        isTargetMet: false,
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -344,7 +352,7 @@ describe('ExplicitAnyEliminationSystem', () => {
           if (event === 'close') {
             callback(0);
           }
-        })
+        }),
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
@@ -362,7 +370,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         reductionAchieved: 800,
         reductionPercentage: 80,
         campaignTarget: 75.5,
-        isTargetMet: true
+        isTargetMet: true,
       };
 
       mockFs.existsSync.mockReturnValue(true);

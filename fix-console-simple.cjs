@@ -22,7 +22,7 @@ let totalStats = {
   filesProcessed: 0,
   consoleStatementsRemoved: 0,
   consoleStatementsCommented: 0,
-  consoleStatementsPreserved: 0
+  consoleStatementsPreserved: 0,
 };
 
 function processFile(filePath) {
@@ -33,7 +33,9 @@ function processFile(filePath) {
     let fileStats = { removed: 0, commented: 0, preserved: 0 };
 
     const processedLines = lines.map((line, index) => {
-      const consoleMatch = line.match(/(\s*)(.*?)(console\.(log|debug|trace|info|warn|error|assert))\s*\(/);
+      const consoleMatch = line.match(
+        /(\s*)(.*?)(console\.(log|debug|trace|info|warn|error|assert))\s*\(/,
+      );
 
       if (consoleMatch) {
         const [, indent, prefix, consoleCall, method] = consoleMatch;
@@ -60,10 +62,11 @@ function processFile(filePath) {
         // Campaign file special handling
         if (filePath.includes('campaign/')) {
           // Only preserve console.log statements that are clearly important status messages
-          if (method === 'log' && (
-            /final|complete|success|failure|error|critical|emergency/.test(lineContent) ||
-            /validation.*result|campaign.*status|certification/.test(lineContent)
-          )) {
+          if (
+            method === 'log' &&
+            (/final|complete|success|failure|error|critical|emergency/.test(lineContent) ||
+              /validation.*result|campaign.*status|certification/.test(lineContent))
+          ) {
             fileStats.preserved++;
             return line;
           }
@@ -94,12 +97,13 @@ function processFile(filePath) {
     totalStats.consoleStatementsPreserved += fileStats.preserved;
 
     if (modified || fileStats.preserved > 0) {
-      console.log(`${modified ? '✅' : '⏭️'} ${filePath}: ${fileStats.removed} removed, ${fileStats.commented} commented, ${fileStats.preserved} preserved`);
+      console.log(
+        `${modified ? '✅' : '⏭️'} ${filePath}: ${fileStats.removed} removed, ${fileStats.commented} commented, ${fileStats.preserved} preserved`,
+      );
       totalStats.filesProcessed++;
     }
 
     return modified;
-
   } catch (error) {
     console.error(`❌ Error processing ${filePath}:`, error.message);
     return false;
@@ -126,12 +130,17 @@ console.log(`Console statements removed: ${totalStats.consoleStatementsRemoved}`
 console.log(`Console statements commented: ${totalStats.consoleStatementsCommented}`);
 console.log(`Console statements preserved: ${totalStats.consoleStatementsPreserved}`);
 
-const totalProcessed = totalStats.consoleStatementsRemoved +
-                      totalStats.consoleStatementsCommented +
-                      totalStats.consoleStatementsPreserved;
+const totalProcessed =
+  totalStats.consoleStatementsRemoved +
+  totalStats.consoleStatementsCommented +
+  totalStats.consoleStatementsPreserved;
 
 if (totalProcessed > 0) {
-  const reductionRate = ((totalStats.consoleStatementsRemoved + totalStats.consoleStatementsCommented) / totalProcessed * 100).toFixed(1);
+  const reductionRate = (
+    ((totalStats.consoleStatementsRemoved + totalStats.consoleStatementsCommented) /
+      totalProcessed) *
+    100
+  ).toFixed(1);
   console.log(`Reduction rate: ${reductionRate}%`);
 }
 

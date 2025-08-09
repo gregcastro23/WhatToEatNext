@@ -6,7 +6,7 @@ export function calculateMatchScore(
     season?: string;
     cuisine?: string;
     preferHigherContrast?: boolean;
-  }
+  },
 ) {
   // Validate input properties to avoid NaN results
   if (!elementalProperties || typeof elementalProperties !== 'object') {
@@ -22,23 +22,19 @@ export function calculateMatchScore(
   // Ensure each elemental property is a valid number
   const validatedProperties = {
     Fire:
-      typeof elementalProperties.Fire === 'number' &&
-      !isNaN(elementalProperties.Fire)
+      typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire)
         ? elementalProperties.Fire
         : 0.25,
     Water:
-      typeof elementalProperties.Water === 'number' &&
-      !isNaN(elementalProperties.Water)
+      typeof elementalProperties.Water === 'number' && !isNaN(elementalProperties.Water)
         ? elementalProperties.Water
         : 0.25,
     Earth:
-      typeof elementalProperties.Earth === 'number' &&
-      !isNaN(elementalProperties.Earth)
+      typeof elementalProperties.Earth === 'number' && !isNaN(elementalProperties.Earth)
         ? elementalProperties.Earth
         : 0.25,
     Air:
-      typeof elementalProperties.Air === 'number' &&
-      !isNaN(elementalProperties.Air)
+      typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air)
         ? elementalProperties.Air
         : 0.25,
   };
@@ -140,14 +136,13 @@ export function calculateMatchScore(
       try {
         // Use dynamic import to avoid circular dependencies
         import('../data/cuisineFlavorProfiles')
-          .then((module) => {
+          .then(module => {
             const { getCuisineProfile } = module;
             const cuisineProfile = getCuisineProfile(options.cuisine || '');
 
             if (cuisineProfile?.elementalAlignment) {
               // If cuisine heavily emphasizes this element, weight it higher
-              const cuisineElementValue =
-                cuisineProfile.elementalAlignment[element] || 0;
+              const cuisineElementValue = cuisineProfile.elementalAlignment[element] || 0;
               if (cuisineElementValue > 0.5) {
                 elementWeight *= 1 + (cuisineElementValue - 0.5); // Up to 1.5x for element value of 1.0
               }

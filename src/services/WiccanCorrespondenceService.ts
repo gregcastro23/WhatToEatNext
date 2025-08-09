@@ -9,7 +9,9 @@ interface WiccanProperties {
 
 export class WiccanCorrespondenceService {
   async getMagicalProperties(ingredientName: string): Promise<WiccanProperties> {
-    const response = await fetch(`https://wiccan-api.com/correspondences/${encodeURIComponent(ingredientName)}`);
+    const response = await fetch(
+      `https://wiccan-api.com/correspondences/${encodeURIComponent(ingredientName)}`,
+    );
     return response.json();
   }
-} 
+}

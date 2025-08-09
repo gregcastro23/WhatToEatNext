@@ -1,6 +1,6 @@
 /**
  * Centralized Logging Service for WhatToEatNext
- * 
+ *
  * Provides structured logging with different levels and contexts.
  * Replaces console.log statements in production code while preserving
  * console.warn and console.error for debugging purposes.
@@ -11,7 +11,7 @@ export enum LogLevel {
   INFO = 1,
   WARN = 2,
   ERROR = 3,
-  SILENT = 4
+  SILENT = 4,
 }
 
 export interface LogContext {
@@ -46,7 +46,7 @@ class LoggingService {
 
   private constructor() {
     this.isDevelopment = process.env.NODE_ENV === 'development';
-    
+
     // Set log level based on environment
     if (this.isDevelopment) {
       this.logLevel = LogLevel.DEBUG;
@@ -89,7 +89,13 @@ class LoggingService {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private log(level: LogLevel, message: string, context?: LogContext, error?: Error, data?: any): void {
+  private log(
+    level: LogLevel,
+    message: string,
+    context?: LogContext,
+    error?: Error,
+    data?: any,
+  ): void {
     if (level < this.logLevel) {
       return;
     }
@@ -100,7 +106,7 @@ class LoggingService {
       message,
       context,
       error,
-      data
+      data,
     };
 
     // Add to buffer
@@ -112,7 +118,7 @@ class LoggingService {
 
   private addToBuffer(entry: LogEntry): void {
     this.logBuffer.push(entry);
-    
+
     // Maintain buffer size
     if (this.logBuffer.length > this.maxBufferSize) {
       this.logBuffer.shift();
@@ -123,7 +129,7 @@ class LoggingService {
     const timestamp = entry.timestamp.toISOString();
     const contextStr = entry.context ? this.formatContext(entry.context) : '';
     const levelStr = LogLevel[entry.level];
-    
+
     const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`;
 
     switch (entry.level) {
@@ -132,15 +138,15 @@ class LoggingService {
           log.info(`🐛 ${baseMessage}`, entry.data || '');
         }
         break;
-      
+
       case LogLevel.INFO:
         log.info(`ℹ️ ${baseMessage}`, entry.data || '');
         break;
-      
+
       case LogLevel.WARN:
         console.warn(`⚠️ ${baseMessage}`, entry.data || '');
         break;
-      
+
       case LogLevel.ERROR:
         console.error(`❌ ${baseMessage}`, entry.error || entry.data || '');
         break;
@@ -149,21 +155,21 @@ class LoggingService {
 
   private formatContext(context: LogContext): string {
     const parts: string[] = [];
-    
+
     if (context.component) parts.push(`component=${context.component}`);
     if (context.service) parts.push(`service=${context.service}`);
     if (context.function) parts.push(`function=${context.function}`);
     if (context.userId) parts.push(`user=${context.userId}`);
     if (context.sessionId) parts.push(`session=${context.sessionId}`);
     if (context.requestId) parts.push(`request=${context.requestId}`);
-    
+
     // Add other context properties
     Object.keys(context).forEach(key => {
       if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
         parts.push(`${key}=${context[key]}`);
       }
     });
-    
+
     return parts.length > 0 ? ` [${parts.join(', ')}]` : '';
   }
 
@@ -183,7 +189,7 @@ class LoggingService {
         const context = entry.context ? this.formatContext(entry.context) : '';
         const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : '';
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : '';
-        
+
         return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`;
       })
       .join('\n');
@@ -197,13 +203,15 @@ const logger = LoggingService.getInstance();
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const log = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  debug: (message: string, context?: LogContext, data?: any) => logger.debug(message, context, data),
+  debug: (message: string, context?: LogContext, data?: any) =>
+    logger.debug(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info: (message: string, context?: LogContext, data?: any) => logger.info(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   warn: (message: string, context?: LogContext, data?: any) => logger.warn(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: (message: string, context?: LogContext, error?: Error, data?: any) => logger.error(message, context, error, data),
+  error: (message: string, context?: LogContext, error?: Error, data?: any) =>
+    logger.error(message, context, error, data),
 };
 
 // Export service for advanced usage

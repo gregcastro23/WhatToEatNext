@@ -5,14 +5,14 @@
 
 import { useState, useEffect, useMemo } from 'react';
 
-import { 
+import {
   ingredientsMap,
   getAllIngredientsByCategory,
   getAllVegetables,
   getAllProteins,
   getAllHerbs,
   getAllSpices,
-  getAllGrains
+  getAllGrains,
 } from '@/data/ingredients';
 import type { Ingredient } from '@/types/alchemy';
 
@@ -46,14 +46,14 @@ export function useIngredientSearch() {
       setIsLoading(true);
       try {
         const ingredients = [
-          ...getAllVegetables() as unknown as Ingredient[],
-          ...getAllProteins() as unknown as Ingredient[],
-          ...getAllHerbs() as unknown as Ingredient[],
-          ...getAllSpices() as unknown as Ingredient[],
-          ...getAllGrains() as unknown as Ingredient[],
-          ...Object.values(ingredientsMap || {}).filter(Boolean) as unknown as Ingredient[]
+          ...(getAllVegetables() as unknown as Ingredient[]),
+          ...(getAllProteins() as unknown as Ingredient[]),
+          ...(getAllHerbs() as unknown as Ingredient[]),
+          ...(getAllSpices() as unknown as Ingredient[]),
+          ...(getAllGrains() as unknown as Ingredient[]),
+          ...(Object.values(ingredientsMap || {}).filter(Boolean) as unknown as Ingredient[]),
         ] as Ingredient[];
-        
+
         // Remove duplicates by name
         const uniqueIngredients = ingredients.reduce((acc, ingredient) => {
           if (!acc.find(item => item.name === ingredient.name)) {
@@ -61,7 +61,7 @@ export function useIngredientSearch() {
           }
           return acc;
         }, [] as Ingredient[]);
-        
+
         setAllIngredients(uniqueIngredients);
       } catch (error) {
         console.warn('Error loading ingredients:', error);
@@ -78,27 +78,27 @@ export function useIngredientSearch() {
   const fuzzyMatch = (searchTerm: string, target: string): number => {
     const search = searchTerm.toLowerCase();
     const text = target.toLowerCase();
-    
+
     // Exact match gets highest score
     if (text === search) return 1.0;
-    
+
     // Starts with gets high score
     if (text.startsWith(search)) return 0.9;
-    
+
     // Contains gets medium score
     if (text.includes(search)) return 0.7;
-    
+
     // Fuzzy character matching
     let searchIndex = 0;
     let matches = 0;
-    
+
     for (let i = 0; i < text.length && searchIndex < search.length; i++) {
       if (text[i] === search[searchIndex]) {
         matches++;
         searchIndex++;
       }
     }
-    
+
     return searchIndex === search.length ? (matches / text.length) * 0.5 : 0;
   };
 
@@ -108,7 +108,7 @@ export function useIngredientSearch() {
       return allIngredients.slice(0, 20).map(ingredient => ({
         ...ingredient,
         searchScore: 1,
-        matchReasons: ['All ingredients']
+        matchReasons: ['All ingredients'],
       }));
     }
 
@@ -117,7 +117,7 @@ export function useIngredientSearch() {
     // Filter by category
     if (selectedCategory) {
       filteredIngredients = filteredIngredients.filter(
-        ingredient => ingredient.category === selectedCategory
+        ingredient => ingredient.category === selectedCategory,
       );
     }
 
@@ -127,12 +127,13 @@ export function useIngredientSearch() {
         .map(ingredient => {
           const nameScore = fuzzyMatch(searchTerm, ingredient.name);
           const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5;
-          const qualitiesScore = (((ingredient as unknown as Record<string, unknown>).qualities as string[]) || [])
-            .map((quality: string) => fuzzyMatch(searchTerm, quality))
-            .reduce((max: number, score: number) => Math.max(max, score), 0) * 0.3;
+          const qualitiesScore =
+            (((ingredient as unknown as Record<string, unknown>).qualities as string[]) || [])
+              .map((quality: string) => fuzzyMatch(searchTerm, quality))
+              .reduce((max: number, score: number) => Math.max(max, score), 0) * 0.3;
 
           const totalScore = Math.max(nameScore, categoryScore, qualitiesScore);
-          
+
           const matchReasons: string[] = [];
           if (nameScore > 0.7) matchReasons.push('Name match');
           if (categoryScore > 0.3) matchReasons.push('Category match');
@@ -141,7 +142,7 @@ export function useIngredientSearch() {
           return {
             ...ingredient,
             searchScore: totalScore,
-            matchReasons
+            matchReasons,
           };
         })
         .filter(result => result.searchScore > 0.1)
@@ -154,7 +155,7 @@ export function useIngredientSearch() {
     return filteredIngredients.slice(0, 50).map(ingredient => ({
       ...ingredient,
       searchScore: 1,
-      matchReasons: ['Category filter']
+      matchReasons: ['Category filter'],
     }));
   }, [searchTerm, selectedCategory, allIngredients]);
 
@@ -165,15 +166,20 @@ export function useIngredientSearch() {
     // Calculate average elemental properties of selected ingredients
     const avgElemental = selectedIngredients.reduce(
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        const props = ingredient.elementalProperties || {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        };
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
           Earth: acc.Earth + (props.Earth || 0),
-          Air: acc.Air + (props.Air || 0)
+          Air: acc.Air + (props.Air || 0),
         };
       },
-      { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+      { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     );
 
     const count = selectedIngredients.length;
@@ -184,22 +190,32 @@ export function useIngredientSearch() {
 
     // Find complementary ingredients
     return allIngredients
-      .filter(ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name))
+      .filter(
+        ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),
+      )
       .map(ingredient => {
-        const props = ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-        
+        const props = ingredient.elementalProperties || {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        };
+
         // Calculate elemental harmony (prefer ingredients that balance the current selection)
-        const harmony = 1 - Math.abs(
-          Math.abs((props.Fire || 0) - avgElemental.Fire) +
-          Math.abs((props.Water || 0) - avgElemental.Water) +
-          Math.abs((props.Earth || 0) - avgElemental.Earth) +
-          Math.abs((props.Air || 0) - avgElemental.Air)
-        ) / 4;
+        const harmony =
+          1 -
+          Math.abs(
+            Math.abs((props.Fire || 0) - avgElemental.Fire) +
+              Math.abs((props.Water || 0) - avgElemental.Water) +
+              Math.abs((props.Earth || 0) - avgElemental.Earth) +
+              Math.abs((props.Air || 0) - avgElemental.Air),
+          ) /
+            4;
 
         return {
           ...ingredient,
           searchScore: harmony,
-          matchReasons: ['Elemental balance', 'Recipe harmony']
+          matchReasons: ['Elemental balance', 'Recipe harmony'],
         };
       })
       .sort((a, b) => b.searchScore - a.searchScore)
@@ -227,6 +243,6 @@ export function useIngredientSearch() {
     availableCategories,
     getSuggestions,
     getIngredientsByCategory,
-    allIngredients
+    allIngredients,
   };
-} 
+}

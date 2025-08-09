@@ -1,6 +1,8 @@
 # Contexts Architecture
 
-This directory contains all the React contexts used in the application. Each context is structured in a consistent way to make them easier to use and maintain.
+This directory contains all the React contexts used in the application. Each
+context is structured in a consistent way to make them easier to use and
+maintain.
 
 ## Directory Structure
 
@@ -39,7 +41,7 @@ function MyComponent() {
   const { chart } = useChart();
   const { tarotCard } = useTarotContext();
   const { theme, setTheme } = useTheme();
-  
+
   // ...
 }
 ```
@@ -53,4 +55,4 @@ import { serverExports } from '@/contexts';
 
 // Use server-safe functions
 const season = serverExports.alchemical.getCurrentSeason();
-``` 
+```

@@ -1,6 +1,6 @@
 /**
  * AutomatedLintingFixer - Automated error resolution system with safety protocols
- * 
+ *
  * This class implements comprehensive automated fixing capabilities with batch processing,
  * safety validation, and rollback mechanisms for ESLint issues.
  */
@@ -111,11 +111,11 @@ export class AutomatedLintingFixer {
 
   constructor(
     workspaceRoot: string = process.cwd(),
-    safetyProtocols: Partial<SafetyProtocols> = {}
+    safetyProtocols: Partial<SafetyProtocols> = {},
   ) {
     this.workspaceRoot = workspaceRoot;
     this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs');
-    
+
     // Default safety protocols
     this.safetyProtocols = {
       enableRollback: true,
@@ -127,9 +127,9 @@ export class AutomatedLintingFixer {
         '**/calculations/**',
         '**/data/planets/**',
         '**/*astrological*',
-        '**/*campaign*'
+        '**/*campaign*',
       ],
-      ...safetyProtocols
+      ...safetyProtocols,
     };
   }
 
@@ -138,11 +138,11 @@ export class AutomatedLintingFixer {
    */
   async applyAutomatedFixes(
     categorizedErrors: CategorizedErrors,
-    options: Partial<BatchProcessingOptions> = {}
+    options: Partial<BatchProcessingOptions> = {},
   ): Promise<AutomatedFixResult> {
     const startTime = new Date();
     log.info('🔧 Starting automated linting fixes with safety protocols...');
-    
+
     const batchOptions: BatchProcessingOptions = {
       batchSize: 10,
       maxConcurrentBatches: 1,
@@ -150,7 +150,7 @@ export class AutomatedLintingFixer {
       continueOnError: false,
       createBackups: true,
       dryRun: false,
-      ...options
+      ...options,
     };
 
     const result: AutomatedFixResult = {
@@ -169,8 +169,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
-      }
+        rollbacksPerformed: 0,
+      },
     };
 
     try {
@@ -179,7 +179,7 @@ export class AutomatedLintingFixer {
         log.info('🔍 Running pre-fix validation...');
         const preValidation = await this.runValidation();
         result.validationResults.push(...preValidation);
-        
+
         if (preValidation.some(v => !v.success && v.type === 'build')) {
           throw new Error('Pre-fix validation failed - build is broken');
         }
@@ -193,44 +193,45 @@ export class AutomatedLintingFixer {
       }
 
       // Step 3: Process auto-fixable issues in batches
-      const autoFixableIssues = categorizedErrors.autoFixable.filter(issue => 
-        this.isSafeToAutoFix(issue)
+      const autoFixableIssues = categorizedErrors.autoFixable.filter(issue =>
+        this.isSafeToAutoFix(issue),
       );
 
-      log.info(`🎯 Processing ${autoFixableIssues.length} auto-fixable issues in batches of ${batchOptions.batchSize}`);
-      
+      log.info(
+        `🎯 Processing ${autoFixableIssues.length} auto-fixable issues in batches of ${batchOptions.batchSize}`,
+      );
+
       const batches = this.createBatches(autoFixableIssues, batchOptions.batchSize);
       let failureCount = 0;
 
       for (let i = 0; i < batches.length; i++) {
         const batch = batches[i];
         log.info(`📦 Processing batch ${i + 1}/${batches.length} (${batch.length} issues)`);
-        
+
         try {
           const batchResult = await this.processBatch(batch, batchOptions);
-          
+
           result.fixedIssues += batchResult.fixedIssues;
           result.failedIssues += batchResult.failedIssues;
           result.processedFiles.push(...batchResult.processedFiles);
           result.errors.push(...batchResult.errors);
-          
+
           // Validate after each batch if enabled
           if (batchOptions.validateAfterEachBatch) {
             const batchValidation = await this.runValidation();
             result.validationResults.push(...batchValidation);
-            
+
             if (batchValidation.some(v => !v.success && v.type === 'build')) {
               console.warn('⚠️ Batch validation failed - performing rollback');
               await this.performRollback();
               result.metrics.rollbacksPerformed++;
               failureCount++;
-              
+
               if (failureCount >= this.safetyProtocols.maxFailuresBeforeStop) {
                 throw new Error('Maximum failures reached - stopping automated fixes');
               }
             }
           }
-          
         } catch (error) {
           console.error(`❌ Batch ${i + 1} failed:`, error);
           result.errors.push({
@@ -238,11 +239,14 @@ export class AutomatedLintingFixer {
             rule: 'batch-error',
             message: `Batch ${i + 1} processing failed`,
             error: error instanceof Error ? error.message : String(error),
-            severity: 'error'
+            severity: 'error',
           });
-          
+
           failureCount++;
-          if (!batchOptions.continueOnError || failureCount >= this.safetyProtocols.maxFailuresBeforeStop) {
+          if (
+            !batchOptions.continueOnError ||
+            failureCount >= this.safetyProtocols.maxFailuresBeforeStop
+          ) {
             break;
           }
         }
@@ -253,7 +257,7 @@ export class AutomatedLintingFixer {
         log.info('✅ Running final validation...');
         const finalValidation = await this.runValidation();
         result.validationResults.push(...finalValidation);
-        
+
         const buildSuccess = finalValidation.find(v => v.type === 'build')?.success ?? true;
         result.success = buildSuccess && result.fixedIssues > 0;
       } else {
@@ -269,29 +273,30 @@ export class AutomatedLintingFixer {
       result.metrics.issuesFixed = result.fixedIssues;
       result.metrics.issuesFailed = result.failedIssues;
 
-      log.info(`✅ Automated fixes complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
-      
-      return result;
+      log.info(
+        `✅ Automated fixes complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
+      );
 
+      return result;
     } catch (error) {
       console.error('❌ Automated fixing failed:', error);
-      
+
       // Attempt rollback on critical failure
       if (this.currentRollbackInfo && this.safetyProtocols.enableRollback) {
         log.info('🔄 Performing emergency rollback...');
         await this.performRollback();
         result.metrics.rollbacksPerformed++;
       }
-      
+
       result.success = false;
       result.errors.push({
         file: 'system',
         rule: 'critical-error',
         message: 'Critical failure during automated fixing',
         error: error instanceof Error ? error.message : String(error),
-        severity: 'critical'
+        severity: 'critical',
       });
-      
+
       return result;
     }
   }
@@ -301,26 +306,21 @@ export class AutomatedLintingFixer {
    */
   async handleUnusedVariables(
     issues: LintingIssue[],
-    options: Partial<UnusedVariableFixOptions> = {}
+    options: Partial<UnusedVariableFixOptions> = {},
   ): Promise<AutomatedFixResult> {
     log.info('🧹 Handling unused variables...');
-    
+
     const fixOptions: UnusedVariableFixOptions = {
       prefixWithUnderscore: true,
       removeCompletely: false,
-      preservePatterns: [
-        '**/calculations/**',
-        '**/data/planets/**',
-        '**/*astrological*'
-      ],
+      preservePatterns: ['**/calculations/**', '**/data/planets/**', '**/*astrological*'],
       skipTestFiles: false,
       skipDomainFiles: true,
-      ...options
+      ...options,
     };
 
-    const unusedVarIssues = issues.filter(issue => 
-      issue.rule.includes('no-unused-vars') || 
-      issue.rule.includes('unused-vars')
+    const unusedVarIssues = issues.filter(
+      issue => issue.rule.includes('no-unused-vars') || issue.rule.includes('unused-vars'),
     );
 
     const result: AutomatedFixResult = {
@@ -339,8 +339,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
-      }
+        rollbacksPerformed: 0,
+      },
     };
 
     for (const issue of unusedVarIssues) {
@@ -372,7 +372,6 @@ export class AutomatedLintingFixer {
         } else {
           result.failedIssues++;
         }
-
       } catch (error) {
         result.failedIssues++;
         result.errors.push({
@@ -380,19 +379,22 @@ export class AutomatedLintingFixer {
           rule: issue.rule,
           message: `Failed to fix unused variable: ${issue.message}`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         });
       }
     }
 
     result.success = result.fixedIssues > 0;
     result.metrics.endTime = new Date();
-    result.metrics.totalTime = result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
+    result.metrics.totalTime =
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length;
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    log.info(`🧹 Unused variables handled: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
+    log.info(
+      `🧹 Unused variables handled: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
+    );
     return result;
   }
 
@@ -401,22 +403,21 @@ export class AutomatedLintingFixer {
    */
   async optimizeImports(
     issues: LintingIssue[],
-    options: Partial<ImportOptimizationOptions> = {}
+    options: Partial<ImportOptimizationOptions> = {},
   ): Promise<AutomatedFixResult> {
     log.info('📦 Optimizing import statements...');
-    
+
     const importOptions: ImportOptimizationOptions = {
       removeDuplicates: true,
       organizeImports: true,
       removeUnused: true,
       preserveComments: true,
       sortImports: true,
-      ...options
+      ...options,
     };
 
-    const importIssues = issues.filter(issue => 
-      issue.category.primary === 'import' ||
-      issue.rule.startsWith('import/')
+    const importIssues = issues.filter(
+      issue => issue.category.primary === 'import' || issue.rule.startsWith('import/'),
     );
 
     const result: AutomatedFixResult = {
@@ -435,8 +436,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
-      }
+        rollbacksPerformed: 0,
+      },
     };
 
     // Group issues by file for batch processing
@@ -463,7 +464,6 @@ export class AutomatedLintingFixer {
         } else {
           result.failedIssues += fileIssues.length;
         }
-
       } catch (error) {
         result.failedIssues += fileIssues.length;
         result.errors.push({
@@ -471,19 +471,22 @@ export class AutomatedLintingFixer {
           rule: 'import-optimization',
           message: `Failed to optimize imports`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         });
       }
     }
 
     result.success = result.fixedIssues > 0;
     result.metrics.endTime = new Date();
-    result.metrics.totalTime = result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
+    result.metrics.totalTime =
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length;
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    log.info(`📦 Import optimization complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
+    log.info(
+      `📦 Import optimization complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
+    );
     return result;
   }
 
@@ -492,25 +495,23 @@ export class AutomatedLintingFixer {
    */
   async improveTypeAnnotations(
     issues: LintingIssue[],
-    options: Partial<TypeAnnotationOptions> = {}
+    options: Partial<TypeAnnotationOptions> = {},
   ): Promise<AutomatedFixResult> {
     log.info('🏷️ Improving type annotations...');
-    
+
     const typeOptions: TypeAnnotationOptions = {
       inferFromUsage: true,
       useStrictTypes: false,
-      preserveExplicitAny: [
-        '**/calculations/**',
-        '**/data/planets/**'
-      ],
+      preserveExplicitAny: ['**/calculations/**', '**/data/planets/**'],
       maxComplexity: 'simple',
-      ...options
+      ...options,
     };
 
-    const typeIssues = issues.filter(issue => 
-      issue.rule.includes('no-explicit-any') ||
-      issue.rule.includes('no-implicit-any') ||
-      issue.category.primary === 'typescript'
+    const typeIssues = issues.filter(
+      issue =>
+        issue.rule.includes('no-explicit-any') ||
+        issue.rule.includes('no-implicit-any') ||
+        issue.category.primary === 'typescript',
     );
 
     const result: AutomatedFixResult = {
@@ -529,8 +530,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
-      }
+        rollbacksPerformed: 0,
+      },
     };
 
     for (const issue of typeIssues) {
@@ -556,7 +557,6 @@ export class AutomatedLintingFixer {
         } else {
           result.failedIssues++;
         }
-
       } catch (error) {
         result.failedIssues++;
         result.errors.push({
@@ -564,19 +564,22 @@ export class AutomatedLintingFixer {
           rule: issue.rule,
           message: `Failed to improve type annotation: ${issue.message}`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         });
       }
     }
 
     result.success = result.fixedIssues > 0;
     result.metrics.endTime = new Date();
-    result.metrics.totalTime = result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
+    result.metrics.totalTime =
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length;
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    log.info(`🏷️ Type annotation improvement complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
+    log.info(
+      `🏷️ Type annotation improvement complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
+    );
     return result;
   }
 
@@ -601,12 +604,11 @@ export class AutomatedLintingFixer {
       log.info(`🔄 Rolling back to stash: ${this.currentRollbackInfo.stashId}`);
       execSync(this.currentRollbackInfo.rollbackCommand, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       log.info('✅ Rollback completed successfully');
       return true;
-      
     } catch (error) {
       console.error('❌ Rollback failed:', error);
       return false;
@@ -618,27 +620,26 @@ export class AutomatedLintingFixer {
   private async createBackup(): Promise<RollbackInfo> {
     const timestamp = new Date();
     const stashMessage = `automated-linting-fixes-${timestamp.toISOString()}`;
-    
+
     try {
       execSync(`git add -A && git stash push -m "${stashMessage}"`, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       const stashList = execSync('git stash list', {
         cwd: this.workspaceRoot,
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
-      
+
       const stashId = stashList.split('\n')[0]?.split(':')[0] || 'stash@{0}';
-      
+
       return {
         stashId,
         timestamp,
         affectedFiles: [],
-        rollbackCommand: `git stash pop ${stashId}`
+        rollbackCommand: `git stash pop ${stashId}`,
       };
-      
     } catch (error) {
       throw new Error(`Failed to create backup: ${error}`);
     }
@@ -653,19 +654,19 @@ export class AutomatedLintingFixer {
       execSync('npm run build', {
         cwd: this.workspaceRoot,
         stdio: 'pipe',
-        timeout: 60000 // 1 minute timeout
+        timeout: 60000, // 1 minute timeout
       });
       results.push({
         type: 'build',
         success: true,
-        message: 'Build passed successfully'
+        message: 'Build passed successfully',
       });
     } catch (error) {
       results.push({
         type: 'build',
         success: false,
         message: 'Build failed',
-        details: error instanceof Error ? error.message : String(error)
+        details: error instanceof Error ? error.message : String(error),
       });
     }
 
@@ -674,19 +675,19 @@ export class AutomatedLintingFixer {
       execSync('npx tsc --noEmit', {
         cwd: this.workspaceRoot,
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000, // 30 second timeout
       });
       results.push({
         type: 'type-check',
         success: true,
-        message: 'Type checking passed'
+        message: 'Type checking passed',
       });
     } catch (error) {
       results.push({
         type: 'type-check',
         success: false,
         message: 'Type checking failed',
-        details: error instanceof Error ? error.message : String(error)
+        details: error instanceof Error ? error.message : String(error),
       });
     }
 
@@ -695,19 +696,19 @@ export class AutomatedLintingFixer {
       execSync(`npx eslint --config ${this.eslintConfigPath} src`, {
         cwd: this.workspaceRoot,
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000, // 30 second timeout
       });
       results.push({
         type: 'lint',
         success: true,
-        message: 'Linting passed'
+        message: 'Linting passed',
       });
     } catch (error) {
       // ESLint returns non-zero exit code for warnings/errors, which is expected
       results.push({
         type: 'lint',
         success: true,
-        message: 'Linting completed (may have remaining issues)'
+        message: 'Linting completed (may have remaining issues)',
       });
     }
 
@@ -717,19 +718,19 @@ export class AutomatedLintingFixer {
         execSync('npm test -- --passWithNoTests', {
           cwd: this.workspaceRoot,
           stdio: 'pipe',
-          timeout: 120000 // 2 minute timeout
+          timeout: 120000, // 2 minute timeout
         });
         results.push({
           type: 'test',
           success: true,
-          message: 'Tests passed'
+          message: 'Tests passed',
         });
       } catch (error) {
         results.push({
           type: 'test',
           success: false,
           message: 'Tests failed',
-          details: error instanceof Error ? error.message : String(error)
+          details: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -781,7 +782,7 @@ export class AutomatedLintingFixer {
 
   private async processBatch(
     batch: LintingIssue[],
-    options: BatchProcessingOptions
+    options: BatchProcessingOptions,
   ): Promise<AutomatedFixResult> {
     const result: AutomatedFixResult = {
       success: false,
@@ -799,8 +800,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
-      }
+        rollbacksPerformed: 0,
+      },
     };
 
     // Group issues by file for efficient processing
@@ -834,14 +835,15 @@ export class AutomatedLintingFixer {
           rule: 'batch-processing',
           message: `Failed to process file in batch`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         });
       }
     }
 
     result.success = result.fixedIssues > 0;
     result.metrics.endTime = new Date();
-    result.metrics.totalTime = result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
+    result.metrics.totalTime =
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length;
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
@@ -855,9 +857,9 @@ export class AutomatedLintingFixer {
       const command = `npx eslint --config ${this.eslintConfigPath} --fix "${filePath}"`;
       execSync(command, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
-      
+
       return true;
     } catch (error) {
       console.warn(`⚠️ Failed to fix issues in ${filePath}:`, error);
@@ -867,34 +869,36 @@ export class AutomatedLintingFixer {
 
   private async fixUnusedVariable(
     issue: LintingIssue,
-    options: UnusedVariableFixOptions
+    options: UnusedVariableFixOptions,
   ): Promise<boolean> {
     try {
       const filePath = path.join(this.workspaceRoot, issue.file);
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n');
-      
+
       // Find the line with the unused variable
       const lineIndex = issue.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         const line = lines[lineIndex];
-        
+
         // Extract variable name from the message
-        const varNameMatch = issue.message.match(/'([^']+)' is (defined but never used|assigned a value but never used)/);
+        const varNameMatch = issue.message.match(
+          /'([^']+)' is (defined but never used|assigned a value but never used)/,
+        );
         if (varNameMatch) {
           const varName = varNameMatch[1];
-          
+
           if (options.prefixWithUnderscore && !varName.startsWith('_')) {
             // Prefix with underscore to indicate intentional non-use
             const newLine = line.replace(new RegExp(`\\b${varName}\\b`), `_${varName}`);
             lines[lineIndex] = newLine;
-            
+
             fs.writeFileSync(filePath, lines.join('\n'));
             return true;
           }
         }
       }
-      
+
       return false;
     } catch (error) {
       console.warn(`⚠️ Failed to fix unused variable in ${issue.file}:`, error);
@@ -905,7 +909,7 @@ export class AutomatedLintingFixer {
   private async optimizeFileImports(
     filePath: string,
     issues: LintingIssue[],
-    options: ImportOptimizationOptions
+    options: ImportOptimizationOptions,
   ): Promise<boolean> {
     try {
       // Use ESLint's auto-fix for import-related rules
@@ -914,11 +918,11 @@ export class AutomatedLintingFixer {
         const command = `npx eslint --config ${this.eslintConfigPath} --fix "${filePath}"`;
         execSync(command, {
           cwd: this.workspaceRoot,
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.warn(`⚠️ Failed to optimize imports in ${filePath}:`, error);
@@ -931,19 +935,19 @@ export class AutomatedLintingFixer {
     const simplePatterns = [
       /no-explicit-any.*parameter/,
       /no-explicit-any.*return type/,
-      /no-explicit-any.*variable declaration/
+      /no-explicit-any.*variable declaration/,
     ];
-    
+
     return simplePatterns.some(pattern => pattern.test(issue.message));
   }
 
   private async improveTypeAnnotation(
     issue: LintingIssue,
-    options: TypeAnnotationOptions
+    options: TypeAnnotationOptions,
   ): Promise<boolean> {
     // For now, only handle very simple cases
     // More complex type inference would require AST parsing and analysis
-    
+
     if (options.maxComplexity === 'simple' && this.isSimpleTypeIssue(issue)) {
       try {
         // Use ESLint auto-fix if available
@@ -951,7 +955,7 @@ export class AutomatedLintingFixer {
           const command = `npx eslint --config ${this.eslintConfigPath} --fix "${issue.file}"`;
           execSync(command, {
             cwd: this.workspaceRoot,
-            stdio: 'pipe'
+            stdio: 'pipe',
           });
           return true;
         }
@@ -959,7 +963,7 @@ export class AutomatedLintingFixer {
         console.warn(`⚠️ Failed to improve type annotation in ${issue.file}:`, error);
       }
     }
-    
+
     return false;
   }
 }

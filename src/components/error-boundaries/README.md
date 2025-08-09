@@ -1,13 +1,16 @@
 # Error Boundaries and Safety Infrastructure
 
-This directory contains a comprehensive error handling system for the "What To Eat Next" application. The system provides multiple layers of error protection, logging, and recovery mechanisms.
+This directory contains a comprehensive error handling system for the "What To
+Eat Next" application. The system provides multiple layers of error protection,
+logging, and recovery mechanisms.
 
 ## Overview
 
 The error boundary system consists of several key components:
 
 1. **Global Error Boundary** - Catches unhandled errors at the application level
-2. **Component Error Boundaries** - Provides error isolation for individual components
+2. **Component Error Boundaries** - Provides error isolation for individual
+   components
 3. **Error Logger** - Centralized error logging and tracking
 4. **Error Recovery System** - Automatic and manual error recovery mechanisms
 5. **Safety Wrappers** - Convenient pre-configured error boundaries
@@ -17,7 +20,8 @@ The error boundary system consists of several key components:
 
 ### GlobalErrorBoundary
 
-The top-level error boundary that catches all unhandled errors in the application.
+The top-level error boundary that catches all unhandled errors in the
+application.
 
 ```tsx
 import { GlobalErrorBoundary } from '@/components/error-boundaries';
@@ -335,6 +339,7 @@ import { ErrorBoundaryConfigs } from '@/components/error-boundaries';
 ```
 
 Available configs:
+
 - `ErrorBoundaryConfigs.cuisine`
 - `ErrorBoundaryConfigs.ingredient`
 - `ErrorBoundaryConfigs.cooking`
@@ -372,10 +377,12 @@ test('should catch and display errors', () => {
 
 ## Integration with Main Page Restoration
 
-This error boundary system is specifically designed to support the main page restoration requirements:
+This error boundary system is specifically designed to support the main page
+restoration requirements:
 
 1. **Requirement 1.3** - Error boundaries prevent entire page crashes
 2. **Requirement 7.5** - Component-level error boundaries provide isolation
 3. **Requirement 8.5** - User-friendly error messages and recovery options
 
-The system ensures that if any component on the main page fails, other components continue to function normally, and users have clear recovery options.
+The system ensures that if any component on the main page fails, other
+components continue to function normally, and users have clear recovery options.

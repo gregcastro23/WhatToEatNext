@@ -13,9 +13,9 @@ const rawRootVegetables = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Venus' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
+      },
     },
     qualities: ['grounding', 'warming', 'nourishing'],
     season: ['fall', 'winter'],
@@ -29,24 +29,22 @@ const rawRootVegetables = {
       minerals: ['potassium', 'manganese'],
       calories: 103,
       carbs_g: 24,
-      fiber_g: 4
+      fiber_g: 4,
     },
     preparation: {
       washing: true,
       peeling: 'optional',
       cutting: 'uniform size for even cooking',
-      notes: 'Can be pre-cooked and reheated'
+      notes: 'Can be pre-cooked and reheated',
     },
     storage: {
       temperature: 'cool dark place',
       duration: '3-5 weeks',
-      notes: 'Do not refrigerate raw'
-    }
+      notes: 'Do not refrigerate raw',
+    },
   },
 
-  
-
-  'parsnip': {
+  parsnip: {
     name: 'Parsnip',
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
     qualities: ['grounding', 'warming', 'nourishing'],
@@ -61,23 +59,23 @@ const rawRootVegetables = {
       minerals: ['folate', 'potassium', 'manganese'],
       calories: 75,
       carbs_g: 18,
-      fiber_g: 5
+      fiber_g: 5,
     },
     preparation: {
       washing: true,
       peeling: 'recommended',
       cutting: 'uniform pieces',
-      notes: 'Smaller ones are more tender'
+      notes: 'Smaller ones are more tender',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',
-      notes: 'Store in plastic bag with holes'
-    }
+      notes: 'Store in plastic bag with holes',
+    },
   },
 
-  'beet': {
+  beet: {
     name: 'Beet',
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     qualities: ['grounding', 'building', 'cleansing'],
@@ -93,23 +91,23 @@ const rawRootVegetables = {
       calories: 43,
       carbs_g: 10,
       fiber_g: 2.8,
-      antioxidants: ['betalains', 'nitrates']
+      antioxidants: ['betalains', 'nitrates'],
     },
     preparation: {
       washing: true,
       peeling: 'after cooking',
       roasting: 'wrap in foil with olive oil',
-      notes: 'Wear gloves to prevent staining'
+      notes: 'Wear gloves to prevent staining',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',
-      notes: 'Remove greens, store separately'
-    }
+      notes: 'Remove greens, store separately',
+    },
   },
 
-  'turnip': {
+  turnip: {
     name: 'Turnip',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['cooling', 'cleansing'],
@@ -124,23 +122,25 @@ const rawRootVegetables = {
       minerals: ['calcium', 'potassium'],
       calories: 28,
       carbs_g: 6,
-      fiber_g: 2
+      fiber_g: 2,
     },
     preparation: {
       washing: true,
       peeling: 'recommended for larger ones',
       cutting: 'uniform pieces',
-      notes: 'Smaller ones are sweeter'
+      notes: 'Smaller ones are sweeter',
     },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',
-      notes: 'Store in plastic bag with holes'
-    }
-  }
+      notes: 'Store in plastic bag with holes',
+    },
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const rootVegetables: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables as Record<string, Partial<IngredientMapping>>);
+export const rootVegetables: Record<string, IngredientMapping> = fixIngredientMappings(
+  rawRootVegetables as Record<string, Partial<IngredientMapping>>,
+);

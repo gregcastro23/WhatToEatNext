@@ -2,7 +2,7 @@
 
 /**
  * Console Statement Replacement Script
- * 
+ *
  * Systematically replaces console.log statements with proper logging
  * while preserving console.warn and console.error statements.
  */
@@ -22,7 +22,7 @@ class ConsoleStatementReplacer {
       /\.spec\./,
       /demo\.js$/,
       /\.config\./,
-      /campaign\//  // Campaign system files already allow console
+      /campaign\//, // Campaign system files already allow console
     ];
 
     this.consoleLogPattern = /console\.log\s*\(/g;
@@ -35,19 +35,21 @@ class ConsoleStatementReplacer {
   async replaceConsoleStatements() {
     console.log('🚀 Starting Console Statement Replacement');
     console.log('==========================================');
-    
+
     const results = [];
     const files = this.getProductionFiles();
-    
+
     console.log(`📁 Found ${files.length} production files to process\n`);
 
     for (const file of files) {
       try {
         const result = await this.processFile(file);
         results.push(result);
-        
+
         if (result.replacedCount > 0) {
-          console.log(`✅ ${result.file}: ${result.replacedCount} replacements, ${result.preservedCount} preserved`);
+          console.log(
+            `✅ ${result.file}: ${result.replacedCount} replacements, ${result.preservedCount} preserved`,
+          );
         }
       } catch (error) {
         console.error(`❌ Error processing ${file}:`, error);
@@ -56,7 +58,7 @@ class ConsoleStatementReplacer {
           originalConsoleCount: 0,
           replacedCount: 0,
           preservedCount: 0,
-          errors: [error.message]
+          errors: [error.message],
         });
       }
     }
@@ -66,14 +68,14 @@ class ConsoleStatementReplacer {
 
   getProductionFiles() {
     const files = [];
-    
-    const walkDir = (dir) => {
+
+    const walkDir = dir => {
       const entries = fs.readdirSync(dir);
-      
+
       for (const entry of entries) {
         const fullPath = path.join(dir, entry);
         const stat = fs.statSync(fullPath);
-        
+
         if (stat.isDirectory()) {
           walkDir(fullPath);
         } else if (this.isProductionFile(fullPath)) {
@@ -81,7 +83,7 @@ class ConsoleStatementReplacer {
         }
       }
     };
-    
+
     walkDir(this.srcDir);
     return files;
   }
@@ -91,70 +93,72 @@ class ConsoleStatementReplacer {
     if (!/\.(ts|tsx|js|jsx)$/.test(filePath)) {
       return false;
     }
-    
+
     // Exclude patterns
     for (const pattern of this.excludePatterns) {
       if (pattern.test(filePath)) {
         return false;
       }
     }
-    
+
     return true;
   }
 
   async processFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const originalContent = content;
-    
+
     // Count original console statements
     const originalConsoleCount = this.countConsoleStatements(content);
-    
+
     // Determine if this file needs logging import
-    const needsLoggingImport = this.consoleLogPattern.test(content) || 
-                              this.consoleInfoPattern.test(content) || 
-                              this.consoleDebugPattern.test(content);
-    
+    const needsLoggingImport =
+      this.consoleLogPattern.test(content) ||
+      this.consoleInfoPattern.test(content) ||
+      this.consoleDebugPattern.test(content);
+
     let modifiedContent = content;
     let replacedCount = 0;
-    
+
     // Add logging import if needed
-    if (needsLoggingImport && !content.includes('from \'@/services/LoggingService\'')) {
+    if (needsLoggingImport && !content.includes("from '@/services/LoggingService'")) {
       modifiedContent = this.addLoggingImport(modifiedContent);
     }
-    
+
     // Replace console.log statements
-    modifiedContent = modifiedContent.replace(this.consoleLogPattern, (match) => {
+    modifiedContent = modifiedContent.replace(this.consoleLogPattern, match => {
       replacedCount++;
       return `log.info(`;
     });
-    
+
     // Replace console.info statements
-    modifiedContent = modifiedContent.replace(this.consoleInfoPattern, (match) => {
+    modifiedContent = modifiedContent.replace(this.consoleInfoPattern, match => {
       replacedCount++;
       return `log.info(`;
     });
-    
+
     // Replace console.debug statements
-    modifiedContent = modifiedContent.replace(this.consoleDebugPattern, (match) => {
+    modifiedContent = modifiedContent.replace(this.consoleDebugPattern, match => {
       replacedCount++;
       return `log.debug(`;
     });
-    
+
     // Count preserved statements (warn, error)
-    const preservedCount = (content.match(this.consoleWarnPattern) || []).length +
-                          (content.match(this.consoleErrorPattern) || []).length;
-    
+    const preservedCount =
+      (content.match(this.consoleWarnPattern) || []).length +
+      (content.match(this.consoleErrorPattern) || []).length;
+
     // Write modified content if changes were made
     if (modifiedContent !== originalContent) {
       fs.writeFileSync(filePath, modifiedContent);
     }
-    
+
     return {
       file: path.relative(process.cwd(), filePath),
       originalConsoleCount,
       replacedCount,
       preservedCount,
-      errors: []
+      errors: [],
     };
   }
 
@@ -164,7 +168,7 @@ class ConsoleStatementReplacer {
     const errorCount = (content.match(this.consoleErrorPattern) || []).length;
     const infoCount = (content.match(this.consoleInfoPattern) || []).length;
     const debugCount = (content.match(this.consoleDebugPattern) || []).length;
-    
+
     return logCount + warnCount + errorCount + infoCount + debugCount;
   }
 
@@ -172,7 +176,7 @@ class ConsoleStatementReplacer {
     // Find the best place to add the import
     const lines = content.split('\n');
     let insertIndex = 0;
-    
+
     // Look for existing imports
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
@@ -186,12 +190,12 @@ class ConsoleStatementReplacer {
         break;
       }
     }
-    
+
     const importStatement = "import { log } from '@/services/LoggingService';";
-    
+
     // Insert the import
     lines.splice(insertIndex, 0, importStatement);
-    
+
     return lines.join('\n');
   }
 
@@ -201,9 +205,9 @@ class ConsoleStatementReplacer {
       filesModified: results.filter(r => r.replacedCount > 0).length,
       totalReplacements: results.reduce((sum, r) => sum + r.replacedCount, 0),
       totalPreserved: results.reduce((sum, r) => sum + r.preservedCount, 0),
-      errors: results.flatMap(r => r.errors)
+      errors: results.flatMap(r => r.errors),
     };
-    
+
     console.log('\n' + '='.repeat(50));
     console.log('CONSOLE STATEMENT REPLACEMENT SUMMARY');
     console.log('='.repeat(50));
@@ -212,24 +216,24 @@ class ConsoleStatementReplacer {
     console.log(`🔄 Total replacements: ${summary.totalReplacements}`);
     console.log(`🛡️  Statements preserved: ${summary.totalPreserved}`);
     console.log(`❌ Errors: ${summary.errors.length}`);
-    
+
     if (summary.errors.length > 0) {
       console.log('\nErrors:');
       summary.errors.forEach(error => console.log(`  - ${error}`));
     }
-    
+
     return summary;
   }
 
   async validateChanges() {
     console.log('\n🔍 Validating changes...');
-    
+
     try {
       // Run TypeScript compilation check
       console.log('📝 Checking TypeScript compilation...');
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
       console.log('✅ TypeScript compilation successful');
-      
+
       return true;
     } catch (error) {
       console.error('❌ Validation failed:', error.message);
@@ -240,14 +244,14 @@ class ConsoleStatementReplacer {
 
 async function main() {
   const replacer = new ConsoleStatementReplacer();
-  
+
   try {
     const summary = await replacer.replaceConsoleStatements();
-    
+
     if (summary.totalReplacements > 0) {
       console.log('\n🔍 Validating changes...');
       const isValid = await replacer.validateChanges();
-      
+
       if (isValid) {
         console.log('\n🎉 Console statement replacement completed successfully!');
         console.log('✅ All validations passed');

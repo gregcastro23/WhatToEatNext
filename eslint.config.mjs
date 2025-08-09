@@ -17,8 +17,8 @@ export default [
       sourceType: 'module',
       parserOptions: {
         ecmaFeatures: {
-          jsx: true
-        }
+          jsx: true,
+        },
       },
       globals: {
         ...globals.browser,
@@ -39,14 +39,14 @@ export default [
         require: 'readonly',
         global: 'readonly',
         window: 'readonly',
-        document: 'readonly'
-      }
+        document: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      'react': reactPlugin,
+      react: reactPlugin,
       'react-hooks': reactHooks,
-      'import': importPlugin
+      import: importPlugin,
     },
     rules: {
       // React specific rules
@@ -54,75 +54,75 @@ export default [
       'react/jsx-uses-react': 'off',
       'react/jsx-uses-vars': 'error',
       'react/prop-types': 'off',
-      
+
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
-          'argsIgnorePattern': '^_',
-          'varsIgnorePattern': '^_',
-          'caughtErrorsIgnorePattern': '^_'
-        }
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-undef': 'off', // TypeScript handles this
-      
+
       // React Hooks rules
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      
+
       // General JavaScript rules
       'no-unused-vars': 'off', // Handled by @typescript-eslint/no-unused-vars
-      'no-console': ['warn', { 'allow': ['warn', 'error'] }],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-var': 'error',
       'prefer-const': 'error',
-      'eqeqeq': 'error',
-      
+      eqeqeq: 'error',
+
       // Import rules
       'import/no-unresolved': 'warn',
       'import/named': 'warn',
       'import/default': 'warn',
       'import/namespace': 'warn',
-      'import/no-duplicates': 'error'
+      'import/no-duplicates': 'error',
     },
     settings: {
       react: {
-        version: 'detect'
-      }
-    }
+        version: 'detect',
+      },
+    },
   },
   {
     ignores: [
-      "node_modules/",
-      "dist/",
-      "build/",
-      ".next/",
-      ".astro/",
-      "coverage/",
-      "*.config.js",
-      "*.config.mjs",
-      "*.config.cjs"
-    ]
+      'node_modules/',
+      'dist/',
+      'build/',
+      '.next/',
+      '.astro/',
+      'coverage/',
+      '*.config.js',
+      '*.config.mjs',
+      '*.config.cjs',
+    ],
   },
   {
     files: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', '**/*.spec.tsx'],
     languageOptions: {
       globals: {
-        ...globals.jest
-      }
+        ...globals.jest,
+      },
     },
     rules: {
       'max-lines': 'off',
       'max-depth': 'off',
-      'max-nested-callbacks': 'off'
-    }
+      'max-nested-callbacks': 'off',
+    },
   },
   {
     // Allow console.log in scripts directory
     files: ['**/scripts/**/*.ts', '**/scripts/**/*.js'],
     rules: {
-      'no-console': 'off'
-    }
+      'no-console': 'off',
+    },
   },
   {
     files: ['**/*.ts', '**/*.tsx'],
@@ -130,7 +130,7 @@ export default [
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
-      'import/no-unresolved': 'warn'
-    }
-  }
-]; 
+      'import/no-unresolved': 'warn',
+    },
+  },
+];

@@ -13,7 +13,7 @@ export function RecoilComponent() {
       () => {
         console.log(value);
       },
-    []
+    [],
   ); // Missing dependency - should be detected
 
   return <div>Recoil Component</div>;

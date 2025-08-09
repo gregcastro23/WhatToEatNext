@@ -2,7 +2,7 @@ import { Chakra } from '../constants/chakraMappings';
 import type { Recipe } from '../types/recipe';
 import { getFoodRecommendationsFromChakras } from '../utils/chakraFoodUtils';
 
-import { ChakraService, ChakraEnergyState } from "./ChakraService";
+import { ChakraService, ChakraEnergyState } from './ChakraService';
 
 export class RecipeChakraService {
   private chakraService: ChakraService;
@@ -18,27 +18,27 @@ export class RecipeChakraService {
    * @returns Enhanced recipe with chakra-balancing ingredients
    */
   public enhanceRecipeWithChakraBalance(
-    recipe: Recipe, 
-    chakraEnergyStates: ChakraEnergyState[]
+    recipe: Recipe,
+    chakraEnergyStates: ChakraEnergyState[],
   ): Recipe {
     // Get underactive chakras that need support
     const underactiveChakras = chakraEnergyStates
       .filter(state => state.balanceState === 'underactive')
       .map(state => state.chakra);
-    
+
     // Get food recommendations for balancing
     const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates);
-    
+
     // Create a copy of the recipe to modify
     const enhancedRecipe = { ...recipe };
-    
+
     // Add chakra-balancing ingredient suggestions
     enhancedRecipe.chakraBalance = {
       underactiveChakras,
       suggestedAdditions: recommendations.primaryFoods.slice(0, 3),
-      suggestedMeals: recommendations.balancingMeals
+      suggestedMeals: recommendations.balancingMeals,
     };
-    
+
     return enhancedRecipe;
   }
 
@@ -50,7 +50,7 @@ export class RecipeChakraService {
    */
   public evaluateRecipeChakraBalance(
     recipe: Recipe,
-    chakraEnergyStates: ChakraEnergyState[]
+    chakraEnergyStates: ChakraEnergyState[],
   ): {
     score: number;
     balancedChakras: Chakra[];
@@ -59,18 +59,18 @@ export class RecipeChakraService {
   } {
     // Evaluate recipe ingredients for their chakra influences
     const ingredientColors = recipe.ingredients.map(ing => this.getIngredientColor(ing.name));
-    
+
     // Map colors to associated chakras
     const chakraInfluences: Record<Chakra, number> = {
-      'Root': 0,
-      'Sacral': 0,
+      Root: 0,
+      Sacral: 0,
       'Solar Plexus': 0,
-      'Heart': 0, 
-      'Throat': 0,
+      Heart: 0,
+      Throat: 0,
       'Third Eye': 0,
-      'Crown': 0
+      Crown: 0,
     };
-    
+
     // Analyze ingredient colors and map to chakra influences
     ingredientColors.forEach(color => {
       if (color === 'red' || color === 'brown') chakraInfluences['Root'] += 1;
@@ -81,64 +81,74 @@ export class RecipeChakraService {
       if (color === 'indigo' || color === 'purple') chakraInfluences['Third Eye'] += 1;
       if (color === 'violet' || color === 'white') chakraInfluences['Crown'] += 1;
     });
-    
+
     // Find balanced and imbalanced chakras
     const balancedChakras = Object.entries(chakraInfluences)
       .filter(([_, value]) => value >= 1)
       .map(([chakra]) => chakra as Chakra);
-      
+
     const imbalancedChakras = Object.entries(chakraInfluences)
       .filter(([_, value]) => value === 0)
       .map(([chakra]) => chakra as Chakra);
-    
+
     // Generate suggestions based on imbalanced chakras
-    const suggestions = imbalancedChakras.map(chakra => {
-      switch(chakra) {
-        case 'Root': return 'Add red foods like beets or root vegetables';
-        case 'Sacral': return 'Include orange foods like carrots or oranges';
-        case 'Solar Plexus': return 'Add yellow foods like corn or yellow peppers';
-        case 'Heart': return 'Include green foods like leafy greens or avocados';
-        case 'Throat': return 'Add blue foods like blueberries';
-        case 'Third Eye': return 'Include purple foods like eggplant or grapes';
-        case 'Crown': return 'Add violet or white foods like cauliflower';
-        default: return '';
-      }
-    }).filter(suggestion => suggestion !== '');
-    
+    const suggestions = imbalancedChakras
+      .map(chakra => {
+        switch (chakra) {
+          case 'Root':
+            return 'Add red foods like beets or root vegetables';
+          case 'Sacral':
+            return 'Include orange foods like carrots or oranges';
+          case 'Solar Plexus':
+            return 'Add yellow foods like corn or yellow peppers';
+          case 'Heart':
+            return 'Include green foods like leafy greens or avocados';
+          case 'Throat':
+            return 'Add blue foods like blueberries';
+          case 'Third Eye':
+            return 'Include purple foods like eggplant or grapes';
+          case 'Crown':
+            return 'Add violet or white foods like cauliflower';
+          default:
+            return '';
+        }
+      })
+      .filter(suggestion => suggestion !== '');
+
     // Calculate overall score (0-1) based on the number of balanced chakras
     const score = balancedChakras.length / 7;
-    
+
     return {
       score,
       balancedChakras,
       imbalancedChakras,
-      suggestions
+      suggestions,
     };
   }
-  
+
   /**
    * Helper method to estimate the color of an ingredient
    * In a real implementation, this would be more sophisticated
    */
   private getIngredientColor(ingredientName: string): string {
     const colorMap: Record<string, string[]> = {
-      'red': ['tomato', 'strawberry', 'red pepper', 'beet', 'radish', 'apple'],
-      'orange': ['carrot', 'orange', 'sweet potato', 'apricot', 'pumpkin'],
-      'yellow': ['corn', 'lemon', 'yellow pepper', 'banana', 'pineapple'],
-      'green': ['spinach', 'kale', 'cucumber', 'avocado', 'lettuce', 'broccoli'],
-      'blue': ['blueberry', 'blue cheese'],
-      'purple': ['eggplant', 'grape', 'plum', 'blackberry'],
-      'white': ['cauliflower', 'garlic', 'onion', 'potato', 'rice']
+      red: ['tomato', 'strawberry', 'red pepper', 'beet', 'radish', 'apple'],
+      orange: ['carrot', 'orange', 'sweet potato', 'apricot', 'pumpkin'],
+      yellow: ['corn', 'lemon', 'yellow pepper', 'banana', 'pineapple'],
+      green: ['spinach', 'kale', 'cucumber', 'avocado', 'lettuce', 'broccoli'],
+      blue: ['blueberry', 'blue cheese'],
+      purple: ['eggplant', 'grape', 'plum', 'blackberry'],
+      white: ['cauliflower', 'garlic', 'onion', 'potato', 'rice'],
     };
-    
+
     // Try to match ingredient to a color
     for (const [color, foods] of Object.entries(colorMap)) {
       if (foods.some(food => ingredientName.toLowerCase().includes(food))) {
         return color;
       }
     }
-    
+
     // Default color if no match
     return 'neutral';
   }
-} 
+}

@@ -12,9 +12,7 @@ export interface IngredientFlavorProfile {
 }
 
 // Helper function to add flavor profiles to ingredients
-export function enrichIngredientsWithFlavorProfiles(
-  ingredients: Ingredient[]
-): Ingredient[] {
+export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): Ingredient[] {
   return ingredients.map(ingredient => {
     if (!(ingredient as any)?.flavorProfile) {
       (ingredient as any).flavorProfile = getFlavorProfileForIngredient(ingredient.name);
@@ -27,337 +25,337 @@ export function enrichIngredientsWithFlavorProfiles(
 // Values should be between 0-1, where 0 is none of that flavor and 1 is maximum intensity
 const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<string, any>> = {
   // Vegetables
-  "onion": {
+  onion: {
     spicy: 0.4,
     sweet: 0.3,
     sour: 0.1,
     bitter: 0.1,
     salty: 0.1,
-    umami: 0.4
+    umami: 0.4,
   },
-  
-  "tomato": {
+
+  tomato: {
     spicy: 0.0,
     sweet: 0.4,
     sour: 0.6,
     bitter: 0.1,
     salty: 0.1,
-    umami: 0.6
+    umami: 0.6,
   },
-  
-  "bell pepper": {
+
+  'bell pepper': {
     spicy: 0.1,
     sweet: 0.6,
     sour: 0.2,
     bitter: 0.1,
     salty: 0.0,
-    umami: 0.2
+    umami: 0.2,
   },
-  "carrot": {
+  carrot: {
     spicy: 0.0,
     sweet: 0.7,
     sour: 0.1,
     bitter: 0.1,
     salty: 0.0,
-    umami: 0.2
+    umami: 0.2,
   },
-  "spinach": {
+  spinach: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.1,
     bitter: 0.5,
     salty: 0.1,
-    umami: 0.3
+    umami: 0.3,
   },
-  "mushroom": {
+  mushroom: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.0,
     bitter: 0.2,
     salty: 0.1,
-    umami: 0.9
+    umami: 0.9,
   },
-  
+
   // Fruits
-  "apple": {
+  apple: {
     spicy: 0.0,
     sweet: 0.7,
     sour: 0.4,
     bitter: 0.1,
     salty: 0.0,
-    umami: 0.0
+    umami: 0.0,
   },
-  "lemon": {
+  lemon: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.9,
     bitter: 0.3,
     salty: 0.0,
-    umami: 0.0
+    umami: 0.0,
   },
-  "orange": {
+  orange: {
     spicy: 0.0,
     sweet: 0.6,
     sour: 0.5,
     bitter: 0.2,
     salty: 0.0,
-    umami: 0.0
+    umami: 0.0,
   },
-  "strawberry": {
+  strawberry: {
     spicy: 0.0,
     sweet: 0.7,
     sour: 0.4,
     bitter: 0.1,
     salty: 0.0,
-    umami: 0.0
+    umami: 0.0,
   },
-  
+
   // Herbs & Spices
-  "basil": {
+  basil: {
     spicy: 0.1,
     sweet: 0.3,
     sour: 0.0,
     bitter: 0.2,
     salty: 0.0,
-    umami: 0.2
+    umami: 0.2,
   },
-  "cilantro": {
+  cilantro: {
     spicy: 0.1,
     sweet: 0.1,
     sour: 0.1,
     bitter: 0.3,
     salty: 0.0,
-    umami: 0.1
+    umami: 0.1,
   },
-  
-  "black pepper": {
+
+  'black pepper': {
     spicy: 0.8,
     sweet: 0.0,
     sour: 0.0,
     bitter: 0.2,
     salty: 0.1,
-    umami: 0.1
+    umami: 0.1,
   },
-  "turmeric": {
+  turmeric: {
     spicy: 0.3,
     sweet: 0.1,
     sour: 0.0,
     bitter: 0.5,
     salty: 0.0,
-    umami: 0.2
+    umami: 0.2,
   },
-  "cardamom": {
+  cardamom: {
     spicy: 0.4,
     sweet: 0.3,
     sour: 0.0,
     bitter: 0.3,
     salty: 0.0,
-    umami: 0.0
+    umami: 0.0,
   },
-  "star anise": {
+  'star anise': {
     spicy: 0.3,
     sweet: 0.5,
     sour: 0.0,
     bitter: 0.3,
     salty: 0.0,
-    umami: 0.0
+    umami: 0.0,
   },
-  "saffron": {
+  saffron: {
     spicy: 0.1,
     sweet: 0.2,
     sour: 0.0,
     bitter: 0.4,
     salty: 0.0,
-    umami: 0.2
+    umami: 0.2,
   },
-  
+
   // Meats & Proteins
-  "beef": {
+  beef: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.0,
     bitter: 0.1,
     salty: 0.2,
-    umami: 0.9
+    umami: 0.9,
   },
-  "chicken": {
+  chicken: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.0,
     bitter: 0.0,
     salty: 0.1,
-    umami: 0.6
+    umami: 0.6,
   },
-  "fish": {
+  fish: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.0,
     bitter: 0.0,
     salty: 0.2,
-    umami: 0.8
+    umami: 0.8,
   },
-  "tofu": {
+  tofu: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.0,
     bitter: 0.1,
     salty: 0.1,
-    umami: 0.3
+    umami: 0.3,
   },
-  "tempeh": {
+  tempeh: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.1,
     bitter: 0.3,
     salty: 0.1,
-    umami: 0.6
+    umami: 0.6,
   },
-  
+
   // Grains & Starches
-  "rice": {
+  rice: {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.0,
     bitter: 0.0,
     salty: 0.0,
-    umami: 0.1
+    umami: 0.1,
   },
-  "pasta": {
+  pasta: {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.0,
     bitter: 0.0,
     salty: 0.1,
-    umami: 0.1
+    umami: 0.1,
   },
-  "quinoa": {
+  quinoa: {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.0,
     bitter: 0.2,
     salty: 0.0,
-    umami: 0.2
+    umami: 0.2,
   },
-  
+
   // Dairy & Alternatives
-  "butter": {
+  butter: {
     spicy: 0.0,
     sweet: 0.3,
     sour: 0.1,
     bitter: 0.0,
     salty: 0.3,
-    umami: 0.3
+    umami: 0.3,
   },
-  "cheese": {
+  cheese: {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.3,
     bitter: 0.1,
     salty: 0.5,
-    umami: 0.8
+    umami: 0.8,
   },
-  "yogurt": {
+  yogurt: {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.7,
     bitter: 0.0,
     salty: 0.1,
-    umami: 0.3
+    umami: 0.3,
   },
-  "coconut milk": {
+  'coconut milk': {
     spicy: 0.0,
     sweet: 0.6,
     sour: 0.1,
     bitter: 0.0,
     salty: 0.0,
-    umami: 0.1
+    umami: 0.1,
   },
-  
+
   // Fermented & Umami-Rich
-  "soy sauce": {
+  'soy sauce': {
     spicy: 0.0,
     sweet: 0.1,
     sour: 0.1,
     bitter: 0.3,
     salty: 0.8,
-    umami: 0.9
+    umami: 0.9,
   },
-  "miso": {
+  miso: {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.1,
     bitter: 0.2,
     salty: 0.7,
-    umami: 0.9
+    umami: 0.9,
   },
-  "kimchi": {
+  kimchi: {
     spicy: 0.7,
     sweet: 0.1,
     sour: 0.8,
     bitter: 0.1,
     salty: 0.6,
-    umami: 0.7
+    umami: 0.7,
   },
-  "vinegar": {
+  vinegar: {
     spicy: 0.0,
     sweet: 0.0,
     sour: 0.9,
     bitter: 0.1,
     salty: 0.0,
-    umami: 0.1
+    umami: 0.1,
   },
-  
+
   // Nuts & Seeds
-  "almond": {
+  almond: {
     spicy: 0.0,
     sweet: 0.3,
     sour: 0.0,
     bitter: 0.2,
     salty: 0.1,
-    umami: 0.2
+    umami: 0.2,
   },
-  "walnut": {
+  walnut: {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.0,
     bitter: 0.4,
     salty: 0.0,
-    umami: 0.3
+    umami: 0.3,
   },
-  "sesame": {
+  sesame: {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.0,
     bitter: 0.3,
     salty: 0.1,
-    umami: 0.5
+    umami: 0.5,
   },
-  "sunflower seeds": {
+  'sunflower seeds': {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.0,
     bitter: 0.1,
     salty: 0.1,
-    umami: 0.2
+    umami: 0.2,
   },
-  
+
   // Sweeteners
-  "honey": {
+  honey: {
     spicy: 0.0,
     sweet: 0.9,
     sour: 0.1,
     bitter: 0.1,
     salty: 0.0,
-    umami: 0.0
+    umami: 0.0,
   },
-  "maple syrup": {
+  'maple syrup': {
     spicy: 0.0,
     sweet: 0.9,
     sour: 0.0,
     bitter: 0.1,
     salty: 0.0,
-    umami: 0.1
-  }
+    umami: 0.1,
+  },
 };
 
 /**
@@ -366,10 +364,15 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
  */
 export function getFlavorProfileForIngredient(ingredientName: string): IngredientFlavorProfile {
   // Default flavor profile if nothing is found
-  const defaultProfile: IngredientFlavorProfile = { 
-    spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 
+  const defaultProfile: IngredientFlavorProfile = {
+    spicy: 0.0,
+    sweet: 0.2,
+    sour: 0.0,
+    bitter: 0.0,
+    salty: 0.1,
+    umami: 0.1,
   };
-  
+
   // Check for exact match
   if (ingredientFlavorMap[ingredientName.toLowerCase()]) {
     const fullIngredient = ingredientFlavorMap[ingredientName.toLowerCase()];
@@ -380,17 +383,14 @@ export function getFlavorProfileForIngredient(ingredientName: string): Ingredien
       sour: fullIngredient.sour,
       bitter: fullIngredient.bitter,
       salty: fullIngredient.salty,
-      umami: fullIngredient.umami
+      umami: fullIngredient.umami,
     };
   }
-  
+
   // Try to find partial matches
   const nameLower = ingredientName.toLowerCase();
   for (const [key, profile] of Object.entries(ingredientFlavorMap)) {
-    if (
-      nameLower.includes(key.toLowerCase()) || 
-      key.toLowerCase().includes(nameLower)
-    ) {
+    if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
       // Extract only the flavor profile properties to match IngredientFlavorProfile interface
       return {
         spicy: profile.spicy,
@@ -398,11 +398,11 @@ export function getFlavorProfileForIngredient(ingredientName: string): Ingredien
         sour: profile.sour,
         bitter: profile.bitter,
         salty: profile.salty,
-        umami: profile.umami
+        umami: profile.umami,
       };
     }
   }
-  
+
   // Return default if no match found
   return defaultProfile;
-} 
+}

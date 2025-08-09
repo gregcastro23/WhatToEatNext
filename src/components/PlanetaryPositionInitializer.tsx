@@ -45,86 +45,88 @@ const PlanetaryPositionInitializer: React.FC = () => {
     isRetrying: false,
     lastAttempt: Date.now(),
     usingFallback: false,
-    needsFallback: false
+    needsFallback: false,
   });
   const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
   const [updateError, setUpdateError] = useState<string | null>(null);
 
   // Function to update positions with comprehensive retry logic
-  const attemptPositionUpdate = useCallback(async (force = false): Promise<boolean> => {
-    if (retryStatus.isRetrying && !force) return false;
-    
-    try {
-      setRetryStatus(prev => ({ ...prev, isRetrying: true }));
-      logger.info(`Attempt #${retryStatus.count + 1} to refresh planetary positions`);
-      
-      const positions = await refreshPlanetaryPositions();
-      
-      if (positions && Object.keys(positions).length > 0) {
-        // Validate that the response has the minimum required planets
-        const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
-        const hasMissingPlanets = requiredPlanets.some(planet => !positions[planet]);
-        
-        if (hasMissingPlanets) {
-          throw new Error('Incomplete planetary data received');
+  const attemptPositionUpdate = useCallback(
+    async (force = false): Promise<boolean> => {
+      if (retryStatus.isRetrying && !force) return false;
+
+      try {
+        setRetryStatus(prev => ({ ...prev, isRetrying: true }));
+        logger.info(`Attempt #${retryStatus.count + 1} to refresh planetary positions`);
+
+        const positions = await refreshPlanetaryPositions();
+
+        if (positions && Object.keys(positions).length > 0) {
+          // Validate that the response has the minimum required planets
+          const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
+          const hasMissingPlanets = requiredPlanets.some(planet => !positions[planet]);
+
+          if (hasMissingPlanets) {
+            throw new Error('Incomplete planetary data received');
+          }
+
+          logger.info('Successfully updated planetary positions', {
+            sunPosition: (positions.sun as any)?.sign,
+            moonPosition: (positions.moon as any)?.sign,
+            timestamp: new Date().toISOString(),
+          });
+
+          setLastUpdateTime(new Date());
+          setUpdateError(null);
+          setRetryStatus({
+            count: 0,
+            isRetrying: false,
+            lastAttempt: Date.now(),
+            usingFallback: false,
+            needsFallback: false,
+          });
+          return true;
+        } else {
+          throw new Error('Received empty or invalid positions');
         }
-        
-        logger.info('Successfully updated planetary positions', {
-          sunPosition: (positions.sun as any)?.sign,
-          moonPosition: (positions.moon as any)?.sign,
-          timestamp: new Date().toISOString()
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Unknown error fetching planetary positions';
+
+        logger.error(`Attempt #${retryStatus.count + 1} failed:`, {
+          error: errorMessage,
+          retryCount: retryStatus.count + 1,
+          timestamp: new Date().toISOString(),
         });
-        
-        setLastUpdateTime(new Date());
-        setUpdateError(null);
-        setRetryStatus({
-          count: 0,
+
+        // Only update error state if it's different to prevent update loops
+        setUpdateError(prevError => {
+          if (prevError === errorMessage) return prevError;
+          return errorMessage;
+        });
+
+        // Move the fallback positions to a useEffect that depends on updateError
+        // This prevents calling it directly here, which might cause loops
+        // We'll use the retry status instead to trigger the fallback
+        setRetryStatus(prev => ({
+          ...prev,
+          count: prev.count + 1,
           isRetrying: false,
           lastAttempt: Date.now(),
-          usingFallback: false,
-          needsFallback: false
-        });
-        return true;
-      } else {
-        throw new Error('Received empty or invalid positions');
+          needsFallback: true,
+        }));
+
+        return false;
       }
-    } catch (error) {
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : 'Unknown error fetching planetary positions';
-      
-      logger.error(`Attempt #${retryStatus.count + 1} failed:`, {
-        error: errorMessage,
-        retryCount: retryStatus.count + 1,
-        timestamp: new Date().toISOString()
-      });
-      
-      // Only update error state if it's different to prevent update loops
-      setUpdateError(prevError => {
-        if (prevError === errorMessage) return prevError;
-        return errorMessage;
-      });
-      
-      // Move the fallback positions to a useEffect that depends on updateError
-      // This prevents calling it directly here, which might cause loops
-      // We'll use the retry status instead to trigger the fallback
-      setRetryStatus(prev => ({
-        ...prev,
-        count: prev.count + 1,
-        isRetrying: false,
-        lastAttempt: Date.now(),
-        needsFallback: true
-      }));
-      
-      return false;
-    }
-  }, [retryStatus.isRetrying, retryStatus.count, refreshPlanetaryPositions]);
+    },
+    [retryStatus.isRetrying, retryStatus.count, refreshPlanetaryPositions],
+  );
 
   // Function to apply fallback positions
   const applyFallbackPositions = useCallback((): void => {
     logger.warn('Applying fallback positions...');
     const now = new Date();
-    
+
     // Use fixed/current positions from March 2025
     const positions: PlanetaryPositions = {
       sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
@@ -139,17 +141,17 @@ const PlanetaryPositionInitializer: React.FC = () => {
       pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
       northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
       southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
-      ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
+      ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false },
     };
-    
+
     try {
       updatePlanetaryPositions(positions);
       logger.info('Successfully applied fallback planetary positions');
-      
+
       setRetryStatus(prev => ({
         ...prev,
         usingFallback: true,
-        needsFallback: false
+        needsFallback: false,
       }));
     } catch (error) {
       logger.error('Failed to apply fallback positions:', error);
@@ -158,7 +160,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
       setRetryStatus(prev => ({
         ...prev,
         usingFallback: true,
-        needsFallback: false
+        needsFallback: false,
       }));
     }
   }, [updatePlanetaryPositions]);
@@ -167,30 +169,33 @@ const PlanetaryPositionInitializer: React.FC = () => {
   useEffect(() => {
     // Initialize the alchemical engine
     void initializeAlchemicalEngine();
-    
+
     try {
       // Apply fallback positions immediately to ensure data is shown
       applyFallbackPositions();
-      
+
       // Then try to get actual positions
       const getInitialPositions = async (): Promise<void> => {
         await attemptPositionUpdate();
       };
-      
+
       getInitialPositions();
     } catch (error) {
       logger.error('Error during component initialization:', error);
       // Make sure fallback is applied even if initialization fails
       applyFallbackPositions();
     }
-    
+
     // Set up regular refresh interval (every 15 minutes)
-    const refreshInterval = setInterval(() => {
-      if (!retryStatus.isRetrying) {
-        attemptPositionUpdate();
-      }
-    }, 15 * 60 * 1000);
-    
+    const refreshInterval = setInterval(
+      () => {
+        if (!retryStatus.isRetrying) {
+          attemptPositionUpdate();
+        }
+      },
+      15 * 60 * 1000,
+    );
+
     // Set up exponential backoff retry for failures
     const retryInterval = setInterval(() => {
       if (retryStatus.usingFallback && !retryStatus.isRetrying) {
@@ -199,9 +204,11 @@ const PlanetaryPositionInitializer: React.FC = () => {
           // Only try 5 times with increasing delays
           const minsSinceLastAttempt = (Date.now() - retryStatus.lastAttempt) / (60 * 1000);
           const waitMinutes = Math.min(2 ** retryStatus.count, 30);
-          
+
           if (minsSinceLastAttempt >= waitMinutes) {
-            logger.debug(`Initiating retry #${retryStatus.count + 1} after ${minsSinceLastAttempt.toFixed(1)} minutes`);
+            logger.debug(
+              `Initiating retry #${retryStatus.count + 1} after ${minsSinceLastAttempt.toFixed(1)} minutes`,
+            );
             attemptPositionUpdate();
           }
         } else if (retryStatus.count === 5) {
@@ -214,12 +221,19 @@ const PlanetaryPositionInitializer: React.FC = () => {
         }
       }
     }, 60 * 1000); // Check every minute if we should retry
-    
+
     return () => {
       clearInterval(refreshInterval);
       clearInterval(retryInterval);
     };
-  }, [applyFallbackPositions, attemptPositionUpdate, retryStatus.count, retryStatus.isRetrying, retryStatus.lastAttempt, retryStatus.usingFallback]);
+  }, [
+    applyFallbackPositions,
+    attemptPositionUpdate,
+    retryStatus.count,
+    retryStatus.isRetrying,
+    retryStatus.lastAttempt,
+    retryStatus.usingFallback,
+  ]);
 
   // Also handle the fallback positions when needed
   useEffect(() => {
@@ -231,29 +245,29 @@ const PlanetaryPositionInitializer: React.FC = () => {
   // Render fallback notification with retry button if we're using fallback positions
   if (retryStatus.usingFallback) {
     return (
-      <div className="bg-yellow-50 border border-yellow-400 rounded p-3 mb-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <AlertTriangle className="text-yellow-500 mr-2 h-5 w-5" />
+      <div className='mb-4 flex items-center justify-between rounded border border-yellow-400 bg-yellow-50 p-3'>
+        <div className='flex items-center'>
+          <AlertTriangle className='mr-2 h-5 w-5 text-yellow-500' />
           <div>
-            <p className="text-yellow-700 text-sm font-medium">
+            <p className='text-sm font-medium text-yellow-700'>
               Using current March 2025 planetary positions
             </p>
-            <p className="text-yellow-600 text-xs">
+            <p className='text-xs text-yellow-600'>
               {updateError || 'Unable to connect to astronomical data source'}
             </p>
           </div>
         </div>
-        <button 
+        <button
           onClick={() => attemptPositionUpdate(true)}
           disabled={retryStatus.isRetrying}
-          className={`px-3 py-1 rounded text-xs flex items-center ${
-            retryStatus.isRetrying 
-              ? 'bg-gray-200 text-gray-500' 
-              : 'bg-yellow-100 hover:bg-yellow-200 text-yellow-800'
+          className={`flex items-center rounded px-3 py-1 text-xs ${
+            retryStatus.isRetrying
+              ? 'bg-gray-200 text-gray-500'
+              : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
           }`}
-          aria-label="Retry connection"
+          aria-label='Retry connection'
         >
-          <RefreshCw className={`h-3 w-3 mr-1 ${retryStatus.isRetrying ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`mr-1 h-3 w-3 ${retryStatus.isRetrying ? 'animate-spin' : ''}`} />
           {retryStatus.isRetrying ? 'Connecting...' : 'Retry Connection'}
         </button>
       </div>
@@ -263,15 +277,15 @@ const PlanetaryPositionInitializer: React.FC = () => {
   // When positions are successfully fetched, show data source
   if (lastUpdateTime) {
     return (
-      <div className="text-xs text-green-700 mb-2 flex items-center">
-        <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+      <div className='mb-2 flex items-center text-xs text-green-700'>
+        <div className='mr-2 h-2 w-2 rounded-full bg-green-500'></div>
         Using live astronomical data • Updated {lastUpdateTime.toLocaleTimeString()}
       </div>
-    )
+    );
   }
 
   // Return null when in initial loading state
   return null;
 };
 
-export default PlanetaryPositionInitializer; 
+export default PlanetaryPositionInitializer;

@@ -6,22 +6,22 @@
  */
 
 import {
-    CampaignConfig,
-    CampaignPhase,
-    CorruptionReport,
-    CorruptionSeverity,
-    GitStash,
-    MetricsImprovement,
-    PhaseReport,
-    PhaseResult,
-    PhaseStatus,
-    ProgressMetrics,
-    ProgressReport,
-    RecoveryAction,
-    SafetyEvent,
-    SafetyEventSeverity,
-    SafetyEventType,
-    ValidationResult
+  CampaignConfig,
+  CampaignPhase,
+  CorruptionReport,
+  CorruptionSeverity,
+  GitStash,
+  MetricsImprovement,
+  PhaseReport,
+  PhaseResult,
+  PhaseStatus,
+  ProgressMetrics,
+  ProgressReport,
+  RecoveryAction,
+  SafetyEvent,
+  SafetyEventSeverity,
+  SafetyEventType,
+  ValidationResult,
 } from '../../types/campaign';
 
 /**
@@ -61,7 +61,7 @@ export class MockCampaignController {
       timestamp: new Date(),
       description: `Mock phase execution: ${phase.name}`,
       severity: SafetyEventSeverity.INFO,
-      action: 'MOCK_PHASE_START'
+      action: 'MOCK_PHASE_START',
     });
 
     // Simulate phase execution without running actual scripts
@@ -78,7 +78,7 @@ export class MockCampaignController {
       errorsFixed: mockResult.errorsFixed,
       warningsFixed: mockResult.warningsFixed,
       executionTime,
-      safetyEvents: [...this.safetyEvents]
+      safetyEvents: [...this.safetyEvents],
     };
   }
 
@@ -101,7 +101,7 @@ export class MockCampaignController {
       success: mockErrors.length === 0,
       errors: mockErrors,
       warnings: mockWarnings,
-      metrics: this.mockMetrics
+      metrics: this.mockMetrics,
     };
   }
 
@@ -117,7 +117,7 @@ export class MockCampaignController {
       description: `Mock stash: ${description}`,
       timestamp: new Date(),
       branch: 'mock-branch',
-      ref: `stash@{${this.mockStashes.size}}`
+      ref: `stash@{${this.mockStashes.size}}`,
     };
 
     this.mockStashes.set(checkpointId, mockStash);
@@ -127,7 +127,7 @@ export class MockCampaignController {
       timestamp: new Date(),
       description: `Mock checkpoint created: ${description}`,
       severity: SafetyEventSeverity.INFO,
-      action: 'MOCK_CHECKPOINT_CREATE'
+      action: 'MOCK_CHECKPOINT_CREATE',
     });
 
     return checkpointId;
@@ -147,7 +147,7 @@ export class MockCampaignController {
       timestamp: new Date(),
       description: `Mock rollback to: ${checkpointId}`,
       severity: SafetyEventSeverity.WARNING,
-      action: 'MOCK_ROLLBACK'
+      action: 'MOCK_ROLLBACK',
     });
 
     // Simulate rollback by resetting mock metrics
@@ -175,7 +175,7 @@ export class MockCampaignController {
       metrics: this.mockMetrics,
       achievements: ['Mock achievement 1', 'Mock achievement 2'],
       issues: validation.errors,
-      recommendations: ['Mock recommendation 1']
+      recommendations: ['Mock recommendation 1'],
     };
   }
 
@@ -189,7 +189,7 @@ export class MockCampaignController {
       timestamp: new Date(),
       description: 'Campaign paused for test isolation',
       severity: SafetyEventSeverity.INFO,
-      action: 'CAMPAIGN_PAUSED'
+      action: 'CAMPAIGN_PAUSED',
     });
   }
 
@@ -203,7 +203,7 @@ export class MockCampaignController {
       timestamp: new Date(),
       description: 'Campaign resumed after test isolation',
       severity: SafetyEventSeverity.INFO,
-      action: 'CAMPAIGN_RESUMED'
+      action: 'CAMPAIGN_RESUMED',
     });
   }
 
@@ -273,11 +273,11 @@ export class MockCampaignController {
         typeScriptErrorsReduced: 5,
         lintingWarningsReduced: 10,
         buildTimeImproved: 0.5,
-        enterpriseSystemsAdded: 2
+        enterpriseSystemsAdded: 2,
       },
       filesProcessed: 15,
       errorsFixed: 5,
-      warningsFixed: 10
+      warningsFixed: 10,
     };
   }
 
@@ -287,25 +287,25 @@ export class MockCampaignController {
         current: 50,
         target: 0,
         reduction: 36,
-        percentage: 42
+        percentage: 42,
       },
       lintingWarnings: {
         current: 2000,
         target: 0,
         reduction: 2506,
-        percentage: 56
+        percentage: 56,
       },
       buildPerformance: {
         currentTime: 8.5,
         targetTime: 10,
         cacheHitRate: 0.8,
-        memoryUsage: 45
+        memoryUsage: 45,
       },
       enterpriseSystems: {
         current: 50,
         target: 200,
-        transformedExports: 50
-      }
+        transformedExports: 50,
+      },
     };
   }
 
@@ -317,15 +317,15 @@ export class MockCampaignController {
         description: 'Initial mock stash',
         timestamp: new Date(Date.now() - 3600000), // 1 hour ago
         branch: 'mock-branch',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       },
       {
         id: 'mock_stash_2',
         description: 'Secondary mock stash',
         timestamp: new Date(Date.now() - 1800000), // 30 minutes ago
         branch: 'mock-branch',
-        ref: 'stash@{1}'
-      }
+        ref: 'stash@{1}',
+      },
     ];
 
     initialStashes.forEach(stash => {
@@ -367,10 +367,10 @@ export class MockProgressTracker {
    */
   async getTypeScriptErrorBreakdown(): Promise<Record<string, number>> {
     return {
-      'TS2352': 15,
-      'TS2339': 20,
-      'TS2304': 10,
-      'TS2345': 5
+      TS2352: 15,
+      TS2339: 20,
+      TS2304: 10,
+      TS2345: 5,
     };
   }
 
@@ -389,7 +389,7 @@ export class MockProgressTracker {
       '@typescript-eslint/no-explicit-any': 800,
       '@typescript-eslint/no-unused-vars': 600,
       'no-console': 400,
-      'prefer-const': 200
+      'prefer-const': 200,
     };
   }
 
@@ -457,12 +457,12 @@ export class MockProgressTracker {
           metrics: currentMetrics,
           achievements: ['Mock achievement'],
           issues: [],
-          recommendations: ['Mock recommendation']
-        }
+          recommendations: ['Mock recommendation'],
+        },
       ],
       currentMetrics,
       targetMetrics,
-      estimatedCompletion: new Date(Date.now() + 3600000) // 1 hour from now
+      estimatedCompletion: new Date(Date.now() + 3600000), // 1 hour from now
     };
   }
 
@@ -518,25 +518,25 @@ export class MockProgressTracker {
         current: 50,
         target: 0,
         reduction: 36,
-        percentage: 42
+        percentage: 42,
       },
       lintingWarnings: {
         current: 2000,
         target: 0,
         reduction: 2506,
-        percentage: 56
+        percentage: 56,
       },
       buildPerformance: {
         currentTime: 8.5,
         targetTime: 10,
         cacheHitRate: 0.8,
-        memoryUsage: 45
+        memoryUsage: 45,
       },
       enterpriseSystems: {
         current: 50,
         target: 200,
-        transformedExports: 50
-      }
+        transformedExports: 50,
+      },
     };
   }
 
@@ -546,25 +546,25 @@ export class MockProgressTracker {
         current: 0,
         target: 0,
         reduction: 86,
-        percentage: 100
+        percentage: 100,
       },
       lintingWarnings: {
         current: 0,
         target: 0,
         reduction: 4506,
-        percentage: 100
+        percentage: 100,
       },
       buildPerformance: {
         currentTime: 8,
         targetTime: 10,
         cacheHitRate: 0.8,
-        memoryUsage: 45
+        memoryUsage: 45,
       },
       enterpriseSystems: {
         current: 200,
         target: 200,
-        transformedExports: 200
-      }
+        transformedExports: 200,
+      },
     };
   }
 }
@@ -593,7 +593,7 @@ export class MockSafetyProtocol {
       description: `Mock stash: ${description}`,
       timestamp: new Date(),
       branch: 'mock-branch',
-      ref: `stash@{${this.stashCounter}}`
+      ref: `stash@{${this.stashCounter}}`,
     };
 
     this.mockStashes.set(stashId, mockStash);
@@ -603,7 +603,7 @@ export class MockSafetyProtocol {
       timestamp: new Date(),
       description: `Mock stash created: ${stashId}`,
       severity: SafetyEventSeverity.INFO,
-      action: 'MOCK_STASH_CREATE'
+      action: 'MOCK_STASH_CREATE',
     });
 
     return stashId;
@@ -623,7 +623,7 @@ export class MockSafetyProtocol {
       timestamp: new Date(),
       description: `Mock stash applied: ${stashId}`,
       severity: SafetyEventSeverity.WARNING,
-      action: 'MOCK_STASH_APPLY'
+      action: 'MOCK_STASH_APPLY',
     });
   }
 
@@ -636,7 +636,7 @@ export class MockSafetyProtocol {
       detectedFiles: [],
       corruptionPatterns: [],
       severity: CorruptionSeverity.LOW,
-      recommendedAction: RecoveryAction.CONTINUE
+      recommendedAction: RecoveryAction.CONTINUE,
     };
   }
 
@@ -647,7 +647,7 @@ export class MockSafetyProtocol {
     return {
       success: true,
       errors: [],
-      warnings: []
+      warnings: [],
     };
   }
 
@@ -660,7 +660,7 @@ export class MockSafetyProtocol {
       timestamp: new Date(),
       description: 'Mock emergency rollback performed',
       severity: SafetyEventSeverity.WARNING,
-      action: 'MOCK_EMERGENCY_ROLLBACK'
+      action: 'MOCK_EMERGENCY_ROLLBACK',
     });
   }
 
@@ -698,8 +698,8 @@ export class MockSafetyProtocol {
         description: 'Initial mock stash for testing',
         timestamp: new Date(Date.now() - 3600000), // 1 hour ago
         branch: 'mock-branch',
-        ref: 'stash@{0}'
-      }
+        ref: 'stash@{0}',
+      },
     ];
 
     initialStashes.forEach(stash => {
@@ -757,8 +757,8 @@ export class CampaignTestIsolationManager {
           description: 'Mock phase for testing',
           tools: [],
           successCriteria: { typeScriptErrors: 0 },
-          safetyCheckpoints: []
-        }
+          safetyCheckpoints: [],
+        },
       ],
       safetySettings: {
         maxFilesPerBatch: 10,
@@ -766,20 +766,20 @@ export class CampaignTestIsolationManager {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200
+        enterpriseSystems: 200,
       },
       toolConfiguration: {
         enhancedErrorFixer: 'mock-script',
         explicitAnyFixer: 'mock-script',
         unusedVariablesFixer: 'mock-script',
-        consoleStatementFixer: 'mock-script'
-      }
+        consoleStatementFixer: 'mock-script',
+      },
     };
 
     const fullConfig = { ...defaultConfig, ...config };
@@ -791,7 +791,7 @@ export class CampaignTestIsolationManager {
     return {
       controller: this.mockController,
       tracker: this.mockTracker,
-      safety: this.mockSafety
+      safety: this.mockSafety,
     };
   }
 
@@ -845,7 +845,7 @@ export class CampaignTestIsolationManager {
     return {
       controller: this.mockController,
       tracker: this.mockTracker,
-      safety: this.mockSafety
+      safety: this.mockSafety,
     };
   }
 

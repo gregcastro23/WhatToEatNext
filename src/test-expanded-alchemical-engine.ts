@@ -1,6 +1,6 @@
 /**
  * Comprehensive Test for Expanded Alchemical Engine
- * 
+ *
  * This test validates all the new functionality including:
  * - Advanced recipe harmony analysis
  * - Kalchm and Monica constant calculations
@@ -16,53 +16,52 @@ import { log } from '@/services/LoggingService';
 import { AlchemicalEngine } from './calculations/core/alchemicalEngine';
 // Create alchemicalEngine instance for backward compatibility
 const alchemicalEngine = new AlchemicalEngine();
-import { 
-  ElementalProperties, 
-  AstrologicalState, 
+import {
+  ElementalProperties,
+  AstrologicalState,
   ZodiacSign,
-  CelestialPosition 
+  CelestialPosition,
 } from './types/alchemy';
-
 
 // Test data - using the planetary positions from our previous conversation
 const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
-  Sun: { 
-    sign: 'gemini', 
-    degree: 25.0 
+  Sun: {
+    sign: 'gemini',
+    degree: 25.0,
   },
-  moon: { 
-    sign: 'taurus', 
-    degree: 15.5 
+  moon: {
+    sign: 'taurus',
+    degree: 15.5,
   },
-  Mercury: { 
-    sign: 'gemini', 
-    degree: 20.3 
+  Mercury: {
+    sign: 'gemini',
+    degree: 20.3,
   },
-  Venus: { 
-    sign: 'taurus', 
-    degree: 8.7 
+  Venus: {
+    sign: 'taurus',
+    degree: 8.7,
   },
-  Mars: { 
-    sign: 'aries', 
-    degree: 12.2 
+  Mars: {
+    sign: 'aries',
+    degree: 12.2,
   },
-  Jupiter: { 
-    sign: 'pisces', 
-    degree: 28.9 
+  Jupiter: {
+    sign: 'pisces',
+    degree: 28.9,
   },
-  Saturn: { 
-    sign: 'aquarius', 
-    degree: 18.4 
+  Saturn: {
+    sign: 'aquarius',
+    degree: 18.4,
   },
-  Uranus: { 
-    sign: 'taurus', 
-    degree: 14.1 
+  Uranus: {
+    sign: 'taurus',
+    degree: 14.1,
   },
-  Neptune: { 
-    sign: 'pisces', 
-    degree: 22.8 
+  Neptune: {
+    sign: 'pisces',
+    degree: 22.8,
   },
-  Pluto: { sign: 'aquarius', degree: 3.0 }
+  Pluto: { sign: 'aquarius', degree: 3.0 },
 };
 
 const testAstrologicalState: AstrologicalState = {
@@ -72,16 +71,16 @@ const testAstrologicalState: AstrologicalState = {
   planetaryPositions: testPlanetaryPositions,
 };
 
-const testRecipeElements: ElementalProperties = { 
-  Fire: 0.35, 
-  Water: 0.25, 
+const testRecipeElements: ElementalProperties = {
+  Fire: 0.35,
+  Water: 0.25,
   Air: 0.25,
   Earth: 0.15,
 };
 
-const testUserElements: ElementalProperties = { 
-  Fire: 0.30, 
-  Water: 0.30, 
+const testUserElements: ElementalProperties = {
+  Fire: 0.3,
+  Water: 0.3,
   Air: 0.25,
   Earth: 0.15,
 };
@@ -93,7 +92,7 @@ const testBirthInfo = {
   month: 5,
   year: 1990,
   latitude: 40.7128,
-  longitude: -74.0060,
+  longitude: -74.006,
 };
 
 const testHoroscopeData = {
@@ -101,28 +100,28 @@ const testHoroscopeData = {
     CelestialBodies: {
       Sun: {
         Sign: {},
-        ChartPosition: { Ecliptic: { DecimalDegrees: 64.133 } }
+        ChartPosition: { Ecliptic: { DecimalDegrees: 64.133 } },
       },
       moon: {
         Sign: {},
-        ChartPosition: { Ecliptic: { DecimalDegrees: 35.333 } }
+        ChartPosition: { Ecliptic: { DecimalDegrees: 35.333 } },
       },
       Mercury: {
         Sign: {},
-        ChartPosition: { Ecliptic: { DecimalDegrees: 59.5 } }
+        ChartPosition: { Ecliptic: { DecimalDegrees: 59.5 } },
       },
       Venus: {
         Sign: {},
-        ChartPosition: { Ecliptic: { DecimalDegrees: 78.75 } }
+        ChartPosition: { Ecliptic: { DecimalDegrees: 78.75 } },
       },
       Mars: {
         Sign: {},
-        ChartPosition: { Ecliptic: { DecimalDegrees: 12.25 } }
-      }
+        ChartPosition: { Ecliptic: { DecimalDegrees: 12.25 } },
+      },
     },
     Ascendant: {},
-    Aspects: {}
-  }
+    Aspects: {},
+  },
 };
 
 async function runComprehensiveTests() {
@@ -135,7 +134,7 @@ async function runComprehensiveTests() {
       testRecipeElements,
       testAstrologicalState,
       'spring',
-      'italian'
+      'italian',
     );
     log.info('Basic Match Results:', {
       score: basicMatch.result.score.toFixed(4),
@@ -154,7 +153,7 @@ async function runComprehensiveTests() {
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,
-      testBirthInfo
+      testBirthInfo,
     );
     log.info('Advanced Harmony Results:', {
       overall: advancedHarmony.overall.toFixed(4),
@@ -169,7 +168,7 @@ async function runComprehensiveTests() {
     log.info('⭐ Test 3: Enhanced Astrological Power');
     const astrologicalPower = await alchemicalEngine.calculateAstrologicalPower(
       'gemini',
-      testAstrologicalState
+      testAstrologicalState,
     );
     log.info('Astrological Power:', astrologicalPower.toFixed(4));
     log.info('✅ Astrological power test completed\n');
@@ -239,7 +238,7 @@ async function runComprehensiveTests() {
         gregsEnergy: (legacyResult as Record<string, any>).gregsEnergy?.toFixed(6),
         heat: (legacyResult as Record<string, any>).heat?.toFixed(6),
         entropy: (legacyResult as Record<string, any>).entropy?.toFixed(6),
-        reactivity: (legacyResult as Record<string, any>).reactivity?.toFixed(6)
+        reactivity: (legacyResult as Record<string, any>).reactivity?.toFixed(6),
       });
     }
     const elementalState = legacyResultData?.elementalState;
@@ -254,7 +253,7 @@ async function runComprehensiveTests() {
       testRecipeElements,
       testUserElements,
       0.7, // Recipe weight
-      0.3  // User weight
+      0.3, // User weight
     );
     log.info('Combined Elements (70% recipe, 30% user):', combinedElements);
     log.info('✅ Combined elements test completed\n');
@@ -272,7 +271,7 @@ async function runComprehensiveTests() {
         testRecipeElements,
         testAstrologicalState,
         'spring',
-        cuisine
+        cuisine,
       );
       cuisineResults.push({
         cuisine,
@@ -284,7 +283,9 @@ async function runComprehensiveTests() {
     cuisineResults.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
     log.info('Cuisine Compatibility Rankings:');
     (cuisineResults || []).forEach((result, index) => {
-      log.info(`${index + 1}. ${result.cuisine}: ${result.score} (confidence: ${result.confidence})`);
+      log.info(
+        `${index + 1}. ${result.cuisine}: ${result.score} (confidence: ${result.confidence})`,
+      );
     });
     log.info('✅ Cuisine compatibility test completed\n');
 
@@ -295,20 +296,20 @@ async function runComprehensiveTests() {
     await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,
-      testAstrologicalState
+      testAstrologicalState,
     );
     const firstRunTime = Date.now() - startTime;
     const cacheStartTime = Date.now();
     await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,
-      testAstrologicalState
+      testAstrologicalState,
     );
     const secondRunTime = Date.now() - cacheStartTime;
     log.info('Performance Results:', {
       firstRun: `${firstRunTime}ms`,
       secondRun: `${secondRunTime}ms`,
-      cacheSpeedup: `${(firstRunTime / Math.max(secondRunTime, 1)).toFixed(1)}x faster`
+      cacheSpeedup: `${(firstRunTime / Math.max(secondRunTime, 1)).toFixed(1)}x faster`,
     });
     log.info('✅ Performance test completed\n');
 
@@ -324,18 +325,22 @@ async function runComprehensiveTests() {
     log.info('✅ Weighted element combination');
     log.info('✅ Multiple cuisine compatibility');
     log.info('✅ Performance optimization and caching');
-
   } catch (error) {
     console.error('❌ Test failed:', error);
-    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
+    console.error(
+      'Stack trace:',
+      error instanceof Error ? error.stack : 'No stack trace available',
+    );
   }
 }
 
 // Run the tests
-runComprehensiveTests().then(() => {
-  log.info('\n🔬 Test execution completed');
-}).catch(error => {
-  console.error('💥 Test execution failed:', error);
-});
+runComprehensiveTests()
+  .then(() => {
+    log.info('\n🔬 Test execution completed');
+  })
+  .catch(error => {
+    console.error('💥 Test execution failed:', error);
+  });
 
-export default runComprehensiveTests; 
+export default runComprehensiveTests;

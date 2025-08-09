@@ -10,7 +10,7 @@ declare module 'astronomia' {
   };
 
   export const moon: {
-    position(jd: number): { 
+    position(jd: number): {
       lon: number;
       lat: number;
       range: number;
@@ -25,7 +25,7 @@ declare module 'astronomia' {
 
   export const planetposition: {
     Planet: new (name: string) => {
-      position(jd: number): { 
+      position(jd: number): {
         lon: number;
         lat: number;
         range: number;
@@ -39,4 +39,4 @@ declare module 'astronomia' {
     phase(jd: number): number;
     nextQuarter(jd: number): { quarter: number; jde: number };
   };
-} 
+}

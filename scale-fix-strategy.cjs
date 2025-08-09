@@ -33,8 +33,8 @@ const CONFIG = {
     // Preserve campaign system patterns (but allow some fixes)
     /campaign.*critical|safety.*protocol/i,
     // Preserve test utilities
-    /mock.*setup|test.*framework/i
-  ]
+    /mock.*setup|test.*framework/i,
+  ],
 };
 
 class ScaledFixStrategy {
@@ -48,7 +48,7 @@ class ScaledFixStrategy {
       'no-non-null-assertion': 0,
       'no-unnecessary-type-assertion': 0,
       'no-floating-promises': 0,
-      'no-misused-promises': 0
+      'no-misused-promises': 0,
     };
     this.startTime = Date.now();
   }
@@ -88,37 +88,39 @@ class ScaledFixStrategy {
     try {
       console.log('🔍 Analyzing files with target error categories...');
 
-      const lintOutput = execSync(
-        'yarn lint --max-warnings=10000 --format=json',
-        { encoding: 'utf8', stdio: 'pipe' }
-      );
+      const lintOutput = execSync('yarn lint --max-warnings=10000 --format=json', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
 
       const lintResults = JSON.parse(lintOutput);
       const filesWithIssues = new Map();
 
       for (const result of lintResults) {
         const filePath = result.filePath;
-        const relevantMessages = result.messages.filter(msg =>
-          msg.ruleId && [
-            '@typescript-eslint/prefer-optional-chain',
-            '@typescript-eslint/no-non-null-assertion',
-            '@typescript-eslint/no-unnecessary-type-assertion',
-            '@typescript-eslint/no-floating-promises',
-            '@typescript-eslint/no-misused-promises'
-          ].includes(msg.ruleId)
+        const relevantMessages = result.messages.filter(
+          msg =>
+            msg.ruleId &&
+            [
+              '@typescript-eslint/prefer-optional-chain',
+              '@typescript-eslint/no-non-null-assertion',
+              '@typescript-eslint/no-unnecessary-type-assertion',
+              '@typescript-eslint/no-floating-promises',
+              '@typescript-eslint/no-misused-promises',
+            ].includes(msg.ruleId),
         );
 
         if (relevantMessages.length > 0) {
           filesWithIssues.set(filePath, {
             messages: relevantMessages,
-            issueCount: relevantMessages.length
+            issueCount: relevantMessages.length,
           });
         }
       }
 
       // Sort by issue count (highest first) for maximum impact
       const sortedFiles = Array.from(filesWithIssues.entries())
-        .sort(([,a], [,b]) => b.issueCount - a.issueCount)
+        .sort(([, a], [, b]) => b.issueCount - a.issueCount)
         .slice(0, CONFIG.maxFiles);
 
       console.log(`📊 Found ${sortedFiles.length} files with target error categories`);
@@ -129,7 +131,6 @@ class ScaledFixStrategy {
       });
 
       return sortedFiles;
-
     } catch (error) {
       console.warn('⚠️ Could not get lint JSON output, falling back to file scanning...');
       return this.scanForFiles();
@@ -190,7 +191,9 @@ class ScaledFixStrategy {
     const fixDetails = {};
 
     // Get error types present in this file
-    const errorTypes = new Set(errorMessages.map(msg => msg.ruleId?.replace('@typescript-eslint/', '')));
+    const errorTypes = new Set(
+      errorMessages.map(msg => msg.ruleId?.replace('@typescript-eslint/', '')),
+    );
 
     // 1. Fix prefer-optional-chain issues
     if (errorTypes.has('prefer-optional-chain')) {
@@ -334,9 +337,11 @@ class ScaledFixStrategy {
     for (const match of matches1) {
       const [fullMatch, variable, type] = match;
       // Only remove if variable name suggests it's already the right type
-      if ((type === 'string' && variable.toLowerCase().includes('str')) ||
-          (type === 'number' && variable.toLowerCase().includes('num')) ||
-          (type === 'boolean' && variable.toLowerCase().includes('is'))) {
+      if (
+        (type === 'string' && variable.toLowerCase().includes('str')) ||
+        (type === 'number' && variable.toLowerCase().includes('num')) ||
+        (type === 'boolean' && variable.toLowerCase().includes('is'))
+      ) {
         modifiedContent = modifiedContent.replace(fullMatch, variable);
         fixes++;
       }
@@ -359,11 +364,16 @@ class ScaledFixStrategy {
       const originalLine = line;
 
       // Pattern: Standalone promise calls that should be voided
-      if (/^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
-          !line.includes('await') && !line.includes('void') && !line.includes('return')) {
-
-        line = line.replace(/^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
-                           '$1void $2');
+      if (
+        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
+        !line.includes('await') &&
+        !line.includes('void') &&
+        !line.includes('return')
+      ) {
+        line = line.replace(
+          /^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
+          '$1void $2',
+        );
 
         if (line !== originalLine) {
           fixes++;
@@ -389,7 +399,10 @@ class ScaledFixStrategy {
     for (const match of matches1) {
       const [fullMatch, eventName, functionName] = match;
       if (functionName.includes('async') || functionName.includes('handle')) {
-        modifiedContent = modifiedContent.replace(fullMatch, `${eventName}={() => void ${functionName}()}`);
+        modifiedContent = modifiedContent.replace(
+          fullMatch,
+          `${eventName}={() => void ${functionName}()}`,
+        );
         fixes++;
       }
     }
@@ -423,19 +436,24 @@ class ScaledFixStrategy {
         this.backupFile(filePath);
 
         // Apply fixes
-        const { content: modifiedContent, fixes, details } = this.applyAllFixes(
-          content, filePath, fileData.messages
-        );
+        const {
+          content: modifiedContent,
+          fixes,
+          details,
+        } = this.applyAllFixes(content, filePath, fileData.messages);
 
         if (fixes > 0) {
           if (!CONFIG.dryRun) {
             fs.writeFileSync(filePath, modifiedContent, 'utf8');
           }
 
-          console.log(`    ✅ Applied ${fixes} fixes:`, Object.entries(details)
-            .filter(([,count]) => count > 0)
-            .map(([type, count]) => `${type}(${count})`)
-            .join(', '));
+          console.log(
+            `    ✅ Applied ${fixes} fixes:`,
+            Object.entries(details)
+              .filter(([, count]) => count > 0)
+              .map(([type, count]) => `${type}(${count})`)
+              .join(', '),
+          );
 
           batchFixes += fixes;
           batchResults.push({ file: shortPath, fixes, details });
@@ -444,7 +462,6 @@ class ScaledFixStrategy {
         }
 
         this.processedFiles++;
-
       } catch (error) {
         console.error(`    ❌ Error processing ${filePath}:`, error.message);
         this.errors.push({ file: filePath, error: error.message });
@@ -511,7 +528,9 @@ class ScaledFixStrategy {
    */
   async run() {
     console.log('🚀 Starting Scaled Fix Strategy');
-    console.log(`📊 Configuration: batchSize=${CONFIG.batchSize}, maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`);
+    console.log(
+      `📊 Configuration: batchSize=${CONFIG.batchSize}, maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`,
+    );
 
     this.createBackupDir();
 

@@ -2,16 +2,21 @@
 
 ## Overview
 
-The WhatToEatNext project includes a comprehensive CI/CD pipeline that integrates build system repair, quality gates, automated testing, and deployment workflows. This pipeline ensures reliable, high-quality deployments with automated rollback capabilities.
+The WhatToEatNext project includes a comprehensive CI/CD pipeline that
+integrates build system repair, quality gates, automated testing, and deployment
+workflows. This pipeline ensures reliable, high-quality deployments with
+automated rollback capabilities.
 
 ## Pipeline Architecture
 
 ### 🔄 Complete CI/CD Workflow
+
 ```bash
 make ci-validate → make ci-build → make ci-test → make ci-quality-gate → make deploy-pipeline
 ```
 
 ### 🛡️ Safety-First Approach
+
 - **Build System Repair**: Automatic manifest file repair and validation
 - **Quality Gates**: TypeScript error thresholds and test coverage requirements
 - **Rollback Mechanisms**: Automated rollback procedures for failed deployments
@@ -22,19 +27,22 @@ make ci-validate → make ci-build → make ci-test → make ci-quality-gate →
 ### Core Pipeline Commands
 
 #### `make ci-validate`
-**Purpose**: Complete CI validation workflow
-**Steps**:
+
+**Purpose**: Complete CI validation workflow **Steps**:
+
 1. Build system health check
 2. TypeScript validation
 3. Linting validation
 4. Safe build with integrated repair
 
 **Usage**:
+
 ```bash
 make ci-validate
 ```
 
 **Output Example**:
+
 ```
 🔍 Running complete CI validation workflow...
 Step 1: Build system health check...
@@ -49,43 +57,51 @@ Step 4: Build validation...
 ```
 
 #### `make ci-build`
-**Purpose**: CI-optimized build process with comprehensive repair
-**Steps**:
+
+**Purpose**: CI-optimized build process with comprehensive repair **Steps**:
+
 1. Clean previous build artifacts
 2. Install fresh dependencies
 3. Build system comprehensive repair
 4. Production build
 
 **Usage**:
+
 ```bash
 make ci-build
 ```
 
 #### `make ci-test`
-**Purpose**: Comprehensive test execution with coverage
-**Steps**:
+
+**Purpose**: Comprehensive test execution with coverage **Steps**:
+
 1. Unit tests execution
 2. Test coverage analysis
 3. Integration tests execution
 
 **Usage**:
+
 ```bash
 make ci-test
 ```
 
 #### `make ci-quality-gate`
-**Purpose**: Quality gate validation with configurable thresholds
-**Validation Criteria**:
+
+**Purpose**: Quality gate validation with configurable thresholds **Validation
+Criteria**:
+
 - TypeScript errors < 100 (configurable)
 - Build stability check
 - Test coverage requirements
 
 **Usage**:
+
 ```bash
 make ci-quality-gate
 ```
 
 **Quality Gate Thresholds**:
+
 ```makefile
 # Current thresholds (configurable)
 TYPESCRIPT_ERROR_THRESHOLD=100
@@ -94,14 +110,16 @@ TEST_COVERAGE_REQUIRED=true
 ```
 
 #### `make ci-deploy-check`
-**Purpose**: Pre-deployment validation
-**Steps**:
+
+**Purpose**: Pre-deployment validation **Steps**:
+
 1. Final build validation
 2. Error count verification
 3. Git status check
 4. Docker build test
 
 **Usage**:
+
 ```bash
 make ci-deploy-check
 ```
@@ -109,8 +127,9 @@ make ci-deploy-check
 ### Deployment Pipeline Commands
 
 #### `make deploy-pipeline`
-**Purpose**: Complete deployment workflow
-**Steps**:
+
+**Purpose**: Complete deployment workflow **Steps**:
+
 1. CI validation
 2. CI build
 3. CI testing
@@ -119,13 +138,15 @@ make ci-deploy-check
 6. Docker deployment
 
 **Usage**:
+
 ```bash
 make deploy-pipeline
 ```
 
 #### `make deploy-rollback`
-**Purpose**: Emergency rollback procedures
-**Steps**:
+
+**Purpose**: Emergency rollback procedures **Steps**:
+
 1. Stop current deployment
 2. Check recent commits
 3. Create rollback branch
@@ -133,6 +154,7 @@ make deploy-pipeline
 5. Provide rollback instructions
 
 **Usage**:
+
 ```bash
 make deploy-rollback
 ```
@@ -140,7 +162,9 @@ make deploy-rollback
 ## Integration with Build System Repair
 
 ### Automatic Build Repair
-The CI/CD pipeline integrates seamlessly with the build system repair functionality:
+
+The CI/CD pipeline integrates seamlessly with the build system repair
+functionality:
 
 ```bash
 # CI pipeline automatically includes:
@@ -151,6 +175,7 @@ make build-safe          # Safe build with repair
 ```
 
 ### Build System Health Gates
+
 - **Pre-build Health Check**: Validates build system before starting
 - **Manifest Validation**: Ensures all required manifest files exist
 - **Repair Integration**: Automatic repair of missing/corrupted files
@@ -159,6 +184,7 @@ make build-safe          # Safe build with repair
 ## Quality Gates Configuration
 
 ### TypeScript Error Thresholds
+
 ```bash
 # Current configuration
 TYPESCRIPT_ERROR_THRESHOLD=100
@@ -171,12 +197,14 @@ fi
 ```
 
 ### Build Stability Requirements
+
 ```bash
 # Build stability validation
 yarn tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || exit 1
 ```
 
 ### Test Coverage Requirements
+
 ```bash
 # Test coverage validation
 make test-coverage > /dev/null 2>&1 && echo "✅ Tests passing" || exit 1
@@ -185,6 +213,7 @@ make test-coverage > /dev/null 2>&1 && echo "✅ Tests passing" || exit 1
 ## GitHub Actions Integration
 
 ### Workflow Configuration
+
 Create `.github/workflows/ci-cd.yml`:
 
 ```yaml
@@ -206,19 +235,19 @@ jobs:
         with:
           node-version: '20.18.0'
           cache: 'yarn'
-      
+
       - name: Install dependencies
         run: make install
-      
+
       - name: CI Validation
         run: make ci-validate
-      
+
       - name: CI Build
         run: make ci-build
-      
+
       - name: CI Test
         run: make ci-test
-      
+
       - name: Quality Gate
         run: make ci-quality-gate
 
@@ -233,13 +262,15 @@ jobs:
         with:
           node-version: '20.18.0'
           cache: 'yarn'
-      
+
       - name: Deploy Pipeline
         run: make deploy-pipeline
 ```
 
 ### Branch Protection Rules
+
 Configure branch protection with:
+
 - Require status checks to pass
 - Require CI validation before merging
 - Require quality gate validation
@@ -248,7 +279,9 @@ Configure branch protection with:
 ## Local Development Integration
 
 ### Pre-commit Hooks
+
 Add to `.husky/pre-commit`:
+
 ```bash
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
@@ -258,7 +291,9 @@ make ci-validate
 ```
 
 ### Pre-push Hooks
+
 Add to `.husky/pre-push`:
+
 ```bash
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
@@ -270,6 +305,7 @@ make ci-quality-gate
 ## Monitoring and Alerting
 
 ### Build Health Monitoring
+
 ```bash
 # Continuous monitoring
 make build-monitor
@@ -279,7 +315,9 @@ make build-status
 ```
 
 ### Pipeline Metrics
+
 Track key metrics:
+
 - Build success rate
 - Test coverage percentage
 - TypeScript error count trends
@@ -287,6 +325,7 @@ Track key metrics:
 - Mean time to recovery (MTTR)
 
 ### Alert Conditions
+
 - Build failures
 - Quality gate failures
 - TypeScript error threshold exceeded
@@ -296,6 +335,7 @@ Track key metrics:
 ## Environment-Specific Configurations
 
 ### Development Environment
+
 ```bash
 # Development workflow
 make dev
@@ -304,6 +344,7 @@ make ci-validate     # Before commits
 ```
 
 ### Staging Environment
+
 ```bash
 # Staging deployment
 make ci-build
@@ -313,6 +354,7 @@ make deploy-pipeline
 ```
 
 ### Production Environment
+
 ```bash
 # Production deployment
 make ci-validate
@@ -326,12 +368,14 @@ make deploy-pipeline
 ## Rollback Procedures
 
 ### Automatic Rollback Triggers
+
 - Build failures during deployment
 - Health check failures
 - Quality gate violations
 - Test failures in production
 
 ### Manual Rollback Process
+
 ```bash
 # Emergency rollback
 make deploy-rollback
@@ -348,6 +392,7 @@ make deploy-pipeline
 ```
 
 ### Rollback Validation
+
 ```bash
 # After rollback
 make build-health     # Verify build system health
@@ -358,12 +403,14 @@ make ci-test          # Run tests to confirm stability
 ## Performance Optimization
 
 ### Build Performance
+
 - Parallel test execution
 - Incremental builds when possible
 - Docker layer caching
 - Dependency caching
 
 ### Pipeline Optimization
+
 - Skip unnecessary steps for minor changes
 - Conditional deployment based on changed files
 - Parallel job execution where possible
@@ -372,12 +419,14 @@ make ci-test          # Run tests to confirm stability
 ## Security Considerations
 
 ### Secrets Management
+
 - Use environment variables for sensitive data
 - Rotate API keys regularly
 - Secure Docker image scanning
 - Dependency vulnerability scanning
 
 ### Access Control
+
 - Limit deployment permissions
 - Require code review for production deployments
 - Audit deployment activities
@@ -388,6 +437,7 @@ make ci-test          # Run tests to confirm stability
 ### Common Issues
 
 #### Quality Gate Failures
+
 ```bash
 # Check current error count
 make errors
@@ -400,6 +450,7 @@ make ci-quality-gate
 ```
 
 #### Build Failures
+
 ```bash
 # Check build system health
 make build-health
@@ -412,6 +463,7 @@ make ci-build
 ```
 
 #### Test Failures
+
 ```bash
 # Run tests with detailed output
 make test
@@ -424,6 +476,7 @@ yarn test --testPathPattern="integration"
 ```
 
 ### Debug Commands
+
 ```bash
 # Comprehensive status
 make build-status
@@ -438,24 +491,28 @@ make status-detailed
 ## Best Practices
 
 ### 1. Pipeline Design
+
 - Keep pipelines fast and reliable
 - Fail fast on critical issues
 - Provide clear error messages
 - Include comprehensive logging
 
 ### 2. Quality Gates
+
 - Set realistic thresholds
 - Monitor trends over time
 - Adjust thresholds based on project maturity
 - Include both automated and manual checks
 
 ### 3. Deployment Strategy
+
 - Use blue-green deployments when possible
 - Implement canary releases for major changes
 - Maintain rollback capabilities
 - Monitor post-deployment health
 
 ### 4. Maintenance
+
 - Regularly update dependencies
 - Monitor pipeline performance
 - Review and update quality thresholds
@@ -464,14 +521,17 @@ make status-detailed
 ## Integration Points
 
 ### Build System Repair
+
 - [Build System Repair Documentation](BUILD_SYSTEM_REPAIR.md)
 - [Makefile Commands Reference](MAKEFILE_BUILD_SYSTEM_COMMANDS.md)
 
 ### Development Workflow
+
 - [CLAUDE.md Development Guide](../CLAUDE.md)
 - [Main Makefile](../Makefile)
 
 ### Testing Framework
+
 - [Test System Stabilization](../src/__tests__/README.md)
 - [Integration Tests](../src/__tests__/integration/)
 
@@ -486,4 +546,5 @@ The CI/CD pipeline provides:
 - **Developer Experience**: Easy-to-use make commands for all operations
 - **Production Ready**: Battle-tested pipeline for reliable deployments
 
-This pipeline ensures that every deployment is validated, tested, and ready for production while maintaining the ability to quickly rollback if issues arise.
+This pipeline ensures that every deployment is validated, tested, and ready for
+production while maintaining the ability to quickly rollback if issues arise.

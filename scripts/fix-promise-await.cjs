@@ -12,7 +12,7 @@ const colors = {
   green: '\x1b[32m',
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
-  cyan: '\x1b[36m'
+  cyan: '\x1b[36m',
 };
 
 function log(message, color = 'reset') {
@@ -27,10 +27,12 @@ function getTypeScriptErrors() {
     const output = error.stdout || '';
     const lines = output.split('\n');
     const errors = [];
-    
+
     for (const line of lines) {
       // Match Promise property access errors
-      const match = line.match(/^(.+?)\((\d+),(\d+)\): error TS\d+: Property '(.+?)' does not exist on type 'Promise<(.+?)>'/);
+      const match = line.match(
+        /^(.+?)\((\d+),(\d+)\): error TS\d+: Property '(.+?)' does not exist on type 'Promise<(.+?)>'/,
+      );
       if (match) {
         errors.push({
           file: match[1],
@@ -38,28 +40,28 @@ function getTypeScriptErrors() {
           column: parseInt(match[3]),
           property: match[4],
           promiseType: match[5],
-          fullLine: line
+          fullLine: line,
         });
       }
     }
-    
+
     return errors;
   }
 }
 
 function fixPromiseAwaitErrors(dryRun = false) {
   log('\n🔍 Scanning for Promise property access errors...', 'cyan');
-  
+
   const errors = getTypeScriptErrors();
   const promiseErrors = errors.filter(e => e.promiseType);
-  
+
   if (promiseErrors.length === 0) {
     log('✅ No Promise property access errors found!', 'green');
     return { fixed: 0, total: 0 };
   }
-  
+
   log(`Found ${promiseErrors.length} Promise property access errors`, 'yellow');
-  
+
   // Group errors by file
   const errorsByFile = {};
   for (const error of promiseErrors) {
@@ -68,42 +70,47 @@ function fixPromiseAwaitErrors(dryRun = false) {
     }
     errorsByFile[error.file].push(error);
   }
-  
+
   let totalFixed = 0;
-  
+
   for (const [filePath, fileErrors] of Object.entries(errorsByFile)) {
     if (!fs.existsSync(filePath)) {
       log(`⚠️  File not found: ${filePath}`, 'yellow');
       continue;
     }
-    
+
     log(`\n📝 Processing ${path.basename(filePath)} (${fileErrors.length} errors)...`, 'blue');
-    
+
     let content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
     let fixedInFile = 0;
-    
+
     // Sort errors by line number in reverse to avoid offset issues
     fileErrors.sort((a, b) => b.line - a.line);
-    
+
     for (const error of fileErrors) {
       const lineIndex = error.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         const line = lines[lineIndex];
-        
+
         // Find the variable/expression that needs await
         // Look for patterns like: variable.property or functionCall().property
         let fixed = false;
-        
+
         // Pattern 1: Direct variable access (e.g., positions.Sun)
         const varPattern = new RegExp(`(\\b\\w+)\\.${error.property}\\b`);
         const varMatch = line.match(varPattern);
-        
+
         if (varMatch) {
           const varName = varMatch[1];
-          
+
           // Check if it's in a conditional or assignment
-          if (line.includes(`if (`) || line.includes(`if(`) || line.includes(`expect(`) || line.includes(`= `)) {
+          if (
+            line.includes(`if (`) ||
+            line.includes(`if(`) ||
+            line.includes(`expect(`) ||
+            line.includes(`= `)
+          ) {
             // Need to add await to the variable
             const awaitPattern = new RegExp(`\\b${varName}\\b(?!\\.)`);
             if (!line.includes(`await ${varName}`)) {
@@ -113,11 +120,11 @@ function fixPromiseAwaitErrors(dryRun = false) {
             }
           }
         }
-        
+
         // Pattern 2: Function call result (e.g., getPositions().Sun)
         const funcPattern = new RegExp(`(\\w+\\([^)]*\\))\\.${error.property}\\b`);
         const funcMatch = line.match(funcPattern);
-        
+
         if (funcMatch && !fixed) {
           const funcCall = funcMatch[1];
           if (!line.includes(`await ${funcCall}`)) {
@@ -125,11 +132,11 @@ function fixPromiseAwaitErrors(dryRun = false) {
             fixed = true;
           }
         }
-        
+
         // Pattern 3: Import statement (e.g., import(...).CampaignTestController)
         const importPattern = new RegExp(`(import\\([^)]+\\))\\.${error.property}\\b`);
         const importMatch = line.match(importPattern);
-        
+
         if (importMatch && !fixed) {
           const importCall = importMatch[1];
           if (!line.includes(`await ${importCall}`)) {
@@ -137,7 +144,7 @@ function fixPromiseAwaitErrors(dryRun = false) {
             fixed = true;
           }
         }
-        
+
         if (fixed) {
           fixedInFile++;
           log(`  ✓ Line ${error.line}: Added await for ${error.property} access`, 'green');
@@ -146,7 +153,7 @@ function fixPromiseAwaitErrors(dryRun = false) {
         }
       }
     }
-    
+
     if (fixedInFile > 0 && !dryRun) {
       const newContent = lines.join('\n');
       fs.writeFileSync(filePath, newContent, 'utf8');
@@ -157,21 +164,21 @@ function fixPromiseAwaitErrors(dryRun = false) {
       totalFixed += fixedInFile;
     }
   }
-  
+
   return { fixed: totalFixed, total: promiseErrors.length };
 }
 
 function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  
+
   log('🚀 Promise Await Error Fixer', 'bright');
-  log('=' .repeat(50), 'cyan');
-  
+  log('='.repeat(50), 'cyan');
+
   if (dryRun) {
     log('🔍 Running in DRY RUN mode - no files will be modified', 'yellow');
   }
-  
+
   try {
     // Create backup with git stash
     if (!dryRun) {
@@ -183,15 +190,18 @@ function main() {
         log('⚠️  Could not create git stash (working directory might be clean)', 'yellow');
       }
     }
-    
+
     const result = fixPromiseAwaitErrors(dryRun);
-    
+
     log('\n' + '='.repeat(50), 'cyan');
     log('📊 Summary:', 'bright');
     log(`  Total Promise errors found: ${result.total}`, 'blue');
     log(`  Successfully fixed: ${result.fixed}`, 'green');
-    log(`  Remaining to fix manually: ${result.total - result.fixed}`, result.total - result.fixed > 0 ? 'yellow' : 'green');
-    
+    log(
+      `  Remaining to fix manually: ${result.total - result.fixed}`,
+      result.total - result.fixed > 0 ? 'yellow' : 'green',
+    );
+
     if (!dryRun && result.fixed > 0) {
       log('\n🔨 Rebuilding to verify fixes...', 'cyan');
       try {
@@ -201,11 +211,10 @@ function main() {
         log('⚠️  Build still has errors - some may require manual fixes', 'yellow');
       }
     }
-    
+
     if (dryRun && result.fixed > 0) {
       log('\n💡 Run without --dry-run to apply these fixes', 'yellow');
     }
-    
   } catch (error) {
     log(`\n❌ Error: ${error.message}`, 'red');
     process.exit(1);

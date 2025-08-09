@@ -14,16 +14,13 @@
 import { log } from '@/services/LoggingService';
 
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
+import type { ElementalProperties, Season } from '../types/alchemy';
 import type {
-    ElementalProperties,
-    Season
-} from '../types/alchemy';
-import type {
-    AspectType,
-    LunarPhase,
-    Planet,
-    PlanetaryAspect,
-    PlanetaryPosition
+  AspectType,
+  LunarPhase,
+  Planet,
+  PlanetaryAspect,
+  PlanetaryPosition,
 } from '../types/celestial';
 
 import { getCurrentAlchemicalState } from './RealAlchemizeService';
@@ -138,7 +135,12 @@ export interface AstrologicalData {
   planetaryPositions: Record<Planet, PlanetaryPosition>;
   aspects: PlanetaryAspect[];
   transits: {
-    active: Array<{ transitingPlanet: Planet; natalPlanet: Planet; aspect: AspectType; strength: number }>;
+    active: Array<{
+      transitingPlanet: Planet;
+      natalPlanet: Planet;
+      aspect: AspectType;
+      strength: number;
+    }>;
     seasonal: {
       currentSeason: Season;
       alignment: number;
@@ -163,7 +165,7 @@ export interface AstrologicalData {
  */
 export function calculateTransitEffect(
   astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   let score = 0;
   const transits = astroData.transits.active;
@@ -192,7 +194,7 @@ export function calculateTransitEffect(
  */
 export function calculateDignityEffect(
   astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   let score = 0;
   const itemRulers = _context.item.planetaryRulers || [];
@@ -211,7 +213,7 @@ export function calculateDignityEffect(
  */
 export function calculateTarotEffect(
   _astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   // Future integration with tarot system
   // For now, return neutral effect
@@ -222,7 +224,7 @@ export function calculateTarotEffect(
     ingredient: 0.05,
     recipe: 0.1,
     cuisine: 0.15,
-    cooking_method: 0.08
+    cooking_method: 0.08,
   };
 
   return tarotAffinities[itemType] || 0;
@@ -233,11 +235,23 @@ export function calculateTarotEffect(
  */
 export function calculateSeasonalEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   const month = context.dateTime.getMonth();
-  const season = ['winter', 'winter', 'spring', 'spring', 'spring', 'summer',
-                 'summer', 'summer', 'autumn', 'autumn', 'autumn', 'winter'][month];
+  const season = [
+    'winter',
+    'winter',
+    'spring',
+    'spring',
+    'spring',
+    'summer',
+    'summer',
+    'summer',
+    'autumn',
+    'autumn',
+    'autumn',
+    'winter',
+  ][month];
 
   const itemSeasonality = context.item.seasonality || [];
 
@@ -255,13 +269,13 @@ export function calculateSeasonalEffect(
  */
 export function calculateLocationEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   if (!context.location) return 0;
 
   const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(
     context.location,
-    context.dateTime
+    context.dateTime,
   );
 
   const itemRulers = context.item.planetaryRulers || [];
@@ -281,21 +295,101 @@ export function calculateLocationEffect(
  */
 export function calculateLunarPhaseEffect(
   astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   const lunarPhase = astroData.lunarPhase;
   const itemType = _context.item.type;
 
   // Lunar phase modifiers (using standard lowercase format)
   const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ScoringWeights> = {
-    'new moon': { elemental: 0.1, seasonal: 0.1, astrological: 0.1, cultural: 0.1, nutritional: 0.1, ingredient: 0.1, recipe: 0.05, cuisine: 0.1, cooking_method: 0.15 },
-    'waxing crescent': { elemental: 0.15, seasonal: 0.15, astrological: 0.15, cultural: 0.15, nutritional: 0.15, ingredient: 0.15, recipe: 0.1, cuisine: 0.05, cooking_method: 0.1 },
-    'first quarter': { elemental: 0.1, seasonal: 0.1, astrological: 0.1, cultural: 0.1, nutritional: 0.1, ingredient: 0.1, recipe: 0.15, cuisine: 0.1, cooking_method: 0.15 },
-    'waxing gibbous': { elemental: 0.05, seasonal: 0.05, astrological: 0.05, cultural: 0.05, nutritional: 0.05, ingredient: 0.05, recipe: 0.2, cuisine: 0.15, cooking_method: 0.1 },
-    'full moon': { elemental: 0.2, seasonal: 0.2, astrological: 0.2, cultural: 0.2, nutritional: 0.2, ingredient: 0.2, recipe: 0.25, cuisine: 0.2, cooking_method: 0.05 },
-    'waning gibbous': { elemental: 0.1, seasonal: 0.1, astrological: 0.1, cultural: 0.1, nutritional: 0.1, ingredient: 0.1, recipe: 0.15, cuisine: 0.25, cooking_method: 0 },
-    'last quarter': { elemental: 0, seasonal: 0, astrological: 0, cultural: 0, nutritional: 0, ingredient: 0, recipe: 0.05, cuisine: 0.1, cooking_method: -0.05 },
-    'waning crescent': { elemental: -0.05, seasonal: -0.05, astrological: -0.05, cultural: -0.05, nutritional: -0.05, ingredient: -0.05, recipe: 0, cuisine: 0.05, cooking_method: 0.1 }
+    'new moon': {
+      elemental: 0.1,
+      seasonal: 0.1,
+      astrological: 0.1,
+      cultural: 0.1,
+      nutritional: 0.1,
+      ingredient: 0.1,
+      recipe: 0.05,
+      cuisine: 0.1,
+      cooking_method: 0.15,
+    },
+    'waxing crescent': {
+      elemental: 0.15,
+      seasonal: 0.15,
+      astrological: 0.15,
+      cultural: 0.15,
+      nutritional: 0.15,
+      ingredient: 0.15,
+      recipe: 0.1,
+      cuisine: 0.05,
+      cooking_method: 0.1,
+    },
+    'first quarter': {
+      elemental: 0.1,
+      seasonal: 0.1,
+      astrological: 0.1,
+      cultural: 0.1,
+      nutritional: 0.1,
+      ingredient: 0.1,
+      recipe: 0.15,
+      cuisine: 0.1,
+      cooking_method: 0.15,
+    },
+    'waxing gibbous': {
+      elemental: 0.05,
+      seasonal: 0.05,
+      astrological: 0.05,
+      cultural: 0.05,
+      nutritional: 0.05,
+      ingredient: 0.05,
+      recipe: 0.2,
+      cuisine: 0.15,
+      cooking_method: 0.1,
+    },
+    'full moon': {
+      elemental: 0.2,
+      seasonal: 0.2,
+      astrological: 0.2,
+      cultural: 0.2,
+      nutritional: 0.2,
+      ingredient: 0.2,
+      recipe: 0.25,
+      cuisine: 0.2,
+      cooking_method: 0.05,
+    },
+    'waning gibbous': {
+      elemental: 0.1,
+      seasonal: 0.1,
+      astrological: 0.1,
+      cultural: 0.1,
+      nutritional: 0.1,
+      ingredient: 0.1,
+      recipe: 0.15,
+      cuisine: 0.25,
+      cooking_method: 0,
+    },
+    'last quarter': {
+      elemental: 0,
+      seasonal: 0,
+      astrological: 0,
+      cultural: 0,
+      nutritional: 0,
+      ingredient: 0,
+      recipe: 0.05,
+      cuisine: 0.1,
+      cooking_method: -0.05,
+    },
+    'waning crescent': {
+      elemental: -0.05,
+      seasonal: -0.05,
+      astrological: -0.05,
+      cultural: -0.05,
+      nutritional: -0.05,
+      ingredient: -0.05,
+      recipe: 0,
+      cuisine: 0.05,
+      cooking_method: 0.1,
+    },
   };
 
   return LUNAR_PHASE_MODIFIERS[lunarPhase.name][itemType] || 0;
@@ -306,13 +400,16 @@ export function calculateLunarPhaseEffect(
  */
 export function calculateAspectEffect(
   astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   let score = 0;
   const itemRulers = context.item.planetaryRulers || [];
 
   for (const aspect of astroData.aspects) {
-    if (itemRulers.includes(aspect.planet1 as Planet) || itemRulers.includes(aspect.planet2 as Planet)) {
+    if (
+      itemRulers.includes(aspect.planet1 as Planet) ||
+      itemRulers.includes(aspect.planet2 as Planet)
+    ) {
       const aspectStrength = aspect.strength ?? 1.0;
 
       switch (aspect.type) {
@@ -343,7 +440,7 @@ export function calculateAspectEffect(
  */
 export function calculateElementalCompatibility(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   if (!context.item.elementalProperties) return 0;
 
@@ -370,7 +467,7 @@ export function calculateElementalCompatibility(
  */
 export function calculateThermodynamicEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   const currentState = getCurrentAlchemicalState();
   const thermo = currentState.thermodynamicProperties;
@@ -379,7 +476,10 @@ export function calculateThermodynamicEffect(
 
   // High energy states favor active cooking methods and bold flavors
   if (context.item.type === 'cooking_method') {
-    if (thermo.heat > 0.7 && (context.item.name.includes('grill') || context.item.name.includes('sear'))) {
+    if (
+      thermo.heat > 0.7 &&
+      (context.item.name.includes('grill') || context.item.name.includes('sear'))
+    ) {
       score += 0.2;
     }
     if (thermo.reactivity > 0.7 && context.item.name.includes('ferment')) {
@@ -388,7 +488,10 @@ export function calculateThermodynamicEffect(
   }
 
   // High entropy favors complex recipes and varied ingredients
-  if (thermo.entropy > 0.7 && (context.item.type === 'recipe' || context.item.type === 'ingredient')) {
+  if (
+    thermo.entropy > 0.7 &&
+    (context.item.type === 'recipe' || context.item.type === 'ingredient')
+  ) {
     const complexity = context.preferences?.complexityPreference;
     if (complexity === 'complex') {
       score += 0.1;
@@ -403,7 +506,7 @@ export function calculateThermodynamicEffect(
  */
 export function calculateKalchmResonance(
   _astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   const currentState = getCurrentAlchemicalState();
   const kalchm = currentState.kalchm;
@@ -423,7 +526,7 @@ export function calculateKalchmResonance(
  */
 export function calculateMonicaOptimization(
   _astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   const currentState = getCurrentAlchemicalState();
   const monica = currentState.monica;
@@ -443,7 +546,7 @@ export function calculateMonicaOptimization(
  */
 export function calculateRetrogradeEffect(
   astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   let score = 0;
   const itemRulers = context.item.planetaryRulers || [];
@@ -502,7 +605,7 @@ export class UnifiedScoringService {
         thermalDynamicEffect: calculateThermodynamicEffect(astroData, context),
         kalchmResonance: calculateKalchmResonance(astroData, context),
         monicaOptimization: calculateMonicaOptimization(astroData, context),
-        retrogradeEffect: calculateRetrogradeEffect(astroData, context)
+        retrogradeEffect: calculateRetrogradeEffect(astroData, context),
       };
 
       // 3. Apply custom weights if provided
@@ -535,8 +638,8 @@ export class UnifiedScoringService {
           timestamp: new Date(),
           location: context.location,
           dominantEffects,
-          warnings
-        }
+          warnings,
+        },
       };
 
       // Debug logging
@@ -546,7 +649,6 @@ export class UnifiedScoringService {
       }
 
       return result;
-
     } catch (error) {
       console.error('Error in scoring calculation:', error);
 
@@ -560,8 +662,8 @@ export class UnifiedScoringService {
         metadata: {
           timestamp: new Date(),
           dominantEffects: [],
-          warnings: ['Calculation error - using fallback score']
-        }
+          warnings: ['Calculation error - using fallback score'],
+        },
       };
     }
   }
@@ -577,7 +679,7 @@ export class UnifiedScoringService {
         return {
           ...astrologizeData,
           source: 'astrologize' as const,
-          confidence: 0.95
+          confidence: 0.95,
         } as AstrologicalData;
       }
     } catch (error) {
@@ -590,7 +692,7 @@ export class UnifiedScoringService {
       return {
         ...fallbackData,
         source: 'swiss_ephemeris' as const,
-        confidence: 0.7
+        confidence: 0.7,
       } as AstrologicalData;
     } catch (error) {
       console.warn('Swiss Ephemeris unavailable, using minimal fallback data');
@@ -603,7 +705,9 @@ export class UnifiedScoringService {
   /**
    * Get data from Astrologize API
    */
-  private async getAstrologizeData(context: ScoringContext): Promise<Partial<AstrologicalData> | null> {
+  private async getAstrologizeData(
+    context: ScoringContext,
+  ): Promise<Partial<AstrologicalData> | null> {
     try {
       const response = await fetch('/api/astrologize', {
         method: 'POST',
@@ -615,8 +719,8 @@ export class UnifiedScoringService {
           hour: context.dateTime.getHours(),
           minute: context.dateTime.getMinutes(),
           latitude: context.location?.latitude || 40.7498,
-          longitude: context.location?.longitude || -73.7976
-        })
+          longitude: context.location?.longitude || -73.7976,
+        }),
       });
 
       if (!response.ok) return null;
@@ -625,7 +729,6 @@ export class UnifiedScoringService {
 
       // Transform API response to our format
       return this.transformAstrologizeResponse(data);
-
     } catch (error) {
       console.error('Error fetching Astrologize data:', error);
       return null;
@@ -635,16 +738,18 @@ export class UnifiedScoringService {
   /**
    * Get fallback astrological data
    */
-  private async getFallbackAstrologicalData(context: ScoringContext): Promise<Partial<AstrologicalData>> {
+  private async getFallbackAstrologicalData(
+    context: ScoringContext,
+  ): Promise<Partial<AstrologicalData>> {
     return {
       planetaryPositions: context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
       aspects: (context.aspects || []).map(aspect => ({
         ...aspect,
-        strength: 0.5 // Default strength for fallback data
+        strength: 0.5, // Default strength for fallback data
       })),
       transits: { active: [], seasonal: {} },
       lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
-      dignity: {} as Record<Planet, number>
+      dignity: {} as Record<Planet, number>,
     };
   }
 
@@ -659,7 +764,7 @@ export class UnifiedScoringService {
       lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
       dignity: {} as Record<Planet, number>,
       source: 'fallback' as const,
-      confidence: 0.1
+      confidence: 0.1,
     };
   }
 
@@ -672,7 +777,7 @@ export class UnifiedScoringService {
     return {
       planetaryPositions: data.planets || {},
       aspects: data.aspects || [],
-      dignity: data.dignity || {}
+      dignity: data.dignity || {},
     };
   }
 
@@ -694,7 +799,7 @@ export class UnifiedScoringService {
       thermalDynamicEffect: 0.6,
       kalchmResonance: 0.5,
       monicaOptimization: 0.4,
-      retrogradeEffect: 0.6
+      retrogradeEffect: 0.6,
     };
 
     let totalWeightedScore = 0;
@@ -732,7 +837,7 @@ export class UnifiedScoringService {
   private generateNotes(
     breakdown: ScoringBreakdown,
     astroData: AstrologicalData,
-    context: ScoringContext
+    context: ScoringContext,
   ): string[] {
     const notes: string[] = [];
 
@@ -776,7 +881,7 @@ export class UnifiedScoringService {
   private generateWarnings(
     breakdown: ScoringBreakdown,
     astroData: AstrologicalData,
-    context: ScoringContext
+    context: ScoringContext,
   ): string[] {
     const warnings: string[] = [];
 

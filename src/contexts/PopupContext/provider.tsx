@@ -18,16 +18,15 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
     const sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
     const moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
 
-    const isHarmonious = sunElement && moonElement ? 
-      ELEMENT_AFFINITIES[sunElement ].includes(moonElement ) : 
-      false;
-    
+    const isHarmonious =
+      sunElement && moonElement ? ELEMENT_AFFINITIES[sunElement].includes(moonElement) : false;
+
     return {
       sunElement,
       moonElement,
       isHarmonious,
       primaryElement: sunElement,
-      secondaryElement: moonElement
+      secondaryElement: moonElement,
     };
   };
 
@@ -40,11 +39,11 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
       moonSign,
       season,
       animation = 'fade',
-      className = ''
+      className = '',
     } = options;
 
     const id = Date.now();
-    
+
     // Calculate elemental influences
     const elemental = calculateElementalInfluence(sunSign, moonSign);
 
@@ -54,7 +53,7 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
       `popup-${type}`,
       `popup-${position}`,
       `popup-${animation}`,
-      className
+      className,
     ];
 
     // Add elemental classes if applicable
@@ -82,8 +81,8 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
       metadata: {
         sunSign,
         moonSign,
-        season
-      }
+        season,
+      },
     };
 
     setPopups(current => [...current, newPopup]);
@@ -117,20 +116,25 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
 
   const getElementalIcon = (element?: string): string => {
     if (!element) return '';
-    
+
     switch (element.toLowerCase()) {
-      case 'fire': return '🔥';
-      case 'water': return '💧';
-      case 'air': return '💨';
-      case 'earth': return '🌍';
-      default: return '';
+      case 'fire':
+        return '🔥';
+      case 'water':
+        return '💧';
+      case 'air':
+        return '💨';
+      case 'earth':
+        return '🌍';
+      default:
+        return '';
     }
   };
 
   return (
     <PopupContext.Provider value={{ showPopup, closePopup }}>
       {children}
-      <div className="popup-container">
+      <div className='popup-container'>
         {popups.map(popup => (
           <div
             key={popup.id}
@@ -139,23 +143,19 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
             onClick={() => closePopup(popup.id)}
           >
             {popup.elemental?.primaryElement && (
-              <span className="popup-element-icon">
+              <span className='popup-element-icon'>
                 {getElementalIcon(popup.elemental.primaryElement)}
               </span>
             )}
-            <div className="popup-content">
-              <div className="popup-message">{popup.message}</div>
+            <div className='popup-content'>
+              <div className='popup-message'>{popup.message}</div>
               {popup.metadata?.sunSign && (
-                <div className="popup-metadata">
+                <div className='popup-metadata'>
                   {popup.metadata.sunSign && (
-                    <span className="popup-sun-sign">
-                      ☉ {popup.metadata.sunSign}
-                    </span>
+                    <span className='popup-sun-sign'>☉ {popup.metadata.sunSign}</span>
                   )}
                   {popup.metadata.moonSign && (
-                    <span className="popup-moon-sign">
-                      ☽ {popup.metadata.moonSign}
-                    </span>
+                    <span className='popup-moon-sign'>☽ {popup.metadata.moonSign}</span>
                   )}
                 </div>
               )}
@@ -165,4 +165,4 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
       </div>
     </PopupContext.Provider>
   );
-}; 
+};

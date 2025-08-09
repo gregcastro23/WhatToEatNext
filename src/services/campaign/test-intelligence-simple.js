@@ -19,8 +19,8 @@ const mockFileAnalysis = {
       lineNumber: 1,
       isDefault: false,
       complexity: 5,
-      usageCount: 0
-    }
+      usageCount: 0,
+    },
   ],
   safetyScore: 90,
   transformationCandidates: [
@@ -32,15 +32,15 @@ const mockFileAnalysis = {
         lineNumber: 1,
         isDefault: false,
         complexity: 5,
-        usageCount: 0
+        usageCount: 0,
       },
       intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
       transformationComplexity: 'MODERATE',
       safetyScore: 85,
-      estimatedBenefit: 75
-    }
+      estimatedBenefit: 75,
+    },
   ],
-  category: 'CORE'
+  category: 'CORE',
 };
 
 // Test intelligence system template generation
@@ -198,13 +198,13 @@ export const ${systemName.toLowerCase()} = new ${systemName}();
 async function runSimpleTest() {
   try {
     console.log('📊 Testing intelligence system generation...');
-    
+
     const candidate = mockFileAnalysis.transformationCandidates[0];
     const generatedCode = generateIntelligenceSystemCode(candidate);
-    
+
     console.log('✅ Successfully generated intelligence system code!');
     console.log(`📏 Generated code length: ${generatedCode.length} characters`);
-    
+
     // Show preview of generated code
     console.log('\n📄 GENERATED CODE PREVIEW');
     console.log('=========================');
@@ -213,75 +213,94 @@ async function runSimpleTest() {
       console.log(`${(index + 1).toString().padStart(3)}: ${line}`);
     });
     console.log('...');
-    
+
     // Test the generated system structure
     console.log('\n🔍 ANALYZING GENERATED SYSTEM');
     console.log('=============================');
-    
+
     const hasClass = generatedCode.includes('export class TEST_FUNCTION_INTELLIGENCE_SYSTEM');
     const hasAnalyzePatterns = generatedCode.includes('async analyzePatterns');
     const hasGenerateRecommendations = generatedCode.includes('async generateRecommendations');
     const hasDemonstrateCapabilities = generatedCode.includes('async demonstrateCapabilities');
     const hasAnalytics = generatedCode.includes('getAnalytics');
     const hasSingleton = generatedCode.includes('export const test_function_intelligence_system');
-    
+
     console.log(`✅ Has main class: ${hasClass}`);
     console.log(`✅ Has analyzePatterns method: ${hasAnalyzePatterns}`);
     console.log(`✅ Has generateRecommendations method: ${hasGenerateRecommendations}`);
     console.log(`✅ Has demonstrateCapabilities method: ${hasDemonstrateCapabilities}`);
     console.log(`✅ Has analytics getter: ${hasAnalytics}`);
     console.log(`✅ Has singleton export: ${hasSingleton}`);
-    
-    const allChecks = [hasClass, hasAnalyzePatterns, hasGenerateRecommendations, hasDemonstrateCapabilities, hasAnalytics, hasSingleton];
+
+    const allChecks = [
+      hasClass,
+      hasAnalyzePatterns,
+      hasGenerateRecommendations,
+      hasDemonstrateCapabilities,
+      hasAnalytics,
+      hasSingleton,
+    ];
     const passedChecks = allChecks.filter(Boolean).length;
-    
+
     console.log(`\n📊 Structure validation: ${passedChecks}/${allChecks.length} checks passed`);
-    
+
     // Test integration points generation
     console.log('\n🔗 TESTING INTEGRATION POINTS');
     console.log('=============================');
-    
+
     const integrationPoints = [
       {
         target: 'src/app/intelligence/index.ts',
         method: 'DIRECT_IMPORT',
         code: `import { TEST_FUNCTION_INTELLIGENCE_SYSTEM } from '../intelligence/TEST_FUNCTION_INTELLIGENCE_SYSTEM';`,
-        priority: 'HIGH'
+        priority: 'HIGH',
       },
       {
         target: 'src/components/dashboard/IntelligenceDashboard.tsx',
         method: 'DEPENDENCY_INJECTION',
         code: `const testFunctionWidget = { title: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM', component: () => <IntelligenceWidget system={test_function_intelligence_system} /> };`,
-        priority: 'MEDIUM'
+        priority: 'MEDIUM',
       },
       {
         target: 'src/api/intelligence/route.ts',
         method: 'API_ENDPOINT',
         code: `app.get('/api/intelligence/test_function_intelligence_system', async (req, res) => { /* API implementation */ });`,
-        priority: 'LOW'
-      }
+        priority: 'LOW',
+      },
     ];
-    
+
     console.log(`✅ Generated ${integrationPoints.length} integration points:`);
     integrationPoints.forEach((point, index) => {
       console.log(`  ${index + 1}. ${point.target} (${point.method}, ${point.priority})`);
     });
-    
+
     // Test capabilities generation
     console.log('\n🎯 TESTING CAPABILITIES');
     console.log('=======================');
-    
+
     const capabilities = [
-      { name: 'analyzeFunction', description: 'Analyze function behavior and patterns', complexity: 'INTERMEDIATE' },
-      { name: 'collectMetrics', description: 'Collect and analyze usage metrics', complexity: 'BASIC' },
-      { name: 'generateBasicInsights', description: 'Generate basic insights from collected data', complexity: 'BASIC' }
+      {
+        name: 'analyzeFunction',
+        description: 'Analyze function behavior and patterns',
+        complexity: 'INTERMEDIATE',
+      },
+      {
+        name: 'collectMetrics',
+        description: 'Collect and analyze usage metrics',
+        complexity: 'BASIC',
+      },
+      {
+        name: 'generateBasicInsights',
+        description: 'Generate basic insights from collected data',
+        complexity: 'BASIC',
+      },
     ];
-    
+
     console.log(`✅ Generated ${capabilities.length} capabilities:`);
     capabilities.forEach((cap, index) => {
       console.log(`  ${index + 1}. ${cap.name}: ${cap.description} (${cap.complexity})`);
     });
-    
+
     // Calculate estimated value
     const baseValue = candidate.estimatedBenefit; // 75
     const capabilityValue = capabilities.reduce((sum, cap) => {
@@ -289,29 +308,28 @@ async function runSimpleTest() {
       return sum + (complexityValues[cap.complexity] || 0);
     }, 0);
     const totalValue = Math.min(100, baseValue + capabilityValue);
-    
+
     console.log(`\n💎 VALUE CALCULATION`);
     console.log('===================');
     console.log(`Base value: ${baseValue}`);
     console.log(`Capability value: ${capabilityValue}`);
     console.log(`Total estimated value: ${totalValue}/100`);
-    
+
     console.log('\n🎉 Simple test completed successfully!');
-    
+
     return {
       success: true,
       codeGenerated: true,
       structureValid: passedChecks === allChecks.length,
       integrationPoints: integrationPoints.length,
       capabilities: capabilities.length,
-      estimatedValue: totalValue
+      estimatedValue: totalValue,
     };
-    
   } catch (error) {
     console.error('❌ Simple test failed:', error);
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }

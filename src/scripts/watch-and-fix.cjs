@@ -22,7 +22,7 @@ class WatchAndFix {
       info: (msg, ...args) => console.log(`[WATCH-FIX] ${msg}`, ...args),
       warn: (msg, ...args) => console.warn(`[WATCH-FIX WARN] ${msg}`, ...args),
       error: (msg, ...args) => console.error(`[WATCH-FIX ERROR] ${msg}`, ...args),
-      success: (msg, ...args) => console.log(`[WATCH-FIX SUCCESS] ${msg}`, ...args)
+      success: (msg, ...args) => console.log(`[WATCH-FIX SUCCESS] ${msg}`, ...args),
     };
   }
 
@@ -67,9 +67,10 @@ class WatchAndFix {
       if (result.success) {
         this.log.success(`Auto-fixed: ${path.basename(filePath)}`);
       } else {
-        this.log.warn(`Fix failed for ${path.basename(filePath)}: ${result.reason || result.error}`);
+        this.log.warn(
+          `Fix failed for ${path.basename(filePath)}: ${result.reason || result.error}`,
+        );
       }
-
     } catch (error) {
       this.log.error(`Error processing ${filePath}:`, error.message);
     } finally {
@@ -83,12 +84,12 @@ class WatchAndFix {
     const watcher = chokidar.watch(watchPath, {
       ignored: /(^|[\/\\])\../, // ignore dotfiles
       persistent: true,
-      ignoreInitial: true
+      ignoreInitial: true,
     });
 
     watcher
-      .on('change', (filePath) => this.handleFileChange(filePath))
-      .on('error', (error) => this.log.error('Watcher error:', error))
+      .on('change', filePath => this.handleFileChange(filePath))
+      .on('error', error => this.log.error('Watcher error:', error))
       .on('ready', () => this.log.info('File watcher ready'));
 
     // Graceful shutdown

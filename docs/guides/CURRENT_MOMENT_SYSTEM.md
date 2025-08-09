@@ -2,16 +2,22 @@
 
 ## Overview
 
-The Current Moment Management System provides centralized, automated updating of planetary positions across all storage locations in the WhatToEatNext project. When any alchemize or astrologize API is called, the system automatically updates all position storage files to maintain consistency and accuracy.
+The Current Moment Management System provides centralized, automated updating of
+planetary positions across all storage locations in the WhatToEatNext project.
+When any alchemize or astrologize API is called, the system automatically
+updates all position storage files to maintain consistency and accuracy.
 
 ## Key Features
 
-✅ **Centralized Management**: Single source of truth for current planetary positions  
-✅ **Automatic Updates**: All APIs trigger position updates across the entire system  
-✅ **Multi-Format Support**: Updates positions in different file formats automatically  
+✅ **Centralized Management**: Single source of truth for current planetary
+positions  
+✅ **Automatic Updates**: All APIs trigger position updates across the entire
+system  
+✅ **Multi-Format Support**: Updates positions in different file formats
+automatically  
 ✅ **Notebook Integration**: Keeps `current-moment-chart.ipynb` synchronized  
 ✅ **Fallback Safety**: Graceful degradation when APIs fail  
-✅ **Comprehensive Logging**: Full audit trail of all updates  
+✅ **Comprehensive Logging**: Full audit trail of all updates
 
 ## Architecture
 
@@ -41,11 +47,13 @@ The Current Moment Management System provides centralized, automated updating of
 Calculate alchemical properties with automatic position updates.
 
 **GET Request (Current Time)**
+
 ```
 GET /api/alchemize?latitude=40.7498&longitude=-73.7976&zodiacSystem=tropical
 ```
 
 **POST Request (Custom Time)**
+
 ```json
 {
   "year": 2025,
@@ -60,6 +68,7 @@ GET /api/alchemize?latitude=40.7498&longitude=-73.7976&zodiacSystem=tropical
 ```
 
 **Response**
+
 ```json
 {
   "success": true,
@@ -94,19 +103,22 @@ GET /api/alchemize?latitude=40.7498&longitude=-73.7976&zodiacSystem=tropical
 
 Now automatically updates current moment data when called.
 
-Same API as before, but now triggers position updates across all storage locations.
+Same API as before, but now triggers position updates across all storage
+locations.
 
 ### `/api/current-moment` - NEW!
 
 Management and status endpoint for the Current Moment system.
 
 **GET Request (Status Check)**
+
 ```
 GET /api/current-moment
 GET /api/current-moment?refresh=true  # Force refresh
 ```
 
 **POST Request (Manual Update)**
+
 ```json
 {
   "action": "update",
@@ -117,6 +129,7 @@ GET /api/current-moment?refresh=true  # Force refresh
 ```
 
 **Response**
+
 ```json
 {
   "success": true,
@@ -151,11 +164,13 @@ GET /api/current-moment?refresh=true  # Force refresh
 ## Usage Examples
 
 ### 1. Get Current Alchemical Properties
+
 ```bash
 curl "http://localhost:3000/api/alchemize"
 ```
 
 ### 2. Calculate for Specific Date/Time
+
 ```bash
 curl -X POST "http://localhost:3000/api/alchemize" \
   -H "Content-Type: application/json" \
@@ -171,11 +186,13 @@ curl -X POST "http://localhost:3000/api/alchemize" \
 ```
 
 ### 3. Check Current Moment Status
+
 ```bash
 curl "http://localhost:3000/api/current-moment"
 ```
 
 ### 4. Force Update All Files
+
 ```bash
 curl -X POST "http://localhost:3000/api/current-moment" \
   -H "Content-Type: application/json" \
@@ -183,6 +200,7 @@ curl -X POST "http://localhost:3000/api/current-moment" \
 ```
 
 ### 5. Update for Custom Date/Location
+
 ```bash
 curl -X POST "http://localhost:3000/api/current-moment" \
   -H "Content-Type: application/json" \
@@ -197,18 +215,22 @@ curl -X POST "http://localhost:3000/api/current-moment" \
 ## File Update Details
 
 ### Jupyter Notebook (`current-moment-chart.ipynb`)
+
 - Updates `live_positions` dictionary with current data
 - Refreshes timestamp and metadata comments
 - Maintains Python format for data analysis
 
 ### TypeScript Files
+
 - **systemDefaults.ts**: Updates `DEFAULT_PLANETARY_POSITIONS` constant
 - **streamlinedPlanetaryPositions.ts**: Updates `basePositions` object
 - **accurateAstronomy.ts**: Updates `REFERENCE_POSITIONS` and `REFERENCE_DATE`
 - **astronomiaCalculator.ts**: Updates `CURRENT_POSITIONS` constant
 
 ### Data Formats
+
 Each file receives the same planetary data but formatted appropriately:
+
 - **Notebook**: Python dictionary with elements and retrograde flags
 - **TypeScript**: Typed objects with proper ZodiacSign casting
 - **Calculator**: Lowercase keys with exact longitude calculations
@@ -216,21 +238,25 @@ Each file receives the same planetary data but formatted appropriately:
 ## Benefits
 
 ### 🔄 **Consistency**
+
 - All position storage locations stay synchronized
 - No more manual updating of multiple files
 - Single source of truth for current positions
 
 ### ⚡ **Real-Time**
+
 - Positions update automatically when APIs are called
 - Fresh data for all calculations
 - Reduced stale data issues
 
 ### 🛡️ **Reliability**
+
 - Fallback positions when APIs fail
 - Graceful error handling
 - Comprehensive logging
 
 ### 🔧 **Maintainability**
+
 - Centralized position management logic
 - Easy to add new storage locations
 - Clear separation of concerns
@@ -247,6 +273,7 @@ The system includes comprehensive error handling:
 ## Logging
 
 All operations are logged with appropriate levels:
+
 - **INFO**: Successful updates and API calls
 - **WARN**: Non-critical failures (file update issues)
 - **ERROR**: Critical failures (API errors, data corruption)
@@ -254,11 +281,13 @@ All operations are logged with appropriate levels:
 ## Monitoring
 
 Check system health via:
+
 ```bash
 curl "http://localhost:3000/api/current-moment" | jq '.status'
 ```
 
 Returns:
+
 ```json
 {
   "isDataFresh": true,
@@ -271,6 +300,7 @@ Returns:
 ## Development Notes
 
 ### Adding New Storage Locations
+
 To add a new file to the update process:
 
 1. Add update method to `CurrentMomentManager` class
@@ -279,7 +309,9 @@ To add a new file to the update process:
 4. Test with dry-run functionality
 
 ### Customizing Position Formats
+
 Each file type has its own formatting function in `CurrentMomentManager`:
+
 - `formatPositionsForNotebook()` - Python dictionary format
 - `formatPositionsForSystemDefaults()` - TypeScript with types
 - `formatPositionsForStreamlined()` - Simple object format
@@ -307,6 +339,7 @@ curl "http://localhost:3000/api/alchemize"
 ✅ **Before**: 10+ files with different position data from different dates  
 ✅ **After**: All files automatically synchronized with latest positions  
 ✅ **Integration**: APIs automatically trigger updates  
-✅ **Maintenance**: Single service manages all position data  
+✅ **Maintenance**: Single service manages all position data
 
-The system is now optimized for accurate, real-time planetary position management! 
+The system is now optimized for accurate, real-time planetary position
+management!

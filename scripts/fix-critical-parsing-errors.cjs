@@ -37,18 +37,20 @@ class CriticalParsingErrorFixer {
       // Get TypeScript compilation errors
       const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
-      const errorLines = tscOutput.split('\n').filter(line =>
-        line.includes('error TS') && (
-          line.includes('JSX element') ||
-          line.includes('Unexpected token') ||
-          line.includes('Expected') ||
-          line.includes('Identifier expected') ||
-          line.includes('Expression expected')
-        )
-      );
+      const errorLines = tscOutput
+        .split('\n')
+        .filter(
+          line =>
+            line.includes('error TS') &&
+            (line.includes('JSX element') ||
+              line.includes('Unexpected token') ||
+              line.includes('Expected') ||
+              line.includes('Identifier expected') ||
+              line.includes('Expression expected')),
+        );
 
       const filesWithErrors = new Set();
       errorLines.forEach(line => {
@@ -79,8 +81,8 @@ class CriticalParsingErrorFixer {
       { from: /&gt;/g, to: '>', description: 'HTML entity &gt; to >' },
       { from: /&amp;/g, to: '&', description: 'HTML entity &amp; to &' },
       { from: /&quot;/g, to: '"', description: 'HTML entity &quot; to "' },
-      { from: /&#x27;/g, to: "'", description: 'HTML entity &#x27; to \'' },
-      { from: /&nbsp;/g, to: ' ', description: 'HTML entity &nbsp; to space' }
+      { from: /&#x27;/g, to: "'", description: "HTML entity &#x27; to '" },
+      { from: /&nbsp;/g, to: ' ', description: 'HTML entity &nbsp; to space' },
     ];
 
     entityFixes.forEach(fix => {
@@ -106,14 +108,14 @@ class CriticalParsingErrorFixer {
       {
         from: /<(input|img|br|hr|meta|link|area|base|col|embed|source|track|wbr)([^>]*[^/])>/g,
         to: '<$1$2 />',
-        description: 'Self-closing tags'
+        description: 'Self-closing tags',
       },
       // Fix missing closing tags for common elements (basic pattern)
       {
         from: /<(div|span|p|h1|h2|h3|h4|h5|h6|nav|main|section|article|aside|header|footer)([^>]*)>([^<]*)<\/(?!\1)/g,
         to: '<$1$2>$3</$1>',
-        description: 'Missing closing tags'
-      }
+        description: 'Missing closing tags',
+      },
     ];
 
     tagFixes.forEach(fix => {
@@ -140,14 +142,14 @@ class CriticalParsingErrorFixer {
       {
         from: /(\s+)(Promise\.resolve|Promise\.reject|fetch|axios\.|api\.)\(/g,
         to: '$1await $2(',
-        description: 'Missing await keywords'
+        description: 'Missing await keywords',
       },
       // Fix async function declarations
       {
         from: /function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)\s*:\s*Promise</g,
         to: 'async function $1($2): Promise',
-        description: 'Missing async keyword'
-      }
+        description: 'Missing async keyword',
+      },
     ];
 
     // Only apply to files that likely contain async code
@@ -177,14 +179,14 @@ class CriticalParsingErrorFixer {
         {
           from: /(expect\([^)]+\)\.to[A-Z][a-zA-Z]*)\s*$/gm,
           to: '$1()',
-          description: 'Missing parentheses in expect calls'
+          description: 'Missing parentheses in expect calls',
         },
         // Fix incorrect jest matcher syntax
         {
           from: /\.toBe\s*\(/g,
           to: '.toBe(',
-          description: 'Jest matcher syntax'
-        }
+          description: 'Jest matcher syntax',
+        },
       ];
 
       methodFixes.forEach(fix => {
@@ -212,7 +214,7 @@ class CriticalParsingErrorFixer {
         this.fixJSXEntityErrors(currentContent, filePath),
         this.fixUnclosedJSXTags(currentContent, filePath),
         this.fixAsyncAwaitSyntax(currentContent, filePath),
-        this.fixMethodCallSyntax(currentContent, filePath)
+        this.fixMethodCallSyntax(currentContent, filePath),
       ];
 
       // Chain the fixes
@@ -230,10 +232,12 @@ class CriticalParsingErrorFixer {
 
         this.fixedFiles.push({
           path: filePath,
-          changes: fixes.filter(f => f.fixed).length
+          changes: fixes.filter(f => f.fixed).length,
         });
 
-        this.log(`${this.dryRun ? '[DRY RUN] ' : ''}Fixed parsing errors in ${path.basename(filePath)}`);
+        this.log(
+          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed parsing errors in ${path.basename(filePath)}`,
+        );
         return true;
       }
 
@@ -251,13 +255,16 @@ class CriticalParsingErrorFixer {
     try {
       const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       const errorCount = (tscOutput.match(/error TS/g) || []).length;
-      const parsingErrorCount = (tscOutput.match(/error TS(17008|1382|17002|1005|1003)/g) || []).length;
+      const parsingErrorCount = (tscOutput.match(/error TS(17008|1382|17002|1005|1003)/g) || [])
+        .length;
 
-      this.log(`TypeScript validation: ${errorCount} total errors, ${parsingErrorCount} parsing errors`);
+      this.log(
+        `TypeScript validation: ${errorCount} total errors, ${parsingErrorCount} parsing errors`,
+      );
 
       return { totalErrors: errorCount, parsingErrors: parsingErrorCount };
     } catch (error) {
@@ -386,7 +393,9 @@ module.exports = { validateSyntax };
       });
     }
 
-    this.log(`\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ CRITICAL PARSING ERROR FIX COMPLETE'}`);
+    this.log(
+      `\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ CRITICAL PARSING ERROR FIX COMPLETE'}`,
+    );
 
     if (!this.dryRun && validation.parsingErrors === 0) {
       this.log('🎉 All critical parsing errors have been resolved!');

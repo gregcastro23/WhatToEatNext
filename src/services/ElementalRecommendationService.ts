@@ -1,10 +1,5 @@
 import { ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
-import type { 
-  ElementalProperties, 
-  Recipe,
-  ZodiacSign,
-  LunarPhase
-} from '@/types/alchemy';
+import type { ElementalProperties, Recipe, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { elementalUtils } from '@/utils/elementalUtils';
 
 /**
@@ -29,19 +24,30 @@ export class ElementalRecommendationService {
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement returns element key, convert to string and wrap in array
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
-      flavorProfiles: (utilsService.getFlavorProfileRecommendations && typeof utilsService.getFlavorProfileRecommendations === 'function') ? utilsService.getFlavorProfileRecommendations(properties) : [],
-      healthBenefits: (utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function') ? utilsService.getHealthBenefits(properties) : [],
+      flavorProfiles:
+        utilsService.getFlavorProfileRecommendations &&
+        typeof utilsService.getFlavorProfileRecommendations === 'function'
+          ? utilsService.getFlavorProfileRecommendations(properties)
+          : [],
+      healthBenefits:
+        utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function'
+          ? utilsService.getHealthBenefits(properties)
+          : [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
         const characteristics = profile.characteristics as unknown as Record<string, unknown>;
-        return Array.isArray(characteristics.moodEffects) ? characteristics.moodEffects as string[] : [];
+        return Array.isArray(characteristics.moodEffects)
+          ? (characteristics.moodEffects as string[])
+          : [];
       })(),
       culinaryHerbs: (() => {
         const characteristics = profile.characteristics as unknown as Record<string, unknown>;
-        return Array.isArray(characteristics.culinaryHerbs) ? characteristics.culinaryHerbs as string[] : [];
-      })()
+        return Array.isArray(characteristics.culinaryHerbs)
+          ? (characteristics.culinaryHerbs as string[])
+          : [];
+      })(),
     };
   }
 
@@ -56,7 +62,7 @@ export class ElementalRecommendationService {
       Fire: element === 'Fire' ? 0.6 : 0.1,
       Water: element === 'Water' ? 0.6 : 0.1,
       Earth: element === 'Earth' ? 0.6 : 0.1,
-      Air: element === 'Air' ? 0.6 : 0.1
+      Air: element === 'Air' ? 0.6 : 0.1,
     };
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties));
@@ -77,14 +83,14 @@ export class ElementalRecommendationService {
       'full moon': { Water: 0.5, Fire: 0.3 },
       'waning gibbous': { Water: 0.4, Earth: 0.3 },
       'last quarter': { Earth: 0.4, Water: 0.3 },
-      'waning crescent': { Earth: 0.5, Air: 0.2 }
+      'waning crescent': { Earth: 0.5, Air: 0.2 },
     };
 
     const properties = {
       Fire: lunarElementalMap[lunarPhase].Fire || 0.25,
       Water: lunarElementalMap[lunarPhase].Water || 0.25,
       Earth: lunarElementalMap[lunarPhase].Earth || 0.25,
-      Air: lunarElementalMap[lunarPhase].Air || 0.25
+      Air: lunarElementalMap[lunarPhase].Air || 0.25,
     };
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties));
@@ -106,11 +112,10 @@ export class ElementalRecommendationService {
    * @returns The dominant element
    */
   private static getDominantElement(properties: ElementalProperties): string {
-    return Object.entries(properties)
-      .reduce((max, [element, value]) => 
-        value > max.value ? { element, value } : max, 
-        { element: '', value: 0 }
-      ).element;
+    return Object.entries(properties).reduce(
+      (max, [element, value]) => (value > max.value ? { element, value } : max),
+      { element: '', value: 0 },
+    ).element;
   }
 
   /**
@@ -120,10 +125,10 @@ export class ElementalRecommendationService {
    */
   private static getSeasonalRecommendations(element: string): string[] {
     const seasonalMap: Record<string, string[]> = {
-      'Fire': ['Summer', 'Late Spring'],
-      'Water': ['Winter', 'Late Autumn'],
-      'Earth': ['Autumn', 'Late Summer'],
-      'Air': ['Spring', 'Early Summer']
+      Fire: ['Summer', 'Late Spring'],
+      Water: ['Winter', 'Late Autumn'],
+      Earth: ['Autumn', 'Late Summer'],
+      Air: ['Spring', 'Early Summer'],
     };
 
     return seasonalMap[element] || ['Any season'];
@@ -146,4 +151,4 @@ export interface ElementalRecommendation {
   culinaryHerbs: string[];
 }
 
-export default ElementalRecommendationService; 
+export default ElementalRecommendationService;

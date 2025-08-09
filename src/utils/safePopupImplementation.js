@@ -6,12 +6,12 @@ import { log } from '@/services/LoggingService';
  */
 
 // Define safe popup in a closure to protect it
-(function() {
+(function () {
   // Only run in browser environment
   if (typeof window === 'undefined') return;
-  
+
   log.info('[SafePopupImpl] Installing standalone popup implementation');
-  
+
   // Create a standalone popup implementation
   const createStandalonePopup = () => {
     // Private data store - can't be accessed directly from outside
@@ -20,53 +20,48 @@ import { log } from '@/services/LoggingService';
       content: '',
       position: 'center',
       type: 'default',
-      element: null
+      element: null,
     };
-    
+
     /**
      * Creates a popup with configurable options
      * @returns {Object} - Methods to control the popup
      */
-    const create = function(content, options = {}) {
+    const create = function (content, options = {}) {
       // Default options
-      const {
-        duration = 3000,
-        type = 'default',
-        position = 'center',
-        callback = null
-      } = options;
-      
+      const { duration = 3000, type = 'default', position = 'center', callback = null } = options;
+
       log.info('[SafePopupImpl] Creating popup:', content);
-      
+
       // Store current state
       state.content = content || '';
       state.position = position;
       state.type = type;
-      
+
       // Return control methods
       return {
-        show: function() {
+        show: function () {
           log.info('[SafePopupImpl] Showing popup');
           state.isShown = true;
-          
+
           // Create popup element if it doesn't exist
           if (!state.element) {
             state.element = document.createElement('div');
             state.element.className = `safe-popup safe-popup-${state.type} safe-popup-${state.position}`;
-            
+
             // Create content container using DOM methods instead of innerHTML
             const contentContainer = document.createElement('div');
             contentContainer.className = 'safe-popup-content';
-            
+
             // Set content safely
             if (typeof state.content === 'string') {
               contentContainer.textContent = state.content;
             } else if (state.content instanceof HTMLElement) {
               contentContainer.appendChild(state.content);
             }
-            
+
             state.element.appendChild(contentContainer);
-            
+
             // Add basic styles
             const style = document.createElement('style');
             style.textContent = `
@@ -106,45 +101,45 @@ import { log } from '@/services/LoggingService';
               .safe-popup-info { background: #2196f3; color: white; }
             `;
             document.head.appendChild(style);
-            
+
             // Add click handler to dismiss
             state.element.addEventListener('click', () => {
               this.hide();
             });
-            
+
             // Add to document
             document.body.appendChild(state.element);
           }
-          
+
           // Show the popup
           setTimeout(() => {
             if (state.element) {
               state.element.classList.add('show');
             }
           }, 10);
-          
+
           // Auto-hide after duration
           if (duration > 0) {
             setTimeout(() => {
               this.hide();
-              
+
               // Execute callback if provided
               if (typeof callback === 'function') {
                 callback();
               }
             }, duration);
           }
-          
+
           return this;
         },
-        
-        hide: function() {
+
+        hide: function () {
           log.info('[SafePopupImpl] Hiding popup');
           state.isShown = false;
-          
+
           if (state.element) {
             state.element.classList.remove('show');
-            
+
             // Remove after transition
             setTimeout(() => {
               if (state.element && state.element.parentNode) {
@@ -153,14 +148,14 @@ import { log } from '@/services/LoggingService';
               }
             }, 300);
           }
-          
+
           return this;
         },
-        
-        update: function(content) {
+
+        update: function (content) {
           log.info('[SafePopupImpl] Updating popup');
           state.content = content || state.content;
-          
+
           if (state.element) {
             const contentElement = state.element.querySelector('.safe-popup-content');
             if (contentElement) {
@@ -168,7 +163,7 @@ import { log } from '@/services/LoggingService';
               while (contentElement.firstChild) {
                 contentElement.removeChild(contentElement.firstChild);
               }
-              
+
               // Set new content safely
               if (typeof content === 'string') {
                 contentElement.textContent = content || '';
@@ -177,30 +172,30 @@ import { log } from '@/services/LoggingService';
               }
             }
           }
-          
+
           return this;
         },
-        
-        on: function(event, _handler) {
+
+        on: function (event, _handler) {
           log.info('[SafePopupImpl] Adding event listener:', event);
           // Return an object with off method
           return {
-            off: function() {
+            off: function () {
               log.info('[SafePopupImpl] Removing event listener:', event);
               // Implementation here if needed
-            }
+            },
           };
-        }
+        },
       };
     };
-    
+
     // Return a full popup object with top-level methods
     return {
       create: create,
-      show: function(content, options) {
+      show: function (content, options) {
         return create(content, options).show();
       },
-      hide: function() {
+      hide: function () {
         if (state.element) {
           state.element.classList.remove('show');
           setTimeout(() => {
@@ -212,7 +207,7 @@ import { log } from '@/services/LoggingService';
         }
         return this;
       },
-      update: function(content) {
+      update: function (content) {
         if (state.element) {
           const contentElement = state.element.querySelector('.safe-popup-content');
           if (contentElement) {
@@ -220,7 +215,7 @@ import { log } from '@/services/LoggingService';
             while (contentElement.firstChild) {
               contentElement.removeChild(contentElement.firstChild);
             }
-            
+
             // Set new content safely
             if (typeof content === 'string') {
               contentElement.textContent = content || '';
@@ -231,13 +226,13 @@ import { log } from '@/services/LoggingService';
         }
         return this;
       },
-      isInitialized: true
+      isInitialized: true,
     };
   };
-  
+
   // Create the standalone popup
   const standalonePopup = createStandalonePopup();
-  
+
   // Safely install it if window.popup doesn't exist or doesn't have create
   if (!window.popup || !window.popup.create) {
     log.info('[SafePopupImpl] Installing standalone popup');
@@ -246,9 +241,9 @@ import { log } from '@/services/LoggingService';
     log.info('[SafePopupImpl] popup.create already exists, preserving original with fallback');
     // Backup the original create method
     const originalCreate = window.popup.create;
-    
+
     // Replace with a version that falls back to our implementation if original fails
-    window.popup.create = function() {
+    window.popup.create = function () {
       try {
         return originalCreate.apply(window.popup, arguments);
       } catch (error) {
@@ -257,12 +252,12 @@ import { log } from '@/services/LoggingService';
       }
     };
   }
-  
+
   // Expose a safe reference that can be imported directly
   window.__safePopup = standalonePopup;
-  
+
   log.info('[SafePopupImpl] Standalone popup installed successfully');
 })();
 
 // Export empty object for ESM compatibility
-export default {}; 
+export default {};

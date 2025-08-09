@@ -18,19 +18,19 @@ export async function GET() {
       services: {
         database: 'not_applicable', // We don't use a database
         cache: 'memory', // Using in-memory cache
-        external_apis: 'available' // Assume available unless we check
-      }
+        external_apis: 'available', // Assume available unless we check
+      },
     };
 
     return NextResponse.json(healthStatus, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { 
-        status: 'unhealthy', 
+      {
+        status: 'unhealthy',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
-      }, 
-      { status: 500 }
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 },
     );
   }
 }

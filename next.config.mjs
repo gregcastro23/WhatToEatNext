@@ -23,10 +23,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   output: 'standalone', // This will optimize for production deployment
-  transpilePackages: [
-    'react-syntax-highlighter',
-    'react-markdown'
-  ],
+  transpilePackages: ['react-syntax-highlighter', 'react-markdown'],
   images: {
     remotePatterns: [
       {
@@ -65,7 +62,7 @@ const nextConfig = {
       '@types': path.resolve(__dirname, './src/types'),
       '@providers': path.resolve(__dirname, './src/providers'),
       '@services': path.resolve(__dirname, './src/services'),
-      '@hooks': path.resolve(__dirname, './src/hooks')
+      '@hooks': path.resolve(__dirname, './src/hooks'),
     };
 
     if (!isServer) {
@@ -84,4 +81,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig; 
+export default nextConfig;

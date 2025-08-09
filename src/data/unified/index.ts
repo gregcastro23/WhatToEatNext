@@ -22,36 +22,21 @@ export * from './seasonal';
 export * from './cuisineIntegrations';
 
 // Pattern OO-4: Integration Import Resolution - Fix type imports to use correct sources
-export type { 
-  UnifiedIngredient
-} from './ingredients';
+export type { UnifiedIngredient } from './ingredients';
 
 // Import types from their actual sources
-export type {
-  AlchemicalProperties,
-  ThermodynamicMetrics
-} from '@/types/alchemy';
+export type { AlchemicalProperties, ThermodynamicMetrics } from '@/types/alchemy';
 
-export type {
-  EnhancedRecipe
-} from './recipes';
+export type { EnhancedRecipe } from './recipes';
 
-export type {
-  EnhancedCuisine
-} from './cuisines';
+export type { EnhancedCuisine } from './cuisines';
 
-export {
-  RecipeEnhancer,
-  RecipeAnalyzer
-} from './recipes';
+export { RecipeEnhancer, RecipeAnalyzer } from './recipes';
 
-export {
-  CuisineEnhancer,
-  CuisineAnalyzer
-} from './cuisines';
+export { CuisineEnhancer, CuisineAnalyzer } from './cuisines';
 
 // Export singleton instances
-import { Element , AlchemicalProperties } from "@/types/alchemy";
+import { Element, AlchemicalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/recipe';
 
 // Placeholder classes until imports are fixed
@@ -68,5 +53,5 @@ export {
   getIngredientsBySubcategory,
   getIngredientsByKalchmRange,
   getIngredientsByElement,
-  unifiedIngredients
+  unifiedIngredients,
 } from './ingredients';

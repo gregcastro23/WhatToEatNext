@@ -67,8 +67,12 @@ export class UnifiedRecipeService {
     try {
       const allRecipes = await this.getAllRecipes();
       const filtered = (allRecipes || []).filter(recipe => {
-        const recipeCuisine = recipe.cuisine && typeof recipe.cuisine === 'string' ? recipe.cuisine.toLowerCase() : recipe.cuisine;
-        const targetCuisine = cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
+        const recipeCuisine =
+          recipe.cuisine && typeof recipe.cuisine === 'string'
+            ? recipe.cuisine.toLowerCase()
+            : recipe.cuisine;
+        const targetCuisine =
+          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
         return recipeCuisine === targetCuisine;
       });
       return filtered as unknown as ExtendedRecipe[];
@@ -99,11 +103,10 @@ export class UnifiedRecipeService {
       return [];
     }
   }
-
 }
 
 // Export singleton instance
 export const unifiedRecipeService = UnifiedRecipeService.getInstance();
 
 // Export default
-export default unifiedRecipeService; 
+export default unifiedRecipeService;

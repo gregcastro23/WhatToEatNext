@@ -1,6 +1,8 @@
 # Astrologize API Integration
 
-This project now integrates with the astrologize API to get real-time planetary positions for enhanced alchemical calculations. This replaces static/hardcoded planetary data with live astronomical data.
+This project now integrates with the astrologize API to get real-time planetary
+positions for enhanced alchemical calculations. This replaces static/hardcoded
+planetary data with live astronomical data.
 
 ## 🌟 Features
 
@@ -14,6 +16,7 @@ This project now integrates with the astrologize API to get real-time planetary 
 ## 🔧 API Endpoint
 
 The integration uses the astrologize API at:
+
 ```
 https://alchm-backend.onrender.com/astrologize
 ```
@@ -21,12 +24,14 @@ https://alchm-backend.onrender.com/astrologize
 ## 📁 Files Added/Modified
 
 ### New Files:
+
 - `src/services/astrologizeApi.ts` - Main API integration service
 - `src/hooks/useRealtimePlanetaryPositions.ts` - React hooks for components
 - `src/components/RealtimeAlchemicalCalculator.tsx` - Demo component
 - `test-astrologize-integration.js` - Test script
 
 ### Modified Files:
+
 - `src/app/api/planetary-positions/route.ts` - Updated to use astrologize API
 - `src/utils/astrologyUtils.ts` - Enhanced with real-time data option
 
@@ -53,13 +58,13 @@ const customPositions = await getPlanetaryPositionsForDateTime(
 import { useRealtimePlanetaryPositions } from '@/hooks/useRealtimePlanetaryPositions';
 
 function MyComponent() {
-  const { 
-    positions, 
-    loading, 
-    error, 
-    isRealtime, 
+  const {
+    positions,
+    loading,
+    error,
+    isRealtime,
     isConnected,
-    refresh 
+    refresh
   } = useRealtimePlanetaryPositions({
     refreshInterval: 5 * 60 * 1000, // 5 minutes
     location: { latitude: 40.7498, longitude: -73.7976 }
@@ -112,7 +117,7 @@ import { useRealtimePlanetaryPositions } from '@/hooks/useRealtimePlanetaryPosit
 
 function AlchemicalCalculator() {
   const { positions } = useRealtimePlanetaryPositions();
-  
+
   if (!positions) return null;
 
   // Convert to elemental properties
@@ -140,6 +145,7 @@ node test-astrologize-integration.js
 ```
 
 This will:
+
 1. Test the astrologize API directly
 2. Test your local API endpoints (if server is running)
 3. Verify data format compatibility
@@ -159,7 +165,7 @@ The API returns planetary positions in this format:
     "isRetrograde": false
   },
   "Moon": {
-    "sign": "libra", 
+    "sign": "libra",
     "degree": 5,
     "minute": 40,
     "exactLongitude": 185.67,
@@ -172,7 +178,9 @@ The API returns planetary positions in this format:
 ## ⚙️ Configuration
 
 ### Default Location
+
 The default location is set to New York City:
+
 ```typescript
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
@@ -181,12 +189,15 @@ const DEFAULT_LOCATION = {
 ```
 
 ### Cache Settings
+
 - **Cache duration**: 5 minutes for real-time data
 - **Refresh interval**: 5 minutes (configurable)
 - **Fallback**: Automatic fallback to local calculations
 
 ### Error Handling
+
 The system gracefully handles:
+
 - API unavailability (falls back to local calculations)
 - Network errors (cached data used)
 - Invalid responses (default positions used)
@@ -195,9 +206,13 @@ The system gracefully handles:
 
 The integration is designed to be non-breaking:
 
-1. **Existing code continues to work** - your existing `calculatePlanetaryPositions()` calls now automatically try the real-time API first
-2. **Fallback protection** - if the API fails, it falls back to your existing calculations
-3. **Same data format** - the API data is converted to match your existing `PlanetPosition` interface
+1. **Existing code continues to work** - your existing
+   `calculatePlanetaryPositions()` calls now automatically try the real-time API
+   first
+2. **Fallback protection** - if the API fails, it falls back to your existing
+   calculations
+3. **Same data format** - the API data is converted to match your existing
+   `PlanetPosition` interface
 
 ## 🌍 Location-Based Calculations
 
@@ -211,6 +226,7 @@ const positions = await getCurrentPlanetaryPositions({
 ```
 
 This affects:
+
 - House calculations
 - Rising sign (Ascendant)
 - Local planetary aspects
@@ -224,22 +240,27 @@ The real-time planetary data feeds directly into your alchemical calculations:
 3. **Alchemical values** → **Heat, Entropy, Reactivity calculations**
 4. **Thermodynamic metrics** → **Kalchm and Monica constants**
 
-This creates a dynamic system where your alchemical calculations update automatically based on real astronomical conditions.
+This creates a dynamic system where your alchemical calculations update
+automatically based on real astronomical conditions.
 
 ## 🚀 Next Steps
 
 1. **Start your development server**: `yarn dev`
 2. **Test the integration**: Visit `/api/planetary-positions`
 3. **Add the component**: Use `RealtimeAlchemicalCalculator` in your app
-4. **Customize the mapping**: Adjust how planetary positions convert to alchemical values
+4. **Customize the mapping**: Adjust how planetary positions convert to
+   alchemical values
 5. **Enhance the calculations**: Add more sophisticated astrological factors
 
 ## 🔍 Monitoring
 
 Monitor the integration through:
+
 - Console logs showing data source (`astrologize-api-realtime` vs fallbacks)
 - Connection status indicators in the UI
 - Last updated timestamps
 - Error notifications for failed API calls
 
-The system is designed to be reliable and always provide meaningful astrological data for your alchemical calculations, whether from real-time sources or carefully calibrated fallbacks. 
+The system is designed to be reliable and always provide meaningful astrological
+data for your alchemical calculations, whether from real-time sources or
+carefully calibrated fallbacks.

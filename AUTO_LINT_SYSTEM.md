@@ -2,32 +2,42 @@
 
 ## Overview
 
-The Automatic Linting Fix System provides safe, conservative linting fixes with comprehensive validation and automatic rollback capabilities. It's designed to respect domain-specific patterns and maintain code integrity.
+The Automatic Linting Fix System provides safe, conservative linting fixes with
+comprehensive validation and automatic rollback capabilities. It's designed to
+respect domain-specific patterns and maintain code integrity.
 
 ## Features
 
 ### ✅ Safety First
+
 - **Timestamped Backups**: Every file is backed up before any changes
 - **Automatic Rollback**: If any validation fails, the original file is restored
 - **Rate Limiting**: Maximum 20 executions per hour with 5-second cooldown
-- **Comprehensive Validation**: TypeScript compilation, syntax integrity, and critical pattern preservation
+- **Comprehensive Validation**: TypeScript compilation, syntax integrity, and
+  critical pattern preservation
 
 ### 🔧 Fix Types Applied
+
 - **ESLint Auto-Fix**: Uses project's `eslint.config.cjs` configuration
 - **Trailing Whitespace Removal**: Cleans up line endings
 - **Double Semicolon Fixes**: Removes accidental double semicolons
-- **Multiple Empty Line Normalization**: Limits to maximum 2 consecutive empty lines
+- **Multiple Empty Line Normalization**: Limits to maximum 2 consecutive empty
+  lines
 - **Conservative Semicolon Addition**: Only adds semicolons for obvious cases
 
 ### 🛡️ Domain-Specific Protection
-- **Astrological Calculations**: Preserves planetary position constants and transit dates
+
+- **Astrological Calculations**: Preserves planetary position constants and
+  transit dates
 - **Fallback Values**: Maintains error handling and fallback mechanisms
-- **Campaign System Intelligence**: Protects campaign system patterns and metrics
+- **Campaign System Intelligence**: Protects campaign system patterns and
+  metrics
 - **Elemental Properties**: Respects four-element system calculations
 
 ## Usage
 
 ### Single File Fix
+
 ```bash
 # Fix a specific file that was just saved
 node fix-file-on-save.cjs path/to/your/file.ts
@@ -37,6 +47,7 @@ yarn auto-fix path/to/your/file.ts
 ```
 
 ### File Watcher (Development)
+
 ```bash
 # Watch src directory for changes and auto-fix
 yarn auto-fix:watch
@@ -46,6 +57,7 @@ yarn auto-fix:watch-all
 ```
 
 ### Direct Script Usage
+
 ```bash
 # Use the core auto-fixer directly
 node src/scripts/auto-lint-fixer.cjs path/to/file.ts
@@ -54,6 +66,7 @@ node src/scripts/auto-lint-fixer.cjs path/to/file.ts
 ## System Behavior
 
 ### Success Flow
+
 1. **Rate Limit Check**: Ensures execution limits are respected
 2. **Backup Creation**: Creates timestamped backup in `.lint-backups/`
 3. **ESLint Auto-Fix**: Applies project ESLint configuration fixes
@@ -65,6 +78,7 @@ node src/scripts/auto-lint-fixer.cjs path/to/file.ts
 6. **Success**: File is improved and all validations pass
 
 ### Failure Flow with Rollback
+
 1. **Validation Failure**: Any validation step fails
 2. **Automatic Rollback**: Original file is restored from backup
 3. **Safe State**: No broken code is left in the codebase
@@ -82,18 +96,23 @@ The system implements intelligent rate limiting to prevent abuse:
 ## Validation Checks
 
 ### TypeScript Compilation
+
 ```bash
 yarn tsc --noEmit --skipLibCheck
 ```
+
 Ensures the file compiles without TypeScript errors.
 
 ### Syntax Integrity
+
 - Detects corruption patterns (`undefined undefined`, `null null`)
 - Validates JavaScript/TypeScript parsing
 - Checks for malformed syntax
 
 ### Critical Pattern Preservation
+
 Ensures these patterns are not accidentally removed:
+
 - `RELIABLE_POSITIONS` (astrological constants)
 - `TransitDates` (planetary transit data)
 - `ElementalProperties` (four-element system)
@@ -116,7 +135,9 @@ Ensures these patterns are not accidentally removed:
 ## Integration Examples
 
 ### VS Code Integration
+
 Add to your VS Code settings to run on save:
+
 ```json
 {
   "runOnSave.commands": [
@@ -130,7 +151,9 @@ Add to your VS Code settings to run on save:
 ```
 
 ### Git Hook Integration
+
 Add to `.husky/pre-commit`:
+
 ```bash
 #!/bin/sh
 # Auto-fix staged files before commit
@@ -143,6 +166,7 @@ done
 ```
 
 ### CI/CD Integration
+
 ```yaml
 # GitHub Actions example
 - name: Auto-fix linting issues
@@ -157,20 +181,24 @@ done
 ### Common Issues
 
 **"Rate limit exceeded"**
+
 - Wait for the cooldown period (5 seconds minimum)
 - Check `.lint-rate-limit.json` for execution history
 
 **"TypeScript validation failed"**
+
 - The project has existing TypeScript errors
 - Fix compilation errors first, then re-run auto-fix
 - Use `yarn tsc --noEmit --skipLibCheck` to see current errors
 
 **"Syntax integrity validation failed"**
+
 - The file has syntax errors that auto-fix couldn't resolve
 - Check the backup file in `.lint-backups/` for the original content
 - Manual review and fixing may be required
 
 **"Critical patterns validation failed"**
+
 - Auto-fix accidentally modified important domain-specific code
 - File was automatically rolled back to preserve functionality
 - Review the specific patterns that were affected in the logs
@@ -178,6 +206,7 @@ done
 ### Logs and Debugging
 
 All operations are logged with prefixes:
+
 - `[AUTO-LINT]` - General information
 - `[AUTO-LINT WARN]` - Warnings and rollback notifications
 - `[AUTO-LINT ERROR]` - Errors and validation failures
@@ -186,6 +215,7 @@ All operations are logged with prefixes:
 ### Backup Management
 
 Backups are stored in `.lint-backups/` with timestamps:
+
 ```
 .lint-backups/
 ├── MyComponent.tsx.2025-07-31T10-25-03-832Z.backup
@@ -194,6 +224,7 @@ Backups are stored in `.lint-backups/` with timestamps:
 ```
 
 Clean up old backups periodically:
+
 ```bash
 yarn clean:backups
 ```
@@ -205,7 +236,8 @@ yarn clean:backups
 3. **Conservative Fixes**: Only applies safe, well-tested transformations
 4. **Domain Awareness**: Respects astrological and campaign system patterns
 5. **Rate Limited**: Prevents system overload and abuse
-6. **Comprehensive Validation**: Multiple validation layers ensure code integrity
+6. **Comprehensive Validation**: Multiple validation layers ensure code
+   integrity
 
 ## Contributing
 
@@ -241,4 +273,6 @@ $ node fix-file-on-save.cjs src/components/MyComponent.tsx
    ✓ All validations passed
 ```
 
-This system provides a robust, safe way to automatically improve code quality while maintaining the integrity of your specialized astrological and campaign system code.
+This system provides a robust, safe way to automatically improve code quality
+while maintaining the integrity of your specialized astrological and campaign
+system code.

@@ -780,47 +780,47 @@
   .campaign-workflow-builder {
     padding: 1rem;
   }
-  
+
   .builder-header {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
   }
-  
+
   .template-selector-modal {
     width: 95%;
     margin: 1rem;
   }
-  
+
   .templates-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .steps-container {
     flex-direction: column;
   }
-  
+
   .workflow-step-card {
     min-width: auto;
   }
-  
+
   .results-summary {
     grid-template-columns: 1fr;
   }
-  
+
   .config-summary {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .step-actions {
     flex-direction: column;
   }
-  
+
   .workflows-list {
     grid-template-columns: 1fr;
   }
-  
+
   .workflow-timestamps {
     flex-direction: column;
     gap: 0.25rem;
@@ -831,16 +831,16 @@
   .template-selector-overlay {
     padding: 0.5rem;
   }
-  
+
   .template-selector-modal {
     width: 100%;
     margin: 0;
   }
-  
+
   .modal-header {
     padding: 1rem;
   }
-  
+
   .template-options {
     padding: 1rem;
   }

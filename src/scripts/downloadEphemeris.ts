@@ -21,13 +21,9 @@ const BASE_URL = 'https://www.astro.com/ftp/swisseph/ephe/';
 
 // Also download a backup light-weight ephemeris if the main one fails
 const BACKUP_FILES = ['seas_18.se1', 'semo_18.se1', 'sepl_18.se1'];
-const BACKUP_URL =
-  'https://raw.githubusercontent.com/astroswiss/ephemeris/main/';
+const BACKUP_URL = 'https://raw.githubusercontent.com/astroswiss/ephemeris/main/';
 
-async function downloadFile(
-  filename: string,
-  baseUrl = BASE_URL
-): Promise<void> {
+async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void> {
   const url = `${baseUrl}${filename}`;
   const filepath = path.join(EPHE_PATH, filename);
 
@@ -35,7 +31,7 @@ async function downloadFile(
 
   return new Promise((resolve, reject) => {
     https
-      .get(url, (response) => {
+      .get(url, response => {
         // Handle redirects or failed downloads
         if (response.statusCode === 302 || response.statusCode === 404) {
           // console.log(`File ${filename} not found at primary source, trying backup...`);
@@ -56,7 +52,7 @@ async function downloadFile(
           resolve();
         });
       })
-      .on('error', (error) => {
+      .on('error', error => {
         // console.error(`Error downloading ${filename}:`, error.message);
         // Try backup for essential files
         if (BACKUP_FILES.includes(filename)) {
@@ -71,7 +67,7 @@ async function downloadFile(
 
 async function main() {
   try {
-    await Promise.all(FILES.map((file) => downloadFile(file)));
+    await Promise.all(FILES.map(file => downloadFile(file)));
     // console.log('Ephemeris files downloaded successfully');
   } catch (error) {
     // console.error('Failed to download ephemeris files:', error);

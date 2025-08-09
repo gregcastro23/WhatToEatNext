@@ -14,7 +14,7 @@
   height: 100%;
   top: 0;
   left: 0;
-  background-image: 
+  background-image:
     radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.5) 1px, transparent 1px),
     radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
     radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.4) 1px, transparent 1px),
@@ -78,7 +78,9 @@
   background: rgba(255, 255, 255, 0.9);
   border-radius: 0.5rem;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -314,11 +316,11 @@
 
 /* Keyframes */
 @keyframes fadeIn {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(8px);
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -341,4 +343,4 @@
   .categoryGrid {
     grid-template-columns: 1fr;
   }
-} 
+}

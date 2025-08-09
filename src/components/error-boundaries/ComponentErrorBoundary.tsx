@@ -1,6 +1,15 @@
 'use client';
 
-import { AlertTriangle, RefreshCw, X, ChevronDown, ChevronUp, Utensils, Zap, Compass } from 'lucide-react';
+import {
+  AlertTriangle,
+  RefreshCw,
+  X,
+  ChevronDown,
+  ChevronUp,
+  Utensils,
+  Zap,
+  Compass,
+} from 'lucide-react';
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 import { ErrorHandler } from '@/services/errorHandler';
@@ -36,7 +45,10 @@ interface ComponentErrorBoundaryState {
  * Component-Level Error Boundary
  * Provides error isolation for individual components with themed fallbacks
  */
-export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProps, ComponentErrorBoundaryState> {
+export class ComponentErrorBoundary extends Component<
+  ComponentErrorBoundaryProps,
+  ComponentErrorBoundaryState
+> {
   private retryTimeoutId: NodeJS.Timeout | null = null;
 
   static defaultProps = {
@@ -70,7 +82,7 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     const { componentName, onError, context } = this.props;
-    
+
     this.setState({ errorInfo });
 
     // Log the error with component context
@@ -106,9 +118,9 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
 
   private scheduleRetry = (): void => {
     const { retryDelay = 1000 } = this.props;
-    
+
     this.setState({ isRetrying: true });
-    
+
     this.retryTimeoutId = setTimeout(() => {
       this.resetError();
     }, retryDelay);
@@ -116,7 +128,7 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
 
   private resetError = (): void => {
     const { onRecovery } = this.props;
-    
+
     if (this.retryTimeoutId) {
       clearTimeout(this.retryTimeoutId);
       this.retryTimeoutId = null;
@@ -150,17 +162,17 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
     const { errorType } = this.props;
     switch (errorType) {
       case 'cuisine':
-        return <Utensils className="h-6 w-6 text-orange-500" />;
+        return <Utensils className='h-6 w-6 text-orange-500' />;
       case 'ingredient':
-        return <Compass className="h-6 w-6 text-green-500" />;
+        return <Compass className='h-6 w-6 text-green-500' />;
       case 'cooking':
-        return <Zap className="h-6 w-6 text-purple-500" />;
+        return <Zap className='h-6 w-6 text-purple-500' />;
       case 'recipe':
-        return <Utensils className="h-6 w-6 text-blue-500" />;
+        return <Utensils className='h-6 w-6 text-blue-500' />;
       case 'debug':
-        return <AlertTriangle className="h-6 w-6 text-yellow-500" />;
+        return <AlertTriangle className='h-6 w-6 text-yellow-500' />;
       default:
-        return <AlertTriangle className="h-6 w-6 text-red-500" />;
+        return <AlertTriangle className='h-6 w-6 text-red-500' />;
     }
   };
 
@@ -244,18 +256,14 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
 
       // Default component error fallback
       return (
-        <div className={`rounded-lg border p-4 ${theme.container}`} role="alert">
-          <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0">
-              {this.getErrorIcon()}
-            </div>
-            
-            <div className="flex-1 min-w-0">
-              <div className="space-y-2">
-                <h3 className={`text-lg font-semibold ${theme.title}`}>
-                  {componentName} Error
-                </h3>
-                
+        <div className={`rounded-lg border p-4 ${theme.container}`} role='alert'>
+          <div className='flex items-start space-x-3'>
+            <div className='flex-shrink-0'>{this.getErrorIcon()}</div>
+
+            <div className='min-w-0 flex-1'>
+              <div className='space-y-2'>
+                <h3 className={`text-lg font-semibold ${theme.title}`}>{componentName} Error</h3>
+
                 <p className={`text-sm ${theme.message}`}>
                   This component encountered an error and couldn't load properly.
                 </p>
@@ -272,51 +280,53 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
                 )}
 
                 {process.env.NODE_ENV === 'development' && (
-                  <div className="space-y-2">
+                  <div className='space-y-2'>
                     <button
                       onClick={this.toggleDetails}
                       className={`flex items-center text-sm ${theme.message} hover:opacity-80`}
                     >
                       {showDetails ? (
-                        <ChevronUp className="h-4 w-4 mr-1" />
+                        <ChevronUp className='mr-1 h-4 w-4' />
                       ) : (
-                        <ChevronDown className="h-4 w-4 mr-1" />
+                        <ChevronDown className='mr-1 h-4 w-4' />
                       )}
                       {showDetails ? 'Hide Details' : 'Show Details'}
                     </button>
-                    
+
                     {showDetails && (
-                      <pre className={`text-xs ${theme.details} p-3 rounded overflow-auto max-h-40`}>
+                      <pre
+                        className={`text-xs ${theme.details} max-h-40 overflow-auto rounded p-3`}
+                      >
                         {error.stack}
                       </pre>
                     )}
                   </div>
                 )}
 
-                <div className="flex flex-col sm:flex-row gap-2 pt-2">
+                <div className='flex flex-col gap-2 pt-2 sm:flex-row'>
                   <button
                     onClick={this.resetError}
                     disabled={isRetrying}
-                    className={`inline-flex items-center px-3 py-2 text-sm font-medium text-white rounded-lg transition-colors ${theme.button} disabled:opacity-50`}
+                    className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-white transition-colors ${theme.button} disabled:opacity-50`}
                   >
                     {isRetrying ? (
                       <>
-                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                        <RefreshCw className='mr-2 h-4 w-4 animate-spin' />
                         Retrying...
                       </>
                     ) : (
                       <>
-                        <RefreshCw className="h-4 w-4 mr-2" />
+                        <RefreshCw className='mr-2 h-4 w-4' />
                         Try Again
                       </>
                     )}
                   </button>
-                  
+
                   <button
                     onClick={() => this.setState({ hasError: false, error: null })}
-                    className={`inline-flex items-center px-3 py-2 text-sm font-medium ${theme.message} bg-white border border-current rounded-lg hover:bg-gray-50 transition-colors`}
+                    className={`inline-flex items-center px-3 py-2 text-sm font-medium ${theme.message} rounded-lg border border-current bg-white transition-colors hover:bg-gray-50`}
                   >
-                    <X className="h-4 w-4 mr-2" />
+                    <X className='mr-2 h-4 w-4' />
                     Hide Error
                   </button>
                 </div>

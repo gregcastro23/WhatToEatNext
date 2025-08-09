@@ -7,13 +7,13 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import {
-    CampaignConfig,
-    CorruptionSeverity,
-    PhaseStatus,
-    RecoveryAction,
-    SafetyEventType,
-    SafetyLevel,
-    SafetySettings
+  CampaignConfig,
+  CorruptionSeverity,
+  PhaseStatus,
+  RecoveryAction,
+  SafetyEventType,
+  SafetyLevel,
+  SafetySettings,
 } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
@@ -40,7 +40,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     mockConfig = {
@@ -54,19 +54,19 @@ describe('End-to-End Campaign Integration Tests', () => {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFiles: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
-              safetyLevel: SafetyLevel.MAXIMUM
+              safetyLevel: SafetyLevel.MAXIMUM,
             },
             {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFiles: 25, autoFix: true },
               batchSize: 25,
-              safetyLevel: SafetyLevel.HIGH
-            }
+              safetyLevel: SafetyLevel.HIGH,
+            },
           ],
           successCriteria: {
-            typeScriptErrors: 0
+            typeScriptErrors: 0,
           },
-          safetyCheckpoints: []
+          safetyCheckpoints: [],
         },
         {
           id: 'phase2',
@@ -77,19 +77,19 @@ describe('End-to-End Campaign Integration Tests', () => {
               scriptPath: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
               parameters: { maxFiles: 20, autoFix: true },
               batchSize: 20,
-              safetyLevel: SafetyLevel.HIGH
+              safetyLevel: SafetyLevel.HIGH,
             },
             {
               scriptPath: 'scripts/lint-fixes/fix-console-statements-only.js',
               parameters: { dryRun: false },
               batchSize: 15,
-              safetyLevel: SafetyLevel.MEDIUM
-            }
+              safetyLevel: SafetyLevel.MEDIUM,
+            },
           ],
           successCriteria: {
-            lintingWarnings: 0
+            lintingWarnings: 0,
           },
-          safetyCheckpoints: []
+          safetyCheckpoints: [],
         },
         {
           id: 'phase3',
@@ -100,13 +100,13 @@ describe('End-to-End Campaign Integration Tests', () => {
               scriptPath: 'scripts/enterprise/transform-unused-exports.js',
               parameters: { maxFiles: 30, generateIntelligence: true },
               batchSize: 30,
-              safetyLevel: SafetyLevel.HIGH
-            }
+              safetyLevel: SafetyLevel.HIGH,
+            },
           ],
           successCriteria: {
-            enterpriseSystems: 200
+            enterpriseSystems: 200,
           },
-          safetyCheckpoints: []
+          safetyCheckpoints: [],
         },
         {
           id: 'phase4',
@@ -117,28 +117,28 @@ describe('End-to-End Campaign Integration Tests', () => {
               scriptPath: 'scripts/performance/optimize-build.js',
               parameters: { targetTime: 10, optimizeCache: true },
               batchSize: 50,
-              safetyLevel: SafetyLevel.MEDIUM
-            }
+              safetyLevel: SafetyLevel.MEDIUM,
+            },
           ],
           successCriteria: {
-            buildTime: 10
+            buildTime: 10,
           },
-          safetyCheckpoints: []
-        }
+          safetyCheckpoints: [],
+        },
       ],
       safetySettings,
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200
+        enterpriseSystems: 200,
       },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
 
     campaignController = new CampaignController(mockConfig);
@@ -152,7 +152,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   function setupDefaultMocks() {
     // Default successful git operations
-    mockExecSync.mockImplementation((command) => {
+    mockExecSync.mockImplementation(command => {
       const cmd = command.toString();
 
       if (cmd.includes('git status --porcelain')) return '';
@@ -236,9 +236,13 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       // Check that each phase has safety events
       for (const phase of mockConfig.phases) {
-        expect(allSafetyEvents.some(event =>
-          String((event )?.description || '').includes(phase.name) || String((event )?.description || '').includes(phase.id)
-        )).toBe(true);
+        expect(
+          allSafetyEvents.some(
+            event =>
+              String(event?.description || '').includes(phase.name) ||
+              String(event?.description || '').includes(phase.id),
+          ),
+        ).toBe(true);
       }
     });
 
@@ -248,10 +252,29 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         const metrics = {
-          typeScriptErrors: { current: Math.max(0, 86 - metricsHistory.length * 20), target: 0, reduction: metricsHistory.length * 20, percentage: Math.min(100, (metricsHistory.length * 20 / 86) * 100) },
-          lintingWarnings: { current: Math.max(0, 4506 - metricsHistory.length * 1000), target: 0, reduction: metricsHistory.length * 1000, percentage: Math.min(100, (metricsHistory.length * 1000 / 4506) * 100) },
-          buildPerformance: { currentTime: Math.max(8, 12 - metricsHistory.length), targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { current: metricsHistory.length * 50, target: 200, transformedExports: metricsHistory.length * 50 }
+          typeScriptErrors: {
+            current: Math.max(0, 86 - metricsHistory.length * 20),
+            target: 0,
+            reduction: metricsHistory.length * 20,
+            percentage: Math.min(100, ((metricsHistory.length * 20) / 86) * 100),
+          },
+          lintingWarnings: {
+            current: Math.max(0, 4506 - metricsHistory.length * 1000),
+            target: 0,
+            reduction: metricsHistory.length * 1000,
+            percentage: Math.min(100, ((metricsHistory.length * 1000) / 4506) * 100),
+          },
+          buildPerformance: {
+            currentTime: Math.max(8, 12 - metricsHistory.length),
+            targetTime: 10,
+            cacheHitRate: 0.8,
+            memoryUsage: 45,
+          },
+          enterpriseSystems: {
+            current: metricsHistory.length * 50,
+            target: 200,
+            transformedExports: metricsHistory.length * 50,
+          },
         };
         metricsHistory.push(metrics);
         return metrics;
@@ -266,9 +289,9 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(metricsHistory.length).toBeGreaterThan(0);
 
       // Verify progressive improvement
-      const finalMetrics = metricsHistory[metricsHistory.length - 1] ;
-      expect((finalMetrics?.typeScriptErrors )?.current ?? 0).toBeLessThanOrEqual(86);
-      expect((finalMetrics?.lintingWarnings )?.current ?? 0).toBeLessThanOrEqual(4506);
+      const finalMetrics = metricsHistory[metricsHistory.length - 1];
+      expect(finalMetrics?.typeScriptErrors?.current ?? 0).toBeLessThanOrEqual(86);
+      expect(finalMetrics?.lintingWarnings?.current ?? 0).toBeLessThanOrEqual(4506);
     });
 
     it('should validate all milestones after campaign completion', async () => {
@@ -277,7 +300,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 42 },
-        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 },
       });
 
       // Execute all phases
@@ -294,7 +317,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         'phase-1-complete',
         'phase-2-complete',
         'phase-3-complete',
-        'phase-4-complete'
+        'phase-4-complete',
       ];
 
       for (const milestone of milestones) {
@@ -309,7 +332,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 42 },
-        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 },
       });
 
       // Execute all phases
@@ -331,17 +354,15 @@ describe('End-to-End Campaign Integration Tests', () => {
       const phase1 = mockConfig.phases[0];
 
       // Mock tool execution failure
-      jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockRejectedValue(
-        new Error('Critical tool failure')
-      );
+      jest
+        .spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool')
+        .mockRejectedValue(new Error('Critical tool failure'));
 
       const result = await campaignController.executePhase(phase1);
 
       expect(result.success).toBe(false);
       expect(result.phaseId).toBe('phase1');
-      expect(result.safetyEvents.some(event =>
-        event.type === SafetyEventType.BUILD_FAILURE
-      )).toBe(true);
+      expect(result.safetyEvents.some(event => event.type === SafetyEventType.BUILD_FAILURE)).toBe(true);
     });
 
     it('should handle corruption detection during campaign', async () => {
@@ -367,10 +388,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         await safetyProtocol.createStash('Emergency stash');
         await safetyProtocol.emergencyRollback();
 
-        expect(mockExecSync).toHaveBeenCalledWith(
-          expect.stringContaining('git stash apply'),
-          expect.any(Object)
-        );
+        expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object));
       }
     });
 
@@ -378,7 +396,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       const phase1 = mockConfig.phases[0];
 
       // Mock build failure
-      mockExecSync.mockImplementation((command) => {
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build compilation failed');
         }
@@ -398,17 +416,19 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       // Mock partial failure - first tool fails, second succeeds
       let toolCallCount = 0;
-      jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockImplementation(async () => {
-        toolCallCount++;
-        if (toolCallCount === 1) {
-          throw new Error('First tool failed');
-        }
-        return {
-          filesProcessed: ['file1.ts', 'file2.ts'],
-          changesApplied: 10,
-          success: true
-        };
-      });
+      jest
+        .spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool')
+        .mockImplementation(async () => {
+          toolCallCount++;
+          if (toolCallCount === 1) {
+            throw new Error('First tool failed');
+          }
+          return {
+            filesProcessed: ['file1.ts', 'file2.ts'],
+            changesApplied: 10,
+            success: true,
+          };
+        });
 
       const result = await campaignController.executePhase(phase1);
 
@@ -428,7 +448,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
         changesApplied: largeFileList.length * 2,
-        success: true
+        success: true,
       });
 
       const startTime = Date.now();
@@ -454,9 +474,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should handle concurrent safety operations', async () => {
       // Create multiple stashes concurrently
-      const stashPromises = Array.from({ length: 5 }, (_, i) =>
-        safetyProtocol.createStash(`Concurrent stash ${i}`)
-      );
+      const stashPromises = Array.from({ length: 5 }, (_, i) => safetyProtocol.createStash(`Concurrent stash ${i}`));
 
       const stashIds = await Promise.all(stashPromises);
 
@@ -474,14 +492,16 @@ describe('End-to-End Campaign Integration Tests', () => {
         id: 'custom-phase',
         name: 'Custom Phase',
         description: 'Custom phase for testing',
-        tools: [{
-          scriptPath: 'scripts/custom/custom-script.js',
-          parameters: { customParam: true },
-          batchSize: 5,
-          safetyLevel: SafetyLevel.LOW
-        }],
+        tools: [
+          {
+            scriptPath: 'scripts/custom/custom-script.js',
+            parameters: { customParam: true },
+            batchSize: 5,
+            safetyLevel: SafetyLevel.LOW,
+          },
+        ],
         successCriteria: { typeScriptErrors: 10 },
-        safetyCheckpoints: []
+        safetyCheckpoints: [],
       };
 
       const result = await campaignController.executePhase(customPhase);
@@ -496,7 +516,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         testValidationFrequency: 20,
         corruptionDetectionEnabled: false,
         automaticRollbackEnabled: false,
-        stashRetentionDays: 14
+        stashRetentionDays: 14,
       };
 
       const customSafetyProtocol = new SafetyProtocol(customSafetySettings);
@@ -514,8 +534,8 @@ describe('End-to-End Campaign Integration Tests', () => {
           customValidation: async () => {
             // Custom validation logic
             return true;
-          }
-        }
+          },
+        },
       };
 
       // Mock 5 remaining TypeScript errors
@@ -523,7 +543,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         typeScriptErrors: { current: 5, target: 0, reduction: 81, percentage: 94 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       });
 
       const validation = await campaignController.validatePhaseCompletion(customPhase);
@@ -548,12 +568,12 @@ describe('End-to-End Campaign Integration Tests', () => {
           success: result.success,
           filesProcessed: result.filesProcessed,
           errorsFixed: result.errorsFixed,
-          safetyEventsCount: result.safetyEvents.length
+          safetyEventsCount: result.safetyEvents.length,
         });
       }
 
       expect(executionMetrics.length).toBe(4);
-      expect(executionMetrics.every(metric => Number((metric )?.executionTime || 0) > 0)).toBe(true);
+      expect(executionMetrics.every(metric => Number(metric?.executionTime || 0) > 0)).toBe(true);
       expect(executionMetrics.every(metric => typeof metric.success === 'boolean')).toBe(true);
     });
 
@@ -570,7 +590,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         exportPath,
         expect.stringContaining('"campaignId": "perfect-codebase-campaign"'),
-        undefined
+        undefined,
       );
     });
 
@@ -580,10 +600,25 @@ describe('End-to-End Campaign Integration Tests', () => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         improvementStep++;
         return {
-          typeScriptErrors: { current: Math.max(0, 86 - improvementStep * 20), target: 0, reduction: improvementStep * 20, percentage: Math.min(100, (improvementStep * 20 / 86) * 100) },
-          lintingWarnings: { current: Math.max(0, 4506 - improvementStep * 1000), target: 0, reduction: improvementStep * 1000, percentage: Math.min(100, (improvementStep * 1000 / 4506) * 100) },
-          buildPerformance: { currentTime: Math.max(8, 12 - improvementStep), targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { current: improvementStep * 50, target: 200, transformedExports: improvementStep * 50 }
+          typeScriptErrors: {
+            current: Math.max(0, 86 - improvementStep * 20),
+            target: 0,
+            reduction: improvementStep * 20,
+            percentage: Math.min(100, ((improvementStep * 20) / 86) * 100),
+          },
+          lintingWarnings: {
+            current: Math.max(0, 4506 - improvementStep * 1000),
+            target: 0,
+            reduction: improvementStep * 1000,
+            percentage: Math.min(100, ((improvementStep * 1000) / 4506) * 100),
+          },
+          buildPerformance: {
+            currentTime: Math.max(8, 12 - improvementStep),
+            targetTime: 10,
+            cacheHitRate: 0.8,
+            memoryUsage: 45,
+          },
+          enterpriseSystems: { current: improvementStep * 50, target: 200, transformedExports: improvementStep * 50 },
         };
       });
 

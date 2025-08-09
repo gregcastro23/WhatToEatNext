@@ -24,9 +24,7 @@ export async function validateImportPath(importPath: string, fromFile: string): 
 /**
  * Check for circular dependencies in a module graph
  */
-export function detectCircularDependencies(
-  moduleGraph: Record<string, string[]>
-): string[][] {
+export function detectCircularDependencies(moduleGraph: Record<string, string[]>): string[][] {
   const visited = new Set<string>();
   const recursionStack = new Set<string>();
   const cycles: string[][] = [];
@@ -68,7 +66,7 @@ export function detectCircularDependencies(
  */
 export async function validateBarrelExports(
   barrelPath: string,
-  exports: string[]
+  exports: string[],
 ): Promise<{ valid: string[]; invalid: string[] }> {
   const valid: string[] = [];
   const invalid: string[] = [];
@@ -98,22 +96,26 @@ export async function validateBarrelExports(
 export const PROBLEMATIC_PATTERNS = [
   {
     pattern: /import.*from.*['"]\.\/.*index['"]/,
-    message: 'Avoid importing from index files in the same directory - import directly from source files'
+    message:
+      'Avoid importing from index files in the same directory - import directly from source files',
   },
   {
     pattern: /import.*from.*['"]\.\.\/\.\.\/.*index['"]/,
-    message: 'Deep relative imports to index files can create circular dependencies'
+    message: 'Deep relative imports to index files can create circular dependencies',
   },
   {
     pattern: /export \* from.*['"]\.\/.*index['"]/,
-    message: 'Re-exporting from index files can create circular dependencies'
-  }
+    message: 'Re-exporting from index files can create circular dependencies',
+  },
 ];
 
 /**
  * Validate import statement against problematic patterns
  */
-export function validateImportStatement(importStatement: string, filePath: string): {
+export function validateImportStatement(
+  importStatement: string,
+  filePath: string,
+): {
   isValid: boolean;
   warnings: string[];
 } {
@@ -141,7 +143,10 @@ export function extractImportStatements(fileContent: string): string[] {
 /**
  * Validate all imports in a file
  */
-export async function validateFileImports(filePath: string, fileContent: string): Promise<{
+export async function validateFileImports(
+  filePath: string,
+  fileContent: string,
+): Promise<{
   validImports: string[];
   invalidImports: string[];
   warnings: string[];
@@ -209,19 +214,21 @@ export const DEPENDENCY_FIXES = {
    * Add missing file extension
    */
   addFileExtension: (importPath: string, extension: string = '.ts'): string => {
-    if (!importPath.endsWith('.ts') && !importPath.endsWith('.tsx') && !importPath.endsWith('.js')) {
+    if (
+      !importPath.endsWith('.ts') &&
+      !importPath.endsWith('.tsx') &&
+      !importPath.endsWith('.js')
+    ) {
       return `${importPath}${extension}`;
     }
     return importPath;
-  }
+  },
 };
 
 /**
  * Generate a dependency validation report
  */
-export async function generateDependencyReport(
-  projectRoot: string
-): Promise<{
+export async function generateDependencyReport(projectRoot: string): Promise<{
   totalFiles: number;
   validFiles: number;
   invalidFiles: number;
@@ -234,7 +241,7 @@ export async function generateDependencyReport(
 
   const tsFiles = glob.sync('**/*.{ts,tsx}', {
     cwd: projectRoot,
-    ignore: ['node_modules/**', 'dist/**', '.next/**', 'coverage/**']
+    ignore: ['node_modules/**', 'dist/**', '.next/**', 'coverage/**'],
   });
 
   let validFiles = 0;
@@ -281,14 +288,17 @@ export async function generateDependencyReport(
     validFiles,
     invalidFiles,
     circularDependencies,
-    warnings: allWarnings
+    warnings: allWarnings,
   };
 }
 
 /**
  * Auto-fix common dependency issues
  */
-export function autoFixDependencyIssues(fileContent: string, _filePath: string): {
+export function autoFixDependencyIssues(
+  fileContent: string,
+  _filePath: string,
+): {
   fixedContent: string;
   appliedFixes: string[];
 } {
@@ -305,7 +315,11 @@ export function autoFixDependencyIssues(fileContent: string, _filePath: string):
   // Fix 2: Add missing file extensions for relative imports
   const relativeImportRegex = /from\s+['"](\.[^'"]*)['"]/g;
   fixedContent = fixedContent.replace(relativeImportRegex, (match, importPath) => {
-    if (!importPath.endsWith('.ts') && !importPath.endsWith('.tsx') && !importPath.endsWith('.js')) {
+    if (
+      !importPath.endsWith('.ts') &&
+      !importPath.endsWith('.tsx') &&
+      !importPath.endsWith('.js')
+    ) {
       appliedFixes.push(`Added file extension: ${match}`);
       return match.replace(importPath, `${importPath}.ts`);
     }
@@ -324,5 +338,5 @@ export default {
   generateDependencyReport,
   autoFixDependencyIssues,
   PROBLEMATIC_PATTERNS,
-  DEPENDENCY_FIXES
+  DEPENDENCY_FIXES,
 };

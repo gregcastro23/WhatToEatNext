@@ -10,7 +10,7 @@ import SunCalc from 'suncalc';
 export function calculateMoonTimes(
   date: Date,
   latitude: number,
-  longitude: number
+  longitude: number,
 ): { rise?: Date; set?: Date } {
   try {
     // Use SunCalc library to calculate moon times
@@ -18,16 +18,16 @@ export function calculateMoonTimes(
       // Use noon on the given date to get the full day's times
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0),
       latitude,
-      longitude
+      longitude,
     );
 
     return {
       rise: moonTimes.rise,
-      set: moonTimes.set
+      set: moonTimes.set,
     };
   } catch (error) {
     console.error('Error calculating moon times:', error);
-    
+
     // Return empty object if calculation fails
     return {};
   }
@@ -58,13 +58,13 @@ export function getMoonIllumination(date: Date = new Date()): number {
 export function getMoonPosition(
   date: Date,
   latitude: number,
-  longitude: number
+  longitude: number,
 ): { altitude: number; azimuth: number } {
   try {
     const position = SunCalc.getMoonPosition(date, latitude, longitude);
     return {
       altitude: position.altitude * (180 / Math.PI), // Convert to degrees
-      azimuth: position.azimuth * (180 / Math.PI)    // Convert to degrees
+      azimuth: position.azimuth * (180 / Math.PI), // Convert to degrees
     };
   } catch (error) {
     console.error('Error calculating moon position:', error);
@@ -75,7 +75,7 @@ export function getMoonPosition(
 const moonTimesApi = {
   calculateMoonTimes,
   getMoonIllumination,
-  getMoonPosition
+  getMoonPosition,
 };
 
-export default moonTimesApi; 
+export default moonTimesApi;

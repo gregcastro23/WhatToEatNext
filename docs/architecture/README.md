@@ -4,12 +4,15 @@
 
 ### Elemental Harmony Approach
 
-Our system is based on the principle that all four elements (Fire, Water, Earth, Air) are individually valuable and contribute unique qualities. Rather than viewing elements as opposing forces, we recognize that:
+Our system is based on the principle that all four elements (Fire, Water, Earth,
+Air) are individually valuable and contribute unique qualities. Rather than
+viewing elements as opposing forces, we recognize that:
 
 - Each element brings its own distinctive qualities
 - Elements reinforce themselves (like strengthens like)
 - All element combinations work harmoniously together
-- Elements are appreciated for their individual contributions, not for "balancing" each other
+- Elements are appreciated for their individual contributions, not for
+  "balancing" each other
 
 ## Technology Stack
 
@@ -35,4 +38,4 @@ Our project includes an advanced astrological component library featuring:
 - **AstroChart**: Visual representation of planetary positions
 - **PlanetaryDisplay**: Detailed planet information with dignity calculation
 - **LunarPhaseDisplay**: Real-time moon phase visualization
-- **CelestialDisplay**: Interactive celestial body explorer 
+- **CelestialDisplay**: Interactive celestial body explorer

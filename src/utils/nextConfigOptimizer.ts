@@ -8,7 +8,10 @@ export class NextConfigOptimizer {
   private readonly configPath: string;
   private readonly logger: (message: string, ...args: unknown[]) => void;
 
-  constructor(configPath = 'next.config.js', logger: (message: string, ...args: unknown[]) => void = console.log) {
+  constructor(
+    configPath = 'next.config.js',
+    logger: (message: string, ...args: unknown[]) => void = console.log,
+  ) {
     this.configPath = configPath;
     this.logger = logger;
   }
@@ -28,9 +31,10 @@ export class NextConfigOptimizer {
       }
 
       // Use the primary config file (next.config.js or next.config.mjs)
-      const primaryConfig = existingConfigs.find(file => file === 'next.config.js') ||
-                           existingConfigs.find(file => file === 'next.config.mjs') ||
-                           existingConfigs[0];
+      const primaryConfig =
+        existingConfigs.find(file => file === 'next.config.js') ||
+        existingConfigs.find(file => file === 'next.config.mjs') ||
+        existingConfigs[0];
 
       if (!primaryConfig) {
         this.createDefaultConfig();
@@ -38,7 +42,6 @@ export class NextConfigOptimizer {
       }
 
       this.validateAndOptimizeExistingConfig(primaryConfig);
-
     } catch (error) {
       this.logger('Error optimizing Next.js configuration:', error);
     }
@@ -115,20 +118,20 @@ module.exports = nextConfig;
     const checks = [
       {
         pattern: /output\s*:/,
-        recommendation: 'Add output: "standalone" for better build optimization'
+        recommendation: 'Add output: "standalone" for better build optimization',
       },
       {
         pattern: /generateBuildId\s*:/,
-        recommendation: 'Add generateBuildId function for consistent builds'
+        recommendation: 'Add generateBuildId function for consistent builds',
       },
       {
         pattern: /typescript\s*:/,
-        recommendation: 'Add TypeScript configuration for build stability'
+        recommendation: 'Add TypeScript configuration for build stability',
       },
       {
         pattern: /eslint\s*:/,
-        recommendation: 'Add ESLint configuration for build validation'
-      }
+        recommendation: 'Add ESLint configuration for build validation',
+      },
     ];
 
     const recommendations: string[] = [];
@@ -168,13 +171,13 @@ module.exports = nextConfig;
       {
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
-        description: 'Enable TypeScript error checking for build stability'
+        description: 'Enable TypeScript error checking for build stability',
       },
       {
         issue: /ignoreDuringBuilds\s*:\s*true/g,
         fix: 'ignoreDuringBuilds: false',
-        description: 'Enable ESLint checking for build stability'
-      }
+        description: 'Enable ESLint checking for build stability',
+      },
     ];
 
     for (const fix of fixes) {

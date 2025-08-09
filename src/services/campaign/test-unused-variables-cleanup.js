@@ -2,7 +2,7 @@
 
 /**
  * test-unused-variables-cleanup.js
- * 
+ *
  * Test script for UnusedVariablesCleanupSystem
  * Validates integration with existing unused variables script
  */
@@ -11,7 +11,7 @@ import { UnusedVariablesCleanupSystem } from './UnusedVariablesCleanupSystem.ts'
 
 async function testUnusedVariablesCleanup() {
   console.log('🧪 Testing Unused Variables Cleanup System...\n');
-  
+
   try {
     // Test 1: Dry run execution
     console.log('📋 Test 1: Dry Run Execution');
@@ -21,12 +21,12 @@ async function testUnusedVariablesCleanup() {
       autoFix: false,
       validateSafety: true,
       enableGitStash: false, // Disable for testing
-      buildValidation: false // Disable for testing
+      buildValidation: false, // Disable for testing
     });
-    
+
     console.log('🔍 Executing dry run...');
     const dryRunResult = await dryRunSystem.executeCleanup();
-    
+
     console.log('📊 Dry Run Results:');
     console.log(`  Success: ${dryRunResult.success ? '✅' : '❌'}`);
     console.log(`  Files Processed: ${dryRunResult.filesProcessed}`);
@@ -34,12 +34,12 @@ async function testUnusedVariablesCleanup() {
     console.log(`  Variables Prefixed: ${dryRunResult.variablesPrefixed}`);
     console.log(`  Build Time: ${dryRunResult.buildTime}ms`);
     console.log(`  Safety Score: ${dryRunResult.safetyScore}`);
-    
+
     if (dryRunResult.warnings.length > 0) {
       console.log('⚠️ Warnings:');
       dryRunResult.warnings.forEach(warning => console.log(`  - ${warning}`));
     }
-    
+
     if (dryRunResult.errors.length > 0) {
       console.log('❌ Errors:');
       dryRunResult.errors.forEach(error => console.log(`  - ${error}`));
@@ -61,9 +61,9 @@ async function testUnusedVariablesCleanup() {
       validateSafety: true,
       enableGitStash: true,
       buildValidation: true,
-      batchSize: 15
+      batchSize: 15,
     });
-    
+
     console.log('✅ Configuration system created successfully');
 
     // Test 4: Batch processing simulation (dry run only)
@@ -75,13 +75,13 @@ async function testUnusedVariablesCleanup() {
       validateSafety: false,
       enableGitStash: false,
       buildValidation: false,
-      batchSize: 3
+      batchSize: 3,
     });
-    
+
     console.log('🔄 Simulating batch processing with 2 batches...');
     try {
       const batchResult = await batchSystem.executeBatchProcessing(6); // 6 files = 2 batches of 3
-      
+
       console.log('📊 Batch Processing Results:');
       console.log(`  Total Batches: ${batchResult.totalBatches}`);
       console.log(`  Successful Batches: ${batchResult.successfulBatches}`);
@@ -90,7 +90,7 @@ async function testUnusedVariablesCleanup() {
       console.log(`  Total Variables Processed: ${batchResult.totalVariablesProcessed}`);
       console.log(`  Average Build Time: ${batchResult.averageBuildTime.toFixed(0)}ms`);
       console.log(`  Overall Safety Score: ${batchResult.overallSafetyScore.toFixed(1)}`);
-      
+
       if (batchResult.errors.length > 0) {
         console.log('❌ Batch Errors:');
         batchResult.errors.forEach(error => console.log(`  - ${error}`));
@@ -102,27 +102,25 @@ async function testUnusedVariablesCleanup() {
       console.log('\n' + '='.repeat(50));
       console.log(batchReport);
       console.log('='.repeat(50));
-      
     } catch (error) {
       console.log(`⚠️ Batch processing test failed (expected for testing): ${error.message}`);
     }
 
     console.log('\n✅ All Unused Variables Cleanup System tests completed!');
-    
+
     // Summary
     console.log('\n📋 Test Summary:');
     console.log('✅ Dry run execution - PASSED');
     console.log('✅ Report generation - PASSED');
     console.log('✅ Configuration validation - PASSED');
     console.log('✅ Batch processing simulation - PASSED');
-    
+
     console.log('\n🎯 Integration Points Validated:');
     console.log('✅ scripts/typescript-fixes/fix-unused-variables-enhanced.js integration');
     console.log('✅ Batch processing with --max-files=20 --auto-fix parameters');
     console.log('✅ Validation system to ensure no functional code removal');
     console.log('✅ Safety protocols with git stash management');
     console.log('✅ Build validation after each batch');
-    
   } catch (error) {
     console.error('❌ Test failed:', error);
     process.exit(1);

@@ -2,7 +2,7 @@
 
 /**
  * Memory Optimization Script for Test Environment
- * 
+ *
  * This script provides comprehensive memory optimization utilities
  * for the WhatToEatNext test infrastructure.
  */
@@ -42,10 +42,10 @@ export class MemoryOptimizationScript {
       // Step 1: Detect memory leaks
       console.log('🔍 Step 1: Detecting memory leaks...');
       const leakReport = this.detector.scanForLeaks();
-      
+
       if (leakReport.leaksDetected.length > 0) {
         console.log(`Found ${leakReport.leaksDetected.length} potential memory leaks`);
-        
+
         // Apply automatic fixes
         const fixes = this.detector.applyAutomaticFixes();
         optimizationsApplied.push(...fixes.fixed);
@@ -90,12 +90,11 @@ export class MemoryOptimizationScript {
         memoryFreed: memoryFreed / (1024 * 1024), // Convert to MB
         optimizationsApplied,
         warnings,
-        errors
+        errors,
       };
 
       this.logOptimizationResult(result);
       return result;
-
     } catch (error) {
       errors.push(`Optimization failed: ${error}`);
       return {
@@ -103,7 +102,7 @@ export class MemoryOptimizationScript {
         memoryFreed: 0,
         optimizationsApplied,
         warnings,
-        errors
+        errors,
       };
     }
   }
@@ -114,9 +113,9 @@ export class MemoryOptimizationScript {
   private async optimizeJestConfiguration(): Promise<void> {
     const fs = require('fs');
     const path = require('path');
-    
+
     const jestConfigPath = path.join(process.cwd(), 'jest.config.js');
-    
+
     if (!fs.existsSync(jestConfigPath)) {
       console.log('⚠️ Jest config not found, skipping Jest optimization');
       return;
@@ -124,14 +123,14 @@ export class MemoryOptimizationScript {
 
     // Read current config
     let configContent = fs.readFileSync(jestConfigPath, 'utf8');
-    
+
     // Apply memory optimizations if not already present
     const optimizations = [
       { key: 'maxWorkers', value: 'process.env.CI ? 1 : 2' },
       { key: 'workerIdleMemoryLimit', value: "'512MB'" },
       { key: 'logHeapUsage', value: 'true' },
       { key: 'detectOpenHandles', value: 'true' },
-      { key: 'forceExit', value: 'true' }
+      { key: 'forceExit', value: 'true' },
     ];
 
     let modified = false;
@@ -139,10 +138,7 @@ export class MemoryOptimizationScript {
       if (!configContent.includes(opt.key)) {
         // Add the optimization
         const insertion = `  ${opt.key}: ${opt.value},\n`;
-        configContent = configContent.replace(
-          /(const config = {[^}]*)/,
-          `$1\n${insertion}`
-        );
+        configContent = configContent.replace(/(const config = {[^}]*)/, `$1\n${insertion}`);
         modified = true;
       }
     });
@@ -260,7 +256,7 @@ export class MemoryOptimizationScript {
     console.log(`Success: ${result.success ? '✅' : '❌'}`);
     console.log(`Memory freed: ${result.memoryFreed.toFixed(2)}MB`);
     console.log(`Optimizations applied: ${result.optimizationsApplied.length}`);
-    
+
     if (result.optimizationsApplied.length > 0) {
       console.log('\nOptimizations applied:');
       result.optimizationsApplied.forEach((opt, index) => {
@@ -300,18 +296,18 @@ export class MemoryOptimizationScript {
    */
   static emergencyCleanup(): void {
     console.log('🚨 Running emergency memory cleanup...');
-    
+
     // Apply all available cleanup measures
     const fixes = MemoryLeakDetector.emergencyCleanup();
-    
+
     console.log(`Emergency cleanup completed:`);
     console.log(`- Fixed: ${fixes.fixed.length} issues`);
     console.log(`- Failed: ${fixes.failed.length} issues`);
-    
+
     if (fixes.fixed.length > 0) {
       console.log('Fixed issues:', fixes.fixed);
     }
-    
+
     if (fixes.failed.length > 0) {
       console.log('Failed issues:', fixes.failed);
     }
@@ -321,7 +317,7 @@ export class MemoryOptimizationScript {
 // CLI interface
 if (require.main === module) {
   const args = process.argv.slice(2);
-  
+
   if (args.includes('--emergency')) {
     MemoryOptimizationScript.emergencyCleanup();
   } else {

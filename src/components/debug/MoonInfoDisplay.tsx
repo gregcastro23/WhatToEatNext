@@ -14,67 +14,72 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
   const moonPosition = astrologicalData?.moon || astrologicalData?.Moon;
   const lunarPhase = astrologicalData?.lunarPhase;
   const moonDignity = (astrologicalData?.dignity as unknown as Record<string, unknown>).Moon || 0;
-  
+
   // Early return if no data available
   if (!astrologicalData) {
     return (
       <div className={`moon-info-display ${className}`}>
-        <div className="moon-header">
+        <div className='moon-header'>
           <h3>🌙 Lunar Information</h3>
         </div>
-        <div className="loading-message">
-          Loading lunar data...
-        </div>
+        <div className='loading-message'>Loading lunar data...</div>
       </div>
     );
   }
-  
+
   // Calculate moon's Kalchm score (individual contribution)
   const moonKalchmScore = calculateMoonKalchm(moonPosition, lunarPhase);
-  
+
   // Find aspects involving the Moon
-  const moonAspects = (astrologicalData.aspects as unknown as any[]).filter((aspect: any) => 
-    aspect.planet1 === 'Moon' || aspect.planet2 === 'Moon'
-  ) || [];
-  
+  const moonAspects =
+    (astrologicalData.aspects as unknown as any[]).filter(
+      (aspect: any) => aspect.planet1 === 'Moon' || aspect.planet2 === 'Moon',
+    ) || [];
+
   // Calculate lunar nodes (simplified calculation)
   const lunarNodes = calculateLunarNodes(moonPosition);
 
   return (
     <div className={`moon-info-display ${className}`}>
-      <div className="moon-header">
+      <div className='moon-header'>
         <h3>🌙 Lunar Information</h3>
       </div>
-      
-      <div className="moon-content">
+
+      <div className='moon-content'>
         {/* Moon Position */}
-        <div className="moon-section">
+        <div className='moon-section'>
           <h4>Position</h4>
-          <div className="moon-position">
-            <span className="moon-sign">
+          <div className='moon-position'>
+            <span className='moon-sign'>
               {moonPosition?.sign ? formatSign(moonPosition.sign) : 'Unknown'}
             </span>
-            <span className="moon-degree">
+            <span className='moon-degree'>
               {moonPosition?.degree ? `${moonPosition.degree.toFixed(1)}°` : 'N/A'}
             </span>
           </div>
         </div>
 
         {/* Lunar Phase */}
-        <div className="moon-section">
+        <div className='moon-section'>
           <h4>Phase</h4>
-          <div className="lunar-phase">
-            <div className="phase-icon">
+          <div className='lunar-phase'>
+            <div className='phase-icon'>
               {getLunarPhaseIcon((lunarPhase as unknown as Record<string, unknown>).name as string)}
             </div>
-            <div className="phase-info">
-              <span className="phase-name">
-                {(lunarPhase as unknown as Record<string, unknown>).name ? formatPhaseName((lunarPhase as unknown as Record<string, unknown>).name as string) : 'Unknown'}
+            <div className='phase-info'>
+              <span className='phase-name'>
+                {(lunarPhase as unknown as Record<string, unknown>).name
+                  ? formatPhaseName(
+                      (lunarPhase as unknown as Record<string, unknown>).name as string,
+                    )
+                  : 'Unknown'}
               </span>
-              <span className="phase-illumination">
-                {(lunarPhase as unknown as Record<string, unknown>).illumination ? `${(((lunarPhase as unknown as Record<string, unknown>).illumination as number) * 100).toFixed(0)}% illuminated` : 'N/A'}
+              <span className='phase-illumination'>
+                {(lunarPhase as unknown as Record<string, unknown>).illumination
+                  ? `${(((lunarPhase as unknown as Record<string, unknown>).illumination as number) * 100).toFixed(0)}% illuminated`
+                  : 'N/A'}
               </span>
-              <span className="phase-effect">
+              <span className='phase-effect'>
                 {String((lunarPhase as unknown as Record<string, unknown>).effect || 'Neutral')}
               </span>
             </div>
@@ -82,37 +87,33 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
         </div>
 
         {/* Moon Dignity (Kalchm Score) */}
-        <div className="moon-section">
+        <div className='moon-section'>
           <h4>Dignity</h4>
-          <div className="moon-dignity">
-            <div className="dignity-score">
-              <span className="dignity-value">
-                {(moonDignity as number).toFixed(2)}
-              </span>
-              <span className="dignity-label">Traditional</span>
+          <div className='moon-dignity'>
+            <div className='dignity-score'>
+              <span className='dignity-value'>{(moonDignity as number).toFixed(2)}</span>
+              <span className='dignity-label'>Traditional</span>
             </div>
-            <div className="kalchm-score">
-              <span className="kalchm-value">
-                {moonKalchmScore.toFixed(3)}
-              </span>
-              <span className="kalchm-label">Kalchm Score</span>
+            <div className='kalchm-score'>
+              <span className='kalchm-value'>{moonKalchmScore.toFixed(3)}</span>
+              <span className='kalchm-label'>Kalchm Score</span>
             </div>
           </div>
         </div>
 
         {/* Lunar Nodes */}
-        <div className="moon-section">
+        <div className='moon-section'>
           <h4>Nodes</h4>
-          <div className="lunar-nodes">
-            <div className="north-node">
-              <span className="node-label">North Node ☊</span>
-              <span className="node-position">
+          <div className='lunar-nodes'>
+            <div className='north-node'>
+              <span className='node-label'>North Node ☊</span>
+              <span className='node-position'>
                 {lunarNodes.north.sign} {lunarNodes.north.degree.toFixed(1)}°
               </span>
             </div>
-            <div className="south-node">
-              <span className="node-label">South Node ☋</span>
-              <span className="node-position">
+            <div className='south-node'>
+              <span className='node-label'>South Node ☋</span>
+              <span className='node-position'>
                 {lunarNodes.south.sign} {lunarNodes.south.degree.toFixed(1)}°
               </span>
             </div>
@@ -120,25 +121,24 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
         </div>
 
         {/* Moon Aspects */}
-        <div className="moon-section">
+        <div className='moon-section'>
           <h4>Current Aspects</h4>
-          <div className="moon-aspects">
+          <div className='moon-aspects'>
             {moonAspects.length > 0 ? (
               moonAspects.map((aspect, index) => (
-                <div key={index} className="aspect-item">
-                  <span className="aspect-planets">
-                    {aspect.planet1 === 'Moon' ? 
-                      `Moon ${getAspectSymbol(aspect.type)} ${aspect.planet2}` :
-                      `${aspect.planet1} ${getAspectSymbol(aspect.type)} Moon`
-                    }
+                <div key={index} className='aspect-item'>
+                  <span className='aspect-planets'>
+                    {aspect.planet1 === 'Moon'
+                      ? `Moon ${getAspectSymbol(aspect.type)} ${aspect.planet2}`
+                      : `${aspect.planet1} ${getAspectSymbol(aspect.type)} Moon`}
                   </span>
-                  <span className="aspect-strength">
+                  <span className='aspect-strength'>
                     {aspect.strength ? `${(aspect.strength * 100).toFixed(0)}%` : 'N/A'}
                   </span>
                 </div>
               ))
             ) : (
-              <span className="no-aspects">No notable aspects</span>
+              <span className='no-aspects'>No notable aspects</span>
             )}
           </div>
         </div>
@@ -234,19 +234,22 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
           gap: 20px;
         }
 
-        .dignity-score, .kalchm-score {
+        .dignity-score,
+        .kalchm-score {
           display: flex;
           flex-direction: column;
           align-items: center;
         }
 
-        .dignity-value, .kalchm-value {
+        .dignity-value,
+        .kalchm-value {
           font-size: 1.2em;
           font-weight: 600;
           color: #10b981;
         }
 
-        .dignity-label, .kalchm-label {
+        .dignity-label,
+        .kalchm-label {
           font-size: 0.7em;
           color: #9ca3af;
           text-transform: uppercase;
@@ -258,7 +261,8 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
           gap: 8px;
         }
 
-        .north-node, .south-node {
+        .north-node,
+        .south-node {
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -323,14 +327,15 @@ function formatSign(sign: string): string {
 }
 
 function formatPhaseName(phase: string): string {
-  return phase.split(' ').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ');
+  return phase
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function getLunarPhaseIcon(phase?: string): string {
   if (!phase) return '🌙';
-  
+
   const icons: Record<string, string> = {
     'new moon': '🌑',
     'waxing crescent': '🌒',
@@ -339,50 +344,50 @@ function getLunarPhaseIcon(phase?: string): string {
     'full moon': '🌕',
     'waning gibbous': '🌖',
     'last quarter': '🌗',
-    'waning crescent': '🌘'
+    'waning crescent': '🌘',
   };
-  
+
   return icons[phase] || '🌙';
 }
 
 function getAspectSymbol(aspectType: string): string {
   const symbols: Record<string, string> = {
-    'conjunction': '☌',
-    'opposition': '☍',
-    'trine': '△',
-    'square': '□',
-    'sextile': '⚹',
-    'quincunx': '⚻'
+    conjunction: '☌',
+    opposition: '☍',
+    trine: '△',
+    square: '□',
+    sextile: '⚹',
+    quincunx: '⚻',
   };
-  
+
   return symbols[aspectType] || '◯';
 }
 
 function calculateMoonKalchm(moonPosition: any, lunarPhase: any): number {
   if (!moonPosition || !lunarPhase) return 0;
-  
+
   // Simplified Kalchm calculation for Moon
   const signBonus = getSignBonus(moonPosition.sign);
   const phaseBonus = getPhaseBonus(lunarPhase.name);
   const degreeBonus = (moonPosition.degree || 0) / 30; // Normalize to 0-1
-  
+
   return (signBonus + phaseBonus + degreeBonus) / 3;
 }
 
 function getSignBonus(sign: string): number {
   const bonuses: Record<string, number> = {
-    'cancer': 1.0,    // Moon's domicile
-    'taurus': 0.8,    // Moon's exaltation
-    'scorpio': 0.2,   // Moon's detriment
-    'capricorn': 0.1  // Moon's fall
+    cancer: 1.0, // Moon's domicile
+    taurus: 0.8, // Moon's exaltation
+    scorpio: 0.2, // Moon's detriment
+    capricorn: 0.1, // Moon's fall
   };
-  
+
   return bonuses[sign.toLowerCase()] || 0.5;
 }
 
 function getPhaseBonus(phase?: string): number {
   if (!phase) return 0.5;
-  
+
   const bonuses: Record<string, number> = {
     'new moon': 0.3,
     'waxing crescent': 0.5,
@@ -391,45 +396,58 @@ function getPhaseBonus(phase?: string): number {
     'full moon': 1.0,
     'waning gibbous': 0.8,
     'last quarter': 0.6,
-    'waning crescent': 0.4
+    'waning crescent': 0.4,
   };
-  
+
   return bonuses[phase] || 0.5;
 }
 
-function calculateLunarNodes(moonPosition: any): { north: { sign: string; degree: number }, south: { sign: string; degree: number } } {
+function calculateLunarNodes(moonPosition: any): {
+  north: { sign: string; degree: number };
+  south: { sign: string; degree: number };
+} {
   if (!moonPosition || !moonPosition.degree) {
     return {
       north: { sign: 'Unknown', degree: 0 },
-      south: { sign: 'Unknown', degree: 0 }
+      south: { sign: 'Unknown', degree: 0 },
     };
   }
-  
+
   // Simplified node calculation - in reality this would be much more complex
   // North Node is typically about 180° from the Moon's position
   const northNodeDegree = (moonPosition.degree + 180) % 360;
   const southNodeDegree = (northNodeDegree + 180) % 360;
-  
+
   return {
-    north: { 
-      sign: getSignFromDegree(northNodeDegree), 
-      degree: northNodeDegree % 30 
+    north: {
+      sign: getSignFromDegree(northNodeDegree),
+      degree: northNodeDegree % 30,
     },
-    south: { 
-      sign: getSignFromDegree(southNodeDegree), 
-      degree: southNodeDegree % 30 
-    }
+    south: {
+      sign: getSignFromDegree(southNodeDegree),
+      degree: southNodeDegree % 30,
+    },
   };
 }
 
 function getSignFromDegree(degree: number): string {
   const signs = [
-    'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-    'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
+    'Aries',
+    'Taurus',
+    'Gemini',
+    'Cancer',
+    'Leo',
+    'Virgo',
+    'Libra',
+    'Scorpio',
+    'Sagittarius',
+    'Capricorn',
+    'Aquarius',
+    'Pisces',
   ];
-  
+
   const signIndex = Math.floor(degree / 30);
   return signs[signIndex] || 'Unknown';
 }
 
-export default MoonInfoDisplay; 
+export default MoonInfoDisplay;

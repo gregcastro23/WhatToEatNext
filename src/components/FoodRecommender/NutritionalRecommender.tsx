@@ -19,7 +19,6 @@ interface IngredientMapping {
   healthBenefits?: string[];
 }
 
-
 interface NutritionalRecommenderProps {
   initialFilter?: IngredientFilter;
   itemsPerCategory?: number;
@@ -34,19 +33,11 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   const [filter, setFilter] = useState<IngredientFilter>(initialFilter);
   const [activeTab, setActiveTab] = useState<string>('all');
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-  const [enhancedNutritionData, setEnhancedNutritionData] = useState<
-    Record<string, unknown>
-  >({});
-  const [recipeRecommendations, setRecipeRecommendations] = useState<
-    RecipeRecommendation[]
-  >([]);
+  const [enhancedNutritionData, setEnhancedNutritionData] = useState<Record<string, unknown>>({});
+  const [recipeRecommendations, setRecipeRecommendations] = useState<RecipeRecommendation[]>([]);
   const [isLoadingRecipes, setIsLoadingRecipes] = useState<boolean>(false);
-  const [expandedIngredient, setExpandedIngredient] = useState<string | null>(
-    null
-  );
-  const [isSpoonacularLoading, setIsSpoonacularLoading] = useState<
-    Record<string, boolean>
-  >({});
+  const [expandedIngredient, setExpandedIngredient] = useState<string | null>(null);
+  const [isSpoonacularLoading, setIsSpoonacularLoading] = useState<Record<string, boolean>>({});
 
   // Filter category options for rendering tabs
   const categoryOptions = useMemo(() => {
@@ -55,25 +46,20 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
   // Apply filtering based on the current filter settings
   const recommendations = useMemo(() => {
-    return ingredientFilterService.getBalancedRecommendations(
-      itemsPerCategory,
-      filter
-    );
+    return ingredientFilterService.getBalancedRecommendations(itemsPerCategory, filter);
   }, [filter, itemsPerCategory]);
 
   // Handle filter changes from the form
   const handleFilterChange = (newFilterValues: Partial<IngredientFilter>) => {
-    setFilter((prev) => ({
+    setFilter(prev => ({
       ...prev,
       ...newFilterValues,
     }));
   };
 
   // Update nutritional filter settings
-  const handleNutritionalFilterChange = (
-    nutritionalFilter: Partial<NutritionalFilter>
-  ) => {
-    setFilter((prev) => ({
+  const handleNutritionalFilterChange = (nutritionalFilter: Partial<NutritionalFilter>) => {
+    setFilter(prev => ({
       ...prev,
       nutritional: {
         ...prev.nutritional,
@@ -92,7 +78,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
       setFilter(restFilter);
     } else {
       // Filter to show only the selected category
-      setFilter((prev) => ({
+      setFilter(prev => ({
         ...prev,
         categories: [tabName],
       }));
@@ -101,9 +87,9 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
   // Toggle ingredient selection for recipe recommendations
   const toggleIngredientSelection = (ingredientName: string) => {
-    setSelectedIngredients((prev) => {
+    setSelectedIngredients(prev => {
       if (prev.includes(ingredientName)) {
-        return prev.filter((name) => name !== ingredientName);
+        return prev.filter(name => name !== ingredientName);
       } else {
         return [...prev, ingredientName];
       }
@@ -112,21 +98,16 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
   // Fetch enhanced nutrition data from Spoonacular
   const fetchEnhancedNutritionData = async (ingredientName: string) => {
-    if (
-      enhancedNutritionData[ingredientName] ||
-      isSpoonacularLoading[ingredientName]
-    ) {
+    if (enhancedNutritionData[ingredientName] || isSpoonacularLoading[ingredientName]) {
       return;
     }
 
-    setIsSpoonacularLoading((prev) => ({ ...prev, [ingredientName]: true }));
+    setIsSpoonacularLoading(prev => ({ ...prev, [ingredientName]: true }));
 
     try {
-      const data = await ingredientFilterService.getEnhancedNutritionData(
-        ingredientName
-      );
+      const data = await ingredientFilterService.getEnhancedNutritionData(ingredientName);
       if (data) {
-        setEnhancedNutritionData((prev) => ({
+        setEnhancedNutritionData(prev => ({
           ...prev,
           [ingredientName]: data,
         }));
@@ -134,7 +115,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
     } catch (error) {
       // console.error(`Error fetching enhanced data for ${ingredientName}:`, error);
     } finally {
-      setIsSpoonacularLoading((prev) => ({ ...prev, [ingredientName]: false }));
+      setIsSpoonacularLoading(prev => ({ ...prev, [ingredientName]: false }));
     }
   };
 
@@ -150,7 +131,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
       try {
         const recipes = await ingredientFilterService.getRecipeRecommendations(
           selectedIngredients,
-          filter.dietary
+          filter.dietary,
         );
         setRecipeRecommendations(recipes);
       } catch (error) {
@@ -168,71 +149,63 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
     if (activeTab === 'all') {
       return Object.keys(recommendations);
     }
-    return Object.keys(recommendations).filter((cat) => cat === activeTab);
+    return Object.keys(recommendations).filter(cat => cat === activeTab);
   }, [recommendations, activeTab]);
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-xl font-semibold mb-4">
-        Nutritional Recommendations
-      </h2>
+    <div className='rounded-lg bg-white p-4 shadow-md'>
+      <h2 className='mb-4 text-xl font-semibold'>Nutritional Recommendations</h2>
 
       {/* Filter Controls */}
-      <div className="mb-6 bg-gray-50 p-4 rounded-md">
-        <h3 className="font-medium mb-2">Filter Options</h3>
+      <div className='mb-6 rounded-md bg-gray-50 p-4'>
+        <h3 className='mb-2 font-medium'>Filter Options</h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
           {/* High protein toggle */}
-          <div className="flex items-center">
+          <div className='flex items-center'>
             <input
-              type="checkbox"
-              id="highProteinToggle"
-              className="mr-2"
+              type='checkbox'
+              id='highProteinToggle'
+              className='mr-2'
               checked={filter.nutritional?.highProtein || false}
-              onChange={(e) =>
-                handleNutritionalFilterChange({ highProtein: e.target.checked })
-              }
+              onChange={e => handleNutritionalFilterChange({ highProtein: e.target.checked })}
             />
-            <label htmlFor="highProteinToggle">High Protein</label>
+            <label htmlFor='highProteinToggle'>High Protein</label>
           </div>
 
           {/* Low carb toggle */}
-          <div className="flex items-center">
+          <div className='flex items-center'>
             <input
-              type="checkbox"
-              id="lowCarbToggle"
-              className="mr-2"
+              type='checkbox'
+              id='lowCarbToggle'
+              className='mr-2'
               checked={filter.nutritional?.lowCarb || false}
-              onChange={(e) =>
-                handleNutritionalFilterChange({ lowCarb: e.target.checked })
-              }
+              onChange={e => handleNutritionalFilterChange({ lowCarb: e.target.checked })}
             />
-            <label htmlFor="lowCarbToggle">Low Carb</label>
+            <label htmlFor='lowCarbToggle'>Low Carb</label>
           </div>
 
           {/* Low fat toggle */}
-          <div className="flex items-center">
+          <div className='flex items-center'>
             <input
-              type="checkbox"
-              id="lowFatToggle"
-              className="mr-2"
+              type='checkbox'
+              id='lowFatToggle'
+              className='mr-2'
               checked={filter.nutritional?.lowFat || false}
-              onChange={(e) =>
-                handleNutritionalFilterChange({ lowFat: e.target.checked })
-              }
+              onChange={e => handleNutritionalFilterChange({ lowFat: e.target.checked })}
             />
-            <label htmlFor="lowFatToggle">Low Fat</label>
+            <label htmlFor='lowFatToggle'>Low Fat</label>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2'>
           {/* Vitamin filter */}
           <div>
-            <label className="block text-sm font-medium mb-1">Vitamins</label>
+            <label className='mb-1 block text-sm font-medium'>Vitamins</label>
             <select
-              className="w-full p-2 border rounded"
-              value=""
-              onChange={(e) => {
+              className='w-full rounded border p-2'
+              value=''
+              onChange={e => {
                 const selectedVitamin = e.target.value;
                 if (selectedVitamin) {
                   const currentVitamins = filter.nutritional?.vitamins || [];
@@ -242,54 +215,51 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                 }
               }}
             >
-              <option value="">Select vitamins to include</option>
-              <option value="a">Vitamin A</option>
-              <option value="c">Vitamin C</option>
-              <option value="d">Vitamin D</option>
-              <option value="e">Vitamin E</option>
-              <option value="k">Vitamin K</option>
-              <option value="b6">Vitamin B6</option>
-              <option value="b12">Vitamin B12</option>
-              <option value="folate">Folate</option>
+              <option value=''>Select vitamins to include</option>
+              <option value='a'>Vitamin A</option>
+              <option value='c'>Vitamin C</option>
+              <option value='d'>Vitamin D</option>
+              <option value='e'>Vitamin E</option>
+              <option value='k'>Vitamin K</option>
+              <option value='b6'>Vitamin B6</option>
+              <option value='b12'>Vitamin B12</option>
+              <option value='folate'>Folate</option>
             </select>
 
             {/* Display selected vitamins with remove option */}
-            {filter.nutritional?.vitamins &&
-              filter.nutritional.vitamins.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {filter.nutritional.vitamins.map((vitamin) => (
-                    <span
-                      key={vitamin}
-                      className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded flex items-center"
+            {filter.nutritional?.vitamins && filter.nutritional.vitamins.length > 0 && (
+              <div className='mt-2 flex flex-wrap gap-2'>
+                {filter.nutritional.vitamins.map(vitamin => (
+                  <span
+                    key={vitamin}
+                    className='flex items-center rounded bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800'
+                  >
+                    Vitamin {vitamin.toUpperCase()}
+                    <button
+                      className='ml-1 text-blue-800'
+                      onClick={() => {
+                        const updatedVitamins =
+                          filter.nutritional?.vitamins?.filter(v => v !== vitamin) || [];
+                        handleNutritionalFilterChange({
+                          vitamins: updatedVitamins,
+                        });
+                      }}
                     >
-                      Vitamin {vitamin.toUpperCase()}
-                      <button
-                        className="ml-1 text-blue-800"
-                        onClick={() => {
-                          const updatedVitamins =
-                            filter.nutritional?.vitamins?.filter(
-                              (v) => v !== vitamin
-                            ) || [];
-                          handleNutritionalFilterChange({
-                            vitamins: updatedVitamins,
-                          });
-                        }}
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Minerals filter */}
           <div>
-            <label className="block text-sm font-medium mb-1">Minerals</label>
+            <label className='mb-1 block text-sm font-medium'>Minerals</label>
             <select
-              className="w-full p-2 border rounded"
-              value=""
-              onChange={(e) => {
+              className='w-full rounded border p-2'
+              value=''
+              onChange={e => {
                 const selectedMineral = e.target.value;
                 if (selectedMineral) {
                   const currentMinerals = filter.nutritional?.minerals || [];
@@ -299,74 +269,69 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                 }
               }}
             >
-              <option value="">Select minerals to include</option>
-              <option value="calcium">Calcium</option>
-              <option value="iron">Iron</option>
-              <option value="magnesium">Magnesium</option>
-              <option value="potassium">Potassium</option>
-              <option value="zinc">Zinc</option>
-              <option value="selenium">Selenium</option>
+              <option value=''>Select minerals to include</option>
+              <option value='calcium'>Calcium</option>
+              <option value='iron'>Iron</option>
+              <option value='magnesium'>Magnesium</option>
+              <option value='potassium'>Potassium</option>
+              <option value='zinc'>Zinc</option>
+              <option value='selenium'>Selenium</option>
             </select>
 
             {/* Display selected minerals with remove option */}
-            {filter.nutritional?.minerals &&
-              filter.nutritional.minerals.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {filter.nutritional.minerals.map((mineral) => (
-                    <span
-                      key={mineral}
-                      className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded flex items-center"
+            {filter.nutritional?.minerals && filter.nutritional.minerals.length > 0 && (
+              <div className='mt-2 flex flex-wrap gap-2'>
+                {filter.nutritional.minerals.map(mineral => (
+                  <span
+                    key={mineral}
+                    className='flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800'
+                  >
+                    {mineral.charAt(0).toUpperCase() + mineral.slice(1)}
+                    <button
+                      className='ml-1 text-green-800'
+                      onClick={() => {
+                        const updatedMinerals =
+                          filter.nutritional?.minerals?.filter(m => m !== mineral) || [];
+                        handleNutritionalFilterChange({
+                          minerals: updatedMinerals,
+                        });
+                      }}
                     >
-                      {mineral.charAt(0).toUpperCase() + mineral.slice(1)}
-                      <button
-                        className="ml-1 text-green-800"
-                        onClick={() => {
-                          const updatedMinerals =
-                            filter.nutritional?.minerals?.filter(
-                              (m) => m !== mineral
-                            ) || [];
-                          handleNutritionalFilterChange({
-                            minerals: updatedMinerals,
-                          });
-                        }}
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Search query filter */}
-        <div className="mt-4">
-          <label className="block text-sm font-medium mb-1">Search</label>
+        <div className='mt-4'>
+          <label className='mb-1 block text-sm font-medium'>Search</label>
           <input
-            type="text"
-            className="w-full p-2 border rounded"
-            placeholder="Search ingredients..."
+            type='text'
+            className='w-full rounded border p-2'
+            placeholder='Search ingredients...'
             value={filter.searchQuery || ''}
-            onChange={(e) =>
-              handleFilterChange({ searchQuery: e.target.value })
-            }
+            onChange={e => handleFilterChange({ searchQuery: e.target.value })}
           />
         </div>
       </div>
 
       {/* Selected Ingredients */}
       {selectedIngredients.length > 0 && (
-        <div className="mb-6">
-          <h3 className="font-medium mb-2">Selected Ingredients for Recipes</h3>
-          <div className="flex flex-wrap gap-2">
-            {selectedIngredients.map((ingredient) => (
+        <div className='mb-6'>
+          <h3 className='mb-2 font-medium'>Selected Ingredients for Recipes</h3>
+          <div className='flex flex-wrap gap-2'>
+            {selectedIngredients.map(ingredient => (
               <span
                 key={ingredient}
-                className="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full flex items-center"
+                className='flex items-center rounded-full bg-purple-100 px-3 py-1 text-sm font-medium text-purple-800'
               >
                 {ingredient}
                 <button
-                  className="ml-2 text-purple-800"
+                  className='ml-2 text-purple-800'
                   onClick={() => toggleIngredientSelection(ingredient)}
                 >
                   ×
@@ -374,7 +339,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
               </span>
             ))}
             <button
-              className="text-sm text-purple-600 hover:text-purple-800"
+              className='text-sm text-purple-600 hover:text-purple-800'
               onClick={() => setSelectedIngredients([])}
             >
               Clear All
@@ -385,37 +350,34 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
       {/* Recipe Recommendations */}
       {selectedIngredients.length > 0 && (
-        <div className="mb-8">
-          <h3 className="font-medium mb-3">Recipe Recommendations</h3>
+        <div className='mb-8'>
+          <h3 className='mb-3 font-medium'>Recipe Recommendations</h3>
 
           {isLoadingRecipes ? (
-            <div className="text-center py-4">
-              <div className="inline-block animate-spin rounded-full h-6 w-6 border-2 border-purple-500 border-t-transparent"></div>
-              <p className="mt-2 text-gray-600">
-                Finding recipes with your ingredients...
-              </p>
+            <div className='py-4 text-center'>
+              <div className='inline-block h-6 w-6 animate-spin rounded-full border-2 border-purple-500 border-t-transparent'></div>
+              <p className='mt-2 text-gray-600'>Finding recipes with your ingredients...</p>
             </div>
           ) : recipeRecommendations.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {recipeRecommendations.map((recipe) => (
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+              {recipeRecommendations.map(recipe => (
                 <RecipeCard key={recipe.id} recipe={recipe} />
               ))}
             </div>
           ) : (
-            <div className="text-center py-4 text-gray-600">
-              No recipes found with the selected ingredients. Try selecting
-              different ingredients.
+            <div className='py-4 text-center text-gray-600'>
+              No recipes found with the selected ingredients. Try selecting different ingredients.
             </div>
           )}
         </div>
       )}
 
       {/* Category Tabs */}
-      <div className="mb-4 border-b">
-        <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
-          <li className="mr-2">
+      <div className='mb-4 border-b'>
+        <ul className='-mb-px flex flex-wrap text-center text-sm font-medium'>
+          <li className='mr-2'>
             <button
-              className={`inline-block p-2 rounded-t-lg ${
+              className={`inline-block rounded-t-lg p-2 ${
                 activeTab === 'all'
                   ? 'border-b-2 border-blue-600 text-blue-600'
                   : 'border-transparent hover:border-gray-300 hover:text-gray-600'
@@ -426,10 +388,10 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
             </button>
           </li>
 
-          {categoryOptions.map((category) => (
-            <li className="mr-2" key={category}>
+          {categoryOptions.map(category => (
+            <li className='mr-2' key={category}>
               <button
-                className={`inline-block p-2 rounded-t-lg ${
+                className={`inline-block rounded-t-lg p-2 ${
                   activeTab === category
                     ? 'border-b-2 border-blue-600 text-blue-600'
                     : 'border-transparent hover:border-gray-300 hover:text-gray-600'
@@ -446,22 +408,24 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
       {/* Results Display */}
       <div>
         {categoriesToDisplay.length === 0 ? (
-          <div className="text-center py-6 text-gray-500">
+          <div className='py-6 text-center text-gray-500'>
             No recommendations found with the current filters.
           </div>
         ) : (
-          categoriesToDisplay.map((category) => (
-            <div key={category} className="mb-6">
-              <h3 className="text-lg font-medium mb-3">{category}</h3>
+          categoriesToDisplay.map(category => (
+            <div key={category} className='mb-6'>
+              <h3 className='mb-3 text-lg font-medium'>{category}</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
                 {(recommendations[category] as Ingredient[]).map(
                   (value: Ingredient, _index: number, _array: Ingredient[]): React.ReactElement => {
                     // Extract ingredient data with safe property access
                     // ✅ Pattern MM-1: Safe type assertion for ingredient data
-                    const ingredientData = (value as unknown) as Record<string, unknown>;
-                    const ingredientName = String(ingredientData.name || ingredientData.ingredient || '');
-                    
+                    const ingredientData = value as unknown as Record<string, unknown>;
+                    const ingredientName = String(
+                      ingredientData.name || ingredientData.ingredient || '',
+                    );
+
                     return (
                       <IngredientCard
                         key={ingredientName}
@@ -469,21 +433,15 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                         isSelected={selectedIngredients.includes(ingredientName)}
                         onToggleSelection={toggleIngredientSelection}
                         enhancedData={enhancedNutritionData[ingredientName]}
-                        isSpoonacularLoading={
-                          isSpoonacularLoading[ingredientName] || false
-                        }
-                        onLoadSpoonacularData={() =>
-                          fetchEnhancedNutritionData(ingredientName)
-                        }
+                        isSpoonacularLoading={isSpoonacularLoading[ingredientName] || false}
+                        onLoadSpoonacularData={() => fetchEnhancedNutritionData(ingredientName)}
                         isExpanded={expandedIngredient === ingredientName}
-                        onToggleExpand={(name) =>
-                          setExpandedIngredient((prev) =>
-                            prev === name ? null : name
-                          )
+                        onToggleExpand={name =>
+                          setExpandedIngredient(prev => (prev === name ? null : name))
                         }
                       />
                     );
-                  }
+                  },
                 )}
               </div>
             </div>
@@ -501,7 +459,7 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
   const getKeyNutrient = (name: string) => {
     const nutrients = Array.isArray(recipe.nutrition.nutrients) ? recipe.nutrition.nutrients : [];
     return nutrients.find(
-      (n: Record<string, unknown>) => String(n.name || '').toLowerCase() === name.toLowerCase()
+      (n: Record<string, unknown>) => String(n.name || '').toLowerCase() === name.toLowerCase(),
     );
   };
 
@@ -511,49 +469,45 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
   const fat = getKeyNutrient('Fat');
 
   return (
-    <div className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className='overflow-hidden rounded-lg border bg-white shadow-sm transition-shadow hover:shadow-md'>
       {recipe.image && (
-        <img
-          src={recipe.image}
-          alt={recipe.title}
-          className="w-full h-48 object-cover"
-        />
+        <img src={recipe.image} alt={recipe.title} className='h-48 w-full object-cover' />
       )}
-      <div className="p-4">
-        <h4 className="font-medium text-lg mb-2">{recipe.title}</h4>
+      <div className='p-4'>
+        <h4 className='mb-2 text-lg font-medium'>{recipe.title}</h4>
 
         {/* Recipe details */}
-        <div className="grid grid-cols-2 gap-2 mb-3 text-sm">
-          <div className="flex items-center">
+        <div className='mb-3 grid grid-cols-2 gap-2 text-sm'>
+          <div className='flex items-center'>
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-1 text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+              xmlns='http://www.w3.org/2000/svg'
+              className='mr-1 h-4 w-4 text-gray-500'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeLinecap='round'
+                strokeLinejoin='round'
                 strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
               />
             </svg>
             <span>{recipe.readyInMinutes} min</span>
           </div>
-          <div className="flex items-center">
+          <div className='flex items-center'>
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-1 text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+              xmlns='http://www.w3.org/2000/svg'
+              className='mr-1 h-4 w-4 text-gray-500'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeLinecap='round'
+                strokeLinejoin='round'
                 strokeWidth={2}
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
               />
             </svg>
             <span>Health: {recipe.healthScore}%</span>
@@ -561,46 +515,55 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
         </div>
 
         {/* Nutritional values */}
-        <div className="grid grid-cols-4 gap-1 mb-3">
+        <div className='mb-3 grid grid-cols-4 gap-1'>
           {calories && (
-            <div className="bg-gray-50 p-1 rounded text-center">
-              <div className="text-xs text-gray-500">Calories</div>
-              <div className="font-medium">{Math.round(Number((calories as Record<string, unknown>).amount || 0))}</div>
+            <div className='rounded bg-gray-50 p-1 text-center'>
+              <div className='text-xs text-gray-500'>Calories</div>
+              <div className='font-medium'>
+                {Math.round(Number((calories as Record<string, unknown>).amount || 0))}
+              </div>
             </div>
           )}
           {protein && (
-            <div className="bg-gray-50 p-1 rounded text-center">
-              <div className="text-xs text-gray-500">Protein</div>
-              <div className="font-medium">{Math.round(Number((protein as Record<string, unknown>).amount || 0))}g</div>
+            <div className='rounded bg-gray-50 p-1 text-center'>
+              <div className='text-xs text-gray-500'>Protein</div>
+              <div className='font-medium'>
+                {Math.round(Number((protein as Record<string, unknown>).amount || 0))}g
+              </div>
             </div>
           )}
           {carbs && (
-            <div className="bg-gray-50 p-1 rounded text-center">
-              <div className="text-xs text-gray-500">Carbs</div>
-              <div className="font-medium">{Math.round(Number((carbs as Record<string, unknown>).amount || 0))}g</div>
+            <div className='rounded bg-gray-50 p-1 text-center'>
+              <div className='text-xs text-gray-500'>Carbs</div>
+              <div className='font-medium'>
+                {Math.round(Number((carbs as Record<string, unknown>).amount || 0))}g
+              </div>
             </div>
           )}
           {fat && (
-            <div className="bg-gray-50 p-1 rounded text-center">
-              <div className="text-xs text-gray-500">Fat</div>
-              <div className="font-medium">{Math.round(Number((fat as Record<string, unknown>).amount || 0))}g</div>
+            <div className='rounded bg-gray-50 p-1 text-center'>
+              <div className='text-xs text-gray-500'>Fat</div>
+              <div className='font-medium'>
+                {Math.round(Number((fat as Record<string, unknown>).amount || 0))}g
+              </div>
             </div>
           )}
         </div>
 
         {/* Ingredients used */}
-        <div className="mt-3 text-sm">
-          <div className="font-medium mb-1">Ingredients:</div>
-          <div className="flex flex-wrap gap-1">
+        <div className='mt-3 text-sm'>
+          <div className='mb-1 font-medium'>Ingredients:</div>
+          <div className='flex flex-wrap gap-1'>
             {/* ✅ Pattern GG-6: Safe property access for used ingredients */}
-            {Array.isArray(recipe.usedIngredients) && recipe.usedIngredients.map((ingredient, idx) => (
-              <span
-                key={idx}
-                className="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded"
-              >
-                {ingredient}
-              </span>
-            ))}
+            {Array.isArray(recipe.usedIngredients) &&
+              recipe.usedIngredients.map((ingredient, idx) => (
+                <span
+                  key={idx}
+                  className='rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800'
+                >
+                  {ingredient}
+                </span>
+              ))}
           </div>
         </div>
       </div>
@@ -632,35 +595,36 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 }) => {
   // Extract ingredient data with safe property access
   // ✅ Pattern MM-1: Safe type assertion for ingredient data
-  const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+  const ingredientData = ingredient as unknown as Record<string, unknown>;
   const nutritionalProfile = (ingredientData.nutritionalProfile as Record<string, unknown>) || {};
   const ingredientName = String(ingredientData.name || ingredientData.ingredient || '');
-  const qualities = Array.isArray(ingredientData.qualities) ? ingredientData.qualities as string[] : undefined;
+  const qualities = Array.isArray(ingredientData.qualities)
+    ? (ingredientData.qualities as string[])
+    : undefined;
 
   return (
     <div
-      className={`bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow relative
-                  ${isSelected ? 'ring-2 ring-purple-500' : ''}`}
+      className={`relative rounded-lg bg-gray-50 p-4 shadow-sm transition-shadow hover:shadow-md ${isSelected ? 'ring-2 ring-purple-500' : ''}`}
     >
-      <div className="flex justify-between items-start mb-2">
-        <h4 className="font-medium text-lg">{ingredientName}</h4>
-        <label className="inline-flex items-center cursor-pointer">
+      <div className='mb-2 flex items-start justify-between'>
+        <h4 className='text-lg font-medium'>{ingredientName}</h4>
+        <label className='inline-flex cursor-pointer items-center'>
           <input
-            type="checkbox"
-            className="form-checkbox h-4 w-4 text-purple-600"
+            type='checkbox'
+            className='form-checkbox h-4 w-4 text-purple-600'
             checked={isSelected}
             onChange={() => onToggleSelection(ingredientName)}
           />
-          <span className="ml-1 text-xs text-gray-600">Select</span>
+          <span className='ml-1 text-xs text-gray-600'>Select</span>
         </label>
       </div>
 
       {qualities && qualities.length > 0 && (
-        <div className="mb-2 flex flex-wrap gap-1">
+        <div className='mb-2 flex flex-wrap gap-1'>
           {qualities.map((quality: string) => (
             <span
               key={quality}
-              className="text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded"
+              className='rounded bg-purple-100 px-1.5 py-0.5 text-xs text-purple-800'
             >
               {quality}
             </span>
@@ -670,171 +634,174 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
       {/* Elemental properties visualization */}
       {ingredient.elementalProperties && (
-        <div className="mb-3 grid grid-cols-4 gap-1">
-          {Object.entries(ingredient.elementalProperties).map(
-            ([element, value]) => (
-              <div key={element} className="text-center">
-                <div
-                  className={`mx-auto w-6 h-6 rounded-full flex items-center justify-center text-white text-xs
-                  ${
-                    element === 'Fire'
-                      ? 'bg-red-500'
-                      : element === 'Water'
+        <div className='mb-3 grid grid-cols-4 gap-1'>
+          {Object.entries(ingredient.elementalProperties).map(([element, value]) => (
+            <div key={element} className='text-center'>
+              <div
+                className={`mx-auto flex h-6 w-6 items-center justify-center rounded-full text-xs text-white ${
+                  element === 'Fire'
+                    ? 'bg-red-500'
+                    : element === 'Water'
                       ? 'bg-blue-500'
                       : element === 'Earth'
-                      ? 'bg-amber-700'
-                      : 'bg-sky-300'
-                  }`}
-                >
-                  {element.charAt(0)}
-                </div>
-                <div className="text-xs mt-1">{Math.round(value * 100)}%</div>
+                        ? 'bg-amber-700'
+                        : 'bg-sky-300'
+                }`}
+              >
+                {element.charAt(0)}
               </div>
-            )
-          )}
+              <div className='mt-1 text-xs'>{Math.round(value * 100)}%</div>
+            </div>
+          ))}
         </div>
       )}
 
       {/* Nutritional information display */}
-      <div className="space-y-1 mt-3 border-t pt-2">
-        <div className="flex justify-between">
-          <h5 className="text-sm font-medium">Nutrition</h5>
+      <div className='mt-3 space-y-1 border-t pt-2'>
+        <div className='flex justify-between'>
+          <h5 className='text-sm font-medium'>Nutrition</h5>
           <button
             onClick={() => onToggleExpand(ingredientName)}
-            className="text-xs text-blue-600 hover:text-blue-800"
+            className='text-xs text-blue-600 hover:text-blue-800'
           >
             {isExpanded ? 'Show Less' : 'Show More'}
           </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-2 text-xs">
+        <div className='grid grid-cols-2 gap-x-2 text-xs'>
           {/* ✅ Pattern GG-6: Safe property access for nutritional profile */}
-          {(nutritionalProfile ).calories !== undefined && (
-            <div>Calories: {String((nutritionalProfile ).calories)}</div>
+          {nutritionalProfile.calories !== undefined && (
+            <div>Calories: {String(nutritionalProfile.calories)}</div>
           )}
 
-          {(nutritionalProfile ).protein_g !== undefined && (
-            <div>Protein: {String((nutritionalProfile ).protein_g)}g</div>
+          {nutritionalProfile.protein_g !== undefined && (
+            <div>Protein: {String(nutritionalProfile.protein_g)}g</div>
           )}
 
-          {(nutritionalProfile ).fiber_g !== undefined && (
-            <div>Fiber: {String((nutritionalProfile ).fiber_g)}g</div>
+          {nutritionalProfile.fiber_g !== undefined && (
+            <div>Fiber: {String(nutritionalProfile.fiber_g)}g</div>
           )}
 
-          {(nutritionalProfile ).vitamin_density !== undefined && (
-            <div>
-              Vitamin Density: {Number((nutritionalProfile ).vitamin_density).toFixed(1)}
-            </div>
+          {nutritionalProfile.vitamin_density !== undefined && (
+            <div>Vitamin Density: {Number(nutritionalProfile.vitamin_density).toFixed(1)}</div>
           )}
         </div>
 
         {/* ✅ Pattern GG-6: Safe property access for vitamins and minerals */}
-{Boolean((nutritionalProfile).vitamins || (nutritionalProfile).minerals) && (
-          <div className="grid grid-cols-1 gap-1 mt-1">
-            {Boolean((nutritionalProfile).vitamins &&
-              Array.isArray((nutritionalProfile).vitamins) &&
-              ((nutritionalProfile).vitamins as string[]).length > 0) && (
-                <div className="text-xs">
-                  Vitamins:{' '}
-                  {((nutritionalProfile).vitamins as string[])
-                    .map((v: string) => v.toUpperCase())
-                    .join(', ')}
-                </div>
-              )}
+        {Boolean(nutritionalProfile.vitamins || nutritionalProfile.minerals) && (
+          <div className='mt-1 grid grid-cols-1 gap-1'>
+            {Boolean(
+              nutritionalProfile.vitamins &&
+                Array.isArray(nutritionalProfile.vitamins) &&
+                (nutritionalProfile.vitamins as string[]).length > 0,
+            ) && (
+              <div className='text-xs'>
+                Vitamins:{' '}
+                {(nutritionalProfile.vitamins as string[])
+                  .map((v: string) => v.toUpperCase())
+                  .join(', ')}
+              </div>
+            )}
 
-{Boolean((nutritionalProfile).minerals &&
-              Array.isArray((nutritionalProfile).minerals) &&
-              ((nutritionalProfile).minerals as string[]).length > 0) && (
-                <div className="text-xs">
-                  Minerals: {((nutritionalProfile).minerals as string[]).join(', ')}
-                </div>
-              )}
+            {Boolean(
+              nutritionalProfile.minerals &&
+                Array.isArray(nutritionalProfile.minerals) &&
+                (nutritionalProfile.minerals as string[]).length > 0,
+            ) && (
+              <div className='text-xs'>
+                Minerals: {(nutritionalProfile.minerals as string[]).join(', ')}
+              </div>
+            )}
           </div>
         )}
       </div>
 
       {/* Enhanced nutrition data from Spoonacular */}
       {isExpanded && (
-        <div className="mt-3 border-t pt-2">
-          <h5 className="text-sm font-medium mb-2">Detailed Nutrition</h5>
+        <div className='mt-3 border-t pt-2'>
+          <h5 className='mb-2 text-sm font-medium'>Detailed Nutrition</h5>
 
           {!enhancedData && !isSpoonacularLoading && (
             <button
               onClick={onLoadSpoonacularData}
-              className="text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className='rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600'
             >
               Load Detailed Nutrition Data
             </button>
           )}
 
           {isSpoonacularLoading && (
-            <div className="flex items-center text-xs text-gray-600">
-              <div className="animate-spin rounded-full h-3 w-3 border border-gray-600 border-t-transparent mr-2"></div>
+            <div className='flex items-center text-xs text-gray-600'>
+              <div className='mr-2 h-3 w-3 animate-spin rounded-full border border-gray-600 border-t-transparent'></div>
               Loading detailed nutrition data...
             </div>
           )}
 
           {Boolean(enhancedData) && (
-            <div className="space-y-2">
+            <div className='space-y-2'>
               {/* Display enhanced nutrition data with safe property access */}
-{(() => {
+              {(() => {
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const nutrition = enhancedDataObj.nutrition as Record<string, unknown>;
                 const nutrients = nutrition.nutrients;
-                
+
                 // ✅ Pattern GG-6: Safe property access for nutrients array
                 return nutrients && Array.isArray(nutrients) ? (
-                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
-                    {(nutrients as unknown[])
-                      .slice(0, 8)
-                      .map((nutrient: unknown) => {
-                        const nutrientData = nutrient as Record<string, unknown>;
-                        const name = String(nutrientData.name || '');
-                        const amount = Number(nutrientData.amount || 0);
-                        const unit = String(nutrientData.unit || '');
-                        
-                        return (
-                          <div key={name} className="flex justify-between">
-                            <span>{name}:</span>
-                            <span className="font-medium">
-                              {amount} {unit}
-                            </span>
-                          </div>
-                        );
-                      })}
+                  <div className='grid grid-cols-2 gap-x-2 gap-y-1 text-xs'>
+                    {(nutrients as unknown[]).slice(0, 8).map((nutrient: unknown) => {
+                      const nutrientData = nutrient as Record<string, unknown>;
+                      const name = String(nutrientData.name || '');
+                      const amount = Number(nutrientData.amount || 0);
+                      const unit = String(nutrientData.unit || '');
+
+                      return (
+                        <div key={name} className='flex justify-between'>
+                          <span>{name}:</span>
+                          <span className='font-medium'>
+                            {amount} {unit}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : null;
               })()}
 
-              {(() => {
-                const enhancedDataObj = enhancedData as Record<string, unknown>;
-                const categoryPath = enhancedDataObj.categoryPath;
-                
-                // ✅ Pattern GG-6: Safe property access for category path
-                if (categoryPath && Array.isArray(categoryPath)) {
-                  return (
-                    <div className="text-xs mt-2">
-                      <span className="font-medium">Category:</span>{' '}
-                      {(categoryPath as string[]).join(' > ')}
-                    </div>
-                  );
-                }
-                return null;
-              })() as React.ReactNode}
+              {
+                (() => {
+                  const enhancedDataObj = enhancedData as Record<string, unknown>;
+                  const categoryPath = enhancedDataObj.categoryPath;
+
+                  // ✅ Pattern GG-6: Safe property access for category path
+                  if (categoryPath && Array.isArray(categoryPath)) {
+                    return (
+                      <div className='mt-2 text-xs'>
+                        <span className='font-medium'>Category:</span>{' '}
+                        {(categoryPath as string[]).join(' > ')}
+                      </div>
+                    );
+                  }
+                  return null;
+                })() as React.ReactNode
+              }
 
               {/* Possible substitutes with safe access */}
-              {(() => {
-                const enhancedDataObj = enhancedData as Record<string, unknown>;
-                const possibleSubstitutes = enhancedDataObj.possibleSubstitutes;
-                
-                // ✅ Pattern GG-6: Safe property access for possible substitutes
-                return possibleSubstitutes && (
-                  <div className="text-xs mt-1">
-                    <span className="font-medium">Substitutes:</span>{' '}
-                    {String(possibleSubstitutes)}
-                  </div>
-                );
-              })() as React.ReactNode}
+              {
+                (() => {
+                  const enhancedDataObj = enhancedData as Record<string, unknown>;
+                  const possibleSubstitutes = enhancedDataObj.possibleSubstitutes;
+
+                  // ✅ Pattern GG-6: Safe property access for possible substitutes
+                  return (
+                    possibleSubstitutes && (
+                      <div className='mt-1 text-xs'>
+                        <span className='font-medium'>Substitutes:</span>{' '}
+                        {String(possibleSubstitutes)}
+                      </div>
+                    )
+                  );
+                })() as React.ReactNode
+              }
             </div>
           )}
         </div>

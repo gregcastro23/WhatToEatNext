@@ -1,7 +1,12 @@
-import { cuisinesMap } from "@/data/cuisines/index";
+import { cuisinesMap } from '@/data/cuisines/index';
 import { allIngredients } from '@/data/ingredients';
 import { celestialCalculator } from '@/services/celestialCalculations';
-import type { ElementalProperties, CelestialAlignment, ThermodynamicMetrics, Element } from '@/types/alchemy';
+import type {
+  ElementalProperties,
+  CelestialAlignment,
+  ThermodynamicMetrics,
+  Element,
+} from '@/types/alchemy';
 import { Recipe, ScoredRecipe } from '@/types/recipe';
 import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 
@@ -19,8 +24,8 @@ const performAlchemicalAnalysis = (_recipe: Recipe, _alignment: unknown) => ({
     reactivity: 0,
     gregsEnergy: 0,
     kalchm: 1,
-    monica: 1
-  }
+    monica: 1,
+  },
 });
 
 /**
@@ -51,24 +56,24 @@ export class DirectRecipeService {
   private currentCelestialAlignment: CelestialAlignment | null = null;
   private lastAlignmentUpdate: number = 0;
   private readonly ALIGNMENT_CACHE_DURATION = 60 * 60 * 1000; // 1 hour
-  
+
   private constructor() {
     this.loadAllRecipes();
   }
-  
-  public static getInstance(): DirectRecipeService  {
+
+  public static getInstance(): DirectRecipeService {
     if (!DirectRecipeService.instance) {
       DirectRecipeService.instance = new DirectRecipeService();
     }
     return DirectRecipeService.instance;
   }
-  
+
   /**
    * Load all recipes from cuisine data
    */
   private loadAllRecipes(): void {
     const recipes: Recipe[] = [];
-    
+
     // Extract recipes from all cuisines
     Object.values(cuisinesMap || {}).forEach(cuisine => {
       // Process breakfast recipes
@@ -77,21 +82,21 @@ export class DirectRecipeService {
           recipes.push(...seasonRecipes);
         }
       });
-      
+
       // Process lunch recipes
       Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
           recipes.push(...seasonRecipes);
         }
       });
-      
+
       // Process dinner recipes
       Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
           recipes.push(...seasonRecipes);
         }
       });
-      
+
       // Process dessert recipes
       Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
@@ -99,7 +104,7 @@ export class DirectRecipeService {
         }
       });
     });
-    
+
     // Deduplicate recipes by ID
     const uniqueRecipes = recipes.reduce((acc: { [key: string]: Recipe }, recipe) => {
       if (recipe.id && !acc[recipe.id]) {
@@ -107,27 +112,29 @@ export class DirectRecipeService {
       }
       return acc;
     }, {});
-    
+
     this.allRecipes = Object.values(uniqueRecipes);
   }
 
   /**
    * Get current celestial alignment from astrologize API or cache
    */
-  private async getCurrentCelestialAlignment(forceRefresh = false): Promise<CelestialAlignment>  {
+  private async getCurrentCelestialAlignment(forceRefresh = false): Promise<CelestialAlignment> {
     const now = Date.now();
-    
+
     // Return cached alignment if still valid
-    if (!forceRefresh && 
-        this.currentCelestialAlignment && 
-        (now - this.lastAlignmentUpdate) < this.ALIGNMENT_CACHE_DURATION) {
+    if (
+      !forceRefresh &&
+      this.currentCelestialAlignment &&
+      now - this.lastAlignmentUpdate < this.ALIGNMENT_CACHE_DURATION
+    ) {
       return this.currentCelestialAlignment;
     }
 
     try {
       // Get current date, time, and location for astrologize API
       const currentDate = new Date();
-      
+
       // Fetch real planetary positions from astrologize API
       const planetaryPositions = await fetchPlanetaryPositions({
         // This will use current date/time/location by default
@@ -135,12 +142,12 @@ export class DirectRecipeService {
         month: currentDate.getMonth() + 1, // API expects 1-12
         year: currentDate.getFullYear(),
         hour: currentDate.getHours(),
-        minutes: currentDate.getMinutes()
+        minutes: currentDate.getMinutes(),
       });
 
       // Calculate celestial alignment using our celestial calculator
       const _alignment = celestialCalculator.calculateCurrentInfluences();
-      
+
       // Update with real planetary data if available
       if (planetaryPositions && Object.keys(planetaryPositions || {}).length > 0) {
         // Convert astrologize API format to our internal format
@@ -148,27 +155,26 @@ export class DirectRecipeService {
           ..._alignment,
           planetaryPositions: planetaryPositions,
           realTimeData: true,
-          lastUpdated: new Date().toISOString()
+          lastUpdated: new Date().toISOString(),
         };
-        
+
         this.currentCelestialAlignment = enhancedAlignment as unknown as CelestialAlignment;
       } else {
         // Fall back to calculated alignment
         this.currentCelestialAlignment = _alignment;
       }
-      
+
       this.lastAlignmentUpdate = now;
       return this.currentCelestialAlignment;
-      
     } catch (error) {
       console.error('Error fetching celestial alignment:', error);
-      
+
       // Fall back to celestial calculator if API fails
       if (!this.currentCelestialAlignment) {
         this.currentCelestialAlignment = celestialCalculator.calculateCurrentInfluences();
         this.lastAlignmentUpdate = now;
       }
-      
+
       return this.currentCelestialAlignment;
     }
   }
@@ -176,7 +182,7 @@ export class DirectRecipeService {
   /**
    * Calculate alchemical compatibility score between recipe and current celestial state
    */
-  private async calculateAlchemicalScore(recipe: Recipe): Promise< {
+  private async calculateAlchemicalScore(recipe: Recipe): Promise<{
     score: number;
     kalchm: number;
     monica: number;
@@ -190,47 +196,46 @@ export class DirectRecipeService {
     };
   }> {
     const _alignment = await this.getCurrentCelestialAlignment();
-    
+
     // Calculate recipe's Kalchm value from ingredients
     const recipeKalchm = this.calculateRecipeKalchm(recipe);
-    
+
     // Calculate Monica constant
     const monica = calculateMonica(
       recipeKalchm,
       _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance,
-      recipe as unknown as Recipe
+      recipe as unknown as Recipe,
     );
-    
+
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(
       recipe as unknown as Recipe,
-      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance
+      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance,
     );
-    
+
     // Calculate individual component scores
     const breakdown = {
       elementalScore: this.calculateElementalScore(recipe, _alignment),
       zodiacalScore: this.calculateZodiacalScore(recipe, _alignment),
       lunarScore: this.calculateLunarScore(recipe, _alignment),
       planetaryScore: this.calculatePlanetaryScore(recipe, _alignment),
-      seasonalScore: this.calculateSeasonalScore(recipe, _alignment)
+      seasonalScore: this.calculateSeasonalScore(recipe, _alignment),
     };
-    
+
     // Calculate overall compatibility score
-    const totalScore = (
+    const totalScore =
       breakdown.elementalScore * 0.3 +
       breakdown.zodiacalScore * 0.2 +
       breakdown.lunarScore * 0.15 +
       breakdown.planetaryScore * 0.25 +
-      breakdown.seasonalScore * 0.1
-    );
-    
+      breakdown.seasonalScore * 0.1;
+
     return {
       score: Math.max(0, Math.min(1, totalScore)),
       kalchm: recipeKalchm,
       monica: monica,
       thermodynamics: alchemicalAnalysis.thermodynamics,
-      breakdown
+      breakdown,
     };
   }
 
@@ -240,19 +245,19 @@ export class DirectRecipeService {
   private calculateRecipeKalchm(recipe: Recipe): number {
     let totalKalchm = 1.0;
     let ingredientCount = 0;
-    
+
     (recipe.ingredients || []).forEach(ingredient => {
       // Look up ingredient in our database
-      const ingredientData = allIngredients[ingredient.name] || 
-                            allIngredients[ingredient.name.toLowerCase()];
-      
+      const ingredientData =
+        allIngredients[ingredient.name] || allIngredients[ingredient.name.toLowerCase()];
+
       if (ingredientData && (ingredientData as any).alchemicalProperties) {
         const ingredientKalchm = calculateKalchm((ingredientData as any).alchemicalProperties);
         totalKalchm *= ingredientKalchm;
         ingredientCount++;
       }
     });
-    
+
     // Return geometric mean for combined Kalchm
     return ingredientCount > 0 ? Math.pow(totalKalchm, 1 / ingredientCount) : 1.0;
   }
@@ -261,12 +266,13 @@ export class DirectRecipeService {
    * Calculate elemental compatibility score
    */
   private calculateElementalScore(recipe: Recipe, alignment: CelestialAlignment): number {
-    const recipeElementalState = (recipe as Record<string, unknown>).elementalState || recipe.elementalProperties;
+    const recipeElementalState =
+      (recipe as Record<string, unknown>).elementalState || recipe.elementalProperties;
     if (!recipeElementalState) return 0.5;
-    
+
     return calculateElementalCompatibility(
       recipeElementalState,
-      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance
+      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance,
     );
   }
 
@@ -275,11 +281,13 @@ export class DirectRecipeService {
    */
   private calculateZodiacalScore(recipe: Recipe, alignment: CelestialAlignment): number {
     if (!recipe.zodiacInfluences || (recipe.zodiacInfluences || []).length === 0) return 0.5;
-    
+
     // Check if current zodiac sign matches recipe influences
     const currentZodiac = alignment.currentZodiacSign?.toLowerCase();
-    const hasZodiacMatch = (recipe.zodiacInfluences || []).some(sign => sign.toLowerCase() === currentZodiac);
-    
+    const hasZodiacMatch = (recipe.zodiacInfluences || []).some(
+      sign => sign.toLowerCase() === currentZodiac,
+    );
+
     return hasZodiacMatch ? 0.8 : 0.3;
   }
 
@@ -287,13 +295,14 @@ export class DirectRecipeService {
    * Calculate lunar phase compatibility score
    */
   private calculateLunarScore(recipe: Recipe, alignment: CelestialAlignment): number {
-    if (!recipe.lunarPhaseInfluences || (recipe.lunarPhaseInfluences || []).length === 0) return 0.5;
-    
+    if (!recipe.lunarPhaseInfluences || (recipe.lunarPhaseInfluences || []).length === 0)
+      return 0.5;
+
     const currentLunarPhase = alignment.lunarPhase.toLowerCase();
-    const hasLunarMatch = (recipe.lunarPhaseInfluences || []).some(phase => 
-      phase.toLowerCase() === currentLunarPhase
+    const hasLunarMatch = (recipe.lunarPhaseInfluences || []).some(
+      phase => phase.toLowerCase() === currentLunarPhase,
     );
-    
+
     return hasLunarMatch ? 0.8 : 0.4;
   }
 
@@ -302,25 +311,34 @@ export class DirectRecipeService {
    */
   private calculatePlanetaryScore(recipe: Recipe, alignment: CelestialAlignment): number {
     if (!recipe.planetaryInfluences) return 0.5;
-    
+
     let score = 0.5;
-    
+
     // Check favorable planets
     if (recipe.planetaryInfluences.favorable) {
       const favorableMatches = (recipe.planetaryInfluences.favorable || []).filter(planet =>
-        (alignment.dominantPlanets || []).some(dp => dp.name.toLowerCase() === planet.toLowerCase())
+        (alignment.dominantPlanets || []).some(
+          dp => dp.name.toLowerCase() === planet.toLowerCase(),
+        ),
       );
-      score += ((favorableMatches || []).length / (recipe.planetaryInfluences.favorable || []).length) * 0.3;
+      score +=
+        ((favorableMatches || []).length / (recipe.planetaryInfluences.favorable || []).length) *
+        0.3;
     }
-    
+
     // Check unfavorable planets (reduce score)
     if (recipe.planetaryInfluences.unfavorable) {
       const unfavorableMatches = (recipe.planetaryInfluences.unfavorable || []).filter(planet =>
-        (alignment.dominantPlanets || []).some(dp => dp.name.toLowerCase() === planet.toLowerCase())
+        (alignment.dominantPlanets || []).some(
+          dp => dp.name.toLowerCase() === planet.toLowerCase(),
+        ),
       );
-      score -= ((unfavorableMatches || []).length / (recipe.planetaryInfluences.unfavorable || []).length) * 0.2;
+      score -=
+        ((unfavorableMatches || []).length /
+          (recipe.planetaryInfluences.unfavorable || []).length) *
+        0.2;
     }
-    
+
     return Math.max(0, Math.min(1, score));
   }
 
@@ -331,66 +349,69 @@ export class DirectRecipeService {
     // Apply safe type casting for currentSeason access
     const recipeData = recipe as Record<string, unknown>;
     const currentSeason = recipeData.currentSeason;
-    
+
     if (!currentSeason || (Array.isArray(currentSeason) && currentSeason.length === 0)) return 0.5;
-    
+
     // Determine current season from date
     const currentMonth = new Date().getMonth();
     let currentSeasonName = 'spring';
-    
+
     if (currentMonth >= 2 && currentMonth <= 4) currentSeasonName = 'spring';
     else if (currentMonth >= 5 && currentMonth <= 7) currentSeasonName = 'summer';
     else if (currentMonth >= 8 && currentMonth <= 10) currentSeasonName = 'autumn';
     else currentSeasonName = 'winter';
-    
+
     const seasonArray = Array.isArray(currentSeason) ? currentSeason : [currentSeason];
     const hasSeasonMatch = seasonArray.some(
-      season => season?.toLowerCase() === currentSeasonName ||
-                season?.toLowerCase() === 'all'
+      season => season?.toLowerCase() === currentSeasonName || season?.toLowerCase() === 'all',
     );
-    
+
     return hasSeasonMatch ? 0.8 : 0.3;
   }
-  
+
   /**
    * Get all recipes
    */
   public getAllRecipes(): Recipe[] {
     return this.allRecipes;
   }
-  
+
   /**
    * Get a recipe by ID
    */
   public getRecipeById(id: string): Recipe | undefined {
     return this.allRecipes.find(recipe => recipe.id === id);
   }
-  
+
   /**
    * Get recipes by cuisine with astrological scoring
    */
-  public async getRecipesByCuisine(cuisine: string, limit = 20, offset = 0): Promise<ScoredRecipe[]> {
+  public async getRecipesByCuisine(
+    cuisine: string,
+    limit = 20,
+    offset = 0,
+  ): Promise<ScoredRecipe[]> {
     const normalizedCuisine = cuisine.toLowerCase();
-    const filteredRecipes = (this.allRecipes || []).filter(recipe => 
-      recipe.cuisine?.toLowerCase() === normalizedCuisine
+    const filteredRecipes = (this.allRecipes || []).filter(
+      recipe => recipe.cuisine?.toLowerCase() === normalizedCuisine,
     );
-    
+
     // Score each recipe with current astrological influences
     const scoredRecipes: ScoredRecipe[] = [];
-    
+
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown
+        alchemicalScores: alchemicalScore.breakdown,
       });
     }
-    
+
     // Sort by astrological compatibility score
     return scoredRecipes.sort((a, b) => b.score - a.score);
   }
-  
+
   /**
    * Get recipes by season with astrological scoring
    */
@@ -404,26 +425,30 @@ export class DirectRecipeService {
       }
       return false;
     });
-    
+
     // Score with astrological influences
     const scoredRecipes: ScoredRecipe[] = [];
-    
+
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown
+        alchemicalScores: alchemicalScore.breakdown,
       });
     }
-    
+
     return scoredRecipes.sort((a, b) => b.score - a.score);
   }
-  
+
   /**
    * Get recipes by meal type with astrological scoring
    */
-  public async getRecipesByMealType(mealType: string, limit = 20, offset = 0): Promise<ScoredRecipe[]> {
+  public async getRecipesByMealType(
+    mealType: string,
+    limit = 20,
+    offset = 0,
+  ): Promise<ScoredRecipe[]> {
     const normalizedMealType = mealType.toLowerCase();
     const filteredRecipes = (this.allRecipes || []).filter(recipe => {
       if (Array.isArray(recipe.mealType)) {
@@ -433,46 +458,52 @@ export class DirectRecipeService {
       }
       return false;
     });
-    
+
     // Score with astrological influences
     const scoredRecipes: ScoredRecipe[] = [];
-    
+
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown
+        alchemicalScores: alchemicalScore.breakdown,
       });
     }
-    
+
     return scoredRecipes.sort((a, b) => b.score - a.score);
   }
-  
+
   /**
    * Get recipes by zodiac sign with full astrological integration
    */
-  public async getRecipesByZodiacSign(currentZodiacSign: string, limit = 20, offset = 0): Promise<ScoredRecipe[]> {
+  public async getRecipesByZodiacSign(
+    currentZodiacSign: string,
+    limit = 20,
+    offset = 0,
+  ): Promise<ScoredRecipe[]> {
     const normalizedZodiacSign = currentZodiacSign.toLowerCase();
     const filteredRecipes = (this.allRecipes || []).filter(recipe => {
-      return (recipe.zodiacInfluences || []).some(sign => sign.toLowerCase() === normalizedZodiacSign);
+      return (recipe.zodiacInfluences || []).some(
+        sign => sign.toLowerCase() === normalizedZodiacSign,
+      );
     });
-    
+
     // Score with full astrological analysis
     const scoredRecipes: ScoredRecipe[] = [];
-    
+
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown
+        alchemicalScores: alchemicalScore.breakdown,
       });
     }
-    
+
     return scoredRecipes.sort((a, b) => b.score - a.score);
   }
-  
+
   /**
    * Get best recipe matches based on provided criteria with full astrological integration
    */
@@ -482,25 +513,27 @@ export class DirectRecipeService {
     offset?: number;
   }): Promise<ScoredRecipe[]> {
     const { criteria, limit = 10, offset = 0 } = options;
-    
+
     // Get current celestial alignment (this will use real astrologize API data)
     const _alignment = await this.getCurrentCelestialAlignment();
-    
+
     // Start with all recipes
     let candidateRecipes = [...this.allRecipes];
-    
+
     // Apply basic filters based on criteria
     if (criteria.cuisine) {
-      candidateRecipes = candidateRecipes.filter(r => r.cuisine?.toLowerCase() === criteria.cuisine?.toLowerCase());
+      candidateRecipes = candidateRecipes.filter(
+        r => r.cuisine?.toLowerCase() === criteria.cuisine?.toLowerCase(),
+      );
     }
-    
+
     // Enhanced seasonal filtering with safe type casting
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
       candidateRecipes = candidateRecipes.filter(recipe => {
         const recipeData = recipe as Record<string, unknown>;
         const recipeCurrentSeason = recipeData.currentSeason;
-        
+
         if (Array.isArray(recipeCurrentSeason)) {
           return recipeCurrentSeason.some(s => s?.toLowerCase() === seasonCriteria?.toLowerCase());
         } else if (typeof recipeCurrentSeason === 'string') {
@@ -509,75 +542,92 @@ export class DirectRecipeService {
         return false;
       });
     }
-    
+
     if (criteria.mealType) {
       candidateRecipes = candidateRecipes.filter(recipe => {
         if (Array.isArray(recipe.mealType)) {
-          return (recipe.mealType || []).some(m => m.toLowerCase() === criteria.mealType?.toLowerCase());
+          return (recipe.mealType || []).some(
+            m => m.toLowerCase() === criteria.mealType?.toLowerCase(),
+          );
         } else if (typeof recipe.mealType === 'string') {
           return recipe.mealType.toLowerCase() === criteria.mealType?.toLowerCase();
         }
         return false;
       });
     }
-    
+
     // Apply dietary filters
-    if (Array.isArray(criteria.dietaryPreferences) ? criteria.dietaryPreferences.includes('vegetarian') : criteria.dietaryPreferences === 'vegetarian') {
+    if (
+      Array.isArray(criteria.dietaryPreferences)
+        ? criteria.dietaryPreferences.includes('vegetarian')
+        : criteria.dietaryPreferences === 'vegetarian'
+    ) {
       candidateRecipes = candidateRecipes.filter(r => r.isVegetarian);
     }
-    
-    if (Array.isArray(criteria.dietaryPreferences) ? criteria.dietaryPreferences.includes('vegan') : criteria.dietaryPreferences === 'vegan') {
+
+    if (
+      Array.isArray(criteria.dietaryPreferences)
+        ? criteria.dietaryPreferences.includes('vegan')
+        : criteria.dietaryPreferences === 'vegan'
+    ) {
       candidateRecipes = candidateRecipes.filter(r => r.isVegan);
     }
-    
-    if (Array.isArray(criteria.dietaryPreferences) ? criteria.dietaryPreferences.includes('glutenFree') : criteria.dietaryPreferences === 'glutenFree') {
+
+    if (
+      Array.isArray(criteria.dietaryPreferences)
+        ? criteria.dietaryPreferences.includes('glutenFree')
+        : criteria.dietaryPreferences === 'glutenFree'
+    ) {
       candidateRecipes = candidateRecipes.filter(r => r.isGlutenFree);
     }
-    
-    if (Array.isArray(criteria.dietaryPreferences) ? criteria.dietaryPreferences.includes('dairyFree') : criteria.dietaryPreferences === 'dairyFree') {
+
+    if (
+      Array.isArray(criteria.dietaryPreferences)
+        ? criteria.dietaryPreferences.includes('dairyFree')
+        : criteria.dietaryPreferences === 'dairyFree'
+    ) {
       candidateRecipes = candidateRecipes.filter(r => r.isDairyFree);
     }
-    
+
     // Score recipes with full astrological, alchemical, and thermodynamic analysis
     const scoredRecipes: ScoredRecipe[] = [];
-    
+
     for (const recipe of candidateRecipes) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       let finalScore = alchemicalScore.score;
-      
+
       // Enhanced elemental compatibility scoring with safe type casting
       if (criteria.elementalState && recipe.elementalState) {
         const criteriaElementalState = criteria.elementalState;
         const recipeElementalState = recipe.elementalState;
-        
+
         const criteriaCompatibility = calculateElementalCompatibility(
           criteriaElementalState as unknown as ElementalProperties,
-          recipeElementalState as unknown as ElementalProperties
+          recipeElementalState as unknown as ElementalProperties,
         );
         finalScore = (finalScore + criteriaCompatibility) / 2;
       }
-      
+
       // Score based on ingredients match
       if ((criteria.ingredients || []).length) {
-        const matchingIngredients = (recipe.ingredients || []).filter(i => 
-          (criteria.ingredients || []).some(ci => i.name.toLowerCase().includes(ci.toLowerCase()))
+        const matchingIngredients = (recipe.ingredients || []).filter(i =>
+          (criteria.ingredients || []).some(ci => i.name.toLowerCase().includes(ci.toLowerCase())),
         );
-        
-        const ingredientMatchRatio = (matchingIngredients || []).length / (criteria.ingredients || []).length;
-        finalScore *= (1 + ingredientMatchRatio * 0.2);
+
+        const ingredientMatchRatio =
+          (matchingIngredients || []).length / (criteria.ingredients || []).length;
+        finalScore *= 1 + ingredientMatchRatio * 0.2;
       }
-      
+
       scoredRecipes.push({
         ...recipe,
         score: Math.min(1, finalScore),
-        alchemicalScores: alchemicalScore.breakdown
+        alchemicalScores: alchemicalScore.breakdown,
       });
     }
-    
+
     // Sort by score (descending) and apply pagination
-    return scoredRecipes
-      .sort((a, b) => b.score - a.score)
-      .slice(offset, offset + limit);
+    return scoredRecipes.sort((a, b) => b.score - a.score).slice(offset, offset + limit);
   }
 
   /**
@@ -595,4 +645,4 @@ export class DirectRecipeService {
   }
 }
 
-export default DirectRecipeService; 
+export default DirectRecipeService;

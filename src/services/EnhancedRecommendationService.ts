@@ -1,16 +1,21 @@
 // Removed unused imports: CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS
 import { ChakraService, ChakraEnergyState } from '@/services/ChakraService';
 import { WiccanCorrespondenceService } from '@/services/WiccanCorrespondenceService';
-import { AstrologicalState, ElementalProperties, ChakraEnergies, /* Season, */ Element } from '@/types/alchemy';
+import {
+  AstrologicalState,
+  ElementalProperties,
+  ChakraEnergies,
+  /* Season, */ Element,
+} from '@/types/alchemy';
 // Removed unused import: Season
 
 import { /* CHAKRA_BALANCING_FOODS, */ calculateChakraEnergies } from '../constants/chakraMappings';
 // Removed unused import: CHAKRA_BALANCING_FOODS
 import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
-import { 
-// NEW: Phase 7 unified flavor system integration
+import {
+  // NEW: Phase 7 unified flavor system integration
   calculateFlavorCompatibility,
-  UnifiedFlavorProfile
+  UnifiedFlavorProfile,
   // Removed unused imports: getFlavorProfile, unifiedFlavorEngine
 } from '../data/unified/unifiedFlavorEngine';
 import { /* getTarotCardsForDate, */ getTarotFoodRecommendations } from '../lib/tarotCalculations';
@@ -20,14 +25,13 @@ import { getRecommendedIngredients } from '../utils/recommendation/foodRecommend
 import { EnhancedIngredient } from '../utils/recommendation/ingredientRecommendation';
 
 // Phase 8: Performance optimization imports
-import { 
+import {
   // flavorCompatibilityCache, // unused - removed for performance
-  astrologicalProfileCache, 
-  ingredientProfileCache 
+  astrologicalProfileCache,
+  ingredientProfileCache,
   // performanceMonitor // unused - removed for performance
 } from './PerformanceCache';
 // Removed unused imports: flavorCompatibilityCache, performanceMonitor
-
 
 export interface EnhancedRecommendation {
   ingredient: EnhancedIngredient;
@@ -92,33 +96,34 @@ export class EnhancedRecommendationService {
     this.chakraService = new ChakraService();
     this.wiccanService = new WiccanCorrespondenceService();
   }
-  
+
   /**
    * Safe element extraction with validation
    */
   private safeGetElement(value: unknown): Element | null {
     if (typeof value === 'string') {
       const validElements: Element[] = ['Fire', 'Water', 'Earth', 'Air'];
-      const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() as Element;
+      const capitalizedValue = (value.charAt(0).toUpperCase() +
+        value.slice(1).toLowerCase()) as Element;
       return validElements.includes(capitalizedValue) ? capitalizedValue : null;
     }
     return null;
   }
-  
+
   /**
    * Safe string extraction
    */
   private safeGetString(value: unknown): string | null {
     return typeof value === 'string' ? value : null;
   }
-  
+
   /**
    * Safe number extraction
    */
   private safeGetNumber(value: unknown): number {
     return typeof value === 'number' && !isNaN(value) ? value : 0;
   }
-  
+
   /**
    * Safe elemental properties extraction
    */
@@ -126,13 +131,13 @@ export class EnhancedRecommendationService {
     if (!value || typeof value !== 'object') {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
-    
+
     const props = value as Record<string, unknown>;
     return {
       Fire: this.safeGetNumber(props.Fire),
       Water: this.safeGetNumber(props.Water),
       Earth: this.safeGetNumber(props.Earth),
-      Air: this.safeGetNumber(props.Air)
+      Air: this.safeGetNumber(props.Air),
     };
   }
 
@@ -145,18 +150,21 @@ export class EnhancedRecommendationService {
       dietary?: string[];
       taste?: { [key: string]: number };
       chakraFocus?: string[];
-    }
+    },
   ): Promise<EnhancedRecommendationResult> {
     try {
       // Get base recommendations
       const baseRecommendations = await getRecommendedIngredients(astroState);
-      
+
       // Apply user preference filtering if provided
-      const filteredRecommendations = this.applyUserPreferenceFiltering(baseRecommendations as unknown as EnhancedIngredient[], userPreferences);
+      const filteredRecommendations = this.applyUserPreferenceFiltering(
+        baseRecommendations as unknown as EnhancedIngredient[],
+        userPreferences,
+      );
 
       // Calculate chakra energies from astrological state
       const chakraEnergies = this.calculateChakraEnergiesFromAstroState(astroState);
-      
+
       // Get chakra energy states
       const signEnergyStates = this.convertAstroStateToSignEnergies(astroState);
       const chakraEnergyStates = this.chakraService.calculateChakraEnergyStates(signEnergyStates);
@@ -165,33 +173,39 @@ export class EnhancedRecommendationService {
       const tarotGuidance = getTarotFoodRecommendations(new Date());
 
       // Get chakra-based food recommendations
-      const chakraFoodRecommendations = this.chakraService.getFoodRecommendations(chakraEnergyStates);
+      const chakraFoodRecommendations =
+        this.chakraService.getFoodRecommendations(chakraEnergyStates);
 
       // Enhance each recommendation with additional data including unified flavor system
       const enhancedRecommendations = await Promise.all(
-        filteredRecommendations.slice(0, 20).map(async (ingredient) => {
+        filteredRecommendations.slice(0, 20).map(async ingredient => {
           // Create a proper EnhancedIngredient from the base recommendation
           const ingredientData = ingredient as unknown as Record<string, unknown>;
           const enhancedIngredient: EnhancedIngredient = {
             ...ingredient,
             name: ingredient.name || 'Unknown',
             astrologicalProfile: ingredientData.astrologicalProfile || {},
-            elementalPropertiesState: ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            elementalPropertiesState: ingredient.elementalProperties || {
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
+              Air: 0.25,
+            },
             score: typeof ingredientData.score === 'number' ? ingredientData.score : 0.5,
             // Add missing required properties for EnhancedIngredient
             amount: typeof ingredientData.amount === 'number' ? ingredientData.amount : 1,
             unit: typeof ingredientData.unit === 'string' ? ingredientData.unit : 'serving',
-            element: this.safeGetElement(ingredientData.element) || 'Air'
+            element: this.safeGetElement(ingredientData.element) || 'Air',
           };
-          
+
           return await this.enhanceRecommendation(
             enhancedIngredient,
             chakraEnergyStates,
             tarotGuidance as Record<string, unknown>,
             astroState,
-            chakraEnergies // Pass chakra energies for flavor compatibility
+            chakraEnergies, // Pass chakra energies for flavor compatibility
           );
-        })
+        }),
       );
 
       // Sort by enhanced score
@@ -203,17 +217,16 @@ export class EnhancedRecommendationService {
           .filter(state => state.balanceState !== 'balanced')
           .map(state => state.chakra),
         recommendedFoods: chakraFoodRecommendations,
-        dietaryAdjustments: this.chakraService.suggestDietaryAdjustments(
-          chakraEnergyStates,
-          {
-            moonPhase: astroState.lunarPhase,
-            sunSign: astroState.currentZodiac
-          }
-        )
+        dietaryAdjustments: this.chakraService.suggestDietaryAdjustments(chakraEnergyStates, {
+          moonPhase: astroState.lunarPhase,
+          sunSign: astroState.currentZodiac,
+        }),
       };
 
       // Calculate overall score
-      const overallScore = enhancedRecommendations.reduce((sum, rec) => sum + rec.score, 0) / enhancedRecommendations.length;
+      const overallScore =
+        enhancedRecommendations.reduce((sum, rec) => sum + rec.score, 0) /
+        enhancedRecommendations.length;
 
       return {
         recommendations: enhancedRecommendations,
@@ -221,44 +234,50 @@ export class EnhancedRecommendationService {
         tarotGuidance: {
           dailyCard: (tarotGuidance as { dailyCard?: string }).dailyCard || 'Unknown',
           element: (tarotGuidance as { element?: Element }).element || 'Air',
-          cookingApproach: (tarotGuidance as { cookingApproach?: string }).cookingApproach || 'Balanced',
+          cookingApproach:
+            (tarotGuidance as { cookingApproach?: string }).cookingApproach || 'Balanced',
           flavors: (tarotGuidance as { flavors?: string[] }).flavors || [],
-          insights: (tarotGuidance as { insights?: string }).insights || 'Follow your intuition today.'
+          insights:
+            (tarotGuidance as { insights?: string }).insights || 'Follow your intuition today.',
         },
-        overallScore
+        overallScore,
       };
-
     } catch (error) {
       console.error('Error in enhanced recommendations:', error);
-      
+
       // Fallback to base recommendations with interface compliance
       const baseRecommendations = await getRecommendedIngredients(astroState);
-      const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations.slice(0, 10).map(ingredient => ({
-        ingredient,
-        score: (ingredient as unknown as Record<string, unknown>).score || 0.5,
-        reasons: ['Base astrological alignment'],
-        chakraAlignment: {
-          dominantChakra: 'heart',
-          energyLevel: 0.5,
-          balanceState: 'balanced' as const
-        }
-      } as unknown as EnhancedRecommendation));
+      const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations
+        .slice(0, 10)
+        .map(
+          ingredient =>
+            ({
+              ingredient,
+              score: (ingredient as unknown as Record<string, unknown>).score || 0.5,
+              reasons: ['Base astrological alignment'],
+              chakraAlignment: {
+                dominantChakra: 'heart',
+                energyLevel: 0.5,
+                balanceState: 'balanced' as const,
+              },
+            }) as unknown as EnhancedRecommendation,
+        );
 
       return {
         recommendations: fallbackRecommendations,
         chakraGuidance: {
           imbalancedChakras: [],
           recommendedFoods: {},
-          dietaryAdjustments: []
+          dietaryAdjustments: [],
         },
         tarotGuidance: {
           dailyCard: 'The Sun', // ← Pattern GG-6: dailyCard property already present in fallback
           element: 'Fire' as unknown as Element,
           cookingApproach: 'Energizing',
           flavors: ['warm', 'spicy'],
-          insights: 'Focus on warming, energizing foods today.'
+          insights: 'Focus on warming, energizing foods today.',
         },
-        overallScore: 0.5
+        overallScore: 0.5,
       };
     }
   }
@@ -271,14 +290,14 @@ export class EnhancedRecommendationService {
     chakraStates: ChakraEnergyState[],
     tarotGuidance,
     astroState: AstrologicalState,
-    chakraEnergies?: ChakraEnergies
+    chakraEnergies?: ChakraEnergies,
   ): Promise<EnhancedRecommendation> {
     let enhancedScore = ingredient.score || 0.5;
     const reasons: string[] = [];
 
     // Analyze chakra alignment
     const chakraAlignment = this.analyzeChakraAlignment(ingredient, chakraStates);
-    
+
     // Boost score based on chakra needs
     if (chakraAlignment.balanceState === 'underactive') {
       enhancedScore += 0.2;
@@ -299,29 +318,33 @@ export class EnhancedRecommendationService {
     const flavorCompatibility = await this.calculateUnifiedFlavorCompatibility(
       ingredient,
       astroState,
-      chakraEnergies
+      chakraEnergies,
     );
-    
+
     if (flavorCompatibility) {
       // Boost score based on flavor compatibility (weighted at 25% of total enhancement)
       const flavorBoost = flavorCompatibility.overall * 0.25;
       enhancedScore += flavorBoost;
-      
+
       // Add flavor-based reasons
       if (flavorCompatibility.overall > 0.8) {
-        reasons.push(`Exceptional flavor harmony (${(flavorCompatibility.overall * 100).toFixed(0)}%)`);
+        reasons.push(
+          `Exceptional flavor harmony (${(flavorCompatibility.overall * 100).toFixed(0)}%)`,
+        );
       } else if (flavorCompatibility.overall > 0.7) {
-        reasons.push(`Strong flavor compatibility (${(flavorCompatibility.overall * 100).toFixed(0)}%)`);
+        reasons.push(
+          `Strong flavor compatibility (${(flavorCompatibility.overall * 100).toFixed(0)}%)`,
+        );
       }
-      
+
       if (flavorCompatibility.kalchm > 0.8) {
         reasons.push(`High Kalchm resonance`);
       }
-      
+
       if (flavorCompatibility.seasonal > 0.8) {
         reasons.push(`Perfect seasonal alignment`);
       }
-      
+
       // Add optimization suggestions to reasons
       if ((flavorCompatibility.optimizations || []).length > 0) {
         reasons.push(...flavorCompatibility.optimizations.slice(0, 2)); // Limit to 2 optimizations
@@ -341,7 +364,7 @@ export class EnhancedRecommendationService {
       chakraAlignment,
       flavorCompatibility: flavorCompatibility as any,
       tarotInfluence,
-      wiccanProperties
+      wiccanProperties,
     };
   }
 
@@ -350,14 +373,18 @@ export class EnhancedRecommendationService {
    */
   private analyzeChakraAlignment(
     ingredient: EnhancedIngredient,
-    chakraStates: ChakraEnergyState[]
-  ): { dominantChakra: string; energyLevel: number; balanceState: 'balanced' | 'underactive' | 'overactive' } {
+    chakraStates: ChakraEnergyState[],
+  ): {
+    dominantChakra: string;
+    energyLevel: number;
+    balanceState: 'balanced' | 'underactive' | 'overactive';
+  } {
     // Map ingredient elements to chakras
     const elementChakraMap: { [key: string]: string } = {
-      'Fire': 'Solar Plexus',
-      'Water': 'Sacral',
-      'Earth': 'Root',
-      'Air': 'Heart'
+      Fire: 'Solar Plexus',
+      Water: 'Sacral',
+      Earth: 'Root',
+      Air: 'Heart',
     };
 
     let dominantChakra = 'Heart';
@@ -367,7 +394,7 @@ export class EnhancedRecommendationService {
     if (ingredient.elementalProperties) {
       const dominantElement = this.getDominantElement(ingredient.elementalProperties);
       dominantChakra = elementChakraMap[dominantElement] || 'Heart';
-      
+
       // Find the corresponding chakra state
       const chakraState = chakraStates.find(state => state.chakra === dominantChakra);
       if (chakraState) {
@@ -384,22 +411,22 @@ export class EnhancedRecommendationService {
    */
   private analyzeTarotInfluence(
     ingredient: EnhancedIngredient,
-    tarotGuidance: {}
+    tarotGuidance: {},
   ): { card: string; element: Element; recommendation: string } | undefined {
     if (!tarotGuidance || !ingredient.elementalProperties) return undefined;
 
     // Use safe type casting for tarot guidance property access
     const tarotData = tarotGuidance as Record<string, unknown>;
-    
+
     const dominantElement = this.getDominantElement(ingredient.elementalProperties);
-    
+
     // Check if ingredient element matches tarot element
     const tarotElement = this.safeGetString(tarotData.element);
     if (dominantElement.toLowerCase() === tarotElement?.toLowerCase()) {
       return {
         card: this.safeGetString(tarotData.dailyCard) || 'Unknown',
         element: this.safeGetElement(tarotData.element) || 'Air',
-        recommendation: `This ${dominantElement} ingredient resonates with today's ${tarotElement} energy`
+        recommendation: `This ${dominantElement} ingredient resonates with today's ${tarotElement} energy`,
       };
     }
 
@@ -417,13 +444,13 @@ export class EnhancedRecommendationService {
       const properties = await this.wiccanService.getMagicalProperties(ingredientName);
       return {
         magicalAttributes: properties.magicalAttributes || [],
-        planetaryRulers: (properties.planetaryRulers || []).map(p => p.toString()) || []
+        planetaryRulers: (properties.planetaryRulers || []).map(p => p.toString()) || [],
       };
     } catch (error) {
       // Return default properties if service fails
       return {
         magicalAttributes: ['nourishing', 'grounding'],
-        planetaryRulers: ['Earth']
+        planetaryRulers: ['Earth'],
       };
     }
   }
@@ -434,18 +461,18 @@ export class EnhancedRecommendationService {
   private calculateChakraEnergiesFromAstroState(astroState: AstrologicalState): ChakraEnergies {
     // Create zodiac energy record
     const zodiacEnergies: { [key: string]: number } = {
-      'aries': 0.5,
-      'taurus': 0.5,
-      'gemini': 0.5,
-      'cancer': 0.5,
-      'leo': 0.5,
-      'virgo': 0.5,
-      'libra': 0.5,
-      'scorpio': 0.5,
-      'sagittarius': 0.5,
-      'capricorn': 0.5,
-      'aquarius': 0.5,
-      'pisces': 0.5
+      aries: 0.5,
+      taurus: 0.5,
+      gemini: 0.5,
+      cancer: 0.5,
+      leo: 0.5,
+      virgo: 0.5,
+      libra: 0.5,
+      scorpio: 0.5,
+      sagittarius: 0.5,
+      capricorn: 0.5,
+      aquarius: 0.5,
+      pisces: 0.5,
     };
 
     // Boost current zodiac sign
@@ -458,22 +485,22 @@ export class EnhancedRecommendationService {
     const astroData = astroState as Record<string, unknown>;
     if (astroData.elementalState) {
       const elementalState = this.safeExtractElementalProperties(astroData.elementalState);
-      
+
       // Fire signs
       zodiacEnergies['aries'] += elementalState.Fire * 0.3;
       zodiacEnergies['leo'] += elementalState.Fire * 0.3;
       zodiacEnergies['sagittarius'] += elementalState.Fire * 0.3;
-      
+
       // Water signs
       zodiacEnergies['cancer'] += elementalState.Water * 0.3;
       zodiacEnergies['scorpio'] += elementalState.Water * 0.3;
       zodiacEnergies['pisces'] += elementalState.Water * 0.3;
-      
+
       // Earth signs
       zodiacEnergies['taurus'] += elementalState.Earth * 0.3;
       zodiacEnergies['virgo'] += elementalState.Earth * 0.3;
       zodiacEnergies['capricorn'] += elementalState.Earth * 0.3;
-      
+
       // Air signs
       zodiacEnergies['gemini'] += elementalState.Air * 0.3;
       zodiacEnergies['libra'] += elementalState.Air * 0.3;
@@ -489,7 +516,7 @@ export class EnhancedRecommendationService {
       heart: chakraRecord['Heart'] || 0.14,
       throat: chakraRecord['Throat'] || 0.14,
       thirdEye: chakraRecord['Third Eye'] || 0.14,
-      crown: chakraRecord['Crown'] || 0.14
+      crown: chakraRecord['Crown'] || 0.14,
     };
   }
 
@@ -498,8 +525,18 @@ export class EnhancedRecommendationService {
    */
   private convertAstroStateToSignEnergies(astroState: AstrologicalState): SignEnergyState[] {
     const signs: ZodiacSign[] = [
-      'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-      'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+      'aries',
+      'taurus',
+      'gemini',
+      'cancer',
+      'leo',
+      'virgo',
+      'libra',
+      'scorpio',
+      'sagittarius',
+      'capricorn',
+      'aquarius',
+      'pisces',
     ];
 
     return (signs || []).map(sign => ({
@@ -507,7 +544,7 @@ export class EnhancedRecommendationService {
       currentEnergy: sign === astroState.currentZodiac?.toLowerCase() ? 0.8 : 0.5,
       baseEnergy: 0.5,
       planetaryInfluence: 0.1,
-      lunarInfluence: 0.1
+      lunarInfluence: 0.1,
     })) as unknown as SignEnergyState[];
   }
 
@@ -533,8 +570,8 @@ export class EnhancedRecommendationService {
   private async calculateUnifiedFlavorCompatibility(
     ingredient: EnhancedIngredient,
     astroState: AstrologicalState,
-    chakraEnergies?: ChakraEnergies
-  ): Promise< {
+    chakraEnergies?: ChakraEnergies,
+  ): Promise<{
     overall: number;
     elemental: number;
     kalchm: number;
@@ -559,7 +596,10 @@ export class EnhancedRecommendationService {
       }
 
       // Create astrological reference profile
-      const astroProfile = this.createAstrologicalReferenceProfileCached(astroState, chakraEnergies);
+      const astroProfile = this.createAstrologicalReferenceProfileCached(
+        astroState,
+        chakraEnergies,
+      );
 
       // Calculate compatibility using unified flavor engine
       const compatibility = calculateFlavorCompatibility(ingredientProfile, astroProfile);
@@ -577,10 +617,10 @@ export class EnhancedRecommendationService {
           elementalDetails: compatibility.breakdown.elementalDetails || {},
           flavorHarmony: compatibility.breakdown.flavorHarmony || {},
           seasonalAlignment: compatibility.breakdown.seasonalAlignment || {},
-          culturalResonance: compatibility.breakdown.culturalResonance || []
+          culturalResonance: compatibility.breakdown.culturalResonance || [],
         },
         recommendations: compatibility.recommendations || [],
-        optimizations: compatibility.optimizations || []
+        optimizations: compatibility.optimizations || [],
       };
     } catch (error) {
       console.warn('Error calculating unified flavor compatibility:', error);
@@ -588,7 +628,9 @@ export class EnhancedRecommendationService {
     }
   }
 
-  private convertToFlavorProfileCached(ingredient: EnhancedIngredient): UnifiedFlavorProfile | null {
+  private convertToFlavorProfileCached(
+    ingredient: EnhancedIngredient,
+  ): UnifiedFlavorProfile | null {
     try {
       // Check cache first
       const cacheKey = `ingredient_${ingredient.name}`;
@@ -613,40 +655,65 @@ export class EnhancedRecommendationService {
     try {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as unknown as Record<string, unknown>;
-      
+
       // Create basic flavor profile structure
       const profile = {
         id: ingredient.name || 'unknown',
         name: ingredient.name || 'Unknown Ingredient',
         category: 'ingredient' as const,
         baseNotes: {
-          sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0,
-          ...(Array.isArray(ingredientData.baseNotes) ? {} : ingredientData.baseNotes as Record<string, number> || {})
+          sweet: 0,
+          sour: 0,
+          salty: 0,
+          bitter: 0,
+          umami: 0,
+          spicy: 0,
+          ...(Array.isArray(ingredientData.baseNotes)
+            ? {}
+            : (ingredientData.baseNotes as Record<string, number>) || {}),
         },
         heartNotes: (ingredientData.heartNotes as string[]) || [],
         topNotes: (ingredientData.topNotes as string[]) || [],
         elementalProfile: {
-          Fire: this.safeGetNumber((ingredientData.elementalProperties as Record<string, unknown>).Fire),
-          Water: this.safeGetNumber((ingredientData.elementalProperties as Record<string, unknown>).Water),
-          Earth: this.safeGetNumber((ingredientData.elementalProperties as Record<string, unknown>).Earth),
-          Air: this.safeGetNumber((ingredientData.elementalProperties as Record<string, unknown>).Air)
+          Fire: this.safeGetNumber(
+            (ingredientData.elementalProperties as Record<string, unknown>).Fire,
+          ),
+          Water: this.safeGetNumber(
+            (ingredientData.elementalProperties as Record<string, unknown>).Water,
+          ),
+          Earth: this.safeGetNumber(
+            (ingredientData.elementalProperties as Record<string, unknown>).Earth,
+          ),
+          Air: this.safeGetNumber(
+            (ingredientData.elementalProperties as Record<string, unknown>).Air,
+          ),
         },
         flavorIntensity: this.safeGetNumber(ingredientData.flavorIntensity) || 0.5,
         complexity: this.safeGetNumber(ingredientData.complexity) || 0.5,
         seasonality: (ingredientData.seasonality as string[]) || [],
         culturalOrigins: (ingredientData.culturalOrigins as string[]) || [],
         nutritionalProfile: {
-          calories: this.safeGetNumber((ingredientData.nutritionalProfile as Record<string, unknown>).calories),
-          protein: this.safeGetNumber((ingredientData.nutritionalProfile as Record<string, unknown>).protein),
-          fat: this.safeGetNumber((ingredientData.nutritionalProfile as Record<string, unknown>).fat),
-          carbohydrates: this.safeGetNumber((ingredientData.nutritionalProfile as Record<string, unknown>).carbohydrates),
-          fiber: this.safeGetNumber((ingredientData.nutritionalProfile as Record<string, unknown>).fiber)
+          calories: this.safeGetNumber(
+            (ingredientData.nutritionalProfile as Record<string, unknown>).calories,
+          ),
+          protein: this.safeGetNumber(
+            (ingredientData.nutritionalProfile as Record<string, unknown>).protein,
+          ),
+          fat: this.safeGetNumber(
+            (ingredientData.nutritionalProfile as Record<string, unknown>).fat,
+          ),
+          carbohydrates: this.safeGetNumber(
+            (ingredientData.nutritionalProfile as Record<string, unknown>).carbohydrates,
+          ),
+          fiber: this.safeGetNumber(
+            (ingredientData.nutritionalProfile as Record<string, unknown>).fiber,
+          ),
         },
         preparationMethods: (ingredientData.preparationMethods as string[]) || [],
         pairings: (ingredientData.pairings as string[]) || [],
         contraindications: (ingredientData.contraindications as string[]) || [],
         kalchm: this.safeGetNumber(ingredientData.kalchm) || 0.5,
-        monica: this.safeGetNumber(ingredientData.monica) || 0.5
+        monica: this.safeGetNumber(ingredientData.monica) || 0.5,
       };
 
       return profile as unknown as UnifiedFlavorProfile;
@@ -658,7 +725,7 @@ export class EnhancedRecommendationService {
 
   private createAstrologicalReferenceProfileCached(
     astroState: AstrologicalState,
-    chakraEnergies?: ChakraEnergies
+    chakraEnergies?: ChakraEnergies,
   ): UnifiedFlavorProfile {
     try {
       // Check cache first
@@ -680,20 +747,25 @@ export class EnhancedRecommendationService {
 
   private createAstrologicalReferenceProfile(
     astroState: AstrologicalState,
-    chakraEnergies?: ChakraEnergies
-  ): UnifiedFlavorProfile  {
+    chakraEnergies?: ChakraEnergies,
+  ): UnifiedFlavorProfile {
     try {
       // Extract astro state data with safe property access
       const astroData = astroState as unknown as Record<string, unknown>;
       const elementalProps = astroData.elementalProperties as Record<string, unknown>;
-      
+
       // Create astrological reference profile
       const profile = {
         id: `astro_${astroState.currentZodiac}`,
         name: `Astrological Profile - ${astroState.currentZodiac}`,
         category: 'elemental' as const,
         baseNotes: {
-          sweet: 0.3, sour: 0.1, salty: 0.1, bitter: 0.2, umami: 0.2, spicy: 0.1
+          sweet: 0.3,
+          sour: 0.1,
+          salty: 0.1,
+          bitter: 0.2,
+          umami: 0.2,
+          spicy: 0.1,
         },
         heartNotes: ['balanced', 'aligned', 'resonant'],
         topNotes: ['dynamic', 'flowing', 'energetic'],
@@ -701,7 +773,7 @@ export class EnhancedRecommendationService {
           Fire: this.safeGetNumber(elementalProps.Fire),
           Water: this.safeGetNumber(elementalProps.Water),
           Earth: this.safeGetNumber(elementalProps.Earth),
-          Air: this.safeGetNumber(elementalProps.Air)
+          Air: this.safeGetNumber(elementalProps.Air),
         },
         flavorIntensity: 0.7,
         complexity: 0.8,
@@ -712,13 +784,13 @@ export class EnhancedRecommendationService {
           protein: 0,
           fat: 0,
           carbohydrates: 0,
-          fiber: 0
+          fiber: 0,
         },
         preparationMethods: ['meditation', 'alignment', 'harmony'],
         pairings: ['all ingredients'],
         contraindications: [],
         kalchm: 0.5,
-        monica: 0.5
+        monica: 0.5,
       };
 
       return profile as unknown as UnifiedFlavorProfile;
@@ -730,7 +802,12 @@ export class EnhancedRecommendationService {
         name: 'Default Astrological Profile',
         category: 'elemental' as const,
         baseNotes: {
-          sweet: 0.25, sour: 0.25, salty: 0.25, bitter: 0.25, umami: 0, spicy: 0
+          sweet: 0.25,
+          sour: 0.25,
+          salty: 0.25,
+          bitter: 0.25,
+          umami: 0,
+          spicy: 0,
         },
         heartNotes: ['balanced'],
         topNotes: ['harmonious'],
@@ -744,43 +821,52 @@ export class EnhancedRecommendationService {
         pairings: ['all'],
         contraindications: [],
         kalchm: 0.5,
-        monica: 0.5
+        monica: 0.5,
       } as unknown as UnifiedFlavorProfile;
     }
   }
-  
+
   /**
    * Apply user preference filtering to recommendations (enterprise intelligence pattern)
    */
   private applyUserPreferenceFiltering(
-    recommendations: EnhancedIngredient[], 
+    recommendations: EnhancedIngredient[],
     userPreferences?: {
       dietary?: string[];
       taste?: { [key: string]: number };
       chakraFocus?: string[];
-    }
+    },
   ): EnhancedIngredient[] {
     if (!userPreferences) {
       return recommendations;
     }
-    
+
     return recommendations.filter(ingredient => {
       // Filter by dietary restrictions
       if (userPreferences.dietary && userPreferences.dietary.length > 0) {
         const ingredientCategory = ingredient.category?.toLowerCase() || '';
         const hasDietaryConflict = userPreferences.dietary.some(restriction => {
           const restrictionLower = restriction.toLowerCase();
-          if (restrictionLower === 'vegetarian' && ['meat', 'poultry', 'seafood'].includes(ingredientCategory)) return true;
-          if (restrictionLower === 'vegan' && ['meat', 'poultry', 'seafood', 'dairy', 'egg'].includes(ingredientCategory)) return true;
-          if (restrictionLower === 'gluten-free' && ingredientCategory.includes('grain')) return true;
+          if (
+            restrictionLower === 'vegetarian' &&
+            ['meat', 'poultry', 'seafood'].includes(ingredientCategory)
+          )
+            return true;
+          if (
+            restrictionLower === 'vegan' &&
+            ['meat', 'poultry', 'seafood', 'dairy', 'egg'].includes(ingredientCategory)
+          )
+            return true;
+          if (restrictionLower === 'gluten-free' && ingredientCategory.includes('grain'))
+            return true;
           return false;
         });
         if (hasDietaryConflict) return false;
       }
-      
+
       return true;
     });
   }
 }
 
-export const enhancedRecommendationService = new EnhancedRecommendationService(); 
+export const enhancedRecommendationService = new EnhancedRecommendationService();

@@ -1,9 +1,11 @@
 # TypeScript Error Reduction Campaign - Quick Reference Guide
+
 **For Immediate Use** | **Version 1.0** | **January 2, 2025**
 
 ## 🚀 Quick Start Commands
 
 ### Pre-Session Setup
+
 ```bash
 # 1. Stash current changes
 git stash push -m "Pre-fix session $(date)"
@@ -19,6 +21,7 @@ make errors-by-type | head -5
 ```
 
 ### Post-Session Validation
+
 ```bash
 # 1. Check TypeScript compilation
 yarn tsc --noEmit --skipLibCheck
@@ -34,6 +37,7 @@ make errors-by-file | head -10
 ```
 
 ### Emergency Rollback
+
 ```bash
 # Quick rollback
 git stash pop
@@ -46,6 +50,7 @@ git clean -fd
 ## 🛠️ Pattern Quick Reference
 
 ### Pattern 1: TS2339 Property Access (215 errors)
+
 ```typescript
 // ❌ UNSAFE
 const value = obj.property;
@@ -55,6 +60,7 @@ const value = (obj as unknown as Record<string, unknown>)?.property;
 ```
 
 ### Pattern 2: TS2352 Type Conversion (92 errors)
+
 ```typescript
 // ❌ UNSAFE
 const converted = data as TargetType;
@@ -64,6 +70,7 @@ const converted = (data as unknown) as TargetType;
 ```
 
 ### Pattern 3: TS2322 Type Assignment (92 errors)
+
 ```typescript
 // ❌ UNSAFE
 const state: TargetType = data;
@@ -73,6 +80,7 @@ const state: TargetType = (data as unknown) as TargetType;
 ```
 
 ### Pattern 4: TS2345 Argument Type (88 errors)
+
 ```typescript
 // ❌ UNSAFE
 function process(data: unknown) {
@@ -87,6 +95,7 @@ function process(data: unknown) {
 ```
 
 ### Pattern 5: TS2554 Function Call (16 errors)
+
 ```typescript
 // ❌ UNSAFE
 const result = obj.method(params);
@@ -100,33 +109,35 @@ if (typeof obj.method === 'function') {
 ## 📋 Phase 1A Target Files (Week 1)
 
 ### Day 1: UnifiedScoringAdapter.ts (10 errors)
-**Focus:** Service response type safety
-**Patterns:** 1, 3
+
+**Focus:** Service response type safety **Patterns:** 1, 3
 
 ### Day 2: UnifiedRecommendationService.ts (10 errors)
-**Focus:** Recommendation data type safety
-**Patterns:** 1, 4
+
+**Focus:** Recommendation data type safety **Patterns:** 1, 4
 
 ### Day 3: UnifiedIngredientService.ts (10 errors)
-**Focus:** Ingredient data type safety
-**Patterns:** 1, 2
+
+**Focus:** Ingredient data type safety **Patterns:** 1, 2
 
 ### Day 4: EnhancedAstrologyService.ts (10 errors)
-**Focus:** Astrological data type safety
-**Patterns:** 1, 3
+
+**Focus:** Astrological data type safety **Patterns:** 1, 3
 
 ### Day 5: AlchemicalService.ts (10 errors)
-**Focus:** Alchemical data type safety
-**Patterns:** 1, 4
+
+**Focus:** Alchemical data type safety **Patterns:** 1, 4
 
 ## 🎯 Success Metrics
 
 ### Daily Targets
+
 - **Error Reduction:** 10 errors per day
 - **Build Stability:** 100% success rate
 - **Pattern Success:** >90% for established patterns
 
 ### Phase 1A Targets
+
 - **Week 1:** 610 → 560 errors (50 eliminated)
 - **Week 2:** 560 → 541 errors (19 eliminated)
 - **Total Phase 1:** 610 → 541 errors (69 eliminated)
@@ -134,18 +145,21 @@ if (typeof obj.method === 'function') {
 ## 🚨 Safety Checklist
 
 ### Before Each Fix
+
 - [ ] Git stash created
 - [ ] Current error count documented
 - [ ] Target file identified
 - [ ] Pattern strategy planned
 
 ### After Each Fix
+
 - [ ] TypeScript compilation passes
 - [ ] Build process completes
 - [ ] Error count reduced
 - [ ] No new error types
 
 ### Rollback Triggers
+
 - Build failure
 - Error count increase >2
 - New error types
@@ -154,6 +168,7 @@ if (typeof obj.method === 'function') {
 ## 🔍 Error Search Commands
 
 ### Find Specific Error Types
+
 ```bash
 # TS2339 errors
 grep -r "TS2339" src/ | head -10
@@ -172,6 +187,7 @@ grep -r "TS2554" src/ | head -10
 ```
 
 ### Find Property Access Issues
+
 ```bash
 # Find unsafe property access
 grep -n "\.\w\+" src/services/UnifiedScoringAdapter.ts
@@ -183,6 +199,7 @@ grep -n "as " src/services/UnifiedRecommendationService.ts
 ## 📊 Progress Tracking
 
 ### Daily Progress Template
+
 ```bash
 #!/bin/bash
 echo "=== Day $DAY Progress ==="
@@ -207,6 +224,7 @@ echo "=== Day $DAY Complete ==="
 ```
 
 ### Weekly Summary Template
+
 ```bash
 #!/bin/bash
 echo "=== Week $WEEK Summary ==="
@@ -221,6 +239,7 @@ echo "=== Week $WEEK Complete ==="
 ## 🎯 Key Principles
 
 ### Do's
+
 - ✅ Use `as unknown as SpecificType` instead of `as any`
 - ✅ Test patterns on single lines first
 - ✅ Validate after each file
@@ -228,6 +247,7 @@ echo "=== Week $WEEK Complete ==="
 - ✅ Maintain git history with descriptive commits
 
 ### Don'ts
+
 - ❌ Never use `as any`
 - ❌ Don't modify interfaces without careful consideration
 - ❌ Don't skip validation steps
@@ -237,22 +257,26 @@ echo "=== Week $WEEK Complete ==="
 ## 📞 Emergency Contacts
 
 ### Quick Rollback
+
 ```bash
 git stash pop
 ```
 
 ### Full Reset
+
 ```bash
 git reset --hard HEAD
 git clean -fd
 ```
 
 ### Error Count Verification
+
 ```bash
 npx tsc --noEmit 2>&1 | grep -c "error TS"
 ```
 
 ### Build Validation
+
 ```bash
 yarn build
 ```
@@ -261,6 +285,7 @@ yarn build
 
 **Status:** Ready for execution  
 **Success Probability:** 95%  
-**Risk Level:** Low  
+**Risk Level:** Low
 
-*This quick reference guide provides immediate access to essential commands, patterns, and procedures for the TypeScript error reduction campaign.* 
+_This quick reference guide provides immediate access to essential commands,
+patterns, and procedures for the TypeScript error reduction campaign._
