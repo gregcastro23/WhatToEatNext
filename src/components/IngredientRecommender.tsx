@@ -26,7 +26,6 @@ import { useRouter } from 'next/navigation';
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
-import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import {
     GroupedIngredientRecommendations,
     IngredientRecommendation,
@@ -69,6 +68,16 @@ interface IngredientDisplayItem {
   matchScore?: number;
   name?: string;
   elementalProperties?: ElementalProperties;
+  // Seasonal information can be provided in multiple shapes
+  seasonality?:
+    | string
+    | string[]
+    | {
+        peak?: string[] | string;
+        [key: string]: unknown;
+      };
+  // Optional sub-category label for finer grouping
+  subCategory?: string;
   // Enhanced oil-specific properties
   smokePoint?: {
     fahrenheit?: number;
@@ -293,8 +302,8 @@ export default function IngredientRecommender({
     if (activeCategory) {
       void params.set('category', activeCategory);
     }
-    if (selectedIngredient) {
-      void params.set('ingredient', selectedIngredient.name);
+    if (selectedIngredient?.name) {
+      void params.set('ingredient', String(selectedIngredient.name));
     }
 
     const url = `/ingredients${params.toString() ? `?${params.toString()}` : ''}`;
@@ -334,11 +343,12 @@ export default function IngredientRecommender({
 
       // Determine current planetary day and hour
       const now = new Date();
-      // Extract planetary day and hour from context if available
-      const planetaryDay =
-        (planetaryPositions as unknown as Record<string, unknown>)?.planetaryDay?.planet || 'Sun';
-      const planetaryHour =
-        (planetaryPositions as unknown as Record<string, unknown>)?.planetaryHour?.planet || 'Sun';
+      // Extract planetary day and hour from context if available with safe typing
+      type PlanetaryKey = { planet?: string };
+      type PlanetaryContext = { planetaryDay?: PlanetaryKey; planetaryHour?: PlanetaryKey };
+      const planetaryCtx = (planetaryPositions as unknown as PlanetaryContext) || {};
+      const planetaryDay = planetaryCtx.planetaryDay?.planet ?? 'Sun';
+      const planetaryHour = planetaryCtx.planetaryHour?.planet ?? 'Sun';
       const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
 
       // Create an object with astrological state data
@@ -380,7 +390,10 @@ export default function IngredientRecommender({
           elementalProperties: astroState.elementalProperties,
           timestamp: new Date(),
           currentStability: 1.0,
-          planetaryAlignment: astroState.planetaryAlignment as Record<string, { sign: string; degree: number }>,
+          planetaryAlignment: ((astroState.planetaryAlignment ?? {}) as unknown) as Record<string, {
+            sign: string;
+            degree: number;
+          }>,
           zodiacSign: String(astroState.zodiacSign || 'aries'),
           activePlanets: Array.isArray(astroState.activePlanets) ? astroState.activePlanets : [],
           lunarPhase: 'new moon',
@@ -483,17 +496,17 @@ export default function IngredientRecommender({
   );
 
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: Ingredient | UnifiedIngredient): boolean => {
-    const _category = ingredient.category.toLowerCase() || '';
-    if (_category === 'oil' || _category === 'oils') return true;
+  const isOil = (ingredient: unknown): boolean => {
+    const data = ingredient as Record<string, unknown>;
+    const category = String(data.category || '').toLowerCase();
+    if (category === 'oil' || category === 'oils') return true;
 
-    const name = ingredient.name.toLowerCase();
+    const name = String(data.name || '').toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
 
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: unknown): boolean => {
-    // ✅ Pattern MM-1: Safe type assertion for ingredient data
     const ingredientData = ingredient as Record<string, unknown>;
     const _category = String(ingredientData.category || '').toLowerCase();
     if (_category === 'vinegar' || _category === 'vinegars') return true;
@@ -504,7 +517,6 @@ export default function IngredientRecommender({
 
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
-    // ✅ Pattern MM-1: Safe type assertion for ingredient data
     const ingredientData = ingredient as Record<string, unknown>;
     const categoryProperty = ingredientData.category;
 
@@ -763,15 +775,15 @@ export default function IngredientRecommender({
         const normalizedCategory = getNormalizedCategory(item);
         const targetCategory =
           normalizedCategory === 'other'
-            ? determineCategory((item as IngredientDisplayItem)?.name)
+            ? determineCategory(String((item as IngredientDisplayItem)?.name ?? ''))
             : normalizedCategory;
 
         if (categories[targetCategory]) {
           // Check if this item already exists in the category (with improved duplicate detection)
           const existingItemIndex = categories[targetCategory].findIndex(existing =>
             areSimilarIngredients(
-              (existing as IngredientDisplayItem)?.name,
-              (item as IngredientDisplayItem)?.name,
+              String((existing as IngredientDisplayItem)?.name ?? ''),
+              String((item as IngredientDisplayItem)?.name ?? ''),
             ),
           );
 
@@ -876,7 +888,7 @@ export default function IngredientRecommender({
 
     // Filter out empty categories
     return Object.fromEntries(
-      void Object.entries(categories).filter(([_, items]) => items.length > 0),
+      Object.entries(categories).filter(([_, items]) => items.length > 0),
     );
   }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes]);
 
@@ -1124,23 +1136,24 @@ export default function IngredientRecommender({
               astrologicalContext={{
                 zodiacSign: (currentZodiac || 'aries') as ZodiacSign,
                 lunarPhase: 'new moon' as LunarPhase,
-                elementalProperties: (astroState as unknown as Record<string, unknown>)
-                  ?.elementalProperties || {
+                elementalProperties:
+                  ((astroState as unknown as { elementalProperties?: ElementalProperties })
+                    ?.elementalProperties as ElementalProperties) || {
                   Fire: 0.25,
                   Water: 0.25,
                   Earth: 0.25,
                   Air: 0.25,
                 },
-                planetaryPositions: currentPlanetaryAlignment,
+                planetaryPositions: (currentPlanetaryAlignment as unknown) as Record<string, unknown>,
               }}
               className='border-t pt-4'
               showDetailedMetrics={true}
               autoAnalyze={true}
               onAnalysisComplete={analysis => {
-                setEnterpriseIntelligenceAnalysis(analysis);
+                setEnterpriseIntelligenceAnalysis(analysis as unknown as Record<string, unknown>);
                 log.info('Enterprise Intelligence Analysis completed:', {
-                  overallScore: analysis.overallScore,
-                  systemHealth: analysis.systemHealth,
+                  overallScore: (analysis as any).overallScore,
+                  systemHealth: (analysis as any).systemHealth,
                 });
               }}
             />
@@ -1527,8 +1540,8 @@ export default function IngredientRecommender({
                                 <p>{(item as IngredientDisplayItem)?.description}</p>
                               )}
 
-                              {(item as IngredientDisplayItem)?.qualities &&
-                                (item as IngredientDisplayItem)?.qualities?.length > 0 && (
+                              {Array.isArray((item as IngredientDisplayItem)?.qualities) &&
+                                ((item as IngredientDisplayItem)?.qualities?.length || 0) > 0 && (
                                   <div>
                                     <span className='font-semibold'>Qualities:</span>{' '}
                                     {(item as IngredientDisplayItem)?.qualities?.join(', ')}
@@ -1540,7 +1553,7 @@ export default function IngredientRecommender({
                                 <div>
                                   <span className='font-semibold'>Culinary Applications:</span>{' '}
                                   {Object.keys(
-                                    (item as IngredientDisplayItem)?.culinaryApplications || {},
+                                    (((item as IngredientDisplayItem)?.culinaryApplications || {}) as unknown) as Record<string, unknown>,
                                   )
                                     .slice(0, 3)
                                     .join(', ')}
@@ -1548,8 +1561,10 @@ export default function IngredientRecommender({
                               )}
 
                               {/* Show varieties if available */}
-                              {(item as IngredientDisplayItem)?.varieties &&
-                                Object.keys((item as IngredientDisplayItem)?.varieties || {})
+                                  {(item as IngredientDisplayItem)?.varieties &&
+                                    Object.keys(
+                                      (((item as IngredientDisplayItem)?.varieties || {}) as unknown) as Record<string, unknown>,
+                                    )
                                   .length > 0 && (
                                   <div>
                                     <span className='font-semibold'>Varieties:</span>{' '}

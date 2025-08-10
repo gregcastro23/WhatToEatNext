@@ -1,16 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 import {
-  calculatePlanetaryPositions,
-  calculateAspects,
-  longitudeToZodiacPosition,
-  getPlanetaryDignity,
+    calculateAspects
 } from '@/utils/astrologyUtils';
 
 interface PlanetaryAspect {
@@ -116,7 +113,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (planet === 'ascendant' || !data || !planetData?.sign) return;
 
       const sign = planetData.sign;
-      const element = getElementFromSign(sign);
+      const element = _getElementFromSign(sign);
       if (element) {
         houseEffects[element] += 1;
       }

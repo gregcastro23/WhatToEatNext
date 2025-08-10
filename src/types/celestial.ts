@@ -30,7 +30,7 @@ export type Planet =
 /**
  * Extended Planet type including traditional Vedic nodes
  */
-export type ExtendedPlanet = Planet | 'Rahu' | 'Ketu' | 'Chiron';
+export type ExtendedPlanet = Planet | 'Rahu' | 'Ketu' | 'Chiron' | 'northNode' | 'southNode';
 
 /**
  * Planet Name alias for backward compatibility

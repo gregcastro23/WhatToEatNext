@@ -48,15 +48,16 @@ import uranusData from '@/data/planets/uranus';
 import venusData from '@/data/planets/venus';
 import type { ElementalProperties, ZodiacSign } from '@/types';
 import {
-  AstrologicalState,
-  BasicThermodynamicProperties,
-  COOKING_METHOD_THERMODYNAMICS,
-  /* CookingMethod as CookingMethodEnum, */ CookingMethodProfile,
-  LunarPhase,
-  MethodRecommendation,
-  MethodRecommendationOptions,
-  PlanetaryAspect,
+    AstrologicalState,
+    BasicThermodynamicProperties,
+    COOKING_METHOD_THERMODYNAMICS,
+    /* CookingMethod as CookingMethodEnum, */ CookingMethodProfile,
+    LunarPhase,
+    MethodRecommendation,
+    MethodRecommendationOptions,
+    PlanetaryAspect,
 } from '@/types/alchemy';
+import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 // Removed unused import: CookingMethodEnum
 import type { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';

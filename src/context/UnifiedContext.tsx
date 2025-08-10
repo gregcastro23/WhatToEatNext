@@ -123,7 +123,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    refreshData();
+    void refreshData();
   }, [refreshData]);
 
   const value = {

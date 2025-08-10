@@ -1,5 +1,14 @@
 import type { PrimaryCuisineType } from '@/types/cuisineAliases';
-import type { CompleteCuisineType, ContinentalCuisineType } from '@/types/culinary';
+import type {
+    CompleteCuisineType,
+    ContinentalCuisineType,
+    CuisineCompatibility,
+    DietaryCuisineType,
+    FusionCuisineType,
+    HistoricalCuisineType,
+    RegionalCuisineType,
+    StreetFoodCuisineType,
+} from '@/types/culinary';
 import { CUISINE_CATEGORY_MAP } from '@/types/culinary';
 
 /**

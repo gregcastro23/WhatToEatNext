@@ -2,6 +2,7 @@
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import type { ElementalProperties, Recipe, RecipeIngredient, ScoredRecipe } from '@/types/recipe';
 
+import { safeSome, toArray } from '@/utils/common/arrayUtils';
 import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
 
 /**

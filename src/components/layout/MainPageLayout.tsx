@@ -2,40 +2,35 @@
 
 import { useRouter } from 'next/navigation';
 import React, {
-  useState,
-  useEffect,
-  useCallback,
-  createContext,
-  useContext,
-  useMemo,
-  memo,
-  lazy,
-  Suspense,
+    Suspense,
+    createContext,
+    lazy,
+    memo,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
 } from 'react';
 
 import ErrorBoundary from '@/components/error-boundaries/ErrorBoundary';
 import { ComponentFallbacks } from '@/components/fallbacks/ComponentFallbacks';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import {
-  useAgentHooks,
-  usePlanetaryDataValidationHook,
-  useIngredientConsistencyHook,
-  useTypeScriptCampaignHook,
-  useBuildQualityMonitoringHook,
-  useQualityMetricsHook,
+    useBuildQualityMonitoringHook,
+    useIngredientConsistencyHook,
+    useQualityMetricsHook,
+    useTypeScriptCampaignHook
 } from '@/hooks/useAgentHooks';
 import {
-  useNavigationState,
-  useScrollPreservation,
-  useAutoStateCleanup,
-  useAstrologicalStatePreservation,
-  useCulturalSensitivityGuidance,
-  usePerformanceOptimizationGuidance,
+    useAutoStateCleanup,
+    useNavigationState,
+    useScrollPreservation
 } from '@/hooks/useStatePreservation';
 import { useDevelopmentExperienceOptimizations } from '@/utils/developmentExperienceOptimizations';
 import { logger } from '@/utils/logger';
 // useMCPServerIntegration removed with MCP cleanup
-import { useSteeringFileIntelligence, ElementalProperties } from '@/utils/steeringFileIntelligence';
+import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
 // Lazy load non-critical components for better performance
 const ConsolidatedDebugInfo = lazy(() => import('@/components/debug/ConsolidatedDebugInfo'));
@@ -205,22 +200,22 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   useEffect(() => {
     const restoredState = getNavState();
     if (restoredState) {
-      if (restoredState.selectedIngredients.length > 0) {
+      if (Array.isArray(restoredState.selectedIngredients) && restoredState.selectedIngredients.length > 0) {
         setSelectedIngredients(restoredState.selectedIngredients);
       }
       if (restoredState.selectedCuisine) {
         setSelectedCuisine(restoredState.selectedCuisine);
       }
-      if (restoredState.selectedCookingMethods.length > 0) {
+      if (Array.isArray(restoredState.selectedCookingMethods) && restoredState.selectedCookingMethods.length > 0) {
         setSelectedCookingMethods(restoredState.selectedCookingMethods);
       }
       if (restoredState.currentRecipe) {
-        setCurrentRecipe(restoredState.currentRecipe);
+        setCurrentRecipe((restoredState.currentRecipe as unknown) as Record<string, unknown>);
       }
       if (restoredState.activeSection) {
         setActiveSection(restoredState.activeSection);
       }
-      if (restoredState.navigationHistory.length > 0) {
+      if (Array.isArray(restoredState.navigationHistory) && restoredState.navigationHistory.length > 0) {
         setNavigationHistory(restoredState.navigationHistory);
       }
 
@@ -229,7 +224,11 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
 
     // Restore scroll position after a short delay to ensure DOM is ready
     setTimeout(() => {
-      restoreScrollPosition();
+      try {
+        restoreScrollPosition();
+      } catch {
+        // ignore
+      }
     }, 100);
   }, [getNavState, restoreScrollPosition]);
 
@@ -238,7 +237,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     const initializeGuidance = async () => {
       try {
         const guidance = await steeringIntelligence.getGuidance();
-        setAstrologicalGuidance(guidance);
+        setAstrologicalGuidance((guidance ?? null) as unknown as Record<string, unknown> | null);
 
         // Apply architectural guidance for component optimization - temporarily disabled
         // const archGuidance = getArchitecturalGuidance();
@@ -280,7 +279,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
           1024 /
           1024 || 0;
 
-      const metrics = {
+      const metrics: Record<string, unknown> = {
         renderTime,
         memoryUsage,
         componentCount: Object.keys(sectionStates).length,
@@ -409,8 +408,8 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     const monitorQuality = async () => {
       try {
         const buildMetrics = {
-          buildTime: performanceMetrics.renderTime || 0,
-          memoryUsage: performanceMetrics.memoryUsage || 0,
+          buildTime: Number((performanceMetrics as Record<string, number>).renderTime) || 0,
+          memoryUsage: Number((performanceMetrics as Record<string, number>).memoryUsage) || 0,
           bundleSize: 150 * 1024, // Estimated 150KB for main page
           errorCount: 0, // No build errors in this context
         };
@@ -462,8 +461,8 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       try {
         // Update development metrics with current performance data
         const devMetrics = {
-          compilationTime: performanceMetrics.renderTime || 0,
-          memoryUsage: performanceMetrics.memoryUsage || 0,
+          compilationTime: Number((performanceMetrics as Record<string, number>).renderTime) || 0,
+          memoryUsage: Number((performanceMetrics as Record<string, number>).memoryUsage) || 0,
           bundleSize: 150 * 1024, // Estimated bundle size
           errorCount: 0, // No compilation errors in runtime
           warningCount: 0,

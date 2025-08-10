@@ -54,7 +54,7 @@ describe('Build Quality Monitor', () => {
       // Mock successful TypeScript compilation
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report).toBeDefined();
       expect(report.buildMetrics).toBeDefined();
@@ -70,7 +70,7 @@ describe('Build Quality Monitor', () => {
       // Mock TypeScript compilation
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.duration).toBeGreaterThan(0);
       expect(report.performanceAnalysis.currentBuildTime).toBeGreaterThan(0);
@@ -92,7 +92,7 @@ describe('Build Quality Monitor', () => {
         throw error;
       });
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.errorCount).toBe(3);
       expect(report.buildMetrics.success).toBe(false);
@@ -102,7 +102,7 @@ describe('Build Quality Monitor', () => {
       // Mock TypeScript compilation
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       // Check if performance alerts are generated for slow builds
       const performanceAlerts = report.alerts.filter(alert => alert.type === AlertType.BUILD_PERFORMANCE);
@@ -129,7 +129,7 @@ describe('Build Quality Monitor', () => {
         // Intentionally any: Jest mock for fs.Stats interface requires flexible typing
       } as any);
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.bundleSize).toBeDefined();
       expect(report.buildMetrics.bundleSize.total).toBeGreaterThanOrEqual(0);
@@ -143,14 +143,14 @@ describe('Build Quality Monitor', () => {
         return path.includes('cache');
       });
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.cacheHitRate).toBeGreaterThan(0);
       expect(report.buildMetrics.cacheHitRate).toBeLessThanOrEqual(1);
     });
 
     it('should detect memory usage patterns', async () => {
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.memoryAnalysis.peakMemoryUsage).toBeGreaterThanOrEqual(0);
       expect(report.memoryAnalysis.averageMemoryUsage).toBeGreaterThanOrEqual(0);
@@ -159,7 +159,7 @@ describe('Build Quality Monitor', () => {
     });
 
     it('should generate optimization recommendations', async () => {
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(Array.isArray(report.recommendations)).toBe(true);
 
@@ -177,7 +177,7 @@ describe('Build Quality Monitor', () => {
     it('should calculate quality metrics', async () => {
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.qualityMetrics.overallScore).toBeGreaterThanOrEqual(0);
       expect(report.qualityMetrics.overallScore).toBeLessThanOrEqual(100);
@@ -193,14 +193,14 @@ describe('Build Quality Monitor', () => {
         throw new Error('Complete build failure');
       });
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.success).toBe(false);
       expect(report.buildMetrics.errorCount).toBeGreaterThanOrEqual(0);
     });
 
     it('should analyze parallelization efficiency', async () => {
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.parallelization.workers).toBeGreaterThan(0);
       expect(report.buildMetrics.parallelization.efficiency).toBeGreaterThan(0);
@@ -212,7 +212,7 @@ describe('Build Quality Monitor', () => {
     it('should return quality score between 0 and 100', async () => {
       mockExecSync.mockReturnValue('');
 
-      const score = await getBuildQualityScore();
+      const score = getBuildQualityScore();
 
       expect(score).toBeGreaterThanOrEqual(0);
       expect(score).toBeLessThanOrEqual(100);
@@ -223,7 +223,7 @@ describe('Build Quality Monitor', () => {
         throw new Error('Complete failure');
       });
 
-      const score = await getBuildQualityScore();
+      const score = getBuildQualityScore();
 
       expect(score).toBe(0);
     });
@@ -248,7 +248,7 @@ describe('Build Quality Monitor', () => {
         throw error;
       });
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0);
 
@@ -261,7 +261,7 @@ describe('Build Quality Monitor', () => {
     it('should analyze performance trends', async () => {
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(['improving', 'stable', 'degrading']).toContain(report.performanceAnalysis.performanceTrend);
     });
@@ -269,7 +269,7 @@ describe('Build Quality Monitor', () => {
     it('should calculate build time percentiles', async () => {
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.performanceAnalysis.buildTimePercentile).toBeGreaterThanOrEqual(0);
       expect(report.performanceAnalysis.buildTimePercentile).toBeLessThanOrEqual(100);
@@ -293,7 +293,7 @@ describe('Build Quality Monitor', () => {
         throw error;
       });
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.errorCount).toBe(3);
       // Alerts may be generated based on various thresholds
@@ -303,7 +303,7 @@ describe('Build Quality Monitor', () => {
     it('should include alert metadata', async () => {
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       report.alerts.forEach(alert => {
         expect(alert.type).toBeDefined();
@@ -320,7 +320,7 @@ describe('Build Quality Monitor', () => {
     it('should detect potential memory leaks', async () => {
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(Array.isArray(report.memoryAnalysis.memoryLeakDetection)).toBe(true);
       expect(report.memoryAnalysis.garbageCollectionStats).toBeDefined();
@@ -329,7 +329,7 @@ describe('Build Quality Monitor', () => {
     it('should provide memory optimization suggestions', async () => {
       mockExecSync.mockReturnValue('');
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(Array.isArray(report.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true);
       expect(report.memoryAnalysis.memoryOptimizationSuggestions.length).toBeGreaterThan(0);
@@ -342,7 +342,7 @@ describe('Build Quality Monitor', () => {
         throw new Error('File system error');
       });
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report).toBeDefined();
       expect(report.buildMetrics.bundleSize.total).toBe(0);
@@ -356,7 +356,7 @@ describe('Build Quality Monitor', () => {
         return '';
       });
 
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
 
       expect(report.buildMetrics.warningCount).toBe(0);
     });
@@ -367,7 +367,7 @@ describe('Build Quality Monitor', () => {
       mockExecSync.mockReturnValue('');
 
       const startTime = Date.now();
-      const report = await monitorBuildQuality();
+      const report = monitorBuildQuality();
       const duration = Date.now() - startTime;
 
       expect(duration).toBeLessThan(10000); // Should complete within 10 seconds

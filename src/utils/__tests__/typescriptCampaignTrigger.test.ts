@@ -45,7 +45,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.shouldTrigger).toBe(true);
       expect(result.campaignMode).toBe(CampaignMode.STANDARD);
@@ -63,7 +63,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.shouldTrigger).toBe(true);
       expect(result.campaignMode).toBe(CampaignMode.AGGRESSIVE);
@@ -81,7 +81,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.shouldTrigger).toBe(true);
       expect(result.campaignMode).toBe(CampaignMode.EMERGENCY);
@@ -98,7 +98,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.shouldTrigger).toBe(false);
       expect(result.campaignMode).toBe(CampaignMode.MONITORING);
@@ -109,7 +109,7 @@ describe('TypeScript Campaign Trigger', () => {
       // Mock empty TypeScript output (no errors)
       mockExecSync.mockReturnValue('');
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.shouldTrigger).toBe(false);
       expect(result.campaignMode).toBe(CampaignMode.MONITORING);
@@ -129,7 +129,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.errorAnalysis.totalErrors).toBe(6);
       expect(result.errorAnalysis.errorsByCategory[ErrorCategory.TS2352]).toHaveLength(1);
@@ -149,7 +149,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.errorAnalysis.highImpactFiles.length).toBeGreaterThan(0);
       expect(result.errorAnalysis.highImpactFiles[0].filePath).toBe('src/high-impact-file.ts');
@@ -166,7 +166,7 @@ describe('TypeScript Campaign Trigger', () => {
         throw error;
       });
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.errorAnalysis.totalErrors).toBe(1);
       expect(result.shouldTrigger).toBe(false); // 1 error is below threshold
@@ -178,7 +178,7 @@ describe('TypeScript Campaign Trigger', () => {
         throw new Error('Complete failure');
       });
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       // Should return safe defaults
       expect(result.shouldTrigger).toBe(false);
@@ -197,7 +197,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const count = await getCurrentTypeScriptErrorCount();
+      const count = getCurrentTypeScriptErrorCount();
 
       expect(count).toBe(25);
     });
@@ -205,7 +205,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should return 0 for no errors', async () => {
       mockExecSync.mockReturnValue('');
 
-      const count = await getCurrentTypeScriptErrorCount();
+      const count = getCurrentTypeScriptErrorCount();
 
       expect(count).toBe(0);
     });
@@ -215,7 +215,7 @@ describe('TypeScript Campaign Trigger', () => {
         throw new Error('Command failed');
       });
 
-      const count = await getCurrentTypeScriptErrorCount();
+      const count = getCurrentTypeScriptErrorCount();
 
       expect(count).toBe(-1);
     });
@@ -230,7 +230,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const shouldTrigger = await checkCampaignTriggerConditions();
+      const shouldTrigger = checkCampaignTriggerConditions();
 
       expect(shouldTrigger).toBe(true);
     });
@@ -243,7 +243,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const shouldTrigger = await checkCampaignTriggerConditions();
+      const shouldTrigger = checkCampaignTriggerConditions();
 
       expect(shouldTrigger).toBe(false);
     });
@@ -253,7 +253,7 @@ describe('TypeScript Campaign Trigger', () => {
         throw new Error('Command failed');
       });
 
-      const shouldTrigger = await checkCampaignTriggerConditions();
+      const shouldTrigger = checkCampaignTriggerConditions();
 
       expect(shouldTrigger).toBe(false);
     });
@@ -265,7 +265,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.errorAnalysis.totalErrors).toBe(1);
 
@@ -288,7 +288,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.errorAnalysis.totalErrors).toBe(2);
     });
@@ -304,7 +304,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.batchSchedule.batches.length).toBeGreaterThan(0);
       expect(result.batchSchedule.totalEstimatedTime).toBeGreaterThan(0);
@@ -322,7 +322,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
 
       expect(result.campaignMode).toBe(CampaignMode.EMERGENCY);
       expect(result.batchSchedule.safetyProtocols.length).toBeGreaterThan(0);
@@ -340,7 +340,7 @@ describe('TypeScript Campaign Trigger', () => {
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const startTime = Date.now();
-      const result = await analyzeTypeScriptErrors();
+      const result = analyzeTypeScriptErrors();
       const duration = Date.now() - startTime;
 
       expect(duration).toBeLessThan(5000); // Should complete within 5 seconds

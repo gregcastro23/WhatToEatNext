@@ -89,25 +89,31 @@ class ConfigurationServiceImpl {
    * Merge stored configuration with current defaults
    */
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
+    const storedApi = (stored.api as Record<string, unknown>) || {};
+    const storedAstrology = (stored.astrology as Record<string, unknown>) || {};
+    const celestialUpdateInterval = Number(storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval);
+    const timeout = Number(storedApi.timeout ?? config.api.timeout);
+    const retryCount = Number(storedApi.retryCount ?? config.api.retryCount);
+    const baseUrl = typeof storedApi.baseUrl === 'string' ? (storedApi.baseUrl as string) : config.api.baseUrl;
+
+    const defaultTimezoneName =
+      typeof storedAstrology.defaultTimezoneName === 'string'
+        ? (storedAstrology.defaultTimezoneName as string)
+        : config.astrology.defaultTimezoneName;
+    const retrogradeThreshold = Number(
+      storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold,
+    );
+    const aspectOrbs = {
+      ...config.astrology.aspectOrbs,
+      ...((storedAstrology.aspectOrbs as Record<string, number>) || {}),
+    };
+
+    const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug as boolean) : config.debug;
+
     return {
-      api: {
-        celestialUpdateInterval:
-          stored.api?.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
-        timeout: stored.api?.timeout ?? config.api.timeout,
-        retryCount: stored.api?.retryCount ?? config.api.retryCount,
-        baseUrl: stored.api?.baseUrl ?? config.api.baseUrl,
-      },
-      astrology: {
-        defaultTimezoneName:
-          stored.astrology?.defaultTimezoneName ?? config.astrology.defaultTimezoneName,
-        retrogradeThreshold:
-          stored.astrology?.retrogradeThreshold ?? config.astrology.retrogradeThreshold,
-        aspectOrbs: {
-          ...config.astrology.aspectOrbs,
-          ...stored.astrology?.aspectOrbs,
-        },
-      },
-      debug: stored.debug ?? config.debug,
+      api: { celestialUpdateInterval, timeout, retryCount, baseUrl },
+      astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs },
+      debug: debugFlag,
     };
   }
 
@@ -213,11 +219,11 @@ class ConfigurationServiceImpl {
 
         // Update global config if it's a live system
         if (section === 'api') {
-          (config.api as Record<string, unknown>)[key] = value;
+          (config.api as unknown as Record<string, unknown>)[key] = value;
         } else if (section === 'astrology') {
-          (config.astrology as Record<string, unknown>)[key] = value;
+          (config.astrology as unknown as Record<string, unknown>)[key] = value;
         } else if (section === 'debug' && key === 'debug') {
-          config.debug = value;
+          config.debug = Boolean(value);
         }
 
         resolve(true);

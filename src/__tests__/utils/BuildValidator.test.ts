@@ -121,7 +121,7 @@ describe('BuildValidator', () => {
     it('should detect missing config file', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const result = await buildValidator.validateNextConfig();
+      const result = buildValidator.validateNextConfig();
 
       expect(result.isValid).toBe(false);
       expect(result.issues).toContain('No Next.js configuration file found');
@@ -137,7 +137,7 @@ describe('BuildValidator', () => {
         }
       `);
 
-      const result = await buildValidator.validateNextConfig();
+      const result = buildValidator.validateNextConfig();
 
       expect(result.isValid).toBe(true);
     });

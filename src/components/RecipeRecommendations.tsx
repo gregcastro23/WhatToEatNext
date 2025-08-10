@@ -1,7 +1,7 @@
 'use client';
 
-import { ChevronDown, ChevronUp, Clock, Users, BarChart3, Star, Sparkles } from 'lucide-react';
-import React, { useState, useCallback, useMemo } from 'react';
+import { BarChart3, ChevronDown, ChevronUp, Clock, Sparkles, Star, Users } from 'lucide-react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { ElementalProperties } from '@/types/alchemy';
 import { calculateElementalMatch, getMatchScoreClass } from '@/utils/cuisineRecommender';

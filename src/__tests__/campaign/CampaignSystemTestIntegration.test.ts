@@ -6,19 +6,18 @@
  */
 
 import {
-  SafetyEventType,
-  // Note: SafetyEventSeverity and PhaseStatus imported but not currently used
+    SafetyEventType,
 } from '../../types/campaign';
 import { campaignTestController } from '../utils/CampaignTestController';
 import {
-  campaignTestAssertions,
-  campaignTestData,
-  cleanupCampaignTest,
-  createMockCampaignConfig,
-  executeCampaignTestScenario,
-  setupCampaignTest,
-  validateCampaignTestIsolation,
-  withCampaignTestIsolation,
+    campaignTestAssertions,
+    campaignTestData,
+    cleanupCampaignTest,
+    createMockCampaignConfig,
+    executeCampaignTestScenario,
+    setupCampaignTest,
+    validateCampaignTestIsolation,
+    withCampaignTestIsolation,
 } from '../utils/campaignTestUtils';
 
 describe('Campaign System Test Integration', () => {
@@ -110,12 +109,12 @@ describe('Campaign System Test Integration', () => {
 
       try {
         // Mock stash creation should not run actual git commands
-        const stashId = await context.safety.createStash('checkpoint', 'test');
+        const stashId = context.safety.createStash('checkpoint', 'test');
         expect(typeof stashId).toBe('string');
         expect(stashId).toContain('mock_stash_');
 
         // Mock stash application should not run actual git commands
-        const stashResult = await context.safety.applyStash(String(stashId));
+        const stashResult = context.safety.applyStash(String(stashId));
         expect(stashResult).toBeDefined();
 
         // Mock git state validation should not run actual git commands
@@ -145,7 +144,7 @@ describe('Campaign System Test Integration', () => {
 
         if (context.testSafeTracker) {
           // Start tracking
-          await context.testSafeTracker.startTracking('memory-test');
+          context.testSafeTracker.startTracking('memory-test');
 
           // Simulate multiple progress updates
           for (let i = 0; i < 10; i++) {
@@ -163,18 +162,18 @@ describe('Campaign System Test Integration', () => {
           }
 
           // Get progress history
-          const history = await context.testSafeTracker.getProgressHistory();
+          const history = context.testSafeTracker.getProgressHistory();
           expect(history.length).toBeGreaterThan(0);
           expect(history.length).toBeLessThanOrEqual(20); // Should be limited to prevent memory issues
 
           // Validate memory usage
-          const memoryStats = await context.testSafeTracker.getMemoryStatistics();
+          const memoryStats = context.testSafeTracker.getMemoryStatistics();
           if (memoryStats) {
             expect(memoryStats.memoryEfficient).toBe(true);
           }
 
           // Stop tracking
-          await context.testSafeTracker.stopTracking('memory-test');
+          context.testSafeTracker.stopTracking('memory-test');
         }
       } finally {
         cleanupCampaignTest('memory-safe-tracking-test');
@@ -230,7 +229,7 @@ describe('Campaign System Test Integration', () => {
         expect(report.estimatedCompletion).toBeInstanceOf(Date);
 
         // Verify phase reports
-        const phase = report.phases[0];
+        const phase = (await report).phases[0];
         expect(phase.phaseId).toBeDefined();
         expect(phase.phaseName).toBeDefined();
         expect(phase.status).toBeDefined();
@@ -260,7 +259,7 @@ describe('Campaign System Test Integration', () => {
         await expect(context.controller.executePhase(mockPhase)).rejects.toThrow('Campaign is paused');
 
         // Resume campaign
-        await context.testController.resumeCampaignAfterTest('pause-resume-test');
+        context.testController.resumeCampaignAfterTest('pause-resume-test');
         expect(context.testController.isPaused()).toBe(false);
         expect(context.controller.isPaused()).toBe(false);
 
@@ -352,7 +351,7 @@ describe('Campaign System Test Integration', () => {
         // Perform multiple operations that could cause memory leaks
         for (let i = 0; i < 20; i++) {
           const mockPhase = createMockCampaignConfig().phases[0];
-          await context.controller.executePhase(mockPhase);
+          context.controller.executePhase(mockPhase);
 
           // Update metrics
           context.testController.updateMockMetrics(
@@ -363,14 +362,14 @@ describe('Campaign System Test Integration', () => {
           );
 
           // Create safety checkpoints
-          await context.safety.createStash(`Checkpoint ${i}`, 'test-phase');
+          context.safety.createStash(`Checkpoint ${i}`, 'test-phase');
         }
 
         // Validate memory usage
         void campaignTestAssertions.memoryUsageAcceptable(context);
 
         // Verify that safety events are properly managed (not accumulating indefinitely)
-        const safetyEvents = await context.controller.getSafetyEvents();
+        const safetyEvents = context.controller.getSafetyEvents();
         expect(safetyEvents.length).toBeLessThan(100); // Should be limited to prevent memory issues
       } finally {
         cleanupCampaignTest('memory-leak-prevention-test');
@@ -386,10 +385,10 @@ describe('Campaign System Test Integration', () => {
 
       // Perform some operations
       const mockPhase = createMockCampaignConfig().phases[0];
-      await context.controller.executePhase(mockPhase);
+      context.controller.executePhase(mockPhase);
 
       if (context.testSafeTracker) {
-        await context.testSafeTracker.startTracking('cleanup-test');
+        context.testSafeTracker.startTracking('cleanup-test');
         context.testSafeTracker.updateMetrics(
           {
             typeScriptErrors: { current: 50, target: 0, reduction: 50, percentage: 50 },
@@ -407,7 +406,7 @@ describe('Campaign System Test Integration', () => {
 
       // Test-safe tracker should be cleaned up
       if (context.testSafeTracker) {
-        const validation = await context.testSafeTracker.validateTrackingState();
+        const validation = context.testSafeTracker.validateTrackingState();
         // Should not be tracking anymore
         expect(validation.success).toBe(true);
       }
@@ -511,7 +510,7 @@ describe('Campaign System Test Integration', () => {
 
       try {
         // Validate test isolation
-        const isolation = validateCampaignTestIsolation(context);
+        const isolation = validateCampaignTestIsolation(await context);
         expect(isolation.isValid).toBe(true);
         expect(isolation.issues).toHaveLength(0);
 
@@ -519,24 +518,25 @@ describe('Campaign System Test Integration', () => {
         const mockPhase = createMockCampaignConfig().phases[0];
 
         // 1. Execute campaign phase
-        const phaseResult = await context.controller.executePhase(mockPhase);
+        const resolvedContext = await context;
+        const phaseResult = await resolvedContext.controller.executePhase(mockPhase);
         void campaignTestAssertions.phaseCompletedSuccessfully(phaseResult);
 
         // 2. Track progress
-        const initialMetrics = await context.tracker.getProgressMetrics();
+        const initialMetrics = await (await context).tracker.getProgressMetrics();
         context.testController.updateMockMetrics(
           {
             typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 },
           },
           'integration-test',
         );
-        const updatedMetrics = await context.tracker.getProgressMetrics();
+        const updatedMetrics = await (await context).tracker.getProgressMetrics();
         void campaignTestAssertions.progressImproved(initialMetrics, updatedMetrics);
 
         // 3. Safety operations
-        const stashId = await context.safety.createStash('Integration test stash', 'test-phase');
+        const stashId = (await context).safety.createStash('Integration test stash', 'test-phase');
         expect(stashId).toBeDefined();
-        await context.safety.applyStash(String(stashId));
+        (await context).safety.applyStash(String(stashId));
 
         // 4. Generate reports
         const report = await context.tracker.generateProgressReport();
@@ -547,7 +547,7 @@ describe('Campaign System Test Integration', () => {
         void campaignTestAssertions.memoryUsageAcceptable(context);
 
         // 6. Verify all safety events
-        const safetyEvents = context.controller.getSafetyEvents();
+        const safetyEvents = (await context).controller.getSafetyEvents();
         expect(safetyEvents.length).toBeGreaterThan(0);
         campaignTestAssertions.safetyEventsRecorded(safetyEvents, [SafetyEventType.CHECKPOINT_CREATED]);
       } finally {

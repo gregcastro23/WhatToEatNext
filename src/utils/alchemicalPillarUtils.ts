@@ -1,4 +1,15 @@
+import type { ZodiacSign } from '@/types/celestial';
 import { logger } from '@/utils/logger';
+import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
+import {
+    AlchemicalPillar,
+    getCookingMethodPillar as _getCookingMethodPillar,
+    getCookingMethodAlchemicalEffect,
+    getCookingMethodThermodynamics,
+    getPlanetaryAlchemicalEffect,
+    getTarotCardAlchemicalEffect
+} from '../constants/alchemicalPillars';
+import { AlchemicalProperty } from '../types/celestial';
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
 interface AlchemicalPillarData {
@@ -28,7 +39,6 @@ interface PillarCalculationResult {
   compatibility?: number;
   seasonalAlignment?: number;
 }
-import { AlchemicalProperty } from '../types/celestial';
 // CookingMethod type definition
 interface CookingMethod {
   name: string;
@@ -36,17 +46,6 @@ interface CookingMethod {
   description?: string;
   elementalProperties?: Record<string, number>;
 }
-import {
-  getCookingMethodAlchemicalEffect,
-  getCookingMethodPillar as _getCookingMethodPillar,
-  getCookingMethodThermodynamics,
-  ALCHEMICAL_PILLARS,
-  AlchemicalPillar,
-  getPlanetaryAlchemicalEffect,
-  getTarotCardAlchemicalEffect,
-  ALCHEMICAL_PROPERTY_ELEMENTS,
-} from '../constants/alchemicalPillars';
-import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
 
 // Re-export the getCookingMethodPillar function
 export const getCookingMethodPillar = _getCookingMethodPillar;

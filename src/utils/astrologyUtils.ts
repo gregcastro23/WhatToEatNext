@@ -5,24 +5,24 @@ import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryEle
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { log } from '@/services/LoggingService';
 import type {
-  AlchemicalItem,
-  AlchemicalResult,
-  AstrologicalState,
-  DignityType,
-  Element,
-  ElementalInteraction,
-  ElementalItem,
-  AspectType as ImportedAspectType,
-  ElementalProperties as ImportedElementalProperties,
-  // BasicThermodynamicProperties, // unused
-  PlanetaryAspect as ImportedPlanetaryAspect,
-  LowercaseElementalProperties,
-  LunarPhase,
-  // PlanetaryAlignment, // unused
-  Planet,
-  Season,
-  ThermodynamicProperties,
-  ZodiacSign,
+    AlchemicalItem,
+    AlchemicalResult,
+    AstrologicalState,
+    DignityType,
+    Element,
+    ElementalInteraction,
+    ElementalItem,
+    AspectType as ImportedAspectType,
+    ElementalProperties as ImportedElementalProperties,
+    // BasicThermodynamicProperties, // unused
+    PlanetaryAspect as ImportedPlanetaryAspect,
+    LowercaseElementalProperties,
+    LunarPhase,
+    // PlanetaryAlignment, // unused
+    Planet,
+    Season,
+    ThermodynamicProperties,
+    ZodiacSign,
 } from '@/types/alchemy';
 import type { TimeFactors } from '@/types/time';
 // Removed unused imports: getCurrentSeason, getTimeOfDay
@@ -39,18 +39,18 @@ import { calculateAllHouseEffects } from './houseEffects';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ..._args: unknown[]): void => {
   // Use the log service for debugging with enterprise intelligence integration
-  log.info(`[AstrologyUtils Debug] ${message}`, ...args);
+  log.info(`[AstrologyUtils Debug] ${message}`);
 };
 
 /**
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ...args: unknown[]): void => {
+const errorLog = (message: string, ..._args: unknown[]): void => {
   // Use the log service for errors with enterprise intelligence integration
-  log.error(`[AstrologyUtils Error] ${message}`, ...(args as unknown[]));
+  log.error(`[AstrologyUtils Error] ${message}`);
 };
 
 /**
@@ -1483,7 +1483,7 @@ export function calculateAspects(
           }
 
           // Add to aspects array
-          aspects.push({
+          _aspects.push({
             planet1,
             planet2,
             type: type as AspectType,
@@ -1510,7 +1510,7 @@ export function calculateAspects(
     }
   }
 
-  return { aspects, elementalEffects };
+  return { aspects: _aspects, elementalEffects };
 }
 
 /**
@@ -1586,13 +1586,13 @@ export async function getCurrentAstrologicalState(
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as ExtendedPlanet,
+      planetaryHour: planetaryHour as Planet,
       aspects: aspects as import('@/types/celestial').PlanetaryAspect[],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {},
     };
   } catch (error) {
-    errorLog('Error in getCurrentAstrologicalState:', error);
+    errorLog('Error in getCurrentAstrologicalState');
 
     // Provide fallback state with basic data
     const sunSign = calculateSunSign(date);
@@ -1606,7 +1606,7 @@ export async function getCurrentAstrologicalState(
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'Sun' as ExtendedPlanet,
+      planetaryHour: 'Sun' as Planet,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {},

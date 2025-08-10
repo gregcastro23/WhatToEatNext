@@ -21,7 +21,6 @@ import fs from 'fs';
 import path from 'path';
 
 import { log } from '@/services/LoggingService';
-import type { QualityGateResult } from '@/types/serviceLayer';
 
 // ========== QUALITY GATES INTERFACES ==========
 
@@ -105,6 +104,16 @@ export interface QualityGateResult {
   errors: string[];
   warnings: string[];
   recommendations: string[];
+}
+
+// Narrow execSync error type safely
+function isExecError(e: unknown): e is {
+  stdout?: string;
+  stderr?: string;
+  message?: string;
+  status?: number;
+} {
+  return typeof e === 'object' && e !== null;
 }
 
 export interface ThresholdResult {
@@ -775,8 +784,9 @@ export class QualityGatesValidation extends EventEmitter {
       result.status = 'passed';
       result.details.exitCode = 0;
     } catch (error) {
-      result.output = error.stdout || error.stderr || '';
-      result.errorMessage = error.message;
+      const execErr = isExecError(error) ? error : undefined;
+      result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '';
+      result.errorMessage = (execErr?.message as string) || 'Unknown error';
 
       if (rule.expectedResult === 'fail') {
         result.status = 'passed'; // Command was expected to fail
@@ -786,7 +796,7 @@ export class QualityGatesValidation extends EventEmitter {
         result.status = 'failed';
       }
 
-      result.details.exitCode = error.status || 1;
+      result.details.exitCode = (execErr?.status as number) || 1;
     }
   }
 
@@ -811,8 +821,9 @@ export class QualityGatesValidation extends EventEmitter {
       result.output = output;
       result.status = 'passed';
     } catch (error) {
-      result.output = error.stdout || error.stderr || '';
-      result.errorMessage = error.message;
+      const execErr = isExecError(error) ? error : undefined;
+      result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '';
+      result.errorMessage = (execErr?.message as string) || 'Unknown error';
       result.status = 'failed';
     }
   }
@@ -857,8 +868,9 @@ export class QualityGatesValidation extends EventEmitter {
     const filePath = rule.parameters.filePath || '.';
 
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const regex = new RegExp(pattern, rule.parameters.flags || 'g');
+      const content = fs.readFileSync(filePath as string, 'utf8');
+      const flags = (rule.parameters.flags as string) || 'g';
+      const regex = new RegExp(pattern, flags);
       const matches = content.match(regex);
 
       result.output = matches ? matches.join('\n') : '';
@@ -1124,12 +1136,14 @@ export class QualityGatesValidation extends EventEmitter {
         warningCount: this.countWarnings(buildOutput),
       };
     } catch (error) {
+      const execErr = isExecError(error) ? error : undefined;
+      const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '') as string;
       return {
         buildTime: 0,
         buildSize: 0,
         buildSuccess: false,
-        errorCount: this.countErrors(error.stdout || error.stderr || ''),
-        warningCount: this.countWarnings(error.stdout || error.stderr || ''),
+        errorCount: this.countErrors(out),
+        warningCount: this.countWarnings(out),
       };
     }
   }
@@ -1157,7 +1171,9 @@ export class QualityGatesValidation extends EventEmitter {
         testTime,
       };
     } catch (error) {
-      const testStats = this.parseTestOutput(error.stdout || error.stderr || '');
+      const execErr = isExecError(error) ? error : undefined;
+      const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '') as string;
+      const testStats = this.parseTestOutput(out);
       return {
         totalTests: testStats.totalTests,
         passedTests: testStats.passedTests,

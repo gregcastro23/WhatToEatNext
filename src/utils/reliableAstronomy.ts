@@ -6,6 +6,7 @@
  */
 
 // getMCPServerIntegration removed with MCP cleanup
+import { logger } from '@/utils/logger';
 
 // Cache system to avoid frequent API calls
 interface PositionsCache {

@@ -1,24 +1,24 @@
 import {
-  Flame,
-  Droplets,
-  Mountain,
-  Wind,
-  Info,
-  Clock,
-  Tag,
-  Leaf,
-  /* X, */ ChevronDown,
-  ChevronUp,
-  Beaker,
+    Beaker,
+    /* X, */ ChevronDown,
+    ChevronUp,
+    Clock,
+    Droplets,
+    Flame,
+    Info,
+    Leaf,
+    Mountain,
+    Tag,
+    Wind,
 } from 'lucide-react';
 // Removed unused import: X
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 // Removed unused import: normalizeChakraKey
 import {
-  herbsCollection,
-  oilsCollection,
-  vinegarsCollection /* , grainsCollection, spicesCollection */,
+    herbsCollection,
+    oilsCollection,
+    vinegarsCollection /* , grainsCollection, spicesCollection */,
 } from '@/data/ingredients';
 // Removed unused imports: grainsCollection, spicesCollection
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
@@ -29,10 +29,10 @@ import { ElementalProperties } from '@/types/alchemy';
 // Removed unused import: CookingMethod
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import {
-  getChakraBasedRecommendations,
-  GroupedIngredientRecommendations,
-  getIngredientRecommendations,
-  IngredientRecommendation,
+    GroupedIngredientRecommendations,
+    IngredientRecommendation,
+    getChakraBasedRecommendations,
+    getIngredientRecommendations,
 } from '@/utils/ingredientRecommender';
 
 import styles from './IngredientRecommender.module.css';
@@ -355,7 +355,7 @@ export default function IngredientRecommender() {
 
     // First pass - identify spices/seasonings and group them by base name
     recommendations.forEach(item => {
-      const _category = categorizeIngredient(item as unknown as Ingredient | UnifiedIngredient);
+      const _category = _categorizeIngredient(item as unknown as Ingredient | UnifiedIngredient);
       const normalizedName = String(item.name).toLowerCase().trim();
 
       // Special handling for spices and seasonings

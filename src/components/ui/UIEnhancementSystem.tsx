@@ -1,40 +1,18 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
 import {
-  X,
-  Info,
-  AlertCircle,
-  CheckCircle,
-  HelpCircle,
-  Bell,
-  Settings,
-  Eye,
-  EyeOff,
-  Maximize2,
-  Minimize2,
-  Move,
-  Filter,
-  Search,
-  Plus,
-  Minus,
-  RotateCcw,
-  Save,
-  Share,
-  Download,
-  Upload,
-  Edit,
-  Trash2,
-  Star,
-  Heart,
-  MessageCircle,
-  ThumbsUp,
-  Bookmark,
-  ChevronDown,
-  ChevronUp,
-  ChevronLeft,
-  ChevronRight,
+    AlertCircle,
+    Bell,
+    CheckCircle,
+    Filter,
+    Info,
+    Maximize2,
+    Plus,
+    RotateCcw,
+    Settings,
+    X
 } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Interfaces for different UI enhancement state variables
 interface ModalState {
@@ -252,7 +230,7 @@ export default function UIEnhancementSystem({
     if (!enableTooltips) return;
 
     const rect = element.getBoundingClientRect();
-    const position = calculateTooltipPosition(rect, placement);
+    const position = _calculateTooltipPosition(rect, placement);
 
     setTooltipState({
       isVisible: true,

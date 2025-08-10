@@ -4,33 +4,20 @@
  */
 
 export { CampaignController } from './CampaignController';
-export { SafetyProtocol } from './SafetyProtocol';
 export { ProgressTracker } from './ProgressTracker';
+export { SafetyProtocol } from './SafetyProtocol';
+
+// Unintentional Any Elimination System
+export * from './unintentional-any-elimination';
 
 // Re-export types for convenience
 export type {
-  CampaignConfig,
-  CampaignPhase,
-  PhaseResult,
-  ProgressMetrics,
-  ValidationResult,
-  SafetySettings,
-  CorruptionReport,
-  GitStash,
-  SafetyEvent,
-  PhaseReport,
-  ProgressReport,
-  CheckpointId,
-  StashId,
-  Milestone,
+    CampaignConfig,
+    CampaignPhase, CheckpointId, CorruptionReport,
+    GitStash, Milestone, PhaseReport, PhaseResult,
+    ProgressMetrics, ProgressReport, SafetyEvent, SafetySettings, StashId, ValidationResult
 } from '../../types/campaign';
 
 export {
-  SafetyLevel,
-  SafetyEventType,
-  SafetyEventSeverity,
-  CorruptionSeverity,
-  RecoveryAction,
-  PhaseStatus,
-  ErrorCategory,
+    CorruptionSeverity, ErrorCategory, PhaseStatus, RecoveryAction, SafetyEventSeverity, SafetyEventType, SafetyLevel
 } from '../../types/campaign';

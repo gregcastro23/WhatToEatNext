@@ -1,24 +1,46 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { buildPerformanceMonitor } from '@/services/BuildPerformanceMonitor';
 import { errorTrackingSystem } from '@/services/ErrorTrackingSystem';
 
 interface DashboardData {
   buildMetrics: {
-    history: Array<{ timestamp: number; duration: number; success: boolean; errors: number }>;
-    bottlenecks: Array<{ file: string; time: number; impact: string }>;
+    summary: {
+      averageBuildTime: number;
+      averageCompilationTime: number;
+      averageBundleSize: number;
+      averageMemoryUsage: number;
+      cacheEfficiency: number; // percent 0-100
+      errorTrend: 'stable' | 'improving' | 'degrading';
+      performanceScore: number; // 0-100
+      recommendations: string[];
+    };
+    history: Array<{ timestamp: number; totalBuildTime: number; errorCount: number }>;
+    bottlenecks: Array<{ file: string; errorCount: number; complexity: number; dependencies: string[] }>;
+    regressions: Array<{
+      metric: string;
+      previousValue: number;
+      currentValue: number;
+      regressionPercentage: number;
+      threshold: number;
+      severity: 'low' | 'medium' | 'high' | 'critical';
+      timestamp: Date;
+    }>;
   };
   errorData: {
     summary: {
       topErrorCategories: Array<{ category: string; count: number }>;
+      totalActiveErrors?: number;
     };
-    qualityHistory: Array<{ timestamp: number; score: number }>;
-    patterns: Array<{ pattern: string; count: number }>;
+    qualityHistory: Array<{ timestamp: number; score: number } & Record<string, unknown>>;
+    patterns: Array<
+      { pattern: string; count: number } & { priority?: string; frequency?: number; files?: string[]; automatable?: boolean; suggestedFix?: string }
+    >;
   };
   campaignProgress: Record<string, unknown>;
-  qualityTrends: Record<string, unknown>;
+  qualityTrends: { codeQuality: number; technicalDebt: number; maintainability: number };
 }
 
 interface MetricCard {
@@ -63,7 +85,7 @@ const QualityMetricsDashboard: React.FC = () => {
             prev =>
               ({
                 ...prev,
-                buildMetrics: buildData,
+                buildMetrics: buildData as unknown as DashboardData['buildMetrics'],
               }) as DashboardData,
           );
         });
@@ -73,7 +95,7 @@ const QualityMetricsDashboard: React.FC = () => {
             prev =>
               ({
                 ...prev,
-                errorData: errorData,
+                errorData: errorData as unknown as DashboardData['errorData'],
               }) as DashboardData,
           );
         });
@@ -81,20 +103,28 @@ const QualityMetricsDashboard: React.FC = () => {
         // Load initial data
         const buildSummary = buildPerformanceMonitor.getPerformanceSummary();
         const errorSummary = errorTrackingSystem.getErrorSummary();
-        const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics();
+         const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics();
 
         setDashboardData({
           buildMetrics: {
-            summary: buildSummary,
-            history: buildPerformanceMonitor.getBuildHistory(20),
-            bottlenecks: buildPerformanceMonitor.getBottlenecks(),
+            summary: (buildSummary as unknown) as DashboardData['buildMetrics']['summary'],
+            history: buildPerformanceMonitor.getBuildHistory(20).map(b => ({
+              timestamp: b.timestamp.getTime(),
+              totalBuildTime: b.totalBuildTime,
+              errorCount: b.errorCount,
+            })),
+            bottlenecks: buildPerformanceMonitor.getBottlenecks().map(b => ({
+              file: b.file,
+              errorCount: b.errorCount,
+              complexity: b.complexity,
+              dependencies: b.dependencies,
+            })),
             regressions: buildPerformanceMonitor.getRegressions(),
           },
           errorData: {
-            summary: errorSummary,
-            activeErrors: errorTrackingSystem.getActiveErrors(),
-            patterns: errorTrackingSystem.getErrorPatterns(),
-            qualityHistory: errorTrackingSystem.getQualityHistory(50),
+            summary: (errorSummary as unknown) as DashboardData['errorData']['summary'],
+            patterns: (errorTrackingSystem.getErrorPatterns() as unknown) as DashboardData['errorData']['patterns'],
+            qualityHistory: (errorTrackingSystem.getQualityHistory(50) as unknown) as DashboardData['errorData']['qualityHistory'],
           },
           campaignProgress: {
             // This would integrate with campaign system
@@ -103,9 +133,9 @@ const QualityMetricsDashboard: React.FC = () => {
             successRate: 0,
           },
           qualityTrends: {
-            codeQuality: qualityMetrics?.codeQualityScore || 0,
-            technicalDebt: qualityMetrics?.technicalDebtScore || 0,
-            maintainability: qualityMetrics?.maintainabilityIndex || 0,
+            codeQuality: Number(qualityMetrics?.codeQualityScore ?? 0),
+            technicalDebt: Number(qualityMetrics?.technicalDebtScore ?? 0),
+            maintainability: Number(qualityMetrics?.maintainabilityIndex ?? 0),
           },
         });
 
@@ -133,110 +163,110 @@ const QualityMetricsDashboard: React.FC = () => {
     return [
       {
         title: 'Code Quality Score',
-        value: qualityTrends.codeQuality,
+        value: Number(qualityTrends.codeQuality),
         trend:
-          (qualityTrends as Record<string, unknown>).codeQuality > 80
+          Number((qualityTrends as Record<string, unknown>).codeQuality) > 80
             ? 'up'
-            : (qualityTrends as Record<string, unknown>).codeQuality > 60
+            : Number((qualityTrends as Record<string, unknown>).codeQuality) > 60
               ? 'stable'
               : 'down',
-        trendValue: `${qualityTrends.codeQuality}%`,
+        trendValue: `${Number(qualityTrends.codeQuality)}%`,
         color:
-          (qualityTrends as Record<string, unknown>).codeQuality > 80
+          Number((qualityTrends as Record<string, unknown>).codeQuality) > 80
             ? 'green'
-            : (qualityTrends as Record<string, unknown>).codeQuality > 60
+            : Number((qualityTrends as Record<string, unknown>).codeQuality) > 60
               ? 'yellow'
               : 'red',
         description: 'Overall code quality based on errors and warnings',
       },
       {
         title: 'Build Performance',
-        value: `${Math.round(buildMetrics.summary.averageBuildTime / 1000)}s`,
+        value: `${Math.round(Number(buildMetrics.summary.averageBuildTime) / 1000)}s`,
         trend:
-          buildMetrics.summary.averageBuildTime < 30000
+          Number(buildMetrics.summary.averageBuildTime) < 30000
             ? 'up'
-            : buildMetrics.summary.averageBuildTime < 60000
+            : Number(buildMetrics.summary.averageBuildTime) < 60000
               ? 'stable'
               : 'down',
-        trendValue: `${buildMetrics.summary.performanceScore}%`,
+        trendValue: `${Number(buildMetrics.summary.performanceScore)}%`,
         color:
-          buildMetrics.summary.performanceScore > 80
+          Number(buildMetrics.summary.performanceScore) > 80
             ? 'green'
-            : buildMetrics.summary.performanceScore > 60
+            : Number(buildMetrics.summary.performanceScore) > 60
               ? 'yellow'
               : 'red',
         description: 'Average build time and performance score',
       },
       {
         title: 'Active Errors',
-        value: errorData.summary.totalActiveErrors,
+        value: Number(errorData.summary.totalActiveErrors ?? 0),
         trend:
-          errorData.summary.totalActiveErrors < 100
+          Number(errorData.summary.totalActiveErrors ?? 0) < 100
             ? 'up'
-            : errorData.summary.totalActiveErrors < 500
+            : Number(errorData.summary.totalActiveErrors ?? 0) < 500
               ? 'stable'
               : 'down',
-        trendValue: `${errorData.summary.totalActiveErrors}`,
+        trendValue: `${Number(errorData.summary.totalActiveErrors ?? 0)}`,
         color:
-          errorData.summary.totalActiveErrors < 100
+          Number(errorData.summary.totalActiveErrors ?? 0) < 100
             ? 'green'
-            : errorData.summary.totalActiveErrors < 500
+            : Number(errorData.summary.totalActiveErrors ?? 0) < 500
               ? 'yellow'
               : 'red',
         description: 'Current TypeScript and linting errors',
       },
       {
         title: 'Technical Debt',
-        value: qualityTrends.technicalDebt,
+        value: Number(qualityTrends.technicalDebt),
         trend:
-          (qualityTrends as Record<string, unknown>).technicalDebt < 30
+          Number((qualityTrends as Record<string, unknown>).technicalDebt) < 30
             ? 'up'
-            : (qualityTrends as Record<string, unknown>).technicalDebt < 60
+            : Number((qualityTrends as Record<string, unknown>).technicalDebt) < 60
               ? 'stable'
               : 'down',
-        trendValue: `${qualityTrends.technicalDebt}%`,
+        trendValue: `${Number(qualityTrends.technicalDebt)}%`,
         color:
-          (qualityTrends as Record<string, unknown>).technicalDebt < 30
+          Number((qualityTrends as Record<string, unknown>).technicalDebt) < 30
             ? 'green'
-            : (qualityTrends as Record<string, unknown>).technicalDebt < 60
+            : Number((qualityTrends as Record<string, unknown>).technicalDebt) < 60
               ? 'yellow'
               : 'red',
         description: 'Accumulated technical debt score',
       },
       {
         title: 'Maintainability',
-        value: qualityTrends.maintainability,
+        value: Number(qualityTrends.maintainability),
         trend:
-          (qualityTrends as Record<string, unknown>).maintainability > 80
+          Number((qualityTrends as Record<string, unknown>).maintainability) > 80
             ? 'up'
-            : (qualityTrends as Record<string, unknown>).maintainability > 60
+            : Number((qualityTrends as Record<string, unknown>).maintainability) > 60
               ? 'stable'
               : 'down',
-        trendValue: `${qualityTrends.maintainability}%`,
+        trendValue: `${Number(qualityTrends.maintainability)}%`,
         color:
-          (qualityTrends as Record<string, unknown>).maintainability > 80
+          Number((qualityTrends as Record<string, unknown>).maintainability) > 80
             ? 'green'
-            : (qualityTrends as Record<string, unknown>).maintainability > 60
+            : Number((qualityTrends as Record<string, unknown>).maintainability) > 60
               ? 'yellow'
               : 'red',
         description: 'Code maintainability index',
       },
       {
         title: 'Cache Efficiency',
-        value: `${buildMetrics.summary.cacheEfficiency}%`,
+        value: `${Number(buildMetrics.summary.cacheEfficiency)}%`,
         trend:
-          buildMetrics.summary.cacheEfficiency > 80
+          Number(buildMetrics.summary.cacheEfficiency) > 80
             ? 'up'
-            : buildMetrics.summary.cacheEfficiency > 60
+            : Number(buildMetrics.summary.cacheEfficiency) > 60
               ? 'stable'
               : 'down',
-        trendValue: `${buildMetrics.summary.cacheEfficiency}%`,
+        trendValue: `${Number(buildMetrics.summary.cacheEfficiency)}%`,
         color:
-          buildMetrics.summary.cacheEfficiency > 80
+          (Number(buildMetrics.summary.cacheEfficiency) > 80
             ? 'green'
-            : buildMetrics.summary.cacheEfficiency > 60
+            : Number(buildMetrics.summary.cacheEfficiency) > 60
               ? 'yellow'
-              : 'red',
+              : 'red') as MetricCard['color'],
         description: 'Build cache hit rate efficiency',
       },
     ];
@@ -251,16 +281,11 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         type: 'line',
         title: 'Build Performance Trend',
-        data: buildMetrics.history.map(
-          (
-            build: { timestamp: number; duration: number; success: boolean; errors: number },
-            index: number,
-          ) => ({
-            x: index,
-            y: build.totalBuildTime / 1000,
-            label: new Date(build.timestamp).toLocaleDateString(),
-          }),
-        ),
+        data: buildMetrics.history.map((build, index) => ({
+          x: index,
+          y: (build as { totalBuildTime: number }).totalBuildTime / 1000,
+          label: new Date((build as { timestamp: number }).timestamp).toLocaleDateString(),
+        })),
         xAxis: 'Build Number',
         yAxis: 'Build Time (seconds)',
       },
@@ -280,28 +305,26 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         type: 'line',
         title: 'Quality Score History',
-        data: errorData.qualityHistory.map(
-          (quality: { timestamp: number; score: number }, index: number) => ({
-            x: index,
-            y: quality.codeQualityScore,
-            label: new Date(quality.timestamp).toLocaleDateString(),
-          }),
-        ),
+        data: errorData.qualityHistory.map((quality: any, index: number) => ({
+          x: index,
+          y: Number(quality.score ?? quality.codeQualityScore) || 0,
+          label: new Date(Number(quality.timestamp)).toLocaleDateString(),
+        })),
         xAxis: 'Time',
         yAxis: 'Quality Score',
       },
       {
         type: 'pie',
         title: 'Error Distribution',
-        data: errorData.patterns.slice(0, 5).map((pattern: { pattern: string; count: number }) => ({
+        data: errorData.patterns.slice(0, 5).map((pattern: any) => ({
           label: pattern.pattern,
-          value: pattern.frequency,
+          value: Number(pattern.frequency ?? pattern.count) || 0,
           color:
-            pattern.priority === 'critical'
+            (pattern.priority as string) === 'critical'
               ? '#ef4444'
-              : pattern.priority === 'high'
+              : (pattern.priority as string) === 'high'
                 ? '#f97316'
-                : pattern.priority === 'medium'
+                : (pattern.priority as string) === 'medium'
                   ? '#eab308'
                   : '#22c55e',
         })),
@@ -357,14 +380,14 @@ const QualityMetricsDashboard: React.FC = () => {
         {chart.type === 'line' && (
           <div className='relative h-full w-full'>
             <svg className='h-full w-full' viewBox='0 0 400 200'>
-              {chart.data.map((point, i) => (
+                   {chart.data.map((point, i) => (
                 <g key={i}>
                   <circle
                     cx={50 + (i * 300) / Math.max(chart.data.length - 1, 1)}
                     cy={
                       180 -
-                      ((point as Record<string, unknown>).y * 150) /
-                        Math.max(...chart.data.map(p => p.y))
+                          (Number((point as any).y) * 150) /
+                            Math.max(...chart.data.map(p => Number((p as any).y)))
                     }
                     r='3'
                     fill='#3b82f6'
@@ -374,14 +397,14 @@ const QualityMetricsDashboard: React.FC = () => {
                       x1={50 + (i * 300) / Math.max(chart.data.length - 1, 1)}
                       y1={
                         180 -
-                        ((point as Record<string, unknown>).y * 150) /
-                          Math.max(...chart.data.map(p => p.y))
+                            (Number((point as any).y) * 150) /
+                              Math.max(...chart.data.map(p => Number((p as any).y)))
                       }
                       x2={50 + ((i + 1) * 300) / Math.max(chart.data.length - 1, 1)}
                       y2={
                         180 -
-                        ((chart as Record<string, unknown>).data[i + 1].y * 150) /
-                          Math.max(...(chart as Record<string, unknown>).data.map(p => p.y))
+                            (Number((chart as any).data[i + 1].y) * 150) /
+                              Math.max(...(chart as any).data.map((p: any) => Number(p.y)))
                       }
                       stroke='#3b82f6'
                       strokeWidth='2'
@@ -403,7 +426,10 @@ const QualityMetricsDashboard: React.FC = () => {
                 <div
                   className='mb-2 w-8 bg-blue-500'
                   style={{
-                    height: `${((bar as Record<string, unknown>).y / Math.max(...chart.data.map(b => b.y))) * 150}px`,
+                    height: `${
+                      (Number((bar as any).y) /
+                        Math.max(...chart.data.map(b => Number((b as any).y)))) * 150
+                    }px`,
                   }}
                 ></div>
                 <span className='origin-center -rotate-45 transform text-xs text-gray-600'>
@@ -422,7 +448,7 @@ const QualityMetricsDashboard: React.FC = () => {
                   <div className='flex items-center'>
                     <div
                       className='mr-2 h-3 w-3 rounded'
-                      style={{ backgroundColor: slice.color }}
+                      style={{ backgroundColor: String((slice as any).color) }}
                     ></div>
                     <span className='text-xs'>{slice.label}</span>
                   </div>
@@ -477,10 +503,18 @@ const QualityMetricsDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody className='divide-y divide-gray-200 bg-white'>
-                {dashboardData.buildMetrics.bottlenecks
+                 {dashboardData.buildMetrics.bottlenecks
                   .slice(0, 10)
-                  .map(
-                    (bottleneck: { file: string; time: number; impact: string }, index: number) => (
+                   .map(
+                     (
+                       bottleneck: {
+                         file: string;
+                         errorCount: number;
+                         complexity: number;
+                         dependencies: string[];
+                       },
+                       index: number,
+                     ) => (
                       <tr key={index}>
                         <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-900'>
                           {bottleneck.file.split('/').pop()}

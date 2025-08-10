@@ -1,7 +1,6 @@
 import { LunarPhaseWithSpaces } from '../types/alchemy';
 
 import { ElementalCharacter } from './planetaryElements';
-import { ZodiacSign } from './zodiac';
 
 /**
  * Enhanced planet type incorporating multiple astrological traditions
@@ -331,7 +330,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   }
 
   // Calculate seasonal alignment (certain cuisines are better aligned with seasons)
-  const seasonalBoost = calculateSeasonalAlignment(normalizedSign, item) * 0.15;
+  const seasonalBoost = _calculateSeasonalAlignment(normalizedSign, item) * 0.15;
 
   // Combine all boost factors
   const totalBoost = elementBoost + zodiacBoost + modalityBoost + seasonalBoost;

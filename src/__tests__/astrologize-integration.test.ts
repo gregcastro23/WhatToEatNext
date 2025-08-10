@@ -1,8 +1,8 @@
 import {
-  fetchPlanetaryPositions,
-  getCurrentPlanetaryPositions,
-  getPlanetaryPositionsForDateTime,
-  testAstrologizeApi,
+    fetchPlanetaryPositions,
+    getCurrentPlanetaryPositions,
+    getPlanetaryPositionsForDateTime,
+    testAstrologizeApi,
 } from '@/services/astrologizeApi';
 
 describe('Astrologize API Integration', () => {
@@ -165,7 +165,7 @@ describe('Astrologize API Integration', () => {
     test('should handle API errors gracefully', async () => {
       // Test with invalid parameters to see error handling
       try {
-        fetchPlanetaryPositions({
+        await fetchPlanetaryPositions({
           year: -1,
           month: 13,
           date: 32,

@@ -28,6 +28,14 @@ yarn.lock
 errors.log
 tsconfig.tsbuildinfo
 
+# ESLint caches and reports
+.eslintcache
+.eslintcache-fast
+.eslint-results.json
+.eslint-profile.json
+.eslint-ts-cache/
+.eslint-tsbuildinfo
+
 # debug
 npm-debug.log*
 yarn-debug.log*
@@ -89,3 +97,4 @@ node_modules/@next/swc-*
 lint-fix-log.txt
 .typescript-errors-metrics.json
 .explicit-any-metrics.json
+reports/

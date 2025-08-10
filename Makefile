@@ -17,6 +17,7 @@ help:
 	@echo "  make lint        - Run linting checks"
 	@echo "  make lint-fix    - Fix linting issues"
 	@echo "  make lint-fast   - Fast incremental linting (changed files only)"
+	@echo "  make lint-quick  - Ultra-fast linting without type checking (3s)"
 	@echo "  make lint-summary - Quick error count and summary"
 	@echo "  make deploy      - Full deployment pipeline"
 	@echo "  make check       - TypeScript error checking"
@@ -48,6 +49,10 @@ help:
 	@echo ""
 	@echo "🔍 Advanced linting commands:"
 	@echo "  make lint-performance    - Linting with performance metrics"
+	@echo "  make lint-type-aware     - Full type-aware linting (comprehensive)"
+	@echo "  make lint-incremental    - Lint only changed files (fast config)"
+	@echo "  make lint-ci             - CI/CD optimized linting"
+	@echo "  make lint-profile        - Generate performance profile"
 	@echo "  make lint-fix-safe       - Safe automated fixing with backups"
 	@echo "  make lint-auto-fix       - Comprehensive automated fixes"
 	@echo "  make lint-domain-astro   - Domain-specific astrological linting"
@@ -155,6 +160,28 @@ lint:
 lint-fix:
 	@echo "🔧 Fixing linting issues..."
 	yarn lint:fix
+
+# Fast linting commands (NEW - Performance optimized)
+lint-quick:
+	@echo "⚡ Running ultra-fast linting (no type checking)..."
+	yarn lint:quick
+
+lint-type-aware:
+	@echo "🔍 Running comprehensive type-aware linting..."
+	yarn lint:type-aware
+
+lint-incremental:
+	@echo "📝 Running incremental linting on changed files (fast config)..."
+	yarn lint:incremental
+
+lint-ci:
+	@echo "🚀 Running CI/CD optimized linting..."
+	yarn lint:ci
+
+lint-profile:
+	@echo "📊 Generating ESLint performance profile..."
+	yarn lint:profile
+	@echo "Profile saved to .eslint-profile.json"
 
 # Advanced linting commands
 lint-fast:

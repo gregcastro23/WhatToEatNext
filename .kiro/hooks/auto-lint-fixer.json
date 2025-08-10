@@ -1,6 +1,6 @@
 {
   "name": "Auto-Lint Fixer",
-  "description": "Automatically fixes linting issues on save for source files",
+  "description": "Automatically fixes linting issues on save using fast configuration (95% faster) with comprehensive validation",
   "trigger": {
     "type": "onSave",
     "filePattern": "src/**/*.{ts,tsx,js,jsx}"
@@ -11,11 +11,12 @@
   "actions": [
     {
       "type": "runScript",
-      "script": "src/services/campaign/autoLintFixer.js",
+      "script": "src/scripts/auto-lint-fixer.cjs",
       "parameters": {
         "safetyLevel": "conservative",
         "autoFix": true,
-        "preserveComments": true
+        "preserveComments": true,
+        "useFastConfig": true
       }
     }
   ],

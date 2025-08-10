@@ -1,5 +1,6 @@
 import { IngredientMapping } from '@/data/ingredients/types';
 import { ElementalProperties } from '@/types/alchemy';
+import { calculateElementalCompatibility } from '@/utils/elemental/core';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
@@ -408,22 +409,16 @@ export const getComplementaryIngredients = (ingredient: keyof typeof ingredientM
       if (name === ingredient) return false;
       const complementaryElement = Object.entries(mapping.elementalProperties).reduce(
         (max, curr) => (curr[1] > max[1] ? curr : max),
-      )[0];
-      return isComplementaryElement(baseElement, complementaryElement);
+      )[0] as keyof ElementalProperties;
+      // Use project-approved compatibility principle (no true opposites)
+      const score = calculateElementalCompatibility(
+        baseElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
+        complementaryElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
+      );
+      return score >= 0.7;
     })
     .map(([name]) => name);
 };
 
 // Helper function to determine if elements are complementary
-const _isComplementaryElement = (element1: string, element2: string): boolean => {
-  const complementaryPairs = [
-    ['Fire', 'Air'],
-    ['Water', 'Earth'],
-  ];
-
-  return complementaryPairs.some(
-    pair =>
-      (pair[0] === element1 && pair[1] === element2) ||
-      (pair[1] === element1 && pair[0] === element2),
-  );
-};
+// Deprecated: Oppositional/complementary logic is replaced by compatibility model per workspace rules

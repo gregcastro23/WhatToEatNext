@@ -95,28 +95,28 @@ describe('Performance Optimization Validation', () => {
       TEST_TIMEOUTS.performance,
     );
 
-    test('validates cache retention and invalidation', () => {
+    test('validates cache retention and invalidation', async () => {
       // Verify cache exists
       expect(existsSync('.eslintcache')).toBe(true);
 
       const initialStats = statSync('.eslintcache');
 
       // Wait a moment and run again
-      setTimeout(() => {
-        try {
-          execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-            stdio: 'pipe',
-            timeout: 30000,
-          });
-        } catch (error) {
-          // Ignore linting errors
-        }
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      try {
+        execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
+          stdio: 'pipe',
+          timeout: 30000,
+        });
+      } catch (error) {
+        // Ignore linting errors
+      }
 
-        // Cache should still exist and be updated
-        expect(existsSync('.eslintcache')).toBe(true);
-        const updatedStats = statSync('.eslintcache');
-        expect(updatedStats.mtime.getTime()).toBeGreaterThanOrEqual(initialStats.mtime.getTime());
-      }, 1000);
+      // Cache should still exist and be updated
+      expect(existsSync('.eslintcache')).toBe(true);
+      const updatedStats = statSync('.eslintcache');
+      expect(updatedStats.mtime.getTime()).toBeGreaterThanOrEqual(initialStats.mtime.getTime());
+
     });
   });
 
@@ -369,7 +369,7 @@ export function testFunction(): string {
 
         // Run multiple operations to test memory stability
         for (let i = 0; i < 3; i++) {
-          const result = await TestUtils.executeWithRetry(
+        const result = await TestUtils.executeWithRetry(
             'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
             {
               timeout: 20000,
@@ -382,7 +382,7 @@ export function testFunction(): string {
 
         // Validate memory consistency
         const consistency = await TestUtils.validateConsistency(
-          () => Promise.resolve(memoryResults[0]),
+          async () => memoryResults[0],
           3,
           30, // 30% tolerance
         );

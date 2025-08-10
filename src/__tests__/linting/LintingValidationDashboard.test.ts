@@ -575,7 +575,7 @@ describe('LintingValidationDashboard', () => {
 
       // Test alerting system processing
       const processAlertsSpy = jest.spyOn(alerting, 'processAlerts');
-      await alerting.processAlerts(result.alerts, result.metrics);
+      alerting.processAlerts(result.alerts, result.metrics);
 
       expect(processAlertsSpy).toHaveBeenCalledWith(result.alerts, result.metrics);
     });

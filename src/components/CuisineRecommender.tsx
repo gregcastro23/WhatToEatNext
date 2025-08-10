@@ -716,21 +716,9 @@ export default function CuisineRecommender() {
 
   // Enterprise Intelligence state
   const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState<boolean>(false);
-  const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<{
-    recipeIntelligence?: {
-      compatibility?: number;
-      optimization?: number;
-      safetyScore?: number;
-    };
-    ingredientIntelligence?: {
-      analysis?: Record<string, unknown>;
-      optimizationScore?: number;
-    };
-    cuisineIntelligence?: {
-      culturalAnalysis?: Record<string, unknown>;
-      fusionAnalysis?: Record<string, unknown>;
-    };
-  } | null>(null);
+  const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<
+    import('@/types/enterpriseIntelligence').EnterpriseIntelligenceResult | null
+  >(null);
 
   // Analytics hooks
   const [analyticsState, analyticsActions] = useRecommendationAnalytics({
@@ -761,7 +749,7 @@ export default function CuisineRecommender() {
       (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })
         ?.astrologicalState?.elementalState;
     if (elementalState) {
-      return elementalState as ElementalProperties;
+      return elementalState;
     }
     if (currentZodiac) {
       return calculateElementalProfileFromZodiac(currentZodiac as ZodiacSign);
@@ -948,14 +936,7 @@ export default function CuisineRecommender() {
 
         // Enhanced recipe building with Recipe Intelligence Systems integration
         const enhancedRecipes = matching.map(recipe => {
-          const baseRecipe = buildCompleteRecipe(
-            recipe,
-            cuisine.name,
-            currentMomentElementalProfile,
-            { kalchm: currentMomentElementalProfile },
-            astrologicalStateForRecommendations,
-            getCurrentSeason(),
-          );
+          const baseRecipe = buildCompleteRecipe(recipe, cuisine.name);
 
           // Perform enhanced analysis on recipe
           if (baseRecipe.elementalProperties) {
@@ -966,9 +947,14 @@ export default function CuisineRecommender() {
 
             // Calculate Kalchm harmony score for recipe
             const kalchmHarmony = calculateRecipeKalchmHarmony(
-              analysis.thermodynamicMetrics,
-              (cuisine as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: unknown } })
-                .enhancedAnalysis?.thermodynamicMetrics,
+              analysis.thermodynamicMetrics as unknown as {
+                kalchm?: number;
+                thermodynamicScore?: number;
+                energyBalance?: number;
+              },
+              (cuisine as unknown as {
+                enhancedAnalysis?: { thermodynamicMetrics?: { kalchm?: number; thermodynamicScore?: number; energyBalance?: number } };
+              }).enhancedAnalysis?.thermodynamicMetrics,
             );
 
             // Calculate recipe thermodynamic optimization
@@ -1336,16 +1322,19 @@ export default function CuisineRecommender() {
                 zodiacSign: astrologicalStateForRecommendations.zodiacSign as ZodiacSign,
                 lunarPhase: astrologicalStateForRecommendations.lunarPhase as LunarPhase,
                 elementalProperties: currentMomentElementalProfile,
-                planetaryPositions: astrologicalStateForRecommendations.planetaryPositions,
-              }}
+                planetaryPositions: astrologicalStateForRecommendations.planetaryPositions as Record<string, unknown>,
+              } as import('@/components/intelligence/EnterpriseIntelligencePanel').EnterpriseIntelligencePanelProps['astrologicalContext']}
               className='border-t pt-4'
               showDetailedMetrics={true}
               autoAnalyze={true}
               onAnalysisComplete={analysis => {
-                setEnterpriseIntelligenceAnalysis(analysis);
+                setEnterpriseIntelligenceAnalysis(
+                  analysis as unknown as import('@/types/enterpriseIntelligence').EnterpriseIntelligenceResult,
+                );
                 logger.info('Enterprise Intelligence Analysis completed:', {
-                  overallScore: analysis.overallScore,
-                  systemHealth: analysis.systemHealth,
+                  overallIntelligenceScore:
+                    (analysis as unknown as import('@/types/enterpriseIntelligence').EnterpriseIntelligenceResult)
+                      .overallIntelligenceScore,
                 });
               }}
             />
@@ -1375,11 +1364,17 @@ export default function CuisineRecommender() {
                     <span className='text-sm font-medium text-green-700'>System Health</span>
                   </div>
                   <div className='text-2xl font-bold text-green-600'>
-                    {Math.round((enterpriseIntelligenceAnalysis.systemHealth?.score || 0.85) * 100)}
-                    %
+                    {Math.round((enterpriseIntelligenceAnalysis.overallIntelligenceScore || 0.85) * 100)}%
                   </div>
                   <div className='text-xs text-gray-500'>
-                    Status: {enterpriseIntelligenceAnalysis.systemHealth?.overall || 'healthy'}
+                    Status:{' '}
+                    {(() => {
+                      const s = enterpriseIntelligenceAnalysis.overallIntelligenceScore || 0.85;
+                      if (s >= 0.9) return 'excellent';
+                      if (s >= 0.75) return 'good';
+                      if (s >= 0.6) return 'fair';
+                      return 'poor';
+                    })()}
                   </div>
                 </div>
 
@@ -1389,11 +1384,11 @@ export default function CuisineRecommender() {
                     <span className='text-sm font-medium text-blue-700'>Cuisine Compatibility</span>
                   </div>
                   <div className='text-2xl font-bold text-blue-600'>
-                    {Math.round((enterpriseIntelligenceAnalysis.overallScore || 0.78) * 100)}%
+                    {Math.round((enterpriseIntelligenceAnalysis.overallIntelligenceScore || 0.78) * 100)}%
                   </div>
                   <div className='text-xs text-gray-500'>
                     Astrological alignment:{' '}
-                    {(enterpriseIntelligenceAnalysis.overallScore || 0.78) > 0.8
+                    {(enterpriseIntelligenceAnalysis.overallIntelligenceScore || 0.78) > 0.8
                       ? 'Excellent'
                       : 'Good'}
                   </div>
@@ -1405,9 +1400,7 @@ export default function CuisineRecommender() {
                     <span className='text-sm font-medium text-purple-700'>Performance</span>
                   </div>
                   <div className='text-2xl font-bold text-purple-600'>
-                    {Math.round(
-                      (enterpriseIntelligenceAnalysis.performanceMetrics?.efficiency || 0.82) * 100,
-                    )}
+                    {Math.round((enterpriseIntelligenceAnalysis.confidence || 0.82) * 100)}
                     %
                   </div>
                   <div className='text-xs text-gray-500'>Processing efficiency</div>
@@ -1421,7 +1414,7 @@ export default function CuisineRecommender() {
                     </span>
                   </div>
                   <div className='text-2xl font-bold text-orange-600'>
-                    {enterpriseIntelligenceAnalysis.recommendations?.length || 5}
+                    {Math.round((enterpriseIntelligenceAnalysis.optimizationIntelligence?.overallOptimizationScore || 0.7) * 10)}
                   </div>
                   <div className='text-xs text-gray-500'>Optimization suggestions</div>
                 </div>
@@ -1518,22 +1511,23 @@ export default function CuisineRecommender() {
                 </div>
                 <p className='text-xs leading-relaxed text-gray-600'>
                   Enterprise intelligence analysis reveals{' '}
-                  {(enterpriseIntelligenceAnalysis.overallScore || 0.78) > 0.8
+                  {(enterpriseIntelligenceAnalysis.overallIntelligenceScore || 0.78) > 0.8
                     ? 'excellent'
                     : 'good'}
                   alignment between selected cuisines and current astrological conditions. The{' '}
-                  {astrologicalStateForRecommendations.zodiacSign} influence provides{' '}
-                  {(enterpriseIntelligenceAnalysis.overallScore || 0.78) > 0.8
+                  {String(astrologicalStateForRecommendations.zodiacSign)} influence provides{' '}
+                  {(enterpriseIntelligenceAnalysis.overallIntelligenceScore || 0.78) > 0.8
                     ? 'strong'
                     : 'moderate'}
                   compatibility with {cuisineRecommendations.length} available cuisine options.
                   System performance metrics indicate{' '}
-                  {Math.round(
-                    (enterpriseIntelligenceAnalysis.performanceMetrics?.efficiency || 0.82) * 100,
-                  )}
+                  {Math.round((enterpriseIntelligenceAnalysis.confidence || 0.82) * 100)}
                   % operational efficiency with{' '}
-                  {enterpriseIntelligenceAnalysis.recommendations?.length || 5} active optimization
-                  recommendations.
+                  {Number(
+                    enterpriseIntelligenceAnalysis.optimizationIntelligence?.prioritizedRecommendations
+                      ?.length || 0,
+                  )}{' '}
+                  active optimization recommendations.
                 </p>
               </div>
             </div>
@@ -1830,7 +1824,7 @@ export default function CuisineRecommender() {
                         ).enhancedAnalysis?.thermodynamicMetrics?.gregsEnergy || 0
                       ).toFixed(2)}
                     </div>
-                    <div className='text-xs text-gray-600'>Greg's Energy</div>
+                    <div className='text-xs text-gray-600'>Greg&apos;s Energy</div>
                   </div>
                 </div>
 
@@ -1897,7 +1891,7 @@ export default function CuisineRecommender() {
                         <div
                           className='h-2 rounded-full bg-orange-500'
                           style={{
-                            width: `${Math.min(100, Math.max(0, ((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.reactivity || 0) * 50))}%`,
+                            width: `${Math.min(100, Math.max(0, ((selectedCuisineData as Record<string, any>).enhancedAnalysis?.thermodynamicMetrics?.reactivity || 0) * 50))}%`,
                           }}
                         ></div>
                       </div>
@@ -1913,7 +1907,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Alchemical Properties Display */}
-            {(selectedCuisineData as any).enhancedAnalysis?.alchemicalProperties && (
+            {(selectedCuisineData as Record<string, any>).enhancedAnalysis?.alchemicalProperties && (
               <div className='mb-4 rounded-lg border bg-gradient-to-r from-yellow-50 to-amber-50 p-4'>
                 <h4 className='mb-3 flex items-center text-sm font-medium'>
                   <Sparkles size={16} className='mr-2 text-yellow-500' />
@@ -1921,7 +1915,7 @@ export default function CuisineRecommender() {
                 </h4>
                 <div className='grid grid-cols-2 gap-3 md:grid-cols-4'>
                   {Object.entries(
-                    (selectedCuisineData as any).enhancedAnalysis.alchemicalProperties,
+                    (selectedCuisineData as Record<string, any>).enhancedAnalysis.alchemicalProperties,
                   ).map(([property, value]) => (
                     <div key={property} className='text-center'>
                       <div className='text-lg font-semibold text-amber-600'>

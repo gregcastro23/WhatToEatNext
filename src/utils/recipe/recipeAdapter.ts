@@ -66,22 +66,32 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle season
   const energyProfile = recipeDataAny.energyProfile as Record<string, unknown>;
-  if (energyProfile && energyProfile.season) {
-    recipe.currentSeason = energyProfile.currentSeason as string;
-  }
+    if (energyProfile && energyProfile.season) {
+      const seasonVal = Array.isArray(energyProfile.season)
+        ? String((energyProfile.season as unknown[])[0] ?? '')
+        : String(energyProfile.season);
+      recipe.currentSeason = seasonVal;
+    }
 
   // Handle astrological properties
   if (energyProfile) {
     if (energyProfile.zodiac) {
-      recipe.zodiacInfluences = Array.isArray(energyProfile.zodiac)
-        ? (energyProfile.zodiac.map(z => String(z)) as string[])
-        : [String(energyProfile.zodiac)];
+      // Coerce to lowercase zodiac union strings
+      const zodiacRaw = Array.isArray(energyProfile.zodiac)
+        ? energyProfile.zodiac
+        : [energyProfile.zodiac];
+      recipe.zodiacInfluences = (zodiacRaw
+        .map(z => String(z).toLowerCase())
+        .filter(Boolean)) as unknown as import('@/types/alchemy').ZodiacSign[];
     }
 
     if (energyProfile.lunar) {
-      recipe.lunarPhaseInfluences = Array.isArray(energyProfile.lunar)
-        ? (energyProfile.lunar.map(l => String(l)) as string[])
-        : [String(energyProfile.lunar)];
+      const lunarRaw = Array.isArray(energyProfile.lunar)
+        ? energyProfile.lunar
+        : [energyProfile.lunar];
+      recipe.lunarPhaseInfluences = (lunarRaw
+        .map(l => String(l).toLowerCase())
+        .filter(Boolean)) as unknown as import('@/types/alchemy').LunarPhase[];
     }
 
     if (energyProfile.planetary) {
