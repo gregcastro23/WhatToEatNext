@@ -222,7 +222,7 @@ class ImportCleanupCLI {
     }
   }
 
-  private groupUnusedImportsByFile(unusedImports: any[]): Record<string, any[]> {
+  private groupUnusedImportsByFile(unusedImports: unknown[]): Record<string, any[]> {
     return unusedImports.reduce((acc, imp) => {
       if (!acc[imp.filePath]) {
         acc[imp.filePath] = [];

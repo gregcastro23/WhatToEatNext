@@ -215,7 +215,7 @@ export function useNavigationContext() {
   const preserveContext = useCallback(
     (context: {
       fromPage?: string;
-      selectedItems?: any[];
+      selectedItems?: unknown[];
       activeSection?: string;
       scrollPosition?: number;
       timestamp?: number;

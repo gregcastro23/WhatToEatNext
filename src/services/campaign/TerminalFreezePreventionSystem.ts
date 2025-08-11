@@ -47,7 +47,7 @@ export class TerminalFreezePreventionSystem {
   /**
    * Execute command with timeout and monitoring
    */
-  async safeExecSync(command: string, options: any = {}): Promise<string> {
+  async safeExecSync(command: string, options: unknown = {}): Promise<string> {
     const safeOptions = {
       ...options,
       timeout: options.timeout || this.config.maxExecutionTime,
@@ -74,7 +74,7 @@ export class TerminalFreezePreventionSystem {
   async safeSpawn(
     command: string,
     args: string[] = [],
-    options: any = {},
+    options: unknown = {},
   ): Promise<{
     stdout: string;
     stderr: string;

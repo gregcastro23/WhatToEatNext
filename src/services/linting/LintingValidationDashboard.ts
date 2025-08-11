@@ -212,7 +212,7 @@ export class LintingValidationDashboard {
   /**
    * Parse ESLint results into structured metrics
    */
-  private parseLintResults(lintResults: any[]): LintingMetrics {
+  private parseLintResults(lintResults: unknown[]): LintingMetrics {
     let totalIssues = 0;
     let errors = 0;
     let warnings = 0;

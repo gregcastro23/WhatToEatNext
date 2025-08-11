@@ -20,7 +20,7 @@ const deploymentManager = new DeploymentManager();
 /**
  * Display deployment results
  */
-function displayDeploymentResults(results: any[]): void {
+function displayDeploymentResults(results: unknown[]): void {
   console.log('\n=== DEPLOYMENT RESULTS ===');
 
   for (const result of results) {

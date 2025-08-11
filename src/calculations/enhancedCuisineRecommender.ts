@@ -12,7 +12,7 @@ interface RecipeData {
   id?: string;
   tags?: string[];
   description?: string;
-  ingredients?: any[];
+  ingredients?: unknown[];
   season?: string[];
   mealType?: string[];
   dietaryInfo?: string[];

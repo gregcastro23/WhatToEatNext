@@ -744,7 +744,7 @@ export class ProgressiveImprovementEngine {
     // Match various any type patterns
     const anyPatterns = [
       /:\s*any(?=\s*[=;,\)\]\}])/,  // : any followed by delimiter
-      /:\s*any\[\]/,                // : any[]
+      /:\s*any\[\]/,                // : unknown[]
       /:\s*Array<unknown>/,             // : Array<unknown>
       /:\s*Record<\w+,\s*any>/,     // : Record<string, unknown>
       /\[key:\s*\w+\]:\s*any/       // [key: string]: any

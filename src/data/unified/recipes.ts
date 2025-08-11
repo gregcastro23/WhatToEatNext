@@ -116,7 +116,7 @@ export class RecipeEnhancer {
   /**
    * Calculate recipe Kalchm from ingredients using unified ingredients database
    */
-  static calculateRecipeKalchm(ingredients: any[]): {
+  static calculateRecipeKalchm(ingredients: unknown[]): {
     totalKalchm: number;
     breakdown: Array<{
       name: string;
@@ -136,7 +136,7 @@ export class RecipeEnhancer {
 
     let totalKalchm = 0;
     let matchedIngredients = 0;
-    const breakdown: any[] = [];
+    const breakdown: unknown[] = [];
 
     for (const ingredient of ingredients) {
       const ingredientName = ingredient.name?.toLowerCase();
@@ -231,7 +231,7 @@ export class RecipeEnhancer {
   /**
    * Calculate elemental balance from ingredient breakdown
    */
-  static calculateElementalBalance(breakdown: any[]): ElementalProperties {
+  static calculateElementalBalance(breakdown: unknown[]): ElementalProperties {
     if (!breakdown || breakdown.length === 0) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }

@@ -309,7 +309,7 @@ export class DocumentationQualityAssurance {
     // Patterns to match any types
     const anyPatterns = [
       /:\s*any\b/g,           // : any
-      /:\s*any\[\]/g,         // : any[]
+      /:\s*any\[\]/g,         // : unknown[]
       /:\s*Record<[^,]+,\s*any>/g,  // : Record<string, unknown>
       /\bas\s+any\b/g,        // as any
       /<any>/g,               // <any>

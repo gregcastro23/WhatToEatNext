@@ -435,7 +435,7 @@ export class AnyTypeClassifier {
   }
 
   private isSimpleArrayType(context: ClassificationContext): boolean {
-    // Match patterns like: any[], Array<any>
+    // Match patterns like: unknown[], Array<any>
     const arrayPatterns = [
       /:\s*any\[\]/,
       /:\s*Array<any>/,

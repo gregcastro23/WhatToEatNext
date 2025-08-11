@@ -179,30 +179,30 @@ class ConsoleStatementReplacer {
  */
 
 export interface Logger {
-  info(message: string, ...args: any[]): void;
-  warn(message: string, ...args: any[]): void;
-  error(message: string, ...args: any[]): void;
-  debug(message: string, ...args: any[]): void;
+  info(message: string, ...args: unknown[]): void;
+  warn(message: string, ...args: unknown[]): void;
+  error(message: string, ...args: unknown[]): void;
+  debug(message: string, ...args: unknown[]): void;
 }
 
 class LoggingService implements Logger {
   private isDevelopment = process.env.NODE_ENV === 'development';
 
-  info(message: string, ...args: any[]): void {
+  info(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
       console.log(\`[INFO] \${message}\`, ...args);
     }
   }
 
-  warn(message: string, ...args: any[]): void {
+  warn(message: string, ...args: unknown[]): void {
     console.warn(\`[WARN] \${message}\`, ...args);
   }
 
-  error(message: string, ...args: any[]): void {
+  error(message: string, ...args: unknown[]): void {
     console.error(\`[ERROR] \${message}\`, ...args);
   }
 
-  debug(message: string, ...args: any[]): void {
+  debug(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
       console.log(\`[DEBUG] \${message}\`, ...args);
     }

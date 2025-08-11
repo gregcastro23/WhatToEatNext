@@ -570,7 +570,7 @@ export class PilotCampaignAnalysis {
     return adjustments[category] || null;
   }
 
-  private calculateCategoryImprovements(before: any[], after: any[]): unknown[] {
+  private calculateCategoryImprovements(before: unknown[], after: unknown[]): unknown[] {
     return before.map(beforeCat => {
       const afterCat = after.find(a => a.category === beforeCat.category);
       if (afterCat) {

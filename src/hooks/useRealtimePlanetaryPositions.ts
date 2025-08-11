@@ -161,7 +161,7 @@ export function usePlanetaryPositionsForDate(
         );
 
         // Fallback to our API endpoint
-        const body: any = { date: date.toISOString() };
+        const body: unknown = { date: date.toISOString() };
         if (location) {
           body.latitude = location.latitude;
           body.longitude = location.longitude;

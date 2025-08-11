@@ -16,7 +16,7 @@ interface UseErrorHandlerReturn {
   captureError: (error: Error | string, context?: unknown) => void;
   foodError: Error | null;
   foodLoading: boolean;
-  foodRecommendations: any[] | null;
+  foodRecommendations: unknown[] | null;
   setFoodRecommendations: React.Dispatch<React.SetStateAction<any[] | null>>;
 }
 

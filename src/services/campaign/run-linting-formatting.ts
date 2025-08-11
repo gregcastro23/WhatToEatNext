@@ -228,7 +228,7 @@ class LintingFormattingCLI {
     }
   }
 
-  private printViolationSummary(violations: any[]): void {
+  private printViolationSummary(violations: unknown[]): void {
     const summary = {
       typeScript: violations.filter(v => v.ruleId?.startsWith('@typescript-eslint/')).length,
       react: violations.filter(v => v.ruleId?.startsWith('react')).length,
@@ -249,7 +249,7 @@ class LintingFormattingCLI {
     console.log(`  - Auto-fixable: ${summary.fixable}`);
   }
 
-  private printDetailedViolations(violations: any[]): void {
+  private printDetailedViolations(violations: unknown[]): void {
     const groupedByFile = violations.reduce((acc, violation) => {
       if (!acc[violation.filePath]) {
         acc[violation.filePath] = [];

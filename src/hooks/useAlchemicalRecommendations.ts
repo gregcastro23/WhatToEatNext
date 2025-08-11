@@ -109,7 +109,7 @@ export const useAlchemicalRecommendations = ({
         setRecommendations(recs);
 
         // Apply deep type conversion to resolve cross-import conflicts
-        const convertToLocalAlchemicalItem = (items: any[]): AlchemicalItem[] => {
+        const convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {
           return items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
