@@ -475,7 +475,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       const eslintConfig = require('../../../eslint.config.cjs');
 
       // Find React settings in configuration
-      const reactSettings = eslintConfig.find((config: any) => config.settings?.react?.version);
+      const reactSettings = eslintConfig.find((config: unknown) => config.settings?.react?.version);
 
       expect(reactSettings).toBeDefined();
       expect(reactSettings.settings.react.version).toBe('19.1.0');
@@ -485,7 +485,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       const eslintConfig = require('../../../eslint.config.cjs');
 
       // Find React rules configuration
-      const reactRules = eslintConfig.find((config: any) => config.rules && config.rules['react/react-in-jsx-scope']);
+      const reactRules = eslintConfig.find((config: unknown) => config.rules && config.rules['react/react-in-jsx-scope']);
 
       expect(reactRules).toBeDefined();
       expect(reactRules.rules['react/react-in-jsx-scope']).toBe('off');
@@ -497,7 +497,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
 
       // Find React hooks configuration
       const hooksConfig = eslintConfig.find(
-        (config: any) => config.rules && config.rules['react-hooks/exhaustive-deps'],
+        (config: unknown) => config.rules && config.rules['react-hooks/exhaustive-deps'],
       );
 
       expect(hooksConfig).toBeDefined();
@@ -636,7 +636,7 @@ function runESLintOnFile(filePath: string): { exitCode: number; output: string }
       stdio: 'pipe',
     });
     return { exitCode: 0, output };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
       exitCode: error.status || 1,
       output: error.stdout || error.message || '',

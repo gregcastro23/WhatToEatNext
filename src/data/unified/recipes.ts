@@ -2,20 +2,20 @@ import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type {
   ElementalProperties,
   Element,
-  AlchemicalProperties,
-  ThermodynamicMetrics,
+  _,
+  _,
   Season,
 } from '@/types/alchemy';
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 
 import {
   // ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====
   // Adds alchemical enhancements to existing cuisine recipes
   // WITHOUT removing any data - purely additive system
 
-  calculateKalchm,
-  calculateMonica,
-  performAlchemicalAnalysis,
+  _,
+  _,
+  _,
 } from './alchemicalCalculations.js';
 import { unifiedIngredients } from './ingredients';
 
@@ -346,7 +346,7 @@ export class RecipeEnhancer {
    * Generate thermodynamic recommendations
    */
   static generateThermodynamicRecommendations(
-    thermodynamics: any,
+    thermodynamics: unknown,
     elementalBalance: ElementalProperties,
     monica: number | null,
   ): string[] {

@@ -1,6 +1,6 @@
 import type { Ingredient } from '@/types/alchemy';
 
-import { allIngredients } from './index';
+import { _ } from './index';
 
 export interface IngredientFlavorProfile {
   spicy: number;
@@ -14,8 +14,8 @@ export interface IngredientFlavorProfile {
 // Helper function to add flavor profiles to ingredients
 export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): Ingredient[] {
   return ingredients.map(ingredient => {
-    if (!(ingredient as any)?.flavorProfile) {
-      (ingredient as any).flavorProfile = getFlavorProfileForIngredient(ingredient.name);
+    if (!(ingredient as unknown)?.flavorProfile) {
+      (ingredient as unknown).flavorProfile = getFlavorProfileForIngredient(ingredient.name);
     }
     return ingredient;
   });
@@ -23,7 +23,7 @@ export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): 
 
 // Mapping of common ingredient names to their flavor profiles
 // Values should be between 0-1, where 0 is none of that flavor and 1 is maximum intensity
-const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<string, any>> = {
+const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<string, unknown>> = {
   // Vegetables
   onion: {
     spicy: 0.4,

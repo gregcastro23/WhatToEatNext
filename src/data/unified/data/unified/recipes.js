@@ -130,7 +130,7 @@ class RecipeEnhancer {
    * Calculate thermodynamic properties for recipe
    */
   static calculateRecipeThermodynamics(elementalBalance) {
-    const { Fire, Water, Earth, Air } = elementalBalance;
+    const { _Fire, _Water, _Earth, Air } = elementalBalance;
     // Thermodynamic calculations based on elemental properties
     const heat = (fire * fire + 0.5) / (water + earth + Air + 1);
     const entropy = (fire + Air) / (water + earth + 1);
@@ -177,7 +177,7 @@ class RecipeEnhancer {
    * Determine elemental cooking method
    */
   static determineElementalCookingMethod(elementalBalance) {
-    const { Fire, Water, Earth, Air } = elementalBalance;
+    const { _Fire, _Water, _Earth, Air } = elementalBalance;
     if (fire > 0.4) return 'fire-dominant'; // Grilling, roasting, searing
     if (water > 0.4) return 'water-dominant'; // Steaming, boiling, poaching
     if (earth > 0.4) return 'earth-dominant'; // Baking, slow cooking, braising
@@ -187,7 +187,7 @@ class RecipeEnhancer {
   /**
    * Generate thermodynamic recommendations
    */
-  static generateThermodynamicRecommendations(thermodynamics, monicaConstant) {
+  static generateThermodynamicRecommendations(thermodynamics, _) {
     const recommendations = [];
     const { heat, entropy, reactivity } = thermodynamics;
     // Heat-based recommendations
@@ -363,7 +363,7 @@ class RecipeAnalyzer {
    * Get recipes by elemental dominance
    */
   static getRecipesByElementalDominance(recipes, element, threshold = 0.4) {
-    return recipes.filter(recipe => {
+    return recipes.filter(_recipe => {
       return elementalBalance && elementalBalance[element] >= threshold;
     });
   }

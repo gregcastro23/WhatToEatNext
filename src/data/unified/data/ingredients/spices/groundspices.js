@@ -1222,7 +1222,7 @@ const rawGroundSpices = {
 // Fix the ingredient mappings to ensure they have all required properties
 exports.groundSpices = (0, elementalUtils_1.fixIngredientMappings)(rawGroundSpices);
 // Apply any fixes needed to raw ingredient data
-const groundSpices = (0, elementalUtils_1.fixIngredientMappings)(rawGroundSpices);
+const _ = (0, elementalUtils_1.fixIngredientMappings)(rawGroundSpices);
 // Export the entire collection
 exports.default = exports.groundSpices;
 // Export individual spices for direct access

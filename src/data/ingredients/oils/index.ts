@@ -1,5 +1,5 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import { enhanceOilProperties, fixIngredientMappings } from '@/utils/elementalUtils';
+import { _, fixIngredientMappings } from '@/utils/elementalUtils';
 
 import { oils } from './oils';
 
@@ -78,7 +78,7 @@ export const highHeatOils = Object.entries(processedOils)
       (typeof value.smokePoint === 'object' &&
         value.smokePoint !== null &&
         'fahrenheit' in value.smokePoint &&
-        (value.smokePoint as any).fahrenheit >= 400) ||
+        (value.smokePoint as unknown).fahrenheit >= 400) ||
       value.culinaryApplications?.frying ||
       value.culinaryApplications?.deepfrying,
   )

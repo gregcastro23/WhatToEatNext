@@ -1,9 +1,9 @@
 // src/constants/elementalConstants.ts
 
-import type { Element, ZodiacSign, Decan, ElementalProperties } from '../types/alchemy';
+import type { Element, ZodiacSign, _Decan, ElementalProperties } from '../types/alchemy';
 
 // Define StringIndexed type inline since we're not importing it
-type StringIndexed<T = any> = {
+type _<T = any> = {
   [key: string]: T;
 };
 

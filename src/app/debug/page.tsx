@@ -54,7 +54,7 @@ function DebugContent() {
     try {
       log.info('Running cooking method recommendations test...');
       const results = testCookingMethodRecommendations();
-      setTestResults(results as any);
+      setTestResults(results as unknown);
       log.info('Test complete, results:', results);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');

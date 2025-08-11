@@ -67,8 +67,8 @@ describe('Integration Workflows', () => {
     test('should execute complete workflow from classification to replacement', async () => {
       // Setup test scenario with various any types
       const testFiles = {
-        'src/arrays.ts': 'const items: any[] = []; const data: Array<any> = [];',
-        'src/records.ts': 'const config: Record<string, any> = {}; const map: { [key: string]: any } = {};',
+        'src/arrays.ts': 'const items: any[] = []; const data: Array<unknown> = [];',
+        'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: any } = {};',
         'src/functions.ts': 'function process(param: any): any { return param; }',
         'src/errors.ts': '} catch (error: any) { console.log(error); }',
         'src/api.ts': 'const response: any = await fetch("/api/data");'
@@ -159,7 +159,7 @@ describe('Integration Workflows', () => {
 
     test('should handle mixed success and failure scenarios', async () => {
       const mixedScenarios = {
-        'src/safe.ts': 'const items: any[] = []; const data: Record<string, any> = {};',
+        'src/safe.ts': 'const items: any[] = []; const data: Record<string, unknown> = {};',
         'src/risky.ts': 'const complex: any = getComplexObject(); function dangerous(param: any): any { return param; }',
         'src/intentional.ts': '} catch (error: any) { /* Intentionally any: error handling */ }'
       };
@@ -227,7 +227,7 @@ describe('Integration Workflows', () => {
         `,
         'src/services/campaign/metrics.ts': `
           const campaignConfig: any = getDynamicConfig();
-          const metrics: any = calculateProgressMetrics();
+          const metrics: unknown = calculateProgressMetrics();
         `
       };
 
@@ -309,7 +309,7 @@ describe('Integration Workflows', () => {
       // Mock campaign execution
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.includes('test')) {
-          return 'const items: any[] = []; const data: Record<string, any> = {};';
+          return 'const items: any[] = []; const data: Record<string, unknown> = {};';
         }
         return 'backup content';
       });
@@ -365,7 +365,7 @@ describe('Integration Workflows', () => {
     test('should integrate with progress tracking and metrics', async () => {
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.includes('metrics')) {
-          return 'const progressData: any = getMetrics(); const config: Record<string, any> = {};';
+          return 'const progressData: any = getMetrics(); const config: Record<string, unknown> = {};';
         }
         return 'const items: any[] = [];';
       });
@@ -516,7 +516,7 @@ describe('Integration Workflows', () => {
         'src/components/RecipeCard.tsx': `
           import React from 'react';
           interface Props {
-            recipe: any;
+            recipe: unknown;
             onSelect: (recipe: any) => void;
           }
           export const RecipeCard: React.FC<Props> = ({ recipe, onSelect }) => {
@@ -553,7 +553,7 @@ describe('Integration Workflows', () => {
             }));
           };
 
-          export const createConfig = (): Record<string, any> => {
+          export const createConfig = (): Record<string, unknown> => {
             return {
               apiUrl: process.env.API_URL,
               timeout: 5000,
@@ -629,7 +629,7 @@ describe('Integration Workflows', () => {
       const generateFileContent = (index: number) => {
         const patterns = [
           `const items${index}: any[] = [];`,
-          `const config${index}: Record<string, any> = {};`,
+          `const config${index}: Record<string, unknown> = {};`,
           `function process${index}(data: any): any { return data; }`,
           `const response${index}: any = await fetch("/api/${index}");`,
           `} catch (error${index}: any) { console.log(error${index}); }`
@@ -700,8 +700,8 @@ describe('Integration Workflows', () => {
         },
         'utility-heavy': {
           files: {
-            'src/util1.ts': 'const items: any[] = []; const map: Record<string, any> = {};',
-            'src/util2.ts': 'function transform(data: any[]): any[] { return data; }'
+            'src/util1.ts': 'const items: any[] = []; const map: Record<string, unknown> = {};',
+            'src/util2.ts': 'function transform(data: any[]): unknown[] { return data; }'
           },
           expectedBehavior: 'replace many utility any types'
         }
@@ -797,7 +797,7 @@ describe('Integration Workflows', () => {
     });
 
     test('should maintain data integrity during failures', async () => {
-      const originalContent = 'const items: any[] = []; const data: Record<string, any> = {};';
+      const originalContent = 'const items: any[] = []; const data: Record<string, unknown> = {};';
       let backupContent = '';
 
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -830,7 +830,7 @@ describe('Integration Workflows', () => {
           validationRequired: true
         },
         {
-          original: 'Record<string, any>',
+          original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
           filePath: 'src/test.ts',
           lineNumber: 1,

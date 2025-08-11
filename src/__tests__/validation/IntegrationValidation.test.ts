@@ -157,8 +157,8 @@ describe('Integration Validation Tests - Task 12', () => {
           const remover = new SafeUnusedImportRemover();
 
           expect(remover).toBeDefined();
-          expect(typeof (remover as any).processFile).toBe('function');
-          expect(typeof (remover as any).processDirectory).toBe('function');
+          expect(typeof (remover as unknown).processFile).toBe('function');
+          expect(typeof (remover as unknown).processDirectory).toBe('function');
 
           console.log('SafeUnusedImportRemover integration validated');
         } catch (error) {

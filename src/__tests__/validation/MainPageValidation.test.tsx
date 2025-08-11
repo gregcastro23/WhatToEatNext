@@ -41,7 +41,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
   describe('2. Error Handling Validation', () => {
     test('Error boundaries can be created', () => {
       class TestErrorBoundary extends React.Component {
-        constructor(props: any) {
+        constructor(props: unknown) {
           super(props);
           this.state = { hasError: false };
         }
@@ -51,10 +51,10 @@ describe('Simplified Main Page Validation - Task 12', () => {
         }
 
         render() {
-          if ((this.state as any).hasError) {
+          if ((this.state as unknown).hasError) {
             return <div data-testid='error-boundary'>Error caught</div>;
           }
-          return (this.props as any).children;
+          return (this.props as unknown).children;
         }
       }
 
@@ -130,7 +130,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
 
       const ChildComponent = () => React.createElement('span', {}, 'Child');
 
-      const composed = React.createElement(ParentComponent as any, {}, React.createElement(ChildComponent as any));
+      const composed = React.createElement(ParentComponent as unknown, {}, React.createElement(ChildComponent as unknown));
 
       expect(composed).toBeDefined();
       expect(composed.type).toBe(ParentComponent);
@@ -247,7 +247,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
       ];
 
       reactFeatures.forEach(feature => {
-        expect((React as any)[feature]).toBeDefined();
+        expect((React as unknown)[feature]).toBeDefined();
       });
     });
 

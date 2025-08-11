@@ -159,7 +159,7 @@ export class ChakraRecipeEnhancer {
         // Calculate planetary alignment
         let planetaryAlignment = 0;
         // Apply surgical type casting with variable extraction
-        const astrologicalAffinities = recipe.astrologicalAffinities as any;
+        const astrologicalAffinities = recipe.astrologicalAffinities as unknown;
         const planets = astrologicalAffinities?.planets;
 
         if (planets) {
@@ -190,7 +190,7 @@ export class ChakraRecipeEnhancer {
 
         // Get tarot recommendations for the dominant chakra
         const recommendations = this.chakraService.getTarotRecommendationsForChakra(
-          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as any),
+          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),
           chakraEnergies[dominantChakra],
         );
 

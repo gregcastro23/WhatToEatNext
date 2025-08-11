@@ -195,14 +195,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext,
       );
 
-      const optimization = result.optimizationRecommendations as Record<string, any>;
+      const optimization = result.optimizationRecommendations as Record<string, unknown>;
       expect(optimization?.performance).toBeDefined();
       expect(optimization?.accuracy).toBeDefined();
       expect(optimization?.userExperience).toBeDefined();
       expect(optimization?.systemIntegration).toBeDefined();
       expect(optimization?.overallOptimization).toBeDefined();
-      expect((optimization?.overallOptimization as Record<string, any>)?.priority).toMatch(/low|medium|high|critical/);
-      expect((optimization?.overallOptimization as Record<string, any>)?.estimatedValue).toBeGreaterThanOrEqual(0);
+      expect((optimization?.overallOptimization as Record<string, unknown>)?.priority).toMatch(/low|medium|high|critical/);
+      expect((optimization?.overallOptimization as Record<string, unknown>)?.estimatedValue).toBeGreaterThanOrEqual(0);
     });
 
     it('should handle missing data gracefully', async () => {
@@ -243,7 +243,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
             flavorPreferences: [],
             culturalPreferences: [],
           },
-        } as any,
+        } as unknown,
       );
 
       expect(result.recipeIntelligence?.recommendations).toContain('Recipe intelligence disabled');
@@ -294,7 +294,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
             flavorPreferences: [],
             culturalPreferences: [],
           },
-        } as any,
+        } as unknown,
       );
 
       const updatedMetrics = service.getPerformanceMetrics();

@@ -232,7 +232,7 @@ class ImportCleanupCLI {
     }, {});
   }
 
-  private printResults(result: any): void {
+  private printResults(result: unknown): void {
     console.log('\n📊 Cleanup Results:');
     console.log(`  - Files processed: ${result.filesProcessed.length}`);
     console.log(`  - Unused imports removed: ${result.unusedImportsRemoved}`);

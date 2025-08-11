@@ -13,7 +13,7 @@ import { herbCuisineMatrix } from '../../data/integrations/herbCuisineMatrix';
 export function getCuisinePAirings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
     case 'grain':
-      const grainData = grainCuisineMatrix[ingredientName] as any;
+      const grainData = grainCuisineMatrix[ingredientName] as unknown;
       return grainData?.cuisines || [];
     case 'culinary_herb':
       return herbCuisineMatrix[ingredientName] || [];
@@ -46,7 +46,7 @@ export function getIngredientsForCuisine(
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes('grain')) {
     Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
-      const grainDataEntry = data as any;
+      const grainDataEntry = data as unknown;
       if (grainDataEntry?.cuisines && grainDataEntry.cuisines.includes(cuisineName)) {
         result.grain.push(grain);
       }

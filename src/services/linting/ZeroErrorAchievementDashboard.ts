@@ -858,7 +858,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
 
   private getMetricValue(metrics: LintingMetrics, metricPath: string): number {
     const parts = metricPath.split('.');
-    let value: any = metrics;
+    let value: unknown = metrics;
 
     for (const part of parts) {
       value = value?.[part];

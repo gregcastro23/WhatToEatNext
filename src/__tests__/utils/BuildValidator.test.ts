@@ -152,7 +152,7 @@ describe('BuildValidator', () => {
         mtime: new Date(),
         size: 1024,
         isDirectory: () => false,
-      } as any);
+      } as unknown);
 
       const report = await buildValidator.monitorBuildHealth();
 

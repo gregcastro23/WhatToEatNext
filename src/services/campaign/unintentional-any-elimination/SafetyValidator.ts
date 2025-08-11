@@ -452,7 +452,7 @@ export class SafetyValidator {
         }
 
         // Record replacements are generally safe
-        else if (replacement.original.includes('Record<string, any>') &&
+        else if (replacement.original.includes('Record<string, unknown>') &&
                  replacement.replacement.includes('Record<string, unknown>')) {
             score = 0.9;
         }
@@ -517,7 +517,7 @@ export class SafetyValidator {
     /**
      * Extract error output from command execution
      */
-    private extractErrorOutput(error: any): string {
+    private extractErrorOutput(error: unknown): string {
         if (error && typeof error === 'object') {
             return error.stdout || error.stderr || error.message || String(error);
         }

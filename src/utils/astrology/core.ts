@@ -50,7 +50,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
 
 // Utility to normalize planetary position keys (e.g., Sun/sun)
 export function normalizePlanetaryPositions(
-  positions: Record<string, any>,
+  positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
   if (!positions || typeof positions !== 'object') return normalized;
@@ -121,7 +121,7 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
  * @param positions Record of planetary positions
  * @returns Array of active planet names
  */
-export async function calculateActivePlanets(positions: Record<string, any>): Promise<string[]> {
+export async function calculateActivePlanets(positions: Record<string, unknown>): Promise<string[]> {
   if (!positions || typeof positions !== 'object') {
     return [];
   }
@@ -489,7 +489,7 @@ export async function getCurrentAstrologicalState(
       aspects,
       dominantElement,
       dominantPlanets: activePlanets,
-      planetaryPositions: positions as Record<string, any>,
+      planetaryPositions: positions as Record<string, unknown>,
     };
 
     return astrologicalState;

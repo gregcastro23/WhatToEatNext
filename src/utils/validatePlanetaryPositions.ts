@@ -20,7 +20,7 @@ interface TransitDate {
 
 interface PlanetDataWithTransits {
   PlanetSpecific?: {
-    ZodiacTransit?: Record<string, any>;
+    ZodiacTransit?: Record<string, unknown>;
     TransitDates?: Record<string, TransitDate>;
   };
 }

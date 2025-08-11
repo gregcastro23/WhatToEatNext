@@ -399,7 +399,7 @@ describe('Domain-Specific Rule Behavior', () => {
     });
 
     test('should allow console statements for astronomical debugging', () => {
-      const debugAstronomicalCalculation = (planet: string, position: any) => {
+      const debugAstronomicalCalculation = (planet: string, position: unknown) => {
         console.info(`Calculating position for ${planet}`); // Should be allowed
         console.debug(`Position data:`, position); // Should be allowed
         console.warn(`Validation warning for ${planet}`); // Should be allowed
@@ -413,7 +413,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should handle complex astrological expressions', () => {
       // Complex calculations should be allowed without complexity warnings
-      const calculatePlanetaryInfluence = (planetPosition: any, elementalProperties: any, transitDates: any) => {
+      const calculatePlanetaryInfluence = (planetPosition: unknown, elementalProperties: unknown, transitDates: unknown) => {
         const baseInfluence = planetPosition.degree / 30;
         const elementalModifier =
           elementalProperties.Fire * 0.8 +
@@ -438,7 +438,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
   describe('Performance and Reliability', () => {
     test('should handle large datasets efficiently', () => {
-      const largePlanetaryData: Record<string, any> = {};
+      const largePlanetaryData: Record<string, unknown> = {};
 
       // Create 100 planetary positions
       for (let i = 0; i < 100; i++) {
@@ -494,7 +494,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
       malformedData.forEach(data => {
         expect(() => {
-          const result = validatePlanetaryPositions(data as any);
+          const result = validatePlanetaryPositions(data as unknown);
           expect(result).toBeDefined();
           expect(typeof result.isValid).toBe('boolean');
         }).not.toThrow();

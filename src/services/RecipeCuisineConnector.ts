@@ -82,7 +82,7 @@ export class RecipeCuisineConnector {
   private recipeCache: Map<string, CuisineRecipe>;
 
   constructor() {
-    this.cuisineDatabase = cuisinesMap as any;
+    this.cuisineDatabase = cuisinesMap as unknown;
     this.recipeCache = new Map();
     this.buildRecipeCache();
   }
@@ -98,7 +98,7 @@ export class RecipeCuisineConnector {
           ...recipe,
           id: recipeId,
           cuisine: cuisine.name,
-          elementalProperties: cuisine.elementalProperties as any,
+          elementalProperties: cuisine.elementalProperties as unknown,
         });
       });
     });
@@ -129,7 +129,7 @@ export class RecipeCuisineConnector {
   ): void {
     Object.entries(seasonalDishes).forEach(([season, dishArray]) => {
       if (Array.isArray(dishArray)) {
-        dishArray.forEach((dish: any) => {
+        dishArray.forEach((dish: unknown) => {
           if (dish && typeof dish === 'object') {
             const recipe: CuisineRecipe = {
               id: '',

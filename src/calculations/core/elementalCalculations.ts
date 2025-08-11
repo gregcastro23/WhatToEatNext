@@ -35,7 +35,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   performElementalAnalysis: (
     planetaryPositions: { [key: string]: PlanetaryPosition },
     context: string = 'general',
-    preferences: Record<string, any> = {},
+    preferences: Record<string, unknown> = {},
   ) => {
     // Calculate base elemental properties
     const baseProperties = calculateBaseElementalProperties(planetaryPositions);
@@ -217,7 +217,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     balance: number,
     dominantElement: Element,
     context: string,
-    preferences: Record<string, any>,
+    preferences: Record<string, unknown>,
   ) => {
     const optimizations = {
       Fire: {
@@ -381,12 +381,12 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       : [`Enhance Air properties for ${context}`, `Apply lightening methods`];
   },
 
-  calculateOverallOptimization: (optimizations: any): number => {
-    const adjustments = Object.values(optimizations).map((opt: any) => opt.adjustment);
+  calculateOverallOptimization: (optimizations: unknown): number => {
+    const adjustments = Object.values(optimizations).map((opt: unknown) => opt.adjustment);
     return adjustments.reduce((sum, adj) => sum + adj, 0) / adjustments.length;
   },
 
-  generateOptimizationImplementation: (optimizations: any, context: string): string[] => {
+  generateOptimizationImplementation: (optimizations: unknown, context: string): string[] => {
     return [
       `Implement ${context} elemental optimizations systematically`,
       `Monitor elemental changes in ${context}`,
@@ -412,7 +412,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
   analyzeSeasonalElementalProperties: (
     season: string,
     context: string,
-    preferences: Record<string, any> = {},
+    preferences: Record<string, unknown> = {},
   ) => {
     const baseSeasonalModifiers = SEASONAL_MODIFIERS;
     const normalizedSeason = season.toLowerCase();

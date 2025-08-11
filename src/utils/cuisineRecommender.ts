@@ -266,7 +266,7 @@ export function renderScoreBadge(score: number): string {
 
 // calculateElementalContributionsFromPlanets function (causing errors in debug components)
 export function calculateElementalContributionsFromPlanets(
-  planetaryPositions: Record<string, any>,
+  planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
   const contributions: ElementalProperties = {
     Fire: 0,

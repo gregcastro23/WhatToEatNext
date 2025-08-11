@@ -28,9 +28,9 @@ const alchemicalEngine = {
         ...horoscopeDict,
         tropical: {
           CelestialBodies:
-            (horoscopeDict.tropical as any)?.CelestialBodies || horoscopeDict.CelestialBodies || {},
-          Ascendant: (horoscopeDict.tropical as any)?.Ascendant || horoscopeDict.Ascendant || {},
-          Aspects: (horoscopeDict.tropical as any)?.Aspects || horoscopeDict.Aspects || {},
+            (horoscopeDict.tropical as unknown)?.CelestialBodies || horoscopeDict.CelestialBodies || {},
+          Ascendant: (horoscopeDict.tropical as unknown)?.Ascendant || horoscopeDict.Ascendant || {},
+          Aspects: (horoscopeDict.tropical as unknown)?.Aspects || horoscopeDict.Aspects || {},
         },
       };
       return alchemize(birthInfo, extendedHoroscope);

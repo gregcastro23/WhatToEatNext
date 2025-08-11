@@ -124,7 +124,7 @@ export function calculateElementalProfileFromZodiac(zodiacSign: string): Element
 }
 
 export function calculateElementalContributionsFromPlanets(
-  planetaryPositions: Record<string, any>,
+  planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
   const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 

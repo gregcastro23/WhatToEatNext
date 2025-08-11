@@ -32,8 +32,8 @@ describe('ProgressReportingSystem', () => {
     mockValidationSystem = new MockMilestoneValidationSystem() as jest.Mocked<MilestoneValidationSystem>;
 
     reportingSystem = new ProgressReportingSystem();
-    (reportingSystem as any).metricsCollector = mockMetricsCollector;
-    (reportingSystem as any).validationSystem = mockValidationSystem;
+    (reportingSystem as unknown).metricsCollector = mockMetricsCollector;
+    (reportingSystem as unknown).validationSystem = mockValidationSystem;
   });
 
   describe('Campaign Summary Report Generation', () => {
@@ -461,7 +461,7 @@ describe('ProgressReportingSystem', () => {
             description: 'All errors eliminated',
             phase: 'phase1',
             achievedAt: new Date(),
-            impact: 'CRITICAL' as any,
+            impact: 'CRITICAL' as unknown,
             metrics: {},
           },
         ],

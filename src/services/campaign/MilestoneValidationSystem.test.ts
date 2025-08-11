@@ -30,7 +30,7 @@ describe('MilestoneValidationSystem', () => {
 
     validationSystem = new MilestoneValidationSystem();
     // Replace the internal metrics collector with our mock
-    (validationSystem as any).metricsCollector = mockMetricsCollector;
+    (validationSystem as unknown).metricsCollector = mockMetricsCollector;
   });
 
   describe('Phase 1 Validation - TypeScript Error Elimination', () => {

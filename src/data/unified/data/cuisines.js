@@ -29,7 +29,7 @@ const thai_1 = require('./cuisines/thai');
 const vietnamese_1 = require('./cuisines/vietnamese');
 const russian_1 = require('./cuisines/russian');
 // Example recipe type for reference
-const exampleRecipe = {
+const _ = {
   id: 'example-recipe-001',
   name: 'Example Recipe',
   description: 'Template for recipe structure',

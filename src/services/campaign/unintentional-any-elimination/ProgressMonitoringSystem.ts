@@ -531,7 +531,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(process.cwd(), '.kiro', 'campaign-reports', 'alert-history.json');
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
-        this.alertHistory = JSON.parse(historyData).map((alert: any) => ({
+        this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({
           ...alert,
           timestamp: new Date(alert.timestamp)
         }));
@@ -561,7 +561,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(process.cwd(), '.kiro', 'campaign-reports', 'build-stability-history.json');
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
-        this.buildStabilityHistory = JSON.parse(historyData).map((record: any) => ({
+        this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({
           ...record,
           timestamp: new Date(record.timestamp)
         }));
@@ -612,7 +612,7 @@ export interface Alert {
   severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
   timestamp: Date;
-  data?: any;
+  data?: unknown;
 }
 
 export type AlertType =

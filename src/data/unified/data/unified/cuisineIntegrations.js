@@ -384,7 +384,7 @@ class UnifiedCuisineIntegrationSystem {
   /**
    * Calculate comprehensive compatibility between two cuisines
    */
-  calculateCuisineCompatibility(cuisine1, cuisine2, options) {
+  calculateCuisineCompatibility(cuisine1, cuisine2, _) {
     // Validate input cuisines - only reject obviously invalid input
     if (
       !cuisine1 ||
@@ -571,7 +571,7 @@ class UnifiedCuisineIntegrationSystem {
   findSharedIngredients(cuisine1, cuisine2) {
     const sharedIngredients = [];
     // Check each ingredient category
-    for (const [category, ingredientMap] of Object.entries(exports.enhancedCuisineMatrix)) {
+    for (const [_, ingredientMap] of Object.entries(exports.enhancedCuisineMatrix)) {
       for (const [ingredient, cuisines] of Object.entries(ingredientMap)) {
         if (cuisines.includes(cuisine1) && cuisines.includes(cuisine2)) {
           sharedIngredients.push(ingredient);
@@ -826,7 +826,7 @@ class UnifiedCuisineIntegrationSystem {
   getCuisineIngredients(cuisine) {
     const ingredients = [];
     // Get ingredients from enhanced cuisine matrix
-    for (const [category, ingredientMap] of Object.entries(exports.enhancedCuisineMatrix)) {
+    for (const [_, ingredientMap] of Object.entries(exports.enhancedCuisineMatrix)) {
       for (const [ingredientName, cuisines] of Object.entries(ingredientMap)) {
         if (cuisines.includes(cuisine)) {
           const ingredient = ingredients_1.unifiedIngredients[ingredientName];
@@ -1199,7 +1199,7 @@ class UnifiedCuisineIntegrationSystem {
       }
     }
     // Get seasonal modifiers
-    const seasonalProfile = seasonal_1.unifiedSeasonalProfiles[season];
+    const _ = seasonal_1.unifiedSeasonalProfiles[season];
     const seasonalModifiers = {
       temperatureAdjustment:
         seasonal_1.unifiedSeasonalProfiles[season]?.monicaModifiers?.temperatureAdjustment || 0,
@@ -1553,7 +1553,7 @@ class UnifiedCuisineIntegrationSystem {
    */
   findCuisinesByIngredient(ingredient) {
     const cuisines = [];
-    for (const [category, ingredientMap] of Object.entries(exports.enhancedCuisineMatrix)) {
+    for (const [_, ingredientMap] of Object.entries(exports.enhancedCuisineMatrix)) {
       if (ingredientMap[ingredient]) {
         cuisines.push(...ingredientMap[ingredient]);
       }

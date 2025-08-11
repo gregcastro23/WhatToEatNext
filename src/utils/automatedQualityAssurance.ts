@@ -241,8 +241,8 @@ export class AutomatedQualityAssurance {
         const prevIngredient = ingredients[index - 1];
         // Use calculateElementalCompatibility directly
         const compatibility = calculateElementalAffinity(
-          ingredient.elementalProperties as any,
-          prevIngredient.elementalProperties as any,
+          ingredient.elementalProperties as unknown,
+          prevIngredient.elementalProperties as unknown,
         );
 
         if (compatibility < 0.7) {
@@ -485,7 +485,7 @@ export class AutomatedQualityAssurance {
     };
   }
 
-  private calculateDataFreshness(_positions: Record<string, any>): number {
+  private calculateDataFreshness(_positions: Record<string, unknown>): number {
     // In a real implementation, this would check the timestamp of the data
     // For now, return 1.0 (fresh) as a placeholder
     return 1.0;
@@ -571,7 +571,7 @@ export class AutomatedQualityAssurance {
     return Math.floor(Math.random() * 50); // Simulate 0-50 errors
   }
 
-  private triggerCampaign(campaignType: string, context: any): void {
+  private triggerCampaign(campaignType: string, context: unknown): void {
     // In a real implementation, this would integrate with the campaign system
     logger.info(`Campaign triggered: ${campaignType}`, context);
 
@@ -612,7 +612,7 @@ export function useAutomatedQualityAssurance() {
       }>,
     ) => qa.validateIngredientConsistency(ingredients),
     checkTypeScriptErrorThreshold: () => qa.checkTypeScriptErrorThreshold(),
-    monitorBuildQuality: (metrics: any) => qa.monitorBuildQuality(metrics),
+    monitorBuildQuality: (metrics: unknown) => qa.monitorBuildQuality(metrics),
     getQualityMetrics: () => qa.getQualityMetrics(),
     getActiveCampaignTriggers: () => qa.getActiveCampaignTriggers(),
     updateConfig: (config: Partial<QualityAssuranceConfig>) => qa.updateConfig(config),

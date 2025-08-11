@@ -129,7 +129,7 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
 
   // Cooking method influences
   if (recipe.cookingMethods) {
-    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    const methodStr = (recipe.cookingMethods as unknown)?.toLowerCase?.() || '';
     if (
       methodStr?.includes('grill') ||
       methodStr?.includes('roast') ||
@@ -233,7 +233,7 @@ function deriveCelestialTiming(recipe: Recipe): {
 
   // Determine optimal Moon phase based on recipe characteristics
   if (recipe.cookingMethods) {
-    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    const methodStr = (recipe.cookingMethods as unknown)?.toLowerCase?.() || '';
     if (
       methodStr?.includes('ferment') ||
       methodStr?.includes('rise') ||
@@ -277,7 +277,7 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
 
   // Cooking method complexity
   if (recipe.cookingMethods) {
-    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    const methodStr = (recipe.cookingMethods as unknown)?.toLowerCase?.() || '';
     if (
       methodStr?.includes('sous vide') ||
       methodStr?.includes('molecular') ||

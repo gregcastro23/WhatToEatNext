@@ -1,4 +1,4 @@
-import { ElementalProperties, Season, ZodiacSign, Element } from '@/types/alchemy';
+import { ElementalProperties, Season, ZodiacSign, _ } from '@/types/alchemy';
 
 /**
  * Core seasonal constants - consolidated from multiple files

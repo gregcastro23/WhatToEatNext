@@ -657,7 +657,7 @@ export class CampaignConflictResolver {
     overrideReason: string,
     overrideBy: string,
     resolutionAction: ResolutionAction,
-    parameters: Record<string, any>,
+    parameters: Record<string, unknown>,
   ): Promise<boolean> {
     const conflict = this.conflicts.get(conflictId);
     if (!conflict) return false;

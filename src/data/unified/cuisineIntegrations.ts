@@ -581,7 +581,7 @@ export class UnifiedCuisineIntegrationSystem {
   /**
    * Create astrological bridge for cuisine analysis
    */
-  createCuisineAstrologicalBridge(cuisineProfile: any, astrologicalData: any) {
+  createCuisineAstrologicalBridge(_cuisineProfile: unknown, _: unknown) {
     return createAstrologicalBridge();
   }
 
@@ -835,7 +835,7 @@ export class UnifiedCuisineIntegrationSystem {
     const sharedIngredients: string[] = [];
 
     // Check each ingredient category
-    for (const [category, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
+    for (const [_, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       for (const [ingredient, cuisines] of Object.entries(ingredientMap)) {
         if (cuisines.includes(cuisine1) && cuisines.includes(cuisine2)) {
           sharedIngredients.push(ingredient);
@@ -1112,7 +1112,7 @@ export class UnifiedCuisineIntegrationSystem {
     const ingredients: UnifiedIngredient[] = [];
 
     // Get ingredients from enhanced cuisine matrix
-    for (const [category, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
+    for (const [_, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       for (const [ingredientName, cuisines] of Object.entries(ingredientMap)) {
         if (cuisines.includes(cuisine)) {
           const ingredient = unifiedIngredients[ingredientName];
@@ -1471,7 +1471,7 @@ export class UnifiedCuisineIntegrationSystem {
 
       if (elementWeight > 0) {
         const match = cuisineElements[element] * elementWeight;
-        score += match;
+        _ += match;
         totalWeight += elementWeight;
       }
     }
@@ -1555,7 +1555,7 @@ export class UnifiedCuisineIntegrationSystem {
     }
 
     // Get seasonal modifiers
-    const seasonalProfile = unifiedSeasonalProfiles[season];
+    const _ = unifiedSeasonalProfiles[season];
     // Safe property access for monicaModifiers
     const seasonalProfileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
     const monicaModifiers = seasonalProfileData.monicaModifiers;
@@ -2056,7 +2056,7 @@ export class UnifiedCuisineIntegrationSystem {
   findCuisinesByIngredient(ingredient: string): string[] {
     const cuisines: string[] = [];
 
-    for (const [category, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
+    for (const [_, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       if (ingredientMap[ingredient]) {
         cuisines.push(...ingredientMap[ingredient]);
       }

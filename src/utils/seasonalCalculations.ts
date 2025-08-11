@@ -167,7 +167,7 @@ export const getSeasonalEffectiveness = async (
   const elementalBreakdown = await calculateElementalBreakdown(recipe, _season);
 
   return {
-    rating: getRating(totalScore),
+    rating: _getRating(totalScore),
     score: totalScore,
     elementalBreakdown,
     breakdown: {

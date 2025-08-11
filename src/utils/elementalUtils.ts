@@ -439,7 +439,7 @@ export const elementalUtils = {
    * Pattern OO-3: Utility Import Alignment - Format consistency helper
    * Ensures elemental property keys are in lowercase format
    */
-  ensureLowercaseFormat(properties: unknown): any {
+  ensureLowercaseFormat(properties: unknown): unknown {
     if (!properties || typeof properties !== 'object') {
       return properties;
     }
@@ -1386,7 +1386,7 @@ export function getDefaultElementalProperties(): ElementalProperties {
   return DEFAULT_ELEMENTAL_PROPERTIES;
 }
 
-export function ensureLowercaseFormat(properties: unknown): any {
+export function ensureLowercaseFormat(properties: unknown): unknown {
   if (!properties || typeof properties !== 'object') {
     return properties;
   }

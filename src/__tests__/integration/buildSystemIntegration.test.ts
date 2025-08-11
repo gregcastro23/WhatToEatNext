@@ -111,7 +111,7 @@ describe('Build System Integration', () => {
           stdio: 'pipe',
         });
         fail('Should have thrown an error for invalid command');
-      } catch (error: any) {
+      } catch (error: unknown) {
         expect(error.status).toBe(1);
         expect(error.stdout).toContain('Invalid or missing command');
       }
@@ -124,7 +124,7 @@ describe('Build System Integration', () => {
           stdio: 'pipe',
         });
         fail('Should have thrown an error for missing command');
-      } catch (error: any) {
+      } catch (error: unknown) {
         expect(error.status).toBe(1);
         expect(error.stdout).toContain('Invalid or missing command');
       }

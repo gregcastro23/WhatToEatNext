@@ -491,7 +491,7 @@ export class LintingCampaignIntegration {
     }
   }
 
-  private getActiveCampaign(): any {
+  private getActiveCampaign(): unknown {
     try {
       if (existsSync(this.activeConfigFile)) {
         const data = readFileSync(this.activeConfigFile, 'utf8');
@@ -536,7 +536,7 @@ export class LintingCampaignIntegration {
     });
   }
 
-  private saveCampaignReport(report: any): void {
+  private saveCampaignReport(report: unknown): void {
     try {
       const reportFile = `.kiro/campaigns/report-${report.campaignId}-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2));

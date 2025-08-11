@@ -136,7 +136,7 @@ export const planetPropertyMap = (isDaytime: boolean): Record<string, string> =>
 });
 
 // Direct mapping from alchemical properties to elements
-const alchemicalToElemental: Record<string, string> = {
+const _: Record<string, string> = {
   Spirit: 'Fire',
   Essence: 'Water',
   Matter: 'Earth',

@@ -268,7 +268,7 @@ export class CampaignController {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFiles: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
-              safetyLevel: 'MAXIMUM' as any,
+              safetyLevel: 'MAXIMUM' as unknown,
             },
           ],
           successCriteria: {
@@ -285,7 +285,7 @@ export class CampaignController {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFiles: 25, autoFix: true },
               batchSize: 25,
-              safetyLevel: 'HIGH' as any,
+              safetyLevel: 'HIGH' as unknown,
             },
           ],
           successCriteria: {
@@ -323,7 +323,7 @@ export class CampaignController {
 
   // Private helper methods
 
-  private async executeTool(tool: any): Promise<any> {
+  private async executeTool(tool: unknown): Promise<any> {
     // Mock implementation - will be replaced by actual script execution
     return {
       filesProcessed: [],

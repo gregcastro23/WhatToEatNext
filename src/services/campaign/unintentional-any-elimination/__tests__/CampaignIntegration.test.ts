@@ -380,7 +380,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     });
 
     it('should return false for unknown milestone', async () => {
-      const isValid = await tracker.validateUnintentionalAnyMilestone('unknown-milestone' as any);
+      const isValid = await tracker.validateUnintentionalAnyMilestone('unknown-milestone' as unknown);
       expect(isValid).toBe(false);
     });
   });

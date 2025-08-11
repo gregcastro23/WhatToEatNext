@@ -368,7 +368,7 @@ export class SafeUnusedImportRemover {
 
       log.info('✅ Safe import removal completed');
       return true;
-    } catch (error: any) {
+    } catch (error: unknown) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout && !error.stdout.includes('error')) {
         log.info('✅ Safe import removal completed');

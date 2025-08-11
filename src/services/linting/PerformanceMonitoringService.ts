@@ -93,7 +93,7 @@ export class PerformanceMonitoringService {
         stdio: 'pipe',
         timeout: this.thresholds.maxExecutionTime + 30000, // Extra buffer
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       output = error.stdout || error.stderr || '';
       // Extract error and warning counts from output
       const errorMatches = output.match(/(\d+)\s+errors?/gi);
@@ -555,7 +555,7 @@ export class PerformanceMonitoringService {
       if (existsSync(this.metricsFile)) {
         const data = readFileSync(this.metricsFile, 'utf8');
         const parsed = JSON.parse(data);
-        this.metrics = parsed.map((m: any) => ({
+        this.metrics = parsed.map((m: unknown) => ({
           ...m,
           timestamp: new Date(m.timestamp),
         }));
@@ -571,7 +571,7 @@ export class PerformanceMonitoringService {
       if (existsSync(this.alertsFile)) {
         const data = readFileSync(this.alertsFile, 'utf8');
         const parsed = JSON.parse(data);
-        this.alerts = parsed.map((a: any) => ({
+        this.alerts = parsed.map((a: unknown) => ({
           ...a,
           timestamp: new Date(a.timestamp),
         }));

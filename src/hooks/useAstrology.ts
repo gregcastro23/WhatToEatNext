@@ -150,16 +150,16 @@ export function useAstrology(options: AstrologyOptions = {}) {
             }
           }
 
-          if (!response || !(response as any).ok) {
-            const errorData = (await (response as any)?.json?.()) || {
-              error: `API error: ${(response as any)?.status || 'Network error'}`,
+          if (!response || !(response as unknown).ok) {
+            const errorData = (await (response as unknown)?.json?.()) || {
+              error: `API error: ${(response as unknown)?.status || 'Network error'}`,
             };
             throw new Error(
-              errorData.error || `API error: ${(response as any)?.status || 'Unknown'}`,
+              errorData.error || `API error: ${(response as unknown)?.status || 'Unknown'}`,
             );
           }
 
-          const data = await (response as any).json();
+          const data = await (response as unknown).json();
 
           if (!data.success) {
             throw new Error(data.error || 'Unknown error occurred');
@@ -349,7 +349,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
           // Transform API data to AstrologicalProfile format
           const planetaryPositions = Object.entries(data.data.positions || {}).map(
-            ([planet, position]: [string, any]) => ({
+            ([planet, position]: [string, unknown]) => ({
               planet,
               sign: position.sign,
               degree: position.degree,

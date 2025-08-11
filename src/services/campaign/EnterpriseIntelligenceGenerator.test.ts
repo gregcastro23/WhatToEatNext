@@ -252,7 +252,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         }
       ).generateCapabilities(candidate, template);
 
-      expect((capabilities as Record<string, unknown>).some((cap: any) => cap.name === 'analyzeFunction')).toBe(true);
+      expect((capabilities as Record<string, unknown>).some((cap: unknown) => cap.name === 'analyzeFunction')).toBe(true);
       expect(capabilities.length).toBeGreaterThan(2);
     });
 
@@ -285,7 +285,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         }
       ).generateCapabilities(candidate, template);
 
-      expect((capabilities as Record<string, unknown>).some((cap: any) => cap.name === 'analyzeClassStructure')).toBe(
+      expect((capabilities as Record<string, unknown>).some((cap: unknown) => cap.name === 'analyzeClassStructure')).toBe(
         true,
       );
     });
@@ -320,7 +320,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ).generateCapabilities(candidate, template);
 
       expect(
-        (capabilities as Record<string, unknown>).some((cap: any) => cap.name === 'generateAdvancedInsights'),
+        (capabilities as Record<string, unknown>).some((cap: unknown) => cap.name === 'generateAdvancedInsights'),
       ).toBe(true);
     });
   });
@@ -351,10 +351,10 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       expect(integrationPoints.length).toBeGreaterThan(0);
       expect(
-        (integrationPoints as Record<string, unknown>).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT),
+        (integrationPoints as Record<string, unknown>).some((ip: unknown) => ip.method === IntegrationMethod.DIRECT_IMPORT),
       ).toBe(true);
       expect(
-        (integrationPoints as Record<string, unknown>).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT),
+        (integrationPoints as Record<string, unknown>).some((ip: unknown) => ip.method === IntegrationMethod.API_ENDPOINT),
       ).toBe(true);
     });
 
@@ -381,7 +381,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         }
       ).generateIntegrationPoints(candidate, '/test/test.ts');
 
-      expect((integrationPoints as Record<string, unknown>).some((ip: any) => ip.target === '/test/test.ts')).toBe(
+      expect((integrationPoints as Record<string, unknown>).some((ip: unknown) => ip.target === '/test/test.ts')).toBe(
         true,
       );
     });

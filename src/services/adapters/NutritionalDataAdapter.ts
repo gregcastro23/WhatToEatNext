@@ -111,7 +111,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   calculateNutritionalBalance(ingredients: unknown[]): NutritionalProfile {
     try {
       return calculateNutritionalBalance(
-        ingredients as any,
+        ingredients as unknown,
       ) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
@@ -348,7 +348,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Air: targetElements.Air,
       };
 
-      return evaluateNutritionalElementalBalance(profile as any, legacyTargetElements);
+      return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as Record<string, unknown>;

@@ -31,7 +31,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Error Handling Classification', () => {
     test('classifies error handling any as intentional', async () => {
-      const context = createContext('} catch (error: any) {');
+      const context = createContext('} catch (error: unknown) {');
       const result = await classifier.classify(context);
 
       expect(result.isIntentional).toBe(true);
@@ -59,8 +59,8 @@ describe('AnyTypeClassifier', () => {
       expect(result.confidence).toBeGreaterThan(0.9);
     });
 
-    test('classifies Array<any> as unintentional', async () => {
-      const context = createContext('const items: Array<any> = [];');
+    test('classifies Array<unknown> as unintentional', async () => {
+      const context = createContext('const items: Array<unknown> = [];');
       const result = await classifier.classify(context);
 
       expect(result.isIntentional).toBe(false);
@@ -69,8 +69,8 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Record Type Classification', () => {
-    test('classifies Record<string, any> as unintentional', async () => {
-      const context = createContext('const data: Record<string, any> = {};');
+    test('classifies Record<string, unknown> as unintentional', async () => {
+      const context = createContext('const data: Record<string, unknown> = {};');
       const result = await classifier.classify(context);
 
       expect(result.isIntentional).toBe(false);
@@ -166,8 +166,8 @@ describe('AnyTypeClassifier', () => {
     test('processes multiple contexts in batch', async () => {
       const contexts = [
         createContext('const items: any[] = [];'),
-        createContext('} catch (error: any) {'),
-        createContext('const data: Record<string, any> = {};')
+        createContext('} catch (error: unknown) {'),
+        createContext('const data: Record<string, unknown> = {};')
       ];
 
       const results = await classifier.classifyBatch(contexts);
@@ -301,7 +301,7 @@ describe('AnyTypeClassifier', () => {
 
     test('analyzes campaign system configuration', async () => {
       const context = createContext(
-        'const config: any = campaignSettings;',
+        'const config: unknown = campaignSettings;',
         {
           filePath: 'src/services/campaign/CampaignController.ts',
           domainContext: {
@@ -368,7 +368,7 @@ describe('AnyTypeClassifier', () => {
 
     test('detects flexible typing documentation', async () => {
       const context = createContext(
-        'const config: any = settings;',
+        'const config: unknown = settings;',
         {
           hasExistingComment: true,
           existingComment: '// Flexible typing needed for dynamic configuration'
@@ -398,10 +398,10 @@ describe('AnyTypeClassifier', () => {
   describe('Function Context Analysis', () => {
     test('analyzes function parameter any types', async () => {
       const context = createContext(
-        'function process(data: any) {',
+        'function process(data: unknown) {',
         {
           surroundingLines: [
-            'function process(data: any) {',
+            'function process(data: unknown) {',
             '  return data.toString();',
             '}'
           ]
@@ -569,7 +569,7 @@ describe('AnyTypeClassifier', () => {
     });
 
     test('maintains consistency across repeated classifications', async () => {
-      const context = createContext('const data: Record<string, any> = {};');
+      const context = createContext('const data: Record<string, unknown> = {};');
 
       const results = await Promise.all(
         Array(10).fill(null).map(() => classifier.classify(context))
@@ -587,8 +587,8 @@ describe('AnyTypeClassifier', () => {
     test('handles concurrent classification requests', async () => {
       const contexts = [
         createContext('const items: any[] = [];'),
-        createContext('} catch (error: any) {'),
-        createContext('const config: Record<string, any> = {};'),
+        createContext('} catch (error: unknown) {'),
+        createContext('const config: Record<string, unknown> = {};'),
         createContext('const mockFn = jest.fn() as any;', { isInTestFile: true }),
         createContext('const response: any = await fetch("/api");')
       ];

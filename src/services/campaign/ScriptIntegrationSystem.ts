@@ -188,7 +188,7 @@ export class ScriptIntegrationSystem {
 
       const executionTime = Date.now() - startTime;
       result = this.parseExecutionOutput(output, executionTime, true, 0);
-    } catch (error: any) {
+    } catch (error: unknown) {
       const executionTime = Date.now() - startTime;
       const stdout = error.stdout || '';
       const stderr = error.stderr || error.message || '';
@@ -475,7 +475,7 @@ export class ScriptIntegrationSystem {
           'Git working directory has uncommitted changes. Commit or stash changes first.',
         );
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.message.includes('uncommitted changes')) {
         throw error;
       }

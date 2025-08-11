@@ -10,7 +10,7 @@ export interface EnhancedCuisine {
   id: string;
   name: string;
   description: string;
-  dishes?: any; // Preserve existing dish structure
+  dishes?: unknown; // Preserve existing dish structure
   elementalProperties?: ElementalProperties;
   elementalState?: ElementalProperties;
 
@@ -166,7 +166,7 @@ export class CuisineEnhancer {
       if (!mealData || typeof mealData !== 'object') continue;
 
       // Navigate through seasons (spring, summer, autumn, winter, all)
-      for (const [season, dishes] of Object.entries(mealData as { [key: string]: any })) {
+      for (const [season, dishes] of Object.entries(mealData as { [key: string]: unknown })) {
         if (!Array.isArray(dishes)) continue;
 
         // Add each dish as a recipe

@@ -217,7 +217,7 @@ class AstrologizeApiCache {
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
       const planetData = position as unknown as Record<string, unknown>;
       predictedPositions[planet] = {
-        sign: (String(planetData.sign) || 'aries') as any,
+        sign: (String(planetData.sign) || 'aries') as unknown,
         degree: Number(planetData.degree) || 0,
         isRetrograde: Boolean(planetData.isRetrograde) || false,
       };

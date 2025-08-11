@@ -69,7 +69,7 @@ describe('Automated Error Resolution Integration', () => {
     });
 
     test('should handle ESLint execution errors gracefully', async () => {
-      const mockError = new Error('ESLint failed') as any;
+      const mockError = new Error('ESLint failed') as unknown;
       mockError.stdout = JSON.stringify([]);
       mockError.status = 1;
 
@@ -81,7 +81,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(() => {
         try {
           mockExecSync('yarn lint:fix', { encoding: 'utf8' });
-        } catch (error: any) {
+        } catch (error: unknown) {
           // Simulate error handling
           if (error.status === 1 && error.stdout) {
             return error.stdout;
@@ -402,11 +402,11 @@ describe('Automated Error Resolution Integration', () => {
   describe('TypeScript Error Resolution', () => {
     test('should handle explicit any type errors', async () => {
       const testFileContent = `
-        function processData(data: any) { // Should be error
+        function processData(data: unknown) { // Should be error
           return data.someProperty;
         }
 
-        function processAstrologicalData(data: any) { // May be allowed in astrological files
+        function processAstrologicalData(data: unknown) { // May be allowed in astrological files
           return data.planetaryPosition;
         }
       `;
@@ -600,7 +600,7 @@ describe('Automated Error Resolution Integration', () => {
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(2);
-      expect(result[0].messages.every((msg: any) => msg.fix === null)).toBe(true);
+      expect(result[0].messages.every((msg: unknown) => msg.fix === null)).toBe(true);
     });
 
     test('should preserve file safety during resolution', async () => {

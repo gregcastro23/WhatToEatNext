@@ -58,7 +58,7 @@ const updateSaltCategory = (salts: IngredientMapping): IngredientMapping => {
 };
 
 // Export updated salts
-export const categorizedSalts = updateSaltCategory(salts as any);
+export const categorizedSalts = updateSaltCategory(salts as unknown);
 
 // Helper functions
 export const getSeasoningsByCategory = (category: SeasoningCategory): IngredientMapping => {
@@ -95,7 +95,7 @@ export const getSeasoningsByTiming = (timing: CulinaryTiming): IngredientMapping
     .filter(
       ([_, value]) =>
         value.culinaryApplications &&
-        Object.values(value.culinaryApplications).some(app => (app as any)?.timing === timing),
+        Object.values(value.culinaryApplications).some(app => (app as unknown)?.timing === timing),
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
@@ -130,7 +130,7 @@ export const getSeasoningsByElementalBoost = (element: string): IngredientMappin
       ([_, value]) =>
         value.astrologicalProfile?.lunarPhaseModifiers &&
         Object.values(value.astrologicalProfile.lunarPhaseModifiers).some(
-          modifier => (modifier as any)?.elementalBoost?.[element as keyof ElementalProperties],
+          modifier => (modifier as unknown)?.elementalBoost?.[element as keyof ElementalProperties],
         ),
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);

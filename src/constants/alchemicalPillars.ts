@@ -783,7 +783,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 },
     })
       .filter(
-        ([element, properties]) =>
+        ([_, properties]) =>
           Math.abs(properties.heat - elementProperties.heat) <= 0.3 &&
           Math.abs(properties.entropy - elementProperties.entropy) <= 0.3,
       )
@@ -898,7 +898,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       astrologicalConditions?: Record<string, number>;
     },
   ) => {
-    const baseEffects = getPlanetaryAlchemicalEffect(targetPlanet) || {
+    const _ = getPlanetaryAlchemicalEffect(targetPlanet) || {
       Spirit: 0,
       Essence: 0,
       Matter: 0,

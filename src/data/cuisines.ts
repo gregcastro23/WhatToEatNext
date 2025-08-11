@@ -25,7 +25,7 @@ import { vietnamese } from './cuisines/vietnamese';
 // Import types
 
 // Example recipe type for reference
-const exampleRecipe: Recipe = {
+const _: Recipe = {
   id: 'example-recipe-001',
   name: 'Example Recipe',
   description: 'Template for recipe structure',
@@ -52,7 +52,7 @@ const exampleRecipe: Recipe = {
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
-  const propsData = props as any;
+  const propsData = props as unknown;
   // If it already has the index signature, return as is
   if (
     propsData &&
@@ -73,7 +73,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
 
 // Helper function to adapt cuisines to the Cuisine interface format
 function adaptCuisine(cuisine: unknown): AlchemyCuisine {
-  const cuisineData = cuisine as any;
+  const cuisineData = cuisine as unknown;
   return {
     ...cuisineData,
     // Convert elementalProperties if present

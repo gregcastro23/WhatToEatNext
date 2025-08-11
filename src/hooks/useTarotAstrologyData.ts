@@ -6,18 +6,14 @@ import { calculateSignEnergyStates, SignEnergyState } from '@/constants/signEner
 import { PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import {
-  LunarPhase as AlchemyLunarPhase,
   PlanetaryAspect,
   LunarPhaseWithSpaces,
 } from '@/types/alchemy';
-import { calculateAspects } from '@/utils/astrologyUtils';
 // Import all lunar phase utilities from the centralized utility file
 
 // Import the logger utility
 import { createLogger } from '@/utils/logger';
 import {
-  LUNAR_PHASES,
-  normalizeLunarPhase,
   REVERSE_LUNAR_PHASE_MAP,
 } from '@/utils/lunarPhaseUtils';
 

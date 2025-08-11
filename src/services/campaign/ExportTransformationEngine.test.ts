@@ -274,7 +274,7 @@ describe('ExportTransformationEngine', () => {
 
       await noRollbackEngine.executeTransformation();
 
-      expect((mockSafetyProtocol as any).prototype.rollbackToCheckpoint).not.toHaveBeenCalled();
+      expect((mockSafetyProtocol as unknown).prototype.rollbackToCheckpoint).not.toHaveBeenCalled();
     });
   });
 
@@ -345,7 +345,7 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should return 100 for empty batch', () => {
-      const score = (engine as any).calculateBatchSafetyScore([]);
+      const score = (engine as unknown).calculateBatchSafetyScore([]);
       expect(score).toBe(100);
     });
   });
@@ -367,7 +367,7 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should handle empty files array', () => {
-      const duration = (engine as any).estimateBatchDuration([]);
+      const duration = (engine as unknown).estimateBatchDuration([]);
       expect(duration).toBe(0);
     });
   });

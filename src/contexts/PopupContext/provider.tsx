@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
-import type { Element } from '@/types/alchemy';
+import type { _ } from '@/types/alchemy';
 
 import { PopupContext } from './context';
 import { Popup, PopupOptions, ElementalInfluence, PopupProviderProps } from './types';

@@ -362,7 +362,7 @@ export class EnhancedRecommendationService {
       score: Math.min(1.0, enhancedScore),
       reasons,
       chakraAlignment,
-      flavorCompatibility: flavorCompatibility as any,
+      flavorCompatibility: flavorCompatibility as unknown,
       tarotInfluence,
       wiccanProperties,
     };

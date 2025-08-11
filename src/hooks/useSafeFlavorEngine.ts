@@ -119,7 +119,7 @@ export function useSafeFlavorEngine() {
 
   // Safe search profiles function with error handling
   const searchProfiles = useCallback(
-    (_criteria: any): UnifiedFlavorProfile[] => {
+    (_criteria: unknown): UnifiedFlavorProfile[] => {
       if (!isReady) return [];
 
       try {

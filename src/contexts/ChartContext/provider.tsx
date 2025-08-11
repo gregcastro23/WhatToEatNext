@@ -20,7 +20,7 @@ interface SafePlanetaryData {
   [key: string]: unknown;
 }
 
-interface SafePlanetaryPositions {
+interface _ {
   [key: string]: SafePlanetaryData;
 }
 

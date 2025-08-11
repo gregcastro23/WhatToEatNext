@@ -153,7 +153,7 @@ export function useAutoStateCleanup() {
 /**
  * Hook for preserving form state
  */
-export function useFormStatePreservation<T extends Record<string, any>>(
+export function useFormStatePreservation<T extends Record<string, unknown>>(
   formId: string,
   initialValues: T,
 ) {
@@ -256,7 +256,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
     async (state: {
       elementalProperties?: ElementalProperties;
       selectedIngredients?: string[];
-      astrologicalContext?: any;
+      astrologicalContext?: unknown;
     }) => {
       try {
         // Simple state saving for now

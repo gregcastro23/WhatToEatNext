@@ -282,10 +282,10 @@ describe('DocumentationQualityAssurance', () => {
       const fileContent = [
         'const data: any = response;',
         'const items: any[] = [];',
-        'const config: Record<string, any> = {};',
+        'const config: Record<string, unknown> = {};',
         'const result = data as any;',
         'function process<T = any>(input: T): T { return input; }',
-        'const array: Array<any> = [];',
+        'const array: Array<unknown> = [];',
         'catch (error: any) {',
         '  console.error(error);',
         '}'
@@ -299,7 +299,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(anyTypes.length).toBeGreaterThan(0);
       expect(anyTypes.some((t: any) => t.codeSnippet.includes(': any'))).toBe(true);
       expect(anyTypes.some((t: any) => t.codeSnippet.includes(': any[]'))).toBe(true);
-      expect(anyTypes.some((t: any) => t.codeSnippet.includes('Record<string, any>'))).toBe(true);
+      expect(anyTypes.some((t: any) => t.codeSnippet.includes('Record<string, unknown>'))).toBe(true);
       expect(anyTypes.some((t: any) => t.codeSnippet.includes('as any'))).toBe(true);
     });
 
@@ -308,9 +308,9 @@ describe('DocumentationQualityAssurance', () => {
         { code: 'catch (error: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
         { code: 'const response: any = await api.fetch();', expectedCategory: AnyTypeCategory.EXTERNAL_API },
         { code: 'const mockData: any = jest.fn();', expectedCategory: AnyTypeCategory.TEST_MOCK },
-        { code: 'const config: any = options;', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
+        { code: 'const config: unknown = options;', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
         { code: 'const items: any[] = [];', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
-        { code: 'const data: Record<string, any> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
+        { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ];
 
       for (const testCase of testCases) {

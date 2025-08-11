@@ -514,7 +514,7 @@ export class DependencySecurityMonitor {
     const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 };
 
     for (const [packageName, updateInfo] of Object.entries(outdatedData)) {
-      const info = updateInfo as any;
+      const info = updateInfo as unknown;
 
       const updateType = this.determineUpdateType(info.current, info.latest);
 

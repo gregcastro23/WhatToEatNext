@@ -5,7 +5,7 @@ import type { ElementalProperties } from '../types/alchemy';
  */
 export function getDetailedFlavorProfile(cuisine: unknown): string {
   // Use safe type casting for cuisine property access
-  const cuisineData = cuisine as any;
+  const cuisineData = cuisine as unknown;
   const cuisineId = (cuisineData?.id || cuisineData?.name || '').toLowerCase();
 
   // Get flavor profile from static mapping

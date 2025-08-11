@@ -166,7 +166,7 @@ export function enhanceIngredientWithAlchemy(ingredient: {
   category: string;
   subcategory?: string;
   elementalProperties: ElementalProperties;
-  [key: string]: any;
+  [key: string]: unknown;
 }): AlchemicalIngredient {
   // Derive alchemical properties from elemental properties
   const alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalPropertiesState);

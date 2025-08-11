@@ -538,8 +538,8 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
 }
 
 function calculateNutritionalMatch(
-  recipeProfile: { [key: string]: any },
-  userGoals: { [key: string]: any },
+  recipeProfile: { [key: string]: unknown },
+  userGoals: { [key: string]: unknown },
 ): number {
   if (!recipeProfile || !userGoals) {
     return 0.5; // Default score for no data
@@ -661,7 +661,7 @@ function getRecipePlanetaryInfluence(recipe: Recipe, planet: string): number {
 async function calculateEnhancedAstrologicalMatch(
   recipe: Recipe,
   astrologicalSign: string,
-  cachedData: any,
+  cachedData: unknown,
 ): Promise<number> {
   let score = 0;
 

@@ -66,7 +66,7 @@ export interface PhaseExecutionResult {
   system: string;
   success: boolean;
   executionTime: number;
-  result: any;
+  result: unknown;
   errors: string[];
   warnings: string[];
 }

@@ -1,6 +1,7 @@
 import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
 
-import type { Ingredient } from '../../data/ingredients/types';
+import type { Ingredient, CookingMethod, Modality, SensoryProfile, ElementalAffinity } from '../../data/ingredients/types';
+import type { Element } from '@/types/unified';
 
 // Phase 10: Calculation Type Interfaces
 interface _CalculationData {

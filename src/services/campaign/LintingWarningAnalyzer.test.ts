@@ -25,13 +25,13 @@ describe('LintingWarningAnalyzer', () => {
   describe('analyzeFileContent', () => {
     it('should detect explicit any warnings', () => {
       const content = `
-function test(param: any) {
-  const value: any = param;
+function test(param: unknown) {
+  const value: unknown = param;
   return value;
 }
       `;
 
-      const warnings = (analyzer as any).analyzeFileContent('/test/file.ts', content);
+      const warnings = (analyzer as unknown).analyzeFileContent('/test/file.ts', content);
       const anyWarnings = warnings.filter((w: LintingWarning) => w.category === WarningCategory.EXPLICIT_ANY);
 
       expect(anyWarnings).toHaveLength(2);
@@ -46,7 +46,7 @@ console.error('error message');
 console.warn('warning message');
       `;
 
-      const warnings = (analyzer as any).analyzeFileContent('/test/file.ts', content);
+      const warnings = (analyzer as unknown).analyzeFileContent('/test/file.ts', content);
       const consoleWarnings = warnings.filter((w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS);
 
       expect(consoleWarnings).toHaveLength(3);
@@ -60,7 +60,7 @@ const usedVar = 'test';
 console.log(usedVar);
       `;
 
-      const warnings = (analyzer as any).analyzeFileContent('/test/file.ts', content);
+      const warnings = (analyzer as unknown).analyzeFileContent('/test/file.ts', content);
       const unusedWarnings = warnings.filter((w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES);
 
       expect(unusedWarnings).toHaveLength(1);
@@ -101,7 +101,7 @@ console.log(usedVar);
         },
       ];
 
-      const distribution = (analyzer as any).categorizeWarnings(warnings);
+      const distribution = (analyzer as unknown).categorizeWarnings(warnings);
 
       expect(distribution.total).toBe(3);
       expect(distribution.explicitAny.count).toBe(1);
@@ -143,7 +143,7 @@ console.log(usedVar);
         },
       ];
 
-      const prioritized = (analyzer as any).prioritizeFiles(warnings);
+      const prioritized = (analyzer as unknown).prioritizeFiles(warnings);
 
       expect(prioritized.highPriority).toContain('/test/high-priority.ts');
       expect(prioritized.lowPriority).toContain('/test/low-priority.ts');
@@ -160,7 +160,7 @@ console.log(usedVar);
         total: 175,
       };
 
-      const recommendations = (analyzer as any).generateRecommendations(distribution);
+      const recommendations = (analyzer as unknown).generateRecommendations(distribution);
 
       expect(recommendations).toContain(expect.stringContaining('explicit-any'));
       expect(recommendations).toContain(expect.stringContaining('unused variables'));
@@ -207,7 +207,7 @@ const usedVar = 'test';
 console.log(usedVar);
       `;
 
-      const isUsed = (analyzer as any).isVariableUsed(content, 'usedVar', 0);
+      const isUsed = (analyzer as unknown).isVariableUsed(content, 'usedVar', 0);
       expect(isUsed).toBe(true);
     });
 
@@ -217,7 +217,7 @@ const unusedVar = 'test';
 const otherVar = 'other';
       `;
 
-      const isUsed = (analyzer as any).isVariableUsed(content, 'unusedVar', 0);
+      const isUsed = (analyzer as unknown).isVariableUsed(content, 'unusedVar', 0);
       expect(isUsed).toBe(false);
     });
   });

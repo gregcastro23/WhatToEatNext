@@ -21,7 +21,7 @@ class IngredientMappingService {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Pattern HH: Safe Recipe type casting for connectIngredientsToMappings with proper import resolution
-    return connectIngredientsToMappings(recipe as any);
+    return connectIngredientsToMappings(recipe as unknown);
   }
 
   /**

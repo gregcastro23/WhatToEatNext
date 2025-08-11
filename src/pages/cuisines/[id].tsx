@@ -72,9 +72,9 @@ const CuisineDetailsPage: NextPage = () => {
 
     // Add recipes that match both criteria - Safe array method access
     for (const recipe1 of cuisineMatchedRecipes) {
-      const recipe1Data = recipe1 as any;
+      const recipe1Data = recipe1 as unknown;
       const matchingRecipe = elementalMatchedRecipes.find(
-        (r: any) => r?.name === recipe1Data?.name,
+        (r: unknown) => r?.name === recipe1Data?.name,
       );
       if (matchingRecipe) {
         const matchingRecipeData = matchingRecipe;
@@ -103,7 +103,7 @@ const CuisineDetailsPage: NextPage = () => {
 
     // Add remaining cuisine-matched recipes
     for (const recipe of cuisineMatchedRecipes) {
-      const recipeData = recipe as any;
+      const recipeData = recipe as unknown;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Math.pow(Number(recipeData?.matchScore) || 0, 0.8);
         const randomFactor = 0.9 + Math.random() * 0.2;

@@ -139,7 +139,7 @@ class SafeUnusedImportRemover {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       // ESLint returns non-zero exit code when there are errors
       return error.stdout || '';
     }

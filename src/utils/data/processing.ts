@@ -39,7 +39,7 @@ export interface StandardizationOptions {
  * @returns Standardized elemental affinity
  */
 export function standardizeElementalAffinity(
-  value: string | { base: string; decanModifiers?: { [key: string]: any } },
+  value: string | { base: string; decanModifiers?: { [key: string]: unknown } },
 ): ElementalAffinity {
   if (typeof value === 'string') {
     return {
@@ -456,7 +456,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   return result;
 }
 
-function standardizeNutritionalProfile(profile: unknown): { [key: string]: any } | undefined {
+function standardizeNutritionalProfile(profile: unknown): { [key: string]: unknown } | undefined {
   if (!profile || typeof profile !== 'object') {
     return undefined;
   }
@@ -510,7 +510,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
   });
 }
 
-function standardizeNutritionalInfo(info: unknown): { [key: string]: any } | undefined {
+function standardizeNutritionalInfo(info: unknown): { [key: string]: unknown } | undefined {
   if (!info || typeof info !== 'object') {
     return undefined;
   }

@@ -1,9 +1,9 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { _, _ZodiacSign } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
-function createIngredientMapping(id: string, properties: any) {
+function createIngredientMapping(id: string, properties: unknown) {
   return {
     name: id, // Add the required name property
     elementalProperties: properties.elementalProperties || {

@@ -628,7 +628,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         technicalDebt: tsStats.technicalDebt,
         timestamp: new Date(),
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       const tsStats = this.parseTypeScriptOutput(error.stdout || error.stderr || '');
 
       return {
@@ -769,7 +769,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         duration,
         timestamp: new Date(),
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       const testStats = this.parseTestOutput(error.stdout || error.stderr || '');
 
       return {
@@ -1517,7 +1517,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Load snapshots
       if (fs.existsSync(this.METRICS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8'));
-        this.snapshots = data.map((item: any) => ({
+        this.snapshots = data.map((item: unknown) => ({
           ...item,
           timestamp: new Date(item.timestamp),
         }));
@@ -1526,7 +1526,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Load alerts
       if (fs.existsSync(this.ALERTS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.ALERTS_FILE, 'utf8'));
-        this.alerts = data.map((item: any) => ({
+        this.alerts = data.map((item: unknown) => ({
           ...item,
           timestamp: new Date(item.timestamp),
         }));

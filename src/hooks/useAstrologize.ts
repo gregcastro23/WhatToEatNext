@@ -19,7 +19,7 @@ interface AstrologizeOptions {
 interface AstrologizeResult {
   loading: boolean;
   error: Error | null;
-  data: any;
+  data: unknown;
   refetch: () => Promise<void>;
 }
 
@@ -53,7 +53,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
     if (useCurrentLocation && !location) {
       const getLocation = async () => {
         try {
-          const coords = await (AstrologicalService as any)?.requestLocation?.();
+          const coords = await (AstrologicalService as unknown)?.requestLocation?.();
           if (coords) {
             setLocation({
               latitude: coords.latitude,

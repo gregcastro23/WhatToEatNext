@@ -32,7 +32,7 @@ describe('ProgressMonitoringSystem', () => {
       generateClassificationAccuracyReport: jest.fn(),
       generateSuccessRateAnalysis: jest.fn(),
       generateManualReviewRecommendations: jest.fn()
-    } as any;
+    } as unknown;
 
     mockAnalysisTools.mockImplementation(() => mockAnalysisToolsInstance);
 
@@ -162,10 +162,10 @@ describe('ProgressMonitoringSystem', () => {
           classificationAccuracy: 85,
           currentSuccessRate: 75,
           manualReviewCases: 50,
-          topDomain: 'utility' as any,
+          topDomain: 'utility' as unknown,
           topCategory: 'function_param' as any
         }
-      } as any);
+      } as unknown);
     });
 
     it('should get current progress metrics', async () => {
@@ -208,7 +208,7 @@ describe('ProgressMonitoringSystem', () => {
       const errorOutput = 'error TS2304: Cannot find name\nerror TS2345: Argument type';
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed');
-        (error as any).stdout = errorOutput;
+        (error as unknown).stdout = errorOutput;
         throw error;
       });
 
@@ -273,7 +273,7 @@ describe('ProgressMonitoringSystem', () => {
         },
         summary: { currentSuccessRate: 60 }, // Below threshold
         accuracyReport: { overallAccuracy: 70 } // Below threshold
-      } as any);
+      } as unknown);
     });
 
     it('should emit low success rate alert', async () => {
@@ -375,7 +375,7 @@ describe('ProgressMonitoringSystem', () => {
         },
         accuracyReport: { overallAccuracy: 85 },
         summary: { currentSuccessRate: 75 }
-      } as any);
+      } as unknown);
     });
 
     it('should update dashboard data', async () => {
@@ -429,7 +429,7 @@ describe('ProgressMonitoringSystem', () => {
           }
         },
         summary: { currentSuccessRate: 60 }
-      } as any);
+      } as unknown);
 
       await monitoringSystem.checkAlertConditions();
 
@@ -501,7 +501,7 @@ describe('ProgressMonitoringSystem', () => {
           }
         },
         summary: { currentSuccessRate: 75, totalAnyTypes: 1000 }
-      } as any);
+      } as unknown);
 
       const progress = await monitoringSystem.getProgressMetrics();
 

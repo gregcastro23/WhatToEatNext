@@ -324,7 +324,7 @@ describe('Phase Execution Integration Tests', () => {
       const phase1 = mockConfig.phases[0];
 
       // Mock tool execution failure
-      jest.spyOn(campaignController as any, 'executeTool').mockRejectedValue(new Error('Tool execution failed'));
+      jest.spyOn(campaignController as unknown, 'executeTool').mockRejectedValue(new Error('Tool execution failed'));
 
       const result = await campaignController.executePhase(phase1);
 
@@ -338,7 +338,7 @@ describe('Phase Execution Integration Tests', () => {
       const phase1 = mockConfig.phases[0];
 
       // Mock validation failure
-      jest.spyOn(campaignController as any, 'validatePhaseProgress').mockResolvedValue({
+      jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Build validation failed'],
         warnings: [],

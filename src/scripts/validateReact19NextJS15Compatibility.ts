@@ -58,7 +58,7 @@ class React19NextJS15Validator {
         },
       );
       return { success: true, output, errors: [] };
-    } catch (error: any) {
+    } catch (error: unknown) {
       const output = error.stdout || error.message || '';
       const errors = output.split('\n').filter((line: string) => line.trim());
       return { success: false, output, errors };
@@ -422,12 +422,12 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
       if (fs.existsSync(eslintConfigPath)) {
         // Use dynamic import for CJS module
         const moduleLib = await import('module');
-        const { createRequire } = moduleLib as any;
+        const { createRequire } = moduleLib as unknown;
         const require = createRequire(import.meta.url);
         const eslintConfig = require(eslintConfigPath);
 
         // Find React settings
-        const reactSettings = eslintConfig.find((config: any) => config.settings?.react?.version);
+        const reactSettings = eslintConfig.find((config: unknown) => config.settings?.react?.version);
 
         const hasCorrectReactVersion = reactSettings?.settings?.react?.version === '19.1.0';
 
@@ -441,7 +441,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
 
         // Check modern JSX transform rules
         const reactRules = eslintConfig.find(
-          (config: any) => config.rules && config.rules['react/react-in-jsx-scope'],
+          (config: unknown) => config.rules && config.rules['react/react-in-jsx-scope'],
         );
 
         const hasModernJSXRules =
@@ -462,7 +462,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
 
         // Check enhanced hooks rules
         const hooksConfig = eslintConfig.find(
-          (config: any) => config.rules && config.rules['react-hooks/exhaustive-deps'],
+          (config: unknown) => config.rules && config.rules['react-hooks/exhaustive-deps'],
         );
 
         const hasEnhancedHooksRules =

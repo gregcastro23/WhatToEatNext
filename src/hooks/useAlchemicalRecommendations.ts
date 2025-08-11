@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 import { ElementalItem } from '../calculations/alchemicalTransformation';
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
@@ -7,7 +7,6 @@ import { AlchemicalRecommendations } from '../services/AlchemicalTransformationS
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import {
   AlchemicalItem,
-  LunarPhase,
   LunarPhaseWithSpaces,
   ZodiacSign,
   PlanetaryAspect,

@@ -78,7 +78,7 @@ describe('MetricsCollectionSystem', () => {
 
     test('should handle TypeScript compilation errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Command failed') as any;
+        const error = new Error('Command failed') as unknown;
         error.status = 2;
         throw error;
       });

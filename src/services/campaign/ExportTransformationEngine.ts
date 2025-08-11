@@ -352,7 +352,7 @@ export class ExportTransformationEngine {
       await this.ensureDirectory(this.config.backupDirectory);
 
       // ✅ Pattern MM-1: Safe method call for safety protocol
-      const checkpointId = await (this.safetyProtocol as any).createSafetyCheckpoint(
+      const checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(
         'transformation-start',
       );
       console.log(`✅ Safety checkpoint created: ${checkpointId}`);
@@ -430,7 +430,7 @@ export class ExportTransformationEngine {
 
     try {
       // ✅ Pattern MM-1: Safe method call for safety protocol
-      checkpointId = await (this.safetyProtocol as any).createSafetyCheckpoint(`batch-${batch.id}`);
+      checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(`batch-${batch.id}`);
 
       // Check safety threshold
       if (batch.safetyScore < this.config.safetyThreshold) {
@@ -492,7 +492,7 @@ export class ExportTransformationEngine {
         try {
           console.log('🔄 Attempting rollback...');
           // ✅ Pattern MM-1: Safe method call for rollback
-          await (this.safetyProtocol as any).rollbackToCheckpoint(checkpointId);
+          await (this.safetyProtocol as unknown).rollbackToCheckpoint(checkpointId);
           result.rollbackPerformed = true;
           console.log('✅ Rollback completed successfully');
         } catch (rollbackError) {
@@ -634,7 +634,7 @@ export class ExportTransformationEngine {
   /**
    * Handle critical failure
    */
-  private async handleCriticalFailure(error: any): Promise<void> {
+  private async handleCriticalFailure(error: unknown): Promise<void> {
     console.error('💥 Critical failure detected, initiating emergency procedures...');
 
     try {

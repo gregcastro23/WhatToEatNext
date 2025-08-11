@@ -1,8 +1,8 @@
 'use client';
 
-import React, { createContext } from 'react';
+import _, { createContext } from 'react';
 
-import { TarotContextType, TarotElementalInfluences } from './types';
+import { TarotContextType, _ } from './types';
 
 const defaultContext: TarotContextType = {
   tarotCard: null,

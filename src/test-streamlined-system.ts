@@ -52,7 +52,7 @@ async function testStreamlinedSystem() {
     log.info(`  Dominant Property: ${result.kalchm.dominantProperty}\n`);
 
     log.info('🌟 ELEMENTAL PROPERTIES:');
-    const resultData = result as any;
+    const resultData = result as unknown;
     const elementalState = resultData?.elementalState ||
       resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
     log.info(`  Fire: ${(elementalState.Fire * 100).toFixed(1)}%`);

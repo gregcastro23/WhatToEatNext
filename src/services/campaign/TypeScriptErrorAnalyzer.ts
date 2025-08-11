@@ -98,7 +98,7 @@ export class TypeScriptErrorAnalyzer {
 
       // If no errors, return empty array
       return [];
-    } catch (error: any) {
+    } catch (error: unknown) {
       const output = error.stdout || error.stderr || '';
       return this.parseErrorsFromOutput(output);
     }

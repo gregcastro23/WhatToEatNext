@@ -102,7 +102,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should handle script execution failure', async () => {
-      const error = new Error('Script failed') as any;
+      const error = new Error('Script failed') as unknown;
       error.status = 1;
       error.stdout = 'Some output';
       error.stderr = 'Error message';

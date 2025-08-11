@@ -80,7 +80,7 @@ export interface FeedbackData {
   description: string;
   userEmail?: string;
   priority?: 'low' | 'medium' | 'high';
-  metadata?: { [key: string]: any };
+  metadata?: { [key: string]: unknown };
 }
 
 /**

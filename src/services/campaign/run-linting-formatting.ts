@@ -270,7 +270,7 @@ class LintingFormattingCLI {
     }
   }
 
-  private printResults(result: any): void {
+  private printResults(result: unknown): void {
     console.log('\n📊 Linting and Formatting Results:');
     console.log(`  - Files processed: ${result.filesProcessed.length}`);
     console.log(`  - Linting violations fixed: ${result.lintingViolationsFixed}`);

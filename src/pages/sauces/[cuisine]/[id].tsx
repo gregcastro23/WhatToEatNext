@@ -69,7 +69,7 @@ const SauceDetailsPage: NextPage = () => {
           if (sauceId) {
             const foundSauce = {
               id: sauceId,
-              ...(cuisinesMap[cuisineKey].traditionalSauces as Record<string, any>)[sauceId],
+              ...(cuisinesMap[cuisineKey].traditionalSauces as Record<string, unknown>)[sauceId],
             };
             setSauce(foundSauce);
           } else {

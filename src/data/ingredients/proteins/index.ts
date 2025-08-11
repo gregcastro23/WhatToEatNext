@@ -86,8 +86,8 @@ export const getProteinsByCookingMethod = (_method: string): IngredientMapping =
 export const getProteinsByNutrition = (minProtein = 0, maxFat?: number): IngredientMapping => {
   return Object.entries(_proteins)
     .filter(([_, value]) => {
-      const meetsProtein = (value.nutritionalContent as any)?.protein >= minProtein;
-      const meetsFat = maxFat ? (value.nutritionalContent as any)?.fat <= maxFat : true;
+      const meetsProtein = (value.nutritionalContent as unknown)?.protein >= minProtein;
+      const meetsFat = maxFat ? (value.nutritionalContent as unknown)?.fat <= maxFat : true;
       return meetsProtein && meetsFat;
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
@@ -129,9 +129,9 @@ export const getProteinSubstitutes = (_proteinName: string): Record<string, numb
         : 0;
 
       const nutritionScore = Math.abs(
-        ((value.nutritionalContent as any)?.protein -
-          (protein.nutritionalContent as any)?.protein) /
-          (protein.nutritionalContent as any)?.protein,
+        ((value.nutritionalContent as unknown)?.protein -
+          (protein.nutritionalContent as unknown)?.protein) /
+          (protein.nutritionalContent as unknown)?.protein,
       );
 
       // Using proper null check instead of non-null assertion

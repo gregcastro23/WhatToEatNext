@@ -726,7 +726,7 @@ export class ErrorTrackingEnterpriseSystem {
       if (fs.existsSync(this.PATTERNS_FILE)) {
         const patternsData = JSON.parse(fs.readFileSync(this.PATTERNS_FILE, 'utf8'));
         this.patterns = new Map(
-          patternsData.map(([key, value]: [string, any]) => [
+          patternsData.map(([key, value]: [string, unknown]) => [
             key,
             {
               ...value,

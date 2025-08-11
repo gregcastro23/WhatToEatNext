@@ -94,7 +94,7 @@ class LoggingService {
     message: string,
     context?: LogContext,
     error?: Error,
-    data?: any,
+    data?: unknown,
   ): void {
     if (level < this.logLevel) {
       return;

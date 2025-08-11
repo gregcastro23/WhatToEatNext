@@ -46,7 +46,7 @@ export interface RecommendationAnalyticsActions {
   recordLoadTime: (duration: number) => void;
   getCachedRecommendation: <T>(key: string) => T | null;
   cacheRecommendation: <T>(key: string, data: T, confidenceScore?: number) => void;
-  calculateConfidence: (factors: any) => RecommendationConfidence;
+  calculateConfidence: (factors: unknown) => RecommendationConfidence;
   trackInteraction: (type: string, target: string, metadata?: Record<string, unknown>) => void;
   getAnalyticsSnapshot: () => AnalyticsSnapshot;
   clearAnalytics: () => void;
@@ -198,7 +198,7 @@ export function useRecommendationAnalytics(
     [enableCaching],
   );
 
-  const calculateConfidence = useCallback((factors: any): RecommendationConfidence => {
+  const calculateConfidence = useCallback((factors: unknown): RecommendationConfidence => {
     return recommendationAnalytics.calculateConfidenceScore(factors);
   }, []);
 
@@ -206,7 +206,7 @@ export function useRecommendationAnalytics(
     (type: string, target: string, metadata?: Record<string, unknown>) => {
       if (enableInteractionTracking) {
         recommendationAnalytics.trackInteraction({
-          type: type as any,
+          type: type as unknown,
           target,
           metadata,
         });

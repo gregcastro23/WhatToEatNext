@@ -376,7 +376,7 @@ export function normalizeIngredientData(
 /**
  * Safe getter for nutritional data
  */
-export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): any {
+export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): unknown {
   try {
     const profile = ingredient.nutritionalProfile as Record<string, unknown>;
     return profile[field] || null;

@@ -49,7 +49,7 @@ describe('DomainContextAnalyzer', () => {
         const context: ClassificationContext = {
           filePath: 'src/services/campaign/TypeScriptErrorAnalyzer.ts',
           lineNumber: 15,
-          codeSnippet: 'const metrics: any = {};',
+          codeSnippet: 'const metrics: unknown = {};',
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -134,7 +134,7 @@ describe('DomainContextAnalyzer', () => {
         const context: ClassificationContext = {
           filePath: 'src/utils/someFile.ts',
           lineNumber: 8,
-          codeSnippet: 'const metrics: any = getProgressMetrics();',
+          codeSnippet: 'const metrics: unknown = getProgressMetrics();',
           surroundingLines: [
             'import { CampaignConfig } from "@/types";',
             'function validateTypeScriptErrors() {',
@@ -331,7 +331,7 @@ describe('DomainContextAnalyzer', () => {
       const context: ClassificationContext = {
         filePath: 'src/services/campaign/metrics.ts',
         lineNumber: 8,
-        codeSnippet: 'const metrics: any = getProgressMetrics();',
+        codeSnippet: 'const metrics: unknown = getProgressMetrics();',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -404,7 +404,7 @@ describe('DomainContextAnalyzer', () => {
       const context: ClassificationContext = {
         filePath: 'src/services/campaign/config.ts',
         lineNumber: 8,
-        codeSnippet: 'const config: any = getCampaignConfig();',
+        codeSnippet: 'const config: unknown = getCampaignConfig();',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -458,7 +458,7 @@ describe('DomainContextAnalyzer', () => {
       const context: ClassificationContext = {
         filePath: 'src/services/campaign/intelligence.ts',
         lineNumber: 5,
-        codeSnippet: 'const metrics: any = dynamicMetricsCalculation();',
+        codeSnippet: 'const metrics: unknown = dynamicMetricsCalculation();',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -552,7 +552,7 @@ describe('DomainContextAnalyzer', () => {
       const context: ClassificationContext = {
         filePath: 'src/services/campaign/metrics.ts',
         lineNumber: 8,
-        codeSnippet: 'const metrics: any = getProgressMetrics();',
+        codeSnippet: 'const metrics: unknown = getProgressMetrics();',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -638,7 +638,7 @@ describe('DomainContextAnalyzer', () => {
         const context: ClassificationContext = {
           filePath: 'src/data/ingredients.ts',
           lineNumber: 5,
-          codeSnippet: 'const ingredientMap: Record<string, any> = {};',
+          codeSnippet: 'const ingredientMap: Record<string, unknown> = {};',
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -669,7 +669,7 @@ describe('DomainContextAnalyzer', () => {
         const context: ClassificationContext = {
           filePath: 'src/components/Button.tsx',
           lineNumber: 5,
-          codeSnippet: 'function handleClick(event: any) {',
+          codeSnippet: 'function handleClick(event: unknown) {',
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,

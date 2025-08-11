@@ -59,7 +59,7 @@ describe('SafeTypeReplacer', () => {
     replacer = new SafeTypeReplacer(testBackupDir, 0.7, 30000, 3);
 
     // Mock fs.existsSync to return false for backup directory initially
-    mockFs.existsSync.mockImplementation((path: any) => {
+    mockFs.existsSync.mockImplementation((path: unknown) => {
       if (path === testBackupDir) return false;
       return true; // Assume other files exist
     });
@@ -203,7 +203,7 @@ describe('SafeTypeReplacer', () => {
           validationRequired: true
         },
         {
-          original: 'Record<string, any>',
+          original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
           filePath: 'test2.ts',
           lineNumber: 1,
@@ -212,9 +212,9 @@ describe('SafeTypeReplacer', () => {
         }
       ];
 
-      mockFs.readFileSync.mockImplementation((filePath: any) => {
+      mockFs.readFileSync.mockImplementation((filePath: unknown) => {
         if (filePath.includes('test1.ts')) return 'const items: any[] = [];';
-        if (filePath.includes('test2.ts')) return 'const data: Record<string, any> = {};';
+        if (filePath.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
         return 'backup content';
       });
 
@@ -298,7 +298,7 @@ describe('SafeTypeReplacer', () => {
 
     test('calculates lower scores for error handling contexts', () => {
       const replacement: TypeReplacement = {
-        original: 'catch (error: any)',
+        original: 'catch (error: unknown)',
         replacement: 'catch (error: unknown)',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -330,7 +330,7 @@ describe('SafeTypeReplacer', () => {
       const filePath = 'test.ts';
       const backupPath = 'backup.ts';
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         if (path === filePath) return 'modified content';
         if (path === backupPath) return 'original content';
         return '';
@@ -344,7 +344,7 @@ describe('SafeTypeReplacer', () => {
       const filePath = 'test.ts';
       const backupPath = 'missing-backup.ts';
 
-      mockFs.existsSync.mockImplementation((path: any) => {
+      mockFs.existsSync.mockImplementation((path: unknown) => {
         return path !== backupPath; // Backup doesn't exist
       });
 
@@ -400,7 +400,7 @@ describe('SafeTypeReplacer', () => {
       oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
       mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as any);
-      mockFs.statSync.mockImplementation((filePath: any) => {
+      mockFs.statSync.mockImplementation((filePath: unknown) => {
         if (filePath.includes('old.backup')) {
           return { mtime: oldDate } as any;
         }
@@ -430,7 +430,7 @@ describe('SafeTypeReplacer', () => {
       };
 
       // Mock backup creation to fail
-      mockFs.writeFileSync.mockImplementation((filePath: any) => {
+      mockFs.writeFileSync.mockImplementation((filePath: unknown) => {
         if (filePath.includes('.backup')) {
           throw new Error('Backup creation failed');
         }
@@ -583,7 +583,7 @@ describe('SafeTypeReplacer', () => {
       const context: ClassificationContext = {
         filePath: 'test.ts',
         lineNumber: 1,
-        codeSnippet: 'const config: Record<string, any> = { name: "test", count: 42 };',
+        codeSnippet: 'const config: Record<string, unknown> = { name: "test", count: 42 };',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -603,7 +603,7 @@ describe('SafeTypeReplacer', () => {
       const context: ClassificationContext = {
         filePath: 'test.ts',
         lineNumber: 1,
-        codeSnippet: 'function handleClick(event: any) { }',
+        codeSnippet: 'function handleClick(event: unknown) { }',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -643,7 +643,7 @@ describe('SafeTypeReplacer', () => {
       const errorContext: ClassificationContext = {
         filePath: 'test.ts',
         lineNumber: 1,
-        codeSnippet: 'catch (error: any) {',
+        codeSnippet: 'catch (error: unknown) {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -703,7 +703,7 @@ describe('SafeTypeReplacer', () => {
       const recipeContext: ClassificationContext = {
         filePath: 'recipe.ts',
         lineNumber: 1,
-        codeSnippet: 'function processIngredient(ingredient: any) {',
+        codeSnippet: 'function processIngredient(ingredient: unknown) {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -723,7 +723,7 @@ describe('SafeTypeReplacer', () => {
       const mockContext: ClassificationContext = {
         filePath: 'test.ts',
         lineNumber: 1,
-        codeSnippet: 'function process(data: any): any { return data; }',
+        codeSnippet: 'function process(data: unknown): any { return data; }',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -770,7 +770,7 @@ describe('SafeTypeReplacer', () => {
         }
       ];
 
-      mockFs.readFileSync.mockImplementation((filePath: any) => {
+      mockFs.readFileSync.mockImplementation((filePath: unknown) => {
         if (filePath.includes('test1.ts')) return 'const items: any[] = [];';
         if (filePath.includes('test2.ts')) return 'const data: any = value;';
         return 'backup content';
@@ -823,7 +823,7 @@ describe('SafeTypeReplacer', () => {
         validationRequired: true
       };
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         if (path.includes('.backup')) {
           throw new Error('Backup file corrupted');
         }

@@ -92,7 +92,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   searchIngredients(criteria: IngredientSearchCriteria): EnhancedIngredient[] {
     try {
-      return searchIngredients(criteria as any);
+      return searchIngredients(criteria as unknown);
     } catch (error) {
       console.error('Error searching ingredients:', error);
       return [];

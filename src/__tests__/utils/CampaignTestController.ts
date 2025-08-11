@@ -28,7 +28,7 @@ interface CampaignTestState {
   pausedAt: Date | null;
   resumedAt: Date | null;
   testName: string | null;
-  originalState: any;
+  originalState: unknown;
 }
 
 interface TestIsolationConfig {
@@ -516,7 +516,7 @@ export class CampaignTestController {
     };
   }
 
-  private restoreOriginalState(originalState: any): void {
+  private restoreOriginalState(originalState: unknown): void {
     // Restore environment variables
     if (originalState.envVars) {
       Object.keys(process.env).forEach(key => {

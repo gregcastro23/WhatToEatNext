@@ -272,7 +272,7 @@ export function explainRecommendation(
       const planetName = String(
         (dominantPlanet as unknown as Record<string, unknown>).name || dominantPlanet,
       );
-      const planetScore = calculatePlanetaryScore(recipe, planetName as unknown as any);
+      const planetScore = calculatePlanetaryScore(recipe, planetName as unknown as unknown);
       if (planetScore > 0.6) {
         reasons.push(
           `The influence of ${planetName} in your chart is complemented by this recipe.`,

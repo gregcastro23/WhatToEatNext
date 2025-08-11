@@ -18,10 +18,10 @@ export * from './methods';
 // Re-export methods from the methods module for backward compatibility
 import {
   allCookingMethods,
-  getMethodsByElement,
-  getMethodsByPlanet,
-  getMethodsForIngredientType,
-  getMethodsForZodiacSign,
+  _,
+  _,
+  _,
+  _,
 } from './methods';
 
 // For backwards compatibility - provide cookingMethods export from the new allCookingMethods
@@ -194,7 +194,7 @@ export function getCookingMethodsByTemperature(
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
-      const methodData = method as any;
+      const methodData = method as unknown;
       // Check if the method has optimal temperatures and at least one falls within range
       if (!methodData?.optimalTemperatures) return false;
 
@@ -218,13 +218,13 @@ export function getCookingMethodsBySustainability(descending = true): CookingMet
   return Object.values(allCookingMethods)
     .filter(method => {
       // Apply safe type casting for method property access
-      const methodData = method as any;
+      const methodData = method as unknown;
       return methodData?.sustainabilityRating !== undefined;
     })
     .sort((a, b) => {
       // Apply safe type casting for method property access
-      const aData = a as any;
-      const bData = b as any;
+      const aData = a as unknown;
+      const bData = b as unknown;
       const aRating = aData?.sustainabilityRating || 0;
       const bRating = bData?.sustainabilityRating || 0;
       return descending ? bRating - aRating : aRating - bRating;

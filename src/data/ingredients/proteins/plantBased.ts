@@ -5,7 +5,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   _id: string,
-  properties: Partial<IngredientMapping> & Record<string, any>,
+  properties: Partial<IngredientMapping> & Record<string, unknown>,
 ): Partial<IngredientMapping> {
   return {
     id: _id,

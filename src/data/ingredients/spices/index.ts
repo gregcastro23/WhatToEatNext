@@ -287,7 +287,7 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
       },
     },
   },
-} as any) as Record<string, IngredientMapping>;
+} as unknown) as Record<string, IngredientMapping>;
 
 // Validate spice heat levels
 Object.values(spices).forEach(spice => {

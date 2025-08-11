@@ -32,7 +32,7 @@ export function isScoredRecipe(obj: unknown): obj is ScoredRecipe {
 /**
  * Type guard to check if an ingredient is a RecipeIngredient object (not string)
  */
-export function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredient {
+export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIngredient {
   return (
     typeof ingredient === 'object' &&
     ingredient !== null &&

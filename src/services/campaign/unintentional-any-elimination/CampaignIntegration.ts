@@ -311,7 +311,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     try {
       const { execSync } = require('child_process');
       return execSync('yarn lint 2>&1', { encoding: 'utf8', stdio: 'pipe' });
-    } catch (error: any) {
+    } catch (error: unknown) {
       // ESLint returns non-zero exit code when warnings/errors are found
       return error.stdout || error.message || '';
     }
@@ -333,7 +333,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       const { execSync } = require('child_process');
       execSync('yarn build', { encoding: 'utf8', stdio: 'pipe' });
       return { success: true, errors: [] };
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         success: false,
         errors: [error.message || 'Build failed']

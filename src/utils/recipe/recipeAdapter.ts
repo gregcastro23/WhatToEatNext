@@ -175,7 +175,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle spice level
   if (recipeDataAny.spiceLevel !== undefined) {
-    recipe.spiceLevel = String(recipeDataAny.spiceLevel) as any;
+    recipe.spiceLevel = String(recipeDataAny.spiceLevel) as unknown;
   }
 
   // Handle preparation notes

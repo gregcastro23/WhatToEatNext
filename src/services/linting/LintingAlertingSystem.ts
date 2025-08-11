@@ -30,7 +30,7 @@ export interface AlertingConfig {
 
 export interface AlertChannel {
   type: 'console' | 'file' | 'webhook' | 'kiro';
-  config: Record<string, any>;
+  config: Record<string, unknown>;
   severityFilter: ('info' | 'warning' | 'error' | 'critical')[];
 }
 
@@ -44,7 +44,7 @@ export interface PerformanceThreshold {
 export interface AutoResponseAction {
   trigger: string;
   action: 'enableCache' | 'reduceBatchSize' | 'skipNonCritical' | 'emergencyStop';
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
 }
 
 export interface AlertHistory {
@@ -204,7 +204,7 @@ export class LintingAlertingSystem {
   /**
    * Send file alert
    */
-  private async sendFileAlert(alert: Alert, config: Record<string, any>): Promise<void> {
+  private async sendFileAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     const alertFile = config.file || '.kiro/metrics/alerts.log';
     const timestamp = alert.timestamp.toISOString();
     const logEntry = `[${timestamp}] ${alert.severity.toUpperCase()}: ${alert.message} (${alert.metric}: ${alert.currentValue}/${alert.threshold})\n`;
@@ -220,7 +220,7 @@ export class LintingAlertingSystem {
   /**
    * Send Kiro alert (integration with Kiro system)
    */
-  private async sendKiroAlert(alert: Alert, config: Record<string, any>): Promise<void> {
+  private async sendKiroAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     // Create Kiro notification file
     const kiroAlert = {
       id: alert.id,
@@ -244,7 +244,7 @@ export class LintingAlertingSystem {
   /**
    * Send webhook alert
    */
-  private async sendWebhookAlert(alert: Alert, config: Record<string, any>): Promise<void> {
+  private async sendWebhookAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     if (!config.url) {
       console.warn('Webhook URL not configured');
       return;

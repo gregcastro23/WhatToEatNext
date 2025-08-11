@@ -181,7 +181,7 @@ class ConfigurationServiceImpl {
   public updateConfiguration(
     section: keyof ConfigurationState,
     key: string,
-    value: any,
+    value: unknown,
   ): Promise<boolean> {
     return new Promise(resolve => {
       try {
@@ -242,7 +242,7 @@ class ConfigurationServiceImpl {
   private validateUpdate(
     section: keyof ConfigurationState,
     key: string,
-    value: any,
+    value: unknown,
   ): ConfigurationValidation {
     const errors: ConfigurationValidation['errors'] = [];
 

@@ -113,7 +113,7 @@ export function calculateSeasonalAppropriateness(
   // Adjacent seasons have some compatibility
   const seasonOrder = ['winter', 'spring', 'summer', 'fall'];
   const currentIndex = seasonOrder.indexOf(currentSeason);
-  const recipeIndex = seasonOrder.indexOf(recipeSeason as any);
+  const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown);
 
   // Check if it's an adjacent season (circular)
   if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {

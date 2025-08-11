@@ -238,7 +238,7 @@ export class BuildValidator {
    * Gets default content for manifest files
    * Requirement 3.3: Create missing manifest files with minimal content when needed
    */
-  private getManifestDefaults(): Record<string, any> {
+  private getManifestDefaults(): Record<string, unknown> {
     return {
       'pages-manifest.json': {},
       'app-paths-manifest.json': {},

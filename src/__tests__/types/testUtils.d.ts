@@ -63,7 +63,7 @@ export interface ScriptExecutionMock {
   executeScript: Mock;
   executeCommand: Mock;
   getScriptOutput: Mock;
-  mockResults: Record<string, any>;
+  mockResults: Record<string, unknown>;
   mockBuildSuccess: boolean;
   mockTestSuccess: boolean;
   shouldFailExecution: boolean;
@@ -73,7 +73,7 @@ export interface ScriptExecutionMock {
   mockStdout: string;
   mockStderr: string;
   mockExitCode: number;
-  setMockResult: (scriptPath: string, result: any) => void;
+  setMockResult: (scriptPath: string, result: unknown) => void;
   setMockBuildSuccess: (success: boolean) => void;
   setMockTestSuccess: (success: boolean) => void;
   setShouldFailExecution: (shouldFail: boolean) => void;
@@ -94,7 +94,7 @@ export interface CoreTestUtils {
     testId?: string,
   ) => React.ComponentType<Record<string, unknown>>;
   checkMemory: () => MemoryUsage;
-  cleanupMemory: () => any;
+  cleanupMemory: () => unknown;
 }
 
 // Extended test utilities interface (includes mocks)
@@ -104,7 +104,7 @@ export interface ExtendedTestUtils extends CoreTestUtils {
   createMockCorruptedFile: (content: string) => string;
   createMockTypeScriptErrors: (count: number) => string;
   createMockLintingWarnings: (count: number) => string;
-  createMockProgressMetrics: (overrides?: any) => any;
+  createMockProgressMetrics: (overrides?: unknown) => unknown;
 }
 
 // Mock planetary positions type for tests
@@ -159,7 +159,7 @@ declare global {
   var testUtils: ExtendedTestUtils;
   var forceGC: (() => boolean) | undefined;
   var getMemoryUsage: (() => MemoryUsage) | undefined;
-  var cleanupTestMemory: (() => any) | undefined;
+  var cleanupTestMemory: (() => unknown) | undefined;
   var __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
   var __TEST_REFS__: any[] | undefined;
 

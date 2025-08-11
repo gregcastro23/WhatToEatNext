@@ -57,7 +57,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     // Mock fs.statSync for directory checks
     mockFs.statSync.mockReturnValue({
       isDirectory: () => true,
-    } as any);
+    } as unknown);
 
     // Mock fs.readFileSync to return empty JSON for stash tracking
     mockFs.readFileSync.mockImplementation((path: string) => {
@@ -397,7 +397,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       jest.spyOn(emergencyRecovery, 'detectCorruption').mockResolvedValue({
         detectedFiles: ['corrupted-file.ts'],
         corruptionPatterns: [],
-        severity: 'HIGH' as any,
+        severity: 'HIGH' as unknown,
         recommendedAction: RecoveryAction.ROLLBACK,
       });
 

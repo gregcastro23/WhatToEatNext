@@ -82,7 +82,7 @@ export const calculateNutritionalScore = (nutrition: NutritionalProfile): number
   if (!nutrition) return 0;
 
   // Safe property access for macros
-  const macros = (nutrition as any)?.macros || {};
+  const macros = (nutrition as unknown)?.macros || {};
   const baseScore =
     (macros.protein || 0) * 0.4 +
     (macros.fiber || 0) * 0.3 +
@@ -140,7 +140,7 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
       }
     } else if (typeof ingredient === 'object') {
       // Apply surgical type casting with variable extraction
-      const ingredientData = ingredient as any;
+      const ingredientData = ingredient as unknown;
       const name = ingredientData?.name;
       const amountValue = ingredientData?.amount;
 
@@ -149,7 +149,7 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
     }
 
     // Find the best matching reference value
-    let referenceItem: any = null;
+    let referenceItem: unknown = null;
     let bestMatchKey = '';
 
     // Check for exact matches first

@@ -51,7 +51,7 @@ jest.mock('@/components/CuisineRecommender', () => {
       { name: 'Indian', score: 79, recipes: ['Curry', 'Biryani', 'Naan'] },
     ];
 
-    const handleCuisineSelect = (cuisine: any) => {
+    const handleCuisineSelect = (cuisine: unknown) => {
       setSelectedCuisine(cuisine.name);
       setShowRecipes(true);
     };

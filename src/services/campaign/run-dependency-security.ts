@@ -220,7 +220,7 @@ class DependencySecurityCLI {
       (securityReport as Record<string, unknown>).vulnerabilities.length > 0
     ) {
       console.log('\n📋 Detailed Vulnerabilities:');
-      (securityReport as Record<string, unknown>).vulnerabilities.forEach((vuln: any) => {
+      (securityReport as Record<string, unknown>).vulnerabilities.forEach((vuln: unknown) => {
         const severityIcon = this.getSeverityIcon(vuln.severity);
         const patchStatus = vuln.patchAvailable ? '✅ Patch available' : '❌ No patch';
 
@@ -252,7 +252,7 @@ class DependencySecurityCLI {
       (updateReport as Record<string, unknown>).availableUpdates.length > 0
     ) {
       console.log('\n📋 Available Updates:');
-      (updateReport as Record<string, unknown>).availableUpdates.forEach((update: any) => {
+      (updateReport as Record<string, unknown>).availableUpdates.forEach((update: unknown) => {
         const updateIcon = this.getUpdateTypeIcon(update.updateType);
         const breakingIcon = update.breakingChanges ? '⚠️' : '✅';
 
@@ -267,7 +267,7 @@ class DependencySecurityCLI {
 
     if ((updateReport as Record<string, unknown>).appliedUpdates.length > 0) {
       console.log('\n✅ Applied Updates:');
-      (updateReport as Record<string, unknown>).appliedUpdates.forEach((update: any) => {
+      (updateReport as Record<string, unknown>).appliedUpdates.forEach((update: unknown) => {
         const securityIcon = update.securityFix ? '🔒' : '📦';
         console.log(
           `  ${securityIcon} ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`,
@@ -277,7 +277,7 @@ class DependencySecurityCLI {
 
     if ((updateReport as Record<string, unknown>).failedUpdates.length > 0) {
       console.log('\n❌ Failed Updates:');
-      (updateReport as Record<string, unknown>).failedUpdates.forEach((update: any) => {
+      (updateReport as Record<string, unknown>).failedUpdates.forEach((update: unknown) => {
         console.log(
           `  - ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`,
         );
@@ -361,7 +361,7 @@ function parseArguments(): CLIOptions {
       case '--severity-threshold':
         const threshold = args[++i];
         if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
-          options.severityThreshold = threshold as any;
+          options.severityThreshold = threshold as unknown;
         }
         break;
       case '--help':

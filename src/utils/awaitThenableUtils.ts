@@ -5,7 +5,7 @@
  */
 
 export function isPromiseLike(value: unknown): value is PromiseLike<any> {
-  return value !== null && value !== undefined && typeof (value as any).then === 'function';
+  return value !== null && value !== undefined && typeof (value as unknown).then === 'function';
 }
 
 export function ensurePromise<T>(value: T | Promise<T>): Promise<T> {

@@ -264,7 +264,7 @@ async function getTypeScriptErrors(): Promise<string> {
     });
 
     return output;
-  } catch (error: any) {
+  } catch (error: unknown) {
     // tsc returns non-zero exit code when there are errors, which is expected
     if (error.stdout) {
       return error.stdout;

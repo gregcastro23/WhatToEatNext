@@ -392,7 +392,7 @@ export class ${systemName} {
   /**
    * Analyze patterns and generate insights
    */
-  async analyzePatterns(data?: any): Promise<PatternAnalysis> {
+  async analyzePatterns(data?: unknown): Promise<PatternAnalysis> {
     const startTime = performance.now();
     
     try {
@@ -420,7 +420,7 @@ export class ${systemName} {
   /**
    * Generate recommendations based on analysis
    */
-  async generateRecommendations(context?: any): Promise<Recommendation[]> {
+  async generateRecommendations(context?: unknown): Promise<Recommendation[]> {
     if (!this.config.enableRecommendations) {
       return [];
     }
@@ -468,7 +468,7 @@ export class ${systemName} {
   /**
    * Demonstrate system capabilities
    */
-  async demonstrateCapabilities(): Promise<Record<string, any>> {
+  async demonstrateCapabilities(): Promise<Record<string, unknown>> {
     if (!this.config.enableDemonstrations) {
       return {};
     }
@@ -501,7 +501,7 @@ ${capabilities
     cap => `  /**
    * ${cap.description}
    */
-  private ${cap.name}(data?: any): any {
+  private ${cap.name}(data?: unknown): unknown {
     ${cap.implementation}
   }`,
   )
@@ -550,7 +550,7 @@ ${capabilities
     };
   }
 
-  private identifyCommonPatterns(data?: any): string[] {
+  private identifyCommonPatterns(data?: unknown): string[] {
     // Implementation would analyze data for common patterns
     return [
       'Pattern A: High frequency usage during peak hours',
@@ -559,7 +559,7 @@ ${capabilities
     ];
   }
 
-  private detectAnomalies(data?: any): string[] {
+  private detectAnomalies(data?: unknown): string[] {
     // Implementation would detect anomalies in the data
     return [
       'Anomaly: Unusual spike in memory usage',
@@ -567,7 +567,7 @@ ${capabilities
     ];
   }
 
-  private analyzeTrends(data?: any): TrendData[] {
+  private analyzeTrends(data?: unknown): TrendData[] {
     // Implementation would analyze trends over time
     return [
       {
@@ -579,7 +579,7 @@ ${capabilities
     ];
   }
 
-  private generateInsights(data?: any): string[] {
+  private generateInsights(data?: unknown): string[] {
     // Implementation would generate actionable insights
     return [
       \`\${originalName} shows potential for optimization\`,
@@ -597,7 +597,7 @@ ${capabilities
       (currentAvg * (count - 1) + executionTime) / count;
   }
 
-  private handleError(method: string, error: any): void {
+  private handleError(method: string, error: unknown): void {
     if (this.config.logLevel === 'debug' || this.config.logLevel === 'error') {
       console.error(\`\${systemName}.\${method} error:\`, error);
     }

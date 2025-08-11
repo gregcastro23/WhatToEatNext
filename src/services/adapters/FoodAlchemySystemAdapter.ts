@@ -168,7 +168,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
     const stateRecord = this.convertSystemStateToRecord(state);
-    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as any, options);
+    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options);
   }
 
   /**
@@ -240,7 +240,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       metrics: state.metrics,
       planetaryPositions: state.planetaryPositions,
       // Add other relevant state properties
-      ...(state as any),
+      ...(state as unknown),
     };
   }
 

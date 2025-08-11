@@ -99,7 +99,7 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
       // Mock linting with warnings
       const mockError = new Error('Linting warnings found');
       (mockError as Error & { stdout?: string }).stdout = `
-src/test.ts:10:5 - warning: Unexpected any. Specify a different type (@typescript-eslint/no-explicit-any)
+src/test.ts:10:5 - warning: Unexpected any. Specify a different type (@typescript-eslint/no-explicit-unknown)
 src/test.ts:15:10 - warning: 'unusedVar' is defined but never used (no-unused-vars)
 src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       `;
@@ -459,7 +459,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
     it('should handle validation failures gracefully', async () => {
       // Mock validation failures
       const mockError = new Error('Validation failed');
-      (mockError as any).stdout = 'error TS2304: Cannot find name';
+      (mockError as unknown).stdout = 'error TS2304: Cannot find name';
       mockedExecSync.mockImplementation(() => {
         throw mockError;
       });

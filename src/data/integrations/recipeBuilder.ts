@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { _ } from '@/types/alchemy';
 
 export const recipeBuilder = {
   baseTemplates: {

@@ -922,7 +922,7 @@ export class EnhancedIngredientsSystem {
       }
 
       // Index by planetary ruler
-      const planetaryRuler = (ingredient.astrologicalPropertiesProfile as any)?.planetaryRuler;
+      const planetaryRuler = (ingredient.astrologicalPropertiesProfile as unknown)?.planetaryRuler;
       if (planetaryRuler) {
         const planetaryIngredients = this.planetaryIndex.get(planetaryRuler) || [];
         planetaryIngredients.push(ingredient.name);
@@ -1189,7 +1189,7 @@ export class EnhancedIngredientsSystem {
   /**
    * Get seasonality for an ingredient
    */
-  private getSeasonalityForIngredient(ingredient: UnifiedIngredient): any {
+  private getSeasonalityForIngredient(ingredient: UnifiedIngredient): unknown {
     // Use existing seasonality if available
     if ((ingredient.seasonality || []).length) {
       return {
@@ -1200,7 +1200,7 @@ export class EnhancedIngredientsSystem {
     }
 
     // Default seasonality by element
-    const seasonalityByElement: { [key: string]: any } = {
+    const seasonalityByElement: { [key: string]: unknown } = {
       Fire: {
         peak: ['summer'],
         optimal: ['summer', 'fall'],
@@ -1303,8 +1303,8 @@ export class EnhancedIngredientsSystem {
   /**
    * Get seasonal peak for an element
    */
-  private getSeasonalPeakForElement(element: Element): any {
-    const seasonalPeaks: { [key: string]: any } = {
+  private getSeasonalPeakForElement(element: Element): unknown {
+    const seasonalPeaks: { [key: string]: unknown } = {
       Fire: { northern: [6, 7, 8], southern: [12, 1, 2] },
       Water: { northern: [12, 1, 2], southern: [6, 7, 8] },
       Earth: { northern: [9, 10, 11], southern: [3, 4, 5] },

@@ -202,7 +202,7 @@ export const getElementalInfluence = async (): Promise<ElementalProperties> => {
   // Use the zodiac to element mapping if available
   try {
     // Apply safe type casting for service method access
-    const astroService = AstrologicalService as unknown as any;
+    const astroService = AstrologicalService as unknown as unknown;
     const astroState = await (astroService?.getCurrentState
       ? astroService.getCurrentState()
       : astroService.getStateForDate?.(new Date()));
@@ -352,7 +352,7 @@ export function calculateElementalBalanceFromPositions(
 
     const planetKey = planet.toLowerCase();
     const weight = planetaryWeights[planetKey as keyof typeof planetaryWeights] || 0.05;
-    const element = getElementFromZodiac((planetData as any)?.sign as string);
+    const element = getElementFromZodiac((planetData as unknown)?.sign as string);
 
     elementalBalance[element as keyof typeof elementalBalance] += weight;
     totalInfluence += weight;

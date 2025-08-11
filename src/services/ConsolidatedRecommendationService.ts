@@ -388,7 +388,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         elementalPreference: elementalState,
         planetaryPositions: criteria.planetaryPositions,
         limit: criteria.limit,
-      } as any);
+      } as unknown);
 
       // Transform to standardized result format - ensure CookingMethod type
       // TODO: Enhance getCookingMethodRecommendations to return CookingMethod[]

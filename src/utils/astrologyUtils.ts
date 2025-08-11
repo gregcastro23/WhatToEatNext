@@ -2372,7 +2372,7 @@ export function calculateElementalProfile(
  */
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
-  planetaryPositions: { [key: string]: any },
+  planetaryPositions: { [key: string]: unknown },
   isDaytime: boolean = true,
   currentZodiac?: string,
 ): AlchemicalItem[] {
@@ -2496,7 +2496,7 @@ export function transformItemsWithPlanetaryPositions(
  * Calculate current elemental influence from planetary positions
  */
 function calculateCurrentElementalInfluence(
-  planetaryPositions: { [key: string]: any },
+  planetaryPositions: { [key: string]: unknown },
   isDaytime: boolean,
   currentZodiac?: string,
 ): ElementalProperties {
@@ -2567,7 +2567,7 @@ function calculateCurrentElementalInfluence(
 function calculateItemCompatibilityScore(
   itemProperties: ElementalProperties,
   currentInfluence: ElementalProperties,
-  planetaryPositions: { [key: string]: any },
+  planetaryPositions: { [key: string]: unknown },
   isDaytime: boolean,
 ): number {
   try {
@@ -2639,7 +2639,7 @@ function getDominantElementFromProperties(properties: ElementalProperties): Elem
  */
 function calculateAlchemicalProperties(
   itemProperties: ElementalProperties,
-  planetaryPositions: { [key: string]: any },
+  planetaryPositions: { [key: string]: unknown },
   currentInfluence: ElementalProperties,
 ): AlchemicalResult {
   try {
@@ -2791,7 +2791,7 @@ function calculateSeasonalResonance(dominantElement: ElementalCharacter): Season
 /**
  * Calculate planetary strength from positions
  */
-function calculatePlanetaryStrength(planetaryPositions: { [key: string]: any }): number {
+function calculatePlanetaryStrength(planetaryPositions: { [key: string]: unknown }): number {
   try {
     let totalStrength = 0;
     let planetCount = 0;

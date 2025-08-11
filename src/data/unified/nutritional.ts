@@ -8,9 +8,9 @@ import type {
   ElementalProperties,
   PlanetName,
   AlchemicalProperties,
-  ThermodynamicMetrics,
+  _,
   CookingMethod,
-  LunarPhase,
+  _,
 } from '@/types/alchemy';
 import type { NutritionalProfile } from '@/types/nutrition';
 import type { Season } from '@/types/seasons';
@@ -22,8 +22,8 @@ import { createElementalProperties } from '../../utils/elemental/elementalUtils'
 
 import {
   calculateKalchm,
-  calculateMonica,
-  performAlchemicalAnalysis,
+  _,
+  _,
 } from './alchemicalCalculations';
 
 // ===== ENHANCED NUTRITIONAL INTERFACES =====
@@ -306,7 +306,7 @@ export class UnifiedNutritionalSystem {
     const values = Object.values(totalElementalValues);
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow((val as any) - mean, 2), 0) / values.length;
+      values.reduce((sum, val) => sum + Math.pow((val as unknown) - mean, 2), 0) / values.length;
     const stdDev = Math.sqrt(variance);
 
     // Higher balance = lower standard deviation
@@ -400,7 +400,7 @@ export class UnifiedNutritionalSystem {
     return recommendations;
   }
 
-  getNutritionalRecommendations(criteria: {
+  getNutritionalRecommendations(_: {
     season?: Season;
     currentZodiacSign?: ZodiacSign;
     planetaryHour?: PlanetName;
@@ -473,8 +473,8 @@ export class UnifiedNutritionalSystem {
 
   createAlchemicalNutritionalProfile(
     baseProfile: NutritionalProfile,
-    ingredients: CookingMethod[],
-    cookingMethod?: CookingMethod,
+    _ingredients: CookingMethod[],
+    _cookingMethod?: CookingMethod,
   ): AlchemicalNutritionalProfile {
     const baseData = baseProfile as Record<string, unknown>;
 
@@ -648,7 +648,7 @@ export const getPlanetaryNutritionalRecommendations = (
 export const getEnhancedPlanetaryNutritionalRecommendations = (
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),
+  _: Date = new Date(),
 ): {
   elements: ElementalProperties;
   focusNutrients: string[];

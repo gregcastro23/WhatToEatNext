@@ -240,7 +240,7 @@ import type type Something, { a, b } from './module';
 
       it('should handle TypeScript compilation failures', async () => {
         mockExecSync.mockImplementation(() => {
-          const error = new Error('TypeScript compilation failed') as any;
+          const error = new Error('TypeScript compilation failed') as unknown;
           error.stdout = 'Unexpected token at line 5';
           throw error;
         });
@@ -436,8 +436,8 @@ import type type Something, { a, b } from './module';
         ref: 'stash@{0}',
       };
 
-      (safetyProtocol as any).stashes.set('old-stash', oldStash);
-      (safetyProtocol as any).stashes.set('recent-stash', recentStash);
+      (safetyProtocol as unknown).stashes.set('old-stash', oldStash);
+      (safetyProtocol as unknown).stashes.set('recent-stash', recentStash);
 
       await safetyProtocol.cleanupOldStashes();
 
@@ -467,8 +467,8 @@ import type type Something, { a, b } from './module';
       const phase = mockConfig.phases[0];
 
       // Mock successful execution with safety protocols
-      jest.spyOn(campaignController as any, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1');
-      jest.spyOn(campaignController as any, 'getCurrentMetrics').mockResolvedValue({
+      jest.spyOn(campaignController as unknown, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1');
+      jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockResolvedValue({
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -486,7 +486,7 @@ import type type Something, { a, b } from './module';
       const phase = mockConfig.phases[0];
 
       // Mock validation failure that triggers rollback
-      jest.spyOn(campaignController as any, 'validatePhaseProgress').mockResolvedValue({
+      jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Corruption detected'],
         warnings: [],

@@ -69,7 +69,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const dynamicRequireErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === 'import/no-dynamic-require' && msg.severity === 2, // error level
           );
 
           // Configuration files should allow dynamic requires
@@ -81,7 +81,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const dynamicRequireErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'import/no-dynamic-require' && msg.severity === 2,
             );
 
             expect(dynamicRequireErrors.length).toBe(0);
@@ -135,7 +135,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const dynamicRequireErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+            (msg: unknown) => (msg as any).ruleId === 'import/no-dynamic-require' && msg.severity === 2,
           );
 
           expect(dynamicRequireErrors.length).toBe(0);
@@ -146,7 +146,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const dynamicRequireErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'import/no-dynamic-require' && msg.severity === 2,
             );
 
             expect(dynamicRequireErrors.length).toBe(0);
@@ -206,7 +206,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const varRequireErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
+            (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
           );
 
           // Configuration files should allow var requires
@@ -218,7 +218,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const varRequireErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
             );
 
             expect(varRequireErrors.length).toBe(0);
@@ -297,7 +297,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
-            (msg: any) =>
+            (msg: unknown) =>
               (msg.ruleId === 'no-console' && msg.severity === 2) ||
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
               (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
@@ -312,7 +312,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === 'no-console' && msg.severity === 2) ||
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
@@ -404,7 +404,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
-            (msg: any) =>
+            (msg: unknown) =>
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2),
           );
@@ -417,7 +417,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2),
             );
@@ -523,7 +523,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
-            (msg: any) =>
+            (msg: unknown) =>
               (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
           );
@@ -536,7 +536,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
             );
@@ -623,7 +623,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
-            (msg: any) =>
+            (msg: unknown) =>
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2),
           );
@@ -636,7 +636,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2),
             );
@@ -652,7 +652,7 @@ describe('Configuration File Rule Validation', () => {
     test('should allow explicit any types in config files', async () => {
       const testContent = `
         // Configuration files often need flexible typing
-        const config: any = {
+        const config: unknown = {
   development: {
   apiUrl: 'http://localhost:3001',
             debug: true,
@@ -705,7 +705,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const anyTypeErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
+            (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
           );
 
           // Configuration files should allow explicit any types
@@ -717,7 +717,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const anyTypeErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
             );
 
             expect(anyTypeErrors.length).toBe(0);
@@ -776,7 +776,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const consoleErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
+            (msg: unknown) => (msg as any).ruleId === 'no-console' && msg.severity === 2,
           );
 
           // Configuration files should allow console statements
@@ -788,7 +788,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'no-console' && msg.severity === 2,
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -842,7 +842,7 @@ describe('Configuration File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const varRequireErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
+            (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
           );
 
           // TypeScript config files should allow var requires
@@ -854,7 +854,7 @@ describe('Configuration File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const varRequireErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2,
             );
 
             expect(varRequireErrors.length).toBe(0);
@@ -927,7 +927,7 @@ describe('Configuration File Rule Validation', () => {
 
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === 'no-console' && msg.severity === 2) ||
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
@@ -942,7 +942,7 @@ describe('Configuration File Rule Validation', () => {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                (msg: any) =>
+                (msg: unknown) =>
                   (msg.ruleId === 'no-console' && msg.severity === 2) ||
                   (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                   (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
@@ -975,7 +975,7 @@ describe('Configuration File Rule Validation', () => {
 
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
             );
@@ -988,7 +988,7 @@ describe('Configuration File Rule Validation', () => {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                (msg: any) =>
+                (msg: unknown) =>
                   (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2) ||
                   (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
               );
@@ -1019,7 +1019,7 @@ describe('Configuration File Rule Validation', () => {
 
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2),
             );
@@ -1032,7 +1032,7 @@ describe('Configuration File Rule Validation', () => {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                (msg: any) =>
+                (msg: unknown) =>
                   (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                   (msg.ruleId === 'no-console' && msg.severity === 2),
               );
@@ -1075,7 +1075,7 @@ describe('Configuration File Rule Validation', () => {
 
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === 'no-console' && msg.severity === 2) ||
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
@@ -1089,7 +1089,7 @@ describe('Configuration File Rule Validation', () => {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                (msg: any) =>
+                (msg: unknown) =>
                   (msg.ruleId === 'no-console' && msg.severity === 2) ||
                   (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                   (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),

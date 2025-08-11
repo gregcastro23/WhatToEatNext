@@ -1,5 +1,5 @@
 import { log } from '@/services/LoggingService';
-import { Element, ZodiacSign, Planet } from '@/types/alchemy';
+import { _, _ZodiacSign, _Planet } from '@/types/alchemy';
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {

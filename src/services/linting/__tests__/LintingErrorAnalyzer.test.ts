@@ -142,7 +142,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should handle ESLint execution errors', async () => {
       const error = new Error('ESLint failed');
-      (error as any).stdout = '[]';
+      (error as unknown).stdout = '[]';
       mockExecSync.mockImplementation(() => {
         throw error;
       });

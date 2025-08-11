@@ -35,7 +35,7 @@ export interface ElementalProperties {
 }
 
 export interface AstrologicalGuidance {
-  planetaryPositions: Record<string, any>;
+  planetaryPositions: Record<string, unknown>;
   dominantElement: Element;
   elementalBalance: ElementalProperties;
   culturalSensitivity: CulturalGuidance;
@@ -270,7 +270,7 @@ export class SteeringFileIntelligence {
 
   // Private helper methods
 
-  private calculateDominantElement(planetaryPositions: Record<string, any>): Element {
+  private calculateDominantElement(planetaryPositions: Record<string, unknown>): Element {
     // Calculate dominant element based on planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
@@ -290,7 +290,7 @@ export class SteeringFileIntelligence {
     };
 
     // Count elements from planetary positions
-    Object.values(planetaryPositions).forEach((position: any) => {
+    Object.values(planetaryPositions).forEach((position: unknown) => {
       if (position?.sign && zodiacElementMap[position.sign]) {
         elementCounts[zodiacElementMap[position.sign]]++;
       }
@@ -302,7 +302,7 @@ export class SteeringFileIntelligence {
     )[0] as Element;
   }
 
-  private calculateElementalBalance(planetaryPositions: Record<string, any>): ElementalProperties {
+  private calculateElementalBalance(planetaryPositions: Record<string, unknown>): ElementalProperties {
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     const totalPlanets = Object.keys(planetaryPositions).length;
 
@@ -322,7 +322,7 @@ export class SteeringFileIntelligence {
     };
 
     // Count elements from planetary positions
-    Object.values(planetaryPositions).forEach((position: any) => {
+    Object.values(planetaryPositions).forEach((position: unknown) => {
       if (position?.sign && zodiacElementMap[position.sign]) {
         elementCounts[zodiacElementMap[position.sign]]++;
       }

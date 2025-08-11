@@ -79,7 +79,7 @@ export class UnusedImportProcessor {
       result.importsOrganized += processedFiles;
 
       log.info(`✅ Import organization completed (${processedFiles} files processed)`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;
@@ -113,7 +113,7 @@ export class UnusedImportProcessor {
       result.filesProcessed += processedFiles;
 
       log.info(`✅ Unused import removal completed (${processedFiles} files processed)`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;

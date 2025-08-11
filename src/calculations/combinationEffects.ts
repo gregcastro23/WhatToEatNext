@@ -198,7 +198,7 @@ const isAntagonisticCombination = (
     (ELEMENT_COMBINATIONS as unknown as { antagonistic?: Array<[string, string]> })?.antagonistic ||
     [];
   return antagonistic.some(
-    ([e1, e2]: [any, any]) =>
+    ([e1, e2]: [unknown, unknown]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
       (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1),
   );

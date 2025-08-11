@@ -437,10 +437,10 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
  * Enhanced search with fuzzy matching
  */
 export function enhancedSearch(
-  items: any[],
+  items: unknown[],
   query: string,
   searchFields: string[] = ['name', 'description'],
-): any[] {
+): unknown[] {
   if (!query.trim()) return items;
 
   const normalizedQuery = normalizeText(query);
@@ -493,7 +493,7 @@ export function enhancedSearch(
 /**
  * Apply filters to items
  */
-export function applyFilters(items: any[], filters: SearchFilters): any[] {
+export function applyFilters(items: unknown[], filters: SearchFilters): unknown[] {
   return items.filter(item => {
     // Dietary restrictions
     if (filters.dietaryRestrictions.length > 0) {

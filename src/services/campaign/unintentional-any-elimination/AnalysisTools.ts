@@ -394,7 +394,7 @@ export class AnalysisTools {
 
     // Array types should contain array syntax
     if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
-      return context.codeSnippet.includes('any[]') || context.codeSnippet.includes('Array<any>');
+      return context.codeSnippet.includes('any[]') || context.codeSnippet.includes('Array<unknown>');
     }
 
     // Record types should contain Record syntax

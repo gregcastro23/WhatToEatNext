@@ -61,7 +61,7 @@ export function normalizeElementalProperties(
   if (properties) {
     Object.entries(properties).forEach(([element, value]) => {
       if (element in normalized && typeof value === 'number' && value >= 0 && value <= 1) {
-        (normalized as any)[element] = value;
+        (normalized as unknown)[element] = value;
       }
     });
   }

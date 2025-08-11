@@ -165,11 +165,11 @@ const calculatePlanetaryBoost = (
 };
 exports.calculatePlanetaryBoost = calculatePlanetaryBoost;
 // Helper functions for calculations
-const getTriplicityRulers = _zodiacSign => {
+const _ = _zodiacSign => {
   // Implementation depends on your zodiac mappings
   return ['Sun', 'Mars', 'Jupiter'];
 };
-const getSeasonalMultiplier = () => {
+const _ = () => {
   // Implementation depends on your seasonal logic
   return 1.0;
 };

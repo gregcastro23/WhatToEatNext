@@ -544,7 +544,7 @@ describe('Bundle Size Performance Tests', () => {
       });
 
       // Mock campaign execution with bundle monitoring
-      jest.spyOn(campaignController as any, 'getCurrentMetrics').mockImplementation(async () => {
+      jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async () => {
         const bundleSize = await progressTracker.getBundleSize();
         return {
           typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },

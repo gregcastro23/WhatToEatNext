@@ -1,4 +1,4 @@
-import type { Element, ZodiacSign, Decan, ElementalProperties } from '@/types/alchemy';
+import type { Element, _ZodiacSign, _, ElementalProperties } from '@/types/alchemy';
 
 /**
  * Core elemental constants - consolidated from multiple files

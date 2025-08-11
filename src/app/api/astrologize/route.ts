@@ -140,7 +140,7 @@ export async function GET(request: Request) {
  * Extract planetary positions from astrologize API response
  */
 function extractPlanetaryPositions(
-  data: Record<string, any>,
+  data: Record<string, unknown>,
 ): Record<string, PlanetPosition> | null {
   try {
     // Try to extract from _celestialBodies structure
@@ -185,12 +185,12 @@ function extractPlanetaryPositions(
 
     // Try alternative structure if available
     const astrologyInfo = (
-      data as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, any> } } }
+      data as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, unknown> } } }
     ).astrology_info?.horoscope_parameters?.planets;
     if (astrologyInfo) {
       const positions: Record<string, PlanetPosition> = {};
 
-      Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, any]) => {
+      Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, unknown]) => {
         const typedPlanetData = planetData as {
           sign?: string;
           angle?: number;

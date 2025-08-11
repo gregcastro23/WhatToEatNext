@@ -140,7 +140,7 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
   };
 
   // Simple fallback with some common effects
-  const commonEffects = {
+  const _ = {
     spices: 'warming',
     herbs: 'neutral',
     fruits: 'cooling',

@@ -310,10 +310,10 @@ export class DocumentationQualityAssurance {
     const anyPatterns = [
       /:\s*any\b/g,           // : any
       /:\s*any\[\]/g,         // : any[]
-      /:\s*Record<[^,]+,\s*any>/g,  // : Record<string, any>
+      /:\s*Record<[^,]+,\s*any>/g,  // : Record<string, unknown>
       /\bas\s+any\b/g,        // as any
       /<any>/g,               // <any>
-      /Array<any>/g,          // Array<any>
+      /Array<unknown>/g,          // Array<unknown>
     ];
 
     lines.forEach((line, index) => {

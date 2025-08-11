@@ -58,9 +58,9 @@ export interface UnifiedIngredient {
   energyValues?: ThermodynamicProperties;
 
   // Additional properties for compatibility
-  culinaryProperties?: any;
-  storage?: any;
-  preparation?: any;
+  culinaryProperties?: unknown;
+  storage?: unknown;
+  preparation?: unknown;
   qualities?: string[];
   origin?: string[];
   affinities?: string[];
@@ -90,7 +90,7 @@ export interface UnifiedIngredient {
   };
 
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**

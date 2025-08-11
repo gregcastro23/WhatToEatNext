@@ -274,7 +274,7 @@ export class ProgressiveImprovementEngine {
       recommendations.push('Early stage - focus on array types (any[]) for quick wins');
       recommendations.push('Increase confidence threshold to 0.9 for maximum safety');
     } else if (currentProgress.reductionPercentage < 10) {
-      recommendations.push('Good progress - expand to Record<string, any> patterns');
+      recommendations.push('Good progress - expand to Record<string, unknown> patterns');
       recommendations.push('Consider enabling domain-specific analysis for better suggestions');
     } else if (currentProgress.reductionPercentage >= targetInfo.recommendedTarget * 0.8) {
       recommendations.push('Approaching target - focus on documentation for remaining intentional types');
@@ -723,7 +723,7 @@ export class ProgressiveImprovementEngine {
         } else if (entry.isFile() && (entry.name.endsWith('.ts') || entry.name.endsWith('.tsx'))) {
           try {
             const content = fs.readFileSync(fullPath, 'utf8');
-            if (content.includes(': any') || content.includes('any[]') || content.includes('Record<string, any>')) {
+            if (content.includes(': any') || content.includes('any[]') || content.includes('Record<string, unknown>')) {
               files.push(fullPath);
             }
           } catch (error) {
@@ -745,8 +745,8 @@ export class ProgressiveImprovementEngine {
     const anyPatterns = [
       /:\s*any(?=\s*[=;,\)\]\}])/,  // : any followed by delimiter
       /:\s*any\[\]/,                // : any[]
-      /:\s*Array<any>/,             // : Array<any>
-      /:\s*Record<\w+,\s*any>/,     // : Record<string, any>
+      /:\s*Array<unknown>/,             // : Array<unknown>
+      /:\s*Record<\w+,\s*any>/,     // : Record<string, unknown>
       /\[key:\s*\w+\]:\s*any/       // [key: string]: any
     ];
 
@@ -827,7 +827,7 @@ export class ProgressiveImprovementEngine {
           if (this.containsAnyType(line)) {
             totalAnyTypes++;
 
-            if (line.includes('any[]') || line.includes('Array<any>')) {
+            if (line.includes('any[]') || line.includes('Array<unknown>')) {
               arrayTypes++;
             } else if (line.includes('Record<') && line.includes('any>')) {
               recordTypes++;

@@ -186,8 +186,8 @@ export class MemoryOptimizationScript {
     }
 
     // Clear event listeners
-    if (typeof window !== 'undefined' && (window as any)._eventListeners) {
-      (window as any)._eventListeners = {};
+    if (typeof window !== 'undefined' && (window as unknown)._eventListeners) {
+      (window as unknown)._eventListeners = {};
       cleaned++;
     }
 

@@ -6,6 +6,8 @@
  */
 
 import type { ElementalProperties } from '@/types/unified';
+import type { CookingMethod } from '@/data/ingredients/types';
+import type { PlanetaryPosition as PlanetPosition } from '@/types/alchemy';
 
 // Validation result interface
 export interface ValidationResult {
@@ -331,7 +333,7 @@ export const safeConvertToElementalProperties = (
 export const safeConvertToPlanetPosition = (
   value: unknown,
   fallback: PlanetPosition = {
-    sign: 'aries' as any,
+    sign: 'aries' as unknown,
     degree: 0,
     exactLongitude: 0,
     isRetrograde: false,

@@ -5,13 +5,13 @@ import {
   AstrologicalState as BaseAstrologicalState,
 } from '@/types/alchemical';
 import {
-  ElementalProperties,
-  AlchemicalProperties,
+  _,
+  _,
   CelestialPosition,
-  ZodiacSign,
-  LunarPhase,
-  Planet,
-  PlanetaryAlignment,
+  _ZodiacSign,
+  _,
+  _Planet,
+  _PlanetaryAlignment,
 } from '@/types/celestial';
 
 // Import types directly from alchemical types

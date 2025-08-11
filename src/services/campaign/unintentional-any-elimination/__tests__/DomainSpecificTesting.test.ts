@@ -161,11 +161,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve complex elemental compatibility matrices', async () => {
         const context = createDomainContext(
-          'const compatibilityMatrix: Record<string, any> = buildElementalMatrix();',
+          'const compatibilityMatrix: Record<string, unknown> = buildElementalMatrix();',
           'src/calculations/elemental/compatibility.ts',
           CodeDomain.ASTROLOGICAL,
           [
-            'function buildElementalMatrix(): Record<string, any> {',
+            'function buildElementalMatrix(): Record<string, unknown> {',
             '  return { Fire: { Fire: 0.9, Water: 0.7 } };'
           ]
         );
@@ -233,7 +233,7 @@ describe('Domain-Specific Testing', () => {
           'src/calculations/aspects/calculator.ts',
           CodeDomain.ASTROLOGICAL,
           [
-            'function calculateAspects(positions: PlanetaryPosition[]): any[] {',
+            'function calculateAspects(positions: PlanetaryPosition[]): unknown[] {',
             '  const aspects = [];'
           ]
         );
@@ -567,7 +567,7 @@ describe('Domain-Specific Testing', () => {
           CodeDomain.CAMPAIGN,
           [
             'class ToolIntegration {',
-            '  integrateExternalTool(name: string, settings: any): any {'
+            '  integrateExternalTool(name: string, settings: unknown): any {'
           ]
         );
 
@@ -583,7 +583,7 @@ describe('Domain-Specific Testing', () => {
           CodeDomain.CAMPAIGN,
           [
             'export class ValidationFramework {',
-            '  runValidation(rules: ValidationRule[], data: any): any {'
+            '  runValidation(rules: ValidationRule[], data: unknown): any {'
           ]
         );
 
@@ -601,7 +601,7 @@ describe('Domain-Specific Testing', () => {
           CodeDomain.CAMPAIGN,
           [
             'class SafetyProtocol {',
-            '  createSafetyEvent(type: SafetyEventType, data: any): any {'
+            '  createSafetyEvent(type: SafetyEventType, data: unknown): any {'
           ]
         );
 
@@ -806,7 +806,7 @@ describe('Domain-Specific Testing', () => {
           CodeDomain.SERVICE,
           [
             'export class ServiceError extends Error {',
-            '  constructor(message: string, code: string, details?: any) {'
+            '  constructor(message: string, code: string, details?: unknown) {'
           ]
         );
 
@@ -898,10 +898,10 @@ describe('Domain-Specific Testing', () => {
       ];
 
       // Mock file system for domain-specific content
-      jest.spyOn(require('fs'), 'readFileSync').mockImplementation((path: any) => {
+      jest.spyOn(require('fs'), 'readFileSync').mockImplementation((path: unknown) => {
         if (path.includes('ingredients')) return 'const ingredient: any = getData();';
         if (path.includes('planetary')) return 'const position: any = calculate();';
-        if (path.includes('campaign')) return 'const metrics: any = getProgress();';
+        if (path.includes('campaign')) return 'const metrics: unknown = getProgress();';
         return 'backup content';
       });
 

@@ -33,7 +33,7 @@ export interface EnhancedAstrologicalData {
   dataSource: 'astrologize' | 'swiss-ephemeris' | 'fallback' | 'composite';
   confidence: number;
   siderealTime?: string;
-  seasonalTransit?: any;
+  seasonalTransit?: unknown;
   keyAspects: Planet[];
   dominantElements: Record<string, number>;
   retrogradePlanets: string[];

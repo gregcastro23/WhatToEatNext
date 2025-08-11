@@ -432,7 +432,7 @@ export interface Alert {
   severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
   timestamp: Date;
-  data?: any;
+  data?: unknown;
 }
 
 export type AlertType =

@@ -12,8 +12,8 @@ import {
   getDominantFlavor,
   calculatePlanetaryFlavorMatch,
 } from '@/data/planetaryFlavorProfiles';
-import type { ZodiacSign, LunarPhase, Season, ElementalProperties } from '@/types/alchemy';
-import type { UnifiedIngredient } from '@/types/ingredient';
+import type { ZodiacSign, LunarPhase, Season, _ } from '@/types/alchemy';
+import type { _ } from '@/types/ingredient';
 import type { Recipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
 
@@ -38,7 +38,7 @@ interface DishData {
   instructions?: string[];
   planetary?: string[];
   flavorProfile?: Record<string, number>;
-  substitutions?: Record<string, any>;
+  substitutions?: Record<string, unknown>;
   zodiac?: string[];
   lunar?: string[];
   tags?: string[];
@@ -48,7 +48,7 @@ interface DishData {
   numberOfServings?: number;
   tools?: string[];
   spiceLevel?: number | string;
-  nutrition?: any;
+  nutrition?: unknown;
   preparationNotes?: string;
   culturalNotes?: string;
   technicalTips?: string[];
@@ -102,7 +102,7 @@ export interface RecipeData {
   technicalTips?: string[]; // Technical cooking tips
 
   // Additional properties accessed in the code
-  elementalProperties?: any;
+  elementalProperties?: unknown;
   season?: Season | Season[] | string; // For backward compatibility
   mealType?: string | string[]; // For meal type classification
   cookingMethod?: string; // Primary cooking method

@@ -267,7 +267,7 @@ describe('AutoDocumentationGenerator', () => {
     it('should select appropriate template for error handling', async () => {
       const errorContext = {
         ...mockContext,
-        codeSnippet: 'catch (error: any) {',
+        codeSnippet: 'catch (error: unknown) {',
         domainContext: {
           ...mockContext.domainContext,
           domain: CodeDomain.UTILITY
@@ -279,7 +279,7 @@ describe('AutoDocumentationGenerator', () => {
         category: AnyTypeCategory.ERROR_HANDLING
       };
 
-      const fileContent = 'catch (error: any) {';
+      const fileContent = 'catch (error: unknown) {';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 

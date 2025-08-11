@@ -59,7 +59,7 @@ export class TerminalFreezePreventionSystem {
       console.log(`🔧 Executing with timeout (${safeOptions.timeout}ms): ${command}`);
       const output = execSync(command, safeOptions);
       return output.toString();
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.signal === 'SIGTERM' || error.code === 'ETIMEDOUT') {
         console.warn(`⏰ Command timed out after ${safeOptions.timeout}ms: ${command}`);
         throw new Error(`Command timeout: ${command}`);

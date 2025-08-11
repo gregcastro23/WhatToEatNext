@@ -184,7 +184,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       jest.spyOn(progressTracker, 'getEnterpriseSystemCount').mockImplementation(async () => enterpriseSystems);
       jest.spyOn(progressTracker, 'getBuildTime').mockImplementation(async () => buildTime);
 
-      const phaseResults: Array<any> = [];
+      const phaseResults: Array<unknown> = [];
 
       // Execute Phase 1: TypeScript Error Elimination
       const phase1Result = await campaignController.executePhase(mockConfig.phases[0]);
@@ -224,7 +224,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     });
 
     it('should maintain safety protocols throughout entire campaign', async () => {
-      const allSafetyEvents: Array<any> = [];
+      const allSafetyEvents: Array<unknown> = [];
 
       for (const phase of mockConfig.phases) {
         const result = await campaignController.executePhase(phase);
@@ -248,7 +248,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should track progress metrics throughout campaign', async () => {
       // Mock progressive metrics improvement
-      const metricsHistory: Array<any> = [];
+      const metricsHistory: Array<unknown> = [];
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         const metrics = {
@@ -522,8 +522,8 @@ describe('End-to-End Campaign Integration Tests', () => {
       const customSafetyProtocol = new SafetyProtocol(customSafetySettings);
 
       // Verify custom settings are applied
-      expect((customSafetyProtocol as any).settings.maxFilesPerBatch).toBe(50);
-      expect((customSafetyProtocol as any).settings.stashRetentionDays).toBe(14);
+      expect((customSafetyProtocol as unknown).settings.maxFilesPerBatch).toBe(50);
+      expect((customSafetyProtocol as unknown).settings.stashRetentionDays).toBe(14);
     });
 
     it('should support custom success criteria', async () => {
@@ -554,7 +554,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   describe('Reporting and Analytics', () => {
     it('should generate detailed execution analytics', async () => {
-      const executionMetrics: Array<any> = [];
+      const executionMetrics: Array<unknown> = [];
 
       for (const phase of mockConfig.phases) {
         const startTime = Date.now();

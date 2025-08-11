@@ -6,7 +6,7 @@ import type { UnifiedFlavorProfile, BaseFlavorNotes } from '@/types';
 import {
   AlchemicalProperties,
   AlchemicalValues,
-  Element,
+  _,
   ElementalProperties,
   PlanetName,
   Season,
@@ -16,20 +16,20 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 import { cuisineFlavorProfiles, type CuisineFlavorProfile } from '../cuisineFlavorProfiles';
 import { flavorProfiles as integrationFlavorProfiles } from '../integrations/flavorProfiles';
-import { planetaryFlavorProfiles, type PlanetaryFlavorProfile } from '../planetaryFlavorProfiles';
+import { planetaryFlavorProfiles, type _PlanetaryFlavorProfile } from '../planetaryFlavorProfiles';
 // ingredientFlavorMap import disabled - not exported
 // import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
 
 // Missing unified system type imports
 
 // Import local types (not available in main types)
-type PlanetaryFlavorInfluence = any;
-type CuisineFlavorCompatibility = any;
+type PlanetaryFlavorInfluence = unknown;
+type CuisineFlavorCompatibility = unknown;
 
 // Missing unified data imports
 import { unifiedFlavorProfiles } from './data/unifiedFlavorProfiles';
 
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { _ } from '@/services/AstrologicalService';
 
 // ===== FLAVOR PROFILE MIGRATION UTILITY - PHASE 4 =====
 // Consolidates all existing flavor profile data into the unified system
@@ -47,10 +47,10 @@ interface MigrationStats {
   warnings: string[];
 }
 
-interface LegacyProfile {
+interface _ {
   id?: string;
   name?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Singleton management

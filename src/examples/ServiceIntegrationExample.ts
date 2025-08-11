@@ -36,7 +36,7 @@ export async function runServiceIntegrationExample() {
     // Step 4: Calculate elemental properties from planetary positions
     log.info('\n4. Calculating elemental properties from planetary positions...');
     // Apply surgical type casting with variable extraction
-    const astrologyServiceData = astrologyService as any;
+    const astrologyServiceData = astrologyService as unknown;
     const calculateElementalProperties = astrologyServiceData?.calculateElementalProperties;
     const elementalProperties = calculateElementalProperties
       ? calculateElementalProperties()
@@ -46,7 +46,7 @@ export async function runServiceIntegrationExample() {
     // Step 5: Calculate thermodynamic metrics
     log.info('\n5. Calculating thermodynamic metrics...');
     // Apply surgical type casting with variable extraction
-    const alchemicalEngineData = alchemicalEngine as any;
+    const alchemicalEngineData = alchemicalEngine as unknown;
     const calculateThermodynamicMetrics = alchemicalEngineData?.calculateThermodynamicMetrics;
     const thermodynamicMetrics = calculateThermodynamicMetrics
       ? calculateThermodynamicMetrics(elementalProperties)
@@ -103,7 +103,7 @@ export async function runServiceIntegrationExample() {
     };
 
     // Apply surgical type casting with variable extraction
-    const alchemicalEngineCompatibility = alchemicalEngine as any;
+    const alchemicalEngineCompatibility = alchemicalEngine as unknown;
     const calculateElementalCompatibility =
       alchemicalEngineCompatibility?.calculateElementalCompatibility;
     const compatibility = calculateElementalCompatibility
@@ -115,7 +115,7 @@ export async function runServiceIntegrationExample() {
     // Step 10: Generate a fusion recipe
     log.info('\n10. Generating a fusion recipe...');
     // Apply surgical type casting with variable extraction
-    const recipeServiceData = recipeService as any;
+    const recipeServiceData = recipeService as unknown;
     const generateFusionRecipe = recipeServiceData?.generateFusionRecipe;
     const fusionRecipe = generateFusionRecipe
       ? await generateFusionRecipe(['Italian', 'Japanese'], { query: 'pasta with umami' })

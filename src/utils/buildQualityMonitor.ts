@@ -921,7 +921,7 @@ async function getTypeScriptErrorCount(): Promise<number> {
 
     const errorMatches = output.match(/error TS\d+:/g);
     return errorMatches ? errorMatches.length : 0;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error.stdout) {
       const errorMatches = error.stdout.match(/error TS\d+:/g);
       return errorMatches ? errorMatches.length : 0;

@@ -102,7 +102,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
       excluded: excludedIngredients,
       dietaryRestrictions: dietaryRestrictions,
       emphasized: [], // Optional emphasized ingredients
-    } as any,
+    } as unknown,
   );
 
   return matchedRecipes;

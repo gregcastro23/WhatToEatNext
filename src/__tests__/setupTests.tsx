@@ -25,7 +25,7 @@ global.IntersectionObserver = class IntersectionObserver {
   takeRecords(): IntersectionObserverEntry[] {
     return [];
   }
-} as any;
+} as unknown;
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
@@ -155,7 +155,7 @@ const gitMock = {
   setMockStashes: jest.fn((stashes: string[]) => {
     gitMock.mockStashes = stashes;
   }),
-  setMockGitStatus: jest.fn((status: any) => {
+  setMockGitStatus: jest.fn((status: unknown) => {
     gitMock.mockGitStatus = status;
   }),
   setShouldFailCommands: jest.fn((shouldFail: boolean) => {
@@ -197,7 +197,7 @@ const scriptMock = {
   mockStdout: '',
   mockStderr: '',
   mockExitCode: 0,
-  setMockResult: jest.fn((scriptPath: string, result: any) => {
+  setMockResult: jest.fn((scriptPath: string, result: unknown) => {
     scriptMock.mockResults[scriptPath] = result;
   }),
   setMockBuildSuccess: jest.fn((success: boolean) => {
@@ -393,7 +393,7 @@ campaignMock.resetAllMocks = jest.fn(() => {
 });
 
 // Global test utilities with extended interface
-(global as any).testUtils = {
+(global as unknown).testUtils = {
   // Git operations mock
   gitMock,
 
@@ -407,11 +407,11 @@ campaignMock.resetAllMocks = jest.fn(() => {
   waitForAsync: (ms = 0) => new Promise(resolve => setTimeout(resolve, ms)),
 
   // Helper to create mock functions with specific return values
-  createMockFunction: (returnValue?: any) => jest.fn(() => returnValue),
+  createMockFunction: (returnValue?: unknown) => jest.fn(() => returnValue),
 
   // Helper to create mock component
   createMockComponent: (name: string, testId?: string) => {
-    const MockComponent = (props: any) => (
+    const MockComponent = (props: unknown) => (
       <div data-testid={testId || name.toLowerCase()} {...props}>
         Mock {name}
       </div>

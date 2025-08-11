@@ -1,4 +1,4 @@
-import { Element, ElementalProperties, Season } from '@/types/alchemy';
+import { _, ElementalProperties, _ } from '@/types/alchemy';
 
 import {
   // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====
@@ -185,7 +185,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
 export function findCompatibleProfiles(
   targetProfile,
   minCompatibility = 0.7,
-): Array<{ profile: any; compatibility: number }> {
+): Array<{ profile: unknown; compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
     const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility);

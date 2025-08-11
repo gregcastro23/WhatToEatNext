@@ -44,7 +44,7 @@ interface TransitDate {
 // Interface for planet data with transits
 interface UNUSED_PlanetDataWithTransits {
   PlanetSpecific?: {
-    ZodiacTransit?: { [key: string]: any };
+    ZodiacTransit?: { [key: string]: unknown };
     TransitDates?: { [key: string]: TransitDate };
   };
 }

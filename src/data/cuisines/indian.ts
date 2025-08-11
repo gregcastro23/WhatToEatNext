@@ -1390,7 +1390,7 @@ export const indian: Cuisine = {
         'rose essence sauce',
       ],
     },
-  } as any,
+  } as unknown,
   cookingTechniques: [
     {
       name: 'Tadka',

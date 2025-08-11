@@ -312,7 +312,7 @@ export class AlchemicalEngineBase {
   getSeasonalInfluence(season: string, element: keyof ElementalProperties): number {
     const seasonalModifiersData = this.calculator.calculateElementalState(
       ElementalCalculator.getCurrentElementalState(),
-    ) as any;
+    ) as unknown;
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {};
     return seasonalInfluence[element] || 0.25;
   }
@@ -361,8 +361,8 @@ export class AlchemicalEngineBase {
 
     for (let i = 0; i < ingredients.length; i++) {
       for (let j = i + 1; j < ingredients.length; j++) {
-        const ingA = ingredients[i] as unknown as any;
-        const ingB = ingredients[j] as unknown as any;
+        const ingA = ingredients[i] as unknown as unknown;
+        const ingB = ingredients[j] as unknown as unknown;
         const harmony = this.calculateHarmonyBetween(
           ingA?.elementalProperties, // Pattern VVV: Array Type Interface Resolution
           ingB?.elementalProperties, // Pattern VVV: Array Type Interface Resolution
@@ -409,7 +409,7 @@ export class AlchemicalEngineBase {
       .map(_recipe => ({
         ..._recipe,
         seasonalScore: (() => {
-          const calculatorData = ElementalCalculator as unknown as any;
+          const calculatorData = ElementalCalculator as unknown as unknown;
           if (calculatorData?.calculateSeasonalEffectiveness) {
             return calculatorData.calculateSeasonalEffectiveness(_recipe, season);
           }

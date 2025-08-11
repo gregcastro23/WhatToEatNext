@@ -255,7 +255,7 @@ class PerformanceValidationCLI {
 
       console.log(output);
       console.log('\n✅ Performance tests completed successfully!');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('\n❌ Performance tests failed:');
       console.error(error.stdout || error.stderr || error.message);
       process.exit(1);
@@ -304,14 +304,14 @@ Examples:
 function parseArgs(): CLIOptions {
   const args = process.argv.slice(2);
   const options: CLIOptions = {
-    command: 'validate' as any,
+    command: 'validate' as unknown,
   };
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
 
     if (!arg.startsWith('--')) {
-      options.command = arg as any;
+      options.command = arg as unknown;
       continue;
     }
 

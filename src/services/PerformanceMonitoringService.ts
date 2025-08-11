@@ -35,7 +35,7 @@ class PerformanceMonitoringService {
   private systemMetrics: SystemMetrics;
   private alerts: PerformanceAlert[] = [];
   private startTime: number = Date.now();
-  private subscribers: Set<(data: any) => void> = new Set();
+  private subscribers: Set<(data: unknown) => void> = new Set();
 
   // Performance thresholds
   private readonly RENDER_TIME_WARNING = 16; // 60fps threshold
@@ -72,7 +72,7 @@ class PerformanceMonitoringService {
     // Calculate memory usage
     let totalMemory = 0;
     if ('memory' in performance) {
-      const memInfo = (performance as any).memory;
+      const memInfo = (performance as unknown).memory;
       totalMemory = memInfo.usedJSHeapSize / 1024 / 1024; // Convert to MB
     }
 
@@ -238,7 +238,7 @@ class PerformanceMonitoringService {
     this.systemMetrics.totalErrors += 1;
   }
 
-  public subscribe(callback: (data: any) => void) {
+  public subscribe(callback: (data: unknown) => void) {
     this.subscribers.add(callback);
 
     // Return unsubscribe function

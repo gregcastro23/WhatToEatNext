@@ -1,5 +1,5 @@
 import { log } from '@/services/LoggingService';
-import type { Element, AlchemicalProperties, ElementalProperties, Season } from '@/types/alchemy';
+import type { AlchemicalProperties, ElementalProperties, Season } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
 // ===== UNIFIED INTERFACES =====
@@ -681,7 +681,7 @@ export class UnifiedFlavorEngine {
     >,
     _profile1: UnifiedFlavorProfile,
     _profile2: UnifiedFlavorProfile,
-    _context?: any,
+    _context?: unknown,
   ): { recommendations: string[]; warnings: string[]; optimizations: string[] } {
     const recommendations: string[] = [];
     const warnings: string[] = [];

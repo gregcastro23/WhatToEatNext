@@ -233,12 +233,12 @@ async function runComprehensiveTests() {
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {
       log.info('Enhanced Thermodynamic Properties:', {
-        kalchm: (legacyResult as Record<string, any>).kalchm?.toFixed(4),
-        monicaConstant: (legacyResult as Record<string, any>).monicaConstant?.toFixed(6),
-        gregsEnergy: (legacyResult as Record<string, any>).gregsEnergy?.toFixed(6),
-        heat: (legacyResult as Record<string, any>).heat?.toFixed(6),
-        entropy: (legacyResult as Record<string, any>).entropy?.toFixed(6),
-        reactivity: (legacyResult as Record<string, any>).reactivity?.toFixed(6),
+        kalchm: (legacyResult as Record<string, unknown>).kalchm?.toFixed(4),
+        monicaConstant: (legacyResult as Record<string, unknown>).monicaConstant?.toFixed(6),
+        gregsEnergy: (legacyResult as Record<string, unknown>).gregsEnergy?.toFixed(6),
+        heat: (legacyResult as Record<string, unknown>).heat?.toFixed(6),
+        entropy: (legacyResult as Record<string, unknown>).entropy?.toFixed(6),
+        reactivity: (legacyResult as Record<string, unknown>).reactivity?.toFixed(6),
       });
     }
     const elementalState = legacyResultData?.elementalState;

@@ -22,7 +22,7 @@ export function useAlchemicalBridge() {
   const chakraService = (serviceData as any)?.chakraService;
 
   // Create state for service-based data
-  const [servicePositions, setServicePositions] = useState<Record<string, any>>({});
+  const [servicePositions, setServicePositions] = useState<Record<string, unknown>>({});
   const [daytime, setDaytime] = useState<boolean | undefined>(undefined);
 
   // Fetch data from services when available
@@ -87,7 +87,7 @@ export function useChakraBridge() {
   const chakraService = (chakraServiceData as any)?.chakraService;
 
   // State for chakra data
-  const [chakras, setChakras] = useState<Record<string, any>>({});
+  const [chakras, setChakras] = useState<Record<string, unknown>>({});
   const [activeChakra, setActiveChakra] = useState<string | null>(null);
 
   // Fetch chakra data when service is available
@@ -127,7 +127,7 @@ export function usePlanetaryHoursBridge() {
   const { isLoading, error, astrologyService } = useServices();
 
   // State for planetary hours data
-  const [currentHour, setCurrentHour] = useState<Record<string, any> | null>(null);
+  const [currentHour, setCurrentHour] = useState<Record<string, unknown> | null>(null);
   const [currentDay, setCurrentDay] = useState<string | null>(null);
   const [dailyHours, setDailyHours] = useState<Map<number, string>>(new Map());
 

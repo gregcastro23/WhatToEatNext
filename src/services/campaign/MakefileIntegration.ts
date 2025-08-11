@@ -358,7 +358,7 @@ export class MakefileIntegration {
         executionTime,
         target,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       const executionTime = Date.now() - startTime;
 
       return {

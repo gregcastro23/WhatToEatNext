@@ -36,7 +36,7 @@ export interface DebugStep {
   status: DebugStepStatus;
   startTime: Date;
   endTime?: Date;
-  output: Record<string, any>;
+  output: Record<string, unknown>;
   errors: string[];
   warnings: string[];
 }
@@ -75,7 +75,7 @@ export interface ActionItem {
   id: string;
   description: string;
   type: ActionType;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   estimatedDuration: number; // minutes
   automated: boolean;
 }
@@ -97,7 +97,7 @@ export interface RecoveryStep {
   description: string;
   type: RecoveryStepType;
   action: string;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   estimatedDuration: number;
   criticalPath: boolean;
   rollbackable: boolean;
@@ -116,7 +116,7 @@ export interface ValidationCheck {
 export interface ValidationCriteria {
   metric: string;
   operator: 'equals' | 'less_than' | 'greater_than' | 'contains';
-  value: any;
+  value: unknown;
 }
 
 export interface CampaignHealthReport {

@@ -32,7 +32,7 @@ export function initializeAlchemicalEngine() {
  * This wraps the core engine's implementation
  */
 export const staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): AlchemicalResult => {
-  return alchemicalEngine.alchemize(birthInfo as any, horoscopeDict as any);
+  return alchemicalEngine.alchemize(birthInfo as unknown, horoscopeDict as unknown);
 };
 
 // Re-export the core functionality

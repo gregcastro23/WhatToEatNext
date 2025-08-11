@@ -298,7 +298,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       });
 
       // Mock campaign execution with cache monitoring
-      jest.spyOn(campaignController as any, 'getCurrentMetrics').mockImplementation(async () => {
+      jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async () => {
         const cacheHitRate = await progressTracker.getCacheHitRate();
         return {
           typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },

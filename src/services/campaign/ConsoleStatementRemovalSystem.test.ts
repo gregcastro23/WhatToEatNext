@@ -108,7 +108,7 @@ const another = 'value';
     });
 
     it('should mark statements in debug files as critical', () => {
-      const isCritical = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical = (removalSystem as unknown).isConsoleStatementCritical(
         '/test/debug.ts',
         'console.log("Debug info")',
         'console.log("Debug info");',
@@ -119,7 +119,7 @@ const another = 'value';
     });
 
     it('should mark statements in test files as critical', () => {
-      const isCritical = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical = (removalSystem as unknown).isConsoleStatementCritical(
         '/test/file.test.ts',
         'console.log("Test output")',
         'console.log("Test output");',
@@ -163,7 +163,7 @@ const another = 'value';
     });
 
     it('should mark warn statements in production code as critical', () => {
-      const isCritical = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical = (removalSystem as unknown).isConsoleStatementCritical(
         '/src/components/Component.ts',
         'console.warn("Deprecated feature")',
         'console.warn("Deprecated feature");',
@@ -174,7 +174,7 @@ const another = 'value';
     });
 
     it('should not mark simple log statements as critical', () => {
-      const isCritical = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical = (removalSystem as unknown).isConsoleStatementCritical(
         '/src/components/Component.ts',
         'console.log("Simple debug")',
         'console.log("Simple debug");',
@@ -303,7 +303,7 @@ const another = 'value';
         throw new Error('Script execution failed');
       });
 
-      const result = await (removalSystem as any).executeScript([]);
+      const result = await (removalSystem as unknown).executeScript([]);
 
       expect(result.success).toBe(false);
       expect(result.errors).toContain(expect.stringContaining('Script execution failed'));
@@ -319,7 +319,7 @@ const another = 'value';
 
       mockExecSync.mockReturnValue(output);
 
-      const result = await (removalSystem as any).executeScript([]);
+      const result = await (removalSystem as unknown).executeScript([]);
 
       expect(result.warnings).toHaveLength(1);
       expect(result.errors).toHaveLength(1);

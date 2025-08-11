@@ -56,7 +56,7 @@ class PlanetaryHourCalculator {
     const hour = date.getHours();
     const minute = date.getMinutes();
     // Total minutes since the day began
-    const totalMinutesSinceDayBegan = hour * 60 + minute;
+    const _ = hour * 60 + minute;
     // In traditional planetary hour systems, each planet rules for about 8.57 minutes
     // (60 minutes / 7 planets) within each hour, and follows the same sequence as planetary hours
     // We'll calculate the planet ruling the current minute based on this
@@ -122,7 +122,7 @@ class PlanetaryHourCalculator {
     const dayRulerIndex = dayOfWeek % 7; // Match day of week to planetary rulers
     // Calculate the hour ruler
     const hourRulerIndex = (dayRulerIndex + hourIndex) % 7;
-    const planetName = this.planetaryRulers[hourRulerIndex];
+    const _planetName = this.planetaryRulers[hourRulerIndex];
     return {
       planet:
         PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]][
@@ -205,7 +205,7 @@ class PlanetaryHourCalculator {
     }
     const dayRulerIndex = dayOfWeek % 7;
     const hourRulerIndex = (dayRulerIndex + hourIndex) % 7;
-    const planetName = this.planetaryRulers[hourRulerIndex];
+    const _planetName = this.planetaryRulers[hourRulerIndex];
     return {
       planet:
         PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]][

@@ -13,7 +13,7 @@ import type {
   LunarPhase,
   CookingMethod,
 } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { _ } from '@/types/bridges/astrologicalBridge';
 
 import {
   getAllEnhancedCookingMethods,
@@ -109,7 +109,7 @@ export interface SeasonalTransitionProfile {
 export interface SeasonalRecommendations {
   ingredients: UnifiedIngredient[];
   cookingMethods: EnhancedCookingMethod[];
-  recipes: any[]; // Will be enhanced when recipe system is unified
+  recipes: unknown[]; // Will be enhanced when recipe system is unified
   monicaOptimization: number;
   kalchmHarmony: number;
 }
@@ -1089,13 +1089,13 @@ export class UnifiedSeasonalSystem {
     }
 
     // Monica compatibility
-    if (targetMonica !== undefined && !isNaN((method as any)?.monicaConstant)) {
-      const monicaDifference = Math.abs((method as any).monicaConstant - targetMonica);
+    if (targetMonica !== undefined && !isNaN((method as unknown)?.monicaConstant)) {
+      const monicaDifference = Math.abs((method as unknown).monicaConstant - targetMonica);
       score += Math.max(0, 1 - monicaDifference);
     }
 
     // Elemental compatibility
-    const methodElement = (method as any)?.alchemicalPillar?.elementalAssociations?.primary;
+    const methodElement = (method as unknown)?.alchemicalPillar?.elementalAssociations?.primary;
     if (methodElement) {
       const elementalScore = seasonProfile.elementalDominance[methodElement] || 0;
       score += elementalScore;
@@ -1121,8 +1121,8 @@ export class UnifiedSeasonalSystem {
     let validMethods = 0;
 
     for (const method of cookingMethods) {
-      if (!isNaN((method as any)?.monicaConstant)) {
-        const monicaDifference = Math.abs((method as any).monicaConstant - targetMonica);
+      if (!isNaN((method as unknown)?.monicaConstant)) {
+        const monicaDifference = Math.abs((method as unknown).monicaConstant - targetMonica);
         const methodOptimization = Math.max(0, 1 - monicaDifference);
 
         // Apply seasonal Monica modifiers

@@ -286,12 +286,12 @@ export class CulinaryAstrologer {
       // Check for Jupiter's effect in dominant planets
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
-        const planetData = p as any;
+        const planetData = p as unknown;
         return planetData?.name === 'Jupiter';
       });
       if (jupiterPlanet) {
         // Apply safe type casting for planet data access
-        const planetData = jupiterPlanet as any;
+        const planetData = jupiterPlanet as unknown;
         const planetEffect = planetData?.effect;
         const planetInfluence = planetData?.influence || 1;
 
@@ -305,7 +305,7 @@ export class CulinaryAstrologer {
 
           // Further boost recipes that have abundant, rich, or festive qualities
           // Apply safe type casting for recipe tags access
-          const recipeData = recipe as any;
+          const recipeData = recipe as unknown;
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&
@@ -339,12 +339,12 @@ export class CulinaryAstrologer {
       // Check for Saturn's effect in dominant planets
       const saturnPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
-        const planetData = p as any;
+        const planetData = p as unknown;
         return planetData?.name === 'Saturn';
       });
       if (saturnPlanet) {
         // Apply safe type casting for planet data access
-        const planetData = saturnPlanet as any;
+        const planetData = saturnPlanet as unknown;
         const planetEffect = planetData?.effect;
         const planetInfluence = planetData?.influence || 1;
 
@@ -358,7 +358,7 @@ export class CulinaryAstrologer {
 
           // Further boost recipes that have structured, traditional, or preserved qualities
           // Apply safe type casting for recipe tags access
-          const recipeData = recipe as any;
+          const recipeData = recipe as unknown;
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&

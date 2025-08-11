@@ -388,16 +388,16 @@ export class SafetyProtocol {
     }, intervalMs);
 
     // Store the interval ID for cleanup
-    (this as any).monitoringInterval = monitoringInterval;
+    (this as unknown).monitoringInterval = monitoringInterval;
   }
 
   /**
    * Stop real-time monitoring
    */
   stopRealTimeMonitoring(): void {
-    if ((this as any).monitoringInterval) {
-      clearInterval((this as any).monitoringInterval);
-      (this as any).monitoringInterval = null;
+    if ((this as unknown).monitoringInterval) {
+      clearInterval((this as unknown).monitoringInterval);
+      (this as unknown).monitoringInterval = null;
       console.log(`⏹️ Real-time corruption monitoring stopped`);
     }
   }
@@ -453,7 +453,7 @@ export class SafetyProtocol {
       }
     } catch (error) {
       // TypeScript compiler errors might indicate syntax corruption
-      const errorOutput = (error as any).stdout || (error as any).message;
+      const errorOutput = (error as unknown).stdout || (error as unknown).message;
       if (errorOutput.includes('Unexpected token') || errorOutput.includes('Expression expected')) {
         maxSeverity = CorruptionSeverity.HIGH;
         corruptionPatterns.push({

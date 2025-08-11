@@ -69,7 +69,7 @@ export function useRecipeRecommendations(
 
     Object.values(planetaryPositions || {}).forEach(position => {
       // Safe property access with type checking
-      const positionData = position as any;
+      const positionData = position as unknown;
       const sign = positionData?.sign || positionData?.Sign || '';
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {

@@ -309,7 +309,7 @@ export class UnifiedScoringExample {
         elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
         planetaryRulers: ['Mars', 'Sun'] as Planet[],
         seasonality: ['all'] as Season[],
-      } as any,
+      } as unknown,
     ];
 
     log.info('=== Comparing Herbs ===');

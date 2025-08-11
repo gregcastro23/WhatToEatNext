@@ -49,7 +49,7 @@ describe('ValidationFramework', () => {
       // Mock successful executions by default
       mockExecSync.mockReturnValue('');
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.statSync.mockReturnValue({ size: 400 * 1024 } as any); // 400KB
+      mockFs.statSync.mockReturnValue({ size: 400 * 1024 } as unknown); // 400KB
     });
 
     it('should throw error for unknown phase', async () => {
@@ -140,11 +140,11 @@ describe('ValidationFramework', () => {
       mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
           // Simulate 5 second build
-          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as any;
+          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown;
         }
         if (command.includes('yarn test')) {
           // Simulate 30 second test run
-          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as any;
+          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown;
         }
         return '';
       });
@@ -191,7 +191,7 @@ describe('ValidationFramework', () => {
   describe('detectFailures', () => {
     it('should detect build failures', async () => {
       // Mock build failure
-      const buildError = new Error('Build failed') as any;
+      const buildError = new Error('Build failed') as unknown;
       buildError.status = 1;
       mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
@@ -334,7 +334,7 @@ describe('ValidationFramework', () => {
 
   describe('error handling', () => {
     it('should handle timeout errors in validation', async () => {
-      const timeoutError = new Error('Command timed out') as any;
+      const timeoutError = new Error('Command timed out') as unknown;
       timeoutError.code = 'ETIMEDOUT';
       mockExecSync.mockImplementation(() => {
         throw timeoutError;

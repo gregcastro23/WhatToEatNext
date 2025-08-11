@@ -1,4 +1,4 @@
-import type { ZodiacSign, AstrologicalState, Element } from '@/types/alchemy';
+import type { ZodiacSign, _, Element } from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 import { dryCookingMethods } from './dry';

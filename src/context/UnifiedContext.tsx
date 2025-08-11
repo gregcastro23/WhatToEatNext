@@ -114,7 +114,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       logger.info('UnifiedContext: Generated recommendations.', recData);
 
       setLastUpdated(new Date());
-    } catch (e: any) {
+    } catch (e: unknown) {
       logger.error('UnifiedContext: Failed to refresh data.', e);
       setError(e.message || 'An unknown error occurred.');
     } finally {

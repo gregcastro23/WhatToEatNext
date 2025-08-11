@@ -1,0 +1,82 @@
+{
+  "timestamp": "2025-08-11T20:02:55.216Z",
+  "wave": "third",
+  "approach": "Function parameters and callback types",
+  "riskLevel": "MEDIUM",
+  "targets": 4,
+  "results": {
+    "attempted": 4,
+    "successful": 4,
+    "failed": 0,
+    "details": [
+      {
+        "success": true,
+        "target": {
+          "file": "src/services/PerformanceMonitoringService.ts",
+          "line": 38,
+          "search": "private subscribers: Set<(data: any) => void> = new Set();",
+          "replace": "private subscribers: Set<(data: unknown) => void> = new Set();",
+          "category": "CALLBACK_TYPE",
+          "confidence": 0.75
+        },
+        "description": "src/services/PerformanceMonitoringService.ts - CALLBACK_TYPE",
+        "before": "private subscribers: Set<(data: any) => void> = new Set();",
+        "after": "private subscribers: Set<(data: unknown) => void> = new Set();"
+      },
+      {
+        "success": true,
+        "target": {
+          "file": "src/services/PerformanceMonitoringService.ts",
+          "line": 241,
+          "search": "public subscribe(callback: (data: any) => void) {",
+          "replace": "public subscribe(callback: (data: unknown) => void) {",
+          "category": "CALLBACK_TYPE",
+          "confidence": 0.75
+        },
+        "description": "src/services/PerformanceMonitoringService.ts - CALLBACK_TYPE",
+        "before": "public subscribe(callback: (data: any) => void) {",
+        "after": "public subscribe(callback: (data: unknown) => void) {"
+      },
+      {
+        "success": true,
+        "target": {
+          "file": "src/services/RecipeCuisineConnector.ts",
+          "line": 132,
+          "search": "dishArray.forEach((dish: any) => {",
+          "replace": "dishArray.forEach((dish: unknown) => {",
+          "category": "FUNCTION_PARAM",
+          "confidence": 0.7
+        },
+        "description": "src/services/RecipeCuisineConnector.ts - FUNCTION_PARAM",
+        "before": "dishArray.forEach((dish: any) => {",
+        "after": "dishArray.forEach((dish: unknown) => {"
+      },
+      {
+        "success": true,
+        "target": {
+          "file": "src/services/campaign/unintentional-any-elimination/ConservativeReplacementPilot.ts",
+          "line": 811,
+          "search": "private generateMarkdownReport(report: any): string {",
+          "replace": "private generateMarkdownReport(report: unknown): string {",
+          "category": "FUNCTION_PARAM",
+          "confidence": 0.75
+        },
+        "description": "src/services/campaign/unintentional-any-elimination/ConservativeReplacementPilot.ts - FUNCTION_PARAM",
+        "before": "private generateMarkdownReport(report: any): string {",
+        "after": "private generateMarkdownReport(report: unknown): string {"
+      }
+    ]
+  },
+  "metrics": {
+    "initialAnyCount": 814,
+    "finalAnyCount": 810,
+    "waveReduction": 4,
+    "waveReductionPercentage": "0.49%",
+    "totalReduction": 11,
+    "cumulativeReductionPercentage": "1.34%"
+  },
+  "categories": {
+    "FUNCTION_PARAM": 2,
+    "CALLBACK_TYPE": 2
+  }
+}

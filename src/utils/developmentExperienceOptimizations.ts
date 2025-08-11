@@ -92,7 +92,7 @@ export class DevelopmentExperienceOptimizer {
   /**
    * Generate optimized TypeScript configuration
    */
-  public generateOptimizedTypeScriptConfig(): any {
+  public generateOptimizedTypeScriptConfig(): unknown {
     const config = this.optimizationConfig.typescript;
 
     return {
@@ -222,8 +222,8 @@ declare global {
     }
 
     // Type guards for runtime validation
-    function isPlanetaryPosition(obj: any): obj is PlanetaryPosition;
-    function isElementalProperties(obj: any): obj is ElementalProperties;
+    function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition;
+    function isElementalProperties(obj: unknown): obj is ElementalProperties;
     function isValidCompatibilityScore(score: number): boolean;
   }
 

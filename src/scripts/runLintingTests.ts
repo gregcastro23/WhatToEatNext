@@ -114,7 +114,7 @@ class LintingTestRunner {
         errors: [],
         warnings: this.extractWarnings(output),
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       const duration = Date.now() - startTime;
 
       return {
@@ -425,7 +425,7 @@ ${report.results
       const configPath = path.resolve(__dirname, '../eslint.config.cjs');
       const config = require(configPath);
 
-      const perfConfig = config.find((c: any) => c.settings && c.settings['import/cache']);
+      const perfConfig = config.find((c: unknown) => c.settings && c.settings['import/cache']);
 
       const issues: string[] = [];
 

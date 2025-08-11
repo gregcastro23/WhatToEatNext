@@ -6,15 +6,15 @@ import type {
   Season,
   Element,
   ElementalProperties,
-  ZodiacSign,
+  _ZodiacSign,
   PlanetName,
-  CookingMethod,
+  _CookingMethod,
   AlchemicalValues,
-  ThermodynamicProperties,
+  _,
 } from '@/types/alchemy';
 
 import {
-  createElementalProperties,
+  _,
   calculateElementalCompatibility,
 } from '../../utils/elemental/elementalUtils';
 

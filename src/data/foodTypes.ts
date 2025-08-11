@@ -1,6 +1,6 @@
 // src/data/foodTypes.ts
 
-import { NutritionalInfo } from '@/constants/recipe';
+import { _ } from '@/constants/recipe';
 import { ElementalProperties } from '@/types/alchemy';
 import { Recipe as Dish } from '@/types/recipe';
 
@@ -155,7 +155,7 @@ export function findComplementaryDishes(
                 });
 
                 if (score > 0) {
-                  recommendations.push(dish as any);
+                  recommendations.push(dish as unknown);
                 }
               });
             }

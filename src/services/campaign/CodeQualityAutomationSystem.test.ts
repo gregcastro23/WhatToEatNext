@@ -42,15 +42,15 @@ describe('CodeQualityAutomationSystem', () => {
     // Create mock instances
     mockImportCleanup = {
       executeCleanup: jest.fn(),
-    } as any;
+    } as unknown;
 
     mockLintingFormatting = {
       executeLintingAndFormatting: jest.fn(),
-    } as any;
+    } as unknown;
 
     mockDependencySecurity = {
       executeDependencySecurityMonitoring: jest.fn(),
-    } as any;
+    } as unknown;
 
     // Setup mock constructors
     MockImportCleanupSystem.mockImplementation(() => mockImportCleanup);
@@ -446,7 +446,7 @@ describe('CodeQualityAutomationSystem', () => {
       const phase = {
         name: 'Unknown Phase',
         description: 'Unknown system',
-        system: 'unknown' as any,
+        system: 'unknown' as unknown,
         enabled: true,
         dependencies: [],
         criticalFailure: false,

@@ -26,9 +26,9 @@ afterEach(() => {
 });
 
 // Global test utilities
-(global as any).testUtils = {
-  gitMock: gitOperationsMock as any,
-  scriptMock: scriptExecutionMock as any,
+(global as unknown).testUtils = {
+  gitMock: gitOperationsMock as unknown,
+  scriptMock: scriptExecutionMock as unknown,
 
   // Helper to create mock file corruption
   createMockCorruptedFile: (content: string) => {
@@ -135,9 +135,9 @@ declare global {
 const originalConsole = console;
 global.console = {
   ...originalConsole,
-  log: jest.fn() as any,
-  warn: jest.fn() as any,
-  error: jest.fn() as any,
-  info: jest.fn() as any,
-  debug: jest.fn() as any,
+  log: jest.fn() as unknown,
+  warn: jest.fn() as unknown,
+  error: jest.fn() as unknown,
+  info: jest.fn() as unknown,
+  debug: jest.fn() as unknown,
 } as Console;

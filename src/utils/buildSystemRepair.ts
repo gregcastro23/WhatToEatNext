@@ -176,7 +176,7 @@ export class BuildSystemRepair {
       report.recommendations.push('Rebuild application to regenerate manifest files');
     }
 
-    if ((report.configValidation as any).issues?.length > 0) {
+    if ((report.configValidation as unknown).issues?.length > 0) {
       report.recommendations.push('Update Next.js configuration to resolve issues');
     }
 

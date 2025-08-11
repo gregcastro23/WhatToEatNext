@@ -43,7 +43,7 @@ describe('SafetyValidator', () => {
       `;
 
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Compilation failed') as any;
+        const error = new Error('Compilation failed') as unknown;
         error.stdout = errorOutput;
         throw error;
       });
@@ -58,7 +58,7 @@ describe('SafetyValidator', () => {
 
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Timeout') as any;
+        const error = new Error('Timeout') as unknown;
         error.code = 'TIMEOUT';
         throw error;
       });
@@ -206,7 +206,7 @@ describe('SafetyValidator', () => {
       const errorContext: ClassificationContext = {
         filePath: 'test.ts',
         lineNumber: 1,
-        codeSnippet: 'catch (error: any) {',
+        codeSnippet: 'catch (error: unknown) {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -298,7 +298,7 @@ describe('SafetyValidator', () => {
       const functionContext: ClassificationContext = {
         filePath: 'function.ts',
         lineNumber: 1,
-        codeSnippet: 'function process(data: any) {',
+        codeSnippet: 'function process(data: unknown) {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -384,7 +384,7 @@ describe('SafetyValidator', () => {
       `;
 
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Compilation failed') as any;
+        const error = new Error('Compilation failed') as unknown;
         error.stdout = complexErrorOutput;
         throw error;
       });
@@ -404,7 +404,7 @@ describe('SafetyValidator', () => {
       ).join('\n');
 
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Many errors') as any;
+        const error = new Error('Many errors') as unknown;
         error.stdout = manyErrorsOutput;
         throw error;
       });

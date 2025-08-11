@@ -1695,8 +1695,8 @@ export class UnifiedRecipeBuildingSystem {
   }
 
   private createFusionBaseRecipe(
-    fusion: unknown,
-    criteria: RecipeBuildingCriteria,
+    _: unknown,
+    _: RecipeBuildingCriteria,
   ): Partial<EnhancedRecipe> {
     // TODO: Create base recipe for fusion cuisine
     return {};
@@ -1750,7 +1750,7 @@ export class UnifiedRecipeBuildingSystem {
     };
   }
 
-  private calculateFusionRatio(cuisines: string[]): { [key: string]: number } {
+  private calculateFusionRatio(_cuisines: string[]): { [key: string]: number } {
     // TODO: Calculate fusion ratios between cuisines
     return {};
   }
@@ -1818,25 +1818,25 @@ export class UnifiedRecipeBuildingSystem {
     return fusionMethods;
   }
 
-  private calculateCulturalHarmony(cuisines: string[]): number {
+  private calculateCulturalHarmony(_cuisines: string[]): number {
     // TODO: Calculate cultural harmony between cuisines
     return 0.8;
   }
 
-  private calculateKalchmFusionBalance(recipe: MonicaOptimizedRecipe, cuisines: string[]): number {
+  private calculateKalchmFusionBalance(_recipe: MonicaOptimizedRecipe, _cuisines: string[]): number {
     // TODO: Calculate Kalchm balance for fusion recipe
     return 0.8;
   }
 
   private calculateMonicaFusionOptimization(
-    recipe: MonicaOptimizedRecipe,
-    cuisines: string[],
+    _recipe: MonicaOptimizedRecipe,
+    _cuisines: string[],
   ): number {
     // TODO: Calculate Monica optimization for fusion
     return 0.8;
   }
 
-  private calculateInnovationScore(recipe: MonicaOptimizedRecipe, cuisines: string[]): number {
+  private calculateInnovationScore(_recipe: MonicaOptimizedRecipe, _cuisines: string[]): number {
     // TODO: Calculate innovation score for fusion recipe
     return 0.7;
   }

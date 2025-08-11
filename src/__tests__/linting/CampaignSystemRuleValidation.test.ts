@@ -29,7 +29,7 @@ describe('Campaign System Rule Validation', () => {
     test('should allow high complexity in campaign files', async () => {
       const testContent = `
         class CampaignController {
-          private executeComplexCampaign(config: any) {
+          private executeComplexCampaign(config: unknown) {
             // High complexity enterprise logic
             let result = 0;
 
@@ -108,7 +108,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const complexityErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === 'complexity' && msg.severity === 2, // error level
           );
 
           // Campaign files should allow high complexity
@@ -120,7 +120,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'complexity' && msg.severity === 2,
             );
 
             expect(complexityErrors.length).toBe(0);
@@ -223,7 +223,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const functionLengthErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'max-lines-per-function' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === 'max-lines-per-function' && msg.severity === 2, // error level
           );
 
           // Campaign files should allow long functions
@@ -235,7 +235,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const functionLengthErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'max-lines-per-function' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'max-lines-per-function' && msg.severity === 2,
             );
 
             expect(functionLengthErrors.length).toBe(0);
@@ -247,11 +247,11 @@ describe('Campaign System Rule Validation', () => {
     test('should allow explicit any types in campaign files', async () => {
       const testContent = `
         class CampaignIntelligenceSystem {
-          private analyzeErrorPatterns(data: any): any {
+          private analyzeErrorPatterns(data: unknown): unknown {
             // Enterprise intelligence requires flexible typing
-            const patterns: any = {};
-            const metrics: any = data.metrics || {};
-            const config: any = data.config || {};
+            const patterns: unknown = {};
+            const metrics: unknown = data.metrics || {};
+            const config: unknown = data.config || {};
 
             // Dynamic analysis based on campaign type
             if (config.type === 'typescript-elimination') {
@@ -273,23 +273,23 @@ describe('Campaign System Rule Validation', () => {
             };
           }
 
-          private analyzeTypeScriptErrors(data: any): any {
+          private analyzeTypeScriptErrors(data: unknown): unknown {
             return data.errors || [];
           }
 
-          private analyzeLintingIssues(data: any): any {
+          private analyzeLintingIssues(data: unknown): unknown {
             return data.warnings || [];
           }
 
-          private calculateConfidence(patterns: any): number {
+          private calculateConfidence(patterns: unknown): number {
             return Math.random() * 100;
           }
 
-          private generateRecommendations(patterns: any): any[] {
+          private generateRecommendations(patterns: unknown): unknown[] {
             return [];
           }
 
-          private calculateComplexity(data: any): number {
+          private calculateComplexity(data: unknown): number {
             return Object.keys(data).length;
           }
         }
@@ -309,7 +309,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const anyTypeErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2, // error level
           );
 
           // Campaign files should allow explicit any types (warn level is OK);
@@ -321,7 +321,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const anyTypeErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
             );
 
             expect(anyTypeErrors.length).toBe(0);
@@ -333,7 +333,7 @@ describe('Campaign System Rule Validation', () => {
     test('should allow deep nesting in campaign files', async () => {
       const testContent = `
         class SafetyProtocolSystem {
-          private executeEmergencyProtocol_(event: any): void {
+          private executeEmergencyProtocol_(event: unknown): void {
             // Deep nesting for comprehensive safety checks
             if (event.type === 'corruption') {
               if (event.severity === 'critical') {
@@ -360,27 +360,27 @@ describe('Campaign System Rule Validation', () => {
             }
           }
 
-          private executeEmergencyRollback_(event: any): void {
+          private executeEmergencyRollback_(event: unknown): void {
             console.log('Executing emergency rollback');
           }
 
-          private createEmergencyBackup_(event: any): void {
+          private createEmergencyBackup_(event: unknown): void {
             console.log('Creating emergency backup');
           }
 
-          private initiateManualRecovery_(event: any): void {
+          private initiateManualRecovery_(event: unknown): void {
             console.log('Initiating manual recovery');
           }
 
-          private monitorBuildStatus_(event: any): void {
+          private monitorBuildStatus_(event: unknown): void {
             console.log('Monitoring build status');
           }
 
-          private isolateAffectedFiles_(event: any): void {
+          private isolateAffectedFiles_(event: unknown): void {
             console.log('Isolating affected files');
           }
 
-          private logSafetyEvent_(event: any): void {
+          private logSafetyEvent_(event: unknown): void {
             console.log('Logging safety event');
           }
         }
@@ -400,7 +400,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const depthErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'max-depth' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === 'max-depth' && msg.severity === 2, // error level
           );
 
           // Campaign files should allow deep nesting
@@ -412,7 +412,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const depthErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'max-depth' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'max-depth' && msg.severity === 2,
             );
 
             expect(depthErrors.length).toBe(0);
@@ -449,7 +449,7 @@ describe('Campaign System Rule Validation', () => {
             console.assert(true, 'Safety assertion passed');
           }
 
-          public logMetrics(metrics: any): void {
+          public logMetrics(metrics: unknown): void {
             console.log('=== CAMPAIGN METRICS ===');
             console.log('Total errors found:', metrics.totalErrors);
             console.log('Errors fixed:', metrics.errorsFixed);
@@ -461,7 +461,7 @@ describe('Campaign System Rule Validation', () => {
             console.log('========================');
           }
 
-          public logSafetyEvents(events: any[]): void {
+          public logSafetyEvents(events: unknown[]): void {
             console.warn('=== SAFETY EVENTS ===');
             events.forEach((event, index) => {
               console.warn(\`Event \${index + 1}: \${event.type}\`);
@@ -488,7 +488,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const consoleErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === 'no-console' && msg.severity === 2, // error level
           );
 
           // Campaign files should allow all console methods
@@ -500,7 +500,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'no-console' && msg.severity === 2,
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -552,7 +552,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const processExitErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'no-process-exit' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === 'no-process-exit' && msg.severity === 2, // error level
           );
 
           // Campaign files should allow process.exit
@@ -564,7 +564,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const processExitErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-process-exit' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'no-process-exit' && msg.severity === 2,
             );
 
             expect(processExitErrors.length).toBe(0);
@@ -610,7 +610,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            (msg: any) =>
+            (msg: unknown) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars' &&
               (msg.message.includes('campaign') ||
                 msg.message.includes('progress') ||
@@ -627,7 +627,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 msg.ruleId === '@typescript-eslint/no-unused-vars' &&
                 (msg.message.includes('campaign') ||
                   msg.message.includes('progress') ||
@@ -691,7 +691,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars',
+            (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-unused-vars',
           );
 
           // Campaign constants should be allowed even if unused
@@ -703,7 +703,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars',
+              (msg: unknown) => (msg as any).ruleId === '@typescript-eslint/no-unused-vars',
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -724,7 +724,7 @@ describe('Campaign System Rule Validation', () => {
             return tool.default || tool;
           }
 
-          public async loadConfigBasedTool(config: any): Promise<any> {
+          public async loadConfigBasedTool(config: unknown): Promise<any> {
             const toolModule = config.toolModule;
             const dynamicTool = import(toolModule);
             return dynamicTool;
@@ -760,7 +760,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const dynamicImportErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2, // error level
+            (msg: unknown) => (msg as any).ruleId === 'import/no-dynamic-require' && msg.severity === 2, // error level
           );
 
           // Campaign files should allow dynamic imports
@@ -772,7 +772,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const dynamicImportErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+              (msg: unknown) => (msg as any).ruleId === 'import/no-dynamic-require' && msg.severity === 2,
             );
 
             expect(dynamicImportErrors.length).toBe(0);
@@ -841,7 +841,7 @@ describe('Campaign System Rule Validation', () => {
 
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2),
@@ -856,7 +856,7 @@ describe('Campaign System Rule Validation', () => {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                (msg: any) =>
+                (msg: unknown) =>
                   (msg.ruleId === 'complexity' && msg.severity === 2) ||
                   (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
                   (msg.ruleId === 'no-console' && msg.severity === 2),
@@ -885,7 +885,7 @@ describe('Campaign System Rule Validation', () => {
 
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              (msg: any) =>
+              (msg: unknown) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2),
@@ -899,7 +899,7 @@ describe('Campaign System Rule Validation', () => {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                (msg: any) =>
+                (msg: unknown) =>
                   (msg.ruleId === 'complexity' && msg.severity === 2) ||
                   (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
                   (msg.ruleId === 'no-console' && msg.severity === 2),

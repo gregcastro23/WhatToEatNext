@@ -766,7 +766,7 @@ export function getRecipesForCuisineMatch(
     const normalizedCuisineName = String(cuisineName || '').toLowerCase();
 
     // Filter recipes that match the cuisine
-    const matchingRecipes = (recipes || []).filter((recipe: unknown) => {
+    const _ = (recipes || []).filter((recipe: unknown) => {
       const recipeData = recipe as Record<string, unknown>;
 
       // Check recipe name
@@ -833,7 +833,7 @@ export function getRecipesForCuisineMatch(
           log.info(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
 
           // Extract recipes from all meal types
-          const allRecipes: any[] = [];
+          const allRecipes: unknown[] = [];
           const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
 
           for (const mealType of mealTypes) {
@@ -1232,8 +1232,8 @@ export const calculateCuisineSimilarity = (cuisine1: string, cuisine2: string): 
 export const findRelatedRecipes = (recipeName: string, recipes: Recipe[], count = 3): Recipe[] => {
   const scoredRecipes = recipes
     .map(recipe => {
-      const scoreComponents: number[] = [];
-      const totalWeight = 0;
+      const _: number[] = [];
+      const _ = 0;
 
       // Simple name similarity scoring
       const nameSimilarity =

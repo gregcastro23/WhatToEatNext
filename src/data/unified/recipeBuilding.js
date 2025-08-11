@@ -1,4 +1,4 @@
-import { unifiedIngredients } from './ingredients.js';
+import { _ } from './ingredients.js';
 
 /**
  * Recipe Interface

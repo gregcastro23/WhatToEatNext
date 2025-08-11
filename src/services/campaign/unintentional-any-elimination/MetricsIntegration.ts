@@ -145,7 +145,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       const explicitAnyMatches = output.match(/@typescript-eslint\/no-explicit-any/g);
       return explicitAnyMatches ? explicitAnyMatches.length : 0;
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       // ESLint returns non-zero exit code when warnings/errors are found
       const output = error.stdout || error.message || '';
       const explicitAnyMatches = output.match(/@typescript-eslint\/no-explicit-any/g);
@@ -178,7 +178,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
       return breakdown;
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       const output = error.stdout || error.message || '';
       const breakdown: Record<string, number> = {};
       const lines = output.split('\n');

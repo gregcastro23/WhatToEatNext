@@ -418,7 +418,7 @@ export function getmoonIllumination(): number {
 /**
  * Validate that planetary positions have the required structure
  */
-export function validatePositionsStructure(positions: { [key: string]: any }): boolean {
+export function validatePositionsStructure(positions: { [key: string]: unknown }): boolean {
   const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
 
   for (const planet of requiredPlanets) {
@@ -428,7 +428,7 @@ export function validatePositionsStructure(positions: { [key: string]: any }): b
       return false;
     }
 
-    const pos = position as Record<string, any>;
+    const pos = position as Record<string, unknown>;
     if (!pos.sign || typeof pos.degree !== 'number') {
       logger.warn(`Invalid position structure for ${planet}`, pos);
       return false;

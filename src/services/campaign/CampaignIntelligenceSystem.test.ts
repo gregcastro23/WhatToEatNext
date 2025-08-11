@@ -192,9 +192,9 @@ describe('Campaign Intelligence System', () => {
       };
 
       const intelligence = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(
-        mockErrorAnalyzer as any,
-        mockFixerIntegration as any,
-        mockAnyElimination as any,
+        mockErrorAnalyzer as unknown,
+        mockFixerIntegration as unknown,
+        mockAnyElimination as unknown,
       );
 
       expect(intelligence.campaignMetrics).toBeDefined();
@@ -234,7 +234,7 @@ describe('Campaign Intelligence System', () => {
         errorPatterns: {
           patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
           fixSuccessRates: {},
-          errorCategoryTrends: {} as any,
+          errorCategoryTrends: {} as unknown,
           priorityOptimization: {},
           predictiveAnalytics: {},
         },

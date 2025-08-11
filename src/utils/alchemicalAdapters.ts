@@ -5,7 +5,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
   if (!engineAffinity) return { base: 'Fire' } as unknown as ElementalAffinity; // Default value
 
   // Apply safe type casting for unknown type property access
-  const engineData = engineAffinity as any;
+  const engineData = engineAffinity as unknown;
 
   return {
     base: engineData?.element || 'Fire',
@@ -19,7 +19,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
 // Convert standardized format to alchemicalEngine format
 export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): unknown {
   // Apply safe type casting for ElementalAffinity property access
-  const affinityData = standardAffinity as any;
+  const affinityData = standardAffinity as unknown;
 
   return {
     ...standardAffinity,

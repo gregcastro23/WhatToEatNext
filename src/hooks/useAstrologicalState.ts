@@ -3,17 +3,10 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { LunarPhase } from '@/constants/planetaryFoodAssociations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { AstrologicalService } from '@/services/AstrologicalService';
-import { CelestialPosition, AstrologicalState } from '@/types/celestial';
+import { CelestialPosition } from '@/types/celestial';
 import { ZodiacSign, PlanetaryAlignment } from '@/types/common';
 import {
-  calculatePlanetaryPositions,
-  calculateSunSign,
-  calculateLunarPhase,
-  calculateMoonSign,
   longitudeToZodiacPosition,
-  getLunarPhaseName,
-  calculateAspects,
 } from '@/utils/astrologyUtils';
 import { logger } from '@/utils/logger';
 
@@ -226,8 +219,8 @@ export function useAstrologicalState(): AstrologyHookData {
   useEffect(() => {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
-        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as any);
-        const currentZodiac = ((memoizedPlanetaryPositions.sun as any)?.sign || '').toLowerCase();
+        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown);
+        const currentZodiac = ((memoizedPlanetaryPositions.sun as unknown)?.sign || '').toLowerCase();
 
         logger.debug('Updating astrological state:', {
           currentZodiac,
@@ -235,7 +228,7 @@ export function useAstrologicalState(): AstrologyHookData {
           time: new Date().toISOString(),
         });
 
-        setAstroState((prev: any) => {
+        setAstroState((prev: unknown) => {
           // Skip update if nothing changed to prevent unnecessary re-renders
           if (
             prev.currentZodiac === currentZodiac &&

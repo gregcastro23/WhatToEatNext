@@ -95,9 +95,9 @@ export class UnifiedNutritionalService {
         } else {
           // Fallback to regular ingredients
           const regularIngredient = allIngredients[ingredient];
-          if ((regularIngredient as any)?.nutritionalProfile) {
+          if ((regularIngredient as unknown)?.nutritionalProfile) {
             // Convert alchemy.NutritionalProfile to nutrition.NutritionalProfile
-            const alchemyProfile = (regularIngredient as any).nutritionalProfile;
+            const alchemyProfile = (regularIngredient as unknown).nutritionalProfile;
             nutritionalProfile = {
               ...alchemyProfile,
               // Convert phytonutrients from string[] to Record<string, number>
@@ -209,7 +209,7 @@ export class UnifiedNutritionalService {
         }
       }
 
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context as any);
+      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context as unknown);
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);
       return {
@@ -729,7 +729,7 @@ export class UnifiedNutritionalService {
   /**
    * Calculate nutritional score using local algorithm
    */
-  private calculateLocalNutritionalScore(nutrition: any): number {
+  private calculateLocalNutritionalScore(nutrition: unknown): number {
     try {
       let score = 0;
 

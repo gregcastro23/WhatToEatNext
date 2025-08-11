@@ -115,7 +115,7 @@ export function createMockCampaignConfig(overrides?: Partial<CampaignConfig>): C
             scriptPath: 'mock-script.js',
             parameters: { maxFiles: 10, autoFix: true },
             batchSize: 10,
-            safetyLevel: 'HIGH' as any,
+            safetyLevel: 'HIGH' as unknown,
           },
         ],
         successCriteria: {
@@ -351,7 +351,7 @@ export async function withCampaignTestIsolation<T>(
  */
 export function validateCampaignMemoryUsage(context: CampaignTestContext): {
   isMemoryEfficient: boolean;
-  memoryStats: any;
+  memoryStats: unknown;
   recommendations: string[];
 } {
   const recommendations: string[] = [];

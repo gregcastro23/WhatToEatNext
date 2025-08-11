@@ -211,7 +211,7 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
-        const primaryEnergyState = (chakra as any)
+        const primaryEnergyState = (chakra as unknown)
           ?.primaryEnergyState as keyof EnergyStateProperties;
         if (primaryEnergyState && primaryEnergyState in energyStates) {
           chakraEnergies[key] = energyStates[primaryEnergyState] * 2; // Scale to make it more visible

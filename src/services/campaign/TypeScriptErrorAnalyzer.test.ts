@@ -22,7 +22,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
       `.trim();
 
       // Use reflection to access private method for testing
-      const parseMethod = (analyzer as any).parseErrorsFromOutput.bind(analyzer);
+      const parseMethod = (analyzer as unknown).parseErrorsFromOutput.bind(analyzer);
       const errors = parseMethod(mockOutput);
 
       expect(errors).toHaveLength(3);
@@ -58,7 +58,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
 
   describe('categorizeError', () => {
     it('should categorize errors correctly', () => {
-      const categorizeMethod = (analyzer as any).categorizeError.bind(analyzer);
+      const categorizeMethod = (analyzer as unknown).categorizeError.bind(analyzer);
 
       expect(categorizeMethod('TS2352')).toBe(ErrorCategory.TS2352_TYPE_CONVERSION);
       expect(categorizeMethod('TS2345')).toBe(ErrorCategory.TS2345_ARGUMENT_MISMATCH);
@@ -71,7 +71,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
 
   describe('calculateErrorPriority', () => {
     it('should calculate priority based on error code, file path, and message', () => {
-      const calculateMethod = (analyzer as any).calculateErrorPriority.bind(analyzer);
+      const calculateMethod = (analyzer as unknown).calculateErrorPriority.bind(analyzer);
 
       // High priority error in types directory with critical message
       const highPriority = calculateMethod('TS2352', 'src/types/core.ts', 'Conversion of type not assignable');
@@ -86,7 +86,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
 
   describe('determineSeverity', () => {
     it('should determine severity correctly', () => {
-      const severityMethod = (analyzer as any).determineSeverity.bind(analyzer);
+      const severityMethod = (analyzer as unknown).determineSeverity.bind(analyzer);
 
       expect(severityMethod('TS2352', 'test message')).toBe(ErrorSeverity.HIGH);
       expect(severityMethod('TS2345', 'test message')).toBe(ErrorSeverity.HIGH);
@@ -130,7 +130,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         },
       ];
 
-      const distributionMethod = (analyzer as any).createErrorDistribution.bind(analyzer);
+      const distributionMethod = (analyzer as unknown).createErrorDistribution.bind(analyzer);
       const distribution = distributionMethod(mockErrors);
 
       expect(distribution.totalErrors).toBe(3);
@@ -159,7 +159,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         highImpactFiles: [],
       };
 
-      const recommendMethod = (analyzer as any).generateRecommendations.bind(analyzer);
+      const recommendMethod = (analyzer as unknown).generateRecommendations.bind(analyzer);
       const recommendations = recommendMethod(mockDistribution);
 
       expect(recommendations).toHaveLength(2);

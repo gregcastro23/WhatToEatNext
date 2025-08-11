@@ -260,8 +260,8 @@ export async function calculateDetailedElementalCompatibility(
 
   // Calculate base compatibility
   const baseCompatibility = calculateElementalCompatibility(
-    recipeDominant as any,
-    userDominant as any,
+    recipeDominant as unknown,
+    userDominant as unknown,
   );
 
   // Calculate complementary score (how well elements work together)
@@ -344,7 +344,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
   }
 
   // Use existing elemental properties if available
-  if (recipe.elementalState && validateElementalProperties(recipe.elementalState as any)) {
+  if (recipe.elementalState && validateElementalProperties(recipe.elementalState as unknown)) {
     return recipe.elementalState as ElementalProperties;
   }
 

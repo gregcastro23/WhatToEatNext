@@ -235,7 +235,7 @@ describe('Main Page Integration Tests', () => {
             add: jest.fn(),
             remove: jest.fn(),
           },
-        }) as any,
+        }) as unknown,
     );
   });
 

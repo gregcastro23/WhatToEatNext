@@ -24,7 +24,7 @@ interface SafeElementalProperties {
   Air: number;
 }
 
-interface SafeMockState {
+interface _ {
   elements?: SafeElementalProperties;
   [key: string]: unknown;
 }

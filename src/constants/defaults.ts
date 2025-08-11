@@ -6,9 +6,9 @@ import type {
   ZodiacSign,
   PlanetaryAlignment,
   AlchemicalValues,
-  PlanetaryPosition,
+  _PlanetaryPosition,
   CelestialPosition,
-  LunarPhaseWithSpaces,
+  _,
 } from '@/types/alchemy';
 
 /**

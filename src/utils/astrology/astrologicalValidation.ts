@@ -258,7 +258,7 @@ function validateSinglePlanetaryPosition(
     }
 
     if (
-      TRANSIT_CONSTANTS.ALWAYS_RETROGRADE.includes(planet.toLowerCase() as any) &&
+      TRANSIT_CONSTANTS.ALWAYS_RETROGRADE.includes(planet.toLowerCase() as unknown) &&
       !isRetrograde
     ) {
       warnings.push(`${planet} should always be retrograde`);
@@ -420,7 +420,7 @@ export async function validateAstrologicalCalculation(
       if (validateTransits && positionValidation.isValid && input.date) {
         for (const [planet, position] of Object.entries(input.planetaryPositions)) {
           try {
-            const isValid = await validatePlanetaryPosition(planet, position as any, input.date);
+            const isValid = await validatePlanetaryPosition(planet, position as unknown, input.date);
             if (!isValid) {
               warnings.push(`Transit validation failed for ${planet}`);
             }

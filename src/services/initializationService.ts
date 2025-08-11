@@ -81,7 +81,7 @@ class InitializationService {
       const elementalPreference = this.convertToElementalProperties(celestialData);
 
       // Update the state with the elemental preference - safe method access
-      const managerObj = manager as unknown as any;
+      const managerObj = manager as unknown as unknown;
       if (typeof managerObj.updateState === 'function') {
         await managerObj.updateState({
           elementalPreference,
@@ -121,7 +121,7 @@ class InitializationService {
         },
         lunarPhase: 'new moon',
         currentTime: new Date(),
-      } as any);
+      } as unknown);
 
       if (!isValid) {
         throw new Error('State validation failed after initialization');
@@ -189,7 +189,7 @@ class InitializationService {
       const alignment = celestialCalculator.calculateCurrentInfluences();
 
       // Convert CelestialAlignment to CelestialData format with safe property access
-      const alignmentData = alignment as unknown as any;
+      const alignmentData = alignment as unknown as unknown;
       return {
         sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 },
         moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 },

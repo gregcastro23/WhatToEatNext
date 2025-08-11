@@ -1,5 +1,5 @@
 // src/data/cuisines/italian.ts
-import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
 export const italian: Cuisine = {

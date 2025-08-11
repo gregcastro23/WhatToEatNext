@@ -13,7 +13,7 @@ interface UseErrorHandlerProps {
 
 // Return type
 interface UseErrorHandlerReturn {
-  captureError: (error: Error | string, context?: any) => void;
+  captureError: (error: Error | string, context?: unknown) => void;
   foodError: Error | null;
   foodLoading: boolean;
   foodRecommendations: any[] | null;

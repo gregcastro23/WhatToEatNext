@@ -438,7 +438,7 @@ export class KiroCampaignIntegration {
    * Get campaign result analysis and reporting
    */
   async getCampaignAnalysis(campaignId: string): Promise<{
-    intelligence: any;
+    intelligence: unknown;
     recommendations: string[];
     nextSteps: string[];
   }> {
@@ -565,7 +565,7 @@ export class KiroCampaignIntegration {
     };
   }
 
-  private generateNextSteps(intelligence: any): string[] {
+  private generateNextSteps(intelligence: unknown): string[] {
     const nextSteps: string[] = [];
 
     if (intelligence.campaignMetrics.enterpriseReadiness < 0.9) {

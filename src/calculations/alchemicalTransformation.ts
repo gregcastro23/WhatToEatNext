@@ -70,7 +70,7 @@ export const transformItemWithPlanetaryPositions = (
     };
 
     // Calculate alchemical properties based on planetary positions
-    const alchemicalResults = calculateAlchemicalProperties(planetPositions as any, isDaytime);
+    const alchemicalResults = calculateAlchemicalProperties(planetPositions as unknown, isDaytime);
 
     // Calculate planetary boost based on ingredient's characteristics
     const {

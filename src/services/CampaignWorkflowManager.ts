@@ -134,7 +134,7 @@ export interface RollbackStep {
   id: string;
   description: string;
   action: 'restore_files' | 'revert_config' | 'rebuild' | 'validate';
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   estimatedDuration: number;
 }
 

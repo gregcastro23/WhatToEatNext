@@ -928,7 +928,7 @@ export class SafeTypeReplacer {
     const { codeSnippet } = context;
 
     // Check for common generic patterns
-    if (codeSnippet.includes('Array<any>')) {
+    if (codeSnippet.includes('Array<unknown>')) {
       return 'unknown';
     }
 

@@ -27,7 +27,7 @@ export function getEnhancedFoodRecommendation(
   // Recipe generation functionality is deactivated
   // Return a placeholder with the dominant element information
   // Apply surgical type casting with variable extraction
-  const resultData = alchemicalResult as any;
+  const resultData = alchemicalResult as unknown;
   const dominant = resultData?.dominant;
   const dominantElement = dominant?.element || 'balanced';
 
@@ -123,7 +123,7 @@ export function generatePersonalizedMealPlan(
   _userPreferences?: string[],
 ) {
   // Apply surgical type casting with variable extraction
-  const alchemicalResultData = alchemicalResult as any;
+  const alchemicalResultData = alchemicalResult as unknown;
   const dominant = alchemicalResultData?.dominant;
 
   // Recipe generation functionality is deactivated

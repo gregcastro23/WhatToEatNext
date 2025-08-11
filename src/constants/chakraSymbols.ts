@@ -224,7 +224,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
    * @param colors - The chakra colors
    * @returns Enhanced visual analysis with symbolic insights
    */
-  analyzeVisualSymbols: (symbols: typeof CHAKRA_SYMBOLS, colors: typeof CHAKRA_BG_COLORS) => {
+  analyzeVisualSymbols: (_: typeof CHAKRA_SYMBOLS, _: typeof CHAKRA_BG_COLORS) => {
     const visualAnalysis = {
       // Symbolic effectiveness metrics
       symbolicEffectiveness: {
@@ -314,7 +314,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
    * @param correlations - The chakra nutritional correlations
    * @returns Enhanced nutritional analysis with dietary insights
    */
-  analyzeNutritionalCorrelations: (correlations: typeof CHAKRA_NUTRITIONAL_CORRELATIONS) => {
+  analyzeNutritionalCorrelations: (_: typeof CHAKRA_NUTRITIONAL_CORRELATIONS) => {
     const nutritionalAnalysis = {
       // Nutritional effectiveness metrics
       nutritionalEffectiveness: {
@@ -402,8 +402,8 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
    * @returns Enhanced functional analysis with operational insights
    */
   analyzeFunctionalOperations: (
-    herbs: typeof CHAKRA_HERBS,
-    names: typeof CHAKRA_SANSKRIT_NAMES,
+    _: typeof CHAKRA_HERBS,
+    _: typeof CHAKRA_SANSKRIT_NAMES,
   ) => {
     const functionalAnalysis = {
       // Functional effectiveness metrics
@@ -493,7 +493,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
    * @param allChakraData - All chakra-related data
    * @returns Enhanced demonstration analysis with platform insights
    */
-  analyzeDemonstrationPlatform: (allChakraData: {
+  analyzeDemonstrationPlatform: (_: {
     symbols?: Record<string, string>;
     colors?: Record<string, string>;
     mantras?: Record<string, string>;
