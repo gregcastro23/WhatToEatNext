@@ -309,11 +309,12 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    */
   private async getLintingOutput(): Promise<string> {
     try {
-      const { execSync } = require('child_process');
+      const { execSync } = await import('child_process');
       return execSync('yarn lint 2>&1', { encoding: 'utf8', stdio: 'pipe' });
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when warnings/errors are found
-      return error.stdout || error.message || '';
+      const err = error as { stdout?: string; message?: string };
+      return err.stdout || err.message || '';
     }
   }
 
@@ -330,13 +331,13 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    */
   private async validateBuild(): Promise<{ success: boolean; errors: string[] }> {
     try {
-      const { execSync } = require('child_process');
+      const { execSync } = await import('child_process');
       execSync('yarn build', { encoding: 'utf8', stdio: 'pipe' });
       return { success: true, errors: [] };
     } catch (error: unknown) {
       return {
         success: false,
-        errors: [error.message || 'Build failed']
+        errors: [((error as { message?: string }).message) || 'Build failed']
       };
     }
   }

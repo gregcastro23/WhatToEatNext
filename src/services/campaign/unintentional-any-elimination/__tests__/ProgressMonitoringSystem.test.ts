@@ -400,14 +400,14 @@ describe('ProgressMonitoringSystem', () => {
 
       const dashboardData = monitoringSystem.getDashboardData();
       expect(dashboardData).toBeDefined();
-      expect(dashboardData!.lastUpdate).toBeInstanceOf(Date);
+      expect(dashboardData?.lastUpdate).toBeInstanceOf(Date);
     });
 
     it('should calculate system health', async () => {
       await monitoringSystem['updateDashboard']();
 
       const dashboardData = monitoringSystem.getDashboardData();
-      const systemHealth = dashboardData!.systemHealth;
+      const systemHealth = dashboardData?.systemHealth;
 
       expect(systemHealth.score).toBeGreaterThanOrEqual(0);
       expect(systemHealth.score).toBeLessThanOrEqual(100);

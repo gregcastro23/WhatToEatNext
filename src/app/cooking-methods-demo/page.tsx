@@ -3,11 +3,12 @@
 import { Box, Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import { CookingMethodsSection } from '@/components/CookingMethodsSection';
+// Use the test/demo component path that exists
+import CookingMethodsSection from '@/app/test/migrated-components/cooking-methods-section/page';
 import {
-  dryCookingMethods,
-  molecularCookingMethods,
-  wetCookingMethods,
+    dryCookingMethods,
+    molecularCookingMethods,
+    wetCookingMethods,
 } from '@/data/cooking/methods';
 
 export default function CookingMethodsDemoPage() {

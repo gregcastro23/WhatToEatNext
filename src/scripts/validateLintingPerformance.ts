@@ -9,9 +9,9 @@
  * Requirements: 5.1, 5.2, 5.3
  */
 
-import { execSync, spawn } from 'child_process';
-import { existsSync, statSync, readFileSync, writeFileSync, unlinkSync } from 'fs';
-import { join } from 'path';
+import { execSync } from 'child_process';
+import { existsSync, statSync, unlinkSync, writeFileSync } from 'fs';
+import { cpus } from 'os';
 
 interface PerformanceMetrics {
   executionTime: number;
@@ -458,7 +458,7 @@ export const testVariable = 'test';
     }
 
     // Estimate based on system capabilities
-    const cpuCount = require('os').cpus().length;
+    const cpuCount = cpus().length;
     return Math.min(cpuCount, 4); // Max 4 processes
   }
 

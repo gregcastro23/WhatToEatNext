@@ -5,7 +5,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 
-import { MakefileIntegration, MakeTarget } from './MakefileIntegration';
+import { MakefileIntegration } from './MakefileIntegration';
 
 // Mock fs and execSync
 jest.mock('fs');
@@ -54,7 +54,7 @@ describe('MakefileIntegration', () => {
       const phase1Target = targets.find(t => t.name === 'campaign-phase1');
 
       expect(phase1Target).toBeDefined();
-      expect(phase1Target!.description).toContain('Phase 1');
+      expect(phase1Target?.description).toContain('Phase 1');
       expect(phase1Target!.commands).toHaveLength(4);
       expect(phase1Target!.phony).toBe(true);
     });

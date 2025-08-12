@@ -5,15 +5,15 @@
  * Command-line interface for the automated import cleanup system
  */
 
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { logger } from '../../utils/logger';
 
 import {
-  ImportCleanupSystem,
-  DEFAULT_IMPORT_CLEANUP_CONFIG,
-  ImportCleanupConfig,
+    DEFAULT_IMPORT_CLEANUP_CONFIG,
+    ImportCleanupConfig,
+    ImportCleanupSystem,
 } from './ImportCleanupSystem';
 
 interface CLIOptions {
@@ -116,7 +116,6 @@ class ImportCleanupCLI {
 
   private async getDefaultFiles(): Promise<string[]> {
     try {
-      const { execSync } = require('child_process');
       const output = execSync(
         'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' },

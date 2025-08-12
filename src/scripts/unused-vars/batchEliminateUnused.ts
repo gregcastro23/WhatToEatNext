@@ -76,8 +76,12 @@ function readFindings(inPath: string): Finding[] {
 function groupByFile(findings: Finding[]): Map<string, Finding[]> {
   const map = new Map<string, Finding[]>();
   for (const f of findings) {
-    if (!map.has(f.filePath)) map.set(f.filePath, []);
-    map.get(f.filePath)!.push(f);
+    const existing = map.get(f.filePath);
+    if (existing) {
+      existing.push(f);
+    } else {
+      map.set(f.filePath, [f]);
+    }
   }
   return map;
 }

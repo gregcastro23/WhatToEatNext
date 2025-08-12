@@ -9,6 +9,7 @@
 
 import type { ComprehensiveAlchemicalResult } from '@/calculations/index';
 import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
+import { CulturalAnalyticsService } from '@/services/CulturalAnalyticsService';
 import type {
     AdvancedAnalyticsIntelligenceResult,
     AdvancedIntelligenceConfig,
@@ -1819,7 +1820,6 @@ export class EnterpriseIntelligenceIntegration {
   private analyzeCuisineCultural(cuisineData: unknown, astrologicalContext: unknown): unknown {
     try {
       // Use CulturalAnalyticsService for cultural analysis
-      const { CulturalAnalyticsService } = require('@/services/CulturalAnalyticsService');
 
       const context = astrologicalContext as EnhancedAstrologicalContext;
       const culturalAnalytics = CulturalAnalyticsService.generateCulturalAnalytics(
@@ -1850,7 +1850,6 @@ export class EnterpriseIntelligenceIntegration {
   private analyzeCuisineFusion(cuisineData: unknown): unknown {
     try {
       // Use CulturalAnalyticsService for fusion analysis
-      const { CulturalAnalyticsService } = require('@/services/CulturalAnalyticsService');
 
       const fusionRecommendations = CulturalAnalyticsService.generateFusionRecommendations(
         (cuisineData as Record<string, unknown>)?.name || 'unknown',

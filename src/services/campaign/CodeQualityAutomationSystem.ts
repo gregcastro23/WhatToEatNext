@@ -4,22 +4,23 @@
  * Part of the Kiro Optimization Campaign System
  */
 
+import { execSync } from 'child_process';
 import { logger } from '../../utils/logger';
 
 import {
-  DependencySecurityMonitor,
-  DependencySecurityConfig,
-  DEFAULT_DEPENDENCY_SECURITY_CONFIG,
+    DEFAULT_DEPENDENCY_SECURITY_CONFIG,
+    DependencySecurityConfig,
+    DependencySecurityMonitor,
 } from './DependencySecurityMonitor';
 import {
-  ImportCleanupSystem,
-  ImportCleanupConfig,
-  DEFAULT_IMPORT_CLEANUP_CONFIG,
+    DEFAULT_IMPORT_CLEANUP_CONFIG,
+    ImportCleanupConfig,
+    ImportCleanupSystem,
 } from './ImportCleanupSystem';
 import {
-  LintingFormattingSystem,
-  LintingFormattingConfig,
-  DEFAULT_LINTING_FORMATTING_CONFIG,
+    DEFAULT_LINTING_FORMATTING_CONFIG,
+    LintingFormattingConfig,
+    LintingFormattingSystem,
 } from './LintingFormattingSystem';
 
 export interface CodeQualityAutomationConfig {
@@ -391,7 +392,6 @@ export class CodeQualityAutomationSystem {
 
   private async validateBuild(): Promise<boolean> {
     try {
-      const { execSync } = require('child_process');
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',

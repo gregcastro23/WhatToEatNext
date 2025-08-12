@@ -1,26 +1,31 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import ChakraDisplay from '@/components/ChakraDisplay';
-import ChakraDisplayMigrated from '@/components/ChakraDisplay.migrated';
-import ElementalRecommendations from '@/components/ElementalDisplay/ElementalEnergyDisplay';
-import ElementalRecommendationsMigrated from '@/components/ElementalRecommendations.migrated';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+// Minimal fallbacks for missing demo components
+const ChakraDisplay = () => <div className='p-4 text-gray-600'>ChakraDisplay unavailable</div>;
+const ChakraDisplayMigrated = ChakraDisplay;
+const ElementalRecommendations = () => (
+  <div className='p-4 text-gray-600'>ElementalRecommendations unavailable</div>
+);
+const ElementalRecommendationsMigrated = ElementalRecommendations;
 
-const AstrologyChart = dynamic(
-  () =>
-    import('@/components/AstrologyChart/AstrologyChart.migrated').then(mod => {
-      return mod.default;
-    }),
-  { ssr: false },
+const Tabs = ({ children, defaultValue, className }: any) => (
+  <div className={className}>{children}</div>
+);
+const TabsList = ({ children, className }: any) => (
+  <div className={`flex gap-2 ${className || ''}`}>{children}</div>
+);
+const TabsTrigger = ({ children }: any) => (
+  <button className='rounded border px-3 py-1'>{children}</button>
+);
+const TabsContent = ({ children }: any) => <div className='mt-4'>{children}</div>;
+
+const AstrologyChart = () => (
+  <div className='p-4 text-gray-600'>AstrologyChart unavailable</div>
 );
 
-const AstrologyChartMigrated = dynamic(
-  () => import('@/components/AstrologyChart/AstrologyChart.migrated'),
-  { ssr: false },
-);
+const AstrologyChartMigrated = AstrologyChart;
 
 export default function MigratedComponentsTestPage() {
   return (

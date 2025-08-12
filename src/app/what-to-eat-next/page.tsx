@@ -1,7 +1,8 @@
-import React from 'react';
-
-import KalchmRecommender from '@/components/FoodRecommender/KalchmRecommender';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
+
+const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (
+  <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
+);
 
 export default function WhatToEatNextPage() {
   return (

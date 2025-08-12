@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useReducer, useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 
 import { createLogger } from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 
 import { AlchemicalContext, defaultState } from './context';
 import { alchemicalReducer } from './reducer';
-import { PlanetaryPositionsType, AstrologicalState, AlchemicalState } from './types';
+import { AlchemicalState, AstrologicalState, PlanetaryPositionsType } from './types';
 
 // Phase 5: Type-safe conversion interfaces for alchemical calculations
 interface CalculationCompatiblePosition {
@@ -255,7 +255,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         sunSign,
         moonSign,
         lunarPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase()), // Calculate actual lunar phase
-        timeOfDay: getTimeOfDay(),
+        timeOfDay: _getTimeOfDay(),
         isDaytime,
         planetaryHour: 'sun', // This would be calculated
         zodiacSign: sunSign,

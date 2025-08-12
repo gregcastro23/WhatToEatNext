@@ -5,7 +5,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 
-import { ScriptIntegrationSystem, ScriptExecutionOptions } from './ScriptIntegrationSystem';
+import { ScriptExecutionOptions, ScriptIntegrationSystem } from './ScriptIntegrationSystem';
 
 // Mock fs and execSync
 jest.mock('fs');
@@ -50,7 +50,7 @@ describe('ScriptIntegrationSystem', () => {
       const tsScript = scripts.find(s => s.id === 'typescript-enhanced-v3');
 
       expect(tsScript).toBeDefined();
-      expect(tsScript!.config.scriptPath).toBe('scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js');
+      expect(tsScript?.config.scriptPath).toBe('scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js');
       expect(tsScript!.config.safetyLevel).toBe('maximum');
       expect(tsScript!.config.maxBatchSize).toBe(25);
       expect(tsScript!.config.requiresGitClean).toBe(true);
@@ -134,7 +134,7 @@ describe('ScriptIntegrationSystem', () => {
       const result = await scriptSystem.executeScript('typescript-enhanced-v3', { json: true });
 
       expect(result.metrics).toBeDefined();
-      expect(result.metrics!.totalRuns).toBe(10);
+      expect(result.metrics?.totalRuns).toBe(10);
       expect(result.metrics!.safetyScore).toBe(0.85);
     });
 
@@ -176,7 +176,7 @@ describe('ScriptIntegrationSystem', () => {
       const metrics = await scriptSystem.getScriptMetrics('typescript-enhanced-v3');
 
       expect(metrics).toBeDefined();
-      expect(metrics!.totalRuns).toBe(5);
+      expect(metrics?.totalRuns).toBe(5);
       expect(metrics!.successfulRuns).toBe(4);
       expect(metrics!.safetyScore).toBe(0.8);
     });
@@ -197,7 +197,7 @@ describe('ScriptIntegrationSystem', () => {
       const metrics = await scriptSystem.getScriptMetrics('typescript-enhanced-v3');
 
       expect(metrics).toBeDefined();
-      expect(metrics!.totalRuns).toBe(3);
+      expect(metrics?.totalRuns).toBe(3);
       expect(metrics!.safetyScore).toBe(0.7);
     });
   });

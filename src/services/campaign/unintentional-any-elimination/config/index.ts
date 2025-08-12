@@ -8,7 +8,7 @@
  * - Target setting and progress tracking configuration
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { AnyTypeCategory, Element, SafetyLevel } from '../types';
 
@@ -246,7 +246,7 @@ export class ConfigurationManager {
     try {
       const configDir = join(this.configPath, '..');
       if (!existsSync(configDir)) {
-        require('fs').mkdirSync(configDir, { recursive: true });
+        mkdirSync(configDir, { recursive: true });
       }
 
       this.config.lastUpdated = new Date().toISOString();

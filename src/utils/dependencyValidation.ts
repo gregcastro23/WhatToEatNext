@@ -198,7 +198,8 @@ export const DEPENDENCY_FIXES = {
    */
   fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {
     // Calculate the relative path from fromDir to toDir
-    const relativePath = require('path').relative(fromDir, toDir);
+    const { relative } = require('path') as typeof import('path');
+    const relativePath = relative(fromDir, toDir);
     return relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
   },
 
@@ -235,9 +236,11 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   circularDependencies: string[][];
   warnings: string[];
 }> {
-  const fs = require('fs');
-  const path = require('path');
-  const glob = require('glob');
+  const fs = await import('fs');
+  const path = await import('path');
+  const glob = (await import('glob')).default as unknown as {
+    sync: (pattern: string, options: { cwd: string; ignore: string[] }) => string[];
+  };
 
   const tsFiles = glob.sync('**/*.{ts,tsx}', {
     cwd: projectRoot,

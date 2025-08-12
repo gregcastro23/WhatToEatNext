@@ -17,7 +17,6 @@
 import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import fs from 'fs';
-import path from 'path';
 
 import { log } from '@/services/LoggingService';
 
@@ -361,8 +360,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       return {
         usage: cpuUsage,
         loadAverage,
-        cores: require('os').cpus().length,
-        model: require('os').cpus()[0]?.model || 'Unknown',
+        cores: (await import('os')).cpus().length,
+        model: (await import('os')).cpus()[0]?.model || 'Unknown',
       };
     } catch (error) {
       return {
@@ -404,7 +403,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private async getLoadAverage(): Promise<number[]> {
     try {
-      return require('os').loadavg();
+      return (await import('os')).loadavg();
     } catch (error) {
       return [0, 0, 0];
     }
@@ -415,8 +414,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private async getMemoryInfo(): Promise<SystemMetrics['memory']> {
     try {
-      const totalMemory = require('os').totalmem();
-      const freeMemory = require('os').freemem();
+      const os = await import('os');
+      const totalMemory = os.totalmem();
+      const freeMemory = os.freemem();
       const usedMemory = totalMemory - freeMemory;
 
       return {

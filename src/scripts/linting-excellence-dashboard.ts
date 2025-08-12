@@ -8,6 +8,7 @@
  */
 
 import { execSync } from 'child_process';
+import { existsSync } from 'fs';
 
 import { LintingAlertingSystem } from '../services/linting/LintingAlertingSystem';
 import { LintingValidationDashboard } from '../services/linting/LintingValidationDashboard';
@@ -267,7 +268,8 @@ class LintingExcellenceDashboardCLI {
     // Show current alerts
     try {
       const alertsFile = '.kiro/metrics/linting-alerts.json';
-      const alerts = JSON.parse(require('fs').readFileSync(alertsFile, 'utf8'));
+      const { readFileSync } = await import('fs');
+      const alerts = JSON.parse(readFileSync(alertsFile, 'utf8'));
 
       if (alerts.length === 0) {
         console.log('✅ No active alerts');
@@ -297,7 +299,8 @@ class LintingExcellenceDashboardCLI {
 
     try {
       const metricsFile = '.kiro/metrics/linting-metrics-history.json';
-      const history = JSON.parse(require('fs').readFileSync(metricsFile, 'utf8'));
+      const { readFileSync } = await import('fs');
+      const history = JSON.parse(readFileSync(metricsFile, 'utf8'));
 
       if (history.length === 0) {
         console.log('ℹ️  No metrics history available');
@@ -356,22 +359,22 @@ class LintingExcellenceDashboardCLI {
     const checks = [
       {
         name: 'ESLint Configuration',
-        check: () => require('fs').existsSync('eslint.config.cjs'),
+        check: () => existsSync('eslint.config.cjs'),
         fix: 'Ensure eslint.config.cjs exists in project root',
       },
       {
         name: 'TypeScript Configuration',
-        check: () => require('fs').existsSync('tsconfig.json'),
+        check: () => existsSync('tsconfig.json'),
         fix: 'Ensure tsconfig.json exists in project root',
       },
       {
         name: 'ESLint Cache',
-        check: () => require('fs').existsSync('.eslintcache'),
+        check: () => existsSync('.eslintcache'),
         fix: 'Run yarn lint to generate cache',
       },
       {
         name: 'Metrics Directory',
-        check: () => require('fs').existsSync('.kiro/metrics'),
+        check: () => existsSync('.kiro/metrics'),
         fix: 'Directory will be created automatically',
       },
       {
@@ -449,11 +452,12 @@ class LintingExcellenceDashboardCLI {
           try {
             // Keep only last 50 entries in metrics history
             const metricsFile = '.kiro/metrics/linting-metrics-history.json';
-            if (require('fs').existsSync(metricsFile)) {
-              const history = JSON.parse(require('fs').readFileSync(metricsFile, 'utf8'));
+            const { existsSync, readFileSync, writeFileSync } = await import('fs');
+            if (existsSync(metricsFile)) {
+              const history = JSON.parse(readFileSync(metricsFile, 'utf8'));
               if (history.length > 50) {
                 const trimmed = history.slice(-50);
-                require('fs').writeFileSync(metricsFile, JSON.stringify(trimmed, null, 2));
+                writeFileSync(metricsFile, JSON.stringify(trimmed, null, 2));
               }
             }
             return true;

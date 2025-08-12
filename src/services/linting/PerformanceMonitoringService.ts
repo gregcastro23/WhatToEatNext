@@ -9,8 +9,7 @@
  */
 
 import { execSync } from 'child_process';
-import { existsSync, statSync, writeFileSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'fs';
 
 export interface PerformanceMetrics {
   timestamp: Date;
@@ -497,8 +496,15 @@ export class PerformanceMonitoringService {
   }
 
   private getParallelProcessCount(): number {
-    const cpuCount = require('os').cpus().length;
-    return Math.min(cpuCount, 4); // Max 4 processes as per configuration
+    try {
+      // Use ESM import for OS CPU info
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { cpus }: typeof import('os') = require('os');
+      const cpuCount = cpus().length;
+      return Math.min(cpuCount, 4);
+    } catch {
+      return 1;
+    }
   }
 
   private generateRecommendations(

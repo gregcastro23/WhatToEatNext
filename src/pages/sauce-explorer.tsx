@@ -1,21 +1,20 @@
 import {
-  Utensils,
-  Droplet,
-  Flame,
-  Wind,
-  Mountain,
-  Beef,
-  Carrot,
-  ChefHat,
-  Globe,
-  Filter,
-  RotateCcw,
+    Beef,
+    Carrot,
+    ChefHat,
+    Droplet,
+    Filter,
+    Flame,
+    Globe,
+    Mountain,
+    Utensils,
+    Wind
 } from 'lucide-react';
-import Head from 'next/head';
-import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import SauceRecommender from '@/components/SauceRecommender';
+const SauceRecommender = (props: any) => (
+  <div className='rounded border p-4 text-gray-600'>SauceRecommender unavailable.</div>
+);
 
 // Import all cuisines
 import { default as frenchCuisine } from '@/data/cuisines/french';

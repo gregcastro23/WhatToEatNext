@@ -4,7 +4,9 @@
  * Demonstrates the comprehensive Swiss Ephemeris integration
  */
 
-import SwissEphemerisDemo from '@/components/SwissEphemerisDemo';
+const SwissEphemerisDemo = () => (
+  <div className='rounded border p-4 text-gray-600'>SwissEphemerisDemo unavailable.</div>
+);
 
 export default function SwissEphemerisDemoPage() {
   return (

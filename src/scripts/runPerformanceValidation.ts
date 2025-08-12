@@ -9,6 +9,8 @@
  * Requirements: 5.1, 5.2, 5.3
  */
 
+import { execSync } from 'child_process';
+import { writeFileSync } from 'fs';
 import { PerformanceMonitoringService } from '../services/linting/PerformanceMonitoringService';
 
 import { LintingPerformanceValidator } from './validateLintingPerformance';
@@ -232,8 +234,7 @@ class PerformanceValidationCLI {
 
     // Save report if output specified
     if (options.output) {
-      const fs = require('fs');
-      fs.writeFileSync(options.output, JSON.stringify(report, null, 2));
+      writeFileSync(options.output, JSON.stringify(report, null, 2));
       console.log(`📄 Detailed report saved to: ${options.output}`);
     }
   }
@@ -242,7 +243,6 @@ class PerformanceValidationCLI {
     console.log('🧪 Running performance validation tests...\n');
 
     try {
-      const { execSync } = require('child_process');
 
       console.log('📊 Running Jest tests for performance validation...');
       const output = execSync(

@@ -411,10 +411,12 @@ export class SafeTypeReplacer {
     const grouped = new Map<string, TypeReplacement[]>();
 
     for (const replacement of replacements) {
-      if (!grouped.has(replacement.filePath)) {
-        grouped.set(replacement.filePath, []);
+      const existing = grouped.get(replacement.filePath);
+      if (existing) {
+        existing.push(replacement);
+      } else {
+        grouped.set(replacement.filePath, [replacement]);
       }
-      grouped.get(replacement.filePath)!.push(replacement);
     }
 
     // Sort replacements within each file by line number (descending to avoid line number shifts)

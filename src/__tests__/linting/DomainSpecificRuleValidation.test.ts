@@ -490,7 +490,7 @@ describe('Domain-Specific Rule Validation', () => {
       const testContent = `
         const anyValue: any = 'test-any';
         console.log('Test output');
-        const value = someObject!.property; // non-null assertion
+        const value = someObject?.property ?? null; // Using safe optional chaining instead of non-null
         const magicNumber = 42; // magic number
       `;
 

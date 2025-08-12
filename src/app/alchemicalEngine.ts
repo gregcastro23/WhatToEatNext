@@ -4,21 +4,26 @@
 // in src/calculations/alchemicalEngine.ts
 // It helps maintain consistent import paths throughout the application
 
-import { alchemize, AlchemicalEngineAdvanced } from '@/calculations/alchemicalEngine';
+import {
+    AlchemicalEngineAdvanced,
+    calculateChakraEnergies as _calculateChakraEnergies,
+    calculateZodiacEnergies as _calculateZodiacEnergies,
+    alchemize,
+} from '@/calculations/alchemicalEngine';
 import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
 import type {
-  StandardizedAlchemicalResult,
-  AstrologicalState,
-  BirthInfo,
-  HoroscopeData,
-  ChakraEnergies,
+    AstrologicalState,
+    BirthInfo,
+    ChakraEnergies,
+    HoroscopeData,
+    StandardizedAlchemicalResult,
 } from '@/types/alchemy';
 
 // Re-export the main functions and classes
 export { AlchemicalEngineAdvanced, AlchemicalEngineBase };
 
 // Re-export the main alchemize function
-export { alchemize };
+    export { alchemize };
 
 // Create and export a unified default object with all alchemical functionality
 const alchemicalEngine = {
@@ -97,9 +102,8 @@ const alchemicalEngine = {
 
   calculateZodiacEnergies: (positions: Record<string, unknown>): Record<string, number> => {
     try {
-      // Import and call the function from the source module
-      const { calculateZodiacEnergies } = require('@/calculations/alchemicalEngine');
-      return calculateZodiacEnergies(positions);
+      // Use ESM import binding
+      return _calculateZodiacEnergies(positions);
     } catch (error) {
       console.error('Error calculating zodiac energies:', error);
       // Return a safe fallback with equal distribution
@@ -122,9 +126,8 @@ const alchemicalEngine = {
 
   calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {
     try {
-      // Import and call the function from the source module
-      const { calculateChakraEnergies } = require('@/calculations/alchemicalEngine');
-      return calculateChakraEnergies(zodiacEnergies);
+      // Use ESM import binding
+      return _calculateChakraEnergies(zodiacEnergies);
     } catch (error) {
       console.error('Error calculating chakra energies:', error);
       // Return a safe fallback with equal distribution

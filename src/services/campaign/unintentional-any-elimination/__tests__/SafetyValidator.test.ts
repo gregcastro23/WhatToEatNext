@@ -78,7 +78,7 @@ describe('SafetyValidator', () => {
 
       expect(result.buildSuccessful).toBe(true);
       expect(result.performanceMetrics).toBeDefined();
-      expect(result.performanceMetrics!.buildTime).toBeGreaterThanOrEqual(0);
+      expect(result.performanceMetrics?.buildTime ?? -1).toBeGreaterThanOrEqual(0);
     });
 
     test('includes test validation when requested', async () => {
@@ -88,7 +88,7 @@ describe('SafetyValidator', () => {
 
       expect(result.buildSuccessful).toBe(true);
       expect(result.testResults).toBeDefined();
-      expect(result.testResults!.testsPass).toBe(true);
+      expect(result.testResults?.testsPass ?? false).toBe(true);
     });
 
     test('handles performance threshold violations', async () => {

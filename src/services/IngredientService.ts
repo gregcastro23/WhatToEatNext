@@ -1,11 +1,9 @@
 import type {
-  ElementalProperties,
-  IngredientMapping,
-  ThermodynamicMetrics,
-  NutritionalProfile as _NutritionalProfile,
-  PlanetName as _PlanetName,
+    ElementalProperties,
+    IngredientMapping,
+    ThermodynamicMetrics
 } from '@/types/alchemy';
-import type { ZodiacSign, Recipe } from '@/types/unified';
+import type { Recipe, ZodiacSign } from '@/types/unified';
 
 import { cuisinesMap as _cuisinesMap } from '../data/cuisines';
 import { fruits } from '../data/ingredients/fruits';
@@ -19,8 +17,7 @@ import type { Recipe as _Recipe } from '../types/recipe';
 import { logger } from '../utils/logger';
 import { filterRecipesByIngredientMappings as _filterRecipesByIngredientMappings } from '../utils/recipe/recipeFiltering';
 import {
-  connectIngredientsToMappings as _connectIngredientsToMappings,
-  connectIngredientsToMappings,
+    connectIngredientsToMappings
 } from '../utils/recipe/recipeMatching';
 
 // Phase 10: Calculation Type Interfaces
@@ -38,28 +35,26 @@ interface ElementalData {
   [key: string]: unknown;
 }
 
-import type { Season as _Season } from '@/types/seasons';
 
-import type { ZodiacSign as _ZodiacSign } from '../types/zodiac';
 import type { ElementalFilter } from '../types/elemental';
-import type { NutritionalFilter, NutritionData } from '../types/nutrition';
+import type { NutritionData, NutritionalFilter } from '../types/nutrition';
 // SpoonacularNutritionData import removed with cleanup
 
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 
 import {
-  IngredientServiceInterface,
-  DietaryFilter,
-  IngredientFilter,
-  IngredientRecommendationOptions,
+    DietaryFilter,
+    IngredientFilter,
+    IngredientRecommendationOptions,
+    IngredientServiceInterface,
 } from './interfaces/IngredientServiceInterface';
 
+import { isNonEmptyArray, safeMap, safeSome, toArray } from '../utils/common/arrayUtils';
 import {
-  createElementalProperties,
-  isElementalProperties,
-  mergeElementalProperties,
+    createElementalProperties,
+    isElementalProperties,
+    mergeElementalProperties,
 } from '../utils/elemental/elementalUtils';
-import { isNonEmptyArray, safeSome, safeMap, toArray } from '../utils/common/arrayUtils';
 
 // Structure for recipe recommendations
 export interface RecipeRecommendation {
@@ -568,13 +563,13 @@ export class IngredientService implements IngredientServiceInterface {
           return false;
         }
 
-        // Check dAiry-free requirement
+        // Check dairy-free requirement
         if (
           filter.isDAiryFree &&
           ingredient.tags &&
           safeSome(
             Array.isArray(ingredient.tags) ? ingredient.tags : [ingredient.tags],
-            tag => tag === 'dAiry',
+            tag => tag === 'dairy',
           )
         ) {
           return false;

@@ -53,8 +53,8 @@
     "lint:campaign": "node src/scripts/linting-campaign-cli.cjs",
     "lint:campaign:metrics": "node src/scripts/linting-campaign-cli.cjs collect-metrics",
     "lint:campaign:report": "node src/scripts/linting-campaign-cli.cjs generate-report",
-    "deps:validate": "ts-node scripts/validate-dependencies.ts",
-    "deps:fix": "ts-node scripts/validate-dependencies.ts --fix",
+    "deps:validate": "node --loader ts-node/esm scripts/validate-dependencies.ts",
+    "deps:fix": "node --loader ts-node/esm scripts/validate-dependencies.ts --fix",
     "lint:campaign:start": "node src/scripts/linting-campaign-cli.cjs start-campaign standard --confirm",
     "lint:campaign:dry": "node src/scripts/linting-campaign-cli.cjs start-campaign standard --dry-run",
     "dashboard": "node src/scripts/zero-error-dashboard.ts generate",
@@ -119,7 +119,15 @@
     "unused-vars:baseline": "yarn unused-vars baseline --count 965",
     "unused-vars:analyze": "yarn unused-vars analyze --out reports/unused-vars.json",
     "unused-vars:batch": "yarn unused-vars batch --in reports/unused-vars.json --max-batch 15 --max-batch-critical 8",
-    "unused-vars:apply": "yarn unused-vars batch --in reports/unused-vars.json --max-batch 15 --max-batch-critical 8 --apply"
+    "unused-vars:apply": "yarn unused-vars batch --in reports/unused-vars.json --max-batch 15 --max-batch-critical 8 --apply",
+    "batch-process": "node --loader ts-node/esm src/scripts/batch-processing/cli.ts",
+    "batch-process:plan": "yarn batch-process plan unused-variables-analysis-report.json",
+    "batch-process:execute": "yarn batch-process execute unused-variables-analysis-report.json",
+    "batch-process:execute:dry": "yarn batch-process execute unused-variables-analysis-report.json --dry-run",
+    "batch-process:execute:safe": "yarn batch-process execute unused-variables-analysis-report.json --max-batch 10 --max-critical 3",
+    "batch-process:review": "yarn batch-process review",
+    "batch-process:status": "yarn batch-process status",
+    "batch-process:integration": "node --loader ts-node/esm src/scripts/batch-processing/integration.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

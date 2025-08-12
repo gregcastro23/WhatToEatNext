@@ -740,12 +740,12 @@ describe('SafeTypeReplacer', () => {
       // Test function parameter strategy
       const paramStrategy = strategies.find(s => s.priority === 4);
       expect(paramStrategy).toBeDefined();
-      expect(paramStrategy!.validator(mockContext)).toBe(true);
+      expect(paramStrategy?.validator(mockContext)).toBe(true);
 
       // Test return type strategy
       const returnStrategy = strategies.find(s => s.priority === 5);
       expect(returnStrategy).toBeDefined();
-      expect(returnStrategy!.validator(mockContext)).toBe(true);
+      expect(returnStrategy?.validator(mockContext)).toBe(true);
     });
   });
 

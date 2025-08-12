@@ -1,10 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
-
-import { CookingMethodsSection } from '@/components/CookingMethodsSection';
-import { CookingMethodsSectionMigrated } from '@/components/CookingMethodsSection.migrated';
 import { useServices } from '@/hooks/useServices';
+import { useState } from 'react';
+
+// Inline temporary fallbacks for missing shared components
+const CookingMethodsSection = ({
+  methods,
+  onSelectMethod,
+  selectedMethodId,
+  showToggle,
+  initiallyExpanded,
+}: {
+  methods: any[];
+  onSelectMethod: (m: unknown) => void;
+  selectedMethodId?: string | null;
+  showToggle?: boolean;
+  initiallyExpanded?: boolean;
+}) => (
+  <div className='space-y-2'>
+    {methods.map(m => (
+      <button
+        key={m.id}
+        onClick={() => onSelectMethod(m)}
+        className={`w-full rounded border p-3 text-left ${selectedMethodId === m.id ? 'bg-blue-50' : 'bg-white'}`}
+      >
+        <div className='font-semibold'>{m.name}</div>
+        <div className='text-sm text-gray-600'>{m.description}</div>
+      </button>
+    ))}
+  </div>
+);
+
+const CookingMethodsSectionMigrated = CookingMethodsSection;
 
 // Sample cooking methods for testing
 const sampleMethods = [

@@ -1,12 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
-
-import RecipeFiltersMigrated, {
-  FilterState,
-  initialFilters,
-} from '@/components/Recipe/RecipeFilters.migrated';
 import { logger } from '@/utils/logger';
+import { useState } from 'react';
+
+// Minimal local fallback for RecipeFilters
+type FilterState = Record<string, unknown>;
+const initialFilters: FilterState = {};
+
+const RecipeFiltersMigrated = ({
+  filters,
+  updateFilters,
+  resetFilters,
+  showFilters,
+  setShowFilters,
+}: {
+  filters: FilterState;
+  updateFilters: (u: Partial<FilterState>) => void;
+  resetFilters: () => void;
+  showFilters: boolean;
+  setShowFilters: (v: boolean) => void;
+}) => (
+  <div className='space-y-2'>
+    <div className='text-gray-600'>RecipeFilters component unavailable.</div>
+    <button className='rounded border px-3 py-1' onClick={() => setShowFilters(!showFilters)}>
+      Toggle Filters
+    </button>
+  </div>
+);
 
 export default function RecipeFiltersTestPage() {
   // State for original filters

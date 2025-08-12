@@ -99,8 +99,8 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const _getElementFromSign = (sign: string): string => {
     const fireElements = ['aries', 'leo', 'sagittarius'];
     const earthElements = ['taurus', 'virgo', 'capricorn'];
-    const airElements = ['gemini', 'Libra', 'aquarius'];
-    const waterElements = ['cancer', 'Scorpio', 'pisces'];
+    const airElements = ['gemini', 'libra', 'aquarius'];
+    const waterElements = ['cancer', 'scorpio', 'pisces'];
 
     if (fireElements.includes(sign)) return 'Fire';
     if (earthElements.includes(sign)) return 'Earth';

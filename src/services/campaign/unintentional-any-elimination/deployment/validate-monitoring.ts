@@ -8,7 +8,7 @@
  */
 
 import { execSync } from 'child_process';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, statSync } from 'fs';
 
 interface ValidationResult {
   component: string;
@@ -224,8 +224,8 @@ function validateStartupScripts(): ValidationResult {
   }
 
   try {
-    // Check if script is executable (on Unix systems)
-    const stats = require('fs').statSync(startupScript);
+    // Check if script is accessible (basic check)
+    const stats = statSync(startupScript);
     // Note: This is a basic check, actual executable permission checking is platform-specific
 
     return {

@@ -3,18 +3,15 @@
 // Add static generation marker
 export const dynamic = 'force-static';
 
-import dynamicImport from 'next/dynamic';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
-// Use dynamic imports with no SSR
-const PlanetaryHoursTest = dynamicImport(
-  () => import('@/components/PlanetaryHours/PlanetaryHoursTest'),
-  { ssr: false },
+// Temporary lightweight fallbacks for missing components
+const PlanetaryHoursTest = () => (
+  <div className='text-gray-600'>PlanetaryHoursTest component unavailable.</div>
 );
 
-const SimplePlanetaryDisplay = dynamicImport(
-  () => import('@/components/PlanetaryHours/SimplePlanetaryDisplay'),
-  { ssr: false },
+const SimplePlanetaryDisplay = () => (
+  <div className='text-gray-600'>SimplePlanetaryDisplay component unavailable.</div>
 );
 
 export default function PlanetaryTestPage() {

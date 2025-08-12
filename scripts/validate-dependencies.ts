@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
 /**
  * Dependency Validation Script
@@ -7,15 +7,15 @@
  * and provides fixes for common dependency issues.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import { readFileSync, writeFileSync } from 'fs';
+import { join, resolve } from 'path';
 import {
-  autoFixDependencyIssues,
-  generateDependencyReport,
+    autoFixDependencyIssues,
+    generateDependencyReport,
 } from '../src/utils/dependencyValidation';
 
 async function main() {
-  const projectRoot = path.resolve(__dirname, '..');
+  const projectRoot = resolve(__dirname, '..');
 
   console.log('🔍 Validating project dependencies...\n');
 
@@ -54,7 +54,9 @@ async function main() {
     if (shouldFix) {
       console.log('🔧 Auto-fixing dependency issues...\n');
 
-      const glob = require('glob');
+      const glob = (await import('glob')).default as unknown as {
+        sync: (pattern: string, options: { cwd: string; ignore: string[] }) => string[];
+      };
       const tsFiles = glob.sync('src/**/*.{ts,tsx}', {
         cwd: projectRoot,
         ignore: ['node_modules/**', 'dist/**', '.next/**'],
@@ -64,13 +66,13 @@ async function main() {
       let totalFixes = 0;
 
       for (const file of tsFiles) {
-        const filePath = path.join(projectRoot, file);
+        const filePath = join(projectRoot, file);
         try {
-          const content = fs.readFileSync(filePath, 'utf8');
+          const content = readFileSync(filePath, 'utf8');
           const { fixedContent, appliedFixes } = autoFixDependencyIssues(content, filePath);
 
           if (appliedFixes.length > 0) {
-            fs.writeFileSync(filePath, fixedContent);
+            writeFileSync(filePath, fixedContent);
             fixedFiles++;
             totalFixes += appliedFixes.length;
             console.log(`✅ Fixed ${appliedFixes.length} issues in ${file}`);

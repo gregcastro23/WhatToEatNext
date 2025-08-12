@@ -1,6 +1,6 @@
 import { log } from '@/services/LoggingService';
 import type { AlchemicalProperties, ElementalProperties, Season } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import * as flavorProfileMigration from './flavorProfileMigration';
 
 // ===== UNIFIED INTERFACES =====
 
@@ -103,18 +103,29 @@ let _isInitializing = false;
 let _isInitialized = false;
 
 // If running in browser, use global variable to ensure true singleton
+declare global {
+  interface Window {
+    __FLAVOR_ENGINE_INSTANCE__?: {
+      instance: UnifiedFlavorEngine | null;
+      initializing: boolean;
+      initialized: boolean;
+    };
+  }
+}
+
 if (typeof window !== 'undefined') {
-  // @ts-ignore
   if (!window.__FLAVOR_ENGINE_INSTANCE__) {
-    // @ts-ignore
     window.__FLAVOR_ENGINE_INSTANCE__ = { instance: null, initializing: false, initialized: false };
   }
 }
 
 function getGlobalState() {
   if (typeof window !== 'undefined') {
-    // @ts-ignore
-    return window.__FLAVOR_ENGINE_INSTANCE__;
+    return window.__FLAVOR_ENGINE_INSTANCE__ as {
+      instance: UnifiedFlavorEngine | null;
+      initializing: boolean;
+      initialized: boolean;
+    };
   }
   return { instance: _instance, initializing: _isInitializing, initialized: _isInitialized };
 }
@@ -125,7 +136,6 @@ function setGlobalState(
   initialized: boolean,
 ) {
   if (typeof window !== 'undefined') {
-    // @ts-ignore
     window.__FLAVOR_ENGINE_INSTANCE__ = {
       instance: instance,
       initializing: initializing,
@@ -187,9 +197,6 @@ export class UnifiedFlavorEngine {
 
   private initializeProfilesSync(): void {
     try {
-      // Use require for synchronous loading
-      const flavorProfileMigration = require('./flavorProfileMigration');
-
       // Run the migration but don't wait for it - it will cache its results
       flavorProfileMigration
         .runFlavorProfileMigration()

@@ -175,7 +175,7 @@ export class ConservativeReplacementPilot {
 
     try {
       // Group cases by file to optimize processing
-      const casesByFile = this.groupCasesByFile(cases);
+    const casesByFile = this.groupCasesByFile(cases);
       const fileGroups = Array.from(casesByFile.entries());
 
       while (totalProcessed < cases.length && batchNumber < this.config.maxBatches) {
@@ -647,10 +647,12 @@ export class ConservativeReplacementPilot {
     const grouped = new Map<string, TypeReplacement[]>();
 
     for (const case_ of cases) {
-      if (!grouped.has(case_.filePath)) {
-        grouped.set(case_.filePath, []);
+      const existing = grouped.get(case_.filePath);
+      if (existing) {
+        existing.push(case_);
+      } else {
+        grouped.set(case_.filePath, [case_]);
       }
-      grouped.get(case_.filePath)!.push(case_);
     }
 
     return grouped;

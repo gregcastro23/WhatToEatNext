@@ -5,15 +5,15 @@
  * Command-line interface for the automated linting and formatting system
  */
 
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { logger } from '../../utils/logger';
 
 import {
-  LintingFormattingSystem,
-  DEFAULT_LINTING_FORMATTING_CONFIG,
-  LintingFormattingConfig,
+    DEFAULT_LINTING_FORMATTING_CONFIG,
+    LintingFormattingConfig,
+    LintingFormattingSystem,
 } from './LintingFormattingSystem';
 
 interface CLIOptions {
@@ -130,7 +130,6 @@ class LintingFormattingCLI {
 
   private async getDefaultFiles(): Promise<string[]> {
     try {
-      const { execSync } = require('child_process');
       const output = execSync(
         'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' },

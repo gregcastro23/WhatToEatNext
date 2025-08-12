@@ -5,7 +5,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 
-import { ValidationFramework, ValidationResult, MilestoneValidationResult } from './ValidationFramework';
+import { ValidationFramework } from './ValidationFramework';
 
 // Mock execSync and fs
 jest.mock('child_process');
@@ -205,7 +205,7 @@ describe('ValidationFramework', () => {
       expect(failures.length).toBeGreaterThan(0);
       const buildFailure = failures.find(f => f.category === 'build');
       expect(buildFailure).toBeDefined();
-      expect(buildFailure!.severity).toBe('critical');
+      expect(buildFailure?.severity).toBe('critical');
       expect(buildFailure!.recoveryActions.length).toBeGreaterThan(0);
     });
 
@@ -225,7 +225,7 @@ describe('ValidationFramework', () => {
 
       const testFailure = failures.find(f => f.category === 'test');
       expect(testFailure).toBeDefined();
-      expect(testFailure!.severity).toBe('high');
+      expect(testFailure?.severity).toBe('high');
     });
 
     it('should detect high TypeScript error count', async () => {
@@ -242,7 +242,7 @@ describe('ValidationFramework', () => {
 
       const tsFailure = failures.find(f => f.category === 'typescript');
       expect(tsFailure).toBeDefined();
-      expect(tsFailure!.severity).toBe('high');
+      expect(tsFailure?.severity).toBe('high');
       expect(tsFailure!.automaticRecovery).toBe(true);
     });
 

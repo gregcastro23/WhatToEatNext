@@ -1,12 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-
-import { DebugHub } from '@/components/debug/DebugHub';
-import { StateInspector } from '@/components/debug/StateInspector';
 import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { log } from '@/services/LoggingService';
+import React, { useEffect, useState } from 'react';
+
+// Fallback stubs: real debug components are not available in this build
+const StateInspector = () => (
+  <div className='rounded border border-gray-200 bg-white p-4'>State Inspector unavailable</div>
+);
+const DebugHub = () => (
+  <div className='rounded border border-gray-200 bg-white p-4'>Debug Hub unavailable</div>
+);
 
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 

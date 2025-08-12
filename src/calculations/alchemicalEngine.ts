@@ -1,36 +1,36 @@
 // Type Harmony imports
 
 // Internal imports - constants
-import signs, { signInfo } from '@/data/astrology';
-import type {
-  AlchemicalCalculationResult,
-  BirthInfo,
-  ElementalAffinity,
-  LunarPhaseWithSpaces,
-  RecipeHarmonyResult,
-} from '@/types/alchemy';
-import type {
-  AstrologicalState,
-  ElementalProperties,
-  PlanetPosition,
-  StandardizedAlchemicalResult,
-  ZodiacSign,
-} from '@/types/unified';
-import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
-import { ErrorHandler } from '@/utils/errorHandler';
 import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import signs, { signInfo } from '@/data/astrology';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import type {
+    AlchemicalCalculationResult,
+    BirthInfo,
+    ElementalAffinity,
+    LunarPhaseWithSpaces,
+    RecipeHarmonyResult,
+} from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
+import type {
+    AstrologicalState,
+    ElementalProperties,
+    PlanetPosition,
+    StandardizedAlchemicalResult,
+    ZodiacSign,
+} from '@/types/unified';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
+import { ErrorHandler } from '@/utils/errorHandler';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 
+import { planetInfo } from '@/constants/planetInfo';
+import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
+import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { log } from '@/services/LoggingService';
 import { logger } from '@/utils/logger';
-import { planetInfo } from '@/constants/planetInfo';
 import { recipeCalculations } from '@/utils/recipeCalculations';
-import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 
 // Import planetary and sign data for alchemical calculations
 // Note: Removed circular import - these constants should be defined locally or in a separate constants file
@@ -1804,7 +1804,9 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
  * @param positions Record of planetary positions
  * @returns Record of zodiac sign energies
  */
-function calculateZodiacEnergies(positions: Record<string, unknown>): Record<string, number> {
+export function calculateZodiacEnergies(
+  positions: Record<string, unknown>,
+): Record<string, number> {
   // Initialize with default zero values for all signs
   const zodiacEnergies: Record<string, number> = {
     aries: 0,
@@ -1918,7 +1920,9 @@ function calculateZodiacEnergies(positions: Record<string, unknown>): Record<str
  * @param zodiacEnergies Record of zodiac energies
  * @returns Chakra energies
  */
-function calculateChakraEnergies(zodiacEnergies: Record<string, number>): ChakraEnergies {
+export function calculateChakraEnergies(
+  zodiacEnergies: Record<string, number>,
+): ChakraEnergies {
   try {
     // Initialize with default values - ensures all chakras have values
     const chakraEnergies = {

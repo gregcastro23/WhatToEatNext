@@ -1,3 +1,6 @@
+import { african } from '@/data/cuisines/african';
+import { american } from '@/data/cuisines/american';
+import { LocalRecipeService } from '@/services/LocalRecipeService';
 import { log } from '@/services/LoggingService';
 import type { ElementalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/unified';
@@ -794,8 +797,7 @@ export function getRecipesForCuisineMatch(
     if (normalizedCuisineName === 'american' || normalizedCuisineName === 'african') {
       log.info(`Using specialized handling for ${cuisineName}`);
       try {
-        // First, try LocalRecipeService
-        const { LocalRecipeService } = require('../services/LocalRecipeService');
+        // First, try LocalRecipeService (ESM import at top)
 
         // Clear cache to ensure fresh data
         LocalRecipeService.clearCache();
@@ -816,18 +818,7 @@ export function getRecipesForCuisineMatch(
         }
 
         // If LocalRecipeService didn't work, try direct import
-        let cuisine;
-        try {
-          if (normalizedCuisineName === 'american') {
-            const { american } = require('../data/cuisines/american');
-            cuisine = american;
-          } else {
-            const { african } = require('../data/cuisines/african');
-            cuisine = african;
-          }
-        } catch (importError) {
-          console.error(`Error importing special cuisine data for ${cuisineName}:`, importError);
-        }
+        const cuisine = normalizedCuisineName === 'american' ? american : african;
 
         if (cuisine?.dishes) {
           log.info(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
@@ -900,7 +891,7 @@ export function getRecipesForCuisineMatch(
     if (!Array.isArray(recipes) || recipes.length === 0) {
       try {
         log.info(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`);
-        const { LocalRecipeService } = require('../services/LocalRecipeService');
+        // Use ESM import at top
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
         log.info(
           `Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`,
@@ -1232,8 +1223,6 @@ export const calculateCuisineSimilarity = (cuisine1: string, cuisine2: string): 
 export const findRelatedRecipes = (recipeName: string, recipes: Recipe[], count = 3): Recipe[] => {
   const scoredRecipes = recipes
     .map(recipe => {
-      const _: number[] = [];
-      const _ = 0;
 
       // Simple name similarity scoring
       const nameSimilarity =

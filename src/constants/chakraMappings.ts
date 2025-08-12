@@ -1,4 +1,4 @@
-import { ZodiacSign, ZODIAC_SIGNS } from './signEnergyStates';
+import { ZODIAC_SIGNS, ZodiacSign } from './signEnergyStates';
 
 export const CHAKRAS = [
   'Root', // Muladhara
@@ -69,7 +69,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     name: 'Throat',
     sanskritName: 'Vishuddha',
     color: 'Blue',
-    element: 'Ether',
+    element: 'Air',
     planet: 'Mercury',
     governs: ['Communication', 'Expression', 'Truth', 'Authenticity'],
     balanceIndicators: ['Clear communication', 'Authentic expression', 'Active listening'],
@@ -79,7 +79,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     name: 'Third Eye',
     sanskritName: 'Ajna',
     color: 'Indigo',
-    element: 'Light',
+    element: 'Air',
     planet: 'Moon',
     governs: ['Intuition', 'Perception', 'Insight', 'Wisdom'],
     balanceIndicators: ['Clear intuition', 'Insight', 'Good judgment'],
@@ -89,7 +89,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     name: 'Crown',
     sanskritName: 'Sahasrara',
     color: 'Violet',
-    element: 'Thought',
+    element: 'Air',
     planet: 'Sun',
     governs: ['Consciousness', 'Spirituality', 'Connection to higher self'],
     balanceIndicators: ['Spiritual connection', 'Awareness', 'Presence'],

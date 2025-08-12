@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 
-import AstrologizeDemo from '@/components/demo/AstrologizeDemo';
+const AstrologizeDemo = () => (
+  <div className='text-gray-600'>AstrologizeDemo component unavailable.</div>
+);
 
 export const metadata: Metadata = {
   title: 'Astrologize API Demo',

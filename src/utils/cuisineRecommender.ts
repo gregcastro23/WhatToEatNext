@@ -1,6 +1,6 @@
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { planetaryFlavorProfiles } from '@/data/planetaryFlavorProfiles';
-import { Sauce } from '@/data/sauces';
+import { allSauces, Sauce } from '@/data/sauces';
 // Import the planet data
 import { ElementalProperties, PlanetName } from '@/types/alchemy';
 import { AstrologicalState } from '@/types/celestial';
@@ -31,8 +31,7 @@ export function generateTopSauceRecommendations(
   count = 5,
   astrologicalState?: Partial<AstrologicalState>,
 ) {
-  // Import sauce data
-  const { allSauces } = require('@/data/sauces');
+  // Sauce data from ESM import
 
   // Use provided elemental profile or a balanced default
   const userProfile = currentElementalProfile || {

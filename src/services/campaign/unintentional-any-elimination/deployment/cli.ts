@@ -8,7 +8,7 @@
  */
 
 import { program } from 'commander';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'fs';
 import { environmentConfigManager } from '../config/loader';
 import { DeploymentManager, createStandardDeploymentPhases } from './index';
 import { setupMonitoring } from './setup-monitoring';
@@ -293,8 +293,7 @@ program
       // Show recent deployment logs
       const logsDir = '.kiro/logs';
       if (existsSync(logsDir)) {
-        const fs = require('fs');
-        const logFiles = fs.readdirSync(logsDir)
+        const logFiles = readdirSync(logsDir)
           .filter((file: string) => file.startsWith('deployment-'))
           .sort()
           .slice(-3);

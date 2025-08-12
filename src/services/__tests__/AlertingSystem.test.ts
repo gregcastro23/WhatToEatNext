@@ -282,12 +282,12 @@ describe('AlertingSystem', () => {
       expect(alert?.acknowledged).toBe(false);
 
       // Acknowledge the alert
-      const acknowledged = alertingSystem.acknowledgeAlert(alert!.id);
+      const acknowledged = alertingSystem.acknowledgeAlert(alert?.id ?? '');
       expect(acknowledged).toBe(true);
 
       // Check that alert is now acknowledged
       const updatedAlerts = alertingSystem.getAlerts({ resolved: false });
-      const acknowledgedAlert = updatedAlerts.find(a => a.id === alert!.id);
+      const acknowledgedAlert = updatedAlerts.find(a => a.id === alert?.id ?? '');
       expect(acknowledgedAlert?.acknowledged).toBe(true);
     });
 
@@ -320,16 +320,16 @@ describe('AlertingSystem', () => {
       expect(alert?.resolved).toBe(false);
 
       // Resolve the alert
-      const resolved = alertingSystem.resolveAlert(alert!.id);
+      const resolved = alertingSystem.resolveAlert(alert?.id ?? '');
       expect(resolved).toBe(true);
 
       // Check that alert is now resolved
       const unresolvedAlerts = alertingSystem.getAlerts({ resolved: false });
-      const unresolvedAlert = unresolvedAlerts.find(a => a.id === alert!.id);
+      const unresolvedAlert = unresolvedAlerts.find(a => a.id === alert?.id ?? '');
       expect(unresolvedAlert).toBeUndefined();
 
       const resolvedAlerts = alertingSystem.getAlerts({ resolved: true });
-      const resolvedAlert = resolvedAlerts.find(a => a.id === alert!.id);
+      const resolvedAlert = resolvedAlerts.find(a => a.id === alert?.id ?? '');
       expect(resolvedAlert?.resolved).toBe(true);
       expect(resolvedAlert?.resolvedAt).toBeDefined();
     });

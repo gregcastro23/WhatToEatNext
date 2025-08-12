@@ -8,15 +8,15 @@
  * yarn ts-node src/scripts/updateAllIngredients.ts herbs spices
  */
 
-// Import all the individual category update functions
-const { updateFruits } = require('./updateFruits');
-const { updateGrains } = require('./updateGrains');
-const { updateHerbs } = require('./updateHerbs');
-const { updateOils } = require('./updateOils');
-const { updateProteins } = require('./updateProteins');
-const { updateSpices } = require('./updateSpices');
-const { updateVegetables } = require('./updateVegetables');
-const { updateVinegars } = require('./updateVinegars');
+// Import all the individual category update functions (ESM)
+import { updateFruits } from './updateFruits';
+import { updateGrains } from './updateGrains';
+import { updateHerbs } from './updateHerbs';
+import { updateOils } from './updateOils';
+import { updateProteins } from './updateProteins';
+import { updateSpices } from './updateSpices';
+import { updateVegetables } from './updateVegetables';
+import { updateVinegars } from './updateVinegars';
 
 // Map of all available category update functions
 const categoryUpdaters = {
@@ -47,7 +47,7 @@ const ALL_CATEGORIES = [
  * @param {string[]} categories - List of categories to update
  * @returns {Promise<void>}
  */
-async function updateCategories(categories) {
+async function updateCategories(categories: string[]): Promise<void> {
   // console.log(`Starting update for categories: ${categories.join(', ')}`);
 
   for (const category of categories) {
@@ -91,12 +91,12 @@ async function main() {
 }
 
 // Run the main function
-if (require.main === module) {
-  main().catch(error => {
-    // console.error('Error in main process:', error);
-    process.exit(1);
-  });
+// Execute only when run directly
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error Node.js runtime check
+if (typeof require !== 'undefined' && require.main === module) {
+  void main().catch(() => process.exit(1));
 }
 
 // Export for use in other scripts if needed
-module.exports = { updateCategories };
+export { updateCategories };

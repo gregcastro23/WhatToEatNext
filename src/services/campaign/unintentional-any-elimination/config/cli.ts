@@ -8,6 +8,7 @@
  */
 
 import { program } from 'commander';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ConfigurationManager, DEFAULT_CONFIG } from './index';
 import {
     Environment,
@@ -234,7 +235,6 @@ program
   .option('-e, --environment <env>', 'Export environment-specific config')
   .action((file, options) => {
     try {
-      const fs = require('fs');
       let config;
 
       if (options.environment) {
@@ -243,7 +243,7 @@ program
         config = configManager.getConfig();
       }
 
-      fs.writeFileSync(file, JSON.stringify(config, null, 2));
+      writeFileSync(file, JSON.stringify(config, null, 2));
       console.log(`✅ Configuration exported to ${file}`);
     } catch (error) {
       console.error('Error exporting configuration:', error);
@@ -259,14 +259,12 @@ program
   .option('-m, --merge', 'Merge with existing config instead of replacing')
   .action((file, options) => {
     try {
-      const fs = require('fs');
-
-      if (!fs.existsSync(file)) {
+      if (!existsSync(file)) {
         console.error(`File not found: ${file}`);
         process.exit(1);
       }
 
-      const importedConfig = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const importedConfig = JSON.parse(readFileSync(file, 'utf8'));
 
       if (options.merge) {
         configManager.updateConfig(importedConfig);

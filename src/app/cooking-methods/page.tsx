@@ -1,17 +1,18 @@
 'use client';
 
-import { Box, Container, Typography, Tabs, Tab } from '@mui/material';
+import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { CookingMethodsSection } from '@/components/CookingMethodsSection';
+// Use the existing demo component as a stand-in for the shared section
+import CookingMethodsSection from '@/app/test/migrated-components/cooking-methods-section/page';
 import {
-  dryCookingMethods,
-  wetCookingMethods,
-  molecularCookingMethods,
-  traditionalCookingMethods,
-  rawCookingMethods,
-  transformationMethods,
+    dryCookingMethods,
+    molecularCookingMethods,
+    rawCookingMethods,
+    traditionalCookingMethods,
+    transformationMethods,
+    wetCookingMethods,
 } from '@/data/cooking/methods';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 

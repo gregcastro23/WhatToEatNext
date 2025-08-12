@@ -7,6 +7,7 @@
  * and achievement tracking system.
  */
 
+import { existsSync, readFileSync } from 'fs';
 import { ZeroErrorAchievementDashboard } from '../services/linting/ZeroErrorAchievementDashboard';
 
 interface CLIOptions {
@@ -98,10 +99,9 @@ class ZeroErrorDashboardCLI {
     if (options.verbose) {
       // Show quick summary
       try {
-        const fs = require('fs');
         const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json';
-        if (fs.existsSync(jsonPath)) {
-          const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+        if (existsSync(jsonPath)) {
+          const data = JSON.parse(readFileSync(jsonPath, 'utf8'));
           console.log('\n📈 Quick Summary:');
           console.log(`   Quality Score: ${data.summary.qualityScore}/100`);
           console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`);
@@ -130,11 +130,10 @@ class ZeroErrorDashboardCLI {
     console.log('📊 Zero-Error Achievement Status\n');
 
     try {
-      const fs = require('fs');
       const statusPath = '.kiro/dashboard/real-time-status.json';
 
-      if (fs.existsSync(statusPath)) {
-        const status = JSON.parse(fs.readFileSync(statusPath, 'utf8'));
+      if (existsSync(statusPath)) {
+        const status = JSON.parse(readFileSync(statusPath, 'utf8'));
 
         console.log('🎯 Current Status:');
         console.log(`   Overall: ${this.getStatusDisplay(status.status)}`);
@@ -155,8 +154,8 @@ class ZeroErrorDashboardCLI {
 
       // Show targets if available
       const targetsPath = '.kiro/dashboard/zero-error-targets.json';
-      if (fs.existsSync(targetsPath)) {
-        const targets = JSON.parse(fs.readFileSync(targetsPath, 'utf8'));
+      if (existsSync(targetsPath)) {
+        const targets = JSON.parse(readFileSync(targetsPath, 'utf8'));
 
         console.log('\n🎯 Zero-Error Targets:');
         for (const target of targets.slice(0, 4)) {
@@ -169,8 +168,8 @@ class ZeroErrorDashboardCLI {
 
       // Show quality gates if available
       const gatesPath = '.kiro/dashboard/quality-gates.json';
-      if (fs.existsSync(gatesPath)) {
-        const gates = JSON.parse(fs.readFileSync(gatesPath, 'utf8'));
+      if (existsSync(gatesPath)) {
+        const gates = JSON.parse(readFileSync(gatesPath, 'utf8'));
 
         console.log('\n🚦 Quality Gates:');
         for (const gate of gates) {

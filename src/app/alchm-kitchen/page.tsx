@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import AlchmKitchen from '@/components/AlchmKitchen';
 import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { createLogger } from '@/utils/logger';
+import AlchmKitchenTab from '../../../Alchm Kitchen/AlchmKitchenTab';
 
 const logger = createLogger('AlchmKitchenPage');
 
@@ -39,7 +39,7 @@ export default function AlchmKitchenPage() {
       <AstrologicalProvider>
         <main className='min-h-screen p-4 md:p-8'>
           <ClientOnly>
-            <AlchmKitchen />
+            <AlchmKitchenTab />
           </ClientOnly>
         </main>
       </AstrologicalProvider>

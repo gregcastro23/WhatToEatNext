@@ -1,10 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
-import Loading from '@/components/ui/Loading';
 import { errorHandler } from '@/services/errorHandler';
 import { logger } from '@/utils/logger';
+import { useEffect, useState } from 'react';
+
+const Loading = ({ fullScreen, variant, text }: { fullScreen?: boolean; variant?: string; text?: string }) => (
+  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>
+    <div className='text-center text-gray-600'>
+      <div className='mb-2 animate-pulse'>⏳</div>
+      <div>{text || 'Loading...'}</div>
+    </div>
+  </div>
+);
 
 interface TemplateProps {
   children: React.ReactNode;
@@ -33,9 +40,9 @@ export default function Template({ children }: TemplateProps) {
         const style = document.createElement('style');
         style.id = 'base-styles';
         style.textContent = `
-          body { 
-            margin: 0; 
-            padding: 0; 
+          body {
+            margin: 0;
+            padding: 0;
             min-height: 100vh;
             background: #ffffff;
             color: #000000;

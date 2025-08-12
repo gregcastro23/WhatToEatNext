@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This specification defines the systematic elimination of the remaining 1,399 unused variables in the WhatToEatNext project, building upon the successful 8-phase unused variable transformation campaign that has already activated 100+ variables into 32+ enterprise-grade functional components. The system must preserve domain-specific patterns for astrological calculations and campaign systems while achieving a 90% reduction target (1,259 variables eliminated) through intelligent batch processing and safety protocols.
+This specification defines the systematic elimination of the remaining 624 unused variables in the WhatToEatNext project, building upon the successful 3-wave unused variable transformation campaign that has already eliminated 452 variables (42.0% reduction) while maintaining perfect domain preservation. The system must continue to preserve domain-specific patterns for astrological calculations, campaign systems, service layer business logic, and culinary domain variables while achieving a target of sub-550 total warnings (approaching 50% total reduction milestone) through intelligent batch processing and advanced safety protocols.
 
 ## Requirements
 
@@ -60,7 +60,7 @@ This specification defines the systematic elimination of the remaining 1,399 unu
 
 #### Acceptance Criteria
 
-1. WHEN the elimination process starts THEN the system SHALL establish baseline metrics (1,399 unused variables)
+1. WHEN the elimination process starts THEN the system SHALL establish baseline metrics (624 unused variables)
 2. WHEN processing batches THEN the system SHALL track variables eliminated, preserved, and transformed
 3. WHEN completing phases THEN the system SHALL generate progress reports with percentage reductions
 4. WHEN encountering issues THEN the system SHALL log detailed error information and recovery actions
