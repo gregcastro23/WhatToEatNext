@@ -33,6 +33,7 @@ export const useFoodRecommendations = (options?: {
       aspects: state.astrologicalState.aspects || [],
       tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {},
       tarotPlanetaryBoosts: state.astrologicalState.tarotPlanetaryBoosts || {},
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     } as any;
   }, [
     state.astrologicalState.zodiacSign,

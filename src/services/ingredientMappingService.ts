@@ -71,8 +71,7 @@ class IngredientMappingService {
         seasons.forEach(season => {
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
           if (Array.isArray(seasonalDishes)) {
-            // Pattern LL: Safe Recipe type casting for seasonal dishes array
-            allRecipes.push(...(seasonalDishes as any[]));
+            allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
           }
         });
       });

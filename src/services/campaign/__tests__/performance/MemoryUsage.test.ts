@@ -203,7 +203,7 @@ describe('Memory Usage Performance Tests', () => {
 
       // Create many safety events to test memory management
       for (let i = 0; i < 1100; i++) {
-        (safetyProtocol as any).addSafetyEvent({
+        (safetyProtocol as unknown).addSafetyEvent({
           type: 'CHECKPOINT_CREATED',
           timestamp: new Date(),
           description: `Event ${i}`,
@@ -287,7 +287,7 @@ describe('Memory Usage Performance Tests', () => {
       const largeFileList = Array.from({ length: 1000 }, (_, i) => `file${i}.ts`);
 
       // Mock campaign execution with large file processing
-      jest.spyOn(campaignController as any, 'executeTool').mockResolvedValue({
+      jest.spyOn(campaignController as unknown, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
         changesApplied: largeFileList.length,
         success: true,

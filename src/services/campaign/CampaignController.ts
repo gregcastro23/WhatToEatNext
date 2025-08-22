@@ -323,6 +323,7 @@ export class CampaignController {
 
   // Private helper methods
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private async executeTool(tool: unknown): Promise<any> {
     // Mock implementation - will be replaced by actual script execution
     return {

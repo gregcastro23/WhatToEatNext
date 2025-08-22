@@ -155,7 +155,7 @@ export interface ExtendedTestUtils {
     external: string;
     arrayBuffers: string;
   };
-  cleanupMemory: () => any;
+  cleanupMemory: () => void;
 
   // Mock file creation utilities
   createMockCorruptedFile: (content: string) => string;

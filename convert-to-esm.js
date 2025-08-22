@@ -137,32 +137,32 @@ const config = {
     setupFilesAfterEnv: ['<rootDir>/src/__tests__/setupTests.tsx'],
     testPathIgnorePatterns: ['/node_modules/', '/.next/'],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-    
+
     // Memory Management Configuration
     testTimeout: 15000,
     maxWorkers: 2,
     workerIdleMemoryLimit: '1GB',
-    
+
     // Memory optimization settings
     clearMocks: true,
     restoreMocks: true,
     resetModules: true,
-    
+
     // Force garbage collection between test suites
     setupFilesAfterEnv: [
         '<rootDir>/src/__tests__/setupTests.tsx',
         '<rootDir>/src/__tests__/setupMemoryManagement.ts'
     ],
-    
+
     verbose: true,
-    
+
     // Additional memory-safe configurations
     detectOpenHandles: true,
     forceExit: true,
-    
+
     // Cache configuration for memory efficiency
     cacheDirectory: '<rootDir>/.jest-cache',
-    
+
     // Test environment options for memory management
     testEnvironmentOptions: {
         url: 'http://localhost',
@@ -285,9 +285,9 @@ async function main() {
     console.log('✅ Updated TypeScript configuration');
     console.log('✅ Kept essential .cjs files as CommonJS');
     console.log('\n💡 Next steps:');
-    console.log('1. Test your application: npm run dev');
-    console.log('2. Run tests: npm run test');
-    console.log('3. Run linting: npm run lint');
+    console.log('1. Test your application: yarn dev');
+    console.log('2. Run tests: yarn test');
+    console.log('3. Run linting: yarn lint');
   } catch (error) {
     console.error('❌ Error during conversion:', error);
     process.exit(1);

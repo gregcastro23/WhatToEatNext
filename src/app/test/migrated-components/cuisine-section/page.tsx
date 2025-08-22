@@ -12,7 +12,7 @@ const CuisineSection = ({
   elementalState,
 }: {
   cuisine: string;
-  recipes: any[];
+  recipes: unknown[];
   elementalState: Record<string, unknown>;
 }) => (
   <div className='space-y-2'>
@@ -46,7 +46,7 @@ export default function CuisineSectionTestPage() {
   const { recipeService } = useServices();
 
   // Component state
-  const [recipes, setRecipes] = useState<any[]>([]);
+  const [recipes, setRecipes] = useState<unknown[]>([]);
   const [_isLoading, setIsLoading] = useState(true);
   const [_error, setError] = useState<Error | null>(null);
 

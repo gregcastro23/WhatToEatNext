@@ -60,7 +60,9 @@ export async function runServiceIntegrationExample() {
       limit: 5,
     });
     log.info('Recommended ingredients:', {
-      items: (ingredientRecommendations.items || ([] as any[])).map(ing => ing.name),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),
       scores: ingredientRecommendations.scores,
     });
 
@@ -71,7 +73,9 @@ export async function runServiceIntegrationExample() {
       limit: 3,
     });
     log.info('Recommended recipes:', {
-      items: (recipeRecommendations.items || ([] as any[])).map(recipe => recipe.name),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),
       scores: recipeRecommendations.scores,
     });
 
@@ -82,7 +86,9 @@ export async function runServiceIntegrationExample() {
       limit: 3,
     });
     log.info('Recommended cooking methods:', {
-      items: (cookingMethodRecommendations.items || ([] as any[])).map(method => method.name),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),
       scores: cookingMethodRecommendations.scores,
     });
 

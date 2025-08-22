@@ -160,8 +160,9 @@ declare global {
   var forceGC: (() => boolean) | undefined;
   var getMemoryUsage: (() => MemoryUsage) | undefined;
   var cleanupTestMemory: (() => unknown) | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   var __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
-  var __TEST_REFS__: any[] | undefined;
+  var __TEST_REFS__: unknown[] | undefined;
 
   // Allow process.memoryUsage to be mocked in tests
   namespace NodeJS {

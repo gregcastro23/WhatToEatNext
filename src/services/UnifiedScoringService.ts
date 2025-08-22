@@ -14,14 +14,15 @@
 import { log } from '@/services/LoggingService';
 
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
-import type { ElementalProperties, Season } from '../types/alchemy';
+import type { ElementalProperties } from '../types/alchemy';
 import type {
-  AspectType,
-  LunarPhase,
-  Planet,
-  PlanetaryAspect,
-  PlanetaryPosition,
+    AspectType,
+    LunarPhase,
+    Planet,
+    PlanetaryAspect,
+    PlanetaryPosition,
 } from '../types/celestial';
+import type { CuisineType, DietaryRestriction, Season } from '../types/constants';
 
 import { getCurrentAlchemicalState } from './RealAlchemizeService';
 
@@ -90,6 +91,7 @@ export interface ScoringContext {
   planetaryPositions?: Record<Planet, PlanetaryPosition>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Transit data structure varies by astronomical library
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   currentTransits?: any;
   aspects?: PlanetaryAspect[];
   lunarPhase?: LunarPhase;
@@ -105,6 +107,7 @@ export interface ScoringContext {
     culturalOrigins?: string[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Item properties vary by type (ingredient/recipe/cuisine/method)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     [key: string]: any;
   };
 
@@ -116,6 +119,7 @@ export interface ScoringContext {
     complexityPreference?: 'simple' | 'moderate' | 'complex';
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: User preferences can include custom fields
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     [key: string]: any;
   };
 

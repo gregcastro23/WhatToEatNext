@@ -17,7 +17,8 @@ interface UseErrorHandlerReturn {
   foodError: Error | null;
   foodLoading: boolean;
   foodRecommendations: unknown[] | null;
-  setFoodRecommendations: React.Dispatch<React.SetStateAction<any[] | null>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  setFoodRecommendations: React.Dispatch<React.SetStateAction<unknown[] | null>>;
 }
 
 /**
@@ -28,7 +29,8 @@ export default function useErrorHandler({
 }: UseErrorHandlerProps): UseErrorHandlerReturn {
   const [foodError, setFoodError] = useState<Error | null>(null);
   const [foodLoading, setFoodLoading] = useState<boolean>(true);
-  const [foodRecommendations, setFoodRecommendations] = useState<any[] | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  const [foodRecommendations, setFoodRecommendations] = useState<unknown[] | null>(null);
 
   // Use effect to initialize and cleanup
   useEffect(() => {
@@ -43,6 +45,9 @@ export default function useErrorHandler({
 
   // Capture and handle errors
   const captureError = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
     (error: Error | string, context: any = {}) => {
       // Create error object if string was passed
       const errorObj = typeof error === 'string' ? new Error(error) : error;

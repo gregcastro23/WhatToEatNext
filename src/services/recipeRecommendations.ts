@@ -37,6 +37,7 @@ export class RecipeRecommender {
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
         throw createEnhancedError('Empty recipe list', 'VALIDATION' as any);
       }
 

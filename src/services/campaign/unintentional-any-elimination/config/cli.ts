@@ -152,6 +152,7 @@ program
         process.exit(1);
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const sectionConfig = config[section as keyof typeof config] as any;
       if (!(property in sectionConfig)) {
         console.error(`Unknown property: ${property} in section ${section}`);

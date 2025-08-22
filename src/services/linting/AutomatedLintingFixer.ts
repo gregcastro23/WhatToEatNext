@@ -11,8 +11,7 @@ import * as path from 'path';
 
 import { log } from '@/services/LoggingService';
 
-import { LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
-import { ResolutionStrategy } from './ResolutionStrategyGenerator';
+import { CategorizedErrors, LintingIssue } from './LintingErrorAnalyzer';
 
 export interface AutomatedFixResult {
   success: boolean;
@@ -651,7 +650,7 @@ export class AutomatedLintingFixer {
 
     // Build validation
     try {
-      execSync('npm run build', {
+      execSync('yarn build', {
         cwd: this.workspaceRoot,
         stdio: 'pipe',
         timeout: 60000, // 1 minute timeout

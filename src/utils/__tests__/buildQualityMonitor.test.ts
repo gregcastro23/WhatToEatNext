@@ -46,7 +46,7 @@ describe('Build Quality Monitor', () => {
       size: 1024,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock for fs.Stats requires flexible typing for test scenarios
-    } as any);
+    } as unknown);
   });
 
   describe('monitorBuildQuality', () => {
@@ -86,7 +86,7 @@ describe('Build Quality Monitor', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
-      const error = new Error('TypeScript compilation failed') as any;
+      const error = new Error('TypeScript compilation failed') as unknown;
       error.stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
         throw error;
@@ -115,19 +115,19 @@ describe('Build Quality Monitor', () => {
       // Mock .next directory existence
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock function parameter requires flexible typing for path variations
-      mockExistsSync.mockImplementation((path: any) => {
+      mockExistsSync.mockImplementation((path: unknown) => {
         return path.includes('.next');
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock return value for fs.readdirSync requires array flexibility
-      mockReaddirSync.mockReturnValue(['static', 'server', 'cache'] as any);
+      mockReaddirSync.mockReturnValue(['static', 'server', 'cache'] as unknown);
       mockStatSync.mockReturnValue({
         isDirectory: () => true,
         size: 0,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // Intentionally any: Jest mock for fs.Stats interface requires flexible typing
-      } as any);
+      } as unknown);
 
       const report = monitorBuildQuality();
 
@@ -139,7 +139,7 @@ describe('Build Quality Monitor', () => {
       // Mock cache directory
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock function parameter requires flexible typing for path variations
-      mockExistsSync.mockImplementation((path: any) => {
+      mockExistsSync.mockImplementation((path: unknown) => {
         return path.includes('cache');
       });
 
@@ -242,7 +242,7 @@ describe('Build Quality Monitor', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
-      const error = new Error('TypeScript compilation failed') as any;
+      const error = new Error('TypeScript compilation failed') as unknown;
       error.stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
         throw error;
@@ -287,7 +287,7 @@ describe('Build Quality Monitor', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
-      const error = new Error('TypeScript compilation failed') as any;
+      const error = new Error('TypeScript compilation failed') as unknown;
       error.stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
         throw error;

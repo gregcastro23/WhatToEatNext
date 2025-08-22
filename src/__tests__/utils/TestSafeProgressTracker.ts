@@ -477,7 +477,7 @@ export class TestSafeProgressTracker {
         result[key as keyof ProgressMetrics] = {
           ...current[key as keyof ProgressMetrics],
           ...updateValue,
-        } as any;
+        } as unknown;
       }
     });
 

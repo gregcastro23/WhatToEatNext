@@ -15,16 +15,13 @@
 
 import { execSync } from 'child_process';
 import fs from 'fs';
-import path from 'path';
 
 import { log } from '@/services/LoggingService';
 
-import { CAMPAIGN_ENTERPRISE_INTELLIGENCE } from './campaign/CampaignIntelligenceSystem';
 import {
-  TypeScriptErrorAnalyzer,
-  ErrorCategory,
-  ErrorSeverity,
-  TypeScriptError,
+    ErrorCategory,
+    TypeScriptError,
+    TypeScriptErrorAnalyzer
 } from './campaign/TypeScriptErrorAnalyzer';
 
 // ========== ENTERPRISE ERROR TRACKING INTERFACES ==========
@@ -171,7 +168,7 @@ export class ErrorTrackingEnterpriseSystem {
           string,
           unknown
         >
-      )?.priorityRanking as any[]) || [],
+      )?.priorityRanking as unknown[]) || [],
     );
 
     // Analyze trends

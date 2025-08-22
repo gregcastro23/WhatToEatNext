@@ -5,6 +5,7 @@
  * and ensure barrel exports are properly defined.
  */
 
+import * as nodePath from 'path';
 import { logger } from './logger';
 
 /**
@@ -197,9 +198,8 @@ export const DEPENDENCY_FIXES = {
    * Fix relative import paths
    */
   fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {
-    // Calculate the relative path from fromDir to toDir
-    const { relative } = require('path') as typeof import('path');
-    const relativePath = relative(fromDir, toDir);
+    // Calculate the relative path from fromDir to toDir using ESM path
+    const relativePath = nodePath.relative(fromDir, toDir);
     return relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
   },
 

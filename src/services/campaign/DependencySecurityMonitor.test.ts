@@ -7,9 +7,9 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import {
-  DependencySecurityMonitor,
-  DEFAULT_DEPENDENCY_SECURITY_CONFIG,
-  DependencySecurityConfig,
+    DEFAULT_DEPENDENCY_SECURITY_CONFIG,
+    DependencySecurityConfig,
+    DependencySecurityMonitor,
 } from './DependencySecurityMonitor';
 
 // Mock dependencies
@@ -142,7 +142,7 @@ describe('DependencySecurityMonitor', () => {
         },
       });
 
-      const error = new Error('npm outdated found updates') as any;
+      const error = new Error('npm outdated found updates') as unknown;
       error.stdout = outdatedOutput;
       mockExecSync.mockImplementation(() => {
         throw error;
@@ -206,7 +206,7 @@ describe('DependencySecurityMonitor', () => {
       expect(appliedUpdates).toHaveLength(1);
       expect(appliedUpdates[0].packageName).toBe('lodash');
       expect(appliedUpdates[0].securityFix).toBe(true);
-      expect(mockExecSync).toHaveBeenCalledWith('npm install lodash@4.17.21', expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object));
     });
 
     test('skips excluded packages', async () => {
@@ -296,7 +296,7 @@ describe('DependencySecurityMonitor', () => {
       const appliedUpdates = await monitor.applySafeUpdates(availableUpdates);
 
       expect(appliedUpdates).toHaveLength(1);
-      expect(mockExecSync).toHaveBeenCalledWith('npm install lodash@4.17.21', expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object));
     });
 
     test('skips major updates requiring manual approval', async () => {
@@ -332,7 +332,7 @@ describe('DependencySecurityMonitor', () => {
 
       expect(appliedUpdates).toHaveLength(0);
       expect(mockExecSync).not.toHaveBeenCalledWith(
-        expect.stringContaining('npm install react@18.0.0'),
+        expect.stringContaining('yarn add react@18.0.0'),
         expect.any(Object),
       );
     });
@@ -345,8 +345,8 @@ describe('DependencySecurityMonitor', () => {
       const result = await dependencyMonitor.runCompatibilityTests();
 
       expect(result).toBe(true);
-      expect(mockExecSync).toHaveBeenCalledWith('npm run build', expect.any(Object));
-      expect(mockExecSync).toHaveBeenCalledWith('npm test', expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('yarn test', expect.any(Object));
     });
 
     test('returns false when tests fail', async () => {
@@ -426,7 +426,7 @@ describe('DependencySecurityMonitor', () => {
       mockExecSync.mockReturnValueOnce(auditOutput);
 
       // Mock npm outdated
-      const outdatedError = new Error('Updates available') as any;
+      const outdatedError = new Error('Updates available') as unknown;
       outdatedError.stdout = JSON.stringify({
         lodash: {
           current: '4.17.20',
@@ -469,7 +469,7 @@ describe('DependencySecurityMonitor', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
 
       // Access private method through any cast for testing
-      const determineUpdateType = (monitor as any).determineUpdateType;
+      const determineUpdateType = (monitor as unknown).determineUpdateType;
 
       expect(determineUpdateType('1.0.0', '2.0.0')).toBe('major');
       expect(determineUpdateType('17.0.0', '18.0.0')).toBe('major');
@@ -477,7 +477,7 @@ describe('DependencySecurityMonitor', () => {
 
     test('correctly identifies minor updates', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
-      const determineUpdateType = (monitor as any).determineUpdateType;
+      const determineUpdateType = (monitor as unknown).determineUpdateType;
 
       expect(determineUpdateType('1.0.0', '1.1.0')).toBe('minor');
       expect(determineUpdateType('17.0.0', '17.1.0')).toBe('minor');
@@ -485,7 +485,7 @@ describe('DependencySecurityMonitor', () => {
 
     test('correctly identifies patch updates', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
-      const determineUpdateType = (monitor as any).determineUpdateType;
+      const determineUpdateType = (monitor as unknown).determineUpdateType;
 
       expect(determineUpdateType('1.0.0', '1.0.1')).toBe('patch');
       expect(determineUpdateType('17.0.0', '17.0.1')).toBe('patch');

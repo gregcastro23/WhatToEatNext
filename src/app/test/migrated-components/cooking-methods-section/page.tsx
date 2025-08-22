@@ -11,7 +11,7 @@ const CookingMethodsSection = ({
   showToggle,
   initiallyExpanded,
 }: {
-  methods: any[];
+  methods: unknown[];
   onSelectMethod: (m: unknown) => void;
   selectedMethodId?: string | null;
   showToggle?: boolean;

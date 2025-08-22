@@ -22,6 +22,7 @@
   "scripts": {
     "predev": "node scripts/check-node-version.cjs",
     "prebuild": "node scripts/check-node-version.cjs",
+    "check-pm": "bash scripts/check-package-manager.sh",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

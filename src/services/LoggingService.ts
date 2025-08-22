@@ -23,6 +23,7 @@ export interface LogContext {
   requestId?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Logging context needs flexibility for various metadata
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   [key: string]: any;
 }
 
@@ -34,6 +35,7 @@ export interface LogEntry {
   error?: Error;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Log data can be of any type for debugging purposes
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   data?: any;
 }
 

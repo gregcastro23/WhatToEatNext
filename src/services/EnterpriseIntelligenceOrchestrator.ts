@@ -229,6 +229,7 @@ export interface OrchestrationConfig {
 export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
   private orchestratorId: string;
   private config: OrchestrationConfig;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private services: Map<string, any> = new Map();
   private serviceStatus: Map<string, ServiceStatus> = new Map();
   private integrationTests: Map<string, IntegrationTestResult> = new Map();

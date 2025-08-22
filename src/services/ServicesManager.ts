@@ -222,12 +222,12 @@ export class ServicesManager {
       // The unifiedIngredientService is already initialized through its singleton instance
       // We just need to ensure it's used
       const ingredients = unifiedIngredientService.getAllIngredientsFlat();
-      logger.info(`IngredientService loaded (${(ingredients || []).length} ingredients`);
+      logger.info(`IngredientService loaded (${(ingredients || []).length}) ingredients`);
 
       this._serviceResults.push({
         success: true,
         serviceName: 'IngredientService',
-        message: `Loaded (${(ingredients || []).length} ingredients`,
+        message: `Loaded (${(ingredients || []).length}) ingredients`,
         timestamp: Date.now(),
       });
 
@@ -258,12 +258,12 @@ export class ServicesManager {
       // The unifiedRecipeService is already initialized through its singleton instance
       // We just need to ensure it's used
       const recipes = await unifiedRecipeService.getAllRecipes();
-      logger.info(`RecipeService loaded (${(recipes || []).length} recipes`);
+      logger.info(`RecipeService loaded (${(recipes || []).length}) recipes`);
 
       this._serviceResults.push({
         success: true,
         serviceName: 'RecipeService',
-        message: `Loaded (${(recipes || []).length} recipes`,
+        message: `Loaded (${(recipes || []).length}) recipes`,
         timestamp: Date.now(),
       });
 
@@ -348,6 +348,7 @@ export class ServicesManager {
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
         Ascendant: 'aquarius',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
@@ -357,6 +358,7 @@ export class ServicesManager {
         ingredients: [],
         instructions: [],
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any;
       const recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,

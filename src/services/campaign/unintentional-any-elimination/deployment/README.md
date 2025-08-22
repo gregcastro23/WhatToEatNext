@@ -278,13 +278,13 @@ npm test -- --testPathPattern=deployment
 **Deployment Fails at Pre-deployment**
 ```bash
 # Check build status
-npm run build
+yarn build
 
 # Check TypeScript compilation
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Validate dependencies
-npm install
+yarn install
 ```
 
 **Configuration Deployment Fails**

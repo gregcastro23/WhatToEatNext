@@ -13,6 +13,7 @@ import { oils } from '../data/ingredients/oils';
 import { proteins } from '../data/ingredients/proteins';
 import { spices } from '../data/ingredients/spices';
 import { vegetables } from '../data/ingredients/vegetables';
+import type { Season } from '../types/constants';
 import type { Recipe as _Recipe } from '../types/recipe';
 import { logger } from '../utils/logger';
 import { filterRecipesByIngredientMappings as _filterRecipesByIngredientMappings } from '../utils/recipe/recipeFiltering';
@@ -74,6 +75,66 @@ export interface RecipeRecommendation {
   season?: string | string[];
   elementalProperties?: ElementalProperties;
   cuisine?: string;
+}
+
+// --- Local nutrition typing and type guards ---
+type MacroProfile = {
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+};
+
+type NutritionProfile = {
+  macros?: MacroProfile;
+  calories?: number;
+  vitamins?: Record<string, number> | Array<unknown>;
+  minerals?: Record<string, number> | Array<unknown>;
+  sodium_mg?: number;
+  sugar_g?: number;
+};
+
+function isObjectLike(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value as number);
+}
+
+function isMacroProfile(value: unknown): value is MacroProfile {
+  if (!isObjectLike(value)) return false;
+  const v = value as Record<string, unknown>;
+  return (
+    (v.protein === undefined || isNumber(v.protein)) &&
+    (v.carbs === undefined || isNumber(v.carbs)) &&
+    (v.fat === undefined || isNumber(v.fat)) &&
+    (v.fiber === undefined || isNumber(v.fiber))
+  );
+}
+
+function isNutritionProfile(value: unknown): value is NutritionProfile {
+  if (!isObjectLike(value)) return false;
+  const v = value as Record<string, unknown>;
+  const macrosOk = v.macros === undefined || isMacroProfile(v.macros);
+  const caloriesOk = v.calories === undefined || isNumber(v.calories);
+  const sodiumOk = v.sodium_mg === undefined || isNumber(v.sodium_mg);
+  const sugarOk = v.sugar_g === undefined || isNumber(v.sugar_g);
+  return macrosOk && caloriesOk && sodiumOk && sugarOk;
+}
+
+// --- Astrological/Culinary profile guards ---
+type ElementalAffinity = string | { base?: string; secondary?: string };
+type AstroProfile = { elementalAffinity?: ElementalAffinity; favorableZodiac?: Array<string | ZodiacSign>; };
+type CulinaryProperties = { modality?: string };
+
+function isAstroProfile(value: unknown): value is AstroProfile {
+  if (!isObjectLike(value)) return false;
+  return true;
+}
+
+function hasCulinaryProperties(value: unknown): value is { culinaryProperties: CulinaryProperties } {
+  return isObjectLike(value) && 'culinaryProperties' in (value as Record<string, unknown>);
 }
 
 // Groupings for ingredient types
@@ -265,9 +326,12 @@ export class IngredientService implements IngredientServiceInterface {
     if (!subcategory) return [];
 
     try {
-      return (this.unifiedIngredientsFlat || []).filter(
-        ingredient => ingredient.subCategory?.toLowerCase() === subcategory.toLowerCase(),
-      );
+      const target = subcategory.toLowerCase();
+      return (this.unifiedIngredientsFlat || []).filter(ingredient => {
+        return typeof ingredient.subCategory === 'string'
+          ? ingredient.subCategory.toLowerCase() === target
+          : false;
+      });
     } catch (error) {
       logger.error(`Error getting ingredients by subCategory ${subcategory}:`, error);
       return [];
@@ -369,35 +433,54 @@ export class IngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
-        const profile = ingredient.nutritionalPropertiesProfile;
+        const rawProfile = ingredient.nutritionalPropertiesProfile as unknown;
+        const profile = isNutritionProfile(rawProfile) ? rawProfile : undefined;
 
         // Skip if no nutritional profile available
         if (!profile) return false;
 
         // Check protein constraints
-        if (filter.minProtein !== undefined && (profile.macros?.protein || 0) < filter.minProtein) {
+        if (
+          filter.minProtein !== undefined &&
+          (profile.macros?.protein || 0) < filter.minProtein
+        ) {
           return false;
         }
 
-        if (filter.maxProtein !== undefined && (profile.macros?.protein || 0) > filter.maxProtein) {
+        if (
+          filter.maxProtein !== undefined &&
+          (profile.macros?.protein || 0) > filter.maxProtein
+        ) {
           return false;
         }
 
         // Check fiber constraints
-        if (filter.minFiber !== undefined && (profile.macros?.fiber || 0) < filter.minFiber) {
+        if (
+          filter.minFiber !== undefined &&
+          (profile.macros?.fiber || 0) < filter.minFiber
+        ) {
           return false;
         }
 
-        if (filter.maxFiber !== undefined && (profile.macros?.fiber || 0) > filter.maxFiber) {
+        if (
+          filter.maxFiber !== undefined &&
+          (profile.macros?.fiber || 0) > filter.maxFiber
+        ) {
           return false;
         }
 
         // Check calorie constraints
-        if (filter.minCalories !== undefined && (profile.calories || 0) < filter.minCalories) {
+        if (
+          filter.minCalories !== undefined &&
+          (profile.calories || 0) < filter.minCalories
+        ) {
           return false;
         }
 
-        if (filter.maxCalories !== undefined && (profile.calories || 0) > filter.maxCalories) {
+        if (
+          filter.maxCalories !== undefined &&
+          (profile.calories || 0) > filter.maxCalories
+        ) {
           return false;
         }
 
@@ -460,7 +543,10 @@ export class IngredientService implements IngredientServiceInterface {
     try {
       return (ingredients || []).filter(ingredient => {
         const elementalProps =
-          ingredient.elementalPropertiesState ||
+          (ingredient.elementalPropertiesState &&
+            isElementalProperties(ingredient.elementalPropertiesState)
+              ? ingredient.elementalPropertiesState
+              : undefined) ||
           createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
 
         // Apply Pattern A: Safe type casting for filter parameter compatibility
@@ -588,23 +674,21 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Check low sodium requirement
-        if (
-          filter.isLowSodium &&
-          ingredient.nutritionalPropertiesProfile &&
-          ingredient.nutritionalPropertiesProfile.sodium_mg &&
-          ingredient.nutritionalPropertiesProfile.sodium_mg > 140
-        ) {
-          return false;
+        if (filter.isLowSodium) {
+          const np = ingredient.nutritionalPropertiesProfile as unknown;
+          const sodium = isNutritionProfile(np) ? np.sodium_mg : undefined;
+          if (typeof sodium === 'number' && sodium > 140) {
+            return false;
+          }
         }
 
         // Check low sugar requirement
-        if (
-          filter.isLowSugar &&
-          ingredient.nutritionalPropertiesProfile &&
-          ingredient.nutritionalPropertiesProfile.sugar_g &&
-          ingredient.nutritionalPropertiesProfile.sugar_g > 5
-        ) {
-          return false;
+        if (filter.isLowSugar) {
+          const np = ingredient.nutritionalPropertiesProfile as unknown;
+          const sugar = isNutritionProfile(np) ? np.sugar_g : undefined;
+          if (typeof sugar === 'number' && sugar > 5) {
+            return false;
+          }
         }
 
         return true;
@@ -747,18 +831,29 @@ export class IngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
-        // Check ingredient's zodiac affinity
-        if (ingredient.astrologicalPropertiesProfile?.zodiacAffinity) {
-          return safeSome(ingredient.astrologicalPropertiesProfile.zodiacAffinity, sign =>
+        const astro = ingredient.astrologicalPropertiesProfile as
+          | Record<string, unknown>
+          | undefined;
+
+        // zodiacAffinity as array
+        const zodiacAffinity = Array.isArray(astro?.['zodiacAffinity'])
+          ? (astro?.['zodiacAffinity'] as Array<string | ZodiacSign>)
+          : undefined;
+        if (zodiacAffinity && zodiacAffinity.length > 0) {
+          const ok = safeSome(zodiacAffinity, sign =>
             typeof sign === 'string'
               ? sign.toLowerCase() === currentZodiacSign.toLowerCase()
               : sign === currentZodiacSign,
           );
+          if (ok) return true;
         }
 
-        // Check ingredient's favorable zodiac
-        if (ingredient.astrologicalPropertiesProfile?.favorableZodiac) {
-          return safeSome(ingredient.astrologicalPropertiesProfile.favorableZodiac, sign =>
+        // favorableZodiac as array
+        const favorableZodiac = Array.isArray(astro?.['favorableZodiac'])
+          ? (astro?.['favorableZodiac'] as Array<string | ZodiacSign>)
+          : undefined;
+        if (favorableZodiac && favorableZodiac.length > 0) {
+          return safeSome(favorableZodiac, sign =>
             typeof sign === 'string'
               ? sign.toLowerCase() === currentZodiacSign.toLowerCase()
               : sign === currentZodiacSign,
@@ -789,9 +884,15 @@ export class IngredientService implements IngredientServiceInterface {
             : ingredient.planetaryRuler === planet;
         }
 
-        // Check ingredient's ruling planets
-        if (ingredient.astrologicalPropertiesProfile?.rulingPlanets) {
-          return safeSome(ingredient.astrologicalPropertiesProfile.rulingPlanets, p =>
+        // Check ingredient's ruling planets (profile may be loosely typed)
+        const astro = ingredient.astrologicalPropertiesProfile as
+          | Record<string, unknown>
+          | undefined;
+        const rulingPlanets = Array.isArray(astro?.['rulingPlanets'])
+          ? (astro?.['rulingPlanets'] as Array<string | typeof planet>)
+          : undefined;
+        if (rulingPlanets && rulingPlanets.length > 0) {
+          return safeSome(rulingPlanets, p =>
             typeof p === 'string' ? p.toLowerCase() === planet.toLowerCase() : p === planet,
           );
         }
@@ -1925,10 +2026,9 @@ export class IngredientService implements IngredientServiceInterface {
       // Score each ingredient based on compatibility with the elemental state
       const scoredIngredients = ingredientsToScore.map(ingredient => {
         // Calculate elemental compatibility
-        const elementalScore = this.calculateElementalSimilarity(
-          ingredient.elementalProperties,
-          elementalState,
-        );
+        const ingredientProps =
+          ingredient.elementalProperties || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        const elementalScore = this.calculateElementalSimilarity(ingredientProps, elementalState);
 
         // Apply seasonal bonus if enabled
         let seasonalScore = 1;
@@ -1939,17 +2039,29 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Apply zodiac compatibility if specified
         let zodiacScore = 1;
-        if (currentZodiacSign && ingredient.astrologicalProfile?.favorableZodiac) {
-          const isCompatible = ingredient.astrologicalProfile.favorableZodiac.includes(
-            currentZodiacSign as ZodiacSign,
-          );
-          zodiacScore = isCompatible ? 1.3 : 0.9;
+        if (currentZodiacSign && ingredient.astrologicalProfile) {
+          const astro = ingredient.astrologicalProfile as Record<string, unknown>;
+          const fav = astro['favorableZodiac'];
+          const favorable = Array.isArray(fav)
+            ? (fav as Array<string | ZodiacSign>)
+            : undefined;
+          if (favorable) {
+            const isCompatible = favorable.some(sign =>
+              typeof sign === 'string'
+                ? sign.toLowerCase() === currentZodiacSign.toLowerCase()
+                : sign === currentZodiacSign,
+            );
+            zodiacScore = isCompatible ? 1.3 : 0.9;
+          }
         }
 
         // Calculate modality score if relevant
         let modalityScore = 1;
-        if (modalityPreference && ingredient.culinaryProperties?.modality) {
-          modalityScore = ingredient.culinaryProperties.modality === modalityPreference ? 1.2 : 0.9;
+        if (modalityPreference && hasCulinaryProperties(ingredient)) {
+          const mod = ingredient.culinaryProperties?.modality;
+          if (typeof mod === 'string') {
+            modalityScore = mod === modalityPreference ? 1.2 : 0.9;
+          }
         }
 
         // Calculate overall score

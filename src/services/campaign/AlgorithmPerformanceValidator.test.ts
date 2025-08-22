@@ -118,7 +118,7 @@ describe('AlgorithmPerformanceValidator', () => {
     it('should generate cache performance alerts when hit rate is low', async () => {
       // Mock low cache performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockValidateMemoryCache = jest.spyOn(validator as any, 'validateMemoryCache');
+      const mockValidateMemoryCache = jest.spyOn(validator as unknown, 'validateMemoryCache');
       mockValidateMemoryCache.mockResolvedValue({
         name: 'memory',
         hitRate: 0.5, // Low hit rate
@@ -146,7 +146,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Mock degraded performance for second run
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockRunAlgorithmBenchmark = jest.spyOn(validator as any, 'runAlgorithmBenchmark');
+      const mockRunAlgorithmBenchmark = jest.spyOn(validator as unknown, 'runAlgorithmBenchmark');
       mockRunAlgorithmBenchmark.mockResolvedValue([200, 210, 205, 195, 200]); // Slower performance
 
       // Run benchmarks again
@@ -175,11 +175,11 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Mock improved performance for all benchmark types
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockRunAlgorithmBenchmark = jest.spyOn(validator as any, 'runAlgorithmBenchmark');
-      const mockRunCacheBenchmark = jest.spyOn(validator as any, 'runCacheBenchmark');
-      const mockRunDatabaseBenchmark = jest.spyOn(validator as any, 'runDatabaseBenchmark');
-      const mockRunApiBenchmark = jest.spyOn(validator as any, 'runApiBenchmark');
-      const mockRunUiBenchmark = jest.spyOn(validator as any, 'runUiBenchmark');
+      const mockRunAlgorithmBenchmark = jest.spyOn(validator as unknown, 'runAlgorithmBenchmark');
+      const mockRunCacheBenchmark = jest.spyOn(validator as unknown, 'runCacheBenchmark');
+      const mockRunDatabaseBenchmark = jest.spyOn(validator as unknown, 'runDatabaseBenchmark');
+      const mockRunApiBenchmark = jest.spyOn(validator as unknown, 'runApiBenchmark');
+      const mockRunUiBenchmark = jest.spyOn(validator as unknown, 'runUiBenchmark');
 
       mockRunAlgorithmBenchmark.mockResolvedValue([30, 35, 32, 28, 30]); // Better performance
       mockRunCacheBenchmark.mockResolvedValue([2, 2.5, 2.2, 1.8, 2]); // Better performance
@@ -209,7 +209,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Mock significantly degraded performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockRunAlgorithmBenchmark = jest.spyOn(validator as any, 'runAlgorithmBenchmark');
+      const mockRunAlgorithmBenchmark = jest.spyOn(validator as unknown, 'runAlgorithmBenchmark');
       mockRunAlgorithmBenchmark.mockResolvedValue([300, 310, 305, 295, 300]); // Much slower
 
       // Run benchmarks again
@@ -246,7 +246,7 @@ describe('AlgorithmPerformanceValidator', () => {
     it('should generate alert when improvement is below target', async () => {
       // Mock poor performance benchmarks
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockBenchmarkAlgorithms = jest.spyOn(validator as any, 'benchmarkAlgorithms');
+      const mockBenchmarkAlgorithms = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
       mockBenchmarkAlgorithms.mockResolvedValue([
         {
           name: 'test_algorithm',
@@ -303,7 +303,7 @@ describe('AlgorithmPerformanceValidator', () => {
     it('should include recommendations based on performance issues', async () => {
       // Mock poor performance to trigger recommendations
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockBenchmarkAlgorithms = jest.spyOn(validator as any, 'benchmarkAlgorithms');
+      const mockBenchmarkAlgorithms = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
       mockBenchmarkAlgorithms.mockResolvedValue([
         {
           name: 'slow_algorithm',
@@ -334,7 +334,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Trigger alerts by running performance validation with poor metrics
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockValidateMemoryCache = jest.spyOn(validator as any, 'validateMemoryCache');
+      const mockValidateMemoryCache = jest.spyOn(validator as unknown, 'validateMemoryCache');
       mockValidateMemoryCache.mockResolvedValue({
         name: 'memory',
         hitRate: 0.4, // Very low hit rate
@@ -413,7 +413,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Directly set the history to test size limiting
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (validator as any).benchmarkHistory = mockBenchmarks;
+      (validator as unknown).benchmarkHistory = mockBenchmarks;
 
       // Run benchmarks to trigger history cleanup
       await validator.runPerformanceBenchmarks();

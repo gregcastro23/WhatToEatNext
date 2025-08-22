@@ -48,7 +48,7 @@ describe('ConservativeReplacementPilot', () => {
     mockFs.readFileSync.mockReturnValue('mock file content');
     mockFs.writeFileSync.mockReturnValue(undefined);
     mockFs.readdirSync.mockReturnValue(['test.ts', 'example.tsx']);
-    mockFs.statSync.mockReturnValue({ isFile: () => true, isDirectory: () => false } as any);
+    mockFs.statSync.mockReturnValue({ isFile: () => true, isDirectory: () => false } as unknown);
 
     // Mock successful TypeScript compilation by default
     mockExecSync.mockReturnValue('');
@@ -90,7 +90,7 @@ describe('ConservativeReplacementPilot', () => {
       mockFs.readFileSync.mockImplementation((filePath: unknown) => {
         if (filePath.includes('test1.ts')) {
           return `
-            const items: any[] = [];
+            const items: unknown[] = [];
             const config: Record<string, unknown> = {};
             function test(param: unknown): any {
               return param;
@@ -99,8 +99,8 @@ describe('ConservativeReplacementPilot', () => {
         }
         if (filePath.includes('test2.tsx')) {
           return `
-            const data: any[] = [1, 2, 3];
-            const mapping: Record<number, any> = {};
+            const data: unknown[] = [1, 2, 3];
+            const mapping: Record<number, unknown> = {};
           `;
         }
         return 'mock content';
@@ -130,8 +130,8 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should exclude cases in comments', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        // const items: any[] = []; // This should be ignored
-        const realItems: any[] = []; // This should be found
+        // const items: unknown[] = []; // This should be ignored
+        const realItems: unknown[] = []; // This should be found
       `);
 
       const result = await pilot.executePilot();
@@ -147,7 +147,7 @@ describe('ConservativeReplacementPilot', () => {
         } catch (error: unknown) {
           // This should be ignored
         }
-        const items: any[] = []; // This should be found
+        const items: unknown[] = []; // This should be found
       `);
 
       const result = await pilot.executePilot();
@@ -163,7 +163,7 @@ describe('ConservativeReplacementPilot', () => {
       mockExecSync.mockReturnValue('');
 
       // Mock file operations
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: unknown[] = [];');
     });
 
     test('should process batches within size limits', async () => {
@@ -259,7 +259,7 @@ describe('ConservativeReplacementPilot', () => {
   describe('Success Rate Tracking', () => {
     test('should achieve target success rate with good cases', async () => {
       // Mock successful replacements
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: unknown[] = [];');
 
       const result = await pilot.executePilot();
 
@@ -278,7 +278,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should meet target success rate for pilot success', async () => {
       // Mock high success scenario
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: unknown[] = [];');
 
       const result = await pilot.executePilot();
 
@@ -443,8 +443,8 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Task 12.2 Requirements Validation', () => {
-    test('should focus on array types (any[] → unknown[])', async () => {
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+    test('should focus on array types (unknown[] → unknown[])', async () => {
+      mockFs.readFileSync.mockReturnValue('const items: unknown[] = [];');
 
       const result = await pilot.executePilot();
 
@@ -463,7 +463,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should target >80% successful replacements', async () => {
       // Mock successful scenario
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: unknown[] = [];');
 
       const result = await pilot.executePilot();
 
@@ -475,7 +475,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should target zero build failures', async () => {
       // Mock successful scenario
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: unknown[] = [];');
 
       const result = await pilot.executePilot();
 

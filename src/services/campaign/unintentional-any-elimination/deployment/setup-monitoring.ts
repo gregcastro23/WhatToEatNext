@@ -291,7 +291,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    */
   private async getBuildStatus(): Promise<'success' | 'failed' | 'unknown'> {
     try {
-      execSync('npm run build', { stdio: 'pipe' });
+      execSync('yarn build', { stdio: 'pipe' });
       return 'success';
     } catch {
       return 'failed';

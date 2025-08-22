@@ -31,6 +31,7 @@ interface AstrologizeResult {
 export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   const [data, setData] = useState<any>(null);
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 

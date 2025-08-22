@@ -10,6 +10,7 @@
 
 import { execSync } from 'child_process';
 import { existsSync, readFileSync, statSync, writeFileSync } from 'fs';
+import * as os from 'os';
 
 export interface PerformanceMetrics {
   timestamp: Date;
@@ -497,10 +498,7 @@ export class PerformanceMonitoringService {
 
   private getParallelProcessCount(): number {
     try {
-      // Use ESM import for OS CPU info
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { cpus }: typeof import('os') = require('os');
-      const cpuCount = cpus().length;
+      const cpuCount = os.cpus().length;
       return Math.min(cpuCount, 4);
     } catch {
       return 1;

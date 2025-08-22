@@ -58,7 +58,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     });
 
     it('should handle linting command failure gracefully', async () => {
-      const error = new Error('Linting failed') as any;
+      const error = new Error('Linting failed') as unknown;
       error.stdout = 'src/file1.ts:10:5: warning @typescript-eslint/no-explicit-any';
       mockExecSync.mockImplementation(() => {
         throw error;

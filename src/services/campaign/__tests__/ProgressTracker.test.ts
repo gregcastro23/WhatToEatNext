@@ -36,7 +36,7 @@ describe('ProgressTracker', () => {
     });
 
     it('should initialize with current timestamp', () => {
-      const lastUpdate = (progressTracker as any).lastMetricsUpdate;
+      const lastUpdate = (progressTracker as unknown).lastMetricsUpdate;
       expect(lastUpdate).toBeInstanceOf(Date);
     });
   });
@@ -256,7 +256,7 @@ describe('ProgressTracker', () => {
 
     it('should handle errors gracefully', async () => {
       // Mock implementation that throws
-      jest.spyOn(progressTracker as any, 'getCacheHitRate').mockImplementation(() => {
+      jest.spyOn(progressTracker as unknown, 'getCacheHitRate').mockImplementation(() => {
         throw new Error('Cache measurement failed');
       });
 
@@ -275,7 +275,7 @@ describe('ProgressTracker', () => {
         external: 0,
         rss: 60 * 1024 * 1024,
         arrayBuffers: 0,
-      }) as any;
+      }) as unknown;
 
       const memory = await progressTracker.getMemoryUsage();
 
@@ -288,7 +288,7 @@ describe('ProgressTracker', () => {
       const originalMemoryUsage = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
         throw new Error('Memory measurement failed');
-      }) as any;
+      }) as unknown;
 
       const memory = await progressTracker.getMemoryUsage();
 
@@ -622,11 +622,11 @@ describe('ProgressTracker', () => {
     });
 
     it('should update last metrics update timestamp', () => {
-      const beforeReset = (progressTracker as any).lastMetricsUpdate;
+      const beforeReset = (progressTracker as unknown).lastMetricsUpdate;
 
       progressTracker.resetMetricsHistory();
 
-      const afterReset = (progressTracker as any).lastMetricsUpdate;
+      const afterReset = (progressTracker as unknown).lastMetricsUpdate;
       expect(afterReset.getTime()).toBeGreaterThan(beforeReset.getTime());
     });
   });

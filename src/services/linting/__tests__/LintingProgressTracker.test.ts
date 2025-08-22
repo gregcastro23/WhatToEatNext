@@ -78,7 +78,7 @@ describe('LintingProgressTracker', () => {
     test('should handle ESLint execution errors gracefully', async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Mock error object needs custom stdout property for testing
-      const mockError = new Error('ESLint failed') as any;
+      const mockError = new Error('ESLint failed') as unknown;
       mockError.stdout = JSON.stringify([]);
       mockExecSync.mockImplementation(() => {
         throw mockError;
@@ -256,7 +256,7 @@ describe('LintingProgressTracker', () => {
       // Mock getLatestMetrics
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest spy requires access to private method for testing
-      jest.spyOn(tracker as any, 'getLatestMetrics').mockReturnValue(mockMetrics);
+      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
       const thresholds = {
         maxErrors: 0,
@@ -286,7 +286,7 @@ describe('LintingProgressTracker', () => {
         },
       };
 
-      jest.spyOn(tracker as any, 'getLatestMetrics').mockReturnValue(mockMetrics);
+      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
       const thresholds = {
         maxErrors: 0,
@@ -300,7 +300,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should handle missing metrics gracefully', () => {
-      jest.spyOn(tracker as any, 'getLatestMetrics').mockReturnValue(null);
+      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null);
 
       const thresholds = {
         maxErrors: 0,
@@ -327,7 +327,7 @@ describe('LintingProgressTracker', () => {
         },
       ]);
 
-      const result = (tracker as any).parseLintingOutput(mockOutput);
+      const result = (tracker as unknown).parseLintingOutput(mockOutput);
 
       expect(result).toEqual({
         totalIssues: 3,
@@ -369,7 +369,7 @@ describe('LintingProgressTracker', () => {
         warnings: 80,
       };
 
-      const improvement = (tracker as any).calculateImprovement(current, previous);
+      const improvement = (tracker as unknown).calculateImprovement(current, previous);
 
       expect(improvement).toEqual({
         totalIssuesReduced: 50,
@@ -396,7 +396,7 @@ describe('LintingProgressTracker', () => {
         },
       };
 
-      const improvement = (tracker as any).calculateImprovement(current, undefined);
+      const improvement = (tracker as unknown).calculateImprovement(current, undefined);
 
       expect(improvement).toEqual({
         totalIssuesReduced: 0,
@@ -423,7 +423,7 @@ describe('LintingProgressTracker', () => {
         },
       };
 
-      const gates = (tracker as any).evaluateQualityGates(metrics);
+      const gates = (tracker as unknown).evaluateQualityGates(metrics);
 
       expect(gates).toEqual({
         zeroErrors: true,

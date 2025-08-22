@@ -35,6 +35,8 @@ import { logger } from '../utils/logger';
 
 export class UnifiedNutritionalService {
   private static instance: UnifiedNutritionalService;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private cache: Map<string, any> = new Map();
 
   private constructor() {

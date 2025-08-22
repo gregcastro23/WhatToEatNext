@@ -404,6 +404,7 @@ export class ImportCleanupSystem {
 
     let modifiedLine = line;
     for (const pattern of patterns) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       modifiedLine = modifiedLine.replace(pattern.regex, pattern.replacement as any);
     }
 

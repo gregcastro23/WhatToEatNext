@@ -197,7 +197,7 @@ export class TestUtils {
       memoryThreshold?: number;
       cleanupFunction?: () => void;
     } = {},
-  ): Promise<{ success: boolean; metrics: any; issues: string[] }> {
+  ): Promise<{ success: boolean; metrics: unknown; issues: string[] }> {
     const {
       maxDuration = 60000, // 1 minute
       memoryThreshold = 2048 * 1024 * 1024, // 2GB
@@ -269,11 +269,11 @@ export class TestUtils {
    * Validate test consistency across multiple runs
    */
   static async validateConsistency(
-    testFunction: () => Promise<any>,
+    testFunction: () => Promise<unknown>,
     runs: number = 3,
     tolerancePercent: number = 20,
-  ): Promise<{ isConsistent: boolean; results: any[]; variance: number }> {
-    const results: any[] = [];
+  ): Promise<{ isConsistent: boolean; results: unknown[]; variance: number }> {
+    const results: unknown[] = [];
 
     for (let i = 0; i < runs; i++) {
       try {
@@ -319,8 +319,8 @@ export class TestUtils {
     }
 
     // Clear any global test caches
-    if ((global as any).__TEST_CACHE__) {
-      (global as any).__TEST_CACHE__.clear();
+    if ((global as unknown).__TEST_CACHE__) {
+      (global as unknown).__TEST_CACHE__.clear();
     }
 
     // Reset process memory warnings

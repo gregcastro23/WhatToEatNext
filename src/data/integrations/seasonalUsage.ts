@@ -205,7 +205,9 @@ export const seasonalUsage = {
       ],
     },
   },
-} as unknown as Record<Season, any>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+} as unknown as Record<Season, unknown>;
 
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season) {

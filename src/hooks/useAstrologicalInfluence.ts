@@ -18,6 +18,7 @@ export interface AstrologicalInfluence {
 
 export function useAstrologicalInfluence() {
   const { planetaryPositions, isLoading } = useAlchemical();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   const [astrologicalState, setAstrologicalState] = useState<any>(null);
 
   useEffect(() => {

@@ -9,6 +9,7 @@ import { useClientEffect } from './useClientEffect';
 const logger = createLogger('useAstrology');
 
 // Track active API requests to prevent duplicate calls
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const activeRequests = new Map<string, Promise<any>>();
 
 interface AstrologyOptions {

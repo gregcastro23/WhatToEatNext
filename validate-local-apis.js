@@ -157,7 +157,7 @@ async function testLocalAPI(name, path, method = 'GET', payload = null) {
     console.log(`   ❌ ERROR: ${error.message}`);
 
     if (error.message.includes('ECONNREFUSED')) {
-      console.log(`   💡 Hint: Make sure your Next.js dev server is running (npm run dev)`);
+      console.log(`   💡 Hint: Make sure your Next.js dev server is running (yarn dev)`);
     }
 
     return { success: false, error: error.message };
@@ -227,7 +227,7 @@ async function main() {
     console.log('💡 Consider implementing fallback mechanisms.');
   } else {
     console.log('❌ CRITICAL: No APIs are responding.');
-    console.log('🔧 Check if Next.js dev server is running: npm run dev');
+    console.log('🔧 Check if Next.js dev server is running: yarn dev');
     console.log('🔧 Verify backend service is accessible.');
     console.log('🔧 Check network connectivity.');
   }

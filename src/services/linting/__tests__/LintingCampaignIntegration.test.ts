@@ -311,7 +311,7 @@ describe('Linting Campaign System Integration', () => {
 
   describe('Error Handling and Recovery', () => {
     test('should handle ESLint execution failures gracefully', async () => {
-      const mockError = new Error('ESLint failed') as any;
+      const mockError = new Error('ESLint failed') as unknown;
       mockError.stdout = JSON.stringify([]);
 
       mockExecSync.mockImplementation(() => {

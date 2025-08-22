@@ -46,16 +46,16 @@ describe('DocumentationQualityAssurance', () => {
         'export class Service {',
         '  // Intentionally any: External API response with dynamic structure',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  processData(data: any): void {',
+        '  processData(data: unknown): void {',
         '    console.log(data);',
         '  }',
         '',
         '  // Poor comment',
-        '  handleError(error: any): void {',
+        '  handleError(error: unknown): void {',
         '    console.error(error);',
         '  }',
         '',
-        '  transform(input: any): any {',
+        '  transform(input: unknown): any {',
         '    return input;',
         '  }',
         '}'
@@ -110,7 +110,7 @@ describe('DocumentationQualityAssurance', () => {
         'export class Service {',
         '  // Intentionally any: External API response requires flexible typing because structure varies',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
-        '  processData(data: any): void {',
+        '  processData(data: unknown): void {',
         '    console.log(data);',
         '  }',
         '}'
@@ -121,7 +121,7 @@ describe('DocumentationQualityAssurance', () => {
       const context: ClassificationContext = {
         filePath: 'src/service.ts',
         lineNumber: 4,
-        codeSnippet: 'processData(data: any): void {',
+        codeSnippet: 'processData(data: unknown): void {',
         surroundingLines: [],
         hasExistingComment: true,
         existingComment: 'Intentionally any: External API response requires flexible typing because structure varies',
@@ -148,7 +148,7 @@ describe('DocumentationQualityAssurance', () => {
       const fileContent = [
         'export class Service {',
         '  // any',
-        '  processData(data: any): void {',
+        '  processData(data: unknown): void {',
         '    console.log(data);',
         '  }',
         '}'
@@ -159,7 +159,7 @@ describe('DocumentationQualityAssurance', () => {
       const context: ClassificationContext = {
         filePath: 'src/service.ts',
         lineNumber: 3,
-        codeSnippet: 'processData(data: any): void {',
+        codeSnippet: 'processData(data: unknown): void {',
         surroundingLines: [],
         hasExistingComment: true,
         existingComment: 'any',
@@ -184,7 +184,7 @@ describe('DocumentationQualityAssurance', () => {
     it('should identify missing documentation', async () => {
       const fileContent = [
         'export class Service {',
-        '  processData(data: any): void {',
+        '  processData(data: unknown): void {',
         '    console.log(data);',
         '  }',
         '}'
@@ -195,7 +195,7 @@ describe('DocumentationQualityAssurance', () => {
       const context: ClassificationContext = {
         filePath: 'src/service.ts',
         lineNumber: 2,
-        codeSnippet: 'processData(data: any): void {',
+        codeSnippet: 'processData(data: unknown): void {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -217,13 +217,13 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should cache validation results', async () => {
-      const fileContent = 'processData(data: any): void {}';
+      const fileContent = 'processData(data: unknown): void {}';
       mockFs.readFile.mockResolvedValue(fileContent);
 
       const context: ClassificationContext = {
         filePath: 'src/service.ts',
         lineNumber: 1,
-        codeSnippet: 'processData(data: any): void {',
+        codeSnippet: 'processData(data: unknown): void {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -253,11 +253,11 @@ describe('DocumentationQualityAssurance', () => {
       const fileContent = [
         'export class Service {',
         '  // Intentionally any: External API response',
-        '  processData(data: any): void {',
+        '  processData(data: unknown): void {',
         '    console.log(data);',
         '  }',
         '',
-        '  handleError(error: any): void {',
+        '  handleError(error: unknown): void {',
         '    console.error(error);',
         '  }',
         '}'
@@ -280,13 +280,13 @@ describe('DocumentationQualityAssurance', () => {
   describe('findAnyTypesInFile', () => {
     it('should find various any type patterns', async () => {
       const fileContent = [
-        'const data: any = response;',
-        'const items: any[] = [];',
+        'const data: unknown = response;',
+        'const items: unknown[] = [];',
         'const config: Record<string, unknown> = {};',
-        'const result = data as any;',
+        'const result = data as unknown;',
         'function process<T = any>(input: T): T { return input; }',
         'const array: Array<unknown> = [];',
-        'catch (error: any) {',
+        'catch (error: unknown) {',
         '  console.error(error);',
         '}'
       ].join('\n');
@@ -294,27 +294,27 @@ describe('DocumentationQualityAssurance', () => {
       mockFs.readFile.mockResolvedValue(fileContent);
 
       // Use reflection to access private method for testing
-      const anyTypes = await (qas as any).findAnyTypesInFile('test.ts');
+      const anyTypes = await (qas as unknown).findAnyTypesInFile('test.ts');
 
       expect(anyTypes.length).toBeGreaterThan(0);
-      expect(anyTypes.some((t: any) => t.codeSnippet.includes(': any'))).toBe(true);
-      expect(anyTypes.some((t: any) => t.codeSnippet.includes(': any[]'))).toBe(true);
-      expect(anyTypes.some((t: any) => t.codeSnippet.includes('Record<string, unknown>'))).toBe(true);
-      expect(anyTypes.some((t: any) => t.codeSnippet.includes('as any'))).toBe(true);
+      expect(anyTypes.some((t: unknown) => t.codeSnippet.includes(': unknown'))).toBe(true);
+      expect(anyTypes.some((t: unknown) => t.codeSnippet.includes(': unknown[]'))).toBe(true);
+      expect(anyTypes.some((t: unknown) => t.codeSnippet.includes('Record<string, unknown>'))).toBe(true);
+      expect(anyTypes.some((t: unknown) => t.codeSnippet.includes('as unknown'))).toBe(true);
     });
 
     it('should categorize any types correctly', async () => {
       const testCases = [
-        { code: 'catch (error: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
-        { code: 'const response: any = await api.fetch();', expectedCategory: AnyTypeCategory.EXTERNAL_API },
-        { code: 'const mockData: any = jest.fn();', expectedCategory: AnyTypeCategory.TEST_MOCK },
+        { code: 'catch (error: unknown) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
+        { code: 'const response: unknown = await api.fetch();', expectedCategory: AnyTypeCategory.EXTERNAL_API },
+        { code: 'const mockData: unknown = jest.fn();', expectedCategory: AnyTypeCategory.TEST_MOCK },
         { code: 'const config: unknown = options;', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
-        { code: 'const items: any[] = [];', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
+        { code: 'const items: unknown[] = [];', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
         { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ];
 
       for (const testCase of testCases) {
-        const category = (qas as any).categorizeAnyType(testCase.code);
+        const category = (qas as unknown).categorizeAnyType(testCase.code);
         expect(category).toBe(testCase.expectedCategory);
       }
     });
@@ -332,6 +332,7 @@ describe('DocumentationQualityAssurance', () => {
       ];
 
       for (const testCase of testCases) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
         const domain = (qas as any).determineDomain(testCase.path);
         expect(domain).toBe(testCase.expectedDomain);
       }
@@ -369,7 +370,7 @@ describe('DocumentationQualityAssurance', () => {
 
     qualityTestCases.forEach(({ comment, expectedQuality, description }) => {
       it(`should assess ${description} as ${expectedQuality}`, () => {
-        const quality = (qas as any).assessCommentQuality(comment);
+        const quality = (qas as unknown).assessCommentQuality(comment);
         expect(quality).toBe(expectedQuality);
       });
     });
@@ -380,11 +381,11 @@ describe('DocumentationQualityAssurance', () => {
       const lines = [
         'function test() {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const data: any = response;',
+        '  const data: unknown = response;',
         '}'
       ];
 
-      const hasDisable = (qas as any).hasEslintDisableComment(lines, 2);
+      const hasDisable = (qas as unknown).hasEslintDisableComment(lines, 2);
       expect(hasDisable).toBe(true);
     });
 
@@ -392,11 +393,11 @@ describe('DocumentationQualityAssurance', () => {
       const lines = [
         'function test() {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
-        '  const data: any = response;',
+        '  const data: unknown = response;',
         '}'
       ];
 
-      const hasExplanation = (qas as any).eslintDisableHasExplanation(lines, 2);
+      const hasExplanation = (qas as unknown).eslintDisableHasExplanation(lines, 2);
       expect(hasExplanation).toBe(true);
     });
 
@@ -404,11 +405,11 @@ describe('DocumentationQualityAssurance', () => {
       const lines = [
         'function test() {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const data: any = response;',
+        '  const data: unknown = response;',
         '}'
       ];
 
-      const hasExplanation = (qas as any).eslintDisableHasExplanation(lines, 2);
+      const hasExplanation = (qas as unknown).eslintDisableHasExplanation(lines, 2);
       expect(hasExplanation).toBe(false);
     });
   });
@@ -419,7 +420,7 @@ describe('DocumentationQualityAssurance', () => {
         {
           context: {
             filePath: 'src/service.ts',
-            codeSnippet: 'processData(data: any): void',
+            codeSnippet: 'processData(data: unknown): void',
             isInTestFile: false
           },
           expectedSeverity: 'high'
@@ -427,7 +428,7 @@ describe('DocumentationQualityAssurance', () => {
         {
           context: {
             filePath: 'src/component.tsx',
-            codeSnippet: 'const props: any = {}',
+            codeSnippet: 'const props: unknown = {}',
             isInTestFile: false
           },
           expectedSeverity: 'low'
@@ -435,7 +436,7 @@ describe('DocumentationQualityAssurance', () => {
         {
           context: {
             filePath: 'src/test.test.ts',
-            codeSnippet: 'const mock: any = {}',
+            codeSnippet: 'const mock: unknown = {}',
             isInTestFile: true
           },
           expectedSeverity: 'low'
@@ -443,7 +444,7 @@ describe('DocumentationQualityAssurance', () => {
         {
           context: {
             filePath: 'src/utils.ts',
-            codeSnippet: 'function process(data: any[]): any',
+            codeSnippet: 'function process(data: unknown[]): any',
             isInTestFile: false
           },
           expectedSeverity: 'medium'
@@ -451,7 +452,7 @@ describe('DocumentationQualityAssurance', () => {
       ];
 
       testCases.forEach(({ context, expectedSeverity }) => {
-        const severity = (qas as any).assessSeverity(context);
+        const severity = (qas as unknown).assessSeverity(context);
         expect(severity).toBe(expectedSeverity);
       });
     });
@@ -459,7 +460,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('recommendation generation', () => {
     it('should generate appropriate recommendations for low coverage', () => {
-      const recommendations = (qas as any).generateRecommendations(
+      const recommendations = (qas as unknown).generateRecommendations(
         30, // 30% coverage
         { poor: 5, fair: 2, good: 1, excellent: 0 },
         []
@@ -470,7 +471,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should generate appropriate recommendations for good coverage', () => {
-      const recommendations = (qas as any).generateRecommendations(
+      const recommendations = (qas as unknown).generateRecommendations(
         85, // 85% coverage
         { poor: 1, fair: 2, good: 5, excellent: 3 },
         []
@@ -481,7 +482,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should generate appropriate recommendations for excellent coverage', () => {
-      const recommendations = (qas as any).generateRecommendations(
+      const recommendations = (qas as unknown).generateRecommendations(
         98, // 98% coverage
         { poor: 0, fair: 1, good: 3, excellent: 8 },
         []

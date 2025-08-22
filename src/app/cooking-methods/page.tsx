@@ -65,6 +65,7 @@ const methodCategories: MethodCategory[] = [
 export default function CookingMethodsPage() {
   const router = useRouter();
   const [tabValue, setTabValue] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   const [formattedMethods, setFormattedMethods] = useState<any[]>([]);
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
 

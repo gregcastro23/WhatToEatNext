@@ -214,7 +214,7 @@ export class RealTimeTestRunner {
       maxFailureRate?: number;
       requiredSuccessTests?: string[];
     },
-  ): { isValid: boolean; issues: string[]; summary: any } {
+  ): { isValid: boolean; issues: string[]; summary: unknown } {
     const issues: string[] = [];
     const summary = {
       totalTests: results.size,

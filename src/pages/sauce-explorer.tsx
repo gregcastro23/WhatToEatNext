@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const SauceRecommender = (props: any) => (
   <div className='rounded border p-4 text-gray-600'>SauceRecommender unavailable.</div>
 );

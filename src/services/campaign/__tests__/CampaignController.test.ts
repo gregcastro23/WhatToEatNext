@@ -183,7 +183,7 @@ describe('CampaignController', () => {
     });
 
     it('should handle execution failure gracefully', async () => {
-      jest.spyOn(controller as any, 'executeTool').mockRejectedValue(new Error('Tool execution failed'));
+      jest.spyOn(controller as unknown, 'executeTool').mockRejectedValue(new Error('Tool execution failed'));
 
       const result = await controller.executePhase(mockPhase);
 
@@ -298,7 +298,7 @@ describe('CampaignController', () => {
     });
 
     it('should handle validation errors gracefully', async () => {
-      jest.spyOn(controller as any, 'getCurrentMetrics').mockRejectedValue(new Error('Metrics error'));
+      jest.spyOn(controller as unknown, 'getCurrentMetrics').mockRejectedValue(new Error('Metrics error'));
 
       const result = await controller.validatePhaseCompletion(mockPhase);
 
@@ -346,7 +346,7 @@ describe('CampaignController', () => {
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       };
 
-      jest.spyOn(controller as any, 'getCurrentMetrics').mockResolvedValue(mockMetrics);
+      jest.spyOn(controller as unknown, 'getCurrentMetrics').mockResolvedValue(mockMetrics);
 
       const result = await controller.getProgressMetrics();
 
@@ -515,7 +515,7 @@ describe('CampaignController', () => {
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       };
 
-      const achievements = (controller as any).generateAchievements(mockConfig.phases[1], metrics);
+      const achievements = (controller as unknown).generateAchievements(mockConfig.phases[1], metrics);
 
       expect(achievements).toContain('Zero linting warnings achieved');
       expect(achievements).toContain('Build time under 10 seconds maintained');

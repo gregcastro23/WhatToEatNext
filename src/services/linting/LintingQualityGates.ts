@@ -6,11 +6,11 @@
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 import { logger } from '@/utils/logger';
 
-import { LintingProgressTracker, LintingMetrics } from './LintingProgressTracker';
+import { LintingMetrics, LintingProgressTracker } from './LintingProgressTracker';
 
 /**
  * Quality gate configuration
@@ -77,7 +77,7 @@ export interface DeploymentReadiness {
   riskAssessment: {
     level: 'low' | 'medium' | 'high' | 'critical';
     factors: string[];
-    mitigation: string[];
+    mitigations: string[];
   };
 }
 
@@ -198,11 +198,16 @@ export class LintingQualityGates {
   async createCICDReport(): Promise<{
     timestamp: string;
     deployment: { approved: boolean; confidence: number; qualityScore: number };
-    gates: QualityGateResult;
-    issues?: string[];
-    risks?: unknown;
-    trends?: unknown;
+    metrics: {
+      totalIssues: number;
+      errors: number;
+      warnings: number;
+      fixableIssues: number;
+    };
+    qualityGates: { passed: boolean; riskLevel: 'low' | 'medium' | 'high' | 'critical'; violationCount: number };
+    blockers: string[];
     recommendations?: string[];
+    performance: { executionTime: number; memoryUsage: number; cacheHitRate: number };
   }> {
     try {
       const readiness = await this.assessDeploymentReadiness();
@@ -249,7 +254,7 @@ export class LintingQualityGates {
    * Monitor quality trends
    */
   async monitorQualityTrends(): Promise<{
-    trends: Record<string, unknown>;
+    trends: Record<string, 'improving' | 'stable' | 'degrading'>;
     overallTrend: 'improving' | 'stable' | 'degrading';
     recommendations: string[];
     alertLevel: 'none' | 'low' | 'medium' | 'high';
@@ -257,11 +262,16 @@ export class LintingQualityGates {
     try {
       const history = this.getQualityGateHistory();
       if (history.length < 2) {
-        return { trend: 'insufficient-data', message: 'Need more historical data' };
+        return {
+          trends: {},
+          overallTrend: 'stable',
+          recommendations: ['Need more historical data'],
+          alertLevel: 'none',
+        };
       }
 
       const recent = history.slice(-10); // Last 10 evaluations
-      const trends = {
+      const trends: Record<string, 'improving' | 'stable' | 'degrading'> = {
         errorTrend: this.calculateTrend(recent.map(r => r.metrics.errors)),
         warningTrend: this.calculateTrend(recent.map(r => r.metrics.warnings)),
         performanceTrend: this.calculateTrend(
@@ -273,8 +283,8 @@ export class LintingQualityGates {
       const overallTrend = this.determineOverallTrend(trends);
 
       return {
-        trend: overallTrend,
         trends,
+        overallTrend,
         recommendations: this.generateTrendRecommendations(trends),
         alertLevel: this.calculateAlertLevel(trends),
       };
@@ -448,22 +458,22 @@ export class LintingQualityGates {
     mitigations: string[];
   } {
     const factors: string[] = [];
-    const mitigation: string[] = [];
+    const mitigations: string[] = [];
 
     if (gateResult.metrics.errors > 0) {
       factors.push(`${gateResult.metrics.errors} linting errors present`);
-      mitigation.push('Run automated error fixing before deployment');
+      mitigations.push('Run automated error fixing before deployment');
     }
 
     if (gateResult.violations.some(v => v.type === 'blocker')) {
       factors.push('Critical blockers detected');
-      mitigation.push('Resolve all blocker issues immediately');
+      mitigations.push('Resolve all blocker issues immediately');
     }
 
     return {
       level: gateResult.riskLevel,
       factors,
-      mitigation,
+      mitigations,
     };
   }
 
@@ -521,11 +531,11 @@ export class LintingQualityGates {
   }
 
   private determineOverallTrend(
-    trends: Record<string, { current: number; previous: number }>,
+    trends: Record<string, 'improving' | 'stable' | 'degrading'>,
   ): 'improving' | 'stable' | 'degrading' {
-    const trendValues = Object.values(trends);
-    const improvingCount = trendValues.filter(t => t === 'improving').length;
-    const degradingCount = trendValues.filter(t => t === 'degrading').length;
+    const values = Object.values(trends);
+    const improvingCount = values.filter(t => t === 'improving').length;
+    const degradingCount = values.filter(t => t === 'degrading').length;
 
     if (improvingCount > degradingCount) return 'improving';
     if (degradingCount > improvingCount) return 'degrading';
@@ -533,7 +543,7 @@ export class LintingQualityGates {
   }
 
   private generateTrendRecommendations(
-    trends: Record<string, { current: number; previous: number }>,
+    trends: Record<string, 'improving' | 'stable' | 'degrading'>,
   ): string[] {
     const recommendations: string[] = [];
 
@@ -553,7 +563,7 @@ export class LintingQualityGates {
   }
 
   private calculateAlertLevel(
-    trends: Record<string, { current: number; previous: number }>,
+    trends: Record<string, 'improving' | 'stable' | 'degrading'>,
   ): 'none' | 'low' | 'medium' | 'high' {
     const degradingCount = Object.values(trends).filter(t => t === 'degrading').length;
 

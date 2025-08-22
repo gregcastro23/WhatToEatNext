@@ -2,7 +2,10 @@
 /node_modules
 /.pnp
 .pnp.js
-yarn.lock
+
+# npm lockfiles (we use yarn)
+package-lock.json
+npm-shrinkwrap.json
 
 # testing
 /coverage

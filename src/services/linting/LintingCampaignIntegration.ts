@@ -6,14 +6,13 @@
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 import { logger } from '@/utils/logger';
 
 import {
-  LintingProgressTracker,
-  LintingProgressReport,
-  CampaignIntegrationData,
+    LintingProgressReport,
+    LintingProgressTracker
 } from './LintingProgressTracker';
 
 /**
@@ -318,7 +317,8 @@ export class LintingCampaignIntegration {
   /**
    * Generate comprehensive campaign report
    */
-  async generateCampaignReport(campaignId: string): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  async generateCampaignReport(campaignId: string): Promise<Record<string, unknown>> {
     try {
       const config = this.getCampaignConfig(campaignId);
       const activeCampaign = this.getActiveCampaign();
@@ -536,9 +536,10 @@ export class LintingCampaignIntegration {
     });
   }
 
-  private saveCampaignReport(report: unknown): void {
+  private saveCampaignReport(report: Record<string, unknown>): void {
     try {
-      const reportFile = `.kiro/campaigns/report-${report.campaignId}-${Date.now()}.json`;
+      const id = typeof report.campaignId === 'string' ? (report.campaignId as string) : 'unknown';
+      const reportFile = `.kiro/campaigns/report-${id}-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2));
     } catch (error) {
       logger.error('Error saving campaign report:', error);

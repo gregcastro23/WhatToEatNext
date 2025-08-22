@@ -134,8 +134,8 @@ The planetary position system includes automated tests to verify:
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- Yarn package manager
+- Node.js (v20.18.0 or higher)
+- Yarn package manager (required - npm lockfiles are automatically removed)
 
 ### Installation
 
@@ -146,13 +146,19 @@ The planetary position system includes automated tests to verify:
    cd WhatToEatNext
    ```
 
-2. Install dependencies:
+2. Check package manager setup (optional):
+
+   ```bash
+   yarn check-pm
+   ```
+
+3. Install dependencies:
 
    ```bash
    yarn install
    ```
 
-3. Start the development server:
+4. Start the development server:
 
    ```bash
    yarn dev

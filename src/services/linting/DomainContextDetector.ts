@@ -73,7 +73,9 @@ export interface PreservationRequirement {
 export class DomainContextDetector {
   private workspaceRoot: string;
   private domainPatterns: Map<string, ContextIndicator[]>;
-  private contentAnalysisCache: Map<string, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  private contentAnalysisCache: Map<string, unknown>;
 
   constructor(workspaceRoot: string = process.cwd()) {
     this.workspaceRoot = workspaceRoot;

@@ -4,7 +4,7 @@
  * Utilities to identify and fix incorrect async/await usage
  */
 
-export function isPromiseLike(value: unknown): value is PromiseLike<any> {
+export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
   return value !== null && value !== undefined && typeof (value as unknown).then === 'function';
 }
 

@@ -13,7 +13,7 @@ interface CacheItem<T> {
 }
 
 // Global cache store
-const calculationCache: Record<string, CacheItem<any>> = {};
+const calculationCache: Record<string, CacheItem<unknown>> = {};
 
 // Default TTL is 60 seconds - adjust based on how quickly data changes
 const DEFAULT_CACHE_TTL = 60 * 1000;

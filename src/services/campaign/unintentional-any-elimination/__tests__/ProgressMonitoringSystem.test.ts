@@ -163,7 +163,7 @@ describe('ProgressMonitoringSystem', () => {
           currentSuccessRate: 75,
           manualReviewCases: 50,
           topDomain: 'utility' as unknown,
-          topCategory: 'function_param' as any
+          topCategory: 'function_param' as unknown
         }
       } as unknown);
     });

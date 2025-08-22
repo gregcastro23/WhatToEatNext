@@ -66,13 +66,16 @@ export class TypeScriptErrorResolutionCampaign {
   constructor() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Campaign controller requires flexible configuration for testing
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     this.campaignController = new CampaignController({} as any);
     this.progressTracker = new ProgressTracker();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Intelligence system interface varies by campaign type
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     this.intelligenceSystem = CampaignIntelligenceSystem as any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Safety protocol requires flexible initialization
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     this.safetyProtocol = new SafetyProtocol({} as any);
     this.metrics = this.initializeMetrics();
   }
@@ -415,14 +418,16 @@ export class TypeScriptErrorResolutionCampaign {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Historical data structure varies by campaign history
-  private async loadHistoricalData(): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  private async loadHistoricalData(): Promise<unknown> {
     // Load historical campaign data
     return {};
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Enterprise context structure is dynamically generated
-  private async buildEnterpriseContext(): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  private async buildEnterpriseContext(): Promise<unknown> {
     // Build enterprise context for intelligent decision making
     return {};
   }

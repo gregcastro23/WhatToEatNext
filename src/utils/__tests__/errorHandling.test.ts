@@ -135,7 +135,7 @@ describe('ErrorHandler', () => {
       errorHandler.handleError(testError);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error objects from enhanced error handling have unknown enhanced properties
-    } catch (enhancedError: any) {
+    } catch (enhancedError: unknown) {
       expect(enhancedError.message).toBe('Test error');
       expect(enhancedError.type).toBe(ErrorType.UNKNOWN);
       expect(enhancedError.errorId).toBeDefined();
@@ -205,7 +205,7 @@ describe('ErrorHandler', () => {
     // Create more errors than the max queue size (50)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Promise array for error handling can resolve to various result types
-    const promises: Promise<any>[] = [];
+    const promises: Promise<unknown>[] = [];
     for (let i = 0; i < 60; i++) {
       promises.push(errorHandler.handleError(new Error(`Error ${i}`)).catch(() => {}));
     }
@@ -306,7 +306,7 @@ describe('Utility Functions', () => {
       handleAsyncError(failurePromise, context);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error catch blocks handle diverse error types from async operations
-    } catch (error: any) {
+    } catch (error: unknown) {
       expect(error.context).toEqual(context);
     }
   });
@@ -321,7 +321,7 @@ describe('Utility Functions', () => {
       handleSyncError(failureFn, context);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error catch blocks handle diverse error types from async operations
-    } catch (error: any) {
+    } catch (error: unknown) {
       expect(error.context).toEqual(context);
     }
   });

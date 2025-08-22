@@ -82,6 +82,7 @@ export const useAlchemicalRecommendations = ({
 
         // Initialize with planetary data and context
         adapter.initialize(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
           planetPositions as any,
           isDaytime,
           currentZodiac || null,

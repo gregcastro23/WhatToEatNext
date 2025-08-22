@@ -259,7 +259,9 @@ class LintingFormattingCLI {
 
     for (const [filePath, fileViolations] of Object.entries(groupedByFile)) {
       console.log(`\n📄 ${filePath}:`);
-      (fileViolations as any[]).forEach(violation => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      (fileViolations as unknown[]).forEach(violation => {
         const fixableLabel = violation.fixable ? ' (fixable)' : '';
         const severityIcon = violation.severity === 'error' ? '❌' : '⚠️';
         console.log(

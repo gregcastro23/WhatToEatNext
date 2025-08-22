@@ -43,16 +43,16 @@ describe('Integration Workflows', () => {
 
     // Mock file system defaults
     mockFs.existsSync.mockReturnValue(true);
-    mockFs.mkdirSync.mockImplementation(() => undefined as any);
-    mockFs.readFileSync.mockReturnValue('const data: any = {};');
+    mockFs.mkdirSync.mockImplementation(() => undefined as unknown);
+    mockFs.readFileSync.mockReturnValue('const data: unknown = {};');
     mockFs.writeFileSync.mockImplementation(() => undefined);
     mockFs.readdirSync.mockReturnValue([]);
-    mockFs.statSync.mockReturnValue({ mtime: new Date() } as any);
+    mockFs.statSync.mockReturnValue({ mtime: new Date() } as unknown);
 
     // Mock successful TypeScript compilation by default
     mockExecSync.mockImplementation((command) => {
       if (command.includes('grep -c "error TS"')) {
-        const error = new Error('No matches') as any;
+        const error = new Error('No matches') as unknown;
         error.status = 1;
         throw error;
       }
@@ -67,14 +67,15 @@ describe('Integration Workflows', () => {
     test('should execute complete workflow from classification to replacement', async () => {
       // Setup test scenario with various any types
       const testFiles = {
-        'src/arrays.ts': 'const items: any[] = []; const data: Array<unknown> = [];',
-        'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: any } = {};',
-        'src/functions.ts': 'function process(param: any): any { return param; }',
-        'src/errors.ts': '} catch (error: any) { console.log(error); }',
-        'src/api.ts': 'const response: any = await fetch("/api/data");'
+        'src/arrays.ts': 'const items: unknown[] = []; const data: Array<unknown> = [];',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+        'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: unknown } = {};',
+        'src/functions.ts': 'function process(param: unknown): any { return param; }',
+        'src/errors.ts': '} catch (error: unknown) { console.log(error); }',
+        'src/api.ts': 'const response: unknown = await fetch("/api/data");'
       };
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         const fileName = path.toString();
         for (const [file, content] of Object.entries(testFiles)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
@@ -89,7 +90,7 @@ describe('Integration Workflows', () => {
       for (const [filePath, content] of Object.entries(testFiles)) {
         const lines = content.split('\n');
         for (let i = 0; i < lines.length; i++) {
-          if (lines[i].includes(': any')) {
+          if (lines[i].includes(': unknown')) {
             const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
@@ -159,12 +160,12 @@ describe('Integration Workflows', () => {
 
     test('should handle mixed success and failure scenarios', async () => {
       const mixedScenarios = {
-        'src/safe.ts': 'const items: any[] = []; const data: Record<string, unknown> = {};',
-        'src/risky.ts': 'const complex: any = getComplexObject(); function dangerous(param: any): any { return param; }',
+        'src/safe.ts': 'const items: unknown[] = []; const data: Record<string, unknown> = {};',
+        'src/risky.ts': 'const complex: unknown = getComplexObject(); function dangerous(param: unknown): any { return param; }',
         'src/intentional.ts': '} catch (error: any) { /* Intentionally any: error handling */ }'
       };
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         const fileName = path.toString();
         for (const [file, content] of Object.entries(mixedScenarios)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
@@ -180,13 +181,13 @@ describe('Integration Workflows', () => {
         if (command.includes('tsc')) {
           compilationAttempts++;
           if (compilationAttempts > 2) { // Fail after a few attempts
-            const error = new Error('Compilation failed') as any;
+            const error = new Error('Compilation failed') as unknown;
             error.stdout = 'error TS2322: Type mismatch in dangerous function';
             throw error;
           }
         }
         if (command.includes('grep -c "error TS"')) {
-          const error = new Error('No matches') as any;
+          const error = new Error('No matches') as unknown;
           error.status = 1;
           throw error;
         }
@@ -218,20 +219,20 @@ describe('Integration Workflows', () => {
     test('should preserve domain-specific intentional any types', async () => {
       const domainSpecificFiles = {
         'src/calculations/planetary/positions.ts': `
-          const planetaryData: any = await getReliablePlanetaryPositions();
-          const transitDates: any = validateTransitDate(planet, date, sign);
+          const planetaryData: unknown = await getReliablePlanetaryPositions();
+          const transitDates: unknown = validateTransitDate(planet, date, sign);
         `,
         'src/data/ingredients/spices.ts': `
-          const spiceData: any = await fetchSpiceInfo();
-          const ingredient: any = processIngredientData();
+          const spiceData: unknown = await fetchSpiceInfo();
+          const ingredient: unknown = processIngredientData();
         `,
         'src/services/campaign/metrics.ts': `
-          const campaignConfig: any = getDynamicConfig();
+          const campaignConfig: unknown = getDynamicConfig();
           const metrics: unknown = calculateProgressMetrics();
         `
       };
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         const fileName = path.toString();
         for (const [file, content] of Object.entries(domainSpecificFiles)) {
           if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', ''))) {
@@ -247,7 +248,7 @@ describe('Integration Workflows', () => {
         const lines = content.trim().split('\n').filter(line => line.trim());
 
         for (let i = 0; i < lines.length; i++) {
-          if (lines[i].includes(': any')) {
+          if (lines[i].includes(': unknown')) {
             const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
@@ -307,9 +308,9 @@ describe('Integration Workflows', () => {
       };
 
       // Mock campaign execution
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         if (path.includes('test')) {
-          return 'const items: any[] = []; const data: Record<string, unknown> = {};';
+          return 'const items: unknown[] = []; const data: Record<string, unknown> = {};';
         }
         return 'backup content';
       });
@@ -332,7 +333,7 @@ describe('Integration Workflows', () => {
           if (errorCount > 2) {
             return '15'; // Return increasing error count
           }
-          const error = new Error('No matches') as any;
+          const error = new Error('No matches') as unknown;
           error.status = 1;
           throw error;
         }
@@ -342,7 +343,7 @@ describe('Integration Workflows', () => {
         return '';
       });
 
-      mockFs.readFileSync.mockReturnValue('const dangerous: any = performRiskyOperation();');
+      mockFs.readFileSync.mockReturnValue('const dangerous: unknown = performRiskyOperation();');
 
       const campaignConfig: UnintentionalAnyConfig = {
         maxFilesPerBatch: 1,
@@ -363,11 +364,11 @@ describe('Integration Workflows', () => {
     });
 
     test('should integrate with progress tracking and metrics', async () => {
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         if (path.includes('metrics')) {
-          return 'const progressData: any = getMetrics(); const config: Record<string, unknown> = {};';
+          return 'const progressData: unknown = getMetrics(); const config: Record<string, unknown> = {};';
         }
-        return 'const items: any[] = [];';
+        return 'const items: unknown[] = [];';
       });
 
       const initialProgress = await engine.getProgressMetrics();
@@ -395,12 +396,12 @@ describe('Integration Workflows', () => {
 
   describe('Safety Protocol Activation and Rollback Scenarios', () => {
     test('should activate rollback on compilation failures', async () => {
-      mockFs.readFileSync.mockReturnValue('const data: any = getValue();');
+      mockFs.readFileSync.mockReturnValue('const data: unknown = getValue();');
 
       // Mock compilation failure
       mockExecSync.mockImplementation((command) => {
         if (command.includes('tsc')) {
-          const error = new Error('Compilation failed') as any;
+          const error = new Error('Compilation failed') as unknown;
           error.stdout = 'error TS2322: Type "unknown" is not assignable to type "string"';
           throw error;
         }
@@ -426,7 +427,7 @@ describe('Integration Workflows', () => {
     test('should handle emergency rollback scenarios', async () => {
       const multipleReplacements = [
         {
-          original: 'any[]',
+          original: 'unknown[]',
           replacement: 'unknown[]',
           filePath: 'src/test1.ts',
           lineNumber: 1,
@@ -443,9 +444,9 @@ describe('Integration Workflows', () => {
         }
       ];
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('test1')) return 'const items: any[] = [];';
-        if (path.includes('test2')) return 'const data: any = getValue();';
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        if (path.includes('test1')) return 'const items: unknown[] = [];';
+        if (path.includes('test2')) return 'const data: unknown = getValue();';
         return 'backup content';
       });
 
@@ -455,7 +456,7 @@ describe('Integration Workflows', () => {
         if (command.includes('tsc') && command.includes('--noEmit')) {
           buildCheckCount++;
           if (buildCheckCount > 1) { // Fail on overall build check
-            const error = new Error('Overall build failed') as any;
+            const error = new Error('Overall build failed') as unknown;
             error.stdout = 'error TS2322: Multiple type conflicts detected';
             throw error;
           }
@@ -472,7 +473,7 @@ describe('Integration Workflows', () => {
 
     test('should validate rollback integrity', async () => {
       const replacement = {
-        original: 'any[]',
+        original: 'unknown[]',
         replacement: 'unknown[]',
         filePath: 'src/test.ts',
         lineNumber: 1,
@@ -480,8 +481,8 @@ describe('Integration Workflows', () => {
         validationRequired: true
       };
 
-      const originalContent = 'const items: any[] = [];';
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      const originalContent = 'const items: unknown[] = [];';
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         if (path.includes('.backup')) {
           return originalContent;
         }
@@ -490,7 +491,7 @@ describe('Integration Workflows', () => {
 
       // Mock compilation failure to trigger rollback
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Compilation failed') as any;
+        const error = new Error('Compilation failed') as unknown;
         error.stdout = 'error TS2322: Type error';
         throw error;
       });
@@ -517,10 +518,10 @@ describe('Integration Workflows', () => {
           import React from 'react';
           interface Props {
             recipe: unknown;
-            onSelect: (recipe: any) => void;
+            onSelect: (recipe: unknown) => void;
           }
           export const RecipeCard: React.FC<Props> = ({ recipe, onSelect }) => {
-            const handleClick = (event: any) => {
+            const handleClick = (event: unknown) => {
               event.preventDefault();
               onSelect(recipe);
             };
@@ -529,25 +530,25 @@ describe('Integration Workflows', () => {
         `,
         'src/services/ApiService.ts': `
           class ApiService {
-            async fetchData(endpoint: string): Promise<any> {
+            async fetchData(endpoint: string): Promise<unknown> {
               try {
                 const response = await fetch(endpoint);
-                const data: any = await response.json();
+                const data: unknown = await response.json();
                 return this.transformData(data);
-              } catch (error: any) {
+              } catch (error: unknown) {
                 console.error('API Error:', error);
                 throw error;
               }
             }
 
-            private transformData(data: any): any {
+            private transformData(data: unknown): any {
               return { ...data, processed: true };
             }
           }
         `,
         'src/utils/helpers.ts': `
-          export const processItems = (items: any[]): any[] => {
-            return items.map((item: any) => ({
+          export const processItems = (items: unknown[]): unknown[] => {
+            return items.map((item: unknown) => ({
               ...item,
               id: item.id || generateId()
             }));
@@ -566,13 +567,13 @@ describe('Integration Workflows', () => {
 
           describe('helpers', () => {
             test('processItems', () => {
-              const mockItems: any[] = [{ name: 'test' }];
+              const mockItems: unknown[] = [{ name: 'test' }];
               const result = processItems(mockItems);
               expect(result).toBeDefined();
             });
 
             test('with mock data', () => {
-              const mockFn = jest.fn() as any;
+              const mockFn = jest.fn() as unknown;
               mockFn.mockReturnValue({ data: 'test' });
               expect(mockFn()).toEqual({ data: 'test' });
             });
@@ -580,7 +581,7 @@ describe('Integration Workflows', () => {
         `
       };
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         const fileName = path.toString();
         for (const [file, content] of Object.entries(realisticCodeSamples)) {
           if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', ''))) {
@@ -595,7 +596,7 @@ describe('Integration Workflows', () => {
           return Object.keys(realisticCodeSamples).join('\n');
         }
         if (command.includes('grep -c "error TS"')) {
-          const error = new Error('No matches') as any;
+          const error = new Error('No matches') as unknown;
           error.status = 1;
           throw error;
         }
@@ -628,11 +629,11 @@ describe('Integration Workflows', () => {
       // Generate a large number of files with various any type patterns
       const generateFileContent = (index: number) => {
         const patterns = [
-          `const items${index}: any[] = [];`,
+          `const items${index}: unknown[] = [];`,
           `const config${index}: Record<string, unknown> = {};`,
-          `function process${index}(data: any): any { return data; }`,
-          `const response${index}: any = await fetch("/api/${index}");`,
-          `} catch (error${index}: any) { console.log(error${index}); }`
+          `function process${index}(data: unknown): any { return data; }`,
+          `const response${index}: unknown = await fetch("/api/${index}");`,
+          `} catch (error${index}: unknown) { console.log(error${index}); }`
         ];
         return patterns[index % patterns.length];
       };
@@ -643,14 +644,14 @@ describe('Integration Workflows', () => {
           return Array(fileCount).fill(null).map((_, i) => `src/file${i}.ts`).join('\n');
         }
         if (command.includes('grep -c "error TS"')) {
-          const error = new Error('No matches') as any;
+          const error = new Error('No matches') as unknown;
           error.status = 1;
           throw error;
         }
         return '';
       });
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         const match = path.toString().match(/file(\d+)\.ts/);
         if (match) {
           const index = parseInt(match[1]);
@@ -686,29 +687,29 @@ describe('Integration Workflows', () => {
       const codebases = {
         'test-heavy': {
           files: {
-            'src/test1.test.ts': 'const mockData: any = {}; const spy: any = jest.fn();',
-            'src/test2.spec.ts': 'const fixture: any = createFixture();'
+            'src/test1.test.ts': 'const mockData: unknown = {}; const spy: unknown = jest.fn();',
+            'src/test2.spec.ts': 'const fixture: unknown = createFixture();'
           },
           expectedBehavior: 'preserve most any types due to test context'
         },
         'api-heavy': {
           files: {
-            'src/api1.ts': 'const response: any = await fetch("/api"); const data: any = response.json();',
-            'src/api2.ts': 'const result: any = await apiCall();'
+            'src/api1.ts': 'const response: unknown = await fetch("/api"); const data: unknown = response.json();',
+            'src/api2.ts': 'const result: unknown = await apiCall();'
           },
           expectedBehavior: 'preserve API-related any types'
         },
         'utility-heavy': {
           files: {
-            'src/util1.ts': 'const items: any[] = []; const map: Record<string, unknown> = {};',
-            'src/util2.ts': 'function transform(data: any[]): unknown[] { return data; }'
+            'src/util1.ts': 'const items: unknown[] = []; const map: Record<string, unknown> = {};',
+            'src/util2.ts': 'function transform(data: unknown[]): unknown[] { return data; }'
           },
           expectedBehavior: 'replace many utility any types'
         }
       };
 
       for (const [codebaseType, { files, expectedBehavior }] of Object.entries(codebases)) {
-        mockFs.readFileSync.mockImplementation((path: any) => {
+        mockFs.readFileSync.mockImplementation((path: unknown) => {
           const fileName = path.toString();
           for (const [file, content] of Object.entries(files)) {
             if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', ''))) {
@@ -723,7 +724,7 @@ describe('Integration Workflows', () => {
             return Object.keys(files).join('\n');
           }
           if (command.includes('grep -c "error TS"')) {
-            const error = new Error('No matches') as any;
+            const error = new Error('No matches') as unknown;
             error.status = 1;
             throw error;
           }
@@ -767,7 +768,7 @@ describe('Integration Workflows', () => {
           failureCount++;
           if (failureCount <= 2) {
             // Fail first two attempts, then succeed
-            const error = new Error('Transient failure') as any;
+            const error = new Error('Transient failure') as unknown;
             error.stdout = 'error TS2322: Temporary type conflict';
             throw error;
           }
@@ -778,10 +779,10 @@ describe('Integration Workflows', () => {
         return '';
       });
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: unknown[] = [];');
 
       const replacement = {
-        original: 'any[]',
+        original: 'unknown[]',
         replacement: 'unknown[]',
         filePath: 'src/test.ts',
         lineNumber: 1,
@@ -797,17 +798,17 @@ describe('Integration Workflows', () => {
     });
 
     test('should maintain data integrity during failures', async () => {
-      const originalContent = 'const items: any[] = []; const data: Record<string, unknown> = {};';
+      const originalContent = 'const items: unknown[] = []; const data: Record<string, unknown> = {};';
       let backupContent = '';
 
-      mockFs.readFileSync.mockImplementation((path: any) => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
         if (path.includes('.backup')) {
           return backupContent;
         }
         return originalContent;
       });
 
-      mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
+      mockFs.writeFileSync.mockImplementation((path: unknown, content: unknown) => {
         if (path.includes('.backup')) {
           backupContent = content;
         }
@@ -815,14 +816,14 @@ describe('Integration Workflows', () => {
 
       // Mock failure scenario
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Compilation failed') as any;
+        const error = new Error('Compilation failed') as unknown;
         error.stdout = 'error TS2322: Type error';
         throw error;
       });
 
       const replacements = [
         {
-          original: 'any[]',
+          original: 'unknown[]',
           replacement: 'unknown[]',
           filePath: 'src/test.ts',
           lineNumber: 1,

@@ -83,7 +83,7 @@ class Logger {
     if (this.shouldLog('debug')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      log.debug(`[DEBUG]${component} ${message}`, ...(options.rest as any[]));
+      log.debug(`[DEBUG]${component} ${message}`, ...options.rest);
     }
   }
 
@@ -94,7 +94,7 @@ class Logger {
     if (this.shouldLog('info')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      log.info(`[INFO]${component} ${message}`, ...(options.rest as any[]));
+      log.info(`[INFO]${component} ${message}`, ...options.rest);
     }
   }
 

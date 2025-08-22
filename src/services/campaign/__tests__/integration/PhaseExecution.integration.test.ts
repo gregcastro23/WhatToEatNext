@@ -305,7 +305,7 @@ describe('Phase Execution Integration Tests', () => {
 
     it('should maintain safety protocols across phases', async () => {
       // Track safety events across phases
-      const allSafetyEvents: any[] = [];
+      const allSafetyEvents: unknown[] = [];
 
       for (const phase of mockConfig.phases) {
         const result = await campaignController.executePhase(phase);

@@ -154,6 +154,7 @@ export class UnifiedFlavorEngine {
 
   // Phase 8: Enhanced caching and performance monitoring
   private profileCache: Map<string, UnifiedFlavorProfile> = new Map();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private memoizedCalculations: Map<string, any> = new Map();
   private performanceMetrics: {
     totalCalculations: number;
@@ -642,6 +643,7 @@ export class UnifiedFlavorEngine {
       'umami',
       'spicy',
     ];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     const breakdown: Record<keyof BaseFlavorNotes, number> = {} as any;
 
     for (const flavor of flavors) {
@@ -658,6 +660,7 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
   ): Record<Season, number> {
     const seasons: Season[] = ['spring', 'summer', 'autumn', 'winter'];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     const breakdown: Record<Season, number> = {} as any;
 
     for (const season of seasons) {

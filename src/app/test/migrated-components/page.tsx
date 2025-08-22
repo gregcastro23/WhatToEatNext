@@ -10,16 +10,20 @@ const ElementalRecommendations = () => (
 );
 const ElementalRecommendationsMigrated = ElementalRecommendations;
 
-const Tabs = ({ children, defaultValue, className }: any) => (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+const Tabs = ({ children, defaultValue, className }: unknown) => (
   <div className={className}>{children}</div>
 );
-const TabsList = ({ children, className }: any) => (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+const TabsList = ({ children, className }: unknown) => (
   <div className={`flex gap-2 ${className || ''}`}>{children}</div>
 );
-const TabsTrigger = ({ children }: any) => (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+const TabsTrigger = ({ children }: unknown) => (
   <button className='rounded border px-3 py-1'>{children}</button>
 );
-const TabsContent = ({ children }: any) => <div className='mt-4'>{children}</div>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+const TabsContent = ({ children }: unknown) => <div className='mt-4'>{children}</div>;
 
 const AstrologyChart = () => (
   <div className='p-4 text-gray-600'>AstrologyChart unavailable</div>

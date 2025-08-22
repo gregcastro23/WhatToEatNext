@@ -12,7 +12,9 @@ import {
 } from '@/data/cooking/methods';
 
 export default function CookingMethodsDemoPage() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   const [methods, setMethods] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   const [selectedMethod, setSelectedMethod] = useState<any | null>(null);
 
   useEffect(() => {

@@ -728,6 +728,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const elementalBalance = (alchemicalData.elementalBalance as any) || {};
       const fire = Number(elementalBalance?.Fire) || 0;
       const spirit = alchemicalData.spirit || 0;
@@ -752,6 +753,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const elementalBalance = (alchemicalData.elementalBalance as any) || {};
       const air = Number(elementalBalance?.Air) || 0;
       const substance = alchemicalData.substance || 0;
@@ -776,6 +778,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const elementalBalance = (alchemicalData.elementalBalance as any) || {};
       const essence = Number(alchemicalData.essence) || 0;
       const water = Number(elementalBalance?.Water) || 0;
@@ -800,6 +803,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract data with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const elementalBalanceData = (alchemicalData.elementalBalance as any) || {};
 
       const Fire = Number(elementalBalanceData?.Fire) || 0;

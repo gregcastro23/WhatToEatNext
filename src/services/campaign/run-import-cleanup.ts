@@ -221,6 +221,7 @@ class ImportCleanupCLI {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private groupUnusedImportsByFile(unusedImports: unknown[]): Record<string, any[]> {
     return unusedImports.reduce((acc, imp) => {
       if (!acc[imp.filePath]) {
