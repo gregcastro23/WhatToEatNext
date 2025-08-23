@@ -14,17 +14,15 @@ import {
   getAvailableYears,
 } from '@/data/transits/comprehensiveTransitDatabase';
 import {
-  PlanetaryPosition,
   CelestialPosition,
   ZodiacSign,
   Planet,
-  AstrologicalState,
 } from '@/types/celestial';
 import { getFallbackPlanetaryPositions } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
 
-import { fetchPlanetaryPositions, getCurrentPlanetaryPositions } from './astrologizeApi';
-import { swissEphemerisService, getSwissEphemerisPositions } from './SwissEphemerisService';
+import { getCurrentPlanetaryPositions } from './astrologizeApi';
+import { swissEphemerisService } from './SwissEphemerisService';
 
 const logger = createLogger('EnhancedAstrologyService');
 

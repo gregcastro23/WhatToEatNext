@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 const CuisineSection = ({
   cuisine,
   recipes,
-  elementalState,
+  _elementalState,
 }: {
   cuisine: string;
   recipes: unknown[];

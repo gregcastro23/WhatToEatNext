@@ -318,7 +318,7 @@ export class UnusedVariableDetector extends EventEmitter {
   /**
    * Extract symbols from file content
    */
-  private extractSymbols(content: string, filePath: string): Set<string> {
+  private extractSymbols(content: string, _filePath: string): Set<string> {
     const symbols = new Set<string>();
 
     // Extract variable declarations
@@ -373,7 +373,6 @@ export class UnusedVariableDetector extends EventEmitter {
   ): Promise<DetectionResult | null> {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
-      const stats = fs.statSync(filePath);
 
       const unusedVariables = options.includeVariables
         ? this.detectUnusedVariablesInFile(content, filePath)
@@ -492,7 +491,7 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   private findVariableDeclarations(
     content: string,
-    filePath: string,
+    _filePath: string,
   ): Array<{
     name: string;
     type: UnusedVariable['type'];
@@ -704,7 +703,7 @@ export class UnusedVariableDetector extends EventEmitter {
       );
 
       for (const match of importMatches) {
-        const [fullMatch, defaultImport, namedImports, namespaceImport, importPath] = match;
+        const [_fullMatch, defaultImport, namedImports, namespaceImport, importPath] = match;
 
         if (defaultImport) {
           // Default import
@@ -854,7 +853,7 @@ export class UnusedVariableDetector extends EventEmitter {
   private countExportUsage(exportName: string, filePath: string): number {
     let usageCount = 0;
 
-    for (const [otherFilePath, references] of this.crossFileReferences) {
+    for (const [otherFilePath, _references] of this.crossFileReferences) {
       if (otherFilePath === filePath) continue;
 
       try {
@@ -957,7 +956,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
   private determineScope(
     declaration: { line: number; [key: string]: unknown },
-    content: string,
+    _content: string,
   ): UnusedVariable['scope'] {
     if (declaration.type === 'import' || declaration.type === 'export') {
       return 'module';
@@ -1174,7 +1173,7 @@ export class UnusedVariableDetector extends EventEmitter {
     imports: UnusedImport[],
     exports: UnusedExport[],
     blocks: DeadCodeBlock[],
-    options: DetectionOptions,
+    _options: DetectionOptions,
   ): CleanupRecommendation[] {
     const recommendations: CleanupRecommendation[] = [];
 
@@ -1351,7 +1350,6 @@ export class UnusedVariableDetector extends EventEmitter {
 
     try {
       const content = fs.readFileSync(filePath, 'utf8');
-      const modifiedContent = content;
       const lines = content.split('\n');
 
       // Process recommendations in reverse order to avoid line number shifts

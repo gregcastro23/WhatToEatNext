@@ -11,7 +11,7 @@ const ElementalRecommendations = () => (
 const ElementalRecommendationsMigrated = ElementalRecommendations;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const Tabs = ({ children, defaultValue, className }: unknown) => (
+const Tabs = ({ children, _defaultValue, className }: unknown) => (
   <div className={className}>{children}</div>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility

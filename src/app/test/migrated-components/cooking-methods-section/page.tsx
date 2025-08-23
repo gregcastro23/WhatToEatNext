@@ -8,8 +8,8 @@ const CookingMethodsSection = ({
   methods,
   onSelectMethod,
   selectedMethodId,
-  showToggle,
-  initiallyExpanded,
+  _showToggle,
+  _initiallyExpanded,
 }: {
   methods: unknown[];
   onSelectMethod: (m: unknown) => void;
