@@ -3,15 +3,7 @@ export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
 export type MealTime = (typeof MEAL_TIMES)[number];
 
 // Import fundamental types
-import { Recipe as AlchemyRecipe, ZodiacSign, Season, ElementalProperties } from './alchemy';
-import {
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  Element,
-  PlanetName,
-  LunarPhase,
-  PlanetaryAlignment,
-} from './alchemy';
+import { ZodiacSign, Season, ElementalProperties } from './alchemy';
 import { Recipe } from './unified';
 
 // Define zodiac signs as seasons

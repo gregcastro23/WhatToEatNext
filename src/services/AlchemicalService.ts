@@ -15,8 +15,6 @@ import type {
   LunarPhaseType,
   PlanetaryPositionsType,
   ServiceResponseType,
-  AlchemicalTransformationResultType,
-  PlanetaryInfluenceResultType,
   ElementalProperties,
   ZodiacSign,
   LunarPhase,
@@ -25,27 +23,18 @@ import type {
   IngredientMapping,
   PlanetaryPosition,
 } from '@/types/alchemy';
-import type {
-  IngredientRecommendationResponse,
-  AlchemicalRecommendationResponse,
-} from '@/types/apiResponses';
 import { Recipe } from '@/types/recipe';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 
 import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
-import type { ThermodynamicMetrics } from '../calculations/gregsEnergy';
 import type { BirthChart } from '../types/astrology';
-import type { ScoredRecipe } from '../types/recipe';
 import {
   transformIngredients,
   transformCookingMethods,
   transformCuisines,
-  sortByAlchemicalCompatibility,
-  filterByAlchemicalCompatibility,
   getTopCompatibleItems,
 } from '../utils/alchemicalTransformationUtils';
 import { calculateLunarPhase, calculatePlanetaryPositions } from '../utils/astrologyUtils';
-import { elementalUtils } from '../utils/elementalUtils';
 import { logger } from '../utils/logger';
 
 // ========== PHASE 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
@@ -395,13 +384,6 @@ export class AlchemicalService {
     const dominantAlchemicalProperty =
       (topIngredients || []).length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit';
 
-    // Calculate average energy values across top ingredients
-    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
-      if ((items || []).length === 0) return 0;
-      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0);
-      return parseFloat((sum / (items || []).length).toFixed(2));
-    };
-
     return {
       topIngredients,
       topMethods,
@@ -504,13 +486,13 @@ export class AlchemicalService {
    * Calculate food compatibility based on birth chart and current planetary positions
    */
   calculateFoodCompatibility(
-    food: FoodCorrespondence,
-    chart: BirthChart,
-    planetaryDay: string,
-    planetaryHour: string,
-    isDaytime: boolean,
-    planetaryPositions?: Record<string, { sign: string; degree: number }>,
-    aspects?: Array<{ type: string; planets: [string, string] }>,
+    _food: FoodCorrespondence,
+    _chart: BirthChart,
+    _planetaryDay: string,
+    _planetaryHour: string,
+    _isDaytime: boolean,
+    _planetaryPositions?: Record<string, { sign: string; degree: number }>,
+    _aspects?: Array<{ type: string; planets: [string, string] }>,
   ): CompatibilityScore {
     // Implementation from FoodAlchemySystem
     // Would go here - simplified for brevity

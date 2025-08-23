@@ -17,13 +17,11 @@
 import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import fs from 'fs';
-import path from 'path';
 
 import { log } from '@/services/LoggingService';
 
 import { TypeScriptError, ErrorCategory } from './campaign/TypeScriptErrorAnalyzer';
-import { ErrorPattern, ErrorTrackingSnapshot } from './ErrorTrackingEnterpriseSystem';
-import { PatternSignature, PatternCluster } from './IntelligentPatternRecognition';
+import { ErrorPattern } from './ErrorTrackingEnterpriseSystem';
 
 // ========== BATCH PROCESSING INTERFACES ==========
 
@@ -577,7 +575,6 @@ export class IntelligentBatchProcessor extends EventEmitter {
     resourceUtil: { cpu: number; memory: number; disk: number },
   ): number {
     const baseSize = optimization.parameters.maxBatchSize || 20;
-    const errorCount = errors.length;
 
     // Adjust based on resource utilization
     const avgUtil = (resourceUtil.cpu + resourceUtil.memory + resourceUtil.disk) / 3;
@@ -727,7 +724,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     try {
       // Create rollback point
-      const rollbackData = await this.createRollbackPoint(job);
+      await this.createRollbackPoint(job);
 
       // Execute job
       const result = await this.executeJob(job);
@@ -1064,8 +1061,6 @@ export class IntelligentBatchProcessor extends EventEmitter {
     optimization: BatchOptimization,
     result: BatchJobResult,
   ): void {
-    const learningRate = this.adaptiveParameters.learningRate;
-
     switch (optimization.strategy) {
       case 'size':
         if (result.success && result.errorsFixed > 0) {
