@@ -846,7 +846,7 @@ export class ConservativeReplacementPilot {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-${report.batchResults.map((batch: any, index: number) => `
+${report.batchResults.map((batch: unknown, index: number) => `
 ### Batch ${batch.batchNumber}
 - **Cases**: ${batch.casesProcessed}
 - **Successful**: ${batch.successfulReplacements}

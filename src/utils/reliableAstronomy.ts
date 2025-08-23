@@ -338,7 +338,7 @@ function dateToJulian(date: Date): number {
  * Return reliable planetary positions for March 2025
  * These values are accurate as of March 28, 2025
  */
-function getMarch2025Positions(date: Date | any = new Date()): Record<string, unknown> {
+function getMarch2025Positions(date: Date | unknown = new Date()): Record<string, unknown> {
   // Ensure date is a valid Date object
   const _validDate = date instanceof Date && !isNaN(date.getTime()) ? date : new Date();
 

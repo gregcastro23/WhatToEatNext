@@ -1,17 +1,17 @@
-import { useEffect, useCallback, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { logger } from '@/utils/logger';
 import {
-  saveNavigationState,
-  getNavigationState,
-  saveComponentState,
-  getComponentState,
-  saveScrollPosition,
-  getScrollPosition,
-  useStateCleanup,
-  NavigationState,
+    NavigationState,
+    getComponentState,
+    getNavigationState,
+    getScrollPosition,
+    saveComponentState,
+    saveNavigationState,
+    saveScrollPosition,
+    useStateCleanup,
 } from '@/utils/statePreservation';
-import { useSteeringFileIntelligence, ElementalProperties } from '@/utils/steeringFileIntelligence';
+import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
 /**
  * Hook for preserving and restoring navigation state with performance optimizations
@@ -49,7 +49,7 @@ export function useNavigationState() {
 /**
  * Hook for preserving and restoring component state with performance optimizations
  */
-export function useComponentState<T = any>(componentId: string, initialState?: T) {
+export function useComponentState<T = unknown>(componentId: string, initialState?: T) {
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Debounced save to prevent excessive storage writes
@@ -183,7 +183,7 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
 /**
  * Hook for preserving selection state (like selected items, active tabs, etc.)
  */
-export function useSelectionState<T = any>(selectionId: string, initialSelection?: T) {
+export function useSelectionState<T = unknown>(selectionId: string, initialSelection?: T) {
   const { saveState, getState } = useComponentState(selectionId, initialSelection);
 
   const saveSelection = useCallback(
