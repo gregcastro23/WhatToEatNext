@@ -16,7 +16,6 @@
 
 import { EventEmitter } from 'events';
 import fs from 'fs';
-import path from 'path';
 
 import { log } from '@/services/LoggingService';
 
@@ -920,7 +919,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       let successfulRecoveries = 0;
 
       // Test service recovery
-      for (const [name, service] of this.services) {
+      for (const [_name, service] of this.services) {
         recoveryTests++;
         try {
           // Simulate error condition

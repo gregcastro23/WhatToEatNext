@@ -1,7 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 
-// TODO: Fix import - add what to import from "./useAlchemical.ts"
-import { Element } from '@/types/alchemy';
 import { AstrologicalState } from '@/types/celestial';
 import { getCurrentAstrologicalState } from '@/utils/astrologyUtils';
 

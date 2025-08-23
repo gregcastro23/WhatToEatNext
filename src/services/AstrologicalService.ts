@@ -9,15 +9,11 @@ import {
   createErrorResponse,
 } from '@/constants/typeDefaults';
 import {
-  ZodiacSignType,
-  LunarPhaseType,
-  PlanetaryPositionsType,
-  AstrologicalStateType,
   ElementalPropertiesType,
   ServiceResponseType,
 } from '@/types/alchemy';
 import type { AstrologicalTestData } from '@/types/astrologicalTestData';
-import { StandardizedPlanetaryResponse, PlanetaryInfluenceResponse } from '@/types/apiResponses';
+import { PlanetaryInfluenceResponse } from '@/types/apiResponses';
 import {
   PlanetaryPositions,
   StandardZodiacSign,
