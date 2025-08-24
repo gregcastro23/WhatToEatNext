@@ -271,8 +271,8 @@ async function getTypeScriptErrors(): Promise<string> {
     }
 
     // If there's no stdout, this might be a real failure
-    if (error.stderr || error.message) {
-      throw new Error(`TypeScript compilation failed: ${error.stderr || error.message}`);
+    if ((error as Record<string, unknown>)?.stderr || (error as Record<string, unknown>)?.message) {
+      throw new Error(`TypeScript compilation failed: ${(error as Record<string, unknown>)?.stderr || (error as Record<string, unknown>)?.message}`);
     }
 
     // If there's no stdout or stderr, assume no errors

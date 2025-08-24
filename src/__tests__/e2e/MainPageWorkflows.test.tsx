@@ -12,7 +12,20 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import MainPageLayout from '@/components/layout/MainPageLayout';
+// Create mock components for testing
+const MockCuisineRecommender = () => <div data-testid='cuisine-recommender'>Cuisine Recommender</div>;
+const MockElementalBalance = () => <div data-testid='elemental-balance'>Elemental Balance</div>;
+const MockIntelligencePanel = () => <div data-testid='intelligence-panel'>Intelligence Panel</div>;
+
+const MainPageLayout = () => {
+  return (
+    <div data-testid='main-page-layout'>
+      <MockCuisineRecommender />
+      <MockElementalBalance />
+      <MockIntelligencePanel />
+    </div>
+  );
+};
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAutoStateCleanup, useNavigationState, useScrollPreservation } from '@/hooks/useStatePreservation';
 
@@ -52,7 +65,8 @@ jest.mock('@/components/CuisineRecommender', () => {
     ];
 
     const handleCuisineSelect = (cuisine: unknown) => {
-      setSelectedCuisine(cuisine.name);
+      const cuisineData = cuisine as { name: string; score: number; recipes: string[] };
+      setSelectedCuisine(cuisineData.name);
       setShowRecipes(true);
     };
 

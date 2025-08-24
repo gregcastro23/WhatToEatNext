@@ -15,9 +15,9 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   }
 
   // If we have astrological influences, use them
-  if (cuisineData?.astrologicalInfluences && cuisineData.astrologicalInfluences.length > 0) {
+  if (cuisineData?.astrologicalInfluences && (cuisineData as Record<string, unknown>)?.astrologicalInfluences.length > 0) {
     return getAstrologicallyInformedFlavorProfile(
-      cuisineData.astrologicalInfluences,
+      (cuisineData as Record<string, unknown>)?.astrologicalInfluences,
       cuisineData?.alchemicalProperties || cuisineData?.elementalProperties || {},
     );
   }

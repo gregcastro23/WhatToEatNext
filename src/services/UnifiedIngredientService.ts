@@ -603,16 +603,16 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!nutrition) return true; // Skip if no nutrition data
 
       // Check protein
-      if (filter.minProtein !== undefined && (nutrition.protein || 0) < filter.minProtein) {
+      if (filter.minProtein !== undefined && ((nutrition as Record<string, unknown>)?.protein || 0) < filter.minProtein) {
         return false;
       }
 
-      if (filter.minProtein !== undefined && (nutrition.protein || 0) < filter.minProtein) {
+      if (filter.minProtein !== undefined && ((nutrition as Record<string, unknown>)?.protein || 0) < filter.minProtein) {
         return false;
       }
 
       // Check fiber
-      if (filter.minFiber !== undefined && (nutrition.fiber || 0) < filter.minFiber) {
+      if (filter.minFiber !== undefined && ((nutrition as Record<string, unknown>)?.fiber || 0) < filter.minFiber) {
         return false;
       }
 
@@ -620,16 +620,16 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const filterData = filter as Record<string, unknown>;
       const maxFiber = filterData.maxFiber;
 
-      if (maxFiber !== undefined && maxFiber !== null && (nutrition.fiber || 0) > maxFiber) {
+      if (maxFiber !== undefined && maxFiber !== null && ((nutrition as Record<string, unknown>)?.fiber || 0) > maxFiber) {
         return false;
       }
 
       // Check calories
-      if (filter.maxCalories !== undefined && (nutrition.calories || 0) > filter.maxCalories) {
+      if (filter.maxCalories !== undefined && ((nutrition as Record<string, unknown>)?.calories || 0) > filter.maxCalories) {
         return false;
       }
 
-      if (filter.maxCalories !== undefined && (nutrition.calories || 0) > filter.maxCalories) {
+      if (filter.maxCalories !== undefined && ((nutrition as Record<string, unknown>)?.calories || 0) > filter.maxCalories) {
         return false;
       }
 
@@ -638,14 +638,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const filterVitamins = filterData.vitamins;
 
       if (filterVitamins && Array.isArray(filterVitamins)) {
-        if (!nutrition.vitamins) {
+        if (!(nutrition as Record<string, unknown>)?.vitamins) {
           return false;
         }
 
         const hasAllVitamins = filterVitamins.every(vitamin =>
-          nutrition.vitamins && Array.isArray(nutrition.vitamins)
-            ? nutrition.vitamins.includes(vitamin)
-            : nutrition.vitamins === vitamin,
+          (nutrition as Record<string, unknown>)?.vitamins && Array.isArray((nutrition as Record<string, unknown>)?.vitamins)
+            ? (nutrition as Record<string, unknown>)?.(vitamins as Record<string, unknown>).includes(vitamin)
+            : (nutrition as Record<string, unknown>)?.vitamins === vitamin,
         );
 
         if (!hasAllVitamins) {
@@ -658,14 +658,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const filterMinerals = filterData.minerals;
 
       if (filterMinerals && Array.isArray(filterMinerals)) {
-        if (!nutrition.minerals) {
+        if (!(nutrition as Record<string, unknown>)?.minerals) {
           return false;
         }
 
         const hasAllMinerals = filterMinerals.every(mineral =>
-          nutrition.minerals && Array.isArray(nutrition.minerals)
-            ? nutrition.minerals.includes(mineral)
-            : nutrition.minerals === mineral,
+          (nutrition as Record<string, unknown>)?.minerals && Array.isArray((nutrition as Record<string, unknown>)?.minerals)
+            ? (nutrition as Record<string, unknown>)?.(minerals as Record<string, unknown>).includes(mineral)
+            : (nutrition as Record<string, unknown>)?.minerals === mineral,
         );
 
         if (!hasAllMinerals) {
@@ -679,17 +679,17 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const lowCarb = filterData.lowCarb;
       const lowFat = filterData.lowFat;
 
-      if (highProtein && (nutrition.protein || 0) < 15) {
+      if (highProtein && ((nutrition as Record<string, unknown>)?.protein || 0) < 15) {
         return false;
       }
 
       // Check low carb flag
-      if (lowCarb && (nutrition.carbs || 0) > 10) {
+      if (lowCarb && ((nutrition as Record<string, unknown>)?.carbs || 0) > 10) {
         return false;
       }
 
       // Check low fat flag
-      if (lowFat && (nutrition.fat || 0) > 3) {
+      if (lowFat && ((nutrition as Record<string, unknown>)?.fat || 0) > 3) {
         return false;
       }
 
@@ -720,38 +720,38 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const maxAir = filterData.maxAir;
 
       // Check Fire
-      if (minfire !== undefined && minfire !== null && elemental.Fire < minfire) {
+      if (minfire !== undefined && minfire !== null && (elemental as Record<string, unknown>)?.Fire < minfire) {
         return false;
       }
 
-      if (maxfire !== undefined && maxfire !== null && elemental.Fire > maxfire) {
+      if (maxfire !== undefined && maxfire !== null && (elemental as Record<string, unknown>)?.Fire > maxfire) {
         return false;
       }
 
       // Check Water
-      if (minwater !== undefined && minwater !== null && elemental.Water < minwater) {
+      if (minwater !== undefined && minwater !== null && (elemental as Record<string, unknown>)?.Water < minwater) {
         return false;
       }
 
-      if (maxwater !== undefined && maxwater !== null && elemental.Water > maxwater) {
+      if (maxwater !== undefined && maxwater !== null && (elemental as Record<string, unknown>)?.Water > maxwater) {
         return false;
       }
 
       // Check Earth
-      if (minearth !== undefined && minearth !== null && elemental.Earth < minearth) {
+      if (minearth !== undefined && minearth !== null && (elemental as Record<string, unknown>)?.Earth < minearth) {
         return false;
       }
 
-      if (maxearth !== undefined && maxearth !== null && elemental.Earth > maxearth) {
+      if (maxearth !== undefined && maxearth !== null && (elemental as Record<string, unknown>)?.Earth > maxearth) {
         return false;
       }
 
       // Check Air
-      if (minAir !== undefined && minAir !== null && elemental.Air < minAir) {
+      if (minAir !== undefined && minAir !== null && (elemental as Record<string, unknown>)?.Air < minAir) {
         return false;
       }
 
-      if (maxAir !== undefined && maxAir !== null && elemental.Air > maxAir) {
+      if (maxAir !== undefined && maxAir !== null && (elemental as Record<string, unknown>)?.Air > maxAir) {
         return false;
       }
 
@@ -789,37 +789,37 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const isLowSugar = filterData.isLowSugar;
 
       // Check vegetarian
-      if (isVegetarian && !dietary.isVegetarian) {
+      if (isVegetarian && !(dietary as Record<string, unknown>)?.isVegetarian) {
         return false;
       }
 
       // Check vegan
-      if (isVegan && !dietary.isVegan) {
+      if (isVegan && !(dietary as Record<string, unknown>)?.isVegan) {
         return false;
       }
 
       // Check gluten-free
-      if (isGlutenFree && !dietary.isGlutenFree) {
+      if (isGlutenFree && !(dietary as Record<string, unknown>)?.isGlutenFree) {
         return false;
       }
 
       // Check dAiry-free
-      if (isDAiryFree && !dietary.isDAiryFree) {
+      if (isDAiryFree && !(dietary as Record<string, unknown>)?.isDAiryFree) {
         return false;
       }
 
       // Check nut-free
-      if (isNutFree && !dietary.isNutFree) {
+      if (isNutFree && !(dietary as Record<string, unknown>)?.isNutFree) {
         return false;
       }
 
       // Check low-sodium
-      if (isLowSodium && !dietary.isLowSodium) {
+      if (isLowSodium && !(dietary as Record<string, unknown>)?.isLowSodium) {
         return false;
       }
 
       // Check low-sugar
-      if (isLowSugar && !dietary.isLowSugar) {
+      if (isLowSugar && !(dietary as Record<string, unknown>)?.isLowSugar) {
         return false;
       }
 
@@ -1039,9 +1039,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const metrics2 = ing2.thermodynamicProperties || this.calculateThermodynamicMetrics(ing2);
 
     // Calculate differences in key properties
-    const heatDiff = Math.abs(metrics1.heat - metrics2.heat);
-    const entropyDiff = Math.abs(metrics1.entropy - metrics2.entropy);
-    const reactivityDiff = Math.abs(metrics1.reactivity - metrics2.reactivity);
+    const heatDiff = (Math as Record<string, unknown>).abs((metrics1 as Record<string, unknown>)?.heat - (metrics2 as Record<string, unknown>)?.heat);
+    const entropyDiff = (Math as Record<string, unknown>).abs((metrics1 as Record<string, unknown>)?.entropy - (metrics2 as Record<string, unknown>)?.entropy);
+    const reactivityDiff = (Math as Record<string, unknown>).abs((metrics1 as Record<string, unknown>)?.reactivity - (metrics2 as Record<string, unknown>)?.reactivity);
 
     // Calculate average difference
     const avgDiff = (heatDiff + entropyDiff + reactivityDiff) / 3;

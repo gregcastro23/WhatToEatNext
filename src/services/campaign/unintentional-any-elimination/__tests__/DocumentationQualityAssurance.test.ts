@@ -294,7 +294,7 @@ describe('DocumentationQualityAssurance', () => {
       mockFs.readFile.mockResolvedValue(fileContent);
 
       // Use reflection to access private method for testing
-      const anyTypes = await (qas as unknown).findAnyTypesInFile('test.ts');
+      const anyTypes = await (qas as unknown).findAnyTypesInFile('(test as Record<string, unknown>).ts');
 
       expect(anyTypes.length).toBeGreaterThan(0);
       expect(anyTypes.some((t: unknown) => t.codeSnippet.includes(': unknown'))).toBe(true);
@@ -314,7 +314,7 @@ describe('DocumentationQualityAssurance', () => {
       ];
 
       for (const testCase of testCases) {
-        const category = (qas as unknown).categorizeAnyType(testCase.code);
+        const category = (qas as unknown).categorizeAnyType((testCase as Record<string, unknown>).code);
         expect(category).toBe(testCase.expectedCategory);
       }
     });

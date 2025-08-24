@@ -4,18 +4,17 @@ import { Box, Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 // Use the test/demo component path that exists
-import CookingMethodsSection from '@/app/test/migrated-components/cooking-methods-section/page';
+import { CookingMethodsSection } from '@/app/test/migrated-components/cooking-methods-section/page';
 import {
     dryCookingMethods,
     molecularCookingMethods,
     wetCookingMethods,
 } from '@/data/cooking/methods';
+import type { CookingMethodData } from '@/types/cookingMethod';
 
 export default function CookingMethodsDemoPage() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  const [methods, setMethods] = useState<any[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  const [selectedMethod, setSelectedMethod] = useState<any | null>(null);
+  const [methods, setMethods] = useState<CookingMethodData[]>([]);
+  const [selectedMethod, setSelectedMethod] = useState<CookingMethodData | null>(null);
 
   useEffect(() => {
     // Prepare demo data by formatting methods from different categories

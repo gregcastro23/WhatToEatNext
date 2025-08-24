@@ -333,7 +333,7 @@ export const safeConvertToElementalProperties = (
 export const safeConvertToPlanetPosition = (
   value: unknown,
   fallback: PlanetPosition = {
-    sign: 'aries' as unknown,
+    sign: 'aries' as ZodiacSign,
     degree: 0,
     exactLongitude: 0,
     isRetrograde: false,
@@ -347,6 +347,9 @@ export const safeConvertToCookingMethod = (
   fallback: CookingMethod = {
     id: 'unknown',
     name: 'Unknown Method',
+    category: 'unknown',
+    element: 'Earth',
+    intensity: 1,
     description: 'Unknown cooking method',
   },
 ): CookingMethod => {

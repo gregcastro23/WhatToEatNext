@@ -637,9 +637,10 @@ function runESLintOnFile(filePath: string): { exitCode: number; output: string }
     });
     return { exitCode: 0, output };
   } catch (error: unknown) {
+    const err = error as any;
     return {
-      exitCode: error.status || 1,
-      output: error.stdout || error.message || '',
+      exitCode: err.status || 1,
+      output: err.stdout || err.message || '',
     };
   }
 }

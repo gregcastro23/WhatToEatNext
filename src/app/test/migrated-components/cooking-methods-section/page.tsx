@@ -8,8 +8,8 @@ const CookingMethodsSection = ({
   methods,
   onSelectMethod,
   selectedMethodId,
-  _showToggle,
-  _initiallyExpanded,
+  showToggle,
+  initiallyExpanded,
 }: {
   methods: unknown[];
   onSelectMethod: (m: unknown) => void;
@@ -18,20 +18,26 @@ const CookingMethodsSection = ({
   initiallyExpanded?: boolean;
 }) => (
   <div className='space-y-2'>
-    {methods.map(m => (
+    {methods.map(m => {
+      const method = m as Record<string, unknown>;
+      return (
       <button
-        key={m.id}
+        key={String(method.id)}
         onClick={() => onSelectMethod(m)}
-        className={`w-full rounded border p-3 text-left ${selectedMethodId === m.id ? 'bg-blue-50' : 'bg-white'}`}
+        className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`}
       >
-        <div className='font-semibold'>{m.name}</div>
-        <div className='text-sm text-gray-600'>{m.description}</div>
+        <div className='font-semibold'>{String(method.name)}</div>
+        <div className='text-sm text-gray-600'>{String(method.description)}</div>
       </button>
-    ))}
+    );
+    })}
   </div>
 );
 
 const CookingMethodsSectionMigrated = CookingMethodsSection;
+
+// Export the component for use in other pages
+export { CookingMethodsSection };
 
 // Sample cooking methods for testing
 const sampleMethods = [
@@ -146,7 +152,8 @@ export default function CookingMethodsSectionTestPage() {
   useServices();
 
   const handleSelectMethod = (method: unknown) => {
-    setSelectedMethodId((method as unknown).id);
+    const methodObj = method as Record<string, unknown>;
+    setSelectedMethodId(String(methodObj.id));
   };
 
   return (

@@ -133,8 +133,11 @@ class StateManager {
       // Add type guard to ensure cached data has the right shape
       if (cached && this.isValidAppState(cached)) {
         // Ensure activeFilters is a Set after deserialization
-        if (cached.ui && Array.isArray((cached.ui as unknown).activeFilters)) {
-          cached.ui.activeFilters = new Set((cached.ui as unknown).activeFilters);
+        if (cached.ui) {
+          const ui = cached.ui as Record<string, unknown>;
+          if (Array.isArray(ui.activeFilters)) {
+            cached.ui.activeFilters = new Set(ui.activeFilters as string[]);
+          }
         }
         return cached;
       }
@@ -160,11 +163,10 @@ class StateManager {
 
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
-    // Fix TS2339: Property does not exist on type 'object'
-    const data = obj as unknown;
-    return (
-      obj && typeof obj === 'object' && data?.recipes && data?.celestial && data?.user && data?.ui
-    );
+    if (!obj || typeof obj !== 'object') return false;
+    
+    const data = obj as Record<string, unknown>;
+    return !!(data.recipes && data.celestial && data.user && data.ui);
   }
 
   private getDefaultState(): AppState {

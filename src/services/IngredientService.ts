@@ -1651,7 +1651,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // If ingredient has astrologicalProfile, use it to calculate elemental properties
       if (ingredient.astrologicalPropertiesProfile?.elementalAffinity) {
-        const affinity = ingredient.astrologicalPropertiesProfile.elementalAffinity;
+        const affinity = (ingredient.astrologicalPropertiesProfile as Record<string, unknown>)?.elementalAffinity;
 
         // Get base element
         const baseElement = typeof affinity === 'string' ? affinity : affinity.base;

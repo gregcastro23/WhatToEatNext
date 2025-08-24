@@ -229,16 +229,16 @@ class LintingFormattingCLI {
 
   private printViolationSummary(violations: unknown[]): void {
     const summary = {
-      typeScript: violations.filter(v => v.ruleId?.startsWith('@typescript-eslint/')).length,
-      react: violations.filter(v => v.ruleId?.startsWith('react')).length,
-      import: violations.filter(v => v.ruleId?.startsWith('import/')).length,
+      typeScript: violations.filter(v => (v as Record<string, unknown>).ruleId?.startsWith('@typescript-eslint/')).length,
+      react: violations.filter(v => (v as Record<string, unknown>).ruleId?.startsWith('react')).length,
+      import: violations.filter(v => (v as Record<string, unknown>).ruleId?.startsWith('import/')).length,
       other: violations.filter(
         v =>
-          !v.ruleId?.startsWith('@typescript-eslint/') &&
-          !v.ruleId?.startsWith('react') &&
-          !v.ruleId?.startsWith('import/'),
+          !(v as Record<string, unknown>).ruleId?.startsWith('@typescript-eslint/') &&
+          !(v as Record<string, unknown>).ruleId?.startsWith('react') &&
+          !(v as Record<string, unknown>).ruleId?.startsWith('import/'),
       ).length,
-      fixable: violations.filter(v => v.fixable).length,
+      fixable: violations.filter(v => (v as Record<string, unknown>).fixable).length,
     };
 
     console.log(`  - TypeScript violations: ${summary.typeScript}`);
@@ -250,10 +250,10 @@ class LintingFormattingCLI {
 
   private printDetailedViolations(violations: unknown[]): void {
     const groupedByFile = violations.reduce((acc, violation) => {
-      if (!acc[violation.filePath]) {
-        acc[violation.filePath] = [];
+      if (!(acc as Record<string, unknown>)[(violation as Record<string, unknown>).filePath]) {
+        (acc as Record<string, unknown>)[((violation as Record<string, unknown>)?.filePath] = [];
       }
-      acc[violation.filePath].push(violation);
+      (acc as Record<string, unknown>)[(violation as Record<string, unknown>).filePath].push(violation);
       return acc;
     }, {});
 
@@ -262,10 +262,10 @@ class LintingFormattingCLI {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       (fileViolations as unknown[]).forEach(violation => {
-        const fixableLabel = violation.fixable ? ' (fixable)' : '';
-        const severityIcon = violation.severity === 'error' ? '❌' : '⚠️';
+        const fixableLabel = (violation as Record<string, unknown>).fixable ? ' (fixable)' : '';
+        const severityIcon = ((violation as Record<string, unknown>)?.severity === 'error' ? '❌' : '⚠️';
         console.log(
-          `  ${severityIcon} Line ${violation.line}: ${violation.message} [${violation.ruleId}]${fixableLabel}`,
+          `  ${severityIcon} Line ${(violation as Record<string, unknown>).line}: ${((violation as Record<string, unknown>)?.message} [${(violation as Record<string, unknown>).ruleId}]${fixableLabel}`,
         );
       });
     }
@@ -273,31 +273,31 @@ class LintingFormattingCLI {
 
   private printResults(result: unknown): void {
     console.log('\n📊 Linting and Formatting Results:');
-    console.log(`  - Files processed: ${result.filesProcessed.length}`);
-    console.log(`  - Linting violations fixed: ${result.lintingViolationsFixed}`);
-    console.log(`  - Formatting issues fixed: ${result.formattingIssuesFixed}`);
-    console.log(`  - Pattern-based fixes applied: ${result.patternBasedFixesApplied}`);
+    ((console as Record<string, unknown>)?.log(`  - Files processed: ${(result as Record<string, unknown>)?.(filesProcessed as Record<string, unknown>).length}`);
+    console.log(`  - Linting violations fixed: ${(result as Record<string, unknown>).lintingViolationsFixed}`);
+    console.log(`  - Formatting issues fixed: ${(result as Record<string, unknown>).formattingIssuesFixed}`);
+    console.log(`  - Pattern-based fixes applied: ${(result as Record<string, unknown>).patternBasedFixesApplied}`);
     console.log(
-      `  - Build validation: ${result.buildValidationPassed ? '✅ Passed' : '❌ Failed'}`,
+      `  - Build validation: ${(result as Record<string, unknown>).buildValidationPassed ? '✅ Passed' : '❌ Failed'}`,
     );
 
-    if (result.violationBreakdown) {
+    if ((result as Record<string, unknown>).violationBreakdown) {
       console.log('\n📋 Violation Breakdown:');
-      console.log(`  - TypeScript errors: ${result.violationBreakdown.typeScriptErrors}`);
-      console.log(`  - React violations: ${result.violationBreakdown.reactViolations}`);
-      console.log(`  - Import violations: ${result.violationBreakdown.importViolations}`);
-      console.log(`  - Formatting issues: ${result.violationBreakdown.formattingIssues}`);
-      console.log(`  - Custom pattern fixes: ${result.violationBreakdown.customPatternFixes}`);
+      ((console as Record<string, unknown>)?.log(`  - TypeScript errors: ${(result as Record<string, unknown>)?.(violationBreakdown as Record<string, unknown>).typeScriptErrors}`);
+      ((console as Record<string, unknown>)?.log(`  - React violations: ${(result as Record<string, unknown>)?.(violationBreakdown as Record<string, unknown>).reactViolations}`);
+      ((console as Record<string, unknown>)?.log(`  - Import violations: ${(result as Record<string, unknown>)?.(violationBreakdown as Record<string, unknown>).importViolations}`);
+      ((console as Record<string, unknown>)?.log(`  - Formatting issues: ${(result as Record<string, unknown>)?.(violationBreakdown as Record<string, unknown>).formattingIssues}`);
+      ((console as Record<string, unknown>)?.log(`  - Custom pattern fixes: ${(result as Record<string, unknown>)?.(violationBreakdown as Record<string, unknown>).customPatternFixes}`);
     }
 
-    if (result.errors.length > 0) {
+    if ((result as Record<string, unknown>)?.(errors as Record<string, unknown>).length > 0) {
       console.log('\n❌ Errors:');
-      result.errors.forEach((error: string) => console.log(`  - ${error}`));
+      (result as Record<string, unknown>)?.(errors as Record<string, unknown>).forEach((error: string) => (console as Record<string, unknown>).log(`  - ${error}`));
     }
 
-    if (result.warnings.length > 0) {
+    if ((result as Record<string, unknown>)?.(warnings as Record<string, unknown>).length > 0) {
       console.log('\n⚠️  Warnings:');
-      result.warnings.forEach((warning: string) => console.log(`  - ${warning}`));
+      (result as Record<string, unknown>)?.(warnings as Record<string, unknown>).forEach((warning: string) => (console as Record<string, unknown>).log(`  - ${warning}`));
     }
   }
 }

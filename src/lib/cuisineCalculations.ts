@@ -81,15 +81,15 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const astroProfile = traditionData?.astrologicalProfile;
   if (
     astroProfile?.influences &&
-    astroProfile.influences.length > 0 &&
-    !astroProfile.influences.includes('Universal')
+    (astroProfile as Record<string, unknown>)?.influences.length > 0 &&
+    !(astroProfile as Record<string, unknown>)?.influences.includes('Universal')
   ) {
-    return astroProfile.influences;
+    return (astroProfile as Record<string, unknown>)?.influences;
   }
 
   // Otherwise, use ruling planets from astrologicalProfile if available
-  if (astroProfile?.rulingPlanets && astroProfile.rulingPlanets.length > 0) {
-    return astroProfile.rulingPlanets;
+  if (astroProfile?.rulingPlanets && (astroProfile as Record<string, unknown>)?.rulingPlanets.length > 0) {
+    return (astroProfile as Record<string, unknown>)?.rulingPlanets;
   }
 
   // Collect influences from regional cuisines if available

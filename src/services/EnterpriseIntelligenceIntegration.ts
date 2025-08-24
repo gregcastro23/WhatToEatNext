@@ -1244,7 +1244,10 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateAstrologicalProfile(profile: unknown): boolean {
-    return !!(profile && typeof profile === 'object');
+    if (!profile || typeof profile !== 'object') return false;
+    
+    const astroProfile = profile as Record<string, unknown>;
+    return !!(astroProfile.zodiacSign || astroProfile.elementalProperties);
   }
 
   private validateIngredient(ingredient: Record<string, unknown>): boolean {

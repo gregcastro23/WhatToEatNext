@@ -29,13 +29,14 @@ export { AlchemicalEngineAdvanced, AlchemicalEngineBase };
 const alchemicalEngine = {
   alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
     try {
+      const tropical = horoscopeDict.tropical as Record<string, unknown> | undefined;
       const extendedHoroscope = {
         ...horoscopeDict,
         tropical: {
           CelestialBodies:
-            (horoscopeDict.tropical as unknown)?.CelestialBodies || horoscopeDict.CelestialBodies || {},
-          Ascendant: (horoscopeDict.tropical as unknown)?.Ascendant || horoscopeDict.Ascendant || {},
-          Aspects: (horoscopeDict.tropical as unknown)?.Aspects || horoscopeDict.Aspects || {},
+            tropical?.CelestialBodies || (horoscopeDict as Record<string, unknown>).CelestialBodies || {},
+          Ascendant: tropical?.Ascendant || (horoscopeDict as Record<string, unknown>).Ascendant || {},
+          Aspects: tropical?.Aspects || (horoscopeDict as Record<string, unknown>).Aspects || {},
         },
       };
       return alchemize(birthInfo, extendedHoroscope);

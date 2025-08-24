@@ -204,7 +204,7 @@ export const getElementalInfluence = async (): Promise<ElementalProperties> => {
     // Apply safe type casting for service method access
     const astroService = AstrologicalService as unknown as unknown;
     const astroState = await (astroService?.getCurrentState
-      ? astroService.getCurrentState()
+      ? (astroService as Record<string, unknown>)?.getCurrentState()
       : astroService.getStateForDate?.(new Date()));
     if (astroState) {
       // First check if elementalState is already calculated in the astrological state

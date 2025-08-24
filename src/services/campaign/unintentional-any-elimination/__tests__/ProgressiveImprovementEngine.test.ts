@@ -158,7 +158,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       // Add multiple low-success batches to history
       for (let i = 0; i < 5; i++) {
-        (engine as unknown).batchHistory.push({ ...lowSuccessBatch, batchNumber: i + 1 });
+        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...lowSuccessBatch, batchNumber: i + 1 });
       }
 
       mockExecSync.mockReturnValue('src/test1.ts\n');
@@ -186,7 +186,7 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.95
       };
 
-      (engine as unknown).batchHistory.push(successfulBatch);
+      (engine as unknown)?.(batchHistory as Record<string, unknown>).push(successfulBatch);
 
       mockExecSync.mockReturnValue('src/test1.ts\nsrc/test2.ts\n');
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
@@ -219,7 +219,7 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       for (let i = 0; i < 3; i++) {
-        (engine as unknown).batchHistory.push({ ...lowSafetyBatch, batchNumber: i + 1 });
+        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...lowSafetyBatch, batchNumber: i + 1 });
       }
 
       // Trigger adaptation
@@ -248,7 +248,7 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       for (let i = 0; i < 3; i++) {
-        (engine as unknown).batchHistory.push({ ...highPerformanceBatch, batchNumber: i + 1 });
+        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...highPerformanceBatch, batchNumber: i + 1 });
       }
 
       // Trigger adaptation
@@ -484,7 +484,7 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       for (let i = 0; i < 5; i++) {
-        (engine as unknown).batchHistory.push({ ...stagnantBatch, batchNumber: i + 1 });
+        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...stagnantBatch, batchNumber: i + 1 });
       }
 
       mockExecSync.mockReturnValue('src/test1.ts\n');
@@ -521,7 +521,7 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.9
       };
 
-      (engine as unknown).batchHistory.push(progressBatch);
+      (engine as unknown)?.(batchHistory as Record<string, unknown>).push(progressBatch);
 
       const midMonitoring = await engine.monitorProgress();
       expect(midMonitoring.recommendations.some(r =>
@@ -557,7 +557,7 @@ describe('ProgressiveImprovementEngine', () => {
     test('should maintain performance with large batch history', async () => {
       // Add large batch history
       for (let i = 0; i < 1000; i++) {
-        (engine as unknown).batchHistory.push({
+        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({
           batchNumber: i + 1,
           filesProcessed: 5,
           anyTypesAnalyzed: 10,

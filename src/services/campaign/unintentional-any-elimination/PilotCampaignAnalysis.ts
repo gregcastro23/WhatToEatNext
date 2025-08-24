@@ -576,20 +576,20 @@ export class PilotCampaignAnalysis {
   }
 
   private calculateCategoryImprovements(before: unknown[], after: unknown[]): unknown[] {
-    return before.map(beforeCat => {
-      const afterCat = after.find(a => a.category === beforeCat.category);
+    return before.map((beforeCat => {
+      const afterCat = after.find(a => (a as Record<string, unknown>)?.category === (beforeCat as Record<string, unknown>).category);
       if (afterCat) {
         return {
-          category: beforeCat.category,
-          beforeAccuracy: beforeCat.accuracy,
-          afterAccuracy: afterCat.accuracy,
-          improvement: afterCat.accuracy - beforeCat.accuracy
+          category: ((beforeCat as Record<string, unknown>)?.category,
+          beforeAccuracy: (beforeCat as Record<string, unknown>).accuracy,
+          afterAccuracy: (afterCat as Record<string, unknown>)?.accuracy,
+          improvement: (afterCat as Record<string, unknown>)?.accuracy - (beforeCat as Record<string, unknown>)?.accuracy
         };
       }
       return {
-        category: beforeCat.category,
-        beforeAccuracy: beforeCat.accuracy,
-        afterAccuracy: beforeCat.accuracy,
+        category: ((beforeCat as Record<string, unknown>)?.category,
+        beforeAccuracy: ((beforeCat as Record<string, unknown>)?.accuracy,
+        afterAccuracy: (beforeCat as Record<string, unknown>)?.accuracy,
         improvement: 0
       };
     });
@@ -597,10 +597,10 @@ export class PilotCampaignAnalysis {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private async assessCampaignReadiness(data: unknown): Promise<any> {
-    const accuracyScore = data.accuracyValidation.overallAccuracy;
-    const successRateScore = data.baselineMetrics.projectedSuccessRate;
-    const tuningScore = data.tuningResults.tuningPerformed ?
-      (data.tuningResults.improvementPercentage > 0 ? 85 : 75) : 70;
+    const accuracyScore = (data as Record<string, unknown>)?.((accuracyValidation as Record<string, unknown>)?.overallAccuracy;
+    const successRateScore = (data as Record<string, unknown>)?.((baselineMetrics as Record<string, unknown>)?.projectedSuccessRate;
+    const tuningScore = (data as Record<string, unknown>)?.((tuningResults as Record<string, unknown>)?.tuningPerformed ?
+      ((data as Record<string, unknown>)?.(tuningResults as Record<string, unknown>).improvementPercentage > 0 ? 85 : 75) : 70;
 
     const overallReadiness = (accuracyScore + successRateScore + tuningScore) / 3;
 
@@ -650,17 +650,17 @@ export class PilotCampaignAnalysis {
       riskFactors: [
         {
           factor: 'Classification Accuracy',
-          risk: data.accuracyValidation.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
+          risk: (data as Record<string, unknown>)?.((accuracyValidation as Record<string, unknown>)?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
           mitigation: 'Implement manual review for low-confidence cases'
         },
         {
           factor: 'Success Rate Prediction',
-          risk: data.baselineMetrics.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
+          risk: (data as Record<string, unknown>)?.((baselineMetrics as Record<string, unknown>)?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
           mitigation: 'Use conservative batch processing'
         },
         {
           factor: 'Algorithm Tuning',
-          risk: data.tuningResults.tuningPerformed ? 'LOW' : 'MEDIUM',
+          risk: (data as Record<string, unknown>)?.(tuningResults as Record<string, unknown>).tuningPerformed ? 'LOW' : 'MEDIUM',
           mitigation: 'Continue monitoring and tuning as needed'
         }
       ],
@@ -677,17 +677,17 @@ export class PilotCampaignAnalysis {
     const recommendations = [];
 
     // Based on accuracy
-    if (data.accuracyValidation.overallAccuracy < 80) {
+    if ((data as Record<string, unknown>)?.(accuracyValidation as Record<string, unknown>).overallAccuracy < 80) {
       recommendations.push('Improve classification accuracy before proceeding to replacement phase');
     }
 
     // Based on success rate
-    if (data.baselineMetrics.projectedSuccessRate < 75) {
+    if ((data as Record<string, unknown>)?.(baselineMetrics as Record<string, unknown>).projectedSuccessRate < 75) {
       recommendations.push('Focus on high-success categories first to build confidence');
     }
 
     // Based on tuning results
-    if (data.tuningResults.tuningPerformed && data.tuningResults.improvementPercentage > 5) {
+    if ((data as Record<string, unknown>)?.((tuningResults as Record<string, unknown>)?.tuningPerformed && (data as Record<string, unknown>)?.(tuningResults as Record<string, unknown>).improvementPercentage > 5) {
       recommendations.push('Tuning showed significant improvement - proceed with enhanced algorithms');
     }
 

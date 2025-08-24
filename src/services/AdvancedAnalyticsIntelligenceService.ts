@@ -491,7 +491,7 @@ export class AdvancedAnalyticsIntelligenceService {
       astrologicalContext.elementalProperties,
     );
 
-    const recipeData = recipe as unknown as Record<string, unknown>;
+    const recipeData = recipe as Record<string, unknown>;
     const seasonalDimension = calculateSeasonalOptimization(
       String(recipeData.seasonality || 'all'),
       getCurrentSeason(),
@@ -931,7 +931,7 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   private calculateTechniqueComplexity(recipe: Recipe): number {
-    const recipeData = recipe as unknown as Record<string, unknown>;
+    const recipeData = recipe as Record<string, unknown>;
     const cookingMethods =
       (recipeData.cookingMethod as string[] | undefined) ||
       (recipeData.cookingMethods as string[] | undefined) ||
@@ -1190,7 +1190,7 @@ export class AdvancedAnalyticsIntelligenceService {
     // Calculate diversity based on ingredient categories and types
     const uniqueTypes = new Set(
       ingredients.map(ing => {
-        const ingData = ing as unknown as Record<string, unknown>;
+        const ingData = ing as Record<string, unknown>;
         return (ingData.category as string) || (ingData.type as string) || 'unknown';
       }),
     ).size;
@@ -1481,7 +1481,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private log(level: string, message: string, data?: unknown): void {
     if (this.shouldLog(level)) {
-      (logger as unknown as { [key: string]: (message: string, data?: unknown) => void })[level](
+      (logger as { [key: string]: (message: string, data?: unknown) => void })[level](
         `[AdvancedAnalytics] ${message}`,
         data,
       );

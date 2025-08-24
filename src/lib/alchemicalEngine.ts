@@ -411,7 +411,7 @@ export class AlchemicalEngineBase {
         seasonalScore: (() => {
           const calculatorData = ElementalCalculator as unknown as unknown;
           if (calculatorData?.calculateSeasonalEffectiveness) {
-            return calculatorData.calculateSeasonalEffectiveness(_recipe, season);
+            return (calculatorData as Record<string, unknown>)?.calculateSeasonalEffectiveness(_recipe, season);
           }
           // Fallback calculation using recipe's elemental properties
           const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');

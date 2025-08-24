@@ -477,3 +477,25 @@ export interface SystemHealth {
   lastCheck: Date;
   issues: string[];
 }
+
+// Conservative Pilot Configuration Types
+export interface ConservativePilotConfig {
+  maxFilesPerBatch: number;
+  minFilesPerBatch: number;
+  targetSuccessRate: number;
+  maxBatches: number;
+  realTimeValidation: boolean;
+  rollbackOnFailure: boolean;
+  safetyThreshold: number;
+  focusCategories: AnyTypeCategory[];
+  buildValidationFrequency: number;
+}
+
+export interface PilotAnalysisConfig {
+  maxFilesToAnalyze: number;
+  sampleSizeForAccuracy: number;
+  confidenceThreshold: number;
+  enableTuning: boolean;
+  generateDetailedReports: boolean;
+  outputDirectory: string;
+}

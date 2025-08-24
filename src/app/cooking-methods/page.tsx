@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Use the existing demo component as a stand-in for the shared section
-import CookingMethodsSection from '@/app/test/migrated-components/cooking-methods-section/page';
+import { CookingMethodsSection } from '@/app/test/migrated-components/cooking-methods-section/page';
 import {
     dryCookingMethods,
     molecularCookingMethods,
@@ -14,6 +14,7 @@ import {
     transformationMethods,
     wetCookingMethods,
 } from '@/data/cooking/methods';
+import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
 type MethodCategory = {
@@ -65,8 +66,7 @@ const methodCategories: MethodCategory[] = [
 export default function CookingMethodsPage() {
   const router = useRouter();
   const [tabValue, setTabValue] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  const [formattedMethods, setFormattedMethods] = useState<any[]>([]);
+  const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([]);
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
 
   // Transform method data to match CookingMethodsSection component format

@@ -409,7 +409,7 @@ export class CampaignTestController {
     };
 
     // Set basic test environment
-    (process.env as unknown).NODE_ENV = 'test';
+    (process.env as Record<string, unknown>).NODE_ENV = 'test';
     process.env.CAMPAIGN_TEST_MODE = 'true';
   }
 

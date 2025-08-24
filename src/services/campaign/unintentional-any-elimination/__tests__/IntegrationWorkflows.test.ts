@@ -53,7 +53,7 @@ describe('Integration Workflows', () => {
     mockExecSync.mockImplementation((command) => {
       if (command.includes('grep -c "error TS"')) {
         const error = new Error('No matches') as unknown;
-        error.status = 1;
+        (error as Record<string, unknown>).status = 1;
         throw error;
       }
       if (command.includes('grep -r -l')) {
@@ -76,7 +76,7 @@ describe('Integration Workflows', () => {
       };
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        const fileName = path.toString();
+        const fileName = (path as Record<string, unknown>).toString();
         for (const [file, content] of Object.entries(testFiles)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
             return content;
@@ -166,7 +166,7 @@ describe('Integration Workflows', () => {
       };
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        const fileName = path.toString();
+        const fileName = (path as Record<string, unknown>).toString();
         for (const [file, content] of Object.entries(mixedScenarios)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
             return content;
@@ -182,13 +182,13 @@ describe('Integration Workflows', () => {
           compilationAttempts++;
           if (compilationAttempts > 2) { // Fail after a few attempts
             const error = new Error('Compilation failed') as unknown;
-            error.stdout = 'error TS2322: Type mismatch in dangerous function';
+            (error as Record<string, unknown>).stdout = 'error TS2322: Type mismatch in dangerous function';
             throw error;
           }
         }
         if (command.includes('grep -c "error TS"')) {
           const error = new Error('No matches') as unknown;
-          error.status = 1;
+          (error as Record<string, unknown>).status = 1;
           throw error;
         }
         return '';
@@ -233,7 +233,7 @@ describe('Integration Workflows', () => {
       };
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        const fileName = path.toString();
+        const fileName = (path as Record<string, unknown>).toString();
         for (const [file, content] of Object.entries(domainSpecificFiles)) {
           if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', ''))) {
             return content;
@@ -309,7 +309,7 @@ describe('Integration Workflows', () => {
 
       // Mock campaign execution
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path.includes('test')) {
+        if ((path as Record<string, unknown>).includes('test')) {
           return 'const items: unknown[] = []; const data: Record<string, unknown> = {};';
         }
         return 'backup content';
@@ -334,7 +334,7 @@ describe('Integration Workflows', () => {
             return '15'; // Return increasing error count
           }
           const error = new Error('No matches') as unknown;
-          error.status = 1;
+          (error as Record<string, unknown>).status = 1;
           throw error;
         }
         if (command.includes('grep -r -l')) {
@@ -365,7 +365,7 @@ describe('Integration Workflows', () => {
 
     test('should integrate with progress tracking and metrics', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path.includes('metrics')) {
+        if ((path as Record<string, unknown>).includes('metrics')) {
           return 'const progressData: unknown = getMetrics(); const config: Record<string, unknown> = {};';
         }
         return 'const items: unknown[] = [];';
@@ -402,7 +402,7 @@ describe('Integration Workflows', () => {
       mockExecSync.mockImplementation((command) => {
         if (command.includes('tsc')) {
           const error = new Error('Compilation failed') as unknown;
-          error.stdout = 'error TS2322: Type "unknown" is not assignable to type "string"';
+          (error as Record<string, unknown>).stdout = 'error TS2322: Type "unknown" is not assignable to type "string"';
           throw error;
         }
         return '';
@@ -445,8 +445,8 @@ describe('Integration Workflows', () => {
       ];
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path.includes('test1')) return 'const items: unknown[] = [];';
-        if (path.includes('test2')) return 'const data: unknown = getValue();';
+        if ((path as Record<string, unknown>).includes('test1')) return 'const items: unknown[] = [];';
+        if ((path as Record<string, unknown>).includes('test2')) return 'const data: unknown = getValue();';
         return 'backup content';
       });
 
@@ -457,7 +457,7 @@ describe('Integration Workflows', () => {
           buildCheckCount++;
           if (buildCheckCount > 1) { // Fail on overall build check
             const error = new Error('Overall build failed') as unknown;
-            error.stdout = 'error TS2322: Multiple type conflicts detected';
+            (error as Record<string, unknown>).stdout = 'error TS2322: Multiple type conflicts detected';
             throw error;
           }
         }
@@ -483,7 +483,7 @@ describe('Integration Workflows', () => {
 
       const originalContent = 'const items: unknown[] = [];';
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path.includes('.backup')) {
+        if ((path as Record<string, unknown>).includes('.backup')) {
           return originalContent;
         }
         return originalContent;
@@ -492,7 +492,7 @@ describe('Integration Workflows', () => {
       // Mock compilation failure to trigger rollback
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed') as unknown;
-        error.stdout = 'error TS2322: Type error';
+        (error as Record<string, unknown>).stdout = 'error TS2322: Type error';
         throw error;
       });
 
@@ -582,7 +582,7 @@ describe('Integration Workflows', () => {
       };
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        const fileName = path.toString();
+        const fileName = (path as Record<string, unknown>).toString();
         for (const [file, content] of Object.entries(realisticCodeSamples)) {
           if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', ''))) {
             return content;
@@ -597,7 +597,7 @@ describe('Integration Workflows', () => {
         }
         if (command.includes('grep -c "error TS"')) {
           const error = new Error('No matches') as unknown;
-          error.status = 1;
+          (error as Record<string, unknown>).status = 1;
           throw error;
         }
         return '';
@@ -645,14 +645,14 @@ describe('Integration Workflows', () => {
         }
         if (command.includes('grep -c "error TS"')) {
           const error = new Error('No matches') as unknown;
-          error.status = 1;
+          (error as Record<string, unknown>).status = 1;
           throw error;
         }
         return '';
       });
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        const match = path.toString().match(/file(\d+)\.ts/);
+        const match = (path as Record<string, unknown>).toString().match(/file(\d+)\.ts/);
         if (match) {
           const index = parseInt(match[1]);
           return generateFileContent(index);
@@ -710,7 +710,7 @@ describe('Integration Workflows', () => {
 
       for (const [codebaseType, { files, expectedBehavior }] of Object.entries(codebases)) {
         mockFs.readFileSync.mockImplementation((path: unknown) => {
-          const fileName = path.toString();
+          const fileName = (path as Record<string, unknown>).toString();
           for (const [file, content] of Object.entries(files)) {
             if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', ''))) {
               return content;
@@ -725,7 +725,7 @@ describe('Integration Workflows', () => {
           }
           if (command.includes('grep -c "error TS"')) {
             const error = new Error('No matches') as unknown;
-            error.status = 1;
+            (error as Record<string, unknown>).status = 1;
             throw error;
           }
           return '';
@@ -769,7 +769,7 @@ describe('Integration Workflows', () => {
           if (failureCount <= 2) {
             // Fail first two attempts, then succeed
             const error = new Error('Transient failure') as unknown;
-            error.stdout = 'error TS2322: Temporary type conflict';
+            (error as Record<string, unknown>).stdout = 'error TS2322: Temporary type conflict';
             throw error;
           }
         }
@@ -802,14 +802,14 @@ describe('Integration Workflows', () => {
       let backupContent = '';
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path.includes('.backup')) {
+        if ((path as Record<string, unknown>).includes('.backup')) {
           return backupContent;
         }
         return originalContent;
       });
 
       mockFs.writeFileSync.mockImplementation((path: unknown, content: unknown) => {
-        if (path.includes('.backup')) {
+        if ((path as Record<string, unknown>).includes('.backup')) {
           backupContent = content;
         }
       });
@@ -817,7 +817,7 @@ describe('Integration Workflows', () => {
       // Mock failure scenario
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed') as unknown;
-        error.stdout = 'error TS2322: Type error';
+        (error as Record<string, unknown>).stdout = 'error TS2322: Type error';
         throw error;
       });
 

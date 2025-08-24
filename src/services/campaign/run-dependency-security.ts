@@ -186,26 +186,26 @@ class DependencySecurityCLI {
       `  - Compatibility tests: ${result.compatibilityTestsPassed ? '✅ Passed' : '❌ Failed'}`,
     );
 
-    if ((result as Record<string, unknown>).securityReport.summary.total > 0) {
+    if ((result as Record<string, unknown>)?.(securityReport as Record<string, unknown>).summary.total > 0) {
       console.log('\n🔒 Security Report:');
       this.printSecuritySummary(result.securityReport);
     }
 
-    if ((result as Record<string, unknown>).updateReport.summary.total > 0) {
+    if ((result as Record<string, unknown>)?.(updateReport as Record<string, unknown>).summary.total > 0) {
       console.log('\n📦 Update Report:');
       this.printUpdateSummary(result.updateReport);
     }
 
-    if ((result as Record<string, unknown>).errors.length > 0) {
+    if ((result as Record<string, unknown>)?.(errors as Record<string, unknown>).length > 0) {
       console.log('\n❌ Errors:');
-      (result as Record<string, unknown>).errors.forEach((error: string) =>
+      (result as Record<string, unknown>)?.(errors as Record<string, unknown>).forEach((error: string) =>
         console.log(`  - ${error}`),
       );
     }
 
-    if ((result as Record<string, unknown>).warnings.length > 0) {
+    if ((result as Record<string, unknown>)?.(warnings as Record<string, unknown>).length > 0) {
       console.log('\n⚠️  Warnings:');
-      (result as Record<string, unknown>).warnings.forEach((warning: string) =>
+      (result as Record<string, unknown>)?.(warnings as Record<string, unknown>).forEach((warning: string) =>
         console.log(`  - ${warning}`),
       );
     }
@@ -217,27 +217,27 @@ class DependencySecurityCLI {
 
     if (
       this.options.verbose &&
-      (securityReport as Record<string, unknown>).vulnerabilities.length > 0
+      (securityReport as Record<string, unknown>)?.(vulnerabilities as Record<string, unknown>).length > 0
     ) {
       console.log('\n📋 Detailed Vulnerabilities:');
-      (securityReport as Record<string, unknown>).vulnerabilities.forEach((vuln: unknown) => {
-        const severityIcon = this.getSeverityIcon(vuln.severity);
-        const patchStatus = vuln.patchAvailable ? '✅ Patch available' : '❌ No patch';
+      (securityReport as Record<string, unknown>)?.(vulnerabilities as Record<string, unknown>).forEach((vuln: unknown) => {
+        const severityIcon = this.getSeverityIcon((vuln as Record<string, unknown>).severity);
+        const patchStatus = ((vuln as Record<string, unknown>)?.patchAvailable ? '✅ Patch available' : '❌ No patch';
 
-        console.log(`\n${severityIcon} ${vuln.packageName}`);
-        console.log(`  Current: ${vuln.currentVersion}`);
-        console.log(`  CVE: ${vuln.cve}`);
-        console.log(`  Description: ${vuln.description}`);
+        console.log(`\n${severityIcon} ${(vuln as Record<string, unknown>).packageName}`);
+        console.log(`  Current: ${(vuln as Record<string, unknown>).currentVersion}`);
+        console.log(`  CVE: ${(vuln as Record<string, unknown>).cve}`);
+        console.log(`  Description: ${(vuln as Record<string, unknown>).description}`);
         console.log(`  ${patchStatus}`);
-        if (vuln.fixedVersion) {
-          console.log(`  Fixed in: ${vuln.fixedVersion}`);
+        if ((vuln as Record<string, unknown>).fixedVersion) {
+          console.log(`  Fixed in: ${(vuln as Record<string, unknown>).fixedVersion}`);
         }
       });
     }
 
-    if ((securityReport as Record<string, unknown>).recommendations.length > 0) {
+    if ((securityReport as Record<string, unknown>)?.(recommendations as Record<string, unknown>).length > 0) {
       console.log('\n💡 Recommendations:');
-      (securityReport as Record<string, unknown>).recommendations.forEach((rec: string) =>
+      (securityReport as Record<string, unknown>)?.(recommendations as Record<string, unknown>).forEach((rec: string) =>
         console.log(`  ${rec}`),
       );
     }
@@ -249,37 +249,37 @@ class DependencySecurityCLI {
 
     if (
       this.options.verbose &&
-      (updateReport as Record<string, unknown>).availableUpdates.length > 0
+      (updateReport as Record<string, unknown>)?.(availableUpdates as Record<string, unknown>).length > 0
     ) {
       console.log('\n📋 Available Updates:');
-      (updateReport as Record<string, unknown>).availableUpdates.forEach((update: unknown) => {
-        const updateIcon = this.getUpdateTypeIcon(update.updateType);
-        const breakingIcon = update.breakingChanges ? '⚠️' : '✅';
+      (updateReport as Record<string, unknown>)?.(availableUpdates as Record<string, unknown>).forEach((update: unknown) => {
+        const updateIcon = this.getUpdateTypeIcon((update as Record<string, unknown>).updateType);
+        const breakingIcon = ((update as Record<string, unknown>)?.breakingChanges ? '⚠️' : '✅';
 
-        console.log(`\n${updateIcon} ${update.packageName}`);
-        console.log(`  Current: ${update.currentVersion}`);
-        console.log(`  Latest: ${update.latestVersion}`);
-        console.log(`  Type: ${update.updateType}`);
-        console.log(`  Breaking changes: ${breakingIcon} ${update.breakingChanges ? 'Yes' : 'No'}`);
-        console.log(`  Security fix: ${update.securityFix ? '🔒 Yes' : 'No'}`);
+        console.log(`\n${updateIcon} ${(update as Record<string, unknown>).packageName}`);
+        console.log(`  Current: ${(update as Record<string, unknown>).currentVersion}`);
+        console.log(`  Latest: ${(update as Record<string, unknown>).latestVersion}`);
+        console.log(`  Type: ${(update as Record<string, unknown>).updateType}`);
+        console.log(`  Breaking changes: ${breakingIcon} ${(update as Record<string, unknown>).breakingChanges ? 'Yes' : 'No'}`);
+        console.log(`  Security fix: ${(update as Record<string, unknown>).securityFix ? '🔒 Yes' : 'No'}`);
       });
     }
 
-    if ((updateReport as Record<string, unknown>).appliedUpdates.length > 0) {
+    if ((updateReport as Record<string, unknown>)?.(appliedUpdates as Record<string, unknown>).length > 0) {
       console.log('\n✅ Applied Updates:');
-      (updateReport as Record<string, unknown>).appliedUpdates.forEach((update: unknown) => {
-        const securityIcon = update.securityFix ? '🔒' : '📦';
+      (updateReport as Record<string, unknown>)?.(appliedUpdates as Record<string, unknown>).forEach((update: unknown) => {
+        const securityIcon = ((update as Record<string, unknown>)?.securityFix ? '🔒' : '📦';
         console.log(
-          `  ${securityIcon} ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`,
+          `  ${securityIcon} ${(update as Record<string, unknown>).packageName}: ${((update as Record<string, unknown>)?.currentVersion} → ${(update as Record<string, unknown>).latestVersion}`,
         );
       });
     }
 
-    if ((updateReport as Record<string, unknown>).failedUpdates.length > 0) {
+    if ((updateReport as Record<string, unknown>)?.(failedUpdates as Record<string, unknown>).length > 0) {
       console.log('\n❌ Failed Updates:');
-      (updateReport as Record<string, unknown>).failedUpdates.forEach((update: unknown) => {
-        console.log(
-          `  - ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`,
+      (updateReport as Record<string, unknown>)?.(failedUpdates as Record<string, unknown>).forEach((update: unknown) => {
+        console.log((
+          `  - ${(update as Record<string, unknown>)?.packageName}: ${((update as Record<string, unknown>)?.currentVersion} → ${(update as Record<string, unknown>)?.latestVersion}`,
         );
       });
     }
@@ -298,11 +298,11 @@ class DependencySecurityCLI {
 
   private printUpdateSummary(updateReport: Record<string, unknown>): void {
     const { summary } = updateReport;
-    console.log(`  - Major updates: ${summary.major}`);
-    console.log(`  - Minor updates: ${summary.minor}`);
-    console.log(`  - Patch updates: ${summary.patch}`);
-    console.log(`  - Security updates: ${summary.security}`);
-    console.log(`  - Total updates: ${summary.total}`);
+    console.log(`  - Major updates: ${(summary as Record<string, unknown>).major}`);
+    console.log(`  - Minor updates: ${(summary as Record<string, unknown>).minor}`);
+    console.log(`  - Patch updates: ${(summary as Record<string, unknown>).patch}`);
+    console.log(`  - Security updates: ${(summary as Record<string, unknown>).security}`);
+    console.log(`  - Total updates: ${(summary as Record<string, unknown>).total}`);
   }
 
   private getSeverityIcon(severity: string): string {

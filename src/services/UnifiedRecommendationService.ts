@@ -1,12 +1,12 @@
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { recipeDataService } from '@/services/recipeData';
 import {
-  // Planet, // unused - removed for performance
-  // ZodiacSign, // unused - removed for performance
-  // ThermodynamicProperties, // unused - removed for performance
-  ThermodynamicMetrics,
-  // Element, // unused - removed for performance
-  ElementalProperties,
+    // Element, // unused - removed for performance
+    ElementalProperties,
+    // Planet, // unused - removed for performance
+    // ZodiacSign, // unused - removed for performance
+    // ThermodynamicProperties, // unused - removed for performance
+    ThermodynamicMetrics,
 } from '@/types/alchemy';
 // Removed unused import: PlanetaryAlignment
 
@@ -16,12 +16,12 @@ import { Ingredient } from '../types/ingredient';
 import { Recipe } from '../types/recipe';
 
 import {
-  RecommendationServiceInterface,
-  RecipeRecommendationCriteria,
-  IngredientRecommendationCriteria,
-  CuisineRecommendationCriteria,
-  CookingMethodRecommendationCriteria,
-  RecommendationResult,
+    CookingMethodRecommendationCriteria,
+    CuisineRecommendationCriteria,
+    IngredientRecommendationCriteria,
+    RecipeRecommendationCriteria,
+    RecommendationResult,
+    RecommendationServiceInterface,
 } from './interfaces/RecommendationServiceInterface';
 import { unifiedIngredientService } from './UnifiedIngredientService';
 /**
@@ -197,7 +197,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for planetary ruler match
       if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
-        const planets = ingredient.astrologicalProperties.planets;
+        const planets = (ingredient.astrologicalProperties as Record<string, unknown>)?.planets;
         const planetMatch = Array.isArray(planets)
           ? planets.includes(
               criteria.planetaryRuler as unknown as Record<string, Record<string, string>>,

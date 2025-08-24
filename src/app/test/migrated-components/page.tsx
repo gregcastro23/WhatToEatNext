@@ -11,19 +11,19 @@ const ElementalRecommendations = () => (
 const ElementalRecommendationsMigrated = ElementalRecommendations;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const Tabs = ({ children, _defaultValue, className }: unknown) => (
+const Tabs = ({ children, defaultValue, className }: unknown) => (
   <div className={className}>{children}</div>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const TabsList = ({ children, className }: unknown) => (
-  <div className={`flex gap-2 ${className || ''}`}>{children}</div>
+  <div className={`flex gap-2 ${(className as string) || ''}`}>{children as React.ReactNode}</div>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const TabsTrigger = ({ children }: unknown) => (
-  <button className='rounded border px-3 py-1'>{children}</button>
+  <button className='rounded border px-3 py-1'>{children as React.ReactNode}</button>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const TabsContent = ({ children }: unknown) => <div className='mt-4'>{children}</div>;
+const TabsContent = ({ children }: unknown) => <div className='mt-4'>{children as React.ReactNode}</div>;
 
 const AstrologyChart = () => (
   <div className='p-4 text-gray-600'>AstrologyChart unavailable</div>

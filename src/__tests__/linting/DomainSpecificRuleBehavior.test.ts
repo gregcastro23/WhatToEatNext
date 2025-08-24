@@ -6,7 +6,7 @@
  */
 
 import { validatePlanetaryPositions } from '@/utils/astrology/astrologicalValidation';
-import { validateElementalProperties, normalizeElementalProperties } from '@/utils/astrology/elementalValidation';
+import { normalizeElementalProperties, validateElementalProperties } from '@/utils/astrology/elementalValidation';
 import { validateTransitDate } from '@/utils/astrology/transitValidation';
 
 describe('Domain-Specific Rule Behavior', () => {
@@ -414,12 +414,14 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should handle complex astrological expressions', () => {
       // Complex calculations should be allowed without complexity warnings
       const calculatePlanetaryInfluence = (planetPosition: unknown, elementalProperties: unknown, transitDates: unknown) => {
-        const baseInfluence = planetPosition.degree / 30;
+        const planetPos = planetPosition as Record<string, number>;
+        const elemProps = elementalProperties as Record<string, number>;
+        const baseInfluence = planetPos.degree / 30;
         const elementalModifier =
-          elementalProperties.Fire * 0.8 +
-          elementalProperties.Water * 0.6 +
-          elementalProperties.Earth * 0.7 +
-          elementalProperties.Air * 0.9;
+          elemProps.Fire * 0.8 +
+          elemProps.Water * 0.6 +
+          elemProps.Earth * 0.7 +
+          elemProps.Air * 0.9;
         const transitModifier = transitDates ? 1.1 : 0.9;
 
         return Math.min(1.0, baseInfluence * elementalModifier * transitModifier);

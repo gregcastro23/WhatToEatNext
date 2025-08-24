@@ -32,19 +32,14 @@ describe('useEnterpriseIntelligence', () => {
   };
 
   const mockIngredientData = {
-    id: 'test-ingredients',
-    ingredients: [
-      {
-        name: 'Test Ingredient',
-        category: 'vegetables',
-        elementalProperties: {
-          Fire: 0.2,
-          Water: 0.3,
-          Earth: 0.3,
-          Air: 0.2,
-        },
-      },
-    ],
+    name: 'Test Ingredient',
+    category: 'vegetables',
+    elementalProperties: {
+      Fire: 0.2,
+      Water: 0.3,
+      Earth: 0.3,
+      Air: 0.2,
+    },
   };
 
   const mockAstrologicalContext = {
@@ -171,7 +166,11 @@ describe('useEnterpriseIntelligence', () => {
 
     // Test with invalid data that might cause errors
     await act(async () => {
-      const analysis = await result.current.actions.performAnalysis(null, null, mockAstrologicalContext);
+      const analysis = await result.current.actions.performAnalysis(
+        {} as any,
+        {} as any,
+        mockAstrologicalContext
+      );
       // Should still return an analysis even with null data
       expect(analysis).toBeDefined();
     });

@@ -412,8 +412,9 @@ async function getExpectedSignsForPlanet(planetName: string): Promise<string[]> 
       const possibleSigns: string[] = [];
 
       for (const [sign, dates] of Object.entries(transitDates)) {
-        const startDate = new Date((dates as any).Start);
-        const endDate = new Date((dates as any).End);
+        const dateData = dates as unknown as { Start: string; End: string };
+        const startDate = new Date(dateData.Start);
+        const endDate = new Date(dateData.End);
 
         // Add some buffer for date accuracy
         const bufferDays = 7;
@@ -522,7 +523,8 @@ async function testTransitDateValidation(): Promise<TestResult> {
     for (const planet of planets) {
       try {
         const planetModule = await import(`../data/planets/${planet}`);
-        const transitDates = (planetModule.default.PlanetSpecific as any)?.TransitDates;
+        const planetSpecific = planetModule.default.PlanetSpecific as unknown as { TransitDates?: Record<string, unknown> };
+        const transitDates = planetSpecific?.TransitDates;
 
         if (transitDates && Object.keys(transitDates).length > 0) {
           validTransits++;

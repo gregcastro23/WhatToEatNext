@@ -289,8 +289,8 @@ export class TestUtils {
     let variance = 0;
 
     if (numericResults.length > 1) {
-      const mean = numericResults.reduce((a, b) => a + b, 0) / numericResults.length;
-      const squaredDiffs = numericResults.map(x => Math.pow(x - mean, 2));
+      const mean = numericResults.reduce((a: number, b: unknown) => (a as number) + (b as number), 0) / numericResults.length;
+      const squaredDiffs = numericResults.map((x: number) => Math.pow((x as number) - mean, 2));
       variance = Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length);
       variance = (variance / mean) * 100; // Convert to percentage
     }
@@ -319,8 +319,9 @@ export class TestUtils {
     }
 
     // Clear any global test caches
-    if ((global as unknown).__TEST_CACHE__) {
-      (global as unknown).__TEST_CACHE__.clear();
+    const globalWithCache = global as unknown as { __TEST_CACHE__?: { clear(): void } };
+    if (globalWithCache.__TEST_CACHE__) {
+      globalWithCache.__TEST_CACHE__.clear();
     }
 
     // Reset process memory warnings

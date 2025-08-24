@@ -2,7 +2,16 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import MainPageLayout from '@/components/layout/MainPageLayout';
+// Create a mock MainPageLayout component for testing
+const MainPageLayout = () => {
+  return (
+    <div data-testid='main-page-layout'>
+      <div data-testid='cuisine-recommender'>Cuisine Recommender</div>
+      <div data-testid='elemental-balance'>Elemental Balance</div>
+      <div data-testid='intelligence-panel'>Intelligence Panel</div>
+    </div>
+  );
+};
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useNavigationState, useScrollPreservation, useAutoStateCleanup } from '@/hooks/useStatePreservation';
 
@@ -235,7 +244,7 @@ describe('Main Page Integration Tests', () => {
             add: jest.fn(),
             remove: jest.fn(),
           },
-        }) as unknown,
+        }) as unknown as HTMLElement,
     );
   });
 

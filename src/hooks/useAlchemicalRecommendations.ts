@@ -116,34 +116,34 @@ export const useAlchemicalRecommendations = ({
             const convertedItem = {
               ...item,
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: item.elementalProperties || {
+              elementalProperties: (item as Record<string, unknown>).elementalProperties || {
                 Fire: 0.25,
                 Water: 0.25,
                 Earth: 0.25,
                 Air: 0.25,
               },
-              alchemicalProperties: item.alchemicalProperties || {
+              alchemicalProperties: (item as Record<string, unknown>).alchemicalProperties || {
                 Spirit: 0.25,
                 Essence: 0.25,
                 Matter: 0.25,
                 Substance: 0.25,
               },
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: item.transformedElementalProperties ||
-                item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-              heat: item.heat || 0.5,
-              entropy: item.entropy || 0.5,
-              reactivity: item.reactivity || 0.5,
-              gregsEnergy: item.gregsEnergy || item.energy || 0.5,
-              kalchm: item.kalchm || 1.0,
-              monica: item.monica || 0.5,
-              transformations: item.transformations || [],
-              seasonalResonance: item.seasonalResonance || [],
-              thermodynamicProperties: item.thermodynamicProperties || {
-                heat: item.heat || 0.5,
-                entropy: item.entropy || 0.5,
-                reactivity: item.reactivity || 0.5,
-                gregsEnergy: item.gregsEnergy || item.energy || 0.5,
+              transformedElementalProperties: (item as Record<string, unknown>).transformedElementalProperties ||
+                (item as Record<string, unknown>).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              heat: (item as Record<string, unknown>).heat || 0.5,
+              entropy: (item as Record<string, unknown>).entropy || 0.5,
+              reactivity: (item as Record<string, unknown>).reactivity || 0.5,
+              gregsEnergy: (item as Record<string, unknown>).gregsEnergy || (item as Record<string, unknown>).energy || 0.5,
+              kalchm: (item as Record<string, unknown>).kalchm || 1.0,
+              monica: (item as Record<string, unknown>).monica || 0.5,
+              transformations: (item as Record<string, unknown>).transformations || [],
+              seasonalResonance: (item as Record<string, unknown>).seasonalResonance || [],
+              thermodynamicProperties: (item as Record<string, unknown>).thermodynamicProperties || {
+                heat: (item as Record<string, unknown>).heat || 0.5,
+                entropy: (item as Record<string, unknown>).entropy || 0.5,
+                reactivity: (item as Record<string, unknown>).reactivity || 0.5,
+                gregsEnergy: (item as Record<string, unknown>).gregsEnergy || (item as Record<string, unknown>).energy || 0.5,
               },
             };
             return convertedItem as AlchemicalItem;

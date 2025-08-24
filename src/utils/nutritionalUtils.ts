@@ -90,8 +90,10 @@ export async function compareNutritionalValues(
   }
 
   // Calculate differences in key metrics (percentage difference) - safe property access
-  const profile1Macros = (profile1 as any)?.macros || {};
-  const profile2Macros = (profile2 as any)?.macros || {};
+  const profile1Data = profile1 as unknown as { macros?: Record<string, number> };
+  const profile2Data = profile2 as unknown as { macros?: Record<string, number> };
+  const profile1Macros = profile1Data?.macros || {};
+  const profile2Macros = profile2Data?.macros || {};
 
   const differences: Record<string, number> = {
     calories:

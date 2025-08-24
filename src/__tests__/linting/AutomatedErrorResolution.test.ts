@@ -69,7 +69,7 @@ describe('Automated Error Resolution Integration', () => {
     });
 
     test('should handle ESLint execution errors gracefully', async () => {
-      const mockError = new Error('ESLint failed') as unknown;
+      const mockError = new Error('ESLint failed') as any;
       mockError.stdout = JSON.stringify([]);
       mockError.status = 1;
 
@@ -83,8 +83,9 @@ describe('Automated Error Resolution Integration', () => {
           mockExecSync('yarn lint:fix', { encoding: 'utf8' });
         } catch (error: unknown) {
           // Simulate error handling
-          if (error.status === 1 && error.stdout) {
-            return error.stdout;
+          const err = error as { status?: number; stdout?: string };
+          if (err.status === 1 && err.stdout) {
+            return err.stdout;
           }
           throw error;
         }
@@ -600,7 +601,10 @@ describe('Automated Error Resolution Integration', () => {
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(2);
-      expect(result[0].messages.every((msg: unknown) => msg.fix === null)).toBe(true);
+      expect(result[0].messages.every((msg: unknown) => {
+              const message = msg as { fix: any; [key: string]: any };
+              return message.fix === null;
+            })).toBe(true);
     });
 
     test('should preserve file safety during resolution', async () => {

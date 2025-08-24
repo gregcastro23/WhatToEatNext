@@ -224,32 +224,32 @@ class ImportCleanupCLI {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private groupUnusedImportsByFile(unusedImports: unknown[]): Record<string, any[]> {
     return unusedImports.reduce((acc, imp) => {
-      if (!acc[imp.filePath]) {
-        acc[imp.filePath] = [];
+      if (!(acc as Record<string, unknown>)[(imp as Record<string, unknown>).filePath]) {
+        (acc as Record<string, unknown>)[(imp as Record<string, unknown>).filePath] = [];
       }
-      acc[imp.filePath].push(imp);
+      (acc as Record<string, unknown>)[(imp as Record<string, unknown>).filePath].push(imp);
       return acc;
     }, {});
   }
 
   private printResults(result: unknown): void {
     console.log('\n📊 Cleanup Results:');
-    console.log(`  - Files processed: ${result.filesProcessed.length}`);
-    console.log(`  - Unused imports removed: ${result.unusedImportsRemoved}`);
-    console.log(`  - Files with organized imports: ${result.importsOrganized}`);
-    console.log(`  - Style violations fixed: ${result.styleViolationsFixed}`);
+    console.log(`  - Files processed: ${(result as Record<string, unknown>).filesProcessed.length}`);
+    console.log(`  - Unused imports removed: ${(result as Record<string, unknown>).unusedImportsRemoved}`);
+    console.log(`  - Files with organized imports: ${(result as Record<string, unknown>).importsOrganized}`);
+    console.log(`  - Style violations fixed: ${(result as Record<string, unknown>).styleViolationsFixed}`);
     console.log(
-      `  - Build validation: ${result.buildValidationPassed ? '✅ Passed' : '❌ Failed'}`,
+      `  - Build validation: ${(result as Record<string, unknown>).buildValidationPassed ? '✅ Passed' : '❌ Failed'}`,
     );
 
-    if (result.errors.length > 0) {
+    if ((result as Record<string, unknown>).errors.length > 0) {
       console.log('\n❌ Errors:');
-      result.errors.forEach((error: string) => console.log(`  - ${error}`));
+      (result as Record<string, unknown>).errors.forEach((error: string) => console.log(`  - ${error}`));
     }
 
-    if (result.warnings.length > 0) {
+    if ((result as Record<string, unknown>).warnings.length > 0) {
       console.log('\n⚠️  Warnings:');
-      result.warnings.forEach((warning: string) => console.log(`  - ${warning}`));
+      (result as Record<string, unknown>).warnings.forEach((warning: string) => console.log(`  - ${warning}`));
     }
   }
 }

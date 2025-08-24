@@ -227,27 +227,27 @@ export class CodeQualityAutomationSystem {
         case 'importCleanup':
           phaseResult.result = await this.importCleanupSystem.executeCleanup(targetFiles);
           phaseResult.success =
-            phaseResult.result.buildValidationPassed && phaseResult.result.errors.length === 0;
-          phaseResult.errors = phaseResult.result.errors;
-          phaseResult.warnings = phaseResult.result.warnings;
+            (phaseResult.result as Record<string, unknown>).buildValidationPassed && (phaseResult.result as Record<string, unknown>).errors.length === 0;
+          phaseResult.errors = (phaseResult.result as Record<string, unknown>).errors;
+          phaseResult.warnings = (phaseResult.result as Record<string, unknown>).warnings;
           break;
 
         case 'lintingFormatting':
           phaseResult.result =
             await this.lintingFormattingSystem.executeLintingAndFormatting(targetFiles);
           phaseResult.success =
-            phaseResult.result.buildValidationPassed && phaseResult.result.errors.length === 0;
-          phaseResult.errors = phaseResult.result.errors;
-          phaseResult.warnings = phaseResult.result.warnings;
+            (phaseResult.result as Record<string, unknown>).buildValidationPassed && (phaseResult.result as Record<string, unknown>).errors.length === 0;
+          phaseResult.errors = (phaseResult.result as Record<string, unknown>).errors;
+          phaseResult.warnings = (phaseResult.result as Record<string, unknown>).warnings;
           break;
 
         case 'dependencySecurity':
           phaseResult.result =
             await this.dependencySecurityMonitor.executeDependencySecurityMonitoring();
           phaseResult.success =
-            phaseResult.result.compatibilityTestsPassed && phaseResult.result.errors.length === 0;
-          phaseResult.errors = phaseResult.result.errors;
-          phaseResult.warnings = phaseResult.result.warnings;
+            (phaseResult.result as Record<string, unknown>).compatibilityTestsPassed && (phaseResult.result as Record<string, unknown>).errors.length === 0;
+          phaseResult.errors = (phaseResult.result as Record<string, unknown>).errors;
+          phaseResult.warnings = (phaseResult.result as Record<string, unknown>).warnings;
           break;
 
         default:
@@ -372,20 +372,20 @@ export class CodeQualityAutomationSystem {
 
     switch (phaseResult.system) {
       case 'importCleanup':
-        metrics.filesProcessed += result.filesProcessed?.length || 0;
+        metrics.filesProcessed += (result as Record<string, unknown>).filesProcessed?.length || 0;
         metrics.importIssuesFixed +=
-          (result.unusedImportsRemoved || 0) + (result.importsOrganized || 0);
+          ((result as Record<string, unknown>).unusedImportsRemoved || 0) + ((result as Record<string, unknown>).importsOrganized || 0);
         break;
 
       case 'lintingFormatting':
-        metrics.filesProcessed += result.filesProcessed?.length || 0;
-        metrics.lintingViolationsFixed += result.lintingViolationsFixed || 0;
-        metrics.formattingIssuesFixed += result.formattingIssuesFixed || 0;
+        metrics.filesProcessed += (result as Record<string, unknown>).filesProcessed?.length || 0;
+        metrics.lintingViolationsFixed += (result as Record<string, unknown>).lintingViolationsFixed || 0;
+        metrics.formattingIssuesFixed += (result as Record<string, unknown>).formattingIssuesFixed || 0;
         break;
 
       case 'dependencySecurity':
-        metrics.securityVulnerabilitiesFixed += result.securityPatchesApplied || 0;
-        metrics.dependencyUpdatesApplied += result.updatesApplied || 0;
+        metrics.securityVulnerabilitiesFixed += (result as Record<string, unknown>).securityPatchesApplied || 0;
+        metrics.dependencyUpdatesApplied += (result as Record<string, unknown>).updatesApplied || 0;
         break;
     }
   }

@@ -31,7 +31,7 @@ function test(param: unknown) {
 }
       `;
 
-      const warnings = (analyzer as unknown).analyzeFileContent('/test/file.ts', content);
+      const warnings = (analyzer as unknown).analyzeFileContent('/test/(file as Record<string, unknown>).ts', content);
       const anyWarnings = warnings.filter((w: LintingWarning) => w.category === WarningCategory.EXPLICIT_ANY);
 
       expect(anyWarnings).toHaveLength(2);
@@ -46,7 +46,7 @@ console.error('error message');
 console.warn('warning message');
       `;
 
-      const warnings = (analyzer as unknown).analyzeFileContent('/test/file.ts', content);
+      const warnings = (analyzer as unknown).analyzeFileContent('/test/(file as Record<string, unknown>).ts', content);
       const consoleWarnings = warnings.filter((w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS);
 
       expect(consoleWarnings).toHaveLength(3);
@@ -60,7 +60,7 @@ const usedVar = 'test';
 console.log(usedVar);
       `;
 
-      const warnings = (analyzer as unknown).analyzeFileContent('/test/file.ts', content);
+      const warnings = (analyzer as unknown).analyzeFileContent('/test/(file as Record<string, unknown>).ts', content);
       const unusedWarnings = warnings.filter((w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES);
 
       expect(unusedWarnings).toHaveLength(1);

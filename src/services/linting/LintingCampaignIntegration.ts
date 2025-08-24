@@ -331,18 +331,18 @@ export class LintingCampaignIntegration {
       const report = {
         campaignId,
         name: config.name,
-        startTime: activeCampaign.startTime,
+        startTime: (activeCampaign as Record<string, unknown>)?.startTime,
         endTime: new Date(),
-        baselineMetrics: activeCampaign.baselineMetrics,
+        baselineMetrics: (activeCampaign as Record<string, unknown>)?.baselineMetrics,
         finalMetrics: currentReport.currentMetrics,
         totalImprovement: {
           errorReduction:
-            activeCampaign.baselineMetrics.errors - currentReport.currentMetrics.errors,
+            (activeCampaign as Record<string, unknown>)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
           warningReduction:
-            activeCampaign.baselineMetrics.warnings - currentReport.currentMetrics.warnings,
+            (activeCampaign as Record<string, unknown>)?.baselineMetrics.warnings - currentReport.currentMetrics.warnings,
           percentageImprovement: currentReport.improvement.percentageImprovement,
         },
-        phasesExecuted: activeCampaign.phasesExecuted || [],
+        phasesExecuted: (activeCampaign as Record<string, unknown>)?.phasesExecuted || [],
         qualityGatesStatus: currentReport.qualityGates,
         recommendations:
           currentReport.improvement.percentageImprovement > 0
@@ -510,9 +510,9 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     try {
       const activeCampaign = this.getActiveCampaign();
-      if (activeCampaign && activeCampaign.campaignId === campaignId) {
-        activeCampaign.phasesExecuted = activeCampaign.phasesExecuted || [];
-        activeCampaign.phasesExecuted.push({
+      if (activeCampaign && (activeCampaign as Record<string, unknown>)?.campaignId === campaignId) {
+        (activeCampaign as Record<string, unknown>)?.phasesExecuted = (activeCampaign as Record<string, unknown>)?.phasesExecuted || [];
+        (activeCampaign as Record<string, unknown>)?.phasesExecuted.push({
           phaseId,
           result,
           timestamp: new Date(),

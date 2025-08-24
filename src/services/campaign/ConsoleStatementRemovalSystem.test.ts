@@ -67,11 +67,11 @@ console.debug('debug message');
       ).analyzeFileConsoleStatements('/test/file.ts', content);
 
       expect(statements).toHaveLength(5);
-      expect((statements as Record<string, unknown>)[0].type).toBe('log');
-      expect((statements as Record<string, unknown>)[1].type).toBe('error');
-      expect((statements as Record<string, unknown>)[2].type).toBe('warn');
-      expect((statements as Record<string, unknown>)[3].type).toBe('info');
-      expect((statements as Record<string, unknown>)[4].type).toBe('debug');
+      expect((statements as Record<string, (unknown>) as Record<string, unknown>)[0].type).toBe('log');
+      expect((statements as Record<string, (unknown>) as Record<string, unknown>)[1].type).toBe('error');
+      expect((statements as Record<string, (unknown>) as Record<string, unknown>)[2].type).toBe('warn');
+      expect((statements as Record<string, (unknown>) as Record<string, unknown>)[3].type).toBe('info');
+      expect((statements as Record<string, (unknown>) as Record<string, unknown>)[4].type).toBe('debug');
     });
 
     it('should extract correct line and column information', () => {
@@ -86,8 +86,8 @@ const another = 'value';
       ).analyzeFileConsoleStatements('/test/file.ts', content);
 
       expect(statements).toHaveLength(1);
-      expect((statements as Record<string, unknown>)[0].line).toBe(3);
-      expect((statements as Record<string, unknown>)[0].content).toBe("console.log('test message')");
+      expect((statements as Record<string, (unknown>) as Record<string, unknown>)[0].line).toBe(3);
+      expect((statements as Record<string, (unknown>) as Record<string, unknown>)[0].content).toBe("(console as Record<string, unknown>).log('test message')");
     });
   });
 

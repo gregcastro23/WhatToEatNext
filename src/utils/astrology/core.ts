@@ -168,12 +168,12 @@ export async function calculateActivePlanets(positions: Record<string, unknown>)
     }
 
     Object.entries(positions).forEach(([planet, position]) => {
-      if (!planetKeys.includes(planet.toLowerCase()) || !position || !position.sign) {
+      if (!planetKeys.includes(planet.toLowerCase()) || !position || !(position as Record<string, unknown>)?.sign) {
         return;
       }
 
       const planetLower = planet.toLowerCase();
-      const signLower = position.sign.toLowerCase();
+      const signLower = (position as Record<string, unknown>)?.sign.toLowerCase();
 
       // Simple planet-sign dignity mapping
       const dignities: Record<string, string[]> = {
@@ -195,7 +195,7 @@ export async function calculateActivePlanets(positions: Record<string, unknown>)
       }
 
       // Add special rulerships based on degree
-      const degree = position.degree || 0;
+      const degree = (position as Record<string, unknown>)?.degree || 0;
       if (degree >= 0 && degree <= 15) {
         // Planets in early degrees are more powerful
         if (!activePlanets.includes(planetLower)) {

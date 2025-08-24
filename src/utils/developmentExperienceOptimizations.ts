@@ -410,11 +410,11 @@ export type {
     development: string[];
   } {
     const recommendations = {
-      typescript: [],
-      bundling: [],
-      runtime: [],
-      development: [],
-    } as any;
+      typescript: [] as string[],
+      bundling: [] as string[],
+      runtime: [] as string[],
+      development: [] as string[],
+    };
 
     // TypeScript recommendations
     if (this.metrics.compilationTime > 30000) {
@@ -547,8 +547,9 @@ export type {
 
     // Monitor memory usage
     setInterval(() => {
-      if ((performance as any).memory) {
-        const memoryUsage = (performance as any).memory.usedJSHeapSize / 1024 / 1024;
+      const perfWithMemory = performance as unknown as { memory?: { usedJSHeapSize: number } };
+      if (perfWithMemory.memory) {
+        const memoryUsage = perfWithMemory.memory.usedJSHeapSize / 1024 / 1024;
         this.updatePerformanceMetrics({ memoryUsage });
       }
     }, 10000); // Every 10 seconds

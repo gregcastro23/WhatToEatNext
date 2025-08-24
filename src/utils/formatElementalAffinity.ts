@@ -25,10 +25,10 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
   // Ensure the primary property exists
   if (!inputData?.primary && inputData?.element) {
     return {
-      primary: inputData.element,
-      secondary: inputData.secondary,
-      strength: inputData.strength || 0.5,
-      compatibility: inputData.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
+      primary: (inputData as Record<string, unknown>)?.element,
+      secondary: (inputData as Record<string, unknown>)?.secondary,
+      strength: (inputData as Record<string, unknown>)?.strength || 0.5,
+      compatibility: (inputData as Record<string, unknown>)?.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
     };
   }
 
@@ -44,9 +44,9 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
 
   // Ensure all required properties exist
   return {
-    primary: inputData.primary || 'Fire',
-    secondary: inputData.secondary,
-    strength: inputData.strength || 0.5,
-    compatibility: inputData.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
+    primary: (inputData as Record<string, unknown>)?.primary || 'Fire',
+    secondary: (inputData as Record<string, unknown>)?.secondary,
+    strength: (inputData as Record<string, unknown>)?.strength || 0.5,
+    compatibility: (inputData as Record<string, unknown>)?.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
   } as ElementalAffinity;
 }

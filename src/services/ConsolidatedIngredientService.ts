@@ -21,34 +21,34 @@ interface ScoredItem {
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import { log } from '@/services/LoggingService';
 import type {
-  ElementalProperties,
-  ThermodynamicMetrics,
-  PlanetName,
-  BasicThermodynamicProperties,
+    BasicThermodynamicProperties,
+    ElementalProperties,
+    PlanetName,
+    ThermodynamicMetrics,
 } from '@/types/alchemy';
 import type { Season } from '@/types/seasons';
 import { Ingredient } from '@/types/unified';
+import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
+import type { Recipe } from '../types/unified';
+import type { ZodiacSign } from '../types/zodiac';
 
 // Define ErrorWithMessage for error handling
 interface ErrorWithMessage {
   message: string;
 }
-import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
-import type { Recipe } from '../types/unified';
-import type { ZodiacSign } from '../types/zodiac';
 // Removed unused import: cache
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
 import {
-  createElementalProperties,
-  calculateElementalCompatibility,
+    calculateElementalCompatibility,
+    createElementalProperties,
 } from '../utils/elemental/elementalUtils';
 // Replaced unused logger with enterprise logging service
 
 import type {
-  IngredientServiceInterface,
-  IngredientFilter,
-  IngredientRecommendationOptions,
-  ElementalFilter,
+    ElementalFilter,
+    IngredientFilter,
+    IngredientRecommendationOptions,
+    IngredientServiceInterface,
 } from './interfaces/IngredientServiceInterface';
 
 // Define placeholder types and classes for missing dependencies
@@ -216,7 +216,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
     try {
       return Object.values(unifiedIngredients || {}).filter(
-        ingredient => ingredient.subCategory?.toLowerCase() === subcategory.toLowerCase(),
+        ingredient => ingredient.subCategory?.toLowerCase() === (subcategory as Record<string, unknown>)?.toLowerCase(),
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
@@ -684,7 +684,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
 
       const nutritional = ingredient.nutritionalPropertiesProfile;
-      const macros = nutritional.macros || {};
+      const macros = (nutritional as Record<string, unknown>)?.macros || {};
 
       // Check protein range if specified
       if (filter.minProtein !== undefined) {
@@ -710,18 +710,18 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Check calorie range if specified
       if (filter.minCalories !== undefined) {
-        const calorieContent = nutritional.calories || 0;
+        const calorieContent = (nutritional as Record<string, unknown>)?.calories || 0;
         if (calorieContent < filter.minCalories) return false;
       }
 
       if (filter.maxCalories !== undefined) {
-        const calorieContent = nutritional.calories || 0;
+        const calorieContent = (nutritional as Record<string, unknown>)?.calories || 0;
         if (calorieContent > filter.maxCalories) return false;
       }
 
       // Check for required vitamins
       if (filter.vitamins && (filter.vitamins || []).length > 0) {
-        const vitamins = nutritional.vitamins || {};
+        const vitamins = (nutritional as Record<string, unknown>)?.vitamins || {};
         const vitaminKeys = Object.keys(vitamins);
 
         const hasAllVitamins = filter.vitamins.every(vitamin =>
@@ -733,7 +733,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Check for required minerals
       if (filter.minerals && (filter.minerals || []).length > 0) {
-        const minerals = nutritional.minerals || {};
+        const minerals = (nutritional as Record<string, unknown>)?.minerals || {};
         const mineralKeys = Object.keys(minerals);
 
         const hasAllMinerals = filter.minerals.every(mineral =>
@@ -909,7 +909,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         // Sugar might be a direct property or included in macros
         const sugar =
           ingredient.nutritionalPropertiesProfile?.macros?.sugar ||
-          ingredient.nutritionalPropertiesProfile.sugar ||
+          (ingredient.nutritionalPropertiesProfile as Record<string, unknown>)?.sugar ||
           0;
         if (sugar > 5) return false; // 5g is a common threshold for "low sugar"
       }

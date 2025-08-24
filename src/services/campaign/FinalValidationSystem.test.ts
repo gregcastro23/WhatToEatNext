@@ -115,7 +115,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       expect(result.passed).toBe(false);
       expect(result.current).toBe(3);
       expect(result.target).toBe(0);
-      expect((result as Record<string, unknown>).criticalIssues.length).toBeGreaterThan(0);
+      expect((result as Record<string, unknown>)?.(criticalIssues as Record<string, unknown>).length).toBeGreaterThan(0);
     });
   });
 
@@ -157,7 +157,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       expect(result.passed).toBe(false);
       expect(result.current).toBe(50);
       expect(result.target).toBe(200);
-      expect((result as Record<string, unknown>).criticalIssues.length).toBeGreaterThan(0);
+      expect((result as Record<string, unknown>)?.(criticalIssues as Record<string, unknown>).length).toBeGreaterThan(0);
     });
 
     it('should handle case when no intelligence systems exist', async () => {
@@ -175,7 +175,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       expect(result.passed).toBe(false);
       expect(result.current).toBe(0);
       expect(result.target).toBe(200);
-      expect((result as Record<string, unknown>).criticalIssues.length).toBeGreaterThan(0);
+      expect((result as Record<string, unknown>)?.(criticalIssues as Record<string, unknown>).length).toBeGreaterThan(0);
     });
   });
 
@@ -232,7 +232,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       expect(result.passed).toBe(false);
       expect(result.current).toBe(15); // 15 seconds build time
       expect(result.target).toBe(10);
-      expect((result as Record<string, unknown>).criticalIssues.length).toBeGreaterThan(0);
+      expect((result as Record<string, unknown>)?.(criticalIssues as Record<string, unknown>).length).toBeGreaterThan(0);
 
       // Restore Date.now
       Date.now = originalDateNow;
@@ -273,7 +273,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       expect(result.passed).toBe(false);
       expect(result.current).toBe(0);
       expect(result.target).toBe(1);
-      expect((result as Record<string, unknown>).criticalIssues.length).toBeGreaterThan(0);
+      expect((result as Record<string, unknown>)?.(criticalIssues as Record<string, unknown>).length).toBeGreaterThan(0);
     });
 
     it('should fail validation when tests fail', async () => {
@@ -292,7 +292,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       expect(result.passed).toBe(false);
       expect(result.current).toBe(0);
       expect(result.target).toBe(1);
-      expect((result as Record<string, unknown>).criticalIssues.length).toBeGreaterThan(0);
+      expect((result as Record<string, unknown>)?.(criticalIssues as Record<string, unknown>).length).toBeGreaterThan(0);
     });
   });
 
@@ -318,12 +318,12 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       ).generateCampaignSummary();
 
       expect(summary.initialState).toEqual(mockBaseline);
-      expect((summary as Record<string, unknown>).finalState.errors).toBe(0);
-      expect((summary as Record<string, unknown>).finalState.warnings).toBe(0);
-      expect((summary as Record<string, unknown>).finalState.intelligence).toBe(250);
-      expect((summary as Record<string, unknown>).improvements.errorReduction).toBe(100);
-      expect((summary as Record<string, unknown>).improvements.warningReduction).toBe(500);
-      expect((summary as Record<string, unknown>).improvements.intelligenceIncrease).toBe(240);
+      expect((summary as Record<string, unknown>)?.(finalState as Record<string, unknown>).errors).toBe(0);
+      expect((summary as Record<string, unknown>)?.(finalState as Record<string, unknown>).warnings).toBe(0);
+      expect((summary as Record<string, unknown>)?.(finalState as Record<string, unknown>).intelligence).toBe(250);
+      expect((summary as Record<string, unknown>)?.(improvements as Record<string, unknown>).errorReduction).toBe(100);
+      expect((summary as Record<string, unknown>)?.(improvements as Record<string, unknown>).warningReduction).toBe(500);
+      expect((summary as Record<string, unknown>)?.(improvements as Record<string, unknown>).intelligenceIncrease).toBe(240);
     });
 
     it('should handle missing baseline file', async () => {
@@ -341,8 +341,8 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       ).generateCampaignSummary();
 
       expect(summary.initialState).toEqual({ errors: 0, warnings: 0, intelligence: 0 });
-      expect((summary as Record<string, unknown>).finalState.intelligence).toBe(200);
-      expect((summary as Record<string, unknown>).improvements.intelligenceIncrease).toBe(200);
+      expect((summary as Record<string, unknown>)?.(finalState as Record<string, unknown>).intelligence).toBe(200);
+      expect((summary as Record<string, unknown>)?.(improvements as Record<string, unknown>).intelligenceIncrease).toBe(200);
     });
   });
 

@@ -1,8 +1,9 @@
 import { NextPage } from 'next';
 import { useState, useEffect, useMemo } from 'react';
 
-import CustomComponent from '@/components/CustomComponent';
-import { useCustomHook } from '@/hooks/useCustomHook';
+// Mock imports for linting test file
+const CustomComponent = ({ children }: { children: React.ReactNode }) => <div>{children}</div>;
+const useCustomHook = () => 'mocked-value';
 
 import './styles.css';
 
@@ -21,7 +22,7 @@ const ImportOrganizationPage: NextPage = () => {
   return (
     <div>
       <CustomComponent title={memoizedValue} />
-      <p>{String(customValue.data)}</p>
+      <p>{String(customValue)}</p>
     </div>
   );
 };
