@@ -495,7 +495,7 @@ describe('AnyTypeClassifier', () => {
       await expect(classifier.classify(context)).rejects.toThrow('Failed to classify any type');
 
       // Restore the original method
-      (classifier as unknown).analyzeSurroundingCodeContext = originalMethod;
+      (classifier as any).analyzeSurroundingCodeContext = originalMethod;
     });
 
     test('handles malformed code snippets', async () => {

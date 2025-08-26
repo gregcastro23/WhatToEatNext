@@ -37,7 +37,7 @@ export interface NutritionalDataAdapterInterface {
   convertNutritionalToElemental(profile: NutritionalProfile): ElementalProperties;
 
   // Astrological nutrition recommendations
-  getZodiacNutritionalRecommendations(sign: ZodiacSign | string): {
+  getZodiacNutritionalRecommendations(sign: any | string): {
     focusNutrients: string[];
     recommendedFoods: string[];
     avoidFoods: string[];
@@ -92,7 +92,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       )) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown as Record<string, unknown>;
+      const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
@@ -115,7 +115,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       ) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown as Record<string, unknown>;
+      const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
@@ -142,7 +142,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     try {
       // The original function returns { Fire, Water, Earth, Air } with "Earth" capitalized
       // We need to convert it to proper ElementalProperties
-      const result = nutritionalToElemental(profile as Record<string, unknown>);
+      const result = nutritionalToElemental(profile as any);
 
       // Create a proper ElementalProperties object
       return createElementalProperties({
@@ -153,7 +153,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       });
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown as Record<string, unknown>;
+      const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
@@ -161,14 +161,14 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           action: 'convertNutritionalToElemental',
         });
       }
-      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+      return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
     }
   }
 
   /**
    * Get nutritional recommendations based on zodiac sign
    */
-  getZodiacNutritionalRecommendations(sign: ZodiacSign | string): {
+  getZodiacNutritionalRecommendations(sign: any | string): {
     focusNutrients: string[];
     recommendedFoods: string[];
     avoidFoods: string[];
@@ -188,7 +188,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown as Record<string, unknown>;
+      const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
@@ -220,7 +220,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return getPlanetaryNutritionalRecommendations(planetStrings);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown as Record<string, unknown>;
+      const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
@@ -273,7 +273,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown as Record<string, unknown>;
+      const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
@@ -284,7 +284,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         });
       }
       return {
-        elements: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+        elements: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         focusNutrients: [],
         healthAreas: [],
         recommendedFoods: [],
@@ -351,7 +351,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown as Record<string, unknown>;
+      const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {

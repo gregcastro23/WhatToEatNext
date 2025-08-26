@@ -19,10 +19,10 @@ export default function CookingMethodsDemoPage() {
   useEffect(() => {
     // Prepare demo data by formatting methods from different categories
     const demoMethods = [
-      ..._formatMethodsForComponent(dryCookingMethods as Record<string, unknown>, 'dry'),
-      ..._formatMethodsForComponent(wetCookingMethods as Record<string, unknown>, 'wet'),
+      ..._formatMethodsForComponent(dryCookingMethods as any, 'dry'),
+      ..._formatMethodsForComponent(wetCookingMethods as any, 'wet'),
       ..._formatMethodsForComponent(
-        molecularCookingMethods as Record<string, unknown>,
+        molecularCookingMethods as any,
         'molecular',
       ),
     ];
@@ -31,7 +31,7 @@ export default function CookingMethodsDemoPage() {
     demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0));
 
     // Limit to 12 methods for the demo
-    setMethods(demoMethods.slice(0, 12));
+    setMethods(demoMethods.slice(0, 12) as CookingMethodData[]);
   }, []);
 
   const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
@@ -48,23 +48,23 @@ export default function CookingMethodsDemoPage() {
       return {
         id: `${prefix}_${key}`,
         name,
-        description: (method as Record<string, unknown>).description || '',
-        elementalEffect: (method as Record<string, unknown>).elementalEffect ||
-          (method as Record<string, unknown>).elementalProperties || {
+        description: (method as any).description || '',
+        elementalEffect: (method as any).elementalEffect ||
+          (method as any).elementalProperties || {
             Fire: Math.random(),
             Water: Math.random(),
             Earth: Math.random(),
             Air: Math.random(),
           },
         score,
-        duration: (method as Record<string, unknown>).time_range ||
-          (method as Record<string, unknown>).duration || { min: 10, max: 30 },
-        suitable_for: (method as Record<string, unknown>).suitable_for || [],
-        benefits: (method as Record<string, unknown>).benefits || [],
+        duration: (method as any).time_range ||
+          (method as any).duration || { min: 10, max: 30 },
+        suitable_for: (method as any).suitable_for || [],
+        benefits: (method as any).benefits || [],
         // Create variations if they exist
-        variations: (method as Record<string, unknown>).variations
-          ? Array.isArray((method as Record<string, unknown>).variations)
-            ? ((method as Record<string, unknown>).variations as string[]).map(
+        variations: (method as any).variations
+          ? Array.isArray((method as any).variations)
+            ? ((method as any).variations as string[]).map(
                 (v: string, i: number) => ({
                   id: `${prefix}_${key}_var_${i}`,
                   name: v,
@@ -85,7 +85,7 @@ export default function CookingMethodsDemoPage() {
   };
 
   const handleSelectMethod = (method: unknown) => {
-    setSelectedMethod(method);
+    setSelectedMethod(method as CookingMethodData);
   };
 
   return (
@@ -106,7 +106,7 @@ export default function CookingMethodsDemoPage() {
             onSelectMethod={handleSelectMethod}
             selectedMethodId={
               selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod
-                ? selectedMethod.id
+                ? (selectedMethod as { id: string }).id
                 : null
             }
             initiallyExpanded={true}

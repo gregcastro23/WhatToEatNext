@@ -290,7 +290,7 @@ items.forEach(item => console.log(item));`,
               title: 'Record Type Replacement',
               before: `const config: Record<string, any> = loadConfig();
 const value = config.someProperty;`,
-              after: `const config: Record<string, unknown> = loadConfig();
+              after: `const config: any = loadConfig();
 const value = config.someProperty;`,
               explanation: 'unknown values require type checking before use, improving safety'
             }

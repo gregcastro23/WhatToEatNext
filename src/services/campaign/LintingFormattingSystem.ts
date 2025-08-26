@@ -151,7 +151,7 @@ export class LintingFormattingSystem {
         formattingIssuesFixed: 0,
         patternBasedFixesApplied: 0,
         buildValidationPassed: false,
-        errors: [((error as Record<string, unknown>).message as string) || 'Unknown error'],
+        errors: [((error as any).message as string) || 'Unknown error'],
         warnings: [],
         violationBreakdown: {
           typeScriptErrors: 0,
@@ -300,7 +300,7 @@ export class LintingFormattingSystem {
       result.violationBreakdown = await this.getViolationBreakdown(filePaths);
     } catch (error) {
       result.errors.push(
-        `Linting fixes failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Linting fixes failed: ${(error as any).message || 'Unknown error'}`,
       );
     }
 
@@ -309,7 +309,7 @@ export class LintingFormattingSystem {
       result.formattingIssuesFixed = await this.formatCode(filePaths);
     } catch (error) {
       result.errors.push(
-        `Code formatting failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Code formatting failed: ${(error as any).message || 'Unknown error'}`,
       );
     }
 
@@ -318,7 +318,7 @@ export class LintingFormattingSystem {
       result.patternBasedFixesApplied = await this.applyPatternBasedFixes(filePaths);
     } catch (error) {
       result.errors.push(
-        `Pattern-based fixes failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Pattern-based fixes failed: ${(error as any).message || 'Unknown error'}`,
       );
     }
 
@@ -328,7 +328,7 @@ export class LintingFormattingSystem {
       result.formattingIssuesFixed += complianceFixed;
     } catch (error) {
       result.errors.push(
-        `Style guide enforcement failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Style guide enforcement failed: ${(error as any).message || 'Unknown error'}`,
       );
     }
 
@@ -349,7 +349,7 @@ export class LintingFormattingSystem {
       });
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       if (errorData.stdout) {
         return errorData.stdout as string;
       }
@@ -458,7 +458,7 @@ export class LintingFormattingSystem {
         if (line.match(/[^,]\s*\}/) || line.match(/[^,]\s*\]/)) {
           const nextLine = modifiedLines[i + 1];
           if (nextLine && (nextLine.includes('}') || nextLine.includes(']'))) {
-            modifiedLines[i] = line.replace(/([^,\s])\s*$/, '$1,');
+            modifiedLines[i] = line.replace(/([^,\s])\s*$/, '1,');
             fixesApplied++;
           }
         }
@@ -480,7 +480,7 @@ export class LintingFormattingSystem {
         ) {
           // Add semicolon to statements that need them
           if (line.match(/^(const|let|var|return|throw|break|continue|import|export)/)) {
-            modifiedLines[i] = modifiedLines[i].replace(/([^;])$/, '$1;');
+            modifiedLines[i] = modifiedLines[i].replace(/([^;])$/, '1;');
             fixesApplied++;
           }
         }

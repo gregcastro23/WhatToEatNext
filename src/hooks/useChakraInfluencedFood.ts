@@ -128,7 +128,7 @@ export const useChakraInfluencedFood = (options?: {
   ]);
 
   // Extract moon sign to avoid complex expression in dependency array
-  const moonSign = (planetaryPositions.moon as Record<string, unknown>).sign;
+  const moonSign = (planetaryPositions.moon as any).sign;
 
   // Calculate chakra energies based on astrological data
   useEffect(() => {
@@ -136,7 +136,7 @@ export const useChakraInfluencedFood = (options?: {
       // Calculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        (moonSign || 'taurus') as ZodiacSign,
+        (moonSign || 'taurus') as any,
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets
           ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p))
@@ -261,7 +261,7 @@ export const useChakraInfluencedFood = (options?: {
               chakraScore =
                 (chakraEnergies.sacral / 10) * 0.5 +
                 (chakraEnergies.root / 10) * 0.3 +
-                ((Number((chakraEnergies as unknown as Record<string, unknown>).thirdEye) ||
+                ((Number((chakraEnergies as unknown as any).thirdEye) ||
                   chakraEnergies.throat) /
                   10) *
                   0.1 +
@@ -303,7 +303,7 @@ export const useChakraInfluencedFood = (options?: {
               if (heat < 0.4 && entropy < 0.4 && reactivity > 0.6) {
                 chakraScore =
                   (chakraScore +
-                    ((Number((chakraEnergies as unknown as Record<string, unknown>).thirdEye) ||
+                    ((Number((chakraEnergies as unknown as any).thirdEye) ||
                       chakraEnergies.throat) /
                       10 +
                       chakraEnergies.solarPlexus / 10 +
@@ -352,7 +352,7 @@ export const useChakraInfluencedFood = (options?: {
       // Recalculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        (moonSign || 'taurus') as ZodiacSign,
+        (moonSign || 'taurus') as any,
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets
           ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p))
@@ -392,7 +392,7 @@ export const useChakraInfluencedFood = (options?: {
             chakraScore =
               (chakraEnergies.sacral / 10) * 0.5 +
               (chakraEnergies.root / 10) * 0.3 +
-              ((Number((chakraEnergies as unknown as Record<string, unknown>).thirdEye) ||
+              ((Number((chakraEnergies as unknown as any).thirdEye) ||
                 chakraEnergies.throat) /
                 10) *
                 0.1 +
@@ -435,7 +435,7 @@ export const useChakraInfluencedFood = (options?: {
             if (heat < 0.4 && entropy < 0.4 && reactivity > 0.6) {
               chakraScore =
                 (chakraScore +
-                  ((Number((chakraEnergies as unknown as Record<string, unknown>).thirdEye) ||
+                  ((Number((chakraEnergies as unknown as any).thirdEye) ||
                     chakraEnergies.throat) /
                     10 +
                     chakraEnergies.solarPlexus / 10 +

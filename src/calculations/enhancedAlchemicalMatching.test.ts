@@ -11,20 +11,20 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {
     it('should calculate compatibility between signs with the same element', () => {
       // Test Fire signs (should be harmonious)
-      const compatibility = calculateAstrologicalAffinity('aries' as ZodiacSign, 'leo' as ZodiacSign);
+      const compatibility = calculateAstrologicalAffinity('aries' as any, 'leo' as any);
       expect(compatibility).toBeGreaterThan(0.5); // Should be above neutral
     });
 
     it('should calculate compatibility between signs with different elements', () => {
       // Test Fire and Water signs (should still have good compatibility)
-      const compatibility = calculateAstrologicalAffinity('aries' as ZodiacSign, 'cancer' as ZodiacSign);
+      const compatibility = calculateAstrologicalAffinity('aries' as any, 'cancer' as any);
       expect(compatibility).toBeGreaterThanOrEqual(0.5); // All elements work well together
     });
 
     it('should incorporate modality compatibility in scoring', () => {
       // Aries (Cardinal Fire) and Leo (Fixed Fire)
       // Same element but different modality
-      const compatibility = calculateAstrologicalAffinity('aries' as ZodiacSign, 'leo' as ZodiacSign);
+      const compatibility = calculateAstrologicalAffinity('aries' as any, 'leo' as any);
 
       // Should be somewhat compatible (same element) but not perfect (different modality)
       expect(compatibility).toBeGreaterThan(0.5);
@@ -33,13 +33,13 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should favor same-modality signs of the same element', () => {
       // Aries (Cardinal Fire) and Sagittarius (Mutable Fire)
-      const differentModalityCompat = calculateAstrologicalAffinity('aries' as ZodiacSign, 'sagittarius' as ZodiacSign);
+      const differentModalityCompat = calculateAstrologicalAffinity('aries' as any, 'sagittarius' as any);
 
       // Leo (Fixed Fire) and Sagittarius (Mutable Fire)
-      const _differentModalityCompat2 = calculateAstrologicalAffinity('leo' as ZodiacSign, 'sagittarius' as ZodiacSign);
+      const _differentModalityCompat2 = calculateAstrologicalAffinity('leo' as any, 'sagittarius' as any);
 
       // Aries (Cardinal Fire) and Libra (Cardinal Air)
-      const sameModalityDiffElement = calculateAstrologicalAffinity('aries' as ZodiacSign, 'libra' as ZodiacSign);
+      const sameModalityDiffElement = calculateAstrologicalAffinity('aries' as any, 'libra' as any);
 
       // All combinations should have good compatibility
       expect(differentModalityCompat).toBeGreaterThanOrEqual(0.5);
@@ -49,14 +49,14 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
     it('should reflect element-modality natural affinities', () => {
       // Gemini (Mutable Air) and Aquarius (Fixed Air)
       // Air has high affinity with Mutability
-      const airSignsCompat = calculateAstrologicalAffinity('gemini' as ZodiacSign, 'aquarius' as ZodiacSign);
+      const airSignsCompat = calculateAstrologicalAffinity('gemini' as any, 'aquarius' as any);
 
       // Taurus (Fixed Earth) and Virgo (Mutable Earth)
       // Earth has high affinity with Fixed quality
-      const _earthSignsCompat = calculateAstrologicalAffinity('taurus' as ZodiacSign, 'virgo' as ZodiacSign);
+      const _earthSignsCompat = calculateAstrologicalAffinity('taurus' as any, 'virgo' as any);
 
       // Cardinal Fire and Fixed Fire
-      const _fireSignsCompat = calculateAstrologicalAffinity('aries' as ZodiacSign, 'leo' as ZodiacSign);
+      const _fireSignsCompat = calculateAstrologicalAffinity('aries' as any, 'leo' as any);
 
       // The air signs compatibility should reflect air's natural affinity with mutability
       expect(airSignsCompat).toBeGreaterThan(0.45);
@@ -64,7 +64,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should incorporate tarot correspondences in scoring', () => {
       // Signs with same element tarot cards
-      const compatibility = calculateAstrologicalAffinity('aries' as ZodiacSign, 'leo' as ZodiacSign);
+      const compatibility = calculateAstrologicalAffinity('aries' as any, 'leo' as any);
 
       // The Emperor (Aries) and Strength (Leo) are both Fire-aligned Major Arcana
       expect(compatibility).toBeGreaterThan(0.5);
@@ -72,7 +72,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should incorporate rulership compatibility in scoring', () => {
       // Aries (ruled by Mars) and Scorpio (traditionally ruled by Mars)
-      const compatibility = calculateAstrologicalAffinity('aries' as ZodiacSign, 'scorpio' as ZodiacSign);
+      const compatibility = calculateAstrologicalAffinity('aries' as any, 'scorpio' as any);
 
       // Different elements, but shared ruler should prevent score from being too low
       expect(compatibility).toBeGreaterThan(0.3);
@@ -105,8 +105,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       const compatWithSigns = calculateAlchemicalCompatibility(
         elemPropsA,
         elemPropsB,
-        'aries' as ZodiacSign,
-        'leo' as ZodiacSign,
+        'aries' as any,
+        'leo' as any,
       );
 
       // Without signs

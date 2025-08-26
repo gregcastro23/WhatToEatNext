@@ -58,8 +58,8 @@ export function getEnhancedFoodRecommendation(
 export function getIngredientCompatibility(
   ingredientA: ElementalProperties,
   ingredientB: ElementalProperties,
-  signA?: ZodiacSign,
-  signB?: ZodiacSign,
+  signA?: any,
+  signB?: any,
 ) {
   return calculateAlchemicalCompatibility(ingredientA, ingredientB, signA, signB);
 }
@@ -74,19 +74,19 @@ export function getIngredientCompatibility(
  * @returns Compatibility score between 0-1
  */
 export function getUserFoodCompatibility(
-  userSign: ZodiacSign,
+  userSign: any,
   foodElement: string,
   foodElementalProps: ElementalProperties,
 ) {
   // Map food elements to zodiac signs for compatibility calculation
   const foodSignMap: Record<string, ZodiacSign> = {
-    Fire: 'aries' as ZodiacSign, // Could also use leo or sagittarius
-    Water: 'cancer' as ZodiacSign, // Could also use scorpio or pisces
-    Earth: 'taurus' as ZodiacSign, // Could also use virgo or capricorn
-    Air: 'gemini' as ZodiacSign, // Could also use libra or aquarius
+    Fire: 'aries' as any, // Could also use leo or sagittarius
+    Water: 'cancer' as any, // Could also use scorpio or pisces
+    Earth: 'taurus' as any, // Could also use virgo or capricorn
+    Air: 'gemini' as any, // Could also use libra or aquarius
   };
 
-  const foodSign = foodSignMap[foodElement] || ('aries' as ZodiacSign);
+  const foodSign = foodSignMap[foodElement] || ('aries' as any);
 
   // Get base astrological affinity
   const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign);
@@ -118,7 +118,7 @@ export function getUserFoodCompatibility(
  */
 export function generatePersonalizedMealPlan(
   alchemicalResult: AlchemicalResult,
-  _userSign: ZodiacSign,
+  _userSign: any,
   _season: string,
   _userPreferences?: string[],
 ) {
@@ -255,7 +255,7 @@ export function validateEnhancedAlgorithms() {
  */
 export function enhanceAlchemicalCalculations(
   alchemicalResult: AlchemicalResult,
-  userSign?: ZodiacSign,
+  userSign?: any,
   season?: string,
   userPreferences?: string[],
 ) {

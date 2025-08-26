@@ -240,7 +240,7 @@ function validatePlanetTransitDates(
         // Complex structure like RetrogradePhases - validate nested structures
         for (const [key, value] of Object.entries(transit)) {
           if (value && typeof value === 'object' && 'Start' in value && 'End' in value) {
-            const nestedTransit = value as unknown as { Start: string; End: string };
+            const nestedTransit = value as { Start: string; End: string };
             const startDate = new Date(nestedTransit.Start);
             const endDate = new Date(nestedTransit.End);
 
@@ -412,7 +412,7 @@ async function getExpectedSignsForPlanet(planetName: string): Promise<string[]> 
       const possibleSigns: string[] = [];
 
       for (const [sign, dates] of Object.entries(transitDates)) {
-        const dateData = dates as unknown as { Start: string; End: string };
+        const dateData = dates as { Start: string; End: string };
         const startDate = new Date(dateData.Start);
         const endDate = new Date(dateData.End);
 
@@ -523,7 +523,7 @@ async function testTransitDateValidation(): Promise<TestResult> {
     for (const planet of planets) {
       try {
         const planetModule = await import(`../data/planets/${planet}`);
-        const planetSpecific = planetModule.default.PlanetSpecific as unknown as { TransitDates?: Record<string, unknown> };
+        const planetSpecific = planetModule.default.PlanetSpecific as { TransitDates?: Record<string, unknown> };
         const transitDates = planetSpecific?.TransitDates;
 
         if (transitDates && Object.keys(transitDates).length > 0) {
@@ -581,7 +581,7 @@ async function testRetrogradeDetection(): Promise<TestResult> {
 
     for (const planet of retrogradeCapablePlanets) {
       if (positions[planet] && typeof positions[planet] === 'object') {
-        const pos = positions[planet] as unknown as { isRetrograde: boolean };
+        const pos = positions[planet] as { isRetrograde: boolean };
         if (typeof pos.isRetrograde === 'boolean') {
           validRetrogradeData++;
         }
@@ -692,7 +692,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
 
     for (const planet of requiredPlanets) {
       if (positions[planet] && typeof positions[planet] === 'object') {
-        const pos = positions[planet] as unknown as { sign: string; degree: number };
+        const pos = positions[planet] as { sign: string; degree: number };
         if (pos.sign && typeof pos.degree === 'number') {
           validPositions++;
         }

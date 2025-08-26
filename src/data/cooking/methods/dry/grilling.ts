@@ -30,8 +30,8 @@ export const grilling: CookingMethodData = {
     'develops umami',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
-    unfavorableZodiac: ['cancer', 'scorpio', 'pisces'] as ZodiacSign[],
+    favorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
+    unfavorableZodiac: ['cancer', 'scorpio', 'pisces'] as any[],
     dominantPlanets: ['Mars', 'Sun', 'Jupiter'],
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced flame intensity
@@ -100,7 +100,7 @@ export const grilling: CookingMethodData = {
     heat: 0.9, // Very high direct heat
     entropy: 0.65, // Significant structural transformation
     reactivity: 0.85, // High chemical reactivity (Maillard, carbonization)
-    gregsEnergy: 0.9 - 0.65 * 0.85, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -12.350 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

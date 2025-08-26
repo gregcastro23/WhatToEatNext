@@ -41,10 +41,10 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   return (
     Boolean(obj) &&
     typeof obj === 'object' &&
-    typeof (obj as Record<string, unknown>).sign === 'string' &&
-    typeof (obj as Record<string, unknown>).degree === 'number' &&
-    (typeof (obj as Record<string, unknown>).exactLongitude === 'number' ||
-      typeof (obj as Record<string, unknown>).exactLongitude === 'undefined')
+    typeof (obj as any).sign === 'string' &&
+    typeof (obj as any).degree === 'number' &&
+    (typeof (obj as any).exactLongitude === 'number' ||
+      typeof (obj as any).exactLongitude === 'undefined')
   );
 }
 
@@ -85,7 +85,7 @@ export interface PlanetaryAspect extends ImportedPlanetaryAspect {
 }
 
 export type PlanetPositionData = {
-  sign: ZodiacSign;
+  sign: any;
   degree: number;
   minute?: number;
   exactLongitude?: number;
@@ -98,7 +98,7 @@ export interface PlanetaryDignity {
 }
 
 // Add type assertion for zodiac signs
-const _zodiacSigns: ZodiacSign[] = [
+const _zodiacSigns: any[] = [
   'aries',
   'taurus',
   'gemini',
@@ -168,12 +168,12 @@ export async function calculateActivePlanets(positions: Record<string, unknown>)
     }
 
     Object.entries(positions).forEach(([planet, position]) => {
-      if (!planetKeys.includes(planet.toLowerCase()) || !position || !(position as Record<string, unknown>)?.sign) {
+      if (!planetKeys.includes(planet.toLowerCase()) || !position || !(position as any)?.sign) {
         return;
       }
 
       const planetLower = planet.toLowerCase();
-      const signLower = (position as Record<string, unknown>)?.sign.toLowerCase();
+      const signLower = (position as any)?.sign.toLowerCase();
 
       // Simple planet-sign dignity mapping
       const dignities: Record<string, string[]> = {
@@ -195,7 +195,7 @@ export async function calculateActivePlanets(positions: Record<string, unknown>)
       }
 
       // Add special rulerships based on degree
-      const degree = (position as Record<string, unknown>)?.degree || 0;
+      const degree = (position as any)?.degree || 0;
       if (degree >= 0 && degree <= 15) {
         // Planets in early degrees are more powerful
         if (!activePlanets.includes(planetLower)) {
@@ -236,7 +236,7 @@ export function getLunarPhaseModifier(phase: LunarPhase): number {
  * @param sign Zodiac sign
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
-export function getZodiacElement(sign: ZodiacSign): ElementalCharacter {
+export function getZodiacElement(sign: any): ElementalCharacter {
   const elements: Record<ZodiacSign, ElementalCharacter> = {
     aries: 'Fire',
     leo: 'Fire',
@@ -345,7 +345,7 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export function calculateSunSign(date: Date = new Date()): ZodiacSign | undefined {
+export function calculateSunSign(date: Date = new Date()): any | undefined {
   const month = date.getMonth() + 1; // getMonth() returns 0-11
   const day = date.getDate();
   // Approximate Sun sign dates (tropical zodiac)
@@ -436,8 +436,8 @@ export async function getCurrentAstrologicalState(
     const planetaryHour = hourCalculator.calculatePlanetaryHour(date);
 
     // Get Sun and Moon signs
-    const sunSign = (positions.Sun.sign.toLowerCase() || 'aries') as unknown as ZodiacSign;
-    const moonSign = (positions.moon.sign.toLowerCase() || 'taurus') as unknown as ZodiacSign;
+    const sunSign = (positions.Sun.sign.toLowerCase() || 'aries') as unknown as any;
+    const moonSign = (positions.moon.sign.toLowerCase() || 'taurus') as unknown as any;
 
     // Get active planets
     const activePlanets = await calculateActivePlanets(positions);
@@ -491,7 +491,7 @@ export async function getCurrentAstrologicalState(
       aspects,
       dominantElement,
       dominantPlanets: activePlanets,
-      planetaryPositions: positions as Record<string, unknown>,
+      planetaryPositions: positions as any,
     };
 
     return astrologicalState;
@@ -531,7 +531,7 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
  * @param sign Zodiac sign
  * @returns Element
  */
-export function getZodiacElementalInfluence(sign: ZodiacSign): Element {
+export function getZodiacElementalInfluence(sign: any): Element {
   const element = getZodiacElement(sign);
   // Convert ElementalCharacter to celestial Element type
   return element as Element;
@@ -573,7 +573,7 @@ export async function calculateDominantElement(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as ZodiacSign);
+      const element = getZodiacElementalInfluence(position.sign as any);
 
       // Weight by planet importance
       let weight = 1;
@@ -618,7 +618,7 @@ export async function calculateElementalProfile(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as ZodiacSign);
+      const element = getZodiacElementalInfluence(position.sign as any);
 
       // Weight by planet importance
       let weight = 1;
@@ -737,8 +737,8 @@ export async function calculateAspects(
           const strength = 1 - orb / definition.orb;
 
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as ZodiacSign).toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as ZodiacSign).toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as any).toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as any).toLowerCase();
 
           // Base multiplier from definition
           let multiplier = definition.significance;

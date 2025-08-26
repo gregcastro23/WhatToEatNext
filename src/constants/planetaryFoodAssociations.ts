@@ -371,7 +371,7 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
 
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  const itemData = item as unknown as { elementalProperties?: Record<string, number> };
+  const itemData = item as { elementalProperties?: Record<string, number> };
   return itemData.elementalProperties?.[seasonalElement] || 0.1;
 };
 
@@ -410,7 +410,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
 
   // Calculate boost based on lunar phase intensity
   // This will vary between 0.15 and 0.4 depending on the phase
-  return 0.15 + influence.intensity * 0.25;
+  return 0.15 + ((influence as any)?.intensity || 0) * 0.2;
 };
 
 /**

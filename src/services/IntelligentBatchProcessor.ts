@@ -625,7 +625,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    */
   private calculateJobPriority(errors: TypeScriptError[], pattern: ErrorPattern): number {
     const avgPriority = errors.reduce((sum, e) => sum + e.priority, 0) / errors.length;
-    const patternBonus = pattern.frequency * 0.1;
+    const patternBonus = ((pattern as any)?.frequency || 0) * 0.2;
     const automationBonus = pattern.automationPotential * 5;
 
     return Math.round(avgPriority + patternBonus + automationBonus);

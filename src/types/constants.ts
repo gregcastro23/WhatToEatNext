@@ -101,7 +101,7 @@ export function isAlchemicalProperty(value: string): value is AlchemicalProperty
 }
 
 export function isZodiacSign(value: string): value is ZodiacSign {
-  return ZODIAC_SIGNS.includes(value as ZodiacSign);
+  return ZODIAC_SIGNS.includes(value as any);
 }
 
 export function isPlanet(value: string): value is Planet {

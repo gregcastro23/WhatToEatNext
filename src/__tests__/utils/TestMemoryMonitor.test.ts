@@ -252,7 +252,7 @@ describe('TestMemoryMonitor', () => {
 
       try {
         // Set gc to undefined instead of deleting
-        (global as unknown).gc = undefined;
+        (global as any).gc = undefined;
 
         const cleanupResult = monitor.cleanup('no-gc-test');
         expect(cleanupResult.success).toBe(true);

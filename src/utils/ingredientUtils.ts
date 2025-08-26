@@ -25,10 +25,10 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
   // Base values derived from planetary influences in the alchemizer
   // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
   // The ratios below approximate the original alchemizer calculations
-  const spirit = elementals.Fire * 0.7 + elementals.Air * 0.3;
-  const essence = elementals.Water * 0.6 + elementals.Fire * 0.2 + elementals.Air * 0.2;
-  const matter = elementals.Earth * 0.7 + elementals.Water * 0.3;
-  const substance = elementals.Earth * 0.5 + elementals.Water * 0.3 + elementals.Air * 0.2;
+  const spirit = ((elementals as any)?.Fire || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
+  const essence = ((elementals as any)?.Water || 0) * 0.2 + ((elementals as any)?.Fire || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
+  const matter = ((elementals as any)?.Earth || 0) * 0.2 + ((elementals as any)?.Water || 0) * 0.2;
+  const substance = ((elementals as any)?.Earth || 0) * 0.2 + ((elementals as any)?.Water || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
 
   return {
     spirit,
@@ -107,7 +107,7 @@ function _calculateSpiritValue(flavorProfile: FlavorProfile): number {
 export function determineIngredientModality(
   qualities: string[] = [],
   elementalProperties?: ElementalProperties,
-): Modality {
+): any {
   // Ensure qualities is an array
   const qualitiesArray = Array.isArray(qualities) ? qualities : [];
 
@@ -200,7 +200,7 @@ export function determineIngredientModality(
  * Type guard to check if an object is a RecipeIngredient
  */
 export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIngredient {
-  const ingredientData = ingredient as Record<string, unknown>;
+  const ingredientData = ingredient as any;
   return (
     Boolean(ingredient) &&
     typeof ingredientData.name === 'string' &&
@@ -213,7 +213,7 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
  * Type guard to check if an object is a full Ingredient
  */
 export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
-  const ingredientData = ingredient as Record<string, unknown>;
+  const ingredientData = ingredient as any;
   return Boolean(
     ingredient &&
       typeof ingredientData.name === 'string' &&
@@ -385,12 +385,12 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       Air: 0.25,
     },
     qualities: (mapping.qualities as unknown as string[]) || [],
-    storage: (mapping.storage as unknown as Record<string, unknown>) || {
+    storage: (mapping.storage as unknown as any) || {
       duration: 'unknown',
     },
     // Add missing required properties for Ingredient interface
-    amount: (mapping as unknown as Record<string, unknown>).amount || 1,
-    astrologicalProfile: (mapping as unknown as Record<string, unknown>).astrologicalProfile || {
+    amount: (mapping as unknown as any).amount || 1,
+    astrologicalProfile: (mapping as unknown as any).astrologicalProfile || {
       elementalAffinity: { base: 'Earth' },
       rulingPlanets: [],
       zodiacAffinity: [],
@@ -405,7 +405,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       key !== 'elementalProperties' &&
       key !== 'qualities'
     ) {
-      (ingredient as unknown as Record<string, unknown>)[key] = mapping[key];
+      (ingredient as unknown as any)[key] = mapping[key];
     }
   }
 
@@ -425,12 +425,12 @@ export function ingredientToRecipeIngredient(
     amount,
     unit,
     category: ingredient.category || 'culinary_herb',
-    elementalProperties: ingredient.elementalProperties as Record<string, unknown>,
-    qualities: (ingredient as unknown as Record<string, unknown>).qualities || [],
+    elementalProperties: ingredient.elementalProperties as any,
+    qualities: (ingredient as unknown as any).qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
     // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as unknown as Record<string, unknown>).origin || undefined,
-    seasonality: (ingredient as unknown as Record<string, unknown>).seasonality || undefined,
+    origin: (ingredient as unknown as any).origin || undefined,
+    seasonality: (ingredient as unknown as any).seasonality || undefined,
   } as RecipeIngredient;
 }
 

@@ -231,7 +231,7 @@ export class RecipeRecommender {
     let total = 0;
 
     Object.keys(targetElements).forEach(element => {
-      const key = element as keyof ElementalProperties;
+      const key = element as any;
       const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0));
       alignment += 1 - diff;
       total += 1;

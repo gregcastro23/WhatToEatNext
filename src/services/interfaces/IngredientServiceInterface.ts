@@ -79,7 +79,7 @@ export interface IngredientFilter {
   categories?: string[];
   searchQuery?: string;
   excludeIngredients?: string[];
-  currentZodiacSign?: ZodiacSign;
+  currentZodiacSign?: any;
   planetaryInfluence?: PlanetName;
 }
 
@@ -193,7 +193,7 @@ export interface IngredientServiceInterface {
    * @param sign The zodiac sign
    * @returns An array of ingredients associated with that sign
    */
-  getIngredientsByZodiacSign(sign: ZodiacSign): UnifiedIngredient[];
+  getIngredientsByZodiacSign(sign: any): UnifiedIngredient[];
 
   /**
    * Get recommended ingredients based on the current alchemical state

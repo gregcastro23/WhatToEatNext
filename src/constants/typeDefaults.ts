@@ -146,7 +146,7 @@ export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
  * Default Zodiac Sign
  * Fallback zodiac sign (first sign of the zodiac)
  */
-export const DefaultZodiacSign: ZodiacSignType = 'aries' as const;
+export const DefaultZodiacSign: anyType = 'aries' as const;
 
 /**
  * Default Lunar Phase
@@ -294,8 +294,8 @@ export const createSafeThermodynamicMetrics = (
  * Validate Zodiac Sign
  * Ensures the provided string is a valid zodiac sign
  */
-export const validateZodiacSign = (sign: string): ZodiacSignType => {
-  const validSigns: ZodiacSignType[] = [
+export const validateZodiacSign = (sign: string): anyType => {
+  const validSigns: anyType[] = [
     'aries',
     'taurus',
     'gemini',
@@ -310,7 +310,7 @@ export const validateZodiacSign = (sign: string): ZodiacSignType => {
     'pisces',
   ];
 
-  const normalizedSign = sign.toLowerCase() as ZodiacSignType;
+  const normalizedSign = sign.toLowerCase() as anyType;
   return validSigns.includes(normalizedSign) ? normalizedSign : DefaultZodiacSign;
 };
 

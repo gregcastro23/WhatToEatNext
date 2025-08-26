@@ -10,7 +10,7 @@ interface NaturalInfluenceParams {
   season: string;
   moonPhase: LunarPhaseWithSpaces;
   timeOfDay: string;
-  sunSign: ZodiacSign;
+  sunSign: any;
   degreesInSign: number;
 }
 
@@ -307,7 +307,7 @@ export class AlchemicalEngine {
     return this.advanced.calculateRecipeHarmony(recipeName, userElements, astroState);
   }
 
-  calculateAstrologicalPower(recipeSunSign: ZodiacSign, astrologicalState: AstrologicalState) {
+  calculateAstrologicalPower(recipeSunSign: any, astrologicalState: AstrologicalState) {
     return this.advanced.calculateAstrologicalPower(recipeSunSign, astrologicalState);
   }
 

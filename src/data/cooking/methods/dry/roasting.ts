@@ -39,8 +39,8 @@ export const roasting: CookingMethodData = {
     'creates appetizing aromas',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
-    unfavorableZodiac: ['pisces', 'cancer', 'scorpio'] as ZodiacSign[],
+    favorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
+    unfavorableZodiac: ['pisces', 'cancer', 'scorpio'] as any[],
     dominantPlanets: ['Sun', 'Mars', 'Jupiter'],
     lunarPhaseEffect: {
       full_moon: 1.1, // Slight enhancement
@@ -235,7 +235,7 @@ export const roasting: CookingMethodData = {
     heat: 0.75, // High heat application
     entropy: 0.6, // Moderate-high structural transformations
     reactivity: 0.8, // High chemical reactivity (significant Maillard)
-    gregsEnergy: 0.75 - 0.6 * 0.8, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.550 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

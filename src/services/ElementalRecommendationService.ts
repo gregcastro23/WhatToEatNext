@@ -16,7 +16,7 @@ export class ElementalRecommendationService {
     const dominantElement = this.getDominantElement(properties);
 
     // Fix TS2339: Property access on service object using safe type casting
-    const utilsService = elementalUtils as Record<string, unknown>;
+    const utilsService = elementalUtils as any;
 
     return {
       elementalBalance: properties,
@@ -37,13 +37,13 @@ export class ElementalRecommendationService {
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
-        const characteristics = profile.characteristics as unknown as Record<string, unknown>;
+        const characteristics = profile.characteristics as unknown as any;
         return Array.isArray(characteristics.moodEffects)
           ? (characteristics.moodEffects as string[])
           : [];
       })(),
       culinaryHerbs: (() => {
-        const characteristics = profile.characteristics as unknown as Record<string, unknown>;
+        const characteristics = profile.characteristics as unknown as any;
         return Array.isArray(characteristics.culinaryHerbs)
           ? (characteristics.culinaryHerbs as string[])
           : [];
@@ -56,7 +56,7 @@ export class ElementalRecommendationService {
    * @param zodiacSign The zodiac sign to generate recommendations for
    * @returns A recommendation tailored to the zodiac sign
    */
-  public static generateZodiacRecommendation(zodiacSign: ZodiacSign): ElementalRecommendation {
+  public static generateZodiacRecommendation(zodiacSign: any): ElementalRecommendation {
     const element = ZODIAC_ELEMENTS[zodiacSign];
     const properties = {
       Fire: element === 'Fire' ? 0.6 : 0.1,

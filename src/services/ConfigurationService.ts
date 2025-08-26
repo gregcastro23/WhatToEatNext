@@ -90,8 +90,8 @@ class ConfigurationServiceImpl {
    * Merge stored configuration with current defaults
    */
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
-    const storedApi = (stored.api as Record<string, unknown>) || {};
-    const storedAstrology = (stored.astrology as Record<string, unknown>) || {};
+    const storedApi = (stored.api as any) || {};
+    const storedAstrology = (stored.astrology as any) || {};
     const celestialUpdateInterval = Number(storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval);
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
     const retryCount = Number(storedApi.retryCount ?? config.api.retryCount);
@@ -220,9 +220,9 @@ class ConfigurationServiceImpl {
 
         // Update global config if it's a live system
         if (section === 'api') {
-          (config.api as unknown as Record<string, unknown>)[key] = value;
+          (config.api as unknown as any)[key] = value;
         } else if (section === 'astrology') {
-          (config.astrology as unknown as Record<string, unknown>)[key] = value;
+          (config.astrology as unknown as any)[key] = value;
         } else if (section === 'debug' && key === 'debug') {
           config.debug = Boolean(value);
         }

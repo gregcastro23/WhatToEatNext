@@ -373,7 +373,7 @@ import React, { Component } from 'undefined';
       execSync.mockImplementation((command: string) => {
         if (command.includes('yarn tsc --noEmit')) {
           const error = new Error('TypeScript compilation failed');
-          (error as unknown).stdout = 'Unexpected token at line 5';
+          (error as any).stdout = 'Unexpected token at line 5';
           throw error;
         }
         return '';

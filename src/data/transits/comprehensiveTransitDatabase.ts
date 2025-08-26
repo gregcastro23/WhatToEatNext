@@ -15,7 +15,7 @@ export interface TransitSeason {
   name: string;
   startDate: Date;
   endDate: Date;
-  sunSign: ZodiacSign;
+  sunSign: any;
   dominantElements: Record<string, number>;
   keyAspects: PlanetaryAspect[];
   planetaryPlacements: Record<string, CelestialPosition>;

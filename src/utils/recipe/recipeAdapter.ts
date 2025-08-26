@@ -23,7 +23,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
-    elementalProperties: ((recipeData as unknown as Record<string, unknown>)
+    elementalProperties: ((recipeData as unknown as any)
       .elementalState as ElementalProperties) || {
       Fire: 0.25,
       Water: 0.25,
@@ -46,7 +46,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle time-related properties
-  const recipeDataAny = recipeData as unknown as Record<string, unknown>;
+  const recipeDataAny = recipeData as unknown as any;
   if (recipeDataAny.timeToMake !== undefined) {
     recipe.timeToMake = String(recipeDataAny.timeToMake);
   }
@@ -61,11 +61,11 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.elementalState = recipeDataAny.elementalState as ElementalProperties;
   } else {
     // Create default elemental properties
-    recipe.elementalState = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+    recipe.elementalState = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
   }
 
   // Handle season
-  const energyProfile = recipeDataAny.energyProfile as Record<string, unknown>;
+  const energyProfile = recipeDataAny.energyProfile as any;
     if (energyProfile && energyProfile.season) {
       const seasonVal = Array.isArray(energyProfile.season)
         ? String((energyProfile.season as unknown[])[0] ?? '')
@@ -150,9 +150,9 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle nutrition information
   if (recipeData.nutrition) {
-    const nutritionData = recipeData.nutrition as Record<string, unknown>;
-    const macronutrients = (nutritionData.macronutrients as Record<string, unknown>) || {};
-    const micronutrients = (nutritionData.micronutrients as Record<string, unknown>) || {};
+    const nutritionData = recipeData.nutrition as any;
+    const macronutrients = (nutritionData.macronutrients as any) || {};
+    const micronutrients = (nutritionData.micronutrients as any) || {};
     recipe.nutrition = {
       calories: Number(nutritionData.calories) || 0,
       protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
@@ -287,12 +287,12 @@ export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
  * @returns ElementalProperties object
  */
 export function extractElementalProperties(recipeData: RecipeData): ElementalProperties {
-  const recipeDataAny = recipeData as unknown as Record<string, unknown>;
+  const recipeDataAny = recipeData as unknown as any;
   if (recipeDataAny.elementalState) {
     return recipeDataAny.elementalState as ElementalProperties;
   }
 
-  return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+  return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 }
 
 /**
@@ -350,7 +350,7 @@ export function createMinimalRecipe(name: string): Recipe {
     id: `minimal-recipe-${Date.now()}`,
     name,
     ingredients: [],
-    elementalProperties: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+    elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
     instructions: [], // ← Pattern GG-4: Added missing instructions property
   };
 }

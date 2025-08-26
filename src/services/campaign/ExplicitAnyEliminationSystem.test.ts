@@ -98,7 +98,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 ✅ Build validation passed
       `.trim();
 
-      const parseMethod = (system as unknown).parseFixerOutput.bind(system);
+      const parseMethod = (system as any).parseFixerOutput.bind(system);
       const result = parseMethod(mockOutput, true);
 
       expect(result.success).toBe(true);
@@ -113,7 +113,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 ⚠️ Warning: Build validation recommended
       `.trim();
 
-      const parseMethod = (system as unknown).parseFixerOutput.bind(system);
+      const parseMethod = (system as any).parseFixerOutput.bind(system);
       const result = parseMethod(mockOutput, false);
 
       expect(result.warnings).toHaveLength(2);
@@ -138,7 +138,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.readFile = jest.fn().mockResolvedValue(JSON.stringify(mockProgress));
       mockExecSync.mockReturnValue('400\n'); // Current count
 
-      const loadMethod = (system as unknown).loadCampaignProgress.bind(system);
+      const loadMethod = (system as any).loadCampaignProgress.bind(system);
       const progress = await loadMethod();
 
       expect(progress.totalExplicitAnyStart).toBe(1000);
@@ -150,7 +150,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('800\n'); // Current count
 
-      const loadMethod = (system as unknown).loadCampaignProgress.bind(system);
+      const loadMethod = (system as any).loadCampaignProgress.bind(system);
       const progress = await loadMethod();
 
       expect(progress.totalExplicitAnyStart).toBe(800);
@@ -178,7 +178,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.writeFile = jest.fn().mockResolvedValue(undefined);
       mockExecSync.mockReturnValue('500\n'); // New current count
 
-      const updateMethod = (system as unknown).updateCampaignProgress.bind(system);
+      const updateMethod = (system as any).updateCampaignProgress.bind(system);
       await updateMethod(100);
 
       expect(mockFs.promises.writeFile).toHaveBeenCalled();

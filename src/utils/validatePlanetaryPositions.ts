@@ -42,8 +42,8 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
 /**
  * Converts a string like "Taurus" to lowercase "taurus" to match ZodiacSign type
  */
-const normalizeZodiacSign = (sign: string): ZodiacSign => {
-  return sign.toLowerCase() as ZodiacSign;
+const normalizeZodiacSign = (sign: string): any => {
+  return sign.toLowerCase() as any;
 };
 
 /**
@@ -52,7 +52,7 @@ const normalizeZodiacSign = (sign: string): ZodiacSign => {
  * @param date Current date (defaults to now)
  * @returns Zodiac sign or null if no match found
  */
-export function getCurrentTransitSign(planet: string, date: Date = new Date()): ZodiacSign | null {
+export function getCurrentTransitSign(planet: string, date: Date = new Date()): any | null {
   const planetData = planetDataMap[planet];
   if (!planetData || !planetData.PlanetSpecific) return null;
 
@@ -113,8 +113,8 @@ export function validatePlanetaryPositions(
 /**
  * Gets the base longitude value for a sign (0 for Aries, 30 for Taurus, etc.)
  */
-function getBaseSignLongitude(sign: ZodiacSign): number {
-  const signs: ZodiacSign[] = [
+function getBaseSignLongitude(sign: any): number {
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -142,7 +142,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   const positions: Record<string, PlanetPosition> = {};
 
   // Current planetary positions (May 16, 2024) from user input
-  const hardcodedPositions: Record<string, { sign: ZodiacSign; degree: number; minute: number }> = {
+  const hardcodedPositions: Record<string, { sign: any; degree: number; minute: number }> = {
     Sun: { sign: 'taurus', degree: 27, minute: 12 },
     Moon: { sign: 'capricorn', degree: 25, minute: 36 },
     Mercury: { sign: 'taurus', degree: 13, minute: 17 },

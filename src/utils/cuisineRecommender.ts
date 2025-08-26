@@ -166,8 +166,8 @@ export function getCuisineRecommendations(
   const scoredCuisines = cuisines.map(cuisine => {
     // Elemental Match Score (40% weight) - use default values if properties don't exist
     const elementalMatch = calculateElementalMatch(
-      ((cuisine as Record<string, unknown>).elementalAlignment ||
-        (cuisine as Record<string, unknown>).elementalProperties || {
+      ((cuisine as any).elementalAlignment ||
+        (cuisine as any).elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -181,7 +181,7 @@ export function getCuisineRecommendations(
 
     if (astrologicalState) {
       // Zodiac Match Score (30% weight) - safe property access
-      const zodiacInfluences = (cuisine as Record<string, unknown>).zodiacInfluences;
+      const zodiacInfluences = (cuisine as any).zodiacInfluences;
       if (
         astrologicalState.zodiacSign &&
         (zodiacInfluences as string[]).includes(astrologicalState.zodiacSign as string)
@@ -191,7 +191,7 @@ export function getCuisineRecommendations(
       }
 
       // Lunar Phase Match Score (20% weight) - safe property access
-      const lunarPhaseInfluences = (cuisine as Record<string, unknown>).lunarPhaseInfluences;
+      const lunarPhaseInfluences = (cuisine as any).lunarPhaseInfluences;
       if (
         astrologicalState.lunarPhase &&
         (lunarPhaseInfluences as string[]).includes(astrologicalState.lunarPhase as string)
@@ -201,7 +201,7 @@ export function getCuisineRecommendations(
       }
 
       // Planetary Influence Score (10% weight) - safe property access
-      const planetaryRulers = (cuisine as Record<string, unknown>).planetaryRulers;
+      const planetaryRulers = (cuisine as any).planetaryRulers;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
         const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce(
           (acc, [planet]) => {
@@ -233,7 +233,7 @@ export function getCuisineRecommendations(
   // Filter out regional variants if not requested - safe property access
   const filteredCuisines = includeRegional
     ? scoredCuisines
-    : scoredCuisines.filter(c => !(c as unknown as Record<string, unknown>).parentCuisine);
+    : scoredCuisines.filter(c => !(c as unknown as any).parentCuisine);
 
   return filteredCuisines.sort((a, b) => b.score - a.score).slice(0, count);
 }

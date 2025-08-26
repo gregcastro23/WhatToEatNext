@@ -28,7 +28,7 @@ export const normalizeElementalProperties = (
 
   // Normalize each value
   return Object.entries(properties).reduce((acc, [key, value]) => {
-    acc[key as keyof ElementalProperties] = value / sum;
+    acc[key as any] = value / sum;
     return acc;
   }, {} as ElementalProperties);
 };
@@ -43,7 +43,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   const hasAllElements = requiredElements.every(
-    element => typeof properties[element as keyof ElementalProperties] === 'number',
+    element => typeof properties[element as any] === 'number',
   );
 
   if (!hasAllElements) return false;

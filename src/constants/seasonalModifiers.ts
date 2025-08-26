@@ -47,7 +47,7 @@ function createElementalModifiersForZodiac(dominantElement: string): ElementalPr
 // Build the modifiers for each zodiac sign
 export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSeasons).reduce(
   (acc, [sign, data]) => {
-    acc[sign as ZodiacSign] = createElementalModifiersForZodiac(data.element);
+    acc[sign as any] = createElementalModifiersForZodiac(data.element);
     return acc;
   },
   {} as ZodiacElementModifiers,

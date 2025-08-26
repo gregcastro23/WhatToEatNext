@@ -2,22 +2,39 @@ import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type {
   ElementalProperties,
   Element,
-  _,
-  _,
   Season,
 } from '@/types/alchemy';
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 
-import {
-  // ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====
-  // Adds alchemical enhancements to existing cuisine recipes
-  // WITHOUT removing any data - purely additive system
+// ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====
+// Adds alchemical enhancements to existing cuisine recipes
+// WITHOUT removing any data - purely additive system
 
-  _,
-  _,
-  _,
-} from './alchemicalCalculations.js';
+// Alchemical calculations will be imported as needed
 import { unifiedIngredients } from './ingredients';
+
+// Type guards for safe property access
+function isValidObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function hasProperty<T extends string>(
+  obj: unknown,
+  prop: T
+): obj is Record<T, unknown> {
+  return isValidObject(obj) && prop in obj;
+}
+
+// Type guard for ingredient-like objects
+interface IngredientLike {
+  name?: string;
+  element?: string;
+  [key: string]: unknown;
+}
+
+function isIngredientLike(value: unknown): value is IngredientLike {
+  return isValidObject(value);
+}
 
 // Enhanced recipe interface that extends existing recipe structure
 export interface EnhancedRecipe {
@@ -136,10 +153,19 @@ export class RecipeEnhancer {
 
     let totalKalchm = 0;
     let matchedIngredients = 0;
-    const breakdown: unknown[] = [];
+    const breakdown: Array<{
+      name: string;
+      kalchm: number;
+      contribution: number;
+      elementalContribution: ElementalProperties;
+    }> = [];
 
     for (const ingredient of ingredients) {
-      const ingredientName = ingredient.name?.toLowerCase();
+      if (!isIngredientLike(ingredient)) continue;
+      
+      const ingredientName = hasProperty(ingredient, 'name') && typeof ingredient.name === 'string' 
+        ? ingredient.name.toLowerCase() 
+        : undefined;
       let kalchm = 1.0; // Default Kalchm
       let elementalContribution: ElementalProperties = {
         Fire: 0.25,
@@ -149,22 +175,31 @@ export class RecipeEnhancer {
       };
 
       // Try to find ingredient in unified ingredients
-      const unifiedIngredient = this.findUnifiedIngredient(ingredientName);
+      const unifiedIngredient = ingredientName ? this.findUnifiedIngredient(ingredientName) : null;
       if (unifiedIngredient) {
         kalchm = unifiedIngredient.kalchm ?? 1.0;
-        elementalContribution = unifiedIngredient.elementalState;
+        const elementalState = unifiedIngredient.elementalState;
+        if (elementalState && typeof elementalState === 'object') {
+          elementalContribution = elementalState as ElementalProperties;
+        }
         matchedIngredients++;
       } else {
         // Fallback: derive from element if available
-        if (ingredient.element) {
-          elementalContribution = this.elementToElementalProperties(ingredient.element);
-          kalchm = this.estimateKalchmFromElement(ingredient.element);
+        const elementValue = hasProperty(ingredient, 'element') && typeof ingredient.element === 'string'
+          ? ingredient.element
+          : null;
+        if (elementValue) {
+          elementalContribution = this.elementToElementalProperties(elementValue as Element);
+          kalchm = this.estimateKalchmFromElement(elementValue as Element);
         }
       }
 
       totalKalchm += kalchm;
+      const ingredientDisplayName = hasProperty(ingredient, 'name') && typeof ingredient.name === 'string'
+        ? ingredient.name
+        : 'unknown ingredient';
       breakdown.push({
-        name: ingredient.name,
+        name: ingredientDisplayName,
         kalchm,
         contribution: kalchm / (ingredients || []).length,
         elementalContribution,
@@ -242,8 +277,14 @@ export class RecipeEnhancer {
       totalAir = 0;
 
     for (const item of breakdown) {
-      const contribution = item.elementalContribution;
-      const weight = item.contribution;
+      if (!isValidObject(item)) continue;
+      
+      const contribution = hasProperty(item, 'elementalContribution') 
+        ? item.elementalContribution as ElementalProperties
+        : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const weight = hasProperty(item, 'contribution') && typeof item.contribution === 'number'
+        ? item.contribution 
+        : 0;
 
       totalFire += contribution.Fire * weight;
       totalWater += contribution.Water * weight;
@@ -352,7 +393,12 @@ export class RecipeEnhancer {
     monica: number | null,
   ): string[] {
     const recommendations: string[] = [];
-    const { heat, entropy, reactivity } = thermodynamics;
+    
+    // Safe access to thermodynamics properties
+    const thermo = isValidObject(thermodynamics) ? thermodynamics : {};
+    const heat = hasProperty(thermo, 'heat') && typeof thermo.heat === 'number' ? thermo.heat : 0;
+    const entropy = hasProperty(thermo, 'entropy') && typeof thermo.entropy === 'number' ? thermo.entropy : 0;
+    const reactivity = hasProperty(thermo, 'reactivity') && typeof thermo.reactivity === 'number' ? thermo.reactivity : 0;
 
     // Heat-based recommendations
     if (heat > 0.7) {

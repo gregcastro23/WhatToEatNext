@@ -175,7 +175,7 @@ export class QualityAssuranceDashboard {
       const overallQualityScore = Math.round(
         (unusedVariableReduction * 0.4) +
         (buildStabilityScore * 0.3) +
-        (validationStats.averageQualityScore * 0.2) +
+        (((validationStats as any)?.averageQualityScore || 0) * 0.2) +
         (serviceIntegrityScore * 0.1)
       );
 

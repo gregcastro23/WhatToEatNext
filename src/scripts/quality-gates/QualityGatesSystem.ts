@@ -672,15 +672,15 @@ node src/scripts/quality-gates/QualityGatesSystem.ts education
 CURRENT_COUNT=$(yarn lint --format=compact 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | wc -l)
 BASELINE_COUNT=275
 
-if [ "$CURRENT_COUNT" -gt 300 ]; then
-  echo "❌ CRITICAL: Explicit any count ($CURRENT_COUNT) exceeds critical threshold (300)"
+if [ "CURRENT_COUNT" -gt 300 ]; then
+  echo "❌ CRITICAL: Explicit any count (CURRENT_COUNT) exceeds critical threshold (300)"
   echo "Triggering emergency any elimination campaign..."
   node src/scripts/unintentional-any-elimination/execute-full-campaign.cjs --emergency
-elif [ "$CURRENT_COUNT" -gt 280 ]; then
-  echo "⚠️ WARNING: Explicit any count ($CURRENT_COUNT) exceeds warning threshold (280)"
+elif [ "CURRENT_COUNT" -gt 280 ]; then
+  echo "⚠️ WARNING: Explicit any count (CURRENT_COUNT) exceeds warning threshold (280)"
   echo "Consider running any elimination campaign"
 else
-  echo "✅ Explicit any count ($CURRENT_COUNT) within acceptable range"
+  echo "✅ Explicit any count (CURRENT_COUNT) within acceptable range"
 fi
 
 echo "📊 Audit completed at $(date)"

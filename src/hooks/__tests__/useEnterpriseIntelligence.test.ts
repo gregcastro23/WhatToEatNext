@@ -43,7 +43,7 @@ describe('useEnterpriseIntelligence', () => {
   };
 
   const mockAstrologicalContext = {
-    zodiacSign: 'aries' as ZodiacSign,
+    zodiacSign: 'aries' as any,
     lunarPhase: 'new moon' as LunarPhase,
     elementalProperties: {
       Fire: 0.4,

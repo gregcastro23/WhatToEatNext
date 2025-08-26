@@ -62,7 +62,7 @@ export function createZodiacAffinity(affinities: Partial<ZodiacAffinity>): Zodia
  * Get the modality compatibility score between two zodiac signs
  * Signs of the same modality have the highest compatibility
  */
-export function getModalityCompatibility(sign1: ZodiacSign, sign2: ZodiacSign): number {
+export function getModalityCompatibility(sign1: any, sign2: any): number {
   const modality1 = ZODIAC_MODALITIES[sign1];
   const modality2 = ZODIAC_MODALITIES[sign2];
 
@@ -83,7 +83,7 @@ export function getModalityCompatibility(sign1: ZodiacSign, sign2: ZodiacSign): 
 /**
  * Calculates affinity between two zodiac signs based on both element and modality compatibility
  */
-export function getZodiacCompatibility(sign1: ZodiacSign, sign2: ZodiacSign): number {
+export function getZodiacCompatibility(sign1: any, sign2: any): number {
   const elementMap: Record<ZodiacSign, 'fire' | 'earth' | 'air' | 'water'> = {
     aries: 'fire',
     leo: 'fire',

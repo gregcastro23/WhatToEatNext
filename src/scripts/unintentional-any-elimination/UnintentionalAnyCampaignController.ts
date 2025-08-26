@@ -263,7 +263,7 @@ class UnintentionalAnyCampaignController {
         isIntentional: false,
         confidence: 0.8,
         category: AnyTypeCategory.RECORD_TYPE,
-        suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<$1, unknown>'),
+        suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<1, unknown>'),
         requiresDocumentation: false,
         reasoning: 'Record type can likely be replaced with unknown'
       };
@@ -278,7 +278,7 @@ class UnintentionalAnyCampaignController {
         isIntentional: false,
         confidence: 0.75,
         category: AnyTypeCategory.VARIABLE_DECLARATION,
-        suggestedReplacement: codeSnippet.replace(/(\b(?:const|let|var)\s+\w+\s*:\s*)any(\s*=)/g, '$1unknown$2'),
+        suggestedReplacement: codeSnippet.replace(/(\b(?:const|let|var)\s+\w+\s*:\s*)any(\s*=)/g, '1unknown2'),
         requiresDocumentation: false,
         reasoning: 'Variable declaration can likely use unknown instead of any'
       };

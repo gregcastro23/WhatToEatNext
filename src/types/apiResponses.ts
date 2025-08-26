@@ -236,7 +236,7 @@ export interface StandardizedPlanetaryPosition {
   /**
    * Zodiac sign (e.g., 'aries', 'taurus')
    */
-  sign: ZodiacSignType;
+  sign: anyType;
 
   /**
    * Degree within the sign (0-29)

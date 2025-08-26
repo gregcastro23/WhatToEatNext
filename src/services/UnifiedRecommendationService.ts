@@ -61,7 +61,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0;
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as Record<string, unknown>;
+      const criteriaData = criteria as any;
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
 
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -173,7 +173,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0;
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as Record<string, unknown>;
+      const criteriaData = criteria as any;
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
 
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -197,7 +197,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for planetary ruler match
       if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
-        const planets = (ingredient.astrologicalProperties as Record<string, unknown>)?.planets;
+        const planets = (ingredient.astrologicalProperties as any)?.planets;
         const planetMatch = Array.isArray(planets)
           ? planets.includes(
               criteria.planetaryRuler as unknown as Record<string, Record<string, string>>,
@@ -321,7 +321,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as Record<string, unknown>;
+      const criteriaData = criteria as any;
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
 
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -439,7 +439,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as Record<string, unknown>;
+      const criteriaData = criteria as any;
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
 
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -473,7 +473,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedMethods || []).forEach(item => {
-      const methodData = item.method as unknown as Record<string, unknown>;
+      const methodData = item.method as unknown as any;
       const methodId = String(methodData.name || 'unknown');
       scores[methodId] = item.score;
     });
@@ -497,7 +497,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     target: ElementalProperties,
   ): number {
     // Apply Pattern PP-1: Safe service method access
-    const alchemicalEngineData = alchemicalEngine as unknown as Record<string, unknown>;
+    const alchemicalEngineData = alchemicalEngine as unknown as any;
     if (typeof alchemicalEngineData.calculateElementalCompatibility === 'function') {
       return (
         alchemicalEngineData.calculateElementalCompatibility as (

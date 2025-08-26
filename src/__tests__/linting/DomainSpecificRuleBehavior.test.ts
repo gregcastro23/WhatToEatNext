@@ -418,10 +418,10 @@ describe('Domain-Specific Rule Behavior', () => {
         const elemProps = elementalProperties as Record<string, number>;
         const baseInfluence = planetPos.degree / 30;
         const elementalModifier =
-          elemProps.Fire * 0.8 +
-          elemProps.Water * 0.6 +
-          elemProps.Earth * 0.7 +
-          elemProps.Air * 0.9;
+          ((elemProps as any)?.Fire || 0) * 0.2 +
+          ((elemProps as any)?.Water || 0) * 0.2 +
+          ((elemProps as any)?.Earth || 0) * 0.2 +
+          ((elemProps as any)?.Air || 0) * 0.2;
         const transitModifier = transitDates ? 1.1 : 0.9;
 
         return Math.min(1.0, baseInfluence * elementalModifier * transitModifier);
@@ -496,7 +496,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
       malformedData.forEach(data => {
         expect(() => {
-          const result = validatePlanetaryPositions(data as unknown);
+          const result = validatePlanetaryPositions(data as any);
           expect(result).toBeDefined();
           expect(typeof result.isValid).toBe('boolean');
         }).not.toThrow();

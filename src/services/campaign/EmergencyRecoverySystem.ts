@@ -96,7 +96,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.log('✅ Emergency rollback completed successfully');
       return validationResult;
     } catch (error) {
-      const errorMessage = `Emergency rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`;
+      const errorMessage = `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`;
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
@@ -158,7 +158,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.log(`✅ Successfully rolled back to commit: ${commitHash}`);
       return validationResult;
     } catch (error) {
-      const errorMessage = `Commit rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`;
+      const errorMessage = `Commit rollback failed: ${(error as any).message || 'Unknown error'}`;
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
@@ -259,7 +259,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
       return result;
     } catch (error) {
-      const errorMessage = `Nuclear reset failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`;
+      const errorMessage = `Nuclear reset failed: ${(error as any).message || 'Unknown error'}`;
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
@@ -344,7 +344,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
           execSync(`git branch -D ${tempBranch}`, { encoding: 'utf8', stdio: 'pipe' });
         } catch (cleanupError) {
           console.warn(
-            `⚠️ Cleanup warning: ${(cleanupError as Record<string, unknown>).message || 'Unknown error'}`,
+            `⚠️ Cleanup warning: ${(cleanupError as any).message || 'Unknown error'}`,
           );
         }
         throw error;
@@ -363,7 +363,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.log(`✅ Selective recovery completed for ${targets.length} targets`);
       return validationResult;
     } catch (error) {
-      const errorMessage = `Selective recovery failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`;
+      const errorMessage = `Selective recovery failed: ${(error as any).message || 'Unknown error'}`;
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
@@ -422,7 +422,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         console.log('✅ Build validation passed');
       } catch (buildError) {
         result.errors.push(
-          `Build validation failed: ${(buildError as Record<string, unknown>).message || 'Unknown error'}`,
+          `Build validation failed: ${(buildError as any).message || 'Unknown error'}`,
         );
         result.buildValidation = false;
         console.error('❌ Build validation failed');
@@ -440,7 +440,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         console.log('✅ Test validation passed');
       } catch (testError) {
         result.warnings.push(
-          `Test validation warning: ${(testError as Record<string, unknown>).message || 'Unknown error'}`,
+          `Test validation warning: ${(testError as any).message || 'Unknown error'}`,
         );
         result.testValidation = false;
         console.warn('⚠️ Test validation had issues');
@@ -478,11 +478,11 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     } catch (error) {
       result.success = false;
       result.errors.push(
-        `Recovery validation error: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Recovery validation error: ${(error as any).message || 'Unknown error'}`,
       );
 
       console.error(
-        `❌ Recovery validation error: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `❌ Recovery validation error: ${(error as any).message || 'Unknown error'}`,
       );
       return result;
     }
@@ -652,7 +652,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         clearedCount = stashes.length;
       } catch (error) {
         console.warn(
-          `⚠️ Could not clear git stashes: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          `⚠️ Could not clear git stashes: ${(error as any).message || 'Unknown error'}`,
         );
       }
 

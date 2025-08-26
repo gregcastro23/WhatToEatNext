@@ -157,14 +157,14 @@ export class ErrorTrackingEnterpriseSystem {
 
     // Calculate metrics
     const metrics = this.calculateMetrics(
-      analysisResult as unknown as Record<string, unknown>,
+      analysisResult as unknown as any,
       currentErrorCount,
     );
 
     // Update patterns
     this.updateErrorPatterns(
       ((
-        (analysisResult as unknown as Record<string, unknown>)?.distribution as Record<
+        (analysisResult as unknown as any)?.distribution as Record<
           string,
           unknown
         >
@@ -176,7 +176,7 @@ export class ErrorTrackingEnterpriseSystem {
 
     // Generate intelligent recommendations
     const recommendations = this.generateIntelligentRecommendations(
-      analysisResult as unknown as Record<string, unknown>,
+      analysisResult as unknown as any,
       metrics,
       trends,
     );
@@ -431,7 +431,7 @@ export class ErrorTrackingEnterpriseSystem {
         priority: trend.changeRate > 0.5 ? 'high' : 'medium',
         category: trend.category,
         description: `Urgent: ${trend.category} errors trending upward (+${(trend.changeRate * 100).toFixed(1)}%)`,
-        estimatedImpact: Math.round(trend.predictedCount * 0.8),
+        estimatedImpact: Math.round(((trend as any)?.predictedCount || 0) * 0.2),
         automationPossible: this.calculateAutomationPotential(trend.category) > 0.7,
         timeEstimate: trend.predictedCount * 2,
         dependencies: [],
@@ -446,7 +446,7 @@ export class ErrorTrackingEnterpriseSystem {
         priority: 'critical',
         category: ErrorCategory.OTHER,
         description: 'Critical: Build stability below threshold - implement immediate fixes',
-        estimatedImpact: Math.round(metrics.totalErrors * 0.3),
+        estimatedImpact: Math.round(((metrics as any)?.totalErrors || 0) * 0.2),
         automationPossible: false,
         timeEstimate: 60,
         dependencies: ['build_validation', 'error_analysis'],
@@ -461,7 +461,7 @@ export class ErrorTrackingEnterpriseSystem {
         priority: 'medium',
         category: ErrorCategory.OTHER,
         description: 'Optimize error fixing velocity - consider batch processing',
-        estimatedImpact: Math.round(metrics.totalErrors * 0.2),
+        estimatedImpact: Math.round(((metrics as any)?.totalErrors || 0) * 0.2),
         automationPossible: true,
         timeEstimate: 30,
         dependencies: ['batch_processing', 'automation_tools'],
@@ -675,10 +675,10 @@ export class ErrorTrackingEnterpriseSystem {
     qualityGateStatus: 'passing' | 'failing' | 'warning',
   ): 'excellent' | 'good' | 'fair' | 'poor' {
     const healthScore =
-      metrics.errorReductionRate * 0.3 +
-      metrics.buildStabilityScore * 0.3 +
-      metrics.automationEfficiency * 0.2 +
-      metrics.patternRecognitionAccuracy * 0.2;
+      ((metrics as any)?.errorReductionRate || 0) * 0.2 +
+      ((metrics as any)?.buildStabilityScore || 0) * 0.2 +
+      ((metrics as any)?.automationEfficiency || 0) * 0.2 +
+      ((metrics as any)?.patternRecognitionAccuracy || 0) * 0.2;
 
     if (qualityGateStatus === 'failing') return 'poor';
     if (healthScore >= 0.9) return 'excellent';

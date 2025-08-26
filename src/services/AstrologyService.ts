@@ -232,7 +232,7 @@ export class AstrologyService {
   }
 
   // Mock calculation methods - these would contain real implementations in practice
-  private calculateZodiacSign(date: Date): ZodiacSign {
+  private calculateZodiacSign(date: Date): any {
     const month = date.getMonth();
     const day = date.getDate();
 

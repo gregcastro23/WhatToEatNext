@@ -185,7 +185,7 @@ interface FlavorProperties {
 // Type guard for FlavorProperties
 function hasFlavorProperties(obj: unknown): obj is FlavorProperties {
   if (!obj || typeof obj !== 'object') return false;
-  const objRecord = obj as Record<string, unknown>;
+  const objRecord = obj as any;
   return (
     (typeof objRecord.bitter === 'number' || objRecord.bitter === undefined) &&
     (typeof objRecord.sweet === 'number' || objRecord.sweet === undefined) &&
@@ -403,7 +403,7 @@ export const getIngredientsFromCategories = async (
         ({
           name,
           category: categoryName,
-          ...(data as Record<string, unknown>),
+          ...(data as any),
         }) as EnhancedIngredient,
     );
 
@@ -484,11 +484,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
 
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as Record<string, unknown>).category === 'egg')
+    .filter(([_, value]) => (value as any).category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as Record<string, unknown>).category === 'dairy')
+    .filter(([_, value]) => (value as any).category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
   // Define all categories with loaded data
@@ -517,7 +517,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...(data as Record<string, unknown>),
+        ...(data as any),
       } as EnhancedIngredient;
 
       // Special categorization for grains and herbs
@@ -558,7 +558,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   const validIngredients = allIngredients.filter(
     ing =>
       ing.astrologicalProfile &&
-      (ing.astrologicalProfile.elementalAffinity as unknown as Record<string, unknown>).base &&
+      (ing.astrologicalProfile.elementalAffinity as unknown as any).base &&
       ing.astrologicalProfile.rulingPlanets,
   );
 
@@ -641,9 +641,9 @@ export async function getRecommendedIngredients(
   if (astroState.dominantElement) {
     filteredIngredients.sort((a, b) => {
       const aValue =
-        a.elementalProperties[astroState.dominantElement as keyof ElementalProperties] || 0;
+        a.elementalProperties[astroState.dominantElement as any] || 0;
       const bValue =
-        b.elementalProperties[astroState.dominantElement as keyof ElementalProperties] || 0;
+        b.elementalProperties[astroState.dominantElement as any] || 0;
       return bValue - aValue;
     });
   }
@@ -843,7 +843,7 @@ function calculateElementalScore(
   let totalWeight = 0;
 
   Object.entries(ingredientProps).forEach(([element, value]) => {
-    const systemValue = systemProps[element as keyof ElementalProperties] || 0;
+    const systemValue = systemProps[element as any] || 0;
     const weight = systemValue;
     // Higher compatibility for similar values (following elemental principles)
     const compatibility = 1 - Math.abs((Number(value) || 0) - (Number(systemValue) || 0));
@@ -866,7 +866,7 @@ async function calculateSeasonalScore(ingredient: Ingredient, date: Date): Promi
           ? 'autumn'
           : 'winter';
 
-  const ingredientData = ingredient as unknown as Record<string, unknown>;
+  const ingredientData = ingredient as unknown as any;
   if (ingredientData.season && Array.isArray(ingredientData.season)) {
     return (ingredientData.season as string[]).includes(season) ? 0.9 : 0.4;
   }
@@ -897,7 +897,7 @@ async function calculateModalityScore(
     );
   }
 
-  return Math.min(1, 0.5 + matches.length * 0.2);
+  return Math.min(1, 0.5 + ((matches as any)?.length || 0) * 0.2);
 }
 
 function calculateUnifiedFlavorScore(
@@ -991,10 +991,10 @@ function _isElementalProperties(obj: unknown): obj is ElementalProperties {
   return Boolean(
     obj &&
       typeof obj === 'object' &&
-      typeof (obj as Record<string, unknown>).Fire === 'number' &&
-      typeof (obj as Record<string, unknown>).Water === 'number' &&
-      typeof (obj as Record<string, unknown>).Earth === 'number' &&
-      typeof (obj as Record<string, unknown>).Air === 'number',
+      typeof (obj as any).Fire === 'number' &&
+      typeof (obj as any).Water === 'number' &&
+      typeof (obj as any).Earth === 'number' &&
+      typeof (obj as any).Air === 'number',
   );
 }
 
@@ -1054,7 +1054,7 @@ export async function recommendIngredients(
 }
 
 export const formatFactorName = (factor: string): string => {
-  return factor.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+  return factor.replace(/([A-Z])/g, ' 1').replace(/^./, str => str.toUpperCase());
 };
 
 export function calculateElementalInfluences(
@@ -1073,7 +1073,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
     Object.keys(elements).forEach(key => {
-      elements[key as keyof ElementalProperties] /= total;
+      elements[key as any] /= total;
     });
   }
 

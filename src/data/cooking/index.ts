@@ -188,7 +188,7 @@ export function getCookingMethodsByTemperature(
       // Check if the method has optimal temperatures and at least one falls within range
       if (!methodData?.optimalTemperatures) return false;
 
-      return Object.values((methodData as Record<string, unknown>)?.optimalTemperatures).some(temp => {
+      return Object.values((methodData as any)?.optimalTemperatures).some(temp => {
         // Pattern KK-10: Final Arithmetic Elimination for data layer operations
         const numericTemp = Number(temp) || 0;
         const numericMinTemp = Number(minTemp) || 0;

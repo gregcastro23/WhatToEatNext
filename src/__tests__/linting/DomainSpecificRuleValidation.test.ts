@@ -139,7 +139,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
             (msg: unknown) => {
-              const message = msg as Record<string, unknown>;
+              const message = msg as any;
               return message.ruleId === '@typescript-eslint/no-unused-vars' &&
                 (String(message.message).includes('planet') || String(message.message).includes('position') || String(message.message).includes('longitude'));
             }
@@ -155,7 +155,7 @@ describe('Domain-Specific Rule Validation', () => {
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
               (msg: unknown) => {
-                const message = msg as Record<string, unknown>;
+                const message = msg as any;
                 return message.ruleId === '@typescript-eslint/no-unused-vars' &&
                   (String(message.message).includes('planet') ||
                     String(message.message).includes('position') ||
@@ -307,7 +307,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const complexityErrors = result[0].messages.filter(
-            (msg: unknown) => (msg as Record<string, unknown>)?.ruleId === 'complexity' && (msg as Record<string, unknown>)?.severity === 2, // error level
+            (msg: unknown) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2, // error level
           );
 
           // Campaign files should allow higher complexity
@@ -319,7 +319,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors = result[0].messages.filter(
-              (msg: unknown) => (msg as Record<string, unknown>)?.ruleId === 'complexity' && (msg as Record<string, unknown>)?.severity === 2,
+              (msg: unknown) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,
             );
 
             expect(complexityErrors.length).toBe(0);
@@ -354,7 +354,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const consoleErrors = result[0].messages.filter(
-            (msg: unknown) => (msg as Record<string, unknown>)?.ruleId === 'no-console' && (msg as Record<string, unknown>)?.severity === 2, // error level
+            (msg: unknown) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2, // error level
           );
 
           // Campaign files should allow console logging
@@ -366,7 +366,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              (msg: unknown) => (msg as Record<string, unknown>)?.ruleId === 'no-console' && (msg as Record<string, unknown>)?.severity === 2,
+              (msg: unknown) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -402,11 +402,11 @@ describe('Domain-Specific Rule Validation', () => {
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
             (msg: unknown) =>
-              (msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (String((msg as Record<string, unknown>)?.message).includes('campaign') ||
-                String((msg as Record<string, unknown>)?.message).includes('progress') ||
-                String((msg as Record<string, unknown>)?.message).includes('metrics') ||
-                String((msg as Record<string, unknown>)?.message).includes('safety')),
+              (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (String((msg as any)?.message).includes('campaign') ||
+                String((msg as any)?.message).includes('progress') ||
+                String((msg as any)?.message).includes('metrics') ||
+                String((msg as any)?.message).includes('safety')),
           );
 
           expect(unusedVarErrors.length).toBe(0);
@@ -418,11 +418,11 @@ describe('Domain-Specific Rule Validation', () => {
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
               (msg: unknown) =>
-                (msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-unused-vars' &&
-                (String((msg as Record<string, unknown>)?.message).includes('campaign') ||
-                  String((msg as Record<string, unknown>)?.message).includes('progress') ||
-                  String((msg as Record<string, unknown>)?.message).includes('metrics') ||
-                  String((msg as Record<string, unknown>)?.message).includes('safety')),
+                (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (String((msg as any)?.message).includes('campaign') ||
+                  String((msg as any)?.message).includes('progress') ||
+                  String((msg as any)?.message).includes('metrics') ||
+                  String((msg as any)?.message).includes('safety')),
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -459,10 +459,10 @@ describe('Domain-Specific Rule Validation', () => {
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
             (msg: unknown) =>
-              (msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (String((msg as Record<string, unknown>)?.message).includes('mockFunction') ||
-                String((msg as Record<string, unknown>)?.message).includes('stubValue') ||
-                String((msg as Record<string, unknown>)?.message).includes('testData')),
+              (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (String((msg as any)?.message).includes('mockFunction') ||
+                String((msg as any)?.message).includes('stubValue') ||
+                String((msg as any)?.message).includes('testData')),
           );
 
           expect(unusedVarErrors.length).toBe(0);
@@ -474,10 +474,10 @@ describe('Domain-Specific Rule Validation', () => {
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
               (msg: unknown) =>
-                (msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-unused-vars' &&
-                (String((msg as Record<string, unknown>)?.message).includes('mockFunction') ||
-                  String((msg as Record<string, unknown>)?.message).includes('stubValue') ||
-                  String((msg as Record<string, unknown>)?.message).includes('testData')),
+                (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (String((msg as any)?.message).includes('mockFunction') ||
+                  String((msg as any)?.message).includes('stubValue') ||
+                  String((msg as any)?.message).includes('testData')),
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -512,10 +512,10 @@ describe('Domain-Specific Rule Validation', () => {
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
             (msg: unknown) =>
-              ((msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as Record<string, unknown>)?.severity === 2) ||
-              ((msg as Record<string, unknown>)?.ruleId === 'no-console' && (msg as Record<string, unknown>)?.severity === 2) ||
-              ((msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as Record<string, unknown>)?.severity === 2) ||
-              ((msg as Record<string, unknown>)?.ruleId === 'no-magic-numbers' && (msg as Record<string, unknown>)?.severity === 2),
+              ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
+              ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
+              ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||
+              ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
           );
 
           expect(restrictiveErrors.length).toBe(0);
@@ -527,10 +527,10 @@ describe('Domain-Specific Rule Validation', () => {
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
               (msg: unknown) =>
-                ((msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as Record<string, unknown>)?.severity === 2) ||
-                ((msg as Record<string, unknown>)?.ruleId === 'no-console' && (msg as Record<string, unknown>)?.severity === 2) ||
-                ((msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as Record<string, unknown>)?.severity === 2) ||
-                ((msg as Record<string, unknown>)?.ruleId === 'no-magic-numbers' && (msg as Record<string, unknown>)?.severity === 2),
+                ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
+                ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
+                ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||
+                ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
             );
 
             expect(restrictiveErrors.length).toBe(0);
@@ -570,11 +570,11 @@ describe('Domain-Specific Rule Validation', () => {
         if (result.length > 0 && result[0].messages) {
           const undefErrors = result[0].messages.filter(
             (msg: unknown) =>
-              (msg as Record<string, unknown>)?.ruleId === 'no-undef' &&
-              (String((msg as Record<string, unknown>)?.message).includes('describe') ||
-                String((msg as Record<string, unknown>)?.message).includes('it') ||
-                String((msg as Record<string, unknown>)?.message).includes('expect') ||
-                String((msg as Record<string, unknown>)?.message).includes('jest')),
+              (msg as any)?.ruleId === 'no-undef' &&
+              (String((msg as any)?.message).includes('describe') ||
+                String((msg as any)?.message).includes('it') ||
+                String((msg as any)?.message).includes('expect') ||
+                String((msg as any)?.message).includes('jest')),
           );
 
           expect(undefErrors.length).toBe(0);
@@ -586,11 +586,11 @@ describe('Domain-Specific Rule Validation', () => {
           if (result.length > 0 && result[0].messages) {
             const undefErrors = result[0].messages.filter(
               (msg: unknown) =>
-                (msg as Record<string, unknown>)?.ruleId === 'no-undef' &&
-                (String((msg as Record<string, unknown>)?.message).includes('describe') ||
-                  String((msg as Record<string, unknown>)?.message).includes('it') ||
-                  String((msg as Record<string, unknown>)?.message).includes('expect') ||
-                  String((msg as Record<string, unknown>)?.message).includes('jest')),
+                (msg as any)?.ruleId === 'no-undef' &&
+                (String((msg as any)?.message).includes('describe') ||
+                  String((msg as any)?.message).includes('it') ||
+                  String((msg as any)?.message).includes('expect') ||
+                  String((msg as any)?.message).includes('jest')),
             );
 
             expect(undefErrors.length).toBe(0);
@@ -625,7 +625,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const requireErrors = result[0].messages.filter(
-            (msg: unknown) => (msg as Record<string, unknown>)?.ruleId === 'import/no-dynamic-require' && (msg as Record<string, unknown>)?.severity === 2,
+            (msg: unknown) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
           );
 
           expect(requireErrors.length).toBe(0);
@@ -636,7 +636,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const requireErrors = result[0].messages.filter(
-              (msg: unknown) => (msg as Record<string, unknown>)?.ruleId === 'import/no-dynamic-require' && (msg as Record<string, unknown>)?.severity === 2,
+              (msg: unknown) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
             );
 
             expect(requireErrors.length).toBe(0);
@@ -670,9 +670,9 @@ describe('Domain-Specific Rule Validation', () => {
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
             (msg: unknown) =>
-              ((msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as Record<string, unknown>)?.severity === 2) ||
-              ((msg as Record<string, unknown>)?.ruleId === 'no-console' && (msg as Record<string, unknown>)?.severity === 2) ||
-              ((msg as Record<string, unknown>)?.ruleId === 'import/no-dynamic-require' && (msg as Record<string, unknown>)?.severity === 2),
+              ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
+              ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
+              ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
           );
 
           expect(restrictiveErrors.length).toBe(0);
@@ -684,9 +684,9 @@ describe('Domain-Specific Rule Validation', () => {
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
               (msg: unknown) =>
-                ((msg as Record<string, unknown>)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as Record<string, unknown>)?.severity === 2) ||
-                ((msg as Record<string, unknown>)?.ruleId === 'no-console' && (msg as Record<string, unknown>)?.severity === 2) ||
-                ((msg as Record<string, unknown>)?.ruleId === 'import/no-dynamic-require' && (msg as Record<string, unknown>)?.severity === 2),
+                ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
+                ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
+                ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
             );
 
             expect(restrictiveErrors.length).toBe(0);

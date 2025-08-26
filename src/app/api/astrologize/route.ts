@@ -164,7 +164,7 @@ function extractPlanetaryPositions(
       Object.entries(planetMap).forEach(([apiKey, planetName]) => {
         const planetData = celestialBodies[apiKey];
         if (planetData?.Sign && planetData.ChartPosition) {
-          const sign = planetData.Sign.key?.toLowerCase() as ZodiacSign;
+          const sign = planetData.Sign.key?.toLowerCase() as any;
           const arcDegrees = planetData.ChartPosition.Ecliptic?.ArcDegrees;
           const decimalDegrees = planetData.ChartPosition.Ecliptic?.DecimalDegrees;
 
@@ -202,7 +202,7 @@ function extractPlanetaryPositions(
           const minutes = Math.floor((totalDegrees - degrees) * 60);
 
           positions[planetName] = {
-            sign: typedPlanetData.sign.toLowerCase() as ZodiacSign,
+            sign: typedPlanetData.sign.toLowerCase() as any,
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,

@@ -96,7 +96,7 @@ describe('MakefileIntegration', () => {
     it('should handle make target execution failure', async () => {
       const error = new Error('Make failed') as unknown;
       error.status = 2;
-      error.stdout = 'Error output';
+      (error as any).stdout = 'Error output';
       mockExecSync.mockImplementation(() => {
         throw error;
       });

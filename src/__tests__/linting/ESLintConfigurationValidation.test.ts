@@ -34,13 +34,13 @@ describe('ESLint Configuration Validation', () => {
       expect(config.length).toBeGreaterThan(0);
 
       // Check for JavaScript configuration
-      const jsConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.files && (c as Record<string, unknown>)?.(files as Record<string, unknown>).includes('**/*.js'));
+      const jsConfig = config.find((c: any) => c?.files && c.files.includes('**/*.js'));
       expect(jsConfig).toBeDefined();
       expect(jsConfig.plugins).toBeDefined();
       expect(jsConfig.rules).toBeDefined();
 
       // Check for TypeScript configuration
-      const tsConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.files && (c as Record<string, unknown>)?.(files as Record<string, unknown>).includes('**/*.ts'));
+      const tsConfig = config.find((c: any) => c?.files && c.files.includes('**/*.ts'));
       expect(tsConfig).toBeDefined();
       expect(tsConfig.plugins).toBeDefined();
       expect(tsConfig.rules).toBeDefined();
@@ -51,26 +51,26 @@ describe('ESLint Configuration Validation', () => {
 
       // Check for astrological calculation rules
       const astroConfig = config.find(
-        (c: unknown) => (c as Record<string, unknown>)?.files && (c as Record<string, unknown>)?.(files as Record<string, unknown>).some((f: string) => (f as Record<string, unknown>).includes('**/calculations/**')),
+        (c: any) => c?.files && c.files.some((f: string) => f.includes('**/calculations/**')),
       );
       expect(astroConfig).toBeDefined();
       expect(astroConfig.plugins).toHaveProperty('astrological');
 
       // Check for campaign system rules
       const campaignConfig = config.find(
-        (c: unknown) => (c as Record<string, unknown>)?.files && (c as Record<string, unknown>)?.(files as Record<string, unknown>).some((f: string) => (f as Record<string, unknown>).includes('**/services/campaign/**')),
+        (c: any) => c?.files && c.files.some((f: string) => f.includes('**/services/campaign/**')),
       );
       expect(campaignConfig).toBeDefined();
 
       // Check for test file rules
-      const testConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.files && (c as Record<string, unknown>)?.(files as Record<string, unknown>).some((f: string) => ((f as Record<string, unknown>)?.includes('**/*.(test as Record<string, unknown>).ts')));
+      const testConfig = config.find((c: any) => c?.files && c.files.some((f: string) => f.includes('**/*.test.ts')));
       expect(testConfig).toBeDefined();
     });
 
     test('should have proper ignore patterns', () => {
       const config = require(configPath);
 
-      const ignoreConfig = config.find((c: unknown) => (c as Record<string, unknown>).ignores);
+      const ignoreConfig = config.find((c: any) => c.ignores);
       expect(ignoreConfig).toBeDefined();
       expect(ignoreConfig.ignores).toContain('node_modules/');
       expect(ignoreConfig.ignores).toContain('dist/');
@@ -82,7 +82,7 @@ describe('ESLint Configuration Validation', () => {
   describe('Rule Configuration Validation', () => {
     test('should have React 19 specific rules configured', () => {
       const config = require(configPath);
-      const reactConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.rules && (c as Record<string, (unknown>)?.rules as Record<string, unknown>)['react/react-in-jsx-scope']);
+      const reactConfig = config.find((c: any) => c?.rules && c.rules['react/react-in-jsx-scope']);
 
       expect(reactConfig).toBeDefined();
       expect(reactConfig.rules['react/react-in-jsx-scope']).toBe('off');
@@ -92,7 +92,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should have enhanced TypeScript rules', () => {
       const config = require(configPath);
-      const tsConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.rules && (c as Record<string, (unknown>)?.rules as Record<string, unknown>)['@typescript-eslint/no-explicit-any']);
+      const tsConfig = config.find((c: any) => c?.rules && c.rules['@typescript-eslint/no-explicit-any']);
 
       expect(tsConfig).toBeDefined();
       expect(tsConfig.rules['@typescript-eslint/no-explicit-any']).toBe('error');
@@ -102,7 +102,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should have import organization rules', () => {
       const config = require(configPath);
-      const importConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.rules && (c as Record<string, (unknown>)?.rules as Record<string, unknown>)['import/order']);
+      const importConfig = config.find((c: any) => c?.rules && c.rules['import/order']);
 
       expect(importConfig).toBeDefined();
       expect(importConfig.rules['import/order']).toBeDefined();
@@ -112,7 +112,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should have performance optimization settings', () => {
       const config = require(configPath);
-      const perfConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>).settings && (c as Record<string, (unknown>).settings as Record<string, unknown>)['import/cache']);
+      const perfConfig = config.find((c: any) => c.settings && c.settings['import/cache']);
 
       expect(perfConfig).toBeDefined();
       expect(perfConfig.settings['import/cache'].lifetime).toBe(600); // 10 minutes
@@ -125,19 +125,19 @@ describe('ESLint Configuration Validation', () => {
       const config = require(configPath);
 
       // Check for standard plugins
-      const tsConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.plugins && (c as Record<string, (unknown>)?.plugins as Record<string, unknown>)['@typescript-eslint']);
+      const tsConfig = config.find((c: any) => c?.plugins && c.plugins['@typescript-eslint']);
       expect(tsConfig).toBeDefined();
 
-      const reactConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.plugins && (c as Record<string, unknown>)?.(plugins as Record<string, unknown>).react);
+      const reactConfig = config.find((c: any) => c?.plugins && c.plugins.react);
       expect(reactConfig).toBeDefined();
 
-      const importConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.plugins && (c as Record<string, unknown>)?.(plugins as Record<string, unknown>).import);
+      const importConfig = config.find((c: any) => c?.plugins && c.plugins.import);
       expect(importConfig).toBeDefined();
     });
 
     test('should load custom astrological plugin', () => {
       const config = require(configPath);
-      const astroConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.plugins && (c as Record<string, unknown>)?.(plugins as Record<string, unknown>).astrological);
+      const astroConfig = config.find((c: any) => c?.plugins && c.plugins.astrological);
 
       expect(astroConfig).toBeDefined();
       expect(astroConfig.rules).toHaveProperty('astrological/preserve-planetary-constants');
@@ -178,7 +178,7 @@ describe('ESLint Configuration Validation', () => {
     test('should resolve TypeScript path mappings', () => {
       const config = require(configPath);
       const tsConfig = config.find(
-        (c: unknown) => (c as Record<string, unknown>).settings && (c as Record<string, (unknown>).settings as Record<string, (unknown>) as Record<string, unknown>)['import/resolver'] && (c as Record<string, (unknown>).settings as Record<string, (unknown>) as Record<string, unknown>)['import/resolver'].typescript,
+        (c: any) => c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript,
       );
 
       expect(tsConfig).toBeDefined();
@@ -189,7 +189,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should ignore external dependencies correctly', () => {
       const config = require(configPath);
-      const importConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.rules && (c as Record<string, (unknown>)?.rules as Record<string, unknown>)['import/no-unresolved']);
+      const importConfig = config.find((c: any) => c?.rules && c.rules['import/no-unresolved']);
 
       expect(importConfig).toBeDefined();
       const ignorePatterns = importConfig.rules['import/no-unresolved'][1].ignore;
@@ -204,9 +204,9 @@ describe('ESLint Configuration Validation', () => {
     test('should define React 19 globals', () => {
       const config = require(configPath);
       const reactConfig = config.find(
-        (c: unknown) => (c as Record<string, unknown>)?.languageOptions &&
-          ((c as Record<string, unknown>)?.languageOptions as Record<string, unknown>)?.globals &&
-          (((c as Record<string, unknown>)?.languageOptions as Record<string, unknown>)?.globals as Record<string, unknown>)?.React,
+        (c: any) => c?.languageOptions &&
+          c.languageOptions?.globals &&
+          c.languageOptions.globals?.React,
       );
 
       expect(reactConfig).toBeDefined();
@@ -217,9 +217,9 @@ describe('ESLint Configuration Validation', () => {
     test('should define Node.js globals', () => {
       const config = require(configPath);
       const nodeConfig = config.find(
-        (c: unknown) => (c as Record<string, unknown>)?.languageOptions &&
-          ((c as Record<string, unknown>)?.languageOptions as Record<string, unknown>)?.globals &&
-          (((c as Record<string, unknown>)?.languageOptions as Record<string, unknown>)?.globals as Record<string, unknown>)?.process,
+        (c: any) => c?.languageOptions &&
+          c.languageOptions?.globals &&
+          c.languageOptions.globals?.process,
       );
 
       expect(nodeConfig).toBeDefined();
@@ -229,7 +229,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should define test globals for test files', () => {
       const config = require(configPath);
-      const testConfig = (config as Record<string, unknown>).find((c: unknown) => (c as Record<string, unknown>)?.files && (c as Record<string, unknown>)?.(files as Record<string, unknown>).some((f: string) => ((f as Record<string, unknown>)?.includes('**/*.(test as Record<string, unknown>).ts')));
+      const testConfig = config.find((c: any) => c?.files && c.files.some((f: string) => f.includes('**/*.test.ts')));
 
       expect(testConfig).toBeDefined();
       expect(testConfig.languageOptions.globals.describe).toBe('readonly');
@@ -255,8 +255,8 @@ describe('ESLint Configuration Validation', () => {
       const config = require(configPath);
 
       config.forEach((configSection: unknown) => {
-        if ((configSection as Record<string, unknown>).rules) {
-          Object.entries((configSection as Record<string, unknown>).rules).forEach(([_ruleName, ruleConfig]) => {
+        if ((configSection as any).rules) {
+          Object.entries((configSection as any).rules).forEach(([_ruleName, ruleConfig]) => {
             if (Array.isArray(ruleConfig)) {
               const severity = ruleConfig[0];
               expect(['off', 'warn', 'error', 0, 1, 2]).toContain(severity);
@@ -271,7 +271,7 @@ describe('ESLint Configuration Validation', () => {
     test('should have proper parser configuration', () => {
       const config = require(configPath);
 
-      const tsConfig = (config as Record<string, unknown>).find((c: unknown) => ((c as Record<string, unknown>)?.languageOptions && (c as Record<string, unknown>)?.(languageOptions as Record<string, unknown>).parser);
+      const tsConfig = config.find((c: any) => c?.languageOptions && c.languageOptions.parser);
 
       expect(tsConfig).toBeDefined();
       expect(tsConfig.languageOptions.parserOptions.project).toContain('./tsconfig.json');

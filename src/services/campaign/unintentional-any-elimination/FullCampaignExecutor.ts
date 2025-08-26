@@ -195,7 +195,7 @@ export class FullCampaignExecutor {
       let batchCount = 0;
       const maxBatches = 20; // Limit for high-confidence phase
 
-      while (batchCount < maxBatches && totalFixes < this.config.targetFixCount * 0.6) {
+      while (batchCount < maxBatches && totalFixes < ((this.config as any)?.targetFixCount || 0) * 0.2) {
         console.log(`\n🔄 High-Confidence Batch ${batchCount + 1}`);
 
         // Find high-confidence cases
@@ -821,7 +821,7 @@ export class FullCampaignExecutor {
     } catch {
       // Fallback: count explicit any patterns in TypeScript files
       try {
-        const output = execSync('find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"', {
+        const output = execSync('find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += 2} END {print sum}\' || echo "0"', {
           encoding: 'utf8',
           stdio: 'pipe'
         });

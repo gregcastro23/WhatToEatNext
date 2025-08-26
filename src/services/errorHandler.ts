@@ -246,7 +246,7 @@ export function safePropertyAccess<T>(
         warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
-      current = (current as Record<string, unknown>)[prop];
+      current = (current as any)[prop];
     }
     if (current === undefined || current === null) {
       return defaultValue;

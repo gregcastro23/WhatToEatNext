@@ -296,7 +296,7 @@ export function calculateThermodynamicProperties(
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5 - 0.5 * 0.5, // Default Greg's Energy calculation
+      gregsEnergy: -0.350 // Calculated using heat - (entropy * reactivity), // Default Greg's Energy calculation
     };
   }
 }

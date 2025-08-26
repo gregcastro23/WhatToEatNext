@@ -134,7 +134,7 @@ class StateManager {
       if (cached && this.isValidAppState(cached)) {
         // Ensure activeFilters is a Set after deserialization
         if (cached.ui) {
-          const ui = cached.ui as Record<string, unknown>;
+          const ui = cached.ui as any;
           if (Array.isArray(ui.activeFilters)) {
             cached.ui.activeFilters = new Set(ui.activeFilters as string[]);
           }
@@ -165,7 +165,7 @@ class StateManager {
   private isValidAppState(obj: unknown): obj is AppState {
     if (!obj || typeof obj !== 'object') return false;
     
-    const data = obj as Record<string, unknown>;
+    const data = obj as any;
     return !!(data.recipes && data.celestial && data.user && data.ui);
   }
 

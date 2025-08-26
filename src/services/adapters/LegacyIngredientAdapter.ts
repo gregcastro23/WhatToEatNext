@@ -171,7 +171,7 @@ export class LegacyIngredientAdapter {
   public calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
     try {
       return unifiedIngredientService.calculateElementalProperties(
-        ingredient as Record<string, unknown>,
+        ingredient as any,
       ); // Pattern UUU: Import Path Interface Resolution
     } catch (error) {
       logger.error(

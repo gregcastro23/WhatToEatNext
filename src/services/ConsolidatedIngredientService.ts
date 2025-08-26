@@ -216,7 +216,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
     try {
       return Object.values(unifiedIngredients || {}).filter(
-        ingredient => ingredient.subCategory?.toLowerCase() === (subcategory as Record<string, unknown>)?.toLowerCase(),
+        ingredient => ingredient.subCategory?.toLowerCase() === (subcategory as any)?.toLowerCase(),
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
@@ -267,7 +267,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
 
         // Apply seasonal filter if specified with safe type casting
-        const filterData = filter as Record<string, unknown>;
+        const filterData = filter as any;
         const currentSeason = filterData.currentSeason || filterData.season;
         if (currentSeason) {
           filtered = this.applySeasonalFilter(filtered, currentSeason as Season[] | string[]);
@@ -402,7 +402,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Create basic elemental properties from the ingredient's element if available
       if (ingredient.element) {
-        const basicProps = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        const basicProps = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
         const elementKey = ingredient.element.toLowerCase() as keyof ElementalProperties;
 
         if (elementKey in basicProps) {
@@ -413,7 +413,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
 
       // Return default empty properties if no element information available
-      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+      return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
@@ -424,7 +424,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           ingredient: typeof ingredient === 'string' ? ingredient : ingredient.name,
         },
       });
-      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+      return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
     }
   }
 
@@ -514,7 +514,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   ): UnifiedIngredient[] {
     try {
       // Default options with safe type casting
-      const optionsData = options as Record<string, unknown>;
+      const optionsData = options as any;
       const {
         includeAlternatives = optionsData.includeAlternatives ?? true,
         optimizeForSeason = optionsData.optimizeForSeason ?? true,
@@ -608,8 +608,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const energyData = ingredient.energyValues as BasicThermodynamicProperties;
         const { heat, entropy, reactivity } = energyData;
         const gregsEnergy =
-          (energyData as unknown as Record<string, unknown>).gregsEnergy ||
-          (energyData as unknown as Record<string, unknown>).energy ||
+          (energyData as unknown as any).gregsEnergy ||
+          (energyData as unknown as any).energy ||
           0;
 
         return {
@@ -684,7 +684,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
 
       const nutritional = ingredient.nutritionalPropertiesProfile;
-      const macros = (nutritional as Record<string, unknown>)?.macros || {};
+      const macros = (nutritional as any)?.macros || {};
 
       // Check protein range if specified
       if (filter.minProtein !== undefined) {
@@ -710,18 +710,18 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Check calorie range if specified
       if (filter.minCalories !== undefined) {
-        const calorieContent = (nutritional as Record<string, unknown>)?.calories || 0;
+        const calorieContent = (nutritional as any)?.calories || 0;
         if (calorieContent < filter.minCalories) return false;
       }
 
       if (filter.maxCalories !== undefined) {
-        const calorieContent = (nutritional as Record<string, unknown>)?.calories || 0;
+        const calorieContent = (nutritional as any)?.calories || 0;
         if (calorieContent > filter.maxCalories) return false;
       }
 
       // Check for required vitamins
       if (filter.vitamins && (filter.vitamins || []).length > 0) {
-        const vitamins = (nutritional as Record<string, unknown>)?.vitamins || {};
+        const vitamins = (nutritional as any)?.vitamins || {};
         const vitaminKeys = Object.keys(vitamins);
 
         const hasAllVitamins = filter.vitamins.every(vitamin =>
@@ -733,7 +733,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Check for required minerals
       if (filter.minerals && (filter.minerals || []).length > 0) {
-        const minerals = (nutritional as Record<string, unknown>)?.minerals || {};
+        const minerals = (nutritional as any)?.minerals || {};
         const mineralKeys = Object.keys(minerals);
 
         const hasAllMinerals = filter.minerals.every(mineral =>
@@ -775,7 +775,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     return (ingredients || []).filter(ingredient => {
       const elemental =
         ingredient.elementalProperties ||
-        createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
       // Check Fire element
       if (filter.minfire !== undefined && elemental.Fire < filter.minfire) {
@@ -837,7 +837,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   private getDominantElement(ingredient: UnifiedIngredient): keyof ElementalProperties {
     const elemental =
       ingredient.elementalProperties ||
-      createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+      createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
     // Find the highest element value
     let maxElement: keyof ElementalProperties = 'Fire';
@@ -909,7 +909,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         // Sugar might be a direct property or included in macros
         const sugar =
           ingredient.nutritionalPropertiesProfile?.macros?.sugar ||
-          (ingredient.nutritionalPropertiesProfile as Record<string, unknown>)?.sugar ||
+          (ingredient.nutritionalPropertiesProfile as any)?.sugar ||
           0;
         if (sugar > 5) return false; // 5g is a common threshold for "low sugar"
       }
@@ -1065,7 +1065,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applyZodiacFilter(
     ingredients: UnifiedIngredient[],
-    currentZodiacSign: ZodiacSign,
+    currentZodiacSign: any,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(ingredient => {
       // Check if the ingredient has zodiac affinity info
@@ -1202,7 +1202,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   /**
    * Get ingredients by zodiac sign
    */
-  getIngredientsByZodiacSign(sign: ZodiacSign): UnifiedIngredient[] {
+  getIngredientsByZodiacSign(sign: any): UnifiedIngredient[] {
     try {
       // Get all ingredients
       const allIngredients = this.getAllIngredientsFlat();
@@ -1478,7 +1478,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return {
         name: ingredient.name || 'unknown',
         category: ingredient.category || 'unknown',
-        elementalProperties: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         alchemicalProperties: {
           Spirit: 0.25,
           Essence: 0.25,
@@ -1585,7 +1585,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private calculateRecipeElementalBalance(ingredients: UnifiedIngredient[]): ElementalProperties {
     // Initialize with zero values
-    const balance = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+    const balance = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
     if ((ingredients || []).length === 0) return balance;
 

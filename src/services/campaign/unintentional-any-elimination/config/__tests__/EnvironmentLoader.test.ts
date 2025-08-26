@@ -79,7 +79,7 @@ describe('Environment Configuration Loader', () => {
     });
 
     test('returns empty object for non-existent environment', () => {
-      const config = loadEnvironmentConfig('nonexistent' as unknown);
+      const config = loadEnvironmentConfig('nonexistent' as any);
       expect(config).toEqual({});
     });
   });

@@ -319,7 +319,7 @@ export class TestUtils {
     }
 
     // Clear any global test caches
-    const globalWithCache = global as unknown as { __TEST_CACHE__?: { clear(): void } };
+    const globalWithCache = global as { __TEST_CACHE__?: { clear(): void } };
     if (globalWithCache.__TEST_CACHE__) {
       globalWithCache.__TEST_CACHE__.clear();
     }

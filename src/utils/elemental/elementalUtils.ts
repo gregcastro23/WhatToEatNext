@@ -60,7 +60,7 @@ export function scaleElementalProperties(
   props: Partial<ElementalProperties> | undefined,
   factor: number,
 ): ElementalProperties {
-  if (!props) return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+  if (!props) return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
   return createElementalProperties({
     Fire: (props.Fire ?? 0) * factor,

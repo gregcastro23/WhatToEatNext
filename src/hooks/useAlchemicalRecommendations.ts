@@ -21,7 +21,7 @@ export interface UseAlchemicalRecommendationsProps {
   targetElement?: ElementalCharacter;
   targetAlchemicalProperty?: AlchemicalProperty;
   count?: number;
-  currentZodiac?: ZodiacSign | null;
+  currentZodiac?: any | null;
   lunarPhase?: LunarPhaseWithSpaces;
   tarotElementBoosts?: Record<ElementalCharacter, number>;
   tarotPlanetaryBoosts?: Record<string, number>;
@@ -116,34 +116,34 @@ export const useAlchemicalRecommendations = ({
             const convertedItem = {
               ...item,
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: (item as Record<string, unknown>).elementalProperties || {
+              elementalProperties: (item as any).elementalProperties || {
                 Fire: 0.25,
                 Water: 0.25,
                 Earth: 0.25,
                 Air: 0.25,
               },
-              alchemicalProperties: (item as Record<string, unknown>).alchemicalProperties || {
+              alchemicalProperties: (item as any).alchemicalProperties || {
                 Spirit: 0.25,
                 Essence: 0.25,
                 Matter: 0.25,
                 Substance: 0.25,
               },
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: (item as Record<string, unknown>).transformedElementalProperties ||
-                (item as Record<string, unknown>).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-              heat: (item as Record<string, unknown>).heat || 0.5,
-              entropy: (item as Record<string, unknown>).entropy || 0.5,
-              reactivity: (item as Record<string, unknown>).reactivity || 0.5,
-              gregsEnergy: (item as Record<string, unknown>).gregsEnergy || (item as Record<string, unknown>).energy || 0.5,
-              kalchm: (item as Record<string, unknown>).kalchm || 1.0,
-              monica: (item as Record<string, unknown>).monica || 0.5,
-              transformations: (item as Record<string, unknown>).transformations || [],
-              seasonalResonance: (item as Record<string, unknown>).seasonalResonance || [],
-              thermodynamicProperties: (item as Record<string, unknown>).thermodynamicProperties || {
-                heat: (item as Record<string, unknown>).heat || 0.5,
-                entropy: (item as Record<string, unknown>).entropy || 0.5,
-                reactivity: (item as Record<string, unknown>).reactivity || 0.5,
-                gregsEnergy: (item as Record<string, unknown>).gregsEnergy || (item as Record<string, unknown>).energy || 0.5,
+              transformedElementalProperties: (item as any).transformedElementalProperties ||
+                (item as any).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              heat: (item as any).heat || 0.5,
+              entropy: (item as any).entropy || 0.5,
+              reactivity: (item as any).reactivity || 0.5,
+              gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5,
+              kalchm: (item as any).kalchm || 1.0,
+              monica: (item as any).monica || 0.5,
+              transformations: (item as any).transformations || [],
+              seasonalResonance: (item as any).seasonalResonance || [],
+              thermodynamicProperties: (item as any).thermodynamicProperties || {
+                heat: (item as any).heat || 0.5,
+                entropy: (item as any).entropy || 0.5,
+                reactivity: (item as any).reactivity || 0.5,
+                gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5,
               },
             };
             return convertedItem as AlchemicalItem;

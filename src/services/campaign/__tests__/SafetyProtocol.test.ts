@@ -7,12 +7,12 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import {
-  CorruptionSeverity,
-  GitStash,
-  RecoveryAction,
-  SafetyEventSeverity,
-  SafetyEventType,
-  SafetySettings,
+    CorruptionSeverity,
+    GitStash,
+    RecoveryAction,
+    SafetyEventSeverity,
+    SafetyEventType,
+    SafetySettings,
 } from '../../../types/campaign';
 import { SafetyProtocol } from '../SafetyProtocol';
 
@@ -95,10 +95,10 @@ describe('SafetyProtocol', () => {
     it('should record safety event for stash creation', async () => {
       await safetyProtocol.createStash('Test stash');
 
-      const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
+      const events = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1);
-      expect((events as Record<string, (unknown>) as Record<string, unknown>)[0].type).toBe((SafetyEventType as Record<string, unknown>).CHECKPOINT_CREATED);
-      expect((events as Record<string, (unknown>) as Record<string, unknown>)[0].description).toContain('Git stash created');
+      expect(events[0].type).toBe(SafetyEventType.CHECKPOINT_CREATED);
+      expect(events[0].description).toContain('Git stash created');
     });
 
     it('should handle git validation failure', async () => {
@@ -170,10 +170,10 @@ describe('SafetyProtocol', () => {
     it('should record safety event for stash application', async () => {
       await safetyProtocol.applyStash('test-stash-1');
 
-      const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
+      const events = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1);
-      expect((events as Record<string, (unknown>) as Record<string, unknown>)[0].type).toBe((SafetyEventType as Record<string, unknown>).ROLLBACK_TRIGGERED);
-      expect((events as Record<string, (unknown>) as Record<string, unknown>)[0].description).toContain('Git stash applied: test-stash-1');
+      expect(events[0].type).toBe(SafetyEventType.ROLLBACK_TRIGGERED);
+      expect(events[0].description).toContain('Git stash applied: test-stash-1');
     });
 
     it('should validate git state after application when requested', async () => {
@@ -327,9 +327,9 @@ describe('SafetyProtocol', () => {
 
       await safetyProtocol.detectCorruption(['file1.ts']);
 
-      const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
+      const events = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1);
-      expect((events as Record<string, (unknown>) as Record<string, unknown>)[0].type).toBe((SafetyEventType as Record<string, unknown>).CORRUPTION_DETECTED);
+      expect(events[0].type).toBe(SafetyEventType.CORRUPTION_DETECTED);
     });
   });
 
@@ -419,7 +419,7 @@ import something, { a, b } from './module';
     it('should handle TypeScript compilation errors', async () => {
       mockExecSync.mockImplementation(() => {
         const error = new Error('TypeScript compilation failed') as Error & { stdout?: string };
-        error.stdout = 'Unexpected token at line 5';
+        (error as any).stdout = 'Unexpected token at line 5';
         throw error;
       });
 
@@ -460,10 +460,10 @@ import something, { a, b } from './module';
     it('should record safety event for emergency rollback', async () => {
       await safetyProtocol.emergencyRollback();
 
-      const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
+      const events = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1);
-      expect((events as Record<string, (unknown>) as Record<string, unknown>)[0].type).toBe((SafetyEventType as Record<string, unknown>).EMERGENCY_RECOVERY);
-      expect((events as Record<string, (unknown>) as Record<string, unknown>)[0].description).toContain('Emergency rollback completed');
+      expect(events[0].type).toBe(SafetyEventType.EMERGENCY_RECOVERY);
+      expect(events[0].description).toContain('Emergency rollback completed');
     });
 
     it('should handle no available stashes', async () => {
@@ -759,8 +759,8 @@ import something, { a, b } from './module';
         });
       }
 
-      const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect((events as Record<string, (unknown>) as Record<string, (unknown>) as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe(
+      const events = (safetyProtocol as any).safetyEvents;
+      expect(events[events.length - 1].description).toBe(
         'Event 1099',
       );
     });

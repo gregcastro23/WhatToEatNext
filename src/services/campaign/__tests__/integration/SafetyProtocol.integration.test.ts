@@ -241,7 +241,7 @@ import type type Something, { a, b } from './module';
       it('should handle TypeScript compilation failures', async () => {
         mockExecSync.mockImplementation(() => {
           const error = new Error('TypeScript compilation failed') as unknown;
-          error.stdout = 'Unexpected token at line 5';
+          (error as any).stdout = 'Unexpected token at line 5';
           throw error;
         });
 
@@ -436,8 +436,8 @@ import type type Something, { a, b } from './module';
         ref: 'stash@{0}',
       };
 
-      (safetyProtocol as unknown).stashes.set('old-stash', oldStash);
-      (safetyProtocol as unknown).stashes.set('recent-stash', recentStash);
+      (safetyProtocol as any).stashes.set('old-stash', oldStash);
+      (safetyProtocol as any).stashes.set('recent-stash', recentStash);
 
       await safetyProtocol.cleanupOldStashes();
 

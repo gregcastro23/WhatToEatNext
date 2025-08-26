@@ -111,12 +111,12 @@ export function calculateCombinationEffects({
 
     return effects.sort((a, b) => {
       const aValue =
-        (a as unknown as { modifier?: number; strength?: number })?.modifier ||
-        (a as unknown as { strength?: number })?.strength ||
+        (a as { modifier?: number; strength?: number })?.modifier ||
+        (a as { strength?: number })?.strength ||
         0;
       const bValue =
-        (b as unknown as { modifier?: number; strength?: number })?.modifier ||
-        (b as unknown as { strength?: number })?.strength ||
+        (b as { modifier?: number; strength?: number })?.modifier ||
+        (b as { strength?: number })?.strength ||
         0;
       return bValue - aValue;
     });
@@ -195,7 +195,7 @@ const isAntagonisticCombination = (
   elem2: ElementalProperties,
 ): boolean => {
   const antagonistic =
-    (ELEMENT_COMBINATIONS as unknown as { antagonistic?: Array<[string, string]> })?.antagonistic ||
+    (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })?.antagonistic ||
     [];
   return antagonistic.some(
     ([e1, e2]: [unknown, unknown]) =>
@@ -247,7 +247,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
       Object.entries(elements).forEach(([element, value]) => {
         // Pattern KK-1: Safe arithmetic with type validation
         const numericValue = typeof value === 'number' ? value : 0;
-        combined[element as keyof ElementalProperties] += numericValue;
+        combined[element as any] += numericValue;
       });
     }
   });
@@ -256,7 +256,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   const total = Object.values(combined).reduce((a, b) => a + b, 0);
   if (total > 0) {
     Object.keys(combined).forEach(key => {
-      combined[key as keyof ElementalProperties] /= total;
+      combined[key as any] /= total;
     });
   }
 

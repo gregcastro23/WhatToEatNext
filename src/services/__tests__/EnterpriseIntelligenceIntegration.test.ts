@@ -75,7 +75,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     };
 
     const mockAstrologicalContext = {
-      zodiacSign: 'aries' as ZodiacSign,
+      zodiacSign: 'aries' as any,
       lunarPhase: 'new moon',
       season: 'spring',
       elementalProperties: {
@@ -195,14 +195,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext,
       );
 
-      const optimization = result.optimizationRecommendations as Record<string, unknown>;
+      const optimization = result.optimizationRecommendations as any;
       expect(optimization?.performance).toBeDefined();
       expect(optimization?.accuracy).toBeDefined();
       expect(optimization?.userExperience).toBeDefined();
       expect(optimization?.systemIntegration).toBeDefined();
       expect(optimization?.overallOptimization).toBeDefined();
-      expect((optimization?.overallOptimization as Record<string, unknown>)?.priority).toMatch(/low|medium|high|critical/);
-      expect((optimization?.overallOptimization as Record<string, unknown>)?.estimatedValue).toBeGreaterThanOrEqual(0);
+      expect((optimization?.overallOptimization as any)?.priority).toMatch(/low|medium|high|critical/);
+      expect((optimization?.overallOptimization as any)?.estimatedValue).toBeGreaterThanOrEqual(0);
     });
 
     it('should handle missing data gracefully', async () => {
@@ -234,7 +234,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         [],
         mockCuisineData, // cuisineData
         {
-          zodiacSign: 'aries' as ZodiacSign,
+          zodiacSign: 'aries' as any,
           lunarPhase: 'new moon',
           season: 'all',
           elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
@@ -285,7 +285,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         [],
         mockCuisineData, // cuisineData
         {
-          zodiacSign: 'aries' as ZodiacSign,
+          zodiacSign: 'aries' as any,
           lunarPhase: 'new moon',
           season: 'all',
           elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },

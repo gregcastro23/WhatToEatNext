@@ -188,7 +188,7 @@ export class FinalValidationSystem {
       };
     } catch (error) {
       // TypeScript errors cause non-zero exit code
-      const err = error as unknown as { stdout?: string; message?: string };
+      const err = error as { stdout?: string; message?: string };
       const errorOutput = err.stdout || err.message || '';
       const errorLines = errorOutput
         .split('\n')
@@ -266,7 +266,7 @@ export class FinalValidationSystem {
         criticalIssues,
       };
     } catch (error) {
-      const err = error as unknown as { stdout?: string; message?: string };
+      const err = error as { stdout?: string; message?: string };
       const errorOutput = err.stdout || err.message || '';
       const warningLines = errorOutput
         .split('\n')
@@ -549,7 +549,7 @@ export class FinalValidationSystem {
       });
       finalErrors = tsOutput.split('\n').filter(line => line.includes('error TS')).length;
     } catch (error) {
-      const err = error as unknown as { stdout?: string };
+      const err = error as { stdout?: string };
       const errorOutput = err.stdout || '';
       finalErrors = errorOutput
         .split('\n')
@@ -560,7 +560,7 @@ export class FinalValidationSystem {
       const lintOutput = execSync('yarn lint', { encoding: 'utf8', stdio: 'pipe' });
       finalWarnings = lintOutput.split('\n').filter(line => line.includes('warning')).length;
     } catch (error) {
-      const err = error as unknown as { stdout?: string };
+      const err = error as { stdout?: string };
       const errorOutput = err.stdout || '';
       finalWarnings = errorOutput
         .split('\n')

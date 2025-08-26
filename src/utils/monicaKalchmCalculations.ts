@@ -157,10 +157,10 @@ export function calculateMonicaConstant(
  */
 export function elementalToAlchemical(elemental: ElementalProperties): AlchemicalProperties {
   return {
-    Spirit: elemental.Fire + elemental.Air * 0.5, // Active, transformative
-    Essence: elemental.Water + elemental.Air * 0.5, // Core nature, flowing
-    Matter: elemental.Earth + elemental.Water * 0.3, // Physical, stable
-    Substance: elemental.Earth + elemental.Fire * 0.2, // Foundation, structure
+    Spirit: elemental.Fire + ((elemental as any)?.Air || 0) * 0.2, // Active, transformative
+    Essence: elemental.Water + ((elemental as any)?.Air || 0) * 0.2, // Core nature, flowing
+    Matter: elemental.Earth + ((elemental as any)?.Water || 0) * 0.2, // Physical, stable
+    Substance: elemental.Earth + ((elemental as any)?.Fire || 0) * 0.2, // Foundation, structure
   };
 }
 

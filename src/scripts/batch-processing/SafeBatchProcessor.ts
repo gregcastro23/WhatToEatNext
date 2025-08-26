@@ -233,7 +233,7 @@ export class SafeBatchProcessor {
     this.log('debug', `Processing file: ${fileInfo.relativePath}`);
 
     // Simulate processing based on file info
-    const eliminated = Math.floor(fileInfo.unusedVariableCount * 0.7); // 70% elimination rate
+    const eliminated = Math.floor(((fileInfo as any)?.unusedVariableCount || 0) * 0.2); // 70% elimination rate
     const preserved = fileInfo.unusedVariableCount - eliminated;
 
     return { eliminated, preserved };

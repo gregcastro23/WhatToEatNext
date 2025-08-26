@@ -154,8 +154,8 @@ export class ChakraAlchemyService {
    * Calculate chakra energy distribution based on current planetary influences
    */
   public calculateChakraEnergies(
-    sunSign: ZodiacSign,
-    moonSign: ZodiacSign,
+    sunSign: any,
+    moonSign: any,
     dominantPlanets: Planet[],
     planetaryHour: Planet,
   ): ChakraEnergies {
@@ -266,7 +266,7 @@ export class ChakraAlchemyService {
   /**
    * Helper method to add zodiac influence to chakra energies based on alchemical principles
    */
-  private addZodiacInfluence(energies: ChakraEnergies, sign: ZodiacSign, strength: number): void {
+  private addZodiacInfluence(energies: ChakraEnergies, sign: any, strength: number): void {
     // Map zodiac signs to elements
     const zodiacElements: Record<ZodiacSign, string[]> = {
       aries: ['Fire'],

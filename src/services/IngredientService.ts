@@ -104,7 +104,7 @@ function isNumber(value: unknown): value is number {
 
 function isMacroProfile(value: unknown): value is MacroProfile {
   if (!isObjectLike(value)) return false;
-  const v = value as Record<string, unknown>;
+  const v = value as any;
   return (
     (v.protein === undefined || isNumber(v.protein)) &&
     (v.carbs === undefined || isNumber(v.carbs)) &&
@@ -115,7 +115,7 @@ function isMacroProfile(value: unknown): value is MacroProfile {
 
 function isNutritionProfile(value: unknown): value is NutritionProfile {
   if (!isObjectLike(value)) return false;
-  const v = value as Record<string, unknown>;
+  const v = value as any;
   const macrosOk = v.macros === undefined || isMacroProfile(v.macros);
   const caloriesOk = v.calories === undefined || isNumber(v.calories);
   const sodiumOk = v.sodium_mg === undefined || isNumber(v.sodium_mg);
@@ -134,7 +134,7 @@ function isAstroProfile(value: unknown): value is AstroProfile {
 }
 
 function hasCulinaryProperties(value: unknown): value is { culinaryProperties: CulinaryProperties } {
-  return isObjectLike(value) && 'culinaryProperties' in (value as Record<string, unknown>);
+  return isObjectLike(value) && 'culinaryProperties' in (value as any);
 }
 
 // Groupings for ingredient types
@@ -210,27 +210,27 @@ export class IngredientService implements IngredientServiceInterface {
               })) as unknown as ElementalProperties,
             alchemicalProperties: {
               Spirit: Number(
-                ((data as Record<string, unknown>).alchemicalProperties as Record<string, unknown>)
+                ((data as any).alchemicalProperties as any)
                   .Spirit ||
-                  (data as Record<string, unknown>).Spirit ||
+                  (data as any).Spirit ||
                   0,
               ),
               Essence: Number(
-                ((data as Record<string, unknown>).alchemicalProperties as Record<string, unknown>)
+                ((data as any).alchemicalProperties as any)
                   .Essence ||
-                  (data as Record<string, unknown>).Essence ||
+                  (data as any).Essence ||
                   0,
               ),
               Matter: Number(
-                ((data as Record<string, unknown>).alchemicalProperties as Record<string, unknown>)
+                ((data as any).alchemicalProperties as any)
                   .Matter ||
-                  (data as Record<string, unknown>).Matter ||
+                  (data as any).Matter ||
                   0,
               ),
               Substance: Number(
-                ((data as Record<string, unknown>).alchemicalProperties as Record<string, unknown>)
+                ((data as any).alchemicalProperties as any)
                   .Substance ||
-                  (data as Record<string, unknown>).Substance ||
+                  (data as any).Substance ||
                   0,
               ),
             },
@@ -373,7 +373,7 @@ export class IngredientService implements IngredientServiceInterface {
           // Apply Pattern A: Safe type casting for elemental filter parameter compatibility
           filtered = this.applyElementalFilterUnified(
             filtered,
-            filter.elemental as Record<string, unknown>,
+            filter.elemental as any,
           );
         }
 
@@ -383,7 +383,7 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Apply seasonal filter if specified
-        const filterData = filter as Record<string, unknown>;
+        const filterData = filter as any;
         if (isNonEmptyArray(filterData.currentSeason)) {
           filtered = this.applySeasonalFilterUnified(
             filtered,
@@ -547,7 +547,7 @@ export class IngredientService implements IngredientServiceInterface {
             isElementalProperties(ingredient.elementalPropertiesState)
               ? ingredient.elementalPropertiesState
               : undefined) ||
-          createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+          createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
         // Apply Pattern A: Safe type casting for filter parameter compatibility
         const safeFilter = filter as unknown as import('../types/elemental').ElementalFilter;
@@ -827,7 +827,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   private applyZodiacFilterUnified(
     ingredients: UnifiedIngredient[],
-    currentZodiacSign: ZodiacSign,
+    currentZodiacSign: any,
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
@@ -986,7 +986,7 @@ export class IngredientService implements IngredientServiceInterface {
    * @param sign The zodiac sign
    * @returns An array of ingredients associated with that sign
    */
-  public getIngredientsByZodiacSign(sign: ZodiacSign): UnifiedIngredient[] {
+  public getIngredientsByZodiacSign(sign: any): UnifiedIngredient[] {
     try {
       return this.applyZodiacFilterUnified(this.unifiedIngredientsFlat, sign);
     } catch (error) {
@@ -1128,7 +1128,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Define which seasons to include
       // Apply safe type casting for options property access
-      const optionsData = options as Record<string, unknown>;
+      const optionsData = options as any;
       const seasons = optionsData.currentSeason
         ? [optionsData.currentSeason as 'spring' | 'summer' | 'autumn' | 'winter']
         : ['spring', 'summer', 'autumn', 'winter'];
@@ -1268,9 +1268,9 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Calculate elemental compatibility
       const elemental1 =
-        ing1.elementalState || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        ing1.elementalState || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
       const elemental2 =
-        ing2.elementalState || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        ing2.elementalState || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
       const elementalCompatibility = this.calculateElementalSimilarity(elemental1, elemental2);
 
       // Calculate flavor compatibility
@@ -1397,13 +1397,13 @@ export class IngredientService implements IngredientServiceInterface {
         // Sum all elemental properties
         const summedProperties = elementalPropertiesList.reduce(
           (acc, props) => mergeElementalProperties(acc, props),
-          createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+          createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         );
 
         // Calculate average for each element
         const count = (elementalPropertiesList || []).length;
         // Apply safe type casting for result property access
-        const resultData = result as Record<string, unknown>;
+        const resultData = result as any;
         resultData.elementalState = {
           Fire: summedProperties.Fire / count,
           Water: summedProperties.Water / count,
@@ -1651,13 +1651,13 @@ export class IngredientService implements IngredientServiceInterface {
 
       // If ingredient has astrologicalProfile, use it to calculate elemental properties
       if (ingredient.astrologicalPropertiesProfile?.elementalAffinity) {
-        const affinity = (ingredient.astrologicalPropertiesProfile as Record<string, unknown>)?.elementalAffinity;
+        const affinity = (ingredient.astrologicalPropertiesProfile as any)?.elementalAffinity;
 
         // Get base element
         const baseElement = typeof affinity === 'string' ? affinity : affinity.base;
 
         // Create elemental properties based on base element
-        const elementalProps = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        const elementalProps = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
         switch (baseElement?.toLowerCase()) {
           case 'Fire':
@@ -1727,7 +1727,7 @@ export class IngredientService implements IngredientServiceInterface {
       // If no astrologicalProfile, use category to make educated guess
       if (ingredient.category) {
         const category = ingredient.category.toLowerCase();
-        const elementalProps = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+        const elementalProps = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
         if (category.includes('fruit')) {
           elementalProps.Water = 0.6;
@@ -2027,7 +2027,7 @@ export class IngredientService implements IngredientServiceInterface {
       const scoredIngredients = ingredientsToScore.map(ingredient => {
         // Calculate elemental compatibility
         const ingredientProps =
-          ingredient.elementalProperties || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+          ingredient.elementalProperties || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
         const elementalScore = this.calculateElementalSimilarity(ingredientProps, elementalState);
 
         // Apply seasonal bonus if enabled
@@ -2040,7 +2040,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply zodiac compatibility if specified
         let zodiacScore = 1;
         if (currentZodiacSign && ingredient.astrologicalProfile) {
-          const astro = ingredient.astrologicalProfile as Record<string, unknown>;
+          const astro = ingredient.astrologicalProfile as any;
           const fav = astro['favorableZodiac'];
           const favorable = Array.isArray(fav)
             ? (fav as Array<string | ZodiacSign>)

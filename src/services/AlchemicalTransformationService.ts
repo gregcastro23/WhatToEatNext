@@ -69,7 +69,7 @@ export class AlchemicalTransformationService {
     Pluto: 0,
   };
   private isDaytime = true;
-  private currentZodiac: ZodiacSign | null = null;
+  private currentZodiac: any | null = null;
   private lunarPhase: LunarPhase | null = null;
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
   private tarotPlanetaryBoosts?: Record<string, number>;
@@ -105,7 +105,7 @@ export class AlchemicalTransformationService {
   /**
    * Set current zodiac sign
    */
-  setCurrentZodiac(zodiac: ZodiacSign | null): void {
+  setCurrentZodiac(zodiac: any | null): void {
     this.currentZodiac = zodiac;
   }
 
@@ -291,7 +291,7 @@ export class AlchemicalTransformationService {
       let methodMatch = 0;
       let methodCount = 0;
 
-      const recipeData = recipe as unknown as Record<string, unknown>;
+      const recipeData = recipe as unknown as any;
       const cookingMethods = (recipeData.cookingMethods as string[]) || [];
       cookingMethods.forEach((method: string) => {
         const methodName = method.toLowerCase();
@@ -455,8 +455,8 @@ export class AlchemicalTransformationService {
 
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
-    const recipeData = recipe as unknown as Record<string, unknown>;
-    const astrologicalAffinities = recipeData.astrologicalAffinities as Record<string, unknown>;
+    const recipeData = recipe as unknown as any;
+    const astrologicalAffinities = recipeData.astrologicalAffinities as any;
     const lunarPhases = (astrologicalAffinities.lunarPhases as string[]) || [];
 
     if (lunarPhases.length === 0 || !this.lunarPhase) {
@@ -477,8 +477,8 @@ export class AlchemicalTransformationService {
 
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
-    const recipeData = recipe as unknown as Record<string, unknown>;
-    const astrologicalAffinities = recipeData.astrologicalAffinities as Record<string, unknown>;
+    const recipeData = recipe as unknown as any;
+    const astrologicalAffinities = recipeData.astrologicalAffinities as any;
     const signs = (astrologicalAffinities.signs as string[]) || [];
 
     if (signs.length === 0 || !this.currentZodiac) {

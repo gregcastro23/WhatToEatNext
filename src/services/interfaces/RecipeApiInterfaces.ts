@@ -79,7 +79,7 @@ export interface GetRecipesByCuisineParams {
  * GetRecipesByZodiac parameters
  */
 export interface GetRecipesByZodiacParams {
-  currentZodiacSign: ZodiacSign;
+  currentZodiacSign: any;
 }
 
 /**
@@ -150,7 +150,7 @@ export interface SearchRecipesParams {
     elementalPreference?: Partial<ElementalProperties>;
     planetaryHour?: PlanetName;
     lunarPhase?: LunarPhase;
-    currentZodiacSign?: ZodiacSign;
+    currentZodiacSign?: any;
     maxPrepTime?: number;
     maxCookTime?: number;
     servings?: number;
@@ -184,7 +184,7 @@ export interface GenerateRecipeParams {
     astrological?: {
       planetaryHour?: PlanetName;
       lunarPhase?: LunarPhase;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSign?: any;
     };
   };
 }

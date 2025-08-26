@@ -94,8 +94,8 @@ function getCurrentDateTimeLocation(customLocation?: { latitude: number; longitu
 /**
  * Convert sign name from API to our format
  */
-function normalizeSignName(signName: string): ZodiacSign {
-  const signMap: { [key: string]: ZodiacSign } = {
+function normalizeSignName(signName: string): any {
+  const signMap: { [key: string]: any } = {
     aries: 'aries',
     taurus: 'taurus',
     gemini: 'gemini',
@@ -110,7 +110,7 @@ function normalizeSignName(signName: string): ZodiacSign {
     pisces: 'pisces',
   };
 
-  const normalized = signName.toLowerCase() as ZodiacSign;
+  const normalized = signName.toLowerCase() as any;
   return signMap[normalized] || 'aries';
 }
 

@@ -65,10 +65,10 @@ const calculateAstrologicalAlignment = (
   let alignment = 0.5; // Base alignment score
 
   // Check zodiac compatibility with recipe's astrological timing
-  const astroTiming = recipe.astrologicalTiming as Record<string, unknown>;
+  const astroTiming = recipe.astrologicalTiming as any;
   if (astroTiming.zodiacCompatibility) {
     const zodiacCompatibility = (astroTiming.zodiacCompatibility as Record<ZodiacSign, number>)[
-      zodiacSign as ZodiacSign
+      zodiacSign as any
     ];
     if (zodiacCompatibility) {
       alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
@@ -87,7 +87,7 @@ const calculateAstrologicalAlignment = (
 
   // Check if any ingredients have zodiac influences matching the current zodiac
   const zodiacIngredientBonus = recipe.ingredients.reduce((bonus, ingredient) => {
-    if (ingredient.zodiacInfluences?.includes(zodiacSign as ZodiacSign)) {
+    if (ingredient.zodiacInfluences?.includes(zodiacSign as any)) {
       return bonus + 0.02; // 2% per matching ingredient
     }
     return bonus;
@@ -688,7 +688,7 @@ export class PredictiveIntelligenceService {
     const planetaryPositions = astrologicalContext.planetaryPositions || {};
     const planetaryInfluences = Object.values(planetaryPositions).map(position =>
       this.calculatePlanetaryInfluence(
-        position as unknown as Record<string, unknown>,
+        position as unknown as any,
         culinaryContext,
       ),
     );
@@ -867,7 +867,7 @@ export class PredictiveIntelligenceService {
       // Analyze nutritional content if available
       if (ingredient.nutritionalInfo) {
         _ingredientCount++;
-        const nutrition = ingredient.nutritionalInfo as Record<string, unknown>;
+        const nutrition = ingredient.nutritionalInfo as any;
         if (nutrition.protein && Number(nutrition.protein) > 5) macronutrients.protein++;
         if (nutrition.carbohydrates && Number(nutrition.carbohydrates) > 10) macronutrients.carbs++;
         if (nutrition.fat && Number(nutrition.fat) > 3) macronutrients.fat++;
@@ -968,7 +968,7 @@ export class PredictiveIntelligenceService {
     // Ingredient accessibility
     const commonIngredients = (cuisine.commonIngredients as string[]) || [];
     if (commonIngredients.length > 0) {
-      const accessibilityScore = Math.min(0.15, commonIngredients.length * 0.02);
+      const accessibilityScore = Math.min(0.15, ((commonIngredients as any)?.length || 0) * 0.2);
       compatibility += accessibilityScore;
     }
 
@@ -1186,10 +1186,10 @@ export class PredictiveIntelligenceService {
 
   private calculateOverallConfidence(result: PredictiveIntelligenceResult): number {
     const predictions = [
-      (result as Record<string, unknown>).recipePrediction.successProbability,
-      (result as Record<string, unknown>).ingredientPrediction.compatibilityPrediction,
-      (result as Record<string, unknown>).cuisinePrediction.fusionSuccessPrediction,
-      (result as Record<string, unknown>).astrologicalPrediction.alignmentPrediction,
+      (result as any).recipePrediction.successProbability,
+      (result as any).ingredientPrediction.compatibilityPrediction,
+      (result as any).cuisinePrediction.fusionSuccessPrediction,
+      (result as any).astrologicalPrediction.alignmentPrediction,
     ];
 
     return predictions.reduce((sum, pred) => sum + pred, 0) / predictions.length;
@@ -1202,8 +1202,8 @@ export class PredictiveIntelligenceService {
     astrologicalContext: PredictiveContext,
   ): string {
     return `predictive_${JSON.stringify({
-      recipeId: (recipeData as unknown as { id?: string })?.id,
-      ingredientCount: (ingredientData as unknown as unknown[])?.length,
+      recipeId: (recipeData as { id?: string })?.id,
+      ingredientCount: (ingredientData as any[])?.length,
       cuisineName: cuisineData.name,
       zodiac: astrologicalContext.zodiacSign,
       lunar: astrologicalContext.lunarPhase,

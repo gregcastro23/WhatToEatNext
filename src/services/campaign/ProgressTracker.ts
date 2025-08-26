@@ -36,7 +36,7 @@ export class ProgressTracker {
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 errors
       // Apply Pattern GG-6: Enhanced property access with type guards
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       if (typeof errorData.status === 'number' && errorData.status === 1) {
         return 0;
       }
@@ -80,7 +80,7 @@ export class ProgressTracker {
       return breakdown;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`);
@@ -104,7 +104,7 @@ export class ProgressTracker {
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 warnings
       // Apply Pattern GG-6: Enhanced property access with type guards
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       if (typeof errorData.status === 'number' && errorData.status === 1) {
         return 0;
       }
@@ -142,7 +142,7 @@ export class ProgressTracker {
       return breakdown;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`);
@@ -169,7 +169,7 @@ export class ProgressTracker {
       return buildTimeSeconds;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Build failed during timing: ${errorMessage}`);
@@ -192,7 +192,7 @@ export class ProgressTracker {
       return count;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not count enterprise systems: ${errorMessage}`);
@@ -210,7 +210,7 @@ export class ProgressTracker {
       return 0.8; // 80% cache hit rate
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`);
@@ -230,7 +230,7 @@ export class ProgressTracker {
       return Math.round(memoryMB);
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not measure memory usage: ${errorMessage}`);
@@ -262,7 +262,7 @@ export class ProgressTracker {
       return totalSize;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
-      const errorData = error as Record<string, unknown>;
+      const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not measure bundle size: ${errorMessage}`);

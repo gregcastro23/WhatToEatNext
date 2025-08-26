@@ -101,8 +101,8 @@ export class ChakraRecipeEnhancer {
    */
   enhanceRecipes(
     recipes: Recipe[],
-    sunSign: ZodiacSign,
-    moonSign: ZodiacSign,
+    sunSign: any,
+    moonSign: any,
     dominantPlanets: Planet[] = [],
   ): ChakraRecipeRecommendation[] {
     // Get current planetary hour

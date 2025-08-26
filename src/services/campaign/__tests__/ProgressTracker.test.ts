@@ -36,7 +36,7 @@ describe('ProgressTracker', () => {
     });
 
     it('should initialize with current timestamp', () => {
-      const lastUpdate = (progressTracker as unknown).lastMetricsUpdate;
+      const lastUpdate = (progressTracker as any).lastMetricsUpdate;
       expect(lastUpdate).toBeInstanceOf(Date);
     });
   });
@@ -622,11 +622,11 @@ describe('ProgressTracker', () => {
     });
 
     it('should update last metrics update timestamp', () => {
-      const beforeReset = (progressTracker as unknown).lastMetricsUpdate;
+      const beforeReset = (progressTracker as any).lastMetricsUpdate;
 
       progressTracker.resetMetricsHistory();
 
-      const afterReset = (progressTracker as unknown).lastMetricsUpdate;
+      const afterReset = (progressTracker as any).lastMetricsUpdate;
       expect(afterReset.getTime()).toBeGreaterThan(beforeReset.getTime());
     });
   });

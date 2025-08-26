@@ -215,7 +215,7 @@ describe('CampaignController', () => {
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBeGreaterThan(0);
-      expect((events as Record<string, unknown>)[0].description).toContain(
+      expect((events as any)[0].description).toContain(
         'Starting phase: TypeScript Error Elimination',
       );
     });
@@ -319,7 +319,7 @@ describe('CampaignController', () => {
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect((events as Record<string, unknown>)[0].description).toContain(
+      expect((events as any)[0].description).toContain(
         'Safety checkpoint created: Test checkpoint',
       );
     });
@@ -331,7 +331,7 @@ describe('CampaignController', () => {
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect((events as Record<string, unknown>)[0].description).toContain(
+      expect((events as any)[0].description).toContain(
         'Rolling back to checkpoint: checkpoint_123',
       );
     });
@@ -455,7 +455,7 @@ describe('CampaignController', () => {
       }
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect((events as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe(
+      expect((events as any)[(events as any).length - 1].description).toBe(
         'Event 1099',
       );
     });
@@ -515,7 +515,7 @@ describe('CampaignController', () => {
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       };
 
-      const achievements = (controller as unknown).generateAchievements(mockConfig.phases[1], metrics);
+      const achievements = (controller as any).generateAchievements(mockConfig.phases[1], metrics);
 
       expect(achievements).toContain('Zero linting warnings achieved');
       expect(achievements).toContain('Build time under 10 seconds maintained');

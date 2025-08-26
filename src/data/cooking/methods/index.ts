@@ -27,7 +27,7 @@ export const allCookingMethods = {
  * @param sign The zodiac sign to check
  * @returns Object containing cooking methods favorable for the sign
  */
-export const getMethodsForZodiacSign = (sign: ZodiacSign): Record<string, CookingMethodData> => {
+export const getMethodsForZodiacSign = (sign: any): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
       // Apply safe type casting for method property access

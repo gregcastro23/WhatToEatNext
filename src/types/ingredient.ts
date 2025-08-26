@@ -34,7 +34,7 @@ export interface Ingredient {
 
   // Astrological profile
   energyProfile?: {
-    zodiac?: ZodiacSign[];
+    zodiac?: any[];
     lunar?: LunarPhase[];
     planetary?: PlanetaryAlignment[];
   };

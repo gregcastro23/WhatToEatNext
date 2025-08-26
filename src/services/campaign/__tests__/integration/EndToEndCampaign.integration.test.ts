@@ -522,8 +522,8 @@ describe('End-to-End Campaign Integration Tests', () => {
       const customSafetyProtocol = new SafetyProtocol(customSafetySettings);
 
       // Verify custom settings are applied
-      expect((customSafetyProtocol as unknown).settings.maxFilesPerBatch).toBe(50);
-      expect((customSafetyProtocol as unknown).settings.stashRetentionDays).toBe(14);
+      expect((customSafetyProtocol as any).settings.maxFilesPerBatch).toBe(50);
+      expect((customSafetyProtocol as any).settings.stashRetentionDays).toBe(14);
     });
 
     it('should support custom success criteria', async () => {

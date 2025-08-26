@@ -74,8 +74,8 @@ class AstrologizeApiCache {
    * Calculate elemental absolute and relative values
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
-    const resultData = alchemicalResult as unknown as Record<string, unknown>;
-    const elementalBalance = (resultData.elementalBalance as Record<string, unknown>) || {};
+    const resultData = alchemicalResult as unknown as any;
+    const elementalBalance = (resultData.elementalBalance as any) || {};
     const Fire = Number(elementalBalance.Fire) || 0;
     const Water = Number(elementalBalance.Water) || 0;
     const Earth = Number(elementalBalance.Earth) || 0;
@@ -117,7 +117,7 @@ class AstrologizeApiCache {
       this.calculateElementalValues(alchemicalResult);
 
     // Safe access to alchemical result properties
-    const resultData = alchemicalResult as unknown as Record<string, unknown>;
+    const resultData = alchemicalResult as unknown as any;
 
     const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
@@ -215,7 +215,7 @@ class AstrologizeApiCache {
 
     // For each planet, predict its position
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
-      const planetData = position as unknown as Record<string, unknown>;
+      const planetData = position as unknown as any;
       predictedPositions[planet] = {
         sign: (String(planetData.sign) || 'aries') as unknown,
         degree: Number(planetData.degree) || 0,
@@ -359,7 +359,7 @@ class AstrologizeApiCache {
     entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
 
     // Remove oldest 10% of entries
-    const toRemove = Math.floor(entries.length * 0.1);
+    const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2);
     for (let i = 0; i < toRemove; i++) {
       this.cache.delete(entries[i][0]);
     }

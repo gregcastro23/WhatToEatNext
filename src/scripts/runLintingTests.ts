@@ -303,7 +303,7 @@ ${report.results
     Object.entries(report.summary).forEach(([category, passed]) => {
       const status = passed ? '✅ PASSED' : '❌ FAILED';
       const categoryName = category
-        .replace(/([A-Z])/g, ' $1')
+        .replace(/([A-Z])/g, ' 1')
         .replace(/^./, str => str.toUpperCase());
       console.log(`  ${categoryName}: ${status}`);
     });

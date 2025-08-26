@@ -161,7 +161,7 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
 export function calculateHouseEffect(
   planet: string,
   house: number,
-  sign: ZodiacSign,
+  sign: any,
 ): Record<ElementalCharacter, number> {
   const effects: Record<ElementalCharacter, number> = {
     Fire: 0,
@@ -223,7 +223,7 @@ export function calculateHouseEffect(
  * @returns Combined elemental effects from all house placements
  */
 export function calculateAllHouseEffects(
-  planetPositions: Record<string, { sign: ZodiacSign; house?: number }>,
+  planetPositions: Record<string, { sign: any; house?: number }>,
   _houses: Record<number, ZodiacSign>,
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {

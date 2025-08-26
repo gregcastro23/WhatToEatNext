@@ -82,7 +82,7 @@ export class RecipeCuisineConnector {
   private recipeCache: Map<string, CuisineRecipe>;
 
   constructor() {
-    this.cuisineDatabase = cuisinesMap as unknown;
+    this.cuisineDatabase = (cuisinesMap as unknown as any);
     this.recipeCache = new Map();
     this.buildRecipeCache();
   }
@@ -133,28 +133,28 @@ export class RecipeCuisineConnector {
           if (dish && typeof dish === 'object') {
             const recipe: CuisineRecipe = {
               id: '',
-              name: dish.name || 'Unnamed Recipe',
-              description: dish.description || '',
-              cuisine: dish.cuisine || '',
-              ingredients: this.normalizeIngredients(dish.ingredients || []),
-              instructions: dish.instructions || dish.preparationSteps || [],
-              preparationSteps: dish.preparationSteps || [],
-              cookingMethods: dish.cookingMethods || [],
-              tools: dish.tools || [],
-              nutrition: dish.nutrition,
-              servingSize: dish.servingSize || 1,
-              prepTime: dish.prepTime,
-              cookTime: dish.cookTime,
-              allergens: dish.allergens || [],
-              dietaryInfo: dish.dietaryInfo || [],
-              season: dish.season || [season],
-              mealType: dish.mealType || [mealType],
-              substitutions: dish.substitutions || {},
-              culturalNotes: dish.culturalNotes,
-              pairingSuggestions: dish.pairingSuggestions || [],
-              spiceLevel: dish.spiceLevel,
-              astrologicalAffinities: dish.astrologicalAffinities,
-              elementalProperties: dish.elementalProperties,
+              name: (dish as any)?.name || 'Unnamed Recipe',
+              description: (dish as any)?.description || '',
+              cuisine: (dish as any)?.cuisine || '',
+              ingredients: (this as any)?.normalizeIngredients((dish as any)?.ingredients || []),
+              instructions: (dish as any)?.instructions || (dish as any)?.preparationSteps || [],
+              preparationSteps: (dish as any)?.preparationSteps || [],
+              cookingMethods: (dish as any)?.cookingMethods || [],
+              tools: (dish as any)?.tools || [],
+              nutrition: (dish as any)?.nutrition,
+              servingSize: (dish as any)?.servingSize || 1,
+              prepTime: (dish as any)?.prepTime,
+              cookTime: (dish as any)?.cookTime,
+              allergens: (dish as any)?.allergens || [],
+              dietaryInfo: (dish as any)?.dietaryInfo || [],
+              season: (dish as any)?.season || [season],
+              mealType: (dish as any)?.mealType || [mealType],
+              substitutions: (dish as any)?.substitutions || {},
+              culturalNotes: (dish as any)?.culturalNotes,
+              pairingSuggestions: (dish as any)?.pairingSuggestions || [],
+              spiceLevel: (dish as any)?.spiceLevel,
+              astrologicalAffinities: (dish as any)?.astrologicalAffinities,
+              elementalProperties: (dish as any)?.elementalProperties,
             };
             recipes.push(recipe);
           }

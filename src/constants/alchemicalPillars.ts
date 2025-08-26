@@ -466,9 +466,9 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
   // If secondary element exists, blend properties (70% primary, 30% secondary)
   const secondaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
   return {
-    heat: primaryProps.heat * 0.7 + secondaryProps.heat * 0.3,
-    entropy: primaryProps.entropy * 0.7 + secondaryProps.entropy * 0.3,
-    reactivity: primaryProps.reactivity * 0.7 + secondaryProps.reactivity * 0.3,
+    heat: ((primaryProps as any)?.heat || 0) * 0.2 + ((secondaryProps as any)?.heat || 0) * 0.2,
+    entropy: ((primaryProps as any)?.entropy || 0) * 0.2 + ((secondaryProps as any)?.entropy || 0) * 0.2,
+    reactivity: ((primaryProps as any)?.reactivity || 0) * 0.2 + ((secondaryProps as any)?.reactivity || 0) * 0.2,
   };
 }
 
@@ -1424,7 +1424,7 @@ export function calculatePlanetaryAlignment(
   }
 
   // Base alignment from number of planetary associations
-  const baseAlignment = enhancedPillar.planetaryAssociations.length * 0.1;
+  const baseAlignment = ((planetaryAssociations as any)?.length || 0) * 0.2;
 
   // Monica modifier
   const monicaModifier = isNaN(enhancedPillar.monicaProperties.monicaConstant)

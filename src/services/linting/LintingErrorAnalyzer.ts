@@ -159,7 +159,7 @@ export class LintingErrorAnalyzer {
         id: 'auto-fix',
         name: 'Automated Fixes',
         issues: categorizedErrors.autoFixable,
-        estimatedTime: Math.ceil(categorizedErrors.autoFixable.length * 0.1), // 0.1 min per issue
+        estimatedTime: Math.ceil(((categorizedErrors.autoFixable as any)?.length || 0) * 0.2), // 0.1 min per issue
         riskLevel: 'low',
         dependencies: [],
       };
@@ -178,7 +178,7 @@ export class LintingErrorAnalyzer {
         id: 'import-style',
         name: 'Import and Style Fixes',
         issues: importStyleIssues,
-        estimatedTime: Math.ceil(importStyleIssues.length * 0.5), // 0.5 min per issue
+        estimatedTime: Math.ceil(((importStyleIssues as any)?.length || 0) * 0.2), // 0.5 min per issue
         riskLevel: 'medium',
         dependencies: ['auto-fix'],
       };
@@ -320,7 +320,7 @@ export class LintingErrorAnalyzer {
       message: String(rawIssue.message || ''),
       severity: Number(rawIssue.severity) === 2 ? 'error' : 'warning',
       category,
-      autoFixable: Boolean((rawIssue as Record<string, unknown>).fix),
+      autoFixable: Boolean((rawIssue as any).fix),
       domainContext,
       resolutionStrategy,
     };
@@ -432,7 +432,7 @@ export class LintingErrorAnalyzer {
     domainContext: DomainContext,
   ): ResolutionStrategy {
     const rule = String(rawIssue.ruleId || '');
-    const hasAutoFix = Boolean((rawIssue as Record<string, unknown>).fix);
+    const hasAutoFix = Boolean((rawIssue as any).fix);
 
     // Auto-fixable issues with low risk
     if (hasAutoFix && this.isLowRiskAutoFix(rule)) {

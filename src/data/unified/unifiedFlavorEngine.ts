@@ -539,7 +539,7 @@ export class UnifiedFlavorEngine {
     // Estimate based on elemental balance and complexity
     const elementalBalance =
       Object.values(_profile.elementalFlavors).reduce((a, b) => a + b, 0) / 4;
-    const complexityBonus = _profile.complexity * 0.2;
+    const complexityBonus = ((_profile as any)?.complexity || 0) * 0.2;
 
     return Math.min(1, elementalBalance + complexityBonus);
   }

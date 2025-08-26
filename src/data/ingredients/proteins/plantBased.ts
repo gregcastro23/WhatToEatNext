@@ -1612,7 +1612,7 @@ Object.entries(plantBased).forEach(([_id, ingredient]) => {
     // Optionally auto-normalize the values
     const factor = 1 / (Number(sum) || 1);
     Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
-      const elementKey = element as keyof ElementalProperties;
+      const elementKey = element as any;
       ingredient.elementalProperties[elementKey] = Number(value) * Number(factor);
     });
   }

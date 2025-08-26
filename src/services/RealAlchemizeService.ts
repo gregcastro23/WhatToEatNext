@@ -11,7 +11,7 @@ import { ZodiacSign, Element, ElementalProperties } from '@/types/celestial';
 
 // Types
 export type PlanetaryPosition = {
-  sign: ZodiacSign;
+  sign: any;
   degree: number;
   minute: number;
   isRetrograde: boolean;
@@ -42,9 +42,9 @@ export type StandardizedAlchemicalResult = {
 };
 
 // Utility functions
-function normalizeSign(sign: string): ZodiacSign {
+function normalizeSign(sign: string): any {
   const normalized = sign.toLowerCase();
-  const validSigns: ZodiacSign[] = [
+  const validSigns: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -59,8 +59,8 @@ function normalizeSign(sign: string): ZodiacSign {
     'pisces',
   ];
 
-  if (validSigns.includes(normalized as ZodiacSign)) {
-    return normalized as ZodiacSign;
+  if (validSigns.includes(normalized as any)) {
+    return normalized as any;
   }
 
   throw new Error(`Invalid zodiac sign: ${sign}`);
@@ -320,7 +320,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     const convertedPositions: Record<string, PlanetaryPosition> = {};
 
     for (const [planetName, planetData] of Object.entries(positions)) {
-      const data = planetData as Record<string, unknown>;
+      const data = planetData as any;
 
       convertedPositions[planetName] = {
         sign: normalizeSign(String(data.sign || '')),

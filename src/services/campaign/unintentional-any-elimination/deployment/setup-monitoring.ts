@@ -619,11 +619,11 @@ echo "Starting Unintentional Any Elimination Monitoring..."
 npx tsx .kiro/monitoring/UnintentionalAnyMonitoringService.ts &
 MONITORING_PID=$!
 
-echo "Monitoring service started with PID: $MONITORING_PID"
+echo "Monitoring service started with PID: MONITORING_PID"
 echo "Dashboard available at: npx tsx .kiro/monitoring/dashboard.ts"
 
 # Save PID for cleanup
-echo $MONITORING_PID > .kiro/monitoring/monitoring.pid
+echo MONITORING_PID > .kiro/monitoring/monitoring.pid
 
 echo "Monitoring setup complete!"
 `;

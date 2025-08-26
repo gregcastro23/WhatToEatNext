@@ -32,8 +32,8 @@ describe('ProgressReportingSystem', () => {
     mockValidationSystem = new MockMilestoneValidationSystem() as jest.Mocked<MilestoneValidationSystem>;
 
     reportingSystem = new ProgressReportingSystem();
-    (reportingSystem as unknown).metricsCollector = mockMetricsCollector;
-    (reportingSystem as unknown).validationSystem = mockValidationSystem;
+    (reportingSystem as any).metricsCollector = mockMetricsCollector;
+    (reportingSystem as any).validationSystem = mockValidationSystem;
   });
 
   describe('Campaign Summary Report Generation', () => {
@@ -77,7 +77,7 @@ describe('ProgressReportingSystem', () => {
               phase: 'phase1',
               success: true,
               timestamp: new Date(),
-              metrics: {} as unknown as Record<string, unknown>,
+              metrics: {} as unknown as any,
               criteria: [],
               failureReasons: [],
               recommendations: [],
@@ -97,7 +97,7 @@ describe('ProgressReportingSystem', () => {
               phase: 'phase2',
               success: true,
               timestamp: new Date(),
-              metrics: {} as unknown as Record<string, unknown>,
+              metrics: {} as unknown as any,
               criteria: [],
               failureReasons: [],
               recommendations: [],
@@ -117,7 +117,7 @@ describe('ProgressReportingSystem', () => {
               phase: 'phase3',
               success: true,
               timestamp: new Date(),
-              metrics: {} as unknown as Record<string, unknown>,
+              metrics: {} as unknown as any,
               criteria: [],
               failureReasons: [],
               recommendations: [],
@@ -137,7 +137,7 @@ describe('ProgressReportingSystem', () => {
               phase: 'phase4',
               success: true,
               timestamp: new Date(),
-              metrics: {} as unknown as Record<string, unknown>,
+              metrics: {} as unknown as any,
               criteria: [],
               failureReasons: [],
               recommendations: [],
@@ -199,7 +199,7 @@ describe('ProgressReportingSystem', () => {
               phase: 'phase1',
               success: false,
               timestamp: new Date(),
-              metrics: {} as unknown as Record<string, unknown>,
+              metrics: {} as unknown as any,
               criteria: [],
               failureReasons: ['10 errors remaining'],
               recommendations: [],
@@ -285,7 +285,7 @@ describe('ProgressReportingSystem', () => {
             phase: 'phase1',
             success: true,
             timestamp: new Date(),
-            metrics: {} as unknown as Record<string, unknown>,
+            metrics: {} as unknown as any,
             criteria: [],
             failureReasons: [],
             recommendations: [],

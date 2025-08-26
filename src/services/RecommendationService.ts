@@ -274,7 +274,7 @@ export class RecommendationService {
     this.transformedIngredients =
       this.transformedIngredients ||
       [].map(item => {
-        const properties = ((item as Record<string, unknown>)
+        const properties = ((item as any)
           .elementalState as ElementalProperties) || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
         // Apply boosts to each element
@@ -285,7 +285,7 @@ export class RecommendationService {
         });
 
         return {
-          ...(item as Record<string, unknown>),
+          ...(item as any),
           elementalProperties: properties,
         };
       });

@@ -63,7 +63,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       cuisine?: string;
       season?: Season;
       mealType?: string;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSign?: any;
       lunarPhase?: LunarPhase;
       dietaryPreferences?: string[];
       ingredients?: string[];
@@ -113,7 +113,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
       for (const [planet, position] of Object.entries(state.planetaryPositions)) {
         // Apply surgical type casting with variable extraction
-        const positionData = position as Record<string, unknown>;
+        const positionData = position as any;
         const sign = positionData.sign;
 
         // Skip non-standard planets or positions
@@ -155,7 +155,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     state: SystemState,
     options: {
       season?: Season;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSign?: any;
       categories?: string[];
       dietaryPreferences?: {
         isVegetarian?: boolean;

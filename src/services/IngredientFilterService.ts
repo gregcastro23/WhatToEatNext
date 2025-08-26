@@ -333,37 +333,37 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
       // Check for vegetarian
-      if (filter.isVegetarian && !(ingredient as Record<string, unknown>).isVegetarian) {
+      if (filter.isVegetarian && !(ingredient as any).isVegetarian) {
         return false;
       }
 
       // Check for vegan
-      if (filter.isVegan && !(ingredient as Record<string, unknown>).isVegan) {
+      if (filter.isVegan && !(ingredient as any).isVegan) {
         return false;
       }
 
       // Check for gluten-free
-      if (filter.isGlutenFree && !(ingredient as Record<string, unknown>).isGlutenFree) {
+      if (filter.isGlutenFree && !(ingredient as any).isGlutenFree) {
         return false;
       }
 
       // Check for dairy-free
-      if (filter.isDairyFree && !(ingredient as Record<string, unknown>).isDairyFree) {
+      if (filter.isDairyFree && !(ingredient as any).isDairyFree) {
         return false;
       }
 
       // Check for nut-free
-      if (filter.isNutFree && !(ingredient as Record<string, unknown>).isNutFree) {
+      if (filter.isNutFree && !(ingredient as any).isNutFree) {
         return false;
       }
 
       // Check for low sodium
-      if (filter.isLowSodium && !(ingredient as Record<string, unknown>).isLowSodium) {
+      if (filter.isLowSodium && !(ingredient as any).isLowSodium) {
         return false;
       }
 
       // Check for low sugar
-      if (filter.isLowSugar && !(ingredient as Record<string, unknown>).isLowSugar) {
+      if (filter.isLowSugar && !(ingredient as any).isLowSugar) {
         return false;
       }
 
@@ -378,7 +378,7 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
       // Safe access to seasonality property with type assertion
-      const seasonality = (ingredient as Record<string, unknown>).seasonality || [];
+      const seasonality = (ingredient as any).seasonality || [];
 
       // If no seasonality data, assume available year-round
       if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {
@@ -400,7 +400,7 @@ export class IngredientFilterService {
 
     return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion
-      const ingredientName = (ingredient as Record<string, unknown>).name || ingredient.id || '';
+      const ingredientName = (ingredient as any).name || ingredient.id || '';
 
       // Check if ingredient name matches query
       if (
@@ -411,7 +411,7 @@ export class IngredientFilterService {
       }
 
       // Check if any preparation notes match (if available)
-      const preparationNotes = (ingredient as Record<string, unknown>).preparationNotes || '';
+      const preparationNotes = (ingredient as any).preparationNotes || '';
       if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {
         if (preparationNotes.toLowerCase().includes(lowerCaseQuery)) {
           return true;
@@ -419,7 +419,7 @@ export class IngredientFilterService {
       }
 
       // Check if any affinities match (if available)
-      const affinities = (ingredient as Record<string, unknown>).affinities || [];
+      const affinities = (ingredient as any).affinities || [];
       if (Array.isArray(affinities) && affinities.length > 0) {
         return affinities.some(
           (affinity: unknown) =>
@@ -440,7 +440,7 @@ export class IngredientFilterService {
 
     return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion
-      const ingredientName = (ingredient as Record<string, unknown>).name || ingredient.id || '';
+      const ingredientName = (ingredient as any).name || ingredient.id || '';
 
       return !excludedIngredients.some(
         excluded =>

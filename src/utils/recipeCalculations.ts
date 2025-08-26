@@ -23,7 +23,7 @@ export const recipeCalculations = {
     const cuisineElements = recipe.cuisine.elementalAlignment;
     const alignmentScore = Object.entries(recipe.elementalProperties).reduce(
       (sum, [element, value]) => {
-        return sum + value * cuisineElements[element as keyof ElementalProperties];
+        return sum + value * cuisineElements[element as any];
       },
       0,
     );

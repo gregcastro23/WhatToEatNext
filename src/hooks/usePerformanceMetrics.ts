@@ -200,7 +200,7 @@ export const usePerformanceMetrics = (componentName?: string) => {
     return {
       componentName: componentName || 'Unknown',
       isPerformant: metrics.averageRenderTime < 16, // 60fps threshold
-      hasMemoryLeaks: metrics.memoryUsage > metrics.peakMemoryUsage * 0.8,
+      hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
       recommendations: [],
     };

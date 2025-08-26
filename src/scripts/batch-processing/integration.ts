@@ -240,7 +240,7 @@ export class BatchProcessingIntegration {
     }
 
     console.log('\n🔄 Batch Summary:');
-    const successfulBatches = campaign.batchResults.filter((r: any) => r.success).length;
+    const successfulBatches = campaign.batchResults.filter((r: unknown) => (r as any).success).length;
     console.log(`   Total Batches: ${campaign.batchResults.length}`);
     console.log(`   Successful Batches: ${successfulBatches}`);
     console.log(`   Failed Batches: ${campaign.batchResults.length - successfulBatches}`);

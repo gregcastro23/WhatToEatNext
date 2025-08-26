@@ -102,8 +102,8 @@ export function calculateRecipeMatchScore(
 
   try {
     const baseScore = calculateElementalMatch(
-      recipe.elementalState as unknown as { [key: string]: number },
-      elementalState as unknown as { [key: string]: number },
+      recipe.elementalState as { [key: string]: number },
+      elementalState as { [key: string]: number },
     );
     let score = baseScore * 100;
 
@@ -129,7 +129,7 @@ export function calculateRecipeMatchScore(
     }
     // 'All' season partial bonus
     else if ((seasons || []).some(s => s.toLowerCase() === 'all')) {
-      score += bonusFactors.seasonMatch * 0.5;
+      score += ((bonusFactors as any)?.seasonMatch || 0) * 0.2;
     }
 
     // Time of day matching with granular scoring
@@ -199,7 +199,7 @@ export function calculateRecipeMatchScore(
     if (prepTime <= 30) {
       score += bonusFactors.quickPrep;
     } else if (prepTime <= 45) {
-      score += bonusFactors.quickPrep * 0.5;
+      score += ((bonusFactors as any)?.quickPrep || 0) * 0.2;
     }
 
     // Traditional/Cultural appropriateness for time and season
@@ -422,20 +422,20 @@ function scoreRecipe(
 
   // Zodiac influences from Sun sign
   // Apply safe type casting for astrological state access
-  const astrologicalData = astrologicalState as Record<string, unknown>;
+  const astrologicalData = astrologicalState as any;
   const sunSign = astrologicalData.sign || astrologicalData.sunSign;
 
   if (
     recipe.zodiacInfluences &&
     (Array.isArray(recipe.zodiacInfluences)
-      ? recipe.zodiacInfluences.includes(sunSign as ZodiacSign)
+      ? recipe.zodiacInfluences.includes(sunSign as any)
       : recipe.zodiacInfluences === sunSign)
   ) {
     score += 12;
     reasons.push(`Aligned with your Sun sign (${sunSign})`);
 
     // Add zodiac elemental influence check
-    const sunSignElement = getZodiacElementalInfluence(sunSign as ZodiacSign);
+    const sunSignElement = getZodiacElementalInfluence(sunSign as any);
 
     if (recipe.elementalState && recipe.elementalState[sunSignElement] > 0.5) {
       score += 8;
@@ -449,14 +449,14 @@ function scoreRecipe(
     moonSign &&
     recipe.zodiacInfluences &&
     (Array.isArray(recipe.zodiacInfluences)
-      ? recipe.zodiacInfluences.includes(moonSign as ZodiacSign)
+      ? recipe.zodiacInfluences.includes(moonSign as any)
       : recipe.zodiacInfluences === moonSign)
   ) {
     score += 10;
     reasons.push(`Harmonious with your Moon sign (${moonSign})`);
 
     // Add zodiac elemental influence check for Moon sign
-    const moonSignElement = getZodiacElementalInfluence(moonSign as ZodiacSign);
+    const moonSignElement = getZodiacElementalInfluence(moonSign as any);
 
     if (recipe.elementalState && recipe.elementalState[moonSignElement] > 0.5) {
       score += 6;
@@ -651,7 +651,7 @@ function calculatePlanetaryDayInfluence(
   // Check for cooking style matches
   let styleMatch = false;
   if (recipe.cookingMethod) {
-    const cookingMethodStr = recipe.cookingMethod as unknown as Record<string, unknown>;
+    const cookingMethodStr = recipe.cookingMethod as unknown as any;
     if (typeof cookingMethodStr === 'string') {
       for (const style of associations.styles) {
         if (String(cookingMethodStr).toLowerCase().includes(style.toLowerCase())) {
@@ -666,7 +666,7 @@ function calculatePlanetaryDayInfluence(
   let ingredientMatch = false;
   if (recipe.ingredients) {
     // Apply safe type casting for ingredients access
-    const ingredientsData = recipe.ingredients as unknown as Record<string, unknown>;
+    const ingredientsData = recipe.ingredients as unknown as any;
     let ingredientText = '';
 
     if (Array.isArray(ingredientsData)) {
@@ -678,9 +678,9 @@ function calculatePlanetaryDayInfluence(
           } else if (
             ingredient &&
             typeof ingredient === 'object' &&
-            (ingredient as Record<string, unknown>).name
+            (ingredient as any).name
           ) {
-            return String((ingredient as Record<string, unknown>).name).toLowerCase();
+            return String((ingredient as any).name).toLowerCase();
           }
           return '';
         })

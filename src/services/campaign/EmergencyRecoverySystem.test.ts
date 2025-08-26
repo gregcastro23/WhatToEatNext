@@ -57,7 +57,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     // Mock fs.statSync for directory checks
     mockFs.statSync.mockReturnValue({
       isDirectory: () => true,
-    } as unknown);
+    } as any);
 
     // Mock fs.readFileSync to return empty JSON for stash tracking
     mockFs.readFileSync.mockImplementation((path: string) => {

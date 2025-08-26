@@ -100,18 +100,18 @@ export class CuisineEnhancer {
         const unifiedIngredient = RecipeEnhancer.findUnifiedIngredient(ingredientName);
         if (unifiedIngredient) {
           ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm || 1.0);
-        } else if ((ingredient as Record<string, unknown>).element) {
+        } else if ((ingredient as any).element) {
           ingredientKalchms.set(
             ingredientName,
             RecipeEnhancer.estimateKalchmFromElement(
-              (ingredient as Record<string, unknown>).element as Element,
+              (ingredient as any).element as Element,
             ),
           );
         }
       }
 
       // Track cooking methods
-      const recipeData = recipe as unknown as Record<string, unknown>;
+      const recipeData = recipe as unknown as any;
       if (recipeData.cookingMethods && Array.isArray(recipeData.cookingMethods)) {
         for (const method of recipeData.cookingMethods as string[]) {
           cookingMethods.set(method, (cookingMethods.get(method) || 0) + 1);
@@ -135,7 +135,7 @@ export class CuisineEnhancer {
     const ingredientKalchmWeight = 0.6;
     const recipeKalchmWeight = 0.4;
     const totalKalchm =
-      (ingredientKalchmProfile as Record<string, unknown>).kalchmRange.average *
+      (ingredientKalchmProfile as any).kalchmRange.average *
         ingredientKalchmWeight +
       averageRecipeKalchm * recipeKalchmWeight;
 
@@ -156,7 +156,7 @@ export class CuisineEnhancer {
     const recipes: Recipe[] = [];
 
     // Use safe type casting for cuisine property access
-    const cuisineData = cuisine as Record<string, unknown>;
+    const cuisineData = cuisine as any;
     if (!cuisineData.dishes || typeof cuisineData.dishes !== 'object') {
       return recipes;
     }
@@ -311,7 +311,7 @@ export class CuisineEnhancer {
     let validRecipes = 0;
 
     for (const recipe of recipes) {
-      const recipeData = recipe as unknown as Record<string, unknown>;
+      const recipeData = recipe as unknown as any;
       if (recipeData.elementalState) {
         const elementalData = recipeData.elementalState as ElementalProperties;
         totalFire += elementalData.Fire || 0;
@@ -381,7 +381,7 @@ export class CuisineEnhancer {
 
     for (const recipe of recipes) {
       // Count seasons
-      const recipeSeasonData = recipe as unknown as Record<string, unknown>;
+      const recipeSeasonData = recipe as unknown as any;
       if (recipeSeasonData.currentSeason && Array.isArray(recipeSeasonData.currentSeason)) {
         for (const season of recipeSeasonData.currentSeason as string[]) {
           if (season !== 'all') {
@@ -391,12 +391,12 @@ export class CuisineEnhancer {
       }
 
       // Collect planetary affinities
-      const astroData = recipe as unknown as Record<string, unknown>;
+      const astroData = recipe as unknown as any;
       if (
         astroData.astrologicalAffinities &&
-        (astroData.astrologicalAffinities as Record<string, unknown>).planets
+        (astroData.astrologicalAffinities as any).planets
       ) {
-        for (const planet of (astroData.astrologicalAffinities as Record<string, unknown>)
+        for (const planet of (astroData.astrologicalAffinities as any)
           .planets as string[]) {
           planetaryAffinities.add(planet);
         }
@@ -451,7 +451,7 @@ export class CuisineEnhancer {
 
     // Create enhanced cuisine (PRESERVES ALL EXISTING DATA)
     const enhancedCuisine = {
-      ...(cuisine as unknown as Record<string, unknown>), // Preserve ALL existing properties
+      ...(cuisine as unknown as any), // Preserve ALL existing properties
 
       // ADD new alchemical properties
       alchemicalProperties: {
@@ -526,7 +526,7 @@ export class CuisineAnalyzer {
   ): EnhancedCuisine[] {
     return cuisines.filter(cuisine => {
       // Use safe type casting for alchemicalProperties access
-      const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
+      const alchemicalData = cuisine.alchemicalProperties as any;
       const elementalBalance = alchemicalData.elementalBalance;
       return elementalBalance?.[element] >= threshold;
     });
@@ -568,7 +568,7 @@ export class CuisineAnalyzer {
 
     enhanced.forEach(cuisine => {
       // Analyze elemental dominance with safe type casting
-      const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
+      const alchemicalData = cuisine.alchemicalProperties as any;
       const elementalBalance = alchemicalData.elementalBalance;
       if (elementalBalance) {
         const dominant = Object.entries(elementalBalance).reduce((a, b) =>

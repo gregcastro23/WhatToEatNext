@@ -181,11 +181,11 @@ export function calculateTransitEffect(
     if (itemRulers.includes(transit.natalPlanet)) {
       // Positive transits boost score
       if (['trine', 'sextile', 'conjunction'].includes(transit.aspect)) {
-        score += transit.strength * 0.3;
+        score += ((transit as any)?.strength || 0) * 0.2;
       }
       // Challenging transits reduce score
       else if (['square', 'opposition'].includes(transit.aspect)) {
-        score -= transit.strength * 0.2;
+        score -= ((transit as any)?.strength || 0) * 0.2;
       }
     }
   }

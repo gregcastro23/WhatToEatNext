@@ -374,7 +374,7 @@ export class CampaignWorkflowManager {
     for (const phase of workflow.config.phases) {
       for (const tool of phase.tools) {
         // Simulate tool execution analysis
-        const analysis = await this.analyzeToolImpact(tool as unknown as Record<string, unknown>);
+        const analysis = await this.analyzeToolImpact(tool as unknown as any);
         wouldProcess.push(...analysis.files);
         estimatedChanges += analysis.changes;
         potentialIssues.push(...analysis.issues);

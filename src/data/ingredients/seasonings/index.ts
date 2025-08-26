@@ -130,7 +130,7 @@ export const getSeasoningsByElementalBoost = (element: string): IngredientMappin
       ([_, value]) =>
         value.astrologicalProfile?.lunarPhaseModifiers &&
         Object.values(value.astrologicalProfile.lunarPhaseModifiers).some(
-          modifier => (modifier as unknown)?.elementalBoost?.[element as keyof ElementalProperties],
+          modifier => (modifier as unknown)?.elementalBoost?.[element as any],
         ),
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);

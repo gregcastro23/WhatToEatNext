@@ -42,8 +42,8 @@ export const broiling: CookingMethodData = {
   ],
 
   astrologicalInfluences: {
-    favorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
-    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[],
+    favorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
+    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
     dominantPlanets: ['Mars', 'Sun', 'Mercury'],
     lunarPhaseEffect: {
       full_moon: 1.25, // Enhanced browning effects
@@ -128,7 +128,7 @@ export const broiling: CookingMethodData = {
     heat: 0.95, // Very high localized heat
     entropy: 0.7, // Significant surface transformation
     reactivity: 0.8, // High chemical reactivity on food surface
-    gregsEnergy: 0.95 - 0.7 * 0.8, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.750 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

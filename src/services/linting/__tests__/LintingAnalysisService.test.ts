@@ -165,7 +165,7 @@ describe('LintingAnalysisService', () => {
       const mockExecSync = require('child_process').execSync;
       mockExecSync.mockImplementationOnce(() => {
         const error = new Error('ESLint failed');
-        (error as unknown).stdout = '[]'; // Empty results
+        (error as any).stdout = '[]'; // Empty results
         throw error;
       });
 

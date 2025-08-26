@@ -15,6 +15,22 @@ import type {
 
 import { getCachedCalculation } from '../../utils/calculationCache';
 
+// Type guards for safe property access
+function isValidObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function hasProperty<T extends string>(
+  obj: unknown,
+  prop: T
+): obj is Record<T, unknown> {
+  return isValidObject(obj) && prop in obj;
+}
+
+function safeGetNumber(value: unknown): number {
+  return typeof value === 'number' && !isNaN(value) ? value : 0;
+}
+
 // === PHASE 45: ELEMENTAL INTELLIGENCE SYSTEMS ===
 // Transformed unused variables into sophisticated enterprise intelligence systems
 // Following proven methodology from Phases 40-44
@@ -83,7 +99,9 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const elementalMultipliers =
       contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||
       contextElementalMultipliers.general;
-    const preferenceMultiplier = preferences.intensity || 1.0;
+    const preferenceMultiplier = hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
+      ? preferences.intensity 
+      : 1.0;
 
     // Apply context-specific adjustments
     const adjustedProperties = {
@@ -219,11 +237,20 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     context: string,
     preferences: Record<string, unknown>,
   ) => {
+    const fireOptimization = hasProperty(preferences, 'fireOptimization') && typeof preferences.fireOptimization === 'number'
+      ? preferences.fireOptimization : 1.1;
+    const waterOptimization = hasProperty(preferences, 'waterOptimization') && typeof preferences.waterOptimization === 'number'
+      ? preferences.waterOptimization : 1.05;
+    const earthOptimization = hasProperty(preferences, 'earthOptimization') && typeof preferences.earthOptimization === 'number'
+      ? preferences.earthOptimization : 1.0;
+    const airOptimization = hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number'
+      ? preferences.airOptimization : 1.1;
+
     const optimizations = {
       Fire: {
         current: properties.Fire,
-        optimal: properties.Fire * (preferences.fireOptimization || 1.1),
-        adjustment: (preferences.fireOptimization || 1.1) - 1,
+        optimal: properties.Fire * fireOptimization,
+        adjustment: fireOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateFireOptimizations(
           properties.Fire,
           context,
@@ -231,8 +258,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       },
       Water: {
         current: properties.Water,
-        optimal: properties.Water * (preferences.waterOptimization || 1.05),
-        adjustment: (preferences.waterOptimization || 1.05) - 1,
+        optimal: properties.Water * waterOptimization,
+        adjustment: waterOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateWaterOptimizations(
           properties.Water,
           context,
@@ -240,8 +267,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       },
       Earth: {
         current: properties.Earth,
-        optimal: properties.Earth * (preferences.earthOptimization || 1.0),
-        adjustment: (preferences.earthOptimization || 1.0) - 1,
+        optimal: properties.Earth * earthOptimization,
+        adjustment: earthOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateEarthOptimizations(
           properties.Earth,
           context,
@@ -249,8 +276,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       },
       Air: {
         current: properties.Air,
-        optimal: properties.Air * (preferences.airOptimization || 1.1),
-        adjustment: (preferences.airOptimization || 1.1) - 1,
+        optimal: properties.Air * airOptimization,
+        adjustment: airOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateAirOptimizations(
           properties.Air,
           context,
@@ -382,7 +409,13 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   },
 
   calculateOverallOptimization: (optimizations: unknown): number => {
-    const adjustments = Object.values(optimizations).map((opt: unknown) => opt.adjustment);
+    if (!isValidObject(optimizations)) return 0;
+    const adjustments = Object.values(optimizations)
+      .map((opt: unknown) => {
+        return isValidObject(opt) && hasProperty(opt, 'adjustment') && typeof opt.adjustment === 'number'
+          ? opt.adjustment 
+          : 0;
+      });
     return adjustments.reduce((sum, adj) => sum + adj, 0) / adjustments.length;
   },
 
@@ -450,10 +483,14 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
 
     // User preference adjustments
     const preferenceAdjustments = {
-      intensity: preferences.intensity || 1.0,
-      flexibility: preferences.flexibility || 0.1,
-      traditionalism: preferences.traditionalism || 0.8,
-      innovation: preferences.innovation || 0.2,
+      intensity: hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
+        ? preferences.intensity : 1.0,
+      flexibility: hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number'
+        ? preferences.flexibility : 0.1,
+      traditionalism: hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number'
+        ? preferences.traditionalism : 0.8,
+      innovation: hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number'
+        ? preferences.innovation : 0.2,
     };
 
     // Enhanced seasonal modifiers with contextual adjustments
@@ -610,7 +647,7 @@ export function calculateBaseElementalProperties(planetaryPositions: {
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
     if (!position.sign) return;
 
-    const element = ZODIAC_ELEMENTS[position.sign.toLowerCase() as ZodiacSign];
+    const element = ZODIAC_ELEMENTS[position.sign.toLowerCase() as any];
     if (!element) return;
 
     // Weight by planet importance
@@ -646,10 +683,10 @@ export function applySeasonalAdjustments(
   const seasonalMod = SEASONAL_MODIFIERS[season.toLowerCase()] || SEASONAL_MODIFIERS.spring;
 
   return {
-    Fire: baseProperties.Fire * (1 + seasonalMod.Fire * 0.2),
-    Water: baseProperties.Water * (1 + seasonalMod.Water * 0.2),
-    Air: baseProperties.Air * (1 + seasonalMod.Air * 0.2),
-    Earth: baseProperties.Earth * (1 + seasonalMod.Earth * 0.2),
+    Fire: baseProperties.Fire * (1 + ((seasonalMod as any)?.Fire || 0) * 0.2),
+    Water: baseProperties.Water * (1 + ((seasonalMod as any)?.Water || 0) * 0.2),
+    Air: baseProperties.Air * (1 + ((seasonalMod as any)?.Air || 0) * 0.2),
+    Earth: baseProperties.Earth * (1 + ((seasonalMod as any)?.Earth || 0) * 0.2),
   };
 }
 
@@ -664,10 +701,10 @@ export function applyLunarPhaseAdjustments(
     LUNAR_PHASE_MODIFIERS[lunarPhase.toLowerCase()] || LUNAR_PHASE_MODIFIERS['full moon'];
 
   return {
-    Fire: baseProperties.Fire * (1 + lunarMod.Fire * 0.15),
-    Water: baseProperties.Water * (1 + lunarMod.Water * 0.15),
-    Air: baseProperties.Air * (1 + lunarMod.Air * 0.15),
-    Earth: baseProperties.Earth * (1 + lunarMod.Earth * 0.15),
+    Fire: baseProperties.Fire * (1 + ((lunarMod as any)?.Fire || 0) * 0.2),
+    Water: baseProperties.Water * (1 + ((lunarMod as any)?.Water || 0) * 0.2),
+    Air: baseProperties.Air * (1 + ((lunarMod as any)?.Air || 0) * 0.2),
+    Earth: baseProperties.Earth * (1 + ((lunarMod as any)?.Earth || 0) * 0.2),
   };
 }
 

@@ -8,6 +8,7 @@ import { ProgressMonitoringSystem } from './ProgressMonitoringSystem';
 import {
     AnalysisReport,
     AnyTypeCategory,
+    BaselineMetrics,
     ClassificationAccuracyReport,
     ClassificationTuningResults,
     CodeDomain,
@@ -391,7 +392,7 @@ export class PilotCampaignAnalysis {
   }
 
   private generateRiskMitigationStrategies(highRiskCount: number): string[] {
-    const strategies = [];
+    const strategies: string[] = [];
 
     if (highRiskCount > 100) {
       strategies.push('Implement conservative batch processing with extensive validation');
@@ -576,20 +577,20 @@ export class PilotCampaignAnalysis {
   }
 
   private calculateCategoryImprovements(before: unknown[], after: unknown[]): unknown[] {
-    return before.map((beforeCat => {
-      const afterCat = after.find(a => (a as Record<string, unknown>)?.category === (beforeCat as Record<string, unknown>).category);
+    return before.map((beforeCat) => {
+      const afterCat = after.find(a => (a as any)?.category === (beforeCat as any)?.category);
       if (afterCat) {
         return {
-          category: ((beforeCat as Record<string, unknown>)?.category,
-          beforeAccuracy: (beforeCat as Record<string, unknown>).accuracy,
-          afterAccuracy: (afterCat as Record<string, unknown>)?.accuracy,
-          improvement: (afterCat as Record<string, unknown>)?.accuracy - (beforeCat as Record<string, unknown>)?.accuracy
+          category: (beforeCat as any)?.category,
+          beforeAccuracy: (beforeCat as any).accuracy,
+          afterAccuracy: (afterCat as any)?.accuracy,
+          improvement: (afterCat as any)?.accuracy - (beforeCat as any)?.accuracy
         };
       }
       return {
-        category: ((beforeCat as Record<string, unknown>)?.category,
-        beforeAccuracy: ((beforeCat as Record<string, unknown>)?.accuracy,
-        afterAccuracy: (beforeCat as Record<string, unknown>)?.accuracy,
+        category: (beforeCat as any)?.category,
+        beforeAccuracy: (beforeCat as any)?.accuracy,
+        afterAccuracy: (beforeCat as any)?.accuracy,
         improvement: 0
       };
     });
@@ -597,10 +598,10 @@ export class PilotCampaignAnalysis {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private async assessCampaignReadiness(data: unknown): Promise<any> {
-    const accuracyScore = (data as Record<string, unknown>)?.((accuracyValidation as Record<string, unknown>)?.overallAccuracy;
-    const successRateScore = (data as Record<string, unknown>)?.((baselineMetrics as Record<string, unknown>)?.projectedSuccessRate;
-    const tuningScore = (data as Record<string, unknown>)?.((tuningResults as Record<string, unknown>)?.tuningPerformed ?
-      ((data as Record<string, unknown>)?.(tuningResults as Record<string, unknown>).improvementPercentage > 0 ? 85 : 75) : 70;
+    const accuracyScore = (data as any)?.accuracyValidation?.overallAccuracy;
+    const successRateScore = (data as any)?.baselineMetrics?.projectedSuccessRate;
+    const tuningScore = (data as any)?.tuningResults?.tuningPerformed ?
+      ((data as any)?.tuningResults?.improvementPercentage > 0 ? 85 : 75) : 70;
 
     const overallReadiness = (accuracyScore + successRateScore + tuningScore) / 3;
 
@@ -650,17 +651,17 @@ export class PilotCampaignAnalysis {
       riskFactors: [
         {
           factor: 'Classification Accuracy',
-          risk: (data as Record<string, unknown>)?.((accuracyValidation as Record<string, unknown>)?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
+          risk: (data as any)?.accuracyValidation?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
           mitigation: 'Implement manual review for low-confidence cases'
         },
         {
           factor: 'Success Rate Prediction',
-          risk: (data as Record<string, unknown>)?.((baselineMetrics as Record<string, unknown>)?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
+          risk: (data as any)?.baselineMetrics?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
           mitigation: 'Use conservative batch processing'
         },
         {
           factor: 'Algorithm Tuning',
-          risk: (data as Record<string, unknown>)?.(tuningResults as Record<string, unknown>).tuningPerformed ? 'LOW' : 'MEDIUM',
+          risk: (data as any)?.tuningResults?.tuningPerformed ? 'LOW' : 'MEDIUM',
           mitigation: 'Continue monitoring and tuning as needed'
         }
       ],
@@ -677,17 +678,17 @@ export class PilotCampaignAnalysis {
     const recommendations = [];
 
     // Based on accuracy
-    if ((data as Record<string, unknown>)?.(accuracyValidation as Record<string, unknown>).overallAccuracy < 80) {
+    if ((data as any)?.(accuracyValidation as any).overallAccuracy < 80) {
       recommendations.push('Improve classification accuracy before proceeding to replacement phase');
     }
 
     // Based on success rate
-    if ((data as Record<string, unknown>)?.(baselineMetrics as Record<string, unknown>).projectedSuccessRate < 75) {
+    if ((data as any)?.baselineMetrics?.projectedSuccessRate < 75) {
       recommendations.push('Focus on high-success categories first to build confidence');
     }
 
     // Based on tuning results
-    if ((data as Record<string, unknown>)?.((tuningResults as Record<string, unknown>)?.tuningPerformed && (data as Record<string, unknown>)?.(tuningResults as Record<string, unknown>).improvementPercentage > 5) {
+    if ((data as any)?.tuningResults?.tuningPerformed && (data as any)?.tuningResults?.improvementPercentage > 5) {
       recommendations.push('Tuning showed significant improvement - proceed with enhanced algorithms');
     }
 
@@ -705,15 +706,15 @@ export class PilotCampaignAnalysis {
   private async generatePilotRecommendations(report: AnalysisReport): Promise<string[]> {
     const recommendations = [];
 
-    if (report.pilotPhase?.accuracyValidation.overallAccuracy < 80) {
+    if ((report as any)?.pilotPhase?.(accuracyValidation as any)?.overallAccuracy < 80) {
       recommendations.push('Classification accuracy needs improvement before replacement pilot');
     }
 
-    if (report.pilotPhase?.baselineMetrics.projectedSuccessRate < 75) {
+    if ((report as any)?.pilotPhase?.(baselineMetrics as any)?.projectedSuccessRate < 75) {
       recommendations.push('Focus on high-confidence categories for initial replacement attempts');
     }
 
-    if (report.pilotPhase?.readinessAssessment.overallReadiness > 80) {
+    if ((report as any)?.pilotPhase?.(readinessAssessment as any)?.overallReadiness > 80) {
       recommendations.push('System ready for conservative replacement pilot phase');
     } else {
       recommendations.push('Additional preparation needed before replacement pilot');
@@ -725,7 +726,7 @@ export class PilotCampaignAnalysis {
   private generateNextSteps(report: AnalysisReport): string[] {
     const nextSteps = [];
 
-    if (report.pilotPhase?.readinessAssessment.overallReadiness > 80) {
+    if ((report as any)?.pilotPhase?.(readinessAssessment as any)?.overallReadiness > 80) {
       nextSteps.push('Proceed to Task 12.2: Execute conservative replacement pilot');
       nextSteps.push('Configure safety protocols and monitoring systems');
       nextSteps.push('Start with high-confidence, low-risk categories');

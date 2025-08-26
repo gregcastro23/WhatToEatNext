@@ -119,7 +119,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Mock low cache performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockValidateMemoryCache = jest.spyOn(validator as unknown, 'validateMemoryCache');
-      mockValidateMemoryCache.mockResolvedValue({
+      (mockValidateMemoryCache as any)?.mockResolvedValue({
         name: 'memory',
         hitRate: 0.5, // Low hit rate
         avgResponseTime: 5,
@@ -135,7 +135,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(cacheAlert).toBeDefined();
       expect(cacheAlert?.message).toContain('hit rate');
 
-      mockValidateMemoryCache.mockRestore();
+      (mockValidateMemoryCache as any)?.mockRestore();
     });
   });
 
@@ -147,7 +147,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Mock degraded performance for second run
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockRunAlgorithmBenchmark = jest.spyOn(validator as unknown, 'runAlgorithmBenchmark');
-      mockRunAlgorithmBenchmark.mockResolvedValue([200, 210, 205, 195, 200]); // Slower performance
+      (mockRunAlgorithmBenchmark as any)?.mockResolvedValue([200, 210, 205, 195, 200]); // Slower performance
 
       // Run benchmarks again
       await validator.runPerformanceBenchmarks();
@@ -166,7 +166,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(regressionTest).toHaveProperty('threshold');
       expect(regressionTest).toHaveProperty('recommendations');
 
-      mockRunAlgorithmBenchmark.mockRestore();
+      (mockRunAlgorithmBenchmark as any)?.mockRestore();
     });
 
     it('should not detect regression when performance improves', async () => {
@@ -181,11 +181,11 @@ describe('AlgorithmPerformanceValidator', () => {
       const mockRunApiBenchmark = jest.spyOn(validator as unknown, 'runApiBenchmark');
       const mockRunUiBenchmark = jest.spyOn(validator as unknown, 'runUiBenchmark');
 
-      mockRunAlgorithmBenchmark.mockResolvedValue([30, 35, 32, 28, 30]); // Better performance
-      mockRunCacheBenchmark.mockResolvedValue([2, 2.5, 2.2, 1.8, 2]); // Better performance
-      mockRunDatabaseBenchmark.mockResolvedValue([80, 85, 82, 78, 80]); // Better performance
-      mockRunApiBenchmark.mockResolvedValue([150, 155, 152, 148, 150]); // Better performance
-      mockRunUiBenchmark.mockResolvedValue([20, 25, 22, 18, 20]); // Better performance
+      (mockRunAlgorithmBenchmark as any)?.mockResolvedValue([30, 35, 32, 28, 30]); // Better performance
+      (mockRunCacheBenchmark as any)?.mockResolvedValue([2, 2.5, 2.2, 1.8, 2]); // Better performance
+      (mockRunDatabaseBenchmark as any)?.mockResolvedValue([80, 85, 82, 78, 80]); // Better performance
+      (mockRunApiBenchmark as any)?.mockResolvedValue([150, 155, 152, 148, 150]); // Better performance
+      (mockRunUiBenchmark as any)?.mockResolvedValue([20, 25, 22, 18, 20]); // Better performance
 
       // Run benchmarks again
       await validator.runPerformanceBenchmarks();
@@ -196,11 +196,11 @@ describe('AlgorithmPerformanceValidator', () => {
       const regressionsDetected = regressionTests.filter(t => t.regressionDetected);
       expect(regressionsDetected.length).toBeLessThanOrEqual(2); // Allow for some randomness in mock data
 
-      mockRunAlgorithmBenchmark.mockRestore();
-      mockRunCacheBenchmark.mockRestore();
-      mockRunDatabaseBenchmark.mockRestore();
-      mockRunApiBenchmark.mockRestore();
-      mockRunUiBenchmark.mockRestore();
+      (mockRunAlgorithmBenchmark as any)?.mockRestore();
+      (mockRunCacheBenchmark as any)?.mockRestore();
+      (mockRunDatabaseBenchmark as any)?.mockRestore();
+      (mockRunApiBenchmark as any)?.mockRestore();
+      (mockRunUiBenchmark as any)?.mockRestore();
     });
 
     it('should generate alerts for detected regressions', async () => {
@@ -210,7 +210,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Mock significantly degraded performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockRunAlgorithmBenchmark = jest.spyOn(validator as unknown, 'runAlgorithmBenchmark');
-      mockRunAlgorithmBenchmark.mockResolvedValue([300, 310, 305, 295, 300]); // Much slower
+      (mockRunAlgorithmBenchmark as any)?.mockResolvedValue([300, 310, 305, 295, 300]); // Much slower
 
       // Run benchmarks again
       await validator.runPerformanceBenchmarks();
@@ -223,7 +223,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(regressionAlert).toBeDefined();
       expect(regressionAlert?.message).toContain('regression detected');
 
-      mockRunAlgorithmBenchmark.mockRestore();
+      (mockRunAlgorithmBenchmark as any)?.mockRestore();
     });
   });
 
@@ -247,7 +247,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Mock poor performance benchmarks
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockBenchmarkAlgorithms = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
-      mockBenchmarkAlgorithms.mockResolvedValue([
+      (mockBenchmarkAlgorithms as any)?.mockResolvedValue([
         {
           name: 'test_algorithm',
           category: 'algorithm',
@@ -270,7 +270,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(improvementAlert).toBeDefined();
       expect(improvementAlert?.message).toContain('improvement below target');
 
-      mockBenchmarkAlgorithms.mockRestore();
+      (mockBenchmarkAlgorithms as any)?.mockRestore();
     });
   });
 
@@ -304,7 +304,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Mock poor performance to trigger recommendations
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockBenchmarkAlgorithms = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
-      mockBenchmarkAlgorithms.mockResolvedValue([
+      (mockBenchmarkAlgorithms as any)?.mockResolvedValue([
         {
           name: 'slow_algorithm',
           category: 'algorithm',
@@ -323,7 +323,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(report.recommendations.length).toBeGreaterThan(0);
       expect(report.recommendations.some(rec => rec.includes('algorithm'))).toBe(true);
 
-      mockBenchmarkAlgorithms.mockRestore();
+      (mockBenchmarkAlgorithms as any)?.mockRestore();
     });
   });
 
@@ -335,7 +335,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Trigger alerts by running performance validation with poor metrics
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockValidateMemoryCache = jest.spyOn(validator as unknown, 'validateMemoryCache');
-      mockValidateMemoryCache.mockResolvedValue({
+      (mockValidateMemoryCache as any)?.mockResolvedValue({
         name: 'memory',
         hitRate: 0.4, // Very low hit rate
         avgResponseTime: 10,
@@ -353,7 +353,7 @@ describe('AlgorithmPerformanceValidator', () => {
       const alertsAfterClear = validator.getCurrentAlerts();
       expect(alertsAfterClear).toHaveLength(0);
 
-      mockValidateMemoryCache.mockRestore();
+      (mockValidateMemoryCache as any)?.mockRestore();
     });
   });
 
@@ -413,7 +413,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Directly set the history to test size limiting
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (validator as unknown).benchmarkHistory = mockBenchmarks;
+      (validator as any).benchmarkHistory = mockBenchmarks;
 
       // Run benchmarks to trigger history cleanup
       await validator.runPerformanceBenchmarks();

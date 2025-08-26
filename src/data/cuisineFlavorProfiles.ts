@@ -770,7 +770,7 @@ export function getRecipesForCuisineMatch(
 
     // Filter recipes that match the cuisine
     const _ = (recipes || []).filter((recipe: unknown) => {
-      const recipeData = recipe as Record<string, unknown>;
+      const recipeData = recipe as any;
 
       // Check recipe name
       const recipeName = String(recipeData.name || '').toLowerCase();
@@ -927,7 +927,7 @@ export function getRecipesForCuisineMatch(
 
     // Direct exact cuisine matches (highest priority)
     const exactCuisineMatches = recipes.filter(recipe => {
-      const recipeData = recipe as Record<string, unknown>;
+      const recipeData = recipe as any;
       const cuisine = String(recipeData.cuisine || '');
       return (
         cuisine.toLowerCase() === normalizedCuisineName ||
@@ -940,7 +940,7 @@ export function getRecipesForCuisineMatch(
 
     // Regional variant matches
     const regionalMatches = recipes.filter(recipe => {
-      const recipeData = recipe as Record<string, unknown>;
+      const recipeData = recipe as any;
       const regionalCuisine = String(recipeData.regionalCuisine || '');
       return (
         !exactCuisineMatches.includes(recipe) &&
@@ -964,7 +964,7 @@ export function getRecipesForCuisineMatch(
       scoredOtherRecipes = otherRecipes
         .map(recipe => {
           try {
-            const recipeData = recipe as Record<string, unknown>;
+            const recipeData = recipe as any;
             const scoreComponents: number[] = [];
             let totalWeight = 0;
 
@@ -982,7 +982,7 @@ export function getRecipesForCuisineMatch(
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
               const ingredients = recipeData.ingredients as unknown[];
               const recipeIngredientNames = ingredients.map((ing: unknown) => {
-                const ingData = ing as Record<string, unknown>;
+                const ingData = ing as any;
                 return typeof ing === 'string'
                   ? ing.toLowerCase()
                   : String(ingData.name || '').toLowerCase();
@@ -1042,24 +1042,24 @@ export function getRecipesForCuisineMatch(
             }
 
             return {
-              ...(recipe as Record<string, unknown>),
+              ...(recipe as any),
               matchScore: finalScore,
               matchPercentage: Math.round(finalScore * 100),
             };
           } catch (scoreError) {
             console.error(`Error scoring recipe match for ${cuisineName}:`, scoreError);
             return {
-              ...(recipe as Record<string, unknown>),
+              ...(recipe as any),
               matchScore: 0.5,
               matchPercentage: 50,
             };
           }
         })
-        .filter(recipe => Number((recipe as Record<string, unknown>).matchScore || 0) >= 0.5) // Only include reasonably good matches
+        .filter(recipe => Number((recipe as any).matchScore || 0) >= 0.5) // Only include reasonably good matches
         .sort(
           (a, b) =>
-            Number((b as Record<string, unknown>).matchScore || 0) -
-            Number((a as Record<string, unknown>).matchScore || 0),
+            Number((b as any).matchScore || 0) -
+            Number((a as any).matchScore || 0),
         ); // Sort by score (high to low)
     }
 
@@ -1068,12 +1068,12 @@ export function getRecipesForCuisineMatch(
     // Combine all matches, prioritizing direct matches, then regional, then others
     const allMatches = [
       ...exactCuisineMatches.map(recipe => ({
-        ...(recipe as Record<string, unknown>),
+        ...(recipe as any),
         matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
         matchPercentage: Math.round((0.9 + Math.random() * 0.1) * 100),
       })),
       ...regionalMatches.map(recipe => ({
-        ...(recipe as Record<string, unknown>),
+        ...(recipe as any),
         matchScore: 0.8 + Math.random() * 0.1, // 80-90% match
         matchPercentage: Math.round((0.8 + Math.random() * 0.1) * 100),
       })),
@@ -1082,15 +1082,15 @@ export function getRecipesForCuisineMatch(
 
     // Remove duplicates by name
     const uniqueMatches = allMatches.filter((recipe, index, self) => {
-      const recipeData = recipe as Record<string, unknown>;
-      return index === self.findIndex(r => (r as Record<string, unknown>).name === recipeData.name);
+      const recipeData = recipe as any;
+      return index === self.findIndex(r => (r as any).name === recipeData.name);
     });
 
     // Sort by match score
     const sortedMatches = uniqueMatches.sort(
       (a, b) =>
-        Number((b as Record<string, unknown>).matchScore || 0) -
-        Number((a as Record<string, unknown>).matchScore || 0),
+        Number((b as any).matchScore || 0) -
+        Number((a as any).matchScore || 0),
     );
 
     log.info(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
@@ -1111,11 +1111,11 @@ export function getRecipesForCuisineMatch(
 function calculateFlavorProfileMatch(recipeProfile: unknown, cuisineProfile: unknown): number {
   try {
     // Apply safe type conversion for property access
-    const recipeData = recipeProfile as Record<string, unknown>;
-    const cuisineData = cuisineProfile as Record<string, unknown>;
+    const recipeData = recipeProfile as any;
+    const cuisineData = cuisineProfile as any;
 
-    const recipeFlavors = recipeData.flavorProfiles as Record<string, unknown>;
-    const cuisineFlavors = cuisineData.flavorProfiles as Record<string, unknown>;
+    const recipeFlavors = recipeData.flavorProfiles as any;
+    const cuisineFlavors = cuisineData.flavorProfiles as any;
 
     if (!recipeFlavors || !cuisineFlavors) return 0;
 
@@ -1156,8 +1156,8 @@ export const getCuisineElementalMatch = (
     let totalMatch = 0;
 
     elements.forEach(element => {
-      const cuisineValue = Number(cuisineElemental[element as keyof ElementalProperties] || 0);
-      const recipeValue = Number(recipeElemental[element as keyof ElementalProperties] || 0);
+      const cuisineValue = Number(cuisineElemental[element as any] || 0);
+      const recipeValue = Number(recipeElemental[element as any] || 0);
       const difference = Math.abs(cuisineValue - recipeValue);
       totalMatch += 1 - difference;
     });
@@ -1186,7 +1186,7 @@ export const calculateCuisineSimilarity = (cuisine1: string, cuisine2: string): 
   let elementCount = 0;
 
   elements.forEach(element => {
-    const elementKey = element as keyof ElementalProperties;
+    const elementKey = element as any;
     const val1 = profile1.elementalProperties?.[elementKey] || 0;
     const val2 = profile2.elementalProperties?.[elementKey] || 0;
 

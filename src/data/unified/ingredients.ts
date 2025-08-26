@@ -4,11 +4,11 @@
 
 import type { UnifiedIngredient } from '@/types';
 import type {
-  IngredientMapping,
-  ElementalProperties,
-  ThermodynamicMetrics,
-  ThermodynamicProperties,
-  AlchemicalProperties,
+    AlchemicalProperties,
+    ElementalProperties,
+    IngredientMapping,
+    ThermodynamicMetrics,
+    ThermodynamicProperties,
 } from '@/types/alchemy';
 
 // TODO: Fix import - add what to import from "./unifiedTypes.ts"
@@ -20,7 +20,7 @@ import { fruits } from '../ingredients/fruits';
 import { allGrains as grains } from '../ingredients/grains';
 import { herbs } from '../ingredients/herbs';
 import { allOils as oils } from '../ingredients/oils';
-import { meats, poultry, seafood, plantBased } from '../ingredients/proteins';
+import { meats, plantBased, poultry, seafood } from '../ingredients/proteins';
 import { seasonings } from '../ingredients/seasonings';
 import { spices } from '../ingredients/spices';
 import { vegetables } from '../ingredients/vegetables';
@@ -64,7 +64,7 @@ function calculateMonica(
   if (!thermodynamics || kalchm <= 0) return 0;
 
   // ✅ Pattern MM-1: Safe type assertion for thermodynamics access
-  const thermoData = thermodynamics as unknown as Record<string, unknown>;
+  const thermoData = thermodynamics as unknown as any;
   const reactivity = Number(thermoData.reactivity) || 0;
   const gregsEnergy = Number(thermoData.gregsEnergy);
   const energy = Number(thermoData.energy) || 0;
@@ -92,7 +92,7 @@ function enhanceIngredient(
 ): UnifiedIngredient {
   // Create alchemical properties if not present - ensure it's the correct type
   // ✅ Pattern GG-6: Safe property access for alchemical properties
-  const alchemicalData = ingredient.alchemicalProperties as unknown as Record<string, unknown>;
+  const alchemicalData = ingredient.alchemicalProperties as unknown as any;
   const alchemicalProperties: AlchemicalProperties = {
     Spirit: Number(alchemicalData.Spirit) || 0.25,
     Essence: Number(alchemicalData.Essence) || 0.25,
@@ -109,7 +109,7 @@ function enhanceIngredient(
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5 - 0.5 * 0.5,
+      gregsEnergy: 0.5 - 0.5 * 0.2,
     };
 
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility
@@ -121,15 +121,15 @@ function enhanceIngredient(
   // Create enhanced unified ingredient
   return {
     // ✅ Pattern GG-6: Safe property access for core ingredient properties
-    name: String((ingredient as Record<string, unknown>).name || ''),
-    category: String((ingredient as Record<string, unknown>).category || sourceCategory),
-    subcategory: String((ingredient as Record<string, unknown>).subCategory || ''),
+    name: String((ingredient as any).name || ''),
+    category: String((ingredient as any).category || sourceCategory),
+    subcategory: String((ingredient as any).subCategory || ''),
 
     // ✅ Pattern GG-6: Safe property access for elemental properties
     elementalProperties:
-      ((ingredient as Record<string, unknown>).elementalPropertiesState as ElementalProperties) ||
-      ((ingredient as Record<string, unknown>).elementalProperties as ElementalProperties) ||
-      createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+      ((ingredient as any).elementalPropertiesState as ElementalProperties) ||
+      ((ingredient as any).elementalProperties as ElementalProperties) ||
+      createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
     alchemicalProperties,
 
     // New calculated values
@@ -179,7 +179,7 @@ export const unifiedHerbs = createUnifiedCollection(
   'herbs',
 );
 export const unifiedSpices = createUnifiedCollection(
-  spices as unknown as { [key: string]: IngredientMapping },
+  spices as { [key: string]: IngredientMapping },
   'spices',
 );
 export const unifiedGrains = createUnifiedCollection(

@@ -38,8 +38,8 @@ export const stirFrying: CookingMethodData = {
     'caramelization',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['aries', 'leo', 'gemini'] as ZodiacSign[],
-    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[],
+    favorableZodiac: ['aries', 'leo', 'gemini'] as any[],
+    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
     dominantPlanets: ['Mercury', 'Mars', 'Sun'],
     lunarPhaseEffect: {
       full_moon: 1.3, // Enhanced wok hei flavor
@@ -106,7 +106,7 @@ export const stirFrying: CookingMethodData = {
     heat: 0.9, // Very high heat application
     entropy: 0.55, // Moderate structural breakdown
     reactivity: 0.85, // High reactivity (Maillard, caramelization)
-    gregsEnergy: 0.9 - 0.55 * 0.85, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -10.350 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

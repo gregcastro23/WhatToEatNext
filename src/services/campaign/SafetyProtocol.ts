@@ -87,13 +87,13 @@ export class SafetyProtocol {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
-        description: `Failed to create git stash: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        description: `Failed to create git stash: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
         action: 'STASH_FAILED',
       });
 
       throw new Error(
-        `Failed to create git stash: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Failed to create git stash: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }
@@ -152,13 +152,13 @@ export class SafetyProtocol {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
-        description: `Failed to apply git stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        description: `Failed to apply git stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
         action: 'STASH_APPLY_FAILED',
       });
 
       throw new Error(
-        `Failed to apply git stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Failed to apply git stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }
@@ -252,12 +252,12 @@ export class SafetyProtocol {
         detectedFiles.push(filePath);
         corruptionPatterns.push({
           pattern: 'FILE_READ_ERROR',
-          description: `Cannot read file: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          description: `Cannot read file: ${(error as any).message || 'Unknown error'}`,
           files: [filePath],
         });
         maxSeverity = CorruptionSeverity.HIGH;
         console.error(
-          `❌ File read error in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          `❌ File read error in ${filePath}: ${(error as any).message || 'Unknown error'}`,
         );
       }
     }
@@ -329,7 +329,7 @@ export class SafetyProtocol {
         }
       } catch (error) {
         console.error(
-          `❌ Error analyzing import/export corruption in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          `❌ Error analyzing import/export corruption in ${filePath}: ${(error as any).message || 'Unknown error'}`,
         );
       }
     }
@@ -381,7 +381,7 @@ export class SafetyProtocol {
           }
         } catch (error) {
           console.error(
-            `❌ Error during real-time monitoring: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+            `❌ Error during real-time monitoring: ${(error as any).message || 'Unknown error'}`,
           );
         }
       })();
@@ -504,13 +504,13 @@ export class SafetyProtocol {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
-        description: `Emergency rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        description: `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.CRITICAL,
         action: 'EMERGENCY_ROLLBACK_FAILED',
       });
 
       throw new Error(
-        `Emergency rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }
@@ -547,7 +547,7 @@ export class SafetyProtocol {
       return {
         success: false,
         errors: [
-          `Git validation failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          `Git validation failed: ${(error as any).message || 'Unknown error'}`,
         ],
         warnings: [],
       };
@@ -583,7 +583,7 @@ export class SafetyProtocol {
           } catch (gitError) {
             // Stash might already be gone, just log warning
             console.warn(
-              `⚠️ Could not drop git stash ${stash.ref}: ${(gitError as Record<string, unknown>).message || 'Unknown error'}`,
+              `⚠️ Could not drop git stash ${stash.ref}: ${(gitError as any).message || 'Unknown error'}`,
             );
           }
         }
@@ -595,7 +595,7 @@ export class SafetyProtocol {
         console.log(`🧹 Cleaned up old stash: ${stashId}`);
       } catch (error) {
         console.warn(
-          `⚠️ Failed to cleanup stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+          `⚠️ Failed to cleanup stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
         );
       }
     }
@@ -979,7 +979,7 @@ export class SafetyProtocol {
       }
     } catch (error) {
       console.warn(
-        `⚠️ Could not load stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️ Could not load stash tracking: ${(error as any).message || 'Unknown error'}`,
       );
       this.stashCounter = 0;
     }
@@ -1007,7 +1007,7 @@ export class SafetyProtocol {
       fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2));
     } catch (error) {
       console.warn(
-        `⚠️ Could not save stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️ Could not save stash tracking: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }
@@ -1032,7 +1032,7 @@ export class SafetyProtocol {
       throw new Error(`Stash not found with message: ${message}`);
     } catch (error) {
       throw new Error(
-        `Failed to find stash by message: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Failed to find stash by message: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }

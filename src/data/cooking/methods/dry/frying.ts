@@ -76,8 +76,8 @@ export const frying: CookingMethodData = {
     'scalability for quantity cooking',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['leo', 'aries', 'sagittarius'] as ZodiacSign[], // Fire signs amplify the transformative heat
-    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[], // Water signs prefer gentler cooking methods
+    favorableZodiac: ['leo', 'aries', 'sagittarius'] as any[], // Fire signs amplify the transformative heat
+    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[], // Water signs prefer gentler cooking methods
     dominantPlanets: ['Mars', 'Sun', 'Saturn'], // Mars (heat), Sun (transformation), Saturn (structure)
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced crispiness, intensifies fire element
@@ -300,7 +300,7 @@ export const frying: CookingMethodData = {
     heat: 0.85, // Very high heat transfer through oil conduction
     entropy: 0.7, // Rapid breakdown of structures and reorganization
     reactivity: 0.8, // High reactivity with numerous chemical changes
-    gregsEnergy: 0.85 - 0.7 * 0.8, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.750 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

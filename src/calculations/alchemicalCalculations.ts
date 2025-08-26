@@ -450,7 +450,7 @@ export const calculateAlchemicalProperties = (
       debugLog(`Detected stellium in ${sign} (${signElement}): ${planets.join(', ')}`);
 
       // Apply a major boost to the sign's element (the more planets, the bigger boost)
-      const stelliumBonus = planets.length * 0.75; // 0.75 boost per planet in stellium
+      const stelliumBonus = ((planets as any)?.length || 0) * 0.2; // 0.75 boost per planet in stellium
       elementalCounts[signElement] += stelliumBonus;
 
       // Add stellium-based property boost

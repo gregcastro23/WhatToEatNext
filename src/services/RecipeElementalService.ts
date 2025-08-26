@@ -40,7 +40,7 @@ export class RecipeElementalService {
       // Return recipe with current elemental state if there's an error
       return {
         ...recipe,
-        elementalProperties: elementalUtils.getCurrentElementalState(),
+        elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       } as T & { elementalProperties: ElementalProperties };
     }
   }
@@ -70,7 +70,7 @@ export class RecipeElementalService {
     Object.entries(standardized.elementalProperties).forEach(([element, value]) => {
       if (value > highestValue) {
         highestValue = value;
-        dominantElement = element as keyof ElementalProperties;
+        dominantElement = element as any;
       }
     });
 

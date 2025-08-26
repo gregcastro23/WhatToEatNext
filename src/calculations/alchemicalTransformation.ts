@@ -90,7 +90,7 @@ export const transformItemWithPlanetaryPositions = (
       sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
-      (currentZodiac || 'aries').toLowerCase() as ZodiacSign,
+      (currentZodiac || 'aries').toLowerCase() as any,
     );
 
     // Calculate dominant element and alchemical property
@@ -146,7 +146,7 @@ export const transformItemWithPlanetaryPositions = (
 
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
-    const zodiacSign = (currentZodiac || 'aries').toLowerCase() as ZodiacSign;
+    const zodiacSign = (currentZodiac || 'aries').toLowerCase() as any;
     const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
       leo: 'Fire',
@@ -307,7 +307,7 @@ const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
   planetaryBoost: number = 1.0,
-  zodiacSign?: ZodiacSign,
+  zodiacSign?: any,
 ): Record<ElementalCharacter, number> => {
   try {
     // Create a copy of the original properties
@@ -381,7 +381,7 @@ const transformElementalProperties = (
  */
 const applyZodiacBoost = (
   transformedProperties: Record<ElementalCharacter, number>,
-  zodiacSign: ZodiacSign,
+  zodiacSign: any,
 ): void => {
   try {
     const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
@@ -421,26 +421,26 @@ const applyElementalInfluences = (
 ): void => {
   try {
     // Calculate influence factors based on elemental counts
-    const fireInfluence = elementalCounts.Fire * 0.08 * planetaryBoost;
-    const waterInfluence = elementalCounts.Water * 0.06 * planetaryBoost;
-    const earthInfluence = elementalCounts.Earth * 0.07 * planetaryBoost;
-    const airInfluence = elementalCounts.Air * 0.05 * planetaryBoost;
+    const fireInfluence = ((elementalCounts as any)?.Fire || 0) * 0.2 * planetaryBoost;
+    const waterInfluence = ((elementalCounts as any)?.Water || 0) * 0.2 * planetaryBoost;
+    const earthInfluence = ((elementalCounts as any)?.Earth || 0) * 0.2 * planetaryBoost;
+    const airInfluence = ((elementalCounts as any)?.Air || 0) * 0.2 * planetaryBoost;
 
     // Fire influences - increases Earth, decreases Water
-    transformedProperties.Earth += fireInfluence * (originalProperties.Earth * 0.5);
-    transformedProperties.Water -= fireInfluence * (originalProperties.Water * 0.1);
+    transformedProperties.Earth += fireInfluence * (((originalProperties as any)?.Earth || 0) * 0.2);
+    transformedProperties.Water -= fireInfluence * (((originalProperties as any)?.Water || 0) * 0.2);
 
     // Water influences - increases Air, decreases Fire
-    transformedProperties.Air += waterInfluence * (originalProperties.Air * 0.5);
-    transformedProperties.Fire -= waterInfluence * (originalProperties.Fire * 0.1);
+    transformedProperties.Air += waterInfluence * (((originalProperties as any)?.Air || 0) * 0.2);
+    transformedProperties.Fire -= waterInfluence * (((originalProperties as any)?.Fire || 0) * 0.2);
 
     // Earth influences - increases Water, decreases Air
-    transformedProperties.Water += earthInfluence * (originalProperties.Water * 0.5);
-    transformedProperties.Air -= earthInfluence * (originalProperties.Air * 0.1);
+    transformedProperties.Water += earthInfluence * (((originalProperties as any)?.Water || 0) * 0.2);
+    transformedProperties.Air -= earthInfluence * (((originalProperties as any)?.Air || 0) * 0.2);
 
     // Air influences - increases Fire, decreases Earth
-    transformedProperties.Fire += airInfluence * (originalProperties.Fire * 0.5);
-    transformedProperties.Earth -= airInfluence * (originalProperties.Earth * 0.1);
+    transformedProperties.Fire += airInfluence * (((originalProperties as any)?.Fire || 0) * 0.2);
+    transformedProperties.Earth -= airInfluence * (((originalProperties as any)?.Earth || 0) * 0.2);
 
     // Ensure all values remain positive
     Object.keys(transformedProperties).forEach(key => {

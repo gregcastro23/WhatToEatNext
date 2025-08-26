@@ -327,7 +327,7 @@ describe('LintingProgressTracker', () => {
         },
       ]);
 
-      const result = (tracker as unknown).parseLintingOutput(mockOutput);
+      const result = (tracker as any).parseLintingOutput(mockOutput);
 
       expect(result).toEqual({
         totalIssues: 3,
@@ -369,7 +369,7 @@ describe('LintingProgressTracker', () => {
         warnings: 80,
       };
 
-      const improvement = (tracker as unknown).calculateImprovement(current, previous);
+      const improvement = (tracker as any).calculateImprovement(current, previous);
 
       expect(improvement).toEqual({
         totalIssuesReduced: 50,
@@ -396,7 +396,7 @@ describe('LintingProgressTracker', () => {
         },
       };
 
-      const improvement = (tracker as unknown).calculateImprovement(current, undefined);
+      const improvement = (tracker as any).calculateImprovement(current, undefined);
 
       expect(improvement).toEqual({
         totalIssuesReduced: 0,
@@ -423,7 +423,7 @@ describe('LintingProgressTracker', () => {
         },
       };
 
-      const gates = (tracker as unknown).evaluateQualityGates(metrics);
+      const gates = (tracker as any).evaluateQualityGates(metrics);
 
       expect(gates).toEqual({
         zeroErrors: true,

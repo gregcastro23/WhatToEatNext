@@ -994,7 +994,7 @@ export class AnyTypeClassifier {
     const foundKeywords = apiKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     );
-    confidence += foundKeywords.length * 0.1;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
 
     return Math.min(confidence, 0.9);
   }
@@ -1016,7 +1016,7 @@ export class AnyTypeClassifier {
     const foundKeywords = testKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     );
-    confidence += foundKeywords.length * 0.1;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
 
     return Math.min(confidence, 0.9);
   }
@@ -1036,7 +1036,7 @@ export class AnyTypeClassifier {
     const foundKeywords = configKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     );
-    confidence += foundKeywords.length * 0.15;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
 
     return Math.min(confidence, 0.85);
   }
@@ -1056,7 +1056,7 @@ export class AnyTypeClassifier {
     const foundKeywords = legacyKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     );
-    confidence += foundKeywords.length * 0.2;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
 
     return Math.min(confidence, 0.8);
   }

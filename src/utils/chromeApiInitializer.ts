@@ -32,12 +32,12 @@ export function initializeChromeApis(): void {
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as unknown as Record<string, unknown>).chrome = {};
+      (window as any).chrome = {};
     }
 
     // Initialize tabs API with safe methods
     // Apply Pattern GG-6: Enhanced property access with type guards
-    const chromeObj = (window as unknown as Record<string, unknown>).chrome as Record<
+    const chromeObj = (window as unknown as any).chrome as Record<
       string,
       unknown
     >;

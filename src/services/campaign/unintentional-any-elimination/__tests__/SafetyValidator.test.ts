@@ -44,7 +44,7 @@ describe('SafetyValidator', () => {
 
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed') as unknown;
-        error.stdout = errorOutput;
+        (error as any).stdout = errorOutput;
         throw error;
       });
 
@@ -59,7 +59,7 @@ describe('SafetyValidator', () => {
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error = new Error('Timeout') as unknown;
-        error.code = 'TIMEOUT';
+        (error as any).code = 'TIMEOUT';
         throw error;
       });
 
@@ -385,7 +385,7 @@ describe('SafetyValidator', () => {
 
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed') as unknown;
-        error.stdout = complexErrorOutput;
+        (error as any).stdout = complexErrorOutput;
         throw error;
       });
 
@@ -405,7 +405,7 @@ describe('SafetyValidator', () => {
 
       mockExecSync.mockImplementation(() => {
         const error = new Error('Many errors') as unknown;
-        error.stdout = manyErrorsOutput;
+        (error as any).stdout = manyErrorsOutput;
         throw error;
       });
 

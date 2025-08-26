@@ -46,7 +46,7 @@ describe('Build Quality Monitor', () => {
       size: 1024,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock for fs.Stats requires flexible typing for test scenarios
-    } as unknown);
+    } as any);
   });
 
   describe('monitorBuildQuality', () => {
@@ -57,13 +57,13 @@ describe('Build Quality Monitor', () => {
       const report = monitorBuildQuality();
 
       expect(report).toBeDefined();
-      expect(report.buildMetrics).toBeDefined();
-      expect(report.performanceAnalysis).toBeDefined();
-      expect(report.memoryAnalysis).toBeDefined();
-      expect(report.qualityMetrics).toBeDefined();
-      expect(report.alerts).toBeDefined();
-      expect(report.recommendations).toBeDefined();
-      expect(report.timestamp).toBeInstanceOf(Date);
+      expect((report as any)?.buildMetrics).toBeDefined();
+      expect((report as any)?.performanceAnalysis).toBeDefined();
+      expect((report as any)?.memoryAnalysis).toBeDefined();
+      expect((report as any)?.qualityMetrics).toBeDefined();
+      expect((report as any)?.alerts).toBeDefined();
+      expect((report as any)?.recommendations).toBeDefined();
+      expect((report as any)?.timestamp).toBeInstanceOf(Date);
     });
 
     it('should detect build performance issues', async () => {
@@ -72,8 +72,8 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.duration).toBeGreaterThan(0);
-      expect(report.performanceAnalysis.currentBuildTime).toBeGreaterThan(0);
+      expect((report as any)?.buildMetrics.duration).toBeGreaterThan(0);
+      expect((report as any)?.performanceAnalysis.currentBuildTime).toBeGreaterThan(0);
     });
 
     it('should detect TypeScript errors', async () => {
@@ -87,15 +87,15 @@ describe('Build Quality Monitor', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
       const error = new Error('TypeScript compilation failed') as unknown;
-      error.stdout = mockTscOutput;
+      (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
         throw error;
       });
 
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.errorCount).toBe(3);
-      expect(report.buildMetrics.success).toBe(false);
+      expect((report as any)?.buildMetrics.errorCount).toBe(3);
+      expect((report as any)?.buildMetrics.success).toBe(false);
     });
 
     it('should generate performance alerts for slow builds', async () => {
@@ -105,7 +105,7 @@ describe('Build Quality Monitor', () => {
       const report = monitorBuildQuality();
 
       // Check if performance alerts are generated for slow builds
-      const performanceAlerts = report.alerts.filter(alert => alert.type === AlertType.BUILD_PERFORMANCE);
+      const performanceAlerts = (report as any)?.alerts.filter(alert => (alert as any)?.type === (AlertType as any)?.BUILD_PERFORMANCE);
 
       // May or may not have alerts depending on actual timing
       expect(performanceAlerts.length).toBeGreaterThanOrEqual(0);
@@ -121,18 +121,18 @@ describe('Build Quality Monitor', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock return value for fs.readdirSync requires array flexibility
-      mockReaddirSync.mockReturnValue(['static', 'server', 'cache'] as unknown);
+      mockReaddirSync.mockReturnValue(['(static as any)', '(server as any)', '(cache as any)'] (as as any) (unknown as any));
       mockStatSync.mockReturnValue({
         isDirectory: () => true,
         size: 0,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // Intentionally any: Jest mock for fs.Stats interface requires flexible typing
-      } as unknown);
+      } as any);
 
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.bundleSize).toBeDefined();
-      expect(report.buildMetrics.bundleSize.total).toBeGreaterThanOrEqual(0);
+      expect((report as any)?.buildMetrics.bundleSize).toBeDefined();
+      expect((report as any)?.buildMetrics.bundleSize?.total).toBeGreaterThanOrEqual(0);
     });
 
     it('should estimate cache hit rate', async () => {
@@ -145,26 +145,26 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.cacheHitRate).toBeGreaterThan(0);
-      expect(report.buildMetrics.cacheHitRate).toBeLessThanOrEqual(1);
+      expect((report as any)?.buildMetrics.cacheHitRate).toBeGreaterThan(0);
+      expect((report as any)?.buildMetrics.cacheHitRate).toBeLessThanOrEqual(1);
     });
 
     it('should detect memory usage patterns', async () => {
       const report = monitorBuildQuality();
 
-      expect(report.memoryAnalysis.peakMemoryUsage).toBeGreaterThanOrEqual(0);
-      expect(report.memoryAnalysis.averageMemoryUsage).toBeGreaterThanOrEqual(0);
-      expect(report.memoryAnalysis.memoryOptimizationSuggestions).toBeDefined();
-      expect(Array.isArray(report.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true);
+      expect((report as any)?.memoryAnalysis.peakMemoryUsage).toBeGreaterThanOrEqual(0);
+      expect((report as any)?.memoryAnalysis.averageMemoryUsage).toBeGreaterThanOrEqual(0);
+      expect((report as any)?.memoryAnalysis.memoryOptimizationSuggestions).toBeDefined();
+      expect((Array as any)?.isArray((report as any)?.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true);
     });
 
     it('should generate optimization recommendations', async () => {
       const report = monitorBuildQuality();
 
-      expect(Array.isArray(report.recommendations)).toBe(true);
+      expect((Array as any)?.isArray((report as any)?.recommendations)).toBe(true);
 
-      if (report.recommendations.length > 0) {
-        const recommendation = report.recommendations[0];
+      if ((report as any)?.recommendations.length > 0) {
+        const recommendation = (report as any)?.recommendations[0];
         expect(recommendation.category).toBeDefined();
         expect(recommendation.priority).toBeDefined();
         expect(recommendation.impact).toBeDefined();
@@ -179,12 +179,12 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(report.qualityMetrics.overallScore).toBeGreaterThanOrEqual(0);
-      expect(report.qualityMetrics.overallScore).toBeLessThanOrEqual(100);
-      expect(report.qualityMetrics.codeQuality).toBeDefined();
-      expect(report.qualityMetrics.buildQuality).toBeDefined();
-      expect(report.qualityMetrics.performanceQuality).toBeDefined();
-      expect(report.qualityMetrics.technicalDebt).toBeDefined();
+      expect((report as any)?.qualityMetrics.overallScore).toBeGreaterThanOrEqual(0);
+      expect((report as any)?.qualityMetrics.overallScore).toBeLessThanOrEqual(100);
+      expect((report as any)?.qualityMetrics.codeQuality).toBeDefined();
+      expect((report as any)?.qualityMetrics.buildQuality).toBeDefined();
+      expect((report as any)?.qualityMetrics.performanceQuality).toBeDefined();
+      expect((report as any)?.qualityMetrics.technicalDebt).toBeDefined();
     });
 
     it('should handle build failures gracefully', async () => {
@@ -195,16 +195,16 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.success).toBe(false);
-      expect(report.buildMetrics.errorCount).toBeGreaterThanOrEqual(0);
+      expect((report as any)?.buildMetrics.success).toBe(false);
+      expect((report as any)?.buildMetrics.errorCount).toBeGreaterThanOrEqual(0);
     });
 
     it('should analyze parallelization efficiency', async () => {
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.parallelization.workers).toBeGreaterThan(0);
-      expect(report.buildMetrics.parallelization.efficiency).toBeGreaterThan(0);
-      expect(report.buildMetrics.parallelization.efficiency).toBeLessThanOrEqual(1);
+      expect((report as any)?.buildMetrics.parallelization?.workers).toBeGreaterThan(0);
+      expect((report as any)?.buildMetrics.parallelization?.efficiency).toBeGreaterThan(0);
+      expect((report as any)?.buildMetrics.parallelization?.efficiency).toBeLessThanOrEqual(1);
     });
   });
 
@@ -243,16 +243,16 @@ describe('Build Quality Monitor', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
       const error = new Error('TypeScript compilation failed') as unknown;
-      error.stdout = mockTscOutput;
+      (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
         throw error;
       });
 
       const report = monitorBuildQuality();
 
-      expect(report.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0);
+      expect((report as any)?.performanceAnalysis.bottleneckAnalysis?.length).toBeGreaterThan(0);
 
-      const tsBottleneck = report.performanceAnalysis.bottleneckAnalysis.find(
+      const tsBottleneck = (report as any)?.performanceAnalysis.bottleneckAnalysis?.find(
         b => b.phase === 'TypeScript Compilation',
       );
       expect(tsBottleneck).toBeDefined();
@@ -263,7 +263,7 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(['improving', 'stable', 'degrading']).toContain(report.performanceAnalysis.performanceTrend);
+      expect(['improving', 'stable', 'degrading']).toContain((report as any)?.performanceAnalysis.performanceTrend);
     });
 
     it('should calculate build time percentiles', async () => {
@@ -271,8 +271,8 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(report.performanceAnalysis.buildTimePercentile).toBeGreaterThanOrEqual(0);
-      expect(report.performanceAnalysis.buildTimePercentile).toBeLessThanOrEqual(100);
+      expect((report as any)?.performanceAnalysis.buildTimePercentile).toBeGreaterThanOrEqual(0);
+      expect((report as any)?.performanceAnalysis.buildTimePercentile).toBeLessThanOrEqual(100);
     });
   });
 
@@ -288,16 +288,16 @@ describe('Build Quality Monitor', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
       const error = new Error('TypeScript compilation failed') as unknown;
-      error.stdout = mockTscOutput;
+      (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
         throw error;
       });
 
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.errorCount).toBe(3);
+      expect((report as any)?.buildMetrics.errorCount).toBe(3);
       // Alerts may be generated based on various thresholds
-      expect(Array.isArray(report.alerts)).toBe(true);
+      expect((Array as any)?.isArray((report as any)?.alerts)).toBe(true);
     });
 
     it('should include alert metadata', async () => {
@@ -305,7 +305,7 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      report.alerts.forEach(alert => {
+      (report as any)?.alerts.forEach(alert => {
         expect(alert.type).toBeDefined();
         expect(alert.severity).toBeDefined();
         expect(alert.message).toBeDefined();
@@ -322,8 +322,8 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(Array.isArray(report.memoryAnalysis.memoryLeakDetection)).toBe(true);
-      expect(report.memoryAnalysis.garbageCollectionStats).toBeDefined();
+      expect((Array as any)?.isArray((report as any)?.memoryAnalysis.memoryLeakDetection)).toBe(true);
+      expect((report as any)?.memoryAnalysis.garbageCollectionStats).toBeDefined();
     });
 
     it('should provide memory optimization suggestions', async () => {
@@ -331,8 +331,8 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(Array.isArray(report.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true);
-      expect(report.memoryAnalysis.memoryOptimizationSuggestions.length).toBeGreaterThan(0);
+      expect((Array as any)?.isArray((report as any)?.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true);
+      expect((report as any)?.memoryAnalysis.memoryOptimizationSuggestions?.length).toBeGreaterThan(0);
     });
   });
 
@@ -345,7 +345,7 @@ describe('Build Quality Monitor', () => {
       const report = monitorBuildQuality();
 
       expect(report).toBeDefined();
-      expect(report.buildMetrics.bundleSize.total).toBe(0);
+      expect((report as any)?.buildMetrics.bundleSize?.total).toBe(0);
     });
 
     it('should handle ESLint configuration errors', async () => {
@@ -358,7 +358,7 @@ describe('Build Quality Monitor', () => {
 
       const report = monitorBuildQuality();
 
-      expect(report.buildMetrics.warningCount).toBe(0);
+      expect((report as any)?.buildMetrics.warningCount).toBe(0);
     });
   });
 

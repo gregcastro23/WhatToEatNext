@@ -63,7 +63,7 @@ export interface SeasonalTransit {
   season: string;
   startDate: Date;
   endDate: Date;
-  sunSign: ZodiacSign;
+  sunSign: any;
   dominantElements: Record<string, number>;
   keyAspects: PlanetaryAspect[];
   planetaryPlacements: Record<string, CelestialPosition>;
@@ -106,7 +106,7 @@ const PLANET_MAPPING = {
 /**
  * Zodiac signs in order (0-11)
  */
-const ZODIAC_SIGNS: ZodiacSign[] = [
+const ZODIAC_SIGNS: any[] = [
   'aries',
   'taurus',
   'gemini',
@@ -707,7 +707,7 @@ export class SwissEphemerisService {
         const { sign, degree } = this.longitudeToSignAndDegree(longitude);
 
         positions[planetName] = {
-          sign: (signName.toLowerCase() as ZodiacSign) || sign,
+          sign: (signName.toLowerCase() as any) || sign,
           degree: degree,
           exactLongitude: longitude,
           isRetrograde: isRetrograde,
@@ -795,10 +795,10 @@ export class SwissEphemerisService {
         let newLongitude = currentLongitude + motion * daysDiff;
         newLongitude = ((newLongitude % 360) + 360) % 360;
 
-        (approximatedEntry as unknown as Record<string, unknown>)[planetCode] = newLongitude;
+        (approximatedEntry as unknown as any)[planetCode] = newLongitude;
 
         const { sign } = this.longitudeToSignAndDegree(newLongitude);
-        (approximatedEntry as unknown as Record<string, unknown>)[`${planetCode}_sign`] = sign;
+        (approximatedEntry as any)[`${planetCode}_sign`] = sign;
       }
     });
 
@@ -808,7 +808,7 @@ export class SwissEphemerisService {
   /**
    * Convert longitude to zodiac sign and degree
    */
-  private longitudeToSignAndDegree(longitude: number): { sign: ZodiacSign; degree: number } {
+  private longitudeToSignAndDegree(longitude: number): { sign: any; degree: number } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;
     const signIndex = Math.floor(normalizedLongitude / 30);
     const degree = normalizedLongitude % 30;
@@ -875,7 +875,7 @@ export class SwissEphemerisService {
 
     Object.entries(positions).forEach(([planet, position]) => {
       astrologizeFormat[planet] = {
-        sign: position.sign as ZodiacSign,
+        sign: position.sign as any,
         degree: position.degree || 0,
         minute: position.minutes || 0,
         exactLongitude: position.exactLongitude || 0,

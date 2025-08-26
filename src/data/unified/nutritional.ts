@@ -53,7 +53,7 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
   // Astrological Nutritional Correlations
   astrologicalProfile: {
     rulingPlanets: PlanetName[]; // Planets that rule these nutrients
-    favorableZodiac: ZodiacSign[]; // Zodiac signs that benefit most
+    favorableZodiac: any[]; // Zodiac signs that benefit most
     seasonalPeak: Season[]; // Seasons when these nutrients are most beneficial
     elementalAffinity: ElementalProperties; // Elemental nutritional affinity
   };
@@ -105,7 +105,7 @@ export interface PlanetaryNutritionalProfile {
 }
 
 export interface ZodiacNutritionalProfile {
-  sign: ZodiacSign;
+  sign: any;
   elementalNeeds: ElementalProperties;
   nutritionalFocus: string[];
   beneficialFoods: string[];
@@ -285,15 +285,15 @@ export class UnifiedNutritionalSystem {
     const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
     profiles.forEach(profile => {
-      const profileData = profile as Record<string, unknown>;
+      const profileData = profile as any;
       const nutrients = profileData.elementalNutrients;
 
       if (nutrients) {
-        const nutrientData = nutrients as Record<string, unknown>;
-        const fireNutrients = nutrientData.Fire as Record<string, unknown>;
-        const waterNutrients = nutrientData.Water as Record<string, unknown>;
-        const earthNutrients = nutrientData.Earth as Record<string, unknown>;
-        const airNutrients = nutrientData.Air as Record<string, unknown>;
+        const nutrientData = nutrients as any;
+        const fireNutrients = nutrientData.Fire as any;
+        const waterNutrients = nutrientData.Water as any;
+        const earthNutrients = nutrientData.Earth as any;
+        const airNutrients = nutrientData.Air as any;
 
         totalElementalValues.Fire += Number(fireNutrients.totalElementalValue || 0);
         totalElementalValues.Water += Number(waterNutrients.totalElementalValue || 0);
@@ -323,10 +323,10 @@ export class UnifiedNutritionalSystem {
     let validProfiles = 0;
 
     profiles.forEach(profile => {
-      const profileData = profile as Record<string, unknown>;
+      const profileData = profile as any;
       const astroProfile = profileData.astrologicalProfile;
 
-      const astroData = astroProfile as Record<string, unknown>;
+      const astroData = astroProfile as any;
       if (astroData?.seasonalPeak) {
         validProfiles++;
         if (Array.isArray(astroData.seasonalPeak) && astroData.seasonalPeak.includes(season)) {
@@ -350,10 +350,10 @@ export class UnifiedNutritionalSystem {
     let validProfiles = 0;
 
     profiles.forEach(profile => {
-      const profileData = profile as Record<string, unknown>;
+      const profileData = profile as any;
       const astroProfile = profileData.astrologicalProfile;
 
-      const astroData = astroProfile as Record<string, unknown>;
+      const astroData = astroProfile as any;
       if (astroData?.rulingPlanets) {
         validProfiles++;
         if (Array.isArray(astroData.rulingPlanets) && astroData.rulingPlanets.includes(planet)) {
@@ -402,7 +402,7 @@ export class UnifiedNutritionalSystem {
 
   getNutritionalRecommendations(_: {
     season?: Season;
-    currentZodiacSign?: ZodiacSign;
+    currentZodiacSign?: any;
     planetaryHour?: PlanetName;
     targetKalchm?: number;
     elementalFocus?: Element;
@@ -432,7 +432,7 @@ export class UnifiedNutritionalSystem {
     // Calculate Kalchm harmony
     const kalchmHarmony =
       profiles.reduce((sum, profile) => {
-        const profileData = profile as Record<string, unknown>;
+        const profileData = profile as any;
         const kalchmValue = typeof profileData.kalchm === 'number' ? profileData.kalchm : 0.5;
         return sum + kalchmValue;
       }, 0) / profiles.length;
@@ -476,7 +476,7 @@ export class UnifiedNutritionalSystem {
     _ingredients: CookingMethod[],
     _cookingMethod?: CookingMethod,
   ): AlchemicalNutritionalProfile {
-    const baseData = baseProfile as Record<string, unknown>;
+    const baseData = baseProfile as any;
 
     // Calculate alchemical properties from nutritional data
     const alchemicalProperties: AlchemicalProperties = {
@@ -511,7 +511,7 @@ export class UnifiedNutritionalSystem {
       },
       astrologicalProfile: {
         rulingPlanets: ['Sun'] as PlanetName[],
-        favorableZodiac: ['Leo'] as unknown as ZodiacSign[],
+        favorableZodiac: ['Leo'] as unknown as any[],
         seasonalPeak: ['Summer'] as unknown as Season[],
         elementalAffinity: createElementalProperties({
           Fire: 0.25,
@@ -559,7 +559,7 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
       },
       ingredient,
     ) => {
-      const ingredientData = ingredient as Record<string, unknown>;
+      const ingredientData = ingredient as any;
       const nutritionData = (ingredientData?.nutrition ? ingredientData.nutrition : {}) as Record<
         string,
         unknown
@@ -572,11 +572,11 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
         fiber: acc.fiber + Number(nutritionData.fiber || 0),
         vitamins: {
           ...acc.vitamins,
-          ...((nutritionData.vitamins as Record<string, unknown>) || {}),
+          ...((nutritionData.vitamins as any) || {}),
         },
         minerals: {
           ...acc.minerals,
-          ...((nutritionData.minerals as Record<string, unknown>) || {}),
+          ...((nutritionData.minerals as any) || {}),
         },
       };
     },
@@ -595,7 +595,7 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
 };
 
 export const nutritionalToElemental = (profile: NutritionalProfile): ElementalProperties => {
-  const profileData = profile as Record<string, unknown>;
+  const profileData = profile as any;
 
   // Map nutritional components to elemental properties
   const protein = Number(profileData.protein || 0);

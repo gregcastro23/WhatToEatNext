@@ -55,7 +55,7 @@ export class AlchemicalRecommendationService {
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as unknown as { [planet: string]: string },
+      planetaryPositions as { [planet: string]: string },
     );
 
     // Convert thermodynamic properties to elemental properties
@@ -168,7 +168,7 @@ export class AlchemicalRecommendationService {
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          ((method as unknown as Record<string, unknown>)
+          ((method as unknown as any)
             .elementalState as ElementalProperties) || {
             Fire: 0.25,
             Water: 0.25,
@@ -225,7 +225,7 @@ export class AlchemicalRecommendationService {
     }
 
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
-    const thermodynamicsData = thermodynamics as unknown as Record<string, unknown>;
+    const thermodynamicsData = thermodynamics as unknown as any;
     if ((thermodynamicsData.kalchm as number) > 2.0) {
       recommendations.push(
         'Exceptional transformation potential - fermentation and aging processes are enhanced.',
@@ -328,10 +328,10 @@ export class AlchemicalRecommendationService {
     type WithMonicaKalchm = ThermodynamicProperties & { monica?: number; kalchm?: number };
     const t = thermodynamics as WithMonicaKalchm;
     // Simplified mapping from thermodynamics to elemental properties
-    const Fire = thermodynamics.heat * 0.7 + thermodynamics.reactivity * 0.3;
+    const Fire = ((thermodynamics as any)?.heat || 0) * 0.2 + ((thermodynamics as any)?.reactivity || 0) * 0.2;
     const Water = (t.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
     const Earth = (t.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
-    const Air = thermodynamics.entropy * 0.8 + thermodynamics.reactivity * 0.2;
+    const Air = ((thermodynamics as any)?.entropy || 0) * 0.2 + ((thermodynamics as any)?.reactivity || 0) * 0.2;
     // Normalize to ensure values sum to 1
     const total = Fire + Water + Earth + Air;
     return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total };
@@ -350,7 +350,7 @@ export class AlchemicalRecommendationService {
   } {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as unknown as { [planet: string]: string },
+      planetaryPositions as { [planet: string]: string },
     );
 
     // Convert thermodynamic properties to elemental properties

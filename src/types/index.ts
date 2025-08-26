@@ -7,7 +7,7 @@ import { ZodiacSign, Season, ElementalProperties } from './alchemy';
 import { Recipe } from './unified';
 
 // Define zodiac signs as seasons
-export const ZODIAC_SEASONS: ZodiacSign[] = [
+export const ZODIAC_SEASONS: any[] = [
   'aries',
   'taurus',
   'gemini',

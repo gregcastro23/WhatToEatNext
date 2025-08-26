@@ -61,8 +61,8 @@ export const fermentation: CookingMethodData = {
     'antimicrobial compound production',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['virgo', 'taurus', 'capricorn'] as ZodiacSign[],
-    unfavorableZodiac: ['gemini', 'libra', 'aquarius'] as ZodiacSign[],
+    favorableZodiac: ['virgo', 'taurus', 'capricorn'] as any[],
+    unfavorableZodiac: ['gemini', 'libra', 'aquarius'] as any[],
     dominantPlanets: ['Venus', 'Pluto', 'Saturn'],
     lunarPhaseEffect: {
       new_moon: 1.2, // Enhanced microbial activity
@@ -223,7 +223,7 @@ export const fermentation: CookingMethodData = {
     heat: 0.2, // Low heat, often ambient temperature
     entropy: 0.7, // High transformation through biological activity
     reactivity: 0.65, // Significant biochemical reactions
-    gregsEnergy: 0.2 - 0.7 * 0.65, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.750 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

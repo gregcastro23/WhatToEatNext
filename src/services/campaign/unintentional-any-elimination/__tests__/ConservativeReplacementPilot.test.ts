@@ -48,7 +48,7 @@ describe('ConservativeReplacementPilot', () => {
     mockFs.readFileSync.mockReturnValue('mock file content');
     mockFs.writeFileSync.mockReturnValue(undefined);
     mockFs.readdirSync.mockReturnValue(['test.ts', 'example.tsx']);
-    mockFs.statSync.mockReturnValue({ isFile: () => true, isDirectory: () => false } as unknown);
+    mockFs.statSync.mockReturnValue({ isFile: () => true, isDirectory: () => false } as any);
 
     // Mock successful TypeScript compilation by default
     mockExecSync.mockReturnValue('');

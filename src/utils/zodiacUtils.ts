@@ -38,7 +38,7 @@ export const getCurrentZodiacSign = (): string => {
  * @param zodiac String representing a zodiac sign
  * @returns A valid ZodiacSign or 'Aries' as default
  */
-export function toZodiacSign(zodiac: string | null | undefined): ZodiacSign {
+export function toZodiacSign(zodiac: string | null | undefined): any {
   if (!zodiac) return 'aries';
 
   const validSigns = [
@@ -57,7 +57,7 @@ export function toZodiacSign(zodiac: string | null | undefined): ZodiacSign {
   ];
 
   const normalized = zodiac.toLowerCase();
-  return (validSigns.find(sign => sign.toLowerCase() === normalized) || 'aries') as ZodiacSign;
+  return (validSigns.find(sign => sign.toLowerCase() === normalized) || 'aries') as any;
 }
 
 /**
@@ -89,7 +89,7 @@ export function getSignFromLongitude(longitude: number): string {
  * @param date Date to calculate zodiac sign for
  * @returns Zodiac sign
  */
-export function getZodiacSign(date: Date): ZodiacSign {
+export function getZodiacSign(date: Date): any {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
@@ -112,11 +112,11 @@ export function getZodiacSign(date: Date): ZodiacSign {
  * @param sign Zodiac sign
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
-export function getElementForZodiac(sign: ZodiacSign): 'Fire' | 'Earth' | 'Air' | 'Water' {
-  const fireZodiacs: ZodiacSign[] = ['aries', 'leo', 'sagittarius'];
-  const earthZodiacs: ZodiacSign[] = ['taurus', 'virgo', 'capricorn'];
-  const airZodiacs: ZodiacSign[] = ['gemini', 'libra', 'aquarius'];
-  const _waterZodiacs: ZodiacSign[] = ['cancer', 'scorpio', 'pisces'];
+export function getElementForZodiac(sign: any): 'Fire' | 'Earth' | 'Air' | 'Water' {
+  const fireZodiacs: any[] = ['aries', 'leo', 'sagittarius'];
+  const earthZodiacs: any[] = ['taurus', 'virgo', 'capricorn'];
+  const airZodiacs: any[] = ['gemini', 'libra', 'aquarius'];
+  const _waterZodiacs: any[] = ['cancer', 'scorpio', 'pisces'];
 
   if (fireZodiacs.includes(sign)) return 'Fire';
   if (earthZodiacs.includes(sign)) return 'Earth';
@@ -129,7 +129,7 @@ export function getElementForZodiac(sign: ZodiacSign): 'Fire' | 'Earth' | 'Air' 
  * @param sign Zodiac sign
  * @returns Elemental properties with the sign's element boosted
  */
-export function getZodiacElementalInfluence(sign: ZodiacSign): ElementalProperties {
+export function getZodiacElementalInfluence(sign: any): ElementalProperties {
   const element = getElementForZodiac(sign);
 
   // Base values
@@ -154,7 +154,7 @@ export function getZodiacElementalInfluence(sign: ZodiacSign): ElementalProperti
  */
 export function calculateZodiacAffinityFromElements(
   elementalProperties: ElementalProperties,
-  primaryZodiacSign?: ZodiacSign,
+  primaryZodiacSign?: any,
 ): ZodiacAffinity {
   const result: ZodiacAffinity = { ...DEFAULT_ZODIAC_AFFINITY };
 
@@ -177,7 +177,7 @@ export function calculateZodiacAffinityFromElements(
   // Calculate affinities based on elemental properties
   Object.entries(elementMap).forEach(([sign, element]) => {
     // Base affinity from primary element - elements are most harmonious with themselves
-    result[sign as ZodiacSign] = elementalProperties[element] * 0.7;
+    result[sign as any] = elementalProperties[element] * 0.7;
 
     // Add smaller contributions from other elements based on compatibility
     const otherElements = Object.keys(elementalProperties).filter(e => e !== element) as Array<
@@ -187,36 +187,36 @@ export function calculateZodiacAffinityFromElements(
     otherElements.forEach(otherElement => {
       // Get compatibility between elements
       const compatibility = getElementalCompatibility(element, otherElement);
-      result[sign as ZodiacSign] += elementalProperties[otherElement] * compatibility * 0.2;
+      result[sign as any] += elementalProperties[otherElement] * compatibility * 0.2;
     });
 
     // Apply modality boost if primary sign is provided
     if (primaryZodiacSign) {
-      const signModality = getModalityForZodiac(sign as ZodiacSign);
+      const signModality = getModalityForZodiac(sign as any);
       const primaryModality = getModalityForZodiac(primaryZodiacSign);
 
       // Apply hierarchical modality-element affinities
       if (signModality === primaryModality) {
         // Boost affinity for signs with the same modality
-        result[sign as ZodiacSign] += 0.2;
+        result[sign as any] += 0.2;
 
         // Add additional boost based on hierarchical element-modality affinities
         if (signModality === 'mutable' && element === 'Air') {
-          result[sign as ZodiacSign] += 0.1; // Air has strongest affinity with Mutable
+          result[sign as any] += 0.1; // Air has strongest affinity with Mutable
         } else if (signModality === 'fixed' && element === 'Earth') {
-          result[sign as ZodiacSign] += 0.1; // Earth has strongest affinity with Fixed
+          result[sign as any] += 0.1; // Earth has strongest affinity with Fixed
         } else if (signModality === 'cardinal') {
           // Cardinal has equal affinity with all elements, small boost
-          result[sign as ZodiacSign] += 0.05;
+          result[sign as any] += 0.05;
         }
       } else {
         // Apply hierarchical cross-modality affinities
         if (signModality === 'mutable' && primaryModality === 'cardinal') {
           // Mutable and Cardinal have moderate affinity
-          result[sign as ZodiacSign] += 0.1;
+          result[sign as any] += 0.1;
         } else if (signModality === 'fixed' && primaryModality === 'cardinal') {
           // Fixed and Cardinal have moderate affinity
-          result[sign as ZodiacSign] += 0.1;
+          result[sign as any] += 0.1;
         }
       }
     }
@@ -224,7 +224,7 @@ export function calculateZodiacAffinityFromElements(
 
   // Ensure all values are in the 0-1 range
   Object.keys(result).forEach(sign => {
-    result[sign as ZodiacSign] = Math.min(1, Math.max(0, result[sign as ZodiacSign]));
+    result[sign as any] = Math.min(1, Math.max(0, result[sign as any]));
   });
 
   debugLog('Calculated zodiac affinity:', result);
@@ -259,17 +259,17 @@ function getElementalCompatibility(
  * @param sign Zodiac sign
  * @returns Modality ('cardinal', 'fixed', or 'mutable')
  */
-export function getModalityForZodiac(sign: ZodiacSign): 'cardinal' | 'fixed' | 'mutable' {
-  const cardinalZodiacs: ZodiacSign[] = ['aries', 'cancer', 'libra', 'capricorn'];
-  const fixedZodiacs: ZodiacSign[] = ['taurus', 'leo', 'scorpio', 'aquarius'];
-  const _mutableZodiacs: ZodiacSign[] = ['gemini', 'virgo', 'sagittarius', 'pisces'];
+export function getModalityForZodiac(sign: any): 'cardinal' | 'fixed' | 'mutable' {
+  const cardinalZodiacs: any[] = ['aries', 'cancer', 'libra', 'capricorn'];
+  const fixedZodiacs: any[] = ['taurus', 'leo', 'scorpio', 'aquarius'];
+  const _mutableZodiacs: any[] = ['gemini', 'virgo', 'sagittarius', 'pisces'];
 
   if (cardinalZodiacs.includes(sign)) return 'cardinal';
   if (fixedZodiacs.includes(sign)) return 'fixed';
   return 'mutable';
 }
 
-export function getZodiacFromDate(date: Date): ZodiacSign {
+export function getZodiacFromDate(date: Date): any {
   const month = date.getMonth() + 1; // JavaScript months are 0-indexed
   const day = date.getDate();
 

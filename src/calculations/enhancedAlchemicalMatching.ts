@@ -20,8 +20,8 @@ import { signs } from '../data/astroData';
  * @returns Numeric score between 0-1 representing astrological affinity
  */
 export function calculateAstrologicalAffinity(
-  signA: ZodiacSign,
-  signB: ZodiacSign,
+  signA: any,
+  signB: any,
   _planets?: Record<string, PlanetaryPosition>,
 ): number {
   // Base elemental compatibility
@@ -511,8 +511,8 @@ function compareRulers(rulerA: string, rulerB: string): number {
 export function calculateAlchemicalCompatibility(
   elementalPropertiesA: ElementalProperties,
   elementalPropertiesB: ElementalProperties,
-  zodiacA?: ZodiacSign,
-  zodiacB?: ZodiacSign,
+  zodiacA?: any,
+  zodiacB?: any,
 ): number {
   // Calculate basic elemental compatibility
   let elementalScore = 0;
@@ -520,7 +520,7 @@ export function calculateAlchemicalCompatibility(
 
   // Compare each element pair
   Object.entries(elementalPropertiesA).forEach(([element, valueA]) => {
-    const valueB = elementalPropertiesB[element as keyof ElementalProperties] || 0;
+    const valueB = elementalPropertiesB[element as any] || 0;
     const weight = (valueA + valueB) / 2; // Average weight of this element
 
     // Similar values are more compatible

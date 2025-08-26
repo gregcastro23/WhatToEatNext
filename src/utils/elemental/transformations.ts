@@ -161,7 +161,7 @@ export function transformSingleItem(
 
   // ✅ Pattern MM-1: Safe type assertion for elemental properties
   const transformedElemental = applyElementalTransformations(
-    ((item as unknown as Record<string, unknown>).elementalProperties as ElementalProperties) ||
+    ((item as unknown as any).elementalProperties as ElementalProperties) ||
       item.elementalProperties,
     planetaryInfluences,
     lunarModifiers,
@@ -183,9 +183,9 @@ export function transformSingleItem(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties,
-    uniqueness: ((item as unknown as Record<string, unknown>).uniqueness as number) || uniqueness,
+    uniqueness: ((item as unknown as any).uniqueness as number) || uniqueness,
     planetaryInfluences:
-      ((item as unknown as Record<string, unknown>).planetaryInfluences as string[]) ||
+      ((item as unknown as any).planetaryInfluences as string[]) ||
       Object.keys(planetaryInfluences),
     lunarPhaseEffect: context.lunarPhase || 'new Moon',
     zodiacInfluence: context.currentZodiac || 'aries',
@@ -257,14 +257,14 @@ export function applyPlanetaryInfluence(
     alchemicalProperties: alchemicalBoost,
     // ✅ Pattern MM-1: Safe type assertion for planetary influences array
     planetaryInfluences: [
-      ...(Array.isArray((item as unknown as Record<string, unknown>).planetaryInfluences)
-        ? ((item as unknown as Record<string, unknown>).planetaryInfluences as string[])
+      ...(Array.isArray((item as unknown as any).planetaryInfluences)
+        ? ((item as unknown as any).planetaryInfluences as string[])
         : []),
       String(planet || ''),
     ],
     transformationScore: calculateTransformationScore(
       alchemicalBoost,
-      Number((item as unknown as Record<string, unknown>).uniqueness) || 0.5,
+      Number((item as unknown as any).uniqueness) || 0.5,
     ),
   } as unknown as AlchemicalItem;
 }
@@ -283,11 +283,11 @@ export function sortByAlchemicalCompatibility(
     // ✅ Pattern MM-1: Safe type assertion for transformation score comparison
     return (items || []).sort((a, b) => {
       const scoreB = Number(
-        ((b as unknown as Record<string, unknown>).transformations as Record<string, unknown>)
+        ((b as unknown as any).transformations as any)
           .score || 0,
       );
       const scoreA = Number(
-        ((a as unknown as Record<string, unknown>).transformations as Record<string, unknown>)
+        ((a as unknown as any).transformations as any)
           .score || 0,
       );
       return scoreB - scoreA;
@@ -488,16 +488,16 @@ function calculateAlchemicalProperties(
   };
 
   // Base contributions from elemental properties
-  alchemicalProps.Spirit += elementalProperties.Fire * 0.7 + elementalProperties.Air * 0.3;
+  alchemicalProps.Spirit += ((elementalProperties as any)?.Fire || 0) * 0.2 + ((elementalProperties as any)?.Air || 0) * 0.2;
   alchemicalProps.Essence +=
-    elementalProperties.Water * 0.6 +
-    elementalProperties.Fire * 0.2 +
-    elementalProperties.Air * 0.2;
-  alchemicalProps.Matter += elementalProperties.Earth * 0.7 + elementalProperties.Water * 0.3;
+    ((elementalProperties as any)?.Water || 0) * 0.2 +
+    ((elementalProperties as any)?.Fire || 0) * 0.2 +
+    ((elementalProperties as any)?.Air || 0) * 0.2;
+  alchemicalProps.Matter += ((elementalProperties as any)?.Earth || 0) * 0.2 + ((elementalProperties as any)?.Water || 0) * 0.2;
   alchemicalProps.Substance +=
-    elementalProperties.Earth * 0.5 +
-    elementalProperties.Water * 0.3 +
-    elementalProperties.Air * 0.2;
+    ((elementalProperties as any)?.Earth || 0) * 0.2 +
+    ((elementalProperties as any)?.Water || 0) * 0.2 +
+    ((elementalProperties as any)?.Air || 0) * 0.2;
 
   // Contributions from planetary influences
   for (const [planet, influence] of Object.entries(planetaryInfluences)) {
@@ -575,7 +575,7 @@ function calculateCompatibilityScore(
 
   // ✅ Pattern MM-1: Safe property access for transformation score
   score +=
-    ((((item as unknown as Record<string, unknown>).transformations as Record<string, unknown>)
+    ((((item as unknown as any).transformations as any)
       .score as number) || 0.5) * 0.4;
   totalWeight += 0.4;
 

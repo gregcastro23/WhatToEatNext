@@ -35,7 +35,7 @@ export function findMatchedItalianDinnerRecipes() {
 
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply Pattern GG-6: Enhanced property access with type guards
-    const recipeData = recipe as Record<string, unknown>;
+    const recipeData = recipe as any;
     const ingredients = recipeData.ingredients || [];
 
     // Apply Pattern GG-6: Safe property access with type guard
@@ -133,7 +133,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
 
   // Get the elemental properties of the ingredient
   // Apply surgical type casting with variable extraction
-  const matchedToData = (ingredientMapping.matchedTo ?? {}) as unknown as Record<string, unknown>;
+  const matchedToData = (ingredientMapping.matchedTo ?? {}) as unknown as any;
   const elementalProperties = matchedToData.elementalProperties;
   const _alchemicalProperties = matchedToData.alchemicalProperties;
 
@@ -168,7 +168,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
 
   return {
     success: true,
-    original: ingredientMapping as unknown as Record<string, unknown>,
+    original: ingredientMapping as unknown as any,
     suggestions: potentialSubstitutions,
   };
 }

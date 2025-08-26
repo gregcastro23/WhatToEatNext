@@ -22,13 +22,13 @@ export const useFoodRecommendations = (options?: {
     // Provide fallback values to ensure the object is always complete
     return {
       // Required fields from the type definition
-      currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
+      currentZodiac: (state.astrologicalState.zodiacSign as any) || 'aries',
       moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON',
       currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {},
       activePlanets: state.astrologicalState.activePlanets || ['sun', 'moon'],
       planetaryPositions: planetaryPositions || {},
       lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON',
-      zodiacSign: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
+      zodiacSign: (state.astrologicalState.zodiacSign as any) || 'aries',
       planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'sun',
       aspects: state.astrologicalState.aspects || [],
       tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {},

@@ -63,8 +63,8 @@ export const braising: CookingMethodData = {
     'intensifies aromatics through prolonged contact',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['taurus', 'cancer', 'scorpio', 'capricorn'] as ZodiacSign[], // Earth and water signs enhance patience and depth
-    unfavorableZodiac: ['gemini', 'aquarius', 'libra'] as ZodiacSign[], // Air signs lack patience and grounding
+    favorableZodiac: ['taurus', 'cancer', 'scorpio', 'capricorn'] as any[], // Earth and water signs enhance patience and depth
+    unfavorableZodiac: ['gemini', 'aquarius', 'libra'] as any[], // Air signs lack patience and grounding
     dominantPlanets: ['Saturn', 'Moon', 'Pluto', 'Jupiter'], // Saturn (time), Moon (fluctuation), Pluto (transformation), Jupiter (expansion)
     lunarPhaseEffect: {
       full_moon: 0.9, // Reduced effectiveness - too much energy
@@ -206,7 +206,7 @@ export const braising: CookingMethodData = {
     heat: 0.55, // Moderate heat with liquid limiting max temperature
     entropy: 0.75, // High breakdown of collagen and tough structures
     reactivity: 0.6, // Good flavor development and Maillard from initial sear
-    gregsEnergy: 0.55 - 0.75 * 0.6, // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: -14.350 // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata

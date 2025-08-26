@@ -67,7 +67,7 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSync.mockImplementation((cmd) => {
         if (cmd.toString().includes('tsc')) {
           const error = new Error('Compilation failed') as any;
-          error.stdout = 'error TS2322: Type error\nerror TS2339: Property error';
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error';
           throw error;
         }
         return Buffer.from('');
@@ -89,7 +89,7 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSync.mockImplementation((cmd) => {
         if (cmd.toString().includes('yarn test')) {
           const error = new Error('Tests failed') as any;
-          error.stdout = '2 failed, 5 passed, 7 total';
+          (error as any).stdout = '2 failed, 5 passed, 7 total';
           throw error;
         }
         return Buffer.from('');
@@ -114,7 +114,7 @@ describe('ComprehensiveValidationFramework', () => {
         }
         if (cmd.toString().includes('yarn test')) {
           const error = new Error('Some tests failed') as any;
-          error.stdout = '1 failed, 4 passed, 5 total';
+          (error as any).stdout = '1 failed, 4 passed, 5 total';
           throw error; // Tests fail
         }
         return Buffer.from('');
@@ -146,7 +146,7 @@ describe('ComprehensiveValidationFramework', () => {
           attemptCount++;
           if (attemptCount <= 2) {
             const error = new Error('Compilation failed') as any;
-            error.stdout = 'error TS2322: Type error';
+            (error as any).stdout = 'error TS2322: Type error';
             throw error;
           }
           return Buffer.from(''); // Success on third attempt
@@ -166,7 +166,7 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSync.mockImplementation((cmd) => {
         if (cmd.toString().includes('tsc')) {
           const error = new Error('Compilation failed') as any;
-          error.stdout = `
+          (error as any).stdout = `
             error TS2322: Type 'string' is not assignable to type 'number'
             error TS2339: Property 'foo' does not exist on type 'Bar'
             error TS2322: Another type error
@@ -437,7 +437,7 @@ describe('ComprehensiveValidationFramework', () => {
         if (cmd.toString().includes('tsc')) {
           // Simulate timeout
           const error = new Error('Command timed out') as any;
-          error.code = 'TIMEOUT';
+          (error as any).code = 'TIMEOUT';
           throw error;
         }
         return Buffer.from('');
@@ -538,7 +538,7 @@ describe('ComprehensiveValidationFramework', () => {
         }
         if (cmd.toString().includes('yarn test')) {
           const error = new Error('Tests failed') as any;
-          error.stdout = '1 failed, 4 passed, 5 total';
+          (error as any).stdout = '1 failed, 4 passed, 5 total';
           throw error; // Tests fail (-25 points)
         }
         if (cmd.toString().includes('next build')) {

@@ -159,7 +159,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn tsc')) {
           // Simulate build errors
           const error = new Error('Build failed') as any;
-          error.stdout = 'error TS2322: Type error\nerror TS2339: Property error';
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error';
           throw error;
         }
         return Buffer.from('');
@@ -398,7 +398,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd) => {
         if (cmd.toString().includes('yarn test')) {
           const error = new Error('Tests failed') as any;
-          error.stdout = '2 passed, 1 failed, 3 total';
+          (error as any).stdout = '2 passed, 1 failed, 3 total';
           throw error;
         }
         return Buffer.from('');
@@ -448,7 +448,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd) => {
         if (cmd.toString().includes('yarn tsc')) {
           const error = new Error('Build failed') as any;
-          error.stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS2345: Argument error';
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS2345: Argument error';
           throw error;
         }
         if (cmd.toString().includes('yarn lint')) {
@@ -519,7 +519,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn tsc')) {
           // Build errors (below 100% stability target)
           const error = new Error('Build failed') as any;
-          error.stdout = 'error TS2322: Type error';
+          (error as any).stdout = 'error TS2322: Type error';
           throw error;
         }
         return Buffer.from('');
@@ -578,7 +578,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn test')) {
           // Simulate timeout
           const error = new Error('Command timed out') as any;
-          error.code = 'TIMEOUT';
+          (error as any).code = 'TIMEOUT';
           throw error;
         }
         return Buffer.from('');

@@ -274,7 +274,7 @@ export class CulturalAnalyticsService {
     cuisineName: string,
     elementalProfile: ElementalProperties,
     astrologicalState: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
     },
   ): CulturalAnalytics {
@@ -403,7 +403,7 @@ export class CulturalAnalyticsService {
 
   private static calculateAstrologicalCulturalCompatibility(
     cuisine: string,
-    astrologicalState: { zodiacSign: ZodiacSign; lunarPhase: LunarPhase },
+    astrologicalState: { zodiacSign: any; lunarPhase: LunarPhase },
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine];
     if (!culinaryTradition.astrologicalProfile) {

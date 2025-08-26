@@ -1,5 +1,5 @@
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import type { Recipe, ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties, Recipe } from '@/types/alchemy';
 
 export class RecipeEngine {
   private calculator: ElementalCalculator;
@@ -46,7 +46,7 @@ export class RecipeEngine {
 
   calculateIngredientProportions(recipe: Recipe): ElementalProperties {
     if (!recipe.ingredients.length) {
-      return ElementalCalculator.getCurrentElementalState();
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0);

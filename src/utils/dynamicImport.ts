@@ -132,7 +132,7 @@ export async function safeImportAndExecuteKnown<R, A extends unknown[] = unknown
     const moduleExports = await MODULE_MAP[path]();
 
     // Type assertion to allow indexing with string
-    const func = (moduleExports as Record<string, unknown>)[functionName];
+    const func = (moduleExports as any)[functionName];
 
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -162,7 +162,7 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
     const moduleExports = await MODULE_MAP[path]();
 
     // Type assertion to allow indexing with string
-    const func = (moduleExports as Record<string, unknown>)[functionName];
+    const func = (moduleExports as any)[functionName];
 
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -225,12 +225,12 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
       }
     }
 
-    if (typeof (importedModule as Record<string, unknown>)[functionName] !== 'function') {
+    if (typeof (importedModule as any)[functionName] !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
       return null;
     }
 
-    const func = (importedModule as Record<string, unknown>)[functionName] as (...args: A) => R;
+    const func = (importedModule as any)[functionName] as (...args: A) => R;
     return func(..._args);
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
@@ -243,7 +243,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
       const calculatedResults = {} as R;
 
       // Fix TS2339: Property does not exist on type 'R'
-      const resultData = calculatedResults as Record<string, unknown>;
+      const resultData = calculatedResults as any;
 
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {

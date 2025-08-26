@@ -28,7 +28,7 @@ export function cleanupIngredientsDatabase() {
         const ingredientWithAstrology = ingredient as unknown as IngredientWithAstrology;
 
         // Safe property access using type assertion
-        const data = ingredientWithAstrology as unknown as Record<string, unknown>;
+        const data = ingredientWithAstrology as unknown as any;
         const name = data.name;
 
         // Ensure ingredient has a name
@@ -108,7 +108,7 @@ export function cleanupIngredientsDatabase() {
             `Added default astrological profile to ${data.name || name || 'unknown ingredient'}`,
           );
         } else if (
-          !(ingredientWithAstrology.astrologicalProfile as Record<string, unknown>)
+          !(ingredientWithAstrology.astrologicalProfile as any)
             .elementalAffinity
         ) {
           // Ensure elementalAffinity exists within the profile - safe property access
@@ -121,7 +121,7 @@ export function cleanupIngredientsDatabase() {
             : 'Fire';
 
           (
-            ingredientWithAstrology.astrologicalProfile as Record<string, unknown>
+            ingredientWithAstrology.astrologicalProfile as any
           ).elementalAffinity = { base: dominantElement };
           fixedEntries++;
           logger.warn(

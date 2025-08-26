@@ -132,14 +132,14 @@ export const SEASONAL_MODIFIERS = {
 export const getSeasonalEffectiveness = async (
   recipe: Recipe,
   _season: Season,
-  currentZodiac?: ZodiacSign | null,
+  currentZodiac?: any | null,
   currentLunarPhase?: LunarPhase | null,
 ): Promise<SeasonalEffectiveness> => {
   if (!recipe || !_season) {
     return {
       rating: 'poor',
       score: 0,
-      elementalBreakdown: getCurrentElementalState(),
+      elementalBreakdown: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       breakdown: {
         elementalAlignment: 0,
         ingredientSuitability: 0,
@@ -185,7 +185,7 @@ export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalM
   let alignmentScore = 0;
 
   Object.entries(recipeElements).forEach(([element, value]) => {
-    const modifierValue = seasonalModifier[element as keyof ElementalProperties] || 0;
+    const modifierValue = seasonalModifier[element as any] || 0;
     const numericValue = typeof value === 'number' ? value : 0;
     alignmentScore += numericValue * modifierValue;
   });
@@ -243,7 +243,7 @@ const _calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise
 // New function to calculate zodiac alignment
 const _calculateZodiacAlignment = async (
   recipe: Recipe,
-  currentZodiac: ZodiacSign,
+  currentZodiac: any,
 ): Promise<number> => {
   if (!recipe || !currentZodiac) return 0;
 
@@ -357,7 +357,7 @@ function _getElementalBreakdown(_season: Season): Record<Season, ElementalProper
 
 function _calculateSeasonalScores(
   recipe: Recipe,
-  currentZodiac?: ZodiacSign | null,
+  currentZodiac?: any | null,
   lunarPhase?: LunarPhase | null,
 ): {
   seasonalScores: Record<Season, number>;

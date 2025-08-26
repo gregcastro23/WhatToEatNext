@@ -12,7 +12,7 @@ import { logger } from '@/utils/logger';
 
 // Interface for hook return value
 export interface AstrologyHookData {
-  currentZodiac: ZodiacSign;
+  currentZodiac: any;
   currentPlanetaryAlignment: PlanetaryAlignment;
   lunarPhase: LunarPhase;
   activePlanets: string[];
@@ -26,7 +26,7 @@ export interface AstrologyHookData {
 
 // Helper function to create a celestial position with defaults
 function _createCelestialPosition(
-  sign: ZodiacSign,
+  sign: any,
   longOffset = 0,
   options?: { planetName?: string },
 ): CelestialPosition {
@@ -291,7 +291,7 @@ export function useAstrologicalState(): AstrologyHookData {
     isDaytime: isDaytime,
     renderCount,
     currentPlanetaryHour: currentPlanetaryHour || 'sun',
-    currentZodiac: (astroState.currentZodiac || 'aries') as ZodiacSign,
+    currentZodiac: (astroState.currentZodiac || 'aries') as any,
     currentPlanetaryAlignment:
       astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
     lunarPhase: astroState.lunarPhase,

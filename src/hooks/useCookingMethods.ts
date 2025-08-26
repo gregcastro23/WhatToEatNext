@@ -46,22 +46,22 @@ export function useCookingMethods() {
 
           return {
             id: key,
-            name: (data as Record<string, unknown>).name || key.replace(/_/g, ' '),
-            description: (data as Record<string, unknown>).description || `Cooking method: ${key}`,
-            score: (data as Record<string, unknown>).score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0
-            elementalEffect: (data as Record<string, unknown>).elementalEffect || {
+            name: (data as any).name || key.replace(/_/g, ' '),
+            description: (data as any).description || `Cooking method: ${key}`,
+            score: (data as any).score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0
+            elementalEffect: (data as any).elementalEffect || {
               Fire: 0.25,
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25,
             },
-            duration: (data as Record<string, unknown>).duration || {
+            duration: (data as any).duration || {
               min: 10,
               max: 60,
             },
-            suitable_for: (data as Record<string, unknown>).suitable_for || ['various ingredients'],
-            benefits: (data as Record<string, unknown>).benefits || ['cooking'],
-            alchemicalProperties: (data as Record<string, unknown>).alchemicalProperties || {
+            suitable_for: (data as any).suitable_for || ['various ingredients'],
+            benefits: (data as any).benefits || ['cooking'],
+            alchemicalProperties: (data as any).alchemicalProperties || {
               Spirit: 0.5,
               Essence: 0.5,
               Matter: 0.5,
@@ -78,22 +78,22 @@ export function useCookingMethods() {
 
           return {
             id: key,
-            name: (data as Record<string, unknown>).name || key.replace(/_/g, ' '),
-            description: (data as Record<string, unknown>).description || `Cooking method: ${key}`,
-            score: (data as Record<string, unknown>).score || Math.random() * 0.5 + 0.5,
-            elementalEffect: (data as Record<string, unknown>).elementalEffect || {
+            name: (data as any).name || key.replace(/_/g, ' '),
+            description: (data as any).description || `Cooking method: ${key}`,
+            score: (data as any).score || Math.random() * 0.5 + 0.5,
+            elementalEffect: (data as any).elementalEffect || {
               Fire: 0.25,
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25,
             },
-            duration: (data as Record<string, unknown>).duration || {
+            duration: (data as any).duration || {
               min: 10,
               max: 60,
             },
-            suitable_for: (data as Record<string, unknown>).suitable_for || ['various ingredients'],
-            benefits: (data as Record<string, unknown>).benefits || ['cooking'],
-            alchemicalProperties: (data as Record<string, unknown>).alchemicalProperties || {
+            suitable_for: (data as any).suitable_for || ['various ingredients'],
+            benefits: (data as any).benefits || ['cooking'],
+            alchemicalProperties: (data as any).alchemicalProperties || {
               Spirit: 0.5,
               Essence: 0.5,
               Matter: 0.5,

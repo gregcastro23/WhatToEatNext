@@ -303,9 +303,9 @@ export class LintingValidationDashboard {
 
     // Deduct points for different issue types
     score -= Math.min(50, metrics.parserErrors * 10); // Parser errors are critical
-    score -= Math.min(30, metrics.explicitAnyErrors * 0.1); // Explicit any errors
-    score -= Math.min(20, metrics.errors * 0.5); // General errors
-    score -= Math.min(15, metrics.warnings * 0.01); // Warnings (less impact)
+    score -= Math.min(30, ((metrics as any)?.explicitAnyErrors || 0) * 0.2); // Explicit any errors
+    score -= Math.min(20, ((metrics as any)?.errors || 0) * 0.2); // General errors
+    score -= Math.min(15, ((metrics as any)?.warnings || 0) * 0.2); // Warnings (less impact)
 
     // Performance penalty
     if (metrics.performanceMetrics.lintingDuration > 30000) {

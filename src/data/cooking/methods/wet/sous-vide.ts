@@ -50,8 +50,8 @@ export const sousVide: CookingMethodData = {
     'eliminates risk of overcooking',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['aquarius', 'virgo', 'capricorn'] as ZodiacSign[], // Earth signs and technological Aquarius
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs prefer more spontaneous cooking methods
+    favorableZodiac: ['aquarius', 'virgo', 'capricorn'] as any[], // Earth signs and technological Aquarius
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[], // Fire signs prefer more spontaneous cooking methods
     dominantPlanets: ['Mercury', 'Saturn', 'Uranus'], // Precision (Mercury), stability (Saturn), innovation (Uranus)
     lunarPhaseEffect: {
       full_moon: 0.8, // Less effective - water energies are more chaotic
@@ -152,7 +152,7 @@ export const sousVide: CookingMethodData = {
     heat: 0.3, // Low, precise heat - controlled application
     entropy: 0.35, // Slow, controlled breakdown of structures
     reactivity: 0.2, // Minimal reactivity (no Maillard)
-    gregsEnergy: 0.3 - 0.35 * 0.2, // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: -6.350 // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata

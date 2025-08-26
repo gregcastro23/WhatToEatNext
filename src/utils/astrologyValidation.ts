@@ -92,7 +92,7 @@ export async function validatePlanetaryPositions(
       }
 
       // Safe access to calculated properties
-      const calculatedData = calculated as unknown as Record<string, unknown>;
+      const calculatedData = calculated as unknown as any;
 
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
@@ -168,7 +168,7 @@ export async function getValidationSummary(): Promise<string> {
   summary += `Overall Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`;
 
   Object.entries(differences).forEach(([planet, data]) => {
-    const planetData = data as Record<string, unknown>;
+    const planetData = data as any;
 
     if (planetData.status === 'missing') {
       summary += `${planet}: MISSING\n`;
@@ -180,15 +180,15 @@ export async function getValidationSummary(): Promise<string> {
     const planetAccurate = planetData.accurate;
 
     summary += `${planet.padEnd(10)}: ${planetAccurate ? '✓' : '✗'} `;
-    summary += `Calculated: ${(calculated as Record<string, unknown>).sign} ${(calculated as Record<string, unknown>).degree}°${(calculated as Record<string, unknown>).minute}' `;
+    summary += `Calculated: ${(calculated as any).sign} ${(calculated as any).degree}°${(calculated as any).minute}' `;
 
-    if ((calculated as Record<string, unknown>).isRetrograde) {
+    if ((calculated as any).isRetrograde) {
       summary += 'R ';
     }
 
-    summary += `| Reference: ${(reference as Record<string, unknown>).sign} ${(reference as Record<string, unknown>).degree}°${(reference as Record<string, unknown>).minute}' `;
+    summary += `| Reference: ${(reference as any).sign} ${(reference as any).degree}°${(reference as any).minute}' `;
 
-    if ((reference as Record<string, unknown>).isRetrograde) {
+    if ((reference as any).isRetrograde) {
       summary += 'R';
     }
 
@@ -208,7 +208,7 @@ export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
     }
 
     const data = await response.json();
-    const responseData = data as Record<string, unknown>;
+    const responseData = data as any;
     return (responseData.calculatedPositions || {}) as Record<string, unknown>;
   } catch (error) {
     console.error('Error fetching latest positions:', error);
@@ -244,7 +244,7 @@ export async function validateAgainstAPI(): Promise<{
     }
 
     // Safe access to calculated position data
-    const positionData = calculatedPosition as Record<string, unknown>;
+    const positionData = calculatedPosition as any;
 
     const formattedCalculated: PlanetaryPosition = {
       sign: String(positionData.sign || '').toLowerCase(),
@@ -306,7 +306,7 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, un
   return requiredPlanets.every(planet => {
     const p = positions[planet];
     // Apply safe type casting for property access
-    const planetData = p as Record<string, unknown>;
+    const planetData = p as any;
     return (
       planetData &&
       typeof planetData.longitude === 'number' &&

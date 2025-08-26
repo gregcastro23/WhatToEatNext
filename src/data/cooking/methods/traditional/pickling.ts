@@ -61,8 +61,8 @@ export const pickling: CookingMethodData = {
     'enhanced vitamin bioavailability (in fermented pickles)',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['cancer', 'scorpio', 'pisces', 'virgo'] as ZodiacSign[],
-    unfavorableZodiac: ['leo', 'aries'] as ZodiacSign[],
+    favorableZodiac: ['cancer', 'scorpio', 'pisces', 'virgo'] as any[],
+    unfavorableZodiac: ['leo', 'aries'] as any[],
     dominantPlanets: ['Venus', 'Mercury', 'Saturn'],
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced preservation properties
@@ -206,7 +206,7 @@ export const pickling: CookingMethodData = {
     heat: 0.25, // Low heat, often ambient temperature
     entropy: 0.6, // Moderate transformation through chemical or biological activity
     reactivity: 0.7, // Significant acid-base reactions and biochemical changes
-    gregsEnergy: 0.25 - 0.6 * 0.7, // gregsEnergy = heat - (entropy * reactivity)
+    gregsEnergy: -0.550 // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

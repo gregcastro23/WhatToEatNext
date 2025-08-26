@@ -117,7 +117,7 @@ export async function findBestMatches(
   if (matchFilters.dietaryRestrictions && matchFilters.dietaryRestrictions.length > 0) {
     filteredRecipes = filteredRecipes.filter(recipe => {
       // Extract recipe data with safe property access
-      const recipeData = recipe as Record<string, unknown>;
+      const recipeData = recipe as any;
       const dietaryTags = recipeData.dietaryTags;
 
       if (!dietaryTags) return true; // Keep recipes without tags
@@ -137,19 +137,19 @@ export async function findBestMatches(
     // Prioritize seasonal recipes but don't completely exclude off-season ones
     filteredRecipes = filteredRecipes.sort((a, b) => {
       const aIsInSeason = Array.isArray(a.season)
-        ? a.season.includes((matchFilters as Record<string, unknown>).season as Season) ||
+        ? a.season.includes((matchFilters as any).season as Season) ||
           a.season.includes('all')
-        : a.season === (matchFilters as Record<string, unknown>).season || a.season === 'all';
+        : a.season === (matchFilters as any).season || a.season === 'all';
       const bIsInSeason = Array.isArray(b.season)
-        ? b.season.includes((matchFilters as Record<string, unknown>).season as Season) ||
+        ? b.season.includes((matchFilters as any).season as Season) ||
           b.season.includes('all')
-        : b.season === (matchFilters as Record<string, unknown>).season || b.season === 'all';
+        : b.season === (matchFilters as any).season || b.season === 'all';
 
       if (aIsInSeason && !bIsInSeason) return -1;
       if (!aIsInSeason && bIsInSeason) return 1;
       return 0;
     });
-    // log.info(`After season sorting (${(matchFilters as Record<string, unknown>)?.season}): prioritized seasonal recipes`);
+    // log.info(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`);
   }
 
   if (matchFilters.servings) {
@@ -175,7 +175,7 @@ export async function findBestMatches(
             return ingredientStr.toLowerCase().includes(lowerExcluded);
           } else {
             // Extract ingredient data with safe property access
-            const ingredientData = ingredient as Record<string, unknown>;
+            const ingredientData = ingredient as any;
             const name = ingredientData.name;
             return typeof name === 'string' && name.toLowerCase().includes(lowerExcluded);
           }
@@ -192,8 +192,8 @@ export async function findBestMatches(
     // Prioritize recipes that use preferred cooking methods
     filteredRecipes = filteredRecipes.sort((a, b) => {
       // Extract recipe data with safe property access for cooking methods
-      const aData = a as Record<string, unknown>;
-      const bData = b as Record<string, unknown>;
+      const aData = a as any;
+      const bData = b as any;
       const aCookingMethods = aData.cookingMethods;
       const bCookingMethods = bData.cookingMethods;
 
@@ -224,10 +224,12 @@ export async function findBestMatches(
   const matchResults = await Promise.all(
     filteredRecipes.map(async recipe => {
       // Calculate base elemental properties
-      const elements = await calculateBaseElements(recipe);
+      const elements = recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       // Calculate dominant elements
-      const dominantElements = calculateDominantElements(elements);
+      const dominantElements = Object.entries(elements)
+        .map(([element, value]) => [element, value || 0] as [string, number])
+        .sort(([, a], [, b]) => b - a);
 
       // Calculate match score
       let score = 0;
@@ -302,7 +304,7 @@ const calculateBaseElements = async (recipe: Recipe): Promise<ElementalPropertie
       ingredientName = ingredient;
     } else {
       // Extract ingredient data with safe property access
-      const ingredientData = ingredient as Record<string, unknown>;
+      const ingredientData = ingredient as any;
       ingredientName = (ingredientData.name as string) || 'unknown';
     }
 
@@ -432,8 +434,10 @@ async function _calculateRecipeEnergyMatch(
   let score = 0.5;
 
   // Get dominant elements for the recipe
-  const recipeElements = await calculateBaseElements(recipe);
-  const recipeDominantElements = calculateDominantElements(recipeElements);
+  const recipeElements = recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const recipeDominantElements = Object.entries(recipeElements)
+    .map(([element, value]) => [element, value || 0] as [string, number])
+    .sort(([, a], [, b]) => b - a);
 
   // Use dominant elements for enhanced scoring if available
   if (recipeDominantElements.length > 0) {
@@ -451,7 +455,7 @@ async function _calculateRecipeEnergyMatch(
   // 2. Calculate modality score - use qualities array even if preferredModality doesn't exist
   const qualities = recipe.qualities || [];
   // Extract currentEnergy data with safe property access for preferredModality
-  const energyData = currentEnergy as Record<string, unknown>;
+  const energyData = currentEnergy as any;
   const preferredModality = energyData.preferredModality;
 
   // Check if preferredModality exists in currentEnergy, if not skip this boost
@@ -474,11 +478,11 @@ async function _calculateRecipeEnergyMatch(
 
   // 4. Calculate seasonal score - check if season exists
   if (
-    (recipe as Record<string, unknown>).season &&
-    (currentEnergy as Record<string, unknown>).season
+    (recipe as any).season &&
+    (currentEnergy as any).season
   ) {
-    const recipeSeason = (recipe as Record<string, unknown>).season;
-    const currentSeason = (currentEnergy as Record<string, unknown>).season;
+    const recipeSeason = (recipe as any).season;
+    const currentSeason = (currentEnergy as any).season;
 
     // Apply Pattern GG-6: Enhanced property access with type guards
     const seasonalScore =
@@ -501,7 +505,7 @@ async function _calculateRecipeEnergyMatch(
 
 function calculateElementalAlignment(recipe: Recipe, currentEnergy: AstrologicalState): number {
   // Extract current elemental properties with safe property access
-  const currentData = currentEnergy as Record<string, unknown>;
+  const currentData = currentEnergy as any;
   const currentElements = currentData.currentElementalProperties as ElementalProperties;
 
   if (!currentElements) {
@@ -528,16 +532,16 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
 // New function to calculate nutritional alignment
 function calculateNutritionalAlignment(recipe: Recipe, currentEnergy: AstrologicalState): number {
   // Extract nutritional goals with safe property access
-  const currentData = currentEnergy as Record<string, unknown>;
-  const nutritionalGoals = currentData.nutritionalGoals as Record<string, unknown>;
+  const currentData = currentEnergy as any;
+  const nutritionalGoals = currentData.nutritionalGoals as any;
 
   if (!nutritionalGoals) {
     return 0.5; // Default score if no nutritional goals
   }
 
   // Extract recipe nutritional profile with safe property access
-  const recipeData = recipe as Record<string, unknown>;
-  const recipeProfile = recipeData.nutritionalProfile as Record<string, unknown>;
+  const recipeData = recipe as any;
+  const recipeProfile = recipeData.nutritionalProfile as any;
 
   if (!recipeProfile) {
     return 0.5; // Default score if no recipe profile
@@ -573,8 +577,8 @@ function calculateNutritionalAlignment(recipe: Recipe, currentEnergy: Astrologic
 // Helper functions for nutritional evaluation
 function hasHighProtein(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as Record<string, unknown>;
-  const profile = recipeData.nutritionalProfile as Record<string, unknown>;
+  const recipeData = recipe as any;
+  const profile = recipeData.nutritionalProfile as any;
 
   if (!profile) return false;
 
@@ -584,8 +588,8 @@ function hasHighProtein(recipe: Recipe): boolean {
 
 function hasLowCarb(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as Record<string, unknown>;
-  const profile = recipeData.nutritionalProfile as Record<string, unknown>;
+  const recipeData = recipe as any;
+  const profile = recipeData.nutritionalProfile as any;
 
   if (!profile) return false;
 
@@ -595,8 +599,8 @@ function hasLowCarb(recipe: Recipe): boolean {
 
 function hasHighFiber(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as Record<string, unknown>;
-  const profile = recipeData.nutritionalProfile as Record<string, unknown>;
+  const recipeData = recipe as any;
+  const profile = recipeData.nutritionalProfile as any;
 
   if (!profile) return false;
 
@@ -606,8 +610,8 @@ function hasHighFiber(recipe: Recipe): boolean {
 
 function hasLowFat(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as Record<string, unknown>;
-  const profile = recipeData.nutritionalProfile as Record<string, unknown>;
+  const recipeData = recipe as any;
+  const profile = recipeData.nutritionalProfile as any;
 
   if (!profile) return false;
 
@@ -758,7 +762,7 @@ function getCacheKey(
     recipes
       ?.map(r => {
         // Apply Pattern GG-6: Enhanced property access with type guards
-        const recipeData = r as Record<string, unknown>;
+        const recipeData = r as any;
         return r.id || `${recipeData.name || 'unknown'}-${r.cuisine || 'unknown'}`;
       })
       .join(',') || 'none';
@@ -906,7 +910,7 @@ export const connectIngredientsToMappings = (
   const isBrowser = typeof window !== 'undefined';
 
   // Create a cache key for this recipe's ingredients
-  const cacheKey = `ingredient-mapping-${recipe.id || (recipe as Record<string, unknown>).name}`;
+  const cacheKey = `ingredient-mapping-${recipe.id || (recipe as any).name}`;
   let cached: string | null = null;
 
   // Try to get from localStorage, with proper error handling
@@ -938,7 +942,7 @@ export const connectIngredientsToMappings = (
   const matches = recipe.ingredients.map(recipeIngredient => {
     // Initial result with no match
     // Apply Pattern MM-1: Safe type assertions
-    const ingredientData = recipeIngredient as Record<string, unknown>;
+    const ingredientData = recipeIngredient as any;
     const ingredientName =
       typeof ingredientData.name === 'string' ? ingredientData.name : 'unknown';
 
@@ -988,7 +992,7 @@ export const connectIngredientsToMappings = (
 
       // Calculate string similarity
       // Apply Pattern MM-1: Safe type assertions
-      const ingredientData = recipeIngredient as Record<string, unknown>;
+      const ingredientData = recipeIngredient as any;
       const ingredientName = typeof ingredientData.name === 'string' ? ingredientData.name : '';
       const similarity = getStringSimilarity(ingredientName, key) + categoryMatch;
 
@@ -1007,7 +1011,7 @@ export const connectIngredientsToMappings = (
     }
 
     // 4. Try matching with swaps if provided
-    const ingredientSwapData = recipeIngredient as Record<string, unknown>;
+    const ingredientSwapData = recipeIngredient as any;
     const swaps = ingredientSwapData.swaps;
     if (swaps && Array.isArray(swaps) && swaps.length > 0) {
       for (const swap of swaps) {
@@ -1341,7 +1345,7 @@ function _calculateAstrologicalMatch(
   if (!userElement) return 0.5; // Default to neutral if sign not recognized
 
   // Extract recipeInfluence data with safe property access
-  const influenceData = recipeInfluence as Record<string, unknown>;
+  const influenceData = recipeInfluence as any;
   const sign = influenceData?.sign;
   const elements = influenceData?.elements;
 

@@ -22,8 +22,8 @@ export interface CookingMethodData {
 
   // Optional properties
   astrologicalInfluences?: {
-    favorableZodiac?: ZodiacSign[];
-    unfavorableZodiac?: ZodiacSign[];
+    favorableZodiac?: any[];
+    unfavorableZodiac?: any[];
     lunarPhaseEffect?: Record<string, number>;
     dominantPlanets?: string[];
     rulingPlanets?: string[];

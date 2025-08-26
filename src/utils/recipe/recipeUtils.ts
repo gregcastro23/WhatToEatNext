@@ -47,25 +47,25 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
  */
 export function getRecipeElementalProperties(recipe: Recipe): ElementalProperties {
   if (!recipe) {
-    return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+    return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
   }
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   // Apply safe type conversion for property access
-  const elementalState = recipeData.elementalState as Record<string, unknown>;
+  const elementalState = recipeData.elementalState as any;
   if (elementalState && isElementalProperties(elementalState)) {
     return elementalState as ElementalProperties;
   }
 
   // Try to get from elementalMapping if available
-  const elementalMapping = recipeData.elementalMapping as Record<string, unknown>;
-  const mappingElementalState = elementalMapping.elementalState as Record<string, unknown>;
+  const elementalMapping = recipeData.elementalMapping as any;
+  const mappingElementalState = elementalMapping.elementalState as any;
   if (mappingElementalState && isElementalProperties(mappingElementalState)) {
     return mappingElementalState as ElementalProperties;
   }
 
-  return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+  return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 }
 
 /**
@@ -74,7 +74,7 @@ export function getRecipeElementalProperties(recipe: Recipe): ElementalPropertie
 export function getRecipeCookingMethods(recipe: Recipe): string[] {
   if (!recipe) return [];
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   // Check cookingMethod (string or string[])
   if (typeof recipeData.cookingMethods === 'string') {
@@ -100,7 +100,7 @@ export function getRecipeCookingMethods(recipe: Recipe): string[] {
 export function getRecipeMealTypes(recipe: Recipe): string[] {
   if (!recipe) return [];
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   if (recipeData.mealType) {
     // Apply safe type conversion for array elements
@@ -117,7 +117,7 @@ export function getRecipeMealTypes(recipe: Recipe): string[] {
 export function getRecipeSeasons(recipe: Recipe): string[] {
   if (!recipe) return [];
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   if (recipeData.currentSeason) {
     // Apply safe type conversion for array elements
@@ -140,7 +140,7 @@ export function getRecipeSeasons(recipe: Recipe): string[] {
 export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
   if (!recipe) return [];
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   if (Array.isArray(recipeData.astrologicalPropertiesInfluences)) {
     // Apply safe type conversion for array elements
@@ -157,7 +157,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
   }
 
   // Try to get from elementalMapping if available
-  const elementalMapping = recipeData.elementalMapping as Record<string, unknown>;
+  const elementalMapping = recipeData.elementalMapping as any;
   const astrologicalInfluences = elementalMapping.astrologicalInfluences as unknown[];
   if (astrologicalInfluences && Array.isArray(astrologicalInfluences)) {
     // Apply safe type conversion for array elements
@@ -173,15 +173,15 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
 export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   if (!recipe) return [];
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   if (Array.isArray(recipeData.zodiacInfluences)) {
     return recipeData.zodiacInfluences;
   }
 
   // Try to get from elementalMapping if available
-  const elementalMapping = recipeData.elementalMapping as Record<string, unknown>;
-  const astrologicalProfile = elementalMapping.astrologicalProfile as Record<string, unknown>;
+  const elementalMapping = recipeData.elementalMapping as any;
+  const astrologicalProfile = elementalMapping.astrologicalProfile as any;
   if (astrologicalProfile.favorableZodiac && Array.isArray(astrologicalProfile.favorableZodiac)) {
     return astrologicalProfile.favorableZodiac as string[];
   }
@@ -195,7 +195,7 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
 export function getRecipeCookingTime(recipe: Recipe): number {
   if (!recipe) return 0;
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   if (typeof recipeData.cookingTime === 'number') {
     return recipeData.cookingTime;
@@ -226,7 +226,7 @@ export function getRecipeCookingTime(recipe: Recipe): number {
 export function recipeHasTag(recipe: Recipe, tag: string): boolean {
   if (!recipe || !tag) return false;
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
   const tags = Array.isArray(recipeData.tags) ? recipeData.tags : [recipeData.tags];
 
   return safeSome(tags, t => String(t).toLowerCase() === tag.toLowerCase());
@@ -238,7 +238,7 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
 export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string): boolean {
   if (!recipe) return false;
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   switch (restriction.toLowerCase()) {
     case 'vegetarian':
@@ -264,7 +264,7 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
 export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boolean {
   if (!recipe || !ingredientName) return false;
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
   const ingredients = recipeData.ingredients || [];
 
   if (!Array.isArray(ingredients)) return false;
@@ -272,7 +272,7 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
   const searchName = ingredientName.toLowerCase();
 
   return ingredients.some((ingredient: Ingredient | UnifiedIngredient) => {
-    const ingredientData = ingredient as Record<string, unknown>;
+    const ingredientData = ingredient as any;
 
     // Handle both string and object ingredients
     if (typeof ingredientData === 'string') {
@@ -300,7 +300,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
   let maxValue = 0;
 
   (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
-    const elementData = elementalProperties as Record<string, unknown>;
+    const elementData = elementalProperties as any;
     const value = Number(elementData[element]) || 0;
     if (value > maxValue) {
       maxValue = value;
@@ -317,7 +317,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
 export function getSafeRecipeName(recipe: Recipe): string {
   if (!recipe) return 'Unknown Recipe';
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
   return String(recipeData.name || 'Unknown Recipe');
 }
 
@@ -327,7 +327,7 @@ export function getSafeRecipeName(recipe: Recipe): string {
 export function getSafeRecipeDescription(recipe: Recipe): string {
   if (!recipe) return 'No description available';
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
   return String(recipeData.description || 'No description available');
 }
 
@@ -358,7 +358,7 @@ export function isRecipeDietaryCompatible(
     return true;
   }
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
 
   return dietaryRestrictions.every(restriction => {
     switch (restriction.toLowerCase()) {
@@ -388,14 +388,14 @@ export function isRecipeDietaryCompatible(
 export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
   if (!recipe) return [];
 
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
   const ingredients = recipeData.ingredients || [];
 
   if (!Array.isArray(ingredients)) return [];
 
   return ingredients
     .map((ingredient: Ingredient | UnifiedIngredient) => {
-      const ingredientData = ingredient as Record<string, unknown>;
+      const ingredientData = ingredient as any;
 
       // Handle both string and object ingredients
       if (typeof ingredientData === 'string') {

@@ -135,12 +135,12 @@ export class UnifiedScoringAdapter {
             Air: 0.25,
           },
         seasonality: (recipe.seasonality as Season[]) || [],
-        planetaryRulers: ((recipe as Record<string, unknown>).planetaryRulers as Planet[]) || [],
+        planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
         flavorProfile:
-          ((recipe as Record<string, unknown>).flavorProfile as Record<string, number>) || {},
+          ((recipe as any).flavorProfile as Record<string, number>) || {},
         culturalOrigins:
-          ((recipe as unknown as Record<string, unknown>).culturalOrigins as string[]) ||
-          [String((recipe as unknown as Record<string, unknown>).cuisine || '')].filter(Boolean),
+          ((recipe as unknown as any).culturalOrigins as string[]) ||
+          [String((recipe as unknown as any).cuisine || '')].filter(Boolean),
       },
       options: {
         debugMode: options.debugMode,
@@ -179,23 +179,23 @@ export class UnifiedScoringAdapter {
       item: {
         name: method.name,
         type: 'cooking_method',
-        elementalProperties: ((method as unknown as Record<string, unknown>)
+        elementalProperties: ((method as unknown as any)
           .elementalEffect as ElementalProperties) || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25,
         },
-        seasonality: ((method as unknown as Record<string, unknown>).seasonality as Season[]) || [],
+        seasonality: ((method as unknown as any).seasonality as Season[]) || [],
         planetaryRulers:
-          ((method as unknown as Record<string, unknown>).planetaryRulers as Planet[]) || [],
+          ((method as unknown as any).planetaryRulers as Planet[]) || [],
         flavorProfile:
-          ((method as unknown as Record<string, unknown>).flavorProfile as Record<
+          ((method as unknown as any).flavorProfile as Record<
             string,
             number
           >) || {},
         culturalOrigins:
-          ((method as unknown as Record<string, unknown>).culturalOrigins as string[]) || [],
+          ((method as unknown as any).culturalOrigins as string[]) || [],
       },
       options: {
         debugMode: options.debugMode,

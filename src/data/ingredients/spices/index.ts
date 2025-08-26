@@ -291,10 +291,10 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
 
 // Validate spice heat levels
 Object.values(spices).forEach(spice => {
-  const spiceData = spice as Record<string, unknown>;
+  const spiceData = spice as any;
   if (
     Number(spiceData.heatLevel) > 5 &&
-    Number((spiceData.elementalProperties as Record<string, unknown>).Fire) < 0.3
+    Number((spiceData.elementalProperties as any).Fire) < 0.3
   ) {
     // console.error(`Fire element too low for heat in ${spice.name}`);
   }
@@ -306,14 +306,14 @@ export { wholeSpices, groundSpices, spiceBlends };
 // Helper functions
 export const getSpicesBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
   return Object.entries(spices)
-    .filter(([_, value]) => (value as Record<string, unknown>).subCategory === subCategory)
+    .filter(([_, value]) => (value as any).subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
 export const getSpicesByOrigin = (origin: string): Record<string, IngredientMapping> => {
   return Object.entries(spices)
     .filter(([_, value]) => {
-      const valueData = value as Record<string, unknown>;
+      const valueData = value as any;
       return Array.isArray(valueData.origin)
         ? (valueData.origin as string[]).includes(origin)
         : valueData.origin === origin;
@@ -339,10 +339,10 @@ export const getCompatibleSpices = (spiceName: string): string[] => {
   const spice = spices[spiceName];
   if (!spice) return [];
 
-  const spiceData = spice as Record<string, unknown>;
+  const spiceData = spice as any;
   return Object.entries(spices)
     .filter(([key, value]) => {
-      const valueData = value as Record<string, unknown>;
+      const valueData = value as any;
       return (
         key !== spiceName &&
         Array.isArray(valueData.affinities) &&
@@ -359,10 +359,10 @@ export const getSubstitutions = (spiceName: string): string[] => {
   const spice = spices[spiceName];
   if (!spice) return [];
 
-  const spiceData = spice as Record<string, unknown>;
+  const spiceData = spice as any;
   return Object.entries(spices)
     .filter(([key, value]) => {
-      const valueData = value as Record<string, unknown>;
+      const valueData = value as any;
       return (
         key !== spiceName &&
         Array.isArray(valueData.qualities) &&
@@ -371,7 +371,7 @@ export const getSubstitutions = (spiceName: string): string[] => {
           (spiceData.qualities as string[]).includes(quality),
         ) &&
         Number(
-          ((value as Record<string, unknown>).elementalProperties as Record<string, unknown>)[
+          ((value as any).elementalProperties as any)[
             Object.keys(spice.elementalProperties)[0]
           ],
         ) >= 0.3
@@ -383,10 +383,10 @@ export const getSubstitutions = (spiceName: string): string[] => {
 export const getSpicesByPreparationMethod = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(spices)
     .filter(([_, value]) => {
-      const valueData = value as Record<string, unknown>;
+      const valueData = value as any;
       return (
         valueData.preparation &&
-        Object.keys(valueData.preparation as Record<string, unknown>).includes(method)
+        Object.keys(valueData.preparation as any).includes(method)
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});

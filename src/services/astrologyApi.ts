@@ -58,7 +58,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
       const degreeValue =
         typeof position === 'number'
           ? position
-          : ((position as unknown as Record<string, unknown>).degree as number) || 0;
+          : ((position as unknown as any).degree as number) || 0;
 
       const sign = getSignFromDegree(degreeValue);
       planetaryPositions[planet.toLowerCase()] = {
@@ -202,9 +202,9 @@ export const getElementalInfluence = async (): Promise<ElementalProperties> => {
   // Use the zodiac to element mapping if available
   try {
     // Apply safe type casting for service method access
-    const astroService = AstrologicalService as unknown as unknown;
+    const astroService = AstrologicalService as any;
     const astroState = await (astroService?.getCurrentState
-      ? (astroService as Record<string, unknown>)?.getCurrentState()
+      ? (astroService as any)?.getCurrentState()
       : astroService.getStateForDate?.(new Date()));
     if (astroState) {
       // First check if elementalState is already calculated in the astrological state
@@ -268,7 +268,7 @@ export const getElementalInfluence = async (): Promise<ElementalProperties> => {
   }
 
   // Fallback to default
-  return getCurrentElementalState();
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 };
 
 // Helper function to get element from zodiac sign
@@ -347,7 +347,7 @@ export function calculateElementalBalanceFromPositions(
   // Calculate elemental influence from each planet's position
   Object.entries(positions).forEach(([planet, data]) => {
     // Apply safe type casting for data property access
-    const planetData = data as Record<string, unknown>;
+    const planetData = data as any;
     if (!planetData.sign) return;
 
     const planetKey = planet.toLowerCase();
@@ -365,7 +365,7 @@ export function calculateElementalBalanceFromPositions(
     });
   } else {
     // If no influence, use balanced distribution
-    return getCurrentElementalState();
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
   return elementalBalance;

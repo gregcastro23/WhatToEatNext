@@ -343,8 +343,8 @@ export function getPlanetaryPositionsForDate(date: Date): { [key: string]: Celes
 /**
  * Convert longitude to zodiac sign and degree
  */
-function longitudeToSignAndDegree(longitude: number): { sign: ZodiacSign; degree: number } {
-  const signs: ZodiacSign[] = [
+function longitudeToSignAndDegree(longitude: number): { sign: any; degree: number } {
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -428,7 +428,7 @@ export function validatePositionsStructure(positions: { [key: string]: unknown }
       return false;
     }
 
-    const pos = position as Record<string, unknown>;
+    const pos = position as any;
     if (!pos.sign || typeof pos.degree !== 'number') {
       logger.warn(`Invalid position structure for ${planet}`, pos);
       return false;

@@ -338,22 +338,22 @@ export type {
     const commonFixes = [
       {
         pattern: /React\.FC<([^>]+)>/g,
-        replacement: 'React.FC<$1>',
+        replacement: 'React.FC<1>',
         description: 'Fixed React.FC type annotation',
       },
       {
         pattern: /useEffect\(\(\) => \{([^}]+)\}, \[\]\)/g,
-        replacement: 'useEffect(() => {$1}, [])',
+        replacement: 'useEffect(() => {1}, [])',
         description: 'Fixed useEffect dependency array',
       },
       {
         pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g,
-        replacement: 'const [$1, set$2] = useState<any>()',
+        replacement: 'const [1, set2] = useState<any>()',
         description: 'Added type annotation to useState',
       },
       {
         pattern: /interface ([A-Z][a-zA-Z]*) \{/g,
-        replacement: 'interface $1 {',
+        replacement: 'interface 1 {',
         description: 'Fixed interface naming convention',
       },
     ];
@@ -547,7 +547,7 @@ export type {
 
     // Monitor memory usage
     setInterval(() => {
-      const perfWithMemory = performance as unknown as { memory?: { usedJSHeapSize: number } };
+      const perfWithMemory = performance as { memory?: { usedJSHeapSize: number } };
       if (perfWithMemory.memory) {
         const memoryUsage = perfWithMemory.memory.usedJSHeapSize / 1024 / 1024;
         this.updatePerformanceMetrics({ memoryUsage });

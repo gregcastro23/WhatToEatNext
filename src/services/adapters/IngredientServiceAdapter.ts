@@ -47,7 +47,7 @@ export class EnhancedIngredientSystem {
     state: SystemState,
     options: {
       season?: Season;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSign?: any;
       categories?: string[];
       dietaryPreferences?: {
         isVegetarian?: boolean;
@@ -76,7 +76,7 @@ export class EnhancedIngredientSystem {
       let filtered = recommended;
 
       // Filter by season if specified - apply surgical type casting
-      const optionsData = options as Record<string, unknown>;
+      const optionsData = options as any;
       const currentSeason = optionsData.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {
@@ -168,14 +168,14 @@ export class EnhancedIngredientSystem {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    const stateRecord = state as unknown as Record<string, unknown>;
+    const stateRecord = state as unknown as any;
     const elements = stateRecord.elements || stateRecord.elementalPreference;
 
     if (!elements || typeof elements !== 'object') {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    const elementsRecord = elements as Record<string, unknown>;
+    const elementsRecord = elements as any;
     return {
       Fire: typeof elementsRecord.Fire === 'number' ? elementsRecord.Fire : 0.25,
       Water: typeof elementsRecord.Water === 'number' ? elementsRecord.Water : 0.25,

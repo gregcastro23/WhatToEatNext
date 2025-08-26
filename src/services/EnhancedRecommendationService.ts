@@ -132,7 +132,7 @@ export class EnhancedRecommendationService {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    const props = value as Record<string, unknown>;
+    const props = value as any;
     return {
       Fire: this.safeGetNumber(props.Fire),
       Water: this.safeGetNumber(props.Water),
@@ -180,7 +180,7 @@ export class EnhancedRecommendationService {
       const enhancedRecommendations = await Promise.all(
         filteredRecommendations.slice(0, 20).map(async ingredient => {
           // Create a proper EnhancedIngredient from the base recommendation
-          const ingredientData = ingredient as unknown as Record<string, unknown>;
+          const ingredientData = ingredient as unknown as any;
           const enhancedIngredient: EnhancedIngredient = {
             ...ingredient,
             name: ingredient.name || 'Unknown',
@@ -201,7 +201,7 @@ export class EnhancedRecommendationService {
           return await this.enhanceRecommendation(
             enhancedIngredient,
             chakraEnergyStates,
-            tarotGuidance as Record<string, unknown>,
+            tarotGuidance as any,
             astroState,
             chakraEnergies, // Pass chakra energies for flavor compatibility
           );
@@ -253,7 +253,7 @@ export class EnhancedRecommendationService {
           ingredient =>
             ({
               ingredient,
-              score: (ingredient as unknown as Record<string, unknown>).score || 0.5,
+              score: (ingredient as unknown as any).score || 0.5,
               reasons: ['Base astrological alignment'],
               chakraAlignment: {
                 dominantChakra: 'heart',
@@ -323,7 +323,7 @@ export class EnhancedRecommendationService {
 
     if (flavorCompatibility) {
       // Boost score based on flavor compatibility (weighted at 25% of total enhancement)
-      const flavorBoost = flavorCompatibility.overall * 0.25;
+      const flavorBoost = ((flavorCompatibility as any)?.overall || 0) * 0.2;
       enhancedScore += flavorBoost;
 
       // Add flavor-based reasons
@@ -416,7 +416,7 @@ export class EnhancedRecommendationService {
     if (!tarotGuidance || !ingredient.elementalProperties) return undefined;
 
     // Use safe type casting for tarot guidance property access
-    const tarotData = tarotGuidance as Record<string, unknown>;
+    const tarotData = tarotGuidance as any;
 
     const dominantElement = this.getDominantElement(ingredient.elementalProperties);
 
@@ -482,29 +482,29 @@ export class EnhancedRecommendationService {
 
     // Apply elemental properties if available
     // Use safe type casting for astroState property access
-    const astroData = astroState as Record<string, unknown>;
+    const astroData = astroState as any;
     if (astroData.elementalState) {
       const elementalState = this.safeExtractElementalProperties(astroData.elementalState);
 
       // Fire signs
-      zodiacEnergies['aries'] += elementalState.Fire * 0.3;
-      zodiacEnergies['leo'] += elementalState.Fire * 0.3;
-      zodiacEnergies['sagittarius'] += elementalState.Fire * 0.3;
+      zodiacEnergies['aries'] += ((elementalState as any)?.Fire || 0) * 0.2;
+      zodiacEnergies['leo'] += ((elementalState as any)?.Fire || 0) * 0.2;
+      zodiacEnergies['sagittarius'] += ((elementalState as any)?.Fire || 0) * 0.2;
 
       // Water signs
-      zodiacEnergies['cancer'] += elementalState.Water * 0.3;
-      zodiacEnergies['scorpio'] += elementalState.Water * 0.3;
-      zodiacEnergies['pisces'] += elementalState.Water * 0.3;
+      zodiacEnergies['cancer'] += ((elementalState as any)?.Water || 0) * 0.2;
+      zodiacEnergies['scorpio'] += ((elementalState as any)?.Water || 0) * 0.2;
+      zodiacEnergies['pisces'] += ((elementalState as any)?.Water || 0) * 0.2;
 
       // Earth signs
-      zodiacEnergies['taurus'] += elementalState.Earth * 0.3;
-      zodiacEnergies['virgo'] += elementalState.Earth * 0.3;
-      zodiacEnergies['capricorn'] += elementalState.Earth * 0.3;
+      zodiacEnergies['taurus'] += ((elementalState as any)?.Earth || 0) * 0.2;
+      zodiacEnergies['virgo'] += ((elementalState as any)?.Earth || 0) * 0.2;
+      zodiacEnergies['capricorn'] += ((elementalState as any)?.Earth || 0) * 0.2;
 
       // Air signs
-      zodiacEnergies['gemini'] += elementalState.Air * 0.3;
-      zodiacEnergies['libra'] += elementalState.Air * 0.3;
-      zodiacEnergies['aquarius'] += elementalState.Air * 0.3;
+      zodiacEnergies['gemini'] += ((elementalState as any)?.Air || 0) * 0.2;
+      zodiacEnergies['libra'] += ((elementalState as any)?.Air || 0) * 0.2;
+      zodiacEnergies['aquarius'] += ((elementalState as any)?.Air || 0) * 0.2;
     }
 
     const chakraRecord = calculateChakraEnergies(zodiacEnergies as Record<string, number>);
@@ -524,7 +524,7 @@ export class EnhancedRecommendationService {
    * Convert astrological state to sign energy states
    */
   private convertAstroStateToSignEnergies(astroState: AstrologicalState): SignEnergyState[] {
-    const signs: ZodiacSign[] = [
+    const signs: any[] = [
       'aries',
       'taurus',
       'gemini',
@@ -654,7 +654,7 @@ export class EnhancedRecommendationService {
   private convertToFlavorProfile(ingredient: EnhancedIngredient): UnifiedFlavorProfile | null {
     try {
       // Extract ingredient data with safe property access
-      const ingredientData = ingredient as unknown as Record<string, unknown>;
+      const ingredientData = ingredient as unknown as any;
 
       // Create basic flavor profile structure
       const profile = {
@@ -676,16 +676,16 @@ export class EnhancedRecommendationService {
         topNotes: (ingredientData.topNotes as string[]) || [],
         elementalProfile: {
           Fire: this.safeGetNumber(
-            (ingredientData.elementalProperties as Record<string, unknown>).Fire,
+            (ingredientData.elementalProperties as any).Fire,
           ),
           Water: this.safeGetNumber(
-            (ingredientData.elementalProperties as Record<string, unknown>).Water,
+            (ingredientData.elementalProperties as any).Water,
           ),
           Earth: this.safeGetNumber(
-            (ingredientData.elementalProperties as Record<string, unknown>).Earth,
+            (ingredientData.elementalProperties as any).Earth,
           ),
           Air: this.safeGetNumber(
-            (ingredientData.elementalProperties as Record<string, unknown>).Air,
+            (ingredientData.elementalProperties as any).Air,
           ),
         },
         flavorIntensity: this.safeGetNumber(ingredientData.flavorIntensity) || 0.5,
@@ -694,19 +694,19 @@ export class EnhancedRecommendationService {
         culturalOrigins: (ingredientData.culturalOrigins as string[]) || [],
         nutritionalProfile: {
           calories: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as Record<string, unknown>).calories,
+            (ingredientData.nutritionalProfile as any).calories,
           ),
           protein: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as Record<string, unknown>).protein,
+            (ingredientData.nutritionalProfile as any).protein,
           ),
           fat: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as Record<string, unknown>).fat,
+            (ingredientData.nutritionalProfile as any).fat,
           ),
           carbohydrates: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as Record<string, unknown>).carbohydrates,
+            (ingredientData.nutritionalProfile as any).carbohydrates,
           ),
           fiber: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as Record<string, unknown>).fiber,
+            (ingredientData.nutritionalProfile as any).fiber,
           ),
         },
         preparationMethods: (ingredientData.preparationMethods as string[]) || [],
@@ -751,8 +751,8 @@ export class EnhancedRecommendationService {
   ): UnifiedFlavorProfile {
     try {
       // Extract astro state data with safe property access
-      const astroData = astroState as unknown as Record<string, unknown>;
-      const elementalProps = astroData.elementalProperties as Record<string, unknown>;
+      const astroData = astroState as unknown as any;
+      const elementalProps = astroData.elementalProperties as any;
 
       // Create astrological reference profile
       const profile = {

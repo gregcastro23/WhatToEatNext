@@ -5,7 +5,7 @@
 import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
 
 export interface PredictiveContext {
-  zodiacSign: ZodiacSign;
+  zodiacSign: any;
   lunarPhase: string;
   season: string;
   planetaryPositions?: Record<string, PlanetaryPosition>;

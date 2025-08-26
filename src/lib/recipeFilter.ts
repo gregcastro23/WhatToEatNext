@@ -101,7 +101,7 @@ export const recipeFilter = {
     if (filters.elementalState) {
       const recipesWithScores = await Promise.all(
         filteredRecipes.map(async recipe => {
-          const recipeElementalProps = recipe.elementalProperties || getCurrentElementalState();
+          const recipeElementalProps = recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
           return {
             ...recipe,
             matchScore: calculateElementalHarmony(

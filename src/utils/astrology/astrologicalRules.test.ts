@@ -366,7 +366,7 @@ describe('Astrological Validation Utilities', () => {
       expect(VALIDATION_CONSTANTS.DEGREES_PER_SIGN).toBe(30);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Safe access to optional constant in test
-      expect((VALIDATION_CONSTANTS as unknown).SIGNS_PER_CIRCLE || 12).toBe(12);
+      expect((VALIDATION_CONSTANTS as any).SIGNS_PER_CIRCLE || 12).toBe(12);
       expect(VALIDATION_CONSTANTS.MAX_LONGITUDE).toBe(360);
       expect(VALIDATION_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD).toBe(0.3);
       expect(VALIDATION_CONSTANTS.HARMONY_THRESHOLD).toBe(0.7);
@@ -413,7 +413,7 @@ describe('Astrological Validation Utilities', () => {
       for (let i = 0; i < 1000; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // Legitimate any: Dynamic property assignment in performance test
-        (largePlanetaryData as unknown)[`planet${i}`] = {
+        (largePlanetaryData as any)[`planet${i}`] = {
           sign: 'aries',
           degree: i % 30,
           exactLongitude: i % 360,

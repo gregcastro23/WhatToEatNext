@@ -96,11 +96,11 @@ export class ConsolidatedRecipeService {
       const serviceObj = unifiedRecipeService as unknown as {
         searchRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
-      const unifiedResults = await serviceObj.searchRecipes(criteria as Record<string, unknown>);
+      const unifiedResults = await serviceObj.searchRecipes(criteria as any);
 
       // Extract just the Recipe objects from the results
       return (unifiedResults || []).map((result: unknown) => {
-        const resultData = result as unknown as { recipe?: Recipe; [key: string]: unknown };
+        const resultData = result as { recipe?: Recipe; [key: string]: unknown };
         return resultData?.recipe || resultData;
       }) as unknown as Recipe[];
     } catch (error) {
@@ -130,7 +130,7 @@ export class ConsolidatedRecipeService {
   /**
    * Get recipes by zodiac sign
    */
-  async getRecipesByZodiac(currentZodiacSign: ZodiacSign): Promise<Recipe[]> {
+  async getRecipesByZodiac(currentZodiacSign: any): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForZodiac(currentZodiacSign);
       return recipeData as unknown as Recipe[];
@@ -240,7 +240,7 @@ export class ConsolidatedRecipeService {
       cuisine?: string;
       flavorProfile?: { [key: string]: number };
       season?: Season;
-      zodiacSign?: ZodiacSign;
+      zodiacSign?: any;
       lunarPhase?: LunarPhase;
       planetName?: PlanetName;
       elementalFocus?: Element;

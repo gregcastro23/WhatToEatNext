@@ -686,9 +686,9 @@ export function getZodiacNutritionalRecommendations(sign: string): {
 
   return {
     elementalBalance:
-      (signData as unknown as { elementalNeeds?: Record<string, number> })?.elementalNeeds ?? {},
+      (signData as { elementalNeeds?: Record<string, number> })?.elementalNeeds ?? {},
     focusNutrients:
-      (signData as unknown as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
+      (signData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
     recommendedFoods: signData.beneficialFoods,
     avoidFoods: signData.challengeFoods,
   };
@@ -856,9 +856,9 @@ export function getSeasonalNutritionalRecommendations(season: string): {
 
   return {
     element:
-      (seasonData as unknown as { elementalEmphasis?: string })?.elementalEmphasis ?? 'Earth',
+      (seasonData as { elementalEmphasis?: string })?.elementalEmphasis ?? 'Earth',
     focusNutrients:
-      (seasonData as unknown as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
+      (seasonData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
     seasonalFoods: seasonData.recommendedFoods,
   };
 }

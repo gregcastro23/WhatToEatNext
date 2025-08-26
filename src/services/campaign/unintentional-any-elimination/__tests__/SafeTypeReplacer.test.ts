@@ -9,6 +9,18 @@ import * as path from 'path';
 import { SafeTypeReplacer } from '../SafeTypeReplacer';
 import { ClassificationContext, CodeDomain, TypeReplacement } from '../types';
 
+// Type guards for safe property access
+function isValidObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function hasProperty<T extends string>(
+  obj: unknown,
+  prop: T
+): obj is Record<T, unknown> {
+  return isValidObject(obj) && prop in obj;
+}
+
 // Mock execSync for TypeScript compilation tests
 jest.mock('child_process');
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
@@ -60,12 +72,12 @@ describe('SafeTypeReplacer', () => {
 
     // Mock fs.existsSync to return false for backup directory initially
     mockFs.existsSync.mockImplementation((path: unknown) => {
-      if (path === testBackupDir) return false;
+      if (String(path) === testBackupDir) return false;
       return true; // Assume other files exist
     });
 
     // Mock fs.mkdirSync
-    mockFs.mkdirSync.mockImplementation(() => undefined as unknown);
+    mockFs.mkdirSync.mockImplementation(() => undefined as any);
 
     // Mock fs.readFileSync and writeFileSync
     mockFs.readFileSync.mockImplementation(() => 'const items: unknown[] = [];');
@@ -142,8 +154,8 @@ describe('SafeTypeReplacer', () => {
 
       // Mock compilation failure
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Compilation failed') as unknown;
-        error.stdout = 'error TS2322: Type mismatch';
+        const error = new Error('Compilation failed') as any;
+        (error as any).stdout = 'error TS2322: Type mismatch';
         throw error;
       });
 
@@ -213,8 +225,9 @@ describe('SafeTypeReplacer', () => {
       ];
 
       mockFs.readFileSync.mockImplementation((filePath: unknown) => {
-        if (filePath.includes('test1.ts')) return 'const items: unknown[] = [];';
-        if (filePath.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
+        const pathStr = String(filePath);
+        if (pathStr.includes('test1.ts')) return 'const items: unknown[] = [];';
+        if (pathStr.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
         return 'backup content';
       });
 
@@ -239,8 +252,8 @@ describe('SafeTypeReplacer', () => {
 
       // Mock overall compilation to fail
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Overall compilation failed') as unknown;
-        error.stdout = 'error TS2322: Overall type error';
+        const error = new Error('Overall compilation failed') as any;
+        (error as any).stdout = 'error TS2322: Overall type error';
         throw error;
       });
 
@@ -292,7 +305,7 @@ describe('SafeTypeReplacer', () => {
       };
 
       // Access private method through any cast for testing
-      const score = (replacer as unknown).calculateSafetyScore(replacement);
+      const score = (replacer as any).calculateSafetyScore(replacement);
       expect(score).toBeGreaterThan(0.7); // Should be boosted for array replacement
     });
 
@@ -306,7 +319,7 @@ describe('SafeTypeReplacer', () => {
         validationRequired: true
       };
 
-      const score = (replacer as unknown).calculateSafetyScore(replacement);
+      const score = (replacer as any).calculateSafetyScore(replacement);
       expect(score).toBeLessThan(0.8); // Should be reduced for error context
     });
 
@@ -320,7 +333,7 @@ describe('SafeTypeReplacer', () => {
         validationRequired: true
       };
 
-      const score = (replacer as unknown).calculateSafetyScore(replacement);
+      const score = (replacer as any).calculateSafetyScore(replacement);
       expect(score).toBeGreaterThan(0.7); // Should be boosted for test files
     });
   });
@@ -331,12 +344,13 @@ describe('SafeTypeReplacer', () => {
       const backupPath = 'backup.ts';
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path === filePath) return 'modified content';
-        if (path === backupPath) return 'original content';
+        const pathStr = String(path);
+        if (pathStr === filePath) return 'modified content';
+        if (pathStr === backupPath) return 'original content';
         return '';
       });
 
-      const result = await (replacer as unknown).verifyRollbackCapability(filePath, backupPath);
+      const result = await (replacer as any).verifyRollbackCapability(filePath, backupPath);
       expect(result.success).toBe(true);
     });
 
@@ -348,7 +362,7 @@ describe('SafeTypeReplacer', () => {
         return path !== backupPath; // Backup doesn't exist
       });
 
-      const result = await (replacer as unknown).verifyRollbackCapability(filePath, backupPath);
+      const result = await (replacer as any).verifyRollbackCapability(filePath, backupPath);
       expect(result.success).toBe(false);
       expect(result.error).toContain('Backup file does not exist');
     });
@@ -383,7 +397,7 @@ describe('SafeTypeReplacer', () => {
       const filePath = 'test.ts';
       mockFs.readFileSync.mockReturnValue('original content');
 
-      const backupPath = await (replacer as unknown).createBackup(filePath);
+      const backupPath = await (replacer as any).createBackup(filePath);
 
       expect(backupPath).toContain('.test-backups');
       expect(backupPath).toContain('test.ts');
@@ -399,12 +413,13 @@ describe('SafeTypeReplacer', () => {
       const oldDate = new Date();
       oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
-      mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as unknown);
+      mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as any);
       mockFs.statSync.mockImplementation((filePath: unknown) => {
-        if (filePath.includes('old.backup')) {
-          return { mtime: oldDate } as unknown;
+        const pathStr = String(filePath);
+        if (pathStr.includes('old.backup')) {
+          return { mtime: oldDate } as any;
         }
-        return { mtime: new Date() } as unknown; // Recent file
+        return { mtime: new Date() } as any; // Recent file
       });
 
       replacer.cleanupOldBackups(7); // Keep 7 days
@@ -431,7 +446,7 @@ describe('SafeTypeReplacer', () => {
 
       // Mock backup creation to fail
       mockFs.writeFileSync.mockImplementation((filePath: unknown) => {
-        if (filePath.includes('.backup')) {
+        if (String(filePath).includes('.backup')) {
           throw new Error('Backup creation failed');
         }
       });
@@ -453,7 +468,7 @@ describe('SafeTypeReplacer', () => {
       // Mock compilation to fail
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed') as unknown;
-        error.stdout = 'error TS2322: Type error';
+        (error as any).stdout = 'error TS2322: Type error';
         throw error;
       });
 
@@ -469,7 +484,7 @@ describe('SafeTypeReplacer', () => {
     test('handles successful compilation', async () => {
       mockExecSync.mockReturnValue('');
 
-      const result = await (replacer as unknown).validateTypeScriptCompilation();
+      const result = await (replacer as any).validateTypeScriptCompilation();
 
       expect(result.success).toBe(true);
       expect(result.errors).toHaveLength(0);
@@ -484,11 +499,11 @@ describe('SafeTypeReplacer', () => {
 
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed') as unknown;
-        error.stdout = errorOutput;
+        (error as any).stdout = errorOutput;
         throw error;
       });
 
-      const result = await (replacer as unknown).validateTypeScriptCompilation();
+      const result = await (replacer as any).validateTypeScriptCompilation();
 
       expect(result.success).toBe(false);
       expect(result.errors).toHaveLength(2);
@@ -499,11 +514,11 @@ describe('SafeTypeReplacer', () => {
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error = new Error('Timeout') as unknown;
-        error.code = 'TIMEOUT';
+        (error as any).code = 'TIMEOUT';
         throw error;
       });
 
-      const result = await (replacer as unknown).validateTypeScriptCompilation();
+      const result = await (replacer as any).validateTypeScriptCompilation();
 
       expect(result.success).toBe(false);
       expect(result.errors).toHaveLength(1);
@@ -551,7 +566,7 @@ describe('SafeTypeReplacer', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const arrayType = (replacer as any).inferArrayElementType(complexContext);
-      const recordType = (replacer as unknown).inferRecordValueType(complexContext);
+      const recordType = (replacer as any).inferRecordValueType(complexContext);
 
       expect(arrayType).toBe('number');
       expect(recordType).toBe('number[]');
@@ -577,7 +592,7 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      const inferredType = (replacer as unknown).inferVariableType(usageContext);
+      const inferredType = (replacer as any).inferVariableType(usageContext);
       expect(inferredType).toBe('string');
     });
 
@@ -597,7 +612,7 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      const inferredType = (replacer as unknown).inferRecordValueType(context);
+      const inferredType = (replacer as any).inferRecordValueType(context);
       expect(['string', 'number', 'unknown']).toContain(inferredType);
     });
 
@@ -617,7 +632,7 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      const inferredType = (replacer as unknown).inferFunctionParameterType(context, 'event');
+      const inferredType = (replacer as any).inferFunctionParameterType(context, 'event');
       expect(inferredType).toBe('Event');
     });
 
@@ -637,7 +652,7 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      const inferredType = (replacer as unknown).inferReturnType(context);
+      const inferredType = (replacer as any).inferReturnType(context);
       expect(inferredType).toBe('boolean');
     });
 
@@ -657,7 +672,7 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      const isErrorContext = (replacer as unknown).isInErrorHandlingContext(errorContext);
+      const isErrorContext = (replacer as any).isInErrorHandlingContext(errorContext);
       expect(isErrorContext).toBe(true);
     });
 
@@ -677,7 +692,7 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      const isApiContext = (replacer as unknown).isExternalApiContext(apiContext);
+      const isApiContext = (replacer as any).isExternalApiContext(apiContext);
       expect(isApiContext).toBe(true);
     });
 
@@ -718,7 +733,7 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      const inferredType = (replacer as unknown).inferFunctionParameterType(recipeContext, 'ingredient');
+      const inferredType = (replacer as any).inferFunctionParameterType(recipeContext, 'ingredient');
       expect(inferredType).toBe('Ingredient');
     });
 
@@ -774,8 +789,8 @@ describe('SafeTypeReplacer', () => {
       ];
 
       mockFs.readFileSync.mockImplementation((filePath: unknown) => {
-        if (filePath.includes('test1.ts')) return 'const items: unknown[] = [];';
-        if (filePath.includes('test2.ts')) return 'const data: unknown = value;';
+        if (String(filePath).includes('test1.ts')) return 'const items: unknown[] = [];';
+        if (String(filePath).includes('test2.ts')) return 'const data: unknown = value;';
         return 'backup content';
       });
 
@@ -785,7 +800,7 @@ describe('SafeTypeReplacer', () => {
         compilationCallCount++;
         if (compilationCallCount > 1) {
           const error = new Error('Compilation failed') as unknown;
-          error.stdout = 'error TS2304: Cannot find name "InvalidType"';
+          (error as any).stdout = 'error TS2304: Cannot find name "InvalidType"';
           throw error;
         }
         return '';
@@ -827,7 +842,7 @@ describe('SafeTypeReplacer', () => {
       };
 
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path.includes('.backup')) {
+        if (String(path).includes('.backup')) {
           throw new Error('Backup file corrupted');
         }
         return 'const items: unknown[] = [];';
@@ -852,7 +867,7 @@ describe('SafeTypeReplacer', () => {
       // Mock timeout error
       mockExecSync.mockImplementation(() => {
         const error = new Error('Command timed out') as unknown;
-        error.code = 'TIMEOUT';
+        (error as any).code = 'TIMEOUT';
         throw error;
       });
 

@@ -28,7 +28,7 @@ export function generateCuisineRecommendation(
   if (elementalProperties.Fire > 0.6) {
     recommendations.push({
       cuisine: 'Mexican' as string,
-      score: elementalProperties.Fire * 0.9,
+      score: ((elementalProperties as any)?.Fire || 0) * 0.2,
       reasoning: 'High Fire element matches spicy Mexican cuisine',
       elementalMatch: elementalProperties.Fire,
     });
@@ -38,7 +38,7 @@ export function generateCuisineRecommendation(
   if (elementalProperties.Water > 0.6) {
     recommendations.push({
       cuisine: 'Mediterranean' as string,
-      score: elementalProperties.Water * 0.8,
+      score: ((elementalProperties as any)?.Water || 0) * 0.2,
       reasoning: 'High Water element matches Mediterranean freshness',
       elementalMatch: elementalProperties.Water,
     });
@@ -48,7 +48,7 @@ export function generateCuisineRecommendation(
   if (elementalProperties.Earth > 0.6) {
     recommendations.push({
       cuisine: 'Italian' as string,
-      score: elementalProperties.Earth * 0.85,
+      score: ((elementalProperties as any)?.Earth || 0) * 0.2,
       reasoning: 'High Earth element matches hearty Italian cuisine',
       elementalMatch: elementalProperties.Earth,
     });
@@ -58,7 +58,7 @@ export function generateCuisineRecommendation(
   if (elementalProperties.Air > 0.6) {
     recommendations.push({
       cuisine: 'Asian' as string,
-      score: elementalProperties.Air * 0.8,
+      score: ((elementalProperties as any)?.Air || 0) * 0.2,
       reasoning: 'High Air element matches light Asian cuisine',
       elementalMatch: elementalProperties.Air,
     });

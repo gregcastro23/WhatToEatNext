@@ -129,7 +129,7 @@ export class BundleSizeOptimizer {
       return analysis;
     } catch (error) {
       console.warn(
-        `⚠️  Bundle analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`,
       );
 
       // Return fallback analysis
@@ -166,7 +166,7 @@ export class BundleSizeOptimizer {
       return await this.estimateBundleSize();
     } catch (error) {
       throw new Error(
-        `Failed to get bundle information: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Failed to get bundle information: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }
@@ -206,7 +206,7 @@ export class BundleSizeOptimizer {
       return { totalSize: sizeKB };
     } catch (error) {
       throw new Error(
-        `Failed to get Next.js bundle info: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Failed to get Next.js bundle info: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }
@@ -225,7 +225,7 @@ export class BundleSizeOptimizer {
       return { totalSize: sizeKB };
     } catch (error) {
       throw new Error(
-        `Failed to get bundle info from ${buildDir}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Failed to get bundle info from ${buildDir}: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }
@@ -237,7 +237,7 @@ export class BundleSizeOptimizer {
     try {
       // Calculate source code size as rough estimate
       const output = execSync(
-        'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | xargs wc -c | tail -1 | awk \'{print $1}\'',
+        'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | xargs wc -c | tail -1 | awk \'{print 1}\'',
         {
           encoding: 'utf8',
           stdio: 'pipe',
@@ -251,7 +251,7 @@ export class BundleSizeOptimizer {
       return { totalSize: estimatedKB };
     } catch (error) {
       console.warn(
-        `⚠️  Bundle size estimation failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️  Bundle size estimation failed: ${(error as any).message || 'Unknown error'}`,
       );
       return { totalSize: 400 }; // Conservative estimate
     }
@@ -288,7 +288,7 @@ export class BundleSizeOptimizer {
       return chunks;
     } catch (error) {
       console.warn(
-        `⚠️  Chunk analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`,
       );
       return [];
     }
@@ -333,7 +333,7 @@ export class BundleSizeOptimizer {
       return assets.sort((a, b) => b.size - a.size); // Sort by size descending
     } catch (error) {
       console.warn(
-        `⚠️  Asset analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`,
       );
       return [];
     }
@@ -386,7 +386,7 @@ export class BundleSizeOptimizer {
       return dependencies.sort((a, b) => b.size - a.size);
     } catch (error) {
       console.warn(
-        `⚠️  Dependency analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`,
       );
       return [];
     }
@@ -419,7 +419,7 @@ export class BundleSizeOptimizer {
       };
     } catch (error) {
       console.warn(
-        `⚠️  Lazy loading validation failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `⚠️  Lazy loading validation failed: ${(error as any).message || 'Unknown error'}`,
       );
 
       return {
@@ -654,7 +654,7 @@ export class BundleSizeOptimizer {
     try {
       // Find large components that could benefit from lazy loading
       const output = execSync(
-        'find src -name "*.tsx" -exec wc -l {} + | sort -nr | head -10 | awk \'{print $2}\'',
+        'find src -name "*.tsx" -exec wc -l {} + | sort -nr | head -10 | awk \'{print 2}\'',
         {
           encoding: 'utf8',
           stdio: 'pipe',
@@ -792,7 +792,7 @@ export class BundleSizeOptimizer {
       console.log(`📦 Bundle analysis data exported to: ${filePath}`);
     } catch (error) {
       throw new Error(
-        `Failed to export bundle data: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
+        `Failed to export bundle data: ${(error as any).message || 'Unknown error'}`,
       );
     }
   }

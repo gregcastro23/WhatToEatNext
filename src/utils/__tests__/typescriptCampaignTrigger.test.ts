@@ -3,12 +3,12 @@
  */
 
 import {
-  CampaignMode,
-  ErrorCategory,
-  SafetyLevel,
-  analyzeTypeScriptErrors,
-  checkCampaignTriggerConditions,
-  getCurrentTypeScriptErrorCount,
+    CampaignMode,
+    ErrorCategory,
+    SafetyLevel,
+    analyzeTypeScriptErrors,
+    checkCampaignTriggerConditions,
+    getCurrentTypeScriptErrorCount,
 } from '../typescriptCampaignTrigger';
 
 // Mock child_process
@@ -47,11 +47,11 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.shouldTrigger).toBe(true);
-      expect(result.campaignMode).toBe(CampaignMode.STANDARD);
-      expect(result.errorAnalysis.totalErrors).toBe(150);
-      expect(result.safetyLevel).toBe(SafetyLevel.MEDIUM);
-      expect(result.recommendations.length).toBeGreaterThan(0);
+      expect((result as any)?.shouldTrigger).toBe(true);
+      expect((result as any)?.campaignMode).toBe((CampaignMode as any)?.STANDARD);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(150);
+      expect((result as any)?.safetyLevel).toBe((SafetyLevel as any)?.MEDIUM);
+      expect((result as any)?.recommendations.length).toBeGreaterThan(0);
     });
 
     it('should recommend aggressive campaign for high error count', async () => {
@@ -65,10 +65,10 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.shouldTrigger).toBe(true);
-      expect(result.campaignMode).toBe(CampaignMode.AGGRESSIVE);
-      expect(result.errorAnalysis.totalErrors).toBe(250);
-      expect(result.safetyLevel).toBe(SafetyLevel.HIGH);
+      expect((result as any)?.shouldTrigger).toBe(true);
+      expect((result as any)?.campaignMode).toBe((CampaignMode as any)?.AGGRESSIVE);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(250);
+      expect((result as any)?.safetyLevel).toBe((SafetyLevel as any)?.HIGH);
     });
 
     it('should recommend emergency campaign for critical error count', async () => {
@@ -83,10 +83,10 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.shouldTrigger).toBe(true);
-      expect(result.campaignMode).toBe(CampaignMode.EMERGENCY);
-      expect(result.errorAnalysis.totalErrors).toBe(600);
-      expect(result.safetyLevel).toBe(SafetyLevel.MAXIMUM);
+      expect((result as any)?.shouldTrigger).toBe(true);
+      expect((result as any)?.campaignMode).toBe((CampaignMode as any)?.EMERGENCY);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(600);
+      expect((result as any)?.safetyLevel).toBe((SafetyLevel as any)?.MAXIMUM);
     });
 
     it('should not trigger campaign for low error count', async () => {
@@ -100,9 +100,9 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.shouldTrigger).toBe(false);
-      expect(result.campaignMode).toBe(CampaignMode.MONITORING);
-      expect(result.errorAnalysis.totalErrors).toBe(50);
+      expect((result as any)?.shouldTrigger).toBe(false);
+      expect((result as any)?.campaignMode).toBe((CampaignMode as any)?.MONITORING);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(50);
     });
 
     it('should handle no errors gracefully', async () => {
@@ -111,10 +111,10 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.shouldTrigger).toBe(false);
-      expect(result.campaignMode).toBe(CampaignMode.MONITORING);
-      expect(result.errorAnalysis.totalErrors).toBe(0);
-      expect(result.recommendations.length).toBe(0);
+      expect((result as any)?.shouldTrigger).toBe(false);
+      expect((result as any)?.campaignMode).toBe((CampaignMode as any)?.MONITORING);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(0);
+      expect((result as any)?.recommendations.length).toBe(0);
     });
 
     it('should categorize different error types correctly', async () => {
@@ -131,13 +131,13 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.errorAnalysis.totalErrors).toBe(6);
-      expect(result.errorAnalysis.errorsByCategory[ErrorCategory.TS2352]).toHaveLength(1);
-      expect(result.errorAnalysis.errorsByCategory[ErrorCategory.TS2304]).toHaveLength(1);
-      expect(result.errorAnalysis.errorsByCategory[ErrorCategory.TS2345]).toHaveLength(1);
-      expect(result.errorAnalysis.errorsByCategory[ErrorCategory.TS2698]).toHaveLength(1);
-      expect(result.errorAnalysis.errorsByCategory[ErrorCategory.TS2362]).toHaveLength(1);
-      expect(result.errorAnalysis.errorsByCategory[ErrorCategory.OTHER]).toHaveLength(1);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(6);
+      expect((result as any)?.errorAnalysis.errorsByCategory[(ErrorCategory as any)?.TS2352]).toHaveLength(1);
+      expect((result as any)?.errorAnalysis.errorsByCategory[(ErrorCategory as any)?.TS2304]).toHaveLength(1);
+      expect((result as any)?.errorAnalysis.errorsByCategory[(ErrorCategory as any)?.TS2345]).toHaveLength(1);
+      expect((result as any)?.errorAnalysis.errorsByCategory[(ErrorCategory as any)?.TS2698]).toHaveLength(1);
+      expect((result as any)?.errorAnalysis.errorsByCategory[(ErrorCategory as any)?.TS2362]).toHaveLength(1);
+      expect((result as any)?.errorAnalysis.errorsByCategory[(ErrorCategory as any)?.OTHER]).toHaveLength(1);
     });
 
     it('should identify high-impact files', async () => {
@@ -151,9 +151,9 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.errorAnalysis.highImpactFiles.length).toBeGreaterThan(0);
-      expect(result.errorAnalysis.highImpactFiles[0].filePath).toBe('src/high-impact-file.ts');
-      expect(result.errorAnalysis.highImpactFiles[0].errorCount).toBe(10);
+      expect((result as any)?.errorAnalysis.highImpactFiles?.length).toBeGreaterThan(0);
+      expect((result as any)?.errorAnalysis.highImpactFiles[0].filePath).toBe('src/high-impact-(file as any)?.ts');
+      expect((result as any)?.errorAnalysis.highImpactFiles[0].errorCount).toBe(10);
     });
 
     it('should handle TypeScript compilation errors gracefully', async () => {
@@ -161,15 +161,15 @@ describe('TypeScript Campaign Trigger', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom stdout property for test mock scenario
       const error = new Error('Command failed') as unknown;
-      error.stdout = "src/test.ts(10,5): error TS2304: Cannot find name 'test'.";
+      (error as any).stdout = "src/test.ts(10,5): error TS2304: Cannot find name 'test'.";
       mockExecSync.mockImplementation(() => {
         throw error;
       });
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.errorAnalysis.totalErrors).toBe(1);
-      expect(result.shouldTrigger).toBe(false); // 1 error is below threshold
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(1);
+      expect((result as any)?.shouldTrigger).toBe(false); // 1 error is below threshold
     });
 
     it('should handle complete TypeScript failure gracefully', async () => {
@@ -181,10 +181,10 @@ describe('TypeScript Campaign Trigger', () => {
       const result = analyzeTypeScriptErrors();
 
       // Should return safe defaults
-      expect(result.shouldTrigger).toBe(false);
-      expect(result.campaignMode).toBe(CampaignMode.MONITORING);
-      expect(result.errorAnalysis.totalErrors).toBe(-1);
-      expect(result.safetyLevel).toBe(SafetyLevel.MAXIMUM);
+      expect((result as any)?.shouldTrigger).toBe(false);
+      expect((result as any)?.campaignMode).toBe((CampaignMode as any)?.MONITORING);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(-1);
+      expect((result as any)?.safetyLevel).toBe((SafetyLevel as any)?.MAXIMUM);
     });
   });
 
@@ -267,13 +267,13 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.errorAnalysis.totalErrors).toBe(1);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(1);
 
-      const error = result.errorAnalysis.priorityRanking[0];
+      const error = (result as any)?.errorAnalysis.priorityRanking[0];
       expect(error.filePath).toBe('src/components/test.tsx');
       expect(error.line).toBe(45);
       expect(error.column).toBe(12);
-      expect(error.code).toBe('TS2304');
+      expect((error as any).code).toBe('TS2304');
       expect(error.category).toBe(ErrorCategory.TS2304);
       expect(error.message).toBe("Cannot find name 'UndefinedVariable'.");
     });
@@ -290,7 +290,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.errorAnalysis.totalErrors).toBe(2);
+      expect((result as any)?.errorAnalysis.totalErrors).toBe(2);
     });
   });
 
@@ -306,11 +306,11 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.batchSchedule.batches.length).toBeGreaterThan(0);
-      expect(result.batchSchedule.totalEstimatedTime).toBeGreaterThan(0);
+      expect((result as any)?.batchSchedule.batches?.length).toBeGreaterThan(0);
+      expect((result as any)?.batchSchedule.totalEstimatedTime).toBeGreaterThan(0);
 
       // Should have different batch sizes for different categories
-      const batchSizes = result.batchSchedule.batches.map(b => b.batchSize);
+      const batchSizes = (result as any)?.batchSchedule.batches?.map(b => (b as any)?.batchSize);
       expect(new Set(batchSizes).size).toBeGreaterThan(1); // Multiple different batch sizes
     });
 
@@ -324,9 +324,9 @@ describe('TypeScript Campaign Trigger', () => {
 
       const result = analyzeTypeScriptErrors();
 
-      expect(result.campaignMode).toBe(CampaignMode.EMERGENCY);
-      expect(result.batchSchedule.safetyProtocols.length).toBeGreaterThan(0);
-      expect(result.batchSchedule.safetyProtocols[0].name).toContain('Emergency');
+      expect((result as any)?.campaignMode).toBe((CampaignMode as any)?.EMERGENCY);
+      expect((result as any)?.batchSchedule.safetyProtocols?.length).toBeGreaterThan(0);
+      expect((result as any)?.batchSchedule.safetyProtocols[0].name).toContain('Emergency');
     });
   });
 

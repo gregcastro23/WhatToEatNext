@@ -49,7 +49,7 @@ describe('ValidationFramework', () => {
       // Mock successful executions by default
       mockExecSync.mockReturnValue('');
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.statSync.mockReturnValue({ size: 400 * 1024 } as unknown); // 400KB
+      mockFs.statSync.mockReturnValue({ size: 400 * 1024 } as any); // 400KB
     });
 
     it('should throw error for unknown phase', async () => {

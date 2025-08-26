@@ -80,7 +80,7 @@ export interface Ingredient {
   };
 
   // Astrological properties
-  zodiacInfluences?: ZodiacSign[];
+  zodiacInfluences?: any[];
   planetaryInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
 
@@ -113,7 +113,7 @@ export interface IngredientMapping {
 // Astrological profile types
 export interface AstrologicalProfile {
   rulingPlanet?: string;
-  zodiacAffinity?: ZodiacSign[];
+  zodiacAffinity?: any[];
   elementalAlignment: ElementalProperties;
   planetaryCorrespondences?: Record<string, number>;
   seasonalPreferences?: SeasonalPreferences;
@@ -141,7 +141,7 @@ export interface NutritionalData {
 
 // Planet position types (unified)
 export interface PlanetPosition {
-  sign: ZodiacSign;
+  sign: any;
   degree: number;
   minute?: number;
   exactLongitude: number;
@@ -150,10 +150,33 @@ export interface PlanetPosition {
 }
 
 export interface PlanetaryPosition {
-  sign: ZodiacSign;
+  sign: any;
   degree: number;
   minute: number;
   isRetrograde: boolean;
+}
+
+// Search filter types (for advanced search functionality)
+export interface SearchFilters {
+  query: string;
+  dietaryRestrictions: string[];
+  difficultyLevel: string[];
+  cookingTime: {
+    min: number;
+    max: number;
+  };
+  cuisineTypes: string[];
+  mealTypes: string[];
+  spiciness: string[];
+  ingredients: string[];
+}
+
+export interface FilterChip {
+  id: string;
+  label: string;
+  category: string;
+  value: string | number;
+  removable: boolean;
 }
 
 // Cooking method types (extended)
@@ -193,7 +216,7 @@ export interface ThermodynamicProperties {
 }
 
 export interface AstrologicalInfluences {
-  favorableZodiac?: ZodiacSign[];
+  favorableZodiac?: any[];
   favorablePlanets?: string[];
   lunarPhasePreference?: string[];
   seasonalAlignment?: SeasonalPreferences;
@@ -261,7 +284,7 @@ export interface RecipeIngredient {
 
   // Elemental and astrological properties
   elementalProperties?: ElementalProperties;
-  zodiacInfluences?: ZodiacSign[];
+  zodiacInfluences?: any[];
   planetaryInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
 
@@ -275,7 +298,7 @@ export interface RecipeIngredient {
 
 export interface AstrologicalTiming {
   optimalLunarPhase?: string[];
-  favorableZodiac?: ZodiacSign[];
+  favorableZodiac?: any[];
   seasonalPreference?: string[];
   planetaryHours?: string[];
   zodiacCompatibility?: Record<ZodiacSign, number>;
@@ -365,17 +388,7 @@ export interface SearchCriteria {
   pagination?: PaginationOptions;
 }
 
-export interface SearchFilters {
-  categories?: string[];
-  elements?: string[];
-  zodiacSigns?: ZodiacSign[];
-  cookingMethods?: string[];
-  cuisines?: string[];
-  dietaryRestrictions?: string[];
-  difficulty?: string[];
-  timeRange?: TimeRange;
-  nutritionalRange?: NutritionalRange;
-}
+// SearchFilters interface moved above - keeping unified structure
 
 export interface NutritionalRange {
   calories?: { min?: number; max?: number };

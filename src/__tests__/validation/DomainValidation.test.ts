@@ -244,7 +244,7 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         performanceTests.forEach(test => {
-          const actualTime = Math.random() * test.maxTime * 0.8; // Simulate good performance
+          const actualTime = Math.random() * ((test as any)?.maxTime || 0) * 0.2; // Simulate good performance
 
           mockExecSync.mockReturnValue(
             Buffer.from(`✓ ${test.calculation}: completed in ${actualTime.toFixed(0)}ms (limit: ${test.maxTime}ms)`),

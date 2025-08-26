@@ -13,11 +13,11 @@ const generateVegetableAttributes = (vegData: {
     fiber_density: vegData.fiber,
     bitterness: vegData.bitterness,
     cooking_time_minutes: vegData.cooking_time,
-    volume_reduction: Math.round(vegData.water * 0.8) / 10, // How much it shrinks when cooked (1-10 scale)
+    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale)
     seasonal_peak_months: [], // Will be set individually
     cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked
     nutrient_density: Math.round(
-      vegData.fiber * 0.6 + (100 - vegData.water) * 0.05 + Math.min(7, vegData.bitterness) * 0.3,
+      ((vegData as any)?.fiber || 0) * 0.2 + (100 - vegData.water) * 0.05 + Math.min(7, vegData.bitterness) * 0.3,
     ),
   };
 };

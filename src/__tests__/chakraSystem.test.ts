@@ -92,7 +92,7 @@ describe('Chakra System', () => {
   });
 
   test('Zodiac sign food recommendations', () => {
-    const zodiacSigns: ZodiacSign[] = [
+    const zodiacSigns: any[] = [
       'aries',
       'taurus',
       'gemini',

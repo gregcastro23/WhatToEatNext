@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { performance } from 'perf_hooks';
 
+import { PerformanceReport } from './PerformanceMetricsAnalytics';
+
 export interface BuildMetrics {
   typeScriptCompilationTime: number;
   totalBuildTime: number;
@@ -151,8 +153,8 @@ class BuildPerformanceMonitor {
 
       // Handle compilation errors
       const errorOutput =
-        (error as unknown as { stdout?: string; stderr?: string }).stdout ||
-        (error as unknown as { stderr?: string }).stderr ||
+        (error as { stdout?: string; stderr?: string }).stdout ||
+        (error as { stderr?: string }).stderr ||
         '';
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
       const warningCount = (errorOutput.match(/warning TS/g) || []).length;
@@ -222,8 +224,8 @@ class BuildPerformanceMonitor {
       const finalMemory = process.memoryUsage().heapUsed;
 
       const errorOutput =
-        (error as unknown as { stdout?: string; stderr?: string }).stdout ||
-        (error as unknown as { stderr?: string }).stderr ||
+        (error as { stdout?: string; stderr?: string }).stdout ||
+        (error as { stderr?: string }).stderr ||
         '';
       const errorCount = (errorOutput.match(/error/gi) || []).length;
       const warningCount = (errorOutput.match(/warning/gi) || []).length;

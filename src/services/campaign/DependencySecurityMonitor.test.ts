@@ -143,7 +143,7 @@ describe('DependencySecurityMonitor', () => {
       });
 
       const error = new Error('npm outdated found updates') as unknown;
-      error.stdout = outdatedOutput;
+      (error as any).stdout = outdatedOutput;
       mockExecSync.mockImplementation(() => {
         throw error;
       });
@@ -469,7 +469,7 @@ describe('DependencySecurityMonitor', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
 
       // Access private method through any cast for testing
-      const determineUpdateType = (monitor as unknown).determineUpdateType;
+      const determineUpdateType = (monitor as any).determineUpdateType;
 
       expect(determineUpdateType('1.0.0', '2.0.0')).toBe('major');
       expect(determineUpdateType('17.0.0', '18.0.0')).toBe('major');
@@ -477,7 +477,7 @@ describe('DependencySecurityMonitor', () => {
 
     test('correctly identifies minor updates', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
-      const determineUpdateType = (monitor as unknown).determineUpdateType;
+      const determineUpdateType = (monitor as any).determineUpdateType;
 
       expect(determineUpdateType('1.0.0', '1.1.0')).toBe('minor');
       expect(determineUpdateType('17.0.0', '17.1.0')).toBe('minor');
@@ -485,7 +485,7 @@ describe('DependencySecurityMonitor', () => {
 
     test('correctly identifies patch updates', () => {
       const monitor = new DependencySecurityMonitor(testConfig);
-      const determineUpdateType = (monitor as unknown).determineUpdateType;
+      const determineUpdateType = (monitor as any).determineUpdateType;
 
       expect(determineUpdateType('1.0.0', '1.0.1')).toBe('patch');
       expect(determineUpdateType('17.0.0', '17.0.1')).toBe('patch');

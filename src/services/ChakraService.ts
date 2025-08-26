@@ -17,7 +17,7 @@ export interface ChakraEnergyState {
     planet: string;
   };
   balanceState: 'balanced' | 'underactive' | 'overactive';
-  relatedSigns: ZodiacSign[];
+  relatedSigns: any[];
   recommendedFoods: string[];
 }
 

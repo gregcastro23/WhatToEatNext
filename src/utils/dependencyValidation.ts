@@ -208,7 +208,7 @@ export const DEPENDENCY_FIXES = {
    */
   convertBarrelImport: (importStatement: string): string => {
     // Convert "import { X } from './index'" to "import { X } from './X'"
-    return importStatement.replace(/from\s+['"](.*)\/index['"]/, "from '$1'");
+    return importStatement.replace(/from\s+['"](.*)\/index['"]/, "from '1'");
   },
 
   /**

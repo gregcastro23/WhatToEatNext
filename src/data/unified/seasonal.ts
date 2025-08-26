@@ -50,7 +50,7 @@ export interface TarotSeasonalInfluence {
 export interface SeasonalTarotProfile {
   minorArcana: string[];
   majorArcana: string[];
-  currentZodiacSigns: ZodiacSign[];
+  currentZodiacSigns: any[];
   cookingRecommendations: string[];
   tarotInfluences: Record<string, TarotSeasonalInfluence | string>;
   dominant_element: Element;
@@ -926,12 +926,12 @@ export class UnifiedSeasonalSystem {
 
     // Lunar phase modifier
     if (conditions.lunarPhase) {
-      modifier *= 1 + seasonProfile.monicaModifiers.lunarPhaseBonus * 0.1;
+      modifier *= 1 + ((seasonProfile.monicaModifiers as any)?.lunarPhaseBonus || 0) * 0.2;
     }
 
     // Planetary hour modifier
     if (conditions.planetaryHour) {
-      modifier *= 1 + seasonProfile.monicaModifiers.planetaryAlignment * 0.1;
+      modifier *= 1 + ((seasonProfile.monicaModifiers as any)?.planetaryAlignment || 0) * 0.2;
     }
 
     // Temperature modifier

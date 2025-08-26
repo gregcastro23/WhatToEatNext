@@ -171,8 +171,8 @@ class ErrorTrackingSystem {
       return [];
     } catch (error) {
       const output =
-        (error as unknown as { stdout?: string; stderr?: string }).stdout ||
-        (error as unknown as { stderr?: string }).stderr ||
+        (error as { stdout?: string; stderr?: string }).stdout ||
+        (error as { stderr?: string }).stderr ||
         '';
       const errors = this.parseTypeScriptErrors(output);
 
@@ -247,7 +247,7 @@ class ErrorTrackingSystem {
       return violations;
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      const output = (error as unknown as { stdout?: string }).stdout || '';
+      const output = (error as { stdout?: string }).stdout || '';
 
       try {
         const lintResults = JSON.parse(output);
@@ -556,7 +556,7 @@ class ErrorTrackingSystem {
     score -= Math.min(50, (errors.length + lintErrors.length) * 2);
 
     // Deduct for warnings (less severe)
-    score -= Math.min(30, warnings.length * 0.5);
+    score -= Math.min(30, ((warnings as any)?.length || 0) * 0.2);
 
     // Bonus for resolved issues
     const recentlyResolved = this.typeScriptErrors.filter(

@@ -443,7 +443,7 @@ export interface CalculationInput {
   lunarPhase?: string;
   isDaytime?: boolean;
   currentDate?: Date;
-  currentZodiacSign?: ZodiacSign;
+  currentZodiacSign?: any;
 }
 
 /**
@@ -557,8 +557,8 @@ export function calculateRecipeCompatibility(
 
     // Overall compatibility score (weighted average)
     const compatibilityScore =
-      recipeResult.elementalAlignment * 0.4 +
-      recipeResult.alchemicalAlignment * 0.35 +
+      ((recipeResult as any)?.elementalAlignment || 0) * 0.2 +
+      ((recipeResult as any)?.alchemicalAlignment || 0) * 0.2 +
       planetaryAlignment * 0.25;
 
     // Combine recommendations
@@ -600,10 +600,10 @@ function _calculateKalchmAlignment(
 ): number {
   // Convert recipe properties to approximate alchemical properties
   const recipeAlchemical = {
-    Spirit: recipeProperties.Fire * 0.7 + recipeProperties.Air * 0.3,
-    Essence: recipeProperties.Water * 0.7 + recipeProperties.Fire * 0.3,
-    Matter: recipeProperties.Earth * 0.7 + recipeProperties.Water * 0.3,
-    Substance: recipeProperties.Air * 0.7 + recipeProperties.Earth * 0.3,
+    Spirit: ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2,
+    Essence: ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2,
+    Matter: ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2,
+    Substance: ((recipeProperties as any)?.Air || 0) * 0.2 + ((recipeProperties as any)?.Earth || 0) * 0.2,
   };
 
   // Calculate similarity to current moment's alchemical properties

@@ -667,7 +667,7 @@ export class ResolutionStrategyGenerator {
       );
     }
 
-    if (grouped.lowRisk.length > grouped.lowRisk.length * 0.7) {
+    if (grouped.lowRisk.length > ((grouped.lowRisk as any)?.length || 0) * 0.2) {
       recommendations.push('Most issues are low risk - consider aggressive automation');
     }
 

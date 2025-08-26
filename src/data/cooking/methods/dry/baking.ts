@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
+import type { ThermodynamicProperties } from '@/types/shared';
 
 /**
  * Baking cooking method
@@ -29,8 +29,8 @@ export const baking: CookingMethodData = {
     'minimal attention required',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['leo', 'aries', 'sagittarius'] as ZodiacSign[],
-    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[],
+    favorableZodiac: ['leo', 'aries', 'sagittarius'] as any[],
+    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
     dominantPlanets: ['Sun', 'Mars'],
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced rising
@@ -133,7 +133,7 @@ export const baking: CookingMethodData = {
     heat: 0.65, // Moderate-high heat penetrating the food
     entropy: 0.55, // Moderate breakdown of structures, protein denaturation
     reactivity: 0.7, // Significant Maillard reactions, caramelization
-    gregsEnergy: 0.65 - 0.55 * 0.7, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: 0.65 - (0.55 * 0.7), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

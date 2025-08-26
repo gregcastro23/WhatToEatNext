@@ -409,7 +409,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
             const property = alchemicalMap[element as ElementalCharacter];
             if (property) {
               // Increment by a fixed amount or by card number if available
-              const increment = card.number ? card.number * 0.05 : 0.1;
+              const increment = card.number ? ((card as any)?.number || 0) * 0.2 : 0.1;
               result[property] += increment;
             }
           }

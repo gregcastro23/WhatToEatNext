@@ -161,7 +161,7 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve complex elemental compatibility matrices', async () => {
         const context = createDomainContext(
-          'const compatibilityMatrix: Record<string, unknown> = buildElementalMatrix();',
+          'const compatibilityMatrix: any = buildElementalMatrix();',
           'src/calculations/elemental/compatibility.ts',
           CodeDomain.ASTROLOGICAL,
           [

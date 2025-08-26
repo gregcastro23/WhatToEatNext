@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 // Setup test environment
 // NODE_ENV is readonly in typings; override via type cast for test setup
-(process.env as Record<string, unknown>).NODE_ENV = 'test';
+(process.env as any).NODE_ENV = 'test';
 process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
 
 // Suppress console output during tests to reduce noise in CI

@@ -37,7 +37,7 @@ function deepEqual<T>(obj1: T, obj2: T): boolean {
 
   for (const key of keys1) {
     if (!keys2.includes(key)) return false;
-    if (!deepEqual((obj1 as Record<string, unknown>)[key], (obj2 as Record<string, unknown>)[key]))
+    if (!deepEqual((obj1 as any)[key], (obj2 as any)[key]))
       return false;
   }
 
@@ -203,10 +203,10 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
       // Combine elemental and planetary influences (weighted average)
       const combinedAlchemicalValues = {
-        Spirit: elementalValues.Spirit * 0.5 + planetaryValues.Spirit * 0.5,
-        Essence: elementalValues.Essence * 0.5 + planetaryValues.Essence * 0.5,
-        Matter: elementalValues.Matter * 0.5 + planetaryValues.Matter * 0.5,
-        Substance: elementalValues.Substance * 0.5 + planetaryValues.Substance * 0.5,
+        Spirit: ((elementalValues as any)?.Spirit || 0) * 0.2 + ((planetaryValues as any)?.Spirit || 0) * 0.2,
+        Essence: ((elementalValues as any)?.Essence || 0) * 0.2 + ((planetaryValues as any)?.Essence || 0) * 0.2,
+        Matter: ((elementalValues as any)?.Matter || 0) * 0.2 + ((planetaryValues as any)?.Matter || 0) * 0.2,
+        Substance: ((elementalValues as any)?.Substance || 0) * 0.2 + ((planetaryValues as any)?.Substance || 0) * 0.2,
       };
 
       // Normalize alchemical values to ensure they sum to approximately 1
@@ -320,7 +320,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       value={{
         state,
         dispatch,
-        planetaryPositions: planetaryPositions as Record<string, unknown>,
+        planetaryPositions: planetaryPositions as any,
         isDaytime,
         updatePlanetaryPositions: updatePlanetaryPositions as (
           positions: Record<string, unknown>,

@@ -36,7 +36,7 @@ export function calculateSeasonalEffectiveness(
       // Get modifier from SEASONAL_MODIFIERS using lowercase season
       // Using proper type access with fallback
       const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {};
-      const seasonalModifier = seasonModifiers[element as keyof ElementalProperties] || 0.25;
+      const seasonalModifier = seasonModifiers[element as any] || 0.25;
       return score + value * seasonalModifier;
     },
     0,
@@ -99,7 +99,7 @@ export function calculateSeasonalElements(
 
   return Object.fromEntries(
     Object.entries(baseElements).map(([element, value]) => {
-      const adjusted = value + (modifier[element as keyof ElementalProperties] || 0);
+      const adjusted = value + (modifier[element as any] || 0);
       return [element, Math.max(0, Math.min(1, adjusted))];
     }),
   ) as ElementalProperties;
@@ -131,7 +131,7 @@ export function calculateSeasonalScores(
 }
 
 // Helper function to get current season as a zodiac sign
-function getCurrentZodiacSeason(): ZodiacSign {
+function getCurrentZodiacSeason(): any {
   return getZodiacSignForDate(new Date());
 }
 

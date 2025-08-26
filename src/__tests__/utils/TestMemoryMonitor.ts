@@ -105,7 +105,7 @@ export class TestMemoryMonitor {
     const errors: string[] = [];
 
     // Check against limits
-    if (currentUsage.heapUsed > this.memoryLimits.heapUsed * 0.8) {
+    if (currentUsage.heapUsed > ((this.memoryLimits as any)?.heapUsed || 0) * 0.2) {
       warnings.push(
         `Heap usage approaching limit: ${(currentUsage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
       );

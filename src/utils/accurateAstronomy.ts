@@ -204,7 +204,7 @@ interface PositionsCache {
  * Type for planetary position object
  */
 interface PlanetPositionData {
-  sign: ZodiacSign;
+  sign: any;
   degree: number;
   exactLongitude: number;
   isRetrograde: boolean;
@@ -310,7 +310,7 @@ export function getFallbackPlanetaryPositions(date: Date): Record<string, Planet
 
     // Store both the raw longitude and the formatted data
     positions[planet] = {
-      sign: sign.toLowerCase() as ZodiacSign,
+      sign: sign.toLowerCase() as any,
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
       isRetrograde,
@@ -391,7 +391,7 @@ export async function getAccuratePlanetaryPositions(
           const { sign, degree } = getLongitudeToZodiacPosition(sunLong);
 
           positions[planet] = {
-            sign: sign as ZodiacSign,
+            sign: sign as any,
             degree,
             exactLongitude: sunLong,
             isRetrograde: false, // The Sun is never retrograde from Earth's perspective
@@ -404,7 +404,7 @@ export async function getAccuratePlanetaryPositions(
           const { sign, degree } = getLongitudeToZodiacPosition(eclipLong);
 
           positions[planet] = {
-            sign: sign as ZodiacSign,
+            sign: sign as any,
             degree,
             exactLongitude: eclipLong,
             isRetrograde,
@@ -428,7 +428,7 @@ export async function getAccuratePlanetaryPositions(
     const { sign: nodeSign, degree: nodeDegree } = getLongitudeToZodiacPosition(nodeData.northNode);
 
     positions.northNode = {
-      sign: nodeSign as ZodiacSign,
+      sign: nodeSign as any,
       degree: nodeDegree,
       exactLongitude: nodeData.northNode,
       isRetrograde: nodeData.isRetrograde,
@@ -439,7 +439,7 @@ export async function getAccuratePlanetaryPositions(
     const { sign: southSign, degree: southDegree } = getLongitudeToZodiacPosition(southNodeLong);
 
     positions.southNode = {
-      sign: southSign as ZodiacSign,
+      sign: southSign as any,
       degree: southDegree,
       exactLongitude: southNodeLong,
       isRetrograde: nodeData.isRetrograde,
@@ -520,7 +520,7 @@ export function getLongitudeToZodiacPosition(longitude: number): { sign: string;
   const degree = normalizedLong % 30;
 
   // Get sign name
-  const signs: ZodiacSign[] = [
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',

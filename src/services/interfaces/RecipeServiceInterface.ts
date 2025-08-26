@@ -55,7 +55,7 @@ export interface RecipeSearchCriteria {
   // Astrological filters
   planetaryHour?: PlanetName;
   lunarPhase?: LunarPhase;
-  currentZodiacSign?: ZodiacSign;
+  currentZodiacSign?: any;
 
   // Other practical filters
   maxPrepTime?: number;

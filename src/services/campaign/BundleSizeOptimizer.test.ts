@@ -236,7 +236,7 @@ describe('BundleSizeOptimizer', () => {
         .fn()
         .mockReturnValue(['public/image.png', 'public/style.css', 'public/script.js', 'public/font.woff2']);
 
-      (bundleOptimizer as unknown).getAllFiles = mockGetAllFiles;
+      (bundleOptimizer as any).getAllFiles = mockGetAllFiles;
 
       mockFs.statSync.mockImplementation((path: string) => {
         const sizes: Record<string, number> = {
@@ -342,7 +342,7 @@ describe('BundleSizeOptimizer', () => {
 
   describe('helper methods', () => {
     it('should identify heavy dependencies correctly', () => {
-      const isHeavy = (bundleOptimizer as unknown).isLikelyHeavyDependency;
+      const isHeavy = (bundleOptimizer as any).isLikelyHeavyDependency;
 
       expect(isHeavy('@chakra-ui/react')).toBe(true);
       expect(isHeavy('react-table')).toBe(true);
@@ -351,7 +351,7 @@ describe('BundleSizeOptimizer', () => {
     });
 
     it('should estimate dependency sizes correctly', async () => {
-      const estimateSize = (bundleOptimizer as unknown).estimateDependencySize;
+      const estimateSize = (bundleOptimizer as any).estimateDependencySize;
 
       expect(await estimateSize('react')).toBe(45);
       expect(await estimateSize('react-dom')).toBe(130);
@@ -359,7 +359,7 @@ describe('BundleSizeOptimizer', () => {
     });
 
     it('should analyze dependency usage correctly', () => {
-      const analyzeUsage = (bundleOptimizer as unknown).analyzeDependencyUsage;
+      const analyzeUsage = (bundleOptimizer as any).analyzeDependencyUsage;
 
       expect(analyzeUsage('react')).toBe('critical');
       expect(analyzeUsage('@chakra-ui/react')).toBe('important');
@@ -367,7 +367,7 @@ describe('BundleSizeOptimizer', () => {
     });
 
     it('should suggest alternatives correctly', () => {
-      const suggestAlternatives = (bundleOptimizer as unknown).suggestAlternatives;
+      const suggestAlternatives = (bundleOptimizer as any).suggestAlternatives;
 
       expect(suggestAlternatives('lodash')).toContain('ramda (functional)');
       expect(suggestAlternatives('moment')).toContain('date-fns (smaller)');

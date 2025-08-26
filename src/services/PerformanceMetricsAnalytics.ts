@@ -858,7 +858,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       : 0;
 
     // TypeScript health (0-100)
-    const typeScriptHealth = Math.max(0, 100 - typescript.errorCount * 0.1);
+    const typeScriptHealth = Math.max(0, 100 - ((typescript as any)?.errorCount || 0) * 0.2);
 
     // Test health (0-100)
     const testHealth = test.totalTests > 0 ? (test.passedTests / test.totalTests) * 100 : 80;

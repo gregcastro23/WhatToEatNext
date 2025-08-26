@@ -76,7 +76,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
 
   try {
     // Apply surgical type casting with variable extraction
-    const accurateAstronomyData = accurateAstronomy as Record<string, unknown>;
+    const accurateAstronomyData = accurateAstronomy as any;
     const calculateLunarNodesMethod = accurateAstronomyData.calculateLunarNodes;
 
     // First try to import and use the accurate astronomy module
@@ -90,7 +90,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     }
 
     // Apply surgical type casting for node data access
-    const nodeDataTyped = nodeData as Record<string, unknown>;
+    const nodeDataTyped = nodeData as any;
     const northNodeValue = Number(nodeDataTyped.northNode) || 0;
     const _southNodeValue = Number(nodeDataTyped.southNode) || (northNodeValue + 180) % 360;
 
@@ -122,8 +122,8 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // If that fails, fall back to the simplified calculation
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date);
-      northNode = (lunarNodes as Record<string, unknown>).northNode;
-      southNode = (lunarNodes as Record<string, unknown>).southNode;
+      northNode = (lunarNodes as any).northNode;
+      southNode = (lunarNodes as any).southNode;
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {

@@ -38,7 +38,7 @@ const SauceDetailsPage: NextPage = () => {
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = getCurrentElementalState();
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
       ...currentState,
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
@@ -69,7 +69,7 @@ const SauceDetailsPage: NextPage = () => {
           if (sauceId) {
             const foundSauce = {
               id: sauceId,
-              ...(cuisinesMap[cuisineKey].traditionalSauces as Record<string, unknown>)[sauceId],
+              ...(cuisinesMap[cuisineKey].traditionalSauces as any)[sauceId],
             };
             setSauce(foundSauce);
           } else {

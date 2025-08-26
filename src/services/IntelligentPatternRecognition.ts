@@ -141,7 +141,7 @@ export class IntelligentPatternRecognition {
       featureId: 'syntax_message_length',
       name: 'Message Length',
       value: Math.min(error.message.length / 200, 1), // Normalize to 0-1
-      weight: this.FEATURE_WEIGHTS.syntax * 0.3,
+      weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
       category: 'syntax',
       stability: 0.8,
     });
@@ -152,7 +152,7 @@ export class IntelligentPatternRecognition {
       featureId: 'syntax_special_chars',
       name: 'Special Character Density',
       value: specialChars.length / error.message.length,
-      weight: this.FEATURE_WEIGHTS.syntax * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
       category: 'syntax',
       stability: 0.75,
     });
@@ -177,7 +177,7 @@ export class IntelligentPatternRecognition {
       featureId: 'semantic_type_keywords',
       name: 'Type Keywords',
       value: typeKeywordCount / typeKeywords.length,
-      weight: this.FEATURE_WEIGHTS.semantic * 0.4,
+      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
       stability: 0.9,
     });
@@ -193,7 +193,7 @@ export class IntelligentPatternRecognition {
       featureId: 'semantic_assignment_keywords',
       name: 'Assignment Keywords',
       value: assignmentKeywordCount / assignmentKeywords.length,
-      weight: this.FEATURE_WEIGHTS.semantic * 0.3,
+      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
       stability: 0.85,
     });
@@ -204,7 +204,7 @@ export class IntelligentPatternRecognition {
       featureId: 'semantic_generic_complexity',
       name: 'Generic Type Complexity',
       value: Math.min(genericMatches.length / 5, 1), // Normalize to 0-1
-      weight: this.FEATURE_WEIGHTS.semantic * 0.3,
+      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
       stability: 0.7,
     });
@@ -224,7 +224,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_path_depth',
       name: 'File Path Depth',
       value: Math.min(pathDepth / 10, 1), // Normalize to 0-1
-      weight: this.FEATURE_WEIGHTS.structural * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.9,
     });
@@ -236,7 +236,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_file_type',
       name: 'File Type',
       value: fileTypeScore,
-      weight: this.FEATURE_WEIGHTS.structural * 0.3,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.95,
     });
@@ -246,7 +246,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_line_position',
       name: 'Line Position',
       value: Math.min(error.line / 1000, 1), // Normalize to 0-1
-      weight: this.FEATURE_WEIGHTS.structural * 0.1,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.6,
     });
@@ -256,7 +256,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_column_position',
       name: 'Column Position',
       value: Math.min(error.column / 100, 1), // Normalize to 0-1
-      weight: this.FEATURE_WEIGHTS.structural * 0.1,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.5,
     });
@@ -267,7 +267,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_directory_type',
       name: 'Directory Type',
       value: directoryType,
-      weight: this.FEATURE_WEIGHTS.structural * 0.3,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.9,
     });
@@ -286,7 +286,7 @@ export class IntelligentPatternRecognition {
       featureId: 'contextual_priority',
       name: 'Error Priority',
       value: error.priority / 30, // Normalize to 0-1 (assuming max priority is 30)
-      weight: this.FEATURE_WEIGHTS.contextual * 0.4,
+      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
       stability: 0.8,
     });
@@ -302,7 +302,7 @@ export class IntelligentPatternRecognition {
       featureId: 'contextual_severity',
       name: 'Error Severity',
       value: severityScore,
-      weight: this.FEATURE_WEIGHTS.contextual * 0.4,
+      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
       stability: 0.85,
     });
@@ -313,7 +313,7 @@ export class IntelligentPatternRecognition {
       featureId: 'contextual_time_of_day',
       name: 'Time of Day',
       value: currentHour / 24, // Normalize to 0-1
-      weight: this.FEATURE_WEIGHTS.contextual * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
       stability: 0.3,
     });

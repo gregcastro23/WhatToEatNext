@@ -158,7 +158,7 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
     preparation: recipe.preparation || '',
     preparationNotes: recipe.preparationNotes || '',
     ingredients: (recipe.ingredients || []).map(ingredient => {
-      const extendedIngredient = ingredient as unknown as Record<string, unknown>;
+      const extendedIngredient = ingredient as unknown as any;
       return {
         ...ingredient,
         id:

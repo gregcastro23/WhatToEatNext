@@ -120,7 +120,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
     predictiveAnalytics.campaignDurationEstimate = totalErrors / 50; // Estimated days at 50 errors/day
     predictiveAnalytics.buildStabilityPrediction = Math.min(
       0.95,
-      0.6 + predictiveAnalytics.errorReductionPotential * 0.4,
+      0.6 + ((predictiveAnalytics as any)?.errorReductionPotential || 0) * 0.2,
     );
 
     return {
@@ -299,7 +299,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
 
     // Generate intelligence from each system
     const errorPatterns = ERROR_PATTERN_INTELLIGENCE.analyzeErrorPatterns(
-      analysisResult.distribution.priorityRanking as unknown as Record<string, unknown>[],
+      analysisResult.distribution.priorityRanking as unknown as any[],
     );
 
     const progressAnalysis = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(

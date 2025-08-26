@@ -105,7 +105,7 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
 }
 
 // Calculate sun sign affinity - certain zodiac signs favor certain flavors/cuisines
-function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
+function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
   const zodiacAffinities: Record<ZodiacSign, string[]> = {
     aries: ['Spicy', 'Bold', 'Quick'],
     taurus: ['Rich', 'Indulgent', 'Traditional'],
@@ -237,8 +237,8 @@ export function explainRecommendation(
     const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
     if (mealScore > 0.6) {
       // Apply surgical type casting with variable extraction
-      const mealTypeData = timeFactors.mealType as unknown as Record<string, unknown>;
-      const timeOfDayData = timeFactors.timeOfDay as unknown as Record<string, unknown>;
+      const mealTypeData = timeFactors.mealType as unknown as any;
+      const timeOfDayData = timeFactors.timeOfDay as unknown as any;
       const mealTypeLower =
         typeof mealTypeData.toLowerCase === 'function'
           ? mealTypeData.toLowerCase()
@@ -270,9 +270,9 @@ export function explainRecommendation(
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
       const planetName = String(
-        (dominantPlanet as unknown as Record<string, unknown>).name || dominantPlanet,
+        (dominantPlanet as unknown as any).name || dominantPlanet,
       );
-      const planetScore = calculatePlanetaryScore(recipe, planetName as unknown as unknown);
+      const planetScore = calculatePlanetaryScore(recipe, planetName as any);
       if (planetScore > 0.6) {
         reasons.push(
           `The influence of ${planetName} in your chart is complemented by this recipe.`,

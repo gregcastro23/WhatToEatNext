@@ -8,11 +8,11 @@
  * The adapter implements legacy methods but delegates to modern services.
  */
 
-import { ElementalProperties } from '@/types/alchemy';
 import type {
-  ThermodynamicProperties,
-  ZodiacSign,
+    ThermodynamicProperties,
+    ZodiacSign,
 } from '@/types/alchemy';
+import { ElementalProperties } from '@/types/alchemy';
 import { CookingMethod } from '@/types/cooking';
 import { UnifiedIngredient } from '@/types/ingredient';
 import { Recipe } from '@/types/recipe';
@@ -20,11 +20,11 @@ import { Recipe } from '@/types/recipe';
 import { createLogger } from '../../utils/logger';
 import { alchemicalRecommendationService } from '../AlchemicalRecommendationService';
 import type {
-  RecommendationResult,
-  RecipeRecommendationCriteria,
-  IngredientRecommendationCriteria,
-  CuisineRecommendationCriteria,
-  CookingMethodRecommendationCriteria,
+    CookingMethodRecommendationCriteria,
+    CuisineRecommendationCriteria,
+    IngredientRecommendationCriteria,
+    RecipeRecommendationCriteria,
+    RecommendationResult,
 } from '../interfaces/RecommendationServiceInterface';
 import { unifiedRecommendationService } from '../UnifiedRecommendationService';
 
@@ -240,7 +240,7 @@ export class LegacyRecommendationAdapter {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        gregsEnergy: 0.5 - 0.5 * 0.5,
+        gregsEnergy: 0.5 - 0.5 * 0.2,
       } as ThermodynamicProperties;
 
       return {
@@ -289,7 +289,7 @@ export class LegacyRecommendationAdapter {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        gregsEnergy: 0.5 - 0.5 * 0.5,
+        gregsEnergy: 0.5 - 0.5 * 0.2,
       };
     }
   }

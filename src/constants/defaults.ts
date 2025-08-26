@@ -52,8 +52,8 @@ export const DEFAULT_LUNAR_PHASE: LunarPhase = 'new moon';
 /**
  * Default zodiac sign
  */
-export const DEFAULT_SUN_SIGN: ZodiacSign = 'aries';
-export const DEFAULT_MOON_SIGN: ZodiacSign = 'taurus';
+export const DEFAULT_SUN_SIGN: any = 'aries';
+export const DEFAULT_MOON_SIGN: any = 'taurus';
 
 /**
  * Default planetary alignment with safe values

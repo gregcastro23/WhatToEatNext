@@ -8,7 +8,7 @@ const rawRefinedGrains = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
-      favorableZodiac: ['cancer', 'virgo'] as ZodiacSign[],
+      favorableZodiac: ['cancer', 'virgo'] as any[],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Earth',
@@ -78,7 +78,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.4, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
-      favorableZodiac: ['virgo', 'capricorn'] as ZodiacSign[],
+      favorableZodiac: ['virgo', 'capricorn'] as any[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air',
@@ -141,7 +141,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['cancer', 'capricorn'] as ZodiacSign[],
+      favorableZodiac: ['cancer', 'capricorn'] as any[],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
@@ -206,7 +206,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mercury'],
-      favorableZodiac: ['capricorn', 'virgo'] as ZodiacSign[],
+      favorableZodiac: ['capricorn', 'virgo'] as any[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air',
@@ -268,7 +268,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
-      favorableZodiac: ['leo', 'sagittarius'] as ZodiacSign[],
+      favorableZodiac: ['leo', 'sagittarius'] as any[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Fire',
@@ -331,7 +331,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['virgo', 'libra'] as ZodiacSign[],
+      favorableZodiac: ['virgo', 'libra'] as any[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air',

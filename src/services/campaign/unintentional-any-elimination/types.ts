@@ -335,6 +335,12 @@ export interface ClassificationAccuracyReport {
     percentage: number;
   }>;
   reportDate: Date;
+  pilotEnhancements?: {
+    manualReviewSimulation: any;
+    crossValidation: any;
+    edgeCaseAnalysis: any;
+    domainSpecificAccuracy: any;
+  };
 }
 
 export interface SuccessRateAnalysis {
@@ -388,6 +394,16 @@ export interface AnalysisReport {
   accuracyReport: ClassificationAccuracyReport;
   successRateAnalysis: SuccessRateAnalysis;
   manualReviewRecommendations: ManualReviewRecommendation[];
+  pilotPhase?: {
+    executionDate: Date;
+    configuration: PilotAnalysisConfig;
+    accuracyValidation: ClassificationAccuracyReport;
+    tuningResults?: ClassificationTuningResults;
+    domainDistribution: DomainDistribution[];
+    baselineMetrics: BaselineMetrics;
+    successPrediction: SuccessRatePrediction;
+    recommendations: string[];
+  };
   summary: {
     totalAnyTypes: number;
     unintentionalCount: number;
@@ -497,5 +513,103 @@ export interface PilotAnalysisConfig {
   confidenceThreshold: number;
   enableTuning: boolean;
   generateDetailedReports: boolean;
+  outputDirectory: string;
+}
+
+export interface PilotAnalysisResults {
+  success: boolean;
+  executionTime: number;
+  executionDate?: Date;
+  configuration?: PilotAnalysisConfig;
+  codebaseAnalysis?: AnalysisReport;
+  accuracyValidation?: ClassificationAccuracyReport;
+  tuningResults?: ClassificationTuningResults;
+  domainDistribution?: DomainDistribution[];
+  baselineMetrics?: BaselineMetrics | SuccessRatePrediction;
+  successPrediction?: SuccessRatePrediction;
+  pilotReport?: AnalysisReport;
+  recommendations: string[];
+  nextSteps: string[];
+  error?: string;
+}
+
+export interface ClassificationTuningResults {
+  originalAccuracy: number;
+  tunedAccuracy: number;
+  adjustedThresholds: Record<AnyTypeCategory, number>;
+  improvementPercentage: number;
+  tuningIterations: number;
+}
+
+export interface SuccessRatePrediction {
+  currentSuccessRate?: number;
+  estimatedSuccessRate: number;
+  projectedSuccessRate?: any;
+  confidenceInterval: { lower: number; upper: number };
+  riskFactors: string[];
+  estimatedTimeToComplete: number; // in minutes
+  timeToTarget?: any;
+  categoryPredictions?: any;
+  recommendedBatchSize: number;
+  estimatedTotalReductions?: any;
+  predictionAccuracy?: any;
+  lastUpdated?: Date;
+}
+
+export interface CampaignMetrics {
+  totalAnyTypesAnalyzed: number;
+  totalReplacementsAttempted: number;
+  totalReplacementsSuccessful: number;
+  totalCompilationErrors: number;
+  totalRollbacks: number;
+  totalExecutionTime: number;
+  overallSuccessRate: number;
+  averageSafetyScore: number;
+}
+
+export interface CampaignPhase {
+  phase: string;
+  startTime: Date;
+  endTime?: Date;
+  status: 'pending' | 'in_progress' | 'completed' | 'failed';
+  metrics: CampaignMetrics;
+  issues: string[];
+}
+
+export interface DomainProcessingResult {
+  domain: CodeDomain;
+  filesProcessed: number;
+  anyTypesFound: number;
+  replacementsAttempted: number;
+  replacementsSuccessful: number;
+  compilationErrors: number;
+  rollbacksPerformed: number;
+  successRate: number;
+  processingTime: number;
+}
+
+export interface FinalReport {
+  campaignId: string;
+  executionDate: Date;
+  totalExecutionTime: number;
+  overallMetrics: CampaignMetrics;
+  phaseResults: CampaignPhase[];
+  domainResults: DomainProcessingResult[];
+  successfulReplacements: TypeReplacement[];
+  failedReplacements: Array<{ replacement: TypeReplacement; error: string }>;
+  recommendations: string[];
+  nextSteps: string[];
+}
+
+export interface FullCampaignConfig {
+  maxFilesPerBatch: number;
+  maxBatchesPerPhase: number;
+  confidenceThreshold: number;
+  safetyThreshold: number;
+  enableProgressiveImprovement: boolean;
+  enableRealTimeMonitoring: boolean;
+  rollbackOnFailure: boolean;
+  validateBuildAfterEachBatch: boolean;
+  generateIntermediateReports: boolean;
   outputDirectory: string;
 }

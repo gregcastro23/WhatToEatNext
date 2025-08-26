@@ -5,7 +5,7 @@
 import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
 
 export interface MLContext {
-  zodiacSign?: ZodiacSign;
+  zodiacSign?: any;
   lunarPhase?: string;
   elementalProperties?: ElementalProperties;
   season?: string;
@@ -70,7 +70,7 @@ export interface CuisiveFusionResult {
 }
 
 export interface AstrologicalPrediction {
-  zodiacSign: ZodiacSign;
+  zodiacSign: any;
   lunarPhase: string;
   predictions: {
     optimalCookingTimes: string[];

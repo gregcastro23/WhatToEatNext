@@ -74,7 +74,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     return createDefaultIngredient('unknown');
   }
 
-  const raw = ingredient as Record<string, unknown>;
+  const raw = ingredient as any;
 
   return {
     id: String(raw.id || 'unknown'),
@@ -106,7 +106,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     return createDefaultRecipe('unknown');
   }
 
-  const raw = recipe as Record<string, unknown>;
+  const raw = recipe as any;
 
   return {
     id: String(raw.id || 'unknown'),
@@ -128,7 +128,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
           ? raw.cookTime
           : '30 minutes',
     difficulty: validateDifficulty(raw.difficulty)
-      ? (raw.difficulty as Record<string, unknown>)
+      ? (raw.difficulty as any)
       : 'medium',
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw.instructions || [].map(String) : [],
@@ -177,7 +177,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
 
   // Astrological profile validation
-  const ingredientData = ingredient as Record<string, unknown>;
+  const ingredientData = ingredient as any;
   if (ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile) {
     const astroProfile =
       ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
@@ -397,7 +397,7 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
-  const props = properties as Record<string, unknown>;
+  const props = properties as any;
   const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25;
   const Water = typeof props.Water === 'number' ? props.Water : 0.25;
   const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
@@ -420,10 +420,10 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
       favorableZodiac: [],
     } as unknown as AstrologicalProfile;
   }
-  const prof = profile as Record<string, unknown>;
+  const prof = profile as any;
   return {
     elementalAffinity: standardizeElementalAffinity(
-      String((prof.elementalAffinity as Record<string, unknown>).base || ''),
+      String((prof.elementalAffinity as any).base || ''),
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac)
@@ -445,7 +445,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   }
 
   const result: { [key: string]: number } = {};
-  const prof = profile as Record<string, unknown>;
+  const prof = profile as any;
 
   Object.entries(prof || {}).forEach(([key, value]) => {
     if (typeof value === 'number' && value >= 0 && value <= 1) {
@@ -461,7 +461,7 @@ function standardizeNutritionalProfile(profile: unknown): { [key: string]: unkno
     return undefined;
   }
 
-  return profile as Record<string, unknown>;
+  return profile as any;
 }
 
 function standardizeSeasons(seasons: unknown): string[] {
@@ -491,7 +491,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     }
 
     if (ingredient && typeof ingredient === 'object') {
-      const ing = ingredient as Record<string, unknown>;
+      const ing = ingredient as any;
       return {
         name: String(ing.name || 'Unknown'),
         amount: typeof ing.amount === 'number' ? ing.amount : 1,
@@ -515,7 +515,7 @@ function standardizeNutritionalInfo(info: unknown): { [key: string]: unknown } |
     return undefined;
   }
 
-  return info as Record<string, unknown>;
+  return info as any;
 }
 
 function validateDifficulty(difficulty: unknown): boolean {
@@ -558,12 +558,12 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   // Safe property access for AstrologicalProfile properties
-  const elementalAffinity = (profile as Record<string, unknown>).elementalAffinity;
-  if (!(elementalAffinity as Record<string, unknown>).base) {
+  const elementalAffinity = (profile as any).elementalAffinity;
+  if (!(elementalAffinity as any).base) {
     errors.push('Elemental affinity is required');
   }
 
-  const rulingPlanets = (profile as Record<string, unknown>).rulingPlanets;
+  const rulingPlanets = (profile as any).rulingPlanets;
   if (!Array.isArray(rulingPlanets)) {
     errors.push('Ruling planets must be an array');
   }
@@ -582,7 +582,7 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
     return { isValid: false, errors };
   }
 
-  const ing = ingredient as Record<string, unknown>;
+  const ing = ingredient as any;
 
   if (!ing.name || typeof ing.name !== 'string') {
     errors.push('Ingredient name is required');

@@ -165,7 +165,7 @@ describe('ProgressMonitoringSystem', () => {
           topDomain: 'utility' as unknown,
           topCategory: 'function_param' as unknown
         }
-      } as unknown);
+      } as any);
     });
 
     it('should get current progress metrics', async () => {
@@ -208,7 +208,7 @@ describe('ProgressMonitoringSystem', () => {
       const errorOutput = 'error TS2304: Cannot find name\nerror TS2345: Argument type';
       mockExecSync.mockImplementation(() => {
         const error = new Error('Compilation failed');
-        (error as unknown).stdout = errorOutput;
+        (error as any).stdout = errorOutput;
         throw error;
       });
 
@@ -273,7 +273,7 @@ describe('ProgressMonitoringSystem', () => {
         },
         summary: { currentSuccessRate: 60 }, // Below threshold
         accuracyReport: { overallAccuracy: 70 } // Below threshold
-      } as unknown);
+      } as any);
     });
 
     it('should emit low success rate alert', async () => {
@@ -375,7 +375,7 @@ describe('ProgressMonitoringSystem', () => {
         },
         accuracyReport: { overallAccuracy: 85 },
         summary: { currentSuccessRate: 75 }
-      } as unknown);
+      } as any);
     });
 
     it('should update dashboard data', async () => {
@@ -429,7 +429,7 @@ describe('ProgressMonitoringSystem', () => {
           }
         },
         summary: { currentSuccessRate: 60 }
-      } as unknown);
+      } as any);
 
       await monitoringSystem.checkAlertConditions();
 
@@ -501,7 +501,7 @@ describe('ProgressMonitoringSystem', () => {
           }
         },
         summary: { currentSuccessRate: 75, totalAnyTypes: 1000 }
-      } as unknown);
+      } as any);
 
       const progress = await monitoringSystem.getProgressMetrics();
 

@@ -49,8 +49,8 @@ export interface UnifiedIngredient {
       secondary?: string;
     };
     rulingPlanets?: PlanetName[] | string[];
-    favorableZodiac?: ZodiacSign[] | string[];
-    zodiacAffinity?: ZodiacSign[] | string[];
+    favorableZodiac?: any[] | string[];
+    zodiacAffinity?: any[] | string[];
   };
 
   // Energy properties

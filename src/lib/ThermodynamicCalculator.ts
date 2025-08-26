@@ -36,7 +36,7 @@ export class ThermodynamicCalculator {
       }
 
       if (elementalProperties?.Fire) {
-        heatValue += elementalProperties.Fire * 0.4;
+        heatValue += ((elementalProperties as any)?.Fire || 0) * 0.2;
         weight += 2;
       }
 
@@ -103,7 +103,7 @@ export class ThermodynamicCalculator {
 
       // Air element contributes to entropy (representing change and variability)
       if (elementalProperties?.Air) {
-        totalEntropy += elementalProperties.Air * 0.3;
+        totalEntropy += ((elementalProperties as any)?.Air || 0) * 0.2;
         totalWeight += 1;
       }
     });
@@ -164,7 +164,7 @@ export class ThermodynamicCalculator {
 
       // Water element relates to chemical reactions
       if (elementalProperties?.Water) {
-        reactivityValue += elementalProperties.Water * 0.3;
+        reactivityValue += ((elementalProperties as any)?.Water || 0) * 0.2;
         weight += 1;
       }
 

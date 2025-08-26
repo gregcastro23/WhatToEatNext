@@ -60,8 +60,8 @@ export const raw: CookingMethodData = {
     'natural fiber structure preservation',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['gemini', 'libra', 'aquarius', 'virgo'] as ZodiacSign[],
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
+    favorableZodiac: ['gemini', 'libra', 'aquarius', 'virgo'] as any[],
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
     dominantPlanets: ['Mercury', 'Venus', 'Moon'],
     lunarPhaseEffect: {
       new_moon: 1.3, // Enhanced purification energy
@@ -197,7 +197,7 @@ export const raw: CookingMethodData = {
     heat: 0.0, // No heat applied
     entropy: 0.3, // Minimal structural disruption
     reactivity: 0.4, // Moderate natural enzymatic reactions
-    gregsEnergy: 0.0 - 0.3 * 0.4, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: 0.050 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

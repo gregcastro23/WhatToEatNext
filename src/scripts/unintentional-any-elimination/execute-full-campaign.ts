@@ -306,7 +306,7 @@ function processAdvancedReplacements() {
         content = content.replace(/:\\s*{\\s*\\[key:\\s*string\\]:\\s*any\\s*}/g, ': Record<string, unknown>');
 
         // Simple object any replacements
-        content = content.replace(/(\\w+):\\s*any(?=\\s*[,;}])/g, '$1: unknown');
+        content = content.replace(/(\\w+):\\s*any(?=\\s*[,;}])/g, '1: unknown');
 
         if (fileFixes > 0) {
           // Create backup

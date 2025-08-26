@@ -40,10 +40,10 @@ export class MemoryLeakDetector {
         detector: () => {
           if (
             typeof window !== 'undefined' &&
-            (window as unknown as { _eventListeners?: Record<string, unknown[]> })._eventListeners
+            (window as { _eventListeners?: Record<string, unknown[]> })._eventListeners
           ) {
             const totalListeners = Object.values(
-              (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners,
+              (window as { _eventListeners: Record<string, unknown[]> })._eventListeners,
             ).reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0);
             return totalListeners > 50;
           }
@@ -58,7 +58,7 @@ export class MemoryLeakDetector {
         detector: () => {
           // Check for active timers (this is a simplified check)
           const activeTimers =
-            (global as unknown as { _activeTimers?: unknown[] })._activeTimers || [];
+            (global as { _activeTimers?: unknown[] })._activeTimers || [];
           return activeTimers.length > 10;
         },
         description: 'Active timers not cleared after tests',
@@ -208,15 +208,15 @@ export class MemoryLeakDetector {
       // Fix 1: Clear excessive event listeners
       if (
         typeof window !== 'undefined' &&
-        (window as unknown as { _eventListeners?: Record<string, ((event: Event) => void)[]> })
+        (window as { _eventListeners?: Record<string, ((event: Event) => void)[]> })
           ._eventListeners
       ) {
         Object.keys(
-          (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })
+          (window as { _eventListeners: Record<string, ((event: Event) => void)[]> })
             ._eventListeners,
         ).forEach(eventType => {
           const listeners =
-            (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })
+            (window as { _eventListeners: Record<string, ((event: Event) => void)[]> })
               ._eventListeners[eventType] || [];
           listeners.forEach((listener: (event: Event) => void) => {
             try {
@@ -227,7 +227,7 @@ export class MemoryLeakDetector {
           });
         });
         (
-          window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> }
+          window as { _eventListeners: Record<string, ((event: Event) => void)[]> }
         )._eventListeners = {};
         fixed.push('Cleared excessive event listeners');
       }

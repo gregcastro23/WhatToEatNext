@@ -193,7 +193,7 @@ describe('Build Performance Tests', () => {
     it('should measure memory usage during build', async () => {
       // Mock memory usage tracking
       const originalMemoryUsage = process.memoryUsage;
-      (process as unknown).memoryUsage = jest.fn().mockReturnValue({
+      (process as any).memoryUsage = jest.fn().mockReturnValue({
         heapUsed: 45 * 1024 * 1024, // 45MB
         heapTotal: 100 * 1024 * 1024,
         external: 0,
@@ -212,7 +212,7 @@ describe('Build Performance Tests', () => {
     it('should detect memory usage spikes', async () => {
       // Mock high memory usage
       const originalMemoryUsage = process.memoryUsage;
-      (process as unknown).memoryUsage = jest.fn().mockReturnValue({
+      (process as any).memoryUsage = jest.fn().mockReturnValue({
         heapUsed: 75 * 1024 * 1024, // 75MB - exceeds target
         heapTotal: 150 * 1024 * 1024,
         external: 0,

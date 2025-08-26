@@ -6,26 +6,25 @@
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type {
-  ElementalProperties,
-  LunarPhase,
-  PlanetName,
-  Season,
-  ZodiacSign,
+    ElementalProperties,
+    LunarPhase,
+    PlanetName,
+    Season
 } from '@/types/alchemy';
 
 import {
-  getAllEnhancedCookingMethods,
-  type EnhancedCookingMethod,
+    getAllEnhancedCookingMethods,
+    type EnhancedCookingMethod,
 } from '../../constants/alchemicalPillars';
 
 import type {
-  MethodAdjustment,
-  TemperatureAdjustment,
-  TimingAdjustment,
+    MethodAdjustment,
+    TemperatureAdjustment,
+    TimingAdjustment,
 } from '@/types/recipeAdjustments';
 import {
-  unifiedCuisineIntegrationSystem,
-  type CuisineIngredientAnalysis,
+    unifiedCuisineIntegrationSystem,
+    type CuisineIngredientAnalysis,
 } from './cuisineIntegrations.js';
 import { RecipeEnhancer, type EnhancedRecipe } from './recipes';
 import { SeasonalRecommendations } from './seasonal';
@@ -49,7 +48,7 @@ export interface RecipeBuildingCriteria {
   kalchmTolerance?: number;
   targetMonica?: number;
   elementalPreference?: Partial<ElementalProperties>;
-  zodiacSign?: ZodiacSign;
+  zodiacSign?: any;
 
   // Cooking Preferences
   cookingMethods?: string[];
@@ -65,7 +64,7 @@ export interface RecipeBuildingCriteria {
   // Astrological Preferences
   planetaryHour?: PlanetName;
   lunarPhase?: LunarPhase;
-  currentZodiacSign?: ZodiacSign;
+  currentZodiacSign?: any;
 }
 
 export interface MonicaOptimizedRecipe extends EnhancedRecipe {
@@ -463,11 +462,11 @@ export class UnifiedRecipeBuildingSystem {
     // Apply all adaptations to create adapted recipe
     const adaptedRecipe = this.applyAdaptationsToRecipe(
       recipe,
-      ingredientSubstitutions as unknown as Record<string, unknown>,
-      cookingMethodAdjustments as unknown as Record<string, unknown>,
-      timingAdjustments as unknown as Record<string, unknown>,
-      temperatureAdjustments as unknown as Record<string, unknown>,
-      targetSeason as unknown as Record<string, unknown>,
+      ingredientSubstitutions as unknown as any,
+      cookingMethodAdjustments as unknown as any,
+      timingAdjustments as unknown as any,
+      temperatureAdjustments as unknown as any,
+      targetSeason as unknown as any,
     );
 
     // Calculate improvement scores
@@ -587,7 +586,7 @@ export class UnifiedRecipeBuildingSystem {
     criteria: RecipeBuildingCriteria & {
       currentPlanetaryHour: PlanetName;
       lunarPhase: LunarPhase;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSign?: any;
     },
   ): PlanetaryRecipeRecommendation {
     // Generate base recipe
@@ -667,7 +666,7 @@ export class UnifiedRecipeBuildingSystem {
     if (seasonCriteria) {
       const seasonalProfile = this.seasonalSystem.getSeasonalRecommendations(seasonCriteria);
       // Type-safe monica optimization access with validation
-      const monicaData = (seasonalProfile as Record<string, unknown>).monicaOptimization;
+      const monicaData = (seasonalProfile as any).monicaOptimization;
       const monicaOptimization =
         typeof monicaData === 'number' && monicaData > 0 ? monicaData : 1.0;
       optimalMonica *= monicaOptimization;
@@ -1049,7 +1048,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Adapt cooking methods based on season and recipe type
     const currentMethods =
-      (recipe as unknown as { cookingMethods?: string[] | string })?.cookingMethods || [];
+      (recipe as { cookingMethods?: string[] | string })?.cookingMethods || [];
     for (const method of Array.isArray(currentMethods) ? currentMethods : [currentMethods]) {
       const seasonalAdjustment = (
         seasonalRecommendations as unknown as {
@@ -1130,7 +1129,7 @@ export class UnifiedRecipeBuildingSystem {
     const notes = [];
 
     // Add cuisine-specific notes
-    (notes as unknown as string[]).push(`Traditional ${cuisine} influences`);
+    (notes as string[]).push(`Traditional ${cuisine} influences`);
 
     // Add ingredient-based cultural notes
     const recipeIngredients = recipe.ingredients.map(ing => ing.name) || [];
@@ -1141,7 +1140,7 @@ export class UnifiedRecipeBuildingSystem {
     }
 
     // Add cooking method cultural notes
-    const recipeWithMethods = recipe as unknown as { cookingMethods?: string[] | string };
+    const recipeWithMethods = recipe as { cookingMethods?: string[] | string };
     const cookingMethods = Array.isArray(recipeWithMethods.cookingMethods)
       ? recipeWithMethods.cookingMethods
       : [recipeWithMethods.cookingMethods].filter(Boolean);
@@ -1192,7 +1191,7 @@ export class UnifiedRecipeBuildingSystem {
 
       // Add technique-based adaptations - Fix property name consistency
       if (
-        (recipe as unknown as { cookingMethods?: string[] }).cookingMethods?.some(
+        (recipe as { cookingMethods?: string[] }).cookingMethods?.some(
           (method: string) => method?.includes('traditional'),
         )
       ) {
@@ -1353,7 +1352,7 @@ export class UnifiedRecipeBuildingSystem {
 
       // Cooking method influence on Kalchm balance
       if (
-        (recipe as unknown as { cookingMethods?: string[] }).cookingMethods?.some(
+        (recipe as { cookingMethods?: string[] }).cookingMethods?.some(
           (method: string) => method?.includes('slow') || method?.includes('traditional'),
         )
       ) {
@@ -1421,17 +1420,17 @@ export class UnifiedRecipeBuildingSystem {
       alternatives.push(dietaryAlternative);
     }
 
-    if ((criteria as unknown as { preferredCuisine?: string })?.preferredCuisine) {
+    if ((criteria as { preferredCuisine?: string })?.preferredCuisine) {
       // Create cuisine-adapted alternative
       const cuisineAlternative = { ...recipe };
-      cuisineAlternative.name = `${recipe.name} (${(criteria as unknown as { preferredCuisine: string }).preferredCuisine} style)`;
+      cuisineAlternative.name = `${recipe.name} (${(criteria as { preferredCuisine: string }).preferredCuisine} style)`;
       alternatives.push(cuisineAlternative);
     }
 
-    if ((criteria as unknown as { seasonalPreference?: string })?.seasonalPreference) {
+    if ((criteria as { seasonalPreference?: string })?.seasonalPreference) {
       // Create seasonal alternative
       const seasonalAlternative = { ...recipe };
-      seasonalAlternative.name = `${recipe.name} (${(criteria as unknown as { seasonalPreference: string }).seasonalPreference} seasonal)`;
+      seasonalAlternative.name = `${recipe.name} (${(criteria as { seasonalPreference: string }).seasonalPreference} seasonal)`;
       alternatives.push(seasonalAlternative);
     }
 
@@ -1465,18 +1464,18 @@ export class UnifiedRecipeBuildingSystem {
     }
 
     // Confidence from Monica optimization scores
-    confidence += recipe.monicaOptimization.optimizationScore * 0.2;
+    confidence += ((recipe.monicaOptimization as any)?.optimizationScore || 0) * 0.2;
 
     // Confidence from criteria alignment
     if (
-      (criteria as unknown as { preferredCuisine?: string })?.preferredCuisine &&
-      recipe.cuisine === (criteria as unknown as { preferredCuisine?: string }).preferredCuisine
+      (criteria as { preferredCuisine?: string })?.preferredCuisine &&
+      recipe.cuisine === (criteria as { preferredCuisine?: string }).preferredCuisine
     ) {
       confidence += 0.1;
     }
 
     if (
-      (criteria as unknown as { seasonalPreference?: string })?.seasonalPreference &&
+      (criteria as { seasonalPreference?: string })?.seasonalPreference &&
       recipe.seasonalAdaptation.seasonalScore >= 0.8
     ) {
       confidence += 0.1;
@@ -1489,7 +1488,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Confidence from alchemical balance
     const elementalBalance = Object.values(
-      (recipe.alchemicalProperties as unknown as { elementalProperties?: Record<string, number> })
+      (recipe.alchemicalProperties as { elementalProperties?: Record<string, number> })
         ?.elementalProperties || {},
     );
     const balanceVariance =
@@ -1516,34 +1515,34 @@ export class UnifiedRecipeBuildingSystem {
 
     // Count matched criteria
     if (
-      (criteria as unknown as { preferredCuisine?: string })?.preferredCuisine &&
-      recipe.cuisine === (criteria as unknown as { preferredCuisine?: string }).preferredCuisine
+      (criteria as { preferredCuisine?: string })?.preferredCuisine &&
+      recipe.cuisine === (criteria as { preferredCuisine?: string }).preferredCuisine
     )
       criteriaMatched++;
     if (
-      (criteria as unknown as { seasonalPreference?: string })?.seasonalPreference &&
+      (criteria as { seasonalPreference?: string })?.seasonalPreference &&
       recipe.seasonalAdaptation.seasonalScore >= 0.7
     )
       criteriaMatched++;
     if (criteria.dietaryRestrictions) criteriaMatched++; // Assume dietary restrictions are met
     if (recipe.ingredients && recipe.ingredients.length >= 5) criteriaMatched++;
     if (
-      (recipe as unknown as { cookingMethods?: string[] }).cookingMethods &&
-      (recipe as unknown as { cookingMethods?: string[] }).cookingMethods.length > 0
+      (recipe as { cookingMethods?: string[] }).cookingMethods &&
+      (recipe as { cookingMethods?: string[] }).cookingMethods.length > 0
     )
       criteriaMatched++;
     if (recipe.monicaOptimization.optimizationScore >= 0.7) criteriaMatched++;
-    if ((recipe?.alchemicalProperties as unknown as { totalKalchm?: number })?.totalKalchm >= 0.7)
+    if ((recipe?.alchemicalProperties as { totalKalchm?: number })?.totalKalchm >= 0.7)
       criteriaMatched++;
     if (
-      (recipe?.nutritionalOptimization as unknown as { overallNutritionalScore?: number })
+      (recipe?.nutritionalOptimization as { overallNutritionalScore?: number })
         ?.overallNutritionalScore >= 0.7
     )
       criteriaMatched++;
     if (
-      (recipe as unknown as { culturalIntegration?: { authenticityScore?: number } })
+      (recipe as { culturalIntegration?: { authenticityScore?: number } })
         .culturalIntegration?.authenticityScore !== undefined &&
-      ((recipe as unknown as { culturalIntegration?: { authenticityScore?: number } })
+      ((recipe as { culturalIntegration?: { authenticityScore?: number } })
         .culturalIntegration?.authenticityScore as number) >= 0.6
     )
       criteriaMatched++;
@@ -1553,13 +1552,13 @@ export class UnifiedRecipeBuildingSystem {
       criteriaMatched,
       totalCriteria,
       kalchmAccuracy:
-        (recipe.alchemicalProperties as unknown as { totalKalchm?: number })?.totalKalchm || 0,
+        (recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm || 0,
       monicaOptimization:
-        ((recipe.monicaOptimization as Record<string, unknown>)?.overallScore as number) || 0,
+        ((recipe.monicaOptimization as any)?.overallScore as number) || 0,
       seasonalAlignment:
-        ((recipe.seasonalAdaptation as Record<string, unknown>)?.seasonalScore as number) || 0,
+        ((recipe.seasonalAdaptation as any)?.seasonalScore as number) || 0,
       cuisineAuthenticity:
-        ((recipe as unknown as Record<string, unknown>)?.culturalIntegration as number) || 0,
+        ((recipe as unknown as any)?.culturalIntegration as number) || 0,
       generatedAt: new Date().toISOString(),
       generationMethod: 'unified-recipe-builder',
     };
@@ -1846,7 +1845,7 @@ export class UnifiedRecipeBuildingSystem {
     recipe: MonicaOptimizedRecipe,
     hour?: PlanetName,
     phase?: LunarPhase,
-    sign?: ZodiacSign,
+    sign?: any,
   ): {
     currentPlanetaryHour: PlanetName;
     planetaryCompatibility: number;
@@ -1959,7 +1958,7 @@ export function generatePlanetaryRecipeRecommendation(
   _criteria: RecipeBuildingCriteria & {
     currentPlanetaryHour: PlanetName;
     lunarPhase: LunarPhase;
-    currentZodiacSign?: ZodiacSign;
+    currentZodiacSign?: any;
   },
 ): PlanetaryRecipeRecommendation {
   return unifiedRecipeBuildingSystem.generatePlanetaryRecipeRecommendation(_criteria);

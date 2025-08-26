@@ -97,8 +97,8 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       expect(result.warnings).toHaveLength(2);
       expect(result.errors).toHaveLength(1);
-      expect((result as Record<string, unknown>).warnings[0]).toContain('Some files skipped');
-      expect((result as Record<string, unknown>).errors[0]).toContain('Build validation failed');
+      expect((result as any).warnings[0]).toContain('Some files skipped');
+      expect((result as any).errors[0]).toContain('Build validation failed');
     });
   });
 

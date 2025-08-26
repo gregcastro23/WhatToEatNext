@@ -19,7 +19,7 @@ export function validateElementalProperties(
     return false;
   }
 
-  const props = properties as Record<string, unknown>;
+  const props = properties as any;
   const REQUIRED_ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'];
 
   // Check for required elements

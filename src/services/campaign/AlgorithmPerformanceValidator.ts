@@ -153,12 +153,12 @@ export class AlgorithmPerformanceValidator {
 
       // Calculate overall metrics
       const overallHitRate =
-        tier1Metrics.hitRate * 0.5 + tier2Metrics.hitRate * 0.3 + tier3Metrics.hitRate * 0.2;
+        ((tier1Metrics as any)?.hitRate || 0) * 0.2 + ((tier2Metrics as any)?.hitRate || 0) * 0.2 + ((tier3Metrics as any)?.hitRate || 0) * 0.2;
 
       const overallResponseTime =
-        tier1Metrics.avgResponseTime * 0.5 +
-        tier2Metrics.avgResponseTime * 0.3 +
-        tier3Metrics.avgResponseTime * 0.2;
+        ((tier1Metrics as any)?.avgResponseTime || 0) * 0.2 +
+        ((tier2Metrics as any)?.avgResponseTime || 0) * 0.2 +
+        ((tier3Metrics as any)?.avgResponseTime || 0) * 0.2;
 
       const efficiency = Math.min(100, overallHitRate * 100);
 

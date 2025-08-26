@@ -67,7 +67,7 @@ export class ProgressiveImprovementEngine {
     // Adapt batch size based on safety score
     if (averageSafetyScore < 0.7) {
       // Reduce batch size for safety
-      this.adaptiveConfig.maxFilesPerBatch = Math.max(5, Math.floor(this.adaptiveConfig.maxFilesPerBatch * 0.7));
+      this.adaptiveConfig.maxFilesPerBatch = Math.max(5, Math.floor(((this.adaptiveConfig as any)?.maxFilesPerBatch || 0) * 0.2));
       this.adaptiveConfig.confidenceThreshold = Math.min(0.95, this.adaptiveConfig.confidenceThreshold + 0.1);
       console.log(`Reduced batch size to ${this.adaptiveConfig.maxFilesPerBatch} and increased confidence threshold to ${this.adaptiveConfig.confidenceThreshold}`);
     } else if (averageSafetyScore > 0.9 && averageSuccessRate > 0.8) {
@@ -185,22 +185,22 @@ export class ProgressiveImprovementEngine {
       {
         percentage: Math.floor(recommendedTarget * 0.25),
         description: 'Initial progress - focus on high-confidence array types',
-        estimatedBatches: Math.ceil(candidateFiles.length * 0.1 / this.adaptiveConfig.maxFilesPerBatch)
+        estimatedBatches: Math.ceil(((candidateFiles as any)?.length || 0) * 0.2 / this.adaptiveConfig.maxFilesPerBatch)
       },
       {
         percentage: Math.floor(recommendedTarget * 0.5),
         description: 'Mid-point - expand to Record types and simple patterns',
-        estimatedBatches: Math.ceil(candidateFiles.length * 0.3 / this.adaptiveConfig.maxFilesPerBatch)
+        estimatedBatches: Math.ceil(((candidateFiles as any)?.length || 0) * 0.2 / this.adaptiveConfig.maxFilesPerBatch)
       },
       {
         percentage: Math.floor(recommendedTarget * 0.75),
         description: 'Advanced progress - tackle more complex patterns',
-        estimatedBatches: Math.ceil(candidateFiles.length * 0.6 / this.adaptiveConfig.maxFilesPerBatch)
+        estimatedBatches: Math.ceil(((candidateFiles as any)?.length || 0) * 0.2 / this.adaptiveConfig.maxFilesPerBatch)
       },
       {
         percentage: recommendedTarget,
         description: 'Target achievement - complete remaining high-confidence cases',
-        estimatedBatches: Math.ceil(candidateFiles.length * 0.8 / this.adaptiveConfig.maxFilesPerBatch)
+        estimatedBatches: Math.ceil(((candidateFiles as any)?.length || 0) * 0.2 / this.adaptiveConfig.maxFilesPerBatch)
       }
     ];
 
@@ -277,7 +277,7 @@ export class ProgressiveImprovementEngine {
     } else if (currentProgress.reductionPercentage < 10) {
       recommendations.push('Good progress - expand to Record<string, unknown> patterns');
       recommendations.push('Consider enabling domain-specific analysis for better suggestions');
-    } else if (currentProgress.reductionPercentage >= targetInfo.recommendedTarget * 0.8) {
+    } else if (currentProgress.reductionPercentage >= ((targetInfo as any)?.recommendedTarget || 0) * 0.2) {
       recommendations.push('Approaching target - focus on documentation for remaining intentional types');
       recommendations.push('Consider manual review for complex remaining cases');
     }
@@ -335,7 +335,7 @@ export class ProgressiveImprovementEngine {
         adaptations.push('Success rate declining - reducing batch size and increasing confidence threshold');
 
         // Apply adaptations
-        this.adaptiveConfig.maxFilesPerBatch = Math.max(5, Math.floor(this.adaptiveConfig.maxFilesPerBatch * 0.8));
+        this.adaptiveConfig.maxFilesPerBatch = Math.max(5, Math.floor(((this.adaptiveConfig as any)?.maxFilesPerBatch || 0) * 0.2));
         this.adaptiveConfig.confidenceThreshold = Math.min(0.95, this.adaptiveConfig.confidenceThreshold + 0.1);
       }
     }

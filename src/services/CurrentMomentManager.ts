@@ -402,7 +402,7 @@ class CurrentMomentManager {
 
     Object.entries(positions).forEach(([planet, position]) => {
       void lines.push(`  ${planet}: {`);
-      void lines.push(`    sign: '${position.sign}' as ZodiacSign,`);
+      void lines.push(`    sign: '${position.sign}' as any,`);
       void lines.push(`    degree: ${position.degree + position.minute / 60},`);
       void lines.push(`    exactLongitude: ${position.exactLongitude},`);
       void lines.push(`    isRetrograde: ${position.isRetrograde}`);
@@ -460,7 +460,7 @@ class CurrentMomentManager {
   /**
    * Get element for zodiac sign
    */
-  private getElementForSign(sign: ZodiacSign): string {
+  private getElementForSign(sign: any): string {
     const elementMap: Record<ZodiacSign, string> = {
       aries: 'Fire',
       leo: 'Fire',

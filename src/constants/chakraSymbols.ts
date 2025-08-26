@@ -175,18 +175,17 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
     const recommendations: string[] = [];
 
     if (
-      (analysis as unknown as Record<string, unknown>)?.effectiveness?.pronunciationAccuracy < 0.85
+      (analysis as unknown as any)?.effectiveness?.pronunciationAccuracy < 0.85
     ) {
       recommendations.push(
         'Enhance mantra pronunciation training for improved vibrational accuracy',
       );
     }
 
+    const effectiveness = (analysis as { effectiveness?: { vibrationalResonance?: number } })?.effectiveness;
     if (
-      (analysis as unknown as { effectiveness?: { vibrationalResonance?: number } })?.effectiveness
-        ?.vibrationalResonance !== undefined &&
-      (analysis as unknown as { effectiveness?: { vibrationalResonance?: number } })?.effectiveness
-        ?.vibrationalResonance < 0.8
+      effectiveness?.vibrationalResonance !== undefined &&
+      effectiveness.vibrationalResonance < 0.8
     ) {
       recommendations.push('Optimize mantra vibrational frequencies for enhanced resonance');
     }
@@ -224,7 +223,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
    * @param colors - The chakra colors
    * @returns Enhanced visual analysis with symbolic insights
    */
-  analyzeVisualSymbols: (_: typeof CHAKRA_SYMBOLS, _: typeof CHAKRA_BG_COLORS) => {
+  analyzeVisualSymbols: (symbols: typeof CHAKRA_SYMBOLS, colors: typeof CHAKRA_BG_COLORS) => {
     const visualAnalysis = {
       // Symbolic effectiveness metrics
       symbolicEffectiveness: {
@@ -275,26 +274,27 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
     const recommendations: string[] = [];
 
     if (
-      (analysis as unknown as { symbolicEffectiveness?: { visualClarity?: number } })
+      (analysis as { symbolicEffectiveness?: { visualClarity?: number } })
         ?.symbolicEffectiveness?.visualClarity !== undefined &&
-      ((analysis as unknown as { symbolicEffectiveness?: { visualClarity?: number } })
+      ((analysis as { symbolicEffectiveness?: { visualClarity?: number } })
         ?.symbolicEffectiveness?.visualClarity as number) < 0.85
     ) {
       recommendations.push('Enhance visual symbol clarity for improved energy transmission');
     }
 
     if (
-      (analysis as unknown as { colorAnalysis?: { colorHarmony?: number } })?.colorAnalysis
+      (analysis as { colorAnalysis?: { colorHarmony?: number } })?.colorAnalysis
         ?.colorHarmony !== undefined &&
-      ((analysis as unknown as { colorAnalysis?: { colorHarmony?: number } })?.colorAnalysis
+      ((analysis as { colorAnalysis?: { colorHarmony?: number } })?.colorAnalysis
         ?.colorHarmony as number) < 0.9
     ) {
       recommendations.push('Optimize color harmony for enhanced visual resonance');
     }
 
+    const advancedVisual = analysis?.advancedVisual as { geometricAnalysis?: { symmetry?: number } };
     if (
-      (analysis?.advancedVisual as unknown as { geometricAnalysis?: { symmetry?: number } })
-        ?.geometricAnalysis?.symmetry < 0.85
+      advancedVisual?.geometricAnalysis?.symmetry !== undefined &&
+      advancedVisual.geometricAnalysis.symmetry < 0.85
     ) {
       recommendations.push('Strengthen geometric symmetry for better visual balance');
     }
@@ -365,21 +365,21 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
     const recommendations: string[] = [];
 
     if (
-      (analysis?.nutritionalEffectiveness as unknown as { dietaryAlignment?: number })
+      (analysis?.nutritionalEffectiveness as { dietaryAlignment?: number })
         ?.dietaryAlignment < 0.85
     ) {
       recommendations.push('Enhance dietary alignment for improved chakra support');
     }
 
     if (
-      (analysis?.dietaryAnalysis as unknown as { foodCompatibility?: number })?.foodCompatibility <
+      (analysis?.dietaryAnalysis as { foodCompatibility?: number })?.foodCompatibility <
       0.85
     ) {
       recommendations.push('Optimize food compatibility for enhanced nutritional balance');
     }
 
     if (
-      (analysis?.advancedNutritional as unknown as { energeticAnalysis?: { pranicValue?: number } })
+      (analysis?.advancedNutritional as { energeticAnalysis?: { pranicValue?: number } })
         ?.energeticAnalysis?.pranicValue < 0.9
     ) {
       recommendations.push('Strengthen pranic value for better energetic resonance');
@@ -455,14 +455,14 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
     const recommendations: string[] = [];
 
     if (
-      (analysis?.functionalEffectiveness as unknown as { operationalEfficiency?: number })
+      (analysis?.functionalEffectiveness as { operationalEfficiency?: number })
         ?.operationalEfficiency < 0.85
     ) {
       recommendations.push('Enhance operational efficiency for improved system performance');
     }
 
     if (
-      (analysis?.herbalAnalysis as unknown as { herbEffectiveness?: number })?.herbEffectiveness <
+      (analysis?.herbalAnalysis as { herbEffectiveness?: number })?.herbEffectiveness <
       0.85
     ) {
       recommendations.push('Optimize herb effectiveness for enhanced chakra support');
@@ -550,14 +550,14 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
     const recommendations: string[] = [];
 
     if (
-      (analysis?.platformEffectiveness as unknown as { demonstrationClarity?: number })
+      (analysis?.platformEffectiveness as { demonstrationClarity?: number })
         ?.demonstrationClarity < 0.85
     ) {
       recommendations.push('Enhance demonstration clarity for improved user experience');
     }
 
     if (
-      (analysis?.systemAnalysis as unknown as { systemCoherence?: number })?.systemCoherence < 0.85
+      (analysis?.systemAnalysis as { systemCoherence?: number })?.systemCoherence < 0.85
     ) {
       recommendations.push('Optimize system coherence for enhanced platform integration');
     }

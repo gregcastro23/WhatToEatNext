@@ -542,9 +542,9 @@ class QualityMetricsService {
           files: [bottleneck.file],
           estimatedHours: Math.min(
             40,
-            Math.max(2, bottleneck.errorCount * 0.5 + bottleneck.complexity * 0.1),
+            Math.max(2, ((bottleneck as any)?.errorCount || 0) * 0.2 + ((bottleneck as any)?.complexity || 0) * 0.2),
           ),
-          priority: bottleneck.errorCount * 2 + bottleneck.complexity * 0.1,
+          priority: bottleneck.errorCount * 2 + ((bottleneck as any)?.complexity || 0) * 0.2,
           automatable: false,
         });
       }

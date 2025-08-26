@@ -100,8 +100,8 @@ export default function SauceExplorer() {
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;
       Object.keys(newProfile).forEach(key => {
-        normalized[key as keyof ElementalProperties] =
-          newProfile[key as keyof ElementalProperties] / sum;
+        normalized[key as any] =
+          newProfile[key as any] / sum;
       });
 
       setElementalProfile(normalized);

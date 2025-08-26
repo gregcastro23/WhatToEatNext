@@ -5,9 +5,9 @@ import { LocalRecipeService } from '@/services/LocalRecipeService';
 import { AstrologicalState, /* Element, */ IngredientMapping, Season } from '@/types/alchemy';
 // Removed unused import: Element
 import type {
-  ElementalProperties,
-  // nutritionInfo // unused - removed for performance
-  Recipe,
+    ElementalProperties,
+    // nutritionInfo // unused - removed for performance
+    Recipe,
 } from '@/types/recipe';
 
 // Add missing imports for TS2304 fixes
@@ -35,15 +35,15 @@ interface ScoredItem {
 
 // DUPLICATE: import { Element } from "@/types/alchemy";
 import {
-  getRecipeAstrologicalInfluences,
-  getRecipeCookingMethods,
-  getRecipeCookingTime,
-  getRecipeElementalProperties,
-  getRecipeMealTypes,
-  getRecipeSeasons,
-  // recipeHasTag, // unused - removed for performance
-  isRecipeDietaryCompatible,
-  recipeHasIngredient,
+    getRecipeAstrologicalInfluences,
+    getRecipeCookingMethods,
+    getRecipeCookingTime,
+    getRecipeElementalProperties,
+    getRecipeMealTypes,
+    getRecipeSeasons,
+    // recipeHasTag, // unused - removed for performance
+    isRecipeDietaryCompatible,
+    recipeHasIngredient,
 } from './recipeUtils';
 
 // Moved imports to top of file for proper order
@@ -204,11 +204,11 @@ const calculateEnergyMatch = async (
     // Apply safe casting for kalchm property access
     const recipeKalchmData =
       typeof recipeKalchmResult === 'object'
-        ? (recipeKalchmResult as Record<string, unknown>)
+        ? (recipeKalchmResult as any)
         : { kalchm: recipeKalchmResult };
     const currentKalchmData =
       typeof currentKalchmResult === 'object'
-        ? (currentKalchmResult as Record<string, unknown>)
+        ? (currentKalchmResult as any)
         : { kalchm: currentKalchmResult };
 
     const recipeKalchmValue = Number(recipeKalchmData.kalchm ?? recipeKalchmResult ?? 0);
@@ -244,13 +244,13 @@ export async function findBestMatches(
 ): Promise<MatchResult[]> {
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
-  const cacheData = astrologizeCache as unknown as Record<string, unknown>;
+  const cacheData = astrologizeCache as unknown as any;
   const getLatestData = cacheData.getLatestCachedData;
   const cachedData = typeof getLatestData === 'function' ? await getLatestData() : null;
 
   // Use enhanced energy if available from cache
   const enhancedCurrentEnergy =
-    cachedData?.elementalAbsolutes || currentEnergy || getCurrentElementalState();
+    cachedData?.elementalAbsolutes || currentEnergy || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   // Calculate relative elemental values if we have absolute values
   let relativeElementalValues: ElementalProperties | null = null;
@@ -306,8 +306,8 @@ export async function findBestMatches(
   // Calculate scores for each recipe
   const scoredRecipes = (filteredRecipes || []).map(async recipe => {
     let score = 0;
-    const elements = await calculateBaseElements(recipe);
-    const dominantElements = await calculateDominantElements(elements);
+    const elements = await getRecipeElementalProperties(recipe);
+    const dominantElements = await _calculateDominantElements(elements);
 
     // Enhanced base score from elemental properties using both absolute and relative
     if (enhancedCurrentEnergy) {
@@ -376,8 +376,8 @@ export async function findBestMatches(
 
     // Nutritional goals alignment
     if (matchFilters.nutritionalGoals && recipe.nutrition) {
-      // Cast nutrition to Record<string, any> to match the expected type
-      const nutritionInfo = recipe.nutrition as unknown as Record<string, any>;
+      // Cast nutrition to Record<string, unknown> to match the expected type
+      const nutritionInfo = recipe.nutrition as unknown as any;
       score += (await calculateNutritionalMatch(nutritionInfo, matchFilters.nutritionalGoals)) * 15;
     }
 
@@ -522,7 +522,7 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
 
   // Boost score if recipe has astrological influence matching current Sun sign
   // Apply safe type casting for astrological state access
-  const astroData = currentEnergy as Record<string, unknown>;
+  const astroData = currentEnergy as any;
   const currentSign = astroData.sign || astroData.zodiacSign;
   if (
     currentSign &&
@@ -696,7 +696,7 @@ async function calculateMonicaCompatibility(
   // Recipes with transformation-heavy cooking methods benefit from higher monica values
   const transformationMethods = ['fermentation', 'curing', 'smoking', 'aging', 'reduction'];
   const cookingMethod =
-    (recipe as Record<string, unknown>).cookingMethod?.toString().toLowerCase() || '';
+    (recipe as any).cookingMethod?.toString().toLowerCase() || '';
 
   const isTransformational = transformationMethods.some(method => cookingMethod.includes(method));
 
@@ -970,15 +970,15 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
 
 // Export all the main functions and utilities
 export {
-  calculateAstrologicalMatch,
-  calculateComplexityMatch,
-  calculateElementalAlignment,
-  calculateEnergyMatch,
-  calculateEnhancedAstrologicalMatch,
-  calculateModalityScore,
-  calculateMonicaCompatibility,
-  calculateNutritionalMatch,
-  calculateRecipeEnergyMatch,
-  determineIngredientModality,
-  getStringSimilarity,
+    calculateAstrologicalMatch,
+    calculateComplexityMatch,
+    calculateElementalAlignment,
+    calculateEnergyMatch,
+    calculateEnhancedAstrologicalMatch,
+    calculateModalityScore,
+    calculateMonicaCompatibility,
+    calculateNutritionalMatch,
+    calculateRecipeEnergyMatch,
+    determineIngredientModality,
+    getStringSimilarity
 };

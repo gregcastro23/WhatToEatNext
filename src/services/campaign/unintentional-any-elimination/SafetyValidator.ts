@@ -277,7 +277,7 @@ export class SafetyValidator {
                 `Build time ${metrics.buildTime}ms exceeds threshold ${this.safetyThresholds.maximumBuildTime}ms`
             );
             recommendations.push('Consider reducing batch size to improve build performance');
-        } else if (metrics.buildTime > this.safetyThresholds.maximumBuildTime * 0.8) {
+        } else if (metrics.buildTime > ((this.safetyThresholds as any)?.maximumBuildTime || 0) * 0.2) {
             warnings.push('Build time approaching threshold, monitor performance');
         }
 

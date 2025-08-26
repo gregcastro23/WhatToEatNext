@@ -764,9 +764,9 @@ export class ConservativeReplacementPilot {
 
     // Penalize for safety issues
     const penalties = (
-      this.safetyMetrics.buildFailures * 0.2 +
-      this.safetyMetrics.rollbacksPerformed * 0.1 +
-      this.safetyMetrics.batchFailures * 0.15
+      ((this.safetyMetrics as any)?.buildFailures || 0) * 0.2 +
+      ((this.safetyMetrics as any)?.rollbacksPerformed || 0) * 0.2 +
+      ((this.safetyMetrics as any)?.batchFailures || 0) * 0.2
     );
 
     return Math.max(0, baseScore - penalties);
@@ -828,48 +828,48 @@ export class ConservativeReplacementPilot {
 
 ## Executive Summary
 
-**Pilot Status**: ${(report as Record<string, unknown>)?.((results as Record<string, unknown>)?.success ? '✅ SUCCESS' : '❌ FAILED'}
-**Execution Time**: ${((Math as Record<string, unknown>)?.round((report as Record<string, unknown>)?.executionTime / 1000)}s
-**Target Achievement**: ${(report as Record<string, unknown>)?.((results as Record<string, unknown>)?.targetAchieved ? '✅ YES' : '❌ NO'}
+**Pilot Status**: ${(report as any)?.results?.success ? '✅ SUCCESS' : '❌ FAILED'}
+**Execution Time**: ${Math.round((report as any)?.executionTime / 1000)}s
+**Target Achievement**: ${(report as any)?.results?.targetAchieved ? '✅ YES' : '❌ NO'}
 
 ## Key Metrics
 
-- **Cases Processed**: ${(report as Record<string, unknown>)?.((results as Record<string, unknown>)?.totalCasesProcessed}
-- **Successful Replacements**: ${(report as Record<string, unknown>)?.((results as Record<string, unknown>)?.totalSuccessfulReplacements}
-- **Success Rate**: ${((report as Record<string, unknown>)?.(results as Record<string, unknown>).successRate * 100).toFixed(1)}% (Target: ${((report as Record<string, unknown>)?.(configuration as Record<string, unknown>).targetSuccessRate * 100).toFixed(1)}%)
-- **Batches Executed**: ${(report as Record<string, unknown>)?.((results as Record<string, unknown>)?.batchesExecuted}
-- **Build Failures**: ${(report as Record<string, unknown>)?.(results as Record<string, unknown>).buildFailures} (Target: 0)
-- **Rollbacks Performed**: ${(report as Record<string, unknown>)?.((results as Record<string, unknown>)?.rollbacksPerformed}
-- **Safety Score**: ${(report as Record<string, unknown>)?.(results as Record<string, unknown>)?.(safetyScore as Record<string, unknown>).toFixed(2)} (Threshold: ${(report as Record<string, unknown>)?.(configuration as Record<string, unknown>).safetyThreshold})
+- **Cases Processed**: ${(report as any)?.results?.totalCasesProcessed}
+- **Successful Replacements**: ${(report as any)?.results?.totalSuccessfulReplacements}
+- **Success Rate**: ${((report as any)?.results?.successRate * 100).toFixed(1)}% (Target: ${((report as any)?.configuration?.targetSuccessRate * 100).toFixed(1)}%)
+- **Batches Executed**: ${(report as any)?.results?.batchesExecuted}
+- **Build Failures**: ${(report as any)?.results?.buildFailures} (Target: 0)
+- **Rollbacks Performed**: ${(report as any)?.results?.rollbacksPerformed}
+- **Safety Score**: ${(report as any)?.results?.safetyScore?.toFixed(2)} (Threshold: ${(report as any)?.configuration?.safetyThreshold})
 
 ## Batch Results
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-${(report as Record<string, unknown>)?.(batchResults as Record<string, unknown>).map((batch: unknown, index: number) => `
-### Batch ${((batch as Record<string, unknown>)?.batchNumber}
-- **Cases**: ${(batch as Record<string, unknown>).casesProcessed}
-- **Successful**: ${((batch as Record<string, unknown>)?.successfulReplacements}
-- **Failed**: ${(batch as Record<string, unknown>).failedReplacements}
-- **Build Stable**: ${((batch as Record<string, unknown>)?.buildStable ? '✅' : '❌'}
-- **Rollback**: ${(batch as Record<string, unknown>).rollbackPerformed ? '⚠️ YES' : '✅ NO'}
+${(report as any)?.batchResults?.map((batch: any, index: number) => `
+### Batch ${batch?.batchNumber}
+- **Cases**: ${batch.casesProcessed}
+- **Successful**: ${batch?.successfulReplacements}
+- **Failed**: ${batch.failedReplacements}
+- **Build Stable**: ${batch?.buildStable ? '✅' : '❌'}
+- **Rollback**: ${batch.rollbackPerformed ? '⚠️ YES' : '✅ NO'}
 `).join('')}
 
 ## Safety Metrics
 
-- **Build Failures**: ${(report as Record<string, unknown>)?.((safetyMetrics as Record<string, unknown>)?.buildFailures}
-- **Rollbacks Performed**: ${(report as Record<string, unknown>)?.((safetyMetrics as Record<string, unknown>)?.rollbacksPerformed}
-- **Batch Failures**: ${(report as Record<string, unknown>)?.((safetyMetrics as Record<string, unknown>)?.batchFailures}
-- **Compilation Errors**: ${(report as Record<string, unknown>)?.((safetyMetrics as Record<string, unknown>)?.compilationErrors}
+- **Build Failures**: ${(report as any)?.safetyMetrics?.buildFailures}
+- **Rollbacks Performed**: ${(report as any)?.safetyMetrics?.rollbacksPerformed}
+- **Batch Failures**: ${(report as any)?.safetyMetrics?.batchFailures}
+- **Compilation Errors**: ${(report as any)?.safetyMetrics?.compilationErrors}
 
 ## Recommendations
 
-${(report as Record<string, unknown>)?.(recommendations as Record<string, unknown>).map((rec: string) => `- ${rec}`).join('\n')}
+${(report as any)?.recommendations?.map((rec: string) => `- ${rec}`).join('\n')}
 
 ## Configuration
 
 \`\`\`json
-${JSON.stringify((report as Record<string, unknown>).configuration, null, 2)}
+${JSON.stringify((report as any).configuration, null, 2)}
 \`\`\`
 
 ---

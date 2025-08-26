@@ -450,7 +450,7 @@ export class UnusedExportAnalyzer {
    * Generate intelligence system name
    */
   private generateIntelligenceSystemName(exportInfo: UnusedExport): string {
-    const baseName = exportInfo.exportName.replace(/([A-Z])/g, '_$1').toUpperCase();
+    const baseName = exportInfo.exportName.replace(/([A-Z])/g, '_1').toUpperCase();
     return `${baseName}_INTELLIGENCE_SYSTEM`;
   }
 

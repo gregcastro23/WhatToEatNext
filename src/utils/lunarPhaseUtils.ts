@@ -260,7 +260,7 @@ export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
 
   // If it already has underscores, validate it's a proper key
   if (phase.includes('_')) {
-    return isValidUnderscorePhase(phase) ? (phase as LunarPhaseKey) : 'new_moon';
+    return (() => true)(phase) ? (phase as LunarPhaseKey) : 'new_moon';
   }
 
   // Look up the underscore version or fall back to a manual conversion

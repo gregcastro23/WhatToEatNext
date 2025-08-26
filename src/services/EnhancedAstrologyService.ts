@@ -9,14 +9,14 @@
  */
 
 import {
-  getTransitForDate,
-  getSeasonalAnalysis,
-  getAvailableYears,
+    getAvailableYears,
+    getSeasonalAnalysis,
+    getTransitForDate,
 } from '@/data/transits/comprehensiveTransitDatabase';
 import {
-  CelestialPosition,
-  ZodiacSign,
-  Planet,
+    CelestialPosition,
+    Planet,
+    ZodiacSign,
 } from '@/types/celestial';
 import { getFallbackPlanetaryPositions } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
@@ -149,29 +149,29 @@ export class EnhancedAstrologyService {
 
     return {
       seasonalThemes:
-        ((currentSeason as unknown as Record<string, unknown>).seasonalThemes as string[]) || [],
+        ((currentSeason as unknown as any).seasonalThemes as string[]) || [],
       culinaryInfluences:
-        ((currentSeason as unknown as Record<string, unknown>).culinaryInfluences as string[]) ||
+        ((currentSeason as unknown as any).culinaryInfluences as string[]) ||
         [],
       dominantElements:
-        ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<
+        ((currentSeason as unknown as any).dominantElements as Record<
           string,
           number
         >) || {},
       recommendedCuisines: this.getRecommendedCuisines(
-        ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<
+        ((currentSeason as unknown as any).dominantElements as Record<
           string,
           number
         >) || {},
       ),
       recommendedCookingMethods: this.getRecommendedCookingMethods(
-        ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<
+        ((currentSeason as unknown as any).dominantElements as Record<
           string,
           number
         >) || {},
       ),
       alchemicalProperties:
-        ((currentSeason as unknown as Record<string, unknown>).alchemicalProperties as Record<
+        ((currentSeason as unknown as any).alchemicalProperties as Record<
           string,
           number
         >) || {},

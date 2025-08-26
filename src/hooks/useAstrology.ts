@@ -25,7 +25,7 @@ interface AstrologyState {
   error: string | null;
   data: {
     planetaryPositions: Record<string, PlanetaryPosition> | null;
-    currentSign: ZodiacSign | null;
+    currentSign: any | null;
     lunarPhase: LunarPhase | null;
     elementalBalance: Record<string, number> | null;
     aspectsInfluence: number | null;

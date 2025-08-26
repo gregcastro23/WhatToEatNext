@@ -51,7 +51,7 @@ export interface EnterpriseIntelligenceActions {
     recipeData: EnterpriseRecipeData,
     ingredientData: EnterpriseIngredientData,
     astrologicalContext: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
       planetaryPositions?: EnterpriseAstrologicalContext['planetaryPositions'];
@@ -157,7 +157,7 @@ export function useEnterpriseIntelligence(
         )?.elementalHarmony?.issues || []),
       ],
       safety:
-        (state.analysis.safetyIntelligence as unknown as { fallbackStrategies?: string[] })
+        (state.analysis.safetyIntelligence as { fallbackStrategies?: string[] })
           ?.fallbackStrategies || [],
       optimization: [
         ...((
@@ -206,9 +206,9 @@ export function useEnterpriseIntelligence(
           overallValidation?: { criticalIssues?: string[] };
         }
       )?.overallValidation?.criticalIssues || []),
-      ...((analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+      ...((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })
         ?.riskAssessment?.level === 'high' ||
-      (analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+      (analysis.safetyIntelligence as { riskAssessment?: { level?: string } })
         ?.riskAssessment?.level === 'critical'
         ? ['High risk level detected']
         : []),
@@ -228,16 +228,16 @@ export function useEnterpriseIntelligence(
         }
       )?.astrologicalConsistency?.warnings || []),
       ...((
-        analysis.validationIntelligence as unknown as { elementalHarmony?: { warnings?: string[] } }
+        analysis.validationIntelligence as { elementalHarmony?: { warnings?: string[] } }
       )?.elementalHarmony?.warnings || []),
-      ...((analysis.safetyIntelligence as unknown as { monitoringAlerts?: string[] })
+      ...((analysis.safetyIntelligence as { monitoringAlerts?: string[] })
         ?.monitoringAlerts || []),
     ];
 
     return {
-      overall: (analysis as unknown as { systemHealth?: string }).systemHealth || 'fair',
+      overall: (analysis as { systemHealth?: string }).systemHealth || 'fair',
       score:
-        (analysis as unknown as { overallScore?: number }).overallScore ||
+        (analysis as { overallScore?: number }).overallScore ||
         analysis.overallIntelligenceScore ||
         0.7,
       issues,
@@ -253,9 +253,9 @@ export function useEnterpriseIntelligence(
     return (
       systemHealth.issues.length > 0 ||
       systemHealth.overall === 'poor' ||
-      (state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+      (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
         ?.riskAssessment?.level === 'high' ||
-      (state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })
+      (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
         ?.riskAssessment?.level === 'critical'
     );
   }, [systemHealth.issues.length, systemHealth.overall, state.analysis]);
@@ -267,7 +267,7 @@ export function useEnterpriseIntelligence(
       recipeData: EnterpriseRecipeData,
       ingredientData: EnterpriseIngredientData,
       astrologicalContext: {
-        zodiacSign: ZodiacSign;
+        zodiacSign: any;
         lunarPhase: LunarPhase;
         elementalProperties: ElementalProperties;
         planetaryPositions?: Record<string, unknown>;
@@ -311,10 +311,10 @@ export function useEnterpriseIntelligence(
 
         logger.info('[useEnterpriseIntelligence] Enterprise intelligence analysis completed', {
           overallScore:
-            (analysis as unknown as { overallScore?: number }).overallScore ||
+            (analysis as { overallScore?: number }).overallScore ||
             analysis.overallIntelligenceScore,
           systemHealth:
-            (analysis as unknown as { systemHealth?: string }).systemHealth || 'unknown',
+            (analysis as { systemHealth?: string }).systemHealth || 'unknown',
         });
 
         return analysis;

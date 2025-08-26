@@ -203,7 +203,7 @@ describe('Memory Usage Performance Tests', () => {
 
       // Create many safety events to test memory management
       for (let i = 0; i < 1100; i++) {
-        (safetyProtocol as unknown).addSafetyEvent({
+        (safetyProtocol as any).addSafetyEvent({
           type: 'CHECKPOINT_CREATED',
           timestamp: new Date(),
           description: `Event ${i}`,

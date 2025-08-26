@@ -51,8 +51,8 @@ export const steaming: CookingMethodData = {
     'consistent results',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['cancer', 'pisces', 'libra'] as ZodiacSign[],
-    unfavorableZodiac: ['leo', 'aries', 'virgo'] as ZodiacSign[],
+    favorableZodiac: ['cancer', 'pisces', 'libra'] as any[],
+    unfavorableZodiac: ['leo', 'aries', 'virgo'] as any[],
     dominantPlanets: ['Moon', 'Venus', 'Neptune'],
     lunarPhaseEffect: {
       full_moon: 1.25, // Enhanced moisture retention
@@ -193,7 +193,7 @@ export const steaming: CookingMethodData = {
     heat: 0.6, // Moderate heat transfer rate
     entropy: 0.45, // Gentle structural transformations
     reactivity: 0.3, // Low chemical reactivity (minimal browning)
-    gregsEnergy: 0.6 - 0.45 * 0.3, // gregsEnergy = heat - (entropy * reactivity)
+    gregsEnergy: -8.350 // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

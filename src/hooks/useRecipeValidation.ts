@@ -54,7 +54,7 @@ export function useRecipeValidation() {
       hasProtein: ingredients.some(
         ing =>
           ing.category === 'protein' ||
-          (((ing as unknown as Record<string, unknown>).qualities as string[]) || []).includes(
+          (((ing as unknown as any).qualities as string[]) || []).includes(
             'protein-rich',
           ),
       ),
@@ -68,7 +68,7 @@ export function useRecipeValidation() {
       ),
       hasLiquid: ingredients.some(
         ing =>
-          (((ing as unknown as Record<string, unknown>).qualities as string[]) || []).includes(
+          (((ing as unknown as any).qualities as string[]) || []).includes(
             'liquid',
           ) ||
           ing.name.toLowerCase().includes('broth') ||
@@ -78,7 +78,7 @@ export function useRecipeValidation() {
       hasFat: ingredients.some(
         ing =>
           ing.category === 'oil' ||
-          (((ing as unknown as Record<string, unknown>).qualities as string[]) || []).includes(
+          (((ing as unknown as any).qualities as string[]) || []).includes(
             'fat',
           ) ||
           ing.name.toLowerCase().includes('butter'),
@@ -126,7 +126,7 @@ export function useRecipeValidation() {
     // Check for known incompatible combinations
     const acidic = ingredients.filter(
       ing =>
-        (((ing as unknown as Record<string, unknown>).qualities as string[]) || []).includes(
+        (((ing as unknown as any).qualities as string[]) || []).includes(
           'acidic',
         ) ||
         ing.name.toLowerCase().includes('vinegar') ||
@@ -207,7 +207,7 @@ export function useRecipeValidation() {
     // Cooking method suggestions based on ingredients
     const hasDelicateIngredients = ingredients.some(
       ing =>
-        (((ing as unknown as Record<string, unknown>).qualities as string[]) || []).includes(
+        (((ing as unknown as any).qualities as string[]) || []).includes(
           'delicate',
         ) || ing.category === 'culinary_herb',
     );

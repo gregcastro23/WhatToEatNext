@@ -138,7 +138,7 @@ export class MemoryOptimizationScript {
       if (!configContent.includes(opt.key)) {
         // Add the optimization
         const insertion = `  ${opt.key}: ${opt.value},\n`;
-        configContent = configContent.replace(/(const config = {[^}]*)/, `$1\n${insertion}`);
+        configContent = configContent.replace(/(const config = {[^}]*)/, `1\n${insertion}`);
         modified = true;
       }
     });

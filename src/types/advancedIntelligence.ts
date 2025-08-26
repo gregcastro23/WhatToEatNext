@@ -45,7 +45,7 @@ export interface PredictiveIntelligenceResult {
 export interface PredictiveRecipeAnalysis {
   recipe: Recipe;
   astrologicalContext: {
-    zodiacSign: ZodiacSign;
+    zodiacSign: any;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
     planetaryPositions?: Record<
@@ -70,7 +70,7 @@ export interface PredictiveRecipeAnalysis {
 export interface PredictiveIngredientAnalysis {
   ingredients: Ingredient[];
   astrologicalContext: {
-    zodiacSign: ZodiacSign;
+    zodiacSign: any;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
   };
@@ -91,7 +91,7 @@ export interface PredictiveCuisineAnalysis {
     seasonalCharacteristics: string[];
   };
   astrologicalContext: {
-    zodiacSign: ZodiacSign;
+    zodiacSign: any;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
   };
@@ -106,7 +106,7 @@ export interface PredictiveCuisineAnalysis {
 
 export interface PredictiveAstrologicalAnalysis {
   astrologicalState: {
-    zodiacSign: ZodiacSign;
+    zodiacSign: any;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -164,7 +164,7 @@ export interface MLRecipeOptimizationAnalysis {
   recipe: Recipe;
   currentContext: {
     astrologicalState: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
@@ -190,7 +190,7 @@ export interface MLIngredientCompatibilityAnalysis {
     recipeContext?: Recipe;
     cuisineContext?: string;
     astrologicalContext?: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
@@ -213,7 +213,7 @@ export interface MLCuisineFusionAnalysis {
   }>;
   fusionContext: {
     astrologicalContext?: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
@@ -230,7 +230,7 @@ export interface MLCuisineFusionAnalysis {
 
 export interface MLAstrologicalPredictionAnalysis {
   astrologicalState: {
-    zodiacSign: ZodiacSign;
+    zodiacSign: any;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -334,7 +334,7 @@ export interface AdvancedRecipeAnalyticsAnalysis {
   recipe: Recipe;
   analyticsContext: {
     astrologicalState: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
@@ -375,7 +375,7 @@ export interface AdvancedIngredientAnalyticsAnalysis {
     recipeContext?: Recipe;
     cuisineContext?: string;
     astrologicalContext?: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
@@ -402,7 +402,7 @@ export interface AdvancedCuisineAnalyticsAnalysis {
   };
   analyticsContext: {
     astrologicalContext?: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
@@ -437,7 +437,7 @@ export interface AdvancedCuisineAnalyticsAnalysis {
 
 export interface AdvancedAstrologicalAnalyticsAnalysis {
   astrologicalState: {
-    zodiacSign: ZodiacSign;
+    zodiacSign: any;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -524,7 +524,7 @@ export interface IntelligenceRequest {
   data: Record<string, unknown> | string | number | boolean | null;
   context: {
     astrologicalState: {
-      zodiacSign: ZodiacSign;
+      zodiacSign: any;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
       planetaryPositions?: Record<string, unknown>;

@@ -66,7 +66,7 @@ describe('Planetary Position Validation', () => {
     // Create test positions with Mars in the wrong sign
     const positions: Record<string, PlanetPosition> = {
       Mars: {
-        sign: 'cancer' as ZodiacSign,
+        sign: 'cancer' as any,
         degree: 15,
         minute: 30,
         exactLongitude: 105.5,
@@ -89,7 +89,7 @@ describe('Planetary Position Validation', () => {
     // Create test positions with Mars in the correct sign
     const positions: Record<string, PlanetPosition> = {
       Mars: {
-        sign: 'leo' as ZodiacSign,
+        sign: 'leo' as any,
         degree: 15,
         minute: 30,
         exactLongitude: 135.5,

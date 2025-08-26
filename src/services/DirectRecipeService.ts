@@ -224,11 +224,11 @@ export class DirectRecipeService {
 
     // Calculate overall compatibility score
     const totalScore =
-      breakdown.elementalScore * 0.3 +
-      breakdown.zodiacalScore * 0.2 +
-      breakdown.lunarScore * 0.15 +
-      breakdown.planetaryScore * 0.25 +
-      breakdown.seasonalScore * 0.1;
+      ((breakdown as any)?.elementalScore || 0) * 0.2 +
+      ((breakdown as any)?.zodiacalScore || 0) * 0.2 +
+      ((breakdown as any)?.lunarScore || 0) * 0.2 +
+      ((breakdown as any)?.planetaryScore || 0) * 0.2 +
+      ((breakdown as any)?.seasonalScore || 0) * 0.2;
 
     return {
       score: Math.max(0, Math.min(1, totalScore)),
@@ -267,7 +267,7 @@ export class DirectRecipeService {
    */
   private calculateElementalScore(recipe: Recipe, alignment: CelestialAlignment): number {
     const recipeElementalState =
-      (recipe as Record<string, unknown>).elementalState || recipe.elementalProperties;
+      (recipe as any).elementalState || recipe.elementalProperties;
     if (!recipeElementalState) return 0.5;
 
     return calculateElementalCompatibility(
@@ -347,7 +347,7 @@ export class DirectRecipeService {
    */
   private calculateSeasonalScore(recipe: Recipe, alignment: CelestialAlignment): number {
     // Apply safe type casting for currentSeason access
-    const recipeData = recipe as Record<string, unknown>;
+    const recipeData = recipe as any;
     const currentSeason = recipeData.currentSeason;
 
     if (!currentSeason || (Array.isArray(currentSeason) && currentSeason.length === 0)) return 0.5;
@@ -531,7 +531,7 @@ export class DirectRecipeService {
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
       candidateRecipes = candidateRecipes.filter(recipe => {
-        const recipeData = recipe as Record<string, unknown>;
+        const recipeData = recipe as any;
         const recipeCurrentSeason = recipeData.currentSeason;
 
         if (Array.isArray(recipeCurrentSeason)) {

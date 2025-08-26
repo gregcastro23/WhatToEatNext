@@ -52,7 +52,7 @@ export function formatToTitleCase(str: string): string {
   const spacedStr = str.replace(/[_-]/g, ' ');
 
   // Handle camelCase by adding spaces before capital letters
-  const withSpaces = spacedStr.replace(/([A-Z])/g, ' $1');
+  const withSpaces = spacedStr.replace(/([A-Z])/g, ' 1');
 
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces

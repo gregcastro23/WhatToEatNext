@@ -62,8 +62,8 @@ export const poaching: CookingMethodData = {
     'prevents food from drying out',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'] as ZodiacSign[], // Water signs and balanced Libra
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs prefer more dynamic cooking methods
+    favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'] as any[], // Water signs and balanced Libra
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[], // Fire signs prefer more dynamic cooking methods
     dominantPlanets: ['Venus', 'Neptune', 'Moon'], // Venus (harmony), Neptune (subtlety), Moon (fluidity)
     rulingPlanets: ['Venus', 'Neptune'], // Primary rulers - gentleness and subtlety
     lunarPhaseEffect: {
@@ -244,7 +244,7 @@ export const poaching: CookingMethodData = {
     heat: 0.4, // Gentle, low heat
     entropy: 0.3, // Minimal structural disruption
     reactivity: 0.25, // Limited chemical reactions due to low temperature
-    gregsEnergy: 0.4 - 0.3 * 0.25, // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: 0.050 // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata

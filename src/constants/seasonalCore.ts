@@ -338,14 +338,14 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
 /**
  * Get zodiac signs for a season
  */
-export function getZodiacSignsForSeason(season: Season): ZodiacSign[] {
+export function getZodiacSignsForSeason(season: Season): any[] {
   return ZODIAC_SEASONS[season] || [];
 }
 
 /**
  * Get season for a zodiac sign
  */
-export function getSeasonForZodiacSign(sign: ZodiacSign): Season {
+export function getSeasonForZodiacSign(sign: any): Season {
   for (const [season, signs] of Object.entries(ZODIAC_SEASONS)) {
     if (Array.isArray(signs) && signs.includes(sign)) {
       return season as Season;

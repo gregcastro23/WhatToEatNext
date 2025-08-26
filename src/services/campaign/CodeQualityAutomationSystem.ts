@@ -227,27 +227,27 @@ export class CodeQualityAutomationSystem {
         case 'importCleanup':
           phaseResult.result = await this.importCleanupSystem.executeCleanup(targetFiles);
           phaseResult.success =
-            (phaseResult.result as Record<string, unknown>).buildValidationPassed && (phaseResult.result as Record<string, unknown>).errors.length === 0;
-          phaseResult.errors = (phaseResult.result as Record<string, unknown>).errors;
-          phaseResult.warnings = (phaseResult.result as Record<string, unknown>).warnings;
+            (phaseResult.result as any).buildValidationPassed && (phaseResult.result as any).errors.length === 0;
+          phaseResult.errors = (phaseResult.result as any).errors;
+          phaseResult.warnings = (phaseResult.result as any).warnings;
           break;
 
         case 'lintingFormatting':
           phaseResult.result =
             await this.lintingFormattingSystem.executeLintingAndFormatting(targetFiles);
           phaseResult.success =
-            (phaseResult.result as Record<string, unknown>).buildValidationPassed && (phaseResult.result as Record<string, unknown>).errors.length === 0;
-          phaseResult.errors = (phaseResult.result as Record<string, unknown>).errors;
-          phaseResult.warnings = (phaseResult.result as Record<string, unknown>).warnings;
+            (phaseResult.result as any).buildValidationPassed && (phaseResult.result as any).errors.length === 0;
+          phaseResult.errors = (phaseResult.result as any).errors;
+          phaseResult.warnings = (phaseResult.result as any).warnings;
           break;
 
         case 'dependencySecurity':
           phaseResult.result =
             await this.dependencySecurityMonitor.executeDependencySecurityMonitoring();
           phaseResult.success =
-            (phaseResult.result as Record<string, unknown>).compatibilityTestsPassed && (phaseResult.result as Record<string, unknown>).errors.length === 0;
-          phaseResult.errors = (phaseResult.result as Record<string, unknown>).errors;
-          phaseResult.warnings = (phaseResult.result as Record<string, unknown>).warnings;
+            (phaseResult.result as any).compatibilityTestsPassed && (phaseResult.result as any).errors.length === 0;
+          phaseResult.errors = (phaseResult.result as any).errors;
+          phaseResult.warnings = (phaseResult.result as any).warnings;
           break;
 
         default:
@@ -372,20 +372,20 @@ export class CodeQualityAutomationSystem {
 
     switch (phaseResult.system) {
       case 'importCleanup':
-        metrics.filesProcessed += (result as Record<string, unknown>).filesProcessed?.length || 0;
+        metrics.filesProcessed += (result as any).filesProcessed?.length || 0;
         metrics.importIssuesFixed +=
-          ((result as Record<string, unknown>).unusedImportsRemoved || 0) + ((result as Record<string, unknown>).importsOrganized || 0);
+          ((result as any).unusedImportsRemoved || 0) + ((result as any).importsOrganized || 0);
         break;
 
       case 'lintingFormatting':
-        metrics.filesProcessed += (result as Record<string, unknown>).filesProcessed?.length || 0;
-        metrics.lintingViolationsFixed += (result as Record<string, unknown>).lintingViolationsFixed || 0;
-        metrics.formattingIssuesFixed += (result as Record<string, unknown>).formattingIssuesFixed || 0;
+        metrics.filesProcessed += (result as any).filesProcessed?.length || 0;
+        metrics.lintingViolationsFixed += (result as any).lintingViolationsFixed || 0;
+        metrics.formattingIssuesFixed += (result as any).formattingIssuesFixed || 0;
         break;
 
       case 'dependencySecurity':
-        metrics.securityVulnerabilitiesFixed += (result as Record<string, unknown>).securityPatchesApplied || 0;
-        metrics.dependencyUpdatesApplied += (result as Record<string, unknown>).updatesApplied || 0;
+        metrics.securityVulnerabilitiesFixed += (result as any).securityPatchesApplied || 0;
+        metrics.dependencyUpdatesApplied += (result as any).updatesApplied || 0;
         break;
     }
   }

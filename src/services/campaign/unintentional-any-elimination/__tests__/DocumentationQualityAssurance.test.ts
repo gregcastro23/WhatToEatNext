@@ -294,7 +294,7 @@ describe('DocumentationQualityAssurance', () => {
       mockFs.readFile.mockResolvedValue(fileContent);
 
       // Use reflection to access private method for testing
-      const anyTypes = await (qas as unknown).findAnyTypesInFile('(test as Record<string, unknown>).ts');
+      const anyTypes = await (qas as any).findAnyTypesInFile('(test as any).ts');
 
       expect(anyTypes.length).toBeGreaterThan(0);
       expect(anyTypes.some((t: unknown) => t.codeSnippet.includes(': unknown'))).toBe(true);
@@ -314,7 +314,7 @@ describe('DocumentationQualityAssurance', () => {
       ];
 
       for (const testCase of testCases) {
-        const category = (qas as unknown).categorizeAnyType((testCase as Record<string, unknown>).code);
+        const category = (qas as any).categorizeAnyType((testCase as any).code);
         expect(category).toBe(testCase.expectedCategory);
       }
     });
@@ -370,7 +370,7 @@ describe('DocumentationQualityAssurance', () => {
 
     qualityTestCases.forEach(({ comment, expectedQuality, description }) => {
       it(`should assess ${description} as ${expectedQuality}`, () => {
-        const quality = (qas as unknown).assessCommentQuality(comment);
+        const quality = (qas as any).assessCommentQuality(comment);
         expect(quality).toBe(expectedQuality);
       });
     });
@@ -385,7 +385,7 @@ describe('DocumentationQualityAssurance', () => {
         '}'
       ];
 
-      const hasDisable = (qas as unknown).hasEslintDisableComment(lines, 2);
+      const hasDisable = (qas as any).hasEslintDisableComment(lines, 2);
       expect(hasDisable).toBe(true);
     });
 
@@ -397,7 +397,7 @@ describe('DocumentationQualityAssurance', () => {
         '}'
       ];
 
-      const hasExplanation = (qas as unknown).eslintDisableHasExplanation(lines, 2);
+      const hasExplanation = (qas as any).eslintDisableHasExplanation(lines, 2);
       expect(hasExplanation).toBe(true);
     });
 
@@ -409,7 +409,7 @@ describe('DocumentationQualityAssurance', () => {
         '}'
       ];
 
-      const hasExplanation = (qas as unknown).eslintDisableHasExplanation(lines, 2);
+      const hasExplanation = (qas as any).eslintDisableHasExplanation(lines, 2);
       expect(hasExplanation).toBe(false);
     });
   });
@@ -452,7 +452,7 @@ describe('DocumentationQualityAssurance', () => {
       ];
 
       testCases.forEach(({ context, expectedSeverity }) => {
-        const severity = (qas as unknown).assessSeverity(context);
+        const severity = (qas as any).assessSeverity(context);
         expect(severity).toBe(expectedSeverity);
       });
     });
@@ -460,7 +460,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('recommendation generation', () => {
     it('should generate appropriate recommendations for low coverage', () => {
-      const recommendations = (qas as unknown).generateRecommendations(
+      const recommendations = (qas as any).generateRecommendations(
         30, // 30% coverage
         { poor: 5, fair: 2, good: 1, excellent: 0 },
         []
@@ -471,7 +471,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should generate appropriate recommendations for good coverage', () => {
-      const recommendations = (qas as unknown).generateRecommendations(
+      const recommendations = (qas as any).generateRecommendations(
         85, // 85% coverage
         { poor: 1, fair: 2, good: 5, excellent: 3 },
         []
@@ -482,7 +482,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should generate appropriate recommendations for excellent coverage', () => {
-      const recommendations = (qas as unknown).generateRecommendations(
+      const recommendations = (qas as any).generateRecommendations(
         98, // 98% coverage
         { poor: 0, fair: 1, good: 3, excellent: 8 },
         []

@@ -221,7 +221,7 @@ async function runComprehensiveTests() {
     // Test 7: Enhanced Legacy Alchemize Function
     log.info('🔮 Test 7: Enhanced Legacy Alchemize Function');
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
-    const legacyResultData = legacyResult as Record<string, unknown>;
+    const legacyResultData = legacyResult as any;
     log.info('Legacy Alchemize Results:', {
       Spirit: ((legacyResultData?.Spirit as number) || 0).toFixed(4),
       Essence: ((legacyResultData?.Essence as number) || 0).toFixed(4),
@@ -233,12 +233,12 @@ async function runComprehensiveTests() {
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {
       log.info('Enhanced Thermodynamic Properties:', {
-        kalchm: (legacyResult as Record<string, unknown>).kalchm?.toFixed(4),
-        monicaConstant: (legacyResult as Record<string, unknown>).monicaConstant?.toFixed(6),
-        gregsEnergy: (legacyResult as Record<string, unknown>).gregsEnergy?.toFixed(6),
-        heat: (legacyResult as Record<string, unknown>).heat?.toFixed(6),
-        entropy: (legacyResult as Record<string, unknown>).entropy?.toFixed(6),
-        reactivity: (legacyResult as Record<string, unknown>).reactivity?.toFixed(6),
+        kalchm: (legacyResult as any).kalchm?.toFixed(4),
+        monicaConstant: (legacyResult as any).monicaConstant?.toFixed(6),
+        gregsEnergy: (legacyResult as any).gregsEnergy?.toFixed(6),
+        heat: (legacyResult as any).heat?.toFixed(6),
+        entropy: (legacyResult as any).entropy?.toFixed(6),
+        reactivity: (legacyResult as any).reactivity?.toFixed(6),
       });
     }
     const elementalState = legacyResultData?.elementalState;

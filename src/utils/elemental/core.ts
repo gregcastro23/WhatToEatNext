@@ -254,7 +254,7 @@ export async function calculateDetailedElementalCompatibility(
   recipeElemental: ElementalProperties,
   userElemental?: ElementalProperties,
 ): Promise<ElementalCompatibility> {
-  const userProps = userElemental || getCurrentElementalState();
+  const userProps = userElemental || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   const recipeDominant = calculateDominantElement(recipeElemental);
   const userDominant = calculateDominantElement(userProps);
 
@@ -340,7 +340,7 @@ export function combineElementalProperties(
  */
 export function calculateElementalState(recipe: Recipe | null | undefined): ElementalProperties {
   if (!recipe) {
-    return getCurrentElementalState();
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
   // Use existing elemental properties if available
@@ -354,7 +354,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
   }
 
   // Default fallback
-  return getCurrentElementalState();
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 }
 
 /**
@@ -521,7 +521,7 @@ function generateCompatibilityRecommendation(
  * @returns Default balanced elemental properties
  */
 export async function getDefaultElementalProperties(): Promise<ElementalProperties> {
-  return getCurrentElementalState();
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 }
 
 /**
@@ -534,15 +534,15 @@ export async function standardizeRecipeElements<T>(
 ): Promise<T & { elementalProperties: ElementalProperties }> {
   if (!recipe) {
     return {
-      elementalProperties: getCurrentElementalState(),
+      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     } as T & { elementalProperties: ElementalProperties };
   }
 
   // Use safe type casting for property access
-  const recipeData = recipe as Record<string, unknown>;
+  const recipeData = recipe as any;
   const elementalProperties = recipeData.elementalState
     ? normalizeProperties(recipeData.elementalState)
-    : getCurrentElementalState();
+    : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   return {
     ...recipe,

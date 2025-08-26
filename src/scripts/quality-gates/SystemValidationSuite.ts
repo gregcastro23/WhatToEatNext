@@ -178,7 +178,7 @@ class SystemValidationSuite {
       ];
 
       let passedTests = 0;
-      const testResults: any[] = [];
+      const testResults: unknown[] = [];
 
       for (const safetyTest of safetyTests) {
         try {
@@ -240,7 +240,7 @@ class SystemValidationSuite {
       ];
 
       let functionalGates = 0;
-      const gateResults: any[] = [];
+      const gateResults: unknown[] = [];
 
       for (const gate of gateTests) {
         try {
@@ -301,7 +301,7 @@ class SystemValidationSuite {
       ];
 
       let functionalComponents = 0;
-      const monitoringResults: any[] = [];
+      const monitoringResults: unknown[] = [];
 
       for (const test of monitoringTests) {
         try {
@@ -427,7 +427,7 @@ class SystemValidationSuite {
       ];
 
       let functionalComponents = 0;
-      const workflowResults: any[] = [];
+      const workflowResults: unknown[] = [];
 
       for (const test of workflowTests) {
         try {
@@ -487,7 +487,7 @@ class SystemValidationSuite {
       ];
 
       let validComponents = 0;
-      const integrityResults: any[] = [];
+      const integrityResults: unknown[] = [];
 
       for (const test of integrityTests) {
         try {
@@ -583,7 +583,7 @@ class SystemValidationSuite {
       ];
 
       let completeComponents = 0;
-      const docResults: any[] = [];
+      const docResults: unknown[] = [];
 
       for (const test of docTests) {
         try {
@@ -733,7 +733,7 @@ class SystemValidationSuite {
   }
 
   // Helper methods for testing (simplified implementations)
-  private getClassificationTestCases(): any[] {
+  private getClassificationTestCases(): unknown[] {
     return [
       { code: 'const data: any[] = [];', expected: 'unintentional' },
       { code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response;', expected: 'intentional' },
@@ -750,10 +750,10 @@ class SystemValidationSuite {
     return { correct: classified === testCase.expected };
   }
 
-  private getReplacementPatterns(): any[] {
+  private getReplacementPatterns(): unknown[] {
     return [
       { name: 'array_types', pattern: /any\[\]/g, replacement: 'unknown[]' },
-      { name: 'record_types', pattern: /Record<([^,>]+),\s*any>/g, replacement: 'Record<$1, unknown>' },
+      { name: 'record_types', pattern: /Record<([^,>]+),\s*any>/g, replacement: 'Record<1, unknown>' },
       { name: 'variable_declarations', pattern: /:\s*any(?=\s*[,;=})\]])/g, replacement: ': unknown' }
     ];
   }

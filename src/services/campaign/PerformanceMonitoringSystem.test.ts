@@ -26,7 +26,7 @@ describe('PerformanceMonitoringSystem', () => {
     const mockHrtime = jest.fn();
     mockHrtime.mockReturnValueOnce(BigInt(1000000000)); // 1 second in nanoseconds
     mockHrtime.mockReturnValueOnce(BigInt(9000000000)); // 9 seconds in nanoseconds
-    (process.hrtime as unknown) = { bigint: mockHrtime };
+    (process.hrtime as any) = { bigint: mockHrtime };
 
     // Mock process.memoryUsage
     (process.memoryUsage as unknown as jest.Mock) = jest.fn().mockReturnValue({
@@ -175,7 +175,7 @@ describe('PerformanceMonitoringSystem', () => {
       };
 
       // Manually add to history
-      (performanceMonitor as unknown).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
+      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
 
       const regressionDetected = await performanceMonitor.detectPerformanceRegression();
 
@@ -205,7 +205,7 @@ describe('PerformanceMonitoringSystem', () => {
         cacheHitRate: { current: 0.6, target: 0.8, average: 0.75, trend: 'degrading' },
       };
 
-      (performanceMonitor as unknown).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
+      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
 
       const regressionDetected = await performanceMonitor.detectPerformanceRegression();
 
@@ -234,7 +234,7 @@ describe('PerformanceMonitoringSystem', () => {
         memoryUsage: { current: 55, target: 50, peak: 60, average: 42 },
       };
 
-      (performanceMonitor as unknown).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
+      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
 
       const regressionDetected = await performanceMonitor.detectPerformanceRegression();
 
@@ -390,7 +390,7 @@ describe('PerformanceMonitoringSystem', () => {
         recommendations: ['Test recommendation'],
       };
 
-      (performanceMonitor as unknown).addAlert(mockAlert);
+      (performanceMonitor as any).addAlert(mockAlert);
 
       const alertsAfterAdd = performanceMonitor.getCurrentAlerts();
       expect(alertsAfterAdd).toHaveLength(1);

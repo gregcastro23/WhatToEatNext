@@ -36,7 +36,7 @@ export interface ValidationResult {
   recommendations: string[];
   executionTime: number;
   retryCount: number;
-  details: Record<string, any>;
+  details: Record<string, unknown>;
 }
 
 export interface ComprehensiveValidationResult {
@@ -562,7 +562,7 @@ export class ComprehensiveValidationFramework {
     const componentName = path.basename(componentPath, path.extname(componentPath));
 
     // Find test file
-    const testPath = componentPath.replace(/\.(tsx|jsx)$/, '.test.$1');
+    const testPath = componentPath.replace(/\.(tsx|jsx)$/, '.test.1');
     const hasTests = fs.existsSync(testPath);
 
     // Extract exports (simplified)
@@ -690,7 +690,7 @@ export class ComprehensiveValidationFramework {
 
   private async validateComponentTests(componentPath: string): Promise<{ success: boolean; warning?: string }> {
     try {
-      const testPath = componentPath.replace(/\.(tsx|jsx)$/, '.test.$1');
+      const testPath = componentPath.replace(/\.(tsx|jsx)$/, '.test.1');
 
       if (!fs.existsSync(testPath)) {
         return { success: false, warning: 'Test file not found' };
@@ -758,9 +758,9 @@ export class ComprehensiveValidationFramework {
     for (const file of processedFiles) {
       // Look for corresponding test files
       const testPatterns = [
-        file.replace(/\.(ts|tsx|js|jsx)$/, '.test.$1'),
-        file.replace(/\.(ts|tsx|js|jsx)$/, '.spec.$1'),
-        file.replace(/\/([^/]+)\.(ts|tsx|js|jsx)$/, '/__tests__/$1.test.$2')
+        file.replace(/\.(ts|tsx|js|jsx)$/, '.test.1'),
+        file.replace(/\.(ts|tsx|js|jsx)$/, '.spec.1'),
+        file.replace(/\/([^/]+)\.(ts|tsx|js|jsx)$/, '/__tests__/1.test.2')
       ];
 
       for (const testPattern of testPatterns) {

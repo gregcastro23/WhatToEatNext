@@ -19,7 +19,7 @@ const CookingMethodsSection = ({
 }) => (
   <div className='space-y-2'>
     {methods.map(m => {
-      const method = m as Record<string, unknown>;
+      const method = m as any;
       return (
       <button
         key={String(method.id)}
@@ -152,7 +152,7 @@ export default function CookingMethodsSectionTestPage() {
   useServices();
 
   const handleSelectMethod = (method: unknown) => {
-    const methodObj = method as Record<string, unknown>;
+    const methodObj = method as any;
     setSelectedMethodId(String(methodObj.id));
   };
 

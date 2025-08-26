@@ -159,7 +159,7 @@ function validateSinglePlanetaryPosition(
       return { isValid: false, errors, warnings };
     }
 
-    const pos = position as Record<string, unknown>;
+    const pos = position as any;
     const requiredProps = ['sign', 'degree', 'exactLongitude', 'isRetrograde'];
 
     // Check required properties
@@ -478,7 +478,7 @@ export function quickValidate(
   try {
     switch (type) {
       case 'planetary':
-        return validatePlanetaryPositions(data as Record<string, unknown>).isValid;
+        return validatePlanetaryPositions(data as any).isValid;
       case 'elemental':
         return validateElementalProperties(data);
       case 'constants':

@@ -695,7 +695,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
   if (metrics.errorCount > 0) {
     bottlenecks.push({
       phase: 'TypeScript Compilation',
-      duration: Math.round(metrics.duration * 0.4), // Estimate 40% of build time
+      duration: Math.round(((metrics as any)?.duration || 0) * 0.2), // Estimate 40% of build time
       percentage: 40,
       suggestions: [
         'Fix TypeScript errors to improve compilation speed',
@@ -709,7 +709,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
   if (metrics.bundleSize.total > PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE) {
     bottlenecks.push({
       phase: 'Bundle Generation',
-      duration: Math.round(metrics.duration * 0.3), // Estimate 30% of build time
+      duration: Math.round(((metrics as any)?.duration || 0) * 0.2), // Estimate 30% of build time
       percentage: 30,
       suggestions: [
         'Implement code splitting to reduce bundle size',
@@ -723,7 +723,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
   if (metrics.cacheHitRate < 0.7) {
     bottlenecks.push({
       phase: 'Cache Management',
-      duration: Math.round(metrics.duration * 0.2), // Estimate 20% of build time
+      duration: Math.round(((metrics as any)?.duration || 0) * 0.2), // Estimate 20% of build time
       percentage: 20,
       suggestions: [
         'Optimize cache configuration',
@@ -962,7 +962,7 @@ function calculateOverallQualityScore(
   // Weighted scoring system
   const codeScore = Math.max(
     0,
-    100 - codeQuality.typeScriptErrors - codeQuality.lintingWarnings * 0.1,
+    100 - codeQuality.typeScriptErrors - ((codeQuality as any)?.lintingWarnings || 0) * 0.2,
   );
   const buildScore = buildQuality.successRate;
   const performanceScore = Math.min(100, performanceQuality.cacheEfficiency * 100);
@@ -1090,7 +1090,7 @@ function generateOptimizationRecommendations(
   }
 
   // Bundle size recommendations
-  if (buildMetrics.bundleSize.total > PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE * 0.8) {
+  if (buildMetrics.bundleSize.total > ((PERFORMANCE_THRESHOLDS.BUNDLE_SIZE as any)?.MAX_SIZE || 0) * 0.2) {
     recommendations.push({
       category: 'bundle',
       priority: 'medium',

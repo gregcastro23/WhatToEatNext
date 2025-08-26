@@ -26,8 +26,8 @@ export const methodName: CookingMethodData = {
   benefits: ['benefit1', 'benefit2', 'benefit3', 'benefit4', 'benefit5'], // Advantages of this cooking method
 
   astrologicalInfluences: {
-    favorableZodiac: ['zodiac1', 'zodiac2', 'zodiac3'] as unknown as ZodiacSign[], // Zodiac signs that enhance this method
-    unfavorableZodiac: ['zodiac4', 'zodiac5', 'zodiac6'] as unknown as ZodiacSign[], // Zodiac signs that diminish this method
+    favorableZodiac: ['zodiac1', 'zodiac2', 'zodiac3'] as unknown as any[], // Zodiac signs that enhance this method
+    unfavorableZodiac: ['zodiac4', 'zodiac5', 'zodiac6'] as unknown as any[], // Zodiac signs that diminish this method
     dominantPlanets: ['Planet1', 'Planet2', 'Planet3'],
     lunarPhaseEffect: {
       full_moon: 0.0, // Effect during full moon (multiplier)

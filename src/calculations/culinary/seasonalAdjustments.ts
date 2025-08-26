@@ -42,10 +42,10 @@ export function applySeasonalAdjustments(
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
 
   return {
-    Fire: baseProperties.Fire * 0.7 + modifier.Fire * 0.3,
-    Water: baseProperties.Water * 0.7 + modifier.Water * 0.3,
-    Air: baseProperties.Air * 0.7 + modifier.Air * 0.3,
-    Earth: baseProperties.Earth * 0.7 + modifier.Earth * 0.3,
+    Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
+    Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
+    Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
+    Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2,
   };
 }
 
@@ -60,10 +60,10 @@ export function applyLunarPhaseAdjustments(
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon'];
 
   return {
-    Fire: baseProperties.Fire * 0.8 + modifier.Fire * 0.2,
-    Water: baseProperties.Water * 0.8 + modifier.Water * 0.2,
-    Air: baseProperties.Air * 0.8 + modifier.Air * 0.2,
-    Earth: baseProperties.Earth * 0.8 + modifier.Earth * 0.2,
+    Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
+    Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
+    Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
+    Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2,
   };
 }
 
@@ -77,15 +77,15 @@ export function applyTimeOfDayAdjustments(
   if (isDaytime) {
     return {
       Fire: baseProperties.Fire * 1.2,
-      Water: baseProperties.Water * 0.9,
+      Water: ((baseProperties as any)?.Water || 0) * 0.2,
       Air: baseProperties.Air * 1.1,
-      Earth: baseProperties.Earth * 0.95,
+      Earth: ((baseProperties as any)?.Earth || 0) * 0.2,
     };
   } else {
     return {
-      Fire: baseProperties.Fire * 0.8,
+      Fire: ((baseProperties as any)?.Fire || 0) * 0.2,
       Water: baseProperties.Water * 1.2,
-      Air: baseProperties.Air * 0.9,
+      Air: ((baseProperties as any)?.Air || 0) * 0.2,
       Earth: baseProperties.Earth * 1.1,
     };
   }

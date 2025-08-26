@@ -222,7 +222,7 @@ export interface StandardizedVariety {
 // Standardized astrological profile
 export interface StandardizedAstrologicalProfile {
   rulingPlanets?: string[];
-  favorableZodiac?: ZodiacSign[];
+  favorableZodiac?: any[];
   elementalAffinity?: {
     base: Element;
     secondary?: Element;

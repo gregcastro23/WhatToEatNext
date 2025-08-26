@@ -66,27 +66,27 @@ describe('Comprehensive Linting Test Suite', () => {
 
       // Required configuration sections
       const hasJavaScriptConfig = config.some((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         const files = conf?.files as string[] | undefined;
         return files && files.includes('**/*.js');
       });
       const hasTypeScriptConfig = config.some((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         const files = conf?.files as string[] | undefined;
         return files && files.includes('**/*.ts');
       });
       const hasAstrologicalConfig = config.some((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         const files = conf?.files as string[] | undefined;
         return files && files.some((f: string) => f.includes('**/calculations/**'));
       });
       const hasTestConfig = config.some((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         const files = conf?.files as string[] | undefined;
         return files && files.some((f: string) => f.includes('**/*.test.ts'));
       });
       const hasIgnoreConfig = config.some((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         return conf?.ignores;
       });
 
@@ -119,8 +119,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const perfConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const settings = conf?.settings as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const settings = conf?.settings as any | undefined;
         return settings && settings['import/cache'];
       });
 
@@ -137,7 +137,7 @@ describe('Comprehensive Linting Test Suite', () => {
 
       // Astrological files should have custom rules
       const astroConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         const files = conf?.files as string[] | undefined;
         return files && files.some((f: string) => f.includes('**/calculations/**'));
       });
@@ -147,7 +147,7 @@ describe('Comprehensive Linting Test Suite', () => {
 
       // Campaign files should allow extensive logging
       const campaignConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         const files = conf?.files as string[] | undefined;
         return files && files.some((f: string) => f.includes('**/services/campaign/**'));
       });
@@ -156,7 +156,7 @@ describe('Comprehensive Linting Test Suite', () => {
 
       // Test files should have relaxed rules
       const testConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
+        const conf = c as any;
         const files = conf?.files as string[] | undefined;
         return files && files.some((f: string) => f.includes('**/*.test.ts'));
       });
@@ -168,8 +168,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const reactConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const rules = conf?.rules as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const rules = conf?.rules as any | undefined;
         return rules && rules['react/react-in-jsx-scope'];
       });
 
@@ -182,8 +182,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const tsConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const rules = conf?.rules as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const rules = conf?.rules as any | undefined;
         return rules && rules['@typescript-eslint/no-explicit-any'];
       });
 
@@ -198,8 +198,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const importConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const settings = conf?.settings as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const settings = conf?.settings as any | undefined;
         const resolver = settings?.['import/resolver'] as Record<string, unknown> | undefined;
         return settings && resolver && resolver.typescript;
       });
@@ -214,8 +214,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const orderConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const rules = conf?.rules as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const rules = conf?.rules as any | undefined;
         return rules && rules['import/order'];
       });
 
@@ -228,8 +228,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const hooksConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const rules = conf?.rules as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const rules = conf?.rules as any | undefined;
         return rules && rules['react-hooks/exhaustive-deps'];
       });
 
@@ -243,8 +243,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const cacheConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const settings = conf?.settings as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const settings = conf?.settings as any | undefined;
         return settings && settings['import/cache'];
       });
 
@@ -257,10 +257,10 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const memoryConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const settings = conf?.settings as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const settings = conf?.settings as any | undefined;
         const resolver = settings?.['import/resolver'] as Record<string, unknown> | undefined;
-        const typescript = resolver?.typescript as Record<string, unknown> | undefined;
+        const typescript = resolver?.typescript as any | undefined;
         return settings && resolver && typescript && typescript.memoryLimit;
       });
 
@@ -273,10 +273,10 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const parallelConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const settings = conf?.settings as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const settings = conf?.settings as any | undefined;
         const resolver = settings?.['import/resolver'] as Record<string, unknown> | undefined;
-        const typescript = resolver?.typescript as Record<string, unknown> | undefined;
+        const typescript = resolver?.typescript as any | undefined;
         return settings && resolver && typescript && typescript.maxParallelFilesPerProcess;
       });
 
@@ -297,8 +297,8 @@ describe('Comprehensive Linting Test Suite', () => {
       ];
 
       const tsConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const rules = conf?.rules as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const rules = conf?.rules as any | undefined;
         return rules && rules['prefer-const'];
       });
 
@@ -311,8 +311,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const unusedVarConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const rules = conf?.rules as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const rules = conf?.rules as any | undefined;
         return rules && rules['@typescript-eslint/no-unused-vars'];
       });
 
@@ -325,8 +325,8 @@ describe('Comprehensive Linting Test Suite', () => {
       const config = require(configPath);
 
       const consoleConfig = config.find((c: unknown) => {
-        const conf = c as Record<string, unknown>;
-        const rules = conf?.rules as Record<string, unknown> | undefined;
+        const conf = c as any;
+        const rules = conf?.rules as any | undefined;
         return rules && rules['no-console'];
       });
 
@@ -354,8 +354,8 @@ describe('Comprehensive Linting Test Suite', () => {
       Object.entries(ruleCategories).forEach(([_category, rules]) => {
         rules.forEach(rule => {
           const hasRule = config.some((c: unknown) => {
-            const conf = c as Record<string, unknown>;
-            const rules = conf?.rules as Record<string, unknown> | undefined;
+            const conf = c as any;
+            const rules = conf?.rules as any | undefined;
             return rules && rules[rule];
           });
           expect(hasRule).toBe(true);
@@ -366,7 +366,7 @@ describe('Comprehensive Linting Test Suite', () => {
     test('should validate ignore patterns completeness', () => {
       const config = require(configPath);
 
-      const ignoreConfig = config.find((c: unknown) => (c as Record<string, unknown>)?.ignores);
+      const ignoreConfig = config.find((c: unknown) => (c as any)?.ignores);
       const expectedIgnores = [
         'node_modules/',
         'dist/',
@@ -388,8 +388,8 @@ describe('Comprehensive Linting Test Suite', () => {
 
       requiredPlugins.forEach(plugin => {
         const hasPlugin = config.some((c: unknown) => {
-          const conf = c as Record<string, unknown>;
-          const plugins = conf?.plugins as Record<string, unknown> | undefined;
+          const conf = c as any;
+          const plugins = conf?.plugins as any | undefined;
           return plugins && plugins[plugin];
         });
         expect(hasPlugin).toBe(true);

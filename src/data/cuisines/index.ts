@@ -77,7 +77,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
 
     // Use safe type casting for mealType property access
-    const mealData = mealType as Record<string, unknown>;
+    const mealData = mealType as any;
 
     // Extract the "all" recipes that should be added to each season
     // Make sure "all" is an array even if it's not defined
@@ -118,7 +118,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     cookingTechniques: Array.isArray(cuisine.cookingTechniques) ? cuisine.cookingTechniques : [],
     regionalCuisines: cuisine.regionalCuisines || {},
     elementalProperties: cuisine.elementalProperties ||
-      (cuisine as Record<string, unknown>).elementalState || { ...baseCuisine.elementalProperties }, // For backward compatibility
+      (cuisine as any).elementalState || { ...baseCuisine.elementalProperties }, // For backward compatibility
     regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0,
     astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences)
       ? cuisine.astrologicalInfluences

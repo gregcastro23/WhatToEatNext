@@ -55,7 +55,7 @@ describe('ProgressiveImprovementEngine', () => {
       // Mock TypeScript error count (no errors)
       mockExecSync.mockImplementation((command) => {
         if (command.includes('grep -c "error TS"')) {
-          const error = new Error('No matches') as unknown;
+          const error = new Error('No matches') as any;
           error.status = 1; // grep exit code for no matches
           throw error;
         }
@@ -158,7 +158,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       // Add multiple low-success batches to history
       for (let i = 0; i < 5; i++) {
-        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...lowSuccessBatch, batchNumber: i + 1 });
+        (engine as any)?.(batchHistory as any).push({ ...lowSuccessBatch, batchNumber: i + 1 });
       }
 
       mockExecSync.mockReturnValue('src/test1.ts\n');
@@ -186,7 +186,7 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.95
       };
 
-      (engine as unknown)?.(batchHistory as Record<string, unknown>).push(successfulBatch);
+      (engine as any)?.(batchHistory as any).push(successfulBatch);
 
       mockExecSync.mockReturnValue('src/test1.ts\nsrc/test2.ts\n');
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
@@ -219,11 +219,11 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       for (let i = 0; i < 3; i++) {
-        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...lowSafetyBatch, batchNumber: i + 1 });
+        (engine as any)?.(batchHistory as any).push({ ...lowSafetyBatch, batchNumber: i + 1 });
       }
 
       // Trigger adaptation
-      (engine as unknown).adaptStrategy();
+      (engine as any).adaptStrategy();
 
       const adaptedConfig = engine.getAdaptiveConfig();
       expect(adaptedConfig.maxFilesPerBatch).toBeLessThan(initialBatchSize);
@@ -248,11 +248,11 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       for (let i = 0; i < 3; i++) {
-        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...highPerformanceBatch, batchNumber: i + 1 });
+        (engine as any)?.(batchHistory as any).push({ ...highPerformanceBatch, batchNumber: i + 1 });
       }
 
       // Trigger adaptation
-      (engine as unknown).adaptStrategy();
+      (engine as any).adaptStrategy();
 
       const adaptedConfig = engine.getAdaptiveConfig();
       expect(adaptedConfig.maxFilesPerBatch).toBeGreaterThanOrEqual(initialBatchSize);
@@ -484,7 +484,7 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       for (let i = 0; i < 5; i++) {
-        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({ ...stagnantBatch, batchNumber: i + 1 });
+        (engine as any)?.(batchHistory as any).push({ ...stagnantBatch, batchNumber: i + 1 });
       }
 
       mockExecSync.mockReturnValue('src/test1.ts\n');
@@ -521,7 +521,7 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.9
       };
 
-      (engine as unknown)?.(batchHistory as Record<string, unknown>).push(progressBatch);
+      (engine as any)?.(batchHistory as any).push(progressBatch);
 
       const midMonitoring = await engine.monitorProgress();
       expect(midMonitoring.recommendations.some(r =>
@@ -557,7 +557,7 @@ describe('ProgressiveImprovementEngine', () => {
     test('should maintain performance with large batch history', async () => {
       // Add large batch history
       for (let i = 0; i < 1000; i++) {
-        (engine as unknown)?.(batchHistory as Record<string, unknown>).push({
+        (engine as any)?.(batchHistory as any).push({
           batchNumber: i + 1,
           filesProcessed: 5,
           anyTypesAnalyzed: 10,

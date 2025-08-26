@@ -133,7 +133,7 @@ export const calculateelementalState = (
   const total = Object.values(balance).reduce((sum, value) => sum + value, 0);
   if (total > 0) {
     Object.keys(balance).forEach(element => {
-      balance[element as keyof ElementalProperties] /= total;
+      balance[element as any] /= total;
     });
   }
 

@@ -158,7 +158,7 @@ export class AlchemicalService {
   private cuisines: ElementalItem[] = [];
   private planetPositions: PlanetaryPositionsType = {};
   private isDaytime = true;
-  private currentZodiac: ZodiacSignType | null = null;
+  private currentZodiac: anyType | null = null;
   private lunarPhase: LunarPhaseType | null = null;
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
   private tarotPlanetaryBoosts?: { [key: string]: number };
@@ -222,7 +222,7 @@ export class AlchemicalService {
       // Set properties
       this.planetPositions = positions as unknown as PlanetaryPositionsType;
       this.isDaytime = _isDaytime;
-      this.currentZodiac = currentZodiac as ZodiacSignType;
+      this.currentZodiac = currentZodiac as anyType;
       this.lunarPhase = lunarPhaseFormatted as LunarPhaseType;
 
       // Track retrograde planets
@@ -265,7 +265,7 @@ export class AlchemicalService {
   /**
    * Set current zodiac sign
    */
-  setCurrentZodiac(zodiac: ZodiacSign | null): AlchemicalService {
+  setCurrentZodiac(zodiac: any | null): AlchemicalService {
     this.currentZodiac = zodiac;
     return this;
   }
@@ -428,7 +428,7 @@ export class AlchemicalService {
     const dominantElement = this.getDominantElement(properties);
 
     // Apply safe type casting for profile property access
-    const profileData = profile as Record<string, unknown>;
+    const profileData = profile as any;
 
     return {
       dominantElement,
@@ -436,16 +436,16 @@ export class AlchemicalService {
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: [], // elementalUtils.getComplementaryElement(properties),
       flavorProfiles:
-        ((profileData.characteristics as Record<string, unknown>).flavorProfiles as string[]) || [],
+        ((profileData.characteristics as any).flavorProfiles as string[]) || [],
       healthBenefits:
-        ((profileData.characteristics as Record<string, unknown>).healthBenefits as string[]) || [],
+        ((profileData.characteristics as any).healthBenefits as string[]) || [],
       timeOfDay:
-        ((profileData.characteristics as Record<string, unknown>).timeOfDay as string[]) || [],
+        ((profileData.characteristics as any).timeOfDay as string[]) || [],
       seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
       moodEffects:
-        ((profileData.characteristics as Record<string, unknown>).moodEffects as string[]) || [],
+        ((profileData.characteristics as any).moodEffects as string[]) || [],
       culinaryHerbs:
-        ((profileData.characteristics as Record<string, unknown>).culinaryHerbs as string[]) || [],
+        ((profileData.characteristics as any).culinaryHerbs as string[]) || [],
       compatibility: 0.5,
     };
   }
@@ -455,7 +455,7 @@ export class AlchemicalService {
    * @param zodiacSign The zodiac sign to generate recommendations for
    * @returns A recommendation tailored to the zodiac sign
    */
-  generateZodiacRecommendation(currentZodiacSign: ZodiacSign): ElementalRecommendation {
+  generateZodiacRecommendation(currentZodiacSign: any): ElementalRecommendation {
     const ZODIAC_ELEMENTS: { [key: string]: ElementalCharacter } = {
       aries: 'Fire',
       leo: 'Fire',

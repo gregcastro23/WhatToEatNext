@@ -85,7 +85,7 @@ export class MetricsCollectionSystem {
         } catch (error) {
           console.error(
             '❌ Error during metrics collection:',
-            (error as Record<string, unknown>).message || 'Unknown error',
+            (error as any).message || 'Unknown error',
           );
         }
       })();
@@ -248,7 +248,7 @@ export class MetricsCollectionSystem {
         } catch (error) {
           console.warn(
             'Could not get TypeScript error breakdown:',
-            (error as Record<string, unknown>).message || 'Unknown error',
+            (error as any).message || 'Unknown error',
           );
         }
       }
@@ -257,7 +257,7 @@ export class MetricsCollectionSystem {
     } catch (error) {
       console.warn(
         'Could not collect TypeScript metrics:',
-        (error as Record<string, unknown>).message || 'Unknown error',
+        (error as any).message || 'Unknown error',
       );
       return { count: -1, breakdown: {} };
     }
@@ -303,7 +303,7 @@ export class MetricsCollectionSystem {
         } catch (error) {
           console.warn(
             'Could not get linting warning breakdown:',
-            (error as Record<string, unknown>).message || 'Unknown error',
+            (error as any).message || 'Unknown error',
           );
         }
       }
@@ -312,7 +312,7 @@ export class MetricsCollectionSystem {
     } catch (error) {
       console.warn(
         'Could not collect linting metrics:',
-        (error as Record<string, unknown>).message || 'Unknown error',
+        (error as any).message || 'Unknown error',
       );
       return { count: -1, breakdown: {} };
     }
@@ -342,7 +342,7 @@ export class MetricsCollectionSystem {
     } catch (error) {
       console.warn(
         'Build failed during metrics collection:',
-        (error as Record<string, unknown>).message || 'Unknown error',
+        (error as any).message || 'Unknown error',
       );
     }
 
@@ -352,7 +352,7 @@ export class MetricsCollectionSystem {
     } catch (error) {
       console.warn(
         'Could not measure bundle size:',
-        (error as Record<string, unknown>).message || 'Unknown error',
+        (error as any).message || 'Unknown error',
       );
     }
 

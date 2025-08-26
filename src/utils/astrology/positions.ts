@@ -84,7 +84,7 @@ interface PositionsCache {
  * Type for planetary position object
  */
 interface PlanetPositionData {
-  sign: ZodiacSign;
+  sign: any;
   degree: number;
   exactLongitude: number;
   isRetrograde: boolean;
@@ -273,7 +273,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
           const { sign, degree } = getSignFromLongitude(sunLong);
 
           positions[planet] = {
-            sign: sign.toLowerCase() as ZodiacSign,
+            sign: sign.toLowerCase() as any,
             degree,
             exactLongitude: sunLong,
             isRetrograde,
@@ -287,7 +287,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
           const { sign, degree } = getSignFromLongitude(longitude);
 
           positions[planet] = {
-            sign: sign.toLowerCase() as ZodiacSign,
+            sign: sign.toLowerCase() as any,
             degree,
             exactLongitude: longitude,
             isRetrograde,
@@ -304,7 +304,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
         if (fallbackData[planet]) {
           const fallback = fallbackData[planet];
           positions[planet] = {
-            sign: (fallback.sign || 'aries') as ZodiacSign,
+            sign: (fallback.sign || 'aries') as any,
             degree: fallback.degree || 0,
             exactLongitude: fallback.exactLongitude || 0,
             isRetrograde: fallback.isRetrograde || false,
@@ -350,7 +350,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
 
     for (const [planet, data] of Object.entries(fallbackData)) {
       convertedPositions[planet] = {
-        sign: (data.sign || 'aries') as ZodiacSign,
+        sign: (data.sign || 'aries') as any,
         degree: data.degree || 0,
         exactLongitude: data.exactLongitude || 0,
         isRetrograde: data.isRetrograde || false,
@@ -382,7 +382,7 @@ export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
   const { sign, degree } = getSignFromLongitude(nodeLongitude);
 
   return {
-    sign: (sign.toLowerCase() || 'aries') as ZodiacSign,
+    sign: (sign.toLowerCase() || 'aries') as any,
     degree,
     exactLongitude: nodeLongitude,
     isRetrograde: true, // Lunar nodes are always retrograde

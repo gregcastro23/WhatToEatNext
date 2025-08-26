@@ -430,7 +430,7 @@ export class LintingQualityGates {
   private calculateQualityScore(metrics: LintingMetrics): number {
     // Quality score based on error count, warning count, and performance
     const errorPenalty = Math.min(50, metrics.errors * 2);
-    const warningPenalty = Math.min(30, metrics.warnings * 0.1);
+    const warningPenalty = Math.min(30, ((metrics as any)?.warnings || 0) * 0.2);
     const performancePenalty = Math.min(20, metrics.performanceMetrics.executionTime / 3000);
 
     return Math.max(0, 100 - errorPenalty - warningPenalty - performancePenalty);

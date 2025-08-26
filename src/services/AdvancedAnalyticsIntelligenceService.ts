@@ -57,7 +57,7 @@ const calculateAstrologicalAlignment = (
   // Check zodiac compatibility with recipe's astrological timing
   if (recipe.astrologicalTiming?.zodiacCompatibility) {
     const zodiacCompatibility =
-      recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as ZodiacSign];
+      recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as any];
     if (zodiacCompatibility) {
       alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
     }
@@ -73,7 +73,7 @@ const calculateAstrologicalAlignment = (
 
   // Check if any ingredients have zodiac influences matching the current zodiac
   const zodiacIngredientBonus = recipe.ingredients.reduce((bonus, ingredient) => {
-    if (ingredient.zodiacInfluences?.includes(zodiacSign as ZodiacSign)) {
+    if (ingredient.zodiacInfluences?.includes(zodiacSign as any)) {
       return bonus + 0.02; // 2% per matching ingredient
     }
     return bonus;
@@ -491,7 +491,7 @@ export class AdvancedAnalyticsIntelligenceService {
       astrologicalContext.elementalProperties,
     );
 
-    const recipeData = recipe as Record<string, unknown>;
+    const recipeData = recipe as any;
     const seasonalDimension = calculateSeasonalOptimization(
       String(recipeData.seasonality || 'all'),
       getCurrentSeason(),
@@ -931,7 +931,7 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   private calculateTechniqueComplexity(recipe: Recipe): number {
-    const recipeData = recipe as Record<string, unknown>;
+    const recipeData = recipe as any;
     const cookingMethods =
       (recipeData.cookingMethod as string[] | undefined) ||
       (recipeData.cookingMethods as string[] | undefined) ||
@@ -1190,7 +1190,7 @@ export class AdvancedAnalyticsIntelligenceService {
     // Calculate diversity based on ingredient categories and types
     const uniqueTypes = new Set(
       ingredients.map(ing => {
-        const ingData = ing as Record<string, unknown>;
+        const ingData = ing as any;
         return (ingData.category as string) || (ingData.type as string) || 'unknown';
       }),
     ).size;

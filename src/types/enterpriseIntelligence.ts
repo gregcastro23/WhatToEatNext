@@ -256,7 +256,7 @@ export interface EnterpriseIntelligenceInput {
     characteristics: string[];
   };
   context: {
-    zodiacSign: ZodiacSign;
+    zodiacSign: any;
     lunarPhase: string;
     season: string;
     userPreferences?: {

@@ -117,7 +117,7 @@ export const validateObject = (
   }
 
   if (requiredFields) {
-    const obj = value as Record<string, unknown>;
+    const obj = value as any;
     for (const field of requiredFields) {
       if (!(field in obj)) {
         result.isValid = false;
@@ -143,7 +143,7 @@ export const validateElementalProperties = (value: unknown): ValidationResult =>
     return objectResult;
   }
 
-  const obj = value as Record<string, unknown>;
+  const obj = value as any;
   const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
   for (const element of elements) {
@@ -180,7 +180,7 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {
     return objectResult;
   }
 
-  const obj = value as Record<string, unknown>;
+  const obj = value as any;
 
   // Validate sign
   const signResult = validateString(obj.sign, 'sign');
@@ -226,7 +226,7 @@ export const validateCookingMethod = (value: unknown): ValidationResult => {
     return objectResult;
   }
 
-  const obj = value as Record<string, unknown>;
+  const obj = value as any;
 
   // Validate id
   const idResult = validateString(obj.id, 'id');
@@ -259,7 +259,7 @@ export const validateIngredient = (value: unknown): ValidationResult => {
     return objectResult;
   }
 
-  const obj = value as Record<string, unknown>;
+  const obj = value as any;
 
   // Validate id
   const idResult = validateString(obj.id, 'id');
@@ -333,7 +333,7 @@ export const safeConvertToElementalProperties = (
 export const safeConvertToPlanetPosition = (
   value: unknown,
   fallback: PlanetPosition = {
-    sign: 'aries' as ZodiacSign,
+    sign: 'aries' as any,
     degree: 0,
     exactLongitude: 0,
     isRetrograde: false,
@@ -365,7 +365,7 @@ export const validatePlanetaryPositions = (positions: unknown): ValidationResult
     return objectResult;
   }
 
-  const obj = positions as Record<string, unknown>;
+  const obj = positions as any;
   const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
 
   for (const planet of requiredPlanets) {

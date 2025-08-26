@@ -81,7 +81,7 @@ class InitializationService {
       const elementalPreference = this.convertToElementalProperties(celestialData);
 
       // Update the state with the elemental preference - safe method access
-      const managerObj = manager as unknown as unknown;
+      const managerObj = manager as any;
       if (typeof managerObj.updateState === 'function') {
         await managerObj.updateState({
           elementalPreference,
@@ -189,7 +189,7 @@ class InitializationService {
       const alignment = celestialCalculator.calculateCurrentInfluences();
 
       // Convert CelestialAlignment to CelestialData format with safe property access
-      const alignmentData = alignment as unknown as unknown;
+      const alignmentData = alignment as any;
       return {
         sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 },
         moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 },

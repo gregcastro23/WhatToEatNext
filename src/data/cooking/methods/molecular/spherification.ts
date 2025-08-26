@@ -45,8 +45,8 @@ export const spherification: CookingMethodData = {
     'preservation of volatile flavors',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['aquarius', 'gemini', 'pisces'] as ZodiacSign[],
-    unfavorableZodiac: ['taurus', 'virgo', 'capricorn'] as ZodiacSign[],
+    favorableZodiac: ['aquarius', 'gemini', 'pisces'] as any[],
+    unfavorableZodiac: ['taurus', 'virgo', 'capricorn'] as any[],
     dominantPlanets: ['Neptune', 'Uranus', 'Mercury'],
     lunarPhaseEffect: {
       full_moon: 1.4, // Enhanced spherification
@@ -163,7 +163,7 @@ export const spherification: CookingMethodData = {
     heat: 0.15, // Minimal heat involvement
     entropy: 0.4, // Moderate structural transformation
     reactivity: 0.65, // High chemical reactivity (ionic gelation)
-    gregsEnergy: 0.15 - 0.4 * 0.65, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.150 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

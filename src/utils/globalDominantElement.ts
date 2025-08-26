@@ -24,7 +24,7 @@ if (typeof globalThis.getElementalCharacteristics === 'undefined') {
 
 const ensureGlobalFn = (name: string, fn: (...args: unknown[]) => unknown) => {
   if (typeof globalThis[name as keyof typeof globalThis] === 'undefined') {
-    (globalThis as Record<string, unknown>)[name] = fn;
+    (globalThis as any)[name] = fn;
   }
 };
 

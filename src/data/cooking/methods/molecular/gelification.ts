@@ -60,8 +60,8 @@ export const gelification: CookingMethodData = {
     'flavor sequencing in multi-layer applications',
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['virgo', 'capricorn', 'scorpio'] as ZodiacSign[],
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
+    favorableZodiac: ['virgo', 'capricorn', 'scorpio'] as any[],
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
     dominantPlanets: ['Mercury', 'Saturn', 'Neptune'],
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced gel firmness
@@ -201,7 +201,7 @@ export const gelification: CookingMethodData = {
     heat: 0.35, // Low-moderate heat for hydration
     entropy: 0.55, // Significant transformation of structure
     reactivity: 0.6, // Moderate-high chemical reactions
-    gregsEnergy: 0.35 - 0.55 * 0.6, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -10.350 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

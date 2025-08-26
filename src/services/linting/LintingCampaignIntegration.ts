@@ -331,18 +331,18 @@ export class LintingCampaignIntegration {
       const report = {
         campaignId,
         name: config.name,
-        startTime: (activeCampaign as Record<string, unknown>)?.startTime,
+        startTime: (activeCampaign as any)?.startTime,
         endTime: new Date(),
-        baselineMetrics: (activeCampaign as Record<string, unknown>)?.baselineMetrics,
+        baselineMetrics: (activeCampaign as any)?.baselineMetrics,
         finalMetrics: currentReport.currentMetrics,
         totalImprovement: {
           errorReduction:
-            (activeCampaign as Record<string, unknown>)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
+            (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
           warningReduction:
-            (activeCampaign as Record<string, unknown>)?.baselineMetrics.warnings - currentReport.currentMetrics.warnings,
+            (activeCampaign as any)?.baselineMetrics.warnings - currentReport.currentMetrics.warnings,
           percentageImprovement: currentReport.improvement.percentageImprovement,
         },
-        phasesExecuted: (activeCampaign as Record<string, unknown>)?.phasesExecuted || [],
+        phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
         qualityGatesStatus: currentReport.qualityGates,
         recommendations:
           currentReport.improvement.percentageImprovement > 0
@@ -510,9 +510,9 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     try {
       const activeCampaign = this.getActiveCampaign();
-      if (activeCampaign && (activeCampaign as Record<string, unknown>)?.campaignId === campaignId) {
-        (activeCampaign as Record<string, unknown>)?.phasesExecuted = (activeCampaign as Record<string, unknown>)?.phasesExecuted || [];
-        (activeCampaign as Record<string, unknown>)?.phasesExecuted.push({
+      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {
+        (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || [];
+        (activeCampaign as any)?.phasesExecuted.push({
           phaseId,
           result,
           timestamp: new Date(),

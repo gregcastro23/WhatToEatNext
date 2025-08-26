@@ -26,7 +26,7 @@ export const getFruitsBySubCategory = (subCategory: string): Record<string, Ingr
   // ✅ Pattern MM-1: Safe type assertion for subcategory filtering
   return Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as Record<string, unknown>;
+      const fruitData = value as unknown as any;
       return String(fruitData.subCategory || '') === String(subCategory || '');
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -36,7 +36,7 @@ export const getSeasonalFruits = (season: string): Record<string, IngredientMapp
   // ✅ Pattern MM-1: Safe type assertion for seasonal filtering
   return Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as Record<string, unknown>;
+      const fruitData = value as unknown as any;
       const seasonData = fruitData.season;
       return Array.isArray(seasonData) && seasonData.includes(String(season || ''));
     })
@@ -47,8 +47,8 @@ export const getFruitsByPreparation = (method: string): Record<string, Ingredien
   // ✅ Pattern MM-1: Safe type assertion for preparation filtering
   return Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as Record<string, unknown>;
-      const preparationData = fruitData.preparation as Record<string, unknown>;
+      const fruitData = value as unknown as any;
+      const preparationData = fruitData.preparation as any;
       return preparationData && preparationData[String(method || '')];
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -58,7 +58,7 @@ export const findCompatibleFruits = (ingredientName: string): string[] => {
   // ✅ Pattern MM-1: Safe type assertion for fruit data access
   const fruit = fruits[String(ingredientName || '')];
   if (!fruit) return [];
-  const fruitData = fruit as unknown as Record<string, unknown>;
+  const fruitData = fruit as unknown as any;
   const affinitiesData = fruitData.affinities;
   return Array.isArray(affinitiesData) ? (affinitiesData as string[]) : [];
 };
@@ -89,8 +89,8 @@ export const getFruitsByRulingPlanet = (planet: string): Record<string, Ingredie
   // ✅ Pattern MM-1: Safe type assertion for astrological filtering
   return Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as Record<string, unknown>;
-      const astroProfile = fruitData.astrologicalProfile as Record<string, unknown>;
+      const fruitData = value as unknown as any;
+      const astroProfile = fruitData.astrologicalProfile as any;
       const rulingPlanets = astroProfile.rulingPlanets;
       return Array.isArray(rulingPlanets) && rulingPlanets.includes(String(planet || ''));
     })
@@ -103,15 +103,15 @@ export const getFruitsByElementalAffinity = (
   // ✅ Pattern MM-1: Safe type assertion for elemental affinity filtering
   return Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as Record<string, unknown>;
-      const astroProfile = fruitData.astrologicalProfile as Record<string, unknown>;
+      const fruitData = value as unknown as any;
+      const astroProfile = fruitData.astrologicalProfile as any;
       const affinity = astroProfile.elementalAffinity;
       if (!affinity) return false;
 
       if (typeof affinity === 'string') {
         return String(affinity || '') === String(element || '');
       } else {
-        const affinityData = affinity as Record<string, unknown>;
+        const affinityData = affinity as any;
         return String(affinityData.base || '') === String(element || '');
       }
     })
@@ -127,7 +127,7 @@ export const isValidFruitAstrologicalProfile = (
 
   const requiredProperties = ['rulingPlanets', 'favorableZodiac', 'elementalAffinity'];
 
-  const profileData = profile as unknown as Record<string, unknown>;
+  const profileData = profile as unknown as any;
   return requiredProperties.every(prop => prop in profileData);
 };
 
@@ -147,7 +147,7 @@ export const isValidFruit = (ingredient: unknown): ingredient is IngredientMappi
     'storage',
   ];
 
-  const ingredientData = ingredient as unknown as Record<string, unknown>;
+  const ingredientData = ingredient as unknown as any;
   return requiredProperties.every(prop => prop in ingredientData);
 };
 
@@ -1275,35 +1275,35 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       categorizationIntelligence: {
         // ✅ Pattern GG-6: Safe property access for harmony analysis
         categoryHarmony: Number(
-          (categorizationResults.categoryHarmony as Record<string, unknown>).overallHarmony || 0,
+          (categorizationResults.categoryHarmony as any).overallHarmony || 0,
         ),
         categoryOptimization: Object.keys(categorizationResults.categoryOptimization || {}).length,
       },
       seasonalIntelligence: {
         // ✅ Pattern GG-6: Safe property access for type harmony analysis
         seasonalHarmony: Number(
-          (seasonalResults.typeHarmony as Record<string, unknown>).overallHarmony || 0,
+          (seasonalResults.typeHarmony as any).overallHarmony || 0,
         ),
         seasonalOptimization: Object.keys(seasonalResults.typeOptimization || {}).length,
       },
       preparationIntelligence: {
         // ✅ Pattern GG-6: Safe property access for method harmony analysis
         preparationHarmony: Number(
-          (preparationResults.methodHarmony as Record<string, unknown>).overallHarmony || 0,
+          (preparationResults.methodHarmony as any).overallHarmony || 0,
         ),
         preparationOptimization: Object.keys(preparationResults.methodOptimization || {}).length,
       },
       compatibilityIntelligence: {
         // ✅ Pattern GG-6: Safe property access for compatibility harmony analysis
         compatibilityHarmony: Number(
-          (compatibilityResults.compatibilityHarmony as Record<string, unknown>).overallHarmony ||
+          (compatibilityResults.compatibilityHarmony as any).overallHarmony ||
             0,
         ),
         compatibilityOptimization: Array.isArray(
-          (compatibilityResults.compatibilityOptimization as Record<string, unknown>).suggestions,
+          (compatibilityResults.compatibilityOptimization as any).suggestions,
         )
           ? (
-              (compatibilityResults.compatibilityOptimization as Record<string, unknown>)
+              (compatibilityResults.compatibilityOptimization as any)
                 .suggestions as string[]
             ).length
           : 0,
@@ -1311,20 +1311,20 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       typeIntelligence: {
         // ✅ Pattern GG-6: Safe property access for type harmony analysis
         typeHarmony: Number(
-          (typeResults.typeHarmony as Record<string, unknown>).overallHarmony || 0,
+          (typeResults.typeHarmony as any).overallHarmony || 0,
         ),
         typeOptimization: Object.keys(typeResults.typeOptimization || {}).length,
       },
       astrologicalIntelligence: {
         // ✅ Pattern GG-6: Safe property access for astrological harmony analysis
         astrologicalHarmony: Number(
-          (astrologicalResults.astrologicalHarmony as Record<string, unknown>).overallHarmony || 0,
+          (astrologicalResults.astrologicalHarmony as any).overallHarmony || 0,
         ),
         astrologicalOptimization: Array.isArray(
-          (astrologicalResults.astrologicalOptimization as Record<string, unknown>).suggestions,
+          (astrologicalResults.astrologicalOptimization as any).suggestions,
         )
           ? (
-              (astrologicalResults.astrologicalOptimization as Record<string, unknown>)
+              (astrologicalResults.astrologicalOptimization as any)
                 .suggestions as string[]
             ).length
           : 0,
@@ -1332,13 +1332,13 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       validationIntelligence: {
         // ✅ Pattern GG-6: Safe property access for validation harmony analysis
         validationHarmony: Number(
-          (validationResults.validationHarmony as Record<string, unknown>).overallHarmony || 0,
+          (validationResults.validationHarmony as any).overallHarmony || 0,
         ),
         validationOptimization: Array.isArray(
-          (validationResults.validationOptimization as Record<string, unknown>).suggestions,
+          (validationResults.validationOptimization as any).suggestions,
         )
           ? (
-              (validationResults.validationOptimization as Record<string, unknown>)
+              (validationResults.validationOptimization as any)
                 .suggestions as string[]
             ).length
           : 0,
@@ -1351,23 +1351,23 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       // ✅ Pattern KK-9: Safe arithmetic operations for total harmony score calculation
       totalHarmonyScore:
         (Number(
-          (categorizationResults.categoryHarmony as Record<string, unknown>).overallHarmony || 0,
+          (categorizationResults.categoryHarmony as any).overallHarmony || 0,
         ) +
-          Number((seasonalResults.typeHarmony as Record<string, unknown>).overallHarmony || 0) +
+          Number((seasonalResults.typeHarmony as any).overallHarmony || 0) +
           Number(
-            (preparationResults.methodHarmony as Record<string, unknown>).overallHarmony || 0,
+            (preparationResults.methodHarmony as any).overallHarmony || 0,
           ) +
           Number(
-            (compatibilityResults.compatibilityHarmony as Record<string, unknown>).overallHarmony ||
+            (compatibilityResults.compatibilityHarmony as any).overallHarmony ||
               0,
           ) +
-          Number((typeResults.typeHarmony as Record<string, unknown>).overallHarmony || 0) +
+          Number((typeResults.typeHarmony as any).overallHarmony || 0) +
           Number(
-            (astrologicalResults.astrologicalHarmony as Record<string, unknown>).overallHarmony ||
+            (astrologicalResults.astrologicalHarmony as any).overallHarmony ||
               0,
           ) +
           Number(
-            (validationResults.validationHarmony as Record<string, unknown>).overallHarmony || 0,
+            (validationResults.validationHarmony as any).overallHarmony || 0,
           )) /
         7,
       integrationSuccess: 1.0,
@@ -1380,25 +1380,25 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       crossSystemHarmony: Number(demonstrationMetrics.totalHarmonyScore || 0),
       // ✅ Pattern GG-6: Safe property access for integration analysis
       categorizationIntegration: Number(
-        (categorizationResults.categoryHarmony as Record<string, unknown>).overallHarmony || 0,
+        (categorizationResults.categoryHarmony as any).overallHarmony || 0,
       ),
       seasonalIntegration: Number(
-        (seasonalResults.typeHarmony as Record<string, unknown>).overallHarmony || 0,
+        (seasonalResults.typeHarmony as any).overallHarmony || 0,
       ),
       preparationIntegration: Number(
-        (preparationResults.methodHarmony as Record<string, unknown>).overallHarmony || 0,
+        (preparationResults.methodHarmony as any).overallHarmony || 0,
       ),
       compatibilityIntegration: Number(
-        (compatibilityResults.compatibilityHarmony as Record<string, unknown>).overallHarmony || 0,
+        (compatibilityResults.compatibilityHarmony as any).overallHarmony || 0,
       ),
       typeIntegration: Number(
-        (typeResults.typeHarmony as Record<string, unknown>).overallHarmony || 0,
+        (typeResults.typeHarmony as any).overallHarmony || 0,
       ),
       astrologicalIntegration: Number(
-        (astrologicalResults.astrologicalHarmony as Record<string, unknown>).overallHarmony || 0,
+        (astrologicalResults.astrologicalHarmony as any).overallHarmony || 0,
       ),
       validationIntegration: Number(
-        (validationResults.validationHarmony as Record<string, unknown>).overallHarmony || 0,
+        (validationResults.validationHarmony as any).overallHarmony || 0,
       ),
       // ✅ Pattern KK-9: Safe arithmetic operations for synergy calculations
       systemSynergy:

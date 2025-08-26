@@ -44,7 +44,7 @@ export const molecularCookingMethods: Record<
       heat: 0.2,
       entropy: 0.4,
       reactivity: 0.8,
-      gregsEnergy: 0.2 - 0.4 * 0.8,
+      gregsEnergy: 0.2 - 0.4 * 0.2,
     },
   },
   gelification: {
@@ -71,7 +71,7 @@ export const molecularCookingMethods: Record<
       heat: 0.5,
       entropy: 0.3,
       reactivity: 0.6,
-      gregsEnergy: 0.5 - 0.3 * 0.6,
+      gregsEnergy: 0.5 - 0.3 * 0.2,
     },
   },
   emulsification: {
@@ -98,7 +98,7 @@ export const molecularCookingMethods: Record<
       heat: 0.3,
       entropy: 0.7,
       reactivity: 0.5,
-      gregsEnergy: 0.3 - 0.7 * 0.5,
+      gregsEnergy: 0.3 - 0.7 * 0.2,
     },
   },
   cryo_cooking: {
@@ -130,7 +130,7 @@ export const molecularCookingMethods: Record<
       heat: 0.1,
       entropy: 0.6,
       reactivity: 0.3,
-      gregsEnergy: 0.1 - 0.6 * 0.3,
+      gregsEnergy: 0.1 - 0.6 * 0.2,
     },
   },
 };
