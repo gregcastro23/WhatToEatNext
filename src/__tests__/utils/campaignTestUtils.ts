@@ -1,3 +1,5 @@
+type SafetyLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM';
+
 /**
  * Campaign Test Utilities
  *
@@ -6,19 +8,18 @@
  */
 
 import {
-  CampaignConfig,
-  CampaignPhase,
-  ProgressMetrics,
-  SafetyEvent,
-  SafetyEventType,
-  SafetyEventSeverity,
-  PhaseResult,
+    CampaignConfig,
+    CampaignPhase,
+    PhaseResult,
+    ProgressMetrics,
+    SafetyEvent,
+    SafetyEventSeverity,
+    SafetyEventType,
 } from '../../types/campaign';
 import {
-  MockCampaignController,
-  MockProgressTracker,
-  MockSafetyProtocol,
-  campaignTestIsolation as _campaignTestIsolation,
+    MockCampaignController,
+    MockProgressTracker,
+    MockSafetyProtocol
 } from '../mocks/CampaignSystemMocks';
 
 import { campaignTestController, CampaignTestController } from './CampaignTestController';
@@ -351,7 +352,7 @@ export async function withCampaignTestIsolation<T>(
  */
 export function validateCampaignMemoryUsage(context: CampaignTestContext): {
   isMemoryEfficient: boolean;
-  memoryStats: unknown;
+  memoryStats: any;
   recommendations: string[];
 } {
   const recommendations: string[] = [];

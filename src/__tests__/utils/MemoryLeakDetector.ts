@@ -43,7 +43,7 @@ export class MemoryLeakDetector {
             (window as { _eventListeners?: Record<string, unknown[]> })._eventListeners
           ) {
             const totalListeners = Object.values(
-              (window as { _eventListeners: Record<string, unknown[]> })._eventListeners,
+              ((window as unknown) as { _eventListeners: Record<string, unknown[]> })._eventListeners,
             ).reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0);
             return totalListeners > 50;
           }
@@ -212,11 +212,11 @@ export class MemoryLeakDetector {
           ._eventListeners
       ) {
         Object.keys(
-          (window as { _eventListeners: Record<string, ((event: Event) => void)[]> })
+          ((window as unknown) as { _eventListeners: Record<string, unknown[]> })
             ._eventListeners,
         ).forEach(eventType => {
           const listeners =
-            (window as { _eventListeners: Record<string, ((event: Event) => void)[]> })
+            ((window as unknown) as { _eventListeners: Record<string, unknown[]> })
               ._eventListeners[eventType] || [];
           listeners.forEach((listener: (event: Event) => void) => {
             try {
@@ -227,7 +227,7 @@ export class MemoryLeakDetector {
           });
         });
         (
-          window as { _eventListeners: Record<string, ((event: Event) => void)[]> }
+          (window as unknown) as { _eventListeners: Record<string, unknown[]> }
         )._eventListeners = {};
         fixed.push('Cleared excessive event listeners');
       }

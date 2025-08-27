@@ -6,21 +6,21 @@ import path from 'path';
  * Integration tests for build system repair functionality
  * Tests the actual build system repair CLI and functionality
  */
-describe('Build System Integration', () => {
-  const buildDir = '.next';
-  const _serverDir = path.join(buildDir, 'server');
+describe('Build System Integration': any, (: any) => {
+  const buildDir: any = '.next';
+  const _serverDir: any = path?.join(buildDir, 'server');
 
-  beforeAll(() => {
+  beforeAll((: any) => {
     // Ensure we have a clean test environment
-    if (process.env.NODE_ENV !== 'test') {
-      console.warn('Build system integration tests should run in test environment');
+    if (process?.env.NODE_ENV !== 'test') {
+      console?.warn('Build system integration tests should run in test environment');
     }
   });
 
-  describe('Build System Repair CLI', () => {
-    it('should validate existing build system', () => {
-      const output = execSync('node scripts/build-system-repair.cjs validate', {
-        encoding: 'utf8',
+  describe('Build System Repair CLI': any, (: any) => {
+    it('should validate existing build system': any, (: any) => {
+      const output: any = execSync('node scripts/build-system-repair?.cjs validate', {
+        encoding: 'utf8',;
         stdio: 'pipe',
       });
 
@@ -28,9 +28,9 @@ describe('Build System Integration', () => {
       expect(output).toMatch(/Build system is (valid|has issues)/);
     });
 
-    it('should check build system health', () => {
-      const output = execSync('node scripts/build-system-repair.cjs health', {
-        encoding: 'utf8',
+    it('should check build system health': any, (: any) => {
+      const output: any = execSync('node scripts/build-system-repair?.cjs health', {
+        encoding: 'utf8',;
         stdio: 'pipe',
       });
 
@@ -40,9 +40,9 @@ describe('Build System Integration', () => {
       expect(output).toContain('Build size:');
     });
 
-    it('should show help information', () => {
-      const output = execSync('node scripts/build-system-repair.cjs help', {
-        encoding: 'utf8',
+    it('should show help information': any, (: any) => {
+      const output: any = execSync('node scripts/build-system-repair?.cjs help', {
+        encoding: 'utf8',;
         stdio: 'pipe',
       });
 
@@ -54,18 +54,18 @@ describe('Build System Integration', () => {
     });
   });
 
-  describe('Build System Validation', () => {
-    it('should detect when build directory exists', () => {
-      if (fs.existsSync(buildDir)) {
-        const output = execSync('node scripts/build-system-repair.cjs validate', {
-          encoding: 'utf8',
+  describe('Build System Validation': any, (: any) => {
+    it('should detect when build directory exists': any, (: any) => {
+      if (fs?.existsSync(buildDir)) {
+        const output: any = execSync('node scripts/build-system-repair?.cjs validate', {
+          encoding: 'utf8',;
           stdio: 'pipe',
         });
 
         expect(output).toContain('Build system is valid');
       } else {
-        const output = execSync('node scripts/build-system-repair.cjs validate', {
-          encoding: 'utf8',
+        const output: any = execSync('node scripts/build-system-repair?.cjs validate', {
+          encoding: 'utf8',;
           stdio: 'pipe',
         });
 
@@ -73,9 +73,9 @@ describe('Build System Integration', () => {
       }
     });
 
-    it('should provide meaningful health metrics', () => {
-      const output = execSync('node scripts/build-system-repair.cjs health', {
-        encoding: 'utf8',
+    it('should provide meaningful health metrics': any, (: any) => {
+      const output: any = execSync('node scripts/build-system-repair?.cjs health', {
+        encoding: 'utf8',;
         stdio: 'pipe',
       });
 
@@ -90,11 +90,11 @@ describe('Build System Integration', () => {
     });
   });
 
-  describe('Build System Repair', () => {
-    it('should handle repair operations gracefully', () => {
+  describe('Build System Repair': any, (: any) => {
+    it('should handle repair operations gracefully': any, (: any) => {
       // This test runs repair but should not break existing build
-      const output = execSync('node scripts/build-system-repair.cjs quick', {
-        encoding: 'utf8',
+      const output: any = execSync('node scripts/build-system-repair?.cjs quick', {
+        encoding: 'utf8',;
         stdio: 'pipe',
       });
 
@@ -103,40 +103,40 @@ describe('Build System Integration', () => {
     });
   });
 
-  describe('Error Handling', () => {
-    it('should handle invalid commands gracefully', () => {
+  describe('Error Handling': any, (: any) => {
+    it('should handle invalid commands gracefully': any, (: any) => {
       try {
-        execSync('node scripts/build-system-repair.cjs invalid-command', {
+        execSync('node scripts/build-system-repair?.cjs invalid-command', {
           encoding: 'utf8',
           stdio: 'pipe',
         });
         fail('Should have thrown an error for invalid command');
-      } catch (error: unknown) {
-        const execError = error as { status: number; stdout: string };
-        expect(execError.status).toBe(1);
-        expect(execError.stdout).toContain('Invalid or missing command');
+      } catch (error: any) : any {
+        const execError: any = error as { status: number; stdou, t: string };
+        expect(execError?.status as any).toBe(1);
+        expect(execError?.stdout).toContain('Invalid or missing command');
       }
     });
 
-    it('should show help when no command provided', () => {
+    it('should show help when no command provided': any, (: any) => {
       try {
-        execSync('node scripts/build-system-repair.cjs', {
+        execSync('node scripts/build-system-repair?.cjs', {
           encoding: 'utf8',
           stdio: 'pipe',
         });
         fail('Should have thrown an error for missing command');
-      } catch (error: unknown) {
-        const execError = error as { status: number; stdout: string };
-        expect(execError.status).toBe(1);
-        expect(execError.stdout).toContain('Invalid or missing command');
+      } catch (error: any) : any {
+        const execError: any = error as { status: number; stdou, t: string };
+        expect(execError?.status as any).toBe(1);
+        expect(execError?.stdout).toContain('Invalid or missing command');
       }
     });
   });
 
-  describe('Package.json Scripts Integration', () => {
-    it('should have all build repair scripts defined', () => {
-      const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-      const scripts = packageJson.scripts;
+  describe('Package?.json Scripts Integration': any, (: any) => {
+    it('should have all build repair scripts defined': any, (: any) => {
+      const packageJson: any = JSON?.parse(fs?.readFileSync('package?.json', 'utf8'));
+      const scripts: any = packageJson?.scripts;
 
       expect(scripts['build:validate']).toBeDefined();
       expect(scripts['build:repair']).toBeDefined();
@@ -147,18 +147,18 @@ describe('Build System Integration', () => {
       expect(scripts['build:emergency']).toBeDefined();
     });
 
-    it('should be able to run build validation via yarn script', () => {
-      const output = execSync('yarn build:validate', {
-        encoding: 'utf8',
+    it('should be able to run build validation via yarn script': any, (: any) => {
+      const output: any = execSync('yarn build:validate', {
+        encoding: 'utf8',;
         stdio: 'pipe',
       });
 
       expect(output).toContain('Validating build system');
     });
 
-    it('should be able to run health check via yarn script', () => {
-      const output = execSync('yarn build:health', {
-        encoding: 'utf8',
+    it('should be able to run health check via yarn script': any, (: any) => {
+      const output: any = execSync('yarn build:health', {
+        encoding: 'utf8',;
         stdio: 'pipe',
       });
 

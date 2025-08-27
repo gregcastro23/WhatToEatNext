@@ -13,53 +13,52 @@ import { LintingProgressTracker } from '../LintingProgressTracker';
 import { LintingQualityGates } from '../LintingQualityGates';
 
 // Mock dependencies
-jest.mock('child_process');
-jest.mock('fs');
-jest.mock('@/utils/logger', () => ({
-  logger: {
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    debug: jest.fn(),
+jest?.mock('child_process');
+jest?.mock('fs');
+jest?.mock('@/utils/logger': any, (: any) => ({
+  logger: {, info: jest?.fn(),
+    warn: jest?.fn(),
+    error: jest?.fn(),
+    debug: jest?.fn(),
   },
 }));
 
-const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
-const mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
-const mockReadFileSync = readFileSync as jest.MockedFunction<typeof readFileSync>;
-const mockExistsSync = existsSync as jest.MockedFunction<typeof existsSync>;
+const mockExecSync: any = execSync as jest?.MockedFunction<typeof execSync>;
+const mockWriteFileSync: any = writeFileSync as jest?.MockedFunction<typeof writeFileSync>;
+const mockReadFileSync: any = readFileSync as jest?.MockedFunction<typeof readFileSync>;
+const mockExistsSync: any = existsSync as jest?.MockedFunction<typeof existsSync>;
 
-describe('Linting Campaign System Integration', () => {
+describe('Linting Campaign System Integration': any, (: any) => {
   let progressTracker: LintingProgressTracker;
   let campaignIntegration: LintingCampaignIntegration;
   let qualityGates: LintingQualityGates;
 
-  beforeEach(() => {
+  beforeEach((: any) => {
     progressTracker = new LintingProgressTracker();
     campaignIntegration = new LintingCampaignIntegration();
     qualityGates = new LintingQualityGates();
-    jest.clearAllMocks();
+    jest?.clearAllMocks();
   });
 
-  describe('End-to-End Campaign Execution', () => {
-    test('should execute complete campaign workflow successfully', async () => {
+  describe('End-to-End Campaign Execution': any, (: any) => {
+    test('should execute complete campaign workflow successfully': any, async (: any) => {
       // Mock initial high error state
-      const initialLintOutput = JSON.stringify([
+      const initialLintOutput: any = JSON?.stringify([
         {
-          filePath: '/test/file1.ts',
+          filePath: '/test/file1?.ts',;
           messages: [
             { ruleId: 'no-unused-vars', severity: 2, fix: null },
-            { ruleId: 'no-console', severity: 2, fix: { range: [0, 10], text: '' } },
-            { ruleId: 'prefer-const', severity: 1, fix: { range: [0, 5], text: 'const' } },
+            { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },
+            { ruleId: 'prefer-const', severity: 1, fix: { rang, e: [0, 5], text: 'const' } },
           ],
         },
       ]);
 
       // Mock improved state after campaign
-      const improvedLintOutput = JSON.stringify([
+      const improvedLintOutput: any = JSON?.stringify([
         {
-          filePath: '/test/file1.ts',
-          messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }],
+          filePath: '/test/file1?.ts',;
+          messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }],
         },
       ]);
 
@@ -72,172 +71,170 @@ describe('Linting Campaign System Integration', () => {
         .mockReturnValueOnce('') // TypeScript check
         .mockReturnValueOnce(improvedLintOutput); // Quality gates
 
-      mockExistsSync.mockReturnValue(false); // No previous metrics
+      mockExistsSync?.mockReturnValue(false); // No previous metrics
 
       // Create standard campaign
-      const campaigns = campaignIntegration.createStandardCampaigns();
-      const campaign = campaigns[0];
+      const campaigns: any = campaignIntegration?.createStandardCampaigns();
+      const campaign: any = campaigns?.[0];
 
       // Execute campaign
-      await campaignIntegration.startCampaign(campaign);
+      await campaignIntegration?.startCampaign(campaign);
 
       // Verify campaign execution
-      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('yarn lint'), expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith(expect?.stringContaining('yarn lint'), expect?.any(Object));
 
       // Verify metrics were collected
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('linting-metrics.json'),
-        expect.any(String),
+        expect?.stringContaining('linting-metrics?.json'),
+        expect?.any(String),
       );
 
       // Verify campaign progress was saved
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('active-linting-campaign.json'),
-        expect.any(String),
+        expect?.stringContaining('active-linting-campaign?.json'),
+        expect?.any(String),
       );
     });
 
-    test('should handle campaign phase failures gracefully', async () => {
-      const mockError = new Error('Tool execution failed');
-      mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('lint:fix')) {
+    test('should handle campaign phase failures gracefully': any, async (: any) => {
+      const mockError: any = new Error('Tool execution failed');
+      mockExecSync?.mockImplementation(command => {
+        if (command?.toString().includes('lint:fix')) {;
           throw mockError;
         }
-        return JSON.stringify([]);
+        return JSON?.stringify([]);
       });
 
-      const campaigns = campaignIntegration.createStandardCampaigns();
-      const campaign = campaigns[0];
+      const campaigns: any = campaignIntegration?.createStandardCampaigns();
+      const campaign: any = campaigns?.[0];
 
       // Campaign should complete despite tool failures
-      await expect(campaignIntegration.startCampaign(campaign)).resolves.not.toThrow();
+      await expect(campaignIntegration?.startCampaign(campaign)).resolves?.not.toThrow();
 
       // Verify error handling
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('active-linting-campaign.json'),
-        expect.stringContaining('issues'),
+        expect?.stringContaining('active-linting-campaign?.json'),
+        expect?.stringContaining('issues'),
       );
     });
   });
 
-  describe('Quality Gates Integration', () => {
-    test('should integrate quality gates with campaign progress', async () => {
+  describe('Quality Gates Integration': any, (: any) => {
+    test('should integrate quality gates with campaign progress': any, async (: any) => {
       // Mock metrics for quality gate evaluation
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput: any = JSON?.stringify([
         {
-          filePath: '/test/file.ts',
-          messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }],
+          filePath: '/test/file?.ts',;
+          messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockLintOutput);
-      mockExistsSync.mockReturnValue(false);
+      mockExecSync?.mockReturnValue(mockLintOutput);
+      mockExistsSync?.mockReturnValue(false);
 
       // Evaluate quality gates
-      const gateResult = await qualityGates.evaluateQualityGates();
+      const gateResult: any = await qualityGates?.evaluateQualityGates();
 
       // Verify quality gate evaluation
-      expect(gateResult.passed).toBe(true);
-      expect(gateResult.deploymentApproved).toBe(true);
-      expect(gateResult.riskLevel).toBe('low');
-      expect(gateResult.metrics.totalIssues).toBe(1);
-      expect(gateResult.metrics.errors).toBe(0);
-      expect(gateResult.metrics.warnings).toBe(1);
+      expect(gateResult?.passed as any).toBe(true);
+      expect(gateResult?.deploymentApproved as any).toBe(true);
+      expect(gateResult?.riskLevel as any).toBe('low');
+      expect(gateResult?.metrics.totalIssues as any).toBe(1);
+      expect(gateResult?.metrics.errors as any).toBe(0);
+      expect(gateResult?.metrics.warnings as any).toBe(1);
     });
 
-    test('should fail quality gates with high error count', async () => {
+    test('should fail quality gates with high error count': any, async (: any) => {
       // Mock high error state
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput: any = JSON?.stringify([
         {
-          filePath: '/test/file.ts',
-          messages: Array.from({ length: 50 }, (_, i) => ({
+          filePath: '/test/file?.ts',
+          messages: Array?.from({ lengt, h: 50 }, (_, i) => ({
             ruleId: 'no-unused-vars',
-            severity: 2,
+            severity: 2,;
             fix: null,
           })),
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockLintOutput);
-      mockExistsSync.mockReturnValue(false);
+      mockExecSync?.mockReturnValue(mockLintOutput);
+      mockExistsSync?.mockReturnValue(false);
 
-      const gateResult = await qualityGates.evaluateQualityGates();
+      const gateResult: any = await qualityGates?.evaluateQualityGates();
 
-      expect(gateResult.passed).toBe(false);
-      expect(gateResult.deploymentApproved).toBe(false);
-      expect(gateResult.riskLevel).toBe('high');
-      expect(gateResult.violations.length).toBeGreaterThan(0);
+      expect(gateResult?.passed as any).toBe(false);
+      expect(gateResult?.deploymentApproved as any).toBe(false);
+      expect(gateResult?.riskLevel as any).toBe('high');
+      expect(gateResult?.violations.length).toBeGreaterThan(0);
     });
 
-    test('should assess deployment readiness correctly', async () => {
+    test('should assess deployment readiness correctly': any, async (: any) => {
       // Mock clean state
-      const mockLintOutput = JSON.stringify([]);
+      const mockLintOutput: any = JSON?.stringify([]);
 
-      mockExecSync.mockReturnValue(mockLintOutput);
-      mockExistsSync.mockReturnValue(false);
+      mockExecSync?.mockReturnValue(mockLintOutput);
+      mockExistsSync?.mockReturnValue(false);
 
-      const readiness = await qualityGates.assessDeploymentReadiness();
+      const readiness: any = await qualityGates?.assessDeploymentReadiness();
 
-      expect(readiness.ready).toBe(true);
-      expect(readiness.confidence).toBeGreaterThan(80);
-      expect(readiness.qualityScore).toBeGreaterThan(90);
-      expect(readiness.blockers).toHaveLength(0);
-      expect(readiness.riskAssessment.level).toBe('low');
+      expect(readiness?.ready as any).toBe(true);
+      expect(readiness?.confidence).toBeGreaterThan(80);
+      expect(readiness?.qualityScore).toBeGreaterThan(90);
+      expect(readiness?.blockers).toHaveLength(0);
+      expect(readiness?.riskAssessment.level as any).toBe('low');
     });
   });
 
-  describe('Progress Tracking Integration', () => {
-    test('should track progress across multiple campaign phases', async () => {
+  describe('Progress Tracking Integration': any, (: any) => {
+    test('should track progress across multiple campaign phases': any, async (: any) => {
       // Mock progressive improvement
-      const phase1Output = JSON.stringify([
+      const phase1Output: any = JSON?.stringify([
         {
-          filePath: '/test/file.ts',
-          messages: Array.from({ length: 10 }, () => ({ ruleId: 'error', severity: 2, fix: null })),
+          filePath: '/test/file?.ts',;
+          messages: Array?.from({ lengt, h: 10 }, () => ({ ruleId: 'error', severity: 2, fix: null })),
         },
       ]);
 
-      const phase2Output = JSON.stringify([
+      const phase2Output: any = JSON?.stringify([
         {
-          filePath: '/test/file.ts',
-          messages: Array.from({ length: 5 }, () => ({ ruleId: 'error', severity: 2, fix: null })),
+          filePath: '/test/file?.ts',;
+          messages: Array?.from({ lengt, h: 5 }, () => ({ ruleId: 'error', severity: 2, fix: null })),
         },
       ]);
 
-      const phase3Output = JSON.stringify([
+      const phase3Output: any = JSON?.stringify([
         {
-          filePath: '/test/file.ts',
-          messages: Array.from({ length: 2 }, () => ({ ruleId: 'warning', severity: 1, fix: null })),
+          filePath: '/test/file?.ts',;
+          messages: Array?.from({ lengt, h: 2 }, () => ({ ruleId: 'warning', severity: 1, fix: null })),
         },
       ]);
 
       mockExecSync
-        .mockReturnValueOnce(phase1Output)
-        .mockReturnValueOnce(phase2Output)
-        .mockReturnValueOnce(phase3Output);
+        .mockReturnValueOnce(phase1Output).mockReturnValueOnce(phase2Output).mockReturnValueOnce(phase3Output);
 
-      mockExistsSync.mockReturnValue(false);
+      mockExistsSync?.mockReturnValue(false);
 
       // Collect metrics at different phases
-      const phase1Metrics = await progressTracker.collectMetrics();
-      const phase2Metrics = await progressTracker.collectMetrics();
-      const phase3Metrics = await progressTracker.collectMetrics();
+      const phase1Metrics: any = await progressTracker?.collectMetrics();
+      const phase2Metrics: any = await progressTracker?.collectMetrics();
+      const phase3Metrics: any = await progressTracker?.collectMetrics();
 
       // Verify progressive improvement
-      expect(phase1Metrics.errors).toBe(10);
-      expect(phase2Metrics.errors).toBe(5);
-      expect(phase3Metrics.errors).toBe(0);
-      expect(phase3Metrics.warnings).toBe(2);
+      expect(phase1Metrics?.errors as any).toBe(10);
+      expect(phase2Metrics?.errors as any).toBe(5);
+      expect(phase3Metrics?.errors as any).toBe(0);
+      expect(phase3Metrics?.warnings as any).toBe(2);
 
       // Verify metrics were saved
       expect(mockWriteFileSync).toHaveBeenCalledTimes(6); // 3 metrics + 3 history saves
     });
 
-    test('should generate comprehensive progress reports', async () => {
-      const currentOutput = JSON.stringify([
-        { filePath: '/test/file.ts', messages: [{ ruleId: 'warning', severity: 1, fix: null }] },
+    test('should generate comprehensive progress reports': any, async (: any) => {
+      const currentOutput: any = JSON?.stringify([
+        { filePath: '/test/file?.ts', messages: [{ ruleI, d: 'warning', severity: 1, fix: null }] },
       ]);
 
-      const previousMetrics = {
+      const previousMetrics: any = {
         timestamp: new Date(),
         totalIssues: 10,
         errors: 5,
@@ -245,56 +242,56 @@ describe('Linting Campaign System Integration', () => {
         errorsByCategory: { 'no-unused-vars': 5 },
         warningsByCategory: { 'prefer-const': 5 },
         filesCovered: 10,
-        fixableIssues: 8,
-        performanceMetrics: { executionTime: 5000, memoryUsage: 256, cacheHitRate: 0.8 },
+        fixableIssues: 8,;
+        performanceMetrics: { executionTim, e: 5000, memoryUsage: 256, cacheHitRate: 0?.8 },
       };
 
-      mockExecSync.mockReturnValue(currentOutput);
-      mockExistsSync.mockReturnValue(true);
-      mockReadFileSync.mockReturnValue(JSON.stringify(previousMetrics));
+      mockExecSync?.mockReturnValue(currentOutput);
+      mockExistsSync?.mockReturnValue(true);
+      mockReadFileSync?.mockReturnValue(JSON?.stringify(previousMetrics));
 
-      const report = await progressTracker.generateProgressReport();
+      const report: any = await progressTracker?.generateProgressReport();
 
-      expect(report.improvement.totalIssuesReduced).toBe(9);
-      expect(report.improvement.errorsReduced).toBe(5);
-      expect(report.improvement.warningsReduced).toBe(4);
-      expect(report.improvement.percentageImprovement).toBe(90);
-      expect(report.qualityGates.zeroErrors).toBe(true);
+      expect(report?.improvement.totalIssuesReduced as any).toBe(9);
+      expect(report?.improvement.errorsReduced as any).toBe(5);
+      expect(report?.improvement.warningsReduced as any).toBe(4);
+      expect(report?.improvement.percentageImprovement as any).toBe(90);
+      expect(report?.qualityGates.zeroErrors as any).toBe(true);
     });
   });
 
-  describe('Campaign Configuration', () => {
-    test('should create standard campaign configurations', () => {
-      const campaigns = campaignIntegration.createStandardCampaigns();
+  describe('Campaign Configuration': any, (: any) => {
+    test('should create standard campaign configurations': any, (: any) => {
+      const campaigns: any = campaignIntegration?.createStandardCampaigns();
 
       expect(campaigns).toHaveLength(1);
 
-      const standardCampaign = campaigns[0];
-      expect(standardCampaign.campaignId).toBe('linting-excellence-standard');
-      expect(standardCampaign.name).toBe('Standard Linting Excellence Campaign');
-      expect(standardCampaign.phases).toHaveLength(4);
-      expect(standardCampaign.targets.maxErrors).toBe(0);
-      expect(standardCampaign.targets.maxWarnings).toBe(100);
-      expect(standardCampaign.safetyProtocols).toContain('backup-before-changes');
+      const standardCampaign: any = campaigns?.[0];
+      expect(standardCampaign?.campaignId as any).toBe('linting-excellence-standard');
+      expect(standardCampaign?.name as any).toBe('Standard Linting Excellence Campaign');
+      expect(standardCampaign?.phases).toHaveLength(4);
+      expect(standardCampaign?.targets.maxErrors as any).toBe(0);
+      expect(standardCampaign?.targets.maxWarnings as any).toBe(100);
+      expect(standardCampaign?.safetyProtocols).toContain('backup-before-changes');
     });
 
-    test('should validate campaign phase configurations', () => {
-      const campaigns = campaignIntegration.createStandardCampaigns();
-      const campaign = campaigns[0];
+    test('should validate campaign phase configurations': any, (: any) => {
+      const campaigns: any = campaignIntegration?.createStandardCampaigns();
+      const campaign: any = campaigns?.[0];
 
       // Verify phase structure
-      campaign.phases.forEach(phase => {
-        expect(phase.id).toBeDefined();
-        expect(phase.name).toBeDefined();
-        expect(phase.description).toBeDefined();
-        expect(phase.tools).toBeInstanceOf(Array);
-        expect(phase.tools.length).toBeGreaterThan(0);
-        expect(phase.successCriteria).toBeDefined();
-        expect(phase.estimatedDuration).toBeGreaterThan(0);
+      campaign?.phases.forEach(phase => {;
+        expect(phase?.id).toBeDefined();
+        expect(phase?.name).toBeDefined();
+        expect(phase?.description).toBeDefined();
+        expect(phase?.tools).toBeInstanceOf(Array);
+        expect(phase?.tools.length).toBeGreaterThan(0);
+        expect(phase?.successCriteria).toBeDefined();
+        expect(phase?.estimatedDuration).toBeGreaterThan(0);
       });
 
       // Verify tool availability
-      const allTools = campaign.phases.flatMap(phase => phase.tools);
+      const allTools: any = campaign?.phases.flatMap(phase => phase?.tools);
       const expectedTools = [
         'eslint-fix',
         'unused-imports',
@@ -303,118 +300,115 @@ describe('Linting Campaign System Integration', () => {
         'console-cleanup',
       ];
 
-      expectedTools.forEach(tool => {
+      expectedTools?.forEach(tool => {;
         expect(allTools).toContain(tool);
       });
     });
   });
 
-  describe('Error Handling and Recovery', () => {
-    test('should handle ESLint execution failures gracefully', async () => {
-      const mockError = new Error('ESLint failed') as unknown;
-      mockError.stdout = JSON.stringify([]);
+  describe('Error Handling and Recovery': any, (: any) => {
+    test('should handle ESLint execution failures gracefully': any, async (: any) => {
+      const mockError: any = new Error('ESLint failed') as unknown;
+      mockError?.stdout = JSON?.stringify([]);
 
-      mockExecSync.mockImplementation(() => {
+      mockExecSync?.mockImplementation((: any) => {
         throw mockError;
       });
 
       // Should not throw, but return empty metrics
-      const metrics = await progressTracker.collectMetrics();
+      const metrics: any = await progressTracker?.collectMetrics();
 
-      expect(metrics.totalIssues).toBe(0);
-      expect(metrics.errors).toBe(0);
-      expect(metrics.warnings).toBe(0);
+      expect(metrics?.totalIssues as any).toBe(0);
+      expect(metrics?.errors as any).toBe(0);
+      expect(metrics?.warnings as any).toBe(0);
     });
 
-    test('should handle missing configuration files', async () => {
-      mockExistsSync.mockReturnValue(false);
-      mockReadFileSync.mockImplementation(() => {
+    test('should handle missing configuration files': any, async (: any) => {
+      mockExistsSync?.mockReturnValue(false);
+      mockReadFileSync?.mockImplementation((: any) => {
         throw new Error('File not found');
       });
 
       // Should handle missing files gracefully
-      const report = await progressTracker.generateProgressReport();
+      const report: any = await progressTracker?.generateProgressReport();
 
-      expect(report.previousMetrics).toBeUndefined();
-      expect(report.improvement.percentageImprovement).toBe(0);
+      expect(report?.previousMetrics).toBeUndefined();
+      expect(report?.improvement.percentageImprovement as any).toBe(0);
     });
 
-    test('should validate quality gate configurations', async () => {
-      const mockLintOutput = JSON.stringify([]);
-      mockExecSync.mockReturnValue(mockLintOutput);
-      mockExistsSync.mockReturnValue(false);
+    test('should validate quality gate configurations': any, async (: any) => {
+      const mockLintOutput: any = JSON?.stringify([]);
+      mockExecSync?.mockReturnValue(mockLintOutput);
+      mockExistsSync?.mockReturnValue(false);
 
       // Test with custom configuration
       const customConfig = {
         name: 'Custom Gate',
         description: 'Custom quality gate',
-        thresholds: {
-          maxErrors: 5,
+        thresholds: {, maxErrors: 5,
           maxWarnings: 50,
           maxExecutionTime: 30000,
           minCacheHitRate: 80,
           maxMemoryUsage: 256,
         },
-        blockers: {
-          parserErrors: true,
+        blockers: {, parserErrors: true,
           typeScriptErrors: true,
           importErrors: false,
           securityIssues: true,
         },
-        exemptions: {
-          files: ['test/**/*.ts'],
+        exemptions: {, files: ['test/**/*.ts'],;
           rules: ['no-console'],
         },
       };
 
-      const result = await qualityGates.evaluateQualityGates(customConfig);
+      const result: any = await qualityGates?.evaluateQualityGates(customConfig);
 
-      expect(result.gateName).toBe('Custom Gate');
-      expect(result.passed).toBe(true);
+      expect(result?.gateName as any).toBe('Custom Gate');
+      expect(result?.passed as any).toBe(true);
     });
   });
 
-  describe('Performance and Scalability', () => {
-    test('should handle large codebases efficiently', async () => {
+  describe('Performance and Scalability': any, (: any) => {
+    test('should handle large codebases efficiently': any, async (: any) => {
       // Mock large codebase with many files
-      const largeOutput = JSON.stringify(
-        Array.from({ length: 100 }, (_, i) => ({
+      const largeOutput: any = JSON?.stringify(
+        Array?.from({ length: 100 }, (_, i) => ({
           filePath: `/test/file${i}.ts`,
-          messages: Array.from({ length: 5 }, () => ({
+          messages: Array?.from({ lengt, h: 5 }, () => ({
             ruleId: 'no-unused-vars',
-            severity: 1,
+            severity: 1,;
             fix: null,
           })),
         })),
       );
 
-      mockExecSync.mockReturnValue(largeOutput);
-      mockExistsSync.mockReturnValue(false);
+      mockExecSync?.mockReturnValue(largeOutput);
+      mockExistsSync?.mockReturnValue(false);
 
-      const startTime = Date.now();
-      const metrics = await progressTracker.collectMetrics();
-      const executionTime = Date.now() - startTime;
+      const startTime: any = Date?.now();
+      const metrics: any = await progressTracker?.collectMetrics();
+      const executionTime: any = Date?.now() - startTime;
 
-      expect(metrics.totalIssues).toBe(500);
-      expect(metrics.filesCovered).toBe(100);
+      expect(metrics?.totalIssues as any).toBe(500);
+      expect(metrics?.filesCovered as any).toBe(100);
       expect(executionTime).toBeLessThan(5000); // Should complete within 5 seconds
     });
 
-    test('should cache results appropriately', async () => {
-      const mockOutput = JSON.stringify([]);
-      mockExecSync.mockReturnValue(mockOutput);
-      mockExistsSync.mockReturnValue(false);
+    test('should cache results appropriately': any, async (: any) => {
+      const mockOutput: any = JSON?.stringify([]);
+      mockExecSync?.mockReturnValue(mockOutput);
+      mockExistsSync?.mockReturnValue(false);
 
       // First call
-      await progressTracker.collectMetrics();
+      await progressTracker?.collectMetrics();
 
       // Second call should use cached results if available
-      await progressTracker.collectMetrics();
+      await progressTracker?.collectMetrics();
 
       // Verify caching behavior through file system calls
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('linting-metrics.json'),
-        expect.any(String),
+        expect?.stringContaining('linting-metrics?.json'),
+        expect?.any(String),
       );
     });
   });

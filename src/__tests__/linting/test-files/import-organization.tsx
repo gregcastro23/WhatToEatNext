@@ -1,3 +1,9 @@
+import React from 'react';
+interface CustomComponentProps {
+  title?: string;
+  children?: React.ReactNode;
+}
+
 import { NextPage } from 'next';
 import { useState, useEffect, useMemo } from 'react';
 

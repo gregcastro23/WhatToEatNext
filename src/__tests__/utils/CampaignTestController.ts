@@ -518,14 +518,14 @@ export class CampaignTestController {
 
   private restoreOriginalState(originalState: unknown): void {
     // Restore environment variables
-    if (originalState.envVars) {
+    if ((originalState as any).envVars) {
       Object.keys(process.env).forEach(key => {
-        if (!(key in originalState.envVars)) {
+        if (!(key in (originalState as any).envVars)) {
           delete process.env[key];
         }
       });
 
-      Object.entries(originalState.envVars).forEach(([key, value]) => {
+      Object.entries((originalState as any).envVars).forEach(([key, value]) => {
         if (typeof value === 'string') {
           process.env[key] = value;
         }

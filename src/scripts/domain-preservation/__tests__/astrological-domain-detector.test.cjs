@@ -7,18 +7,18 @@
  * including planetary positions, elemental calculations, and astronomical computations.
  */
 
-const AstrologicalDomainDetector = require('../astrological-domain-detector.cjs');
+const AstrologicalDomainDetector = require('../astrological-domain-detector?.cjs');
 
-describe('AstrologicalDomainDetector', () => {
+describe('AstrologicalDomainDetector': any, (: any) => {
   let detector;
 
-  beforeEach(() => {
+  beforeEach((: any) => {
     detector = new AstrologicalDomainDetector();
   });
 
-  describe('Planetary Position Variables', () => {
-    test('should preserve planetary position variables', () => {
-      const testCases = [
+  describe('Planetary Position Variables': any, (: any) => {
+    test('should preserve planetary position variables': any, (: any) => {
+      const testCases: any = [
         'planet',
         'degree',
         'sign',
@@ -30,29 +30,29 @@ describe('AstrologicalDomainDetector', () => {
         'zodiacSign'
       ];
 
-      testCases.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/test.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.domain).toBe('astrological');
-        expect(result.confidence).toBeGreaterThan(0.8);
+      testCases?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/test?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.domain as any).toBe('astrological');
+        expect(result?.confidence).toBeGreaterThan(0?.8);
       });
     });
 
-    test('should preserve individual planet variables', () => {
-      const planets = [
+    test('should preserve individual planet variables': any, (: any) => {
+      const planets: any = [
         'sun', 'moon', 'mercury', 'venus', 'mars',
         'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'
       ];
 
-      planets.forEach(planet => {
-        const result = detector.detectAstrologicalDomain(planet, '/src/calculations/planetary.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('planets');
+      planets?.forEach(planet => {;
+        const result: any = detector?.detectAstrologicalDomain(planet, '/src/calculations/planetary?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('planets');
       });
     });
 
-    test('should preserve planet variables with suffixes', () => {
-      const planetVariables = [
+    test('should preserve planet variables with suffixes': any, (: any) => {
+      const planetVariables: any = [
         'sunPosition',
         'moonSign',
         'mercuryDegree',
@@ -60,30 +60,30 @@ describe('AstrologicalDomainDetector', () => {
         'marsInfo'
       ];
 
-      planetVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/test.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('planets');
+      planetVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/test?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('planets');
       });
     });
   });
 
-  describe('Zodiac Signs and Elements', () => {
-    test('should preserve zodiac sign variables', () => {
-      const zodiacSigns = [
+  describe('Zodiac Signs and Elements': any, (: any) => {
+    test('should preserve zodiac sign variables': any, (: any) => {
+      const zodiacSigns: any = [
         'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
         'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
       ];
 
-      zodiacSigns.forEach(sign => {
-        const result = detector.detectAstrologicalDomain(sign, '/src/calculations/zodiac.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('zodiacSigns');
+      zodiacSigns?.forEach(sign => {;
+        const result: any = detector?.detectAstrologicalDomain(sign, '/src/calculations/zodiac?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('zodiacSigns');
       });
     });
 
-    test('should preserve sign-related variables', () => {
-      const signVariables = [
+    test('should preserve sign-related variables': any, (: any) => {
+      const signVariables: any = [
         'zodiacSign',
         'signName',
         'signElement',
@@ -92,17 +92,17 @@ describe('AstrologicalDomainDetector', () => {
         'mutable'
       ];
 
-      signVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/signs.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('zodiacSigns');
+      signVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/signs?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('zodiacSigns');
       });
     });
   });
 
-  describe('Elemental System Variables', () => {
-    test('should preserve core elemental variables', () => {
-      const elementalVariables = [
+  describe('Elemental System Variables': any, (: any) => {
+    test('should preserve core elemental variables': any, (: any) => {
+      const elementalVariables: any = [
         'fire',
         'water',
         'earth',
@@ -113,16 +113,16 @@ describe('AstrologicalDomainDetector', () => {
         'airHarmony'
       ];
 
-      elementalVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/elemental.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('elementalSystem');
-        expect(result.reason).toContain('four-element calculations');
+      elementalVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/elemental?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('elementalSystem');
+        expect(result?.reason).toContain('four-element calculations');
       });
     });
 
-    test('should preserve elemental calculation variables', () => {
-      const calculationVariables = [
+    test('should preserve elemental calculation variables': any, (: any) => {
+      const calculationVariables: any = [
         'elementalEnergies',
         'elementalInfluence',
         'elementalCompatibility',
@@ -132,15 +132,15 @@ describe('AstrologicalDomainDetector', () => {
         'airEnergy'
       ];
 
-      calculationVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/elemental.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('elementalSystem');
+      calculationVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/elemental?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('elementalSystem');
       });
     });
 
-    test('should preserve elemental harmony variables', () => {
-      const harmonyVariables = [
+    test('should preserve elemental harmony variables': any, (: any) => {
+      const harmonyVariables: any = [
         'elementalHarmony',
         'elementCompatibility',
         'selfReinforcement',
@@ -148,17 +148,17 @@ describe('AstrologicalDomainDetector', () => {
         'harmonicResonance'
       ];
 
-      harmonyVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/harmony.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('elementalSystem');
+      harmonyVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/harmony?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('elementalSystem');
       });
     });
   });
 
-  describe('Astronomical Calculations', () => {
-    test('should preserve transit and aspect variables', () => {
-      const astronomicalVariables = [
+  describe('Astronomical Calculations': any, (: any) => {
+    test('should preserve transit and aspect variables': any, (: any) => {
+      const astronomicalVariables: any = [
         'transit',
         'retrograde',
         'conjunction',
@@ -169,15 +169,15 @@ describe('AstrologicalDomainDetector', () => {
         'orb'
       ];
 
-      astronomicalVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/aspects.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('astronomicalCalculations');
+      astronomicalVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/aspects?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('astronomicalCalculations');
       });
     });
 
-    test('should preserve lunar phase variables', () => {
-      const lunarVariables = [
+    test('should preserve lunar phase variables': any, (: any) => {
+      const lunarVariables: any = [
         'newMoon',
         'fullMoon',
         'lunarPhase',
@@ -185,17 +185,17 @@ describe('AstrologicalDomainDetector', () => {
         'eclipse'
       ];
 
-      lunarVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/calculations/lunar.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('astronomicalCalculations');
+      lunarVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/calculations/lunar?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('astronomicalCalculations');
       });
     });
   });
 
-  describe('Complex Astronomical Libraries', () => {
-    test('should preserve library-specific variables', () => {
-      const libraryVariables = [
+  describe('Complex Astronomical Libraries': any, (: any) => {
+    test('should preserve library-specific variables': any, (: any) => {
+      const libraryVariables: any = [
         'astronomia',
         'ephemeris',
         'meeus',
@@ -205,15 +205,15 @@ describe('AstrologicalDomainDetector', () => {
         'eccentricity'
       ];
 
-      libraryVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/lib/astronomia.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('astronomicalLibraries');
+      libraryVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/lib/astronomia?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('astronomicalLibraries');
       });
     });
 
-    test('should preserve coordinate system variables', () => {
-      const coordinateVariables = [
+    test('should preserve coordinate system variables': any, (: any) => {
+      const coordinateVariables: any = [
         'equatorial',
         'ecliptic',
         'galactic',
@@ -221,118 +221,118 @@ describe('AstrologicalDomainDetector', () => {
         'transformation'
       ];
 
-      coordinateVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/utils/coordinates.ts');
-        expect(result.shouldPreserve).toBe(true);
-        expect(result.category).toBe('astronomicalLibraries');
+      coordinateVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/utils/coordinates?.ts');
+        expect(result?.shouldPreserve as any).toBe(true);
+        expect(result?.category as any).toBe('astronomicalLibraries');
       });
     });
   });
 
-  describe('File-Specific Rules', () => {
-    test('should apply maximum preservation for critical astrological files', () => {
-      const criticalFiles = [
-        '/src/calculations/astronomical/planetary.ts',
-        '/src/calculations/elemental/harmony.ts',
-        '/src/utils/reliableAstronomy.ts',
-        '/src/utils/planetaryConsistencyCheck.ts'
+  describe('File-Specific Rules': any, (: any) => {
+    test('should apply maximum preservation for critical astrological files': any, (: any) => {
+      const criticalFiles: any = [
+        '/src/calculations/astronomical/planetary?.ts',
+        '/src/calculations/elemental/harmony?.ts',
+        '/src/utils/reliableAstronomy?.ts',
+        '/src/utils/planetaryConsistencyCheck?.ts'
       ];
 
-      criticalFiles.forEach(filePath => {
-        const rules = detector.getFileSpecificRules(filePath);
-        expect(rules.preservationLevel).toBe('maximum');
-        expect(rules.batchSize).toBeLessThanOrEqual(5);
-        expect(rules.requiresManualReview).toBe(true);
+      criticalFiles?.forEach(filePath => {;
+        const rules: any = detector?.getFileSpecificRules(filePath);
+        expect(rules?.preservationLevel as any).toBe('maximum');
+        expect(rules?.batchSize).toBeLessThanOrEqual(5);
+        expect(rules?.requiresManualReview as any).toBe(true);
       });
     });
 
-    test('should apply conservative patterns for complex library files', () => {
-      const libraryFiles = [
-        '/src/lib/astronomia/calculations.ts',
-        '/src/lib/astronomy-engine/ephemeris.ts',
-        '/src/utils/meeus/algorithms.ts'
+    test('should apply conservative patterns for complex library files': any, (: any) => {
+      const libraryFiles: any = [
+        '/src/lib/astronomia/calculations?.ts',
+        '/src/lib/astronomy-engine/ephemeris?.ts',
+        '/src/utils/meeus/algorithms?.ts'
       ];
 
-      libraryFiles.forEach(filePath => {
-        const rules = detector.getFileSpecificRules(filePath);
-        expect(rules.preservationLevel).toBe('maximum');
-        expect(rules.batchSize).toBeLessThanOrEqual(3);
-        expect(rules.specialInstructions).toContain(
-          expect.stringContaining('conservative elimination patterns')
+      libraryFiles?.forEach(filePath => {;
+        const rules: any = detector?.getFileSpecificRules(filePath);
+        expect(rules?.preservationLevel as any).toBe('maximum');
+        expect(rules?.batchSize).toBeLessThanOrEqual(3);
+        expect(rules?.specialInstructions).toContain(
+          expect?.stringContaining('conservative elimination patterns')
         );
       });
     });
 
-    test('should apply high preservation for elemental calculation files', () => {
-      const elementalFiles = [
-        '/src/calculations/elementalCalculations.ts',
-        '/src/utils/fourElementSystem.ts'
+    test('should apply high preservation for elemental calculation files': any, (: any) => {
+      const elementalFiles: any = [
+        '/src/calculations/elementalCalculations?.ts',
+        '/src/utils/fourElementSystem?.ts'
       ];
 
-      elementalFiles.forEach(filePath => {
-        const rules = detector.getFileSpecificRules(filePath);
-        expect(rules.preservationLevel).toBe('high');
-        expect(rules.specialInstructions).toContain(
-          expect.stringContaining('Fire, Water, Earth, Air variables')
+      elementalFiles?.forEach(filePath => {;
+        const rules: any = detector?.getFileSpecificRules(filePath);
+        expect(rules?.preservationLevel as any).toBe('high');
+        expect(rules?.specialInstructions).toContain(
+          expect?.stringContaining('Fire, Water, Earth, Air variables')
         );
       });
     });
   });
 
-  describe('Context-Aware Detection', () => {
-    test('should detect variables in astrological context', () => {
-      const fileContent = `
-        function calculatePlanetaryInfluence(planetaryPositions) {
-          const mercury = planetaryPositions.mercury;
-          const degree = mercury.degree;
-          const sign = mercury.sign;
+  describe('Context-Aware Detection': any, (: any) => {
+    test('should detect variables in astrological context': any, (: any) => {
+      const fileContent: any = `
+        function calculatePlanetaryInfluence(planetaryPositions: any) : any {;
+          const mercury: any = planetaryPositions?.mercury;
+          const degree: any = mercury?.degree;
+          const sign: any = mercury?.sign;
           return { degree, sign };
         }
       `;
 
-      const result = detector.detectAstrologicalDomain(
+      const result: any = detector?.detectAstrologicalDomain(
         'mercury',
-        '/src/calculations/planetary.ts',
+        '/src/calculations/planetary?.ts',;
         fileContent
       );
 
-      expect(result.shouldPreserve).toBe(true);
-      expect(result.matchType).toBe('variable-name');
+      expect(result?.shouldPreserve as any).toBe(true);
+      expect(result?.matchType as any).toBe('variable-name');
     });
 
-    test('should use file context for borderline cases', () => {
-      const fileContent = `
+    test('should use file context for borderline cases': any, (: any) => {
+      const fileContent: any = `
         // Elemental calculation with fire and water elements
-        function calculateElementalBalance() {
-          const fireValue = 0.8;
-          const waterValue = 0.6;
-          const balance = fireValue + waterValue;
+        function calculateElementalBalance() : any {;
+          const fireValue: any = 0?.8;
+          const waterValue: any = 0?.6;
+          const balance: any = fireValue + waterValue;
           return balance;
         }
       `;
 
-      const result = detector.detectAstrologicalDomain(
+      const result: any = detector?.detectAstrologicalDomain(
         'balance',
-        '/src/calculations/elemental.ts',
+        '/src/calculations/elemental?.ts',;
         fileContent
       );
 
       // Should preserve due to elemental context in file
-      expect(result.shouldPreserve).toBe(false); // balance alone is not astrological
+      expect(result?.shouldPreserve as any).toBe(false); // balance alone is not astrological
 
       // But fireValue and waterValue should be preserved
-      const fireResult = detector.detectAstrologicalDomain(
+      const fireResult: any = detector?.detectAstrologicalDomain(
         'fireValue',
-        '/src/calculations/elemental.ts',
+        '/src/calculations/elemental?.ts',;
         fileContent
       );
-      expect(fireResult.shouldPreserve).toBe(true);
+      expect(fireResult?.shouldPreserve as any).toBe(true);
     });
   });
 
-  describe('Non-Astrological Variables', () => {
-    test('should not preserve generic variables', () => {
-      const genericVariables = [
+  describe('Non-Astrological Variables': any, (: any) => {
+    test('should not preserve generic variables': any, (: any) => {
+      const genericVariables: any = [
         'data',
         'result',
         'value',
@@ -343,15 +343,15 @@ describe('AstrologicalDomainDetector', () => {
         'buffer'
       ];
 
-      genericVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/utils/generic.ts');
-        expect(result.shouldPreserve).toBe(false);
-        expect(result.domain).toBe('generic');
+      genericVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/utils/generic?.ts');
+        expect(result?.shouldPreserve as any).toBe(false);
+        expect(result?.domain as any).toBe('generic');
       });
     });
 
-    test('should not preserve business logic variables in non-astrological files', () => {
-      const businessVariables = [
+    test('should not preserve business logic variables in non-astrological files': any, (: any) => {
+      const businessVariables: any = [
         'user',
         'order',
         'payment',
@@ -359,42 +359,42 @@ describe('AstrologicalDomainDetector', () => {
         'inventory'
       ];
 
-      businessVariables.forEach(variableName => {
-        const result = detector.detectAstrologicalDomain(variableName, '/src/services/commerce.ts');
-        expect(result.shouldPreserve).toBe(false);
+      businessVariables?.forEach(variableName => {;
+        const result: any = detector?.detectAstrologicalDomain(variableName, '/src/services/commerce?.ts');
+        expect(result?.shouldPreserve as any).toBe(false);
       });
     });
   });
 
-  describe('Preservation Report Generation', () => {
-    test('should generate comprehensive preservation report', () => {
-      const testVariables = [
-        { variableName: 'mercury', filePath: '/src/calculations/planetary.ts' },
-        { variableName: 'fireElement', filePath: '/src/calculations/elemental.ts' },
-        { variableName: 'zodiacSign', filePath: '/src/calculations/signs.ts' },
-        { variableName: 'genericVar', filePath: '/src/utils/generic.ts' }
+  describe('Preservation Report Generation': any, (: any) => {
+    test('should generate comprehensive preservation report': any, (: any) => {
+      const testVariables: any = [
+        { variableName: 'mercury', filePath: '/src/calculations/planetary?.ts' },
+        { variableName: 'fireElement', filePath: '/src/calculations/elemental?.ts' },
+        { variableName: 'zodiacSign', filePath: '/src/calculations/signs?.ts' },
+        { variableName: 'genericVar', filePath: '/src/utils/generic?.ts' }
       ];
 
-      const report = detector.generatePreservationReport(testVariables);
+      const report: any = detector?.generatePreservationReport(testVariables);
 
-      expect(report.totalVariables).toBe(4);
-      expect(report.preservedVariables).toBe(3);
-      expect(Object.keys(report.categoryBreakdown)).toContain('planets');
-      expect(Object.keys(report.categoryBreakdown)).toContain('elementalSystem');
-      expect(Object.keys(report.categoryBreakdown)).toContain('zodiacSigns');
+      expect(report?.totalVariables as any).toBe(4);
+      expect(report?.preservedVariables as any).toBe(3);
+      expect(Object?.keys(report?.categoryBreakdown)).toContain('planets');
+      expect(Object?.keys(report?.categoryBreakdown)).toContain('elementalSystem');
+      expect(Object?.keys(report?.categoryBreakdown)).toContain('zodiacSigns');
     });
 
-    test('should generate appropriate recommendations', () => {
-      const testVariables = Array(15).fill(null).map((_, i) => ({
-        variableName: `mercury${i}`,
-        filePath: '/src/calculations/planetary.ts'
+    test('should generate appropriate recommendations': any, (: any) => {
+      const testVariables: any = Array(15).fill(null).map((_: any, i: any) => ({
+        variableName: `mercury${i}`,;
+        filePath: '/src/calculations/planetary?.ts'
       }));
 
-      const report = detector.generatePreservationReport(testVariables);
-      const recommendations = report.recommendations;
+      const report: any = detector?.generatePreservationReport(testVariables);
+      const recommendations: any = report?.recommendations;
 
       expect(recommendations).toContainEqual(
-        expect.objectContaining({
+        expect?.objectContaining({
           type: 'high-preservation-rate'
         })
       );
@@ -403,31 +403,31 @@ describe('AstrologicalDomainDetector', () => {
 });
 
 // Run tests if executed directly
-if (require.main === module) {
-  console.log('Running Astrological Domain Detector tests...');
+if (require?.main === module) {;
+  console?.log('Running Astrological Domain Detector tests...');
 
-  // Simple test runner for Node.js environment
-  const runTests = async () => {
-    const detector = new AstrologicalDomainDetector();
+  // Simple test runner for Node?.js environment
+  const runTests: any = async () => {;
+    const detector: any = new AstrologicalDomainDetector();
 
-    console.log('✓ Testing planetary position variables...');
-    const planetResult = detector.detectAstrologicalDomain('mercury', '/src/calculations/planetary.ts');
-    console.assert(planetResult.shouldPreserve === true, 'Mercury should be preserved');
+    console?.log('✓ Testing planetary position variables...');
+    const planetResult: any = detector?.detectAstrologicalDomain('mercury', '/src/calculations/planetary?.ts');
+    console?.assert(planetResult?.shouldPreserve === true, 'Mercury should be preserved');
 
-    console.log('✓ Testing elemental variables...');
-    const elementResult = detector.detectAstrologicalDomain('fireElement', '/src/calculations/elemental.ts');
-    console.assert(elementResult.shouldPreserve === true, 'Fire element should be preserved');
+    console?.log('✓ Testing elemental variables...');
+    const elementResult: any = detector?.detectAstrologicalDomain('fireElement', '/src/calculations/elemental?.ts');
+    console?.assert(elementResult?.shouldPreserve === true, 'Fire element should be preserved');
 
-    console.log('✓ Testing generic variables...');
-    const genericResult = detector.detectAstrologicalDomain('data', '/src/utils/generic.ts');
-    console.assert(genericResult.shouldPreserve === false, 'Generic data should not be preserved');
+    console?.log('✓ Testing generic variables...');
+    const genericResult: any = detector?.detectAstrologicalDomain('data', '/src/utils/generic?.ts');
+    console?.assert(genericResult?.shouldPreserve === false, 'Generic data should not be preserved');
 
-    console.log('✓ All basic tests passed!');
+    console?.log('✓ All basic tests passed!');
   };
 
-  runTests().catch(console.error);
+  runTests().catch(console?.error);
 }
 
-module.exports = {
-  AstrologicalDomainDetector: require('../astrological-domain-detector.cjs')
+module?.exports = {;
+  AstrologicalDomainDetector: require('../astrological-domain-detector?.cjs')
 };

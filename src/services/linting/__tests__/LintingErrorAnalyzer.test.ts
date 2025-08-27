@@ -5,41 +5,41 @@
 import { LintingErrorAnalyzer } from '../LintingErrorAnalyzer';
 
 // Mock child_process to prevent actual ESLint execution
-const mockExecSync = jest.fn();
-jest.mock('child_process', () => ({
+const mockExecSync = jest?.fn() as any;
+jest?.mock('child_process': any, (: any) => ({
   execSync: mockExecSync,
 }));
 
-describe('LintingErrorAnalyzer', () => {
+describe('LintingErrorAnalyzer': any, (: any) => {
   let analyzer: LintingErrorAnalyzer;
 
-  beforeEach(() => {
+  beforeEach((: any) => {
     analyzer = new LintingErrorAnalyzer('/test');
-    jest.clearAllMocks();
+    jest?.clearAllMocks();
   });
 
-  describe('Basic Functionality', () => {
-    it('should create analyzer instance', () => {
+  describe('Basic Functionality': any, (: any) => {
+    it('should create analyzer instance': any, (: any) => {
       expect(analyzer).toBeDefined();
       expect(analyzer).toBeInstanceOf(LintingErrorAnalyzer);
     });
 
-    it('should handle empty ESLint output', async () => {
-      mockExecSync.mockReturnValue('[]');
+    it('should handle empty ESLint output': any, async (: any) => {
+      mockExecSync?.mockReturnValue('[]');
 
-      const result = await analyzer.analyzeAllIssues();
+      const result: any = await analyzer?.analyzeAllIssues();
 
       expect(result).toBeDefined();
-      expect(result.total).toBe(0);
-      expect(result.errors).toBe(0);
-      expect(result.warnings).toBe(0);
-      expect(result.autoFixable).toHaveLength(0);
+      expect(result?.total as any).toBe(0);
+      expect(result?.errors as any).toBe(0);
+      expect(result?.warnings as any).toBe(0);
+      expect(result?.autoFixable).toHaveLength(0);
     });
 
-    it('should parse ESLint output correctly', async () => {
-      const mockOutput = JSON.stringify([
+    it('should parse ESLint output correctly': any, async (: any) => {
+      const mockOutput = JSON?.stringify([
         {
-          filePath: '/test/src/App.tsx',
+          filePath: '/test/src/App?.tsx',
           messages: [
             {
               ruleId: 'import/order',
@@ -47,33 +47,33 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { range: [0, 10], text: 'fixed' },
+              fix: { rang, e: [0, 10], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const result = await analyzer.analyzeAllIssues();
+      const result: any = await analyzer?.analyzeAllIssues();
 
-      expect(result.total).toBe(2);
-      expect(result.errors).toBe(1); // severity 2
-      expect(result.warnings).toBe(1); // severity 1
-      expect(result.autoFixable).toHaveLength(1); // import/order has fix
+      expect(result?.total as any).toBe(2);
+      expect(result?.errors as any).toBe(1); // severity 2
+      expect(result?.warnings as any).toBe(1); // severity 1
+      expect(result?.autoFixable).toHaveLength(1); // import/order has fix
     });
 
-    it('should categorize issues correctly', async () => {
-      const mockOutput = JSON.stringify([
+    it('should categorize issues correctly': any, async (: any) => {
+      const mockOutput = JSON?.stringify([
         {
-          filePath: '/test/src/App.tsx',
+          filePath: '/test/src/App?.tsx',
           messages: [
             {
               ruleId: 'import/order',
@@ -81,7 +81,7 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { range: [0, 10], text: 'fixed' },
+              fix: { rang, e: [0, 10], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -94,148 +94,148 @@ describe('LintingErrorAnalyzer', () => {
               ruleId: 'react-hooks/exhaustive-deps',
               severity: 1,
               message: 'Missing dependency',
-              line: 10,
+              line: 10,;
               column: 5,
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const result = await analyzer.analyzeAllIssues();
+      const result: any = await analyzer?.analyzeAllIssues();
 
-      expect(result.byCategory['import']).toHaveLength(1);
-      expect(result.byCategory['typescript']).toHaveLength(1);
-      expect(result.byCategory['react']).toHaveLength(1);
+      expect(result?.byCategory['import']).toHaveLength(1);
+      expect(result?.byCategory['typescript']).toHaveLength(1);
+      expect(result?.byCategory['react']).toHaveLength(1);
     });
 
-    it('should generate resolution plan', async () => {
-      const mockOutput = JSON.stringify([
+    it('should generate resolution plan': any, async (: any) => {
+      const mockOutput = JSON?.stringify([
         {
-          filePath: '/test/src/App.tsx',
+          filePath: '/test/src/App?.tsx',
           messages: [
             {
               ruleId: 'import/order',
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
-              column: 1,
-              fix: { range: [0, 10], text: 'fixed' },
+              column: 1,;
+              fix: { rang, e: [0, 10], text: 'fixed' },
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const categorized = await analyzer.analyzeAllIssues();
-      const plan = analyzer.generateResolutionPlan(categorized);
+      const categorized: any = await analyzer?.analyzeAllIssues();
+      const plan: any = analyzer?.generateResolutionPlan(categorized);
 
       expect(plan).toBeDefined();
-      expect(plan.phases).toBeDefined();
-      expect(plan.phases.length).toBeGreaterThan(0);
-      expect(plan.totalEstimatedTime).toBeGreaterThan(0);
-      expect(plan.riskAssessment).toBeDefined();
-      expect(plan.successProbability).toBeGreaterThan(0);
+      expect(plan?.phases).toBeDefined();
+      expect(plan?.phases.length).toBeGreaterThan(0);
+      expect(plan?.totalEstimatedTime).toBeGreaterThan(0);
+      expect(plan?.riskAssessment).toBeDefined();
+      expect(plan?.successProbability).toBeGreaterThan(0);
     });
 
-    it('should handle ESLint execution errors', async () => {
-      const error = new Error('ESLint failed');
+    it('should handle ESLint execution errors': any, async (: any) => {
+      const error: any = new Error('ESLint failed');
       (error as any).stdout = '[]';
-      mockExecSync.mockImplementation(() => {
+      mockExecSync?.mockImplementation((: any) => {
         throw error;
       });
 
-      const result = await analyzer.analyzeAllIssues();
+      const result: any = await analyzer?.analyzeAllIssues();
 
       expect(result).toBeDefined();
-      expect(result.total).toBe(0);
+      expect(result?.total as any).toBe(0);
     });
   });
 
-  describe('Domain Context Detection', () => {
-    it('should detect astrological files', async () => {
-      const mockOutput = JSON.stringify([
+  describe('Domain Context Detection': any, (: any) => {
+    it('should detect astrological files': any, async (: any) => {
+      const mockOutput: any = JSON?.stringify([
         {
-          filePath: '/test/src/calculations/astrology.ts',
+          filePath: '/test/src/calculations/astrology?.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const result = await analyzer.analyzeAllIssues();
-      const issue = Object.values(result.byCategory).flat()[0];
+      const result: any = await analyzer?.analyzeAllIssues();
+      const issue: any = Object?.values(result?.byCategory).flat()[0];
 
-      expect(issue.domainContext?.isAstrologicalCalculation).toBe(true);
-      expect(issue.domainContext?.requiresSpecialHandling).toBe(true);
+      expect(issue?.domainContext?.isAstrologicalCalculation as any).toBe(true);
+      expect(issue?.domainContext?.requiresSpecialHandling as any).toBe(true);
     });
 
-    it('should detect campaign system files', async () => {
-      const mockOutput = JSON.stringify([
+    it('should detect campaign system files': any, async (: any) => {
+      const mockOutput: any = JSON?.stringify([
         {
-          filePath: '/test/src/services/campaign/CampaignController.ts',
+          filePath: '/test/src/services/campaign/CampaignController?.ts',
           messages: [
             {
               ruleId: 'no-console',
               severity: 1,
               message: 'Unexpected console statement',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const result = await analyzer.analyzeAllIssues();
-      const issue = Object.values(result.byCategory).flat()[0];
+      const result: any = await analyzer?.analyzeAllIssues();
+      const issue: any = Object?.values(result?.byCategory).flat()[0];
 
-      expect(issue.domainContext?.isCampaignSystem).toBe(true);
-      expect(issue.domainContext?.requiresSpecialHandling).toBe(true);
+      expect(issue?.domainContext?.isCampaignSystem as any).toBe(true);
+      expect(issue?.domainContext?.requiresSpecialHandling as any).toBe(true);
     });
 
-    it('should detect test files', async () => {
-      const mockOutput = JSON.stringify([
+    it('should detect test files': any, async (: any) => {
+      const mockOutput: any = JSON?.stringify([
         {
-          filePath: '/test/src/components/__tests__/Component.test.tsx',
+          filePath: '/test/src/components/__tests__/Component?.test.tsx',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const result = await analyzer.analyzeAllIssues();
-      const issue = Object.values(result.byCategory).flat()[0];
+      const result: any = await analyzer?.analyzeAllIssues();
+      const issue: any = Object?.values(result?.byCategory).flat()[0];
 
-      expect(issue.domainContext?.isTestFile).toBe(true);
-      expect(issue.domainContext?.requiresSpecialHandling).toBe(true);
+      expect(issue?.domainContext?.isTestFile as any).toBe(true);
+      expect(issue?.domainContext?.requiresSpecialHandling as any).toBe(true);
     });
   });
 
-  describe('Resolution Strategy Generation', () => {
-    it('should prioritize auto-fixable issues', async () => {
-      const mockOutput = JSON.stringify([
+  describe('Resolution Strategy Generation': any, (: any) => {
+    it('should prioritize auto-fixable issues': any, async (: any) => {
+      const mockOutput = JSON?.stringify([
         {
-          filePath: '/test/src/App.tsx',
+          filePath: '/test/src/App?.tsx',
           messages: [
             {
               ruleId: 'import/order',
@@ -243,55 +243,55 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { range: [0, 10], text: 'fixed' },
+              fix: { rang, e: [0, 10], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const categorized = await analyzer.analyzeAllIssues();
-      const plan = analyzer.generateResolutionPlan(categorized);
+      const categorized: any = await analyzer?.analyzeAllIssues();
+      const plan: any = analyzer?.generateResolutionPlan(categorized);
 
       // Auto-fix phase should come first
-      const autoFixPhase = plan.phases.find(p => p.id === 'auto-fix');
+      const autoFixPhase: any = plan?.phases.find(p => p?.id === 'auto-fix');
       expect(autoFixPhase).toBeDefined();
-      expect(autoFixPhase?.riskLevel).toBe('low');
+      expect(autoFixPhase?.riskLevel as any).toBe('low');
     });
 
-    it('should handle domain-specific issues with higher risk', async () => {
-      const mockOutput = JSON.stringify([
+    it('should handle domain-specific issues with higher risk': any, async (: any) => {
+      const mockOutput: any = JSON?.stringify([
         {
-          filePath: '/test/src/calculations/astrology.ts',
+          filePath: '/test/src/calculations/astrology?.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ]);
 
-      mockExecSync.mockReturnValue(mockOutput);
+      mockExecSync?.mockReturnValue(mockOutput);
 
-      const categorized = await analyzer.analyzeAllIssues();
-      const plan = analyzer.generateResolutionPlan(categorized);
+      const categorized: any = await analyzer?.analyzeAllIssues();
+      const plan: any = analyzer?.generateResolutionPlan(categorized);
 
       // Domain phase should have higher risk
-      const domainPhase = plan.phases.find(p => p.id === 'domain');
+      const domainPhase: any = plan?.phases.find(p => p?.id === 'domain');
       expect(domainPhase).toBeDefined();
-      expect(domainPhase?.riskLevel).toBe('high');
+      expect(domainPhase?.riskLevel as any).toBe('high');
     });
   });
 });

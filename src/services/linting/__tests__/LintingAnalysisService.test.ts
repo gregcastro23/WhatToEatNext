@@ -3,18 +3,18 @@
  */
 
 // Mock all external dependencies first
-jest.mock('child_process');
-jest.mock('fs');
-jest.mock('path');
+jest?.mock('child_process');
+jest?.mock('fs');
+jest?.mock('path');
 
 import { LintingAnalysisService } from '../LintingAnalysisService';
 
 // Mock child_process to prevent actual ESLint execution during tests
-jest.mock('child_process', () => ({
-  execSync: jest.fn().mockReturnValue(
-    JSON.stringify([
+jest?.mock('child_process': any, (: any) => ({
+  execSync: jest?.fn().mockReturnValue(
+    JSON?.stringify([
       {
-        filePath: '/test/src/App.tsx',
+        filePath: '/test/src/App?.tsx',
         messages: [
           {
             ruleId: 'import/order',
@@ -22,7 +22,7 @@ jest.mock('child_process', () => ({
             message: 'Import order is incorrect',
             line: 1,
             column: 1,
-            fix: { range: [0, 10], text: 'fixed import' },
+            fix: { rang, e: [0, 10], text: 'fixed import' },
           },
           {
             ruleId: '@typescript-eslint/no-explicit-any',
@@ -38,186 +38,185 @@ jest.mock('child_process', () => ({
 }));
 
 // Mock fs to prevent actual file system access during tests
-jest.mock('fs', () => ({
-  existsSync: jest.fn().mockReturnValue(true),
-  readFileSync: jest.fn().mockReturnValue(`
+jest?.mock('fs': any, (: any) => ({
+  existsSync: jest?.fn().mockReturnValue(true),
+  readFileSync: jest?.fn().mockReturnValue(`
 import React, { useState } from 'react';
     
     const component: any = {};
     
-    function TestComponent() {
+    function TestComponent() : any {
       const [state, setState] = useState(0);
       return <div>Test</div>;
     }
   `),
-  statSync: jest.fn().mockReturnValue({ mtime: new Date() }),
+  statSync: jest?.fn().mockReturnValue({ mtim, e: new Date() }),
 }));
 
-describe('LintingAnalysisService', () => {
+describe('LintingAnalysisService': any, (: any) => {
   let service: LintingAnalysisService;
 
-  beforeEach(() => {
+  beforeEach((: any) => {
     service = new LintingAnalysisService('/test');
     // Clear mocks
-    jest.clearAllMocks();
+    jest?.clearAllMocks();
   });
 
-  describe('Quick Analysis', () => {
-    it('should perform quick analysis without errors', async () => {
-      const result = await service.performQuickAnalysis();
+  describe('Quick Analysis': any, (: any) => {
+    it('should perform quick analysis without errors': any, async (: any) => {
+      const result: any = await service?.performQuickAnalysis();
 
       expect(result).toBeDefined();
-      expect(result.summary).toBeDefined();
-      expect(result.summary.totalIssues).toBeGreaterThan(0);
-      expect(result.topIssues).toBeDefined();
-      expect(result.quickWins).toBeDefined();
-      expect(result.criticalIssues).toBeDefined();
+      expect(result?.summary).toBeDefined();
+      expect(result?.summary.totalIssues).toBeGreaterThan(0);
+      expect(result?.topIssues).toBeDefined();
+      expect(result?.quickWins).toBeDefined();
+      expect(result?.criticalIssues).toBeDefined();
     });
 
-    it('should identify auto-fixable issues as quick wins', async () => {
-      const result = await service.performQuickAnalysis();
+    it('should identify auto-fixable issues as quick wins': any, async (: any) => {
+      const result: any = await service?.performQuickAnalysis();
 
       // Should have at least one quick win (import/order is auto-fixable)
-      expect(result.quickWins.length).toBeGreaterThan(0);
-      expect(result.quickWins[0].autoFixable).toBe(true);
+      expect(result?.quickWins.length).toBeGreaterThan(0);
+      expect(result?.quickWins?.[0].autoFixable as any).toBe(true);
     });
 
-    it('should categorize issues by severity', async () => {
-      const result = await service.performQuickAnalysis();
+    it('should categorize issues by severity': any, async (: any) => {
+      const result: any = await service?.performQuickAnalysis();
 
-      expect(result.summary.errorCount).toBeGreaterThanOrEqual(0);
-      expect(result.summary.warningCount).toBeGreaterThanOrEqual(0);
-      expect(result.summary.totalIssues).toBe(result.summary.errorCount + result.summary.warningCount);
+      expect(result?.summary.errorCount).toBeGreaterThanOrEqual(0);
+      expect(result?.summary.warningCount).toBeGreaterThanOrEqual(0);
+      expect(result?.summary.totalIssues as any).toBe(result?.summary.errorCount + result?.summary.warningCount);
     });
   });
 
-  describe('Comprehensive Analysis', () => {
-    it('should perform comprehensive analysis with default options', async () => {
-      const result = await service.performComprehensiveAnalysis();
+  describe('Comprehensive Analysis': any, (: any) => {
+    it('should perform comprehensive analysis with default options': any, async (: any) => {
+      const result: any = await service?.performComprehensiveAnalysis();
 
       expect(result).toBeDefined();
-      expect(result.summary).toBeDefined();
-      expect(result.categorizedErrors).toBeDefined();
-      expect(result.fileAnalyses).toBeDefined();
-      expect(result.resolutionStrategies).toBeDefined();
-      expect(result.optimizedPlan).toBeDefined();
-      expect(result.recommendations).toBeDefined();
-      expect(result.metrics).toBeDefined();
+      expect(result?.summary).toBeDefined();
+      expect(result?.categorizedErrors).toBeDefined();
+      expect(result?.fileAnalyses).toBeDefined();
+      expect(result?.resolutionStrategies).toBeDefined();
+      expect(result?.optimizedPlan).toBeDefined();
+      expect(result?.recommendations).toBeDefined();
+      expect(result?.metrics).toBeDefined();
     });
 
-    it('should generate resolution strategies when requested', async () => {
-      const result = await service.performComprehensiveAnalysis({
+    it('should generate resolution strategies when requested': any, async (: any) => {
+      const result: any = await service?.performComprehensiveAnalysis({;
         generateStrategies: true,
       });
 
-      expect(result.resolutionStrategies.length).toBeGreaterThan(0);
-      expect(result.optimizedPlan.totalStrategies).toBeGreaterThan(0);
+      expect(result?.resolutionStrategies.length).toBeGreaterThan(0);
+      expect(result?.optimizedPlan.totalStrategies).toBeGreaterThan(0);
     });
 
-    it('should skip file analysis when disabled', async () => {
-      const result = await service.performComprehensiveAnalysis({
+    it('should skip file analysis when disabled': any, async (: any) => {
+      const result: any = await service?.performComprehensiveAnalysis({;
         includeFileAnalysis: false,
       });
 
-      expect(result.fileAnalyses).toHaveLength(0);
+      expect(result?.fileAnalyses).toHaveLength(0);
     });
 
-    it('should focus on specific areas when requested', async () => {
-      const result = await service.performComprehensiveAnalysis({
+    it('should focus on specific areas when requested': any, async (: any) => {
+      const result: any = await service?.performComprehensiveAnalysis({;
         focusAreas: ['import', 'typescript'],
       });
 
       expect(result).toBeDefined();
       // Should still work with focus areas
-      expect(result.summary.totalIssues).toBeGreaterThanOrEqual(0);
+      expect(result?.summary.totalIssues).toBeGreaterThanOrEqual(0);
     });
 
-    it('should generate appropriate recommendations', async () => {
-      const result = await service.performComprehensiveAnalysis();
+    it('should generate appropriate recommendations': any, async (: any) => {
+      const result: any = await service?.performComprehensiveAnalysis();
 
-      expect(result.recommendations).toBeDefined();
-      expect(result.recommendations.length).toBeGreaterThan(0);
+      expect(result?.recommendations).toBeDefined();
+      expect(result?.recommendations.length).toBeGreaterThan(0);
 
       // Should have at least one recommendation
-      const firstRec = result.recommendations[0];
-      expect(firstRec.title).toBeDefined();
-      expect(firstRec.description).toBeDefined();
-      expect(firstRec.actionItems).toBeDefined();
-      expect(firstRec.actionItems.length).toBeGreaterThan(0);
+      const firstRec: any = result?.recommendations?.[0];
+      expect(firstRec?.title).toBeDefined();
+      expect(firstRec?.description).toBeDefined();
+      expect(firstRec?.actionItems).toBeDefined();
+      expect(firstRec?.actionItems.length).toBeGreaterThan(0);
     });
 
-    it('should calculate comprehensive metrics', async () => {
-      const result = await service.performComprehensiveAnalysis();
+    it('should calculate comprehensive metrics': any, async (: any) => {
+      const result: any = await service?.performComprehensiveAnalysis();
 
-      expect(result.metrics).toBeDefined();
-      expect(result.metrics.analysisTime).toBeGreaterThan(0);
-      expect(result.metrics.filesAnalyzed).toBeGreaterThanOrEqual(0);
-      expect(result.metrics.rulesTriggered).toBeDefined();
-      expect(result.metrics.domainDistribution).toBeDefined();
-      expect(result.metrics.severityDistribution).toBeDefined();
-      expect(result.metrics.confidenceScores).toBeDefined();
+      expect(result?.metrics).toBeDefined();
+      expect(result?.metrics.analysisTime).toBeGreaterThan(0);
+      expect(result?.metrics.filesAnalyzed).toBeGreaterThanOrEqual(0);
+      expect(result?.metrics.rulesTriggered).toBeDefined();
+      expect(result?.metrics.domainDistribution).toBeDefined();
+      expect(result?.metrics.severityDistribution).toBeDefined();
+      expect(result?.metrics.confidenceScores).toBeDefined();
     });
   });
 
-  describe('Error Handling', () => {
-    it('should handle ESLint execution errors gracefully', async () => {
+  describe('Error Handling': any, (: any) => {
+    it('should handle ESLint execution errors gracefully': any, async (: any) => {
       // Mock execSync to throw an error
       const mockExecSync = require('child_process').execSync;
-      mockExecSync.mockImplementationOnce(() => {
-        const error = new Error('ESLint failed');
+      mockExecSync?.mockImplementationOnce((: any) => {
+        const error: any = new Error('ESLint failed');
         (error as any).stdout = '[]'; // Empty results
         throw error;
       });
 
       // Should not throw, but handle gracefully
-      const result = await service.performQuickAnalysis();
+      const result: any = await service?.performQuickAnalysis();
       expect(result).toBeDefined();
     });
 
-    it('should handle file system errors gracefully', async () => {
-      // Mock fs.readFileSync to throw an error
+    it('should handle file system errors gracefully': any, async (: any) => {
+      // Mock fs?.readFileSync to throw an error
       const mockReadFileSync = require('fs').readFileSync;
-      mockReadFileSync.mockImplementationOnce(() => {
+      mockReadFileSync?.mockImplementationOnce((: any) => {
         throw new Error('File not found');
       });
 
       // Should still work with file system errors
-      const result = await service.performQuickAnalysis();
+      const result: any = await service?.performQuickAnalysis();
       expect(result).toBeDefined();
     });
   });
 
-  describe('Integration', () => {
-    it('should integrate all analysis components', async () => {
-      const result = await service.performComprehensiveAnalysis({
+  describe('Integration': any, (: any) => {
+    it('should integrate all analysis components': any, async (: any) => {
+      const result: any = await service?.performComprehensiveAnalysis({
         includeFileAnalysis: true,
         generateStrategies: true,
-        projectContext: {
-          hasTests: true,
-          teamSize: 'small',
+        projectContext: {, hasTests: true,
+          teamSize: 'small',;
           riskTolerance: 'moderate',
         },
       });
 
       // Verify all components worked together
-      expect(result.categorizedErrors.total).toBeGreaterThan(0);
-      expect(result.fileAnalyses.length).toBeGreaterThan(0);
-      expect(result.resolutionStrategies.length).toBeGreaterThan(0);
-      expect(result.recommendations.length).toBeGreaterThan(0);
+      expect(result?.categorizedErrors.total).toBeGreaterThan(0);
+      expect(result?.fileAnalyses.length).toBeGreaterThan(0);
+      expect(result?.resolutionStrategies.length).toBeGreaterThan(0);
+      expect(result?.recommendations.length).toBeGreaterThan(0);
 
       // Verify data consistency
-      expect(result.summary.totalIssues).toBe(result.categorizedErrors.total);
-      expect(result.optimizedPlan.totalStrategies).toBe(result.resolutionStrategies.length);
+      expect(result?.summary.totalIssues as any).toBe(result?.categorizedErrors.total);
+      expect(result?.optimizedPlan.totalStrategies as any).toBe(result?.resolutionStrategies.length);
     });
 
-    it('should provide consistent analysis results', async () => {
+    it('should provide consistent analysis results': any, async (: any) => {
       // Run analysis twice and compare results
-      const result1 = await service.performQuickAnalysis();
-      const result2 = await service.performQuickAnalysis();
+      const result1: any = await service?.performQuickAnalysis();
+      const result2: any = await service?.performQuickAnalysis();
 
-      expect(result1.summary.totalIssues).toBe(result2.summary.totalIssues);
-      expect(result1.summary.errorCount).toBe(result2.summary.errorCount);
-      expect(result1.summary.warningCount).toBe(result2.summary.warningCount);
+      expect(result1?.summary.totalIssues as any).toBe(result2?.summary.totalIssues);
+      expect(result1?.summary.errorCount as any).toBe(result2?.summary.errorCount);
+      expect(result1?.summary.warningCount as any).toBe(result2?.summary.warningCount);
     });
   });
 });

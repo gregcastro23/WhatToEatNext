@@ -2,45 +2,42 @@ import { CulinaryAstrologer } from '@/calculations/culinaryAstrology';
 import { AstrologicalState } from '@/types/alchemy';
 
 // Mock the getRecipeRecommendations method
-jest.mock('@/calculations/culinaryAstrology', () => {
-  const original = jest.requireActual('@/calculations/culinaryAstrology');
+jest?.mock('@/calculations/culinaryAstrology': any, (: any) => {
+  const original = jest?.requireActual('@/calculations/culinaryAstrology');
   return {
     ...original,
     CulinaryAstrologer: class MockCulinaryAstrologer {
-      getRecipeRecommendations() {
+      getRecipeRecommendations() : any {
         return [
           {
             name: 'Grilled Salmon',
-            alignmentScore: 0.85,
-            elementDistribution: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
+            alignmentScore: 0?.85,
+            elementDistribution: { Fir, e: 0?.5, Water: 0?.3, Earth: 0?.1, Air: 0?.1 },
             planetaryActivators: ['Sun', 'Mars'],
           },
           {
             name: 'Roasted Vegetables',
-            alignmentScore: 0.78,
-            elementDistribution: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
+            alignmentScore: 0?.78,
+            elementDistribution: { Fir, e: 0?.6, Earth: 0?.3, Air: 0?.1, Water: 0 },
             planetaryActivators: ['Sun', 'Saturn'],
           },
         ];
       }
 
-      getGuidance() {
+      getGuidance() : any {
         return {
           dominantElement: 'Fire',
-          technique: {
-            name: 'Roasting',
+          technique: {, name: 'Roasting',
             rationale: 'Aligns with Fire dominance',
             optimalTiming: 'Best during full moon',
           },
-          ingredientFocus: {
-            element: 'Fire',
+          ingredientFocus: {, element: 'Fire',
             examples: ['Beef', 'Lamb', 'Chicken'],
             pairingTip: 'Combine with Air-dominant preparations',
           },
-          cuisineRecommendation: {
-            style: 'Mediterranean',
+          cuisineRecommendation: {, style: 'Mediterranean',
             modification: 'Use more spices',
-            astrologicalBoost: 0.75,
+            astrologicalBoost: 0?.75,
           },
         };
       }
@@ -48,43 +45,39 @@ jest.mock('@/calculations/culinaryAstrology', () => {
   };
 });
 
-describe('CulinaryAstrologer', () => {
+describe('CulinaryAstrologer': any, (: any) => {
   let astrologer: CulinaryAstrologer;
 
-  beforeEach(() => {
+  beforeEach((: any) => {
     astrologer = new CulinaryAstrologer();
   });
 
-  it('should return recipe recommendations based on astrological state', () => {
-    const astroState: AstrologicalState = {
-      currentZodiac: 'leo',
+  it('should return recipe recommendations based on astrological state': any, (: any) => {
+    const astroState: AstrologicalState = {, currentZodiac: 'leo',
       moonPhase: 'full moon',
-      currentPlanetaryAlignment: {
-        Sun: { sign: 'leo', degree: 15 },
-        Moon: { sign: 'cancer', degree: 5 },
+      currentPlanetaryAlignment: {, Sun: { sign: 'leo', degree: 15 },
+        Moon: { sig, n: 'cancer', degree: 5 },
       },
       activePlanets: ['sun', 'moon'],
-      planetaryPositions: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 },
+      planetaryPositions: {, sun: { sign: 'leo', degree: 15 },
+        moon: { sig, n: 'cancer', degree: 5 },
       },
       lunarPhase: 'full moon',
       planetaryHour: 'Sun',
-      planetaryAlignment: {
-        Sun: { sign: 'leo', degree: 15 },
-        Moon: { sign: 'cancer', degree: 5 },
+      planetaryAlignment: {, Sun: { sign: 'leo', degree: 15 },
+        Moon: { sig, n: 'cancer', degree: 5 },
       },
       aspects: [],
-      tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 },
+      tarotElementBoosts: { Fir, e: 0?.2, Water: 0?.1, Air: 0, Earth: 0 },;
+      tarotPlanetaryBoosts: { Su, n: 0?.2, Moon: 0?.1 },
     };
 
-    const recommendations = astrologer.getRecipeRecommendations(astroState);
+    const recommendations: any = astrologer?.getRecipeRecommendations(astroState);
 
     expect(recommendations).toBeInstanceOf(Array);
-    recommendations.forEach(recipe => {
+    recommendations?.forEach(recipe => {;
       expect(recipe).toHaveProperty('alignmentScore');
-      expect(recipe.planetaryActivators).toContain('Sun');
+      expect(recipe?.planetaryActivators).toContain('Sun');
     });
   });
 });

@@ -1,3 +1,7 @@
+declare global {
+  var __DEV__: boolean;
+}
+
 import {
   ErrorType,
   ErrorSeverity,
@@ -10,310 +14,309 @@ import {
 } from '../errorHandling';
 
 // Mock logger
-jest.mock('@/utils/logger', () => ({
-  logger: {
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    debug: jest.fn(),
+jest?.mock('@/utils/logger': any, (: any) => ({
+  logger: {, info: jest?.fn(),
+    warn: jest?.fn(),
+    error: jest?.fn(),
+    debug: jest?.fn(),
   },
 }));
 
-describe('Error Classification', () => {
-  it('classifies network errors correctly', () => {
-    expect(classifyError('Network error occurred')).toBe(ErrorType.NETWORK);
-    expect(classifyError('Failed to fetch')).toBe(ErrorType.NETWORK);
-    expect(classifyError('Connection timeout')).toBe(ErrorType.NETWORK);
+describe('Error Classification': any, (: any) => {
+  it('classifies network errors correctly': any, (: any) => {
+    expect(classifyError('Network error occurred')).toBe(ErrorType?.NETWORK);
+    expect(classifyError('Failed to fetch')).toBe(ErrorType?.NETWORK);
+    expect(classifyError('Connection timeout')).toBe(ErrorType?.NETWORK);
   });
 
-  it('classifies validation errors correctly', () => {
-    expect(classifyError('Validation failed')).toBe(ErrorType.VALIDATION);
-    expect(classifyError('Invalid input provided')).toBe(ErrorType.VALIDATION);
+  it('classifies validation errors correctly': any, (: any) => {
+    expect(classifyError('Validation failed')).toBe(ErrorType?.VALIDATION);
+    expect(classifyError('Invalid input provided')).toBe(ErrorType?.VALIDATION);
   });
 
-  it('classifies authentication errors correctly', () => {
-    expect(classifyError('Unauthorized access')).toBe(ErrorType.AUTHENTICATION);
-    expect(classifyError('Authentication required')).toBe(ErrorType.AUTHENTICATION);
+  it('classifies authentication errors correctly': any, (: any) => {
+    expect(classifyError('Unauthorized access')).toBe(ErrorType?.AUTHENTICATION);
+    expect(classifyError('Authentication required')).toBe(ErrorType?.AUTHENTICATION);
   });
 
-  it('classifies authorization errors correctly', () => {
-    expect(classifyError('Forbidden resource')).toBe(ErrorType.AUTHORIZATION);
-    expect(classifyError('Permission denied')).toBe(ErrorType.AUTHORIZATION);
+  it('classifies authorization errors correctly': any, (: any) => {
+    expect(classifyError('Forbidden resource')).toBe(ErrorType?.AUTHORIZATION);
+    expect(classifyError('Permission denied')).toBe(ErrorType?.AUTHORIZATION);
   });
 
-  it('classifies not found errors correctly', () => {
-    expect(classifyError('Resource not found')).toBe(ErrorType.NOT_FOUND);
-    expect(classifyError('404 error')).toBe(ErrorType.NOT_FOUND);
+  it('classifies not found errors correctly': any, (: any) => {
+    expect(classifyError('Resource not found')).toBe(ErrorType?.NOT_FOUND);
+    expect(classifyError('404 error')).toBe(ErrorType?.NOT_FOUND);
   });
 
-  it('classifies server errors correctly', () => {
-    expect(classifyError('Internal server error')).toBe(ErrorType.SERVER_ERROR);
-    expect(classifyError('500 error occurred')).toBe(ErrorType.SERVER_ERROR);
-    expect(classifyError('Service unavailable 503')).toBe(ErrorType.SERVER_ERROR);
+  it('classifies server errors correctly': any, (: any) => {
+    expect(classifyError('Internal server error')).toBe(ErrorType?.SERVER_ERROR);
+    expect(classifyError('500 error occurred')).toBe(ErrorType?.SERVER_ERROR);
+    expect(classifyError('Service unavailable 503')).toBe(ErrorType?.SERVER_ERROR);
   });
 
-  it('classifies astrological errors correctly', () => {
-    expect(classifyError('Planetary calculation failed')).toBe(ErrorType.ASTROLOGICAL_CALCULATION);
-    expect(classifyError('Astrological data unavailable')).toBe(ErrorType.ASTROLOGICAL_CALCULATION);
-    expect(classifyError('Zodiac sign error')).toBe(ErrorType.ASTROLOGICAL_CALCULATION);
+  it('classifies astrological errors correctly': any, (: any) => {
+    expect(classifyError('Planetary calculation failed')).toBe(ErrorType?.ASTROLOGICAL_CALCULATION);
+    expect(classifyError('Astrological data unavailable')).toBe(ErrorType?.ASTROLOGICAL_CALCULATION);
+    expect(classifyError('Zodiac sign error')).toBe(ErrorType?.ASTROLOGICAL_CALCULATION);
   });
 
-  it('classifies component errors correctly', () => {
-    expect(classifyError('Component failed to render')).toBe(ErrorType.COMPONENT_ERROR);
-    expect(classifyError('Render error occurred')).toBe(ErrorType.COMPONENT_ERROR);
+  it('classifies component errors correctly': any, (: any) => {
+    expect(classifyError('Component failed to render')).toBe(ErrorType?.COMPONENT_ERROR);
+    expect(classifyError('Render error occurred')).toBe(ErrorType?.COMPONENT_ERROR);
   });
 
-  it('defaults to unknown for unclassified errors', () => {
-    expect(classifyError('Some random error')).toBe(ErrorType.UNKNOWN);
-    expect(classifyError('')).toBe(ErrorType.UNKNOWN);
+  it('defaults to unknown for unclassified errors': any, (: any) => {
+    expect(classifyError('Some random error')).toBe(ErrorType?.UNKNOWN);
+    expect(classifyError('')).toBe(ErrorType?.UNKNOWN);
   });
 });
 
-describe('Enhanced Error Creation', () => {
-  it('creates enhanced error with all properties', () => {
-    const context = { userId: '123', action: 'test' };
-    const error = createEnhancedError('Test error message', ErrorType.VALIDATION, ErrorSeverity.HIGH, context);
+describe('Enhanced Error Creation': any, (: any) => {
+  it('creates enhanced error with all properties': any, (: any) => {
+    const context: any = { userId: '123', action: 'test' };
+    const error: any = createEnhancedError('Test error message', ErrorType?.VALIDATION, ErrorSeverity?.HIGH, context);
 
-    expect(error.message).toBe('Test error message');
-    expect(error.type).toBe(ErrorType.VALIDATION);
-    expect(error.severity).toBe(ErrorSeverity.HIGH);
-    expect(error.context).toEqual(context);
-    expect(error.userMessage).toBe('Please check your input and try again.');
-    expect(error.recoverable).toBe(false);
-    expect(error.retryable).toBe(false);
-    expect(error.timestamp).toBeInstanceOf(Date);
-    expect(error.errorId).toMatch(/^error_\d+_[a-z0-9]+$/);
+    expect(error?.message as any).toBe('Test error message');
+    expect(error?.type as any).toBe(ErrorType?.VALIDATION);
+    expect(error?.severity as any).toBe(ErrorSeverity?.HIGH);
+    expect(error?.context as any).toEqual(context);
+    expect(error?.userMessage as any).toBe('Please check your input and try again.');
+    expect(error?.recoverable as any).toBe(false);
+    expect(error?.retryable as any).toBe(false);
+    expect(error?.timestamp).toBeInstanceOf(Date);
+    expect(error?.errorId).toMatch(/^error_\d+_[a-z0-9]+$/);
   });
 
-  it('sets recoverable flag correctly for different error types', () => {
-    const networkError = createEnhancedError('Network error', ErrorType.NETWORK);
-    const astroError = createEnhancedError('Astro error', ErrorType.ASTROLOGICAL_CALCULATION);
-    const validationError = createEnhancedError('Validation error', ErrorType.VALIDATION);
+  it('sets recoverable flag correctly for different error types': any, (: any) => {
+    const networkError: any = createEnhancedError('Network error', ErrorType?.NETWORK);
+    const astroError: any = createEnhancedError('Astro error', ErrorType?.ASTROLOGICAL_CALCULATION);
+    const validationError: any = createEnhancedError('Validation error', ErrorType?.VALIDATION);
 
-    expect(networkError.recoverable).toBe(true);
-    expect(astroError.recoverable).toBe(true);
-    expect(validationError.recoverable).toBe(false);
+    expect(networkError?.recoverable as any).toBe(true);
+    expect(astroError?.recoverable as any).toBe(true);
+    expect(validationError?.recoverable as any).toBe(false);
   });
 
-  it('sets retryable flag correctly for different error types', () => {
-    const networkError = createEnhancedError('Network error', ErrorType.NETWORK);
-    const serverError = createEnhancedError('Server error', ErrorType.SERVER_ERROR);
-    const validationError = createEnhancedError('Validation error', ErrorType.VALIDATION);
+  it('sets retryable flag correctly for different error types': any, (: any) => {
+    const networkError: any = createEnhancedError('Network error', ErrorType?.NETWORK);
+    const serverError: any = createEnhancedError('Server error', ErrorType?.SERVER_ERROR);
+    const validationError: any = createEnhancedError('Validation error', ErrorType?.VALIDATION);
 
-    expect(networkError.retryable).toBe(true);
-    expect(serverError.retryable).toBe(true);
-    expect(validationError.retryable).toBe(false);
+    expect(networkError?.retryable as any).toBe(true);
+    expect(serverError?.retryable as any).toBe(true);
+    expect(validationError?.retryable as any).toBe(false);
   });
 
-  it('preserves original error stack', () => {
-    const originalError = new Error('Original error');
-    const enhancedError = createEnhancedError(
+  it('preserves original error stack': any, (: any) => {
+    const originalError: any = new Error('Original error');
+    const enhancedError: any = createEnhancedError(
       'Enhanced error',
-      ErrorType.UNKNOWN,
-      ErrorSeverity.MEDIUM,
-      {},
+      ErrorType?.UNKNOWN,
+      ErrorSeverity?.MEDIUM,
+      {},;
       originalError,
     );
 
-    expect(enhancedError.stack).toBe(originalError.stack);
-    expect(enhancedError.cause).toBe(originalError);
+    expect(enhancedError?.stack as any).toBe(originalError?.stack);
+    expect(enhancedError?.cause as any).toBe(originalError);
   });
 });
 
-describe('ErrorHandler', () => {
+describe('ErrorHandler': any, (: any) => {
   let errorHandler: ErrorHandler;
 
-  beforeEach(() => {
+  beforeEach((: any) => {
     errorHandler = new ErrorHandler();
-    jest.clearAllMocks();
+    jest?.clearAllMocks();
   });
 
-  it('handles errors and logs them correctly', async () => {
-    const testError = new Error('Test error');
+  it('handles errors and logs them correctly': any, async (: any) => {
+    const testError: any = new Error('Test error');
 
     try {
-      errorHandler.handleError(testError);
+      errorHandler?.handleError(testError);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error objects from enhanced error handling have unknown enhanced properties
-    } catch (enhancedError: unknown) {
-      expect(enhancedError.message).toBe('Test error');
-      expect(enhancedError.type).toBe(ErrorType.UNKNOWN);
-      expect(enhancedError.errorId).toBeDefined();
+    } catch (enhancedError: any) : any {
+      expect(enhancedError?.message as any).toBe('Test error');
+      expect(enhancedError?.type as any).toBe(ErrorType?.UNKNOWN);
+      expect(enhancedError?.errorId).toBeDefined();
     }
   });
 
-  it('attempts recovery with registered strategies', async () => {
+  it('attempts recovery with registered strategies': any, async (: any) => {
     const mockRecoveryStrategy = {
-      canRecover: jest.fn(() => true),
-      recover: jest.fn(() => Promise.resolve('recovered data')),
-      fallback: jest.fn(() => 'fallback data'),
+      canRecover: jest?.fn((: any) => true),
+      recover: jest?.fn((: any) => Promise?.resolve('recovered data')),;
+      fallback: jest?.fn((: any) => 'fallback data'),
     };
 
-    errorHandler.addRecoveryStrategy(mockRecoveryStrategy);
+    errorHandler?.addRecoveryStrategy(mockRecoveryStrategy);
 
-    const testError = new Error('Test error');
-    const result = errorHandler.handleError(testError);
+    const testError: any = new Error('Test error');
+    const result: any = errorHandler?.handleError(testError);
 
-    expect(mockRecoveryStrategy.canRecover).toHaveBeenCalled();
-    expect(mockRecoveryStrategy.recover).toHaveBeenCalled();
-    expect(result).toBe('recovered data');
+    expect(mockRecoveryStrategy?.canRecover).toHaveBeenCalled();
+    expect(mockRecoveryStrategy?.recover).toHaveBeenCalled();
+    expect(result as any).toBe('recovered data');
   });
 
-  it('uses fallback when recovery fails', async () => {
+  it('uses fallback when recovery fails': any, async (: any) => {
     const mockRecoveryStrategy = {
-      canRecover: jest.fn(() => true),
-      recover: jest.fn(() => Promise.reject(new Error('Recovery failed'))),
-      fallback: jest.fn(() => 'fallback data'),
+      canRecover: jest?.fn((: any) => true),
+      recover: jest?.fn((: any) => Promise?.reject(new Error('Recovery failed'))),;
+      fallback: jest?.fn((: any) => 'fallback data'),
     };
 
-    errorHandler.addRecoveryStrategy(mockRecoveryStrategy);
+    errorHandler?.addRecoveryStrategy(mockRecoveryStrategy);
 
-    const testError = new Error('Test error');
-    const result = errorHandler.handleError(testError);
+    const testError: any = new Error('Test error');
+    const result: any = errorHandler?.handleError(testError);
 
-    expect(mockRecoveryStrategy.canRecover).toHaveBeenCalled();
-    expect(mockRecoveryStrategy.recover).toHaveBeenCalled();
-    expect(mockRecoveryStrategy.fallback).toHaveBeenCalled();
-    expect(result).toBe('fallback data');
+    expect(mockRecoveryStrategy?.canRecover).toHaveBeenCalled();
+    expect(mockRecoveryStrategy?.recover).toHaveBeenCalled();
+    expect(mockRecoveryStrategy?.fallback).toHaveBeenCalled();
+    expect(result as any).toBe('fallback data');
   });
 
-  it('throws enhanced error when no recovery is possible', async () => {
-    const testError = new Error('Test error');
+  it('throws enhanced error when no recovery is possible': any, async (: any) => {
+    const testError: any = new Error('Test error');
 
-    await expect(errorHandler.handleError(testError)).rejects.toThrow('Test error');
+    await expect(errorHandler?.handleError(testError)).rejects?.toThrow('Test error');
   });
 
-  it('tracks error statistics correctly', async () => {
-    const errors = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')];
+  it('tracks error statistics correctly': any, async (: any) => {
+    const errors: any = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')];
 
     for (const error of errors) {
       try {
-        errorHandler.handleError(error);
+        errorHandler?.handleError(error);
       } catch {
         // Expected to throw
       }
     }
 
-    const stats = errorHandler.getErrorStats();
-    expect(stats.total).toBe(3);
-    expect(stats.byType[ErrorType.NETWORK]).toBe(2);
-    expect(stats.byType[ErrorType.VALIDATION]).toBe(1);
-    expect(stats.recent).toHaveLength(3);
+    const stats: any = errorHandler?.getErrorStats();
+    expect(stats?.total as any).toBe(3);
+    expect(stats?.byType[ErrorType?.NETWORK] as any).toBe(2);
+    expect(stats?.byType[ErrorType?.VALIDATION] as any).toBe(1);
+    expect(stats?.recent).toHaveLength(3);
   });
 
-  it('maintains error queue size limit', async () => {
+  it('maintains error queue size limit': any, async (: any) => {
     // Create more errors than the max queue size (50)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Promise array for error handling can resolve to various result types
-    const promises: Promise<unknown>[] = [];
-    for (let i = 0; i < 60; i++) {
-      promises.push(errorHandler.handleError(new Error(`Error ${i}`)).catch(() => {}));
+    const promises: Promise<any>[] = [];
+    for (let i: any = 0; i < 60; i++) {
+      promises?.push(errorHandler?.handleError(new Error(`Error ${i}`)).catch((: any) => {}));
     }
 
-    await Promise.all(promises);
+    await Promise?.all(promises);
 
-    const stats = errorHandler.getErrorStats();
-    expect(stats.total).toBe(50); // Should be capped at max size
+    const stats: any = errorHandler?.getErrorStats();
+    expect(stats?.total as any).toBe(50); // Should be capped at max size
   });
 
-  it('clears error queue', async () => {
+  it('clears error queue': any, async (: any) => {
     try {
-      errorHandler.handleError(new Error('Test error'));
+      errorHandler?.handleError(new Error('Test error'));
     } catch {
       // Expected to throw
     }
 
-    let stats = errorHandler.getErrorStats();
-    expect(stats.total).toBe(1);
+    let stats: any = errorHandler?.getErrorStats();
+    expect(stats?.total as any).toBe(1);
 
-    errorHandler.clearErrorQueue();
+    errorHandler?.clearErrorQueue();
 
-    stats = errorHandler.getErrorStats();
-    expect(stats.total).toBe(0);
+    stats = errorHandler?.getErrorStats();
+    expect(stats?.total as any).toBe(0);
   });
 });
 
-describe('Global Error Handler', () => {
-  beforeEach(() => {
-    globalErrorHandler.clearErrorQueue();
-    jest.clearAllMocks();
+describe('Global Error Handler': any, (: any) => {
+  beforeEach((: any) => {
+    globalErrorHandler?.clearErrorQueue();
+    jest?.clearAllMocks();
   });
 
-  it('has default recovery strategies', async () => {
+  it('has default recovery strategies': any, async (: any) => {
     // Test astrological calculation recovery
-    const astroError = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
+    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType?.ASTROLOGICAL_CALCULATION);
 
     // Mock localStorage
     const mockLocalStorage = {
-      getItem: jest.fn(() => JSON.stringify({ zodiacSign: 'aries' })),
-      setItem: jest.fn(),
+      getItem: jest?.fn((: any) => JSON?.stringify({ zodiacSig, n: 'aries' })),;
+      setItem: jest?.fn(),
     };
-    Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
+    Object?.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
-    const result = globalErrorHandler.handleError(astroError);
-    expect(result).toEqual({ zodiacSign: 'aries' });
+    const result: any = globalErrorHandler?.handleError(astroError);
+    expect(result as any).toEqual({ zodiacSign: 'aries' });
   });
 
-  it('uses fallback when cached data is not available', async () => {
-    const astroError = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
+  it('uses fallback when cached data is not available': any, async (: any) => {
+    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType?.ASTROLOGICAL_CALCULATION);
 
     // Mock localStorage with no cached data
     const mockLocalStorage = {
-      getItem: jest.fn(() => null),
-      setItem: jest.fn(),
+      getItem: jest?.fn((: any) => null),;
+      setItem: jest?.fn(),
     };
-    Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
+    Object?.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
-    const result = globalErrorHandler.handleError(astroError);
-    expect(result).toEqual({
+    const result: any = globalErrorHandler?.handleError(astroError);
+    expect(result as any).toEqual({
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
-      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalState: { Fir, e: 0?.25, Water: 0?.25, Earth: 0?.25, Air: 0?.25 },
     });
   });
 });
 
-describe('Utility Functions', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+describe('Utility Functions': any, (: any) => {
+  beforeEach((: any) => {
+    jest?.clearAllMocks();
   });
 
-  it('handleAsyncError wraps promises with error handling', async () => {
-    const successPromise = Promise.resolve('success');
-    const result = handleAsyncError(successPromise);
-    expect(result).toBe('success');
+  it('handleAsyncError wraps promises with error handling': any, async (: any) => {
+    const successPromise: any = Promise?.resolve('success');
+    const result: any = handleAsyncError(successPromise);
+    expect(result as any).toBe('success');
 
-    const failurePromise = Promise.reject(new Error('async error'));
-    await expect(handleAsyncError(failurePromise)).rejects.toThrow();
+    const failurePromise: any = Promise?.reject(new Error('async error'));
+    await expect(handleAsyncError(failurePromise)).rejects?.toThrow();
   });
 
-  it('handleSyncError wraps synchronous functions with error handling', () => {
-    const successFn = () => 'success';
-    const result = handleSyncError(successFn);
-    expect(result).toBe('success');
+  it('handleSyncError wraps synchronous functions with error handling': any, (: any) => {
+    const successFn: any = () => 'success';
+    const result: any = handleSyncError(successFn);
+    expect(result as any).toBe('success');
 
-    const failureFn = () => {
+    const failureFn: any = () => {;
       throw new Error('sync error');
     };
-    expect(() => handleSyncError(failureFn)).toThrow();
+    expect((: any) => handleSyncError(failureFn)).toThrow();
   });
 
-  it('handleAsyncError passes context to error handler', async () => {
-    const context = { operation: 'test' };
-    const failurePromise = Promise.reject(new Error('async error'));
+  it('handleAsyncError passes context to error handler': any, async (: any) => {
+    const context: any = { operation: 'test' };
+    const failurePromise: any = Promise?.reject(new Error('async error'));
 
     try {
       handleAsyncError(failurePromise, context);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error catch blocks handle diverse error types from async operations
-    } catch (error: unknown) {
-      expect(error.context).toEqual(context);
+    } catch (error: any) : any {
+      expect(error?.context as any).toEqual(context);
     }
   });
 
-  it('handleSyncError passes context to error handler', () => {
-    const context = { operation: 'test' };
-    const failureFn = () => {
+  it('handleSyncError passes context to error handler': any, (: any) => {
+    const context: any = { operation: 'test' };
+    const failureFn: any = () => {;
       throw new Error('sync error');
     };
 
@@ -321,22 +324,22 @@ describe('Utility Functions', () => {
       handleSyncError(failureFn, context);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error catch blocks handle diverse error types from async operations
-    } catch (error: unknown) {
-      expect(error.context).toEqual(context);
+    } catch (error: any) : any {
+      expect(error?.context as any).toEqual(context);
     }
   });
 });
 
-describe('Error Severity Determination', () => {
-  it('assigns correct severity levels', () => {
-    const authError = createEnhancedError('Auth error', ErrorType.AUTHENTICATION);
-    const networkError = createEnhancedError('Network error', ErrorType.NETWORK);
-    const validationError = createEnhancedError('Validation error', ErrorType.VALIDATION);
-    const serverError = createEnhancedError('Server error', ErrorType.SERVER_ERROR);
+describe('Error Severity Determination': any, (: any) => {
+  it('assigns correct severity levels': any, (: any) => {
+    const authError: any = createEnhancedError('Auth error', ErrorType?.AUTHENTICATION);
+    const networkError: any = createEnhancedError('Network error', ErrorType?.NETWORK);
+    const validationError: any = createEnhancedError('Validation error', ErrorType?.VALIDATION);
+    const serverError: any = createEnhancedError('Server error', ErrorType?.SERVER_ERROR);
 
-    expect(authError.severity).toBe(ErrorSeverity.HIGH);
-    expect(networkError.severity).toBe(ErrorSeverity.MEDIUM);
-    expect(validationError.severity).toBe(ErrorSeverity.LOW);
-    expect(serverError.severity).toBe(ErrorSeverity.HIGH);
+    expect(authError?.severity as any).toBe(ErrorSeverity?.HIGH);
+    expect(networkError?.severity as any).toBe(ErrorSeverity?.MEDIUM);
+    expect(validationError?.severity as any).toBe(ErrorSeverity?.LOW);
+    expect(serverError?.severity as any).toBe(ErrorSeverity?.HIGH);
   });
 });

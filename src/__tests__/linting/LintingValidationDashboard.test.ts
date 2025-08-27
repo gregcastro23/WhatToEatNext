@@ -12,39 +12,39 @@ import { LintingAlertingSystem } from '../../services/linting/LintingAlertingSys
 import { LintingMetrics, LintingValidationDashboard } from '../../services/linting/LintingValidationDashboard';
 
 // Mock child_process
-jest.mock('child_process');
-const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
+jest?.mock('child_process');
+const mockExecSync: any = execSync as jest?.MockedFunction<typeof execSync>;
 
 // Mock fs
-jest.mock('fs');
-const mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
-const mockReadFileSync = readFileSync as jest.MockedFunction<typeof readFileSync>;
-const mockExistsSync = existsSync as jest.MockedFunction<typeof existsSync>;
+jest?.mock('fs');
+const mockWriteFileSync: any = writeFileSync as jest?.MockedFunction<typeof writeFileSync>;
+const mockReadFileSync: any = readFileSync as jest?.MockedFunction<typeof readFileSync>;
+const mockExistsSync: any = existsSync as jest?.MockedFunction<typeof existsSync>;
 
-describe('LintingValidationDashboard', () => {
+describe('LintingValidationDashboard': any, (: any) => {
   let dashboard: LintingValidationDashboard;
   let alerting: LintingAlertingSystem;
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+  beforeEach((: any) => {
+    jest?.clearAllMocks();
 
     // Mock directory existence
-    mockExistsSync.mockImplementation((path: string) => {
-      return path.includes('.kiro/metrics') || path.includes('eslint.config.cjs');
+    mockExistsSync?.mockImplementation((path: string) => {
+      return path?.includes('.kiro/metrics') || path?.includes('eslint?.config.cjs');
     });
 
     // Mock file operations
-    mockWriteFileSync.mockImplementation(() => {});
-    mockReadFileSync.mockImplementation((path: string) => {
-      if (path.includes('config.json')) {
-        return JSON.stringify({
+    mockWriteFileSync?.mockImplementation((: any) => {});
+    mockReadFileSync?.mockImplementation((path: string) => {
+      if (path?.includes('config?.json')) {
+        return JSON?.stringify({
           thresholds: [],
           alertingEnabled: true,
           regressionDetectionEnabled: true,
         });
       }
-      if (path.includes('history.json')) {
-        return JSON.stringify([]);
+      if (path?.includes('history?.json')) {
+        return JSON?.stringify([]);
       }
       return '{}';
     });
@@ -53,12 +53,12 @@ describe('LintingValidationDashboard', () => {
     alerting = new LintingAlertingSystem();
   });
 
-  describe('Comprehensive Validation', () => {
-    test('should run comprehensive validation successfully', async () => {
+  describe('Comprehensive Validation': any, (: any) => {
+    test('should run comprehensive validation successfully': any, async (: any) => {
       // Mock successful ESLint output
       const mockLintResults = [
         {
-          filePath: '/src/components/TestComponent.tsx',
+          filePath: '/src/components/TestComponent?.tsx',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -77,49 +77,49 @@ describe('LintingValidationDashboard', () => {
           ],
         },
         {
-          filePath: '/src/calculations/astrology.ts',
+          filePath: '/src/calculations/astrology?.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-unused-vars',
               severity: 1,
               message: 'Unused variable',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ];
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
+      const result: any = await dashboard?.runComprehensiveValidation();
 
       expect(result).toBeDefined();
-      expect(result.metrics).toBeDefined();
-      expect(result.metrics.totalIssues).toBe(3);
-      expect(result.metrics.errors).toBe(1);
-      expect(result.metrics.warnings).toBe(2);
-      expect(result.metrics.explicitAnyErrors).toBe(1);
-      expect(result.metrics.importOrderIssues).toBe(1);
-      expect(result.metrics.unusedVariables).toBe(1);
+      expect(result?.metrics).toBeDefined();
+      expect(result?.metrics.totalIssues as any).toBe(3);
+      expect(result?.metrics.errors as any).toBe(1);
+      expect(result?.metrics.warnings as any).toBe(2);
+      expect(result?.metrics.explicitAnyErrors as any).toBe(1);
+      expect(result?.metrics.importOrderIssues as any).toBe(1);
+      expect(result?.metrics.unusedVariables as any).toBe(1);
     });
 
-    test('should handle ESLint execution errors gracefully', async () => {
-      mockExecSync.mockImplementation(() => {
+    test('should handle ESLint execution errors gracefully': any, async (: any) => {
+      mockExecSync?.mockImplementation((: any) => {
         throw new Error('ESLint execution failed');
       });
 
-      const result = await dashboard.runComprehensiveValidation();
+      const result: any = await dashboard?.runComprehensiveValidation();
       expect(result).toBeDefined();
-      expect(result.metrics.totalIssues).toBe(-1); // Error state
-      expect(result.metrics.qualityScore).toBe(0);
-      expect(result.passed).toBe(true); // No critical alerts in error state
+      expect(result?.metrics.totalIssues as any).toBe(-1); // Error state
+      expect(result?.metrics.qualityScore as any).toBe(0);
+      expect(result?.passed as any).toBe(true); // No critical alerts in error state
     });
 
-    test('should categorize domain-specific issues correctly', async () => {
-      const mockLintResults = [
+    test('should categorize domain-specific issues correctly': any, async (: any) => {
+      const mockLintResults: any = [
         {
-          filePath: '/src/calculations/culinary/astrology.ts',
+          filePath: '/src/calculations/culinary/astrology?.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -131,7 +131,7 @@ describe('LintingValidationDashboard', () => {
           ],
         },
         {
-          filePath: '/src/services/campaign/CampaignController.ts',
+          filePath: '/src/services/campaign/CampaignController?.ts',
           messages: [
             {
               ruleId: 'no-console',
@@ -143,370 +143,370 @@ describe('LintingValidationDashboard', () => {
           ],
         },
         {
-          filePath: '/src/__tests__/validation/test.spec.ts',
+          filePath: '/src/__tests__/validation/test?.spec.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-unused-vars',
               severity: 1,
               message: 'Unused variable',
-              line: 5,
+              line: 5,;
               column: 10,
             },
           ],
         },
       ];
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
+      const result: any = await dashboard?.runComprehensiveValidation();
 
-      expect(result.metrics.domainSpecificIssues.astrologicalCalculations).toBe(1);
-      expect(result.metrics.domainSpecificIssues.campaignSystem).toBe(1);
-      expect(result.metrics.domainSpecificIssues.testFiles).toBe(1);
+      expect(result?.metrics.domainSpecificIssues?.astrologicalCalculations as any).toBe(1);
+      expect(result?.metrics.domainSpecificIssues?.campaignSystem as any).toBe(1);
+      expect(result?.metrics.domainSpecificIssues?.testFiles as any).toBe(1);
     });
   });
 
-  describe('Quality Score Calculation', () => {
-    test('should calculate quality score correctly for good metrics', async () => {
+  describe('Quality Score Calculation': any, (: any) => {
+    test('should calculate quality score correctly for good metrics': any, async (: any) => {
       const mockLintResults = [
         {
-          filePath: '/src/components/TestComponent.tsx',
+          filePath: '/src/components/TestComponent?.tsx',
           messages: [
             {
               ruleId: 'import/order',
               severity: 1,
               message: 'Import order incorrect',
-              line: 1,
+              line: 1,;
               column: 1,
             },
           ],
         },
       ];
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.qualityScore).toBeGreaterThan(90); // Should be high with only minor issues
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.metrics.qualityScore).toBeGreaterThan(90); // Should be high with only minor issues
     });
 
-    test('should penalize quality score for parser errors', async () => {
-      const mockLintResults = [
+    test('should penalize quality score for parser errors': any, async (: any) => {
+      const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine?.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
               severity: 2,
               fatal: true,
               message: 'Parser error',
-              line: 68,
+              line: 68,;
               column: 1,
             },
           ],
         },
       ];
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.parserErrors).toBe(1);
-      expect(result.metrics.qualityScore).toBeLessThan(60); // Should be heavily penalized
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.metrics.parserErrors as any).toBe(1);
+      expect(result?.metrics.qualityScore).toBeLessThan(60); // Should be heavily penalized
     });
 
-    test('should penalize quality score for explicit any errors', async () => {
-      const mockLintResults = Array.from({ length: 150 }, (_, i) => ({
+    test('should penalize quality score for explicit any errors': any, async (: any) => {
+      const mockLintResults: any = Array?.from({ length: 150 }, (_, i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
             ruleId: '@typescript-eslint/no-explicit-any',
             severity: 2,
             message: 'Unexpected any',
-            line: 10,
+            line: 10,;
             column: 5,
           },
         ],
       }));
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.explicitAnyErrors).toBe(150);
-      expect(result.metrics.qualityScore).toBeLessThan(80); // Should be penalized for many explicit any
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.metrics.explicitAnyErrors as any).toBe(150);
+      expect(result?.metrics.qualityScore).toBeLessThan(80); // Should be penalized for many explicit any
     });
   });
 
-  describe('Alert Generation', () => {
-    test('should generate critical alert for parser errors', async () => {
-      const mockLintResults = [
+  describe('Alert Generation': any, (: any) => {
+    test('should generate critical alert for parser errors': any, async (: any) => {
+      const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine?.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
               severity: 2,
               fatal: true,
               message: 'Parser error',
-              line: 68,
+              line: 68,;
               column: 1,
             },
           ],
         },
       ];
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      const criticalAlerts = result.alerts.filter(alert => alert.severity === 'critical');
-      expect(criticalAlerts.length).toBeGreaterThan(0);
-      expect(criticalAlerts[0].metric).toBe('parserErrors');
+      const result: any = await dashboard?.runComprehensiveValidation();
+      const criticalAlerts: any = result?.alerts.filter(alert => alert?.severity === 'critical');
+      expect(criticalAlerts?.length).toBeGreaterThan(0);
+      expect(criticalAlerts?.[0].metric as any).toBe('parserErrors');
     });
 
-    test('should generate error alert for excessive explicit any', async () => {
-      const mockLintResults = Array.from({ length: 150 }, (_, i) => ({
+    test('should generate error alert for excessive explicit any': any, async (: any) => {
+      const mockLintResults: any = Array?.from({ length: 150 }, (_, i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
             ruleId: '@typescript-eslint/no-explicit-any',
             severity: 2,
             message: 'Unexpected any',
-            line: 10,
+            line: 10,;
             column: 5,
           },
         ],
       }));
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      const errorAlerts = result.alerts.filter(alert => alert.severity === 'error');
-      expect(errorAlerts.some(alert => alert.metric === 'explicitAnyErrors')).toBe(true);
+      const result: any = await dashboard?.runComprehensiveValidation();
+      const errorAlerts: any = result?.alerts.filter(alert => alert?.severity === 'error');
+      expect(errorAlerts?.some(alert => alert?.metric === 'explicitAnyErrors')).toBe(true);
     });
 
-    test('should generate warning alert for performance issues', async () => {
+    test('should generate warning alert for performance issues': any, async (: any) => {
       // Mock slow linting performance
-      mockExecSync.mockImplementation(() => {
+      mockExecSync?.mockImplementation((: any) => {
         // Simulate slow execution
-        const start = Date.now();
-        while (Date.now() - start < 100) {
+        const start: any = Date?.now();
+        while (Date?.now() - start < 100) {
           // Busy wait to simulate slow execution
         }
-        return JSON.stringify([]);
+        return JSON?.stringify([]);
       });
 
-      const result = await dashboard.runComprehensiveValidation();
+      const result: any = await dashboard?.runComprehensiveValidation();
       // Performance alerts are based on actual execution time
       // This test verifies the alert generation logic exists
-      expect(result.alerts).toBeDefined();
+      expect(result?.alerts).toBeDefined();
     });
   });
 
-  describe('Regression Analysis', () => {
-    test('should detect regression when issues increase', async () => {
+  describe('Regression Analysis': any, (: any) => {
+    test('should detect regression when issues increase': any, async (: any) => {
       // Mock historical data with fewer issues
-      const historicalMetrics = [
+      const historicalMetrics: any = [
         {
-          timestamp: new Date(Date.now() - 86400000), // 1 day ago,
+          timestamp: new Date(Date?.now() - 86400000), // 1 day ago,
           totalIssues: 100,
           qualityScore: 85,
-          parserErrors: 0,
+          parserErrors: 0,;
           explicitAnyErrors: 50,
         },
       ];
 
-      mockReadFileSync.mockImplementation((path: string) => {
-        if (path.includes('history.json')) {
-          return JSON.stringify(historicalMetrics);
+      mockReadFileSync?.mockImplementation((path: string) => {
+        if (path?.includes('history?.json')) {
+          return JSON?.stringify(historicalMetrics);
         }
-        return JSON.stringify({ thresholds: [], alertingEnabled: true });
+        return JSON?.stringify({ thresholds: [], alertingEnabled: true });
       });
 
       // Mock current results with more issues
-      const mockLintResults = Array.from({ length: 200 }, (_, i) => ({
+      const mockLintResults: any = Array?.from({ length: 200 }, (_, i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
             ruleId: '@typescript-eslint/no-explicit-any',
             severity: 2,
             message: 'Unexpected any',
-            line: 10,
+            line: 10,;
             column: 5,
           },
         ],
       }));
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
+      const result: any = await dashboard?.runComprehensiveValidation();
 
-      expect(result.regressionAnalysis.detected).toBe(true);
-      expect(result.regressionAnalysis.affectedMetrics).toContain('totalIssues');
-      expect(result.regressionAnalysis.severity).toBeDefined();
+      expect(result?.regressionAnalysis.detected as any).toBe(true);
+      expect(result?.regressionAnalysis.affectedMetrics).toContain('totalIssues');
+      expect(result?.regressionAnalysis.severity).toBeDefined();
     });
 
-    test('should not detect regression with insufficient historical data', async () => {
-      mockReadFileSync.mockImplementation((path: string) => {
-        if (path.includes('history.json')) {
-          return JSON.stringify([]); // No historical data
+    test('should not detect regression with insufficient historical data': any, async (: any) => {
+      mockReadFileSync?.mockImplementation((path: string) => {
+        if (path?.includes('history?.json')) {
+          return JSON?.stringify([]); // No historical data
         }
-        return JSON.stringify({ thresholds: [], alertingEnabled: true });
+        return JSON?.stringify({ thresholds: [], alertingEnabled: true });
       });
 
-      mockExecSync.mockReturnValue(JSON.stringify([]));
+      mockExecSync?.mockReturnValue(JSON?.stringify([]));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.regressionAnalysis.detected).toBe(false);
-      expect(result.regressionAnalysis.recommendations).toContain(
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.regressionAnalysis.detected as any).toBe(false);
+      expect(result?.regressionAnalysis.recommendations).toContain(
         'Insufficient historical data for regression analysis',
       );
     });
   });
 
-  describe('Recommendations Generation', () => {
-    test('should generate parser error recommendations', async () => {
-      const mockLintResults = [
+  describe('Recommendations Generation': any, (: any) => {
+    test('should generate parser error recommendations': any, async (: any) => {
+      const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine?.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
               severity: 2,
               fatal: true,
               message: 'Parser error',
-              line: 68,
+              line: 68,;
               column: 1,
             },
           ],
         },
       ];
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('URGENT: Fix parser errors immediately'))).toBe(true);
-      expect(result.recommendations.some(rec => rec.includes('recommendationEngine.ts'))).toBe(true);
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.recommendations.some(rec => rec?.includes('URGENT: Fix parser errors immediately'))).toBe(true);
+      expect(result?.recommendations.some(rec => rec?.includes('recommendationEngine?.ts'))).toBe(true);
     });
 
-    test('should generate explicit any recommendations', async () => {
-      const mockLintResults = Array.from({ length: 150 }, (_, i) => ({
+    test('should generate explicit any recommendations': any, async (: any) => {
+      const mockLintResults: any = Array?.from({ length: 150 }, (_, i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
             ruleId: '@typescript-eslint/no-explicit-any',
             severity: 2,
             message: 'Unexpected any',
-            line: 10,
+            line: 10,;
             column: 5,
           },
         ],
       }));
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('HIGH PRIORITY: Reduce explicit any types'))).toBe(true);
-      expect(result.recommendations.some(rec => rec.includes('systematic type inference'))).toBe(true);
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.recommendations.some(rec => rec?.includes('HIGH PRIORITY: Reduce explicit any types'))).toBe(true);
+      expect(result?.recommendations.some(rec => rec?.includes('systematic type inference'))).toBe(true);
     });
 
-    test('should generate import organization recommendations', async () => {
-      const mockLintResults = Array.from({ length: 60 }, (_, i) => ({
+    test('should generate import organization recommendations': any, async (: any) => {
+      const mockLintResults = Array?.from({ length: 60 }, (_, i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
             ruleId: 'import/order',
             severity: 1,
             message: 'Import order incorrect',
-            line: 1,
+            line: 1,;
             column: 1,
           },
         ],
       }));
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('READY: Deploy enhanced import organization'))).toBe(true);
-      expect(result.recommendations.some(rec => rec.includes('alphabetical sorting'))).toBe(true);
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.recommendations.some(rec => rec?.includes('READY: Deploy enhanced import organization'))).toBe(true);
+      expect(result?.recommendations.some(rec => rec?.includes('alphabetical sorting'))).toBe(true);
     });
 
-    test('should generate domain-specific recommendations', async () => {
-      const mockLintResults = Array.from({ length: 25 }, (_, i) => ({
+    test('should generate domain-specific recommendations': any, async (: any) => {
+      const mockLintResults: any = Array?.from({ length: 25 }, (_, i) => ({
         filePath: `/src/calculations/astrology/calculation${i}.ts`,
         messages: [
           {
             ruleId: '@typescript-eslint/no-explicit-any',
             severity: 2,
             message: 'Unexpected any',
-            line: 10,
+            line: 10,;
             column: 5,
           },
         ],
       }));
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe(
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.recommendations.some(rec => rec?.includes('DOMAIN: Review astrological calculation files'))).toBe(;
         true,
       );
-      expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true);
+      expect(result?.recommendations.some(rec => rec?.includes('lint:domain-astro'))).toBe(true);
     });
   });
 
-  describe('Performance Metrics', () => {
-    test('should collect performance metrics', async () => {
-      mockExecSync.mockReturnValue(JSON.stringify([]));
+  describe('Performance Metrics': any, (: any) => {
+    test('should collect performance metrics': any, async (: any) => {
+      mockExecSync?.mockReturnValue(JSON?.stringify([]));
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.performanceMetrics).toBeDefined();
-      expect(result.metrics.performanceMetrics.lintingDuration).toBeGreaterThan(0);
-      expect(result.metrics.performanceMetrics.memoryUsage).toBeGreaterThan(0);
-      expect(result.metrics.performanceMetrics.filesProcessed).toBeGreaterThanOrEqual(0);
-      expect(result.metrics.performanceMetrics.cacheHitRate).toBeGreaterThanOrEqual(0);
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.metrics.performanceMetrics).toBeDefined();
+      expect(result?.metrics.performanceMetrics?.lintingDuration).toBeGreaterThan(0);
+      expect(result?.metrics.performanceMetrics?.memoryUsage).toBeGreaterThan(0);
+      expect(result?.metrics.performanceMetrics?.filesProcessed).toBeGreaterThanOrEqual(0);
+      expect(result?.metrics.performanceMetrics?.cacheHitRate).toBeGreaterThanOrEqual(0);
     });
 
-    test('should generate performance recommendations when slow', async () => {
+    test('should generate performance recommendations when slow': any, async (: any) => {
       // Mock slow execution
-      mockExecSync.mockImplementation(() => {
-        const start = Date.now();
-        while (Date.now() - start < 100) {
+      mockExecSync?.mockImplementation((: any) => {
+        const start: any = Date?.now();
+        while (Date?.now() - start < 100) {
           // Simulate slow execution
         }
-        return JSON.stringify([]);
+        return JSON?.stringify([]);
       });
 
-      const result = await dashboard.runComprehensiveValidation();
+      const result: any = await dashboard?.runComprehensiveValidation();
       // Check if performance recommendations are generated
       // (This depends on actual execution time, so we check the structure);
-      expect(result.recommendations).toBeDefined();
-      expect(Array.isArray(result.recommendations)).toBe(true);
+      expect(result?.recommendations).toBeDefined();
+      expect(Array?.isArray(result?.recommendations)).toBe(true);
     });
   });
 
-  describe('Dashboard Report Generation', () => {
-    test('should generate comprehensive dashboard report', async () => {
-      mockExecSync.mockReturnValue(JSON.stringify([]));
+  describe('Dashboard Report Generation': any, (: any) => {
+    test('should generate comprehensive dashboard report': any, async (: any) => {
+      mockExecSync?.mockReturnValue(JSON?.stringify([]));
 
-      const _result = await dashboard.runComprehensiveValidation();
+      const _result: any = await dashboard?.runComprehensiveValidation();
       // Verify that writeFileSync was called to generate the report
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('linting-dashboard-report.md'),
-        expect.stringContaining('# Linting Excellence Dashboard Report'),
+        expect?.stringContaining('linting-dashboard-report?.md'),
+        expect?.stringContaining('# Linting Excellence Dashboard Report'),
         'utf8',
       );
     });
 
-    test('should include all required sections in report', async () => {
-      mockExecSync.mockReturnValue(JSON.stringify([]));
+    test('should include all required sections in report': any, async (: any) => {
+      mockExecSync?.mockReturnValue(JSON?.stringify([]));
 
-      await dashboard.runComprehensiveValidation();
+      await dashboard?.runComprehensiveValidation();
 
       // Get the report content from the mock call
-      const reportCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
-        call[0].includes('linting-validation-report.md'),
+      const reportCall: any = (mockWriteFileSync as jest?.Mock).mock?.calls.find(call =>;
+        call?.[0].includes('linting-validation-report?.md'),
       );
 
       expect(reportCall).toBeDefined();
-      const reportContent = reportCall[1];
+      const reportContent: any = reportCall?.[1];
 
       expect(reportContent).toContain('📊 Overall Status');
       expect(reportContent).toContain('🔍 DETAILED METRICS');
@@ -517,97 +517,97 @@ describe('LintingValidationDashboard', () => {
     });
   });
 
-  describe('Error Handling', () => {
-    test('should handle JSON parsing errors gracefully', async () => {
-      mockExecSync.mockReturnValue('invalid json');
+  describe('Error Handling': any, (: any) => {
+    test('should handle JSON parsing errors gracefully': any, async (: any) => {
+      mockExecSync?.mockReturnValue('invalid json');
 
-      const result = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.totalIssues).toBe(-1); // Error state
-      expect(result.passed).toBe(true); // No critical alerts in error state
+      const result: any = await dashboard?.runComprehensiveValidation();
+      expect(result?.metrics.totalIssues as any).toBe(-1); // Error state
+      expect(result?.passed as any).toBe(true); // No critical alerts in error state
     });
 
-    test('should handle file system errors gracefully', async () => {
-      mockWriteFileSync.mockImplementation(() => {
+    test('should handle file system errors gracefully': any, async (: any) => {
+      mockWriteFileSync?.mockImplementation((: any) => {
         throw new Error('File system error');
       });
 
-      mockExecSync.mockReturnValue(JSON.stringify([]));
+      mockExecSync?.mockReturnValue(JSON?.stringify([]));
 
       // Should not throw, but handle the error gracefully
-      await expect(dashboard.runComprehensiveValidation()).resolves.toBeDefined();
+      await expect(dashboard?.runComprehensiveValidation()).resolves?.toBeDefined();
     });
 
-    test('should handle missing configuration files', async () => {
-      mockExistsSync.mockReturnValue(false);
-      mockReadFileSync.mockImplementation(() => {
+    test('should handle missing configuration files': any, async (: any) => {
+      mockExistsSync?.mockReturnValue(false);
+      mockReadFileSync?.mockImplementation((: any) => {
         throw new Error('File not found');
       });
 
       // Should create dashboard with default configuration
-      const newDashboard = new LintingValidationDashboard();
+      const newDashboard: any = new LintingValidationDashboard();
       expect(newDashboard).toBeDefined();
     });
   });
 
-  describe('Integration with Alerting System', () => {
-    test('should process alerts through alerting system', async () => {
-      const mockLintResults = [
+  describe('Integration with Alerting System': any, (: any) => {
+    test('should process alerts through alerting system': any, async (: any) => {
+      const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine?.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
               severity: 2,
               fatal: true,
               message: 'Parser error',
-              line: 68,
+              line: 68,;
               column: 1,
             },
           ],
         },
       ];
 
-      mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
+      mockExecSync?.mockReturnValue(JSON?.stringify(mockLintResults));
 
-      const result = await dashboard.runComprehensiveValidation();
+      const result: any = await dashboard?.runComprehensiveValidation();
       // Verify alerts were generated
-      expect(result.alerts.length).toBeGreaterThan(0);
+      expect(result?.alerts.length).toBeGreaterThan(0);
 
       // Test alerting system processing
-      const processAlertsSpy = jest.spyOn(alerting, 'processAlerts');
-      alerting.processAlerts(result.alerts, result.metrics);
+      const processAlertsSpy: any = jest?.spyOn(alerting, 'processAlerts');
+      alerting?.processAlerts(result?.alerts, result?.metrics);
 
-      expect(processAlertsSpy).toHaveBeenCalledWith(result.alerts, result.metrics);
+      expect(processAlertsSpy).toHaveBeenCalledWith(result?.alerts, result?.metrics);
     });
   });
 });
 
-describe('LintingAlertingSystem', () => {
+describe('LintingAlertingSystem': any, (: any) => {
   let alerting: LintingAlertingSystem;
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+  beforeEach((: any) => {
+    jest?.clearAllMocks();
 
-    mockExistsSync.mockImplementation((path: string) => {
-      return path.includes('.kiro/metrics');
+    mockExistsSync?.mockImplementation((path: string) => {
+      return path?.includes('.kiro/metrics');
     });
 
-    mockReadFileSync.mockImplementation(() => {
-      return JSON.stringify({
+    mockReadFileSync?.mockImplementation((: any) => {
+      return JSON?.stringify({
         enabled: true,
-        channels: [{ type: 'console', config: {}, severityFilter: ['error', 'critical'] }],
-        regressionDetection: { enabled: true, sensitivity: 'medium', cooldownPeriod: 15 },
-        performanceMonitoring: { enabled: true, thresholds: [] },
-        autoResponse: { enabled: true, actions: [] },
+        channels: [{ typ, e: 'console', config: {}, severityFilter: ['error', 'critical'] }],
+        regressionDetection: { enable, d: true, sensitivity: 'medium', cooldownPeriod: 15 },
+        performanceMonitoring: { enable, d: true, thresholds: [] },
+        autoResponse: { enable, d: true, actions: [] },
       });
     });
 
     alerting = new LintingAlertingSystem();
   });
 
-  describe('Alert Processing', () => {
-    test('should process alerts when enabled', async () => {
-      const mockAlerts = [
+  describe('Alert Processing': any, (: any) => {
+    test('should process alerts when enabled': any, async (: any) => {
+      const mockAlerts: any = [
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -615,13 +615,12 @@ describe('LintingAlertingSystem', () => {
           metric: 'parserErrors',
           currentValue: 1,
           threshold: 0,
-          message: 'Parser errors detected',
+          message: 'Parser errors detected',;
           resolved: false,
         },
       ];
 
-      const mockMetrics: LintingMetrics = {
-        timestamp: new Date(),
+      const mockMetrics: LintingMetrics = {, timestamp: new Date(),
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -631,40 +630,38 @@ describe('LintingAlertingSystem', () => {
         unusedVariables: 0,
         reactHooksIssues: 0,
         consoleStatements: 0,
-        domainSpecificIssues: {
-          astrologicalCalculations: 0,
+        domainSpecificIssues: {, astrologicalCalculations: 0,
           campaignSystem: 0,
           testFiles: 0,
         },
-        performanceMetrics: {
-          lintingDuration: 5000,
-          cacheHitRate: 0.75,
+        performanceMetrics: {, lintingDuration: 5000,
+          cacheHitRate: 0?.75,
           memoryUsage: 256,
           filesProcessed: 100,
         },
-        qualityScore: 85,
+        qualityScore: 85,;
         regressionDetected: false,
       };
 
       // Should not throw
-      await expect(alerting.processAlerts(mockAlerts, mockMetrics)).resolves.toBeUndefined();
+      await expect(alerting?.processAlerts(mockAlerts, mockMetrics)).resolves?.toBeUndefined();
     });
 
-    test('should skip processing when disabled', async () => {
+    test('should skip processing when disabled': any, async (: any) => {
       // Mock disabled configuration
-      mockReadFileSync.mockImplementation(() => {
-        return JSON.stringify({
+      mockReadFileSync?.mockImplementation((: any) => {
+        return JSON?.stringify({
           enabled: false,
           channels: [],
-          regressionDetection: { enabled: false },
-          performanceMonitoring: { enabled: false },
-          autoResponse: { enabled: false },
+          regressionDetection: { enable, d: false },
+          performanceMonitoring: { enable, d: false },
+          autoResponse: { enable, d: false },
         });
       });
 
-      const disabledAlerting = new LintingAlertingSystem();
+      const disabledAlerting: any = new LintingAlertingSystem();
 
-      const mockAlerts = [
+      const mockAlerts: any = [
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -672,13 +669,12 @@ describe('LintingAlertingSystem', () => {
           metric: 'parserErrors',
           currentValue: 1,
           threshold: 0,
-          message: 'Parser errors detected',
+          message: 'Parser errors detected',;
           resolved: false,
         },
       ];
 
-      const mockMetrics: LintingMetrics = {
-        timestamp: new Date(),
+      const mockMetrics: LintingMetrics = {, timestamp: new Date(),
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -688,30 +684,27 @@ describe('LintingAlertingSystem', () => {
         unusedVariables: 0,
         reactHooksIssues: 0,
         consoleStatements: 0,
-        domainSpecificIssues: {
-          astrologicalCalculations: 0,
+        domainSpecificIssues: {, astrologicalCalculations: 0,
           campaignSystem: 0,
           testFiles: 0,
         },
-        performanceMetrics: {
-          lintingDuration: 5000,
-          cacheHitRate: 0.75,
+        performanceMetrics: {, lintingDuration: 5000,
+          cacheHitRate: 0?.75,
           memoryUsage: 256,
           filesProcessed: 100,
         },
-        qualityScore: 85,
+        qualityScore: 85,;
         regressionDetected: false,
       };
 
       // Should complete quickly when disabled
-      await expect(disabledAlerting.processAlerts(mockAlerts, mockMetrics)).resolves.toBeUndefined();
+      await expect(disabledAlerting?.processAlerts(mockAlerts, mockMetrics)).resolves?.toBeUndefined();
     });
   });
 
-  describe('Performance Monitoring', () => {
-    test('should detect performance threshold violations', async () => {
-      const mockMetrics: LintingMetrics = {
-        timestamp: new Date(),
+  describe('Performance Monitoring': any, (: any) => {
+    test('should detect performance threshold violations': any, async (: any) => {
+      const mockMetrics: LintingMetrics = {, timestamp: new Date(),
         totalIssues: 0,
         errors: 0,
         warnings: 0,
@@ -721,23 +714,21 @@ describe('LintingAlertingSystem', () => {
         unusedVariables: 0,
         reactHooksIssues: 0,
         consoleStatements: 0,
-        domainSpecificIssues: {
-          astrologicalCalculations: 0,
+        domainSpecificIssues: {, astrologicalCalculations: 0,
           campaignSystem: 0,
           testFiles: 0,
         },
-        performanceMetrics: {
-          lintingDuration: 35000, // Exceeds 30s threshold
-          cacheHitRate: 0.3, // Below 50% threshold
+        performanceMetrics: {, lintingDuration: 35000, // Exceeds 30s threshold
+          cacheHitRate: 0?.3, // Below 50% threshold
           memoryUsage: 600, // Exceeds 512MB threshold
           filesProcessed: 100,
         },
-        qualityScore: 85,
+        qualityScore: 85,;
         regressionDetected: false,
       };
 
       // Should process performance monitoring
-      await expect(alerting.processAlerts([], mockMetrics)).resolves.toBeUndefined();
+      await expect(alerting?.processAlerts([], mockMetrics)).resolves?.toBeUndefined();
     });
   });
 });
