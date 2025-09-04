@@ -23,11 +23,11 @@ const TabsTrigger = ({ children }: any) => (
   <button className='rounded border px-3 py-1'>{children}</button>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const TabsContent = ({ children }: unknown) => <div className='mt-4'>{children as React.ReactNode}</div>;
-
-const AstrologyChart = () => (
-  <div className='p-4 text-gray-600'>AstrologyChart unavailable</div>
+const TabsContent = ({ children }: unknown) => (
+  <div className='mt-4'>{children as React.ReactNode}</div>
 );
+
+const AstrologyChart = () => <div className='p-4 text-gray-600'>AstrologyChart unavailable</div>;
 
 const AstrologyChartMigrated = AstrologyChart;
 

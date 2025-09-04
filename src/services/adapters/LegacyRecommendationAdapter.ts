@@ -8,10 +8,7 @@
  * The adapter implements legacy methods but delegates to modern services.
  */
 
-import type {
-    ThermodynamicProperties,
-    ZodiacSign,
-} from '@/types/alchemy';
+import type { ThermodynamicProperties, ZodiacSign } from '@/types/alchemy';
 import { ElementalProperties } from '@/types/alchemy';
 import { CookingMethod } from '@/types/cooking';
 import { UnifiedIngredient } from '@/types/ingredient';
@@ -20,11 +17,11 @@ import { Recipe } from '@/types/recipe';
 import { createLogger } from '../../utils/logger';
 import { alchemicalRecommendationService } from '../AlchemicalRecommendationService';
 import type {
-    CookingMethodRecommendationCriteria,
-    CuisineRecommendationCriteria,
-    IngredientRecommendationCriteria,
-    RecipeRecommendationCriteria,
-    RecommendationResult,
+  CookingMethodRecommendationCriteria,
+  CuisineRecommendationCriteria,
+  IngredientRecommendationCriteria,
+  RecipeRecommendationCriteria,
+  RecommendationResult,
 } from '../interfaces/RecommendationServiceInterface';
 import { unifiedRecommendationService } from '../UnifiedRecommendationService';
 

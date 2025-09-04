@@ -3,59 +3,59 @@ import { Ingredient } from '@/types/ingredient';
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
 
 // Mock implementation of getRecommendedIngredients
-jest?.mock('@/utils/ingredientRecommender': any, (: any) => {
+jest.mock('@/utils/ingredientRecommender'( {
   return {
     getRecommendedIngredients: (): Ingredient[] => [
       {
         name: 'Rosemary',
         category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
-        elementalProperties: { Fir, e: 0?.6, Air: 0?.3, Earth: 0?.1, Water: 0 },
-        astrologicalProfile: {, rulingPlanets: ['Sun', 'Mercury'],
+        elementalProperties: { Fir, e: 0.6, Air: 0.3, Earth: 0.1, Water: 0 },
+        astrologicalProfile: { rulingPlanets: ['Sun', 'Mercury'],
         },
       } as Ingredient,
       {
         name: 'Thyme',
         category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
-        elementalProperties: { Fir, e: 0?.4, Air: 0?.4, Earth: 0?.2, Water: 0 },
-        astrologicalProfile: {, rulingPlanets: ['Mercury'],
+        elementalProperties: { Fir, e: 0.4, Air: 0.4, Earth: 0.2, Water: 0 },
+        astrologicalProfile: { rulingPlanets: ['Mercury'],
         },
       } as Ingredient,
     ],
   };
 });
 
-describe('getRecommendedIngredients': any, (: any) => {
-  it('should return ingredients matching the current elemental state': any, (: any) => {
-    const astroState: AstrologicalState = {, currentZodiac: 'leo',
+describe('getRecommendedIngredients', () => {
+  it('should return ingredients matching the current elemental state', () => {
+    const astroState: AstrologicalState = { currentZodiac: 'leo',
       moonPhase: 'full moon',
-      currentPlanetaryAlignment: {, Sun: { sign: 'leo', degree: 15 },
+      currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
         Moon: { sig, n: 'cancer', degree: 5 },
       },
       activePlanets: ['sun', 'moon'],
-      planetaryPositions: {, Sun: { sign: 'leo', degree: 15 },
+      planetaryPositions: { Sun: { sign: 'leo', degree: 15 },
         Moon: { sig, n: 'cancer', degree: 5 },
       },
       lunarPhase: 'full moon',
       planetaryHour: 'Sun',
-      planetaryAlignment: {, Sun: { sign: 'leo', degree: 15 },
+      planetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
         Moon: { sig, n: 'cancer', degree: 5 },
       },
       aspects: [],
-      tarotElementBoosts: { Fir, e: 0?.2, Water: 0?.1, Air: 0, Earth: 0 },;
-      tarotPlanetaryBoosts: { Su, n: 0?.2, Moon: 0?.1 },
+      tarotElementBoosts: { Fir, e: 0.2, Water: 0.1, Air: 0, Earth: 0 },
+      tarotPlanetaryBoosts: { Su, n: 0.2, Moon: 0.1 },
     };
 
     const ingredients: any = getRecommendedIngredients(astroState);
 
     expect(ingredients).toBeInstanceOf(Array);
-    ingredients?.forEach(ingredient => {;
+    ingredients.forEach(ingredient => {
       expect(ingredient).toHaveProperty('elementalProperties');
       expect(ingredient).toHaveProperty('astrologicalProfile');
       const astroProfile: any = (ingredient as { astrologicalProfile: { rulingPlanet, s: string[] } }).astrologicalProfile;
       expect(astroProfile).toHaveProperty('rulingPlanets');
-      expect(astroProfile?.rulingPlanets.some((planet: string) => ['Sun', 'Mercury', 'Saturn'].includes(planet))).toBe(
+      expect(astroProfile.rulingPlanets.some((planet: string) => ['Sun', 'Mercury', 'Saturn'].includes(planet))).toBe(
         true,
       );
     });

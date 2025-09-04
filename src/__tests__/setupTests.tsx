@@ -285,14 +285,12 @@ campaignMock.tracker = {
     .fn()
     .mockResolvedValue({ TS2352: 15, TS2339: 20, TS2304: 10, TS2345: 5 }),
   getLintingWarningCount: jest.fn().mockResolvedValue(2000),
-  getLintingWarningBreakdown: jest
-    .fn()
-    .mockResolvedValue({
-      '@typescript-eslint/no-explicit-any': 800,
-      '@typescript-eslint/no-unused-vars': 600,
-      'no-console': 400,
-      'prefer-const': 200,
-    }),
+  getLintingWarningBreakdown: jest.fn().mockResolvedValue({
+    '@typescript-eslint/no-explicit-any': 800,
+    '@typescript-eslint/no-unused-vars': 600,
+    'no-console': 400,
+    'prefer-const': 200,
+  }),
   getBuildTime: jest.fn().mockResolvedValue(8.5),
   getEnterpriseSystemCount: jest.fn().mockResolvedValue(50),
   getCacheHitRate: jest.fn().mockResolvedValue(0.8),
@@ -343,16 +341,14 @@ campaignMock.testController = {
   cleanupAfterTest: jest.fn().mockResolvedValue(undefined),
   isPaused: jest.fn().mockReturnValue(false),
   isIsolated: jest.fn().mockReturnValue(false),
-  getTestState: jest
-    .fn()
-    .mockReturnValue({
-      isPaused: false,
-      isIsolated: false,
-      pausedAt: null,
-      resumedAt: null,
-      testName: null,
-      originalState: null,
-    }),
+  getTestState: jest.fn().mockReturnValue({
+    isPaused: false,
+    isIsolated: false,
+    pausedAt: null,
+    resumedAt: null,
+    testName: null,
+    originalState: null,
+  }),
   simulateProgress: jest.fn().mockResolvedValue(undefined),
   updateMockMetrics: jest.fn(),
   validateTestIsolation: jest.fn().mockReturnValue({ isValid: true, issues: [], warnings: [] }),

@@ -326,16 +326,13 @@ class RecipeData {
 
       this.recipes = mappingsEntries.map((mapping: unknown) => {
         let elementalProps =
-          (mapping as any).elementalProperties ||
-          (mapping as any).elementalProfile;
+          (mapping as any).elementalProperties || (mapping as any).elementalProfile;
 
         // If no elemental properties, derive them from cuisine or other attributes
         if (!elementalProps) {
           const mappingData = mapping as any;
           elementalProps = recipeElementalService.deriveElementalProperties({
-            cuisine: String(
-              (mappingData.cuisine as any).name || mappingData.cuisine || '',
-            ),
+            cuisine: String((mappingData.cuisine as any).name || mappingData.cuisine || ''),
             cookingMethod: [String(mappingData.cookingMethod || '')],
           });
         }
@@ -377,16 +374,9 @@ class RecipeData {
               ? (mappingData.astrologicalInfluences as string[])
               : [String(mappingData.astrologicalInfluences)]
             : (mappingData.astrologicalProfile as any).rulingPlanets
-              ? Array.isArray(
-                  (mappingData.astrologicalProfile as any).rulingPlanets,
-                )
-                ? ((mappingData.astrologicalProfile as any)
-                    .rulingPlanets as string[])
-                : [
-                    String(
-                      (mappingData.astrologicalProfile as any).rulingPlanets,
-                    ),
-                  ]
+              ? Array.isArray((mappingData.astrologicalProfile as any).rulingPlanets)
+                ? ((mappingData.astrologicalProfile as any).rulingPlanets as string[])
+                : [String((mappingData.astrologicalProfile as any).rulingPlanets)]
               : ['all'],
           season: Array.isArray(mappingData.seasonalProperties)
             ? (mappingData.seasonalProperties as string[])

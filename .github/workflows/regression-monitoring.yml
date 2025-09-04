@@ -1,0 +1,251 @@
+name: Regression Monitoring
+
+on:
+  push:
+    branches: [main, cancer, develop]
+  pull_request:
+    branches: [main, cancer]
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+
+env:
+  NODE_ENV: test
+  NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
+  NEXT_PUBLIC_API_CACHE_TIME: 3600
+  CI: true
+  NODE_OPTIONS: "--max-old-space-size=4096"
+
+jobs:
+  regression-check:
+    runs-on: ubuntu-latest
+    name: Quality Regression Detection
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup safe directory
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Enable Yarn
+        run: corepack enable && corepack prepare yarn@stable --activate
+
+      - name: Create environment file
+        run: |
+          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
+          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
+          echo "NODE_ENV=test" >> .env.local
+
+      - name: Install dependencies
+        run: yarn install --network-timeout 300000
+
+      - name: Cache regression data
+        uses: actions/cache@v3
+        with:
+          path: |
+            logs/quality-baselines.json
+            logs/regression-alerts.json
+            logs/regression-history.json
+          key: regression-data-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            regression-data-${{ github.ref }}-
+            regression-data-main-
+
+      - name: Establish baseline (first run or main branch)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          echo "🎯 Establishing quality baseline for main branch..."
+          yarn regression:baseline
+
+          echo "📊 Baseline established:" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat logs/quality-baselines.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Check for regressions
+        id: regression-check
+        run: |
+          echo "🔍 Checking for quality regressions..."
+
+          # Run regression check and capture output
+          if yarn regression:check; then
+            echo "regression_detected=false" >> $GITHUB_OUTPUT
+            echo "✅ No regressions detected"
+          else
+            echo "regression_detected=true" >> $GITHUB_OUTPUT
+            echo "⚠️ Regressions may have been detected"
+          fi
+
+          # Generate status report
+          yarn regression:status > regression-status.json
+
+          # Extract key metrics for output
+          if [ -f "regression-status.json" ]; then
+            ACTIVE_ALERTS=$(cat regression-status.json | jq -r '.activeAlerts // 0')
+            echo "active_alerts=$ACTIVE_ALERTS" >> $GITHUB_OUTPUT
+
+            if [ "$ACTIVE_ALERTS" -gt 0 ]; then
+              echo "regression_detected=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Generate regression report
+        if: always()
+        run: |
+          echo "📊 Generating regression report..."
+          yarn regression:report > regression-report.txt
+
+          echo "## 🔍 Regression Monitoring Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat regression-report.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Error count monitoring
+        run: |
+          echo "📈 Running error count monitoring..."
+          yarn monitor:errors
+
+          # Generate monitoring report
+          yarn monitor:report > monitoring-report.txt
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📈 Error Count Monitoring" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat monitoring-report.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Handle critical regressions
+        if: steps.regression-check.outputs.active_alerts > 0
+        run: |
+          echo "🚨 Critical regressions detected - taking action..."
+
+          # Check if we have critical regressions
+          CRITICAL_COUNT=$(cat regression-status.json | jq -r '.regressions | map(select(.severity == "CRITICAL")) | length')
+          MAJOR_COUNT=$(cat regression-status.json | jq -r '.regressions | map(select(.severity == "MAJOR")) | length')
+
+          echo "Critical regressions: $CRITICAL_COUNT"
+          echo "Major regressions: $MAJOR_COUNT"
+
+          if [ "$CRITICAL_COUNT" -gt 0 ]; then
+            echo "💥 CRITICAL regressions detected!"
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "## 💥 CRITICAL REGRESSIONS DETECTED" >> $GITHUB_STEP_SUMMARY
+            echo "Immediate action required. Consider:" >> $GITHUB_STEP_SUMMARY
+            echo "- Running emergency campaign: \`yarn lint:campaign:start emergency\`" >> $GITHUB_STEP_SUMMARY
+            echo "- Reviewing recent commits for quality issues" >> $GITHUB_STEP_SUMMARY
+            echo "- Rolling back problematic changes if necessary" >> $GITHUB_STEP_SUMMARY
+
+            # Set job as failed for critical regressions
+            exit 1
+          elif [ "$MAJOR_COUNT" -gt 0 ]; then
+            echo "🔴 MAJOR regressions detected!"
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "## 🔴 MAJOR REGRESSIONS DETECTED" >> $GITHUB_STEP_SUMMARY
+            echo "Quality improvement recommended:" >> $GITHUB_STEP_SUMMARY
+            echo "- Run cleanup campaign: \`yarn lint:campaign:start standard\`" >> $GITHUB_STEP_SUMMARY
+            echo "- Review and fix recent quality issues" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload regression artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: regression-monitoring-${{ github.sha }}
+          path: |
+            logs/regression-*.json
+            logs/error-*.json
+            logs/*.log
+            regression-*.txt
+            monitoring-*.txt
+          retention-days: 30
+
+      - name: Comment on PR (if regression detected)
+        if: github.event_name == 'pull_request' && steps.regression-check.outputs.active_alerts > 0
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+
+            let comment = '## 🔍 Quality Regression Alert\n\n';
+            comment += 'This PR may have introduced quality regressions:\n\n';
+
+            try {
+              const status = JSON.parse(fs.readFileSync('regression-status.json', 'utf8'));
+
+              if (status.regressions && status.regressions.length > 0) {
+                comment += '### Detected Regressions:\n\n';
+
+                status.regressions.forEach(regression => {
+                  const emoji = {
+                    'CRITICAL': '💥',
+                    'MAJOR': '🔴',
+                    'MODERATE': '🔶',
+                    'MINOR': '⚠️'
+                  }[regression.severity] || '❓';
+
+                  comment += `${emoji} **${regression.severity}** - ${regression.type}\n`;
+                  comment += `- ${regression.message}\n`;
+                  comment += `- Increase: +${regression.increase} (+${regression.percentage}%)\n\n`;
+                });
+
+                comment += '### Recommended Actions:\n\n';
+                comment += '- Run `yarn lint:fix` to auto-fix issues\n';
+                comment += '- Review recent changes for quality impacts\n';
+                comment += '- Consider running `yarn lint:campaign:start standard` for systematic cleanup\n\n';
+                comment += '### Quality Monitoring:\n';
+                comment += '- Monitor: `yarn monitor:report`\n';
+                comment += '- Regression status: `yarn regression:report`\n';
+              }
+            } catch (error) {
+              comment += 'Error reading regression status. Check the workflow logs for details.\n';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  # Scheduled baseline update (weekly on main branch)
+  baseline-update:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' && github.ref == 'refs/heads/main'
+    name: Weekly Baseline Update
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --network-timeout 300000
+
+      - name: Update baseline
+        run: |
+          echo "📊 Updating weekly quality baseline..."
+          yarn regression:baseline
+
+          echo "✅ Baseline updated successfully"
+          yarn regression:report

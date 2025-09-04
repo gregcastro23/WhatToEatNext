@@ -1,6 +1,6 @@
 /**
  * Git Safety Management Tests
- * Perfect Codebase Campaign - Task 6?.1 Implementation Tests
+ * Perfect Codebase Campaign - Task 6.1 Implementation Tests
  */
 
 import * as fs from 'fs';
@@ -11,174 +11,174 @@ import { SafetySettings } from '../../types/campaign';
 import { SafetyProtocol } from './SafetyProtocol';
 
 // Mock child_process for testing
-jest?.mock('child_process': any, (: any) => ({
-  execSync: jest?.fn(),
+jest.mock('child_process', () => ({
+  execSync: jest.fn(),
 }));
 
 // Mock fs for testing
-jest?.mock('fs': any, (: any) => ({
-  existsSync: jest?.fn(),
-  readFileSync: jest?.fn(),
-  writeFileSync: jest?.fn(),
-  mkdirSync: jest?.fn(),
+jest.mock('fs', () => ({
+  existsSync: jest.fn(),
+  readFileSync: jest.fn(),
+  writeFileSync: jest.fn(),
+  mkdirSync: jest.fn(),
 }));
 
 const { execSync } = require('child_process');
-const mockFs: any = fs as jest?.Mocked<typeof fs>;
+const mockFs: any = fs as jest.Mocked<typeof fs>;
 
-describe('Git Safety Management - Task 6?.1': any, (: any) => {
+describe('Git Safety Management - Task 6.1', () => {
   let safetyProtocol: SafetyProtocol;
   let mockSettings: SafetySettings;
 
-  beforeEach((: any) => {
-    jest?.clearAllMocks();
+  beforeEach(() => {
+    jest.clearAllMocks();
 
     mockSettings = {
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
-      automaticRollbackEnabled: true,;
+      automaticRollbackEnabled: true,
       stashRetentionDays: 7,
     };
 
     // Mock git repository existence
-    mockFs?.existsSync.mockImplementation((path: string) => {
+    mockFs.existsSync.mockImplementation((path: string) => {
       if (path === '.git') return true;
-      if (path?.toString().includes('.kiro')) return false; // Don't load existing stash data
+      if (path.toString().includes('.kiro')) return false; // Don't load existing stash data
       return false;
     });
 
     // Mock git commands
-    execSync?.mockImplementation((command: string) => {
-      if (command?.includes('git status --porcelain')) return '';
-      if (command?.includes('git branch --show-current')) return 'main';
-      if (command?.includes('git stash push')) return 'Saved working directory';
-      if (command?.includes('git stash list --oneline'))
+    execSync.mockImplementation((command: string) => {
+      if (command.includes('git status --porcelain')) return '';
+      if (command.includes('git branch --show-current')) return 'main';
+      if (command.includes('git stash push')) return 'Saved working directory';
+      if (command.includes('git stash list --oneline'))
         return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
-      if (command?.includes('git stash list'))
+      if (command.includes('git stash list'))
         return 'stash@{0}: On main: campaign-test-1-2024-01-15T10-30-00-000, Z: Test stash';
-      if (command?.includes('git stash apply')) return 'Applied stash';
-      if (command?.includes('git stash drop')) return 'Dropped stash';
+      if (command.includes('git stash apply')) return 'Applied stash';
+      if (command.includes('git stash drop')) return 'Dropped stash';
       return '';
     });
 
     safetyProtocol = new SafetyProtocol(mockSettings);
   });
 
-  describe('Git Stash Creation with Descriptive Naming': any, (: any) => {
-    test('should create stash with descriptive naming conventions': any, async (: any) => {
+  describe('Git Stash Creation with Descriptive Naming', () => {
+    test('should create stash with descriptive naming conventions': any, async () => {
       const description: any = 'Before TypeScript error fixes';
       const phase: any = 'phase1';
 
-      const stashId: any = await safetyProtocol?.createStash(description, phase);
+      const stashId: any = await safetyProtocol.createStash(description, phase);
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z$/);
       expect(execSync).toHaveBeenCalledWith(
-        expect?.stringMatching(/git stash push -u -m "campaign-phase1-\d+-.*: Before TypeScript error fixes"/),
-        expect?.any(Object),
+        expect.stringMatching(/git stash push -u -m "campaign-phase1-\d+-.*: Before TypeScript error fixes"/),
+        expect.any(Object),
       );
     });
 
-    test('should create checkpoint stash with operation context': any, async (: any) => {
-      const operation: any = 'Enhanced Error Fixer v3?.0';
+    test('should create checkpoint stash with operation context': any, async () => {
+      const operation: any = 'Enhanced Error Fixer v3.0';
       const phase: any = 'phase1';
 
-      const stashId: any = await safetyProtocol?.createCheckpointStash(operation, phase);
+      const stashId: any = await safetyProtocol.createCheckpointStash(operation, phase);
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-/);
       expect(execSync).toHaveBeenCalledWith(
-        expect?.stringMatching(/git stash push -u -m ".*Checkpoint before Enhanced Error Fixer v3?.0 in phase1"/),
-        expect?.any(Object),
+        expect.stringMatching(/git stash push -u -m ".*Checkpoint before Enhanced Error Fixer v3.0 in phase1"/),
+        expect.any(Object),
       );
     });
 
-    test('should validate git state before creating stash': any, async (: any) => {
+    test('should validate git state before creating stash': any, async () => {
       // Mock git validation failure
-      mockFs?.existsSync.mockImplementation((path: string) => {
+      mockFs.existsSync.mockImplementation((path: string) => {
         if (path === '.git') return false;
         return true;
       });
 
-      await expect(safetyProtocol?.createStash('test')).rejects?.toThrow('Git validation failed');
+      await expect(safetyProtocol.createStash('test')).rejects.toThrow('Git validation failed');
     });
 
-    test('should handle stash creation failures gracefully': any, async (: any) => {
-      execSync?.mockImplementation((command: string) => {
-        if (command?.includes('git stash push')) {
+    test('should handle stash creation failures gracefully': any, async () => {
+      execSync.mockImplementation((command: string) => {
+        if (command.includes('git stash push')) {
           throw new Error('Git stash failed');
         }
         return '';
       });
 
-      await expect(safetyProtocol?.createStash('test')).rejects?.toThrow('Failed to create git stash: Git stash failed');
+      await expect(safetyProtocol.createStash('test')).rejects.toThrow('Failed to create git stash: Git stash failed');
     });
   });
 
-  describe('Automatic Stash Application for Rollback Scenarios': any, (: any) => {
-    test('should apply specific stash by ID': any, async (: any) => {
+  describe('Automatic Stash Application for Rollback Scenarios', () => {
+    test('should apply specific stash by ID': any, async () => {
       // First create a stash
-      const stashId: any = await safetyProtocol?.createStash('test stash');
+      const stashId: any = await safetyProtocol.createStash('test stash');
 
       // Then apply it
-      await safetyProtocol?.applyStash(stashId);
+      await safetyProtocol.applyStash(stashId);
 
-      expect(execSync).toHaveBeenCalledWith('git stash apply stash@{0}', expect?.any(Object));
+      expect(execSync).toHaveBeenCalledWith('git stash apply stash@{0}', expect.any(Object));
     });
 
-    test('should automatically apply latest stash for rollback': any, async (: any) => {
+    test('should automatically apply latest stash for rollback': any, async () => {
       // Create multiple stashes
-      await safetyProtocol?.createStash('first stash');
-      await safetyProtocol?.createStash('second stash');
+      await safetyProtocol.createStash('first stash');
+      await safetyProtocol.createStash('second stash');
 
-      const appliedStashId: any = await safetyProtocol?.autoApplyLatestStash();
+      const appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
 
       expect(appliedStashId).toMatch(/^campaign-\d+-/);
-      expect(execSync).toHaveBeenCalledWith(expect?.stringMatching(/git stash apply stash@\{\d+\}/), expect?.any(Object));
+      expect(execSync).toHaveBeenCalledWith(expect.stringMatching(/git stash apply stash@\{\d+\}/), expect.any(Object));
     });
 
-    test('should apply stash by phase for targeted rollbacks': any, async (: any) => {
+    test('should apply stash by phase for targeted rollbacks': any, async () => {
       // Create stashes for different phases
-      await safetyProtocol?.createStash('phase1 work', 'phase1');
-      await safetyProtocol?.createStash('phase2 work', 'phase2');
+      await safetyProtocol.createStash('phase1 work', 'phase1');
+      await safetyProtocol.createStash('phase2 work', 'phase2');
 
-      const appliedStashId: any = await safetyProtocol?.applyStashByPhase('phase1');
+      const appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1');
 
       expect(appliedStashId).toMatch(/^campaign-phase1-/);
     });
 
-    test('should handle missing stash gracefully': any, async (: any) => {
-      await expect(safetyProtocol?.applyStash('nonexistent-stash')).rejects?.toThrow('Stash not found');
+    test('should handle missing stash gracefully': any, async () => {
+      await expect(safetyProtocol.applyStash('nonexistent-stash')).rejects.toThrow('Stash not found');
     });
 
-    test('should handle no stashes available for auto-apply': any, async (: any) => {
-      await expect(safetyProtocol?.autoApplyLatestStash()).rejects?.toThrow(
+    test('should handle no stashes available for auto-apply': any, async () => {
+      await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow(
         'No stashes available for automatic rollback',
       );
     });
   });
 
-  describe('Stash Cleanup with Configurable Retention Policies': any, (: any) => {
-    test('should clean up old stashes based on retention policy': any, async (: any) => {
+  describe('Stash Cleanup with Configurable Retention Policies', () => {
+    test('should clean up old stashes based on retention policy': any, async () => {
       // Mock old stash data
       const oldDate: any = new Date();
-      oldDate?.setDate(oldDate?.getDate() - 10); // 10 days old
+      oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
       // Mock file existence for this specific test
-      mockFs?.existsSync.mockImplementation((path: string) => {
+      mockFs.existsSync.mockImplementation((path: string) => {
         if (path === '.git') return true;
-        if (path?.toString().includes('campaign-stashes?.json')) return true;
+        if (path.toString().includes('campaign-stashes.json')) return true;
         return false;
       });
 
-      mockFs?.readFileSync.mockReturnValue(
-        JSON?.stringify({
+      mockFs.readFileSync.mockReturnValue(
+        JSON.stringify({
           counter: 2,
           stashes: {
             'old-stash-1': {
               id: 'old-stash-1',
               description: 'Old stash',
-              timestamp: oldDate?.toISOString(),
+              timestamp: oldDate.toISOString(),
               branch: 'main',
               ref: 'stash@{1}',
             },
@@ -189,51 +189,51 @@ describe('Git Safety Management - Task 6?.1': any, (: any) => {
       // Create new safety protocol to load the old stash
       const newSafetyProtocol: any = new SafetyProtocol(mockSettings);
 
-      await newSafetyProtocol?.cleanupOldStashes();
+      await newSafetyProtocol.cleanupOldStashes();
 
-      expect(execSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect?.any(Object));
+      expect(execSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect.any(Object));
     });
 
-    test('should get stashes by phase': any, async (: any) => {
-      await safetyProtocol?.createStash('phase1 work', 'phase1');
-      await safetyProtocol?.createStash('phase2 work', 'phase2');
-      await safetyProtocol?.createStash('more phase1 work', 'phase1');
+    test('should get stashes by phase': any, async () => {
+      await safetyProtocol.createStash('phase1 work', 'phase1');
+      await safetyProtocol.createStash('phase2 work', 'phase2');
+      await safetyProtocol.createStash('more phase1 work', 'phase1');
 
-      const phase1Stashes: any = await safetyProtocol?.getStashesByPhase('phase1');
+      const phase1Stashes: any = await safetyProtocol.getStashesByPhase('phase1');
 
       expect(phase1Stashes).toHaveLength(2);
-      expect(phase1Stashes?.every(stash => stash?.id.includes('-phase1-'))).toBe(true);
+      expect(phase1Stashes.every(stash => stash.id.includes('-phase1-'))).toBe(true);
     });
 
-    test('should provide stash statistics': any, async (: any) => {
+    test('should provide stash statistics': any, async () => {
       // Create a fresh safety protocol to avoid interference from other tests
       const freshProtocol: any = new SafetyProtocol(mockSettings);
 
-      await freshProtocol?.createStash('phase1 work', 'phase1');
-      await freshProtocol?.createStash('phase2 work', 'phase2');
-      await freshProtocol?.createStash('more phase1 work', 'phase1');
+      await freshProtocol.createStash('phase1 work', 'phase1');
+      await freshProtocol.createStash('phase2 work', 'phase2');
+      await freshProtocol.createStash('more phase1 work', 'phase1');
 
-      const stats: any = freshProtocol?.getStashStatistics();
+      const stats: any = freshProtocol.getStashStatistics();
 
-      expect(stats?.total as any).toBe(3);
-      expect(stats?.byPhase.phase1 as any).toBe(2);
-      expect(stats?.byPhase.phase2 as any).toBe(1);
-      expect(stats?.oldestStash).toBeInstanceOf(Date);
-      expect(stats?.newestStash).toBeInstanceOf(Date);
+      expect(stats.total).toBe(3);
+      expect(stats.byPhase.phase1).toBe(2);
+      expect(stats.byPhase.phase2).toBe(1);
+      expect(stats.oldestStash).toBeInstanceOf(Date);
+      expect(stats.newestStash).toBeInstanceOf(Date);
     });
   });
 
-  describe('Stash Tracking Persistence': any, (: any) => {
-    test('should save stash tracking to persistent storage': any, async (: any) => {
-      await safetyProtocol?.createStash('test stash');
+  describe('Stash Tracking Persistence', () => {
+    test('should save stash tracking to persistent storage': any, async () => {
+      await safetyProtocol.createStash('test stash');
 
-      expect(mockFs?.writeFileSync).toHaveBeenCalledWith(
-        expect?.stringMatching(/\.kiro[\/\\]campaign-stashes\.json$/),
-        expect?.stringContaining('"counter":'),
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+        expect.stringMatching(/\.kiro[\/\\]campaign-stashes\.json$/),
+        expect.stringContaining('"counter":'),
       );
     });
 
-    test('should load stash tracking from persistent storage': any, async (: any) => {
+    test('should load stash tracking from persistent storage': any, async () => {
       const mockStashData: any = {
         counter: 5,
         stashes: {
@@ -241,116 +241,116 @@ describe('Git Safety Management - Task 6?.1': any, (: any) => {
             id: 'test-stash',
             description: 'Test stash',
             timestamp: new Date().toISOString(),
-            branch: 'main',;
+            branch: 'main',
             ref: 'stash@{0}',
           },
         },
       };
 
       // Mock file existence for this specific test
-      mockFs?.existsSync.mockImplementation((path: string) => {
+      mockFs.existsSync.mockImplementation((path: string) => {
         if (path === '.git') return true;
-        if (path?.toString().includes('campaign-stashes?.json')) return true;
+        if (path.toString().includes('campaign-stashes.json')) return true;
         return false;
       });
 
-      mockFs?.readFileSync.mockReturnValue(JSON?.stringify(mockStashData));
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockStashData));
 
       const newSafetyProtocol: any = new SafetyProtocol(mockSettings);
-      const stashes: any = await newSafetyProtocol?.listStashes();
+      const stashes: any = await newSafetyProtocol.listStashes();
 
       expect(stashes).toHaveLength(1);
-      expect(stashes?.[0].id as any).toBe('test-stash');
+      expect(stashes.[0].id).toBe('test-stash');
     });
 
-    test('should handle corrupted stash tracking file gracefully': any, async (: any) => {
-      mockFs?.readFileSync.mockImplementation((: any) => {
+    test('should handle corrupted stash tracking file gracefully': any, async () => {
+      mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File corrupted');
       });
 
       // Should not throw, just log warning
-      expect((: any) => new SafetyProtocol(mockSettings)).not?.toThrow();
+      expect(() => new SafetyProtocol(mockSettings)).not.toThrow();
     });
   });
 
-  describe('Git State Validation': any, (: any) => {
-    test('should validate git repository state': any, async (: any) => {
-      const validation: any = await safetyProtocol?.validateGitState();
+  describe('Git State Validation', () => {
+    test('should validate git repository state': any, async () => {
+      const validation: any = await safetyProtocol.validateGitState();
 
-      expect(validation?.success as any).toBe(true);
-      expect(validation?.errors).toHaveLength(0);
+      expect(validation.success).toBe(true);
+      expect(validation.errors).toHaveLength(0);
     });
 
-    test('should detect non-git repository': any, async (: any) => {
-      mockFs?.existsSync.mockImplementation((path: string) => {
+    test('should detect non-git repository': any, async () => {
+      mockFs.existsSync.mockImplementation((path: string) => {
         if (path === '.git') return false;
         return true;
       });
 
-      const validation: any = await safetyProtocol?.validateGitState();
+      const validation: any = await safetyProtocol.validateGitState();
 
-      expect(validation?.success as any).toBe(false);
-      expect(validation?.errors).toContain('Not a git repository');
+      expect(validation.success).toBe(false);
+      expect(validation.errors).toContain('Not a git repository');
     });
 
-    test('should warn about uncommitted changes when auto-rollback disabled': any, async (: any) => {
-      execSync?.mockImplementation((command: string) => {
-        if (command?.includes('git status --porcelain')) return 'M modified-file?.ts';
+    test('should warn about uncommitted changes when auto-rollback disabled': any, async () => {
+      execSync.mockImplementation((command: string) => {
+        if (command.includes('git status --porcelain')) return 'M modified-file.ts';
         return '';
       });
 
       const settingsWithoutAutoRollback: any = {
-        ...mockSettings,;
+        ...mockSettings,
         automaticRollbackEnabled: false,
       };
 
       const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback);
-      const validation: any = await protocol?.validateGitState();
+      const validation: any = await protocol.validateGitState();
 
-      expect(validation?.success as any).toBe(true);
-      expect(validation?.warnings).toContain('Uncommitted changes detected - consider creating a stash');
+      expect(validation.success).toBe(true);
+      expect(validation.warnings).toContain('Uncommitted changes detected - consider creating a stash');
     });
   });
 
-  describe('Safety Event Tracking': any, (: any) => {
-    test('should track stash creation events': any, async (: any) => {
-      await safetyProtocol?.createStash('test stash');
+  describe('Safety Event Tracking', () => {
+    test('should track stash creation events': any, async () => {
+      await safetyProtocol.createStash('test stash');
 
-      const events: any = safetyProtocol?.getSafetyEvents();
-      const stashEvent: any = events?.find(e => e?.action === 'STASH_CREATE');
+      const events: any = safetyProtocol.getSafetyEvents();
+      const stashEvent: any = events.find(e => e.action === 'STASH_CREATE');
 
       expect(stashEvent).toBeDefined();
-      expect(stashEvent?.description).toContain('Git stash created');
+      expect(stashEvent.description).toContain('Git stash created');
     });
 
-    test('should track stash application events': any, async (: any) => {
-      const stashId: any = await safetyProtocol?.createStash('test stash');
-      await safetyProtocol?.applyStash(stashId);
+    test('should track stash application events': any, async () => {
+      const stashId: any = await safetyProtocol.createStash('test stash');
+      await safetyProtocol.applyStash(stashId);
 
-      const events: any = safetyProtocol?.getSafetyEvents();
-      const applyEvent: any = events?.find(e => e?.action === 'STASH_APPLY');
+      const events: any = safetyProtocol.getSafetyEvents();
+      const applyEvent: any = events.find(e => e.action === 'STASH_APPLY');
 
       expect(applyEvent).toBeDefined();
-      expect(applyEvent?.description).toContain('Git stash applied');
+      expect(applyEvent.description).toContain('Git stash applied');
     });
 
-    test('should track cleanup events': any, async (: any) => {
+    test('should track cleanup events': any, async () => {
       // Mock file existence for this specific test
-      mockFs?.existsSync.mockImplementation((path: string) => {
+      mockFs.existsSync.mockImplementation((path: string) => {
         if (path === '.git') return true;
-        if (path?.toString().includes('campaign-stashes?.json')) return true;
+        if (path.toString().includes('campaign-stashes.json')) return true;
         return false;
       });
 
       // Mock old stash
-      mockFs?.readFileSync.mockReturnValue(
-        JSON?.stringify({
+      mockFs.readFileSync.mockReturnValue(
+        JSON.stringify({
           counter: 1,
           stashes: {
             'old-stash': {
               id: 'old-stash',
               description: 'Old stash',
-              timestamp: new Date(Date?.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old
+              timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old
               branch: 'main',
               ref: 'stash@{0}',
             },
@@ -359,10 +359,10 @@ describe('Git Safety Management - Task 6?.1': any, (: any) => {
       );
 
       const newProtocol: any = new SafetyProtocol(mockSettings);
-      await newProtocol?.cleanupOldStashes();
+      await newProtocol.cleanupOldStashes();
 
-      const events: any = newProtocol?.getSafetyEvents();
-      const cleanupEvent: any = events?.find(e => e?.action === 'STASH_CLEANUP');
+      const events: any = newProtocol.getSafetyEvents();
+      const cleanupEvent: any = events.find(e => e.action === 'STASH_CLEANUP');
 
       expect(cleanupEvent).toBeDefined();
     });

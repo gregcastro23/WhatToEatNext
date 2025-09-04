@@ -1106,16 +1106,23 @@ export const TYPE_INTELLIGENCE_DEMO = {
 
     // Integration metrics across all systems
     const integrationMetrics = {
-      astrologicalIntegration: ((astrologicalTypeResults.temporalInfluences as any)?.newMoonIntensity || 0) * 0.2,
-      celestialIntegration: ((celestialTypeResults.celestialHarmonyAnalysis as any)?.overallHarmony || 0) * 0.2,
+      astrologicalIntegration:
+        ((astrologicalTypeResults.temporalInfluences as any)?.newMoonIntensity || 0) * 0.2,
+      celestialIntegration:
+        ((celestialTypeResults.celestialHarmonyAnalysis as any)?.overallHarmony || 0) * 0.2,
       alchemicalIntegration:
-        ((alchemicalValuesResults.alchemicalHarmonyMetrics as any)?.overallAlchemicalHarmony || 0) * 0.2,
-      thermodynamicIntegration: ((thermodynamicTypeResults.energyTypeAnalysis as any)?.totalEnergyType || 0) * 0.2,
-      filterIntegration: ((filterOptionsResults.filterEfficiencyMetrics as any)?.filteringEfficiency || 0) * 0.2,
-      searchIntegration: ((ingredientSearchResults.searchOptimizationMetrics as any)?.searchPrecision || 0) * 0.2,
+        ((alchemicalValuesResults.alchemicalHarmonyMetrics as any)?.overallAlchemicalHarmony || 0) *
+        0.2,
+      thermodynamicIntegration:
+        ((thermodynamicTypeResults.energyTypeAnalysis as any)?.totalEnergyType || 0) * 0.2,
+      filterIntegration:
+        ((filterOptionsResults.filterEfficiencyMetrics as any)?.filteringEfficiency || 0) * 0.2,
+      searchIntegration:
+        ((ingredientSearchResults.searchOptimizationMetrics as any)?.searchPrecision || 0) * 0.2,
       celestialBodyIntegration:
         ((celestialBodyResults.celestialHarmonyPredictions as any)?.overallHarmony || 0) * 0.2,
-      chakraIntegration: ((chakraPositionResults.chakraHarmonyAnalysis as any)?.overallHarmony || 0) * 0.2,
+      chakraIntegration:
+        ((chakraPositionResults.chakraHarmonyAnalysis as any)?.overallHarmony || 0) * 0.2,
       cookingMethodIntegration:
         ((cookingMethodResults.thermodynamicHarmonyMetrics as any)?.overallHarmony || 0) * 0.2,
       overallSystemIntegration: 0.82, // Calculated from all systems

@@ -1,5 +1,15 @@
-const NutritionalDisplay = ({ ingredientName, compact, showSearch }: { ingredientName?: string; compact?: boolean; showSearch?: boolean }) => (
-  <div className='rounded border p-4 text-gray-600'>NutritionalDisplay unavailable{ingredientName ? ` for ${ingredientName}` : ''}.</div>
+const NutritionalDisplay = ({
+  ingredientName,
+  compact,
+  showSearch,
+}: {
+  ingredientName?: string;
+  compact?: boolean;
+  showSearch?: boolean;
+}) => (
+  <div className='rounded border p-4 text-gray-600'>
+    NutritionalDisplay unavailable{ingredientName ? ` for ${ingredientName}` : ''}.
+  </div>
 );
 
 export default function NutritionalDataPage() {

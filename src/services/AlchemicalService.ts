@@ -435,17 +435,12 @@ export class AlchemicalService {
       elementalProfile: DefaultElementalProperties,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: [], // elementalUtils.getComplementaryElement(properties),
-      flavorProfiles:
-        ((profileData.characteristics as any).flavorProfiles as string[]) || [],
-      healthBenefits:
-        ((profileData.characteristics as any).healthBenefits as string[]) || [],
-      timeOfDay:
-        ((profileData.characteristics as any).timeOfDay as string[]) || [],
+      flavorProfiles: ((profileData.characteristics as any).flavorProfiles as string[]) || [],
+      healthBenefits: ((profileData.characteristics as any).healthBenefits as string[]) || [],
+      timeOfDay: ((profileData.characteristics as any).timeOfDay as string[]) || [],
       seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
-      moodEffects:
-        ((profileData.characteristics as any).moodEffects as string[]) || [],
-      culinaryHerbs:
-        ((profileData.characteristics as any).culinaryHerbs as string[]) || [],
+      moodEffects: ((profileData.characteristics as any).moodEffects as string[]) || [],
+      culinaryHerbs: ((profileData.characteristics as any).culinaryHerbs as string[]) || [],
       compatibility: 0.5,
     };
   }

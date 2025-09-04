@@ -82,7 +82,7 @@ export class RecipeCuisineConnector {
   private recipeCache: Map<string, CuisineRecipe>;
 
   constructor() {
-    this.cuisineDatabase = (cuisinesMap as unknown as any);
+    this.cuisineDatabase = cuisinesMap as unknown as any;
     this.recipeCache = new Map();
     this.buildRecipeCache();
   }

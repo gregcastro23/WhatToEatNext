@@ -172,14 +172,8 @@ export function calculatePlanetaryAspects(
       const pos2Sign = positions[planet2].sign;
 
       // Calculate the angular difference between planets
-      const pos1 = getZodiacPositionInDegrees(
-        pos1Sign as any,
-        positions[planet1].degree || 0,
-      );
-      const pos2 = getZodiacPositionInDegrees(
-        pos2Sign as any,
-        positions[planet2].degree || 0,
-      );
+      const pos1 = getZodiacPositionInDegrees(pos1Sign as any, positions[planet1].degree || 0);
+      const pos2 = getZodiacPositionInDegrees(pos2Sign as any, positions[planet2].degree || 0);
 
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;

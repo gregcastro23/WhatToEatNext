@@ -215,8 +215,7 @@ const processIngredientCollection = (
         );
         const thermodynamicProps = calculateThermodynamicProperties(
           alchemicalProps,
-          ((processedIngredient as unknown as any)
-            .elementalProperties as ElementalProperties) || {
+          ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
@@ -227,8 +226,7 @@ const processIngredientCollection = (
         // Determine modality
         const modality = determineIngredientModality(
           ((processedIngredient as unknown as any).qualities as string[]) || [],
-          ((processedIngredient as unknown as any)
-            .elementalProperties as ElementalProperties) || {
+          ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
@@ -261,16 +259,12 @@ const processIngredientCollection = (
           elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined,
           // Process other enhanced properties if they exist
           astrologicalCorrespondence:
-            (processedIngredient as unknown as any)
-              .astrologicalCorrespondence || undefined,
+            (processedIngredient as unknown as any).astrologicalCorrespondence || undefined,
           pairingRecommendations:
-            (processedIngredient as unknown as any).pairingRecommendations ||
-            undefined,
-          celestialBoost:
-            (processedIngredient as unknown as any).celestialBoost || undefined,
+            (processedIngredient as unknown as any).pairingRecommendations || undefined,
+          celestialBoost: (processedIngredient as unknown as any).celestialBoost || undefined,
           planetaryInfluence:
-            (processedIngredient as unknown as any).planetaryInfluence ||
-            undefined,
+            (processedIngredient as unknown as any).planetaryInfluence || undefined,
         } as unknown as Ingredient;
       } catch (error) {
         console.warn(`Skipping invalid ingredient ${key}:`, error);

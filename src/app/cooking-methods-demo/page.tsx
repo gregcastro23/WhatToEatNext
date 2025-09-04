@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 // Use the test/demo component path that exists
 import { CookingMethodsSection } from '@/app/test/migrated-components/cooking-methods-section/page';
 import {
-    dryCookingMethods,
-    molecularCookingMethods,
-    wetCookingMethods,
+  dryCookingMethods,
+  molecularCookingMethods,
+  wetCookingMethods,
 } from '@/data/cooking/methods';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
@@ -21,10 +21,7 @@ export default function CookingMethodsDemoPage() {
     const demoMethods = [
       ..._formatMethodsForComponent(dryCookingMethods as any, 'dry'),
       ..._formatMethodsForComponent(wetCookingMethods as any, 'wet'),
-      ..._formatMethodsForComponent(
-        molecularCookingMethods as any,
-        'molecular',
-      ),
+      ..._formatMethodsForComponent(molecularCookingMethods as any, 'molecular'),
     ];
 
     // Sort by score for a more realistic demo
@@ -57,27 +54,24 @@ export default function CookingMethodsDemoPage() {
             Air: Math.random(),
           },
         score,
-        duration: (method as any).time_range ||
-          (method as any).duration || { min: 10, max: 30 },
+        duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
         suitable_for: (method as any).suitable_for || [],
         benefits: (method as any).benefits || [],
         // Create variations if they exist
         variations: (method as any).variations
           ? Array.isArray((method as any).variations)
-            ? ((method as any).variations as string[]).map(
-                (v: string, i: number) => ({
-                  id: `${prefix}_${key}_var_${i}`,
-                  name: v,
-                  description: `A variation of ${name} with different characteristics.`,
-                  elementalEffect: {
-                    Fire: Math.random(),
-                    Water: Math.random(),
-                    Earth: Math.random(),
-                    Air: Math.random(),
-                  },
-                  score: score - 0.1 + Math.random() * 0.2, // Slightly vary from parent score
-                }),
-              )
+            ? ((method as any).variations as string[]).map((v: string, i: number) => ({
+                id: `${prefix}_${key}_var_${i}`,
+                name: v,
+                description: `A variation of ${name} with different characteristics.`,
+                elementalEffect: {
+                  Fire: Math.random(),
+                  Water: Math.random(),
+                  Earth: Math.random(),
+                  Air: Math.random(),
+                },
+                score: score - 0.1 + Math.random() * 0.2, // Slightly vary from parent score
+              }))
             : []
           : [],
       };

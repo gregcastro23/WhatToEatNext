@@ -21,15 +21,15 @@ const CookingMethodsSection = ({
     {methods.map(m => {
       const method = m as any;
       return (
-      <button
-        key={String(method.id)}
-        onClick={() => onSelectMethod(m)}
-        className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`}
-      >
-        <div className='font-semibold'>{String(method.name)}</div>
-        <div className='text-sm text-gray-600'>{String(method.description)}</div>
-      </button>
-    );
+        <button
+          key={String(method.id)}
+          onClick={() => onSelectMethod(m)}
+          className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`}
+        >
+          <div className='font-semibold'>{String(method.name)}</div>
+          <div className='text-sm text-gray-600'>{String(method.description)}</div>
+        </button>
+      );
     })}
   </div>
 );

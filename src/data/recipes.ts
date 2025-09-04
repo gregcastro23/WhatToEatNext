@@ -171,10 +171,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 
             if (typeof mealData === 'object') {
               // Log meal data structure
-              logger.debug(
-                `${cuisineName} - ${mealType} data:`,
-                Object.keys(mealData as any),
-              );
+              logger.debug(`${cuisineName} - ${mealType} data:`, Object.keys(mealData as any));
 
               // Process season data (spring, summer, autumn, winter, all)
               Object.entries(mealData as any).forEach(([season, dishes]) => {
@@ -997,10 +994,7 @@ export const getRecommendedCuisines = (profile: CuisineRecommendationProfile) =>
       }
 
       // Season matching
-      if (
-        profile.season &&
-        (cuisineProfile as unknown as any).seasonalPreference
-      ) {
+      if (profile.season && (cuisineProfile as unknown as any).seasonalPreference) {
         const seasonMatch = (
           (cuisineProfile as unknown as any).seasonalPreference as string[]
         ).includes(profile.season);

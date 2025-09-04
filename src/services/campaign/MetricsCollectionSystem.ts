@@ -310,10 +310,7 @@ export class MetricsCollectionSystem {
 
       return { count, breakdown };
     } catch (error) {
-      console.warn(
-        'Could not collect linting metrics:',
-        (error as any).message || 'Unknown error',
-      );
+      console.warn('Could not collect linting metrics:', (error as any).message || 'Unknown error');
       return { count: -1, breakdown: {} };
     }
   }
@@ -350,10 +347,7 @@ export class MetricsCollectionSystem {
       // Get bundle size
       bundleSize = await this.getBundleSize();
     } catch (error) {
-      console.warn(
-        'Could not measure bundle size:',
-        (error as any).message || 'Unknown error',
-      );
+      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error');
     }
 
     return {

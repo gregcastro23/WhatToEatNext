@@ -13,10 +13,7 @@ import type {
   _,
 } from '@/types/alchemy';
 
-import {
-  _,
-  calculateElementalCompatibility,
-} from '../../utils/elemental/elementalUtils';
+import { _, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 
 import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 import { unifiedSeasonalSystem } from './seasonal';

@@ -45,7 +45,7 @@ enum AnyTypeCategory {
   TEST_MOCK = 'test_mock',
   CAMPAIGN_SYSTEM = 'campaign_system',
   ASTROLOGICAL_DATA = 'astrological_data',
-  DYNAMIC_CONFIG = 'dynamic_config'
+  DYNAMIC_CONFIG = 'dynamic_config',
 }
 
 interface CampaignMetrics {
@@ -85,7 +85,7 @@ class UnintentionalAnyCampaignController {
       safetyValidationFrequency: 5,
       enableDocumentation: true,
       enableProgressiveImprovement: true,
-      ...config
+      ...config,
     };
 
     this.metrics = {
@@ -98,7 +98,7 @@ class UnintentionalAnyCampaignController {
       filesProcessed: 0,
       batchesCompleted: 0,
       reductionPercentage: 0,
-      buildStabilityScore: 100
+      buildStabilityScore: 100,
     };
 
     this.startTime = new Date();
@@ -112,7 +112,7 @@ class UnintentionalAnyCampaignController {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅'
+      success: '✅',
     }[level];
 
     console.log(`[${timestamp}] ${prefix} ${message}`);
@@ -135,9 +135,12 @@ class UnintentionalAnyCampaignController {
 
   private getCurrentAnyCount(): number {
     try {
-      const lintOutput = execSync('yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any" || echo "0"', {
-        encoding: 'utf8'
-      });
+      const lintOutput = execSync(
+        'yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any" || echo "0"',
+        {
+          encoding: 'utf8',
+        },
+      );
       return parseInt(lintOutput.trim()) || 0;
     } catch (error) {
       this.log(`Error getting current any count: ${error}`, 'error');
@@ -158,9 +161,11 @@ class UnintentionalAnyCampaignController {
         if (line.match(/^\/.*\.(ts|tsx)$/)) {
           currentFile = line.trim();
           // Skip test files for now - focus on production code
-          if (currentFile.includes('__tests__') ||
-              currentFile.includes('.test.') ||
-              currentFile.includes('.spec.')) {
+          if (
+            currentFile.includes('__tests__') ||
+            currentFile.includes('.test.') ||
+            currentFile.includes('.spec.')
+          ) {
             currentFile = null;
           }
         } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
@@ -175,12 +180,20 @@ class UnintentionalAnyCampaignController {
     }
   }
 
-  private classifyAnyType(filePath: string, content: string, lineNumber: number, codeSnippet: string): AnyTypeClassification {
+  private classifyAnyType(
+    filePath: string,
+    content: string,
+    lineNumber: number,
+    codeSnippet: string,
+  ): AnyTypeClassification {
     const lowerContent = content.toLowerCase();
     const lowerSnippet = codeSnippet.toLowerCase();
 
     // Check for intentional markers
-    const hasIntentionalComment = /\/\/.*intentional|\/\*.*intentional.*\*\/|eslint-disable.*no-explicit-any/i.test(codeSnippet);
+    const hasIntentionalComment =
+      /\/\/.*intentional|\/\*.*intentional.*\*\/|eslint-disable.*no-explicit-any/i.test(
+        codeSnippet,
+      );
 
     if (hasIntentionalComment) {
       return {
@@ -191,7 +204,7 @@ class UnintentionalAnyCampaignController {
         confidence: 0.95,
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         requiresDocumentation: false,
-        reasoning: 'Explicitly marked as intentional with comment'
+        reasoning: 'Explicitly marked as intentional with comment',
       };
     }
 
@@ -205,7 +218,7 @@ class UnintentionalAnyCampaignController {
         confidence: 0.9,
         category: AnyTypeCategory.ERROR_HANDLING,
         requiresDocumentation: true,
-        reasoning: 'Error handling context - typically intentional'
+        reasoning: 'Error handling context - typically intentional',
       };
     }
 
@@ -219,12 +232,16 @@ class UnintentionalAnyCampaignController {
         confidence: 0.85,
         category: AnyTypeCategory.CAMPAIGN_SYSTEM,
         requiresDocumentation: true,
-        reasoning: 'Campaign system requires flexible typing for dynamic behavior'
+        reasoning: 'Campaign system requires flexible typing for dynamic behavior',
       };
     }
 
     // Astrological data contexts
-    if (filePath.includes('astro') || filePath.includes('planetary') || filePath.includes('celestial')) {
+    if (
+      filePath.includes('astro') ||
+      filePath.includes('planetary') ||
+      filePath.includes('celestial')
+    ) {
       if (lowerSnippet.includes('position') || lowerSnippet.includes('calculation')) {
         return {
           filePath,
@@ -234,7 +251,8 @@ class UnintentionalAnyCampaignController {
           confidence: 0.8,
           category: AnyTypeCategory.ASTROLOGICAL_DATA,
           requiresDocumentation: true,
-          reasoning: 'Astrological calculations may require flexible typing for external library compatibility'
+          reasoning:
+            'Astrological calculations may require flexible typing for external library compatibility',
         };
       }
     }
@@ -250,7 +268,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.ARRAY_TYPE,
         suggestedReplacement: codeSnippet.replace(/\bany\[\]/g, 'unknown[]'),
         requiresDocumentation: false,
-        reasoning: 'Array type can be safely replaced with unknown[]'
+        reasoning: 'Array type can be safely replaced with unknown[]',
       };
     }
 
@@ -265,7 +283,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.RECORD_TYPE,
         suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<1, unknown>'),
         requiresDocumentation: false,
-        reasoning: 'Record type can likely be replaced with unknown'
+        reasoning: 'Record type can likely be replaced with unknown',
       };
     }
 
@@ -278,14 +296,20 @@ class UnintentionalAnyCampaignController {
         isIntentional: false,
         confidence: 0.75,
         category: AnyTypeCategory.VARIABLE_DECLARATION,
-        suggestedReplacement: codeSnippet.replace(/(\b(?:const|let|var)\s+\w+\s*:\s*)any(\s*=)/g, '1unknown2'),
+        suggestedReplacement: codeSnippet.replace(
+          /(\b(?:const|let|var)\s+\w+\s*:\s*)any(\s*=)/g,
+          '1unknown2',
+        ),
         requiresDocumentation: false,
-        reasoning: 'Variable declaration can likely use unknown instead of any'
+        reasoning: 'Variable declaration can likely use unknown instead of any',
       };
     }
 
     // Function parameters - lower confidence, more risky
-    if (/\w+\s*:\s*any/.test(codeSnippet) && (lowerSnippet.includes('function') || lowerSnippet.includes('=>'))) {
+    if (
+      /\w+\s*:\s*any/.test(codeSnippet) &&
+      (lowerSnippet.includes('function') || lowerSnippet.includes('=>'))
+    ) {
       return {
         filePath,
         lineNumber,
@@ -294,7 +318,8 @@ class UnintentionalAnyCampaignController {
         confidence: 0.6,
         category: AnyTypeCategory.FUNCTION_PARAMETER,
         requiresDocumentation: true,
-        reasoning: 'Function parameter any types require careful analysis - marked as intentional for safety'
+        reasoning:
+          'Function parameter any types require careful analysis - marked as intentional for safety',
       };
     }
 
@@ -307,7 +332,7 @@ class UnintentionalAnyCampaignController {
       confidence: 0.5,
       category: AnyTypeCategory.DYNAMIC_CONFIG,
       requiresDocumentation: true,
-      reasoning: 'Uncertain classification - marked as intentional for safety'
+      reasoning: 'Uncertain classification - marked as intentional for safety',
     };
   }
 
@@ -319,7 +344,12 @@ class UnintentionalAnyCampaignController {
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        if (line.includes(': any') || line.includes(':any') || line.includes('any[]') || line.includes('any>')) {
+        if (
+          line.includes(': any') ||
+          line.includes(':any') ||
+          line.includes('any[]') ||
+          line.includes('any>')
+        ) {
           const classification = this.classifyAnyType(filePath, content, i + 1, line.trim());
           classifications.push(classification);
         }
@@ -346,8 +376,8 @@ class UnintentionalAnyCampaignController {
   }
 
   private applyReplacements(filePath: string, classifications: AnyTypeClassification[]): number {
-    const unintentionalReplacements = classifications.filter(c =>
-      !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7
+    const unintentionalReplacements = classifications.filter(
+      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7,
     );
 
     if (unintentionalReplacements.length === 0) {
@@ -362,7 +392,9 @@ class UnintentionalAnyCampaignController {
       let replacements = 0;
 
       // Apply replacements in reverse order to maintain line numbers
-      const sortedReplacements = unintentionalReplacements.sort((a, b) => b.lineNumber - a.lineNumber);
+      const sortedReplacements = unintentionalReplacements.sort(
+        (a, b) => b.lineNumber - a.lineNumber,
+      );
 
       for (const replacement of sortedReplacements) {
         if (replacement.suggestedReplacement) {
@@ -389,12 +421,18 @@ class UnintentionalAnyCampaignController {
 
         // Validate TypeScript compilation
         if (this.validateTypeScript()) {
-          this.log(`✅ Applied ${replacements} replacements to ${path.basename(filePath)}`, 'success');
+          this.log(
+            `✅ Applied ${replacements} replacements to ${path.basename(filePath)}`,
+            'success',
+          );
           return replacements;
         } else {
           // Rollback on compilation failure
           fs.copyFileSync(backupPath, filePath);
-          this.log(`❌ TypeScript compilation failed - rolled back ${path.basename(filePath)}`, 'error');
+          this.log(
+            `❌ TypeScript compilation failed - rolled back ${path.basename(filePath)}`,
+            'error',
+          );
           this.metrics.rollbacksPerformed++;
           return 0;
         }
@@ -407,13 +445,16 @@ class UnintentionalAnyCampaignController {
     }
   }
 
-  private documentIntentionalAny(filePath: string, classifications: AnyTypeClassification[]): number {
+  private documentIntentionalAny(
+    filePath: string,
+    classifications: AnyTypeClassification[],
+  ): number {
     if (!this.config.enableDocumentation) {
       return 0;
     }
 
-    const intentionalTypes = classifications.filter(c =>
-      c.isIntentional && c.requiresDocumentation
+    const intentionalTypes = classifications.filter(
+      c => c.isIntentional && c.requiresDocumentation,
     );
 
     if (intentionalTypes.length === 0) {
@@ -447,7 +488,10 @@ class UnintentionalAnyCampaignController {
 
       if (documentations > 0) {
         fs.writeFileSync(filePath, content);
-        this.log(`📝 Added ${documentations} documentation comments to ${path.basename(filePath)}`, 'info');
+        this.log(
+          `📝 Added ${documentations} documentation comments to ${path.basename(filePath)}`,
+          'info',
+        );
       }
 
       return documentations;
@@ -473,10 +517,14 @@ class UnintentionalAnyCampaignController {
         // Update metrics
         this.metrics.totalAnyTypes += classifications.length;
         this.metrics.classifiedIntentional += classifications.filter(c => c.isIntentional).length;
-        this.metrics.classifiedUnintentional += classifications.filter(c => !c.isIntentional).length;
+        this.metrics.classifiedUnintentional += classifications.filter(
+          c => !c.isIntentional,
+        ).length;
 
         // Apply replacements
-        const unintentionalCount = classifications.filter(c => !c.isIntentional && c.suggestedReplacement).length;
+        const unintentionalCount = classifications.filter(
+          c => !c.isIntentional && c.suggestedReplacement,
+        ).length;
         replacementsAttempted += unintentionalCount;
 
         const successfulReplacements = this.applyReplacements(filePath, classifications);
@@ -498,7 +546,6 @@ class UnintentionalAnyCampaignController {
             break;
           }
         }
-
       } catch (error) {
         this.log(`Error processing ${filePath}: ${error}`, 'error');
         compilationErrors++;
@@ -506,7 +553,8 @@ class UnintentionalAnyCampaignController {
     }
 
     const executionTime = Date.now() - batchStartTime;
-    const safetyScore = compilationErrors === 0 ? 100 : Math.max(0, 100 - (compilationErrors / filesProcessed) * 100);
+    const safetyScore =
+      compilationErrors === 0 ? 100 : Math.max(0, 100 - (compilationErrors / filesProcessed) * 100);
 
     return {
       filesProcessed,
@@ -515,7 +563,7 @@ class UnintentionalAnyCampaignController {
       compilationErrors,
       rollbacksPerformed: this.metrics.rollbacksPerformed,
       executionTime,
-      safetyScore
+      safetyScore,
     };
   }
 
@@ -527,7 +575,9 @@ class UnintentionalAnyCampaignController {
     const initialAnyCount = this.getCurrentAnyCount();
     this.log(`📊 Initial explicit-any count: ${initialAnyCount}`, 'info');
 
-    const targetReduction = Math.floor(initialAnyCount * (this.config.targetReductionPercentage / 100));
+    const targetReduction = Math.floor(
+      initialAnyCount * (this.config.targetReductionPercentage / 100),
+    );
     this.log(`🎯 Target reduction: ${targetReduction} any types`, 'info');
 
     // Get files to process
@@ -558,7 +608,10 @@ class UnintentionalAnyCampaignController {
       this.log(`  Safety score: ${batchResult.safetyScore.toFixed(1)}%`, 'info');
 
       // Update build stability score
-      this.metrics.buildStabilityScore = Math.min(this.metrics.buildStabilityScore, batchResult.safetyScore);
+      this.metrics.buildStabilityScore = Math.min(
+        this.metrics.buildStabilityScore,
+        batchResult.safetyScore,
+      );
 
       totalProcessed = batchEnd;
       batchNumber++;
@@ -581,7 +634,11 @@ class UnintentionalAnyCampaignController {
     return this.metrics;
   }
 
-  private generateFinalReport(initialCount: number, finalCount: number, actualReduction: number): void {
+  private generateFinalReport(
+    initialCount: number,
+    finalCount: number,
+    actualReduction: number,
+  ): void {
     const reportPath = `.kiro/specs/unintentional-any-elimination/final-campaign-report.md`;
 
     const report = `# Unintentional Any Elimination Campaign - Final Report
@@ -617,9 +674,10 @@ class UnintentionalAnyCampaignController {
 ## Achievement Analysis
 
 ### Target Achievement
-${this.metrics.reductionPercentage >= this.config.targetReductionPercentage
-  ? '✅ **TARGET ACHIEVED** - Exceeded target reduction percentage'
-  : `⚠️ **TARGET PARTIAL** - Achieved ${this.metrics.reductionPercentage.toFixed(1)}% of ${this.config.targetReductionPercentage}% target`
+${
+  this.metrics.reductionPercentage >= this.config.targetReductionPercentage
+    ? '✅ **TARGET ACHIEVED** - Exceeded target reduction percentage'
+    : `⚠️ **TARGET PARTIAL** - Achieved ${this.metrics.reductionPercentage.toFixed(1)}% of ${this.config.targetReductionPercentage}% target`
 }
 
 ### Quality Metrics
@@ -630,9 +688,10 @@ ${this.metrics.reductionPercentage >= this.config.targetReductionPercentage
 ## Recommendations
 
 ### Immediate Actions
-${this.metrics.reductionPercentage >= this.config.targetReductionPercentage
-  ? '- Continue monitoring for new unintentional any types\n- Consider expanding to test files in future campaigns'
-  : '- Review failed replacements for manual intervention opportunities\n- Consider running additional targeted campaigns'
+${
+  this.metrics.reductionPercentage >= this.config.targetReductionPercentage
+    ? '- Continue monitoring for new unintentional any types\n- Consider expanding to test files in future campaigns'
+    : '- Review failed replacements for manual intervention opportunities\n- Consider running additional targeted campaigns'
 }
 
 ### Future Improvements
@@ -674,19 +733,25 @@ if (require.main === module) {
     maxTotalFiles: 100,
     safetyValidationFrequency: 5,
     enableDocumentation: true,
-    enableProgressiveImprovement: true
+    enableProgressiveImprovement: true,
   });
 
-  controller.executeFullCampaign()
-    .then((metrics) => {
+  controller
+    .executeFullCampaign()
+    .then(metrics => {
       console.log('\n🎉 Campaign execution completed successfully!');
       console.log(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`);
       process.exit(0);
     })
-    .catch((error) => {
+    .catch(error => {
       console.error('❌ Campaign execution failed:', error);
       process.exit(1);
     });
 }
 
-export { AnyTypeCategory, UnintentionalAnyCampaignController, type CampaignConfig, type CampaignMetrics };
+export {
+  AnyTypeCategory,
+  UnintentionalAnyCampaignController,
+  type CampaignConfig,
+  type CampaignMetrics,
+};

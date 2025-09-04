@@ -12,12 +12,28 @@ export * from './unintentional-any-elimination';
 
 // Re-export types for convenience
 export type {
-    CampaignConfig,
-    CampaignPhase, CheckpointId, CorruptionReport,
-    GitStash, Milestone, PhaseReport, PhaseResult,
-    ProgressMetrics, ProgressReport, SafetyEvent, SafetySettings, StashId, ValidationResult
+  CampaignConfig,
+  CampaignPhase,
+  CheckpointId,
+  CorruptionReport,
+  GitStash,
+  Milestone,
+  PhaseReport,
+  PhaseResult,
+  ProgressMetrics,
+  ProgressReport,
+  SafetyEvent,
+  SafetySettings,
+  StashId,
+  ValidationResult,
 } from '../../types/campaign';
 
 export {
-    CorruptionSeverity, ErrorCategory, PhaseStatus, RecoveryAction, SafetyEventSeverity, SafetyEventType, SafetyLevel
+  CorruptionSeverity,
+  ErrorCategory,
+  PhaseStatus,
+  RecoveryAction,
+  SafetyEventSeverity,
+  SafetyEventType,
+  SafetyLevel,
 } from '../../types/campaign';

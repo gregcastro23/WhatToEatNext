@@ -206,10 +206,10 @@ export function useEnterpriseIntelligence(
           overallValidation?: { criticalIssues?: string[] };
         }
       )?.overallValidation?.criticalIssues || []),
-      ...((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })
-        ?.riskAssessment?.level === 'high' ||
-      (analysis.safetyIntelligence as { riskAssessment?: { level?: string } })
-        ?.riskAssessment?.level === 'critical'
+      ...((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
+        ?.level === 'high' ||
+      (analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
+        ?.level === 'critical'
         ? ['High risk level detected']
         : []),
     ];
@@ -227,11 +227,9 @@ export function useEnterpriseIntelligence(
           astrologicalConsistency?: { warnings?: string[] };
         }
       )?.astrologicalConsistency?.warnings || []),
-      ...((
-        analysis.validationIntelligence as { elementalHarmony?: { warnings?: string[] } }
-      )?.elementalHarmony?.warnings || []),
-      ...((analysis.safetyIntelligence as { monitoringAlerts?: string[] })
-        ?.monitoringAlerts || []),
+      ...((analysis.validationIntelligence as { elementalHarmony?: { warnings?: string[] } })
+        ?.elementalHarmony?.warnings || []),
+      ...((analysis.safetyIntelligence as { monitoringAlerts?: string[] })?.monitoringAlerts || []),
     ];
 
     return {
@@ -313,8 +311,7 @@ export function useEnterpriseIntelligence(
           overallScore:
             (analysis as { overallScore?: number }).overallScore ||
             analysis.overallIntelligenceScore,
-          systemHealth:
-            (analysis as { systemHealth?: string }).systemHealth || 'unknown',
+          systemHealth: (analysis as { systemHealth?: string }).systemHealth || 'unknown',
         });
 
         return analysis;

@@ -5,25 +5,25 @@
 // It helps maintain consistent import paths throughout the application
 
 import {
-    AlchemicalEngineAdvanced,
-    calculateChakraEnergies as _calculateChakraEnergies,
-    calculateZodiacEnergies as _calculateZodiacEnergies,
-    alchemize,
+  AlchemicalEngineAdvanced,
+  calculateChakraEnergies as _calculateChakraEnergies,
+  calculateZodiacEnergies as _calculateZodiacEnergies,
+  alchemize,
 } from '@/calculations/alchemicalEngine';
 import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
 import type {
-    AstrologicalState,
-    BirthInfo,
-    ChakraEnergies,
-    HoroscopeData,
-    StandardizedAlchemicalResult,
+  AstrologicalState,
+  BirthInfo,
+  ChakraEnergies,
+  HoroscopeData,
+  StandardizedAlchemicalResult,
 } from '@/types/alchemy';
 
 // Re-export the main functions and classes
 export { AlchemicalEngineAdvanced, AlchemicalEngineBase };
 
 // Re-export the main alchemize function
-    export { alchemize };
+export { alchemize };
 
 // Create and export a unified default object with all alchemical functionality
 const alchemicalEngine = {

@@ -23,8 +23,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
-    elementalProperties: ((recipeData as unknown as any)
-      .elementalState as ElementalProperties) || {
+    elementalProperties: ((recipeData as unknown as any).elementalState as ElementalProperties) || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -61,17 +60,22 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.elementalState = recipeDataAny.elementalState as ElementalProperties;
   } else {
     // Create default elemental properties
-    recipe.elementalState = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+    recipe.elementalState = createElementalProperties({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    });
   }
 
   // Handle season
   const energyProfile = recipeDataAny.energyProfile as any;
-    if (energyProfile && energyProfile.season) {
-      const seasonVal = Array.isArray(energyProfile.season)
-        ? String((energyProfile.season as unknown[])[0] ?? '')
-        : String(energyProfile.season);
-      recipe.currentSeason = seasonVal;
-    }
+  if (energyProfile && energyProfile.season) {
+    const seasonVal = Array.isArray(energyProfile.season)
+      ? String((energyProfile.season as unknown[])[0] ?? '')
+      : String(energyProfile.season);
+    recipe.currentSeason = seasonVal;
+  }
 
   // Handle astrological properties
   if (energyProfile) {
@@ -80,18 +84,18 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       const zodiacRaw = Array.isArray(energyProfile.zodiac)
         ? energyProfile.zodiac
         : [energyProfile.zodiac];
-      recipe.zodiacInfluences = (zodiacRaw
+      recipe.zodiacInfluences = zodiacRaw
         .map(z => String(z).toLowerCase())
-        .filter(Boolean)) as unknown as import('@/types/alchemy').ZodiacSign[];
+        .filter(Boolean) as unknown as import('@/types/alchemy').ZodiacSign[];
     }
 
     if (energyProfile.lunar) {
       const lunarRaw = Array.isArray(energyProfile.lunar)
         ? energyProfile.lunar
         : [energyProfile.lunar];
-      recipe.lunarPhaseInfluences = (lunarRaw
+      recipe.lunarPhaseInfluences = lunarRaw
         .map(l => String(l).toLowerCase())
-        .filter(Boolean)) as unknown as import('@/types/alchemy').LunarPhase[];
+        .filter(Boolean) as unknown as import('@/types/alchemy').LunarPhase[];
     }
 
     if (energyProfile.planetary) {
@@ -350,7 +354,12 @@ export function createMinimalRecipe(name: string): Recipe {
     id: `minimal-recipe-${Date.now()}`,
     name,
     ingredients: [],
-    elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
+    elementalProperties: createElementalProperties({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }),
     instructions: [], // ← Pattern GG-4: Added missing instructions property
   };
 }

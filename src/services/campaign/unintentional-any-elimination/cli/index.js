@@ -14,7 +14,7 @@ const CLI_TOOLS = {
   main: path.join(__dirname, 'unintentional-any-cli.cjs'),
   batch: path.join(__dirname, 'batch-processor.cjs'),
   monitor: path.join(__dirname, 'progress-monitor.cjs'),
-  debug: path.join(__dirname, 'debug-tools.cjs')
+  debug: path.join(__dirname, 'debug-tools.cjs'),
 };
 
 // Help text
@@ -136,5 +136,5 @@ if (require.main === module) {
 
 module.exports = {
   CLI_TOOLS,
-  executeTool
+  executeTool,
 };

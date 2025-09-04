@@ -195,8 +195,7 @@ const isAntagonisticCombination = (
   elem2: ElementalProperties,
 ): boolean => {
   const antagonistic =
-    (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })?.antagonistic ||
-    [];
+    (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })?.antagonistic || [];
   return antagonistic.some(
     ([e1, e2]: [unknown, unknown]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||

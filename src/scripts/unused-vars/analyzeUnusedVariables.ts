@@ -32,7 +32,8 @@ type Finding = {
 function parseArgs(argv: string[]): CliOptions {
   const outIndex = argv.indexOf('--out');
   const maxIndex = argv.indexOf('--max');
-  const outPath = outIndex !== -1 && argv[outIndex + 1] ? argv[outIndex + 1] : 'reports/unused-vars.json';
+  const outPath =
+    outIndex !== -1 && argv[outIndex + 1] ? argv[outIndex + 1] : 'reports/unused-vars.json';
   const maxFiles = maxIndex !== -1 && argv[maxIndex + 1] ? Number(argv[maxIndex + 1]) : undefined;
   return { outPath, maxFiles };
 }
@@ -60,7 +61,8 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
     const filePath = res.filePath;
     const fileKind = classifyFileKind(filePath);
     for (const msg of res.messages) {
-      if (msg.ruleId !== 'no-unused-vars' && msg.ruleId !== '@typescript-eslint/no-unused-vars') continue;
+      if (msg.ruleId !== 'no-unused-vars' && msg.ruleId !== '@typescript-eslint/no-unused-vars')
+        continue;
       const quoted = msg.message.match(/'(.*?)'/)?.[1];
       const fallback = msg.message.match(/([A-Za-z_$][A-Za-z0-9_$]*)/)?.[1];
       const variableName = quoted || fallback || 'unknown';
@@ -89,18 +91,18 @@ function ensureDir(dirPath: string): void {
 
 function generateHumanReadableReport(findings: Finding[]): string {
   const total = findings.length;
-  const preserve = findings.filter((f) => f.preserve).length;
+  const preserve = findings.filter(f => f.preserve).length;
   const eliminate = total - preserve;
   const byReason = findings.reduce<Record<string, number>>((acc, f) => {
     acc[f.reason] = (acc[f.reason] || 0) + 1;
     return acc;
   }, {});
   const lines = [
-    `Unused variable analysis` ,
-    `Total findings: ${total}` ,
-    `Preserve: ${preserve}` ,
-    `Eliminate: ${eliminate}` ,
-    `Breakdown by reason:` ,
+    `Unused variable analysis`,
+    `Total findings: ${total}`,
+    `Preserve: ${preserve}`,
+    `Eliminate: ${eliminate}`,
+    `Breakdown by reason:`,
   ];
   for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1])) {
     lines.push(`  - ${reason}: ${count}`);
@@ -113,7 +115,10 @@ async function main(): Promise<void> {
   const findings = await collectUnusedVariables(opts.maxFiles);
 
   ensureDir(path.dirname(opts.outPath));
-  fs.writeFileSync(opts.outPath, JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null, 2));
+  fs.writeFileSync(
+    opts.outPath,
+    JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null, 2),
+  );
 
   const humanReport = generateHumanReadableReport(findings);
   const txtOut = opts.outPath.replace(/\.json$/, '.txt');

@@ -111,7 +111,7 @@ export class QualityAssuranceDashboard {
       enableRealTimeMonitoring: true,
       enableAutomaticReporting: true,
       logLevel: 'info',
-      ...config
+      ...config,
     };
 
     this.validationFramework = new ComprehensiveValidationFramework();
@@ -128,15 +128,21 @@ export class QualityAssuranceDashboard {
       return;
     }
 
-    this.log('info', `📊 Starting quality monitoring (interval: ${this.config.monitoringInterval} minutes)`);
+    this.log(
+      'info',
+      `📊 Starting quality monitoring (interval: ${this.config.monitoringInterval} minutes)`,
+    );
 
-    this.monitoringTimer = setInterval(async () => {
-      try {
-        await this.collectQualityMetrics();
-      } catch (error) {
-        this.log('error', `❌ Quality monitoring error: ${error}`);
-      }
-    }, this.config.monitoringInterval * 60 * 1000);
+    this.monitoringTimer = setInterval(
+      async () => {
+        try {
+          await this.collectQualityMetrics();
+        } catch (error) {
+          this.log('error', `❌ Quality monitoring error: ${error}`);
+        }
+      },
+      this.config.monitoringInterval * 60 * 1000,
+    );
 
     // Collect initial metrics
     this.collectQualityMetrics();
@@ -168,20 +174,23 @@ export class QualityAssuranceDashboard {
       const latestServiceReport = serviceReports[serviceReports.length - 1];
 
       // Calculate metrics
-      const unusedVariableReduction = latestServiceReport?.qualityMetrics.unusedVariableReduction || 0;
+      const unusedVariableReduction =
+        latestServiceReport?.qualityMetrics.unusedVariableReduction || 0;
       const buildStabilityScore = latestServiceReport?.qualityMetrics.buildStabilityScore || 0;
-      const serviceIntegrityScore = latestServiceReport?.qualityMetrics.serviceIntegrityScore || 100;
+      const serviceIntegrityScore =
+        latestServiceReport?.qualityMetrics.serviceIntegrityScore || 100;
 
       const overallQualityScore = Math.round(
-        (unusedVariableReduction * 0.4) +
-        (buildStabilityScore * 0.3) +
-        (((validationStats as any)?.averageQualityScore || 0) * 0.2) +
-        (serviceIntegrityScore * 0.1)
+        unusedVariableReduction * 0.4 +
+          buildStabilityScore * 0.3 +
+          ((validationStats as any)?.averageQualityScore || 0) * 0.2 +
+          serviceIntegrityScore * 0.1,
       );
 
-      const validationSuccessRate = validationStats.totalBatches > 0
-        ? (validationStats.successfulBatches / validationStats.totalBatches) * 100
-        : 100;
+      const validationSuccessRate =
+        validationStats.totalBatches > 0
+          ? (validationStats.successfulBatches / validationStats.totalBatches) * 100
+          : 100;
 
       const testCoverageScore = this.calculateTestCoverageScore();
 
@@ -189,9 +198,10 @@ export class QualityAssuranceDashboard {
         reductionTargetMet: unusedVariableReduction >= this.config.reductionTarget,
         stabilityTargetMet: buildStabilityScore >= this.config.stabilityTarget,
         qualityThresholdMet: overallQualityScore >= this.config.qualityThreshold,
-        productionReady: unusedVariableReduction >= this.config.reductionTarget &&
-                        buildStabilityScore >= this.config.stabilityTarget &&
-                        overallQualityScore >= this.config.qualityThreshold
+        productionReady:
+          unusedVariableReduction >= this.config.reductionTarget &&
+          buildStabilityScore >= this.config.stabilityTarget &&
+          overallQualityScore >= this.config.qualityThreshold,
       };
 
       const metrics: QualityMetrics = {
@@ -203,7 +213,7 @@ export class QualityAssuranceDashboard {
         validationSuccessRate,
         serviceIntegrityScore,
         testCoverageScore,
-        targetAchievement
+        targetAchievement,
       };
 
       // Store metrics in history
@@ -216,7 +226,6 @@ export class QualityAssuranceDashboard {
 
       this.log('debug', `📊 Quality metrics collected: ${overallQualityScore}/100`);
       return metrics;
-
     } catch (error) {
       this.log('error', `❌ Failed to collect quality metrics: ${error}`);
 
@@ -234,8 +243,8 @@ export class QualityAssuranceDashboard {
           reductionTargetMet: false,
           stabilityTargetMet: false,
           qualityThresholdMet: false,
-          productionReady: false
-        }
+          productionReady: false,
+        },
       };
     }
   }
@@ -254,13 +263,13 @@ export class QualityAssuranceDashboard {
     const executiveSummary = this.generateExecutiveSummary(
       currentMetrics,
       productionReadiness,
-      batchSummary
+      batchSummary,
     );
 
     const recommendations = this.generateRecommendations(
       currentMetrics,
       productionReadiness,
-      qualityTrends
+      qualityTrends,
     );
 
     const report: ComprehensiveDashboardReport = {
@@ -271,7 +280,7 @@ export class QualityAssuranceDashboard {
       qualityTrends,
       productionReadiness,
       batchSummary,
-      recommendations
+      recommendations,
     };
 
     // Export report if automatic reporting is enabled
@@ -299,8 +308,12 @@ export class QualityAssuranceDashboard {
     // Check reduction target
     if (!metrics.targetAchievement.reductionTargetMet) {
       const shortfall = this.config.reductionTarget - metrics.unusedVariableReduction;
-      blockers.push(`Unused variable reduction target not met (${shortfall.toFixed(1)}% shortfall)`);
-      criticalActions.push(`Eliminate additional unused variables to reach ${this.config.reductionTarget}% target`);
+      blockers.push(
+        `Unused variable reduction target not met (${shortfall.toFixed(1)}% shortfall)`,
+      );
+      criticalActions.push(
+        `Eliminate additional unused variables to reach ${this.config.reductionTarget}% target`,
+      );
       readinessScore -= 30;
     }
 
@@ -322,14 +335,18 @@ export class QualityAssuranceDashboard {
 
     // Check validation success rate
     if (metrics.validationSuccessRate < 95) {
-      warnings.push(`Validation success rate below 95% (${metrics.validationSuccessRate.toFixed(1)}%)`);
+      warnings.push(
+        `Validation success rate below 95% (${metrics.validationSuccessRate.toFixed(1)}%)`,
+      );
       importantActions.push('Improve validation success rate');
       readinessScore -= 10;
     }
 
     // Check service integrity
     if (metrics.serviceIntegrityScore < 90) {
-      warnings.push(`Service integrity score below 90% (${metrics.serviceIntegrityScore.toFixed(1)}%)`);
+      warnings.push(
+        `Service integrity score below 90% (${metrics.serviceIntegrityScore.toFixed(1)}%)`,
+      );
       importantActions.push('Review and fix service integration issues');
       readinessScore -= 10;
     }
@@ -360,8 +377,8 @@ export class QualityAssuranceDashboard {
       requiredActions: {
         critical: criticalActions,
         important: importantActions,
-        optional: optionalActions
-      }
+        optional: optionalActions,
+      },
     };
   }
 
@@ -374,12 +391,17 @@ export class QualityAssuranceDashboard {
     }
 
     const trends: QualityTrend[] = [];
-    const metrics = ['unusedVariableReduction', 'buildStabilityScore', 'overallQualityScore', 'validationSuccessRate'];
+    const metrics = [
+      'unusedVariableReduction',
+      'buildStabilityScore',
+      'overallQualityScore',
+      'validationSuccessRate',
+    ];
 
     for (const metric of metrics) {
       const values = this.qualityHistory.map(h => ({
         timestamp: h.timestamp,
-        value: h[metric as keyof QualityMetrics] as number
+        value: h[metric as keyof QualityMetrics] as number,
       }));
 
       const trend = this.calculateTrend(values);
@@ -387,7 +409,7 @@ export class QualityAssuranceDashboard {
         metric,
         values,
         trend: trend.direction,
-        changeRate: trend.changeRate
+        changeRate: trend.changeRate,
       });
     }
 
@@ -397,7 +419,10 @@ export class QualityAssuranceDashboard {
   /**
    * Calculate trend direction and change rate
    */
-  private calculateTrend(values: { timestamp: Date; value: number }[]): { direction: 'improving' | 'stable' | 'declining'; changeRate: number } {
+  private calculateTrend(values: { timestamp: Date; value: number }[]): {
+    direction: 'improving' | 'stable' | 'declining';
+    changeRate: number;
+  } {
     if (values.length < 2) {
       return { direction: 'stable', changeRate: 0 };
     }
@@ -427,8 +452,9 @@ export class QualityAssuranceDashboard {
     const validationStats = this.validationIntegration.getValidationStatistics();
     const serviceReports = this.serviceValidator.getAllQualityReports();
 
-    const totalFilesProcessed = serviceReports.reduce((sum, report) =>
-      sum + report.processedServices.length, 0
+    const totalFilesProcessed = serviceReports.reduce(
+      (sum, report) => sum + report.processedServices.length,
+      0,
     );
 
     // Estimate variables eliminated (this would need actual tracking in a real implementation)
@@ -439,7 +465,7 @@ export class QualityAssuranceDashboard {
       successfulBatches: validationStats.successfulBatches,
       averageQualityScore: validationStats.averageQualityScore,
       totalFilesProcessed,
-      totalVariablesEliminated
+      totalVariablesEliminated,
     };
   }
 
@@ -449,7 +475,7 @@ export class QualityAssuranceDashboard {
   private generateExecutiveSummary(
     metrics: QualityMetrics,
     readiness: ProductionReadinessAssessment,
-    batchSummary: any
+    batchSummary: any,
   ) {
     const keyAchievements: string[] = [];
     const criticalIssues: string[] = [];
@@ -457,13 +483,17 @@ export class QualityAssuranceDashboard {
 
     // Key achievements
     if (metrics.targetAchievement.reductionTargetMet) {
-      keyAchievements.push(`Achieved ${metrics.unusedVariableReduction.toFixed(1)}% unused variable reduction target`);
+      keyAchievements.push(
+        `Achieved ${metrics.unusedVariableReduction.toFixed(1)}% unused variable reduction target`,
+      );
     }
     if (metrics.targetAchievement.stabilityTargetMet) {
       keyAchievements.push('Maintained 100% build stability throughout process');
     }
     if (batchSummary.totalVariablesEliminated > 0) {
-      keyAchievements.push(`Successfully eliminated ${batchSummary.totalVariablesEliminated} unused variables`);
+      keyAchievements.push(
+        `Successfully eliminated ${batchSummary.totalVariablesEliminated} unused variables`,
+      );
     }
 
     // Critical issues
@@ -489,7 +519,7 @@ export class QualityAssuranceDashboard {
       overallStatus,
       keyAchievements,
       criticalIssues,
-      nextSteps
+      nextSteps,
     };
   }
 
@@ -499,7 +529,7 @@ export class QualityAssuranceDashboard {
   private generateRecommendations(
     metrics: QualityMetrics,
     readiness: ProductionReadinessAssessment,
-    trends: QualityTrend[]
+    trends: QualityTrend[],
   ) {
     const immediate: string[] = [];
     const shortTerm: string[] = [];
@@ -514,7 +544,9 @@ export class QualityAssuranceDashboard {
     // Add trend-based recommendations
     for (const trend of trends) {
       if (trend.trend === 'declining' && Math.abs(trend.changeRate) > 5) {
-        shortTerm.push(`Address declining ${trend.metric} trend (${trend.changeRate.toFixed(1)}% decrease)`);
+        shortTerm.push(
+          `Address declining ${trend.metric} trend (${trend.changeRate.toFixed(1)}% decrease)`,
+        );
       }
     }
 
@@ -527,7 +559,7 @@ export class QualityAssuranceDashboard {
     return {
       immediate: [...new Set(immediate)],
       shortTerm: [...new Set(shortTerm)],
-      longTerm: [...new Set(longTerm)]
+      longTerm: [...new Set(longTerm)],
     };
   }
 
@@ -548,9 +580,18 @@ export class QualityAssuranceDashboard {
     }
 
     // Calculate days needed to reach targets
-    const reductionGap = Math.max(0, this.config.reductionTarget - currentMetrics.unusedVariableReduction);
-    const stabilityGap = Math.max(0, this.config.stabilityTarget - currentMetrics.buildStabilityScore);
-    const qualityGap = Math.max(0, this.config.qualityThreshold - currentMetrics.overallQualityScore);
+    const reductionGap = Math.max(
+      0,
+      this.config.reductionTarget - currentMetrics.unusedVariableReduction,
+    );
+    const stabilityGap = Math.max(
+      0,
+      this.config.stabilityTarget - currentMetrics.buildStabilityScore,
+    );
+    const qualityGap = Math.max(
+      0,
+      this.config.qualityThreshold - currentMetrics.overallQualityScore,
+    );
 
     const maxGap = Math.max(reductionGap, stabilityGap, qualityGap);
     const daysNeeded = Math.ceil(maxGap / improvementRate);
@@ -605,7 +646,6 @@ export class QualityAssuranceDashboard {
       fs.writeFileSync(markdownPath, markdownContent);
 
       this.log('info', `📊 Dashboard report exported to ${this.config.reportingPath}`);
-
     } catch (error) {
       this.log('error', `❌ Failed to export dashboard report: ${error}`);
     }
@@ -643,7 +683,7 @@ export class QualityAssuranceDashboard {
       '## Production Readiness',
       `**Ready for Production:** ${report.productionReadiness.isReady ? 'YES' : 'NO'}`,
       `**Readiness Score:** ${report.productionReadiness.readinessScore}/100`,
-      ''
+      '',
     ];
 
     if (report.productionReadiness.blockers.length > 0) {
@@ -675,7 +715,7 @@ export class QualityAssuranceDashboard {
       ...report.recommendations.shortTerm.map(action => `- ${action}`),
       '',
       '### Long-term Actions',
-      ...report.recommendations.longTerm.map(action => `- ${action}`)
+      ...report.recommendations.longTerm.map(action => `- ${action}`),
     );
 
     return lines.join('\n');

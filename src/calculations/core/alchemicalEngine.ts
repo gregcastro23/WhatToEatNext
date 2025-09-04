@@ -1,4 +1,4 @@
-import { AstrologicalState, Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import { AstrologicalState, Element, ElementalProperties } from '@/types/alchemy';
 import type { LunarPhaseWithSpaces } from '@/types/alchemy';
 import { logger as _logger } from '@/utils/logger';
 

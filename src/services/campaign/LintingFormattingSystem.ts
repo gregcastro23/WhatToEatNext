@@ -299,18 +299,14 @@ export class LintingFormattingSystem {
       result.lintingViolationsFixed = await this.fixLintingViolations(filePaths);
       result.violationBreakdown = await this.getViolationBreakdown(filePaths);
     } catch (error) {
-      result.errors.push(
-        `Linting fixes failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      result.errors.push(`Linting fixes failed: ${(error as any).message || 'Unknown error'}`);
     }
 
     // Step 2: Format code
     try {
       result.formattingIssuesFixed = await this.formatCode(filePaths);
     } catch (error) {
-      result.errors.push(
-        `Code formatting failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      result.errors.push(`Code formatting failed: ${(error as any).message || 'Unknown error'}`);
     }
 
     // Step 3: Apply pattern-based fixes

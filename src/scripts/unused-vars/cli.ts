@@ -14,7 +14,9 @@ function execNode(cmd: string): void {
   childProcess.execSync(cmd, { stdio: 'inherit' });
 }
 
-function tryCompiled(toolBaseName: 'analyzeUnusedVariables' | 'batchEliminateUnused'): string | null {
+function tryCompiled(
+  toolBaseName: 'analyzeUnusedVariables' | 'batchEliminateUnused',
+): string | null {
   // When running compiled (CJS), __dirname should point at dist-scripts
   // Try sibling compiled files first
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -30,7 +32,8 @@ function main(): void {
   switch (command) {
     case 'baseline': {
       const baselineIdx = rest.indexOf('--count');
-      const count = baselineIdx !== -1 && rest[baselineIdx + 1] ? Number(rest[baselineIdx + 1]) : 965;
+      const count =
+        baselineIdx !== -1 && rest[baselineIdx + 1] ? Number(rest[baselineIdx + 1]) : 965;
       createBaselineReport('reports/unused-vars-baseline.json', count);
       break;
     }
@@ -41,7 +44,9 @@ function main(): void {
       if (compiled) {
         execNode(`node ${compiled} --out ${out}`);
       } else {
-        execNode(`node --enable-source-maps --loader ts-node/esm ${path.posix.join('src','scripts','unused-vars','analyzeUnusedVariables.ts')} --out ${out}`);
+        execNode(
+          `node --enable-source-maps --loader ts-node/esm ${path.posix.join('src', 'scripts', 'unused-vars', 'analyzeUnusedVariables.ts')} --out ${out}`,
+        );
       }
       break;
     }
@@ -55,10 +60,12 @@ function main(): void {
       const maxCrit = maxCritIdx !== -1 && rest[maxCritIdx + 1] ? rest[maxCritIdx + 1] : '8';
       const compiled = tryCompiled('batchEliminateUnused');
       if (compiled) {
-        execNode(`node ${compiled} --in ${inPath} ${dry} --max-batch ${maxBatch} --max-batch-critical ${maxCrit}`);
+        execNode(
+          `node ${compiled} --in ${inPath} ${dry} --max-batch ${maxBatch} --max-batch-critical ${maxCrit}`,
+        );
       } else {
         execNode(
-          `node --enable-source-maps --loader ts-node/esm ${path.posix.join('src','scripts','unused-vars','batchEliminateUnused.ts')} --in ${inPath} ${dry} --max-batch ${maxBatch} --max-batch-critical ${maxCrit}`
+          `node --enable-source-maps --loader ts-node/esm ${path.posix.join('src', 'scripts', 'unused-vars', 'batchEliminateUnused.ts')} --in ${inPath} ${dry} --max-batch ${maxBatch} --max-batch-critical ${maxCrit}`,
         );
       }
       break;

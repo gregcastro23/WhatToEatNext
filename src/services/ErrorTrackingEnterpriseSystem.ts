@@ -19,9 +19,9 @@ import fs from 'fs';
 import { log } from '@/services/LoggingService';
 
 import {
-    ErrorCategory,
-    TypeScriptError,
-    TypeScriptErrorAnalyzer
+  ErrorCategory,
+  TypeScriptError,
+  TypeScriptErrorAnalyzer,
 } from './campaign/TypeScriptErrorAnalyzer';
 
 // ========== ENTERPRISE ERROR TRACKING INTERFACES ==========
@@ -156,19 +156,12 @@ export class ErrorTrackingEnterpriseSystem {
     const currentErrorCount = await this.analyzer.getCurrentErrorCount();
 
     // Calculate metrics
-    const metrics = this.calculateMetrics(
-      analysisResult as unknown as any,
-      currentErrorCount,
-    );
+    const metrics = this.calculateMetrics(analysisResult as unknown as any, currentErrorCount);
 
     // Update patterns
     this.updateErrorPatterns(
-      ((
-        (analysisResult as unknown as any)?.distribution as Record<
-          string,
-          unknown
-        >
-      )?.priorityRanking as unknown[]) || [],
+      (((analysisResult as unknown as any)?.distribution as Record<string, unknown>)
+        ?.priorityRanking as unknown[]) || [],
     );
 
     // Analyze trends

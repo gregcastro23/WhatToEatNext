@@ -244,7 +244,7 @@ export const poaching: CookingMethodData = {
     heat: 0.4, // Gentle, low heat
     entropy: 0.3, // Minimal structural disruption
     reactivity: 0.25, // Limited chemical reactions due to low temperature
-    gregsEnergy: 0.050 // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata

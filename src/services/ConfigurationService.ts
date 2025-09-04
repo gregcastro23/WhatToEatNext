@@ -92,10 +92,13 @@ class ConfigurationServiceImpl {
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
     const storedApi = (stored.api as any) || {};
     const storedAstrology = (stored.astrology as any) || {};
-    const celestialUpdateInterval = Number(storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval);
+    const celestialUpdateInterval = Number(
+      storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
+    );
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
     const retryCount = Number(storedApi.retryCount ?? config.api.retryCount);
-    const baseUrl = typeof storedApi.baseUrl === 'string' ? (storedApi.baseUrl as string) : config.api.baseUrl;
+    const baseUrl =
+      typeof storedApi.baseUrl === 'string' ? (storedApi.baseUrl as string) : config.api.baseUrl;
 
     const defaultTimezoneName =
       typeof storedAstrology.defaultTimezoneName === 'string'

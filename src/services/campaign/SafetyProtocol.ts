@@ -92,9 +92,7 @@ export class SafetyProtocol {
         action: 'STASH_FAILED',
       });
 
-      throw new Error(
-        `Failed to create git stash: ${(error as any).message || 'Unknown error'}`,
-      );
+      throw new Error(`Failed to create git stash: ${(error as any).message || 'Unknown error'}`);
     }
   }
 
@@ -509,9 +507,7 @@ export class SafetyProtocol {
         action: 'EMERGENCY_ROLLBACK_FAILED',
       });
 
-      throw new Error(
-        `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      throw new Error(`Emergency rollback failed: ${(error as any).message || 'Unknown error'}`);
     }
   }
 
@@ -546,9 +542,7 @@ export class SafetyProtocol {
     } catch (error) {
       return {
         success: false,
-        errors: [
-          `Git validation failed: ${(error as any).message || 'Unknown error'}`,
-        ],
+        errors: [`Git validation failed: ${(error as any).message || 'Unknown error'}`],
         warnings: [],
       };
     }

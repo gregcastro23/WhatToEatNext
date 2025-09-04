@@ -117,7 +117,7 @@ function applyEditsToFile(
   filePath: string,
   eliminations: Finding[],
   transformations: Finding[],
-  dryRun: boolean
+  dryRun: boolean,
 ): string | null {
   const original = fs.readFileSync(filePath, 'utf8');
   const lines = original.split(/\r?\n/);
@@ -152,14 +152,18 @@ function applyEditsToFile(
   return null;
 }
 
-function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dryRun: boolean): boolean {
+function processBatch(
+  files: string[],
+  fileFindings: Map<string, Finding[]>,
+  dryRun: boolean,
+): boolean {
   const backups: Array<{ file: string; backup: string }> = [];
   for (const file of files) {
-    const findings = (fileFindings.get(file) || []).filter((f) => !f.preserve);
+    const findings = (fileFindings.get(file) || []).filter(f => !f.preserve);
     if (findings.length === 0) continue;
 
     // Prefix preserved variables instead of removing
-    const transformations = (fileFindings.get(file) || []).filter((f) => f.preserve);
+    const transformations = (fileFindings.get(file) || []).filter(f => f.preserve);
     const backup = applyEditsToFile(file, findings, transformations, dryRun);
     if (backup) backups.push({ file, backup });
   }
@@ -196,7 +200,9 @@ async function main(): Promise<void> {
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
   // eslint-disable-next-line no-console
-  console.log(`Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`);
+  console.log(
+    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
+  );
 
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];

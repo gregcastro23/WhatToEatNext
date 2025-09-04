@@ -6,9 +6,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
-import {
-    calculateAspects
-} from '@/utils/astrologyUtils';
+import { calculateAspects } from '@/utils/astrologyUtils';
 
 interface PlanetaryAspect {
   planet1: string;

@@ -125,8 +125,7 @@ export function explainRecommendation(
 
   // Elemental explanation
   if (astrologicalState.dominantElement && recipe.elementalState) {
-    const elementValue =
-      recipe.elementalState[astrologicalState.dominantElement as any] || 0;
+    const elementValue = recipe.elementalState[astrologicalState.dominantElement as any] || 0;
     if (elementValue > 0.3) {
       explanations.push(`Strong ${astrologicalState.dominantElement} element alignment`);
     }
@@ -340,8 +339,7 @@ export function getDetailedRecipeRecommendations(
 
     // Collect reasons for the score
     if (astrologicalState.dominantElement && recipe.elementalState) {
-      const elementValue =
-        recipe.elementalState[astrologicalState.dominantElement as any] || 0;
+      const elementValue = recipe.elementalState[astrologicalState.dominantElement as any] || 0;
       if (elementValue > 0.3) {
         reasons.push(`Strong ${astrologicalState.dominantElement} element`);
       }

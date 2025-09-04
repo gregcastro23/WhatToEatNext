@@ -48,14 +48,14 @@ import uranusData from '@/data/planets/uranus';
 import venusData from '@/data/planets/venus';
 import type { ElementalProperties, ZodiacSign } from '@/types';
 import {
-    AstrologicalState,
-    BasicThermodynamicProperties,
-    COOKING_METHOD_THERMODYNAMICS,
-    /* CookingMethod as CookingMethodEnum, */ CookingMethodProfile,
-    LunarPhase,
-    MethodRecommendation,
-    MethodRecommendationOptions,
-    PlanetaryAspect,
+  AstrologicalState,
+  BasicThermodynamicProperties,
+  COOKING_METHOD_THERMODYNAMICS,
+  /* CookingMethod as CookingMethodEnum, */ CookingMethodProfile,
+  LunarPhase,
+  MethodRecommendation,
+  MethodRecommendationOptions,
+  PlanetaryAspect,
 } from '@/types/alchemy';
 import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 // Removed unused import: CookingMethodEnum
@@ -216,8 +216,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         bestFor: culturalMethod.bestFor || [],
         culturalOrigin: culturalMethod.culturalOrigin,
         astrologicalInfluences: {
-          favorableZodiac:
-            (culturalMethod.astrologicalInfluences?.favorableZodiac as any[]) || [],
+          favorableZodiac: (culturalMethod.astrologicalInfluences?.favorableZodiac as any[]) || [],
           unfavorableZodiac:
             (culturalMethod.astrologicalInfluences?.unfavorableZodiac as any[]) || [],
           dominantPlanets: culturalMethod.astrologicalInfluences?.dominantPlanets || [],
@@ -1182,8 +1181,7 @@ export async function getRecommendedCookingMethods(
         if (venusTemperament.Elements && (method as any).elementalEffect) {
           for (const element in venusTemperament.Elements) {
             const elementProperty = element as any;
-            const methodElementalEffect = (method as any)
-              .elementalEffect as Record<string, number>;
+            const methodElementalEffect = (method as any).elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
                 venusTemperament.Elements[element] *
@@ -1218,8 +1216,7 @@ export async function getRecommendedCookingMethods(
         if (venusZodiacTransit.Elements && (method as any).elementalEffect) {
           for (const element in venusZodiacTransit.Elements) {
             const elementProperty = element as any;
-            const methodElementalEffect = (method as any)
-              .elementalEffect as Record<string, number>;
+            const methodElementalEffect = (method as any).elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
                 venusZodiacTransit.Elements[element] * methodElementalEffect[elementProperty] * 0.8;
@@ -1275,8 +1272,7 @@ export async function getRecommendedCookingMethods(
           const elementsData = elements as any;
           for (const element in elementsData) {
             const elementProperty = element as any;
-            const methodElementalEffect = (method as any)
-              .elementalEffect as Record<string, number>;
+            const methodElementalEffect = (method as any).elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore *=
                 1 +
@@ -1473,10 +1469,8 @@ export function calculateMethodScore(
   // Astrological influence
   if (astrologicalInfluence) {
     // ✅ Pattern GG-6: Safe property access for astrological influences
-    const zodiacCompatibility =
-      (astrologicalInfluence.zodiacCompatibility as any) || {};
-    const planetaryAlignment =
-      (astrologicalInfluence.planetaryAlignment as any) || {};
+    const zodiacCompatibility = (astrologicalInfluence.zodiacCompatibility as any) || {};
+    const planetaryAlignment = (astrologicalInfluence.planetaryAlignment as any) || {};
 
     if (zodiacCompatibility && astroState.currentZodiac) {
       const currentZodiac = astroState.currentZodiac;
@@ -1524,16 +1518,10 @@ function getAstrologicalElementalProfile(
   //    (Names might be 'elementalProfile' or 'elementalState' based on usage elsewhere)
   // ✅ Pattern GG-6: Safe property access for astrological state elemental profile
   const astroData = astroState as unknown as any;
-  if (
-    astroData.elementalProfile &&
-    Object.keys(astroData.elementalProfile as any).length > 0
-  ) {
+  if (astroData.elementalProfile && Object.keys(astroData.elementalProfile as any).length > 0) {
     return astroData.elementalProfile as ElementalProperties;
   }
-  if (
-    astroData.elementalState &&
-    Object.keys(astroData.elementalState as any).length > 0
-  ) {
+  if (astroData.elementalState && Object.keys(astroData.elementalState as any).length > 0) {
     return astroData.elementalState as ElementalProperties;
   }
 

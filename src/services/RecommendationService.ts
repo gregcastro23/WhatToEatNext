@@ -274,8 +274,12 @@ export class RecommendationService {
     this.transformedIngredients =
       this.transformedIngredients ||
       [].map(item => {
-        const properties = ((item as any)
-          .elementalState as ElementalProperties) || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+        const properties = ((item as any).elementalState as ElementalProperties) || {
+          Fire: 0,
+          Water: 0,
+          Earth: 0,
+          Air: 0,
+        };
 
         // Apply boosts to each element
         Object.entries(this.tarotElementBoosts || []).forEach(([element, boost]) => {

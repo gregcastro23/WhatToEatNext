@@ -261,8 +261,7 @@ export const useChakraInfluencedFood = (options?: {
               chakraScore =
                 (chakraEnergies.sacral / 10) * 0.5 +
                 (chakraEnergies.root / 10) * 0.3 +
-                ((Number((chakraEnergies as unknown as any).thirdEye) ||
-                  chakraEnergies.throat) /
+                ((Number((chakraEnergies as unknown as any).thirdEye) || chakraEnergies.throat) /
                   10) *
                   0.1 +
                 0.1;
@@ -392,8 +391,7 @@ export const useChakraInfluencedFood = (options?: {
             chakraScore =
               (chakraEnergies.sacral / 10) * 0.5 +
               (chakraEnergies.root / 10) * 0.3 +
-              ((Number((chakraEnergies as unknown as any).thirdEye) ||
-                chakraEnergies.throat) /
+              ((Number((chakraEnergies as unknown as any).thirdEye) || chakraEnergies.throat) /
                 10) *
                 0.1 +
               0.1;
@@ -435,8 +433,7 @@ export const useChakraInfluencedFood = (options?: {
             if (heat < 0.4 && entropy < 0.4 && reactivity > 0.6) {
               chakraScore =
                 (chakraScore +
-                  ((Number((chakraEnergies as unknown as any).thirdEye) ||
-                    chakraEnergies.throat) /
+                  ((Number((chakraEnergies as unknown as any).thirdEye) || chakraEnergies.throat) /
                     10 +
                     chakraEnergies.solarPlexus / 10 +
                     chakraEnergies.sacral / 10) /

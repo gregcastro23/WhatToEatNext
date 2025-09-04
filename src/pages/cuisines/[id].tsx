@@ -11,8 +11,18 @@ import React from 'react';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const CuisineSection = ({ cuisine, recipes, elementalState }: { cuisine: string; recipes: unknown[]; elementalState: any }) => (
-  <div className='rounded border p-4 text-gray-700'>CuisineSection unavailable for {cuisine}. Showing {recipes?.length || 0} recipes.</div>
+const CuisineSection = ({
+  cuisine,
+  recipes,
+  elementalState,
+}: {
+  cuisine: string;
+  recipes: unknown[];
+  elementalState: any;
+}) => (
+  <div className='rounded border p-4 text-gray-700'>
+    CuisineSection unavailable for {cuisine}. Showing {recipes?.length || 0} recipes.
+  </div>
 );
 
 const CuisineDetailsPage: NextPage = () => {

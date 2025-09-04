@@ -1,0 +1,165 @@
+# High-Impact Warning Prioritization
+
+## Executive Summary
+
+**Generated:** 8/28/2025, 5:00:45 PM
+**Total Warnings:** 6578
+**High-Impact Warnings:** 6578
+**Automation Candidates:** 3340
+**Quick Wins:** 3340
+
+## Priority Queue for Immediate Action
+
+### URGENT Priority (3340 warnings)
+**Description:** Fix within 1 week
+**Max Effort per Warning:** 2 hour(s)
+**Total Estimated Effort:** 835 hours
+
+### HIGH Priority (141 warnings)
+**Description:** Fix within 2 weeks
+**Max Effort per Warning:** 5 hour(s)
+**Total Estimated Effort:** 423 hours
+
+### PLANNED Priority (3097 warnings)
+**Description:** Plan for next sprint
+**Max Effort per Warning:** 15 hour(s)
+**Total Estimated Effort:** 46370 hours
+
+## Quick Wins Analysis
+
+
+**Total Quick Wins:** 3340
+
+### Top Quick Win Opportunities
+1. **no-console** in `src/__tests__ 3/setupMemoryManagement.ts`
+   - Impact Score: 8
+   - Estimated Effort: 0.25 hours
+   - Automation Potential: 90%
+2. **no-console** in `src/__tests__ 3/setupMemoryManagement.ts`
+   - Impact Score: 8
+   - Estimated Effort: 0.25 hours
+   - Automation Potential: 90%
+3. **no-console** in `src/__tests__ 3/setupMemoryManagement.ts`
+   - Impact Score: 8
+   - Estimated Effort: 0.25 hours
+   - Automation Potential: 90%
+4. **no-console** in `src/__tests__ 3/setupMemoryManagement.ts`
+   - Impact Score: 8
+   - Estimated Effort: 0.25 hours
+   - Automation Potential: 90%
+5. **no-console** in `src/__tests__ 3/utils/CampaignTestController.ts`
+   - Impact Score: 8
+   - Estimated Effort: 0.25 hours
+   - Automation Potential: 90%
+
+
+## Automation Opportunities
+
+### CONSOLE CLEANUP (3340 warnings)
+**Description:** Console statements can be automatically removed with preservation rules
+**Automation Level:** 90%
+**Script Needed:** console-statement-cleaner.cjs
+**Estimated Time:** 1-2 hours
+**Risk Level:** low
+
+## Action Plan
+
+### Immediate Actions (24-48 hours)
+**Description:** Quick wins and automated fixes
+**Estimated Time:** 4-8 hours
+**Expected Impact:** High
+
+**Actions:**
+- **Execute automated console statement cleanup**
+  - Target: 3340 console warnings
+  - Method: Run console-statement-cleaner.cjs script
+  - Time: 1-2 hours
+
+### Urgent Actions (1 week)
+**Description:** High-impact warnings requiring minimal manual effort
+**Estimated Time:** 8-16 hours
+**Expected Impact:** High
+
+**Actions:**
+- **Address urgent high-impact warnings**
+  - Target: 3340 urgent warnings
+  - Method: Combination of automation and manual fixes
+  - Time: 4-8 hours
+
+### High Priority Actions (2 weeks)
+**Description:** Complex warnings requiring domain knowledge
+**Estimated Time:** 16-32 hours
+**Expected Impact:** Medium-High
+
+**Actions:**
+- **Systematic review of type safety warnings**
+  - Target: 3080 explicit any warnings
+  - Method: Domain expert review with gradual type improvements
+  - Time: 8-16 hours
+
+## Detailed Recommendations
+
+### 1. Execute Quick Wins First
+**Priority:** 1
+**Description:** 3340 warnings can be fixed with minimal effort for maximum impact
+**Estimated Time:** 2-4 hours
+**Expected Impact:** Immediate visible improvement
+
+**Actions:**
+- Run automated console statement cleanup
+- Apply ESLint --fix for variable declarations
+- Execute unused import cleanup
+
+### 2. Prioritize Automation Opportunities
+**Priority:** 2
+**Description:** 3340 warnings can be resolved through automation
+**Estimated Time:** 4-8 hours
+**Expected Impact:** Sustainable long-term improvement
+
+**Actions:**
+- Create and run automation scripts
+- Set up pre-commit hooks to prevent regression
+- Document automation procedures
+
+### 3. Plan Manual Review Sessions
+**Priority:** 3
+**Description:** 3238 warnings require careful manual analysis
+**Estimated Time:** 16-32 hours
+**Expected Impact:** Deep code quality improvement
+
+**Actions:**
+- Schedule dedicated review sessions
+- Involve domain experts for type safety issues
+- Create review guidelines and checklists
+
+## Implementation Checklist
+
+### Immediate Actions (Next 24-48 hours)
+- [ ] Run console statement cleanup automation
+- [ ] Apply ESLint --fix for variable declarations
+- [ ] Execute unused import cleanup
+- [ ] Address any critical severity warnings
+
+### Short Term (Next week)
+- [ ] Create automation scripts for high-volume warnings
+- [ ] Set up pre-commit hooks to prevent regression
+- [ ] Plan manual review sessions for complex warnings
+- [ ] Document automation procedures
+
+### Medium Term (Next 2 weeks)
+- [ ] Systematic review of type safety warnings
+- [ ] React hooks dependency optimization
+- [ ] Code quality improvements in high-impact files
+- [ ] Establish ongoing maintenance procedures
+
+## Success Metrics
+
+- **Immediate Impact:** Reduce warning count by 3340 through automation
+- **Quality Improvement:** Address 6578 high-impact warnings
+- **Efficiency Gain:** Achieve 3340 quick wins with minimal effort
+- **Long-term Benefit:** Establish sustainable warning prevention practices
+
+---
+
+*Generated by high-impact-warning-prioritizer.cjs*
+*Next: Execute Phase 1 actions for immediate impact*

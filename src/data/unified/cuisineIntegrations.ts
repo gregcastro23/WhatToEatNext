@@ -5,11 +5,11 @@
 
 import type { UnifiedIngredient } from '@/types';
 import type {
-    CookingMethod,
-    Element,
-    ElementalProperties,
-    LunarPhase,
-    PlanetName,
+  CookingMethod,
+  Element,
+  ElementalProperties,
+  LunarPhase,
+  PlanetName,
 } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { EnhancedCookingMethod } from '@/types/cooking';
@@ -22,9 +22,9 @@ import type { Season } from '@/types/seasons';
 
 // Fixed import path
 import {
-    getCuisinePAirings,
-    getIngredientsForCuisine,
-    getSharedIngredients,
+  getCuisinePAirings,
+  getIngredientsForCuisine,
+  getSharedIngredients,
 } from '../../utils/cuisine/cuisineUtils';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 // Cache import removed - not available
@@ -874,7 +874,12 @@ export class UnifiedCuisineIntegrationSystem {
       japanese: createElementalProperties({ Water: 0.6, Earth: 0.4, Fire: 0.2, Air: 0.4 }),
       mexican: createElementalProperties({ Fire: 0.7, Earth: 0.4, Water: 0.2, Air: 0.3 }),
       thai: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
-      'middle-eastern': createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
+      'middle-eastern': createElementalProperties({
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      }),
     };
 
     // Get cuisine profiles with fallback to default
@@ -1490,7 +1495,12 @@ export class UnifiedCuisineIntegrationSystem {
       japanese: createElementalProperties({ Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }),
       mexican: createElementalProperties({ Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 }),
       thai: createElementalProperties({ Fire: 0.4, Water: 0.3, Air: 0.2, Earth: 0.1 }),
-      'middle-eastern': createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
+      'middle-eastern': createElementalProperties({
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      }),
     };
 
     return (
@@ -1560,13 +1570,9 @@ export class UnifiedCuisineIntegrationSystem {
     const monicaModifiers = seasonalProfileData.monicaModifiers;
 
     const seasonalModifiers = {
-      temperatureAdjustment: Number(
-        (monicaModifiers as any).temperatureAdjustment || 0,
-      ),
+      temperatureAdjustment: Number((monicaModifiers as any).temperatureAdjustment || 0),
       timingAdjustment: Number((monicaModifiers as any).timingAdjustment || 0),
-      intensityModifier: String(
-        (monicaModifiers as any).intensityModifier || 'normal',
-      ),
+      intensityModifier: String((monicaModifiers as any).intensityModifier || 'normal'),
     };
 
     // Get traditional seasonal dishes

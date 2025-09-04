@@ -12,7 +12,6 @@ import {
   AlchemicalStateType,
   CompleteAlchemicalResultType,
   PlanetaryPositionsType,
-  ZodiacSignType,
   LunarPhaseType,
   NutritionalContentType,
   IngredientMappingType,

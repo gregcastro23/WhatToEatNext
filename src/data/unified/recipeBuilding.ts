@@ -5,26 +5,21 @@
 
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import type {
-    ElementalProperties,
-    LunarPhase,
-    PlanetName,
-    Season
-} from '@/types/alchemy';
+import type { ElementalProperties, LunarPhase, PlanetName, Season } from '@/types/alchemy';
 
 import {
-    getAllEnhancedCookingMethods,
-    type EnhancedCookingMethod,
+  getAllEnhancedCookingMethods,
+  type EnhancedCookingMethod,
 } from '../../constants/alchemicalPillars';
 
 import type {
-    MethodAdjustment,
-    TemperatureAdjustment,
-    TimingAdjustment,
+  MethodAdjustment,
+  TemperatureAdjustment,
+  TimingAdjustment,
 } from '@/types/recipeAdjustments';
 import {
-    unifiedCuisineIntegrationSystem,
-    type CuisineIngredientAnalysis,
+  unifiedCuisineIntegrationSystem,
+  type CuisineIngredientAnalysis,
 } from './cuisineIntegrations.js';
 import { RecipeEnhancer, type EnhancedRecipe } from './recipes';
 import { SeasonalRecommendations } from './seasonal';
@@ -1047,8 +1042,7 @@ export class UnifiedRecipeBuildingSystem {
     const adjustments = [];
 
     // Adapt cooking methods based on season and recipe type
-    const currentMethods =
-      (recipe as { cookingMethods?: string[] | string })?.cookingMethods || [];
+    const currentMethods = (recipe as { cookingMethods?: string[] | string })?.cookingMethods || [];
     for (const method of Array.isArray(currentMethods) ? currentMethods : [currentMethods]) {
       const seasonalAdjustment = (
         seasonalRecommendations as unknown as {
@@ -1191,8 +1185,8 @@ export class UnifiedRecipeBuildingSystem {
 
       // Add technique-based adaptations - Fix property name consistency
       if (
-        (recipe as { cookingMethods?: string[] }).cookingMethods?.some(
-          (method: string) => method?.includes('traditional'),
+        (recipe as { cookingMethods?: string[] }).cookingMethods?.some((method: string) =>
+          method?.includes('traditional'),
         )
       ) {
         (adaptations as string[]).push('Modernized cooking techniques while preserving flavor');
@@ -1540,10 +1534,10 @@ export class UnifiedRecipeBuildingSystem {
     )
       criteriaMatched++;
     if (
-      (recipe as { culturalIntegration?: { authenticityScore?: number } })
-        .culturalIntegration?.authenticityScore !== undefined &&
-      ((recipe as { culturalIntegration?: { authenticityScore?: number } })
-        .culturalIntegration?.authenticityScore as number) >= 0.6
+      (recipe as { culturalIntegration?: { authenticityScore?: number } }).culturalIntegration
+        ?.authenticityScore !== undefined &&
+      ((recipe as { culturalIntegration?: { authenticityScore?: number } }).culturalIntegration
+        ?.authenticityScore as number) >= 0.6
     )
       criteriaMatched++;
     criteriaMatched++; // Always count generation success as one criteria
@@ -1551,14 +1545,10 @@ export class UnifiedRecipeBuildingSystem {
     return {
       criteriaMatched,
       totalCriteria,
-      kalchmAccuracy:
-        (recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm || 0,
-      monicaOptimization:
-        ((recipe.monicaOptimization as any)?.overallScore as number) || 0,
-      seasonalAlignment:
-        ((recipe.seasonalAdaptation as any)?.seasonalScore as number) || 0,
-      cuisineAuthenticity:
-        ((recipe as unknown as any)?.culturalIntegration as number) || 0,
+      kalchmAccuracy: (recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm || 0,
+      monicaOptimization: ((recipe.monicaOptimization as any)?.overallScore as number) || 0,
+      seasonalAlignment: ((recipe.seasonalAdaptation as any)?.seasonalScore as number) || 0,
+      cuisineAuthenticity: ((recipe as unknown as any)?.culturalIntegration as number) || 0,
       generatedAt: new Date().toISOString(),
       generationMethod: 'unified-recipe-builder',
     };
@@ -1693,10 +1683,7 @@ export class UnifiedRecipeBuildingSystem {
     };
   }
 
-  private createFusionBaseRecipe(
-    _: unknown,
-    _: RecipeBuildingCriteria,
-  ): Partial<EnhancedRecipe> {
+  private createFusionBaseRecipe(_: unknown, _: RecipeBuildingCriteria): Partial<EnhancedRecipe> {
     // TODO: Create base recipe for fusion cuisine
     return {};
   }
@@ -1822,7 +1809,10 @@ export class UnifiedRecipeBuildingSystem {
     return 0.8;
   }
 
-  private calculateKalchmFusionBalance(_recipe: MonicaOptimizedRecipe, _cuisines: string[]): number {
+  private calculateKalchmFusionBalance(
+    _recipe: MonicaOptimizedRecipe,
+    _cuisines: string[],
+  ): number {
     // TODO: Calculate Kalchm balance for fusion recipe
     return 0.8;
   }

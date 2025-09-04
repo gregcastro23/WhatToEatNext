@@ -420,7 +420,11 @@ export async function validateAstrologicalCalculation(
       if (validateTransits && positionValidation.isValid && input.date) {
         for (const [planet, position] of Object.entries(input.planetaryPositions)) {
           try {
-            const isValid = await validatePlanetaryPosition(planet, position as unknown, input.date);
+            const isValid = await validatePlanetaryPosition(
+              planet,
+              position as unknown,
+              input.date,
+            );
             if (!isValid) {
               warnings.push(`Transit validation failed for ${planet}`);
             }

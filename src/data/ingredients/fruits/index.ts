@@ -1274,45 +1274,33 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
     const systemDemonstration = {
       categorizationIntelligence: {
         // ✅ Pattern GG-6: Safe property access for harmony analysis
-        categoryHarmony: Number(
-          (categorizationResults.categoryHarmony as any).overallHarmony || 0,
-        ),
+        categoryHarmony: Number((categorizationResults.categoryHarmony as any).overallHarmony || 0),
         categoryOptimization: Object.keys(categorizationResults.categoryOptimization || {}).length,
       },
       seasonalIntelligence: {
         // ✅ Pattern GG-6: Safe property access for type harmony analysis
-        seasonalHarmony: Number(
-          (seasonalResults.typeHarmony as any).overallHarmony || 0,
-        ),
+        seasonalHarmony: Number((seasonalResults.typeHarmony as any).overallHarmony || 0),
         seasonalOptimization: Object.keys(seasonalResults.typeOptimization || {}).length,
       },
       preparationIntelligence: {
         // ✅ Pattern GG-6: Safe property access for method harmony analysis
-        preparationHarmony: Number(
-          (preparationResults.methodHarmony as any).overallHarmony || 0,
-        ),
+        preparationHarmony: Number((preparationResults.methodHarmony as any).overallHarmony || 0),
         preparationOptimization: Object.keys(preparationResults.methodOptimization || {}).length,
       },
       compatibilityIntelligence: {
         // ✅ Pattern GG-6: Safe property access for compatibility harmony analysis
         compatibilityHarmony: Number(
-          (compatibilityResults.compatibilityHarmony as any).overallHarmony ||
-            0,
+          (compatibilityResults.compatibilityHarmony as any).overallHarmony || 0,
         ),
         compatibilityOptimization: Array.isArray(
           (compatibilityResults.compatibilityOptimization as any).suggestions,
         )
-          ? (
-              (compatibilityResults.compatibilityOptimization as any)
-                .suggestions as string[]
-            ).length
+          ? ((compatibilityResults.compatibilityOptimization as any).suggestions as string[]).length
           : 0,
       },
       typeIntelligence: {
         // ✅ Pattern GG-6: Safe property access for type harmony analysis
-        typeHarmony: Number(
-          (typeResults.typeHarmony as any).overallHarmony || 0,
-        ),
+        typeHarmony: Number((typeResults.typeHarmony as any).overallHarmony || 0),
         typeOptimization: Object.keys(typeResults.typeOptimization || {}).length,
       },
       astrologicalIntelligence: {
@@ -1323,24 +1311,16 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
         astrologicalOptimization: Array.isArray(
           (astrologicalResults.astrologicalOptimization as any).suggestions,
         )
-          ? (
-              (astrologicalResults.astrologicalOptimization as any)
-                .suggestions as string[]
-            ).length
+          ? ((astrologicalResults.astrologicalOptimization as any).suggestions as string[]).length
           : 0,
       },
       validationIntelligence: {
         // ✅ Pattern GG-6: Safe property access for validation harmony analysis
-        validationHarmony: Number(
-          (validationResults.validationHarmony as any).overallHarmony || 0,
-        ),
+        validationHarmony: Number((validationResults.validationHarmony as any).overallHarmony || 0),
         validationOptimization: Array.isArray(
           (validationResults.validationOptimization as any).suggestions,
         )
-          ? (
-              (validationResults.validationOptimization as any)
-                .suggestions as string[]
-            ).length
+          ? ((validationResults.validationOptimization as any).suggestions as string[]).length
           : 0,
       },
     };
@@ -1350,25 +1330,13 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       analysisCount: 8,
       // ✅ Pattern KK-9: Safe arithmetic operations for total harmony score calculation
       totalHarmonyScore:
-        (Number(
-          (categorizationResults.categoryHarmony as any).overallHarmony || 0,
-        ) +
+        (Number((categorizationResults.categoryHarmony as any).overallHarmony || 0) +
           Number((seasonalResults.typeHarmony as any).overallHarmony || 0) +
-          Number(
-            (preparationResults.methodHarmony as any).overallHarmony || 0,
-          ) +
-          Number(
-            (compatibilityResults.compatibilityHarmony as any).overallHarmony ||
-              0,
-          ) +
+          Number((preparationResults.methodHarmony as any).overallHarmony || 0) +
+          Number((compatibilityResults.compatibilityHarmony as any).overallHarmony || 0) +
           Number((typeResults.typeHarmony as any).overallHarmony || 0) +
-          Number(
-            (astrologicalResults.astrologicalHarmony as any).overallHarmony ||
-              0,
-          ) +
-          Number(
-            (validationResults.validationHarmony as any).overallHarmony || 0,
-          )) /
+          Number((astrologicalResults.astrologicalHarmony as any).overallHarmony || 0) +
+          Number((validationResults.validationHarmony as any).overallHarmony || 0)) /
         7,
       integrationSuccess: 1.0,
       demonstrationCompleteness: 1.0,
@@ -1382,18 +1350,12 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       categorizationIntegration: Number(
         (categorizationResults.categoryHarmony as any).overallHarmony || 0,
       ),
-      seasonalIntegration: Number(
-        (seasonalResults.typeHarmony as any).overallHarmony || 0,
-      ),
-      preparationIntegration: Number(
-        (preparationResults.methodHarmony as any).overallHarmony || 0,
-      ),
+      seasonalIntegration: Number((seasonalResults.typeHarmony as any).overallHarmony || 0),
+      preparationIntegration: Number((preparationResults.methodHarmony as any).overallHarmony || 0),
       compatibilityIntegration: Number(
         (compatibilityResults.compatibilityHarmony as any).overallHarmony || 0,
       ),
-      typeIntegration: Number(
-        (typeResults.typeHarmony as any).overallHarmony || 0,
-      ),
+      typeIntegration: Number((typeResults.typeHarmony as any).overallHarmony || 0),
       astrologicalIntegration: Number(
         (astrologicalResults.astrologicalHarmony as any).overallHarmony || 0,
       ),

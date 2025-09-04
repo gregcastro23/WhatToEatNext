@@ -59,7 +59,7 @@ class BatchProcessingCLI {
     this.orchestrator = new BatchProcessingOrchestrator({
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
-      interactiveMode: false
+      interactiveMode: false,
     });
   }
 
@@ -101,7 +101,7 @@ class BatchProcessingCLI {
         isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',
         unusedVariableCount: variables.length,
         riskLevel: this.mapRiskLevel(firstVar.riskLevel),
-        fileType: firstVar.fileType
+        fileType: firstVar.fileType,
       });
     }
 
@@ -113,9 +113,12 @@ class BatchProcessingCLI {
    */
   private mapRiskLevel(riskLevel: string): 'low' | 'medium' | 'high' {
     switch (riskLevel.toLowerCase()) {
-      case 'high': return 'high';
-      case 'medium': return 'medium';
-      default: return 'low';
+      case 'high':
+        return 'high';
+      case 'medium':
+        return 'medium';
+      default:
+        return 'low';
     }
   }
 
@@ -136,7 +139,6 @@ class BatchProcessingCLI {
       }
 
       console.log('\n✅ Processing plan created successfully');
-
     } catch (error) {
       console.error(`❌ Failed to create processing plan: ${error}`);
       process.exit(1);
@@ -159,13 +161,13 @@ class BatchProcessingCLI {
           validateAfterEachBatch: !options.skipValidation,
           autoRollbackOnError: !options.noRollback,
           createGitStash: !options.noStash,
-          logLevel: options.verbose ? 'debug' : 'info'
+          logLevel: options.verbose ? 'debug' : 'info',
         },
         safetyProtocols: {
           maxVariablesAutoProcess: parseInt(options.maxVars) || 20,
           requireManualReview: !options.skipReview,
-          enhancedValidation: !options.skipEnhanced
-        }
+          enhancedValidation: !options.skipEnhanced,
+        },
       };
 
       this.orchestrator = new BatchProcessingOrchestrator(config);
@@ -190,7 +192,6 @@ class BatchProcessingCLI {
       console.log(`   Eliminated: ${campaign.finalStats.totalEliminated}`);
       console.log(`   Preserved: ${campaign.finalStats.totalPreserved}`);
       console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
-
     } catch (error) {
       console.error(`❌ Campaign failed: ${error}`);
       process.exit(1);
@@ -238,7 +239,6 @@ class BatchProcessingCLI {
           console.log(`❌ Failed to reject review for ${options.reject}`);
         }
       }
-
     } catch (error) {
       console.error(`❌ Failed to handle reviews: ${error}`);
       process.exit(1);
@@ -273,7 +273,6 @@ class BatchProcessingCLI {
       if (pendingReviews.length > 0) {
         console.log(`   Pending Reviews: ${pendingReviews.length}`);
       }
-
     } catch (error) {
       console.error(`❌ Failed to check status: ${error}`);
       process.exit(1);
@@ -324,7 +323,7 @@ program
   .option('--reject <file>', 'Reject manual review for file')
   .option('--reason <text>', 'Reason for rejection')
   .option('--notes <text>', 'Reviewer notes for approval')
-  .action(async (options) => {
+  .action(async options => {
     await cli.handleReviews(options);
   });
 

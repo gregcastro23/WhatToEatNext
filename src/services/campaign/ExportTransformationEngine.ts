@@ -430,7 +430,9 @@ export class ExportTransformationEngine {
 
     try {
       // ✅ Pattern MM-1: Safe method call for safety protocol
-      checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(`batch-${batch.id}`);
+      checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(
+        `batch-${batch.id}`,
+      );
 
       // Check safety threshold
       if (batch.safetyScore < this.config.safetyThreshold) {

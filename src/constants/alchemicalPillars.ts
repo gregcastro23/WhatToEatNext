@@ -467,8 +467,11 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
   const secondaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
   return {
     heat: ((primaryProps as any)?.heat || 0) * 0.2 + ((secondaryProps as any)?.heat || 0) * 0.2,
-    entropy: ((primaryProps as any)?.entropy || 0) * 0.2 + ((secondaryProps as any)?.entropy || 0) * 0.2,
-    reactivity: ((primaryProps as any)?.reactivity || 0) * 0.2 + ((secondaryProps as any)?.reactivity || 0) * 0.2,
+    entropy:
+      ((primaryProps as any)?.entropy || 0) * 0.2 + ((secondaryProps as any)?.entropy || 0) * 0.2,
+    reactivity:
+      ((primaryProps as any)?.reactivity || 0) * 0.2 +
+      ((secondaryProps as any)?.reactivity || 0) * 0.2,
   };
 }
 

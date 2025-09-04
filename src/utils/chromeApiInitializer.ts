@@ -37,10 +37,7 @@ export function initializeChromeApis(): void {
 
     // Initialize tabs API with safe methods
     // Apply Pattern GG-6: Enhanced property access with type guards
-    const chromeObj = (window as unknown as any).chrome as Record<
-      string,
-      unknown
-    >;
+    const chromeObj = (window as unknown as any).chrome as Record<string, unknown>;
     if (!chromeObj.tabs) {
       chromeObj.tabs = {
         create: function (options: { url?: string }) {

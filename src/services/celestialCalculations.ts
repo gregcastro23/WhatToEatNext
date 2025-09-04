@@ -321,10 +321,7 @@ class CelestialCalculator {
   /**
    * Calculate tarot influences based on current zodiac, planets, and date
    */
-  private calculateTarotInfluences(
-    zodiacSign: any,
-    dominantPlanets: CelestialBody[],
-  ): TarotCard[] {
+  private calculateTarotInfluences(zodiacSign: any, dominantPlanets: CelestialBody[]): TarotCard[] {
     const tarotCards: TarotCard[] = [];
     const now = new Date();
 
@@ -1356,10 +1353,12 @@ class CelestialCalculator {
     chakraEnergies.root += ((elementalBalance as any)?.Earth || 0) * 0.2;
     chakraEnergies.sacral += ((elementalBalance as any)?.Water || 0) * 0.2;
     chakraEnergies.solarPlexus += ((elementalBalance as any)?.Fire || 0) * 0.2;
-    chakraEnergies.heart += ((elementalBalance as any)?.Air || 0) * 0.2 + ((elementalBalance as any)?.Water || 0) * 0.2;
+    chakraEnergies.heart +=
+      ((elementalBalance as any)?.Air || 0) * 0.2 + ((elementalBalance as any)?.Water || 0) * 0.2;
     chakraEnergies.throat += ((elementalBalance as any)?.Air || 0) * 0.2;
     // Apply safe type casting for chakra property access
-    chakraEnergies.thirdEye += ((elementalBalance as any)?.Water || 0) * 0.2 + ((elementalBalance as any)?.Air || 0) * 0.2;
+    chakraEnergies.thirdEye +=
+      ((elementalBalance as any)?.Water || 0) * 0.2 + ((elementalBalance as any)?.Air || 0) * 0.2;
     chakraEnergies.crown += ((elementalBalance as any)?.Fire || 0) * 0.2;
 
     // Map energy states to chakras using the correct ESMS relationships

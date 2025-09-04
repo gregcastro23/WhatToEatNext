@@ -3,12 +3,7 @@ import { createLogger } from '@/utils/logger';
 
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import { planetInfo, signInfo } from '../data/astrology';
-import {
-    ElementalProperties,
-    Recipe,
-    Season,
-    ZodiacSign
-} from '../types/alchemy';
+import { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchemy';
 import { normalizeProperties } from '../utils/elementalUtils';
 
 interface ElementalSummary {
@@ -448,9 +443,7 @@ export class ElementalCalculator {
       const ascendantSign =
         typeof ascendant === 'string'
           ? ascendant
-          : String(
-              (ascendantData.Sign as any).label || ascendantData.sign || '',
-            );
+          : String((ascendantData.Sign as any).label || ascendantData.sign || '');
 
       if (ascendantSign) {
         const ascendantElement = this.getSignElement(ascendantSign);

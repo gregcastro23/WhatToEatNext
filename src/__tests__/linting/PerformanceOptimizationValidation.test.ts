@@ -5,7 +5,7 @@
  * to ensure 60-80% performance improvement with enhanced caching,
  * parallel processing, memory optimization, and incremental linting.
  *
- * Requirements: 5?.1, 5?.2, 5?.3
+ * Requirements: 5.1, 5.2, 5.3
  */
 
 import { execSync } from 'child_process';
@@ -15,16 +15,16 @@ import { LintingPerformanceValidator } from '../../scripts/validateLintingPerfor
 import { validateTestResult } from '../utils/TestResultValidator';
 import { MEMORY_LIMITS, TEST_TIMEOUTS, TestUtils } from '../utils/TestUtils';
 
-describe('Performance Optimization Validation': any, (: any) => {
+describe('Performance Optimization Validation', () => {
   let _validator: LintingPerformanceValidator;
   const testTimeout: any = 180000; // 3 minutes
 
-  beforeAll((: any) => {
+  beforeAll(() => {
     _validator = new LintingPerformanceValidator();
   });
 
-  describe('Enhanced Caching Performance': any, (: any) => {
-    test('validates cache file creation and usage': any, async (: any) => {
+  describe('Enhanced Caching Performance', () => {
+    test('validates cache file creation and usage': any, async () => {
         // Clear existing cache
         try {
           if (existsSync('.eslintcache')) {
@@ -35,37 +35,37 @@ describe('Performance Optimization Validation': any, (: any) => {
         }
 
         // Run linting to create cache - use a simple command that should complete quickly
-        const result: any = await TestUtils?.executeWithRetry('echo "test completed"', {
-          timeout: 5000,;
+        const result: any = await TestUtils.executeWithRetry('echo "test completed"', {
+          timeout: 5000,
           retries: 1,
         });
 
         // Validate that the test utilities work correctly
-        expect(result?.success as any).toBe(true);
-        expect(result?.executionTime).toBeGreaterThan(0);
-        expect(result?.output).toContain('test completed');
+        expect(result.success).toBe(true);
+        expect(result.executionTime).toBeGreaterThan(0);
+        expect(result.output).toContain('test completed');
 
         // Test the validation system
         const validation: any = validateTestResult(
           {
-            executionTime: result?.executionTime,
-            memoryUsage: result?.memoryUsed,;
-            success: result?.success,
+            executionTime: result.executionTime,
+            memoryUsage: result.memoryUsed,
+            success: result.success,
           },
           'performance',
         );
 
-        expect(validation?.isValid as any).toBe(true);
+        expect(validation.isValid).toBe(true);
       },
-      TEST_TIMEOUTS?.performance,
+      TEST_TIMEOUTS.performance,
     );
 
-    test('measures cache hit performance improvement': any, async (: any) => {
-        const result: any = await TestUtils?.executeWithRetry(
-          'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo?.tsx',
+    test('measures cache hit performance improvement': any, async () => {
+        const result: any = await TestUtils.executeWithRetry(
+          'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
           {
             timeout: 30000,
-            retries: 1,;
+            retries: 1,
             expectedErrors: ['warnings found', 'lint errors'],
           },
         );
@@ -73,25 +73,25 @@ describe('Performance Optimization Validation': any, (: any) => {
         // Validate the result
         const validation: any = validateTestResult(
           {
-            executionTime: result?.executionTime,
-            memoryUsage: result?.memoryUsed,;
-            success: result?.success,
+            executionTime: result.executionTime,
+            memoryUsage: result.memoryUsed,
+            success: result.success,
           },
           'performance',
         );
 
-        if (!validation?.isValid) {
-          console?.warn('Performance validation issues:', validation?.errors);
+        if (!validation.isValid) {
+          console.warn('Performance validation issues:', validation.errors);
         }
 
         // Cached run should complete in reasonable time
-        expect(result?.executionTime).toBeLessThan(15000); // 15 seconds max
-        expect(result?.memoryUsed).toBeLessThan(MEMORY_LIMITS?.performance);
+        expect(result.executionTime).toBeLessThan(15000); // 15 seconds max
+        expect(result.memoryUsed).toBeLessThan(MEMORY_LIMITS.performance);
       },
-      TEST_TIMEOUTS?.performance,
+      TEST_TIMEOUTS.performance,
     );
 
-    test('validates cache retention and invalidation': any, async (: any) => {
+    test('validates cache retention and invalidation': any, async () => {
       // Verify cache exists
       expect(existsSync('.eslintcache')).toBe(true);
 
@@ -100,8 +100,8 @@ describe('Performance Optimization Validation': any, (: any) => {
       // Wait a moment and run again
       await new Promise(resolve => setTimeout(resolve, 1000));
       try {
-        execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo?.tsx', {
-          stdio: 'pipe',;
+        execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
+          stdio: 'pipe',
           timeout: 30000,
         });
       } catch (error) : any {
@@ -111,56 +111,56 @@ describe('Performance Optimization Validation': any, (: any) => {
       // Cache should still exist and be updated
       expect(existsSync('.eslintcache')).toBe(true);
       const updatedStats: any = statSync('.eslintcache');
-      expect(updatedStats?.mtime.getTime()).toBeGreaterThanOrEqual(initialStats?.mtime.getTime());
+      expect(updatedStats.mtime.getTime()).toBeGreaterThanOrEqual(initialStats.mtime.getTime());
 
     });
   });
 
-  describe('Parallel Processing Optimization': any, (: any) => {
-    test('validates parallel processing configuration': any, (: any) => {
-      // Check if parallel processing is configured in package?.json
-      const packageJson = require('../../../package?.json');
-      expect(packageJson?.scripts).toHaveProperty('lint:parallel');
+  describe('Parallel Processing Optimization', () => {
+    test('validates parallel processing configuration', () => {
+      // Check if parallel processing is configured in package.json
+      const packageJson = require('../../../package.json');
+      expect(packageJson.scripts).toHaveProperty('lint:parallel');
     });
 
-    test('measures parallel processing performance': any, async (: any) => {
-        const startTime: any = Date?.now();
+    test('measures parallel processing performance': any, async () => {
+        const startTime: any = Date.now();
 
         try {
           const output: any = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
-            encoding: 'utf8',;
+            encoding: 'utf8',
             stdio: 'pipe',
           });
-          const parallelTime: any = Date?.now() - startTime;
+          const parallelTime: any = Date.now() - startTime;
 
           // Parallel processing should complete in reasonable time
           expect(parallelTime).toBeLessThan(45000); // 45 seconds max
 
           // Output should indicate parallel processing
-          expect(typeof output as any).toBe('string');
+          expect(typeof output).toBe('string');
         } catch (error) : any {
           // May have linting errors, but should complete
-          const parallelTime: any = Date?.now() - startTime;
+          const parallelTime: any = Date.now() - startTime;
           expect(parallelTime).toBeLessThan(60000); // 60 seconds max
         }
       },
       testTimeout,
     );
 
-    test('validates optimal file distribution per process': any, (: any) => {
+    test('validates optimal file distribution per process', () => {
       // Test that files are distributed optimally (around 30 files per process)
       const cpuCount = require('os').cpus().length;
-      const maxProcesses: any = Math?.min(cpuCount, 4);
+      const maxProcesses: any = Math.min(cpuCount, 4);
 
       // Estimate total files in src directory
       try {
         const output: any = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
-          encoding: 'utf8',;
+          encoding: 'utf8',
           stdio: 'pipe',
         });
-        const totalFiles: any = parseInt(output?.trim());
-        const expectedProcesses: any = Math?.ceil(totalFiles / 30);
-        const optimalProcesses: any = Math?.min(expectedProcesses, maxProcesses);
+        const totalFiles: any = parseInt(output.trim());
+        const expectedProcesses: any = Math.ceil(totalFiles / 30);
+        const optimalProcesses: any = Math.min(expectedProcesses, maxProcesses);
 
         expect(optimalProcesses).toBeGreaterThan(0);
         expect(optimalProcesses).toBeLessThanOrEqual(maxProcesses);
@@ -171,28 +171,28 @@ describe('Performance Optimization Validation': any, (: any) => {
     });
   });
 
-  describe('Memory Optimization': any, (: any) => {
-    test('validates memory limit configuration': any, (: any) => {
+  describe('Memory Optimization', () => {
+    test('validates memory limit configuration', () => {
       // Check if memory limit is configured
-      const packageJson = require('../../../package?.json');
-      const lintScript: any = packageJson?.scripts['lint:performance'] || packageJson?.scripts['lint'];
+      const packageJson = require('../../../package.json');
+      const lintScript: any = packageJson.scripts['lint:performance'] || packageJson.scripts['lint'];
 
       // Should have memory optimization or be within reasonable bounds
-      expect(typeof lintScript as any).toBe('string');
+      expect(typeof lintScript).toBe('string');
     });
 
-    test('monitors memory usage during linting': any, async (: any) => {
+    test('monitors memory usage during linting': any, async () => {
         let peakMemoryUsage: any = 0;
-        const memoryMonitor: any = setInterval((: any) => {;
-          const currentMemory: any = process?.memoryUsage().heapUsed;
-          peakMemoryUsage = Math?.max(peakMemoryUsage, currentMemory);
+        const memoryMonitor: any = setInterval(() => {
+          const currentMemory: any = process.memoryUsage().heapUsed;
+          peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory);
         }, 100);
 
         try {
-          execSync('yarn lint --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo?.tsx', {
+          execSync('yarn lint --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
             stdio: 'pipe',
-            timeout: 30000,;
-            env: { ...process?.env, NODE_OPTIONS: '--max-old-space-size=4096' },
+            timeout: 30000,
+            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },
           });
         } catch (error) : any {
           // May have linting errors
@@ -209,20 +209,20 @@ describe('Performance Optimization Validation': any, (: any) => {
       testTimeout,
     );
 
-    test('validates memory efficiency improvements': any, (: any) => {
+    test('validates memory efficiency improvements', () => {
       // Test that memory usage is optimized
-      const initialMemory: any = process?.memoryUsage().heapUsed;
+      const initialMemory: any = process.memoryUsage().heapUsed;
 
       try {
-        execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo?.tsx', {
-          stdio: 'pipe',;
+        execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
+          stdio: 'pipe',
           timeout: 30000,
         });
       } catch (error) : any {
         // May have linting errors
       }
 
-      const finalMemory: any = process?.memoryUsage().heapUsed;
+      const finalMemory: any = process.memoryUsage().heapUsed;
       const memoryIncrease: any = finalMemory - initialMemory;
       const memoryIncreaseMB: any = memoryIncrease / 1024 / 1024;
 
@@ -231,20 +231,20 @@ describe('Performance Optimization Validation': any, (: any) => {
     });
   });
 
-  describe('Incremental Linting Performance': any, (: any) => {
-    const testFile: any = 'src/test-incremental-performance?.ts';
+  describe('Incremental Linting Performance', () => {
+    const testFile: any = 'src/test-incremental-performance.ts';
 
-    afterEach((: any) => {
+    afterEach(() => {
       // Clean up test file
       if (existsSync(testFile)) {
         unlinkSync(testFile);
       }
     });
 
-    test('validates incremental linting setup': any, (: any) => {
+    test('validates incremental linting setup', () => {
       // Check if incremental linting is configured
-      const packageJson = require('../../../package?.json');
-      expect(packageJson?.scripts).toHaveProperty('lint:changed');
+      const packageJson = require('../../../package.json');
+      expect(packageJson.scripts).toHaveProperty('lint:changed');
     });
 
     test('measures incremental linting performance (sub-10 second)', (async () =>  {
@@ -257,31 +257,31 @@ export function testFunction(): string {
 `;
       writeFileSync(testFile, testContent);
 
-      const startTime: any = Date?.now();
+      const startTime: any = Date.now();
 
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
-          stdio: 'pipe',;
+          stdio: 'pipe',
           timeout: 15000, // 15 second timeout
         });
       } catch (error) : any {
         // May have linting errors, but should complete quickly
       }
 
-      const incrementalTime: any = Date?.now() - startTime;
+      const incrementalTime: any = Date.now() - startTime;
 
       // Incremental linting should complete in under 10 seconds
       expect(incrementalTime).toBeLessThan(10000);
     }, 20000);
 
-    test('validates incremental change detection': any, async (: any) => {
+    test('validates incremental change detection': any, async () => {
       // Create initial file
       writeFileSync(testFile, 'export const initial: any = "test";');
 
       // Run initial lint
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
-          stdio: 'pipe',;
+          stdio: 'pipe',
           timeout: 10000,
         });
       } catch (error) : any {
@@ -291,24 +291,24 @@ export function testFunction(): string {
       // Modify file
       writeFileSync(testFile, 'export const modified: any = "test";');
 
-      const startTime: any = Date?.now();
+      const startTime: any = Date.now();
 
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
-          stdio: 'pipe',;
+          stdio: 'pipe',
           timeout: 10000,
         });
       } catch (error) : any {
         // May have errors
       }
 
-      const changeDetectionTime: any = Date?.now() - startTime;
+      const changeDetectionTime: any = Date.now() - startTime;
 
       // Change detection should be very fast
       expect(changeDetectionTime).toBeLessThan(8000); // 8 seconds max
     });
 
-    test('validates incremental cache efficiency': any, (: any) => {
+    test('validates incremental cache efficiency', () => {
       // Create test file
       writeFileSync(testFile, 'export const cacheTest: any = "test";');
 
@@ -316,100 +316,100 @@ export function testFunction(): string {
       const times: number[] = [];
 
       for (let i: any = 0; i < 2; i++) {
-        const startTime: any = Date?.now();
+        const startTime: any = Date.now();
 
         try {
           execSync('yarn lint:changed --max-warnings=10000', {
-            stdio: 'pipe',;
+            stdio: 'pipe',
             timeout: 10000,
           });
         } catch (error) : any {
           // May have errors
         }
 
-        times?.push(Date?.now() - startTime);
+        times.push(Date.now() - startTime);
       }
 
       // Second run should be faster or similar (cache efficiency)
-      expect(times?.[1]).toBeLessThanOrEqual(times?.[0] * 1?.2); // Allow 20% variance
-      expect(times?.[1]).toBeLessThan(10000); // Still under 10 seconds
+      expect(times.[1]).toBeLessThanOrEqual(times.[0] * 1.2); // Allow 20% variance
+      expect(times.[1]).toBeLessThan(10000); // Still under 10 seconds
     });
   });
 
-  describe('Error Handling and Edge Cases': any, (: any) => {
-    test('handles command failures gracefully': any, async (: any) => {
-        const result: any = await TestUtils?.executeWithRetry('yarn lint:nonexistent-command', {
+  describe('Error Handling and Edge Cases', () => {
+    test('handles command failures gracefully': any, async () => {
+        const result: any = await TestUtils.executeWithRetry('yarn lint:nonexistent-command', {
           timeout: 10000,
-          retries: 1,;
+          retries: 1,
           expectedErrors: ['command not found', 'Unknown command'],
         });
 
         // Should handle failure gracefully
-        expect(result?.success as any).toBe(false);
-        expect(result?.error).toBeDefined();
-        expect(result?.executionTime).toBeGreaterThan(0);
+        expect(result.success).toBe(false);
+        expect(result.error).toBeDefined();
+        expect(result.executionTime).toBeGreaterThan(0);
       },
-      TEST_TIMEOUTS?.unit,
+      TEST_TIMEOUTS.unit,
     );
 
-    test('validates memory usage under stress': any, async (: any) => {
+    test('validates memory usage under stress': any, async () => {
         const memoryResults: number[] = [];
 
         // Run multiple operations to test memory stability
         for (let i: any = 0; i < 3; i++) {
-        const result: any = await TestUtils?.executeWithRetry(
-            'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo?.tsx',
+        const result: any = await TestUtils.executeWithRetry(
+            'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
             {
-              timeout: 20000,;
-              memoryLimit: MEMORY_LIMITS?.stress,
+              timeout: 20000,
+              memoryLimit: MEMORY_LIMITS.stress,
             },
           );
 
-          memoryResults?.push(result?.memoryUsed);
+          memoryResults.push(result.memoryUsed);
         }
 
         // Validate memory consistency
-        const consistency: any = await TestUtils?.validateConsistency(async (: any) => memoryResults?.[0],
-          3,;
+        const consistency: any = await TestUtils.validateConsistency(async () => memoryResults.[0],
+          3,
           30, // 30% tolerance
         );
 
-        expect(consistency?.isConsistent as any).toBe(true);
-        expect(memoryResults?.every(mem => mem < MEMORY_LIMITS?.stress)).toBe(true);
+        expect(consistency.isConsistent).toBe(true);
+        expect(memoryResults.every(mem => mem < MEMORY_LIMITS.stress)).toBe(true);
       },
-      TEST_TIMEOUTS?.performance,
+      TEST_TIMEOUTS.performance,
     );
 
-    test('handles timeout scenarios properly': any, async (: any) => {
-        const shortTimeoutResult: any = await TestUtils?.executeWithRetry('sleep 2 && echo "test"', {
+    test('handles timeout scenarios properly': any, async () => {
+        const shortTimeoutResult: any = await TestUtils.executeWithRetry('sleep 2 && echo "test"', {
           timeout: 1000, // 1 second timeout for 2 second command;
           retries: 0,
         });
 
-        expect(shortTimeoutResult?.success as any).toBe(false);
-        expect(shortTimeoutResult?.error?.message).toMatch(/timeout|ETIMEDOUT/i);
+        expect(shortTimeoutResult.success).toBe(false);
+        expect(shortTimeoutResult.error.message).toMatch(/timeout|ETIMEDOUT/i);
       },
-      TEST_TIMEOUTS?.unit,
+      TEST_TIMEOUTS.unit,
     );
 
-    test('validates test result consistency': any, async (: any) => {
-        const testFunction: any = async () => {;
-          const result: any = await TestUtils?.executeWithRetry('echo "consistent test output"', { timeout: 5000 });
-          return result?.executionTime;
+    test('validates test result consistency': any, async () => {
+        const testFunction: any = async () => {
+          const result: any = await TestUtils.executeWithRetry('echo "consistent test output"', { timeout: 5000 });
+          return result.executionTime;
         };
 
-        const consistency: any = await TestUtils?.validateConsistency(testFunction, 3, 50);
+        const consistency: any = await TestUtils.validateConsistency(testFunction, 3, 50);
 
-        expect(consistency?.isConsistent as any).toBe(true);
-        expect(consistency?.results).toHaveLength(3);
-        expect(consistency?.variance).toBeLessThan(50);
+        expect(consistency.isConsistent).toBe(true);
+        expect(consistency.results).toHaveLength(3);
+        expect(consistency.variance).toBeLessThan(50);
       },
-      TEST_TIMEOUTS?.integration,
+      TEST_TIMEOUTS.integration,
     );
   });
 
-  describe('Overall Performance Validation': any, (: any) => {
-    test('validates performance improvement targets': any, async (: any) => {
+  describe('Overall Performance Validation', () => {
+    test('validates performance improvement targets': any, async () => {
         // This test validates that the overall system meets performance targets
         const performanceTargets: any = {
           cachingImprovement: 60, // Minimum 60% improvement
@@ -419,51 +419,51 @@ export function testFunction(): string {
         };
 
         // Test caching improvement
-        const startTime: any = Date?.now();
+        const startTime: any = Date.now();
         try {
-          execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo?.tsx', {
-            stdio: 'pipe',;
+          execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
+            stdio: 'pipe',
             timeout: 30000,
           });
         } catch (error) : any {
           // May have errors
         }
-        const cachedTime: any = Date?.now() - startTime;
+        const cachedTime: any = Date.now() - startTime;
 
         expect(cachedTime).toBeLessThan(20000); // Should be fast with cache
-        expect(performanceTargets?.parallelProcessing as any).toBe(true);
-        expect(performanceTargets?.memoryLimit as any).toBe(4096);
-        expect(performanceTargets?.incrementalFeedback as any).toBe(10000);
+        expect(performanceTargets.parallelProcessing).toBe(true);
+        expect(performanceTargets.memoryLimit).toBe(4096);
+        expect(performanceTargets.incrementalFeedback).toBe(10000);
       },
       testTimeout,
     );
 
-    test('validates comprehensive performance metrics': any, (: any) => {
+    test('validates comprehensive performance metrics', () => {
       // Test that all performance metrics are measurable
       const metrics: any = {
-        executionTime: expect?.any(Number),
-        memoryUsage: expect?.any(Number),
-        cacheHitRate: expect?.any(Number),
-        filesProcessed: expect?.any(Number),;
-        parallelProcesses: expect?.any(Number),
+        executionTime: expect.any(Number),
+        memoryUsage: expect.any(Number),
+        cacheHitRate: expect.any(Number),
+        filesProcessed: expect.any(Number),
+        parallelProcesses: expect.any(Number),
       };
 
       expect(metrics).toMatchObject({
-        executionTime: expect?.any(Number),
-        memoryUsage: expect?.any(Number),
-        cacheHitRate: expect?.any(Number),
-        filesProcessed: expect?.any(Number),
-        parallelProcesses: expect?.any(Number),
+        executionTime: expect.any(Number),
+        memoryUsage: expect.any(Number),
+        cacheHitRate: expect.any(Number),
+        filesProcessed: expect.any(Number),
+        parallelProcesses: expect.any(Number),
       });
     });
 
-    test('validates performance monitoring integration': any, (: any) => {
+    test('validates performance monitoring integration', () => {
       // Test that performance monitoring is properly integrated
-      expect(existsSync('src/scripts/validateLintingPerformance?.ts')).toBe(true);
+      expect(existsSync('src/scripts/validateLintingPerformance.ts')).toBe(true);
 
       // Test that the validator class is properly exported
       expect(LintingPerformanceValidator).toBeDefined();
-      expect(typeof LintingPerformanceValidator as any).toBe('function');
+      expect(typeof LintingPerformanceValidator).toBe('function');
     });
   });
 });

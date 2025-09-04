@@ -8,19 +8,19 @@ import { execSync } from 'child_process';
 import { logger } from '../../utils/logger';
 
 import {
-    DEFAULT_DEPENDENCY_SECURITY_CONFIG,
-    DependencySecurityConfig,
-    DependencySecurityMonitor,
+  DEFAULT_DEPENDENCY_SECURITY_CONFIG,
+  DependencySecurityConfig,
+  DependencySecurityMonitor,
 } from './DependencySecurityMonitor';
 import {
-    DEFAULT_IMPORT_CLEANUP_CONFIG,
-    ImportCleanupConfig,
-    ImportCleanupSystem,
+  DEFAULT_IMPORT_CLEANUP_CONFIG,
+  ImportCleanupConfig,
+  ImportCleanupSystem,
 } from './ImportCleanupSystem';
 import {
-    DEFAULT_LINTING_FORMATTING_CONFIG,
-    LintingFormattingConfig,
-    LintingFormattingSystem,
+  DEFAULT_LINTING_FORMATTING_CONFIG,
+  LintingFormattingConfig,
+  LintingFormattingSystem,
 } from './LintingFormattingSystem';
 
 export interface CodeQualityAutomationConfig {
@@ -227,7 +227,8 @@ export class CodeQualityAutomationSystem {
         case 'importCleanup':
           phaseResult.result = await this.importCleanupSystem.executeCleanup(targetFiles);
           phaseResult.success =
-            (phaseResult.result as any).buildValidationPassed && (phaseResult.result as any).errors.length === 0;
+            (phaseResult.result as any).buildValidationPassed &&
+            (phaseResult.result as any).errors.length === 0;
           phaseResult.errors = (phaseResult.result as any).errors;
           phaseResult.warnings = (phaseResult.result as any).warnings;
           break;
@@ -236,7 +237,8 @@ export class CodeQualityAutomationSystem {
           phaseResult.result =
             await this.lintingFormattingSystem.executeLintingAndFormatting(targetFiles);
           phaseResult.success =
-            (phaseResult.result as any).buildValidationPassed && (phaseResult.result as any).errors.length === 0;
+            (phaseResult.result as any).buildValidationPassed &&
+            (phaseResult.result as any).errors.length === 0;
           phaseResult.errors = (phaseResult.result as any).errors;
           phaseResult.warnings = (phaseResult.result as any).warnings;
           break;
@@ -245,7 +247,8 @@ export class CodeQualityAutomationSystem {
           phaseResult.result =
             await this.dependencySecurityMonitor.executeDependencySecurityMonitoring();
           phaseResult.success =
-            (phaseResult.result as any).compatibilityTestsPassed && (phaseResult.result as any).errors.length === 0;
+            (phaseResult.result as any).compatibilityTestsPassed &&
+            (phaseResult.result as any).errors.length === 0;
           phaseResult.errors = (phaseResult.result as any).errors;
           phaseResult.warnings = (phaseResult.result as any).warnings;
           break;

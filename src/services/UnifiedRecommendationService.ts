@@ -1,12 +1,12 @@
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { recipeDataService } from '@/services/recipeData';
 import {
-    // Element, // unused - removed for performance
-    ElementalProperties,
-    // Planet, // unused - removed for performance
-    // ZodiacSign, // unused - removed for performance
-    // ThermodynamicProperties, // unused - removed for performance
-    ThermodynamicMetrics,
+  // Element, // unused - removed for performance
+  ElementalProperties,
+  // Planet, // unused - removed for performance
+  // ZodiacSign, // unused - removed for performance
+  // ThermodynamicProperties, // unused - removed for performance
+  ThermodynamicMetrics,
 } from '@/types/alchemy';
 // Removed unused import: PlanetaryAlignment
 
@@ -16,12 +16,12 @@ import { Ingredient } from '../types/ingredient';
 import { Recipe } from '../types/recipe';
 
 import {
-    CookingMethodRecommendationCriteria,
-    CuisineRecommendationCriteria,
-    IngredientRecommendationCriteria,
-    RecipeRecommendationCriteria,
-    RecommendationResult,
-    RecommendationServiceInterface,
+  CookingMethodRecommendationCriteria,
+  CuisineRecommendationCriteria,
+  IngredientRecommendationCriteria,
+  RecipeRecommendationCriteria,
+  RecommendationResult,
+  RecommendationServiceInterface,
 } from './interfaces/RecommendationServiceInterface';
 import { unifiedIngredientService } from './UnifiedIngredientService';
 /**

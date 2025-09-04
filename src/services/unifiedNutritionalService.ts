@@ -34,10 +34,7 @@ function isValidObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function hasProperty<T extends string>(
-  obj: unknown,
-  prop: T
-): obj is Record<T, unknown> {
+function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj;
 }
 
@@ -93,43 +90,56 @@ export class UnifiedNutritionalService {
       if (typeof ingredient === 'string') {
         // Try unified ingredients first, but fallback to regular ingredients
         const unifiedIngredient = unifiedIngredients[ingredient];
-        if (unifiedIngredient && hasProperty(unifiedIngredient, 'nutritionalProfile') && unifiedIngredient.nutritionalProfile) {
+        if (
+          unifiedIngredient &&
+          hasProperty(unifiedIngredient, 'nutritionalProfile') &&
+          unifiedIngredient.nutritionalProfile
+        ) {
           // Convert unified nutritionalProfile if needed
           const unifiedProfile = unifiedIngredient.nutritionalProfile;
           if (isValidObject(unifiedProfile)) {
             nutritionalProfile = {
               ...unifiedProfile,
               // Convert phytonutrients from string[] to Record<string, number> if needed
-              phytonutrients: hasProperty(unifiedProfile, 'phytonutrients') && Array.isArray(unifiedProfile.phytonutrients)
-                ? (unifiedProfile.phytonutrients as string[]).reduce(
-                    (acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
-                    {},
-                  )
-                : hasProperty(unifiedProfile, 'phytonutrients') && isValidObject(unifiedProfile.phytonutrients) 
-                    ? unifiedProfile.phytonutrients as Record<string, number> 
+              phytonutrients:
+                hasProperty(unifiedProfile, 'phytonutrients') &&
+                Array.isArray(unifiedProfile.phytonutrients)
+                  ? (unifiedProfile.phytonutrients as string[]).reduce(
+                      (acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
+                      {},
+                    )
+                  : hasProperty(unifiedProfile, 'phytonutrients') &&
+                      isValidObject(unifiedProfile.phytonutrients)
+                    ? (unifiedProfile.phytonutrients as Record<string, number>)
                     : {},
             } as unknown as NutritionalProfile;
           }
         } else {
           // Fallback to regular ingredients
           const regularIngredient = allIngredients[ingredient];
-          if (regularIngredient && hasProperty(regularIngredient as unknown, 'nutritionalProfile')) {
+          if (
+            regularIngredient &&
+            hasProperty(regularIngredient as unknown, 'nutritionalProfile')
+          ) {
             // Convert alchemy.NutritionalProfile to nutrition.NutritionalProfile
             const regularIngredientUnknown = regularIngredient as unknown;
-            const alchemyProfile = hasProperty(regularIngredientUnknown, 'nutritionalProfile') 
-              ? regularIngredientUnknown.nutritionalProfile 
+            const alchemyProfile = hasProperty(regularIngredientUnknown, 'nutritionalProfile')
+              ? regularIngredientUnknown.nutritionalProfile
               : null;
             if (isValidObject(alchemyProfile)) {
               nutritionalProfile = {
                 ...alchemyProfile,
                 // Convert phytonutrients from string[] to Record<string, number>
-                phytonutrients: hasProperty(alchemyProfile, 'phytonutrients') && Array.isArray(alchemyProfile.phytonutrients)
-                  ? (alchemyProfile.phytonutrients as string[]).reduce(
-                      (acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
-                      {},
-                    )
-                  : hasProperty(alchemyProfile, 'phytonutrients') && isValidObject(alchemyProfile.phytonutrients) 
-                      ? alchemyProfile.phytonutrients as Record<string, number> 
+                phytonutrients:
+                  hasProperty(alchemyProfile, 'phytonutrients') &&
+                  Array.isArray(alchemyProfile.phytonutrients)
+                    ? (alchemyProfile.phytonutrients as string[]).reduce(
+                        (acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
+                        {},
+                      )
+                    : hasProperty(alchemyProfile, 'phytonutrients') &&
+                        isValidObject(alchemyProfile.phytonutrients)
+                      ? (alchemyProfile.phytonutrients as Record<string, number>)
                       : {},
               } as unknown as NutritionalProfile;
             }
@@ -149,8 +159,8 @@ export class UnifiedNutritionalService {
           }
         }
       } else {
-        nutritionalProfile = hasProperty(ingredient, 'nutritionalPropertiesProfile') 
-          ? ingredient.nutritionalPropertiesProfile as NutritionalProfile
+        nutritionalProfile = hasProperty(ingredient, 'nutritionalPropertiesProfile')
+          ? (ingredient.nutritionalPropertiesProfile as NutritionalProfile)
           : null;
       }
 
@@ -240,12 +250,14 @@ export class UnifiedNutritionalService {
       }
 
       // Safe type conversion for context
-      const safeContext = context ? {
-        season: context.season,
-        planetaryHour: context.planetaryHour,
-        targetElements: undefined as ElementalProperties | undefined,
-      } : undefined;
-      
+      const safeContext = context
+        ? {
+            season: context.season,
+            planetaryHour: context.planetaryHour,
+            targetElements: undefined as ElementalProperties | undefined,
+          }
+        : undefined;
+
       return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, safeContext as any);
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);
@@ -776,8 +788,11 @@ export class UnifiedNutritionalService {
       if (hasProperty(nutrition, 'calories') && typeof nutrition.calories === 'number') {
         score += Math.min(nutrition.calories / 100, 5);
       }
-      
-      const macros = hasProperty(nutrition, 'macros') && isValidObject(nutrition.macros) ? nutrition.macros : null;
+
+      const macros =
+        hasProperty(nutrition, 'macros') && isValidObject(nutrition.macros)
+          ? nutrition.macros
+          : null;
       if (macros) {
         if (hasProperty(macros, 'protein') && typeof macros.protein === 'number') {
           score += macros.protein / 5;

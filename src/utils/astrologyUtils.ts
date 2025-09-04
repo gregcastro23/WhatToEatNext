@@ -5,24 +5,24 @@ import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryEle
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { log } from '@/services/LoggingService';
 import type {
-    AlchemicalItem,
-    AlchemicalResult,
-    AstrologicalState,
-    DignityType,
-    Element,
-    ElementalInteraction,
-    ElementalItem,
-    AspectType as ImportedAspectType,
-    ElementalProperties as ImportedElementalProperties,
-    // BasicThermodynamicProperties, // unused
-    PlanetaryAspect as ImportedPlanetaryAspect,
-    LowercaseElementalProperties,
-    LunarPhase,
-    // PlanetaryAlignment, // unused
-    Planet,
-    Season,
-    ThermodynamicProperties,
-    ZodiacSign,
+  AlchemicalItem,
+  AlchemicalResult,
+  AstrologicalState,
+  DignityType,
+  Element,
+  ElementalInteraction,
+  ElementalItem,
+  AspectType as ImportedAspectType,
+  ElementalProperties as ImportedElementalProperties,
+  // BasicThermodynamicProperties, // unused
+  PlanetaryAspect as ImportedPlanetaryAspect,
+  LowercaseElementalProperties,
+  LunarPhase,
+  // PlanetaryAlignment, // unused
+  Planet,
+  Season,
+  ThermodynamicProperties,
+  ZodiacSign,
 } from '@/types/alchemy';
 import type { TimeFactors } from '@/types/time';
 // Removed unused imports: getCurrentSeason, getTimeOfDay
@@ -2081,16 +2081,14 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
       };
 
       // Process each planet
-      Object.entries(data.planets as any).forEach(
-        ([planetName, planetData]) => {
-          const internalName = planetMapping[planetName];
-          const pd = planetData as any;
-          if (internalName && pd?.longitude !== undefined) {
-            // AstroCharts provides longitude in decimal degrees (0-360)
-            result[internalName] = Number(pd.longitude);
-          }
-        },
-      );
+      Object.entries(data.planets as any).forEach(([planetName, planetData]) => {
+        const internalName = planetMapping[planetName];
+        const pd = planetData as any;
+        if (internalName && pd?.longitude !== undefined) {
+          // AstroCharts provides longitude in decimal degrees (0-360)
+          result[internalName] = Number(pd.longitude);
+        }
+      });
     }
 
     // Process houses and angles if available

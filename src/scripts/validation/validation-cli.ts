@@ -67,7 +67,7 @@ class ValidationCLI {
 
   private parseArguments(args: string[]): CLIOptions {
     const options: CLIOptions = {
-      command: args[0] || 'help'
+      command: args[0] || 'help',
     };
 
     for (let i = 1; i < args.length; i++) {
@@ -123,7 +123,7 @@ class ValidationCLI {
     try {
       const result = await this.validationFramework.performComprehensiveValidation(
         options.files,
-        batchId
+        batchId,
       );
 
       console.log('\n📊 Validation Results:');
@@ -171,7 +171,6 @@ class ValidationCLI {
         console.log('\n🔄 Rollback recommended due to critical validation failures');
         process.exit(1);
       }
-
     } catch (error) {
       console.error(`❌ Validation failed: ${error}`);
       process.exit(1);
@@ -207,7 +206,6 @@ class ValidationCLI {
           console.log('\n' + summaryReport);
         }
       }
-
     } catch (error) {
       console.error(`❌ Report generation failed: ${error}`);
       process.exit(1);
@@ -250,7 +248,6 @@ class ValidationCLI {
         console.log('   Service Validation: Enabled');
         console.log('   Build Validation: Enabled');
       }
-
     } catch (error) {
       console.error(`❌ Status check failed: ${error}`);
       process.exit(1);
@@ -305,7 +302,6 @@ class ValidationCLI {
           }
         });
       }
-
     } catch (error) {
       console.error(`❌ History retrieval failed: ${error}`);
       process.exit(1);
@@ -324,7 +320,7 @@ class ValidationCLI {
       testTimeout: 30000,
       compilationTimeout: 45000,
       maxRetries: 2,
-      logLevel: 'info'
+      logLevel: 'info',
     };
 
     console.log('\n📋 Current Configuration:');

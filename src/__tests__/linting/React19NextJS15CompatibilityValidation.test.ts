@@ -1,10 +1,10 @@
 import type { } from 'jest';
 /**
- * React 19 and Next?.js 15 Compatibility Validation Test Suite
+ * React 19 and Next.js 15 Compatibility Validation Test Suite
  *
  * This test suite validates that our ESLint configuration properly handles:
  * - React 19 specific rules and modern JSX transform
- * - Next?.js 15 App Router and Server Components
+ * - Next.js 15 App Router and Server Components
  * - React concurrent features and Suspense patterns
  * - Enhanced React hooks rules with additional hooks support
  */
@@ -13,47 +13,47 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-describe('React 19 and Next?.js 15 Compatibility Validation': any, (: any) => {
-  const testFilesDir: any = path?.join(__dirname, 'test-files');
+describe('React 19 and Next.js 15 Compatibility Validation', () => {
+  const testFilesDir: any = path.join(__dirname, 'test-files');
 
-  beforeAll((: any) => {
+  beforeAll(() => {
     // Create test files directory
-    if (!fs?.existsSync(testFilesDir)) {
-      void fs?.mkdirSync(testFilesDir, { recursive: true });
+    if (!fs.existsSync(testFilesDir)) {
+      void fs.mkdirSync(testFilesDir, { recursive: true });
     }
   });
 
-  afterAll((: any) => {
+  afterAll(() => {
     // Clean up test files
-    if (fs?.existsSync(testFilesDir)) {
-      void fs?.rmSync(testFilesDir, { recursive: true, force: true });
+    if (fs.existsSync(testFilesDir)) {
+      void fs.rmSync(testFilesDir, { recursive: true, force: true });
     }
   });
 
-  describe('React 19 Modern JSX Transform': any, (: any) => {
-    test('should not require React import with modern JSX transform': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'modern-jsx?.tsx');
+  describe('React 19 Modern JSX Transform', () => {
+    test('should not require React import with modern JSX transform', () => {
+      const testFile: any = path.join(testFilesDir, 'modern-jsx.tsx');
       const content = `
 // React 19 modern JSX transform - no React import needed
-export default function ModernComponent() : any {;
+export default function ModernComponent() : any {
   return <div>Hello World</div>;
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should not have react/react-in-jsx-scope error
-      expect(result?.output).not?.toContain('react/react-in-jsx-scope');
-      expect(result?.output).not?.toContain("'React' must be in scope when using JSX");
+      expect(result.output).not.toContain('react/react-in-jsx-scope');
+      expect(result.output).not.toContain("'React' must be in scope when using JSX");
     });
 
-    test('should handle JSX without React import in components': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'jsx-component?.tsx');
+    test('should handle JSX without React import in components', () => {
+      const testFile: any = path.join(testFilesDir, 'jsx-component.tsx');
       const content: any = `
-interface Props {;
+interface Props {
   title: string;,
-  children: React?.ReactNode;
+  children: React.ReactNode;
 }
 
 export function JSXComponent(: any : any { title, children }: Props) {
@@ -65,40 +65,40 @@ export function JSXComponent(: any : any { title, children }: Props) {
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should not require React import
-      expect(result?.output).not?.toContain('react/react-in-jsx-scope');
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.output).not.toContain('react/react-in-jsx-scope');
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should validate JSX key prop usage': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'jsx-key-validation?.tsx');
+    test('should validate JSX key prop usage', () => {
+      const testFile: any = path.join(testFilesDir, 'jsx-key-validation.tsx');
       const content: any = `
-export function ListComponent() : any {;
+export function ListComponent() : any {
   const items: any = ['a', 'b', 'c'];
 
   return (
     <ul>
-      {items?.map(item => (
+      {items.map(item => (
         <li>{item}</li>
       ))}
     </ul>
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should detect missing key prop
-      expect(result?.output).toContain('react/jsx-key');
+      expect(result.output).toContain('react/jsx-key');
     });
 
-    test('should handle React 19 concurrent features': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'concurrent-features?.tsx');
+    test('should handle React 19 concurrent features', () => {
+      const testFile: any = path.join(testFilesDir, 'concurrent-features.tsx');
       const content: any = `;
 import { Suspense, startTransition, useDeferredValue, useTransition } from 'react';
 
@@ -107,9 +107,9 @@ export function ConcurrentComponent() : any {
   const deferredValue: any = useDeferredValue('test');
 
   const handleClick: any = () => {
-    startTransition((: any) => {
+    startTransition(() => {
       // Non-urgent update;
-      console?.log('Transition started');
+      console.log('Transition started');
     });
   };
 
@@ -125,21 +125,21 @@ export function ConcurrentComponent() : any {
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should not have errors with React 19 concurrent features
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
   });
 
-  describe('Next?.js 15 App Router Support': any, (: any) => {
-    test('should handle App Router page components': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'app-page?.tsx');
+  describe('Next.js 15 App Router Support', () => {
+    test('should handle App Router page components', () => {
+      const testFile: any = path.join(testFilesDir, 'app-page.tsx');
       const content: any = `
-// Next?.js 15 App Router page component
-export default function Page() : any {;
+// Next.js 15 App Router page component
+export default function Page() : any {
   return (
     <main>
       <h1>App Router Page</h1>
@@ -153,23 +153,23 @@ export function generateMetadata() : any {
   };
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should allow default exports for pages
-      expect(result?.output).not?.toContain('import/no-default-export');
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.output).not.toContain('import/no-default-export');
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should handle App Router layout components': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'app-layout?.tsx');
+    test('should handle App Router layout components', () => {
+      const testFile: any = path.join(testFilesDir, 'app-layout.tsx');
       const content: any = `
-// Next?.js 15 App Router layout component
+// Next.js 15 App Router layout component
 export default function RootLayout(: any : any {
   children,
-}: {;
-  children: React?.ReactNode;
+}: {
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -181,41 +181,41 @@ export default function RootLayout(: any : any {
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should allow default exports for layouts
-      expect(result?.output).not?.toContain('import/no-default-export');
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.output).not.toContain('import/no-default-export');
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should handle Server Components': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'server-component?.tsx');
+    test('should handle Server Components', () => {
+      const testFile: any = path.join(testFilesDir, 'server-component.tsx');
       const _content: any = `
-// Next?.js 15 Server Component
+// Next.js 15 Server Component
 async function ServerComponent() : any {
   const data = fetch
-  const json = await data?.json()
+  const json = await data.json()
 ;
   return (
     <div>
       <h1>Server Component</h1>
-      <pre>{JSON?.stringify(json, null, 2)}</pre>
+      <pre>{JSON.stringify(json, null, 2)}</pre>
     </div>
   );
 }
 
 export default ServerComponent;
 `;
-      fs?.writeFileSync;
+      fs.writeFileSync;
       const result: any = runESLintOnFile(testFile);
       // Should handle async Server Components
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should handle Client Components with use client directive': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'client-component?.tsx');
+    test('should handle Client Components with use client directive', () => {
+      const testFile: any = path.join(testFilesDir, 'client-component.tsx');
       const content: any = `
 'use client';
 
@@ -234,18 +234,18 @@ export default function ClientComponent() : any {
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should handle client components with hooks
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
   });
 
-  describe('React Hooks Enhanced Rules': any, (: any) => {
-    test('should validate exhaustive-deps with additional hooks': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'enhanced-hooks?.tsx');
+  describe('React Hooks Enhanced Rules', () => {
+    test('should validate exhaustive-deps with additional hooks', () => {
+      const testFile: any = path.join(testFilesDir, 'enhanced-hooks.tsx');
       const content: any = `;
 import { useEffect, useCallback } from 'react';
 import { useRecoilCallback } from 'recoil';
@@ -254,35 +254,35 @@ export function EnhancedHooksComponent() : any {
   const value: any = 'test';
 
   // Standard useEffect
-  useEffect((: any) => {
-    console?.log(value);
+  useEffect(() => {
+    console.log(value);
   }, []); // Missing dependency
 
   // Recoil callback hook
-  const recoilCallback: any = useRecoilCallback(({ set }: any) => () => {;
-    console?.log(value);
+  const recoilCallback: any = useRecoilCallback(({ set }: any) => () => {
+    console.log(value);
   }, []); // Missing dependency
 
   return <div>Enhanced Hooks</div>;
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should detect missing dependencies in both standard and additional hooks
-      expect(result?.output).toContain('react-hooks/exhaustive-deps');
+      expect(result.output).toContain('react-hooks/exhaustive-deps');
     });
 
-    test('should handle custom hooks properly': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'custom-hooks?.tsx');
+    test('should handle custom hooks properly', () => {
+      const testFile: any = path.join(testFilesDir, 'custom-hooks.tsx');
       const content: any = `;
 import { useState, useEffect } from 'react';
 
 function useCustomHook(dependency: string) : any {
   const [state, setState] = useState('');
 
-  useEffect((: any) => {
+  useEffect(() => {
     setState(dependency);
   }, [dependency]);
 
@@ -295,17 +295,17 @@ export function CustomHookComponent() : any {
   return <div>{value}</div>;
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should not have hook-related errors
-      expect(result?.output).not?.toContain('react-hooks/rules-of-hooks');
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.output).not.toContain('react-hooks/rules-of-hooks');
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should validate hooks rules in conditional usage': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'conditional-hooks?.tsx');
+    test('should validate hooks rules in conditional usage', () => {
+      const testFile: any = path.join(testFilesDir, 'conditional-hooks.tsx');
       const content: any = `;
 import { useState } from 'react';
 
@@ -317,22 +317,22 @@ export function ConditionalHooksComponent(: any : any { condition }: { condition
   return <div>Conditional Hooks</div>;
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should detect hooks in conditional
-      expect(result?.output).toContain('react-hooks/rules-of-hooks');
+      expect(result.output).toContain('react-hooks/rules-of-hooks');
     });
   });
 
-  describe('Suspense and Error Boundaries': any, (: any) => {
-    test('should handle Suspense boundaries correctly': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'suspense-boundaries?.tsx');
+  describe('Suspense and Error Boundaries', () => {
+    test('should handle Suspense boundaries correctly', () => {
+      const testFile: any = path.join(testFilesDir, 'suspense-boundaries.tsx');
       const content: any = `;
 import { Suspense, lazy } from 'react';
 
-const LazyComponent = lazy((: any) => import('./LazyComponent'));
+const LazyComponent = lazy(() => import('./LazyComponent'));
 
 export function SuspenseBoundary() : any {
   return (
@@ -342,16 +342,16 @@ export function SuspenseBoundary() : any {
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should handle Suspense correctly
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should handle Error Boundaries': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'error-boundary?.tsx');
+    test('should handle Error Boundaries', () => {
+      const testFile: any = path.join(testFilesDir, 'error-boundary.tsx');
       const content: any = `;
 import { Component, ErrorInfo, ReactNode } from 'react';
 
@@ -366,7 +366,7 @@ interface State {
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) : any {
     super(props);
-    this?.state = { hasError: false };
+    this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(): State {
@@ -374,30 +374,30 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) : any {
-    console?.error('Error caught by boundary:', error, errorInfo);
+    console.error('Error caught by boundary:', error, errorInfo);
   }
 
   render() : any {
-    if (this?.state.hasError) {
+    if (this.state.hasError) {
       return <h1>Something went wrong.</h1>;
     }
 
-    return this?.props.children;
+    return this.props.children;
   }
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should handle class components and error boundaries
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
   });
 
-  describe('TypeScript Integration': any, (: any) => {
-    test('should handle React 19 TypeScript types': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'typescript-types?.tsx');
+  describe('TypeScript Integration', () => {
+    test('should handle React 19 TypeScript types', () => {
+      const testFile: any = path.join(testFilesDir, 'typescript-types.tsx');
       const content: any = `;
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
@@ -410,7 +410,7 @@ type ButtonProps = ComponentProps<'button'> & CustomProps;
 
 export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   title: any, optional = false: any, children
-}: any) => {;
+}: any) => {
   return (
     <div>
       <h1>{title}</h1>
@@ -428,78 +428,78 @@ export const TypedButton: FC<ButtonProps> = ({ title: any,  ...buttonProps }) =>
   );
 };
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should handle TypeScript React types correctly
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should validate prop types with TypeScript': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'prop-validation?.tsx');
+    test('should validate prop types with TypeScript', () => {
+      const testFile: any = path.join(testFilesDir, 'prop-validation.tsx');
       const content: any = `
-interface Props {;
+interface Props {
   required: string;
   optional?: number;,
   callback: (valu, e: string) => void;
 }
 
 export function PropValidationComponent(: any : any { required, optional, callback }: Props) {
-  const handleClick: any = () => {;
+  const handleClick: any = () => {
     callback(required);
   };
 
   return (<div>
       <p>{required}</p>
       {optional && <p>{optional}</p>}
-      <button onClick={(: any) => void handleClick()}>Click</button>
+      <button onClick={() => void handleClick()}>Click</button>
     </div>
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should not require prop-types with TypeScript
-      expect(result?.output).not?.toContain('react/prop-types');
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.output).not.toContain('react/prop-types');
+      expect(result.exitCode).toBe(0);
     });
   });
 
-  describe('Configuration Validation': any, (: any) => {
-    test('should have React version set to 19?.1.0': any, (: any) => {
+  describe('Configuration Validation', () => {
+    test('should have React version set to 19.1.0', () => {
       const eslintConfig = require('../../../eslint.(config as any).cjs');
 
       // Find React settings in configuration
-      const reactSettings: any = eslintConfig?.find((config: any) => (config as any).settings?.react?.version);
+      const reactSettings: any = eslintConfig.find((config: any) => (config as any).settings.react.version);
 
       expect(reactSettings).toBeDefined();
-      expect(reactSettings?.settings.react?.version as any).toBe('19?.1.0');
+      expect(reactSettings.settings.react.version).toBe('19.1.0');
     });
 
-    test('should have modern JSX transform rules configured': any, (: any) => {
+    test('should have modern JSX transform rules configured', () => {
       const eslintConfig = require('../../../eslint.(config as any).cjs');
 
       // Find React rules configuration
-      const reactRules: any = eslintConfig?.find((config: any) => (config as any).rules && (config as any).rules['react/react-in-jsx-scope']);
+      const reactRules: any = eslintConfig.find((config: any) => (config as any).rules && (config as any).rules['react/react-in-jsx-scope']);
 
       expect(reactRules).toBeDefined();
-      expect(reactRules?.rules['react/react-in-jsx-scope'] as any).toBe('off');
-      expect(reactRules?.rules['react/jsx-uses-react'] as any).toBe('off');
+      expect(reactRules.rules['react/react-in-jsx-scope']).toBe('off');
+      expect(reactRules.rules['react/jsx-uses-react']).toBe('off');
     });
 
-    test('should have enhanced React hooks rules': any, (: any) => {
+    test('should have enhanced React hooks rules', () => {
       const eslintConfig = require('../../../eslint.(config as any).cjs');
 
       // Find React hooks configuration
-      const hooksConfig: any = eslintConfig?.find(
+      const hooksConfig: any = eslintConfig.find(
         (config: any) => (config as any).rules && (config as any).rules['react-hooks/exhaustive-deps'],
       );
 
       expect(hooksConfig).toBeDefined();
-      expect(hooksConfig?.rules['react-hooks/exhaustive-deps'] as any).toEqual([
+      expect(hooksConfig.rules['react-hooks/exhaustive-deps']).toEqual([
         'warn',
         {
           additionalHooks: '(useRecoilCallback|useRecoilTransaction_UNSTABLE)',
@@ -507,25 +507,25 @@ export function PropValidationComponent(: any : any { required, optional, callba
       ]);
     });
 
-    test('should validate package?.json versions': any, (: any) => {
-      const packageJson = require('../../../package?.json');
+    test('should validate package.json versions', () => {
+      const packageJson = require('../../../package.json');
 
       // Validate React 19
-      expect(packageJson?.dependencies.react).toMatch(/^(\^|~)?19\./);
-      expect(packageJson?.dependencies['react-dom']).toMatch(/^(\^|~)?19\./);
+      expect(packageJson.dependencies.react).toMatch(/^(\^|~)?19\./);
+      expect(packageJson.dependencies['react-dom']).toMatch(/^(\^|~)?19\./);
 
-      // Validate Next?.js 15
-      expect(packageJson?.dependencies.next).toMatch(/^(\^|~)?15\./);
+      // Validate Next.js 15
+      expect(packageJson.dependencies.next).toMatch(/^(\^|~)?15\./);
 
       // Validate React types
-      expect(packageJson?.devDependencies['@types/react']).toMatch(/^(\^|~)?19\./);
-      expect(packageJson?.devDependencies['@types/react-dom']).toMatch(/^(\^|~)?19\./);
+      expect(packageJson.devDependencies['@types/react']).toMatch(/^(\^|~)?19\./);
+      expect(packageJson.devDependencies['@types/react-dom']).toMatch(/^(\^|~)?19\./);
     });
   });
 
-  describe('Performance and Optimization': any, (: any) => {
-    test('should handle large component trees efficiently': any, (: any) => {
-      const testFile: any = path?.join(testFilesDir, 'large-component?.tsx');
+  describe('Performance and Optimization', () => {
+    test('should handle large component trees efficiently', () => {
+      const testFile: any = path.join(testFilesDir, 'large-component.tsx');
       const content: any = `;
 import { memo, useMemo, useCallback } from 'react';
 
@@ -536,51 +536,51 @@ interface ItemProps {
 }
 
 const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {
-  const handleClick = useCallback((: any) => {;
+  const handleClick = useCallback(() => {
     onClick_(id);
   }, [id, onClick]);
 
-  return (<div onClick={(: any) => void handleClick()}>
+  return (<div onClick={() => void handleClick()}>
       {name}
     </div>
   );
 });
 
 export function LargeComponentTree() : any {
-  const items: any = useMemo((: any) =>
-    Array?.from({ length: 1000 }, (_, i) => ({
-  id: i,;
+  const items: any = useMemo(() =>
+    Array.from({ length: 1000 }, (_, i) => ({
+  id: i,
       name: \`Item \${i}\`
     }))
   , []);
 
-  const handleItemClick: any = useCallback((id: number) => {;
-    console?.log('Clicked item:', id);
+  const handleItemClick: any = useCallback((id: number) => {
+    console.log('Clicked item:', id);
   }, []);
 
   return (<div>
-      {items?.map(item => (
+      {items.map(item => (
         <MemoizedItem
-          key={item?.id}
-          id={item?.id}
-          name={item?.name};
-          onClick={(: any) => void handleItemClick()}
+          key={item.id}
+          id={item.id}
+          name={item.name};
+          onClick={() => void handleItemClick()}
         />
       ))}
     </div>
   );
 }
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should handle performance optimizations correctly
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
 
-    test('should validate import organization with React 19': any, (: any) => {
-      const testFile = path?.join(testFilesDir, 'import-organization?.tsx');
+    test('should validate import organization with React 19', () => {
+      const testFile = path.join(testFilesDir, 'import-organization.tsx');
       const content: any = `;
 import { useState, useEffect, useMemo } from 'react';
 import { NextPage } from 'next';
@@ -588,17 +588,17 @@ import { NextPage } from 'next';
 import { CustomComponent } from '@/components/CustomComponent';
 import { useCustomHook } from '@/hooks/useCustomHook';
 
-import './styles?.css';
+import './styles.css';
 
-const ImportOrganizationPage: NextPage = () => {;
+const ImportOrganizationPage: NextPage = () => {
   const [state, setState] = useState('');
   const customValue: any = useCustomHook()
 
-  const memoizedValue = useMemo((: any) => {;
-    return state?.toUpperCase()
+  const memoizedValue = useMemo(() => {
+    return state.toUpperCase()
   }, [state]);
 
-  useEffect((: any) => {
+  useEffect(() => {
     setState('initialized');
   }, []);
 
@@ -612,12 +612,12 @@ const ImportOrganizationPage: NextPage = () => {;
 
 export default ImportOrganizationPage;
 `;
-      void fs?.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result: any = runESLintOnFile(testFile);
 
       // Should validate import organization
-      expect(result?.exitCode as any).toBe(0);
+      expect(result.exitCode).toBe(0);
     });
   });
 });
@@ -628,15 +628,15 @@ export default ImportOrganizationPage;
 function runESLintOnFile(filePath: string): { exitCode: number; outpu, t: string } {
   try {
     const output: any = execSync(`npx eslint --config eslint.(config as any).cjs "${filePath}" --format=compact`, {
-      encoding: 'utf8',;
+      encoding: 'utf8',
       stdio: 'pipe',
     });
     return { exitCode: 0, output };
   } catch (error: any) : any {
     const err: any = error as any;
     return {
-      exitCode: err?.status || 1,
-      output: err?.stdout || err?.message || '',
+      exitCode: err.status || 1,
+      output: err.stdout || err.message || '',
     };
   }
 }

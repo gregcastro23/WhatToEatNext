@@ -11,10 +11,10 @@ declare global {
 
 import { TestMemoryMonitor } from './TestMemoryMonitor';
 
-describe('TestMemoryMonitor': any, (: any) => {
+describe('TestMemoryMonitor', () => {
   let monitor: TestMemoryMonitor;
 
-  beforeEach((: any) => {
+  beforeEach(() => {
     monitor = new TestMemoryMonitor({
       heapUsed: 50 * 1024 * 1024, // 50MB
       heapTotal: 200 * 1024 * 1024, // 200MB
@@ -23,53 +23,53 @@ describe('TestMemoryMonitor': any, (: any) => {
     });
   });
 
-  afterEach((: any) => {
+  afterEach(() => {
     if (monitor != null) {
-      monitor?.cleanup('test-cleanup');
+      monitor.cleanup('test-cleanup');
     }
   });
 
-  describe('Memory Snapshot Management': any, (: any) => {
-    it('should take initial memory snapshot': any, (: any) => {
-      const snapshot: any = monitor?.takeSnapshot('test-snapshot');
+  describe('Memory Snapshot Management', () => {
+    it('should take initial memory snapshot', () => {
+      const snapshot: any = monitor.takeSnapshot('test-snapshot');
 
       expect(snapshot).toBeDefined();
-      expect(snapshot?.heapUsed).toBeGreaterThan(0);
-      expect(snapshot?.heapTotal).toBeGreaterThan(0);
-      expect(snapshot?.timestamp).toBeGreaterThan(0);
-      expect(snapshot?.testName as any).toBe('test-snapshot');
+      expect(snapshot.heapUsed).toBeGreaterThan(0);
+      expect(snapshot.heapTotal).toBeGreaterThan(0);
+      expect(snapshot.timestamp).toBeGreaterThan(0);
+      expect(snapshot.testName).toBe('test-snapshot');
     });
 
-    it('should track multiple snapshots': any, (: any) => {
-      monitor?.takeSnapshot('snapshot-1');
-      monitor?.takeSnapshot('snapshot-2');
-      monitor?.takeSnapshot('snapshot-3');
+    it('should track multiple snapshots', () => {
+      monitor.takeSnapshot('snapshot-1');
+      monitor.takeSnapshot('snapshot-2');
+      monitor.takeSnapshot('snapshot-3');
 
-      const summary: any = monitor?.getMemorySummary();
-      expect(summary?.testDuration).toBeGreaterThan(0); // Check test duration instead
+      const summary: any = monitor.getMemorySummary();
+      expect(summary.testDuration).toBeGreaterThan(0); // Check test duration instead
     });
   });
 
-  describe('Memory Usage Checking': any, (: any) => {
-    it('should check memory usage against thresholds': any, (: any) => {
-      const result: any = monitor?.checkMemoryUsage('threshold-test');
+  describe('Memory Usage Checking', () => {
+    it('should check memory usage against thresholds', () => {
+      const result: any = monitor.checkMemoryUsage('threshold-test');
 
       expect(result).toBeDefined();
-      expect(result?.isWithinLimits).toBeDefined();
-      expect(result?.warnings).toBeInstanceOf(Array);
-      expect(result?.errors).toBeInstanceOf(Array);
-      expect(result?.currentUsage).toBeDefined();
+      expect(result.isWithinLimits).toBeDefined();
+      expect(result.warnings).toBeInstanceOf(Array);
+      expect(result.errors).toBeInstanceOf(Array);
+      expect(result.currentUsage).toBeDefined();
     });
 
-    it('should detect when memory usage is within limits': any, (: any) => {
+    it('should detect when memory usage is within limits', () => {
       // For normal test execution, memory should be within limits
-      const result: any = monitor?.checkMemoryUsage('normal-test');
+      const result: any = monitor.checkMemoryUsage('normal-test');
 
-      expect(result?.isWithinLimits as any).toBe(true);
-      expect(result?.errors).toHaveLength(0);
+      expect(result.isWithinLimits).toBe(true);
+      expect(result.errors).toHaveLength(0);
     });
 
-    it('should generate warnings for high memory usage': any, (: any) => {
+    it('should generate warnings for high memory usage', () => {
       // Create a monitor with very low thresholds to trigger warnings
       const strictMonitor: any = new TestMemoryMonitor({
         heapUsed: 1 * 1024 * 1024, // 1MB - very low to trigger warning
@@ -78,147 +78,147 @@ describe('TestMemoryMonitor': any, (: any) => {
         rss: 20 * 1024 * 1024, // 20MB
       });
 
-      const result: any = strictMonitor?.checkMemoryUsage('warning-test');
+      const result: any = strictMonitor.checkMemoryUsage('warning-test');
 
       // Should generate warnings due to low threshold
-      expect(result?.warnings.length).toBeGreaterThan(0);
+      expect(result.warnings.length).toBeGreaterThan(0);
 
-      strictMonitor?.cleanup('strict-cleanup');
+      strictMonitor.cleanup('strict-cleanup');
     });
   });
 
-  describe('Memory Leak Detection': any, (: any) => {
-    it('should detect potential memory leaks': any, (: any) => {
+  describe('Memory Leak Detection', () => {
+    it('should detect potential memory leaks', () => {
       // Take initial snapshot
-      monitor?.takeSnapshot('leak-test-start');
+      monitor.takeSnapshot('leak-test-start');
 
       // Simulate memory allocation (create large array)
       const largeArray: any = new Array(100000).fill('test-data');
 
       // Take another snapshot
-      monitor?.takeSnapshot('leak-test-after-allocation');
+      monitor.takeSnapshot('leak-test-after-allocation');
 
-      const memoryTrend: any = monitor?.getMemoryTrend();
+      const memoryTrend: any = monitor.getMemoryTrend();
 
       expect(memoryTrend).toBeDefined();
-      expect(memoryTrend?.isIncreasing).toBeDefined();
-      expect(memoryTrend?.concerningTrend).toBeDefined();
+      expect(memoryTrend.isIncreasing).toBeDefined();
+      expect(memoryTrend.concerningTrend).toBeDefined();
 
       // Clean up the large array
-      largeArray?.length = 0;
+      largeArray.length = 0;
     });
 
-    it('should not detect leaks for normal memory usage': any, (: any) => {
-      monitor?.takeSnapshot('normal-1');
-      monitor?.takeSnapshot('normal-2');
+    it('should not detect leaks for normal memory usage', () => {
+      monitor.takeSnapshot('normal-1');
+      monitor.takeSnapshot('normal-2');
 
-      const memoryTrend: any = monitor?.getMemoryTrend();
+      const memoryTrend: any = monitor.getMemoryTrend();
 
       // Should not have concerning trends for normal test operations
-      expect(memoryTrend?.concerningTrend as any).toBe(false);
+      expect(memoryTrend.concerningTrend).toBe(false);
     });
   });
 
-  describe('Garbage Collection': any, (: any) => {
-    it('should attempt garbage collection when available': any, (: any) => {
-      const cleanupResult: any = monitor?.cleanup('gc-test');
+  describe('Garbage Collection', () => {
+    it('should attempt garbage collection when available', () => {
+      const cleanupResult: any = monitor.cleanup('gc-test');
 
       // Cleanup should complete successfully
-      expect(cleanupResult?.success as any).toBe(true);
-      expect(cleanupResult?.actions).toContain('Forced garbage collection');
+      expect(cleanupResult.success).toBe(true);
+      expect(cleanupResult.actions).toContain('Forced garbage collection');
     });
 
-    it('should perform cleanup operations': any, (: any) => {
-      const UNUSED_memoryBefore: any = process?.memoryUsage().heapUsed;
+    it('should perform cleanup operations', () => {
+      const UNUSED_memoryBefore: any = process.memoryUsage().heapUsed;
 
-      const cleanupResult: any = monitor?.cleanup('cleanup-test');
+      const cleanupResult: any = monitor.cleanup('cleanup-test');
 
       expect(cleanupResult).toBeDefined();
-      expect(cleanupResult?.success as any).toBe(true);
-      expect(cleanupResult?.freedMemory).toBeDefined();
-      expect(cleanupResult?.actions).toBeInstanceOf(Array);
-      expect(cleanupResult?.actions.length).toBeGreaterThan(0);
+      expect(cleanupResult.success).toBe(true);
+      expect(cleanupResult.freedMemory).toBeDefined();
+      expect(cleanupResult.actions).toBeInstanceOf(Array);
+      expect(cleanupResult.actions.length).toBeGreaterThan(0);
     });
   });
 
-  describe('Memory Summary and Reporting': any, (: any) => {
-    it('should generate memory summary': any, async (: any) => {
+  describe('Memory Summary and Reporting', () => {
+    it('should generate memory summary': any, async () => {
       // Take a few snapshots to have data
-      monitor?.takeSnapshot('summary-test-1');
+      monitor.takeSnapshot('summary-test-1');
 
       // Add a small delay to ensure test duration > 0
       await new Promise(resolve => setTimeout(resolve, 10));
 
-      monitor?.takeSnapshot('summary-test-2');
+      monitor.takeSnapshot('summary-test-2');
 
-      const summary: any = monitor?.getMemorySummary();
+      const summary: any = monitor.getMemorySummary();
 
       expect(summary).toBeDefined();
-      expect(summary?.initialMemory).toBeGreaterThan(0);
-      expect(summary?.currentMemory).toBeGreaterThan(0);
-      expect(summary?.peakMemory).toBeGreaterThan(0);
-      expect(summary?.testDuration).toBeGreaterThan(0);
-      expect(summary?.testDuration).toBeGreaterThanOrEqual(0);
+      expect(summary.initialMemory).toBeGreaterThan(0);
+      expect(summary.currentMemory).toBeGreaterThan(0);
+      expect(summary.peakMemory).toBeGreaterThan(0);
+      expect(summary.testDuration).toBeGreaterThan(0);
+      expect(summary.testDuration).toBeGreaterThanOrEqual(0);
     });
 
-    it('should generate detailed memory report': any, (: any) => {
-      monitor?.takeSnapshot('report-test');
+    it('should generate detailed memory report', () => {
+      monitor.takeSnapshot('report-test');
 
-      const report: any = monitor?.getDetailedReport();
+      const report: any = monitor.getDetailedReport();
 
-      expect(typeof report as any).toBe('object');
-      expect(report?.summary).toBeDefined();
-      expect(report?.trend).toBeDefined();
-      expect(report?.snapshots).toBeInstanceOf(Array);
-      expect(report?.recommendations).toBeInstanceOf(Array);
+      expect(typeof report).toBe('object');
+      expect(report.summary).toBeDefined();
+      expect(report.trend).toBeDefined();
+      expect(report.snapshots).toBeInstanceOf(Array);
+      expect(report.recommendations).toBeInstanceOf(Array);
     });
   });
 
-  describe('Static Factory Methods': any, (: any) => {
-    it('should create default monitor': any, (: any) => {
-      const defaultMonitor: any = TestMemoryMonitor?.createDefault();
+  describe('Static Factory Methods', () => {
+    it('should create default monitor', () => {
+      const defaultMonitor: any = TestMemoryMonitor.createDefault();
 
       expect(defaultMonitor).toBeInstanceOf(TestMemoryMonitor);
 
-      defaultMonitor?.cleanup('default-cleanup');
+      defaultMonitor.cleanup('default-cleanup');
     });
 
-    it('should create CI monitor with stricter settings': any, (: any) => {
-      const ciMonitor: any = TestMemoryMonitor?.createForCI();
+    it('should create CI monitor with stricter settings', () => {
+      const ciMonitor: any = TestMemoryMonitor.createForCI();
 
       expect(ciMonitor).toBeInstanceOf(TestMemoryMonitor);
 
-      ciMonitor?.cleanup('ci-cleanup');
+      ciMonitor.cleanup('ci-cleanup');
     });
   });
 
-  describe('Integration with Global Test Utilities': any, (: any) => {
-    it('should work with global memory utilities': any, (: any) => {
+  describe('Integration with Global Test Utilities', () => {
+    it('should work with global memory utilities', () => {
       // Test global memory checking utility
-      const memoryUsage: any = global?.testUtils.checkMemory();
+      const memoryUsage: any = global.testUtils.checkMemory();
 
       expect(memoryUsage).toBeDefined();
-      expect(memoryUsage?.heapUsed).toMatch(/\d+\.\d+MB/);
-      expect(memoryUsage?.heapTotal).toMatch(/\d+\.\d+MB/);
+      expect(memoryUsage.heapUsed).toMatch(/\d+\.\d+MB/);
+      expect(memoryUsage.heapTotal).toMatch(/\d+\.\d+MB/);
     });
 
-    it('should work with global cleanup utility': any, (: any) => {
-      const cleanupResult: any = global?.testUtils.cleanupMemory();
+    it('should work with global cleanup utility', () => {
+      const cleanupResult: any = global.testUtils.cleanupMemory();
 
       // Should not throw and should return some result
       expect(cleanupResult).toBeDefined();
     });
 
-    it('should work with global garbage collection utility': any, (: any) => {
-      if (global?.forceGC) {
-        const gcResult: any = global?.forceGC();
-        expect(typeof gcResult as any).toBe('boolean');
+    it('should work with global garbage collection utility', () => {
+      if (global.forceGC) {
+        const gcResult: any = global.forceGC();
+        expect(typeof gcResult).toBe('boolean');
       }
     });
   });
 
-  describe('Memory Thresholds and Limits': any, (: any) => {
-    it('should respect custom memory thresholds': any, (: any) => {
+  describe('Memory Thresholds and Limits', () => {
+    it('should respect custom memory thresholds', () => {
       const customMonitor: any = new TestMemoryMonitor({
         heapUsed: 25 * 1024 * 1024, // 25MB
         heapTotal: 100 * 1024 * 1024, // 100MB
@@ -226,44 +226,44 @@ describe('TestMemoryMonitor': any, (: any) => {
         rss: 150 * 1024 * 1024, // 150MB
       });
 
-      const result: any = customMonitor?.checkMemoryUsage('custom-threshold-test');
+      const result: any = customMonitor.checkMemoryUsage('custom-threshold-test');
 
       expect(result).toBeDefined();
 
-      customMonitor?.cleanup('custom-cleanup');
+      customMonitor.cleanup('custom-cleanup');
     });
 
-    it('should handle edge cases in memory calculations': any, (: any) => {
+    it('should handle edge cases in memory calculations', () => {
       // Test with zero or negative values (shouldn't happen in practice)
-      const snapshot: any = monitor?.takeSnapshot('edge-case-test');
+      const snapshot: any = monitor.takeSnapshot('edge-case-test');
 
-      expect(snapshot?.heapUsed).toBeGreaterThan(0);
-      expect(snapshot?.heapTotal).toBeGreaterThan(0);
+      expect(snapshot.heapUsed).toBeGreaterThan(0);
+      expect(snapshot.heapTotal).toBeGreaterThan(0);
     });
   });
 
-  describe('Error Handling': any, (: any) => {
-    it('should handle errors gracefully during cleanup': any, (: any) => {
+  describe('Error Handling', () => {
+    it('should handle errors gracefully during cleanup', () => {
       // This test ensures the monitor doesn't crash on cleanup errors
-      expect((: any) => {
-        monitor?.cleanup('error-handling-test');
-      }).not?.toThrow();
+      expect(() => {
+        monitor.cleanup('error-handling-test');
+      }).not.toThrow();
     });
 
-    it('should handle missing global?.gc gracefully': any, (: any) => {
-      // Temporarily remove global?.gc if it exists
-      const originalGC: any = global?.gc;
+    it('should handle missing global.gc gracefully', () => {
+      // Temporarily remove global.gc if it exists
+      const originalGC: any = global.gc;
 
       try {
         // Set gc to undefined instead of deleting
         (global as any).gc = undefined;
 
-        const cleanupResult: any = monitor?.cleanup('no-gc-test');
-        expect(cleanupResult?.success as any).toBe(true);
+        const cleanupResult: any = monitor.cleanup('no-gc-test');
+        expect(cleanupResult.success).toBe(true);
       } finally {
-        // Restore global?.gc if it existed
+        // Restore global.gc if it existed
         if (originalGC != null) {
-          global?.gc = originalGC;
+          global.gc = originalGC;
         }
       }
     });
@@ -271,32 +271,32 @@ describe('TestMemoryMonitor': any, (: any) => {
 });
 
 // Integration test for memory management setup
-describe('Memory Management Integration': any, (: any) => {
-  it('should have memory management utilities available globally': any, (: any) => {
-    expect(global?.testUtils).toBeDefined();
-    expect(global?.testUtils.checkMemory).toBeDefined();
-    expect(global?.testUtils.cleanupMemory).toBeDefined();
+describe('Memory Management Integration', () => {
+  it('should have memory management utilities available globally', () => {
+    expect(global.testUtils).toBeDefined();
+    expect(global.testUtils.checkMemory).toBeDefined();
+    expect(global.testUtils.cleanupMemory).toBeDefined();
   });
 
-  it('should track memory usage across test execution': any, (: any) => {
-    const initialMemory: any = global?.testUtils.checkMemory();
+  it('should track memory usage across test execution', () => {
+    const initialMemory: any = global.testUtils.checkMemory();
 
     // Simulate some memory allocation
     const testData: any = new Array(1000).fill('test');
 
-    const afterAllocationMemory: any = global?.testUtils.checkMemory();
+    const afterAllocationMemory: any = global.testUtils.checkMemory();
 
     // Clean up
-    testData?.length = 0;
-    global?.testUtils.cleanupMemory();
+    testData.length = 0;
+    global.testUtils.cleanupMemory();
 
     expect(initialMemory).toBeDefined();
     expect(afterAllocationMemory).toBeDefined();
   });
 
-  it('should handle memory cleanup without errors': any, (: any) => {
-    expect((: any) => {
-      global?.testUtils.cleanupMemory();
-    }).not?.toThrow();
+  it('should handle memory cleanup without errors', () => {
+    expect(() => {
+      global.testUtils.cleanupMemory();
+    }).not.toThrow();
   });
 });

@@ -282,14 +282,8 @@ export function sortByAlchemicalCompatibility(
   if (!targetElementalProperties) {
     // ✅ Pattern MM-1: Safe type assertion for transformation score comparison
     return (items || []).sort((a, b) => {
-      const scoreB = Number(
-        ((b as unknown as any).transformations as any)
-          .score || 0,
-      );
-      const scoreA = Number(
-        ((a as unknown as any).transformations as any)
-          .score || 0,
-      );
+      const scoreB = Number(((b as unknown as any).transformations as any).score || 0);
+      const scoreA = Number(((a as unknown as any).transformations as any).score || 0);
       return scoreB - scoreA;
     });
   }
@@ -488,12 +482,16 @@ function calculateAlchemicalProperties(
   };
 
   // Base contributions from elemental properties
-  alchemicalProps.Spirit += ((elementalProperties as any)?.Fire || 0) * 0.2 + ((elementalProperties as any)?.Air || 0) * 0.2;
+  alchemicalProps.Spirit +=
+    ((elementalProperties as any)?.Fire || 0) * 0.2 +
+    ((elementalProperties as any)?.Air || 0) * 0.2;
   alchemicalProps.Essence +=
     ((elementalProperties as any)?.Water || 0) * 0.2 +
     ((elementalProperties as any)?.Fire || 0) * 0.2 +
     ((elementalProperties as any)?.Air || 0) * 0.2;
-  alchemicalProps.Matter += ((elementalProperties as any)?.Earth || 0) * 0.2 + ((elementalProperties as any)?.Water || 0) * 0.2;
+  alchemicalProps.Matter +=
+    ((elementalProperties as any)?.Earth || 0) * 0.2 +
+    ((elementalProperties as any)?.Water || 0) * 0.2;
   alchemicalProps.Substance +=
     ((elementalProperties as any)?.Earth || 0) * 0.2 +
     ((elementalProperties as any)?.Water || 0) * 0.2 +
@@ -574,9 +572,7 @@ function calculateCompatibilityScore(
   });
 
   // ✅ Pattern MM-1: Safe property access for transformation score
-  score +=
-    ((((item as unknown as any).transformations as any)
-      .score as number) || 0.5) * 0.4;
+  score += ((((item as unknown as any).transformations as any).score as number) || 0.5) * 0.4;
   totalWeight += 0.4;
 
   return totalWeight > 0 ? score / totalWeight : 0;

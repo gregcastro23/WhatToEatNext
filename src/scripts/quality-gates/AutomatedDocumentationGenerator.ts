@@ -28,7 +28,7 @@ enum AnyTypeCategory {
   CONFIGURATION = 'configuration',
   LIBRARY_COMPATIBILITY = 'library_compatibility',
   TEMPORARY_MIGRATION = 'temporary_migration',
-  UNKNOWN = 'unknown'
+  UNKNOWN = 'unknown',
 }
 
 interface DocumentationTemplate {
@@ -50,48 +50,76 @@ class AutomatedDocumentationGenerator {
       'src/scripts/unintentional-any-elimination/**/*',
       'node_modules/**/*',
       '.next/**/*',
-      'dist/**/*'
+      'dist/**/*',
     ];
 
     this.documentationTemplates = new Map([
-      [AnyTypeCategory.EXTERNAL_API, {
-        category: AnyTypeCategory.EXTERNAL_API,
-        eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
-        explanation: '// External API response with unknown structure',
-        todoComment: '// TODO: Define proper interface after API analysis'
-      }],
-      [AnyTypeCategory.LEGACY_CODE, {
-        category: AnyTypeCategory.LEGACY_CODE,
-        eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
-        explanation: '// Legacy system integration requires flexible typing',
-        todoComment: '// TODO: Replace with proper types during refactoring'
-      }],
-      [AnyTypeCategory.DYNAMIC_CONTENT, {
-        category: AnyTypeCategory.DYNAMIC_CONTENT,
-        eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
-        explanation: '// User-generated content with unknown structure'
-      }],
-      [AnyTypeCategory.TEST_UTILITY, {
-        category: AnyTypeCategory.TEST_UTILITY,
-        eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
-        explanation: '// Test utility requires flexible typing for mocking'
-      }],
-      [AnyTypeCategory.CONFIGURATION, {
-        category: AnyTypeCategory.CONFIGURATION,
-        eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
-        explanation: '// Configuration object with dynamic properties'
-      }],
-      [AnyTypeCategory.LIBRARY_COMPATIBILITY, {
-        category: AnyTypeCategory.LIBRARY_COMPATIBILITY,
-        eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
-        explanation: '// Third-party library requires any type for compatibility'
-      }],
-      [AnyTypeCategory.TEMPORARY_MIGRATION, {
-        category: AnyTypeCategory.TEMPORARY_MIGRATION,
-        eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
-        explanation: '// Temporary any type during code migration',
-        todoComment: '// TODO: Replace with proper interface after migration complete'
-      }]
+      [
+        AnyTypeCategory.EXTERNAL_API,
+        {
+          category: AnyTypeCategory.EXTERNAL_API,
+          eslintComment:
+            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
+          explanation: '// External API response with unknown structure',
+          todoComment: '// TODO: Define proper interface after API analysis',
+        },
+      ],
+      [
+        AnyTypeCategory.LEGACY_CODE,
+        {
+          category: AnyTypeCategory.LEGACY_CODE,
+          eslintComment:
+            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
+          explanation: '// Legacy system integration requires flexible typing',
+          todoComment: '// TODO: Replace with proper types during refactoring',
+        },
+      ],
+      [
+        AnyTypeCategory.DYNAMIC_CONTENT,
+        {
+          category: AnyTypeCategory.DYNAMIC_CONTENT,
+          eslintComment:
+            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
+          explanation: '// User-generated content with unknown structure',
+        },
+      ],
+      [
+        AnyTypeCategory.TEST_UTILITY,
+        {
+          category: AnyTypeCategory.TEST_UTILITY,
+          eslintComment:
+            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
+          explanation: '// Test utility requires flexible typing for mocking',
+        },
+      ],
+      [
+        AnyTypeCategory.CONFIGURATION,
+        {
+          category: AnyTypeCategory.CONFIGURATION,
+          eslintComment:
+            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
+          explanation: '// Configuration object with dynamic properties',
+        },
+      ],
+      [
+        AnyTypeCategory.LIBRARY_COMPATIBILITY,
+        {
+          category: AnyTypeCategory.LIBRARY_COMPATIBILITY,
+          eslintComment:
+            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
+          explanation: '// Third-party library requires any type for compatibility',
+        },
+      ],
+      [
+        AnyTypeCategory.TEMPORARY_MIGRATION,
+        {
+          category: AnyTypeCategory.TEMPORARY_MIGRATION,
+          eslintComment:
+            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
+          explanation: '// Temporary any type during code migration',
+          todoComment: '// TODO: Replace with proper interface after migration complete',
+        },
+      ],
     ]);
   }
 
@@ -101,7 +129,7 @@ class AutomatedDocumentationGenerator {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅'
+      success: '✅',
     }[level];
 
     console.log(`[${timestamp}] ${prefix} ${message}`);
@@ -124,17 +152,23 @@ class AutomatedDocumentationGenerator {
 
     this.log(`📊 Found ${occurrences.length} any type occurrences`, 'info');
     const undocumented = occurrences.filter(occ => !occ.isDocumented);
-    this.log(`📝 ${undocumented.length} require documentation`, undocumented.length > 0 ? 'warn' : 'success');
+    this.log(
+      `📝 ${undocumented.length} require documentation`,
+      undocumented.length > 0 ? 'warn' : 'success',
+    );
 
     return occurrences;
   }
 
   private getTsFiles(): string[] {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
 
       return output.split('\n').filter(file => file.trim() && fs.existsSync(file));
     } catch (error) {
@@ -175,7 +209,7 @@ class AutomatedDocumentationGenerator {
           { pattern: /=\s*any(?=\s*[,;}\]])/g, type: 'assignment' },
           { pattern: /:\s*any\s*=/g, type: 'initialization' },
           { pattern: /Promise<any>/g, type: 'promise' },
-          { pattern: /Array<any>/g, type: 'array_generic' }
+          { pattern: /Array<any>/g, type: 'array_generic' },
         ];
 
         for (const { pattern, type } of anyPatterns) {
@@ -191,7 +225,7 @@ class AutomatedDocumentationGenerator {
               context: `${previousLine}\n${line}\n${nextLine}`,
               isDocumented,
               suggestedDocumentation,
-              category
+              category,
             });
             break; // Only count once per line
           }
@@ -217,15 +251,19 @@ class AutomatedDocumentationGenerator {
       /User.*generated/i,
       /Configuration.*object/i,
       /Test.*utility/i,
-      /Temporary.*migration/i
+      /Temporary.*migration/i,
     ];
 
-    return documentationPatterns.some(pattern =>
-      pattern.test(previousLine) || pattern.test(currentLine)
+    return documentationPatterns.some(
+      pattern => pattern.test(previousLine) || pattern.test(currentLine),
     );
   }
 
-  private categorizeAnyType(filePath: string, line: string, context: { previousLine: string; nextLine: string }): AnyTypeCategory {
+  private categorizeAnyType(
+    filePath: string,
+    line: string,
+    context: { previousLine: string; nextLine: string },
+  ): AnyTypeCategory {
     const { previousLine, nextLine } = context;
     const fullContext = `${previousLine} ${line} ${nextLine}`.toLowerCase();
 
@@ -267,7 +305,9 @@ class AutomatedDocumentationGenerator {
   }
 
   private generateDocumentation(category: AnyTypeCategory, anyType: string): string {
-    const template = this.documentationTemplates.get(category) || this.documentationTemplates.get(AnyTypeCategory.UNKNOWN)!;
+    const template =
+      this.documentationTemplates.get(category) ||
+      this.documentationTemplates.get(AnyTypeCategory.UNKNOWN)!;
 
     let documentation = template.eslintComment;
 
@@ -317,7 +357,10 @@ class AutomatedDocumentationGenerator {
 
       // Write the modified content back
       fs.writeFileSync(filePath, lines.join('\n'));
-      this.log(`✅ Added documentation to ${undocumented.length} any types in ${filePath}`, 'success');
+      this.log(
+        `✅ Added documentation to ${undocumented.length} any types in ${filePath}`,
+        'success',
+      );
 
       return undocumented.length;
     } catch (error) {
@@ -359,7 +402,10 @@ class AutomatedDocumentationGenerator {
     if (dryRun) {
       this.log(`📊 Dry run completed: ${totalDocumented} any types would be documented`, 'info');
     } else {
-      this.log(`✅ Documentation generation completed: ${totalDocumented} any types documented`, 'success');
+      this.log(
+        `✅ Documentation generation completed: ${totalDocumented} any types documented`,
+        'success',
+      );
     }
 
     // Generate summary report
@@ -370,7 +416,8 @@ class AutomatedDocumentationGenerator {
     const totalOccurrences = occurrences.length;
     const documented = occurrences.filter(occ => occ.isDocumented).length;
     const undocumented = totalOccurrences - documented;
-    const coveragePercent = totalOccurrences > 0 ? (documented / totalOccurrences * 100).toFixed(1) : '100.0';
+    const coveragePercent =
+      totalOccurrences > 0 ? ((documented / totalOccurrences) * 100).toFixed(1) : '100.0';
 
     // Category breakdown
     const categoryBreakdown = new Map<AnyTypeCategory, { total: number; documented: number }>();
@@ -396,33 +443,44 @@ class AutomatedDocumentationGenerator {
 
 ## Category Breakdown
 
-${Array.from(categoryBreakdown.entries()).map(([category, stats]) => {
-  const categoryPercent = stats.total > 0 ? (stats.documented / stats.total * 100).toFixed(1) : '0.0';
-  return `### ${category.replace(/_/g, ' ').toUpperCase()}
+${Array.from(categoryBreakdown.entries())
+  .map(([category, stats]) => {
+    const categoryPercent =
+      stats.total > 0 ? ((stats.documented / stats.total) * 100).toFixed(1) : '0.0';
+    return `### ${category.replace(/_/g, ' ').toUpperCase()}
 - Total: ${stats.total}
 - Documented: ${stats.documented}
 - Coverage: ${categoryPercent}%`;
-}).join('\n\n')}
+  })
+  .join('\n\n')}
 
 ## Documentation Templates
 
-${Array.from(this.documentationTemplates.entries()).map(([category, template]) => `
+${Array.from(this.documentationTemplates.entries())
+  .map(
+    ([category, template]) => `
 ### ${category.replace(/_/g, ' ').toUpperCase()}
 \`\`\`typescript
 ${template.eslintComment}
 ${template.explanation}
 ${template.todoComment || ''}
 \`\`\`
-`).join('\n')}
+`,
+  )
+  .join('\n')}
 
 ## Recommendations
 
-${undocumented > 0 ? `
+${
+  undocumented > 0
+    ? `
 ### Immediate Actions Required
 - Document ${undocumented} remaining any types
 - Run: \`node src/scripts/quality-gates/AutomatedDocumentationGenerator.ts generate\`
 - Review and customize generated documentation as needed
-` : ''}
+`
+    : ''
+}
 
 ### Best Practices
 1. Always document intentional any types with explanatory comments
@@ -449,7 +507,10 @@ Generated: ${new Date().toISOString()}
     const occurrences = await this.findUndocumentedAnyTypes();
     const undocumented = occurrences.filter(occ => !occ.isDocumented);
     const totalOccurrences = occurrences.length;
-    const coveragePercent = totalOccurrences > 0 ? ((totalOccurrences - undocumented.length) / totalOccurrences * 100) : 100;
+    const coveragePercent =
+      totalOccurrences > 0
+        ? ((totalOccurrences - undocumented.length) / totalOccurrences) * 100
+        : 100;
 
     this.log(`📊 Documentation Coverage: ${coveragePercent.toFixed(1)}%`, 'info');
 
@@ -473,10 +534,13 @@ if (require.main === module) {
 
   switch (command) {
     case 'scan':
-      generator.findUndocumentedAnyTypes()
+      generator
+        .findUndocumentedAnyTypes()
         .then(occurrences => {
           const undocumented = occurrences.filter(occ => !occ.isDocumented);
-          console.log(`📊 Found ${occurrences.length} any types, ${undocumented.length} undocumented`);
+          console.log(
+            `📊 Found ${occurrences.length} any types, ${undocumented.length} undocumented`,
+          );
           process.exit(0);
         })
         .catch(error => {
@@ -487,7 +551,8 @@ if (require.main === module) {
 
     case 'generate':
       const dryRun = process.argv.includes('--dry-run');
-      generator.generateDocumentationForAll(dryRun)
+      generator
+        .generateDocumentationForAll(dryRun)
         .then(() => {
           console.log('✅ Documentation generation completed');
           process.exit(0);
@@ -499,7 +564,8 @@ if (require.main === module) {
       break;
 
     case 'validate':
-      generator.validateDocumentation()
+      generator
+        .validateDocumentation()
         .then(isValid => {
           process.exit(isValid ? 0 : 1);
         })
@@ -510,7 +576,8 @@ if (require.main === module) {
       break;
 
     case 'report':
-      generator.findUndocumentedAnyTypes()
+      generator
+        .findUndocumentedAnyTypes()
         .then(occurrences => generator.generateDocumentationReport(occurrences))
         .then(() => {
           console.log('✅ Documentation report generated');

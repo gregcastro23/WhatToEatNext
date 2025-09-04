@@ -266,8 +266,7 @@ export class DirectRecipeService {
    * Calculate elemental compatibility score
    */
   private calculateElementalScore(recipe: Recipe, alignment: CelestialAlignment): number {
-    const recipeElementalState =
-      (recipe as any).elementalState || recipe.elementalProperties;
+    const recipeElementalState = (recipe as any).elementalState || recipe.elementalProperties;
     if (!recipeElementalState) return 0.5;
 
     return calculateElementalCompatibility(

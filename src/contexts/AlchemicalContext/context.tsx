@@ -2,7 +2,7 @@
 
 import { createContext } from 'react';
 
-import { AlchemicalState, AlchemicalContextType, PlanetaryPositionsType } from './types';
+import { AlchemicalState, AlchemicalContextType } from './types';
 
 // Define default state
 export const defaultState: AlchemicalState = {

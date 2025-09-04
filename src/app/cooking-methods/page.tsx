@@ -7,12 +7,12 @@ import { useEffect, useState } from 'react';
 // Use the existing demo component as a stand-in for the shared section
 import { CookingMethodsSection } from '@/app/test/migrated-components/cooking-methods-section/page';
 import {
-    dryCookingMethods,
-    molecularCookingMethods,
-    rawCookingMethods,
-    traditionalCookingMethods,
-    transformationMethods,
-    wetCookingMethods,
+  dryCookingMethods,
+  molecularCookingMethods,
+  rawCookingMethods,
+  traditionalCookingMethods,
+  transformationMethods,
+  wetCookingMethods,
 } from '@/data/cooking/methods';
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
@@ -86,24 +86,20 @@ export default function CookingMethodsPage() {
               Air: 0.5,
             },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
-          duration: (method as any).time_range ||
-            (method as any).duration || { min: 10, max: 30 },
+          duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
           suitable_for: (method as any).suitable_for || [],
           benefits: (method as any).benefits || [],
           // Create variations if they exist
           variations: (method as any).variations
             ? Array.isArray((method as any).variations)
-              ? ((method as any).variations as string[]).map(
-                  (v: string, i: number) => ({
-                    id: `${key}_var_${i}`,
-                    name: v,
-                    description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
-                    elementalEffect:
-                      (method as any).elementalEffect ||
-                      (method as any).elementalProperties,
-                    score: Math.random() * 0.3 + 0.6,
-                  }),
-                )
+              ? ((method as any).variations as string[]).map((v: string, i: number) => ({
+                  id: `${key}_var_${i}`,
+                  name: v,
+                  description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
+                  elementalEffect:
+                    (method as any).elementalEffect || (method as any).elementalProperties,
+                  score: Math.random() * 0.3 + 0.6,
+                }))
               : []
             : [],
         };

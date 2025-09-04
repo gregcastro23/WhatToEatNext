@@ -206,7 +206,7 @@ export const braising: CookingMethodData = {
     heat: 0.55, // Moderate heat with liquid limiting max temperature
     entropy: 0.75, // High breakdown of collagen and tough structures
     reactivity: 0.6, // Good flavor development and Maillard from initial sear
-    gregsEnergy: -14.350 // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: -14.35, // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata

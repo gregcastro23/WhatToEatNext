@@ -5,10 +5,10 @@
  */
 
 import type {
-    AstrologicalState,
-    CookingMethod,
-    ElementalProperties,
-    Season,
+  AstrologicalState,
+  CookingMethod,
+  ElementalProperties,
+  Season,
 } from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
@@ -101,17 +101,21 @@ export interface CookingState {
 }
 
 import {
-    dryCookingMethods,
-    molecularCookingMethods,
-    rawCookingMethods,
-    traditionalCookingMethods,
-    wetCookingMethods,
+  dryCookingMethods,
+  molecularCookingMethods,
+  rawCookingMethods,
+  traditionalCookingMethods,
+  wetCookingMethods,
 } from './methods';
 
 // Re-export everything
 export {
-    allCookingMethods,
-    dryCookingMethods, molecularCookingMethods, rawCookingMethods, traditionalCookingMethods, wetCookingMethods
+  allCookingMethods,
+  dryCookingMethods,
+  molecularCookingMethods,
+  rawCookingMethods,
+  traditionalCookingMethods,
+  wetCookingMethods,
 };
 
 /**

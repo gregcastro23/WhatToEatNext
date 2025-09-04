@@ -3,11 +3,7 @@ import { EventEmitter } from 'events';
 import * as fs from 'fs';
 import * as path from 'path';
 import { AnalysisTools } from './AnalysisTools';
-import {
-    AnalysisReport,
-    TrendingData,
-    UnintentionalAnyProgress
-} from './types';
+import { AnalysisReport, TrendingData, UnintentionalAnyProgress } from './types';
 
 /**
  * Real-time progress monitoring and alerting system
@@ -31,7 +27,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       classificationAccuracyThreshold: 80,
       safetyEventThreshold: 5,
       progressStallThreshold: 24, // hours
-      ...alertThresholds
+      ...alertThresholds,
     };
 
     this.loadAlertHistory();
@@ -54,22 +50,25 @@ export class ProgressMonitoringSystem extends EventEmitter {
     this.updateDashboard();
 
     // Set up periodic updates
-    this.monitoringInterval = setInterval(async () => {
-      try {
-        await this.updateDashboard();
-        await this.checkAlertConditions();
-        await this.monitorBuildStability();
-      } catch (error) {
-        console.error('Error during monitoring update:', error);
-        this.emitAlert({
-          type: 'system_error',
-          severity: 'high',
-          message: `Monitoring system error: ${error.message}`,
-          timestamp: new Date(),
-          data: { error: error.message }
-        });
-      }
-    }, intervalMinutes * 60 * 1000);
+    this.monitoringInterval = setInterval(
+      async () => {
+        try {
+          await this.updateDashboard();
+          await this.checkAlertConditions();
+          await this.monitorBuildStability();
+        } catch (error) {
+          console.error('Error during monitoring update:', error);
+          this.emitAlert({
+            type: 'system_error',
+            severity: 'high',
+            message: `Monitoring system error: ${error.message}`,
+            timestamp: new Date(),
+            data: { error: error.message },
+          });
+        }
+      },
+      intervalMinutes * 60 * 1000,
+    );
 
     this.emit('monitoring_started', { intervalMinutes });
   }
@@ -113,11 +112,19 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
       const progress: UnintentionalAnyProgress = {
         totalAnyTypes: currentReport.domainDistribution?.totalAnyTypes || 0,
-        classifiedIntentional: currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
-        classifiedUnintentional: currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
-        successfulReplacements: Math.floor((currentReport.summary?.currentSuccessRate || 0) * (currentReport.summary?.totalAnyTypes || 0) / 100),
-        documentedIntentional: currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
-        remainingUnintentional: currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
+        classifiedIntentional:
+          currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
+        classifiedUnintentional:
+          currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
+        successfulReplacements: Math.floor(
+          ((currentReport.summary?.currentSuccessRate || 0) *
+            (currentReport.summary?.totalAnyTypes || 0)) /
+            100,
+        ),
+        documentedIntentional:
+          currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
+        remainingUnintentional:
+          currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
         reductionPercentage: this.calculateReductionPercentage(currentReport),
         targetReductionPercentage: 20, // Target 20% reduction
         batchesCompleted: this.getBatchesCompleted(),
@@ -128,7 +135,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         warningsFixed: 0,
         filesProcessed: 0,
         buildStable: buildStability.isStable,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       return progress;
@@ -151,7 +158,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         warningsFixed: 0,
         filesProcessed: 0,
         buildStable: buildStability.isStable,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
     }
   }
@@ -180,8 +187,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         data: {
           buildTime: stability.buildTime,
           errorCount: stability.errorCount,
-          errorMessage: stability.errorMessage
-        }
+          errorMessage: stability.errorMessage,
+        },
       });
     }
 
@@ -198,8 +205,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         timestamp: new Date(),
         data: {
           failureCount: recentFailures.length,
-          threshold: this.alertThresholds.buildFailureThreshold
-        }
+          threshold: this.alertThresholds.buildFailureThreshold,
+        },
       });
     }
 
@@ -222,13 +229,16 @@ export class ProgressMonitoringSystem extends EventEmitter {
         timestamp: currentTime,
         data: {
           currentRate: progress.averageSuccessRate,
-          threshold: this.alertThresholds.successRateThreshold
-        }
+          threshold: this.alertThresholds.successRateThreshold,
+        },
       });
     }
 
     // Check classification accuracy
-    if (this.dashboardData?.accuracyReport.overallAccuracy < this.alertThresholds.classificationAccuracyThreshold) {
+    if (
+      this.dashboardData?.accuracyReport.overallAccuracy <
+      this.alertThresholds.classificationAccuracyThreshold
+    ) {
       this.emitAlert({
         type: 'low_classification_accuracy',
         severity: 'medium',
@@ -236,15 +246,16 @@ export class ProgressMonitoringSystem extends EventEmitter {
         timestamp: currentTime,
         data: {
           currentAccuracy: this.dashboardData.accuracyReport.overallAccuracy,
-          threshold: this.alertThresholds.classificationAccuracyThreshold
-        }
+          threshold: this.alertThresholds.classificationAccuracyThreshold,
+        },
       });
     }
 
     // Check for progress stall
     const lastProgressUpdate = this.getLastProgressUpdate();
     if (lastProgressUpdate) {
-      const hoursSinceUpdate = (currentTime.getTime() - lastProgressUpdate.getTime()) / (1000 * 60 * 60);
+      const hoursSinceUpdate =
+        (currentTime.getTime() - lastProgressUpdate.getTime()) / (1000 * 60 * 60);
       if (hoursSinceUpdate > this.alertThresholds.progressStallThreshold) {
         this.emitAlert({
           type: 'progress_stall',
@@ -254,8 +265,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
           data: {
             hoursSinceUpdate,
             threshold: this.alertThresholds.progressStallThreshold,
-            lastUpdate: lastProgressUpdate
-          }
+            lastUpdate: lastProgressUpdate,
+          },
         });
       }
     }
@@ -271,8 +282,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         data: {
           eventCount: recentSafetyEvents.length,
           threshold: this.alertThresholds.safetyEventThreshold,
-          events: recentSafetyEvents
-        }
+          events: recentSafetyEvents,
+        },
       });
     }
   }
@@ -291,8 +302,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
       data: {
         safetyEvent: event,
         action: event.action,
-        affectedFiles: event.affectedFiles || []
-      }
+        affectedFiles: event.affectedFiles || [],
+      },
     });
 
     // If it's a critical safety event, consider stopping monitoring temporarily
@@ -347,14 +358,10 @@ export class ProgressMonitoringSystem extends EventEmitter {
     try {
       console.log('Updating dashboard data...');
 
-      const [
-        analysisReport,
-        progressMetrics,
-        buildStability
-      ] = await Promise.all([
+      const [analysisReport, progressMetrics, buildStability] = await Promise.all([
         this.analysisTools.generateComprehensiveReport(),
         this.getProgressMetrics(),
-        this.getCurrentBuildStability()
+        this.getCurrentBuildStability(),
       ]);
 
       this.dashboardData = {
@@ -368,10 +375,10 @@ export class ProgressMonitoringSystem extends EventEmitter {
           highAlerts: this.alertHistory.filter(a => a.severity === 'high').length,
           mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,
           lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,
-          recentAlerts: this.getRecentAlerts(24) // Last 24 hours
+          recentAlerts: this.getRecentAlerts(24), // Last 24 hours
         },
         trendingData: this.calculateTrendingData(),
-        systemHealth: this.calculateSystemHealth()
+        systemHealth: this.calculateSystemHealth(),
       };
 
       this.emit('dashboard_updated', this.dashboardData);
@@ -388,7 +395,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       // Run TypeScript compilation check
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000, // 30 second timeout
       });
 
       const buildTime = Date.now() - startTime;
@@ -398,7 +405,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         isStable: true,
         buildTime,
         errorCount: 0,
-        errorMessage: null
+        errorMessage: null,
       };
     } catch (error) {
       const buildTime = Date.now() - startTime;
@@ -410,7 +417,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         isStable: false,
         buildTime,
         errorCount,
-        errorMessage: errorOutput.substring(0, 500) // Limit error message length
+        errorMessage: errorOutput.substring(0, 500), // Limit error message length
       };
     }
   }
@@ -426,7 +433,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
     // Calculate reduction from baseline (would need historical baseline data)
     // For now, use a simple calculation based on intentional vs unintentional ratio
     const total = report.domainDistribution.totalAnyTypes;
-    const unintentional = report.domainDistribution.intentionalVsUnintentional?.unintentional?.count || 0;
+    const unintentional =
+      report.domainDistribution.intentionalVsUnintentional?.unintentional?.count || 0;
 
     if (total === 0) return 0;
 
@@ -445,7 +453,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     // Check if this is a duplicate alert (same type within last hour)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
     const recentSimilarAlerts = this.alertHistory.filter(
-      a => a.type === alert.type && a.timestamp > oneHourAgo
+      a => a.type === alert.type && a.timestamp > oneHourAgo,
     );
 
     // Only emit if no similar alert in the last hour
@@ -494,7 +502,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         successRate: 75 + Math.random() * 15, // 75-90%
         totalAnyTypes: 1800 - i * 20 + Math.random() * 10,
         unintentionalCount: 1200 - i * 15 + Math.random() * 8,
-        classificationAccuracy: 80 + Math.random() * 15 // 80-95%
+        classificationAccuracy: 80 + Math.random() * 15, // 80-95%
       });
     }
 
@@ -522,18 +530,25 @@ export class ProgressMonitoringSystem extends EventEmitter {
       score: healthScore,
       status,
       lastCheck: new Date(),
-      issues: recentAlerts.filter(a => a.severity === 'critical' || a.severity === 'high').map(a => a.message)
+      issues: recentAlerts
+        .filter(a => a.severity === 'critical' || a.severity === 'high')
+        .map(a => a.message),
     };
   }
 
   private loadAlertHistory(): void {
     try {
-      const historyPath = path.join(process.cwd(), '.kiro', 'campaign-reports', 'alert-history.json');
+      const historyPath = path.join(
+        process.cwd(),
+        '.kiro',
+        'campaign-reports',
+        'alert-history.json',
+      );
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
         this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({
           ...alert,
-          timestamp: new Date(alert.timestamp)
+          timestamp: new Date(alert.timestamp),
         }));
       }
     } catch (error) {
@@ -558,12 +573,17 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private loadBuildStabilityHistory(): void {
     try {
-      const historyPath = path.join(process.cwd(), '.kiro', 'campaign-reports', 'build-stability-history.json');
+      const historyPath = path.join(
+        process.cwd(),
+        '.kiro',
+        'campaign-reports',
+        'build-stability-history.json',
+      );
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
         this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({
           ...record,
-          timestamp: new Date(record.timestamp)
+          timestamp: new Date(record.timestamp),
         }));
       }
     } catch (error) {

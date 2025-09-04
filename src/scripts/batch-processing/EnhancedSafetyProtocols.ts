@@ -66,7 +66,7 @@ export class EnhancedSafetyProtocols {
       requireManualReview: true,
       enhancedValidation: true,
       createDetailedBackups: true,
-      ...config
+      ...config,
     };
   }
 
@@ -145,7 +145,7 @@ export class EnhancedSafetyProtocols {
       requiresEnhancedValidation,
       recommendedBatchSize,
       riskFactors,
-      mitigationStrategies
+      mitigationStrategies,
     };
   }
 
@@ -158,7 +158,9 @@ export class EnhancedSafetyProtocols {
     // Generate specific review instructions based on risk factors
     if (assessment.riskFactors.includes('Core astrological calculation file')) {
       reviewInstructions.push('Verify that no planetary calculation variables are eliminated');
-      reviewInstructions.push('Ensure elemental property variables (Fire, Water, Earth, Air) are preserved');
+      reviewInstructions.push(
+        'Ensure elemental property variables (Fire, Water, Earth, Air) are preserved',
+      );
       reviewInstructions.push('Check that astronomical data processing remains intact');
     }
 
@@ -183,7 +185,7 @@ export class EnhancedSafetyProtocols {
       unusedVariableCount: assessment.unusedVariableCount,
       riskFactors: assessment.riskFactors,
       reviewInstructions,
-      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30
+      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,
     };
 
     this.manualReviewQueue.push(request);
@@ -199,7 +201,7 @@ export class EnhancedSafetyProtocols {
       errors: [],
       warnings: [],
       recommendations: [],
-      requiresRollback: false
+      requiresRollback: false,
     };
 
     try {
@@ -249,13 +251,12 @@ export class EnhancedSafetyProtocols {
       }
 
       // Store validation history
-    const history = this.validationHistory.get(filePath);
-    if (history) {
-      history.push(result);
-    } else {
-      this.validationHistory.set(filePath, [result]);
-    }
-
+      const history = this.validationHistory.get(filePath);
+      if (history) {
+        history.push(result);
+      } else {
+        this.validationHistory.set(filePath, [result]);
+      }
     } catch (error) {
       result.passed = false;
       result.errors.push(`Enhanced validation failed: ${error}`);
@@ -316,18 +317,24 @@ export class EnhancedSafetyProtocols {
   }
 
   private isCoreCalculationFile(filePath: string): boolean {
-    return /\/src\/calculations\//.test(filePath) ||
-           /\/src\/utils\/.*(?:astrology|astronomy|planetary|elemental)/.test(filePath);
+    return (
+      /\/src\/calculations\//.test(filePath) ||
+      /\/src\/utils\/.*(?:astrology|astronomy|planetary|elemental)/.test(filePath)
+    );
   }
 
   private isServiceLayerFile(filePath: string): boolean {
-    return /\/src\/services\//.test(filePath) ||
-           /Service\.ts$/.test(filePath) ||
-           /Client\.ts$/.test(filePath);
+    return (
+      /\/src\/services\//.test(filePath) ||
+      /Service\.ts$/.test(filePath) ||
+      /Client\.ts$/.test(filePath)
+    );
   }
 
   private isHighImpactUtility(filePath: string): boolean {
-    return /\/src\/utils\/(?:reliableAstronomy|elementalUtils|planetaryConsistencyCheck)/.test(filePath);
+    return /\/src\/utils\/(?:reliableAstronomy|elementalUtils|planetaryConsistencyCheck)/.test(
+      filePath,
+    );
   }
 
   private hasComplexDependencies(filePath: string): boolean {
@@ -335,7 +342,7 @@ export class EnhancedSafetyProtocols {
       const content = fs.readFileSync(filePath, 'utf8');
       const importCount = (content.match(/^import\s+/gm) || []).length;
       const requireCount = (content.match(/require\s*\(/g) || []).length;
-      return (importCount + requireCount) > 10;
+      return importCount + requireCount > 10;
     } catch {
       return false;
     }
@@ -344,7 +351,9 @@ export class EnhancedSafetyProtocols {
   private containsAstrologicalCalculations(filePath: string): boolean {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
-      return /\b(?:planetary|zodiac|astrology|ephemeris|longitude|latitude|degree)\b/i.test(content);
+      return /\b(?:planetary|zodiac|astrology|ephemeris|longitude|latitude|degree)\b/i.test(
+        content,
+      );
     } catch {
       return false;
     }
@@ -361,7 +370,7 @@ export class EnhancedSafetyProtocols {
 
   private escalateRiskLevel(
     currentLevel: FileRiskAssessment['riskLevel'],
-    steps: number = 2
+    steps: number = 2,
   ): FileRiskAssessment['riskLevel'] {
     const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'];
     const currentIndex = levels.indexOf(currentLevel);
@@ -369,27 +378,34 @@ export class EnhancedSafetyProtocols {
     return levels[newIndex];
   }
 
-  private shouldRequireManualReview(unusedVariableCount: number, riskLevel: FileRiskAssessment['riskLevel']): boolean {
+  private shouldRequireManualReview(
+    unusedVariableCount: number,
+    riskLevel: FileRiskAssessment['riskLevel'],
+  ): boolean {
     if (!this.config.requireManualReview) return false;
-    return unusedVariableCount > this.config.maxVariablesAutoProcess ||
-           riskLevel === 'critical' ||
-           riskLevel === 'high';
+    return (
+      unusedVariableCount > this.config.maxVariablesAutoProcess ||
+      riskLevel === 'critical' ||
+      riskLevel === 'high'
+    );
   }
 
   private shouldRequireEnhancedValidation(
     riskLevel: FileRiskAssessment['riskLevel'],
-    fileType: FileRiskAssessment['fileType']
+    fileType: FileRiskAssessment['fileType'],
   ): boolean {
     if (!this.config.enhancedValidation) return false;
-    return riskLevel === 'critical' ||
-           riskLevel === 'high' ||
-           fileType === 'service' ||
-           fileType === 'calculation';
+    return (
+      riskLevel === 'critical' ||
+      riskLevel === 'high' ||
+      fileType === 'service' ||
+      fileType === 'calculation'
+    );
   }
 
   private getRecommendedBatchSize(
     riskLevel: FileRiskAssessment['riskLevel'],
-    fileType: FileRiskAssessment['fileType']
+    fileType: FileRiskAssessment['fileType'],
   ): number {
     if (riskLevel === 'critical' || fileType === 'calculation') {
       return this.config.criticalFileBatchSize;
@@ -407,12 +423,14 @@ export class EnhancedSafetyProtocols {
     } catch (error) {
       return {
         passed: false,
-        errors: [`TypeScript compilation failed: ${error}`]
+        errors: [`TypeScript compilation failed: ${error}`],
       };
     }
   }
 
-  private async validateServiceLayer(filePath: string): Promise<{ passed: boolean; errors: string[]; warnings: string[] }> {
+  private async validateServiceLayer(
+    filePath: string,
+  ): Promise<{ passed: boolean; errors: string[]; warnings: string[] }> {
     const errors: string[] = [];
     const warnings: string[] = [];
 
@@ -426,7 +444,10 @@ export class EnhancedSafetyProtocols {
       }
 
       // Check for error handling patterns
-      if (/catch\s*\(\s*error\s*\)/.test(content) && !/error/.test(content.replace(/catch\s*\(\s*error\s*\)/, ''))) {
+      if (
+        /catch\s*\(\s*error\s*\)/.test(content) &&
+        !/error/.test(content.replace(/catch\s*\(\s*error\s*\)/, ''))
+      ) {
         warnings.push('Error handling variables may have been eliminated');
       }
 
@@ -437,7 +458,9 @@ export class EnhancedSafetyProtocols {
     }
   }
 
-  private async validateCoreCalculations(filePath: string): Promise<{ passed: boolean; errors: string[] }> {
+  private async validateCoreCalculations(
+    filePath: string,
+  ): Promise<{ passed: boolean; errors: string[] }> {
     const errors: string[] = [];
 
     try {
@@ -467,11 +490,11 @@ export class EnhancedSafetyProtocols {
     passed: boolean;
     errors: string[];
     warnings: string[];
-    critical: boolean
+    critical: boolean;
   }> {
     const errors: string[] = [];
     const warnings: string[] = [];
-    let critical = false;
+    const critical = false;
 
     try {
       // Check if the file can still be imported/required
@@ -500,7 +523,9 @@ export class EnhancedSafetyProtocols {
     return this.isCoreCalculationFile(filePath);
   }
 
-  private async validateRuntime(filePath: string): Promise<{ warnings: string[]; recommendations: string[] }> {
+  private async validateRuntime(
+    filePath: string,
+  ): Promise<{ warnings: string[]; recommendations: string[] }> {
     const warnings: string[] = [];
     const recommendations: string[] = [];
 

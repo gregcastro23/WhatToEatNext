@@ -107,10 +107,7 @@ export function cleanupIngredientsDatabase() {
           logger.warn(
             `Added default astrological profile to ${data.name || name || 'unknown ingredient'}`,
           );
-        } else if (
-          !(ingredientWithAstrology.astrologicalProfile as any)
-            .elementalAffinity
-        ) {
+        } else if (!(ingredientWithAstrology.astrologicalProfile as any).elementalAffinity) {
           // Ensure elementalAffinity exists within the profile - safe property access
           const currentElementalProps = data.elementalProperties;
           const dominantElement = currentElementalProps
@@ -120,9 +117,9 @@ export function cleanupIngredientsDatabase() {
               )[0]
             : 'Fire';
 
-          (
-            ingredientWithAstrology.astrologicalProfile as any
-          ).elementalAffinity = { base: dominantElement };
+          (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {
+            base: dominantElement,
+          };
           fixedEntries++;
           logger.warn(
             `Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`,

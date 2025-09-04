@@ -165,7 +165,7 @@ export const stewing: CookingMethodData = {
     heat: 0.35, // Low to moderate heat
     entropy: 0.6, // Significant transformation over time
     reactivity: 0.45, // Moderate chemical reactions
-    gregsEnergy: -0.550 // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata

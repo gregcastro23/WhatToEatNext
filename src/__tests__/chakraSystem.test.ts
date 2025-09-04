@@ -2,7 +2,7 @@ import { calculateSignEnergyStates, SignEnergyState, ZodiacSign } from '../const
 import { ChakraEnergyState, ChakraService } from '../services/ChakraService';
 import { getFoodRecommendationsFromChakras, getZodiacSignFoodRecommendations } from '../utils/chakraFoodUtils';
 
-describe('Chakra System': any, (: any) => {
+describe('Chakra System', () => {
   // Mock planetary positions and aspects
   const mockPlanetaryPositions: any = {
     Sun: { sig, n: 'Leo', degree: 15 },
@@ -13,7 +13,7 @@ describe('Chakra System': any, (: any) => {
     Jupiter: { sig, n: 'Sagittarius', degree: 12 },
     Saturn: { sig, n: 'Capricorn', degree: 25 },
     Uranus: { sig, n: 'Aquarius', degree: 3 },
-    Neptune: { sig, n: 'Pisces', degree: 18 },;
+    Neptune: { sig, n: 'Pisces', degree: 18 },
     Pluto: { sig, n: 'Scorpio', degree: 22 },
   };
 
@@ -27,7 +27,7 @@ describe('Chakra System': any, (: any) => {
   let chakraService: ChakraService;
   let chakraEnergyStates: ChakraEnergyState[];
 
-  beforeAll((: any) => {
+  beforeAll(() => {
     // Calculate sign energy states
     signEnergyStates = calculateSignEnergyStates(mockPlanetaryPositions, mockAspects);
 
@@ -35,34 +35,34 @@ describe('Chakra System': any, (: any) => {
     chakraService = new ChakraService();
 
     // Calculate chakra energy states
-    chakraEnergyStates = chakraService?.calculateChakraEnergyStates(signEnergyStates);
+    chakraEnergyStates = chakraService.calculateChakraEnergyStates(signEnergyStates);
   });
 
-  test('Sign energy states are calculated correctly': any, (: any) => {
+  test('Sign energy states are calculated correctly', () => {
     expect(signEnergyStates).toBeDefined();
-    expect(signEnergyStates?.length as any).toBe(12); // All zodiac signs
+    expect(signEnergyStates.length).toBe(12); // All zodiac signs
 
     // Check that each sign has the required properties
-    signEnergyStates?.forEach(state => {;
+    signEnergyStates.forEach(state => {
       expect(state).toHaveProperty('sign');
       expect(state).toHaveProperty('baseEnergy');
       expect(state).toHaveProperty('planetaryModifiers');
       expect(state).toHaveProperty('currentEnergy');
     });
 
-    // Energy levels should be between 0?.1 and 1?.0
-    signEnergyStates?.forEach(state => {;
-      expect(state?.currentEnergy).toBeGreaterThanOrEqual(0?.1);
-      expect(state?.currentEnergy).toBeLessThanOrEqual(1?.0);
+    // Energy levels should be between 0.1 and 1.0
+    signEnergyStates.forEach(state => {
+      expect(state.currentEnergy).toBeGreaterThanOrEqual(0.1);
+      expect(state.currentEnergy).toBeLessThanOrEqual(1.0);
     });
   });
 
-  test('Chakra energy states are calculated correctly': any, (: any) => {
+  test('Chakra energy states are calculated correctly', () => {
     expect(chakraEnergyStates).toBeDefined();
-    expect(chakraEnergyStates?.length as any).toBe(7); // All chakras
+    expect(chakraEnergyStates.length).toBe(7); // All chakras
 
     // Check that each chakra has the required properties
-    chakraEnergyStates?.forEach(state => {;
+    chakraEnergyStates.forEach(state => {
       expect(state).toHaveProperty('chakra');
       expect(state).toHaveProperty('energyLevel');
       expect(state).toHaveProperty('properties');
@@ -71,11 +71,11 @@ describe('Chakra System': any, (: any) => {
     });
   });
 
-  test('Food recommendations are generated from chakra energy states': any, (: any) => {
+  test('Food recommendations are generated from chakra energy states', () => {
     // Artificially set some chakras to underactive to generate recommendations
-    const modifiedChakraStates: any = chakraEnergyStates?.map(state => ({
+    const modifiedChakraStates: any = chakraEnergyStates.map(state => ({
       ...state,
-      energyLevel: 0?.3, // Set to underactive;
+      energyLevel: 0.3, // Set to underactive;
       balanceState: 'underactive' as const,
     }));
 
@@ -87,11 +87,11 @@ describe('Chakra System': any, (: any) => {
     expect(recommendations).toHaveProperty('balancingMeals');
 
     // At least some recommendations should be present
-    expect(recommendations?.primaryFoods.length).toBeGreaterThan(0);
-    expect(recommendations?.balancingMeals.length).toBeGreaterThan(0);
+    expect(recommendations.primaryFoods.length).toBeGreaterThan(0);
+    expect(recommendations.balancingMeals.length).toBeGreaterThan(0);
   });
 
-  test('Zodiac sign food recommendations': any, (: any) => {
+  test('Zodiac sign food recommendations', () => {
     const zodiacSigns: any[] = [
       'aries',
       'taurus',
@@ -107,26 +107,26 @@ describe('Chakra System': any, (: any) => {
       'pisces',
     ];
 
-    zodiacSigns?.forEach(sign => {;
+    zodiacSigns.forEach(sign => {
       const recommendations: any = getZodiacSignFoodRecommendations(sign);
       expect(recommendations).toBeDefined();
-      expect(Array?.isArray(recommendations)).toBe(true);
-      expect(recommendations?.length).toBeGreaterThan(0);
+      expect(Array.isArray(recommendations)).toBe(true);
+      expect(recommendations.length).toBeGreaterThan(0);
     });
   });
 
-  test('Chakra service provides dietary suggestions': any, (: any) => {
+  test('Chakra service provides dietary suggestions', () => {
     // Artificially set some chakras to underactive to generate recommendations
-    const modifiedChakraStates: any = chakraEnergyStates?.map((state: any, index: any) => ({
+    const modifiedChakraStates: any = chakraEnergyStates.map((state: any, index: any) => ({
       ...state,
-      energyLevel: index % 3 === 0 ? 0?.3 : 0?.6, // Set some to underactive;
+      energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive;
       balanceState: index % 3 === 0 ? ('underactive' as const) : ('balanced' as const),
     }));
 
-    const suggestions: any = chakraService?.suggestDietaryAdjustments(modifiedChakraStates);
+    const suggestions: any = chakraService.suggestDietaryAdjustments(modifiedChakraStates);
 
     expect(suggestions).toBeDefined();
-    expect(Array?.isArray(suggestions)).toBe(true);
-    expect(suggestions?.length).toBeGreaterThan(0);
+    expect(Array.isArray(suggestions)).toBe(true);
+    expect(suggestions.length).toBeGreaterThan(0);
   });
 });

@@ -21,10 +21,10 @@ interface ScoredItem {
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import { log } from '@/services/LoggingService';
 import type {
-    BasicThermodynamicProperties,
-    ElementalProperties,
-    PlanetName,
-    ThermodynamicMetrics,
+  BasicThermodynamicProperties,
+  ElementalProperties,
+  PlanetName,
+  ThermodynamicMetrics,
 } from '@/types/alchemy';
 import type { Season } from '@/types/seasons';
 import { Ingredient } from '@/types/unified';
@@ -39,16 +39,16 @@ interface ErrorWithMessage {
 // Removed unused import: cache
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
 import {
-    calculateElementalCompatibility,
-    createElementalProperties,
+  calculateElementalCompatibility,
+  createElementalProperties,
 } from '../utils/elemental/elementalUtils';
 // Replaced unused logger with enterprise logging service
 
 import type {
-    ElementalFilter,
-    IngredientFilter,
-    IngredientRecommendationOptions,
-    IngredientServiceInterface,
+  ElementalFilter,
+  IngredientFilter,
+  IngredientRecommendationOptions,
+  IngredientServiceInterface,
 } from './interfaces/IngredientServiceInterface';
 
 // Define placeholder types and classes for missing dependencies
@@ -402,7 +402,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Create basic elemental properties from the ingredient's element if available
       if (ingredient.element) {
-        const basicProps = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+        const basicProps = createElementalProperties({
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        });
         const elementKey = ingredient.element.toLowerCase() as keyof ElementalProperties;
 
         if (elementKey in basicProps) {
@@ -608,9 +613,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const energyData = ingredient.energyValues as BasicThermodynamicProperties;
         const { heat, entropy, reactivity } = energyData;
         const gregsEnergy =
-          (energyData as unknown as any).gregsEnergy ||
-          (energyData as unknown as any).energy ||
-          0;
+          (energyData as unknown as any).gregsEnergy || (energyData as unknown as any).energy || 0;
 
         return {
           heat,
@@ -1478,7 +1481,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return {
         name: ingredient.name || 'unknown',
         category: ingredient.category || 'unknown',
-        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
+        elementalProperties: createElementalProperties({
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        }),
         alchemicalProperties: {
           Spirit: 0.25,
           Essence: 0.25,

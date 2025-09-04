@@ -235,7 +235,7 @@ export const roasting: CookingMethodData = {
     heat: 0.75, // High heat application
     entropy: 0.6, // Moderate-high structural transformations
     reactivity: 0.8, // High chemical reactivity (significant Maillard)
-    gregsEnergy: -0.550 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

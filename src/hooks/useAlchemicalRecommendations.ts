@@ -130,7 +130,12 @@ export const useAlchemicalRecommendations = ({
               },
               // Add required properties for alchemicalTransformation.AlchemicalItem
               transformedElementalProperties: (item as any).transformedElementalProperties ||
-                (item as any).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+                (item as any).elementalProperties || {
+                  Fire: 0.25,
+                  Water: 0.25,
+                  Earth: 0.25,
+                  Air: 0.25,
+                },
               heat: (item as any).heat || 0.5,
               entropy: (item as any).entropy || 0.5,
               reactivity: (item as any).reactivity || 0.5,

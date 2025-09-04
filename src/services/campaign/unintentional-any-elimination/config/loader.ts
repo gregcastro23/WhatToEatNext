@@ -54,7 +54,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
  */
 export function createEnvironmentConfigManager(
   environment?: Environment,
-  customConfigPath?: string
+  customConfigPath?: string,
 ): ConfigurationManager {
   const env = environment || getCurrentEnvironment();
   const envConfig = loadEnvironmentConfig(env);
@@ -150,7 +150,7 @@ export function validateEnvironmentConfig(environment: Environment): {
   return {
     isValid: errors.length === 0,
     errors,
-    warnings
+    warnings,
   };
 }
 

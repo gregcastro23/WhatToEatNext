@@ -204,7 +204,11 @@ export class LintingQualityGates {
       warnings: number;
       fixableIssues: number;
     };
-    qualityGates: { passed: boolean; riskLevel: 'low' | 'medium' | 'high' | 'critical'; violationCount: number };
+    qualityGates: {
+      passed: boolean;
+      riskLevel: 'low' | 'medium' | 'high' | 'critical';
+      violationCount: number;
+    };
     blockers: string[];
     recommendations?: string[];
     performance: { executionTime: number; memoryUsage: number; cacheHitRate: number };

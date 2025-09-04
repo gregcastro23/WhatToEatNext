@@ -153,7 +153,9 @@ export class AlgorithmPerformanceValidator {
 
       // Calculate overall metrics
       const overallHitRate =
-        ((tier1Metrics as any)?.hitRate || 0) * 0.2 + ((tier2Metrics as any)?.hitRate || 0) * 0.2 + ((tier3Metrics as any)?.hitRate || 0) * 0.2;
+        ((tier1Metrics as any)?.hitRate || 0) * 0.2 +
+        ((tier2Metrics as any)?.hitRate || 0) * 0.2 +
+        ((tier3Metrics as any)?.hitRate || 0) * 0.2;
 
       const overallResponseTime =
         ((tier1Metrics as any)?.avgResponseTime || 0) * 0.2 +

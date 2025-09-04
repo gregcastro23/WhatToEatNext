@@ -334,9 +334,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         { count: criteria.limit },
       );
       // Transform to standardized result format
-      const items = cuisineRecommendations.map((rec: unknown) =>
-        String((rec as any).name || ''),
-      );
+      const items = cuisineRecommendations.map((rec: unknown) => String((rec as any).name || ''));
       const scores = Object.fromEntries(
         cuisineRecommendations.map((rec: unknown) => {
           const recData = rec as any;

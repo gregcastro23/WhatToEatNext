@@ -826,10 +826,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
       // Check if this element is boosted by tarot
       if (astroState.tarotElementBoosts[dominantElement as any]) {
-        tarotScore = Math.min(
-          1,
-          0.5 + astroState.tarotElementBoosts[dominantElement as any],
-        );
+        tarotScore = Math.min(1, 0.5 + astroState.tarotElementBoosts[dominantElement as any]);
       }
     }
 

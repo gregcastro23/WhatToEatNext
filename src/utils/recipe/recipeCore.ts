@@ -675,11 +675,7 @@ function calculatePlanetaryDayInfluence(
         .map(ingredient => {
           if (typeof ingredient === 'string') {
             return ingredient.toLowerCase();
-          } else if (
-            ingredient &&
-            typeof ingredient === 'object' &&
-            (ingredient as any).name
-          ) {
+          } else if (ingredient && typeof ingredient === 'object' && (ingredient as any).name) {
             return String((ingredient as any).name).toLowerCase();
           }
           return '';

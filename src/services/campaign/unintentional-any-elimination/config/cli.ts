@@ -11,10 +11,10 @@ import { program } from 'commander';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ConfigurationManager, DEFAULT_CONFIG } from './index';
 import {
-    Environment,
-    getCurrentEnvironment,
-    getEnvironmentConfig,
-    validateEnvironmentConfig
+  Environment,
+  getCurrentEnvironment,
+  getEnvironmentConfig,
+  validateEnvironmentConfig,
 } from './loader';
 
 // Initialize configuration manager
@@ -31,7 +31,11 @@ function displayConfig(config: unknown, title: string = 'Configuration'): void {
 /**
  * Display validation results
  */
-function displayValidation(validation: { isValid: boolean; errors: string[]; warnings?: string[] }): void {
+function displayValidation(validation: {
+  isValid: boolean;
+  errors: string[];
+  warnings?: string[];
+}): void {
   if (validation.isValid) {
     console.log('✅ Configuration is valid');
   } else {
@@ -57,7 +61,7 @@ program
   .description('Display current configuration')
   .option('-e, --environment <env>', 'Show environment-specific config', getCurrentEnvironment())
   .option('-s, --section <section>', 'Show specific section (classification|domain|safety|targets)')
-  .action((options) => {
+  .action(options => {
     try {
       if (options.environment !== getCurrentEnvironment()) {
         const envConfig = getEnvironmentConfig(options.environment as Environment);
@@ -88,7 +92,7 @@ program
   .command('validate')
   .description('Validate configuration')
   .option('-e, --environment <env>', 'Validate environment-specific config')
-  .action((options) => {
+  .action(options => {
     try {
       if (options.environment) {
         const validation = validateEnvironmentConfig(options.environment as Environment);
@@ -181,7 +185,7 @@ program
   .command('reset')
   .description('Reset configuration to defaults')
   .option('-c, --confirm', 'Skip confirmation prompt')
-  .action((options) => {
+  .action(options => {
     try {
       if (!options.confirm) {
         console.log('This will reset all configuration to defaults.');

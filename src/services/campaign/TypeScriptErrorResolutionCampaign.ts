@@ -163,9 +163,9 @@ export class TypeScriptErrorResolutionCampaign {
 
       // Trigger rollback if necessary
       if (phase.errorsIntroduced > 10) {
-        await (
-          this.safetyProtocol as { rollback: (checkpoint: string) => Promise<void> }
-        ).rollback(`phase-${phaseId}-start`);
+        await (this.safetyProtocol as { rollback: (checkpoint: string) => Promise<void> }).rollback(
+          `phase-${phaseId}-start`,
+        );
       }
 
       phase.status = 'failed';

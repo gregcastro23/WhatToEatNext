@@ -17,10 +17,7 @@ function isValidObject(value: unknown): value is Record<string, unknown> {
 /**
  * Type guard to check if object has a specific property
  */
-function hasProperty<T extends string>(
-  obj: unknown,
-  prop: T
-): obj is Record<T, unknown> {
+function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj;
 }
 
@@ -481,7 +478,7 @@ export function enhancedSearch(
 
   for (const item of items) {
     if (!isSearchableItem(item)) continue;
-    
+
     let totalScore = 0;
     let matchCount = 0;
 
@@ -535,15 +532,18 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (!isValidObject(item)) return false;
     // Dietary restrictions
     if (filters.dietaryRestrictions.length > 0) {
-      const itemDietary = hasProperty(item, 'dietaryRestrictions') 
-        ? (Array.isArray(item.dietaryRestrictions) ? item.dietaryRestrictions as string[] : [])
+      const itemDietary = hasProperty(item, 'dietaryRestrictions')
+        ? Array.isArray(item.dietaryRestrictions)
+          ? (item.dietaryRestrictions as string[])
+          : []
         : [];
       const itemTags = hasProperty(item, 'tags')
-        ? (Array.isArray(item.tags) ? item.tags as string[] : [])
+        ? Array.isArray(item.tags)
+          ? (item.tags as string[])
+          : []
         : [];
       const hasRequiredDietary = filters.dietaryRestrictions.every(
-        restriction =>
-          itemDietary.includes(restriction) || itemTags.includes(restriction),
+        restriction => itemDietary.includes(restriction) || itemTags.includes(restriction),
       );
       if (!hasRequiredDietary) return false;
     }
@@ -552,11 +552,12 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.difficultyLevel.length > 0) {
       const difficulty = hasProperty(item, 'difficulty') ? item.difficulty : null;
       const difficultyLevel = hasProperty(item, 'difficultyLevel') ? item.difficultyLevel : null;
-      const itemDifficulty = typeof difficulty === 'string' 
-        ? difficulty 
-        : typeof difficultyLevel === 'string' 
-        ? difficultyLevel 
-        : 'medium';
+      const itemDifficulty =
+        typeof difficulty === 'string'
+          ? difficulty
+          : typeof difficultyLevel === 'string'
+            ? difficultyLevel
+            : 'medium';
       if (!filters.difficultyLevel.includes(itemDifficulty.toLowerCase())) return false;
     }
 
@@ -564,11 +565,12 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.cookingTime.min > 0 || filters.cookingTime.max < 480) {
       const cookTimeValue = hasProperty(item, 'cookTime') ? item.cookTime : null;
       const cookingTimeValue = hasProperty(item, 'cookingTime') ? item.cookingTime : null;
-      const timeStr = typeof cookTimeValue === 'string' 
-        ? cookTimeValue 
-        : typeof cookingTimeValue === 'string' 
-        ? cookingTimeValue 
-        : '30';
+      const timeStr =
+        typeof cookTimeValue === 'string'
+          ? cookTimeValue
+          : typeof cookingTimeValue === 'string'
+            ? cookingTimeValue
+            : '30';
       const cookTime = parseInt(timeStr, 10) || 30;
       if (cookTime < filters.cookingTime.min || cookTime > filters.cookingTime.max) return false;
     }
@@ -577,11 +579,9 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.cuisineTypes.length > 0) {
       const cuisine = hasProperty(item, 'cuisine') ? item.cuisine : null;
       const cuisineType = hasProperty(item, 'cuisineType') ? item.cuisineType : null;
-      const itemCuisine = (typeof cuisine === 'string' 
-        ? cuisine 
-        : typeof cuisineType === 'string' 
-        ? cuisineType 
-        : '').toLowerCase();
+      const itemCuisine = (
+        typeof cuisine === 'string' ? cuisine : typeof cuisineType === 'string' ? cuisineType : ''
+      ).toLowerCase();
       if (!filters.cuisineTypes.some(cuisine => itemCuisine.includes(cuisine))) return false;
     }
 
@@ -589,11 +589,9 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.mealTypes.length > 0) {
       const mealType = hasProperty(item, 'mealType') ? item.mealType : null;
       const category = hasProperty(item, 'category') ? item.category : null;
-      const itemMealType = (typeof mealType === 'string' 
-        ? mealType 
-        : typeof category === 'string' 
-        ? category 
-        : '').toLowerCase();
+      const itemMealType = (
+        typeof mealType === 'string' ? mealType : typeof category === 'string' ? category : ''
+      ).toLowerCase();
       if (!filters.mealTypes.some(meal => itemMealType.includes(meal))) return false;
     }
 
@@ -601,11 +599,13 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.spiciness.length > 0) {
       const spiciness = hasProperty(item, 'spiciness') ? item.spiciness : null;
       const spiceLevel = hasProperty(item, 'spiceLevel') ? item.spiceLevel : null;
-      const itemSpiciness = (typeof spiciness === 'string' 
-        ? spiciness 
-        : typeof spiceLevel === 'string' 
-        ? spiceLevel 
-        : 'mild').toLowerCase();
+      const itemSpiciness = (
+        typeof spiciness === 'string'
+          ? spiciness
+          : typeof spiceLevel === 'string'
+            ? spiceLevel
+            : 'mild'
+      ).toLowerCase();
       if (!filters.spiciness.includes(itemSpiciness)) return false;
     }
 

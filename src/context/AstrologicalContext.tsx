@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 
 import alchemicalEngine from '@/calculations/alchemicalEngine';
-import { ZodiacSign, ChakraEnergies } from '@/types/alchemy';
+import { ChakraEnergies } from '@/types/alchemy';
 import { AstrologicalState } from '@/types/celestial';
 import { isChakraEnergies } from '@/utils/typeGuards';
 

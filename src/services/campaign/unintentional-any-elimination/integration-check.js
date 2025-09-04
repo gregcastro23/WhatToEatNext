@@ -18,7 +18,7 @@ try {
     'createUnintentionalAnyCampaignController',
     'UnintentionalAnyIntegrationHelper',
     'UnintentionalAnyProgressTracker',
-    'UnintentionalAnyCampaignScheduler'
+    'UnintentionalAnyCampaignScheduler',
   ];
 
   const missingExports = requiredExports.filter(exp => !integration[exp]);
@@ -36,7 +36,6 @@ try {
   console.log('   ✅ Metrics integration components exported');
 
   console.log('\n🎉 Integration check passed!');
-
 } catch (error) {
   console.error('❌ Integration check failed:', error.message);
   process.exit(1);

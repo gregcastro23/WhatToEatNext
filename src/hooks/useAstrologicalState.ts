@@ -5,9 +5,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { CelestialPosition } from '@/types/celestial';
 import { ZodiacSign, PlanetaryAlignment } from '@/types/common';
-import {
-  longitudeToZodiacPosition,
-} from '@/utils/astrologyUtils';
+import { longitudeToZodiacPosition } from '@/utils/astrologyUtils';
 import { logger } from '@/utils/logger';
 
 // Interface for hook return value
@@ -220,7 +218,9 @@ export function useAstrologicalState(): AstrologyHookData {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
         const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown);
-        const currentZodiac = ((memoizedPlanetaryPositions.sun as unknown)?.sign || '').toLowerCase();
+        const currentZodiac = (
+          (memoizedPlanetaryPositions.sun as unknown)?.sign || ''
+        ).toLowerCase();
 
         logger.debug('Updating astrological state:', {
           currentZodiac,

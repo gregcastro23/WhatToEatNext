@@ -8,18 +8,18 @@ type SafetyLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM';
  */
 
 import {
-    CampaignConfig,
-    CampaignPhase,
-    PhaseResult,
-    ProgressMetrics,
-    SafetyEvent,
-    SafetyEventSeverity,
-    SafetyEventType,
+  CampaignConfig,
+  CampaignPhase,
+  PhaseResult,
+  ProgressMetrics,
+  SafetyEvent,
+  SafetyEventSeverity,
+  SafetyEventType,
 } from '../../types/campaign';
 import {
-    MockCampaignController,
-    MockProgressTracker,
-    MockSafetyProtocol
+  MockCampaignController,
+  MockProgressTracker,
+  MockSafetyProtocol,
 } from '../mocks/CampaignSystemMocks';
 
 import { campaignTestController, CampaignTestController } from './CampaignTestController';

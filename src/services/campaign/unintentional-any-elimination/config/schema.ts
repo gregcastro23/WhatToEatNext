@@ -13,59 +13,75 @@ const AnyTypeCategorySchema = z.nativeEnum(AnyTypeCategory);
 const SafetyLevelSchema = z.nativeEnum(SafetyLevel);
 
 // Classification configuration schema
-export const ClassificationConfigSchema = z.object({
-  intentionalThreshold: z.number().min(0).max(1),
-  unintentionalThreshold: z.number().min(0).max(1),
-  minCommentLength: z.number().min(0),
-  intentionalKeywords: z.array(z.string()),
-  testFilePatterns: z.array(z.string()),
-  categoryDefaults: z.record(AnyTypeCategorySchema, z.number().min(0).max(1))
-}).strict();
+export const ClassificationConfigSchema = z
+  .object({
+    intentionalThreshold: z.number().min(0).max(1),
+    unintentionalThreshold: z.number().min(0).max(1),
+    minCommentLength: z.number().min(0),
+    intentionalKeywords: z.array(z.string()),
+    testFilePatterns: z.array(z.string()),
+    categoryDefaults: z.record(AnyTypeCategorySchema, z.number().min(0).max(1)),
+  })
+  .strict();
 
 // Domain configuration schema
-export const DomainConfigSchema = z.object({
-  typeSuggestions: z.record(z.string(), z.array(z.string())),
-  pathPatterns: z.record(z.string(), z.array(z.string())),
-  contentPatterns: z.record(z.string(), z.array(z.string())),
-  elementalAssociations: z.record(z.string(), z.array(z.string()))
-}).strict();
+export const DomainConfigSchema = z
+  .object({
+    typeSuggestions: z.record(z.string(), z.array(z.string())),
+    pathPatterns: z.record(z.string(), z.array(z.string())),
+    contentPatterns: z.record(z.string(), z.array(z.string())),
+    elementalAssociations: z.record(z.string(), z.array(z.string())),
+  })
+  .strict();
 
 // Safety configuration schema
-export const SafetyConfigSchema = z.object({
-  maxBatchSize: z.number().min(1).max(100),
-  validationFrequency: z.number().min(1),
-  compilationTimeout: z.number().min(1000),
-  maxRollbackAttempts: z.number().min(1).max(10),
-  safetyLevels: z.record(z.string(), SafetyLevelSchema),
-  backupRetentionDays: z.number().min(1).max(365)
-}).strict();
+export const SafetyConfigSchema = z
+  .object({
+    maxBatchSize: z.number().min(1).max(100),
+    validationFrequency: z.number().min(1),
+    compilationTimeout: z.number().min(1000),
+    maxRollbackAttempts: z.number().min(1).max(10),
+    safetyLevels: z.record(z.string(), SafetyLevelSchema),
+    backupRetentionDays: z.number().min(1).max(365),
+  })
+  .strict();
 
 // Target configuration schema
-export const TargetConfigSchema = z.object({
-  targetReductionPercentage: z.number().min(0).max(100),
-  minSuccessRate: z.number().min(0).max(1),
-  maxErrorIncrease: z.number().min(0),
-  trackingIntervals: z.object({
-    metrics: z.number().min(1),
-    reports: z.number().min(0.1),
-    checkpoints: z.number().min(1)
-  }).strict(),
-  milestones: z.array(z.object({
-    name: z.string().min(1),
-    targetReduction: z.number().min(0).max(100),
-    timeframe: z.string().min(1)
-  }).strict())
-}).strict();
+export const TargetConfigSchema = z
+  .object({
+    targetReductionPercentage: z.number().min(0).max(100),
+    minSuccessRate: z.number().min(0).max(1),
+    maxErrorIncrease: z.number().min(0),
+    trackingIntervals: z
+      .object({
+        metrics: z.number().min(1),
+        reports: z.number().min(0.1),
+        checkpoints: z.number().min(1),
+      })
+      .strict(),
+    milestones: z.array(
+      z
+        .object({
+          name: z.string().min(1),
+          targetReduction: z.number().min(0).max(100),
+          timeframe: z.string().min(1),
+        })
+        .strict(),
+    ),
+  })
+  .strict();
 
 // Main configuration schema
-export const UnintentionalAnyConfigSchema = z.object({
-  classification: ClassificationConfigSchema,
-  domain: DomainConfigSchema,
-  safety: SafetyConfigSchema,
-  targets: TargetConfigSchema,
-  version: z.string().min(1),
-  lastUpdated: z.string().datetime()
-}).strict();
+export const UnintentionalAnyConfigSchema = z
+  .object({
+    classification: ClassificationConfigSchema,
+    domain: DomainConfigSchema,
+    safety: SafetyConfigSchema,
+    targets: TargetConfigSchema,
+    version: z.string().min(1),
+    lastUpdated: z.string().datetime(),
+  })
+  .strict();
 
 // Partial schemas for updates
 export const PartialClassificationConfigSchema = ClassificationConfigSchema.partial();
@@ -193,7 +209,9 @@ export function validateBusinessRules(config: z.infer<typeof UnintentionalAnyCon
   const milestones = config.targets.milestones;
   for (let i = 1; i < milestones.length; i++) {
     if (milestones[i].targetReduction <= milestones[i - 1].targetReduction) {
-      errors.push(`Milestone "${milestones[i].name}" has lower or equal target than previous milestone`);
+      errors.push(
+        `Milestone "${milestones[i].name}" has lower or equal target than previous milestone`,
+      );
     }
   }
 
@@ -207,7 +225,7 @@ export function validateBusinessRules(config: z.infer<typeof UnintentionalAnyCon
   return {
     isValid: errors.length === 0,
     errors,
-    warnings
+    warnings,
   };
 }
 
@@ -226,7 +244,7 @@ export function validateCompleteConfig(config: unknown): {
   if (!schemaValidation.isValid) {
     return {
       isValid: false,
-      schemaErrors: schemaValidation.errors
+      schemaErrors: schemaValidation.errors,
     };
   }
 
@@ -237,7 +255,7 @@ export function validateCompleteConfig(config: unknown): {
     isValid: businessValidation.isValid,
     data: schemaValidation.data,
     businessErrors: businessValidation.errors,
-    warnings: businessValidation.warnings
+    warnings: businessValidation.warnings,
   };
 }
 

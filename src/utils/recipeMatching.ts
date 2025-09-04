@@ -137,12 +137,10 @@ export async function findBestMatches(
     // Prioritize seasonal recipes but don't completely exclude off-season ones
     filteredRecipes = filteredRecipes.sort((a, b) => {
       const aIsInSeason = Array.isArray(a.season)
-        ? a.season.includes((matchFilters as any).season as Season) ||
-          a.season.includes('all')
+        ? a.season.includes((matchFilters as any).season as Season) || a.season.includes('all')
         : a.season === (matchFilters as any).season || a.season === 'all';
       const bIsInSeason = Array.isArray(b.season)
-        ? b.season.includes((matchFilters as any).season as Season) ||
-          b.season.includes('all')
+        ? b.season.includes((matchFilters as any).season as Season) || b.season.includes('all')
         : b.season === (matchFilters as any).season || b.season === 'all';
 
       if (aIsInSeason && !bIsInSeason) return -1;
@@ -224,7 +222,12 @@ export async function findBestMatches(
   const matchResults = await Promise.all(
     filteredRecipes.map(async recipe => {
       // Calculate base elemental properties
-      const elements = recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elements = recipe.elementalProperties || {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      };
 
       // Calculate dominant elements
       const dominantElements = Object.entries(elements)
@@ -434,7 +437,12 @@ async function _calculateRecipeEnergyMatch(
   let score = 0.5;
 
   // Get dominant elements for the recipe
-  const recipeElements = recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const recipeElements = recipe.elementalProperties || {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  };
   const recipeDominantElements = Object.entries(recipeElements)
     .map(([element, value]) => [element, value || 0] as [string, number])
     .sort(([, a], [, b]) => b - a);
@@ -477,10 +485,7 @@ async function _calculateRecipeEnergyMatch(
   }
 
   // 4. Calculate seasonal score - check if season exists
-  if (
-    (recipe as any).season &&
-    (currentEnergy as any).season
-  ) {
+  if ((recipe as any).season && (currentEnergy as any).season) {
     const recipeSeason = (recipe as any).season;
     const currentSeason = (currentEnergy as any).season;
 

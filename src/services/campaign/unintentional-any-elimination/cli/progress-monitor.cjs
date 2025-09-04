@@ -361,8 +361,8 @@ async function startMonitoring(options = {}) {
     silent = false
   } = options;
 
-  let history = loadHistory();
-  let alerts = loadAlerts();
+  const history = loadHistory();
+  const alerts = loadAlerts();
 
   console.log('Starting progress monitoring...');
   console.log(`Interval: ${interval} seconds`);

@@ -76,8 +76,8 @@ function createMonitoringConfig(): MonitoringConfig {
       thresholds: {
         errorIncrease: campaignConfig.targets.maxErrorIncrease,
         successRateDecrease: 1 - campaignConfig.targets.minSuccessRate,
-        buildFailureRate: 0.1
-      }
+        buildFailureRate: 0.1,
+      },
     },
     alerts: {
       enabled: true,
@@ -87,9 +87,9 @@ function createMonitoringConfig(): MonitoringConfig {
           name: 'console-alerts',
           config: {
             colors: true,
-            timestamps: true
+            timestamps: true,
           },
-          enabled: true
+          enabled: true,
         },
         {
           type: 'file',
@@ -97,10 +97,10 @@ function createMonitoringConfig(): MonitoringConfig {
           config: {
             path: '.kiro/logs/unintentional-any-alerts.log',
             maxSize: '10MB',
-            rotate: true
+            rotate: true,
           },
-          enabled: true
-        }
+          enabled: true,
+        },
       ],
       conditions: [
         {
@@ -108,42 +108,42 @@ function createMonitoringConfig(): MonitoringConfig {
           description: 'TypeScript error count increased significantly',
           condition: 'typescript_errors > baseline + threshold',
           severity: 'error',
-          enabled: true
+          enabled: true,
         },
         {
           name: 'Low Success Rate',
           description: 'Campaign success rate below minimum threshold',
           condition: 'success_rate < min_success_rate',
           severity: 'warning',
-          enabled: true
+          enabled: true,
         },
         {
           name: 'Build Failure',
           description: 'Build process failed during campaign execution',
           condition: 'build_status == "failed"',
           severity: 'critical',
-          enabled: true
+          enabled: true,
         },
         {
           name: 'Configuration Invalid',
           description: 'Campaign configuration validation failed',
           condition: 'config_valid == false',
           severity: 'error',
-          enabled: true
+          enabled: true,
         },
         {
           name: 'Rollback Triggered',
           description: 'Safety protocol triggered rollback',
           condition: 'rollback_triggered == true',
           severity: 'warning',
-          enabled: true
-        }
-      ]
+          enabled: true,
+        },
+      ],
     },
     logging: {
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       retention: 14,
-      maxFileSize: '50MB'
+      maxFileSize: '50MB',
     },
     healthChecks: {
       enabled: true,
@@ -155,26 +155,33 @@ function createMonitoringConfig(): MonitoringConfig {
           command: 'npm',
           args: ['run', 'build'],
           timeout: 180000,
-          expectedExitCode: 0
+          expectedExitCode: 0,
         },
         {
           name: 'Configuration Health',
           type: 'config',
           command: 'npx',
-          args: ['tsx', 'src/services/campaign/unintentional-any-elimination/config/cli.ts', 'validate'],
+          args: [
+            'tsx',
+            'src/services/campaign/unintentional-any-elimination/config/cli.ts',
+            'validate',
+          ],
           timeout: 30000,
-          expectedExitCode: 0
+          expectedExitCode: 0,
         },
         {
           name: 'Integration Health',
           type: 'integration',
           command: 'npx',
-          args: ['tsx', 'src/services/campaign/unintentional-any-elimination/verify-integration.ts'],
+          args: [
+            'tsx',
+            'src/services/campaign/unintentional-any-elimination/verify-integration.ts',
+          ],
           timeout: 60000,
-          expectedExitCode: 0
-        }
-      ]
-    }
+          expectedExitCode: 0,
+        },
+      ],
+    },
   };
 }
 
@@ -182,12 +189,7 @@ function createMonitoringConfig(): MonitoringConfig {
  * Setup monitoring directories
  */
 function setupMonitoringDirectories(): void {
-  const directories = [
-    '.kiro/logs',
-    '.kiro/metrics',
-    '.kiro/monitoring',
-    '.kiro/alerts'
-  ];
+  const directories = ['.kiro/logs', '.kiro/metrics', '.kiro/monitoring', '.kiro/alerts'];
 
   for (const dir of directories) {
     if (!existsSync(dir)) {
@@ -636,7 +638,6 @@ echo "Monitoring setup complete!"
     console.log('  bash .kiro/monitoring/start-monitoring.sh');
     console.log('\\nTo view dashboard:');
     console.log('  npx tsx .kiro/monitoring/dashboard.ts');
-
   } catch (error) {
     console.error('❌ Failed to setup monitoring:', error);
     process.exit(1);

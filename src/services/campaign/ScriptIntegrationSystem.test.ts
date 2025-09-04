@@ -8,267 +8,267 @@ import fs from 'fs';
 import { ScriptExecutionOptions, ScriptIntegrationSystem } from './ScriptIntegrationSystem';
 
 // Mock fs and execSync
-jest?.mock('fs');
-jest?.mock('child_process');
+jest.mock('fs');
+jest.mock('child_process');
 
-const mockFs: any = fs as jest?.Mocked<typeof fs>;
-const mockExecSync: any = execSync as jest?.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 
-describe('ScriptIntegrationSystem': any, (: any) => {
+describe('ScriptIntegrationSystem', () => {
   let scriptSystem: ScriptIntegrationSystem;
 
-  beforeEach((: any) => {
+  beforeEach(() => {
     scriptSystem = new ScriptIntegrationSystem();
-    jest?.clearAllMocks();
+    jest.clearAllMocks();
   });
 
-  describe('constructor': any, (: any) => {
-    it('should initialize with default scripts base path': any, (: any) => {
+  describe('constructor', () => {
+    it('should initialize with default scripts base path', () => {
       const system: any = new ScriptIntegrationSystem();
       expect(system).toBeInstanceOf(ScriptIntegrationSystem);
     });
 
-    it('should initialize with custom scripts base path': any, (: any) => {
+    it('should initialize with custom scripts base path', () => {
       const system: any = new ScriptIntegrationSystem('/custom/scripts');
       expect(system).toBeInstanceOf(ScriptIntegrationSystem);
     });
   });
 
-  describe('getAvailableScripts': any, (: any) => {
-    it('should return list of available script configurations': any, (: any) => {
-      const scripts: any = scriptSystem?.getAvailableScripts();
+  describe('getAvailableScripts', () => {
+    it('should return list of available script configurations', () => {
+      const scripts: any = scriptSystem.getAvailableScripts();
 
       expect(scripts).toHaveLength(4);
-      expect(scripts?.map(s => s?.id)).toContain('typescript-enhanced-v3');
-      expect(scripts?.map(s => s?.id)).toContain('explicit-any-systematic');
-      expect(scripts?.map(s => s?.id)).toContain('unused-variables-enhanced');
-      expect(scripts?.map(s => s?.id)).toContain('console-statements');
+      expect(scripts.map(s => s.id)).toContain('typescript-enhanced-v3');
+      expect(scripts.map(s => s.id)).toContain('explicit-any-systematic');
+      expect(scripts.map(s => s.id)).toContain('unused-variables-enhanced');
+      expect(scripts.map(s => s.id)).toContain('console-statements');
     });
 
-    it('should return correct configuration for typescript-enhanced-v3': any, (: any) => {
-      const scripts: any = scriptSystem?.getAvailableScripts();
-      const tsScript: any = scripts?.find(s => s?.id === 'typescript-enhanced-v3');
+    it('should return correct configuration for typescript-enhanced-v3', () => {
+      const scripts: any = scriptSystem.getAvailableScripts();
+      const tsScript: any = scripts.find(s => s.id === 'typescript-enhanced-v3');
 
       expect(tsScript).toBeDefined();
-      expect(tsScript?.config?.scriptPath as any).toBe('scripts/typescript-fixes/fix-typescript-errors-enhanced-v3?.js');
-      expect(tsScript?.config?.safetyLevel as any).toBe('maximum');
-      expect(tsScript?.config?.maxBatchSize as any).toBe(25);
-      expect(tsScript?.config?.requiresGitClean as any).toBe(true);
-      expect(tsScript?.config?.supportsJsonOutput as any).toBe(true);
+      expect(tsScript.config.scriptPath).toBe('scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js');
+      expect(tsScript.config.safetyLevel).toBe('maximum');
+      expect(tsScript.config.maxBatchSize).toBe(25);
+      expect(tsScript.config.requiresGitClean).toBe(true);
+      expect(tsScript.config.supportsJsonOutput).toBe(true);
     });
   });
 
-  describe('executeScript': any, (: any) => {
-    beforeEach((: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValue('Script executed successfully\n5 files processed\n3 errors fixed');
+  describe('executeScript', () => {
+    beforeEach(() => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValue('Script executed successfully\n5 files processed\n3 errors fixed');
     });
 
-    it('should execute script with default options': any, async (: any) => {
-      const result: any = await scriptSystem?.executeScript('typescript-enhanced-v3');
+    it('should execute script with default options': any, async () => {
+      const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
 
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect?.stringContaining('fix-typescript-errors-enhanced-v3?.js'),
-        expect?.any(Object),
+        expect.stringContaining('fix-typescript-errors-enhanced-v3.js'),
+        expect.any(Object),
       );
-      expect(result?.success as any).toBe(true);
-      expect(result?.filesProcessed as any).toBe(5);
-      expect(result?.errorsFixed as any).toBe(3);
+      expect(result.success).toBe(true);
+      expect(result.filesProcessed).toBe(5);
+      expect(result.errorsFixed).toBe(3);
     });
 
-    it('should execute script with custom options': any, async (: any) => {
-      const options: ScriptExecutionOptions = {, maxFiles: 10,
-        autoFix: true,;
+    it('should execute script with custom options': any, async () => {
+      const options: ScriptExecutionOptions = { maxFiles: 10,
+        autoFix: true,
         dryRun: false,
       };
 
-      await scriptSystem?.executeScript('typescript-enhanced-v3', options);
+      await scriptSystem.executeScript('typescript-enhanced-v3', options);
 
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect?.stringContaining('--max-files=10 --auto-fix'),;
-        expect?.any(Object),
+        expect.stringContaining('--max-files=10 --auto-fix'),
+        expect.any(Object),
       );
     });
 
-    it('should throw error for unknown script ID': any, async (: any) => {
-      await expect(scriptSystem?.executeScript('unknown-script')).rejects?.toThrow('Unknown script ID: any-script');
+    it('should throw error for unknown script ID': any, async () => {
+      await expect(scriptSystem.executeScript('unknown-script')).rejects.toThrow('Unknown script ID: any-script');
     });
 
-    it('should throw error if script file does not exist': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(false);
+    it('should throw error if script file does not exist': any, async () => {
+      mockFs.existsSync.mockReturnValue(false);
 
-      await expect(scriptSystem?.executeScript('typescript-enhanced-v3')).rejects?.toThrow('Script not found:');
+      await expect(scriptSystem.executeScript('typescript-enhanced-v3')).rejects.toThrow('Script not found:');
     });
 
-    it('should handle script execution failure': any, async (: any) => {
+    it('should handle script execution failure': any, async () => {
       const error: any = new Error('Script failed') as unknown;
-      error?.status = 1;
+      error.status = 1;
       (error as any).stdout = 'Some output';
-      error?.stderr = 'Error message';
-      mockExecSync?.mockImplementation((: any) => {
+      error.stderr = 'Error message';
+      mockExecSync.mockImplementation(() => {
         throw error;
       });
 
-      const result: any = await scriptSystem?.executeScript('typescript-enhanced-v3');
+      const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.exitCode as any).toBe(1);
-      expect(result?.stdout).toContain('Some output');
+      expect(result.success).toBe(false);
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('Some output');
     });
 
-    it('should parse JSON output correctly': any, async (: any) => {
-      const jsonOutput: any = JSON?.stringify({
-        safetyMetrics: {, totalRuns: 10,
+    it('should parse JSON output correctly': any, async () => {
+      const jsonOutput: any = JSON.stringify({
+        safetyMetrics: { totalRuns: 10,
           successfulRuns: 8,
           filesProcessed: 50,
           errorsFixed: 25,
-          safetyScore: 0?.85,
-          recommendedBatchSize: 15,;
+          safetyScore: 0.85,
+          recommendedBatchSize: 15,
           lastRunTime: '2025-01-01T00:0, 0:00Z',
         },
       });
-      mockExecSync?.mockReturnValue(jsonOutput);
+      mockExecSync.mockReturnValue(jsonOutput);
 
-      const result: any = await scriptSystem?.executeScript('typescript-enhanced-v3', { json: true });
+      const result: any = await scriptSystem.executeScript('typescript-enhanced-v3', { json: true });
 
-      expect(result?.metrics).toBeDefined();
-      expect(result?.metrics?.totalRuns as any).toBe(10);
-      expect(result?.metrics?.safetyScore as any).toBe(0?.85);
+      expect(result.metrics).toBeDefined();
+      expect(result.metrics.totalRuns).toBe(10);
+      expect(result.metrics.safetyScore).toBe(0.85);
     });
 
-    it('should parse safety events from output': any, async (: any) => {
+    it('should parse safety events from output': any, async () => {
       const output: any = `
         Processing files...
-        🚨 Corruption detected in file?.ts;
+        🚨 Corruption detected in file.ts;
         Build validation failed
         📦 Created git stash: test-stash
       `;
-      mockExecSync?.mockReturnValue(output);
+      mockExecSync.mockReturnValue(output);
 
-      const result: any = await scriptSystem?.executeScript('typescript-enhanced-v3');
+      const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
 
-      expect(result?.safetyEvents).toHaveLength(3);
-      expect(result?.safetyEvents?.[0].type as any).toBe('corruption');
-      expect(result?.safetyEvents?.[1].type as any).toBe('build_failure');
-      expect(result?.safetyEvents?.[2].type as any).toBe('stash_created');
+      expect(result.safetyEvents).toHaveLength(3);
+      expect(result.safetyEvents.[0].type).toBe('corruption');
+      expect(result.safetyEvents.[1].type).toBe('build_failure');
+      expect(result.safetyEvents.[2].type).toBe('stash_created');
     });
   });
 
-  describe('getScriptMetrics': any, (: any) => {
-    it('should return null for unknown script': any, async (: any) => {
-      const metrics: any = await scriptSystem?.getScriptMetrics('unknown-script');
+  describe('getScriptMetrics', () => {
+    it('should return null for unknown script': any, async () => {
+      const metrics: any = await scriptSystem.getScriptMetrics('unknown-script');
       expect(metrics).toBeNull();
     });
 
-    it('should return metrics from script execution': any, async (: any) => {
-      const jsonOutput: any = JSON?.stringify({
-        safetyMetrics: {, totalRuns: 5,
-          successfulRuns: 4,;
-          safetyScore: 0?.8,
+    it('should return metrics from script execution': any, async () => {
+      const jsonOutput: any = JSON.stringify({
+        safetyMetrics: { totalRuns: 5,
+          successfulRuns: 4,
+          safetyScore: 0.8,
         },
       });
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValue(jsonOutput);
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValue(jsonOutput);
 
-      const metrics: any = await scriptSystem?.getScriptMetrics('typescript-enhanced-v3');
+      const metrics: any = await scriptSystem.getScriptMetrics('typescript-enhanced-v3');
 
       expect(metrics).toBeDefined();
-      expect(metrics?.totalRuns as any).toBe(5);
-      expect(metrics?.successfulRuns as any).toBe(4);
-      expect(metrics?.safetyScore as any).toBe(0?.8);
+      expect(metrics.totalRuns).toBe(5);
+      expect(metrics.successfulRuns).toBe(4);
+      expect(metrics.safetyScore).toBe(0.8);
     });
 
-    it('should fallback to reading metrics file directly': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation((: any) => {
+    it('should fallback to reading metrics file directly': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(() => {
         throw new Error('Script failed');
       });
-      mockFs?.readFileSync.mockReturnValue(
-        JSON?.stringify({
+      mockFs.readFileSync.mockReturnValue(
+        JSON.stringify({
           totalRuns: 3,
           successfulRuns: 2,
-          safetyScore: 0?.7,
+          safetyScore: 0.7,
         }),
       );
 
-      const metrics: any = await scriptSystem?.getScriptMetrics('typescript-enhanced-v3');
+      const metrics: any = await scriptSystem.getScriptMetrics('typescript-enhanced-v3');
 
       expect(metrics).toBeDefined();
-      expect(metrics?.totalRuns as any).toBe(3);
-      expect(metrics?.safetyScore as any).toBe(0?.7);
+      expect(metrics.totalRuns).toBe(3);
+      expect(metrics.safetyScore).toBe(0.7);
     });
   });
 
-  describe('validateScriptSafety': any, (: any) => {
-    it('should return unsafe for unknown script': any, async (: any) => {
-      const validation: any = await scriptSystem?.validateScriptSafety('unknown-script');
+  describe('validateScriptSafety', () => {
+    it('should return unsafe for unknown script': any, async () => {
+      const validation: any = await scriptSystem.validateScriptSafety('unknown-script');
 
-      expect(validation?.safe as any).toBe(false);
-      expect(validation?.issues).toContain('Unknown script');
+      expect(validation.safe).toBe(false);
+      expect(validation.issues).toContain('Unknown script');
     });
 
-    it('should parse safety validation from script output': any, async (: any) => {
-      const jsonOutput: any = JSON?.stringify({
+    it('should parse safety validation from script output': any, async () => {
+      const jsonOutput: any = JSON.stringify({
         safe: true,
-        issues: [],;
+        issues: [],
         recommendedBatchSize: 10,
       });
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValue(jsonOutput);
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValue(jsonOutput);
 
-      const validation: any = await scriptSystem?.validateScriptSafety('typescript-enhanced-v3');
+      const validation: any = await scriptSystem.validateScriptSafety('typescript-enhanced-v3');
 
-      expect(validation?.safe as any).toBe(true);
-      expect(validation?.issues).toHaveLength(0);
-      expect(validation?.recommendedBatchSize as any).toBe(10);
+      expect(validation.safe).toBe(true);
+      expect(validation.issues).toHaveLength(0);
+      expect(validation.recommendedBatchSize).toBe(10);
     });
 
-    it('should fallback to metrics-based safety check': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValueOnce('No safety validation output').mockReturnValueOnce(
-        JSON?.stringify({
-          safetyMetrics: {, totalRuns: 5,
-            safetyScore: 0?.3,
+    it('should fallback to metrics-based safety check': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValueOnce('No safety validation output').mockReturnValueOnce(
+        JSON.stringify({
+          safetyMetrics: { totalRuns: 5,
+            safetyScore: 0.3,
           },
         }),
       );
 
-      const validation: any = await scriptSystem?.validateScriptSafety('typescript-enhanced-v3');
+      const validation: any = await scriptSystem.validateScriptSafety('typescript-enhanced-v3');
 
-      expect(validation?.safe as any).toBe(false);
-      expect(validation?.issues).toContain('Low safety score detected');
+      expect(validation.safe).toBe(false);
+      expect(validation.issues).toContain('Low safety score detected');
     });
   });
 
-  describe('resetScriptMetrics': any, (: any) => {
-    it('should successfully reset metrics': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValue('Metrics reset successfully');
+  describe('resetScriptMetrics', () => {
+    it('should successfully reset metrics': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValue('Metrics reset successfully');
 
-      const result: any = await scriptSystem?.resetScriptMetrics('typescript-enhanced-v3');
+      const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3');
 
-      expect(result as any).toBe(true);
+      expect(result).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect?.stringContaining('--reset-metrics --silent'),
-        expect?.any(Object),
+        expect.stringContaining('--reset-metrics --silent'),
+        expect.any(Object),
       );
     });
 
-    it('should handle reset failure gracefully': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation((: any) => {
+    it('should handle reset failure gracefully': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(() => {
         throw new Error('Reset failed');
       });
 
-      const result: any = await scriptSystem?.resetScriptMetrics('typescript-enhanced-v3');
+      const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3');
 
-      expect(result as any).toBe(false);
+      expect(result).toBe(false);
     });
   });
 
-  describe('buildCommandArguments': any, (: any) => {
-    it('should build correct arguments for all options': any, async (: any) => {
-      const options: ScriptExecutionOptions = {, maxFiles: 15,
+  describe('buildCommandArguments', () => {
+    it('should build correct arguments for all options': any, async () => {
+      const options: ScriptExecutionOptions = { maxFiles: 15,
         autoFix: true,
         validateSafety: true,
         dryRun: true,
@@ -276,14 +276,14 @@ describe('ScriptIntegrationSystem': any, (: any) => {
         aggressive: true,
         showMetrics: true,
         json: true,
-        silent: true,;
+        silent: true,
         resetMetrics: true,
       };
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValue('test output');
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValue('test output');
 
-      await scriptSystem?.executeScript('typescript-enhanced-v3', options);
+      await scriptSystem.executeScript('typescript-enhanced-v3', options);
 
       const expectedArgs: any = [
         '--max-files=15',
@@ -298,7 +298,7 @@ describe('ScriptIntegrationSystem': any, (: any) => {
         '--reset-metrics',
       ];
 
-      expect(mockExecSync).toHaveBeenCalledWith(expect?.stringContaining(expectedArgs?.join(' ')), expect?.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining(expectedArgs.join(' ')), expect.any(Object));
     });
   });
 });

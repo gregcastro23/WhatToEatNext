@@ -16,11 +16,11 @@ import { log } from '@/services/LoggingService';
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
 import type { ElementalProperties } from '../types/alchemy';
 import type {
-    AspectType,
-    LunarPhase,
-    Planet,
-    PlanetaryAspect,
-    PlanetaryPosition,
+  AspectType,
+  LunarPhase,
+  Planet,
+  PlanetaryAspect,
+  PlanetaryPosition,
 } from '../types/celestial';
 import type { CuisineType, DietaryRestriction, Season } from '../types/constants';
 

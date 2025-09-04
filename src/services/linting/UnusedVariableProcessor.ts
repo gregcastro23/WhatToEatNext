@@ -145,7 +145,10 @@ export class UnusedVariableProcessor {
     }
   }
 
-  private parseUnusedVariableMessage(filePath: string, message: unknown): UnusedVariableIssue | null {
+  private parseUnusedVariableMessage(
+    filePath: string,
+    message: unknown,
+  ): UnusedVariableIssue | null {
     const variableMatch = message.message.match(
       /'([^']+)' is (?:defined but never used|assigned a value but never used)/,
     );

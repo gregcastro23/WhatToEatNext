@@ -37,8 +37,7 @@ function deepEqual<T>(obj1: T, obj2: T): boolean {
 
   for (const key of keys1) {
     if (!keys2.includes(key)) return false;
-    if (!deepEqual((obj1 as any)[key], (obj2 as any)[key]))
-      return false;
+    if (!deepEqual((obj1 as any)[key], (obj2 as any)[key])) return false;
   }
 
   return true;
@@ -203,10 +202,18 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
       // Combine elemental and planetary influences (weighted average)
       const combinedAlchemicalValues = {
-        Spirit: ((elementalValues as any)?.Spirit || 0) * 0.2 + ((planetaryValues as any)?.Spirit || 0) * 0.2,
-        Essence: ((elementalValues as any)?.Essence || 0) * 0.2 + ((planetaryValues as any)?.Essence || 0) * 0.2,
-        Matter: ((elementalValues as any)?.Matter || 0) * 0.2 + ((planetaryValues as any)?.Matter || 0) * 0.2,
-        Substance: ((elementalValues as any)?.Substance || 0) * 0.2 + ((planetaryValues as any)?.Substance || 0) * 0.2,
+        Spirit:
+          ((elementalValues as any)?.Spirit || 0) * 0.2 +
+          ((planetaryValues as any)?.Spirit || 0) * 0.2,
+        Essence:
+          ((elementalValues as any)?.Essence || 0) * 0.2 +
+          ((planetaryValues as any)?.Essence || 0) * 0.2,
+        Matter:
+          ((elementalValues as any)?.Matter || 0) * 0.2 +
+          ((planetaryValues as any)?.Matter || 0) * 0.2,
+        Substance:
+          ((elementalValues as any)?.Substance || 0) * 0.2 +
+          ((planetaryValues as any)?.Substance || 0) * 0.2,
       };
 
       // Normalize alchemical values to ensure they sum to approximately 1

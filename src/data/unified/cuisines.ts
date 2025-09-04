@@ -103,9 +103,7 @@ export class CuisineEnhancer {
         } else if ((ingredient as any).element) {
           ingredientKalchms.set(
             ingredientName,
-            RecipeEnhancer.estimateKalchmFromElement(
-              (ingredient as any).element as Element,
-            ),
+            RecipeEnhancer.estimateKalchmFromElement((ingredient as any).element as Element),
           );
         }
       }
@@ -135,8 +133,7 @@ export class CuisineEnhancer {
     const ingredientKalchmWeight = 0.6;
     const recipeKalchmWeight = 0.4;
     const totalKalchm =
-      (ingredientKalchmProfile as any).kalchmRange.average *
-        ingredientKalchmWeight +
+      (ingredientKalchmProfile as any).kalchmRange.average * ingredientKalchmWeight +
       averageRecipeKalchm * recipeKalchmWeight;
 
     return {
@@ -392,12 +389,8 @@ export class CuisineEnhancer {
 
       // Collect planetary affinities
       const astroData = recipe as unknown as any;
-      if (
-        astroData.astrologicalAffinities &&
-        (astroData.astrologicalAffinities as any).planets
-      ) {
-        for (const planet of (astroData.astrologicalAffinities as any)
-          .planets as string[]) {
+      if (astroData.astrologicalAffinities && (astroData.astrologicalAffinities as any).planets) {
+        for (const planet of (astroData.astrologicalAffinities as any).planets as string[]) {
           planetaryAffinities.add(planet);
         }
       }

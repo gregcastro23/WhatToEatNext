@@ -26,9 +26,15 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
   // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
   // The ratios below approximate the original alchemizer calculations
   const spirit = ((elementals as any)?.Fire || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
-  const essence = ((elementals as any)?.Water || 0) * 0.2 + ((elementals as any)?.Fire || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
+  const essence =
+    ((elementals as any)?.Water || 0) * 0.2 +
+    ((elementals as any)?.Fire || 0) * 0.2 +
+    ((elementals as any)?.Air || 0) * 0.2;
   const matter = ((elementals as any)?.Earth || 0) * 0.2 + ((elementals as any)?.Water || 0) * 0.2;
-  const substance = ((elementals as any)?.Earth || 0) * 0.2 + ((elementals as any)?.Water || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
+  const substance =
+    ((elementals as any)?.Earth || 0) * 0.2 +
+    ((elementals as any)?.Water || 0) * 0.2 +
+    ((elementals as any)?.Air || 0) * 0.2;
 
   return {
     spirit,

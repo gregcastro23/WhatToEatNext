@@ -585,8 +585,8 @@ async function getParallelizationInfo(): Promise<{
 }> {
   try {
     // Get CPU count for worker estimation
-  const os = await import('os');
-  const cpuCount = os.cpus().length;
+    const os = await import('os');
+    const cpuCount = os.cpus().length;
 
     // Estimate workers based on CPU count and build system
     const workers = Math.max(1, Math.floor(cpuCount * 0.75));
@@ -1090,7 +1090,10 @@ function generateOptimizationRecommendations(
   }
 
   // Bundle size recommendations
-  if (buildMetrics.bundleSize.total > ((PERFORMANCE_THRESHOLDS.BUNDLE_SIZE as any)?.MAX_SIZE || 0) * 0.2) {
+  if (
+    buildMetrics.bundleSize.total >
+    ((PERFORMANCE_THRESHOLDS.BUNDLE_SIZE as any)?.MAX_SIZE || 0) * 0.2
+  ) {
     recommendations.push({
       category: 'bundle',
       priority: 'medium',

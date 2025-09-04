@@ -25,7 +25,7 @@ export enum AnyTypeCategory {
   RECORD_TYPE = 'record_type',
   FUNCTION_PARAM = 'function_param',
   RETURN_TYPE = 'return_type',
-  TYPE_ASSERTION = 'type_assertion'
+  TYPE_ASSERTION = 'type_assertion',
 }
 
 export interface ClassificationContext {
@@ -82,7 +82,7 @@ export enum CodeDomain {
   SERVICE = 'service',
   COMPONENT = 'component',
   UTILITY = 'utility',
-  TEST = 'test'
+  TEST = 'test',
 }
 
 export interface IntentionalityHint {
@@ -202,7 +202,7 @@ export class ClassificationError extends Error {
   constructor(
     message: string,
     public readonly context: ClassificationContext,
-    public readonly cause?: Error
+    public readonly cause?: Error,
   ) {
     super(message);
     this.name = 'ClassificationError';
@@ -213,7 +213,7 @@ export class SafetyProtocolError extends Error {
   constructor(
     message: string,
     public readonly rollbackPath: string,
-    public readonly affectedFiles: string[]
+    public readonly affectedFiles: string[],
   ) {
     super(message);
     this.name = 'SafetyProtocolError';
@@ -283,12 +283,10 @@ export interface DocumentationReport {
 export interface AutoDocumentationGenerator {
   generateDocumentation(
     classification: AnyTypeClassification,
-    context: ClassificationContext
+    context: ClassificationContext,
   ): Promise<DocumentationResult>;
 
-  validateDocumentation(
-    context: ClassificationContext
-  ): Promise<DocumentationValidation>;
+  validateDocumentation(context: ClassificationContext): Promise<DocumentationValidation>;
 
   generateReport(): Promise<DocumentationReport>;
 }

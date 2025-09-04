@@ -56,8 +56,7 @@ const calculateAstrologicalAlignment = (
 
   // Check zodiac compatibility with recipe's astrological timing
   if (recipe.astrologicalTiming?.zodiacCompatibility) {
-    const zodiacCompatibility =
-      recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as any];
+    const zodiacCompatibility = recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as any];
     if (zodiacCompatibility) {
       alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
     }

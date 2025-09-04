@@ -54,9 +54,7 @@ export function useRecipeValidation() {
       hasProtein: ingredients.some(
         ing =>
           ing.category === 'protein' ||
-          (((ing as unknown as any).qualities as string[]) || []).includes(
-            'protein-rich',
-          ),
+          (((ing as unknown as any).qualities as string[]) || []).includes('protein-rich'),
       ),
       hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),
       hasGrains: ingredients.some(ing => ing.category === 'grain'),
@@ -68,9 +66,7 @@ export function useRecipeValidation() {
       ),
       hasLiquid: ingredients.some(
         ing =>
-          (((ing as unknown as any).qualities as string[]) || []).includes(
-            'liquid',
-          ) ||
+          (((ing as unknown as any).qualities as string[]) || []).includes('liquid') ||
           ing.name.toLowerCase().includes('broth') ||
           ing.name.toLowerCase().includes('stock') ||
           ing.name.toLowerCase().includes('water'),
@@ -78,9 +74,7 @@ export function useRecipeValidation() {
       hasFat: ingredients.some(
         ing =>
           ing.category === 'oil' ||
-          (((ing as unknown as any).qualities as string[]) || []).includes(
-            'fat',
-          ) ||
+          (((ing as unknown as any).qualities as string[]) || []).includes('fat') ||
           ing.name.toLowerCase().includes('butter'),
       ),
     };
@@ -126,9 +120,7 @@ export function useRecipeValidation() {
     // Check for known incompatible combinations
     const acidic = ingredients.filter(
       ing =>
-        (((ing as unknown as any).qualities as string[]) || []).includes(
-          'acidic',
-        ) ||
+        (((ing as unknown as any).qualities as string[]) || []).includes('acidic') ||
         ing.name.toLowerCase().includes('vinegar') ||
         ing.name.toLowerCase().includes('lemon'),
     );
@@ -207,9 +199,8 @@ export function useRecipeValidation() {
     // Cooking method suggestions based on ingredients
     const hasDelicateIngredients = ingredients.some(
       ing =>
-        (((ing as unknown as any).qualities as string[]) || []).includes(
-          'delicate',
-        ) || ing.category === 'culinary_herb',
+        (((ing as unknown as any).qualities as string[]) || []).includes('delicate') ||
+        ing.category === 'culinary_herb',
     );
 
     if (hasDelicateIngredients) {

@@ -158,9 +158,7 @@ export class DependencySecurityMonitor {
           result.securityReport = await this.scanSecurityVulnerabilities();
           result.vulnerabilitiesFound = result.securityReport.summary.total;
         } catch (error) {
-          result.errors.push(
-            `Security scan failed: ${(error as any).message || 'Unknown error'}`,
-          );
+          result.errors.push(`Security scan failed: ${(error as any).message || 'Unknown error'}`);
         }
       }
 

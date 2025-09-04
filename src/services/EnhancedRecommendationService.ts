@@ -675,39 +675,23 @@ export class EnhancedRecommendationService {
         heartNotes: (ingredientData.heartNotes as string[]) || [],
         topNotes: (ingredientData.topNotes as string[]) || [],
         elementalProfile: {
-          Fire: this.safeGetNumber(
-            (ingredientData.elementalProperties as any).Fire,
-          ),
-          Water: this.safeGetNumber(
-            (ingredientData.elementalProperties as any).Water,
-          ),
-          Earth: this.safeGetNumber(
-            (ingredientData.elementalProperties as any).Earth,
-          ),
-          Air: this.safeGetNumber(
-            (ingredientData.elementalProperties as any).Air,
-          ),
+          Fire: this.safeGetNumber((ingredientData.elementalProperties as any).Fire),
+          Water: this.safeGetNumber((ingredientData.elementalProperties as any).Water),
+          Earth: this.safeGetNumber((ingredientData.elementalProperties as any).Earth),
+          Air: this.safeGetNumber((ingredientData.elementalProperties as any).Air),
         },
         flavorIntensity: this.safeGetNumber(ingredientData.flavorIntensity) || 0.5,
         complexity: this.safeGetNumber(ingredientData.complexity) || 0.5,
         seasonality: (ingredientData.seasonality as string[]) || [],
         culturalOrigins: (ingredientData.culturalOrigins as string[]) || [],
         nutritionalProfile: {
-          calories: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as any).calories,
-          ),
-          protein: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as any).protein,
-          ),
-          fat: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as any).fat,
-          ),
+          calories: this.safeGetNumber((ingredientData.nutritionalProfile as any).calories),
+          protein: this.safeGetNumber((ingredientData.nutritionalProfile as any).protein),
+          fat: this.safeGetNumber((ingredientData.nutritionalProfile as any).fat),
           carbohydrates: this.safeGetNumber(
             (ingredientData.nutritionalProfile as any).carbohydrates,
           ),
-          fiber: this.safeGetNumber(
-            (ingredientData.nutritionalProfile as any).fiber,
-          ),
+          fiber: this.safeGetNumber((ingredientData.nutritionalProfile as any).fiber),
         },
         preparationMethods: (ingredientData.preparationMethods as string[]) || [],
         pairings: (ingredientData.pairings as string[]) || [],

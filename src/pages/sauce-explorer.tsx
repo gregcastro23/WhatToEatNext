@@ -1,14 +1,14 @@
 import {
-    Beef,
-    Carrot,
-    ChefHat,
-    Droplet,
-    Filter,
-    Flame,
-    Globe,
-    Mountain,
-    Utensils,
-    Wind
+  Beef,
+  Carrot,
+  ChefHat,
+  Droplet,
+  Filter,
+  Flame,
+  Globe,
+  Mountain,
+  Utensils,
+  Wind,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -100,8 +100,7 @@ export default function SauceExplorer() {
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;
       Object.keys(newProfile).forEach(key => {
-        normalized[key as any] =
-          newProfile[key as any] / sum;
+        normalized[key as any] = newProfile[key as any] / sum;
       });
 
       setElementalProfile(normalized);

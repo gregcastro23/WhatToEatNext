@@ -1,76 +1,76 @@
 import { processNaturalLanguageQuery, enhancedSearch, applyFilters } from '../naturalLanguageProcessor';
 
-describe('naturalLanguageProcessor': any, (: any) => {
-  describe('processNaturalLanguageQuery': any, (: any) => {
-    it('extracts dietary restrictions from query': any, (: any) => {
+describe('naturalLanguageProcessor', () => {
+  describe('processNaturalLanguageQuery', () => {
+    it('extracts dietary restrictions from query', () => {
       const result: any = processNaturalLanguageQuery('I want vegetarian pasta recipes');
 
-      expect(result?.extractedFilters.dietaryRestrictions).toContain('vegetarian');
-      expect(result?.confidence).toBeGreaterThan(0?.5);
+      expect(result.extractedFilters.dietaryRestrictions).toContain('vegetarian');
+      expect(result.confidence).toBeGreaterThan(0.5);
     });
 
-    it('extracts cuisine types from query': any, (: any) => {
+    it('extracts cuisine types from query', () => {
       const result: any = processNaturalLanguageQuery('Show me Italian dishes');
 
-      expect(result?.extractedFilters.cuisineTypes).toContain('italian');
-      expect(result?.confidence).toBeGreaterThan(0?.5);
+      expect(result.extractedFilters.cuisineTypes).toContain('italian');
+      expect(result.confidence).toBeGreaterThan(0.5);
     });
 
-    it('extracts difficulty level from query': any, (: any) => {
+    it('extracts difficulty level from query', () => {
       const result: any = processNaturalLanguageQuery('Easy recipes for beginners');
 
-      expect(result?.extractedFilters.difficultyLevel).toContain('easy');
-      expect(result?.confidence).toBeGreaterThan(0?.5);
+      expect(result.extractedFilters.difficultyLevel).toContain('easy');
+      expect(result.confidence).toBeGreaterThan(0.5);
     });
 
-    it('extracts cooking time from query': any, (: any) => {
+    it('extracts cooking time from query', () => {
       const result: any = processNaturalLanguageQuery('Quick 30 minute meals');
 
-      expect(result?.extractedFilters.cookingTime as any).toEqual({ min: 0, max: 30 });
-      expect(result?.confidence).toBeGreaterThan(0?.5);
+      expect(result.extractedFilters.cookingTime).toEqual({ min: 0, max: 30 });
+      expect(result.confidence).toBeGreaterThan(0.5);
     });
 
-    it('extracts meal types from query': any, (: any) => {
+    it('extracts meal types from query', () => {
       const result: any = processNaturalLanguageQuery('Breakfast ideas for tomorrow');
 
-      expect(result?.extractedFilters.mealTypes).toContain('breakfast');
-      expect(result?.confidence).toBeGreaterThan(0?.5);
+      expect(result.extractedFilters.mealTypes).toContain('breakfast');
+      expect(result.confidence).toBeGreaterThan(0.5);
     });
 
-    it('extracts spiciness level from query': any, (: any) => {
+    it('extracts spiciness level from query', () => {
       const result: any = processNaturalLanguageQuery('I want something spicy and hot');
 
-      expect(result?.extractedFilters.spiciness).toContain('hot');
-      expect(result?.confidence).toBeGreaterThan(0?.5);
+      expect(result.extractedFilters.spiciness).toContain('hot');
+      expect(result.confidence).toBeGreaterThan(0.5);
     });
 
-    it('handles complex queries with multiple filters': any, (: any) => {
+    it('handles complex queries with multiple filters', () => {
       const result: any = processNaturalLanguageQuery('Easy vegetarian Italian dinner recipes under 30 minutes');
 
-      expect(result?.extractedFilters.difficultyLevel).toContain('easy');
-      expect(result?.extractedFilters.dietaryRestrictions).toContain('vegetarian');
-      expect(result?.extractedFilters.cuisineTypes).toContain('italian');
-      expect(result?.extractedFilters.mealTypes).toContain('dinner');
-      expect(result?.extractedFilters.cookingTime as any).toEqual({ min: 0, max: 30 });
-      expect(result?.confidence).toBeGreaterThan(0?.7);
+      expect(result.extractedFilters.difficultyLevel).toContain('easy');
+      expect(result.extractedFilters.dietaryRestrictions).toContain('vegetarian');
+      expect(result.extractedFilters.cuisineTypes).toContain('italian');
+      expect(result.extractedFilters.mealTypes).toContain('dinner');
+      expect(result.extractedFilters.cookingTime).toEqual({ min: 0, max: 30 });
+      expect(result.confidence).toBeGreaterThan(0.7);
     });
 
-    it('provides suggestions for partial queries': any, (: any) => {
+    it('provides suggestions for partial queries', () => {
       const result: any = processNaturalLanguageQuery('spicy');
 
-      expect(result?.suggestions).toHaveLength(5);
-      expect(result?.suggestions.some(s => s?.toLowerCase().includes('spicy'))).toBe(true);
+      expect(result.suggestions).toHaveLength(5);
+      expect(result.suggestions.some(s => s.toLowerCase().includes('spicy'))).toBe(true);
     });
 
-    it('returns low confidence for unrecognized queries': any, (: any) => {
+    it('returns low confidence for unrecognized queries', () => {
       const result: any = processNaturalLanguageQuery('xyz abc random text');
 
-      expect(result?.confidence).toBeLessThan(0?.3);
-      expect(Object?.keys(result?.extractedFilters)).toHaveLength(0);
+      expect(result.confidence).toBeLessThan(0.3);
+      expect(Object.keys(result.extractedFilters)).toHaveLength(0);
     });
   });
 
-  describe('enhancedSearch': any, (: any) => {
+  describe('enhancedSearch', () => {
     const mockItems: any = [
       { id: 1, name: 'Italian Pasta', description: 'Delicious pasta from Italy' },
       { id: 2, name: 'Chinese Noodles', description: 'Traditional Chinese noodle dish' },
@@ -78,44 +78,44 @@ describe('naturalLanguageProcessor': any, (: any) => {
       { id: 4, name: 'Thai Pad Thai', description: 'Classic Thai stir-fried noodles' },
     ];
 
-    it('performs exact match search': any, (: any) => {
+    it('performs exact match search', () => {
       const results: any = enhancedSearch(mockItems, 'Italian', ['name', 'description']);
 
       expect(results).toHaveLength(1);
-      expect(results?.[0].name as any).toBe('Italian Pasta');
-      expect(results?.[0].searchScore).toBeGreaterThan(0?.9);
+      expect(results.[0].name).toBe('Italian Pasta');
+      expect(results.[0].searchScore).toBeGreaterThan(0.9);
     });
 
-    it('performs fuzzy search for partial matches': any, (: any) => {
+    it('performs fuzzy search for partial matches', () => {
       const results: any = enhancedSearch(mockItems, 'noodle', ['name', 'description']);
 
-      expect(results?.length).toBeGreaterThan(1);
-      expect(results?.some(r => r?.name.includes('Noodles'))).toBe(true);
-      expect(results?.some(r => r?.description.includes('noodles'))).toBe(true);
+      expect(results.length).toBeGreaterThan(1);
+      expect(results.some(r => r.name.includes('Noodles'))).toBe(true);
+      expect(results.some(r => r.description.includes('noodles'))).toBe(true);
     });
 
-    it('returns empty array for no matches': any, (: any) => {
+    it('returns empty array for no matches', () => {
       const results: any = enhancedSearch(mockItems, 'xyz', ['name', 'description']);
 
       expect(results).toHaveLength(0);
     });
 
-    it('returns all items for empty query': any, (: any) => {
+    it('returns all items for empty query', () => {
       const results: any = enhancedSearch(mockItems, '', ['name', 'description']);
 
-      expect(results).toHaveLength(mockItems?.length);
+      expect(results).toHaveLength(mockItems.length);
     });
 
-    it('sorts results by search score': any, (: any) => {
+    it('sorts results by search score', () => {
       const results: any = enhancedSearch(mockItems, 'noodle', ['name', 'description']);
 
-      for (let i: any = 1; i < results?.length; i++) {
+      for (let i: any = 1; i < results.length; i++) {
         expect(results[i - 1].searchScore).toBeGreaterThanOrEqual(results[i].searchScore);
       }
     });
   });
 
-  describe('applyFilters': any, (: any) => {
+  describe('applyFilters', () => {
     const mockItems: any = [
       {
         id: 1,
@@ -144,12 +144,12 @@ describe('naturalLanguageProcessor': any, (: any) => {
         difficulty: 'easy',
         cookTime: '10',
         mealType: 'breakfast',
-        spiciness: 'mild',;
+        spiciness: 'mild',
         dietaryRestrictions: [],
       },
     ];
 
-    it('filters by dietary restrictions': any, (: any) => {
+    it('filters by dietary restrictions', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: ['vegetarian'],
@@ -157,17 +157,17 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 480 },
         cuisineTypes: [],
         mealTypes: [],
-        spiciness: [],;
+        spiciness: [],
         ingredients: [],
       };
 
       const results: any = applyFilters(mockItems, filters);
 
       expect(results).toHaveLength(1);
-      expect(results?.[0].name as any).toBe('Italian Pasta');
+      expect(results.[0].name).toBe('Italian Pasta');
     });
 
-    it('filters by difficulty level': any, (: any) => {
+    it('filters by difficulty level', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: [],
@@ -175,17 +175,17 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 480 },
         cuisineTypes: [],
         mealTypes: [],
-        spiciness: [],;
+        spiciness: [],
         ingredients: [],
       };
 
       const results: any = applyFilters(mockItems, filters);
 
       expect(results).toHaveLength(2);
-      expect(results?.every(r => r?.difficulty === 'easy')).toBe(true);
+      expect(results.every(r => r.difficulty === 'easy')).toBe(true);
     });
 
-    it('filters by cooking time': any, (: any) => {
+    it('filters by cooking time', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: [],
@@ -193,17 +193,17 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 30 },
         cuisineTypes: [],
         mealTypes: [],
-        spiciness: [],;
+        spiciness: [],
         ingredients: [],
       };
 
       const results: any = applyFilters(mockItems, filters);
 
       expect(results).toHaveLength(2);
-      expect(results?.every(r => parseInt(r?.cookTime) <= 30)).toBe(true);
+      expect(results.every(r => parseInt(r.cookTime) <= 30)).toBe(true);
     });
 
-    it('filters by cuisine type': any, (: any) => {
+    it('filters by cuisine type', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: [],
@@ -211,17 +211,17 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 480 },
         cuisineTypes: ['italian'],
         mealTypes: [],
-        spiciness: [],;
+        spiciness: [],
         ingredients: [],
       };
 
       const results: any = applyFilters(mockItems, filters);
 
       expect(results).toHaveLength(1);
-      expect(results?.[0].cuisine as any).toBe('italian');
+      expect(results.[0].cuisine).toBe('italian');
     });
 
-    it('filters by meal type': any, (: any) => {
+    it('filters by meal type', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: [],
@@ -229,17 +229,17 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 480 },
         cuisineTypes: [],
         mealTypes: ['breakfast'],
-        spiciness: [],;
+        spiciness: [],
         ingredients: [],
       };
 
       const results: any = applyFilters(mockItems, filters);
 
       expect(results).toHaveLength(1);
-      expect(results?.[0].mealType as any).toBe('breakfast');
+      expect(results.[0].mealType).toBe('breakfast');
     });
 
-    it('filters by spiciness': any, (: any) => {
+    it('filters by spiciness', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: [],
@@ -247,17 +247,17 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 480 },
         cuisineTypes: [],
         mealTypes: [],
-        spiciness: ['hot'],;
+        spiciness: ['hot'],
         ingredients: [],
       };
 
       const results: any = applyFilters(mockItems, filters);
 
       expect(results).toHaveLength(1);
-      expect(results?.[0].spiciness as any).toBe('hot');
+      expect(results.[0].spiciness).toBe('hot');
     });
 
-    it('applies multiple filters simultaneously': any, (: any) => {
+    it('applies multiple filters simultaneously', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: [],
@@ -265,17 +265,17 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 30 },
         cuisineTypes: [],
         mealTypes: ['breakfast'],
-        spiciness: [],;
+        spiciness: [],
         ingredients: [],
       };
 
       const results: any = applyFilters(mockItems, filters);
 
       expect(results).toHaveLength(1);
-      expect(results?.[0].name as any).toBe('Quick Breakfast');
+      expect(results.[0].name).toBe('Quick Breakfast');
     });
 
-    it('returns empty array when no items match filters': any, (: any) => {
+    it('returns empty array when no items match filters', () => {
       const filters: any = {
         query: '',
         dietaryRestrictions: ['vegan'],
@@ -283,7 +283,7 @@ describe('naturalLanguageProcessor': any, (: any) => {
         cookingTime: { mi, n: 0, max: 480 },
         cuisineTypes: [],
         mealTypes: [],
-        spiciness: [],;
+        spiciness: [],
         ingredients: [],
       };
 

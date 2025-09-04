@@ -57,14 +57,9 @@ export function isTestFile(filePath: string): boolean {
   return TEST_CONTEXT_FILE_REGEX.test(filePath) || /\.(spec|test)\.[tj]sx?$/.test(filePath);
 }
 
-export function classifyFileKind(filePath: string):
-  | 'component'
-  | 'service'
-  | 'calculation'
-  | 'utils'
-  | 'types'
-  | 'test'
-  | 'other' {
+export function classifyFileKind(
+  filePath: string,
+): 'component' | 'service' | 'calculation' | 'utils' | 'types' | 'test' | 'other' {
   if (isTestFile(filePath)) return 'test';
   if (/\/src\/components\//.test(filePath)) return 'component';
   if (isServiceLayerFile(filePath)) return 'service';
@@ -74,10 +69,7 @@ export function classifyFileKind(filePath: string):
   return 'other';
 }
 
-export function decidePreservation(
-  variableName: string,
-  filePath: string
-): PreservationDecision {
+export function decidePreservation(variableName: string, filePath: string): PreservationDecision {
   // Elemental properties must always be preserved per workspace rules
   if (ELEMENT_NAMES.has(variableName)) {
     return { preserve: true, reason: 'elemental-property', confidence: 0.95 };

@@ -162,9 +162,7 @@ export function normalizeCulinaryApplications(
   const normalized: Record<string, unknown> = {};
 
   Object.entries(applications).forEach(([method, data]) => {
-    normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(
-      data as any,
-    );
+    normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data as any);
   });
 
   return normalized;
@@ -376,7 +374,10 @@ export function normalizeIngredientData(
 /**
  * Safe getter for nutritional data
  */
-export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): unknown {
+export function safeGetNutritionalData(
+  ingredient: Record<string, unknown>,
+  field: string,
+): unknown {
   try {
     const profile = ingredient.nutritionalProfile as any;
     return profile[field] || null;

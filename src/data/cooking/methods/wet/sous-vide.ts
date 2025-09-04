@@ -152,7 +152,7 @@ export const sousVide: CookingMethodData = {
     heat: 0.3, // Low, precise heat - controlled application
     entropy: 0.35, // Slow, controlled breakdown of structures
     reactivity: 0.2, // Minimal reactivity (no Maillard)
-    gregsEnergy: -6.350 // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: -6.35, // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata

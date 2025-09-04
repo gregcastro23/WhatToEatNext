@@ -14,15 +14,15 @@ import { ProgressMonitoringSystem } from './ProgressMonitoringSystem';
 import { ProgressiveImprovementEngine } from './ProgressiveImprovementEngine';
 import { SafeTypeReplacer } from './SafeTypeReplacer';
 import {
-    AnyTypeCategory,
-    AnyTypeClassification,
-    CampaignMetrics,
-    CampaignPhase,
-    DomainProcessingResult,
-    FinalReport,
-    FullCampaignConfig,
-    FullCampaignResult,
-    ReplacementResult
+  AnyTypeCategory,
+  AnyTypeClassification,
+  CampaignMetrics,
+  CampaignPhase,
+  DomainProcessingResult,
+  FinalReport,
+  FullCampaignConfig,
+  FullCampaignResult,
+  ReplacementResult,
 } from './types';
 
 export class FullCampaignExecutor {
@@ -52,7 +52,7 @@ export class FullCampaignExecutor {
       validatePerformanceImprovements: true,
       emergencyStopThreshold: 0.5,
       maxCampaignDuration: 4 * 60 * 60 * 1000, // 4 hours max
-      ...config
+      ...config,
     };
 
     this.classifier = new AnyTypeClassifier();
@@ -71,7 +71,9 @@ export class FullCampaignExecutor {
    */
   async executeFullCampaign(): Promise<FullCampaignResult> {
     console.log('🚀 Starting Full Unintentional Any Elimination Campaign');
-    console.log(`📊 Target: ${this.config.targetReductionPercentage}% reduction (${this.config.targetFixCount} fixes)`);
+    console.log(
+      `📊 Target: ${this.config.targetReductionPercentage}% reduction (${this.config.targetFixCount} fixes)`,
+    );
 
     try {
       // Phase 1: Initial Analysis and Baseline
@@ -103,13 +105,13 @@ export class FullCampaignExecutor {
           mediumRiskResult,
           domainSpecificResult,
           documentationResult,
-          finalResult
+          finalResult,
         ],
         metrics: this.metrics,
         finalReport: await this.generateFinalReport(),
         duration: Date.now() - this.startTime.getTime(),
         buildStable: await this.validateBuildStability(),
-        performanceImproved: await this.validatePerformanceImprovements()
+        performanceImproved: await this.validatePerformanceImprovements(),
       };
 
       console.log('✅ Full Campaign Completed Successfully');
@@ -117,7 +119,6 @@ export class FullCampaignExecutor {
       console.log(`🎯 Target Met: ${campaignResult.targetAchieved ? 'YES' : 'NO'}`);
 
       return campaignResult;
-
     } catch (error) {
       console.error('❌ Campaign execution failed:', error);
       return {
@@ -130,7 +131,7 @@ export class FullCampaignExecutor {
         metrics: this.metrics,
         duration: Date.now() - this.startTime.getTime(),
         buildStable: await this.validateBuildStability(),
-        performanceImproved: false
+        performanceImproved: false,
       };
     }
   }
@@ -170,11 +171,10 @@ export class FullCampaignExecutor {
           analysisResult,
           baselineMetrics: {
             errorCount: initialErrorCount,
-            anyCount: initialAnyCount
-          }
-        }
+            anyCount: initialAnyCount,
+          },
+        },
       };
-
     } catch (error) {
       console.error('❌ Phase 1 failed:', error);
       throw error;
@@ -195,7 +195,10 @@ export class FullCampaignExecutor {
       let batchCount = 0;
       const maxBatches = 20; // Limit for high-confidence phase
 
-      while (batchCount < maxBatches && totalFixes < ((this.config as any)?.targetFixCount || 0) * 0.2) {
+      while (
+        batchCount < maxBatches &&
+        totalFixes < ((this.config as any)?.targetFixCount || 0) * 0.2
+      ) {
         console.log(`\n🔄 High-Confidence Batch ${batchCount + 1}`);
 
         // Find high-confidence cases
@@ -209,14 +212,14 @@ export class FullCampaignExecutor {
         // Process batch with enhanced safety
         const batchResult = await this.processBatchWithSafety(
           highConfidenceCases.slice(0, this.config.maxBatchSize),
-          'high-confidence'
+          'high-confidence',
         );
 
         totalFixes += batchResult.successfulReplacements;
         this.metrics.totalFixesApplied += batchResult.successfulReplacements;
 
         // Validate build after each batch
-        if (!await this.validateBuildStability()) {
+        if (!(await this.validateBuildStability())) {
           console.error('❌ Build instability detected, stopping phase');
           break;
         }
@@ -238,10 +241,9 @@ export class FullCampaignExecutor {
         errorsAfter,
         details: {
           batchesProcessed: batchCount,
-          categories: ['ARRAY_TYPE', 'RECORD_TYPE']
-        }
+          categories: ['ARRAY_TYPE', 'RECORD_TYPE'],
+        },
       };
-
     } catch (error) {
       console.error('❌ Phase 2 failed:', error);
       throw error;
@@ -262,7 +264,7 @@ export class FullCampaignExecutor {
       const mediumRiskCategories = [
         AnyTypeCategory.FUNCTION_PARAM,
         AnyTypeCategory.RETURN_TYPE,
-        AnyTypeCategory.TYPE_ASSERTION
+        AnyTypeCategory.TYPE_ASSERTION,
       ];
 
       for (const category of mediumRiskCategories) {
@@ -273,7 +275,7 @@ export class FullCampaignExecutor {
         this.metrics.totalFixesApplied += categoryFixes;
 
         // Validate after each category
-        if (!await this.validateBuildStability()) {
+        if (!(await this.validateBuildStability())) {
           console.error(`❌ Build instability after ${category}, stopping`);
           break;
         }
@@ -292,10 +294,9 @@ export class FullCampaignExecutor {
         errorsAfter,
         details: {
           categoriesProcessed: mediumRiskCategories,
-          enhancedSafetyProtocols: true
-        }
+          enhancedSafetyProtocols: true,
+        },
       };
-
     } catch (error) {
       console.error('❌ Phase 3 failed:', error);
       throw error;
@@ -326,7 +327,7 @@ export class FullCampaignExecutor {
         domainResults.push(domainFixes);
 
         // Validate after each domain
-        if (!await this.validateBuildStability()) {
+        if (!(await this.validateBuildStability())) {
           console.error(`❌ Build instability after ${domain} domain`);
           break;
         }
@@ -345,10 +346,9 @@ export class FullCampaignExecutor {
         errorsAfter,
         details: {
           domainResults,
-          domainsProcessed: domains
-        }
+          domainsProcessed: domains,
+        },
       };
-
     } catch (error) {
       console.error('❌ Phase 4 failed:', error);
       throw error;
@@ -366,7 +366,8 @@ export class FullCampaignExecutor {
 
     try {
       // Document all intentional any types
-      const documentationResult = await this.documentationGenerator.documentAllIntentionalAnyTypes();
+      const documentationResult =
+        await this.documentationGenerator.documentAllIntentionalAnyTypes();
 
       // Add ESLint disable comments with explanations
       const eslintResult = await this.addESLintDisableComments();
@@ -376,7 +377,9 @@ export class FullCampaignExecutor {
 
       console.log(`📝 Documented ${documentationResult.documented} intentional any types`);
       console.log(`🔧 Added ${eslintResult.added} ESLint disable comments`);
-      console.log(`✅ Documentation validation: ${validationResult.complete ? 'COMPLETE' : 'INCOMPLETE'}`);
+      console.log(
+        `✅ Documentation validation: ${validationResult.complete ? 'COMPLETE' : 'INCOMPLETE'}`,
+      );
 
       const errorsAfter = await this.getCurrentErrorCount();
 
@@ -390,10 +393,9 @@ export class FullCampaignExecutor {
         details: {
           documentationResult,
           eslintResult,
-          validationResult
-        }
+          validationResult,
+        },
       };
-
     } catch (error) {
       console.error('❌ Phase 5 failed:', error);
       throw error;
@@ -443,10 +445,9 @@ export class FullCampaignExecutor {
         details: {
           finalReport,
           performanceResult,
-          targetAchieved: this.isTargetAchieved()
-        }
+          targetAchieved: this.isTargetAchieved(),
+        },
       };
-
     } catch (error) {
       console.error('❌ Phase 6 failed:', error);
       throw error;
@@ -460,20 +461,22 @@ export class FullCampaignExecutor {
     const files = await this.getTypeScriptFiles();
     const highConfidenceCases: AnyTypeClassification[] = [];
 
-    for (const file of files.slice(0, 50)) { // Process in chunks
+    for (const file of files.slice(0, 50)) {
+      // Process in chunks
       try {
         const content = fs.readFileSync(file, 'utf8');
         const cases = await this.classifier.classifyFileContent(file, content);
 
         // Filter for high-confidence unintentional cases
-        const highConfidence = cases.filter(c =>
-          !c.isIntentional &&
-          c.confidence >= 0.85 &&
-          (c.category === AnyTypeCategory.ARRAY_TYPE || c.category === AnyTypeCategory.RECORD_TYPE)
+        const highConfidence = cases.filter(
+          c =>
+            !c.isIntentional &&
+            c.confidence >= 0.85 &&
+            (c.category === AnyTypeCategory.ARRAY_TYPE ||
+              c.category === AnyTypeCategory.RECORD_TYPE),
         );
 
         highConfidenceCases.push(...highConfidence);
-
       } catch (error) {
         console.warn(`Warning: Could not process ${file}:`, error);
       }
@@ -487,7 +490,7 @@ export class FullCampaignExecutor {
    */
   private async processBatchWithSafety(
     cases: AnyTypeClassification[],
-    batchType: string
+    batchType: string,
   ): Promise<ReplacementResult> {
     console.log(`🔧 Processing ${cases.length} ${batchType} cases`);
 
@@ -498,7 +501,7 @@ export class FullCampaignExecutor {
       const result = await this.replacer.processBatch(cases);
 
       // Validate build after replacement
-      if (!await this.validateBuildStability()) {
+      if (!(await this.validateBuildStability())) {
         console.warn('⚠️ Build instability detected, rolling back');
         await this.restoreBackup(backupPath);
         return {
@@ -510,19 +513,20 @@ export class FullCampaignExecutor {
             filePath: c.filePath,
             lineNumber: c.lineNumber,
             confidence: c.confidence,
-            validationRequired: true
+            validationRequired: true,
           })),
           compilationErrors: ['Build instability after replacement'],
           rollbackPerformed: true,
           backupPath,
           successfulReplacements: 0,
-          totalAttempted: cases.length
+          totalAttempted: cases.length,
         };
       }
 
-      console.log(`✅ Batch completed: ${result.successfulReplacements}/${cases.length} successful`);
+      console.log(
+        `✅ Batch completed: ${result.successfulReplacements}/${cases.length} successful`,
+      );
       return result;
-
     } catch (error) {
       console.error('❌ Batch processing failed:', error);
       await this.restoreBackup(backupPath);
@@ -548,7 +552,7 @@ export class FullCampaignExecutor {
 
       const batchResult = await this.processBatchWithSafety(
         categoryCases.slice(0, this.config.minBatchSize), // Smaller batches for medium-risk
-        `${category}-batch-${batchCount + 1}`
+        `${category}-batch-${batchCount + 1}`,
       );
 
       totalFixes += batchResult.successfulReplacements;
@@ -556,7 +560,7 @@ export class FullCampaignExecutor {
 
       // More frequent validation for medium-risk
       if (batchCount % 3 === 0) {
-        if (!await this.validateBuildStability()) {
+        if (!(await this.validateBuildStability())) {
           console.warn(`⚠️ Stopping ${category} processing due to build instability`);
           break;
         }
@@ -574,17 +578,17 @@ export class FullCampaignExecutor {
     let fixesApplied = 0;
     const processedFiles: string[] = [];
 
-    for (const file of domainFiles.slice(0, 20)) { // Limit per domain
+    for (const file of domainFiles.slice(0, 20)) {
+      // Limit per domain
       try {
         const content = fs.readFileSync(file, 'utf8');
         const domainContext = await this.domainAnalyzer.analyzeDomain(file, content);
         const cases = await this.classifier.classifyFileContent(file, content);
 
         // Filter for domain-appropriate cases
-        const domainCases = cases.filter(c =>
-          !c.isIntentional &&
-          c.confidence >= 0.7 &&
-          this.isDomainAppropriate(c, domainContext)
+        const domainCases = cases.filter(
+          c =>
+            !c.isIntentional && c.confidence >= 0.7 && this.isDomainAppropriate(c, domainContext),
         );
 
         if (domainCases.length > 0) {
@@ -592,7 +596,6 @@ export class FullCampaignExecutor {
           fixesApplied += result.successfulReplacements;
           processedFiles.push(file);
         }
-
       } catch (error) {
         console.warn(`Warning: Could not process domain file ${file}:`, error);
       }
@@ -602,7 +605,7 @@ export class FullCampaignExecutor {
       domain,
       fixesApplied,
       filesProcessed: processedFiles.length,
-      processedFiles
+      processedFiles,
     };
   }
 
@@ -621,13 +624,16 @@ export class FullCampaignExecutor {
         const intentionalCases = cases.filter(c => c.isIntentional);
 
         if (intentionalCases.length > 0) {
-          const updatedContent = await this.addESLintCommentsToFile(file, content, intentionalCases);
+          const updatedContent = await this.addESLintCommentsToFile(
+            file,
+            content,
+            intentionalCases,
+          );
           if (updatedContent !== content) {
             fs.writeFileSync(file, updatedContent);
             added += intentionalCases.length;
           }
         }
-
       } catch (error) {
         console.warn(`Warning: Could not add ESLint comments to ${file}:`, error);
       }
@@ -642,7 +648,7 @@ export class FullCampaignExecutor {
   private async addESLintCommentsToFile(
     filePath: string,
     content: string,
-    intentionalCases: AnyTypeClassification[]
+    intentionalCases: AnyTypeClassification[],
   ): Promise<string> {
     const lines = content.split('\n');
     let modified = false;
@@ -688,7 +694,10 @@ export class FullCampaignExecutor {
   /**
    * Validate documentation completeness
    */
-  private async validateDocumentationCompleteness(): Promise<{ complete: boolean; undocumented: number }> {
+  private async validateDocumentationCompleteness(): Promise<{
+    complete: boolean;
+    undocumented: number;
+  }> {
     const files = await this.getTypeScriptFiles();
     let undocumented = 0;
 
@@ -707,7 +716,6 @@ export class FullCampaignExecutor {
             undocumented++;
           }
         }
-
       } catch (error) {
         console.warn(`Warning: Could not validate documentation in ${file}:`, error);
       }
@@ -715,7 +723,7 @@ export class FullCampaignExecutor {
 
     return {
       complete: undocumented === 0,
-      undocumented
+      undocumented,
     };
   }
 
@@ -756,17 +764,17 @@ export class FullCampaignExecutor {
       targetAchieved: this.isTargetAchieved(),
       initialMetrics: {
         errorCount: this.metrics.initialErrorCount,
-        anyCount: this.metrics.initialAnyCount
+        anyCount: this.metrics.initialAnyCount,
       },
       finalMetrics: {
         errorCount: this.metrics.finalErrorCount,
-        anyCount: this.metrics.finalAnyCount
+        anyCount: this.metrics.finalAnyCount,
       },
       buildStable: await this.validateBuildStability(),
       performanceImproved: await this.validatePerformanceImprovements(),
       recommendations: this.generateRecommendations(),
       achievements: this.generateAchievements(),
-      nextSteps: this.generateNextSteps()
+      nextSteps: this.generateNextSteps(),
     };
   }
 
@@ -784,7 +792,7 @@ export class FullCampaignExecutor {
       rollbacksPerformed: 0,
       buildValidationsPerformed: 0,
       baselineEstablished: false,
-      campaignCompleted: false
+      campaignCompleted: false,
     };
   }
 
@@ -801,10 +809,13 @@ export class FullCampaignExecutor {
 
   private async getCurrentErrorCount(): Promise<number> {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch {
       return -1;
@@ -813,18 +824,24 @@ export class FullCampaignExecutor {
 
   private async getCurrentAnyCount(): Promise<number> {
     try {
-      const output = execSync('yarn lint --format=json 2>/dev/null | jq -r ".[].messages[] | select(.ruleId == \\"@typescript-eslint/no-explicit-any\\") | .ruleId" | wc -l || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn lint --format=json 2>/dev/null | jq -r ".[].messages[] | select(.ruleId == \\"@typescript-eslint/no-explicit-any\\") | .ruleId" | wc -l || echo "0"',
+        {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch {
       // Fallback: count explicit any patterns in TypeScript files
       try {
-        const output = execSync('find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += 2} END {print sum}\' || echo "0"', {
-          encoding: 'utf8',
-          stdio: 'pipe'
-        });
+        const output = execSync(
+          'find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += 2} END {print sum}\' || echo "0"',
+          {
+            encoding: 'utf8',
+            stdio: 'pipe',
+          },
+        );
         return parseInt(output.trim()) || 0;
       } catch {
         return 0;
@@ -849,10 +866,16 @@ export class FullCampaignExecutor {
 
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | head -200', {
-        encoding: 'utf8'
-      });
-      return output.trim().split('\n').filter(f => f.length > 0);
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | head -200',
+        {
+          encoding: 'utf8',
+        },
+      );
+      return output
+        .trim()
+        .split('\n')
+        .filter(f => f.length > 0);
     } catch {
       return [];
     }
@@ -864,9 +887,17 @@ export class FullCampaignExecutor {
       const lowerFile = file.toLowerCase();
       switch (domain) {
         case 'astrological':
-          return lowerFile.includes('astro') || lowerFile.includes('planet') || lowerFile.includes('calculation');
+          return (
+            lowerFile.includes('astro') ||
+            lowerFile.includes('planet') ||
+            lowerFile.includes('calculation')
+          );
         case 'recipe':
-          return lowerFile.includes('recipe') || lowerFile.includes('ingredient') || lowerFile.includes('food');
+          return (
+            lowerFile.includes('recipe') ||
+            lowerFile.includes('ingredient') ||
+            lowerFile.includes('food')
+          );
         case 'campaign':
           return lowerFile.includes('campaign') || lowerFile.includes('metrics');
         case 'service':
@@ -881,7 +912,7 @@ export class FullCampaignExecutor {
 
   private async findCategorySpecificCases(
     category: AnyTypeCategory,
-    files: string[]
+    files: string[],
   ): Promise<AnyTypeClassification[]> {
     const cases: AnyTypeClassification[] = [];
 
@@ -890,14 +921,11 @@ export class FullCampaignExecutor {
         const content = fs.readFileSync(file, 'utf8');
         const fileCases = await this.classifier.classifyFileContent(file, content);
 
-        const categoryCases = fileCases.filter(c =>
-          !c.isIntentional &&
-          c.category === category &&
-          c.confidence >= 0.6
+        const categoryCases = fileCases.filter(
+          c => !c.isIntentional && c.category === category && c.confidence >= 0.6,
         );
 
         cases.push(...categoryCases);
-
       } catch (error) {
         console.warn(`Warning: Could not process ${file}:`, error);
       }
@@ -951,8 +979,12 @@ export class FullCampaignExecutor {
       recommendations.push('Review rollback cases for potential manual fixes');
     }
 
-    recommendations.push('Continue monitoring for new unintentional any types in future development');
-    recommendations.push('Consider implementing pre-commit hooks to prevent new unintentional any types');
+    recommendations.push(
+      'Continue monitoring for new unintentional any types in future development',
+    );
+    recommendations.push(
+      'Consider implementing pre-commit hooks to prevent new unintentional any types',
+    );
 
     return recommendations;
   }
@@ -961,7 +993,9 @@ export class FullCampaignExecutor {
     const achievements: string[] = [];
 
     achievements.push(`Applied ${this.metrics.totalFixesApplied} successful type improvements`);
-    achievements.push(`Achieved ${this.calculateReductionPercentage().toFixed(1)}% reduction in explicit any usage`);
+    achievements.push(
+      `Achieved ${this.calculateReductionPercentage().toFixed(1)}% reduction in explicit any usage`,
+    );
 
     if (this.isTargetAchieved()) {
       achievements.push('✅ Successfully met campaign targets');
@@ -980,7 +1014,7 @@ export class FullCampaignExecutor {
       'Review any remaining intentional any types for potential improvements',
       'Consider implementing automated monitoring for new unintentional any types',
       'Document lessons learned for future campaigns',
-      'Plan follow-up campaigns for other code quality improvements'
+      'Plan follow-up campaigns for other code quality improvements',
     ];
   }
 }

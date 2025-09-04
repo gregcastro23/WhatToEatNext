@@ -3,28 +3,28 @@
 import { allCookingMethods } from '@/data/cooking/methods';
 import { CookingMethodInfo } from '@/types/cooking';
 import {
-    AccessTime,
-    Kitchen,
-    LocalFireDepartment,
-    Science,
-    ThermostatAuto,
-    Warning,
-    Whatshot,
+  AccessTime,
+  Kitchen,
+  LocalFireDepartment,
+  Science,
+  ThermostatAuto,
+  Warning,
+  Whatshot,
 } from '@mui/icons-material';
 import {
-    Box,
-    Card,
-    CardContent,
-    Chip,
-    Container,
-    Divider,
-    Grid,
-    List,
-    ListItem,
-    ListItemText,
-    Paper,
-    Typography,
-    useTheme,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Container,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Typography,
+  useTheme,
 } from '@mui/material';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -32,14 +32,27 @@ import { useEffect, useState } from 'react';
 
 // Fallback placeholders for missing components to keep page functional
 const MethodImage = ({ method }: { method: string }) => (
-  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5' }}>
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: '#f5f5f5',
+    }}
+  >
     <span style={{ color: '#999' }}>Image for {method}</span>
   </div>
 );
 
-const ZodiacSign = ({ sign, size = 'medium' }: { sign: string; size?: 'small' | 'medium' | 'large' }) => (
-  <span>{sign}</span>
-);
+const ZodiacSign = ({
+  sign,
+  size = 'medium',
+}: {
+  sign: string;
+  size?: 'small' | 'medium' | 'large';
+}) => <span>{sign}</span>;
 
 export default function CookingMethodPage() {
   const params = useParams();

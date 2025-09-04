@@ -4,18 +4,15 @@ import {
   AlchemicalValues,
   ChakraEnergies,
   LunarPhase,
-  ZodiacSign,
   _,
   _,
 } from '@/types/alchemy';
 import {
   PlanetaryAlignment,
   AstrologicalState,
-  _PlanetaryPosition,
   CelestialPosition,
   AlchemicalProperties,
 } from '@/types/celestial';
-import { _Recipe } from '@/types/recipe';
 
 /**
  * System defaults - consolidated from multiple files

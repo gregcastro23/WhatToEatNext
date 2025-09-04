@@ -2,14 +2,14 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { logger } from '@/utils/logger';
 import {
-    NavigationState,
-    getComponentState,
-    getNavigationState,
-    getScrollPosition,
-    saveComponentState,
-    saveNavigationState,
-    saveScrollPosition,
-    useStateCleanup,
+  NavigationState,
+  getComponentState,
+  getNavigationState,
+  getScrollPosition,
+  saveComponentState,
+  saveNavigationState,
+  saveScrollPosition,
+  useStateCleanup,
 } from '@/utils/statePreservation';
 import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 

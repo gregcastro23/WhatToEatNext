@@ -17,7 +17,9 @@ const generateVegetableAttributes = (vegData: {
     seasonal_peak_months: [], // Will be set individually
     cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked
     nutrient_density: Math.round(
-      ((vegData as any)?.fiber || 0) * 0.2 + (100 - vegData.water) * 0.05 + Math.min(7, vegData.bitterness) * 0.3,
+      ((vegData as any)?.fiber || 0) * 0.2 +
+        (100 - vegData.water) * 0.05 +
+        Math.min(7, vegData.bitterness) * 0.3,
     ),
   };
 };

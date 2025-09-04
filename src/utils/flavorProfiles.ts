@@ -5,10 +5,7 @@ function isValidObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function hasProperty<T extends string>(
-  obj: unknown,
-  prop: T
-): obj is Record<T, unknown> {
+function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj;
 }
 
@@ -20,7 +17,9 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   const cuisineData = isValidObject(cuisine) ? cuisine : {};
   const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null;
   const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null;
-  const cuisineId = (typeof id === 'string' ? id : typeof name === 'string' ? name : '').toLowerCase();
+  const cuisineId = (
+    typeof id === 'string' ? id : typeof name === 'string' ? name : ''
+  ).toLowerCase();
 
   // Get flavor profile from static mapping
   const staticProfile = getStaticFlavorProfile(cuisineId);
@@ -29,20 +28,27 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   }
 
   // If we have astrological influences, use them
-  const astrologicalInfluences = hasProperty(cuisineData, 'astrologicalInfluences') ? cuisineData.astrologicalInfluences : null;
+  const astrologicalInfluences = hasProperty(cuisineData, 'astrologicalInfluences')
+    ? cuisineData.astrologicalInfluences
+    : null;
   if (Array.isArray(astrologicalInfluences) && astrologicalInfluences.length > 0) {
-    const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties') ? cuisineData.alchemicalProperties : null;
-    const elementalProps = hasProperty(cuisineData, 'elementalProperties') ? cuisineData.elementalProperties : null;
+    const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties')
+      ? cuisineData.alchemicalProperties
+      : null;
+    const elementalProps = hasProperty(cuisineData, 'elementalProperties')
+      ? cuisineData.elementalProperties
+      : null;
     const props = (alchemicalProps || elementalProps || {}) as ElementalProperties;
-    return getAstrologicallyInformedFlavorProfile(
-      astrologicalInfluences as string[],
-      props,
-    );
+    return getAstrologicallyInformedFlavorProfile(astrologicalInfluences as string[], props);
   }
 
   // Fall back to elemental properties
-  const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties') ? cuisineData.alchemicalProperties : null;
-  const elementalProps = hasProperty(cuisineData, 'elementalProperties') ? cuisineData.elementalProperties : null;
+  const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties')
+    ? cuisineData.alchemicalProperties
+    : null;
+  const elementalProps = hasProperty(cuisineData, 'elementalProperties')
+    ? cuisineData.elementalProperties
+    : null;
   const props = (alchemicalProps || elementalProps || {}) as ElementalProperties;
   return generateFlavorProfileFromElements(props);
 }

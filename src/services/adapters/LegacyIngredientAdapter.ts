@@ -170,9 +170,7 @@ export class LegacyIngredientAdapter {
    */
   public calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
     try {
-      return unifiedIngredientService.calculateElementalProperties(
-        ingredient as any,
-      ); // Pattern UUU: Import Path Interface Resolution
+      return unifiedIngredientService.calculateElementalProperties(ingredient as any); // Pattern UUU: Import Path Interface Resolution
     } catch (error) {
       logger.error(
         `Error in calculateElementalProperties for "${ingredient.name || 'unknown'}":`,

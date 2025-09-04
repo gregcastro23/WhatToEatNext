@@ -1056,11 +1056,7 @@ export function getRecipesForCuisineMatch(
           }
         })
         .filter(recipe => Number((recipe as any).matchScore || 0) >= 0.5) // Only include reasonably good matches
-        .sort(
-          (a, b) =>
-            Number((b as any).matchScore || 0) -
-            Number((a as any).matchScore || 0),
-        ); // Sort by score (high to low)
+        .sort((a, b) => Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0)); // Sort by score (high to low)
     }
 
     log.info(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
@@ -1088,9 +1084,7 @@ export function getRecipesForCuisineMatch(
 
     // Sort by match score
     const sortedMatches = uniqueMatches.sort(
-      (a, b) =>
-        Number((b as any).matchScore || 0) -
-        Number((a as any).matchScore || 0),
+      (a, b) => Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0),
     );
 
     log.info(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
@@ -1223,7 +1217,6 @@ export const calculateCuisineSimilarity = (cuisine1: string, cuisine2: string): 
 export const findRelatedRecipes = (recipeName: string, recipes: Recipe[], count = 3): Recipe[] => {
   const scoredRecipes = recipes
     .map(recipe => {
-
       // Simple name similarity scoring
       const nameSimilarity =
         recipe.name && recipeName

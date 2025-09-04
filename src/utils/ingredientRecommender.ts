@@ -336,14 +336,8 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
     filteredIngredients.sort((a, b) => {
       const ingredientA = a as unknown as BaseIngredient;
       const ingredientB = b as unknown as BaseIngredient;
-      const aValue =
-        ingredientA.elementalProperties?.[
-          astroState.dominantElement as any
-        ] || 0;
-      const bValue =
-        ingredientB.elementalProperties?.[
-          astroState.dominantElement as any
-        ] || 0;
+      const aValue = ingredientA.elementalProperties?.[astroState.dominantElement as any] || 0;
+      const bValue = ingredientB.elementalProperties?.[astroState.dominantElement as any] || 0;
       return bValue - aValue;
     });
   }
@@ -529,9 +523,7 @@ export async function getIngredientRecommendations(
           ingredient.modality ||
           determineIngredientModality(
             ingredient.qualities,
-            safeGetElementalProperties(
-              (ingredient as unknown as any).elementalProperties,
-            ),
+            safeGetElementalProperties((ingredient as unknown as any).elementalProperties),
           );
 
         if (ingredientModality !== options.modalityPreference) return false;
@@ -542,9 +534,7 @@ export async function getIngredientRecommendations(
     .map(ingredient => {
       // Calculate elemental score (30% of total)
       const elementalScore = calculateElementalScore(
-        safeGetElementalProperties(
-          (ingredient as unknown as any).elementalProperties,
-        ),
+        safeGetElementalProperties((ingredient as unknown as any).elementalProperties),
         elementalProps,
       );
 
@@ -574,9 +564,7 @@ export async function getIngredientRecommendations(
         ingredient.modality ||
         determineIngredientModality(
           ingredient.qualities,
-          safeGetElementalProperties(
-            (ingredient as unknown as any).elementalProperties,
-          ),
+          safeGetElementalProperties((ingredient as unknown as any).elementalProperties),
         );
 
       return {
@@ -604,16 +592,22 @@ export async function getIngredientRecommendations(
   };
 
   // Perform enterprise intelligence analysis
-  const astroContext = (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {};
+  const astroContext =
+    (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {};
   const safeAstroContext = {
     zodiacSign: astroContext.zodiacSign ?? 'aries',
     lunarPhase: typeof astroContext.lunarPhase === 'string' ? astroContext.lunarPhase : 'new',
     season: typeof astroContext.season === 'string' ? astroContext.season : 'spring',
-    userPreferences: astroContext.userPreferences && typeof astroContext.userPreferences === 'object'
-      ? astroContext.userPreferences as { dietaryRestrictions: string[]; flavorPreferences: string[]; culturalPreferences: string[]; }
-      : undefined
+    userPreferences:
+      astroContext.userPreferences && typeof astroContext.userPreferences === 'object'
+        ? (astroContext.userPreferences as {
+            dietaryRestrictions: string[];
+            flavorPreferences: string[];
+            culturalPreferences: string[];
+          })
+        : undefined,
   };
-  
+
   const enterpriseAnalysis = await enterpriseIntelligence.performEnterpriseAnalysis(
     undefined, // No recipe data for ingredient-only analysis
     ingredientData as any,
@@ -673,12 +667,14 @@ export async function getIngredientRecommendations(
         dietary: safeGetStringArray(ingredientData.dietary),
         // Enterprise Intelligence Enhanced Properties
         flavorProfile: (() => {
-          const analysis = ingredientIntelligence?.categorizationAnalysis as {
-            flavorProfile?: Record<string, unknown>;
-          } | undefined;
+          const analysis = ingredientIntelligence?.categorizationAnalysis as
+            | {
+                flavorProfile?: Record<string, unknown>;
+              }
+            | undefined;
           const profile = analysis?.flavorProfile;
-          return profile && typeof profile === 'object' && profile !== null 
-            ? profile as Record<string, number>
+          return profile && typeof profile === 'object' && profile !== null
+            ? (profile as Record<string, number>)
             : {};
         })(),
         cuisine:
@@ -688,11 +684,14 @@ export async function getIngredientRecommendations(
           (ingredientIntelligence?.categorizationAnalysis as { regionalCuisine?: string })
             ?.regionalCuisine || 'global',
         season: (() => {
-          const seasonalAnalysis = ingredientIntelligence?.seasonalAnalysis as { currentSeason?: string } | undefined;
+          const seasonalAnalysis = ingredientIntelligence?.seasonalAnalysis as
+            | { currentSeason?: string }
+            | undefined;
           const currentSeason = seasonalAnalysis?.currentSeason;
-          return (typeof currentSeason === 'string' && ['spring', 'summer', 'autumn', 'winter', 'all'].includes(currentSeason)) 
-            ? currentSeason as Season
-            : 'all' as Season;
+          return typeof currentSeason === 'string' &&
+            ['spring', 'summer', 'autumn', 'winter', 'all'].includes(currentSeason)
+            ? (currentSeason as Season)
+            : ('all' as Season);
         })(),
         mealType:
           (ingredientIntelligence?.categorizationAnalysis as { mealType?: string })?.mealType ||
@@ -807,8 +806,7 @@ function calculateSeasonalScore(ingredient: Ingredient, date: Date): number {
   }
 
   // Get seasonality score for current season
-  const seasonScore =
-    (ingredient as unknown as any).seasonality?.[currentSeason] || 0.5;
+  const seasonScore = (ingredient as unknown as any).seasonality?.[currentSeason] || 0.5;
 
   return seasonScore;
 }
@@ -940,8 +938,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elementalInfluences).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
     Object.keys(elementalInfluences).forEach(element => {
-      elementalInfluences[element as any] =
-        elementalInfluences[element as any] / total;
+      elementalInfluences[element as any] = elementalInfluences[element as any] / total;
     });
   }
 
@@ -1284,8 +1281,7 @@ function calculateVenusInfluence(
     }
 
     // Check for fragrance and aroma enhancement
-    const aromaticProperties = (ingredient as unknown as any)
-      .aromaticProperties;
+    const aromaticProperties = (ingredient as unknown as any).aromaticProperties;
     if (aromaticProperties || (flavorProfile.aromatic && flavorProfile.aromatic > 0.7)) {
       score += 1.6;
     }
@@ -1311,9 +1307,7 @@ function calculateVenusInfluence(
 
     if (foodFocusProperty) {
       const foodFocus = (foodFocusProperty || '').toString().toLowerCase();
-      const ingredientName = ((ingredient as unknown as any).name || '')
-        .toString()
-        .toLowerCase();
+      const ingredientName = ((ingredient as unknown as any).name || '').toString().toLowerCase();
 
       // Direct keywords match
       const keywords = foodFocus.split(/[\s,;]+/).filter(k => k.length > 3);
@@ -1407,8 +1401,7 @@ function calculateVenusInfluence(
       earthSigns.includes(lowerSign) &&
       (venusData.PlanetSpecific?.CulinaryTemperament as any).EarthVenus
     ) {
-      const earthVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any)
-        .EarthVenus;
+      const earthVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any).EarthVenus;
 
       // Check for sensual, rich ingredients
       if (
@@ -1464,8 +1457,7 @@ function calculateVenusInfluence(
       airSigns.includes(lowerSign) &&
       (venusData.PlanetSpecific?.CulinaryTemperament as any).AirVenus
     ) {
-      const airVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any)
-        .AirVenus;
+      const airVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any).AirVenus;
 
       // Check for light, delicate ingredients
       if (
@@ -1525,8 +1517,7 @@ function calculateVenusInfluence(
       waterSigns.includes(lowerSign) &&
       (venusData.PlanetSpecific?.CulinaryTemperament as any).WaterVenus
     ) {
-      const waterVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any)
-        .WaterVenus;
+      const waterVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any).WaterVenus;
 
       // Check for moist, juicy ingredients with safe property access
       const textureArray = Array.isArray(texture) ? texture : [];
@@ -1586,8 +1577,7 @@ function calculateVenusInfluence(
       fireSigns.includes(lowerSign) &&
       (venusData.PlanetSpecific?.CulinaryTemperament as any).FireVenus
     ) {
-      const fireVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any)
-        .FireVenus;
+      const fireVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any).FireVenus;
 
       // Check for vibrant, spicy ingredients with safe property access
       const culinaryUsesArray = Array.isArray(culinaryUses) ? culinaryUses : [];
@@ -3025,7 +3015,8 @@ export async function recommendIngredients(
           lunar: currentLunarPhaseData,
           planetary: { day: planetaryDay, hour: planetaryHour },
         });
-        enterpriseEnhancement = enhancementResult && typeof enhancementResult === 'object' ? enhancementResult : null;
+        enterpriseEnhancement =
+          enhancementResult && typeof enhancementResult === 'object' ? enhancementResult : null;
       }
     } catch (error) {
       // Enterprise enhancement failed, continue without it

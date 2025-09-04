@@ -2,12 +2,12 @@ import type { ZodiacSign } from '@/types/celestial';
 import { logger } from '@/utils/logger';
 import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
 import {
-    AlchemicalPillar,
-    getCookingMethodPillar as _getCookingMethodPillar,
-    getCookingMethodAlchemicalEffect,
-    getCookingMethodThermodynamics,
-    getPlanetaryAlchemicalEffect,
-    getTarotCardAlchemicalEffect
+  AlchemicalPillar,
+  getCookingMethodPillar as _getCookingMethodPillar,
+  getCookingMethodAlchemicalEffect,
+  getCookingMethodThermodynamics,
+  getPlanetaryAlchemicalEffect,
+  getTarotCardAlchemicalEffect,
 } from '../constants/alchemicalPillars';
 import { AlchemicalProperty } from '../types/celestial';
 
@@ -314,8 +314,7 @@ export function applyPlanetaryInfluence(
         : 0;
     const effectMultiplier =
       typeof planetaryEffects.Spirit === 'number' ? planetaryEffects.Spirit : 0;
-    (transformedItem as any).spirit =
-      currentSpirit * (1 + 0.1 * effectMultiplier);
+    (transformedItem as any).spirit = currentSpirit * (1 + 0.1 * effectMultiplier);
   }
 
   if ('essence' in transformedItem) {
@@ -325,8 +324,7 @@ export function applyPlanetaryInfluence(
         : 0;
     const effectMultiplier =
       typeof planetaryEffects.Essence === 'number' ? planetaryEffects.Essence : 0;
-    (transformedItem as any).essence =
-      currentEssence * (1 + 0.1 * effectMultiplier);
+    (transformedItem as any).essence = currentEssence * (1 + 0.1 * effectMultiplier);
   }
 
   if ('matter' in transformedItem) {
@@ -336,15 +334,13 @@ export function applyPlanetaryInfluence(
         : 0;
     const effectMultiplier =
       typeof planetaryEffects.Matter === 'number' ? planetaryEffects.Matter : 0;
-    (transformedItem as any).matter =
-      currentMatter * (1 + 0.1 * effectMultiplier);
+    (transformedItem as any).matter = currentMatter * (1 + 0.1 * effectMultiplier);
   }
 
   if ('substance' in transformedItem) {
     const currentSubstance = Number((transformedItem as any).substance) || 0;
     const effectMultiplier = Number(planetaryEffects.Substance) || 0;
-    (transformedItem as any).substance =
-      currentSubstance * (1 + 0.1 * effectMultiplier);
+    (transformedItem as any).substance = currentSubstance * (1 + 0.1 * effectMultiplier);
   }
 
   // Ensure all values remain within reasonable bounds
@@ -384,29 +380,25 @@ export function applyTarotInfluence(item: AlchemicalItem, cardName: string): Alc
   if ('spirit' in transformedItem) {
     const currentSpirit = Number((transformedItem as any).spirit) || 0;
     const effectMultiplier = Number(tarotEffects.Spirit) || 0;
-    (transformedItem as any).spirit =
-      currentSpirit * (1 + 0.15 * effectMultiplier);
+    (transformedItem as any).spirit = currentSpirit * (1 + 0.15 * effectMultiplier);
   }
 
   if ('essence' in transformedItem) {
     const currentEssence = Number((transformedItem as any).essence) || 0;
     const effectMultiplier = Number(tarotEffects.Essence) || 0;
-    (transformedItem as any).essence =
-      currentEssence * (1 + 0.15 * effectMultiplier);
+    (transformedItem as any).essence = currentEssence * (1 + 0.15 * effectMultiplier);
   }
 
   if ('matter' in transformedItem) {
     const currentMatter = Number((transformedItem as any).matter) || 0;
     const effectMultiplier = Number(tarotEffects.Matter) || 0;
-    (transformedItem as any).matter =
-      currentMatter * (1 + 0.15 * effectMultiplier);
+    (transformedItem as any).matter = currentMatter * (1 + 0.15 * effectMultiplier);
   }
 
   if ('substance' in transformedItem) {
     const currentSubstance = Number((transformedItem as any).substance) || 0;
     const effectMultiplier = Number(tarotEffects.Substance) || 0;
-    (transformedItem as any).substance =
-      currentSubstance * (1 + 0.15 * effectMultiplier);
+    (transformedItem as any).substance = currentSubstance * (1 + 0.15 * effectMultiplier);
   }
 
   // Ensure all values remain within reasonable bounds
@@ -489,13 +481,10 @@ const getMethodCompatibility = (
   }
 
   logger.debug(`Method: ${methodName}`);
-  logger.debug(
-    `- Associated Pillar: ${(pillar as any).name} (ID: ${(pillar as any).id})`,
-  );
+  logger.debug(`- Associated Pillar: ${(pillar as any).name} (ID: ${(pillar as any).id})`);
 
   if ((pillar as unknown as any).elementalAssociations) {
-    const elementalAssociations = (pillar as unknown as any)
-      .elementalAssociations as any;
+    const elementalAssociations = (pillar as unknown as any).elementalAssociations as any;
     logger.debug(`- Primary Element: ${elementalAssociations.primary}`);
     if (elementalAssociations.secondary) {
       logger.debug(`- Secondary Element: ${elementalAssociations.secondary}`);
@@ -507,9 +496,7 @@ const getMethodCompatibility = (
   );
 
   logger.debug(`\nIngredient Details:`);
-  logger.debug(
-    `- Element: ${(transformedItem as any).element || 'Not specified'}`,
-  );
+  logger.debug(`- Element: ${(transformedItem as any).element || 'Not specified'}`);
   logger.debug(
     `- Elemental Character: ${(transformedItem as any).elementalCharacter || 'Not specified'}`,
   );
@@ -522,12 +509,8 @@ const getMethodCompatibility = (
   logger.debug(`\nStarting with base compatibility: ${compatibility}%`);
 
   // Element match - if both the transformed item and pillar have elemental associations
-  if (
-    (transformedItem as any).element &&
-    (pillar as unknown as any).elementalAssociations
-  ) {
-    const elementalAssociations = (pillar as unknown as any)
-      .elementalAssociations as any;
+  if ((transformedItem as any).element && (pillar as unknown as any).elementalAssociations) {
+    const elementalAssociations = (pillar as unknown as any).elementalAssociations as any;
     const primaryElement = elementalAssociations.primary;
 
     // Primary element match (case insensitive)
@@ -570,18 +553,14 @@ const getMethodCompatibility = (
     earth: ['water'],
   };
 
-  if (
-    (transformedItem as any).element &&
-    (pillar as unknown as any).elementalAssociations
-  ) {
-    const elementalAssociations = (pillar as unknown as any)
-      .elementalAssociations as any;
+  if ((transformedItem as any).element && (pillar as unknown as any).elementalAssociations) {
+    const elementalAssociations = (pillar as unknown as any).elementalAssociations as any;
     const primaryElement = String(elementalAssociations.primary || '').toLowerCase();
 
     if (
-      complementaryPairs[
-        String((transformedItem as any).element || '').toLowerCase()
-      ]?.includes(primaryElement)
+      complementaryPairs[String((transformedItem as any).element || '').toLowerCase()]?.includes(
+        primaryElement,
+      )
     ) {
       const bonus = 10;
       compatibility += bonus;
@@ -659,9 +638,7 @@ export const getHolisticCookingRecommendations = async (
   logger.debug(`Planet influence: ${planet || 'None'}`);
   logger.debug(`Tarot influence: ${tarotCard || 'None'}`);
   logger.debug(`Time of day: ${isDaytime ? 'Daytime' : 'Nighttime'}`);
-  logger.debug(
-    `Available methods count: ${(availableMethods as CookingMethod[]).length}`,
-  );
+  logger.debug(`Available methods count: ${(availableMethods as CookingMethod[]).length}`);
   logger.debug(`Requesting top ${count} recommendations`);
 
   // Transform ingredient based on planetary and tarot influences
@@ -934,8 +911,7 @@ export function getEnhancedCookingRecommendations(
       // Apply safe type conversion for property access
       const sustainabilityRating = Number(methodData.sustainabilityRating || 0.5);
       const equipmentComplexity = Number(methodData.equipmentComplexity || 0.5);
-      const astrologicalInfluences =
-        (methodData.astrologicalInfluences as any) || {};
+      const astrologicalInfluences = (methodData.astrologicalInfluences as any) || {};
       const duration = (methodData.duration as any) || {};
       const _toolsRequired = (methodData.toolsRequired as string[]) || [];
 

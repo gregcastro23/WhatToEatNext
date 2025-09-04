@@ -371,9 +371,7 @@ export const getSubstitutions = (spiceName: string): string[] => {
           (spiceData.qualities as string[]).includes(quality),
         ) &&
         Number(
-          ((value as any).elementalProperties as any)[
-            Object.keys(spice.elementalProperties)[0]
-          ],
+          ((value as any).elementalProperties as any)[Object.keys(spice.elementalProperties)[0]],
         ) >= 0.3
       );
     })
@@ -384,10 +382,7 @@ export const getSpicesByPreparationMethod = (method: string): Record<string, Ing
   return Object.entries(spices)
     .filter(([_, value]) => {
       const valueData = value as any;
-      return (
-        valueData.preparation &&
-        Object.keys(valueData.preparation as any).includes(method)
-      );
+      return valueData.preparation && Object.keys(valueData.preparation as any).includes(method);
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };

@@ -15,12 +15,12 @@ import * as path from 'path';
 import { BuildValidationResult } from '@/utils/BuildValidator';
 import { SafetyValidator } from './SafetyValidator';
 import {
-    ClassificationContext,
-    CodeDomain,
-    ReplacementResult,
-    ReplacementStrategy,
-    SafetyProtocolError,
-    TypeReplacement
+  ClassificationContext,
+  CodeDomain,
+  ReplacementResult,
+  ReplacementStrategy,
+  SafetyProtocolError,
+  TypeReplacement,
 } from './types';
 
 export class SafeTypeReplacer {
@@ -35,7 +35,7 @@ export class SafeTypeReplacer {
     backupDirectory = './.any-elimination-backups',
     safetyThreshold = 0.7,
     validationTimeout = 30000,
-    maxRetries = 3
+    maxRetries = 3,
   ) {
     this.backupDirectory = backupDirectory;
     this.safetyThreshold = safetyThreshold;
@@ -43,7 +43,7 @@ export class SafeTypeReplacer {
     this.maxRetries = maxRetries;
     this.strategies = this.initializeStrategies();
     this.safetyValidator = new SafetyValidator(validationTimeout, {
-      minimumSafetyScore: safetyThreshold
+      minimumSafetyScore: safetyThreshold,
     });
     this.ensureBackupDirectory();
   }
@@ -52,7 +52,10 @@ export class SafeTypeReplacer {
    * Apply a single type replacement with comprehensive safety validation
    * Implements atomic operations with automatic rollback on any failure
    */
-  async applyReplacement(replacement: TypeReplacement, context?: ClassificationContext): Promise<ReplacementResult> {
+  async applyReplacement(
+    replacement: TypeReplacement,
+    context?: ClassificationContext,
+  ): Promise<ReplacementResult> {
     // Enhanced pre-validation using SafetyValidator
     let safetyValidation: SafetyValidationResult;
 
@@ -64,11 +67,12 @@ export class SafeTypeReplacer {
       safetyValidation = {
         isValid: basicSafetyScore >= this.safetyThreshold,
         safetyScore: basicSafetyScore,
-        validationErrors: basicSafetyScore < this.safetyThreshold
-          ? [`Safety score ${basicSafetyScore} below threshold ${this.safetyThreshold}`]
-          : [],
+        validationErrors:
+          basicSafetyScore < this.safetyThreshold
+            ? [`Safety score ${basicSafetyScore} below threshold ${this.safetyThreshold}`]
+            : [],
         warnings: [],
-        recommendations: []
+        recommendations: [],
       };
     }
 
@@ -78,7 +82,7 @@ export class SafeTypeReplacer {
         appliedReplacements: [],
         failedReplacements: [replacement],
         compilationErrors: safetyValidation.validationErrors,
-        rollbackPerformed: false
+        rollbackPerformed: false,
       };
     }
 
@@ -92,7 +96,10 @@ export class SafeTypeReplacer {
 
         if (result.success) {
           // Verify rollback capability before declaring success
-          const rollbackVerification = await this.verifyRollbackCapability(replacement.filePath, backupPath);
+          const rollbackVerification = await this.verifyRollbackCapability(
+            replacement.filePath,
+            backupPath,
+          );
           if (!rollbackVerification.success) {
             await this.rollbackFromBackup(replacement.filePath, backupPath);
             return {
@@ -101,7 +108,7 @@ export class SafeTypeReplacer {
               failedReplacements: [replacement],
               compilationErrors: [`Rollback verification failed: ${rollbackVerification.error}`],
               rollbackPerformed: true,
-              backupPath
+              backupPath,
             };
           }
 
@@ -110,7 +117,6 @@ export class SafeTypeReplacer {
           // If replacement failed with specific errors, return immediately (don't retry)
           return result;
         }
-
       } catch (error) {
         retryCount++;
         if (retryCount >= this.maxRetries) {
@@ -122,7 +128,7 @@ export class SafeTypeReplacer {
             failedReplacements: [replacement],
             compilationErrors: [error instanceof Error ? error.message : String(error)],
             rollbackPerformed: true,
-            backupPath
+            backupPath,
           };
         }
 
@@ -139,7 +145,7 @@ export class SafeTypeReplacer {
       failedReplacements: [replacement],
       compilationErrors: ['Maximum retries exceeded'],
       rollbackPerformed: true,
-      backupPath
+      backupPath,
     };
   }
 
@@ -182,7 +188,10 @@ export class SafeTypeReplacer {
 
       // Enhanced build validation after batch operations
       const modifiedFiles = Array.from(backupPaths.keys());
-      const buildValidation = await this.safetyValidator.validateBuildAfterBatch(modifiedFiles, false);
+      const buildValidation = await this.safetyValidator.validateBuildAfterBatch(
+        modifiedFiles,
+        false,
+      );
 
       if (!buildValidation.buildSuccessful) {
         // Rollback all changes
@@ -193,14 +202,14 @@ export class SafeTypeReplacer {
           appliedReplacements: [],
           failedReplacements: replacements,
           compilationErrors: buildValidation.compilationErrors,
-          rollbackPerformed: true
+          rollbackPerformed: true,
         };
       }
 
       // Validate rollback capability
       const rollbackValidation = await this.safetyValidator.validateRollbackCapability(
         new Map(modifiedFiles.map(file => [file, file])),
-        backupPaths
+        backupPaths,
       );
 
       if (!rollbackValidation.canRollback) {
@@ -214,9 +223,8 @@ export class SafeTypeReplacer {
         appliedReplacements,
         failedReplacements,
         compilationErrors,
-        rollbackPerformed: false
+        rollbackPerformed: false,
       };
-
     } catch (error) {
       // Emergency rollback
       await this.rollbackAllFiles(backupPaths);
@@ -224,7 +232,7 @@ export class SafeTypeReplacer {
       throw new SafetyProtocolError(
         'Batch replacement failed with emergency rollback',
         Array.from(backupPaths.values())[0] || '',
-        Array.from(backupPaths.keys())
+        Array.from(backupPaths.keys()),
       );
     }
   }
@@ -240,9 +248,8 @@ export class SafeTypeReplacer {
           return match.replace('any[]', `${inferredType}[]`);
         },
         validator: (context: ClassificationContext) =>
-          context.codeSnippet.includes('any[]') &&
-          !this.isInErrorHandlingContext(context),
-        priority: 1
+          context.codeSnippet.includes('any[]') && !this.isInErrorHandlingContext(context),
+        priority: 1,
       },
 
       // Record type replacement with validation (Record<string, any> → Record<string, unknown>)
@@ -251,13 +258,16 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           // Check if we can infer a more specific value type
           const inferredValueType = this.inferRecordValueType(context);
-          return match.replace(/Record<\s*string\s*,\s*any\s*>/, `Record<string, ${inferredValueType}>`);
+          return match.replace(
+            /Record<\s*string\s*,\s*any\s*>/,
+            `Record<string, ${inferredValueType}>`,
+          );
         },
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('Record<string, any>') &&
           !this.isInErrorHandlingContext(context) &&
           !this.isDynamicConfigContext(context),
-        priority: 2
+        priority: 2,
       },
 
       // Generic Record replacement (Record<number, any> → Record<number, unknown>)
@@ -265,12 +275,15 @@ export class SafeTypeReplacer {
         pattern: /:\s*Record<\s*number\s*,\s*any\s*>/g,
         replacement: (match: string, context: ClassificationContext) => {
           const inferredValueType = this.inferRecordValueType(context);
-          return match.replace(/Record<\s*number\s*,\s*any\s*>/, `Record<number, ${inferredValueType}>`);
+          return match.replace(
+            /Record<\s*number\s*,\s*any\s*>/,
+            `Record<number, ${inferredValueType}>`,
+          );
         },
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('Record<number, any>') &&
           !this.isInErrorHandlingContext(context),
-        priority: 2
+        priority: 2,
       },
 
       // Index signature replacement ([key: string]: any → [key: string]: unknown)
@@ -283,7 +296,7 @@ export class SafeTypeReplacer {
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('[key: string]: any') &&
           !this.isInErrorHandlingContext(context),
-        priority: 3
+        priority: 3,
       },
 
       // Function parameter analysis and replacement
@@ -301,7 +314,7 @@ export class SafeTypeReplacer {
           this.isFunctionParameterContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isEventHandlerContext(context),
-        priority: 4
+        priority: 4,
       },
 
       // Function parameter in arrow functions
@@ -316,9 +329,8 @@ export class SafeTypeReplacer {
           return match.replace('any', 'unknown');
         },
         validator: (context: ClassificationContext) =>
-          context.codeSnippet.includes('=>') &&
-          !this.isInErrorHandlingContext(context),
-        priority: 4
+          context.codeSnippet.includes('=>') && !this.isInErrorHandlingContext(context),
+        priority: 4,
       },
 
       // Return type inference and replacement
@@ -332,7 +344,7 @@ export class SafeTypeReplacer {
           this.isFunctionReturnTypeContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context),
-        priority: 5
+        priority: 5,
       },
 
       // Generic type parameter replacement
@@ -343,9 +355,8 @@ export class SafeTypeReplacer {
           return match.replace('any', inferredGenericType);
         },
         validator: (context: ClassificationContext) =>
-          context.codeSnippet.includes('<any>') &&
-          !this.isInErrorHandlingContext(context),
-        priority: 6
+          context.codeSnippet.includes('<any>') && !this.isInErrorHandlingContext(context),
+        priority: 6,
       },
 
       // Object property type replacement
@@ -360,9 +371,8 @@ export class SafeTypeReplacer {
           return match.replace('any', 'unknown');
         },
         validator: (context: ClassificationContext) =>
-          this.isObjectPropertyContext(context) &&
-          !this.isInErrorHandlingContext(context),
-        priority: 7
+          this.isObjectPropertyContext(context) && !this.isInErrorHandlingContext(context),
+        priority: 7,
       },
 
       // Simple variable type replacement (fallback)
@@ -377,8 +387,8 @@ export class SafeTypeReplacer {
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context) &&
           !this.isDynamicConfigContext(context),
-        priority: 8
-      }
+        priority: 8,
+      },
     ];
   }
 
@@ -429,15 +439,15 @@ export class SafeTypeReplacer {
 
   private async applyReplacementsToFile(
     filePath: string,
-    replacements: TypeReplacement[]
-  ): Promise<{ applied: TypeReplacement[], failed: TypeReplacement[], errors: string[] }> {
+    replacements: TypeReplacement[],
+  ): Promise<{ applied: TypeReplacement[]; failed: TypeReplacement[]; errors: string[] }> {
     const applied: TypeReplacement[] = [];
     const failed: TypeReplacement[] = [];
     const errors: string[] = [];
 
     try {
-      let content = fs.readFileSync(filePath, 'utf8');
-      let lines = content.split('\n');
+      const content = fs.readFileSync(filePath, 'utf8');
+      const lines = content.split('\n');
 
       for (const replacement of replacements) {
         try {
@@ -459,7 +469,6 @@ export class SafeTypeReplacer {
 
           lines[lineIndex] = modifiedLine;
           applied.push(replacement);
-
         } catch (error) {
           failed.push(replacement);
           errors.push(error instanceof Error ? error.message : String(error));
@@ -469,7 +478,6 @@ export class SafeTypeReplacer {
       // Write the modified content back to file
       const modifiedContent = lines.join('\n');
       fs.writeFileSync(filePath, modifiedContent, 'utf8');
-
     } catch (error) {
       // If file-level operation fails, mark all replacements as failed
       failed.push(...replacements);
@@ -479,11 +487,11 @@ export class SafeTypeReplacer {
     return { applied, failed, errors };
   }
 
-  private async validateTypeScriptCompilation(): Promise<{ success: boolean, errors: string[] }> {
+  private async validateTypeScriptCompilation(): Promise<{ success: boolean; errors: string[] }> {
     const buildResult = await this.safetyValidator.validateTypeScriptCompilation();
     return {
       success: buildResult.buildSuccessful,
-      errors: buildResult.compilationErrors
+      errors: buildResult.compilationErrors,
     };
   }
 
@@ -498,7 +506,7 @@ export class SafeTypeReplacer {
    */
   private async performAtomicReplacement(
     replacement: TypeReplacement,
-    backupPath: string
+    backupPath: string,
   ): Promise<ReplacementResult> {
     try {
       // Read original file content
@@ -512,9 +520,11 @@ export class SafeTypeReplacer {
           success: false,
           appliedReplacements: [],
           failedReplacements: [replacement],
-          compilationErrors: [`Invalid line number ${replacement.lineNumber} for file ${replacement.filePath}`],
+          compilationErrors: [
+            `Invalid line number ${replacement.lineNumber} for file ${replacement.filePath}`,
+          ],
           rollbackPerformed: false,
-          backupPath
+          backupPath,
         };
       }
 
@@ -528,9 +538,11 @@ export class SafeTypeReplacer {
           success: false,
           appliedReplacements: [],
           failedReplacements: [replacement],
-          compilationErrors: [`Pattern "${replacement.original}" not found in line: ${originalLine}`],
+          compilationErrors: [
+            `Pattern "${replacement.original}" not found in line: ${originalLine}`,
+          ],
           rollbackPerformed: false,
-          backupPath
+          backupPath,
         };
       }
 
@@ -550,7 +562,7 @@ export class SafeTypeReplacer {
           failedReplacements: [replacement],
           compilationErrors: compilationResult.errors,
           rollbackPerformed: true,
-          backupPath
+          backupPath,
         };
       }
 
@@ -560,9 +572,8 @@ export class SafeTypeReplacer {
         failedReplacements: [],
         compilationErrors: [],
         rollbackPerformed: false,
-        backupPath
+        backupPath,
       };
-
     } catch (error) {
       // Don't rollback here - let the calling method handle it
       throw error;
@@ -574,8 +585,8 @@ export class SafeTypeReplacer {
    */
   private async verifyRollbackCapability(
     filePath: string,
-    backupPath: string
-  ): Promise<{ success: boolean, error?: string }> {
+    backupPath: string,
+  ): Promise<{ success: boolean; error?: string }> {
     try {
       // Read backup content
       if (!fs.existsSync(backupPath)) {
@@ -591,11 +602,10 @@ export class SafeTypeReplacer {
       }
 
       return { success: true };
-
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       };
     }
   }
@@ -768,12 +778,20 @@ export class SafeTypeReplacer {
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
 
     // Check for string operations
-    if (allContext.includes('.toString()') || allContext.includes('.toLowerCase()') || allContext.includes('.toUpperCase()')) {
+    if (
+      allContext.includes('.toString()') ||
+      allContext.includes('.toLowerCase()') ||
+      allContext.includes('.toUpperCase()')
+    ) {
       return 'string';
     }
 
     // Check for number operations
-    if (allContext.includes('parseInt(') || allContext.includes('parseFloat(') || allContext.includes('Number(')) {
+    if (
+      allContext.includes('parseInt(') ||
+      allContext.includes('parseFloat(') ||
+      allContext.includes('Number(')
+    ) {
       return 'number';
     }
 
@@ -831,7 +849,11 @@ export class SafeTypeReplacer {
     }
 
     // Data parameters
-    if (paramLower.includes('data') || paramLower.includes('item') || paramLower.includes('element')) {
+    if (
+      paramLower.includes('data') ||
+      paramLower.includes('item') ||
+      paramLower.includes('element')
+    ) {
       // Try to infer from usage in function body
       const allContext = [codeSnippet, ...surroundingLines].join(' ');
       if (allContext.includes(`${paramName}.`)) {
@@ -944,7 +966,10 @@ export class SafeTypeReplacer {
 
     // Domain-specific generics
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
-      if (codeSnippet.includes('PlanetaryPosition') || codeSnippet.includes('ElementalProperties')) {
+      if (
+        codeSnippet.includes('PlanetaryPosition') ||
+        codeSnippet.includes('ElementalProperties')
+      ) {
         return 'unknown'; // Keep generic for flexibility
       }
     }
@@ -964,7 +989,11 @@ export class SafeTypeReplacer {
       return 'string | number';
     }
 
-    if (propLower.includes('name') || propLower.includes('title') || propLower.includes('description')) {
+    if (
+      propLower.includes('name') ||
+      propLower.includes('title') ||
+      propLower.includes('description')
+    ) {
       return 'string';
     }
 
@@ -972,7 +1001,11 @@ export class SafeTypeReplacer {
       return 'number';
     }
 
-    if (propLower.includes('enabled') || propLower.includes('active') || propLower.includes('visible')) {
+    if (
+      propLower.includes('enabled') ||
+      propLower.includes('active') ||
+      propLower.includes('visible')
+    ) {
       return 'boolean';
     }
 
@@ -991,8 +1024,13 @@ export class SafeTypeReplacer {
 
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
-      if (propLower.includes('element') || propLower.includes('fire') || propLower.includes('water') ||
-          propLower.includes('earth') || propLower.includes('air')) {
+      if (
+        propLower.includes('element') ||
+        propLower.includes('fire') ||
+        propLower.includes('water') ||
+        propLower.includes('earth') ||
+        propLower.includes('air')
+      ) {
         return 'number';
       }
       if (propLower.includes('sign') || propLower.includes('planet')) {
@@ -1051,10 +1089,12 @@ export class SafeTypeReplacer {
     const { codeSnippet, surroundingLines } = context;
     const allContext = [codeSnippet, ...surroundingLines].join(' ').toLowerCase();
 
-    return allContext.includes('catch') ||
-           allContext.includes('error') ||
-           allContext.includes('exception') ||
-           codeSnippet.toLowerCase().includes('err');
+    return (
+      allContext.includes('catch') ||
+      allContext.includes('error') ||
+      allContext.includes('exception') ||
+      codeSnippet.toLowerCase().includes('err')
+    );
   }
 
   /**
@@ -1064,11 +1104,13 @@ export class SafeTypeReplacer {
     const { codeSnippet, surroundingLines } = context;
     const allContext = [codeSnippet, ...surroundingLines].join(' ').toLowerCase();
 
-    return allContext.includes('api') ||
-           allContext.includes('response') ||
-           allContext.includes('fetch') ||
-           allContext.includes('axios') ||
-           allContext.includes('request');
+    return (
+      allContext.includes('api') ||
+      allContext.includes('response') ||
+      allContext.includes('fetch') ||
+      allContext.includes('axios') ||
+      allContext.includes('request')
+    );
   }
 
   /**
@@ -1078,11 +1120,13 @@ export class SafeTypeReplacer {
     const { codeSnippet, surroundingLines } = context;
     const allContext = [codeSnippet, ...surroundingLines].join(' ').toLowerCase();
 
-    return allContext.includes('config') ||
-           allContext.includes('settings') ||
-           allContext.includes('options') ||
-           context.domainContext.domain === CodeDomain.CAMPAIGN ||
-           context.domainContext.domain === CodeDomain.INTELLIGENCE;
+    return (
+      allContext.includes('config') ||
+      allContext.includes('settings') ||
+      allContext.includes('options') ||
+      context.domainContext.domain === CodeDomain.CAMPAIGN ||
+      context.domainContext.domain === CodeDomain.INTELLIGENCE
+    );
   }
 
   /**
@@ -1091,11 +1135,13 @@ export class SafeTypeReplacer {
   private isEventHandlerContext(context: ClassificationContext): boolean {
     const { codeSnippet } = context;
 
-    return codeSnippet.includes('onClick') ||
-           codeSnippet.includes('onChange') ||
-           codeSnippet.includes('onSubmit') ||
-           codeSnippet.includes('addEventListener') ||
-           codeSnippet.includes('handler');
+    return (
+      codeSnippet.includes('onClick') ||
+      codeSnippet.includes('onChange') ||
+      codeSnippet.includes('onSubmit') ||
+      codeSnippet.includes('addEventListener') ||
+      codeSnippet.includes('handler')
+    );
   }
 
   /**
@@ -1104,9 +1150,11 @@ export class SafeTypeReplacer {
   private isFunctionParameterContext(context: ClassificationContext): boolean {
     const { codeSnippet } = context;
 
-    return codeSnippet.includes('(') &&
-           codeSnippet.includes(':') &&
-           (codeSnippet.includes(')') || codeSnippet.includes(','));
+    return (
+      codeSnippet.includes('(') &&
+      codeSnippet.includes(':') &&
+      (codeSnippet.includes(')') || codeSnippet.includes(','))
+    );
   }
 
   /**
@@ -1115,8 +1163,7 @@ export class SafeTypeReplacer {
   private isFunctionReturnTypeContext(context: ClassificationContext): boolean {
     const { codeSnippet } = context;
 
-    return codeSnippet.includes('):') &&
-           (codeSnippet.includes('{') || codeSnippet.includes(';'));
+    return codeSnippet.includes('):') && (codeSnippet.includes('{') || codeSnippet.includes(';'));
   }
 
   /**
@@ -1125,8 +1172,10 @@ export class SafeTypeReplacer {
   private isObjectPropertyContext(context: ClassificationContext): boolean {
     const { codeSnippet } = context;
 
-    return codeSnippet.includes(':') &&
-           (codeSnippet.includes(',') || codeSnippet.includes('}') || codeSnippet.includes(';'));
+    return (
+      codeSnippet.includes(':') &&
+      (codeSnippet.includes(',') || codeSnippet.includes('}') || codeSnippet.includes(';'))
+    );
   }
 
   // Enhanced Safety Validation Methods
@@ -1136,7 +1185,7 @@ export class SafeTypeReplacer {
    */
   async validateReplacementSafety(
     replacement: TypeReplacement,
-    context: ClassificationContext
+    context: ClassificationContext,
   ): Promise<SafetyValidationResult> {
     return this.safetyValidator.calculateSafetyScore(replacement, context);
   }
@@ -1146,7 +1195,7 @@ export class SafeTypeReplacer {
    */
   async validateBuildSafety(
     modifiedFiles: string[],
-    includeTests = false
+    includeTests = false,
   ): Promise<BuildValidationResult> {
     return this.safetyValidator.validateBuildAfterBatch(modifiedFiles, includeTests);
   }
@@ -1156,7 +1205,7 @@ export class SafeTypeReplacer {
    */
   async validateRollbackSafety(
     originalFiles: Map<string, string>,
-    backupFiles: Map<string, string>
+    backupFiles: Map<string, string>,
   ) {
     return this.safetyValidator.validateRollbackCapability(originalFiles, backupFiles);
   }
@@ -1175,7 +1224,7 @@ export class SafeTypeReplacer {
     if (thresholds.minimumSafetyScore !== undefined) {
       this.safetyThreshold = thresholds.minimumSafetyScore;
       this.safetyValidator.updateSafetyThresholds({
-        minimumSafetyScore: thresholds.minimumSafetyScore
+        minimumSafetyScore: thresholds.minimumSafetyScore,
       });
     }
   }

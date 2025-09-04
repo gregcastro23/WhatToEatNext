@@ -4,11 +4,11 @@
 
 import type { UnifiedIngredient } from '@/types';
 import type {
-    AlchemicalProperties,
-    ElementalProperties,
-    IngredientMapping,
-    ThermodynamicMetrics,
-    ThermodynamicProperties,
+  AlchemicalProperties,
+  ElementalProperties,
+  IngredientMapping,
+  ThermodynamicMetrics,
+  ThermodynamicProperties,
 } from '@/types/alchemy';
 
 // TODO: Fix import - add what to import from "./unifiedTypes.ts"

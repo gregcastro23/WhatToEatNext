@@ -91,7 +91,7 @@ class AIPoweredProtectionSystem {
   analyzeRegressionRisk(filePath, content) {
     const lines = content.split('\n');
     let totalRisk = 0;
-    let riskFactors = [];
+    const riskFactors = [];
 
     // Base context risk
     const contextRisk = this.getContextRisk(filePath);

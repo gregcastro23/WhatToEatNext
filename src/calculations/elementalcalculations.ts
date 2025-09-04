@@ -63,7 +63,9 @@ export class ElementalCalculator {
 
     // Apply seasonal bonuses/penalties
     if ((recipeData as any)?.season) {
-      const seasons = Array.isArray((recipeData as any)?.season) ? (recipeData as any)?.season : [(recipeData as any)?.season];
+      const seasons = Array.isArray((recipeData as any)?.season)
+        ? (recipeData as any)?.season
+        : [(recipeData as any)?.season];
       if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
         score += 20;
       }

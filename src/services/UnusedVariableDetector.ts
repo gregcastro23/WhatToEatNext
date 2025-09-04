@@ -262,7 +262,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
     try {
       // Use find command to get TypeScript files
-      const findCommand = `find ${targetPath} -type f \\( -name "*.ts" -o -name "*.tsx" \\) ${options.excludeDirectories
+      const findCommand = `find ${targetPath} -type f \\( -name "*.ts" -o -name "*.tsx" \\) ${options.excludeDirectories}
         .map(dir => `-not -path "*/${dir}/*"`)
         .join(' ')}`;
 

@@ -121,7 +121,9 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
  * @param positions Record of planetary positions
  * @returns Array of active planet names
  */
-export async function calculateActivePlanets(positions: Record<string, unknown>): Promise<string[]> {
+export async function calculateActivePlanets(
+  positions: Record<string, unknown>,
+): Promise<string[]> {
   if (!positions || typeof positions !== 'object') {
     return [];
   }

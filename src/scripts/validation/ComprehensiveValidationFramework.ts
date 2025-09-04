@@ -91,7 +91,7 @@ export class ComprehensiveValidationFramework {
       compilationTimeout: 45000,
       maxRetries: 2,
       logLevel: 'info',
-      ...config
+      ...config,
     };
   }
 
@@ -100,7 +100,7 @@ export class ComprehensiveValidationFramework {
    */
   async performComprehensiveValidation(
     processedFiles: string[],
-    batchId: string
+    batchId: string,
   ): Promise<ComprehensiveValidationResult> {
     const startTime = Date.now();
     this.log('info', `🔍 Starting comprehensive validation for batch ${batchId}`);
@@ -175,7 +175,7 @@ export class ComprehensiveValidationFramework {
         validationResults,
         summary,
         requiresRollback,
-        qualityScore: Math.max(0, qualityScore)
+        qualityScore: Math.max(0, qualityScore),
       };
 
       this.log('info', `✅ Comprehensive validation completed`);
@@ -183,22 +183,23 @@ export class ComprehensiveValidationFramework {
       this.log('info', `🎯 Quality Score: ${result.qualityScore}/100`);
 
       return result;
-
     } catch (error) {
       this.log('error', `❌ Comprehensive validation failed: ${error}`);
 
       return {
         overallPassed: false,
-        validationResults: [{
-          passed: false,
-          validationType: 'framework-error',
-          errors: [`Validation framework error: ${error}`],
-          warnings: [],
-          recommendations: ['Review validation framework configuration'],
-          executionTime: Date.now() - startTime,
-          retryCount: 0,
-          details: { error: error.toString() }
-        }],
+        validationResults: [
+          {
+            passed: false,
+            validationType: 'framework-error',
+            errors: [`Validation framework error: ${error}`],
+            warnings: [],
+            recommendations: ['Review validation framework configuration'],
+            executionTime: Date.now() - startTime,
+            retryCount: 0,
+            details: { error: error.toString() },
+          },
+        ],
         summary: {
           totalValidations: 1,
           passedValidations: 0,
@@ -206,10 +207,10 @@ export class ComprehensiveValidationFramework {
           warningsCount: 0,
           totalExecutionTime: Date.now() - startTime,
           criticalIssues: ['Validation framework failure'],
-          recommendations: ['Review validation framework configuration']
+          recommendations: ['Review validation framework configuration'],
         },
         requiresRollback: true,
-        qualityScore: 0
+        qualityScore: 0,
       };
     }
   }
@@ -227,7 +228,7 @@ export class ComprehensiveValidationFramework {
       recommendations: [],
       executionTime: 0,
       retryCount: 0,
-      details: {}
+      details: {},
     };
 
     this.log('debug', '🔍 Validating TypeScript compilation...');
@@ -240,7 +241,7 @@ export class ComprehensiveValidationFramework {
         const output = execSync('yarn tsc --noEmit --skipLibCheck --pretty', {
           encoding: 'utf8',
           timeout: this.config.compilationTimeout,
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
 
         // If we get here, compilation succeeded
@@ -248,7 +249,6 @@ export class ComprehensiveValidationFramework {
         result.details.compilationOutput = 'No errors found';
         this.log('debug', '✅ TypeScript compilation passed');
         break;
-
       } catch (error: any) {
         const errorOutput = error.stdout || error.stderr || error.message;
 
@@ -282,7 +282,10 @@ export class ComprehensiveValidationFramework {
   /**
    * Validate test suite execution
    */
-  private async validateTestSuite(processedFiles: string[], batchId: string): Promise<ValidationResult> {
+  private async validateTestSuite(
+    processedFiles: string[],
+    batchId: string,
+  ): Promise<ValidationResult> {
     const startTime = Date.now();
     const result: ValidationResult = {
       passed: false,
@@ -292,7 +295,7 @@ export class ComprehensiveValidationFramework {
       recommendations: [],
       executionTime: 0,
       retryCount: 0,
-      details: {}
+      details: {},
     };
 
     this.log('debug', '🧪 Validating test suite...');
@@ -314,7 +317,7 @@ export class ComprehensiveValidationFramework {
         const output = execSync(testCommand, {
           encoding: 'utf8',
           timeout: this.config.testTimeout,
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
 
         // Parse test results
@@ -330,7 +333,6 @@ export class ComprehensiveValidationFramework {
           this.log('error', `❌ ${testResults.failed} tests failed`);
         }
       }
-
     } catch (error: any) {
       result.errors.push(`Test suite validation failed: ${error.message}`);
       result.details.error = error.toString();
@@ -345,13 +347,15 @@ export class ComprehensiveValidationFramework {
   /**
    * Validate React component functionality preservation
    */
-  private async validateReactComponents(processedFiles: string[], batchId: string): Promise<ValidationResult[]> {
+  private async validateReactComponents(
+    processedFiles: string[],
+    batchId: string,
+  ): Promise<ValidationResult[]> {
     const results: ValidationResult[] = [];
 
     // Filter for React component files
-    const componentFiles = processedFiles.filter(file =>
-      /\.(tsx|jsx)$/.test(file) &&
-      /\/components\//.test(file)
+    const componentFiles = processedFiles.filter(
+      file => /\.(tsx|jsx)$/.test(file) && /\/components\//.test(file),
     );
 
     this.log('debug', `🔍 Validating ${componentFiles.length} React components...`);
@@ -367,7 +371,10 @@ export class ComprehensiveValidationFramework {
   /**
    * Validate a single React component
    */
-  private async validateSingleComponent(componentPath: string, batchId: string): Promise<ValidationResult> {
+  private async validateSingleComponent(
+    componentPath: string,
+    batchId: string,
+  ): Promise<ValidationResult> {
     const startTime = Date.now();
     const result: ValidationResult = {
       passed: true,
@@ -377,7 +384,7 @@ export class ComprehensiveValidationFramework {
       recommendations: [],
       executionTime: 0,
       retryCount: 0,
-      details: { componentPath }
+      details: { componentPath },
     };
 
     try {
@@ -400,9 +407,14 @@ export class ComprehensiveValidationFramework {
 
       // Check if component props interface is preserved
       if (componentInfo.propsInterface) {
-        const propsValidation = await this.validateComponentProps(componentPath, componentInfo.propsInterface);
+        const propsValidation = await this.validateComponentProps(
+          componentPath,
+          componentInfo.propsInterface,
+        );
         if (!propsValidation.success) {
-          result.warnings.push(`Props interface may have been affected: ${propsValidation.warning}`);
+          result.warnings.push(
+            `Props interface may have been affected: ${propsValidation.warning}`,
+          );
         }
       }
 
@@ -421,7 +433,6 @@ export class ComprehensiveValidationFramework {
       } else {
         this.log('error', `❌ Component ${componentInfo.componentName} validation failed`);
       }
-
     } catch (error) {
       result.passed = false;
       result.errors.push(`Component validation failed: ${error}`);
@@ -435,14 +446,15 @@ export class ComprehensiveValidationFramework {
   /**
    * Validate service integration functionality
    */
-  private async validateServiceIntegration(processedFiles: string[], batchId: string): Promise<ValidationResult[]> {
+  private async validateServiceIntegration(
+    processedFiles: string[],
+    batchId: string,
+  ): Promise<ValidationResult[]> {
     const results: ValidationResult[] = [];
 
     // Filter for service files
-    const serviceFiles = processedFiles.filter(file =>
-      /\/services\//.test(file) ||
-      /Service\.ts$/.test(file) ||
-      /Client\.ts$/.test(file)
+    const serviceFiles = processedFiles.filter(
+      file => /\/services\//.test(file) || /Service\.ts$/.test(file) || /Client\.ts$/.test(file),
     );
 
     this.log('debug', `🔍 Validating ${serviceFiles.length} service integrations...`);
@@ -458,7 +470,10 @@ export class ComprehensiveValidationFramework {
   /**
    * Validate a single service
    */
-  private async validateSingleService(servicePath: string, batchId: string): Promise<ValidationResult> {
+  private async validateSingleService(
+    servicePath: string,
+    batchId: string,
+  ): Promise<ValidationResult> {
     const startTime = Date.now();
     const result: ValidationResult = {
       passed: true,
@@ -468,7 +483,7 @@ export class ComprehensiveValidationFramework {
       recommendations: [],
       executionTime: 0,
       retryCount: 0,
-      details: { servicePath }
+      details: { servicePath },
     };
 
     try {
@@ -484,14 +499,20 @@ export class ComprehensiveValidationFramework {
 
       // Check if API endpoints are still functional (basic syntax check)
       if (serviceInfo.apiEndpoints.length > 0) {
-        const endpointValidation = await this.validateApiEndpoints(servicePath, serviceInfo.apiEndpoints);
+        const endpointValidation = await this.validateApiEndpoints(
+          servicePath,
+          serviceInfo.apiEndpoints,
+        );
         if (!endpointValidation.success) {
           result.warnings.push(`API endpoints may be affected: ${endpointValidation.warning}`);
         }
       }
 
       // Check if exported methods are intact
-      const methodValidation = await this.validateServiceMethods(servicePath, serviceInfo.exportedMethods);
+      const methodValidation = await this.validateServiceMethods(
+        servicePath,
+        serviceInfo.exportedMethods,
+      );
       if (!methodValidation.success) {
         result.passed = false;
         result.errors.push(`Service methods validation failed: ${methodValidation.error}`);
@@ -502,7 +523,6 @@ export class ComprehensiveValidationFramework {
       } else {
         this.log('error', `❌ Service ${serviceInfo.serviceName} validation failed`);
       }
-
     } catch (error) {
       result.passed = false;
       result.errors.push(`Service validation failed: ${error}`);
@@ -526,7 +546,7 @@ export class ComprehensiveValidationFramework {
       recommendations: [],
       executionTime: 0,
       retryCount: 0,
-      details: {}
+      details: {},
     };
 
     this.log('debug', '🏗️ Validating build system...');
@@ -536,13 +556,13 @@ export class ComprehensiveValidationFramework {
       const buildOutput = execSync('yarn next build --dry-run', {
         encoding: 'utf8',
         timeout: 60000, // 1 minute timeout for build validation
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       result.passed = true;
-      result.details.buildOutput = typeof buildOutput === 'string' ? buildOutput : buildOutput.toString();
+      result.details.buildOutput =
+        typeof buildOutput === 'string' ? buildOutput : buildOutput.toString();
       this.log('debug', '✅ Build system validation passed');
-
     } catch (error: any) {
       result.errors.push(`Build system validation failed: ${error.message}`);
       result.details.buildError = error.toString();
@@ -567,17 +587,21 @@ export class ComprehensiveValidationFramework {
 
     // Extract exports (simplified)
     const exportMatches = content.match(/export\s+(?:const|function|class)\s+(\w+)/g) || [];
-    const exportedFunctions = exportMatches.map(match => {
-      const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/);
-      return nameMatch ? nameMatch[1] : '';
-    }).filter(Boolean);
+    const exportedFunctions = exportMatches
+      .map(match => {
+        const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/);
+        return nameMatch ? nameMatch[1] : '';
+      })
+      .filter(Boolean);
 
     // Extract imports (simplified)
     const importMatches = content.match(/import\s+.*?\s+from\s+['"]([^'"]+)['"]/g) || [];
-    const importedDependencies = importMatches.map(match => {
-      const pathMatch = match.match(/from\s+['"]([^'"]+)['"]/);
-      return pathMatch ? pathMatch[1] : '';
-    }).filter(Boolean);
+    const importedDependencies = importMatches
+      .map(match => {
+        const pathMatch = match.match(/from\s+['"]([^'"]+)['"]/);
+        return pathMatch ? pathMatch[1] : '';
+      })
+      .filter(Boolean);
 
     // Extract props interface (simplified)
     const propsInterfaceMatch = content.match(/interface\s+(\w*Props)\s*{/);
@@ -585,10 +609,12 @@ export class ComprehensiveValidationFramework {
 
     // Extract state variables (simplified)
     const stateMatches = content.match(/const\s+\[(\w+),\s*set\w+\]\s*=\s*useState/g) || [];
-    const stateVariables = stateMatches.map(match => {
-      const nameMatch = match.match(/const\s+\[(\w+),/);
-      return nameMatch ? nameMatch[1] : '';
-    }).filter(Boolean);
+    const stateVariables = stateMatches
+      .map(match => {
+        const nameMatch = match.match(/const\s+\[(\w+),/);
+        return nameMatch ? nameMatch[1] : '';
+      })
+      .filter(Boolean);
 
     return {
       componentPath: relativePath,
@@ -597,7 +623,7 @@ export class ComprehensiveValidationFramework {
       exportedFunctions,
       importedDependencies,
       propsInterface,
-      stateVariables
+      stateVariables,
     };
   }
 
@@ -612,24 +638,30 @@ export class ComprehensiveValidationFramework {
 
     // Extract exported methods (simplified)
     const exportMatches = content.match(/export\s+(?:const|function|class)\s+(\w+)/g) || [];
-    const exportedMethods = exportMatches.map(match => {
-      const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/);
-      return nameMatch ? nameMatch[1] : '';
-    }).filter(Boolean);
+    const exportedMethods = exportMatches
+      .map(match => {
+        const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/);
+        return nameMatch ? nameMatch[1] : '';
+      })
+      .filter(Boolean);
 
     // Extract dependencies (simplified)
     const importMatches = content.match(/import\s+.*?\s+from\s+['"]([^'"]+)['"]/g) || [];
-    const dependencies = importMatches.map(match => {
-      const pathMatch = match.match(/from\s+['"]([^'"]+)['"]/);
-      return pathMatch ? pathMatch[1] : '';
-    }).filter(Boolean);
+    const dependencies = importMatches
+      .map(match => {
+        const pathMatch = match.match(/from\s+['"]([^'"]+)['"]/);
+        return pathMatch ? pathMatch[1] : '';
+      })
+      .filter(Boolean);
 
     // Extract configuration keys (simplified)
     const configMatches = content.match(/process\.env\.(\w+)/g) || [];
-    const configurationKeys = configMatches.map(match => {
-      const keyMatch = match.match(/process\.env\.(\w+)/);
-      return keyMatch ? keyMatch[1] : '';
-    }).filter(Boolean);
+    const configurationKeys = configMatches
+      .map(match => {
+        const keyMatch = match.match(/process\.env\.(\w+)/);
+        return keyMatch ? keyMatch[1] : '';
+      })
+      .filter(Boolean);
 
     return {
       servicePath: relativePath,
@@ -637,17 +669,23 @@ export class ComprehensiveValidationFramework {
       apiEndpoints,
       exportedMethods,
       dependencies,
-      configurationKeys
+      configurationKeys,
     };
   }
 
-  private async validateComponentImport(componentPath: string): Promise<{ success: boolean; error?: string }> {
+  private async validateComponentImport(
+    componentPath: string,
+  ): Promise<{ success: boolean; error?: string }> {
     try {
       // This is a simplified check - in a real implementation, you might use TypeScript compiler API
       const content = fs.readFileSync(componentPath, 'utf8');
 
       // Check for basic syntax errors that would prevent import
-      if (content.includes('export default') || content.includes('export {') || content.includes('export const')) {
+      if (
+        content.includes('export default') ||
+        content.includes('export {') ||
+        content.includes('export const')
+      ) {
         return { success: true };
       } else {
         return { success: false, error: 'No exports found in component' };
@@ -657,7 +695,10 @@ export class ComprehensiveValidationFramework {
     }
   }
 
-  private async validateComponentExports(componentPath: string, componentInfo: ComponentValidationInfo): Promise<{ success: boolean; error?: string }> {
+  private async validateComponentExports(
+    componentPath: string,
+    componentInfo: ComponentValidationInfo,
+  ): Promise<{ success: boolean; error?: string }> {
     try {
       const content = fs.readFileSync(componentPath, 'utf8');
 
@@ -674,7 +715,10 @@ export class ComprehensiveValidationFramework {
     }
   }
 
-  private async validateComponentProps(componentPath: string, propsInterface: string): Promise<{ success: boolean; warning?: string }> {
+  private async validateComponentProps(
+    componentPath: string,
+    propsInterface: string,
+  ): Promise<{ success: boolean; warning?: string }> {
     try {
       const content = fs.readFileSync(componentPath, 'utf8');
 
@@ -688,7 +732,9 @@ export class ComprehensiveValidationFramework {
     }
   }
 
-  private async validateComponentTests(componentPath: string): Promise<{ success: boolean; warning?: string }> {
+  private async validateComponentTests(
+    componentPath: string,
+  ): Promise<{ success: boolean; warning?: string }> {
     try {
       const testPath = componentPath.replace(/\.(tsx|jsx)$/, '.test.1');
 
@@ -703,7 +749,9 @@ export class ComprehensiveValidationFramework {
     }
   }
 
-  private async validateServiceImport(servicePath: string): Promise<{ success: boolean; error?: string }> {
+  private async validateServiceImport(
+    servicePath: string,
+  ): Promise<{ success: boolean; error?: string }> {
     try {
       const content = fs.readFileSync(servicePath, 'utf8');
 
@@ -718,7 +766,10 @@ export class ComprehensiveValidationFramework {
     }
   }
 
-  private async validateApiEndpoints(servicePath: string, endpoints: string[]): Promise<{ success: boolean; warning?: string }> {
+  private async validateApiEndpoints(
+    servicePath: string,
+    endpoints: string[],
+  ): Promise<{ success: boolean; warning?: string }> {
     try {
       const content = fs.readFileSync(servicePath, 'utf8');
 
@@ -735,7 +786,10 @@ export class ComprehensiveValidationFramework {
     }
   }
 
-  private async validateServiceMethods(servicePath: string, methods: string[]): Promise<{ success: boolean; error?: string }> {
+  private async validateServiceMethods(
+    servicePath: string,
+    methods: string[],
+  ): Promise<{ success: boolean; error?: string }> {
     try {
       const content = fs.readFileSync(servicePath, 'utf8');
 
@@ -760,7 +814,7 @@ export class ComprehensiveValidationFramework {
       const testPatterns = [
         file.replace(/\.(ts|tsx|js|jsx)$/, '.test.1'),
         file.replace(/\.(ts|tsx|js|jsx)$/, '.spec.1'),
-        file.replace(/\/([^/]+)\.(ts|tsx|js|jsx)$/, '/__tests__/1.test.2')
+        file.replace(/\/([^/]+)\.(ts|tsx|js|jsx)$/, '/__tests__/1.test.2'),
       ];
 
       for (const testPattern of testPatterns) {
@@ -774,7 +828,11 @@ export class ComprehensiveValidationFramework {
     return testFiles;
   }
 
-  private parseTestResults(output: string | Buffer): { passed: number; failed: number; total: number } {
+  private parseTestResults(output: string | Buffer): {
+    passed: number;
+    failed: number;
+    total: number;
+  } {
     // Parse Jest output (simplified)
     // Handle both string and Buffer types
     const outputStr = typeof output === 'string' ? output : output.toString();
@@ -803,7 +861,10 @@ export class ComprehensiveValidationFramework {
     return errorTypes;
   }
 
-  private calculateValidationSummary(validationResults: ValidationResult[], startTime: number): ValidationSummary {
+  private calculateValidationSummary(
+    validationResults: ValidationResult[],
+    startTime: number,
+  ): ValidationSummary {
     const totalValidations = validationResults.length;
     const passedValidations = validationResults.filter(r => r.passed).length;
     const failedValidations = totalValidations - passedValidations;
@@ -830,18 +891,18 @@ export class ComprehensiveValidationFramework {
       warningsCount,
       totalExecutionTime,
       criticalIssues: [...new Set(criticalIssues)],
-      recommendations: [...new Set(recommendations)]
+      recommendations: [...new Set(recommendations)],
     };
   }
 
   private shouldRequireRollback(validationResults: ValidationResult[]): boolean {
     // Require rollback for critical failures
-    return validationResults.some(result =>
-      !result.passed && (
-        result.validationType === 'typescript-compilation' ||
-        (result.validationType === 'test-suite' && result.errors.length > 0) ||
-        (result.validationType === 'react-component' && result.errors.length > 0)
-      )
+    return validationResults.some(
+      result =>
+        !result.passed &&
+        (result.validationType === 'typescript-compilation' ||
+          (result.validationType === 'test-suite' && result.errors.length > 0) ||
+          (result.validationType === 'react-component' && result.errors.length > 0)),
     );
   }
 
@@ -880,7 +941,7 @@ export class ComprehensiveValidationFramework {
       `Failed: ${history.filter(r => !r.passed).length}`,
       `Average Execution Time: ${(history.reduce((sum, r) => sum + r.executionTime, 0) / history.length).toFixed(2)}ms`,
       '',
-      '## Validation Results'
+      '## Validation Results',
     ];
 
     for (const result of history) {

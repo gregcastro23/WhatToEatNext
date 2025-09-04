@@ -427,7 +427,9 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         const eslintConfig = require(eslintConfigPath);
 
         // Find React settings
-        const reactSettings = eslintConfig.find((config: unknown) => config.settings?.react?.version);
+        const reactSettings = eslintConfig.find(
+          (config: unknown) => config.settings?.react?.version,
+        );
 
         const hasCorrectReactVersion = reactSettings?.settings?.react?.version === '19.1.0';
 

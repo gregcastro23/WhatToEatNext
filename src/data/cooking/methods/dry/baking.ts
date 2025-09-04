@@ -133,7 +133,7 @@ export const baking: CookingMethodData = {
     heat: 0.65, // Moderate-high heat penetrating the food
     entropy: 0.55, // Moderate breakdown of structures, protein denaturation
     reactivity: 0.7, // Significant Maillard reactions, caramelization
-    gregsEnergy: 0.65 - (0.55 * 0.7), // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: 0.65 - 0.55 * 0.7, // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

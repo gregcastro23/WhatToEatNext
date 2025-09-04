@@ -9,11 +9,10 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
-
 import {
-    DEFAULT_IMPORT_CLEANUP_CONFIG,
-    ImportCleanupConfig,
-    ImportCleanupSystem,
+  DEFAULT_IMPORT_CLEANUP_CONFIG,
+  ImportCleanupConfig,
+  ImportCleanupSystem,
 } from './ImportCleanupSystem';
 
 interface CLIOptions {

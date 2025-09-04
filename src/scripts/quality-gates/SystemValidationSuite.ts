@@ -96,13 +96,16 @@ class SystemValidationSuite {
         details: {
           totalTests: testCases.length,
           correctClassifications,
-          accuracy
+          accuracy,
         },
-        recommendations: accuracy < 90 ? [
-          'Review and update classification rules',
-          'Add more training examples',
-          'Improve pattern recognition algorithms'
-        ] : undefined
+        recommendations:
+          accuracy < 90
+            ? [
+                'Review and update classification rules',
+                'Add more training examples',
+                'Improve pattern recognition algorithms',
+              ]
+            : undefined,
       });
 
       console.log(`  ${passed ? '✅' : '❌'} Classification accuracy: ${accuracy.toFixed(1)}%`);
@@ -112,7 +115,7 @@ class SystemValidationSuite {
         passed: false,
         score: 0,
         message: `Classification engine validation failed: ${error}`,
-        criticalIssues: ['Classification engine is not functional']
+        criticalIssues: ['Classification engine is not functional'],
       });
       console.log(`  ❌ Classification engine validation failed`);
     }
@@ -143,23 +146,28 @@ class SystemValidationSuite {
         message: `Average replacement success rate: ${averageSuccessRate.toFixed(1)}%`,
         details: {
           patternstested: patternCount,
-          averageSuccessRate
+          averageSuccessRate,
         },
-        recommendations: averageSuccessRate < 85 ? [
-          'Review low-performing replacement patterns',
-          'Improve pattern validation logic',
-          'Add more comprehensive test cases'
-        ] : undefined
+        recommendations:
+          averageSuccessRate < 85
+            ? [
+                'Review low-performing replacement patterns',
+                'Improve pattern validation logic',
+                'Add more comprehensive test cases',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Replacement success rate: ${averageSuccessRate.toFixed(1)}%`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Replacement success rate: ${averageSuccessRate.toFixed(1)}%`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Replacement Engine',
         passed: false,
         score: 0,
         message: `Replacement engine validation failed: ${error}`,
-        criticalIssues: ['Replacement engine is not functional']
+        criticalIssues: ['Replacement engine is not functional'],
       });
       console.log(`  ❌ Replacement engine validation failed`);
     }
@@ -174,7 +182,7 @@ class SystemValidationSuite {
         { name: 'Rollback Mechanism', test: () => this.testRollbackMechanism() },
         { name: 'Compilation Validation', test: () => this.testCompilationValidation() },
         { name: 'Build Verification', test: () => this.testBuildVerification() },
-        { name: 'Error Recovery', test: () => this.testErrorRecovery() }
+        { name: 'Error Recovery', test: () => this.testErrorRecovery() },
       ];
 
       let passedTests = 0;
@@ -191,7 +199,7 @@ class SystemValidationSuite {
           testResults.push({
             name: safetyTest.name,
             passed: false,
-            error: error.message
+            error: error.message,
           });
         }
       }
@@ -206,21 +214,26 @@ class SystemValidationSuite {
         message: `Safety protocols: ${passedTests}/${safetyTests.length} tests passed`,
         details: { testResults, safetyScore },
         criticalIssues: safetyScore < 80 ? ['Critical safety protocols failing'] : undefined,
-        recommendations: safetyScore < 95 ? [
-          'Review and strengthen failing safety protocols',
-          'Add additional safety checkpoints',
-          'Improve error handling and recovery'
-        ] : undefined
+        recommendations:
+          safetyScore < 95
+            ? [
+                'Review and strengthen failing safety protocols',
+                'Add additional safety checkpoints',
+                'Improve error handling and recovery',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Safety protocols: ${passedTests}/${safetyTests.length} passed`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Safety protocols: ${passedTests}/${safetyTests.length} passed`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Safety Protocols',
         passed: false,
         score: 0,
         message: `Safety protocol validation failed: ${error}`,
-        criticalIssues: ['Safety protocols are not functional']
+        criticalIssues: ['Safety protocols are not functional'],
       });
       console.log(`  ❌ Safety protocol validation failed`);
     }
@@ -236,7 +249,7 @@ class SystemValidationSuite {
         'TypeScript Error Prevention',
         'Linting Quality',
         'Documentation Coverage',
-        'Performance Gates'
+        'Performance Gates',
       ];
 
       let functionalGates = 0;
@@ -253,7 +266,7 @@ class SystemValidationSuite {
           gateResults.push({
             gate,
             functional: false,
-            error: error.message
+            error: error.message,
           });
         }
       }
@@ -267,21 +280,26 @@ class SystemValidationSuite {
         score: gateScore,
         message: `Quality gates: ${functionalGates}/${gateTests.length} functional`,
         details: { gateResults, gateScore },
-        recommendations: gateScore < 90 ? [
-          'Fix non-functional quality gates',
-          'Review gate configuration',
-          'Update threshold settings'
-        ] : undefined
+        recommendations:
+          gateScore < 90
+            ? [
+                'Fix non-functional quality gates',
+                'Review gate configuration',
+                'Update threshold settings',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Quality gates: ${functionalGates}/${gateTests.length} functional`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Quality gates: ${functionalGates}/${gateTests.length} functional`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Quality Gates',
         passed: false,
         score: 0,
         message: `Quality gates validation failed: ${error}`,
-        criticalIssues: ['Quality gates system is not functional']
+        criticalIssues: ['Quality gates system is not functional'],
       });
       console.log(`  ❌ Quality gates validation failed`);
     }
@@ -297,7 +315,7 @@ class SystemValidationSuite {
         { name: 'Real-time Tracking', test: () => this.testRealtimeTracking() },
         { name: 'Alert System', test: () => this.testAlertSystem() },
         { name: 'Dashboard Functionality', test: () => this.testDashboard() },
-        { name: 'Historical Data', test: () => this.testHistoricalData() }
+        { name: 'Historical Data', test: () => this.testHistoricalData() },
       ];
 
       let functionalComponents = 0;
@@ -314,7 +332,7 @@ class SystemValidationSuite {
           monitoringResults.push({
             name: test.name,
             functional: false,
-            error: error.message
+            error: error.message,
           });
         }
       }
@@ -328,21 +346,26 @@ class SystemValidationSuite {
         score: monitoringScore,
         message: `Monitoring: ${functionalComponents}/${monitoringTests.length} components functional`,
         details: { monitoringResults, monitoringScore },
-        recommendations: monitoringScore < 85 ? [
-          'Fix non-functional monitoring components',
-          'Improve data collection accuracy',
-          'Enhance alert system reliability'
-        ] : undefined
+        recommendations:
+          monitoringScore < 85
+            ? [
+                'Fix non-functional monitoring components',
+                'Improve data collection accuracy',
+                'Enhance alert system reliability',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Monitoring: ${functionalComponents}/${monitoringTests.length} functional`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Monitoring: ${functionalComponents}/${monitoringTests.length} functional`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Monitoring System',
         passed: false,
         score: 0,
         message: `Monitoring system validation failed: ${error}`,
-        criticalIssues: ['Monitoring system is not functional']
+        criticalIssues: ['Monitoring system is not functional'],
       });
       console.log(`  ❌ Monitoring system validation failed`);
     }
@@ -361,21 +384,26 @@ class SystemValidationSuite {
         passed,
         score: integrationScore,
         message: `Campaign integration score: ${integrationScore.toFixed(1)}%`,
-        recommendations: integrationScore < 90 ? [
-          'Improve campaign system compatibility',
-          'Fix integration issues',
-          'Update integration protocols'
-        ] : undefined
+        recommendations:
+          integrationScore < 90
+            ? [
+                'Improve campaign system compatibility',
+                'Fix integration issues',
+                'Update integration protocols',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Campaign integration: ${integrationScore.toFixed(1)}%`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Campaign integration: ${integrationScore.toFixed(1)}%`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Campaign Integration',
         passed: false,
         score: 0,
         message: `Campaign integration validation failed: ${error}`,
-        criticalIssues: ['Campaign integration is broken']
+        criticalIssues: ['Campaign integration is broken'],
       });
       console.log(`  ❌ Campaign integration validation failed`);
     }
@@ -394,11 +422,14 @@ class SystemValidationSuite {
         passed,
         score: cicdScore,
         message: `CI/CD integration score: ${cicdScore.toFixed(1)}%`,
-        recommendations: cicdScore < 80 ? [
-          'Update CI/CD configuration',
-          'Fix pipeline integration issues',
-          'Improve automation scripts'
-        ] : undefined
+        recommendations:
+          cicdScore < 80
+            ? [
+                'Update CI/CD configuration',
+                'Fix pipeline integration issues',
+                'Improve automation scripts',
+              ]
+            : undefined,
       });
 
       console.log(`  ${passed ? '✅' : '❌'} CI/CD integration: ${cicdScore.toFixed(1)}%`);
@@ -408,7 +439,7 @@ class SystemValidationSuite {
         passed: false,
         score: 0,
         message: `CI/CD integration validation failed: ${error}`,
-        recommendations: ['Set up CI/CD integration', 'Configure automation pipelines']
+        recommendations: ['Set up CI/CD integration', 'Configure automation pipelines'],
       });
       console.log(`  ⚠️ CI/CD integration not configured`);
     }
@@ -423,7 +454,7 @@ class SystemValidationSuite {
         { name: 'Pre-commit Hooks', test: () => this.testPreCommitHooks() },
         { name: 'IDE Integration', test: () => this.testIDEIntegration() },
         { name: 'Documentation Access', test: () => this.testDocumentationAccess() },
-        { name: 'Training System', test: () => this.testTrainingSystem() }
+        { name: 'Training System', test: () => this.testTrainingSystem() },
       ];
 
       let functionalComponents = 0;
@@ -440,7 +471,7 @@ class SystemValidationSuite {
           workflowResults.push({
             name: test.name,
             functional: false,
-            error: error.message
+            error: error.message,
           });
         }
       }
@@ -454,21 +485,26 @@ class SystemValidationSuite {
         score: workflowScore,
         message: `Developer workflow: ${functionalComponents}/${workflowTests.length} components functional`,
         details: { workflowResults, workflowScore },
-        recommendations: workflowScore < 85 ? [
-          'Improve developer tool integration',
-          'Enhance documentation accessibility',
-          'Streamline workflow processes'
-        ] : undefined
+        recommendations:
+          workflowScore < 85
+            ? [
+                'Improve developer tool integration',
+                'Enhance documentation accessibility',
+                'Streamline workflow processes',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Developer workflow: ${functionalComponents}/${workflowTests.length} functional`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Developer workflow: ${functionalComponents}/${workflowTests.length} functional`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Developer Workflow',
         passed: false,
         score: 0,
         message: `Developer workflow validation failed: ${error}`,
-        criticalIssues: ['Developer workflow integration is broken']
+        criticalIssues: ['Developer workflow integration is broken'],
       });
       console.log(`  ❌ Developer workflow validation failed`);
     }
@@ -483,7 +519,7 @@ class SystemValidationSuite {
         { name: 'Configuration Files', test: () => this.testConfigurationIntegrity() },
         { name: 'Metrics Data', test: () => this.testMetricsIntegrity() },
         { name: 'Progress Tracking', test: () => this.testProgressIntegrity() },
-        { name: 'Documentation Consistency', test: () => this.testDocumentationConsistency() }
+        { name: 'Documentation Consistency', test: () => this.testDocumentationConsistency() },
       ];
 
       let validComponents = 0;
@@ -500,7 +536,7 @@ class SystemValidationSuite {
           integrityResults.push({
             name: test.name,
             valid: false,
-            error: error.message
+            error: error.message,
           });
         }
       }
@@ -514,22 +550,28 @@ class SystemValidationSuite {
         score: integrityScore,
         message: `Data integrity: ${validComponents}/${integrityTests.length} components valid`,
         details: { integrityResults, integrityScore },
-        criticalIssues: integrityScore < 80 ? ['Critical data integrity issues detected'] : undefined,
-        recommendations: integrityScore < 95 ? [
-          'Fix data integrity issues',
-          'Validate configuration files',
-          'Ensure data consistency'
-        ] : undefined
+        criticalIssues:
+          integrityScore < 80 ? ['Critical data integrity issues detected'] : undefined,
+        recommendations:
+          integrityScore < 95
+            ? [
+                'Fix data integrity issues',
+                'Validate configuration files',
+                'Ensure data consistency',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Data integrity: ${validComponents}/${integrityTests.length} valid`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Data integrity: ${validComponents}/${integrityTests.length} valid`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Data Integrity',
         passed: false,
         score: 0,
         message: `Data integrity validation failed: ${error}`,
-        criticalIssues: ['Data integrity validation system is broken']
+        criticalIssues: ['Data integrity validation system is broken'],
       });
       console.log(`  ❌ Data integrity validation failed`);
     }
@@ -549,11 +591,10 @@ class SystemValidationSuite {
         score: backupScore,
         message: `Backup systems score: ${backupScore.toFixed(1)}%`,
         criticalIssues: backupScore < 70 ? ['Critical backup system failures'] : undefined,
-        recommendations: backupScore < 90 ? [
-          'Improve backup reliability',
-          'Test restore procedures',
-          'Enhance backup validation'
-        ] : undefined
+        recommendations:
+          backupScore < 90
+            ? ['Improve backup reliability', 'Test restore procedures', 'Enhance backup validation']
+            : undefined,
       });
 
       console.log(`  ${passed ? '✅' : '❌'} Backup systems: ${backupScore.toFixed(1)}%`);
@@ -563,7 +604,7 @@ class SystemValidationSuite {
         passed: false,
         score: 0,
         message: `Backup systems validation failed: ${error}`,
-        criticalIssues: ['Backup systems are not functional']
+        criticalIssues: ['Backup systems are not functional'],
       });
       console.log(`  ❌ Backup systems validation failed`);
     }
@@ -579,7 +620,7 @@ class SystemValidationSuite {
         { name: 'Troubleshooting Guide', test: () => this.testTroubleshootingGuide() },
         { name: 'API Documentation', test: () => this.testAPIDocumentation() },
         { name: 'Training Materials', test: () => this.testTrainingMaterials() },
-        { name: 'Code Comments', test: () => this.testCodeComments() }
+        { name: 'Code Comments', test: () => this.testCodeComments() },
       ];
 
       let completeComponents = 0;
@@ -596,7 +637,7 @@ class SystemValidationSuite {
           docResults.push({
             name: test.name,
             complete: false,
-            error: error.message
+            error: error.message,
           });
         }
       }
@@ -610,21 +651,26 @@ class SystemValidationSuite {
         score: docScore,
         message: `Documentation: ${completeComponents}/${docTests.length} components complete`,
         details: { docResults, docScore },
-        recommendations: docScore < 90 ? [
-          'Complete missing documentation',
-          'Update outdated documentation',
-          'Improve documentation quality'
-        ] : undefined
+        recommendations:
+          docScore < 90
+            ? [
+                'Complete missing documentation',
+                'Update outdated documentation',
+                'Improve documentation quality',
+              ]
+            : undefined,
       });
 
-      console.log(`  ${passed ? '✅' : '❌'} Documentation: ${completeComponents}/${docTests.length} complete`);
+      console.log(
+        `  ${passed ? '✅' : '❌'} Documentation: ${completeComponents}/${docTests.length} complete`,
+      );
     } catch (error) {
       this.results.push({
         component: 'Documentation',
         passed: false,
         score: 0,
         message: `Documentation validation failed: ${error}`,
-        recommendations: ['Create comprehensive documentation', 'Set up documentation system']
+        recommendations: ['Create comprehensive documentation', 'Set up documentation system'],
       });
       console.log(`  ❌ Documentation validation failed`);
     }
@@ -645,11 +691,10 @@ class SystemValidationSuite {
         score: performanceScore,
         message: `Performance score: ${performanceScore.toFixed(1)}%`,
         details: performanceMetrics,
-        recommendations: performanceScore < 85 ? [
-          'Optimize slow operations',
-          'Improve caching strategies',
-          'Reduce memory usage'
-        ] : undefined
+        recommendations:
+          performanceScore < 85
+            ? ['Optimize slow operations', 'Improve caching strategies', 'Reduce memory usage']
+            : undefined,
       });
 
       console.log(`  ${passed ? '✅' : '❌'} Performance: ${performanceScore.toFixed(1)}%`);
@@ -659,7 +704,7 @@ class SystemValidationSuite {
         passed: false,
         score: 0,
         message: `Performance validation failed: ${error}`,
-        recommendations: ['Investigate performance issues', 'Optimize system performance']
+        recommendations: ['Investigate performance issues', 'Optimize system performance'],
       });
       console.log(`  ❌ Performance validation failed`);
     }
@@ -678,12 +723,12 @@ class SystemValidationSuite {
         passed,
         score: reliabilityScore,
         message: `Reliability score: ${reliabilityScore.toFixed(1)}%`,
-        criticalIssues: reliabilityScore < 80 ? ['Critical reliability issues detected'] : undefined,
-        recommendations: reliabilityScore < 95 ? [
-          'Improve error handling',
-          'Enhance system stability',
-          'Add more robust validation'
-        ] : undefined
+        criticalIssues:
+          reliabilityScore < 80 ? ['Critical reliability issues detected'] : undefined,
+        recommendations:
+          reliabilityScore < 95
+            ? ['Improve error handling', 'Enhance system stability', 'Add more robust validation']
+            : undefined,
       });
 
       console.log(`  ${passed ? '✅' : '❌'} Reliability: ${reliabilityScore.toFixed(1)}%`);
@@ -693,7 +738,7 @@ class SystemValidationSuite {
         passed: false,
         score: 0,
         message: `Reliability validation failed: ${error}`,
-        criticalIssues: ['Reliability validation system is broken']
+        criticalIssues: ['Reliability validation system is broken'],
       });
       console.log(`  ❌ Reliability validation failed`);
     }
@@ -712,11 +757,14 @@ class SystemValidationSuite {
         passed,
         score: scalabilityScore,
         message: `Scalability score: ${scalabilityScore.toFixed(1)}%`,
-        recommendations: scalabilityScore < 80 ? [
-          'Improve batch processing efficiency',
-          'Optimize resource usage',
-          'Enhance parallel processing'
-        ] : undefined
+        recommendations:
+          scalabilityScore < 80
+            ? [
+                'Improve batch processing efficiency',
+                'Optimize resource usage',
+                'Enhance parallel processing',
+              ]
+            : undefined,
       });
 
       console.log(`  ${passed ? '✅' : '❌'} Scalability: ${scalabilityScore.toFixed(1)}%`);
@@ -726,7 +774,7 @@ class SystemValidationSuite {
         passed: false,
         score: 0,
         message: `Scalability validation failed: ${error}`,
-        recommendations: ['Investigate scalability limitations', 'Optimize for larger codebases']
+        recommendations: ['Investigate scalability limitations', 'Optimize for larger codebases'],
       });
       console.log(`  ❌ Scalability validation failed`);
     }
@@ -736,16 +784,23 @@ class SystemValidationSuite {
   private getClassificationTestCases(): unknown[] {
     return [
       { code: 'const data: any[] = [];', expected: 'unintentional' },
-      { code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response;', expected: 'intentional' },
+      {
+        code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response;',
+        expected: 'intentional',
+      },
       { code: 'Record<string, any>', expected: 'unintentional' },
       { code: 'function test(param: any) {}', expected: 'unintentional' },
-      { code: '// Intentional any type for dynamic content\nconst content: any = userInput;', expected: 'intentional' }
+      {
+        code: '// Intentional any type for dynamic content\nconst content: any = userInput;',
+        expected: 'intentional',
+      },
     ];
   }
 
   private async testClassification(testCase: any): Promise<{ correct: boolean }> {
     // Simplified classification test
-    const hasDocumentation = testCase.code.includes('eslint-disable') || testCase.code.includes('Intentional');
+    const hasDocumentation =
+      testCase.code.includes('eslint-disable') || testCase.code.includes('Intentional');
     const classified = hasDocumentation ? 'intentional' : 'unintentional';
     return { correct: classified === testCase.expected };
   }
@@ -753,8 +808,16 @@ class SystemValidationSuite {
   private getReplacementPatterns(): unknown[] {
     return [
       { name: 'array_types', pattern: /any\[\]/g, replacement: 'unknown[]' },
-      { name: 'record_types', pattern: /Record<([^,>]+),\s*any>/g, replacement: 'Record<1, unknown>' },
-      { name: 'variable_declarations', pattern: /:\s*any(?=\s*[,;=})\]])/g, replacement: ': unknown' }
+      {
+        name: 'record_types',
+        pattern: /Record<([^,>]+),\s*any>/g,
+        replacement: 'Record<1, unknown>',
+      },
+      {
+        name: 'variable_declarations',
+        pattern: /:\s*any(?=\s*[,;=})\]])/g,
+        replacement: ': unknown',
+      },
     ];
   }
 
@@ -807,7 +870,10 @@ class SystemValidationSuite {
     // Test specific quality gate
     try {
       if (gate === 'Explicit Any Prevention') {
-        const count = execSync('yarn lint --format=compact 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | wc -l', { encoding: 'utf8' });
+        const count = execSync(
+          'yarn lint --format=compact 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | wc -l',
+          { encoding: 'utf8' },
+        );
         return { functional: parseInt(count.trim()) >= 0 };
       }
       return { functional: true }; // Simplified for other gates
@@ -843,7 +909,7 @@ class SystemValidationSuite {
     try {
       const campaignFiles = fs.readdirSync('src/scripts/unintentional-any-elimination/');
       const hasMainFiles = ['execute-full-campaign.cjs', 'comprehensive-campaign.cjs'].every(file =>
-        campaignFiles.includes(file)
+        campaignFiles.includes(file),
       );
       return hasMainFiles ? 90 : 60;
     } catch {
@@ -869,7 +935,7 @@ class SystemValidationSuite {
   private async testDocumentationAccess(): Promise<{ functional: boolean }> {
     const docFiles = [
       'src/scripts/unintentional-any-elimination/MAINTENANCE_GUIDE.md',
-      'src/scripts/unintentional-any-elimination/TROUBLESHOOTING_GUIDE.md'
+      'src/scripts/unintentional-any-elimination/TROUBLESHOOTING_GUIDE.md',
     ];
     return { functional: docFiles.every(file => fs.existsSync(file)) };
   }
@@ -906,7 +972,7 @@ class SystemValidationSuite {
       'Git stash integration',
       'Incremental backups',
       'Backup validation',
-      'Restore procedures'
+      'Restore procedures',
     ];
 
     // Simplified scoring
@@ -948,7 +1014,7 @@ class SystemValidationSuite {
     return {
       lintingSpeed: duration,
       memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB
-      buildTime: 30 // Mock build time in seconds
+      buildTime: 30, // Mock build time in seconds
     };
   }
 
@@ -970,7 +1036,7 @@ class SystemValidationSuite {
       'Graceful degradation',
       'Recovery mechanisms',
       'Data consistency',
-      'System stability'
+      'System stability',
     ];
 
     // Simplified scoring
@@ -984,7 +1050,7 @@ class SystemValidationSuite {
       'Memory usage scaling',
       'Processing time scaling',
       'Resource utilization',
-      'Parallel processing'
+      'Parallel processing',
     ];
 
     // Simplified scoring
@@ -1026,7 +1092,7 @@ class SystemValidationSuite {
       criticalIssues,
       warnings,
       recommendations,
-      validationDate: new Date()
+      validationDate: new Date(),
     };
   }
 
@@ -1082,8 +1148,8 @@ class SystemValidationSuite {
       systemInfo: {
         nodeVersion: process.version,
         platform: process.platform,
-        timestamp: new Date().toISOString()
-      }
+        timestamp: new Date().toISOString(),
+      },
     };
 
     fs.writeFileSync(reportPath, JSON.stringify(detailedReport, null, 2));
@@ -1095,10 +1161,13 @@ class SystemValidationSuite {
 if (require.main === module) {
   const validator = new SystemValidationSuite();
 
-  validator.runFullValidation()
+  validator
+    .runFullValidation()
     .then(health => {
       const exitCode = health.overallScore >= 70 ? 0 : 1;
-      console.log(`\n${exitCode === 0 ? '✅' : '❌'} System validation ${exitCode === 0 ? 'passed' : 'failed'}`);
+      console.log(
+        `\n${exitCode === 0 ? '✅' : '❌'} System validation ${exitCode === 0 ? 'passed' : 'failed'}`,
+      );
       process.exit(exitCode);
     })
     .catch(error => {

@@ -600,10 +600,14 @@ function _calculateKalchmAlignment(
 ): number {
   // Convert recipe properties to approximate alchemical properties
   const recipeAlchemical = {
-    Spirit: ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2,
-    Essence: ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2,
-    Matter: ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2,
-    Substance: ((recipeProperties as any)?.Air || 0) * 0.2 + ((recipeProperties as any)?.Earth || 0) * 0.2,
+    Spirit:
+      ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2,
+    Essence:
+      ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2,
+    Matter:
+      ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2,
+    Substance:
+      ((recipeProperties as any)?.Air || 0) * 0.2 + ((recipeProperties as any)?.Earth || 0) * 0.2,
   };
 
   // Calculate similarity to current moment's alchemical properties

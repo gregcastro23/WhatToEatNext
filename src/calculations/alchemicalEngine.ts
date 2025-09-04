@@ -6,20 +6,20 @@ import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
 import signs, { signInfo } from '@/data/astrology';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import type {
-    AlchemicalCalculationResult,
-    BirthInfo,
-    ElementalAffinity,
-    LunarPhaseWithSpaces,
-    RecipeHarmonyResult,
+  AlchemicalCalculationResult,
+  BirthInfo,
+  ElementalAffinity,
+  LunarPhaseWithSpaces,
+  RecipeHarmonyResult,
 } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 import type {
-    AstrologicalState,
-    ElementalProperties,
-    PlanetPosition,
-    StandardizedAlchemicalResult,
-    ZodiacSign,
+  AstrologicalState,
+  ElementalProperties,
+  PlanetPosition,
+  StandardizedAlchemicalResult,
+  ZodiacSign,
 } from '@/types/unified';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { ErrorHandler } from '@/utils/errorHandler';
@@ -420,10 +420,7 @@ export class AlchemicalEngineAdvanced {
   /**
    * Calculate astrological power based on zodiac sign compatibility
    */
-  calculateAstrologicalPower(
-    recipeSunSign: any,
-    astrologicalState: AstrologicalState,
-  ): number {
+  calculateAstrologicalPower(recipeSunSign: any, astrologicalState: AstrologicalState): number {
     try {
       if (!astrologicalState || !astrologicalState.sunSign) {
         return 0.5; // Default compatibility if missing data
@@ -1920,9 +1917,7 @@ export function calculateZodiacEnergies(
  * @param zodiacEnergies Record of zodiac energies
  * @returns Chakra energies
  */
-export function calculateChakraEnergies(
-  zodiacEnergies: Record<string, number>,
-): ChakraEnergies {
+export function calculateChakraEnergies(zodiacEnergies: Record<string, number>): ChakraEnergies {
   try {
     // Initialize with default values - ensures all chakras have values
     const chakraEnergies = {
@@ -2076,9 +2071,8 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
 
     // Determine current lunar phase
     const lunarPhase =
-      ((
-        (moonPosition as unknown as any).phase as string
-      ).toLowerCase() as LunarPhase) || 'full moon';
+      (((moonPosition as unknown as any).phase as string).toLowerCase() as LunarPhase) ||
+      'full moon';
 
     // Get current season based on sun sign
     const season = getSeasonFromSunSign(sunSign);
@@ -2088,9 +2082,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       .filter(([planet, data]) => {
         if (planet === 'sun' || planet === 'moon') return true;
         // Consider a planet active if it has a position and is not retrograde
-        return (
-          (data as any).sign && !(data as any).isRetrograde
-        );
+        return (data as any).sign && !(data as any).isRetrograde;
       })
       .map(([planet]) => planet);
 

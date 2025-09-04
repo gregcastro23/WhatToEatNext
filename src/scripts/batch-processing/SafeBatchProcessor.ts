@@ -73,7 +73,7 @@ export class SafeBatchProcessor {
       autoRollbackOnError: true,
       createGitStash: true,
       logLevel: 'info',
-      ...config
+      ...config,
     };
   }
 
@@ -82,7 +82,10 @@ export class SafeBatchProcessor {
    */
   async processBatches(files: FileProcessingInfo[]): Promise<BatchResult[]> {
     this.log('info', `🚀 Starting safe batch processing of ${files.length} files`);
-    this.log('info', `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`);
+    this.log(
+      'info',
+      `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`,
+    );
 
     const results: BatchResult[] = [];
 
@@ -123,7 +126,10 @@ export class SafeBatchProcessor {
     this.log('info', `   Total Processed: ${this.totalProcessed}`);
     this.log('info', `   Total Eliminated: ${this.totalEliminated}`);
     this.log('info', `   Total Preserved: ${this.totalPreserved}`);
-    this.log('info', `   Success Rate: ${(results.filter(r => r.success).length / results.length * 100).toFixed(1)}%`);
+    this.log(
+      'info',
+      `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,
+    );
 
     return results;
   }
@@ -147,7 +153,7 @@ export class SafeBatchProcessor {
       errors: [],
       warnings: [],
       processingTime: 0,
-      stashId: undefined
+      stashId: undefined,
     };
 
     try {
@@ -166,7 +172,10 @@ export class SafeBatchProcessor {
           result.eliminatedCount += fileResult.eliminated;
           result.preservedCount += fileResult.preserved;
 
-          this.log('debug', `   ✓ ${fileInfo.relativePath}: ${fileResult.eliminated} eliminated, ${fileResult.preserved} preserved`);
+          this.log(
+            'debug',
+            `   ✓ ${fileInfo.relativePath}: ${fileResult.eliminated} eliminated, ${fileResult.preserved} preserved`,
+          );
         } catch (error) {
           const errorMsg = `Failed to process ${fileInfo.relativePath}: ${error}`;
           result.errors.push(errorMsg);
@@ -197,7 +206,6 @@ export class SafeBatchProcessor {
       }
 
       result.success = result.compilationPassed && result.errors.length === 0;
-
     } catch (error) {
       const errorMsg = `Batch processing failed: ${error}`;
       result.errors.push(errorMsg);
@@ -213,7 +221,12 @@ export class SafeBatchProcessor {
     result.processingTime = Date.now() - startTime;
 
     // Create safety checkpoint after batch
-    await this.createSafetyCheckpoint(batchId, result.compilationPassed, result.errors.length, stashId);
+    await this.createSafetyCheckpoint(
+      batchId,
+      result.compilationPassed,
+      result.errors.length,
+      stashId,
+    );
 
     return result;
   }
@@ -221,7 +234,9 @@ export class SafeBatchProcessor {
   /**
    * Process a single file for unused variable elimination
    */
-  private async processFile(fileInfo: FileProcessingInfo): Promise<{ eliminated: number; preserved: number }> {
+  private async processFile(
+    fileInfo: FileProcessingInfo,
+  ): Promise<{ eliminated: number; preserved: number }> {
     // This is a placeholder for the actual file processing logic
     // In the real implementation, this would:
     // 1. Read the file content
@@ -245,7 +260,7 @@ export class SafeBatchProcessor {
   private sortFilesByRisk(files: FileProcessingInfo[]): FileProcessingInfo[] {
     return files.sort((a, b) => {
       // Process low-risk files first
-      const riskOrder = { 'low': 1, 'medium': 2, 'high': 3 };
+      const riskOrder = { low: 1, medium: 2, high: 3 };
       if (riskOrder[a.riskLevel] !== riskOrder[b.riskLevel]) {
         return riskOrder[a.riskLevel] - riskOrder[b.riskLevel];
       }
@@ -312,7 +327,9 @@ export class SafeBatchProcessor {
       const statusOutput = execSync('git status --porcelain', { encoding: 'utf8' });
       if (!statusOutput.trim()) {
         // No changes to stash, create empty stash
-        execSync('git stash push --keep-index -m "' + stashMessage + '" --allow-empty', { stdio: 'pipe' });
+        execSync('git stash push --keep-index -m "' + stashMessage + '" --allow-empty', {
+          stdio: 'pipe',
+        });
       } else {
         execSync('git stash push -m "' + stashMessage + '"', { stdio: 'pipe' });
       }
@@ -360,7 +377,7 @@ export class SafeBatchProcessor {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000, // 30 second timeout
       });
       return true;
     } catch (error) {
@@ -376,7 +393,7 @@ export class SafeBatchProcessor {
     id: string,
     compilationStatus: boolean = true,
     errorCount: number = 0,
-    stashId?: string
+    stashId?: string,
   ): Promise<void> {
     const checkpoint: SafetyCheckpoint = {
       id,
@@ -384,7 +401,7 @@ export class SafeBatchProcessor {
       batchId: id,
       compilationStatus,
       errorCount,
-      stashId
+      stashId,
     };
 
     this.checkpoints.push(checkpoint);
@@ -400,7 +417,7 @@ export class SafeBatchProcessor {
       totalEliminated: this.totalEliminated,
       totalPreserved: this.totalPreserved,
       checkpointsCreated: this.checkpoints.length,
-      lastCheckpoint: this.checkpoints[this.checkpoints.length - 1]
+      lastCheckpoint: this.checkpoints[this.checkpoints.length - 1],
     };
   }
 

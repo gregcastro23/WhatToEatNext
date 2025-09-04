@@ -1,6 +1,6 @@
 /**
  * Conservative Replacement Pilot Tests
- * Comprehensive test suite for Task 12?.2 implementation
+ * Comprehensive test suite for Task 12.2 implementation
  */
 
 import { execSync } from 'child_process';
@@ -13,64 +13,64 @@ import {
 } from '../types';
 
 // Mock external dependencies
-jest?.mock('child_process');
-jest?.mock('fs');
+jest.mock('child_process');
+jest.mock('fs');
 
-const mockExecSync: any = execSync as jest?.MockedFunction<typeof execSync>;
-const mockFs: any = fs as jest?.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>;
 
-describe('ConservativeReplacementPilot': any, (: any) => {
+describe('ConservativeReplacementPilot', () => {
   let pilot: ConservativeReplacementPilot;
   let mockConfig: ConservativePilotConfig;
 
-  beforeEach((: any) => {
+  beforeEach(() => {
     // Reset all mocks
-    jest?.clearAllMocks();
+    jest.clearAllMocks();
 
     // Default test configuration
     mockConfig = {
       maxFilesPerBatch: 10,
       minFilesPerBatch: 5,
-      targetSuccessRate: 0?.8,
+      targetSuccessRate: 0.8,
       maxBatches: 5,
       realTimeValidation: true,
       rollbackOnFailure: true,
-      safetyThreshold: 0?.7,
-      focusCategories: [AnyTypeCategory?.ARRAY_TYPE, AnyTypeCategory?.RECORD_TYPE],;
+      safetyThreshold: 0.7,
+      focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1
     };
 
     pilot = new ConservativeReplacementPilot(mockConfig);
 
     // Mock file system operations
-    mockFs?.existsSync.mockReturnValue(true);
-    mockFs?.mkdirSync.mockReturnValue(undefined);
-    mockFs?.readFileSync.mockReturnValue('mock file content');
-    mockFs?.writeFileSync.mockReturnValue(undefined);
-    mockFs?.readdirSync.mockReturnValue(['test?.ts', 'example?.tsx']);
-    mockFs?.statSync.mockReturnValue({ isFile: () => true, isDirectory: () => false } as any);
+    mockFs.existsSync.mockReturnValue(true);
+    mockFs.mkdirSync.mockReturnValue(undefined);
+    mockFs.readFileSync.mockReturnValue('mock file content');
+    mockFs.writeFileSync.mockReturnValue(undefined);
+    mockFs.readdirSync.mockReturnValue(['test.ts', 'example.tsx']);
+    mockFs.statSync.mockReturnValue({ isFile: () => true, isDirectory: () => false } as any);
 
     // Mock successful TypeScript compilation by default
-    mockExecSync?.mockReturnValue('');
+    mockExecSync.mockReturnValue('');
   });
 
-  describe('Constructor and Configuration': any, (: any) => {
-    test('should initialize with default configuration': any, (: any) => {
+  describe('Constructor and Configuration', () => {
+    test('should initialize with default configuration', () => {
       const defaultPilot: any = new ConservativeReplacementPilot();
       expect(defaultPilot).toBeDefined();
     });
 
-    test('should accept custom configuration': any, (: any) => {
-      const customConfig: Partial<ConservativePilotConfig> = {, maxFilesPerBatch: 20,
-        targetSuccessRate: 0?.9
+    test('should accept custom configuration', () => {
+      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20,
+        targetSuccessRate: 0.9
       };
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig);
       expect(customPilot).toBeDefined();
     });
 
-    test('should merge custom config with defaults': any, (: any) => {
-      const customConfig: Partial<ConservativePilotConfig> = {, maxFilesPerBatch: 20
+    test('should merge custom config with defaults', () => {
+      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20
       };
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig);
@@ -79,14 +79,14 @@ describe('ConservativeReplacementPilot': any, (: any) => {
     });
   });
 
-  describe('High-Confidence Case Identification': any, (: any) => {
-    beforeEach((: any) => {
+  describe('High-Confidence Case Identification', () => {
+    beforeEach(() => {
       // Mock finding TypeScript files
-      mockExecSync?.mockReturnValue('src/test1?.ts\nsrc/test2?.tsx\n');
+      mockExecSync.mockReturnValue('src/test1.ts\nsrc/test2.tsx\n');
 
       // Mock file content with any types
-      mockFs?.readFileSync.mockImplementation((filePath: any) => {
-        if (filePath?.includes('test1?.ts')) {
+      mockFs.readFileSync.mockImplementation((filePath: any) => {
+        if (filePath.includes('test1.ts')) {
           return `
             const items: any[] = [];
             const config: Record<string, unknown> = {};
@@ -95,7 +95,7 @@ describe('ConservativeReplacementPilot': any, (: any) => {
             }
           `;
         }
-        if (filePath?.includes('test2?.tsx')) {
+        if (filePath.includes('test2.tsx')) {
           return `
             const data: any[] = [1, 2, 3];
             const mapping: Record<number, unknown> = {};
@@ -105,41 +105,41 @@ describe('ConservativeReplacementPilot': any, (: any) => {
       });
     });
 
-    test('should identify array type cases with high confidence': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should identify array type cases with high confidence': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
       // Should have found array type cases
     });
 
-    test('should identify Record type cases': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should identify Record type cases': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
       // Should have found Record type cases
     });
 
-    test('should prioritize array types over Record types': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should prioritize array types over Record types': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
       // Array types should be processed first due to higher confidence
     });
 
-    test('should exclude cases in comments': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    test('should exclude cases in comments': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
         // const items: any[] = []; // This should be ignored
         const realItems: any[] = []; // This should be found
       `);
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
       // Should only find the non-commented case
     });
 
-    test('should exclude cases in error handling contexts': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    test('should exclude cases in error handling contexts': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
         try : any {
           // some code
         } catch (error: any) {
@@ -148,388 +148,388 @@ describe('ConservativeReplacementPilot': any, (: any) => {
         const items: any[] = []; // This should be found
       `);
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
       // Should exclude error handling cases
     });
   });
 
-  describe('Batch Processing': any, (: any) => {
-    beforeEach((: any) => {
+  describe('Batch Processing', () => {
+    beforeEach(() => {
       // Mock successful build validation
-      mockExecSync?.mockReturnValue('');
+      mockExecSync.mockReturnValue('');
 
       // Mock file operations
-      mockFs?.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
     });
 
-    test('should process batches within size limits': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should process batches within size limits': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.batchesExecuted).toBeLessThanOrEqual(mockConfig?.maxBatches);
+      expect(result.batchesExecuted).toBeLessThanOrEqual(mockConfig.maxBatches);
     });
 
-    test('should validate build after each batch': any, async (: any) => {
-      await pilot?.executePilot();
+    test('should validate build after each batch': any, async () => {
+      await pilot.executePilot();
 
       // Should have called TypeScript compilation validation
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect?.stringContaining('tsc --noEmit'),
-        expect?.any(Object)
+        expect.stringContaining('tsc --noEmit'),
+        expect.any(Object)
       );
     });
 
-    test('should rollback on build failure when configured': any, async (: any) => {
+    test('should rollback on build failure when configured': any, async () => {
       // Mock build failure
-      mockExecSync?.mockImplementation((command: string) => {
-        if (command?.includes('tsc --noEmit')) {
+      mockExecSync.mockImplementation((command: string) => {
+        if (command.includes('tsc --noEmit')) {
           throw new Error('TypeScript compilation failed');
         }
         return '';
       });
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.rollbacksPerformed).toBeGreaterThan(0);
+      expect(result.rollbacksPerformed).toBeGreaterThan(0);
     });
 
-    test('should stop processing on consecutive build failures': any, async (: any) => {
+    test('should stop processing on consecutive build failures': any, async () => {
       // Mock build failure
-      mockExecSync?.mockImplementation((command: string) => {
-        if (command?.includes('tsc --noEmit')) {
+      mockExecSync.mockImplementation((command: string) => {
+        if (command.includes('tsc --noEmit')) {
           throw new Error('Build failed');
         }
         return '';
       });
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.buildFailures).toBeGreaterThan(0);
+      expect(result.success).toBe(false);
+      expect(result.buildFailures).toBeGreaterThan(0);
     });
 
-    test('should create backups before making changes': any, async (: any) => {
-      await pilot?.executePilot();
+    test('should create backups before making changes': any, async () => {
+      await pilot.executePilot();
 
       // Should have created backup directory
-      expect(mockFs?.mkdirSync).toHaveBeenCalledWith(
-        expect?.stringContaining('conservative-pilot-backups'),
-        expect?.any(Object)
+      expect(mockFs.mkdirSync).toHaveBeenCalledWith(
+        expect.stringContaining('conservative-pilot-backups'),
+        expect.any(Object)
       );
     });
   });
 
-  describe('Real-Time Validation': any, (: any) => {
-    test('should perform validation after each batch': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+  describe('Real-Time Validation', () => {
+    test('should perform validation after each batch': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should have performed build validation
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect?.stringContaining('tsc --noEmit'),
-        expect?.any(Object)
+        expect.stringContaining('tsc --noEmit'),
+        expect.any(Object)
       );
     });
 
-    test('should track TypeScript error count': any, async (: any) => {
+    test('should track TypeScript error count': any, async () => {
       // Mock error count output
-      mockExecSync?.mockImplementation((command: string) => {
-        if (command?.includes('grep -c "error TS"')) {
+      mockExecSync.mockImplementation((command: string) => {
+        if (command.includes('grep -c "error TS"')) {
           return '5'; // Mock 5 errors
         }
         return '';
       });
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
       // Should have tracked error count
     });
 
-    test('should calculate safety score': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should calculate safety score': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.safetyScore).toBeGreaterThanOrEqual(0);
-      expect(result?.safetyScore).toBeLessThanOrEqual(1);
+      expect(result.safetyScore).toBeGreaterThanOrEqual(0);
+      expect(result.safetyScore).toBeLessThanOrEqual(1);
     });
   });
 
-  describe('Success Rate Tracking': any, (: any) => {
-    test('should achieve target success rate with good cases': any, async (: any) => {
+  describe('Success Rate Tracking', () => {
+    test('should achieve target success rate with good cases': any, async () => {
       // Mock successful replacements
-      mockFs?.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      if (result?.totalCasesProcessed > 0) {
-        expect(result?.successRate).toBeGreaterThanOrEqual(0);
-        expect(result?.successRate).toBeLessThanOrEqual(1);
+      if (result.totalCasesProcessed > 0) {
+        expect(result.successRate).toBeGreaterThanOrEqual(0);
+        expect(result.successRate).toBeLessThanOrEqual(1);
       }
     });
 
-    test('should track successful and failed replacements': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should track successful and failed replacements': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.totalSuccessfulReplacements).toBeGreaterThanOrEqual(0);
-      expect(result?.totalCasesProcessed).toBeGreaterThanOrEqual(result?.totalSuccessfulReplacements);
+      expect(result.totalSuccessfulReplacements).toBeGreaterThanOrEqual(0);
+      expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(result.totalSuccessfulReplacements);
     });
 
-    test('should meet target success rate for pilot success': any, async (: any) => {
+    test('should meet target success rate for pilot success': any, async () => {
       // Mock high success scenario
-      mockFs?.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      if (result?.successRate >= mockConfig?.targetSuccessRate && result?.buildFailures === 0) {;
-        expect(result?.targetAchieved as any).toBe(true);
+      if (result.successRate >= mockConfig.targetSuccessRate && result.buildFailures === 0) {
+        expect(result.targetAchieved).toBe(true);
       }
     });
   });
 
-  describe('Safety Protocol Integration': any, (: any) => {
-    test('should activate safety protocols on build failure': any, async (: any) => {
+  describe('Safety Protocol Integration', () => {
+    test('should activate safety protocols on build failure': any, async () => {
       // Mock build failure
-      mockExecSync?.mockImplementation((command: string) => {
-        if (command?.includes('tsc --noEmit')) {
+      mockExecSync.mockImplementation((command: string) => {
+        if (command.includes('tsc --noEmit')) {
           throw new Error('Build failed');
         }
         return '';
       });
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.safetyMetrics.buildFailures).toBeGreaterThan(0);
+      expect(result.safetyMetrics.buildFailures).toBeGreaterThan(0);
     });
 
-    test('should track safety metrics': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should track safety metrics': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.safetyMetrics).toBeDefined();
-      expect(result?.safetyMetrics.buildFailures).toBeGreaterThanOrEqual(0);
-      expect(result?.safetyMetrics.rollbacksPerformed).toBeGreaterThanOrEqual(0);
+      expect(result.safetyMetrics).toBeDefined();
+      expect(result.safetyMetrics.buildFailures).toBeGreaterThanOrEqual(0);
+      expect(result.safetyMetrics.rollbacksPerformed).toBeGreaterThanOrEqual(0);
     });
 
-    test('should maintain safety score above threshold': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should maintain safety score above threshold': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Safety score should be calculated
-      expect(result?.safetyScore).toBeGreaterThanOrEqual(0);
+      expect(result.safetyScore).toBeGreaterThanOrEqual(0);
     });
   });
 
-  describe('Campaign Infrastructure Integration': any, (: any) => {
-    test('should validate campaign integration': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+  describe('Campaign Infrastructure Integration', () => {
+    test('should validate campaign integration': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should complete without integration errors
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
     });
 
-    test('should integrate with metrics system': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should integrate with metrics system': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should have metrics data
-      expect(result?.totalCasesProcessed).toBeGreaterThanOrEqual(0);
-      expect(result?.batchesExecuted).toBeGreaterThanOrEqual(0);
+      expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(0);
+      expect(result.batchesExecuted).toBeGreaterThanOrEqual(0);
     });
 
-    test('should work with progressive improvement engine': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should work with progressive improvement engine': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should complete without engine integration errors
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
     });
   });
 
-  describe('Report Generation': any, (: any) => {
-    test('should generate comprehensive pilot report': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+  describe('Report Generation', () => {
+    test('should generate comprehensive pilot report': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should have generated report data
-      expect(result?.pilotStartTime).toBeDefined();
-      expect(result?.pilotEndTime).toBeDefined();
-      expect(result?.batchResults).toBeDefined();
+      expect(result.pilotStartTime).toBeDefined();
+      expect(result.pilotEndTime).toBeDefined();
+      expect(result.batchResults).toBeDefined();
     });
 
-    test('should include recommendations in report': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should include recommendations in report': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should have result data for recommendations
-      expect(result?.success).toBeDefined();
-      expect(result?.targetAchieved).toBeDefined();
+      expect(result.success).toBeDefined();
+      expect(result.targetAchieved).toBeDefined();
     });
 
-    test('should save report to correct location': any, async (: any) => {
-      await pilot?.executePilot();
+    test('should save report to correct location': any, async () => {
+      await pilot.executePilot();
 
       // Should have attempted to create report directory
-      expect(mockFs?.mkdirSync).toHaveBeenCalledWith(
-        expect?.stringContaining('.kiro/campaign-reports'),
-        expect?.any(Object)
+      expect(mockFs.mkdirSync).toHaveBeenCalledWith(
+        expect.stringContaining('.kiro/campaign-reports'),
+        expect.any(Object)
       );
     });
   });
 
-  describe('Error Handling and Edge Cases': any, (: any) => {
-    test('should handle no high-confidence cases gracefully': any, async (: any) => {
+  describe('Error Handling and Edge Cases', () => {
+    test('should handle no high-confidence cases gracefully': any, async () => {
       // Mock no TypeScript files
-      mockExecSync?.mockReturnValue('');
+      mockExecSync.mockReturnValue('');
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.message).toContain('No high-confidence cases found');
+      expect(result.success).toBe(false);
+      expect(result.message).toContain('No high-confidence cases found');
     });
 
-    test('should handle file read errors gracefully': any, async (: any) => {
-      mockFs?.readFileSync.mockImplementation((: any) => {
+    test('should handle file read errors gracefully': any, async () => {
+      mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File read error');
       });
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
       // Should handle error without crashing
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
     });
 
-    test('should handle TypeScript compilation timeout': any, async (: any) => {
-      mockExecSync?.mockImplementation((: any) => {
+    test('should handle TypeScript compilation timeout': any, async () => {
+      mockExecSync.mockImplementation(() => {
         throw new Error('Command timed out');
       });
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      expect(result?.success as any).toBe(false);
+      expect(result.success).toBe(false);
     });
 
-    test('should handle backup creation failure': any, async (: any) => {
-      mockFs?.writeFileSync.mockImplementation((: any) => {
+    test('should handle backup creation failure': any, async () => {
+      mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Backup creation failed');
       });
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
       // Should handle backup failure gracefully
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
     });
   });
 
-  describe('Performance and Limits': any, (: any) => {
-    test('should respect batch size limits': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+  describe('Performance and Limits', () => {
+    test('should respect batch size limits': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Each batch should respect size limits
-      result?.batchResults.forEach(batch => {;
-        expect(batch?.casesProcessed).toBeLessThanOrEqual(mockConfig?.maxFilesPerBatch);
+      result.batchResults.forEach(batch => {
+        expect(batch.casesProcessed).toBeLessThanOrEqual(mockConfig.maxFilesPerBatch);
       });
     });
 
-    test('should respect maximum batch count': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should respect maximum batch count': any, async () => {
+      const result: any = await pilot.executePilot();
 
-      expect(result?.batchesExecuted).toBeLessThanOrEqual(mockConfig?.maxBatches);
+      expect(result.batchesExecuted).toBeLessThanOrEqual(mockConfig.maxBatches);
     });
 
-    test('should complete within reasonable time': any, async (: any) => {
-      const startTime: any = Date?.now();
-      await pilot?.executePilot();
-      const endTime: any = Date?.now();
+    test('should complete within reasonable time': any, async () => {
+      const startTime: any = Date.now();
+      await pilot.executePilot();
+      const endTime: any = Date.now();
 
       const executionTime: any = endTime - startTime;
       expect(executionTime).toBeLessThan(60000); // Should complete within 60 seconds
     });
   });
 
-  describe('Task 12?.2 Requirements Validation': any, (: any) => {
+  describe('Task 12.2 Requirements Validation', () => {
     test('should focus on array types (unknown[] → unknown[])', (async () =>  {
-      mockFs?.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
       // Should have processed array type cases
-      expect(result?.totalCasesProcessed).toBeGreaterThanOrEqual(0);
+      expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(0);
     });
 
-    test('should focus on simple Record types': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue('const config: Record<string, unknown> = {};');
+    test('should focus on simple Record types': any, async () => {
+      mockFs.readFileSync.mockReturnValue('const config: Record<string, unknown> = {};');
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
       // Should have processed Record type cases
-      expect(result?.totalCasesProcessed).toBeGreaterThanOrEqual(0);
+      expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(0);
     });
 
-    test('should target >80% successful replacements': any, async (: any) => {
+    test('should target >80% successful replacements': any, async () => {
       // Mock successful scenario
-      mockFs?.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
-      if (result?.totalCasesProcessed > 0) {
+      if (result.totalCasesProcessed > 0) {
         // Should aim for high success rate
-        expect(mockConfig?.targetSuccessRate).toBeGreaterThanOrEqual(0?.8);
+        expect(mockConfig.targetSuccessRate).toBeGreaterThanOrEqual(0.8);
       }
     });
 
-    test('should target zero build failures': any, async (: any) => {
+    test('should target zero build failures': any, async () => {
       // Mock successful scenario
-      mockFs?.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
-      const result: any = await pilot?.executePilot();
+      const result: any = await pilot.executePilot();
 
       // Target should be zero build failures
-      if (result?.success) {
-        expect(result?.buildFailures as any).toBe(0);
+      if (result.success) {
+        expect(result.buildFailures).toBe(0);
       }
     });
 
-    test('should monitor build stability with real-time validation': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should monitor build stability with real-time validation': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should have performed real-time validation
-      expect(mockConfig?.realTimeValidation as any).toBe(true);
-      expect(result?.batchResults.length).toBeGreaterThanOrEqual(0);
+      expect(mockConfig.realTimeValidation).toBe(true);
+      expect(result.batchResults.length).toBeGreaterThanOrEqual(0);
     });
 
-    test('should collect success rate metrics': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should collect success rate metrics': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should have success rate metrics
-      expect(result?.successRate).toBeGreaterThanOrEqual(0);
-      expect(result?.successRate).toBeLessThanOrEqual(1);
+      expect(result.successRate).toBeGreaterThanOrEqual(0);
+      expect(result.successRate).toBeLessThanOrEqual(1);
     });
 
-    test('should validate safety protocol effectiveness': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should validate safety protocol effectiveness': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should have safety metrics
-      expect(result?.safetyMetrics).toBeDefined();
-      expect(result?.safetyScore).toBeGreaterThanOrEqual(0);
+      expect(result.safetyMetrics).toBeDefined();
+      expect(result.safetyScore).toBeGreaterThanOrEqual(0);
     });
 
-    test('should validate integration with existing campaign infrastructure': any, async (: any) => {
-      const result: any = await pilot?.executePilot();
+    test('should validate integration with existing campaign infrastructure': any, async () => {
+      const result: any = await pilot.executePilot();
 
       // Should complete without integration failures
-      expect(result?.success).toBeDefined();
+      expect(result.success).toBeDefined();
       // Integration validation should not cause failures
     });
   });
 });
 
-describe('ConservativeReplacementPilot Integration Tests': any, (: any) => {
+describe('ConservativeReplacementPilot Integration Tests', () => {
   let pilot: ConservativeReplacementPilot;
 
-  beforeEach((: any) => {
+  beforeEach(() => {
     pilot = new ConservativeReplacementPilot({
       maxFilesPerBatch: 5,
       maxBatches: 2,
-      targetSuccessRate: 0?.8,;
+      targetSuccessRate: 0.8,
       realTimeValidation: true
     });
   });
 
-  test('should integrate with existing campaign system': any, async (: any) => {
+  test('should integrate with existing campaign system': any, async () => {
     // This would test actual integration in a real environment
     // For now, we verify the pilot can be instantiated and configured
     expect(pilot).toBeDefined();

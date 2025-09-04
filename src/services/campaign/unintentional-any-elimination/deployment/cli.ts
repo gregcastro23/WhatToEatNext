@@ -63,7 +63,7 @@ program
   .option('-p, --phases <phases>', 'Comma-separated list of phases to run', 'all')
   .option('-c, --config <config>', 'Custom deployment configuration file')
   .option('--dry-run', 'Show what would be deployed without executing')
-  .action(async (options) => {
+  .action(async options => {
     try {
       console.log('🚀 Starting Unintentional Any Elimination deployment...');
 
@@ -116,7 +116,6 @@ program
       // Exit with appropriate code
       const success = results.every(r => r.success);
       process.exit(success ? 0 : 1);
-
     } catch (error) {
       console.error('❌ Deployment failed:', error);
       process.exit(1);
@@ -145,7 +144,7 @@ program
   .command('validate')
   .description('Validate deployment readiness')
   .option('-p, --phase <phase>', 'Validate specific phase')
-  .action(async (options) => {
+  .action(async options => {
     try {
       console.log('🔍 Validating deployment readiness...');
 
@@ -185,7 +184,6 @@ program
 
         console.log('✅ System validation passed');
       }
-
     } catch (error) {
       console.error('❌ Validation failed:', error);
       process.exit(1);
@@ -245,7 +243,7 @@ program
   .option('-p, --phase <phase>', 'Rollback specific phase')
   .option('-t, --to <checkpoint>', 'Rollback to specific checkpoint')
   .option('--confirm', 'Skip confirmation prompt')
-  .action(async (options) => {
+  .action(async options => {
     try {
       if (!options.confirm) {
         console.log('⚠️  This will rollback the deployment.');
@@ -268,7 +266,6 @@ program
 
       // For now, this is a placeholder
       console.log('✅ Rollback completed successfully');
-
     } catch (error) {
       console.error('❌ Rollback failed:', error);
       process.exit(1);
@@ -307,7 +304,6 @@ program
           });
         }
       }
-
     } catch (error) {
       console.error('❌ Failed to get status:', error);
       process.exit(1);
@@ -319,13 +315,13 @@ program
   .command('export-config')
   .description('Export deployment configuration')
   .argument('<file>', 'Output file path')
-  .action((file) => {
+  .action(file => {
     try {
       const phases = createStandardDeploymentPhases();
       const config = {
         version: '1.0.0',
         timestamp: new Date().toISOString(),
-        phases: phases
+        phases: phases,
       };
 
       writeFileSync(file, JSON.stringify(config, null, 2));
@@ -340,7 +336,7 @@ program
   .command('import-config')
   .description('Import deployment configuration')
   .argument('<file>', 'Input file path')
-  .action((file) => {
+  .action(file => {
     try {
       if (!existsSync(file)) {
         console.error(`❌ File not found: ${file}`);

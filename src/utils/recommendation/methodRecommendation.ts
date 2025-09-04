@@ -179,14 +179,11 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         culturalOrigin: methodData.culturalOrigin as string,
         astrologicalInfluences: {
           favorableZodiac:
-            ((methodData.astrologicalInfluences as any)
-              .favorableZodiac as any[]) || [],
+            ((methodData.astrologicalInfluences as any).favorableZodiac as any[]) || [],
           unfavorableZodiac:
-            ((methodData.astrologicalInfluences as any)
-              .unfavorableZodiac as any[]) || [],
+            ((methodData.astrologicalInfluences as any).unfavorableZodiac as any[]) || [],
           dominantPlanets:
-            ((methodData.astrologicalInfluences as any)
-              .dominantPlanets as string[]) || [],
+            ((methodData.astrologicalInfluences as any).dominantPlanets as string[]) || [],
         },
         duration: {
           min: (methodData.duration as { min?: number }).min || 0,
@@ -209,8 +206,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
 export function getMethodThermodynamics(
   method: CookingMethodProfile,
 ): BasicThermodynamicProperties {
-  const methodNameLower =
-    String((method as unknown as any).name).toLowerCase() || '';
+  const methodNameLower = String((method as unknown as any).name).toLowerCase() || '';
 
   // 1. Check the detailed data source first
   const detailedMethodData =
@@ -722,8 +718,7 @@ export function getCookingMethodRecommendations(
     const elementalEffect =
       (methodData.elementalEffect as ElementalProperties) ||
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
-    const astrologicalInfluences =
-      (methodData.astrologicalInfluences as any) || {};
+    const astrologicalInfluences = (methodData.astrologicalInfluences as any) || {};
     const description = String(methodData.description || 'Recommended cooking method');
 
     return {
@@ -804,11 +799,7 @@ export function getHolisticCookingRecommendations(
         ? (recommendations || []).filter(rec =>
             (availableMethods || []).some(method =>
               areSimilarMethods(
-                String(
-                  (rec as any).method ||
-                    (rec as any).name ||
-                    (rec as any).id,
-                ),
+                String((rec as any).method || (rec as any).name || (rec as any).id),
                 method,
               ),
             ),
@@ -826,8 +817,7 @@ export function getHolisticCookingRecommendations(
       ),
       compatibility: (Number((rec as any).score) || 0) * 100,
       reason: includeReasons
-        ? String(((rec as any).reasons as string[])[0]) ||
-          `Good match for ${ingredient.name}`
+        ? String(((rec as any).reasons as string[])[0]) || `Good match for ${ingredient.name}`
         : undefined,
     }));
   } catch (error) {

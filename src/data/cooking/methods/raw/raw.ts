@@ -197,7 +197,7 @@ export const raw: CookingMethodData = {
     heat: 0.0, // No heat applied
     entropy: 0.3, // Minimal structural disruption
     reactivity: 0.4, // Moderate natural enzymatic reactions
-    gregsEnergy: 0.050 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

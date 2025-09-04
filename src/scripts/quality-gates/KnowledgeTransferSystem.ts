@@ -75,7 +75,7 @@ class KnowledgeTransferSystem {
     this.userProgress = new Map();
     this.rl = readline.createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
 
     this.initializeTrainingModules();
@@ -115,7 +115,7 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
 - **Replacement Engine**: Safely replaces any types with better alternatives
 - **Safety Protocols**: Backup, validation, and rollback mechanisms
 - **Quality Gates**: Continuous monitoring and prevention systems
-          `
+          `,
         },
         {
           type: 'code',
@@ -127,16 +127,18 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
               before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response
 const apiResponse: any = await fetch('/api/data');`,
               after: `// This should be preserved - it's properly documented`,
-              explanation: 'External API responses often require any types due to unknown structure'
+              explanation:
+                'External API responses often require any types due to unknown structure',
             },
             {
               title: 'Unintentional Any Type (Array)',
               before: `const items: any[] = [];`,
               after: `const items: unknown[] = [];`,
-              explanation: 'Array types can usually be made more specific with unknown or proper types'
-            }
-          ]
-        }
+              explanation:
+                'Array types can usually be made more specific with unknown or proper types',
+            },
+          ],
+        },
       ],
       assessment: {
         passingScore: 80,
@@ -147,7 +149,8 @@ const apiResponse: any = await fetch('/api/data');`,
             type: 'multiple_choice',
             options: ['25.5%', '36.78%', '42.1%', '50.0%'],
             correctAnswer: 1,
-            explanation: 'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)'
+            explanation:
+              'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)',
           },
           {
             id: 'q2',
@@ -157,13 +160,13 @@ const apiResponse: any = await fetch('/api/data');`,
               'const data: any[] = [];',
               '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response;',
               'function process(input: any) { return input; }',
-              'const config: Record<string, any> = {};'
+              'const config: Record<string, any> = {};',
             ],
             correctAnswer: 1,
-            explanation: 'Properly documented external API any types should be preserved'
-          }
-        ]
-      }
+            explanation: 'Properly documented external API any types should be preserved',
+          },
+        ],
+      },
     });
 
     // Module 2: Classification Rules
@@ -194,7 +197,7 @@ const apiResponse: any = await fetch('/api/data');`,
 3. **Variable Declarations** - : any → : unknown
 4. **Function Parameters** - (param: any) → (param: unknown)
 5. **Return Types** - (): any → (): unknown
-          `
+          `,
         },
         {
           type: 'interactive',
@@ -203,14 +206,21 @@ const apiResponse: any = await fetch('/api/data');`,
           exercises: [
             {
               id: 'classify1',
-              question: 'Classify this any type:\n```typescript\nconst userInput: any = parseFormData();\n```',
+              question:
+                'Classify this any type:\n```typescript\nconst userInput: any = parseFormData();\n```',
               type: 'multiple_choice',
-              options: ['Intentional - Dynamic Content', 'Unintentional - Variable Declaration', 'Intentional - External API', 'Unintentional - Array Type'],
+              options: [
+                'Intentional - Dynamic Content',
+                'Unintentional - Variable Declaration',
+                'Intentional - External API',
+                'Unintentional - Array Type',
+              ],
               correctAnswer: 0,
-              explanation: 'User input often has unknown structure, making this intentionally dynamic'
-            }
-          ]
-        }
+              explanation:
+                'User input often has unknown structure, making this intentionally dynamic',
+            },
+          ],
+        },
       ],
       assessment: {
         passingScore: 85,
@@ -221,10 +231,11 @@ const apiResponse: any = await fetch('/api/data');`,
             type: 'multiple_choice',
             options: ['3', '5', '7', '10'],
             correctAnswer: 1,
-            explanation: 'There are 5 main intentional categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration'
-          }
-        ]
-      }
+            explanation:
+              'There are 5 main intentional categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration',
+          },
+        ],
+      },
     });
 
     // Module 3: Replacement Patterns
@@ -271,7 +282,7 @@ const apiResponse: any = await fetch('/api/data');`,
 - **Pattern**: \`<T, any>\` → \`<T, unknown>\`
 - **Success Rate**: 80%
 - **Risk Level**: Medium
-          `
+          `,
         },
         {
           type: 'code',
@@ -284,7 +295,7 @@ const apiResponse: any = await fetch('/api/data');`,
 items.forEach(item => console.log(item));`,
               after: `const items: unknown[] = getData();
 items.forEach(item => console.log(item));`,
-              explanation: 'unknown[] maintains type safety while allowing array operations'
+              explanation: 'unknown[] maintains type safety while allowing array operations',
             },
             {
               title: 'Record Type Replacement',
@@ -292,10 +303,10 @@ items.forEach(item => console.log(item));`,
 const value = config.someProperty;`,
               after: `const config: any = loadConfig();
 const value = config.someProperty;`,
-              explanation: 'unknown values require type checking before use, improving safety'
-            }
-          ]
-        }
+              explanation: 'unknown values require type checking before use, improving safety',
+            },
+          ],
+        },
       ],
       assessment: {
         passingScore: 85,
@@ -306,10 +317,10 @@ const value = config.someProperty;`,
             type: 'multiple_choice',
             options: ['85%', '90%', '95%', '100%'],
             correctAnswer: 3,
-            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate'
-          }
-        ]
-      }
+            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate',
+          },
+        ],
+      },
     });
 
     // Module 4: Safety Protocols
@@ -341,7 +352,7 @@ const value = config.someProperty;`,
 1. **Automatic Rollback** - On compilation failure
 2. **Manual Rollback** - Emergency recovery procedures
 3. **Selective Rollback** - File-by-file restoration
-          `
+          `,
         },
         {
           type: 'interactive',
@@ -353,10 +364,10 @@ const value = config.someProperty;`,
               question: 'What is the first command to stop all running campaigns?',
               type: 'code_completion',
               correctAnswer: 'pkill -f "unintentional-any"',
-              explanation: 'This command stops all processes related to the any elimination system'
-            }
-          ]
-        }
+              explanation: 'This command stops all processes related to the any elimination system',
+            },
+          ],
+        },
       ],
       assessment: {
         passingScore: 90,
@@ -367,10 +378,11 @@ const value = config.someProperty;`,
             type: 'multiple_choice',
             options: ['Every file', 'Every 3 files', 'Every 5 files', 'Every 10 files'],
             correctAnswer: 2,
-            explanation: 'The system validates builds every 5 files to balance safety and performance'
-          }
-        ]
-      }
+            explanation:
+              'The system validates builds every 5 files to balance safety and performance',
+          },
+        ],
+      },
     });
 
     // Module 5: Quality Gates
@@ -404,8 +416,8 @@ const value = config.someProperty;`,
 - **Pre-commit Hooks** - Prevent bad commits
 - **CI/CD Pipeline** - Continuous validation
 - **Developer Workflow** - Real-time feedback
-          `
-        }
+          `,
+        },
       ],
       assessment: {
         passingScore: 85,
@@ -416,10 +428,10 @@ const value = config.someProperty;`,
             type: 'multiple_choice',
             options: ['280', '300', '350', '400'],
             correctAnswer: 1,
-            explanation: 'The critical threshold is 300 any types, triggering immediate attention'
-          }
-        ]
-      }
+            explanation: 'The critical threshold is 300 any types, triggering immediate attention',
+          },
+        ],
+      },
     });
   }
 
@@ -455,7 +467,7 @@ const value = config.someProperty;`,
 
     const totalModules = this.trainingModules.size;
     const completedCount = progress.completedModules.length;
-    const progressPercent = (completedCount / totalModules * 100).toFixed(1);
+    const progressPercent = ((completedCount / totalModules) * 100).toFixed(1);
 
     console.log(`Progress: ${completedCount}/${totalModules} modules (${progressPercent}%)`);
 
@@ -516,14 +528,16 @@ const value = config.someProperty;`,
     const availableModules = this.getAvailableModules(progress);
 
     if (availableModules.length === 0) {
-      console.log('🎉 Congratulations! You\'ve completed all training modules.');
+      console.log("🎉 Congratulations! You've completed all training modules.");
       return;
     }
 
     console.log('\n📚 Available Modules:');
     availableModules.forEach((module, index) => {
       const status = progress.completedModules.includes(module.id) ? '✅' : '📖';
-      console.log(`${index + 1}. ${status} ${module.name} (${module.duration} min, ${module.difficulty})`);
+      console.log(
+        `${index + 1}. ${status} ${module.name} (${module.duration} min, ${module.difficulty})`,
+      );
     });
 
     const choice = await this.askQuestion('\nSelect a module (number): ');
@@ -539,9 +553,7 @@ const value = config.someProperty;`,
   private getAvailableModules(progress: UserProgress): TrainingModule[] {
     return Array.from(this.trainingModules.values()).filter(module => {
       // Check if prerequisites are met
-      return module.prerequisites.every(prereq =>
-        progress.completedModules.includes(prereq)
-      );
+      return module.prerequisites.every(prereq => progress.completedModules.includes(prereq));
     });
   }
 
@@ -660,7 +672,9 @@ const value = config.someProperty;`,
     if (score >= assessment.passingScore) {
       console.log('🎉 Congratulations! You passed the assessment.');
     } else {
-      console.log(`📚 You need ${assessment.passingScore}% to pass. Please review the material and try again.`);
+      console.log(
+        `📚 You need ${assessment.passingScore}% to pass. Please review the material and try again.`,
+      );
     }
 
     return score;
@@ -758,7 +772,9 @@ const value = config.someProperty;`,
 
   private createCertificate(userId: string, progress: UserProgress): string {
     const completionDate = new Date().toISOString().split('T')[0];
-    const averageScore = Object.values(progress.scores).reduce((sum, score) => sum + score, 0) / Object.values(progress.scores).length;
+    const averageScore =
+      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /
+      Object.values(progress.scores).length;
 
     return `# Certificate of Completion
 
@@ -803,11 +819,13 @@ const value = config.someProperty;`,
 
 ### Assessment Scores
 
-${progress.completedModules.map(moduleId => {
-  const module = this.trainingModules.get(moduleId);
-  const score = progress.scores[moduleId] || 0;
-  return `- **${module?.name}**: ${score}%`;
-}).join('\n')}
+${progress.completedModules
+  .map(moduleId => {
+    const module = this.trainingModules.get(moduleId);
+    const score = progress.scores[moduleId] || 0;
+    return `- **${module?.name}**: ${score}%`;
+  })
+  .join('\n')}
 
 ### Certification Authority
 
@@ -834,13 +852,17 @@ This certificate is issued by the Unintentional Any Elimination System and certi
         completedModules: [],
         scores: {},
         certifications: [],
-        lastActivity: new Date()
+        lastActivity: new Date(),
       });
     }
     return this.userProgress.get(userId)!;
   }
 
-  private async recordModuleCompletion(userId: string, moduleId: string, score: number): Promise<void> {
+  private async recordModuleCompletion(
+    userId: string,
+    moduleId: string,
+    score: number,
+  ): Promise<void> {
     const progress = this.getUserProgress(userId);
 
     if (!progress.completedModules.includes(moduleId)) {
@@ -896,7 +918,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 
     const totalModules = this.trainingModules.size;
     const completedCount = progress.completedModules.length;
-    const progressPercent = (completedCount / totalModules * 100).toFixed(1);
+    const progressPercent = ((completedCount / totalModules) * 100).toFixed(1);
 
     console.log(`\n📈 Overall Progress: ${completedCount}/${totalModules} (${progressPercent}%)`);
 
@@ -917,8 +939,8 @@ This certificate is issued by the Unintentional Any Elimination System and certi
       });
     }
 
-    const nextModules = this.getAvailableModules(progress).filter(m =>
-      !progress.completedModules.includes(m.id)
+    const nextModules = this.getAvailableModules(progress).filter(
+      m => !progress.completedModules.includes(m.id),
     );
 
     if (nextModules.length > 0) {
@@ -936,8 +958,8 @@ This certificate is issued by the Unintentional Any Elimination System and certi
   }
 
   private async askQuestion(question: string): Promise<string> {
-    return new Promise((resolve) => {
-      this.rl.question(question, (answer) => {
+    return new Promise(resolve => {
+      this.rl.question(question, answer => {
         resolve(answer.trim());
       });
     });
@@ -949,11 +971,10 @@ if (require.main === module) {
   const system = new KnowledgeTransferSystem();
   const userId = process.argv[2] || process.env.USER || 'anonymous';
 
-  system.startTraining(userId)
-    .catch(error => {
-      console.error('Training system error:', error);
-      process.exit(1);
-    });
+  system.startTraining(userId).catch(error => {
+    console.error('Training system error:', error);
+    process.exit(1);
+  });
 }
 
 export { KnowledgeTransferSystem, TrainingModule, UserProgress };

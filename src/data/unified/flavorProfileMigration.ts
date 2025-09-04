@@ -253,9 +253,12 @@ export class FlavorProfileMigration {
       category: 'cuisine',
 
       baseNotes: this.extractCuisineBaseNotes(cuisineData),
-      elementalFlavors:
-        ((cuisineData as unknown as any)
-          .elementalState as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalFlavors: ((cuisineData as unknown as any).elementalState as ElementalProperties) || {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      },
       intensity: this.calculateCuisineIntensity(cuisineData),
       complexity: this.calculateCuisineComplexity(cuisineData),
 
@@ -322,8 +325,12 @@ export class FlavorProfileMigration {
       category: 'planetary',
 
       baseNotes: this.extractPlanetaryBaseNotes(planetData as unknown as Planet),
-      elementalFlavors:
-        (planetData.elementalInfluence as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalFlavors: (planetData.elementalInfluence as ElementalProperties) || {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      },
       intensity: (planetData.intensity as number) || 0.5,
       complexity: (planetData.complexity as number) || 0.5,
 
@@ -392,8 +399,12 @@ export class FlavorProfileMigration {
       category: 'elemental',
 
       baseNotes: this.extractIntegrationBaseNotes(flavorName, flavorData),
-      elementalFlavors:
-        (flavorData.elementalState as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalFlavors: (flavorData.elementalState as ElementalProperties) || {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      },
       intensity: Number(flavorData.intensity) || 0.5,
       complexity: 0.5,
 
@@ -441,10 +452,7 @@ export class FlavorProfileMigration {
 
     for (const [ingredientName, flavorData] of Object.entries(ingredientFlavorMap || {})) {
       try {
-        const migratedProfile = this.convertIngredientProfile(
-          ingredientName,
-          flavorData as any,
-        );
+        const migratedProfile = this.convertIngredientProfile(ingredientName, flavorData as any);
         this.migratedProfiles.set(migratedProfile.id, migratedProfile);
       } catch (error) {
         this.migrationErrors.push(

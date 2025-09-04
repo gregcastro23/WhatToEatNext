@@ -1,9 +1,4 @@
-import {
-  ElementalProperties,
-  ZodiacSign,
-  AlchemicalResult,
-  PlanetaryPosition,
-} from '@/types/alchemy';
+import { ElementalProperties, AlchemicalResult, PlanetaryPosition } from '@/types/alchemy';
 
 import { signs } from '../data/astroData';
 /**

@@ -17,55 +17,55 @@ import {
 import { SafetyProtocol } from '../SafetyProtocol';
 
 // Mock dependencies
-jest?.mock('child_process');
-jest?.mock('fs');
+jest.mock('child_process');
+jest.mock('fs');
 
-const mockExecSync: any = execSync as jest?.MockedFunction<typeof execSync>;
-const mockFs: any = fs as jest?.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>;
 
-describe('SafetyProtocol': any, (: any) => {
+describe('SafetyProtocol', () => {
   let safetyProtocol: SafetyProtocol;
   let mockSettings: SafetySettings;
 
-  beforeEach((: any) => {
+  beforeEach(() => {
     mockSettings = {
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
-      automaticRollbackEnabled: true,;
+      automaticRollbackEnabled: true,
       stashRetentionDays: 7,
     };
 
     safetyProtocol = new SafetyProtocol(mockSettings);
 
     // Reset mocks
-    jest?.clearAllMocks();
+    jest.clearAllMocks();
 
     // Default mock implementations
-    mockExecSync?.mockReturnValue('');
-    mockFs?.existsSync.mockReturnValue(true);
-    mockFs?.readFileSync.mockReturnValue('valid content');
+    mockExecSync.mockReturnValue('');
+    mockFs.existsSync.mockReturnValue(true);
+    mockFs.readFileSync.mockReturnValue('valid content');
   });
 
-  describe('Constructor': any, (: any) => {
-    it('should initialize with provided settings': any, (: any) => {
+  describe('Constructor', () => {
+    it('should initialize with provided settings', () => {
       expect(safetyProtocol).toBeInstanceOf(SafetyProtocol);
     });
 
-    it('should initialize empty stashes map': any, (: any) => {
+    it('should initialize empty stashes map', () => {
       const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
-      expect(stashes?.size as any).toBe(0);
+      expect(stashes.size).toBe(0);
     });
 
-    it('should initialize empty safety events array': any, (: any) => {
+    it('should initialize empty safety events array', () => {
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
-      expect(events as any).toEqual([]);
+      expect(events).toEqual([]);
     });
   });
 
-  describe('createStash': any, (: any) => {
-    beforeEach((: any) => {
+  describe('createStash', () => {
+    beforeEach(() => {
       // Mock git commands
       mockExecSync
         .mockReturnValueOnce('') // git status validation
@@ -74,34 +74,34 @@ describe('SafetyProtocol': any, (: any) => {
         .mockReturnValueOnce('main'); // git branch --show-current
     });
 
-    it('should create git stash with descriptive name': any, async (: any) => {
-      const stashId: any = await safetyProtocol?.createStash('Test stash', 'phase1');
+    it('should create git stash with descriptive name': any, async () => {
+      const stashId: any = await safetyProtocol.createStash('Test stash', 'phase1');
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-/);
-      expect(mockExecSync).toHaveBeenCalledWith(expect?.stringContaining('git stash push -u -m'), expect?.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object));
     });
 
-    it('should store stash information': any, async (: any) => {
-      const stashId: any = await safetyProtocol?.createStash('Test stash');
+    it('should store stash information': any, async () => {
+      const stashId: any = await safetyProtocol.createStash('Test stash');
 
       const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
-      expect(stashes?.has(stashId)).toBe(true);
+      expect(stashes.has(stashId)).toBe(true);
 
-      const stash: any = stashes?.get(stashId);
-      expect(stash?.description).toContain('Test stash');
-      expect(stash?.ref as any).toBe('stash@{0}');
+      const stash: any = stashes.get(stashId);
+      expect(stash.description).toContain('Test stash');
+      expect(stash.ref).toBe('stash@{0}');
     });
 
-    it('should record safety event for stash creation': any, async (: any) => {
-      await safetyProtocol?.createStash('Test stash');
+    it('should record safety event for stash creation': any, async () => {
+      await safetyProtocol.createStash('Test stash');
 
       const events: any = (safetyProtocol as any).safetyEvents;
-      expect(events?.length as any).toBe(1);
-      expect(events?.[0].type as any).toBe(SafetyEventType?.CHECKPOINT_CREATED);
-      expect(events?.[0].description).toContain('Git stash created');
+      expect(events.length).toBe(1);
+      expect(events.[0].type).toBe(SafetyEventType.CHECKPOINT_CREATED);
+      expect(events.[0].description).toContain('Git stash created');
     });
 
-    it('should handle git validation failure': any, async (: any) => {
+    it('should handle git validation failure': any, async () => {
       // Mock git validation failure
       jest
         .spyOn(
@@ -114,39 +114,39 @@ describe('SafetyProtocol': any, (: any) => {
           warnings: [],
         });
 
-      await expect(safetyProtocol?.createStash('Test stash')).rejects?.toThrow(
+      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
         'Git validation failed: Not a git repository',
       );
     });
 
-    it('should handle git stash creation failure': any, async (: any) => {
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('git stash push')) {;
+    it('should handle git stash creation failure': any, async () => {
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
         }
         return '';
       });
 
-      await expect(safetyProtocol?.createStash('Test stash')).rejects?.toThrow(
+      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
         'Failed to create git stash: Git stash failed',
       );
     });
   });
 
-  describe('applyStash': any, (: any) => {
+  describe('applyStash', () => {
     let mockStash: GitStash;
 
-    beforeEach((: any) => {
+    beforeEach(() => {
       mockStash = {
         id: 'test-stash-1',
         description: 'Test stash description',
         timestamp: new Date(),
-        branch: 'main',;
+        branch: 'main',
         ref: 'stash@{0}',
       };
 
       // Add stash to internal map
-      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes?.set('test-stash-1', mockStash);
+      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('test-stash-1', mockStash);
 
       // Mock git validation
       jest
@@ -161,105 +161,105 @@ describe('SafetyProtocol': any, (: any) => {
         });
     });
 
-    it('should apply stash successfully': any, async (: any) => {
-      await safetyProtocol?.applyStash('test-stash-1');
+    it('should apply stash successfully': any, async () => {
+      await safetyProtocol.applyStash('test-stash-1');
 
-      expect(mockExecSync).toHaveBeenCalledWith('git stash apply stash@{0}', expect?.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('git stash apply stash@{0}', expect.any(Object));
     });
 
-    it('should record safety event for stash application': any, async (: any) => {
-      await safetyProtocol?.applyStash('test-stash-1');
+    it('should record safety event for stash application': any, async () => {
+      await safetyProtocol.applyStash('test-stash-1');
 
       const events: any = (safetyProtocol as any).safetyEvents;
-      expect(events?.length as any).toBe(1);
-      expect(events?.[0].type as any).toBe(SafetyEventType?.ROLLBACK_TRIGGERED);
-      expect(events?.[0].description).toContain('Git stash applied: test-stash-1');
+      expect(events.length).toBe(1);
+      expect(events.[0].type).toBe(SafetyEventType.ROLLBACK_TRIGGERED);
+      expect(events.[0].description).toContain('Git stash applied: test-stash-1');
     });
 
-    it('should validate git state after application when requested': any, async (: any) => {
-      await safetyProtocol?.applyStash('test-stash-1', true);
+    it('should validate git state after application when requested': any, async () => {
+      await safetyProtocol.applyStash('test-stash-1', true);
 
       expect(safetyProtocol['validateGitState']).toHaveBeenCalled();
     });
 
-    it('should handle non-existent stash': any, async (: any) => {
-      await expect(safetyProtocol?.applyStash('non-existent')).rejects?.toThrow('Stash not found: non-existent');
+    it('should handle non-existent stash': any, async () => {
+      await expect(safetyProtocol.applyStash('non-existent')).rejects.toThrow('Stash not found: non-existent');
     });
 
-    it('should handle git stash apply failure': any, async (: any) => {
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('git stash apply')) {;
+    it('should handle git stash apply failure': any, async () => {
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('git stash apply')) {
           throw new Error('Git stash apply failed');
         }
         return '';
       });
 
-      await expect(safetyProtocol?.applyStash('test-stash-1')).rejects?.toThrow(
+      await expect(safetyProtocol.applyStash('test-stash-1')).rejects.toThrow(
         'Failed to apply git stash test-stash-1: Git stash apply failed',
       );
     });
   });
 
-  describe('autoApplyLatestStash': any, (: any) => {
-    beforeEach((: any) => {
+  describe('autoApplyLatestStash', () => {
+    beforeEach(() => {
       // Add multiple stashes with different timestamps
       const stash1: any = {
         id: 'stash-1',
         description: 'First stash',
         timestamp: new Date('2023-01-01'),
-        branch: 'main',;
+        branch: 'main',
         ref: 'stash@{1}',
       };
       const stash2: any = {
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
-        branch: 'main',;
+        branch: 'main',
         ref: 'stash@{0}',
       };
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
-      stashMap?.set('stash-1', stash1);
-      stashMap?.set('stash-2', stash2);
+      stashMap.set('stash-1', stash1);
+      stashMap.set('stash-2', stash2);
 
-      jest?.spyOn(safetyProtocol, 'applyStash').mockResolvedValue();
+      jest.spyOn(safetyProtocol, 'applyStash').mockResolvedValue();
     });
 
-    it('should apply the most recent stash': any, async (: any) => {
-      const appliedStashId: any = await safetyProtocol?.autoApplyLatestStash();
+    it('should apply the most recent stash': any, async () => {
+      const appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
 
-      expect(appliedStashId as any).toBe('stash-2');
-      expect(safetyProtocol?.applyStash).toHaveBeenCalledWith('stash-2');
+      expect(appliedStashId).toBe('stash-2');
+      expect(safetyProtocol.applyStash).toHaveBeenCalledWith('stash-2');
     });
 
-    it('should handle no available stashes': any, async (: any) => {
-      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes?.clear();
+    it('should handle no available stashes': any, async () => {
+      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
-      await expect(safetyProtocol?.autoApplyLatestStash()).rejects?.toThrow(
+      await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow(
         'No stashes available for automatic rollback',
       );
     });
   });
 
-  describe('detectCorruption': any, (: any) => {
-    const mockFiles: any = ['file1?.ts', 'file2?.ts', 'file3?.ts'];
+  describe('detectCorruption', () => {
+    const mockFiles: any = ['file1.ts', 'file2.ts', 'file3.ts'];
 
-    beforeEach((: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockFs?.readFileSync.mockReturnValue('valid content');
+    beforeEach(() => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue('valid content');
     });
 
-    it('should detect no corruption in valid files': any, async (: any) => {
-      const report: any = await safetyProtocol?.detectCorruption(mockFiles);
+    it('should detect no corruption in valid files': any, async () => {
+      const report: any = await safetyProtocol.detectCorruption(mockFiles);
 
-      expect(report?.detectedFiles as any).toEqual([]);
-      expect(report?.corruptionPatterns as any).toEqual([]);
-      expect(report?.severity as any).toBe(CorruptionSeverity?.LOW);
-      expect(report?.recommendedAction as any).toBe(RecoveryAction?.CONTINUE);
+      expect(report.detectedFiles).toEqual([]);
+      expect(report.corruptionPatterns).toEqual([]);
+      expect(report.severity).toBe(CorruptionSeverity.LOW);
+      expect(report.recommendedAction).toBe(RecoveryAction.CONTINUE);
     });
 
-    it('should detect git merge conflict markers': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    it('should detect git merge conflict markers': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
         function test() : any {
         <<<<<<< HEAD
           return 'version 1';
@@ -269,280 +269,280 @@ describe('SafetyProtocol': any, (: any) => {
         }
       `);
 
-      const report: any = await safetyProtocol?.detectCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.CRITICAL);
-      expect(report?.recommendedAction as any).toBe(RecoveryAction?.EMERGENCY_RESTORE);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
+      expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     });
 
-    it('should detect corrupted import statements': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    it('should detect corrupted import statements': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
         import @/types from './types';
         import @/services from './services';
       `);
 
-      const report: any = await safetyProtocol?.detectCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
-      expect(report?.corruptionPatterns.some(p => p?.description.includes('Corrupted type import'))).toBe(true);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
+      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted type import'))).toBe(true);
     });
 
-    it('should detect syntax corruption': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    it('should detect syntax corruption': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
         function test() : any {
           return 'missing closing brace';
       `);
 
-      const report: any = await safetyProtocol?.detectCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should handle file read errors': any, async (: any) => {
-      mockFs?.readFileSync.mockImplementation((: any) => {
+    it('should handle file read errors': any, async () => {
+      mockFs.readFileSync.mockImplementation(() => {
         throw new Error('Permission denied');
       });
 
-      const report: any = await safetyProtocol?.detectCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
-      expect(report?.corruptionPatterns.some(p => p?.pattern === 'FILE_READ_ERROR')).toBe(true);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
+      expect(report.corruptionPatterns.some(p => p.pattern === 'FILE_READ_ERROR')).toBe(true);
     });
 
-    it('should skip non-existent files': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(false);
+    it('should skip non-existent files': any, async () => {
+      mockFs.existsSync.mockReturnValue(false);
 
-      const report: any = await safetyProtocol?.detectCorruption(['non-existent?.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['non-existent.ts']);
 
-      expect(report?.detectedFiles as any).toEqual([]);
-      expect(report?.severity as any).toBe(CorruptionSeverity?.LOW);
+      expect(report.detectedFiles).toEqual([]);
+      expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
-    it('should record safety event when corruption is detected': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue('<<<<<<< HEAD\nconflict\n>>>>>>> branch');
+    it('should record safety event when corruption is detected': any, async () => {
+      mockFs.readFileSync.mockReturnValue('<<<<<<< HEAD\nconflict\n>>>>>>> branch');
 
-      await safetyProtocol?.detectCorruption(['file1?.ts']);
+      await safetyProtocol.detectCorruption(['file1.ts']);
 
       const events: any = (safetyProtocol as any).safetyEvents;
-      expect(events?.length as any).toBe(1);
-      expect(events?.[0].type as any).toBe(SafetyEventType?.CORRUPTION_DETECTED);
+      expect(events.length).toBe(1);
+      expect(events.[0].type).toBe(SafetyEventType.CORRUPTION_DETECTED);
     });
   });
 
-  describe('detectImportExportCorruption': any, (: any) => {
-    beforeEach((: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
+  describe('detectImportExportCorruption', () => {
+    beforeEach(() => {
+      mockFs.existsSync.mockReturnValue(true);
     });
 
-    it('should detect empty import statements': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    it('should detect empty import statements': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
 import something, { a, b } from './module';
         export { };
       `);
 
-      const report: any = await safetyProtocol?.detectImportExportCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.corruptionPatterns.some(p => p?.description.includes('Empty import'))).toBe(true);
-      expect(report?.corruptionPatterns.some(p => p?.description.includes('Empty export'))).toBe(true);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.corruptionPatterns.some(p => p.description.includes('Empty import'))).toBe(true);
+      expect(report.corruptionPatterns.some(p => p.description.includes('Empty export'))).toBe(true);
     });
 
-    it('should detect import from undefined module': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    it('should detect import from undefined module': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
         import something from "undefined";
       `);
 
-      const report: any = await safetyProtocol?.detectImportExportCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
-      expect(report?.corruptionPatterns.some(p => p?.description.includes('Import from undefined'))).toBe(true);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
+      expect(report.corruptionPatterns.some(p => p.description.includes('Import from undefined'))).toBe(true);
     });
 
-    it('should detect duplicate from clauses': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    it('should detect duplicate from clauses': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
       `);
 
-      const report: any = await safetyProtocol?.detectImportExportCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should detect double commas in destructuring': any, async (: any) => {
-      mockFs?.readFileSync.mockReturnValue(`
+    it('should detect double commas in destructuring': any, async () => {
+      mockFs.readFileSync.mockReturnValue(`
         export { x,, y };
       `);
 
-      const report: any = await safetyProtocol?.detectImportExportCorruption(['file1?.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should skip non-JavaScript/TypeScript files': any, async (: any) => {
-      const report: any = await safetyProtocol?.detectImportExportCorruption(['file1?.txt', 'file2?.md']);
+    it('should skip non-JavaScript/TypeScript files': any, async () => {
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.txt', 'file2.md']);
 
-      expect(report?.detectedFiles as any).toEqual([]);
-      expect(report?.severity as any).toBe(CorruptionSeverity?.LOW);
+      expect(report.detectedFiles).toEqual([]);
+      expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
   });
 
-  describe('validateSyntaxWithTypeScript': any, (: any) => {
-    it('should validate syntax using TypeScript compiler': any, async (: any) => {
-      mockExecSync?.mockReturnValue('No errors found');
+  describe('validateSyntaxWithTypeScript', () => {
+    it('should validate syntax using TypeScript compiler': any, async () => {
+      mockExecSync.mockReturnValue('No errors found');
 
-      const report: any = await safetyProtocol?.validateSyntaxWithTypeScript(['file1?.ts', 'file2?.ts']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
 
-      expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect?.any(Object));
-      expect(report?.detectedFiles as any).toEqual([]);
-      expect(report?.severity as any).toBe(CorruptionSeverity?.LOW);
+      expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object));
+      expect(report.detectedFiles).toEqual([]);
+      expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
-    it('should detect TypeScript syntax errors': any, async (: any) => {
-      mockExecSync?.mockReturnValue(`
-        file1?.ts(10,5): error TS1005: Unexpected token 'function'
-        file2?.ts(15,10): error TS1109: Expression expected
+    it('should detect TypeScript syntax errors': any, async () => {
+      mockExecSync.mockReturnValue(`
+        file1.ts(10,5): error TS1005: Unexpected token 'function'
+        file2.ts(15,10): error TS1109: Expression expected
       `);
 
-      const report: any = await safetyProtocol?.validateSyntaxWithTypeScript(['file1?.ts', 'file2?.ts']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
 
-      expect(report?.detectedFiles).toContain('file1?.ts');
-      expect(report?.detectedFiles).toContain('file2?.ts');
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
+      expect(report.detectedFiles).toContain('file1.ts');
+      expect(report.detectedFiles).toContain('file2.ts');
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should handle TypeScript compilation errors': any, async (: any) => {
-      mockExecSync?.mockImplementation((: any) => {
+    it('should handle TypeScript compilation errors': any, async () => {
+      mockExecSync.mockImplementation(() => {
         const error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string };
         (error as any).stdout = 'Unexpected token at line 5';
         throw error;
       });
 
-      const report: any = await safetyProtocol?.validateSyntaxWithTypeScript(['file1?.ts']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts']);
 
-      expect(report?.severity as any).toBe(CorruptionSeverity?.HIGH);
-      expect(report?.corruptionPatterns.some(p => p?.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true);
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);
+      expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true);
     });
 
-    it('should skip non-TypeScript files': any, async (: any) => {
-      const report: any = await safetyProtocol?.validateSyntaxWithTypeScript(['file1?.js', 'file2?.txt']);
+    it('should skip non-TypeScript files': any, async () => {
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.js', 'file2.txt']);
 
-      expect(report?.detectedFiles as any).toEqual([]);
-      expect(report?.severity as any).toBe(CorruptionSeverity?.LOW);
+      expect(report.detectedFiles).toEqual([]);
+      expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
   });
 
-  describe('emergencyRollback': any, (: any) => {
-    beforeEach((: any) => {
+  describe('emergencyRollback', () => {
+    beforeEach(() => {
       const stash: any = {
         id: 'emergency-stash',
         description: 'Emergency stash',
         timestamp: new Date(),
-        branch: 'main',;
+        branch: 'main',
         ref: 'stash@{0}',
       };
 
-      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes?.set('emergency-stash', stash);
-      jest?.spyOn(safetyProtocol, 'applyStash').mockResolvedValue();
+      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('emergency-stash', stash);
+      jest.spyOn(safetyProtocol, 'applyStash').mockResolvedValue();
     });
 
-    it('should apply the most recent stash for emergency rollback': any, async (: any) => {
-      await safetyProtocol?.emergencyRollback();
+    it('should apply the most recent stash for emergency rollback': any, async () => {
+      await safetyProtocol.emergencyRollback();
 
-      expect(safetyProtocol?.applyStash).toHaveBeenCalledWith('emergency-stash');
+      expect(safetyProtocol.applyStash).toHaveBeenCalledWith('emergency-stash');
     });
 
-    it('should record safety event for emergency rollback': any, async (: any) => {
-      await safetyProtocol?.emergencyRollback();
+    it('should record safety event for emergency rollback': any, async () => {
+      await safetyProtocol.emergencyRollback();
 
       const events: any = (safetyProtocol as any).safetyEvents;
-      expect(events?.length as any).toBe(1);
-      expect(events?.[0].type as any).toBe(SafetyEventType?.EMERGENCY_RECOVERY);
-      expect(events?.[0].description).toContain('Emergency rollback completed');
+      expect(events.length).toBe(1);
+      expect(events.[0].type).toBe(SafetyEventType.EMERGENCY_RECOVERY);
+      expect(events.[0].description).toContain('Emergency rollback completed');
     });
 
-    it('should handle no available stashes': any, async (: any) => {
-      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes?.clear();
+    it('should handle no available stashes': any, async () => {
+      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
-      await expect(safetyProtocol?.emergencyRollback()).rejects?.toThrow('No stashes available for emergency rollback');
+      await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('No stashes available for emergency rollback');
     });
 
-    it('should handle rollback failure': any, async (: any) => {
-      jest?.spyOn(safetyProtocol, 'applyStash').mockRejectedValue(new Error('Rollback failed'));
+    it('should handle rollback failure': any, async () => {
+      jest.spyOn(safetyProtocol, 'applyStash').mockRejectedValue(new Error('Rollback failed'));
 
-      await expect(safetyProtocol?.emergencyRollback()).rejects?.toThrow('Emergency rollback failed: Rollback failed');
+      await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('Emergency rollback failed: Rollback failed');
 
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
       expect(
-        events?.some(e => e?.type === SafetyEventType?.EMERGENCY_RECOVERY && e?.severity === SafetyEventSeverity?.CRITICAL),
+        events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),
       ).toBe(true);
     });
   });
 
-  describe('validateGitState': any, (: any) => {
-    it('should validate successful git state': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValue(''); // No uncommitted changes
+  describe('validateGitState', () => {
+    it('should validate successful git state': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValue(''); // No uncommitted changes
 
-      const result: any = await safetyProtocol?.validateGitState();
+      const result: any = await safetyProtocol.validateGitState();
 
-      expect(result?.success as any).toBe(true);
-      expect(result?.errors as any).toEqual([]);
+      expect(result.success).toBe(true);
+      expect(result.errors).toEqual([]);
     });
 
-    it('should detect non-git repository': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(false);
+    it('should detect non-git repository': any, async () => {
+      mockFs.existsSync.mockReturnValue(false);
 
-      const result: any = await safetyProtocol?.validateGitState();
+      const result: any = await safetyProtocol.validateGitState();
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.errors).toContain('Not a git repository');
+      expect(result.success).toBe(false);
+      expect(result.errors).toContain('Not a git repository');
     });
 
-    it('should warn about uncommitted changes when automatic rollback is disabled': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockReturnValue('M file1?.ts\nA file2?.ts'); // Uncommitted changes
+    it('should warn about uncommitted changes when automatic rollback is disabled': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockReturnValue('M file1.ts\nA file2.ts'); // Uncommitted changes
 
       const settingsWithoutAutoRollback: any = { ...mockSettings, automaticRollbackEnabled: false };
       const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback);
 
-      const result: any = await protocol?.validateGitState();
+      const result: any = await protocol.validateGitState();
 
-      expect(result?.success as any).toBe(true);
-      expect(result?.warnings).toContain('Uncommitted changes detected - consider creating a stash');
+      expect(result.success).toBe(true);
+      expect(result.warnings).toContain('Uncommitted changes detected - consider creating a stash');
     });
 
-    it('should handle git command failure': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation((: any) => {
+    it('should handle git command failure': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(() => {
         throw new Error('Git command failed');
       });
 
-      const result: any = await safetyProtocol?.validateGitState();
+      const result: any = await safetyProtocol.validateGitState();
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.errors).toContain('Git validation failed: Git command failed');
+      expect(result.success).toBe(false);
+      expect(result.errors).toContain('Git validation failed: Git command failed');
     });
   });
 
-  describe('cleanupOldStashes': any, (: any) => {
-    beforeEach((: any) => {
+  describe('cleanupOldStashes', () => {
+    beforeEach(() => {
       const oldDate: any = new Date();
-      oldDate?.setDate(oldDate?.getDate() - 10); // 10 days old
+      oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
       const recentDate: any = new Date();
-      recentDate?.setDate(recentDate?.getDate() - 3); // 3 days old
+      recentDate.setDate(recentDate.getDate() - 3); // 3 days old
 
       const oldStash: any = {
         id: 'old-stash',
         description: 'Old stash',
         timestamp: oldDate,
-        branch: 'main',;
+        branch: 'main',
         ref: 'stash@{1}',
       };
 
@@ -550,217 +550,217 @@ import something, { a, b } from './module';
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
-        branch: 'main',;
+        branch: 'main',
         ref: 'stash@{0}',
       };
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
-      stashMap?.set('old-stash', oldStash);
-      stashMap?.set('recent-stash', recentStash);
+      stashMap.set('old-stash', oldStash);
+      stashMap.set('recent-stash', recentStash);
     });
 
-    it('should cleanup stashes older than retention period': any, async (: any) => {
-      await safetyProtocol?.cleanupOldStashes();
+    it('should cleanup stashes older than retention period': any, async () => {
+      await safetyProtocol.cleanupOldStashes();
 
       const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
-      expect(stashes?.has('old-stash')).toBe(false);
-      expect(stashes?.has('recent-stash')).toBe(true);
+      expect(stashes.has('old-stash')).toBe(false);
+      expect(stashes.has('recent-stash')).toBe(true);
     });
 
-    it('should attempt to drop git stashes': any, async (: any) => {
-      await safetyProtocol?.cleanupOldStashes();
+    it('should attempt to drop git stashes': any, async () => {
+      await safetyProtocol.cleanupOldStashes();
 
-      expect(mockExecSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect?.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect.any(Object));
     });
 
-    it('should handle git stash drop failures gracefully': any, async (: any) => {
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('git stash drop')) {;
+    it('should handle git stash drop failures gracefully': any, async () => {
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('git stash drop')) {
           throw new Error('Stash not found');
         }
         return '';
       });
 
       // Should not throw error
-      await expect(safetyProtocol?.cleanupOldStashes()).resolves?.not.toThrow();
+      await expect(safetyProtocol.cleanupOldStashes()).resolves.not.toThrow();
 
       // Should still remove from tracking
       const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
-      expect(stashes?.has('old-stash')).toBe(false);
+      expect(stashes.has('old-stash')).toBe(false);
     });
 
-    it('should record safety event for cleanup': any, async (: any) => {
-      await safetyProtocol?.cleanupOldStashes();
+    it('should record safety event for cleanup': any, async () => {
+      await safetyProtocol.cleanupOldStashes();
 
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
-      expect(events?.some(e => e?.description.includes('Cleaned up 1 old stashes'))).toBe(true);
+      expect(events.some(e => e.description.includes('Cleaned up 1 old stashes'))).toBe(true);
     });
   });
 
-  describe('getStashStatistics': any, (: any) => {
-    beforeEach((: any) => {
+  describe('getStashStatistics', () => {
+    beforeEach(() => {
       const stash1: any = {
         id: 'campaign-phase1-1-timestamp',
         description: 'Phase 1 stash',
-        timestamp: new Date('2023-01-01'),;
+        timestamp: new Date('2023-01-01'),
         branch: 'main',
       };
 
       const stash2: any = {
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
-        timestamp: new Date('2023-01-02'),;
+        timestamp: new Date('2023-01-02'),
         branch: 'main',
       };
 
       const stash3: any = {
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
-        timestamp: new Date('2023-01-03'),;
+        timestamp: new Date('2023-01-03'),
         branch: 'main',
       };
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
-      stashMap?.set('stash1', stash1);
-      stashMap?.set('stash2', stash2);
-      stashMap?.set('stash3', stash3);
+      stashMap.set('stash1', stash1);
+      stashMap.set('stash2', stash2);
+      stashMap.set('stash3', stash3);
     });
 
-    it('should return comprehensive stash statistics': any, (: any) => {
-      const stats: any = safetyProtocol?.getStashStatistics();
+    it('should return comprehensive stash statistics', () => {
+      const stats: any = safetyProtocol.getStashStatistics();
 
-      expect(stats?.total as any).toBe(3);
-      expect(stats?.byPhase.phase1 as any).toBe(2);
-      expect(stats?.byPhase.phase2 as any).toBe(1);
-      expect(stats?.oldestStash as any).toEqual(new Date('2023-01-01'));
-      expect(stats?.newestStash as any).toEqual(new Date('2023-01-03'));
+      expect(stats.total).toBe(3);
+      expect(stats.byPhase.phase1).toBe(2);
+      expect(stats.byPhase.phase2).toBe(1);
+      expect(stats.oldestStash).toEqual(new Date('2023-01-01'));
+      expect(stats.newestStash).toEqual(new Date('2023-01-03'));
     });
 
-    it('should handle empty stashes': any, (: any) => {
-      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes?.clear();
+    it('should handle empty stashes', () => {
+      (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
-      const stats: any = safetyProtocol?.getStashStatistics();
+      const stats: any = safetyProtocol.getStashStatistics();
 
-      expect(stats?.total as any).toBe(0);
-      expect(stats?.byPhase as any).toEqual({});
-      expect(stats?.oldestStash).toBeUndefined();
-      expect(stats?.newestStash).toBeUndefined();
+      expect(stats.total).toBe(0);
+      expect(stats.byPhase).toEqual({});
+      expect(stats.oldestStash).toBeUndefined();
+      expect(stats.newestStash).toBeUndefined();
     });
   });
 
-  describe('Real-time Monitoring': any, (: any) => {
-    beforeEach((: any) => {
-      jest?.useFakeTimers();
-      jest?.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
+  describe('Real-time Monitoring', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: [],
         corruptionPatterns: [],
-        severity: CorruptionSeverity?.LOW,
-        recommendedAction: RecoveryAction?.CONTINUE,
+        severity: CorruptionSeverity.LOW,
+        recommendedAction: RecoveryAction.CONTINUE,
       });
     });
 
-    afterEach((: any) => {
-      jest?.useRealTimers();
+    afterEach(() => {
+      jest.useRealTimers();
       // Cleanup any active monitoring
       try {
-        safetyProtocol?.stopRealTimeMonitoring();
+        safetyProtocol.stopRealTimeMonitoring();
       } catch (error) : any {
         // Ignore cleanup errors
       }
     });
 
-    it('should start real-time monitoring': any, (: any) => {
-      const files: any = ['file1?.ts', 'file2?.ts'];
+    it('should start real-time monitoring', () => {
+      const files: any = ['file1.ts', 'file2.ts'];
 
       // Start monitoring
-      safetyProtocol?.startRealTimeMonitoring(files, 1000);
+      safetyProtocol.startRealTimeMonitoring(files, 1000);
 
       // Fast-forward time to trigger monitoring
-      jest?.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1000);
 
       // Verify that detectCorruption was called
-      expect(safetyProtocol?.detectCorruption).toHaveBeenCalledWith(files);
+      expect(safetyProtocol.detectCorruption).toHaveBeenCalledWith(files);
     }, 3000); // 3 second timeout
 
-    it('should trigger emergency rollback on critical corruption': any, (: any) => {
-      jest?.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
-        detectedFiles: ['file1?.ts'],
+    it('should trigger emergency rollback on critical corruption', () => {
+      jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
+        detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
-        severity: CorruptionSeverity?.CRITICAL,
-        recommendedAction: RecoveryAction?.EMERGENCY_RESTORE,
+        severity: CorruptionSeverity.CRITICAL,
+        recommendedAction: RecoveryAction.EMERGENCY_RESTORE,
       });
-      jest?.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
+      jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
 
-      const files: any = ['file1?.ts'];
-      safetyProtocol?.startRealTimeMonitoring(files, 1000);
+      const files: any = ['file1.ts'];
+      safetyProtocol.startRealTimeMonitoring(files, 1000);
 
       // Fast-forward time to trigger monitoring
-      jest?.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1000);
 
       // The emergency rollback should be triggered (async operation will complete)
-      expect(safetyProtocol?.detectCorruption).toHaveBeenCalledWith(files);
+      expect(safetyProtocol.detectCorruption).toHaveBeenCalledWith(files);
     }, 3000); // 3 second timeout
 
-    it('should stop real-time monitoring': any, (: any) => {
-      const files: any = ['file1?.ts'];
-      safetyProtocol?.startRealTimeMonitoring(files, 1000);
+    it('should stop real-time monitoring', () => {
+      const files: any = ['file1.ts'];
+      safetyProtocol.startRealTimeMonitoring(files, 1000);
 
-      safetyProtocol?.stopRealTimeMonitoring();
+      safetyProtocol.stopRealTimeMonitoring();
 
       // Fast-forward time - monitoring should not trigger
-      jest?.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1000);
 
-      expect(safetyProtocol?.detectCorruption).not?.toHaveBeenCalled();
+      expect(safetyProtocol.detectCorruption).not.toHaveBeenCalled();
     }, 2000); // 2 second timeout
 
-    it('should handle monitoring errors gracefully': any, (: any) => {
-      const consoleSpy: any = jest?.spyOn(console, 'error').mockImplementation();
-      jest?.spyOn(safetyProtocol, 'detectCorruption').mockRejectedValue(new Error('Monitoring error'));
+    it('should handle monitoring errors gracefully', () => {
+      const consoleSpy: any = jest.spyOn(console, 'error').mockImplementation();
+      jest.spyOn(safetyProtocol, 'detectCorruption').mockRejectedValue(new Error('Monitoring error'));
 
-      const files: any = ['file1?.ts'];
-      safetyProtocol?.startRealTimeMonitoring(files, 1000);
+      const files: any = ['file1.ts'];
+      safetyProtocol.startRealTimeMonitoring(files, 1000);
 
       // Fast-forward time to trigger monitoring
-      jest?.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1000);
 
       // The error handling should be triggered (async operation will complete)
-      expect(safetyProtocol?.detectCorruption).toHaveBeenCalledWith(files);
+      expect(safetyProtocol.detectCorruption).toHaveBeenCalledWith(files);
 
-      consoleSpy?.mockRestore();
+      consoleSpy.mockRestore();
     }, 3000); // 3 second timeout
   });
 
-  describe('Safety Event Management': any, (: any) => {
-    it('should limit safety events to prevent memory issues': any, (: any) => {
+  describe('Safety Event Management', () => {
+    it('should limit safety events to prevent memory issues', () => {
       // Add many safety events
       for (let i: any = 0; i < 1100; i++) {
         (safetyProtocol as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({
-          type: SafetyEventType?.CHECKPOINT_CREATED,
+          type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,
-          severity: SafetyEventSeverity?.INFO,
+          severity: SafetyEventSeverity.INFO,
           action: 'TEST',
         });
       }
 
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
-      expect(events?.length as any).toBe(500); // Should be trimmed to 500
+      expect(events.length).toBe(500); // Should be trimmed to 500
     });
 
-    it('should preserve most recent events when trimming': any, (: any) => {
+    it('should preserve most recent events when trimming', () => {
       // Add many safety events
       for (let i: any = 0; i < 1100; i++) {
         (safetyProtocol as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({
-          type: SafetyEventType?.CHECKPOINT_CREATED,
+          type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,
-          severity: SafetyEventSeverity?.INFO,
+          severity: SafetyEventSeverity.INFO,
           action: 'TEST',
         });
       }
 
       const events: any = (safetyProtocol as any).safetyEvents;
-      expect(events[events?.length - 1].description as any).toBe(
+      expect(events[events.length - 1].description).toBe(
         'Event 1099',
       );
     });

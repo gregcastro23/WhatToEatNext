@@ -348,7 +348,7 @@ export class ServicesManager {
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
         Ascendant: 'aquarius',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
@@ -358,7 +358,7 @@ export class ServicesManager {
         ingredients: [],
         instructions: [],
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any;
       const recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,

@@ -202,7 +202,7 @@ class RobustCampaignExecutor {
       try {
         this.log(`Documenting ${path.basename(filePath)} (${processedFiles + 1}/${Math.min(files.length, maxFiles)})`, 'info');
 
-        let content = fs.readFileSync(filePath, 'utf8');
+        const content = fs.readFileSync(filePath, 'utf8');
         const lines = content.split('\n');
         let addedComments = 0;
 

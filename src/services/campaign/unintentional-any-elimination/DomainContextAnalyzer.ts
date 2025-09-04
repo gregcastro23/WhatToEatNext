@@ -9,12 +9,7 @@
  * - Domain-specific type suggestions and preservation reasons
  */
 
-import {
-    ClassificationContext,
-    CodeDomain,
-    DomainContext,
-    IntentionalityHint
-} from './types';
+import { ClassificationContext, CodeDomain, DomainContext, IntentionalityHint } from './types';
 
 export class DomainContextAnalyzer {
   private domainPatterns: Map<CodeDomain, RegExp[]>;
@@ -46,7 +41,7 @@ export class DomainContextAnalyzer {
       subDomain,
       intentionalityHints,
       suggestedTypes,
-      preservationReasons
+      preservationReasons,
     };
   }
 
@@ -59,18 +54,23 @@ export class DomainContextAnalyzer {
     const variableNameSuggestions = this.getVariableNameBasedSuggestions(context, domain);
     const patternBasedSuggestions = this.getPatternBasedSuggestions(context, domain);
 
-    return [...new Set([
-      ...contextualSuggestions,      // Prioritize contextual suggestions
-      ...variableNameSuggestions,    // Then variable name suggestions
-      ...patternBasedSuggestions,    // Then pattern-based suggestions
-      ...baseSuggestions             // Finally base suggestions
-    ])];
+    return [
+      ...new Set([
+        ...contextualSuggestions, // Prioritize contextual suggestions
+        ...variableNameSuggestions, // Then variable name suggestions
+        ...patternBasedSuggestions, // Then pattern-based suggestions
+        ...baseSuggestions, // Finally base suggestions
+      ]),
+    ];
   }
 
   /**
    * Get type suggestions based on variable names and patterns
    */
-  private getVariableNameBasedSuggestions(context: ClassificationContext, domain: CodeDomain): string[] {
+  private getVariableNameBasedSuggestions(
+    context: ClassificationContext,
+    domain: CodeDomain,
+  ): string[] {
     const suggestions: string[] = [];
 
     // Extract variable name from code snippet
@@ -293,7 +293,7 @@ export class DomainContextAnalyzer {
       CodeDomain.CAMPAIGN,
       CodeDomain.RECIPE,
       CodeDomain.SERVICE,
-      CodeDomain.UTILITY
+      CodeDomain.UTILITY,
     ];
 
     for (const domain of orderedDomains) {
@@ -310,9 +310,7 @@ export class DomainContextAnalyzer {
    * Detect domain based on code content patterns
    */
   private detectDomainByContent(context: ClassificationContext): CodeDomain {
-    const codeContent = [context.codeSnippet, ...context.surroundingLines]
-      .join('\n')
-      .toLowerCase();
+    const codeContent = [context.codeSnippet, ...context.surroundingLines].join('\n').toLowerCase();
 
     // Score each domain based on pattern matches
     const domainScores = new Map<CodeDomain, number>();
@@ -332,8 +330,7 @@ export class DomainContextAnalyzer {
 
     // Return the domain with the highest score
     if (domainScores.size > 0) {
-      const sortedDomains = Array.from(domainScores.entries())
-        .sort(([, a], [, b]) => b - a);
+      const sortedDomains = Array.from(domainScores.entries()).sort(([, a], [, b]) => b - a);
       return sortedDomains[0][0];
     }
 
@@ -353,44 +350,56 @@ export class DomainContextAnalyzer {
     const allImports = [...importMatches, ...requireMatches].join(' ').toLowerCase();
 
     // Priority order for import-based detection
-    if (allImports.includes('jest') ||
-        allImports.includes('@testing-library') ||
-        allImports.includes('vitest')) {
+    if (
+      allImports.includes('jest') ||
+      allImports.includes('@testing-library') ||
+      allImports.includes('vitest')
+    ) {
       return CodeDomain.TEST;
     }
 
-    if (allImports.includes('react') ||
-        allImports.includes('@/components') ||
-        allImports.includes('next/') ||
-        allImports.includes('jsx') ||
-        allImports.includes('tsx')) {
+    if (
+      allImports.includes('react') ||
+      allImports.includes('@/components') ||
+      allImports.includes('next/') ||
+      allImports.includes('jsx') ||
+      allImports.includes('tsx')
+    ) {
       return CodeDomain.COMPONENT;
     }
 
-    if (allImports.includes('astronomia') ||
-        allImports.includes('astronomy-engine') ||
-        allImports.includes('suncalc') ||
-        allImports.includes('/calculations/') ||
-        allImports.includes('/astro')) {
+    if (
+      allImports.includes('astronomia') ||
+      allImports.includes('astronomy-engine') ||
+      allImports.includes('suncalc') ||
+      allImports.includes('/calculations/') ||
+      allImports.includes('/astro')
+    ) {
       return CodeDomain.ASTROLOGICAL;
     }
 
-    if (allImports.includes('/campaign') ||
-        allImports.includes('metrics') ||
-        allImports.includes('intelligence')) {
+    if (
+      allImports.includes('/campaign') ||
+      allImports.includes('metrics') ||
+      allImports.includes('intelligence')
+    ) {
       return CodeDomain.CAMPAIGN;
     }
 
-    if (allImports.includes('/recipe') ||
-        allImports.includes('/ingredient') ||
-        allImports.includes('/food')) {
+    if (
+      allImports.includes('/recipe') ||
+      allImports.includes('/ingredient') ||
+      allImports.includes('/food')
+    ) {
       return CodeDomain.RECIPE;
     }
 
-    if (allImports.includes('/service') ||
-        allImports.includes('/api') ||
-        allImports.includes('axios') ||
-        allImports.includes('fetch')) {
+    if (
+      allImports.includes('/service') ||
+      allImports.includes('/api') ||
+      allImports.includes('axios') ||
+      allImports.includes('fetch')
+    ) {
       return CodeDomain.SERVICE;
     }
 
@@ -402,9 +411,7 @@ export class DomainContextAnalyzer {
    */
   private detectSubDomain(context: ClassificationContext, domain: CodeDomain): string | undefined {
     const filePath = context.filePath.toLowerCase().replace(/\\/g, '/');
-    const codeContent = [context.codeSnippet, ...context.surroundingLines]
-      .join('\n')
-      .toLowerCase();
+    const codeContent = [context.codeSnippet, ...context.surroundingLines].join('\n').toLowerCase();
 
     const subDomainPatterns = this.subDomainPatterns.get(domain);
     if (!subDomainPatterns) {
@@ -431,30 +438,34 @@ export class DomainContextAnalyzer {
 
     // Return the subdomain with the highest score
     if (subDomainScores.size > 0) {
-      const sortedSubDomains = Array.from(subDomainScores.entries())
-        .sort(([, a], [, b]) => b - a);
+      const sortedSubDomains = Array.from(subDomainScores.entries()).sort(([, a], [, b]) => b - a);
       return sortedSubDomains[0][0];
     }
 
     return undefined;
   }
 
-  private generateIntentionalityHints(context: ClassificationContext, domain: CodeDomain): IntentionalityHint[] {
+  private generateIntentionalityHints(
+    context: ClassificationContext,
+    domain: CodeDomain,
+  ): IntentionalityHint[] {
     const hints: IntentionalityHint[] = [];
 
     switch (domain) {
       case CodeDomain.ASTROLOGICAL:
         hints.push({
-          reason: 'Astrological calculations often require flexible typing for external astronomical data',
+          reason:
+            'Astrological calculations often require flexible typing for external astronomical data',
           confidence: 0.8,
-          suggestedAction: 'preserve'
+          suggestedAction: 'preserve',
         });
 
         if (context.codeSnippet.includes('position') || context.codeSnippet.includes('planetary')) {
           hints.push({
-            reason: 'Planetary position data from external APIs may need any type for compatibility',
+            reason:
+              'Planetary position data from external APIs may need any type for compatibility',
             confidence: 0.9,
-            suggestedAction: 'document'
+            suggestedAction: 'document',
           });
         }
         break;
@@ -464,7 +475,7 @@ export class DomainContextAnalyzer {
           hints.push({
             reason: 'Recipe and ingredient data can often use specific types',
             confidence: 0.7,
-            suggestedAction: 'replace'
+            suggestedAction: 'replace',
           });
         }
         break;
@@ -473,14 +484,14 @@ export class DomainContextAnalyzer {
         hints.push({
           reason: 'Campaign system requires flexibility for dynamic configurations and metrics',
           confidence: 0.85,
-          suggestedAction: 'preserve'
+          suggestedAction: 'preserve',
         });
 
         if (context.codeSnippet.includes('metrics') || context.codeSnippet.includes('config')) {
           hints.push({
             reason: 'Dynamic campaign configurations benefit from flexible typing',
             confidence: 0.9,
-            suggestedAction: 'document'
+            suggestedAction: 'document',
           });
         }
         break;
@@ -489,7 +500,7 @@ export class DomainContextAnalyzer {
         hints.push({
           reason: 'Test files often need flexible typing for mocks and test data',
           confidence: 0.8,
-          suggestedAction: 'preserve'
+          suggestedAction: 'preserve',
         });
         break;
 
@@ -498,13 +509,13 @@ export class DomainContextAnalyzer {
           hints.push({
             reason: 'API responses may require any type for external service compatibility',
             confidence: 0.8,
-            suggestedAction: 'document'
+            suggestedAction: 'document',
           });
         } else {
           hints.push({
             reason: 'Service layer can often use more specific types',
             confidence: 0.6,
-            suggestedAction: 'review'
+            suggestedAction: 'review',
           });
         }
         break;
@@ -513,7 +524,7 @@ export class DomainContextAnalyzer {
         hints.push({
           reason: 'No domain-specific patterns detected, consider replacement',
           confidence: 0.5,
-          suggestedAction: 'review'
+          suggestedAction: 'review',
         });
     }
 
@@ -562,11 +573,18 @@ export class DomainContextAnalyzer {
   /**
    * Get astrological type suggestions based on content analysis
    */
-  private getAstrologicalTypeSuggestions(content: string, context: ClassificationContext): string[] {
+  private getAstrologicalTypeSuggestions(
+    content: string,
+    context: ClassificationContext,
+  ): string[] {
     const suggestions: string[] = [];
 
     // Planetary position analysis
-    if (content.includes('position') || content.includes('degree') || content.includes('longitude')) {
+    if (
+      content.includes('position') ||
+      content.includes('degree') ||
+      content.includes('longitude')
+    ) {
       suggestions.push('PlanetaryPosition');
 
       // Specific planet positions
@@ -583,8 +601,13 @@ export class DomainContextAnalyzer {
     }
 
     // Elemental analysis
-    if (content.includes('element') || content.includes('fire') || content.includes('water') ||
-        content.includes('earth') || content.includes('air')) {
+    if (
+      content.includes('element') ||
+      content.includes('fire') ||
+      content.includes('water') ||
+      content.includes('earth') ||
+      content.includes('air')
+    ) {
       suggestions.push('ElementalProperties');
 
       if (content.includes('fire')) suggestions.push('FireElement');
@@ -595,8 +618,13 @@ export class DomainContextAnalyzer {
     }
 
     // Zodiac and sign analysis
-    if (content.includes('sign') || content.includes('zodiac') ||
-        /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/.test(content)) {
+    if (
+      content.includes('sign') ||
+      content.includes('zodiac') ||
+      /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/.test(
+        content,
+      )
+    ) {
       suggestions.push('ZodiacSign');
     }
 
@@ -611,12 +639,20 @@ export class DomainContextAnalyzer {
     }
 
     // Calculation analysis
-    if (content.includes('calculate') || content.includes('compute') || content.includes('algorithm')) {
+    if (
+      content.includes('calculate') ||
+      content.includes('compute') ||
+      content.includes('algorithm')
+    ) {
       suggestions.push('AstronomicalCalculation');
     }
 
     // Coordinate system analysis
-    if (content.includes('coordinate') || content.includes('latitude') || content.includes('longitude')) {
+    if (
+      content.includes('coordinate') ||
+      content.includes('latitude') ||
+      content.includes('longitude')
+    ) {
       suggestions.push('CoordinateSystem');
     }
 
@@ -644,7 +680,8 @@ export class DomainContextAnalyzer {
     // Ingredient analysis
     if (content.includes('ingredient')) {
       suggestions.push('Ingredient');
-      if (content.includes('quantity') || content.includes('amount')) suggestions.push('IngredientQuantity');
+      if (content.includes('quantity') || content.includes('amount'))
+        suggestions.push('IngredientQuantity');
     }
 
     // Specific ingredient types
@@ -652,18 +689,28 @@ export class DomainContextAnalyzer {
     if (content.includes('herb')) suggestions.push('Herb');
     if (content.includes('vegetable')) suggestions.push('Vegetable');
     if (content.includes('fruit')) suggestions.push('Fruit');
-    if (content.includes('protein') || content.includes('meat') || content.includes('fish')) suggestions.push('Protein');
-    if (content.includes('grain') || content.includes('rice') || content.includes('wheat')) suggestions.push('Grain');
-    if (content.includes('dairy') || content.includes('milk') || content.includes('cheese')) suggestions.push('Dairy');
+    if (content.includes('protein') || content.includes('meat') || content.includes('fish'))
+      suggestions.push('Protein');
+    if (content.includes('grain') || content.includes('rice') || content.includes('wheat'))
+      suggestions.push('Grain');
+    if (content.includes('dairy') || content.includes('milk') || content.includes('cheese'))
+      suggestions.push('Dairy');
 
     // Cooking method analysis
-    if (content.includes('cooking') || content.includes('method') ||
-        /bake|boil|fry|steam|grill|roast|sauté/.test(content)) {
+    if (
+      content.includes('cooking') ||
+      content.includes('method') ||
+      /bake|boil|fry|steam|grill|roast|sauté/.test(content)
+    ) {
       suggestions.push('CookingMethod');
     }
 
     // Nutrition analysis
-    if (content.includes('nutrition') || content.includes('calorie') || content.includes('vitamin')) {
+    if (
+      content.includes('nutrition') ||
+      content.includes('calorie') ||
+      content.includes('vitamin')
+    ) {
       suggestions.push('NutritionalInfo');
     }
 
@@ -673,13 +720,19 @@ export class DomainContextAnalyzer {
     }
 
     // Cuisine analysis
-    if (content.includes('cuisine') || /italian|chinese|mexican|indian|french|thai|japanese/.test(content)) {
+    if (
+      content.includes('cuisine') ||
+      /italian|chinese|mexican|indian|french|thai|japanese/.test(content)
+    ) {
       suggestions.push('CuisineType');
     }
 
     // Dietary restrictions
-    if (content.includes('dietary') || content.includes('restriction') ||
-        /vegan|vegetarian|gluten|dairy/.test(content)) {
+    if (
+      content.includes('dietary') ||
+      content.includes('restriction') ||
+      /vegan|vegetarian|gluten|dairy/.test(content)
+    ) {
       suggestions.push('DietaryRestriction');
     }
 
@@ -689,8 +742,13 @@ export class DomainContextAnalyzer {
     }
 
     // Elemental properties (shared with astrological domain)
-    if (content.includes('element') || content.includes('fire') || content.includes('water') ||
-        content.includes('earth') || content.includes('air')) {
+    if (
+      content.includes('element') ||
+      content.includes('fire') ||
+      content.includes('water') ||
+      content.includes('earth') ||
+      content.includes('air')
+    ) {
       suggestions.push('ElementalProperties');
     }
 
@@ -734,7 +792,11 @@ export class DomainContextAnalyzer {
     }
 
     // Performance analysis
-    if (content.includes('performance') || content.includes('memory') || content.includes('bundle')) {
+    if (
+      content.includes('performance') ||
+      content.includes('memory') ||
+      content.includes('bundle')
+    ) {
       suggestions.push('PerformanceMetrics');
       if (content.includes('memory')) suggestions.push('MemoryUsage');
       if (content.includes('bundle')) suggestions.push('BundleAnalysis');
@@ -746,7 +808,11 @@ export class DomainContextAnalyzer {
     }
 
     // Intelligence analysis
-    if (content.includes('intelligence') || content.includes('pattern') || content.includes('analysis')) {
+    if (
+      content.includes('intelligence') ||
+      content.includes('pattern') ||
+      content.includes('analysis')
+    ) {
       suggestions.push('IntelligenceData', 'PatternAnalysis');
     }
 
@@ -831,9 +897,12 @@ export class DomainContextAnalyzer {
     // Event analysis
     if (content.includes('event') || content.includes('onclick') || content.includes('onchange')) {
       suggestions.push('React.SyntheticEvent');
-      if (content.includes('click') || content.includes('mouse')) suggestions.push('React.MouseEvent');
-      if (content.includes('change') || content.includes('input')) suggestions.push('React.ChangeEvent');
-      if (content.includes('form') || content.includes('submit')) suggestions.push('React.FormEvent');
+      if (content.includes('click') || content.includes('mouse'))
+        suggestions.push('React.MouseEvent');
+      if (content.includes('change') || content.includes('input'))
+        suggestions.push('React.ChangeEvent');
+      if (content.includes('form') || content.includes('submit'))
+        suggestions.push('React.FormEvent');
     }
 
     // State analysis
@@ -921,7 +990,9 @@ export class DomainContextAnalyzer {
     const reasons: string[] = [];
 
     if (domain === CodeDomain.ASTROLOGICAL) {
-      reasons.push('Astrological calculations require compatibility with external astronomical libraries');
+      reasons.push(
+        'Astrological calculations require compatibility with external astronomical libraries',
+      );
       reasons.push('Planetary position data structures vary between different API sources');
     }
 
@@ -952,64 +1023,54 @@ export class DomainContextAnalyzer {
    */
   private initializePathPatterns(): Map<CodeDomain, RegExp[]> {
     return new Map([
-      [CodeDomain.TEST, [
-        /__tests__/i,
-        /\.test\./i,
-        /\.spec\./i,
-        /\/test/i,
-        /\/spec/i
-      ]],
-      [CodeDomain.COMPONENT, [
-        /\/component/i,
-        /\.tsx$/i,
-        /\.jsx$/i,
-        /\/ui\//i,
-        /\/pages\//i,
-        /\/app\//i
-      ]],
-      [CodeDomain.ASTROLOGICAL, [
-        /\/calculations\//i,
-        /\/astro/i,
-        /planetary/i,
-        /elemental/i,
-        /lunar/i,
-        /solar/i,
-        /zodiac/i,
-        /ephemeris/i
-      ]],
-      [CodeDomain.CAMPAIGN, [
-        /\/campaign/i,
-        /\/intelligence/i,
-        /typescript.*error/i,
-        /linting/i,
-        /validation/i,
-        /metrics/i,
-        /progress/i
-      ]],
-      [CodeDomain.RECIPE, [
-        /\/recipe/i,
-        /\/ingredient/i,
-        /\/food/i,
-        /\/culinary/i,
-        /\/cooking/i,
-        /\/nutrition/i,
-        /\/data\/.*ingredient/i,
-        /\/data\/.*recipe/i
-      ]],
-      [CodeDomain.SERVICE, [
-        /\/service/i,
-        /\/api/i,
-        /\/client/i,
-        /\/adapter/i,
-        /recommendation.*service/i
-      ]],
-      [CodeDomain.UTILITY, [
-        /\/utils/i,
-        /\/helper/i,
-        /\/common/i,
-        /\/shared/i,
-        /\/lib/i
-      ]]
+      [CodeDomain.TEST, [/__tests__/i, /\.test\./i, /\.spec\./i, /\/test/i, /\/spec/i]],
+      [
+        CodeDomain.COMPONENT,
+        [/\/component/i, /\.tsx$/i, /\.jsx$/i, /\/ui\//i, /\/pages\//i, /\/app\//i],
+      ],
+      [
+        CodeDomain.ASTROLOGICAL,
+        [
+          /\/calculations\//i,
+          /\/astro/i,
+          /planetary/i,
+          /elemental/i,
+          /lunar/i,
+          /solar/i,
+          /zodiac/i,
+          /ephemeris/i,
+        ],
+      ],
+      [
+        CodeDomain.CAMPAIGN,
+        [
+          /\/campaign/i,
+          /\/intelligence/i,
+          /typescript.*error/i,
+          /linting/i,
+          /validation/i,
+          /metrics/i,
+          /progress/i,
+        ],
+      ],
+      [
+        CodeDomain.RECIPE,
+        [
+          /\/recipe/i,
+          /\/ingredient/i,
+          /\/food/i,
+          /\/culinary/i,
+          /\/cooking/i,
+          /\/nutrition/i,
+          /\/data\/.*ingredient/i,
+          /\/data\/.*recipe/i,
+        ],
+      ],
+      [
+        CodeDomain.SERVICE,
+        [/\/service/i, /\/api/i, /\/client/i, /\/adapter/i, /recommendation.*service/i],
+      ],
+      [CodeDomain.UTILITY, [/\/utils/i, /\/helper/i, /\/common/i, /\/shared/i, /\/lib/i]],
     ]);
   }
 
@@ -1018,44 +1079,59 @@ export class DomainContextAnalyzer {
    */
   private initializeContentPatterns(): Map<CodeDomain, RegExp[]> {
     return new Map([
-      [CodeDomain.ASTROLOGICAL, [
-        /planetary|planet|astro|zodiac|sign|element|lunar|solar/gi,
-        /position|degree|longitude|latitude|ephemeris/gi,
-        /fire|water|earth|air|elemental/gi,
-        /astronomia|astronomy-engine|suncalc/gi,
-        /PlanetaryPosition|ElementalProperties|ZodiacSign/gi
-      ]],
-      [CodeDomain.RECIPE, [
-        /recipe|ingredient|food|culinary|cooking|nutrition/gi,
-        /flavor|taste|spice|herb|vegetable|fruit/gi,
-        /meal|dish|cuisine|dietary/gi,
-        /Ingredient|Recipe|NutritionalInfo|CookingMethod/gi
-      ]],
-      [CodeDomain.CAMPAIGN, [
-        /campaign|metrics|progress|typescript|linting|error/gi,
-        /validation|safety|rollback|checkpoint/gi,
-        /intelligence|enterprise|automation/gi,
-        /CampaignConfig|ProgressMetrics|ValidationResult/gi
-      ]],
-      [CodeDomain.SERVICE, [
-        /service|api|request|response|client|server/gi,
-        /endpoint|http|fetch|axios|data/gi,
-        /ApiResponse|ServiceData|RequestConfig/gi
-      ]],
-      [CodeDomain.COMPONENT, [
-        /component|props|state|render|jsx|tsx/gi,
-        /react|hook|context|provider/gi,
-        /ComponentProps|React\.Component|JSX\.Element/gi
-      ]],
-      [CodeDomain.UTILITY, [
-        /util|helper|common|shared|lib/gi,
-        /function|method|tool|format/gi
-      ]],
-      [CodeDomain.TEST, [
-        /test|spec|mock|jest|describe|it|expect/gi,
-        /fixture|stub|spy|beforeEach|afterEach/gi,
-        /jest\.Mock|MockedFunction|TestData/gi
-      ]]
+      [
+        CodeDomain.ASTROLOGICAL,
+        [
+          /planetary|planet|astro|zodiac|sign|element|lunar|solar/gi,
+          /position|degree|longitude|latitude|ephemeris/gi,
+          /fire|water|earth|air|elemental/gi,
+          /astronomia|astronomy-engine|suncalc/gi,
+          /PlanetaryPosition|ElementalProperties|ZodiacSign/gi,
+        ],
+      ],
+      [
+        CodeDomain.RECIPE,
+        [
+          /recipe|ingredient|food|culinary|cooking|nutrition/gi,
+          /flavor|taste|spice|herb|vegetable|fruit/gi,
+          /meal|dish|cuisine|dietary/gi,
+          /Ingredient|Recipe|NutritionalInfo|CookingMethod/gi,
+        ],
+      ],
+      [
+        CodeDomain.CAMPAIGN,
+        [
+          /campaign|metrics|progress|typescript|linting|error/gi,
+          /validation|safety|rollback|checkpoint/gi,
+          /intelligence|enterprise|automation/gi,
+          /CampaignConfig|ProgressMetrics|ValidationResult/gi,
+        ],
+      ],
+      [
+        CodeDomain.SERVICE,
+        [
+          /service|api|request|response|client|server/gi,
+          /endpoint|http|fetch|axios|data/gi,
+          /ApiResponse|ServiceData|RequestConfig/gi,
+        ],
+      ],
+      [
+        CodeDomain.COMPONENT,
+        [
+          /component|props|state|render|jsx|tsx/gi,
+          /react|hook|context|provider/gi,
+          /ComponentProps|React\.Component|JSX\.Element/gi,
+        ],
+      ],
+      [CodeDomain.UTILITY, [/util|helper|common|shared|lib/gi, /function|method|tool|format/gi]],
+      [
+        CodeDomain.TEST,
+        [
+          /test|spec|mock|jest|describe|it|expect/gi,
+          /fixture|stub|spy|beforeEach|afterEach/gi,
+          /jest\.Mock|MockedFunction|TestData/gi,
+        ],
+      ],
     ]);
   }
 
@@ -1064,51 +1140,78 @@ export class DomainContextAnalyzer {
    */
   private initializeSubDomainPatterns(): Map<CodeDomain, Map<string, RegExp[]>> {
     return new Map([
-      [CodeDomain.ASTROLOGICAL, new Map([
-        ['planetary', [/planetary|planet/gi, /position|degree|longitude/gi]],
-        ['elemental', [/elemental|element/gi, /fire|water|earth|air/gi]],
-        ['lunar', [/lunar|moon/gi, /phase|cycle/gi]],
-        ['solar', [/solar|sun/gi, /sunrise|sunset/gi]],
-        ['zodiac', [/zodiac|sign/gi, /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/gi]],
-        ['calculations', [/calculation|compute|algorithm/gi, /ephemeris|transit/gi]]
-      ])],
-      [CodeDomain.RECIPE, new Map([
-        ['ingredients', [/ingredient/gi, /spice|herb|vegetable|fruit/gi]],
-        ['cooking-methods', [/cooking|method/gi, /bake|boil|fry|steam|grill/gi]],
-        ['nutrition', [/nutrition|nutrient/gi, /calorie|vitamin|mineral/gi]],
-        ['cuisines', [/cuisine|cultural/gi, /italian|chinese|mexican|indian/gi]],
-        ['recipes', [/recipe|dish|meal/gi, /preparation|instruction/gi]]
-      ])],
-      [CodeDomain.CAMPAIGN, new Map([
-        ['typescript-errors', [/typescript|ts\d+/gi, /error|compilation/gi]],
-        ['linting', [/lint|eslint/gi, /warning|rule/gi]],
-        ['performance', [/performance|optimization/gi, /memory|speed|bundle/gi]],
-        ['metrics', [/metrics|progress/gi, /tracking|measurement/gi]],
-        ['intelligence', [/intelligence|enterprise/gi, /analytics|insights/gi]],
-        ['safety', [/safety|validation/gi, /rollback|checkpoint/gi]]
-      ])],
-      [CodeDomain.SERVICE, new Map([
-        ['recommendation', [/recommendation|suggest/gi, /algorithm|matching/gi]],
-        ['api-integration', [/api|integration/gi, /request|response|endpoint/gi]],
-        ['data-processing', [/data|processing/gi, /transform|parse|validate/gi]],
-        ['caching', [/cache|storage/gi, /redis|memory/gi]]
-      ])],
-      [CodeDomain.COMPONENT, new Map([
-        ['ui-components', [/component|ui/gi, /button|input|modal/gi]],
-        ['pages', [/page|route/gi, /navigation|layout/gi]],
-        ['hooks', [/hook|use[A-Z]/gi, /state|effect|context/gi]],
-        ['forms', [/form|input/gi, /validation|submit/gi]]
-      ])],
-      [CodeDomain.TEST, new Map([
-        ['unit-tests', [/unit|test/gi, /describe|it|expect/gi]],
-        ['integration-tests', [/integration|e2e/gi, /workflow|scenario/gi]],
-        ['mocks', [/mock|stub|spy/gi, /jest\.mock|mockImplementation/gi]]
-      ])],
-      [CodeDomain.UTILITY, new Map([
-        ['validation', [/validation|validate/gi, /schema|rule/gi]],
-        ['formatting', [/format|transform/gi, /string|date|number/gi]],
-        ['helpers', [/helper|utility/gi, /common|shared/gi]]
-      ])]
+      [
+        CodeDomain.ASTROLOGICAL,
+        new Map([
+          ['planetary', [/planetary|planet/gi, /position|degree|longitude/gi]],
+          ['elemental', [/elemental|element/gi, /fire|water|earth|air/gi]],
+          ['lunar', [/lunar|moon/gi, /phase|cycle/gi]],
+          ['solar', [/solar|sun/gi, /sunrise|sunset/gi]],
+          [
+            'zodiac',
+            [
+              /zodiac|sign/gi,
+              /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/gi,
+            ],
+          ],
+          ['calculations', [/calculation|compute|algorithm/gi, /ephemeris|transit/gi]],
+        ]),
+      ],
+      [
+        CodeDomain.RECIPE,
+        new Map([
+          ['ingredients', [/ingredient/gi, /spice|herb|vegetable|fruit/gi]],
+          ['cooking-methods', [/cooking|method/gi, /bake|boil|fry|steam|grill/gi]],
+          ['nutrition', [/nutrition|nutrient/gi, /calorie|vitamin|mineral/gi]],
+          ['cuisines', [/cuisine|cultural/gi, /italian|chinese|mexican|indian/gi]],
+          ['recipes', [/recipe|dish|meal/gi, /preparation|instruction/gi]],
+        ]),
+      ],
+      [
+        CodeDomain.CAMPAIGN,
+        new Map([
+          ['typescript-errors', [/typescript|ts\d+/gi, /error|compilation/gi]],
+          ['linting', [/lint|eslint/gi, /warning|rule/gi]],
+          ['performance', [/performance|optimization/gi, /memory|speed|bundle/gi]],
+          ['metrics', [/metrics|progress/gi, /tracking|measurement/gi]],
+          ['intelligence', [/intelligence|enterprise/gi, /analytics|insights/gi]],
+          ['safety', [/safety|validation/gi, /rollback|checkpoint/gi]],
+        ]),
+      ],
+      [
+        CodeDomain.SERVICE,
+        new Map([
+          ['recommendation', [/recommendation|suggest/gi, /algorithm|matching/gi]],
+          ['api-integration', [/api|integration/gi, /request|response|endpoint/gi]],
+          ['data-processing', [/data|processing/gi, /transform|parse|validate/gi]],
+          ['caching', [/cache|storage/gi, /redis|memory/gi]],
+        ]),
+      ],
+      [
+        CodeDomain.COMPONENT,
+        new Map([
+          ['ui-components', [/component|ui/gi, /button|input|modal/gi]],
+          ['pages', [/page|route/gi, /navigation|layout/gi]],
+          ['hooks', [/hook|use[A-Z]/gi, /state|effect|context/gi]],
+          ['forms', [/form|input/gi, /validation|submit/gi]],
+        ]),
+      ],
+      [
+        CodeDomain.TEST,
+        new Map([
+          ['unit-tests', [/unit|test/gi, /describe|it|expect/gi]],
+          ['integration-tests', [/integration|e2e/gi, /workflow|scenario/gi]],
+          ['mocks', [/mock|stub|spy/gi, /jest\.mock|mockImplementation/gi]],
+        ]),
+      ],
+      [
+        CodeDomain.UTILITY,
+        new Map([
+          ['validation', [/validation|validate/gi, /schema|rule/gi]],
+          ['formatting', [/format|transform/gi, /string|date|number/gi]],
+          ['helpers', [/helper|utility/gi, /common|shared/gi]],
+        ]),
+      ],
     ]);
   }
 
@@ -1123,168 +1226,189 @@ export class DomainContextAnalyzer {
 
   private initializeTypeMapping(): Map<CodeDomain, string[]> {
     return new Map([
-      [CodeDomain.ASTROLOGICAL, [
-        // Core astrological types
-        'PlanetaryPosition',
-        'ElementalProperties',
-        'ZodiacSign',
-        'Planet',
-        'AstrologicalData',
-        'LunarPhase',
-        'TransitData',
-        'EphemerisData',
-        // Specific planetary types
-        'SunPosition',
-        'MoonPosition',
-        'MercuryPosition',
-        'VenusPosition',
-        'MarsPosition',
-        'JupiterPosition',
-        'SaturnPosition',
-        'UranusPosition',
-        'NeptunePosition',
-        'PlutoPosition',
-        // Elemental and calculation types
-        'FireElement',
-        'WaterElement',
-        'EarthElement',
-        'AirElement',
-        'ElementalCompatibility',
-        'AstronomicalCalculation',
-        'CoordinateSystem',
-        'unknown'
-      ]],
-      [CodeDomain.RECIPE, [
-        // Core recipe types
-        'Ingredient',
-        'Recipe',
-        'NutritionalInfo',
-        'CookingMethod',
-        'CulinaryData',
-        'ElementalProperties',
-        // Specific ingredient types
-        'Spice',
-        'Herb',
-        'Vegetable',
-        'Fruit',
-        'Protein',
-        'Grain',
-        'Dairy',
-        // Recipe-related types
-        'RecipeStep',
-        'CookingInstruction',
-        'IngredientQuantity',
-        'FlavorProfile',
-        'CuisineType',
-        'DietaryRestriction',
-        'SeasonalAvailability',
-        'unknown'
-      ]],
-      [CodeDomain.CAMPAIGN, [
-        // Core campaign types
-        'ProgressMetrics',
-        'CampaignConfig',
-        'CampaignResult',
-        'ValidationResult',
-        'SafetyEvent',
-        'MetricsData',
-        // TypeScript-specific types
-        'TypeScriptError',
-        'CompilationResult',
-        'ErrorAnalysis',
-        'FixAttempt',
-        // Linting types
-        'LintingResult',
-        'ESLintRule',
-        'LintingWarning',
-        // Performance types
-        'PerformanceMetrics',
-        'BuildMetrics',
-        'MemoryUsage',
-        'BundleAnalysis',
-        // Intelligence types
-        'IntelligenceData',
-        'PatternAnalysis',
-        'PredictiveMetrics',
-        'Record<string, unknown>'
-      ]],
-      [CodeDomain.SERVICE, [
-        // API types
-        'ApiResponse<T>',
-        'ApiRequest',
-        'ServiceData',
-        'RequestConfig',
-        'ResponseData',
-        'HttpResponse',
-        'RestApiResponse',
-        // Service-specific types
-        'RecommendationService',
-        'AstrologicalService',
-        'RecipeService',
-        'IngredientService',
-        // Data processing types
-        'DataTransform',
-        'ValidationSchema',
-        'CacheEntry',
-        'ServiceError',
-        'unknown'
-      ]],
-      [CodeDomain.COMPONENT, [
-        // React component types
-        'ComponentProps',
-        'React.ComponentProps<T>',
-        'React.ReactNode',
-        'JSX.Element',
-        'React.FC<T>',
-        'React.Component<T>',
-        // Event types
-        'React.SyntheticEvent',
-        'React.MouseEvent',
-        'React.ChangeEvent',
-        'React.FormEvent',
-        // State and context types
-        'ComponentState',
-        'ContextValue',
-        'HookState',
-        // Prop-specific types
-        'ButtonProps',
-        'InputProps',
-        'FormProps',
-        'ModalProps',
-        'ChartProps',
-        'RecipeCardProps',
-        'IngredientCardProps',
-        'unknown'
-      ]],
-      [CodeDomain.UTILITY, [
-        'unknown',
-        'Record<string, unknown>',
-        'object',
-        'string',
-        'number',
-        'boolean',
-        'Date',
-        'Array<unknown>',
-        'Promise<unknown>'
-      ]],
-      [CodeDomain.TEST, [
-        // Jest types
-        'jest.Mock',
-        'jest.MockedFunction<T>',
-        'jest.SpyInstance',
-        'MockedFunction<T>',
-        // Testing library types
-        'RenderResult',
-        'FireEvent',
-        'Screen',
-        // Test data types
-        'TestData',
-        'MockData',
-        'TestFixture',
-        'TestContext',
-        'TestCase',
-        'unknown'
-      ]]
+      [
+        CodeDomain.ASTROLOGICAL,
+        [
+          // Core astrological types
+          'PlanetaryPosition',
+          'ElementalProperties',
+          'ZodiacSign',
+          'Planet',
+          'AstrologicalData',
+          'LunarPhase',
+          'TransitData',
+          'EphemerisData',
+          // Specific planetary types
+          'SunPosition',
+          'MoonPosition',
+          'MercuryPosition',
+          'VenusPosition',
+          'MarsPosition',
+          'JupiterPosition',
+          'SaturnPosition',
+          'UranusPosition',
+          'NeptunePosition',
+          'PlutoPosition',
+          // Elemental and calculation types
+          'FireElement',
+          'WaterElement',
+          'EarthElement',
+          'AirElement',
+          'ElementalCompatibility',
+          'AstronomicalCalculation',
+          'CoordinateSystem',
+          'unknown',
+        ],
+      ],
+      [
+        CodeDomain.RECIPE,
+        [
+          // Core recipe types
+          'Ingredient',
+          'Recipe',
+          'NutritionalInfo',
+          'CookingMethod',
+          'CulinaryData',
+          'ElementalProperties',
+          // Specific ingredient types
+          'Spice',
+          'Herb',
+          'Vegetable',
+          'Fruit',
+          'Protein',
+          'Grain',
+          'Dairy',
+          // Recipe-related types
+          'RecipeStep',
+          'CookingInstruction',
+          'IngredientQuantity',
+          'FlavorProfile',
+          'CuisineType',
+          'DietaryRestriction',
+          'SeasonalAvailability',
+          'unknown',
+        ],
+      ],
+      [
+        CodeDomain.CAMPAIGN,
+        [
+          // Core campaign types
+          'ProgressMetrics',
+          'CampaignConfig',
+          'CampaignResult',
+          'ValidationResult',
+          'SafetyEvent',
+          'MetricsData',
+          // TypeScript-specific types
+          'TypeScriptError',
+          'CompilationResult',
+          'ErrorAnalysis',
+          'FixAttempt',
+          // Linting types
+          'LintingResult',
+          'ESLintRule',
+          'LintingWarning',
+          // Performance types
+          'PerformanceMetrics',
+          'BuildMetrics',
+          'MemoryUsage',
+          'BundleAnalysis',
+          // Intelligence types
+          'IntelligenceData',
+          'PatternAnalysis',
+          'PredictiveMetrics',
+          'Record<string, unknown>',
+        ],
+      ],
+      [
+        CodeDomain.SERVICE,
+        [
+          // API types
+          'ApiResponse<T>',
+          'ApiRequest',
+          'ServiceData',
+          'RequestConfig',
+          'ResponseData',
+          'HttpResponse',
+          'RestApiResponse',
+          // Service-specific types
+          'RecommendationService',
+          'AstrologicalService',
+          'RecipeService',
+          'IngredientService',
+          // Data processing types
+          'DataTransform',
+          'ValidationSchema',
+          'CacheEntry',
+          'ServiceError',
+          'unknown',
+        ],
+      ],
+      [
+        CodeDomain.COMPONENT,
+        [
+          // React component types
+          'ComponentProps',
+          'React.ComponentProps<T>',
+          'React.ReactNode',
+          'JSX.Element',
+          'React.FC<T>',
+          'React.Component<T>',
+          // Event types
+          'React.SyntheticEvent',
+          'React.MouseEvent',
+          'React.ChangeEvent',
+          'React.FormEvent',
+          // State and context types
+          'ComponentState',
+          'ContextValue',
+          'HookState',
+          // Prop-specific types
+          'ButtonProps',
+          'InputProps',
+          'FormProps',
+          'ModalProps',
+          'ChartProps',
+          'RecipeCardProps',
+          'IngredientCardProps',
+          'unknown',
+        ],
+      ],
+      [
+        CodeDomain.UTILITY,
+        [
+          'unknown',
+          'Record<string, unknown>',
+          'object',
+          'string',
+          'number',
+          'boolean',
+          'Date',
+          'Array<unknown>',
+          'Promise<unknown>',
+        ],
+      ],
+      [
+        CodeDomain.TEST,
+        [
+          // Jest types
+          'jest.Mock',
+          'jest.MockedFunction<T>',
+          'jest.SpyInstance',
+          'MockedFunction<T>',
+          // Testing library types
+          'RenderResult',
+          'FireEvent',
+          'Screen',
+          // Test data types
+          'TestData',
+          'MockData',
+          'TestFixture',
+          'TestContext',
+          'TestCase',
+          'unknown',
+        ],
+      ],
     ]);
   }
 }

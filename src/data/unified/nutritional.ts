@@ -20,11 +20,7 @@ import type { ZodiacSign } from '@/types/zodiac';
 // TODO: Fix import - add what to import from "./seasonal.ts"
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 
-import {
-  calculateKalchm,
-  _,
-  _,
-} from './alchemicalCalculations';
+import { calculateKalchm, _, _ } from './alchemicalCalculations';
 
 // ===== ENHANCED NUTRITIONAL INTERFACES =====
 

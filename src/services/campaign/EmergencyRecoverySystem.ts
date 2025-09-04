@@ -343,9 +343,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
           }
           execSync(`git branch -D ${tempBranch}`, { encoding: 'utf8', stdio: 'pipe' });
         } catch (cleanupError) {
-          console.warn(
-            `⚠️ Cleanup warning: ${(cleanupError as any).message || 'Unknown error'}`,
-          );
+          console.warn(`⚠️ Cleanup warning: ${(cleanupError as any).message || 'Unknown error'}`);
         }
         throw error;
       }
@@ -477,13 +475,9 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       return result;
     } catch (error) {
       result.success = false;
-      result.errors.push(
-        `Recovery validation error: ${(error as any).message || 'Unknown error'}`,
-      );
+      result.errors.push(`Recovery validation error: ${(error as any).message || 'Unknown error'}`);
 
-      console.error(
-        `❌ Recovery validation error: ${(error as any).message || 'Unknown error'}`,
-      );
+      console.error(`❌ Recovery validation error: ${(error as any).message || 'Unknown error'}`);
       return result;
     }
   }

@@ -241,10 +241,7 @@ const _calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise
 };
 
 // New function to calculate zodiac alignment
-const _calculateZodiacAlignment = async (
-  recipe: Recipe,
-  currentZodiac: any,
-): Promise<number> => {
+const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: any): Promise<number> => {
   if (!recipe || !currentZodiac) return 0;
 
   let alignmentScore = 0;

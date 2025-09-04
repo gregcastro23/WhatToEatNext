@@ -2,12 +2,12 @@ import { proteins } from '@/data/ingredients';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 // SpoonacularElementalMapper removed - using fallback elemental calculation
 import type {
-    AstrologicalState,
-    ElementalProperties,
-    Ingredient,
-    LunarPhase,
-    Recipe,
-    ZodiacSign,
+  AstrologicalState,
+  ElementalProperties,
+  Ingredient,
+  LunarPhase,
+  Recipe,
+  ZodiacSign,
 } from '@/types/alchemy';
 // SpoonacularRecipe import removed with Spoonacular service cleanup
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
@@ -226,10 +226,7 @@ export class AlchemicalEngineBase {
     return totalFactors > 0 ? harmonyScore / (totalFactors || 1) : 0;
   }
 
-  calculateAstrologicalPower(
-    recipeSunSign: any,
-    astrologicalState: AstrologicalState,
-  ): number {
+  calculateAstrologicalPower(recipeSunSign: any, astrologicalState: AstrologicalState): number {
     const getCurrentDecan = (degree: number): number => {
       if (degree < 10) return 0;
       if (degree < 20) return 1;
@@ -308,9 +305,12 @@ export class AlchemicalEngineBase {
   }
 
   getSeasonalInfluence(season: string, element: keyof ElementalProperties): number {
-    const seasonalModifiersData = this.calculator.calculateElementalState(
-      { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    ) as unknown;
+    const seasonalModifiersData = this.calculator.calculateElementalState({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    }) as unknown;
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {};
     return seasonalInfluence[element] || 0.25;
   }
@@ -326,7 +326,8 @@ export class AlchemicalEngineBase {
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony
     const baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties);
     const interactionScore =
-      ((interactions.synergies as any)?.length || 0) * 0.2 - ((interactions.conflicts as any)?.length || 0) * 0.2;
+      ((interactions.synergies as any)?.length || 0) * 0.2 -
+      ((interactions.conflicts as any)?.length || 0) * 0.2;
     const dominanceScore =
       dominantElements.length > 0
         ? dominantElements.reduce((sum, { strength }) => sum + strength, 0) /

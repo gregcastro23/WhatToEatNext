@@ -127,9 +127,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
         : typeof raw.cookTime === 'string'
           ? raw.cookTime
           : '30 minutes',
-    difficulty: validateDifficulty(raw.difficulty)
-      ? (raw.difficulty as any)
-      : 'medium',
+    difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as any) : 'medium',
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw.instructions || [].map(String) : [],
     elementalProperties: standardizeElementalProperties(raw.elementalState),

@@ -523,7 +523,9 @@ async function testTransitDateValidation(): Promise<TestResult> {
     for (const planet of planets) {
       try {
         const planetModule = await import(`../data/planets/${planet}`);
-        const planetSpecific = planetModule.default.PlanetSpecific as { TransitDates?: Record<string, unknown> };
+        const planetSpecific = planetModule.default.PlanetSpecific as {
+          TransitDates?: Record<string, unknown>;
+        };
         const transitDates = planetSpecific?.TransitDates;
 
         if (transitDates && Object.keys(transitDates).length > 0) {

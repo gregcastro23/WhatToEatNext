@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-09-01T13:25:25.251Z",
+  "summary": {
+    "totalWarnings": 0,
+    "fixedIssues": 0,
+    "preservedPatterns": 0
+  },
+  "recommendations": [
+    "Focus on React hooks dependencies first (highest performance impact)",
+    "Review constant conditions for dead code elimination",
+    "Apply ESLint auto-fixes for simple efficiency issues",
+    "Preserve intentional patterns in domain-specific code"
+  ],
+  "findings": [],
+  "fixedIssues": []
+}

@@ -9,11 +9,10 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
-
 import {
-    DEFAULT_LINTING_FORMATTING_CONFIG,
-    LintingFormattingConfig,
-    LintingFormattingSystem,
+  DEFAULT_LINTING_FORMATTING_CONFIG,
+  LintingFormattingConfig,
+  LintingFormattingSystem,
 } from './LintingFormattingSystem';
 
 interface CLIOptions {
@@ -229,7 +228,8 @@ class LintingFormattingCLI {
 
   private printViolationSummary(violations: unknown[]): void {
     const summary = {
-      typeScript: violations.filter(v => (v as any).ruleId?.startsWith('@typescript-eslint/')).length,
+      typeScript: violations.filter(v => (v as any).ruleId?.startsWith('@typescript-eslint/'))
+        .length,
       react: violations.filter(v => (v as any).ruleId?.startsWith('react')).length,
       import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,
       other: violations.filter(
@@ -283,11 +283,19 @@ class LintingFormattingCLI {
 
     if ((result as any).violationBreakdown) {
       console.log('\n📋 Violation Breakdown:');
-      console.log(`  - TypeScript errors: ${(result as any)?.violationBreakdown?.typeScriptErrors}`);
+      console.log(
+        `  - TypeScript errors: ${(result as any)?.violationBreakdown?.typeScriptErrors}`,
+      );
       console.log(`  - React violations: ${(result as any)?.violationBreakdown?.reactViolations}`);
-      console.log(`  - Import violations: ${(result as any)?.violationBreakdown?.importViolations}`);
-      console.log(`  - Formatting issues: ${(result as any)?.violationBreakdown?.formattingIssues}`);
-      console.log(`  - Custom pattern fixes: ${(result as any)?.violationBreakdown?.customPatternFixes}`);
+      console.log(
+        `  - Import violations: ${(result as any)?.violationBreakdown?.importViolations}`,
+      );
+      console.log(
+        `  - Formatting issues: ${(result as any)?.violationBreakdown?.formattingIssues}`,
+      );
+      console.log(
+        `  - Custom pattern fixes: ${(result as any)?.violationBreakdown?.customPatternFixes}`,
+      );
     }
 
     if ((result as any)?.errors?.length > 0) {
@@ -297,7 +305,9 @@ class LintingFormattingCLI {
 
     if ((result as any)?.(warnings as any).length > 0) {
       console.log('\n⚠️  Warnings:');
-      (result as any)?.(warnings as any).forEach((warning: string) => (console as any).log(`  - ${warning}`));
+      (result as any)?.(warnings as any).forEach((warning: string) =>
+        (console as any).log(`  - ${warning}`),
+      );
     }
   }
 }

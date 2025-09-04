@@ -40,7 +40,7 @@ export class BatchProcessingIntegration {
       maxCriticalBatchSize: 5,
       skipValidation: false,
       skipManualReview: false,
-      ...config
+      ...config,
     };
 
     this.orchestrator = new BatchProcessingOrchestrator({
@@ -53,14 +53,14 @@ export class BatchProcessingIntegration {
         validateAfterEachBatch: !this.config.skipValidation,
         autoRollbackOnError: true,
         createGitStash: true,
-        logLevel: 'info'
+        logLevel: 'info',
       },
       safetyProtocols: {
         maxVariablesAutoProcess: 20,
         requireManualReview: !this.config.skipManualReview,
         enhancedValidation: true,
-        createDetailedBackups: true
-      }
+        createDetailedBackups: true,
+      },
     });
   }
 
@@ -100,7 +100,6 @@ export class BatchProcessingIntegration {
       } else {
         console.log('\n🔍 Dry run completed - no changes made');
       }
-
     } catch (error) {
       console.error(`❌ Workflow failed: ${error}`);
       throw error;
@@ -156,7 +155,7 @@ export class BatchProcessingIntegration {
         isCritical: this.isCriticalFile(filePath),
         unusedVariableCount: variables.length,
         riskLevel: this.mapRiskLevel(firstVar.riskLevel),
-        fileType: firstVar.fileType
+        fileType: firstVar.fileType,
       });
     }
 
@@ -167,17 +166,21 @@ export class BatchProcessingIntegration {
    * Determine if file is high impact
    */
   private isHighImpactFile(filePath: string): boolean {
-    return /\/src\/(services|calculations)\//.test(filePath) ||
-           /\/src\/utils\/(?:astrology|astronomy|planetary|elemental)/.test(filePath);
+    return (
+      /\/src\/(services|calculations)\//.test(filePath) ||
+      /\/src\/utils\/(?:astrology|astronomy|planetary|elemental)/.test(filePath)
+    );
   }
 
   /**
    * Determine if file is critical
    */
   private isCriticalFile(filePath: string): boolean {
-    return /\/src\/calculations\//.test(filePath) ||
-           /\/src\/utils\/reliableAstronomy/.test(filePath) ||
-           /\/src\/utils\/elementalUtils/.test(filePath);
+    return (
+      /\/src\/calculations\//.test(filePath) ||
+      /\/src\/utils\/reliableAstronomy/.test(filePath) ||
+      /\/src\/utils\/elementalUtils/.test(filePath)
+    );
   }
 
   /**
@@ -185,9 +188,12 @@ export class BatchProcessingIntegration {
    */
   private mapRiskLevel(riskLevel: string): 'low' | 'medium' | 'high' {
     switch (riskLevel?.toLowerCase()) {
-      case 'high': return 'high';
-      case 'medium': return 'medium';
-      default: return 'low';
+      case 'high':
+        return 'high';
+      case 'medium':
+        return 'medium';
+      default:
+        return 'low';
     }
   }
 
@@ -211,7 +217,9 @@ export class BatchProcessingIntegration {
     if (plan.manualReviewRequired.length > 0) {
       console.log('\n👥 Files Requiring Manual Review:');
       plan.manualReviewRequired.slice(0, 5).forEach((file: any) => {
-        console.log(`   - ${file.relativePath} (${file.unusedVariableCount} variables, ${file.riskLevel} risk)`);
+        console.log(
+          `   - ${file.relativePath} (${file.unusedVariableCount} variables, ${file.riskLevel} risk)`,
+        );
       });
       if (plan.manualReviewRequired.length > 5) {
         console.log(`   ... and ${plan.manualReviewRequired.length - 5} more files`);
@@ -235,12 +243,15 @@ export class BatchProcessingIntegration {
     console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
 
     if (campaign.finalStats.totalProcessed > 0) {
-      const eliminationRate = (campaign.finalStats.totalEliminated / campaign.finalStats.totalProcessed) * 100;
+      const eliminationRate =
+        (campaign.finalStats.totalEliminated / campaign.finalStats.totalProcessed) * 100;
       console.log(`   Elimination Rate: ${eliminationRate.toFixed(1)}%`);
     }
 
     console.log('\n🔄 Batch Summary:');
-    const successfulBatches = campaign.batchResults.filter((r: unknown) => (r as any).success).length;
+    const successfulBatches = campaign.batchResults.filter(
+      (r: unknown) => (r as any).success,
+    ).length;
     console.log(`   Total Batches: ${campaign.batchResults.length}`);
     console.log(`   Successful Batches: ${successfulBatches}`);
     console.log(`   Failed Batches: ${campaign.batchResults.length - successfulBatches}`);

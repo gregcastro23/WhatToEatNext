@@ -4,9 +4,9 @@
  */
 
 import {
-    UnintentionalAnyCampaignController,
-    UnintentionalAnyIntegrationHelper,
-    createUnintentionalAnyCampaignController
+  UnintentionalAnyCampaignController,
+  UnintentionalAnyIntegrationHelper,
+  createUnintentionalAnyCampaignController,
 } from './CampaignIntegration';
 
 import { UnintentionalAnyConfig } from './types';
@@ -21,11 +21,14 @@ async function verifyIntegration(): Promise<void> {
     const config = controller.getUnintentionalAnyConfig();
 
     console.log('✅ Factory function works');
-    console.log(`   Default config: maxFiles=${config.maxFilesPerBatch}, target=${config.targetReductionPercentage}%`);
+    console.log(
+      `   Default config: maxFiles=${config.maxFilesPerBatch}, target=${config.targetReductionPercentage}%`,
+    );
 
     // Test 2: Create campaign configuration
     console.log('\n2. Testing campaign configuration creation...');
-    const campaignConfig = UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig();
+    const campaignConfig =
+      UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig();
 
     console.log('✅ Campaign configuration created');
     console.log(`   Phases: ${campaignConfig.phases.length}`);
@@ -43,21 +46,25 @@ async function verifyIntegration(): Promise<void> {
     const customConfig: Partial<UnintentionalAnyConfig> = {
       maxFilesPerBatch: 20,
       targetReductionPercentage: 25,
-      confidenceThreshold: 0.9
+      confidenceThreshold: 0.9,
     };
 
     controller.updateUnintentionalAnyConfig(customConfig);
     const updatedConfig = controller.getUnintentionalAnyConfig();
 
     console.log('✅ Configuration update works');
-    console.log(`   Updated config: maxFiles=${updatedConfig.maxFilesPerBatch}, target=${updatedConfig.targetReductionPercentage}%`);
+    console.log(
+      `   Updated config: maxFiles=${updatedConfig.maxFilesPerBatch}, target=${updatedConfig.targetReductionPercentage}%`,
+    );
 
     // Test 5: Test metrics retrieval (will use defaults due to test environment)
     console.log('\n5. Testing metrics retrieval...');
     try {
       const metrics = await controller.getUnintentionalAnyMetrics();
       console.log('✅ Metrics retrieval works');
-      console.log(`   Metrics: total=${metrics.totalAnyTypes}, intentional=${metrics.intentionalAnyTypes}, unintentional=${metrics.unintentionalAnyTypes}`);
+      console.log(
+        `   Metrics: total=${metrics.totalAnyTypes}, intentional=${metrics.intentionalAnyTypes}, unintentional=${metrics.unintentionalAnyTypes}`,
+      );
     } catch (error) {
       console.log('⚠️ Metrics retrieval failed (expected in test environment)');
       console.log(`   Error: ${error instanceof Error ? error.message : String(error)}`);
@@ -82,7 +89,6 @@ async function verifyIntegration(): Promise<void> {
     console.log('   ✅ Automation script compatibility');
     console.log('   ✅ Metrics integration (basic)');
     console.log('   ✅ Campaign system integration');
-
   } catch (error) {
     console.error('❌ Integration verification failed:', error);
     process.exit(1);

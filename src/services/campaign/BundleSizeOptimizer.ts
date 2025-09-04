@@ -128,9 +128,7 @@ export class BundleSizeOptimizer {
       );
       return analysis;
     } catch (error) {
-      console.warn(
-        `⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      console.warn(`⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`);
 
       // Return fallback analysis
       return {
@@ -287,9 +285,7 @@ export class BundleSizeOptimizer {
 
       return chunks;
     } catch (error) {
-      console.warn(
-        `⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      console.warn(`⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`);
       return [];
     }
   }
@@ -332,9 +328,7 @@ export class BundleSizeOptimizer {
 
       return assets.sort((a, b) => b.size - a.size); // Sort by size descending
     } catch (error) {
-      console.warn(
-        `⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      console.warn(`⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`);
       return [];
     }
   }
@@ -385,9 +379,7 @@ export class BundleSizeOptimizer {
 
       return dependencies.sort((a, b) => b.size - a.size);
     } catch (error) {
-      console.warn(
-        `⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      console.warn(`⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`);
       return [];
     }
   }
@@ -791,9 +783,7 @@ export class BundleSizeOptimizer {
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
       console.log(`📦 Bundle analysis data exported to: ${filePath}`);
     } catch (error) {
-      throw new Error(
-        `Failed to export bundle data: ${(error as any).message || 'Unknown error'}`,
-      );
+      throw new Error(`Failed to export bundle data: ${(error as any).message || 'Unknown error'}`);
     }
   }
 }

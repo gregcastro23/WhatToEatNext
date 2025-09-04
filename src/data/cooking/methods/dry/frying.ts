@@ -300,7 +300,7 @@ export const frying: CookingMethodData = {
     heat: 0.85, // Very high heat transfer through oil conduction
     entropy: 0.7, // Rapid breakdown of structures and reorganization
     reactivity: 0.8, // High reactivity with numerous chemical changes
-    gregsEnergy: -0.750 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

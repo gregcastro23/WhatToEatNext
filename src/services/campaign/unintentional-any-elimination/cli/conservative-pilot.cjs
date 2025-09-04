@@ -521,8 +521,8 @@ REQUIREMENTS:
   }
 
   async applyReplacementsToFile(filePath, cases) {
-    let content = fs.readFileSync(filePath, 'utf8');
-    let lines = content.split('\n');
+    const content = fs.readFileSync(filePath, 'utf8');
+    const lines = content.split('\n');
     let successful = 0;
     let failed = 0;
 

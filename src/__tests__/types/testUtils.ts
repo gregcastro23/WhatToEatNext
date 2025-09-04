@@ -142,7 +142,9 @@ export interface ExtendedTestUtils {
 
   // Helper functions
   waitForAsync: (ms?: number) => Promise<void>;
-  createMockFunction: (returnValue?: unknown) => jest.MockedFunction<(...args: unknown[]) => unknown>;
+  createMockFunction: (
+    returnValue?: unknown,
+  ) => jest.MockedFunction<(...args: unknown[]) => unknown>;
   createMockComponent: (
     name: string,
     testId?: string,

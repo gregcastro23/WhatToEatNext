@@ -6,18 +6,18 @@ import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryEle
 import { LunarPhase, calculatePlanetaryBoost } from '@/constants/planetaryFoodAssociations';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import type {
-    Element,
-    ElementalAffinity,
-    ElementalCharacteristics,
-    ElementalProfile,
-    ElementalProperties,
-    Recipe,
+  Element,
+  ElementalAffinity,
+  ElementalCharacteristics,
+  ElementalProfile,
+  ElementalProperties,
+  Recipe,
 } from '@/types/alchemy';
 import { ElementalItem } from '@/types/alchemy';
 import {
-    isElementalProperties,
-    isElementalPropertyKey,
-    logUnexpectedValue,
+  isElementalProperties,
+  isElementalPropertyKey,
+  logUnexpectedValue,
 } from '@/utils/validation';
 
 import { elementalFunctions, elementalInteractions, elements } from './elementalMappings';
@@ -283,8 +283,12 @@ export const elementalUtils = {
 
     const combinedProperties = recipe.ingredients.reduce(
       (acc, ingredient) => {
-        const props =
-          ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        const props = ingredient.elementalProperties || {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        };
         return {
           Fire: acc.Fire + props.Fire,
           Water: acc.Water + props.Water,
@@ -523,10 +527,14 @@ export function transformItemsWithPlanetaryPositions(
     // - Essence is related to Water (fluidity) and Fire (vitality)
     // - Matter is related to Earth (stability) and Water (cohesion)
     // - Substance is related to Air (structure) and Earth (form)
-    const spirit = ((scaledElements as any)?.Fire || 0) * 0.2 + ((scaledElements as any)?.Air || 0) * 0.2;
-    const essence = ((scaledElements as any)?.Water || 0) * 0.2 + ((scaledElements as any)?.Fire || 0) * 0.2;
-    const matter = ((scaledElements as any)?.Earth || 0) * 0.2 + ((scaledElements as any)?.Water || 0) * 0.2;
-    const substance = ((scaledElements as any)?.Air || 0) * 0.2 + ((scaledElements as any)?.Earth || 0) * 0.2;
+    const spirit =
+      ((scaledElements as any)?.Fire || 0) * 0.2 + ((scaledElements as any)?.Air || 0) * 0.2;
+    const essence =
+      ((scaledElements as any)?.Water || 0) * 0.2 + ((scaledElements as any)?.Fire || 0) * 0.2;
+    const matter =
+      ((scaledElements as any)?.Earth || 0) * 0.2 + ((scaledElements as any)?.Water || 0) * 0.2;
+    const substance =
+      ((scaledElements as any)?.Air || 0) * 0.2 + ((scaledElements as any)?.Earth || 0) * 0.2;
 
     // Apply tarot boosts if available
     const boostedSpirit = spirit * (tarotPlanetaryBoosts?.Spirit || 1.0);

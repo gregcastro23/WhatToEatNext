@@ -20,10 +20,7 @@ function isValidObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function hasProperty<T extends string>(
-  obj: unknown,
-  prop: T
-): obj is Record<T, unknown> {
+function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj;
 }
 
@@ -99,9 +96,10 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const elementalMultipliers =
       contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||
       contextElementalMultipliers.general;
-    const preferenceMultiplier = hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
-      ? preferences.intensity 
-      : 1.0;
+    const preferenceMultiplier =
+      hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
+        ? preferences.intensity
+        : 1.0;
 
     // Apply context-specific adjustments
     const adjustedProperties = {
@@ -237,14 +235,25 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     context: string,
     preferences: Record<string, unknown>,
   ) => {
-    const fireOptimization = hasProperty(preferences, 'fireOptimization') && typeof preferences.fireOptimization === 'number'
-      ? preferences.fireOptimization : 1.1;
-    const waterOptimization = hasProperty(preferences, 'waterOptimization') && typeof preferences.waterOptimization === 'number'
-      ? preferences.waterOptimization : 1.05;
-    const earthOptimization = hasProperty(preferences, 'earthOptimization') && typeof preferences.earthOptimization === 'number'
-      ? preferences.earthOptimization : 1.0;
-    const airOptimization = hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number'
-      ? preferences.airOptimization : 1.1;
+    const fireOptimization =
+      hasProperty(preferences, 'fireOptimization') &&
+      typeof preferences.fireOptimization === 'number'
+        ? preferences.fireOptimization
+        : 1.1;
+    const waterOptimization =
+      hasProperty(preferences, 'waterOptimization') &&
+      typeof preferences.waterOptimization === 'number'
+        ? preferences.waterOptimization
+        : 1.05;
+    const earthOptimization =
+      hasProperty(preferences, 'earthOptimization') &&
+      typeof preferences.earthOptimization === 'number'
+        ? preferences.earthOptimization
+        : 1.0;
+    const airOptimization =
+      hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number'
+        ? preferences.airOptimization
+        : 1.1;
 
     const optimizations = {
       Fire: {
@@ -410,12 +419,13 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 
   calculateOverallOptimization: (optimizations: unknown): number => {
     if (!isValidObject(optimizations)) return 0;
-    const adjustments = Object.values(optimizations)
-      .map((opt: unknown) => {
-        return isValidObject(opt) && hasProperty(opt, 'adjustment') && typeof opt.adjustment === 'number'
-          ? opt.adjustment 
-          : 0;
-      });
+    const adjustments = Object.values(optimizations).map((opt: unknown) => {
+      return isValidObject(opt) &&
+        hasProperty(opt, 'adjustment') &&
+        typeof opt.adjustment === 'number'
+        ? opt.adjustment
+        : 0;
+    });
     return adjustments.reduce((sum, adj) => sum + adj, 0) / adjustments.length;
   },
 
@@ -483,14 +493,22 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
 
     // User preference adjustments
     const preferenceAdjustments = {
-      intensity: hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
-        ? preferences.intensity : 1.0,
-      flexibility: hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number'
-        ? preferences.flexibility : 0.1,
-      traditionalism: hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number'
-        ? preferences.traditionalism : 0.8,
-      innovation: hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number'
-        ? preferences.innovation : 0.2,
+      intensity:
+        hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
+          ? preferences.intensity
+          : 1.0,
+      flexibility:
+        hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number'
+          ? preferences.flexibility
+          : 0.1,
+      traditionalism:
+        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number'
+          ? preferences.traditionalism
+          : 0.8,
+      innovation:
+        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number'
+          ? preferences.innovation
+          : 0.2,
     };
 
     // Enhanced seasonal modifiers with contextual adjustments

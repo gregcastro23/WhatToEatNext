@@ -1,0 +1,67 @@
+{
+  "timestamp": "2025-09-01T12:09:55.299Z",
+  "totalManualReview": 4736,
+  "categories": {
+    "EXPLICIT_ANY_TYPES": {
+      "count": 2676,
+      "command": "yarn lint:quick 2>&1 | grep \"@typescript-eslint/no-explicit-any\" | wc -l",
+      "description": "Explicit any types requiring domain knowledge",
+      "priority": "HIGH"
+    },
+    "UNUSED_VARIABLES": {
+      "count": 910,
+      "command": "yarn lint:quick 2>&1 | grep -E \"(no-unused-vars|@typescript-eslint/no-unused-vars)\" | wc -l",
+      "description": "Unused variables (may be domain-specific)",
+      "priority": "MEDIUM"
+    },
+    "CONSOLE_STATEMENTS": {
+      "count": 906,
+      "command": "yarn lint:quick 2>&1 | grep \"no-console\" | wc -l",
+      "description": "Console statements (may be intentional)",
+      "priority": "LOW"
+    },
+    "REACT_HOOKS": {
+      "count": 26,
+      "command": "yarn lint:quick 2>&1 | grep \"react-hooks\" | wc -l",
+      "description": "React hooks requiring logic understanding",
+      "priority": "HIGH"
+    },
+    "SYNTAX_ERRORS": {
+      "count": 218,
+      "command": "yarn lint:quick 2>&1 | grep -E \"(no-const-assign|no-undef|no-redeclare)\" | wc -l",
+      "description": "Syntax errors indicating deeper issues",
+      "priority": "HIGH"
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Type Safety",
+      "action": "Review 2676 explicit any types",
+      "description": "Focus on calculations/ and services/ directories first"
+    },
+    {
+      "priority": "HIGH",
+      "category": "React Logic",
+      "action": "Review 26 React hooks warnings",
+      "description": "Requires understanding of component state and effects"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Code Quality",
+      "action": "Fix 218 syntax errors",
+      "description": "These may indicate deeper architectural issues"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Domain Variables",
+      "action": "Review 910 unused variables",
+      "description": "Many may be intentionally preserved for astrological/campaign logic"
+    }
+  ],
+  "summary": {
+    "highPriority": 3,
+    "mediumPriority": 1,
+    "lowPriority": 0
+  }
+}

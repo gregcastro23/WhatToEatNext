@@ -8,11 +8,11 @@
 import * as fs from 'fs/promises';
 import path from 'path';
 import {
-    AnyTypeCategory,
-    ClassificationContext,
-    CodeDomain,
-    DocumentationReport,
-    DocumentationValidation
+  AnyTypeCategory,
+  ClassificationContext,
+  CodeDomain,
+  DocumentationReport,
+  DocumentationValidation,
 } from './types';
 
 export interface QualityAssuranceConfig {
@@ -61,16 +61,16 @@ export class DocumentationQualityAssurance {
         '**/*.test.ts',
         '**/*.test.tsx',
         '**/*.spec.ts',
-        '**/*.spec.tsx'
+        '**/*.spec.tsx',
       ],
       minimumCommentLength: 20,
       requiredKeywords: ['intentionally', 'deliberately', 'required', 'needed'],
       qualityThresholds: {
         excellent: 90,
         good: 70,
-        fair: 50
+        fair: 50,
       },
-      ...config
+      ...config,
     };
   }
 
@@ -84,7 +84,7 @@ export class DocumentationQualityAssurance {
       poor: 0,
       fair: 0,
       good: 0,
-      excellent: 0
+      excellent: 0,
     };
 
     let totalAnyTypes = 0;
@@ -110,7 +110,7 @@ export class DocumentationQualityAssurance {
               codeSnippet: anyType.codeSnippet,
               category: this.categorizeAnyType(anyType.codeSnippet),
               domain: this.determineDomain(anyType.filePath),
-              severity: this.assessSeverity(anyType)
+              severity: this.assessSeverity(anyType),
             });
           }
         }
@@ -132,15 +132,17 @@ export class DocumentationQualityAssurance {
       recommendations: this.generateRecommendations(
         documentationCoverage,
         qualityBreakdown,
-        undocumentedTypes
-      )
+        undocumentedTypes,
+      ),
     };
   }
 
   /**
    * Validate documentation quality for a specific context
    */
-  async validateDocumentationQuality(context: ClassificationContext): Promise<DocumentationValidation> {
+  async validateDocumentationQuality(
+    context: ClassificationContext,
+  ): Promise<DocumentationValidation> {
     const cacheKey = `${context.filePath}:${context.lineNumber}`;
 
     if (this.qualityCache.has(cacheKey)) {
@@ -156,17 +158,15 @@ export class DocumentationQualityAssurance {
 
     // Check for ESLint disable comment
     const hasEslintDisable = this.hasEslintDisableComment(lines, lineIndex);
-    const eslintDisableHasExplanation = hasEslintDisable &&
-      this.eslintDisableHasExplanation(lines, lineIndex);
+    const eslintDisableHasExplanation =
+      hasEslintDisable && this.eslintDisableHasExplanation(lines, lineIndex);
 
     // Assess comment quality
     const commentQuality = this.assessCommentQuality(comment);
 
     // Check completeness
-    const isComplete = hasComment &&
-      commentQuality !== 'poor' &&
-      hasEslintDisable &&
-      eslintDisableHasExplanation;
+    const isComplete =
+      hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation;
 
     // Generate suggestions
     const suggestions = this.generateQualityImprovementSuggestions(
@@ -175,7 +175,7 @@ export class DocumentationQualityAssurance {
       commentQuality,
       hasEslintDisable,
       eslintDisableHasExplanation,
-      context
+      context,
     );
 
     const validation: DocumentationValidation = {
@@ -184,7 +184,7 @@ export class DocumentationQualityAssurance {
       hasEslintDisable,
       eslintDisableHasExplanation,
       isComplete,
-      suggestions
+      suggestions,
     };
 
     this.qualityCache.set(cacheKey, validation);
@@ -204,7 +204,7 @@ export class DocumentationQualityAssurance {
       poor: 0,
       fair: 0,
       good: 0,
-      excellent: 0
+      excellent: 0,
     };
     let totalQualityScore = 0;
 
@@ -234,7 +234,8 @@ export class DocumentationQualityAssurance {
     }
 
     const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes : 0;
-    const compliancePercentage = totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100;
+    const compliancePercentage =
+      totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100;
 
     return {
       totalFiles,
@@ -244,7 +245,7 @@ export class DocumentationQualityAssurance {
       undocumentedAnyTypes: totalAnyTypes - documentedAnyTypes,
       qualityDistribution,
       averageQualityScore,
-      compliancePercentage
+      compliancePercentage,
     };
   }
 
@@ -308,12 +309,12 @@ export class DocumentationQualityAssurance {
 
     // Patterns to match any types
     const anyPatterns = [
-      /:\s*any\b/g,           // : any
-      /:\s*any\[\]/g,         // : unknown[]
-      /:\s*Record<[^,]+,\s*any>/g,  // : Record<string, unknown>
-      /\bas\s+any\b/g,        // as any
-      /<any>/g,               // <any>
-      /Array<unknown>/g,          // Array<unknown>
+      /:\s*any\b/g, // : any
+      /:\s*any\[\]/g, // : unknown[]
+      /:\s*Record<[^,]+,\s*any>/g, // : Record<string, unknown>
+      /\bas\s+any\b/g, // as any
+      /<any>/g, // <any>
+      /Array<unknown>/g, // Array<unknown>
     ];
 
     lines.forEach((line, index) => {
@@ -333,8 +334,8 @@ export class DocumentationQualityAssurance {
                 domain: this.determineDomain(filePath),
                 intentionalityHints: [],
                 suggestedTypes: [],
-                preservationReasons: []
-              }
+                preservationReasons: [],
+              },
             };
             anyTypes.push(context);
           }
@@ -348,14 +349,17 @@ export class DocumentationQualityAssurance {
   /**
    * Extract comment from surrounding lines
    */
-  private extractComment(lines: string[], lineIndex: number): { comment: string; hasComment: boolean } {
+  private extractComment(
+    lines: string[],
+    lineIndex: number,
+  ): { comment: string; hasComment: boolean } {
     // Check previous lines for comments
     for (let i = Math.max(0, lineIndex - 3); i < lineIndex; i++) {
       const line = lines[i]?.trim();
       if (line && line.startsWith('//')) {
         return {
           comment: line.replace(/^\/\/\s*/, ''),
-          hasComment: true
+          hasComment: true,
         };
       }
       if (line && line.startsWith('/*')) {
@@ -371,7 +375,7 @@ export class DocumentationQualityAssurance {
         comment = comment.replace(/\*\/.*$/, '');
         return {
           comment: comment.trim(),
-          hasComment: true
+          hasComment: true,
         };
       }
     }
@@ -406,8 +410,7 @@ export class DocumentationQualityAssurance {
    */
   private hasEslintDisableComment(lines: string[], lineIndex: number): boolean {
     for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
-      if (lines[i] && lines[i].includes('eslint-disable') &&
-          lines[i].includes('no-explicit-any')) {
+      if (lines[i] && lines[i].includes('eslint-disable') && lines[i].includes('no-explicit-any')) {
         return true;
       }
     }
@@ -422,7 +425,9 @@ export class DocumentationQualityAssurance {
       const line = lines[i];
       if (line && line.includes('eslint-disable') && line.includes('no-explicit-any')) {
         const parts = line.split('eslint-disable-next-line');
-        return parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length;
+        return (
+          parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
+        );
       }
     }
     return false;
@@ -441,20 +446,29 @@ export class DocumentationQualityAssurance {
 
     // Check for required keywords
     const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>
-      lowerComment.includes(keyword.toLowerCase())
+      lowerComment.includes(keyword.toLowerCase()),
     );
     if (hasRequiredKeyword) score += 30;
 
     // Check for explanation
-    if (lowerComment.includes('because') || lowerComment.includes('for') ||
-        lowerComment.includes('due to') || lowerComment.includes('requires')) {
+    if (
+      lowerComment.includes('because') ||
+      lowerComment.includes('for') ||
+      lowerComment.includes('due to') ||
+      lowerComment.includes('requires')
+    ) {
       score += 25;
     }
 
     // Check for domain-specific context
-    if (lowerComment.includes('api') || lowerComment.includes('external') ||
-        lowerComment.includes('dynamic') || lowerComment.includes('flexible') ||
-        lowerComment.includes('legacy') || lowerComment.includes('compatibility')) {
+    if (
+      lowerComment.includes('api') ||
+      lowerComment.includes('external') ||
+      lowerComment.includes('dynamic') ||
+      lowerComment.includes('flexible') ||
+      lowerComment.includes('legacy') ||
+      lowerComment.includes('compatibility')
+    ) {
       score += 20;
     }
 
@@ -585,19 +599,23 @@ export class DocumentationQualityAssurance {
     commentQuality: 'poor' | 'fair' | 'good' | 'excellent',
     hasEslintDisable: boolean,
     eslintDisableHasExplanation: boolean,
-    context: ClassificationContext
+    context: ClassificationContext,
   ): string[] {
     const suggestions: string[] = [];
 
     if (!hasComment) {
       suggestions.push('Add explanatory comment indicating intentional use of any type');
-      suggestions.push(`Consider using template: "// Intentionally any: ${this.suggestCommentTemplate(context)}"`);
+      suggestions.push(
+        `Consider using template: "// Intentionally any: ${this.suggestCommentTemplate(context)}"`,
+      );
     } else {
       switch (commentQuality) {
         case 'poor':
           suggestions.push('Improve comment quality with more detailed explanation');
           suggestions.push('Include keywords like "intentionally", "deliberately", or "required"');
-          suggestions.push(`Minimum comment length should be ${this.config.minimumCommentLength} characters`);
+          suggestions.push(
+            `Minimum comment length should be ${this.config.minimumCommentLength} characters`,
+          );
           break;
         case 'fair':
           suggestions.push('Consider adding more context about why any type is necessary');
@@ -613,7 +631,9 @@ export class DocumentationQualityAssurance {
     }
 
     if (!hasEslintDisable) {
-      suggestions.push('Add ESLint disable comment: // eslint-disable-next-line @typescript-eslint/no-explicit-any');
+      suggestions.push(
+        'Add ESLint disable comment: // eslint-disable-next-line @typescript-eslint/no-explicit-any',
+      );
     } else if (!eslintDisableHasExplanation) {
       suggestions.push('Add explanation to ESLint disable comment');
     }
@@ -656,18 +676,26 @@ export class DocumentationQualityAssurance {
   private generateRecommendations(
     coverage: number,
     qualityBreakdown: Record<string, number>,
-    undocumentedTypes: UndocumentedAnyType[]
+    undocumentedTypes: UndocumentedAnyType[],
   ): string[] {
     const recommendations: string[] = [];
 
     if (coverage < 50) {
-      recommendations.push('CRITICAL: Less than 50% of any types are documented. Immediate action required.');
+      recommendations.push(
+        'CRITICAL: Less than 50% of any types are documented. Immediate action required.',
+      );
     } else if (coverage < 80) {
-      recommendations.push('WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.');
+      recommendations.push(
+        'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.',
+      );
     } else if (coverage < 95) {
-      recommendations.push('GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.');
+      recommendations.push(
+        'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.',
+      );
     } else {
-      recommendations.push('EXCELLENT: Documentation coverage is above 95%. Maintain current standards.');
+      recommendations.push(
+        'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.',
+      );
     }
 
     // Quality-based recommendations
@@ -675,7 +703,9 @@ export class DocumentationQualityAssurance {
     if (totalQuality > 0) {
       const poorPercentage = (qualityBreakdown.poor / totalQuality) * 100;
       if (poorPercentage > 20) {
-        recommendations.push('Focus on improving comment quality - over 20% are rated as poor quality.');
+        recommendations.push(
+          'Focus on improving comment quality - over 20% are rated as poor quality.',
+        );
       }
     }
 
@@ -685,7 +715,9 @@ export class DocumentationQualityAssurance {
       .map(t => t.filePath);
 
     if (criticalFiles.length > 0) {
-      recommendations.push(`Priority files needing documentation: ${[...new Set(criticalFiles)].slice(0, 5).join(', ')}`);
+      recommendations.push(
+        `Priority files needing documentation: ${[...new Set(criticalFiles)].slice(0, 5).join(', ')}`,
+      );
     }
 
     // General recommendations

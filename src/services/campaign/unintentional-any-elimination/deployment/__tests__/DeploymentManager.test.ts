@@ -7,31 +7,31 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import { DeploymentManager, DeploymentPhase, createStandardDeploymentPhases } from '../index';
 
-describe('DeploymentManager': any, (: any) => {
+describe('DeploymentManager', () => {
   let tempDir: string;
   let deploymentManager: DeploymentManager;
 
-  beforeEach((: any) => {
+  beforeEach(() => {
     // Create temporary directory for test deployments
-    tempDir = join(tmpdir(), `deployment-test-${Date?.now()}`);
+    tempDir = join(tmpdir(), `deployment-test-${Date.now()}`);
     mkdirSync(tempDir, { recursive: true });
 
     // Change to temp directory for tests
-    process?.chdir(tempDir);
+    process.chdir(tempDir);
 
     deploymentManager = new DeploymentManager();
   });
 
-  afterEach((: any) => {
+  afterEach(() => {
     // Clean up temporary directory
     if (existsSync(tempDir)) {
       rmSync(tempDir, { recursive: true, force: true });
     }
   });
 
-  describe('Phase Execution': any, (: any) => {
-    test('executes simple phase successfully': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'test-phase',
+  describe('Phase Execution', () => {
+    test('executes simple phase successfully': any, async () => {
+      const phase: DeploymentPhase = { id: 'test-phase',
         name: 'Test Phase',
         description: 'Simple test phase',
         prerequisites: [],
@@ -48,26 +48,26 @@ describe('DeploymentManager': any, (: any) => {
         ],
         rollbackTasks: [],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(true);
-      expect(result?.phase as any).toBe('test-phase');
-      expect(result?.tasksExecuted as any).toBe(1);
-      expect(result?.tasksSucceeded as any).toBe(1);
-      expect(result?.tasksFailed as any).toBe(0);
-      expect(result?.errors).toHaveLength(0);
+      expect(result.success).toBe(true);
+      expect(result.phase).toBe('test-phase');
+      expect(result.tasksExecuted).toBe(1);
+      expect(result.tasksSucceeded).toBe(1);
+      expect(result.tasksFailed).toBe(0);
+      expect(result.errors).toHaveLength(0);
     });
 
-    test('handles task failure correctly': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'failing-phase',
+    test('handles task failure correctly': any, async () => {
+      const phase: DeploymentPhase = { id: 'failing-phase',
         name: 'Failing Phase',
         description: 'Phase with failing task',
         prerequisites: [],
@@ -84,29 +84,29 @@ describe('DeploymentManager': any, (: any) => {
         ],
         rollbackTasks: [],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.tasksExecuted as any).toBe(1);
-      expect(result?.tasksSucceeded as any).toBe(0);
-      expect(result?.tasksFailed as any).toBe(1);
-      expect(result?.errors.length).toBeGreaterThan(0);
+      expect(result.success).toBe(false);
+      expect(result.tasksExecuted).toBe(1);
+      expect(result.tasksSucceeded).toBe(0);
+      expect(result.tasksFailed).toBe(1);
+      expect(result.errors.length).toBeGreaterThan(0);
     });
 
-    test('executes rollback on critical task failure': any, async (: any) => {
+    test('executes rollback on critical task failure': any, async () => {
       // Create a test file that rollback can remove
-      const testFile: any = join(tempDir, 'test-file?.txt');
+      const testFile: any = join(tempDir, 'test-file.txt');
       writeFileSync(testFile, 'test content');
 
-      const phase: DeploymentPhase = {, id: 'rollback-phase',
+      const phase: DeploymentPhase = { id: 'rollback-phase',
         name: 'Rollback Phase',
         description: 'Phase that triggers rollback',
         prerequisites: [],
@@ -133,23 +133,23 @@ describe('DeploymentManager': any, (: any) => {
           }
         ],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.rollbackPerformed as any).toBe(true);
+      expect(result.success).toBe(false);
+      expect(result.rollbackPerformed).toBe(true);
       expect(existsSync(testFile)).toBe(false); // File should be removed by rollback
     });
 
-    test('handles non-critical task failures gracefully': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'mixed-phase',
+    test('handles non-critical task failures gracefully': any, async () => {
+      const phase: DeploymentPhase = { id: 'mixed-phase',
         name: 'Mixed Phase',
         description: 'Phase with critical and non-critical tasks',
         prerequisites: [],
@@ -184,27 +184,27 @@ describe('DeploymentManager': any, (: any) => {
         ],
         rollbackTasks: [],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(true); // Should succeed despite non-critical failure
-      expect(result?.tasksExecuted as any).toBe(3);
-      expect(result?.tasksSucceeded as any).toBe(2);
-      expect(result?.tasksFailed as any).toBe(1);
-      expect(result?.warnings.length).toBeGreaterThan(0);
+      expect(result.success).toBe(true); // Should succeed despite non-critical failure
+      expect(result.tasksExecuted).toBe(3);
+      expect(result.tasksSucceeded).toBe(2);
+      expect(result.tasksFailed).toBe(1);
+      expect(result.warnings.length).toBeGreaterThan(0);
     });
   });
 
-  describe('Validation Checks': any, (: any) => {
-    test('runs validation checks successfully': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'validation-phase',
+  describe('Validation Checks', () => {
+    test('runs validation checks successfully': any, async () => {
+      const phase: DeploymentPhase = { id: 'validation-phase',
         name: 'Validation Phase',
         description: 'Phase with validation checks',
         prerequisites: [],
@@ -221,24 +221,24 @@ describe('DeploymentManager': any, (: any) => {
             expectedExitCode: 0
           }
         ],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(true);
-      expect(result?.validationResults).toHaveLength(1);
-      expect(result?.validationResults?.[0].success as any).toBe(true);
-      expect(result?.validationResults?.[0].checkName as any).toBe('Echo Validation');
+      expect(result.success).toBe(true);
+      expect(result.validationResults).toHaveLength(1);
+      expect(result.validationResults.[0].success).toBe(true);
+      expect(result.validationResults.[0].checkName).toBe('Echo Validation');
     });
 
-    test('handles validation check failures': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'failing-validation-phase',
+    test('handles validation check failures': any, async () => {
+      const phase: DeploymentPhase = { id: 'failing-validation-phase',
         name: 'Failing Validation Phase',
         description: 'Phase with failing validation',
         prerequisites: [],
@@ -255,23 +255,23 @@ describe('DeploymentManager': any, (: any) => {
             expectedExitCode: 0 // Expects success but command fails
           }
         ],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.validationResults).toHaveLength(1);
-      expect(result?.validationResults?.[0].success as any).toBe(false);
-      expect(result?.validationResults?.[0].error).toBeDefined();
+      expect(result.validationResults).toHaveLength(1);
+      expect(result.validationResults.[0].success).toBe(false);
+      expect(result.validationResults.[0].error).toBeDefined();
     });
 
-    test('validates output with custom validator': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'output-validation-phase',
+    test('validates output with custom validator': any, async () => {
+      const phase: DeploymentPhase = { id: 'output-validation-phase',
         name: 'Output Validation Phase',
         description: 'Phase with output validation',
         prerequisites: [],
@@ -286,44 +286,44 @@ describe('DeploymentManager': any, (: any) => {
             args: ['expected output'],
             timeout: 5000,
             expectedExitCode: 0,
-            outputValidation: (outpu, t: string) => output?.includes('expected')
+            outputValidation: (outpu, t: string) => output.includes('expected')
           }
         ],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(true);
-      expect(result?.validationResults?.[0].success as any).toBe(true);
-      expect(result?.validationResults?.[0].output).toContain('expected');
+      expect(result.success).toBe(true);
+      expect(result.validationResults.[0].success).toBe(true);
+      expect(result.validationResults.[0].output).toContain('expected');
     });
   });
 
-  describe('Success Criteria': any, (: any) => {
-    test('evaluates custom success criteria': any, async (: any) => {
+  describe('Success Criteria', () => {
+    test('evaluates custom success criteria': any, async () => {
       let customCheckCalled: any = false;
 
-      const phase: DeploymentPhase = {, id: 'custom-criteria-phase',
+      const phase: DeploymentPhase = { id: 'custom-criteria-phase',
         name: 'Custom Criteria Phase',
         description: 'Phase with custom success criteria',
         prerequisites: [],
         tasks: [],
         rollbackTasks: [],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
           configurationValid: false,
           customChecks: [
             {
               name: 'Custom Check',
-              validator: async () => {;
+              validator: async () => {
                 customCheckCalled = true;
                 return true;
               }
@@ -332,42 +332,42 @@ describe('DeploymentManager': any, (: any) => {
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(true);
-      expect(customCheckCalled as any).toBe(true);
+      expect(result.success).toBe(true);
+      expect(customCheckCalled).toBe(true);
     });
 
-    test('fails when custom criteria not met': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'failing-criteria-phase',
+    test('fails when custom criteria not met': any, async () => {
+      const phase: DeploymentPhase = { id: 'failing-criteria-phase',
         name: 'Failing Criteria Phase',
         description: 'Phase with failing custom criteria',
         prerequisites: [],
         tasks: [],
         rollbackTasks: [],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
           configurationValid: false,
           customChecks: [
             {
-              name: 'Failing Check',;
+              name: 'Failing Check',
               validator: async () => false
             }
           ]
         }
       };
 
-      const result: any = await deploymentManager?.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase);
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.errors).toContain('Custom check failed: Failing Check');
+      expect(result.success).toBe(false);
+      expect(result.errors).toContain('Custom check failed: Failing Check');
     });
   });
 
-  describe('Full Deployment': any, (: any) => {
-    test('executes multiple phases in sequence': any, async (: any) => {
+  describe('Full Deployment', () => {
+    test('executes multiple phases in sequence': any, async () => {
       const phases: DeploymentPhase[] = [
         {
           id: 'phase1',
@@ -387,7 +387,7 @@ describe('DeploymentManager': any, (: any) => {
           ],
           rollbackTasks: [],
           validationChecks: [],
-          successCriteria: {, buildSuccess: false,
+          successCriteria: { buildSuccess: false,
             testsPass: false,
             lintingPass: false,
             configurationValid: false,
@@ -412,7 +412,7 @@ describe('DeploymentManager': any, (: any) => {
           ],
           rollbackTasks: [],
           validationChecks: [],
-          successCriteria: {, buildSuccess: false,
+          successCriteria: { buildSuccess: false,
             testsPass: false,
             lintingPass: false,
             configurationValid: false,
@@ -421,16 +421,16 @@ describe('DeploymentManager': any, (: any) => {
         }
       ];
 
-      const results: any = await deploymentManager?.executeDeployment(phases);
+      const results: any = await deploymentManager.executeDeployment(phases);
 
       expect(results).toHaveLength(2);
-      expect(results?.[0].success as any).toBe(true);
-      expect(results?.[0].phase as any).toBe('phase1');
-      expect(results?.[1].success as any).toBe(true);
-      expect(results?.[1].phase as any).toBe('phase2');
+      expect(results.[0].success).toBe(true);
+      expect(results.[0].phase).toBe('phase1');
+      expect(results.[1].success).toBe(true);
+      expect(results.[1].phase).toBe('phase2');
     });
 
-    test('stops deployment on phase failure': any, async (: any) => {
+    test('stops deployment on phase failure': any, async () => {
       const phases: DeploymentPhase[] = [
         {
           id: 'success-phase',
@@ -450,7 +450,7 @@ describe('DeploymentManager': any, (: any) => {
           ],
           rollbackTasks: [],
           validationChecks: [],
-          successCriteria: {, buildSuccess: false,
+          successCriteria: { buildSuccess: false,
             testsPass: false,
             lintingPass: false,
             configurationValid: false,
@@ -475,7 +475,7 @@ describe('DeploymentManager': any, (: any) => {
           ],
           rollbackTasks: [],
           validationChecks: [],
-          successCriteria: {, buildSuccess: false,
+          successCriteria: { buildSuccess: false,
             testsPass: false,
             lintingPass: false,
             configurationValid: false,
@@ -490,7 +490,7 @@ describe('DeploymentManager': any, (: any) => {
           tasks: [],
           rollbackTasks: [],
           validationChecks: [],
-          successCriteria: {, buildSuccess: false,
+          successCriteria: { buildSuccess: false,
             testsPass: false,
             lintingPass: false,
             configurationValid: false,
@@ -499,52 +499,52 @@ describe('DeploymentManager': any, (: any) => {
         }
       ];
 
-      const results: any = await deploymentManager?.executeDeployment(phases);
+      const results: any = await deploymentManager.executeDeployment(phases);
 
       expect(results).toHaveLength(2); // Should stop after failing phase
-      expect(results?.[0].success as any).toBe(true);
-      expect(results?.[1].success as any).toBe(false);
+      expect(results.[0].success).toBe(true);
+      expect(results.[1].success).toBe(false);
     });
   });
 
-  describe('Standard Deployment Phases': any, (: any) => {
-    test('creates standard deployment phases': any, (: any) => {
+  describe('Standard Deployment Phases', () => {
+    test('creates standard deployment phases', () => {
       const phases: any = createStandardDeploymentPhases();
 
-      expect(phases?.length).toBeGreaterThan(0);
-      expect(phases?.[0].id as any).toBe('pre-deployment');
+      expect(phases.length).toBeGreaterThan(0);
+      expect(phases.[0].id).toBe('pre-deployment');
 
       // Check that all phases have required properties
-      phases?.forEach(phase => {;
-        expect(phase?.id).toBeDefined();
-        expect(phase?.name).toBeDefined();
-        expect(phase?.description).toBeDefined();
-        expect(Array?.isArray(phase?.tasks)).toBe(true);
-        expect(Array?.isArray(phase?.validationChecks)).toBe(true);
-        expect(phase?.successCriteria).toBeDefined();
+      phases.forEach(phase => {
+        expect(phase.id).toBeDefined();
+        expect(phase.name).toBeDefined();
+        expect(phase.description).toBeDefined();
+        expect(Array.isArray(phase.tasks)).toBe(true);
+        expect(Array.isArray(phase.validationChecks)).toBe(true);
+        expect(phase.successCriteria).toBeDefined();
       });
     });
 
-    test('standard phases have proper task configuration': any, (: any) => {
+    test('standard phases have proper task configuration', () => {
       const phases: any = createStandardDeploymentPhases();
 
-      phases?.forEach(phase => {
-        phase?.tasks.forEach(task => {;
-          expect(task?.id).toBeDefined();
-          expect(task?.name).toBeDefined();
-          expect(task?.command).toBeDefined();
-          expect(Array?.isArray(task?.args)).toBe(true);
-          expect(typeof task?.timeout as any).toBe('number');
-          expect(typeof task?.retries as any).toBe('number');
-          expect(typeof task?.critical as any).toBe('boolean');
+      phases.forEach(phase => {
+        phase.tasks.forEach(task => {
+          expect(task.id).toBeDefined();
+          expect(task.name).toBeDefined();
+          expect(task.command).toBeDefined();
+          expect(Array.isArray(task.args)).toBe(true);
+          expect(typeof task.timeout).toBe('number');
+          expect(typeof task.retries).toBe('number');
+          expect(typeof task.critical).toBe('boolean');
         });
       });
     });
   });
 
-  describe('Deployment Logging': any, (: any) => {
-    test('maintains deployment log': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'logging-phase',
+  describe('Deployment Logging', () => {
+    test('maintains deployment log': any, async () => {
+      const phase: DeploymentPhase = { id: 'logging-phase',
         name: 'Logging Phase',
         description: 'Phase for testing logging',
         prerequisites: [],
@@ -561,42 +561,42 @@ describe('DeploymentManager': any, (: any) => {
         ],
         rollbackTasks: [],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      await deploymentManager?.executePhase(phase);
-      const log: any = deploymentManager?.getDeploymentLog();
+      await deploymentManager.executePhase(phase);
+      const log: any = deploymentManager.getDeploymentLog();
 
-      expect(log?.length).toBeGreaterThan(0);
-      expect(log?.some(entry => entry?.includes('Executing phase: Logging Phase'))).toBe(true);
-      expect(log?.some(entry => entry?.includes('Task completed: Log Task'))).toBe(true);
+      expect(log.length).toBeGreaterThan(0);
+      expect(log.some(entry => entry.includes('Executing phase: Logging Phase'))).toBe(true);
+      expect(log.some(entry => entry.includes('Task completed: Log Task'))).toBe(true);
     });
 
-    test('saves deployment log to file': any, async (: any) => {
-      const phase: DeploymentPhase = {, id: 'save-log-phase',
+    test('saves deployment log to file': any, async () => {
+      const phase: DeploymentPhase = { id: 'save-log-phase',
         name: 'Save Log Phase',
         description: 'Phase for testing log saving',
         prerequisites: [],
         tasks: [],
         rollbackTasks: [],
         validationChecks: [],
-        successCriteria: {, buildSuccess: false,
+        successCriteria: { buildSuccess: false,
           testsPass: false,
           lintingPass: false,
-          configurationValid: false,;
+          configurationValid: false,
           customChecks: []
         }
       };
 
-      await deploymentManager?.executePhase(phase);
+      await deploymentManager.executePhase(phase);
 
-      const logPath: any = join(tempDir, 'test-deployment?.log');
-      deploymentManager?.saveDeploymentLog(logPath);
+      const logPath: any = join(tempDir, 'test-deployment.log');
+      deploymentManager.saveDeploymentLog(logPath);
 
       expect(existsSync(logPath)).toBe(true);
     });

@@ -10,10 +10,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 import { logger } from '@/utils/logger';
 
-import {
-    LintingProgressReport,
-    LintingProgressTracker
-} from './LintingProgressTracker';
+import { LintingProgressReport, LintingProgressTracker } from './LintingProgressTracker';
 
 /**
  * Linting campaign configuration
@@ -339,7 +336,8 @@ export class LintingCampaignIntegration {
           errorReduction:
             (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
           warningReduction:
-            (activeCampaign as any)?.baselineMetrics.warnings - currentReport.currentMetrics.warnings,
+            (activeCampaign as any)?.baselineMetrics.warnings -
+            currentReport.currentMetrics.warnings,
           percentageImprovement: currentReport.improvement.percentageImprovement,
         },
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],

@@ -50,36 +50,36 @@ class FullCampaignExecutor {
         description: 'Replace any[] with unknown[] - highest success rate',
         targetFiles: 30,
         expectedReduction: 80,
-        safetyLevel: 'maximum'
+        safetyLevel: 'maximum',
       },
       {
         phase: 'Phase 2: Record Types',
         description: 'Replace Record<string, any> with Record<string, unknown>',
         targetFiles: 25,
         expectedReduction: 60,
-        safetyLevel: 'high'
+        safetyLevel: 'high',
       },
       {
         phase: 'Phase 3: Variable Declarations',
         description: 'Replace simple variable any types with unknown',
         targetFiles: 20,
         expectedReduction: 50,
-        safetyLevel: 'high'
+        safetyLevel: 'high',
       },
       {
         phase: 'Phase 4: Documentation Pass',
         description: 'Document remaining intentional any types',
         targetFiles: 40,
         expectedReduction: 0,
-        safetyLevel: 'maximum'
+        safetyLevel: 'maximum',
       },
       {
         phase: 'Phase 5: Medium-Risk Categories',
         description: 'Process remaining medium-risk categories with enhanced safety',
         targetFiles: 15,
         expectedReduction: 30,
-        safetyLevel: 'maximum'
-      }
+        safetyLevel: 'maximum',
+      },
     ];
   }
 
@@ -89,7 +89,7 @@ class FullCampaignExecutor {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅'
+      success: '✅',
     }[level];
 
     console.log(`[${timestamp}] ${prefix} ${message}`);
@@ -97,9 +97,12 @@ class FullCampaignExecutor {
 
   private getCurrentExplicitAnyCount(): number {
     try {
-      const lintOutput = execSync('yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any" || echo "0"', {
-        encoding: 'utf8'
-      });
+      const lintOutput = execSync(
+        'yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any" || echo "0"',
+        {
+          encoding: 'utf8',
+        },
+      );
       return parseInt(lintOutput.trim()) || 0;
     } catch (error) {
       this.log(`Error getting explicit-any count: ${error}`, 'error');
@@ -140,9 +143,11 @@ class FullCampaignExecutor {
         } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
           if (!filesWithAny.has(currentFile)) {
             filesWithAny.add(currentFile);
-            if (currentFile.includes('__tests__') ||
-                currentFile.includes('.test.') ||
-                currentFile.includes('.spec.')) {
+            if (
+              currentFile.includes('__tests__') ||
+              currentFile.includes('.test.') ||
+              currentFile.includes('.spec.')
+            ) {
               testFiles++;
             } else {
               nonTestFiles++;
@@ -162,7 +167,7 @@ class FullCampaignExecutor {
         testFiles,
         estimatedUnintentional,
         targetReduction,
-        confidenceScore: 0.85
+        confidenceScore: 0.85,
       };
     } catch (error) {
       this.log(`Error analyzing codebase: ${error}`, 'error');
@@ -172,7 +177,7 @@ class FullCampaignExecutor {
         testFiles: 0,
         estimatedUnintentional: Math.floor(totalExplicitAny * 0.5),
         targetReduction: Math.floor(totalExplicitAny * 0.1),
-        confidenceScore: 0.5
+        confidenceScore: 0.5,
       };
     }
   }
@@ -185,38 +190,38 @@ class FullCampaignExecutor {
         domain: 'Astrological Calculations',
         patterns: ['astro', 'planetary', 'celestial', 'lunar'],
         riskLevel: 'high' as const,
-        recommendedStrategy: 'Conservative - preserve flexibility for astronomical data'
+        recommendedStrategy: 'Conservative - preserve flexibility for astronomical data',
       },
       {
         domain: 'Recipe & Ingredient System',
         patterns: ['recipe', 'ingredient', 'food', 'culinary'],
         riskLevel: 'medium' as const,
-        recommendedStrategy: 'Moderate - replace simple types, preserve complex structures'
+        recommendedStrategy: 'Moderate - replace simple types, preserve complex structures',
       },
       {
         domain: 'Campaign System',
         patterns: ['campaign', 'intelligence', 'batch'],
         riskLevel: 'high' as const,
-        recommendedStrategy: 'Conservative - preserve dynamic configuration capabilities'
+        recommendedStrategy: 'Conservative - preserve dynamic configuration capabilities',
       },
       {
         domain: 'Service Layer',
         patterns: ['service', 'api', 'client'],
         riskLevel: 'medium' as const,
-        recommendedStrategy: 'Moderate - focus on interface improvements'
+        recommendedStrategy: 'Moderate - focus on interface improvements',
       },
       {
         domain: 'React Components',
         patterns: ['component', 'jsx', 'tsx'],
         riskLevel: 'low' as const,
-        recommendedStrategy: 'Aggressive - improve prop type safety'
+        recommendedStrategy: 'Aggressive - improve prop type safety',
       },
       {
         domain: 'Utility Functions',
         patterns: ['util', 'helper', 'common'],
         riskLevel: 'low' as const,
-        recommendedStrategy: 'Aggressive - replace with generic types'
-      }
+        recommendedStrategy: 'Aggressive - replace with generic types',
+      },
     ];
 
     return domains.map(domain => ({
@@ -224,19 +229,19 @@ class FullCampaignExecutor {
       fileCount: 0, // Would need file system analysis
       anyTypeCount: 0, // Would need detailed analysis
       riskLevel: domain.riskLevel,
-      recommendedStrategy: domain.recommendedStrategy
+      recommendedStrategy: domain.recommendedStrategy,
     }));
   }
 
   private executePhase1(): Promise<number> {
     this.log('\n🚀 Phase 1: High-Confidence Array Types', 'info');
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       try {
         // Use existing script for array type fixes
         const result = execSync('node fix-non-test-explicit-any.cjs', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
 
         this.log('Phase 1 completed - checking results...', 'info');
@@ -256,7 +261,7 @@ class FullCampaignExecutor {
   private executeAdvancedReplacements(): Promise<number> {
     this.log('\n🔧 Executing advanced type replacements...', 'info');
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       try {
         // Create and execute advanced replacement script
         const advancedScript = `
@@ -362,7 +367,7 @@ console.log(processAdvancedReplacements());
   private documentIntentionalTypes(): Promise<number> {
     this.log('\n📝 Documenting intentional any types...', 'info');
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       try {
         const documentationScript = `
 const fs = require('fs');
@@ -480,13 +485,13 @@ console.log(documentIntentionalAny());
 
   public async executeFullCampaign(): Promise<void> {
     this.log('🚀 Starting Full Unintentional Any Elimination Campaign', 'success');
-    this.log('=' .repeat(60), 'info');
+    this.log('='.repeat(60), 'info');
 
     // Pre-campaign analysis
     const analysis = this.analyzeCodebase();
     this.initialMetrics = {
       initialCount: analysis.totalExplicitAny,
-      targetReduction: analysis.targetReduction
+      targetReduction: analysis.targetReduction,
     };
 
     this.log(`📊 Pre-Campaign Analysis:`, 'info');
@@ -501,7 +506,10 @@ console.log(documentIntentionalAny());
     const domains = this.analyzeDomains();
     this.log(`\n🔍 Domain Analysis:`, 'info');
     domains.forEach(domain => {
-      this.log(`   ${domain.domain}: ${domain.riskLevel} risk - ${domain.recommendedStrategy}`, 'info');
+      this.log(
+        `   ${domain.domain}: ${domain.riskLevel} risk - ${domain.recommendedStrategy}`,
+        'info',
+      );
     });
 
     // Initial build validation
@@ -545,14 +553,16 @@ console.log(documentIntentionalAny());
 
       // Generate final report
       await this.generateFinalReport(totalReductions, totalDocumented);
-
     } catch (error) {
       this.log(`Campaign execution error: ${error}`, 'error');
       throw error;
     }
   }
 
-  private async generateFinalReport(totalReductions: number, totalDocumented: number): Promise<void> {
+  private async generateFinalReport(
+    totalReductions: number,
+    totalDocumented: number,
+  ): Promise<void> {
     const finalCount = this.getCurrentExplicitAnyCount();
     const actualReduction = this.initialMetrics.initialCount - finalCount;
     const reductionPercentage = (actualReduction / this.initialMetrics.initialCount) * 100;
@@ -600,9 +610,10 @@ console.log(documentIntentionalAny());
 ## Achievement Analysis
 
 ### Target Achievement Status
-${reductionPercentage >= 15
-  ? `✅ **SUCCESS** - Achieved ${reductionPercentage.toFixed(1)}% reduction, exceeding minimum 15% target`
-  : `⚠️ **PARTIAL SUCCESS** - Achieved ${reductionPercentage.toFixed(1)}% reduction of 15-20% target range`
+${
+  reductionPercentage >= 15
+    ? `✅ **SUCCESS** - Achieved ${reductionPercentage.toFixed(1)}% reduction, exceeding minimum 15% target`
+    : `⚠️ **PARTIAL SUCCESS** - Achieved ${reductionPercentage.toFixed(1)}% reduction of 15-20% target range`
 }
 
 ### Quality Metrics
@@ -645,9 +656,10 @@ ${reductionPercentage >= 15
 ## Recommendations
 
 ### Immediate Actions
-${reductionPercentage >= 15
-  ? '- Monitor for new unintentional any types in development\n- Consider expanding to test files in future campaigns\n- Implement prevention measures in development workflow'
-  : '- Review remaining high-confidence cases for manual intervention\n- Consider additional targeted campaigns for specific domains\n- Analyze failed replacements for pattern improvements'
+${
+  reductionPercentage >= 15
+    ? '- Monitor for new unintentional any types in development\n- Consider expanding to test files in future campaigns\n- Implement prevention measures in development workflow'
+    : '- Review remaining high-confidence cases for manual intervention\n- Consider additional targeted campaigns for specific domains\n- Analyze failed replacements for pattern improvements'
 }
 
 ### Long-term Strategy
@@ -675,9 +687,10 @@ ${reductionPercentage >= 15
 
 ## Conclusion
 
-${reductionPercentage >= 15
-  ? `The Unintentional Any Elimination Campaign successfully achieved its target of 15-20% reduction in explicit-any warnings. The campaign improved type safety by replacing ${totalReductions} unintentional any types with more specific types while properly documenting ${totalDocumented} intentional uses. Build stability was maintained throughout the process with zero compilation errors introduced.`
-  : `The Unintentional Any Elimination Campaign made significant progress toward the 15-20% reduction target, achieving ${reductionPercentage.toFixed(1)}% reduction. While not fully meeting the target, the campaign successfully improved type safety and established a foundation for future improvements. All changes maintained build stability with zero compilation errors.`
+${
+  reductionPercentage >= 15
+    ? `The Unintentional Any Elimination Campaign successfully achieved its target of 15-20% reduction in explicit-any warnings. The campaign improved type safety by replacing ${totalReductions} unintentional any types with more specific types while properly documenting ${totalDocumented} intentional uses. Build stability was maintained throughout the process with zero compilation errors introduced.`
+    : `The Unintentional Any Elimination Campaign made significant progress toward the 15-20% reduction target, achieving ${reductionPercentage.toFixed(1)}% reduction. While not fully meeting the target, the campaign successfully improved type safety and established a foundation for future improvements. All changes maintained build stability with zero compilation errors.`
 }
 
 The campaign demonstrates the effectiveness of systematic, safety-first approaches to large-scale codebase improvements. The combination of automated classification, progressive improvement, and comprehensive safety protocols enabled significant type safety improvements while maintaining system stability.
@@ -690,7 +703,8 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
 **Next Recommended Action:** ${reductionPercentage >= 15 ? 'Monitor and maintain' : 'Plan follow-up campaign'}
 `;
 
-    const reportPath = '.kiro/specs/unintentional-any-elimination/final-campaign-completion-report.md';
+    const reportPath =
+      '.kiro/specs/unintentional-any-elimination/final-campaign-completion-report.md';
 
     try {
       // Ensure directory exists
@@ -704,14 +718,16 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
 
       // Log summary to console
       this.log('\n🎉 CAMPAIGN COMPLETION SUMMARY', 'success');
-      this.log('=' .repeat(50), 'info');
+      this.log('='.repeat(50), 'info');
       this.log(`Initial Count: ${this.initialMetrics.initialCount}`, 'info');
       this.log(`Final Count: ${finalCount}`, 'info');
       this.log(`Reduction: ${actualReduction} (${reductionPercentage.toFixed(2)}%)`, 'success');
-      this.log(`Target: 15-20% (${reductionPercentage >= 15 ? 'ACHIEVED' : 'PARTIAL'})`, reductionPercentage >= 15 ? 'success' : 'warn');
+      this.log(
+        `Target: 15-20% (${reductionPercentage >= 15 ? 'ACHIEVED' : 'PARTIAL'})`,
+        reductionPercentage >= 15 ? 'success' : 'warn',
+      );
       this.log(`Documented: ${totalDocumented} intentional types`, 'info');
       this.log(`Build Status: ✅ Stable`, 'success');
-
     } catch (error) {
       this.log(`Error generating final report: ${error}`, 'error');
     }
@@ -722,12 +738,13 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
 if (require.main === module) {
   const executor = new FullCampaignExecutor();
 
-  executor.executeFullCampaign()
+  executor
+    .executeFullCampaign()
     .then(() => {
       console.log('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!');
       process.exit(0);
     })
-    .catch((error) => {
+    .catch(error => {
       console.error('\n❌ Campaign execution failed:', error.message);
       process.exit(1);
     });

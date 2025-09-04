@@ -11,23 +11,23 @@ import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 
 // Mock dependencies
-jest?.mock('child_process');
-jest?.mock('fs');
+jest.mock('child_process');
+jest.mock('fs');
 
-const mockExecSync: any = execSync as jest?.MockedFunction<typeof execSync>;
-const mockFs: any = fs as jest?.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>;
 
-describe('Bundle Size Performance Tests': any, (: any) => {
+describe('Bundle Size Performance Tests', () => {
   let progressTracker: ProgressTracker;
   let campaignController: CampaignController;
   let mockConfig: CampaignConfig;
 
-  beforeEach((: any) => {
-    const safetySettings: SafetySettings = {, maxFilesPerBatch: 25,
+  beforeEach(() => {
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
-      automaticRollbackEnabled: true,;
+      automaticRollbackEnabled: true,
       stashRetentionDays: 7,
     };
 
@@ -39,10 +39,10 @@ describe('Bundle Size Performance Tests': any, (: any) => {
           description: 'Phase for bundle size testing',
           tools: [
             {
-              scriptPath: 'scripts/bundle/optimize-script?.js',
+              scriptPath: 'scripts/bundle/optimize-script.js',
               parameters: { optimizeBundl, e: true },
               batchSize: 50,
-              safetyLevel: SafetyLevel?.MEDIUM,
+              safetyLevel: SafetyLevel.MEDIUM,
             },
           ],
           successCriteria: { buildTim, e: 10 },
@@ -51,10 +51,10 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       ],
       safetySettings,
       progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
-      toolConfiguration: {, enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3?.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic?.js',
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced?.js',;
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only?.js',
+      toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
       },
     };
 
@@ -62,176 +62,176 @@ describe('Bundle Size Performance Tests': any, (: any) => {
     campaignController = new CampaignController(mockConfig);
 
     // Reset mocks
-    jest?.clearAllMocks();
+    jest.clearAllMocks();
 
     // Default mock implementations
-    mockExecSync?.mockReturnValue('');
-    mockFs?.existsSync.mockReturnValue(true);
+    mockExecSync.mockReturnValue('');
+    mockFs.existsSync.mockReturnValue(true);
   });
 
-  describe('Bundle Size Validation': any, (: any) => {
-    it('should validate bundle size under 420kB target': any, async (: any) => {
+  describe('Bundle Size Validation', () => {
+    it('should validate bundle size under 420kB target': any, async () => {
       // Mock optimal bundle size
-      mockFs?.existsSync.mockImplementation(path => {;
+      mockFs.existsSync.mockImplementation(path => {
         return path === '.next' || path === 'dist';
       });
 
-      mockExecSync?.mockImplementation(command => {;
-        const cmd: any = command?.toString();
-        if (cmd?.includes('du -sk .next')) {
+      mockExecSync.mockImplementation(command => {
+        const cmd: any = command.toString();
+        if (cmd.includes('du -sk .next')) {
           return '300'; // 300kB
         }
-        if (cmd?.includes('du -sk dist')) {
+        if (cmd.includes('du -sk dist')) {
           return '100'; // 100kB
         }
         return '';
       });
 
-      const bundleSize: any = await progressTracker?.getBundleSize();
+      const bundleSize: any = await progressTracker.getBundleSize();
 
-      expect(bundleSize as any).toBe(400); // 300 + 100 = 400kB;
+      expect(bundleSize).toBe(400); // 300 + 100 = 400kB;
       expect(bundleSize).toBeLessThan(420); // Under 420kB target
     });
 
-    it('should detect bundle size regression': any, async (: any) => {
+    it('should detect bundle size regression': any, async () => {
       // Mock bundle size that exceeds target
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {;
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           return '450'; // 450kB - exceeds 420kB target
         }
         return '';
       });
 
-      const bundleSize: any = await progressTracker?.getBundleSize();
+      const bundleSize: any = await progressTracker.getBundleSize();
 
-      expect(bundleSize as any).toBe(450);
+      expect(bundleSize).toBe(450);
       expect(bundleSize).toBeGreaterThan(420); // Exceeds target
     });
 
-    it('should handle missing build directories': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(false);
+    it('should handle missing build directories': any, async () => {
+      mockFs.existsSync.mockReturnValue(false);
 
-      const bundleSize: any = await progressTracker?.getBundleSize();
+      const bundleSize: any = await progressTracker.getBundleSize();
 
-      expect(bundleSize as any).toBe(0); // No build directories found
+      expect(bundleSize).toBe(0); // No build directories found
     });
 
-    it('should track bundle size trends over campaign execution': any, async (: any) => {
+    it('should track bundle size trends over campaign execution': any, async () => {
       const bundleSizes: number[] = [];
       let optimizationStep: any = 0;
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {;
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           optimizationStep++;
           // Simulate bundle size optimization over time
           const baseSize: any = 500; // Start with large bundle
-          const optimization: any = Math?.min(100, optimizationStep * 20); // Up to 100kB reduction
-          return Math?.max(350, baseSize - optimization).toString();
+          const optimization: any = Math.min(100, optimizationStep * 20); // Up to 100kB reduction
+          return Math.max(350, baseSize - optimization).toString();
         }
         return '';
       });
 
       // Collect bundle sizes over multiple measurements
       for (let i: any = 0; i < 6; i++) {
-        const bundleSize: any = await progressTracker?.getBundleSize();
-        bundleSizes?.push(bundleSize);
+        const bundleSize: any = await progressTracker.getBundleSize();
+        bundleSizes.push(bundleSize);
       }
 
-      expect(bundleSizes?.length as any).toBe(6);
+      expect(bundleSizes.length).toBe(6);
 
       // Bundle size should decrease over time (optimization)
-      const firstSize: any = bundleSizes?.[0];
-      const lastSize: any = bundleSizes[bundleSizes?.length - 1];
+      const firstSize: any = bundleSizes.[0];
+      const lastSize: any = bundleSizes[bundleSizes.length - 1];
       expect(lastSize).toBeLessThan(firstSize);
       expect(lastSize).toBeLessThan(420); // Should reach target
     });
   });
 
-  describe('Bundle Composition Analysis': any, (: any) => {
-    it('should analyze bundle composition across different build outputs': any, async (: any) => {
+  describe('Bundle Composition Analysis', () => {
+    it('should analyze bundle composition across different build outputs': any, async () => {
       const buildOutputs: any = [
         { dir: '.next', expectedSize: 250 },
         { dir: 'dist', expectedSize: 120 },
         { dir: 'build', expectedSize: 50 },
       ];
 
-      mockFs?.existsSync.mockImplementation(path => {;
-        return buildOutputs?.some(output => output?.dir === path);
+      mockFs.existsSync.mockImplementation(path => {
+        return buildOutputs.some(output => output.dir === path);
       });
 
-      mockExecSync?.mockImplementation(command => {;
-        const cmd: any = command?.toString();
+      mockExecSync.mockImplementation(command => {
+        const cmd: any = command.toString();
         for (const output of buildOutputs) {
-          if (cmd?.includes(`du -sk ${output?.dir}`)) {
-            return output?.expectedSize.toString();
+          if (cmd.includes(`du -sk ${output.dir}`)) {
+            return output.expectedSize.toString();
           }
         }
         return '';
       });
 
-      const bundleSize: any = await progressTracker?.getBundleSize();
+      const bundleSize: any = await progressTracker.getBundleSize();
 
-      const expectedTotal: any = buildOutputs?.reduce((sum: any, output: any) => sum + output?.expectedSize, 0);
-      expect(bundleSize as any).toBe(expectedTotal); // 250 + 120 + 50 = 420kB;
+      const expectedTotal: any = buildOutputs.reduce((sum: any, output: any) => sum + output.expectedSize, 0);
+      expect(bundleSize).toBe(expectedTotal); // 250 + 120 + 50 = 420kB;
       expect(bundleSize).toBeLessThanOrEqual(420); // At target limit
     });
 
-    it('should handle partial build outputs': any, async (: any) => {
+    it('should handle partial build outputs': any, async () => {
       // Only some build directories exist
-      mockFs?.existsSync.mockImplementation(path => {;
+      mockFs.existsSync.mockImplementation(path => {
         return path === '.next'; // Only .next exists
       });
 
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk .next')) {;
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk .next')) {
           return '380'; // 380kB
         }
         return '';
       });
 
-      const bundleSize: any = await progressTracker?.getBundleSize();
+      const bundleSize: any = await progressTracker.getBundleSize();
 
-      expect(bundleSize as any).toBe(380);
+      expect(bundleSize).toBe(380);
       expect(bundleSize).toBeLessThan(420); // Under target
     });
 
-    it('should detect bundle bloat in specific directories': any, async (: any) => {
+    it('should detect bundle bloat in specific directories': any, async () => {
       const bloatedBuild: any = {
         '.next': 350, // Normal size
         dist: 200, // Bloated - should be ~120kB;
         build: 50, // Normal size
       };
 
-      mockFs?.existsSync.mockImplementation(path => {;
-        return Object?.keys(bloatedBuild).includes(path as string);
+      mockFs.existsSync.mockImplementation(path => {
+        return Object.keys(bloatedBuild).includes(path as string);
       });
 
-      mockExecSync?.mockImplementation(command => {;
-        const cmd: any = command?.toString();
-        for (const [dir, size] of Object?.entries(bloatedBuild)) {
-          if (cmd?.includes(`du -sk ${dir}`)) {
-            return size?.toString();
+      mockExecSync.mockImplementation(command => {
+        const cmd: any = command.toString();
+        for (const [dir, size] of Object.entries(bloatedBuild)) {
+          if (cmd.includes(`du -sk ${dir}`)) {
+            return size.toString();
           }
         }
         return '';
       });
 
-      const bundleSize: any = await progressTracker?.getBundleSize();
+      const bundleSize: any = await progressTracker.getBundleSize();
 
-      expect(bundleSize as any).toBe(600); // 350 + 200 + 50 = 600kB;
+      expect(bundleSize).toBe(600); // 350 + 200 + 50 = 600kB;
       expect(bundleSize).toBeGreaterThan(420); // Exceeds target due to bloat
     });
   });
 
-  describe('Bundle Optimization Performance': any, (: any) => {
-    it('should validate lazy loading impact on bundle size': any, async (: any) => {
+  describe('Bundle Optimization Performance', () => {
+    it('should validate lazy loading impact on bundle size': any, async () => {
       let lazyLoadingEnabled: any = false;
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           // Lazy loading should reduce main bundle size;
           return lazyLoadingEnabled ? '320' : '450';
         }
@@ -239,23 +239,23 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       });
 
       // Before lazy loading
-      let bundleSize: any = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(450);
+      let bundleSize: any = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(450);
       expect(bundleSize).toBeGreaterThan(420); // Exceeds target
 
       // After enabling lazy loading
       lazyLoadingEnabled = true;
-      bundleSize = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(320);
+      bundleSize = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(320);
       expect(bundleSize).toBeLessThan(420); // Under target
     });
 
-    it('should validate tree shaking effectiveness': any, async (: any) => {
+    it('should validate tree shaking effectiveness': any, async () => {
       let treeShakingEnabled: any = false;
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           // Tree shaking should remove unused code;
           return treeShakingEnabled ? '380' : '480';
         }
@@ -263,23 +263,23 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       });
 
       // Before tree shaking
-      let bundleSize: any = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(480);
+      let bundleSize: any = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(480);
       expect(bundleSize).toBeGreaterThan(420); // Exceeds target
 
       // After enabling tree shaking
       treeShakingEnabled = true;
-      bundleSize = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(380);
+      bundleSize = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(380);
       expect(bundleSize).toBeLessThan(420); // Under target
     });
 
-    it('should validate code splitting impact': any, async (: any) => {
+    it('should validate code splitting impact': any, async () => {
       let codeSplittingEnabled: any = false;
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           if (codeSplittingEnabled != null) {
             // Code splitting creates multiple smaller bundles
             // Main bundle should be smaller;
@@ -293,23 +293,23 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       });
 
       // Before code splitting
-      let bundleSize: any = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(440);
+      let bundleSize: any = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(440);
       expect(bundleSize).toBeGreaterThan(420); // Exceeds target
 
       // After enabling code splitting
       codeSplittingEnabled = true;
-      bundleSize = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(280);
+      bundleSize = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(280);
       expect(bundleSize).toBeLessThan(420); // Well under target
     });
 
-    it('should validate compression effectiveness': any, async (: any) => {
+    it('should validate compression effectiveness': any, async () => {
       let compressionEnabled: any = false;
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           // Compression should reduce bundle size significantly;
           return compressionEnabled ? '300' : '500';
         }
@@ -317,26 +317,26 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       });
 
       // Before compression
-      let bundleSize: any = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(500);
+      let bundleSize: any = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(500);
       expect(bundleSize).toBeGreaterThan(420); // Exceeds target
 
       // After enabling compression
       compressionEnabled = true;
-      bundleSize = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(300);
+      bundleSize = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(300);
       expect(bundleSize).toBeLessThan(420); // Well under target
     });
   });
 
-  describe('Bundle Size Regression Testing': any, (: any) => {
-    it('should detect bundle size regression during campaign': any, async (: any) => {
-      const phase: any = mockConfig?.phases?.[0];
+  describe('Bundle Size Regression Testing', () => {
+    it('should detect bundle size regression during campaign': any, async () => {
+      const phase: any = mockConfig.phases.[0];
       let executionCount: any = 0;
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {;
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           executionCount++;
           // Simulate bundle size regression over time
           const baseSize: any = 350;
@@ -350,32 +350,32 @@ describe('Bundle Size Performance Tests': any, (: any) => {
 
       // Execute phase multiple times to simulate regression
       for (let i: any = 0; i < 4; i++) {
-        await campaignController?.executePhase(phase);
-        const bundleSize: any = await progressTracker?.getBundleSize();
-        bundleSizes?.push(bundleSize);
+        await campaignController.executePhase(phase);
+        const bundleSize: any = await progressTracker.getBundleSize();
+        bundleSizes.push(bundleSize);
       }
 
-      expect(bundleSizes?.length as any).toBe(4);
+      expect(bundleSizes.length).toBe(4);
 
       // Should detect increasing bundle size (regression)
-      const firstSize: any = bundleSizes?.[0];
-      const lastSize: any = bundleSizes[bundleSizes?.length - 1];
+      const firstSize: any = bundleSizes.[0];
+      const lastSize: any = bundleSizes[bundleSizes.length - 1];
       expect(lastSize).toBeGreaterThan(firstSize);
       expect(lastSize).toBeGreaterThan(420); // Should exceed target
     });
 
-    it('should validate bundle size improvements during optimization': any, async (: any) => {
-      const phase: any = mockConfig?.phases?.[0];
+    it('should validate bundle size improvements during optimization': any, async () => {
+      const phase: any = mockConfig.phases.[0];
       let optimizationStep: any = 0;
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {;
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           optimizationStep++;
           // Simulate bundle size optimization
           const baseSize: any = 500;
           const optimization: any = optimizationStep * 30; // 30kB reduction per step
-          return Math?.max(320, baseSize - optimization).toString();
+          return Math.max(320, baseSize - optimization).toString();
         }
         return '';
       });
@@ -384,21 +384,21 @@ describe('Bundle Size Performance Tests': any, (: any) => {
 
       // Execute optimization phases
       for (let i: any = 0; i < 5; i++) {
-        await campaignController?.executePhase(phase);
-        const bundleSize: any = await progressTracker?.getBundleSize();
-        bundleSizes?.push(bundleSize);
+        await campaignController.executePhase(phase);
+        const bundleSize: any = await progressTracker.getBundleSize();
+        bundleSizes.push(bundleSize);
       }
 
-      expect(bundleSizes?.length as any).toBe(5);
+      expect(bundleSizes.length).toBe(5);
 
       // Should show decreasing bundle size (optimization)
-      const firstSize: any = bundleSizes?.[0];
-      const lastSize: any = bundleSizes[bundleSizes?.length - 1];
+      const firstSize: any = bundleSizes.[0];
+      const lastSize: any = bundleSizes[bundleSizes.length - 1];
       expect(lastSize).toBeLessThan(firstSize);
       expect(lastSize).toBeLessThan(420); // Should be under target
     });
 
-    it('should track bundle size across different optimization strategies': any, async (: any) => {
+    it('should track bundle size across different optimization strategies': any, async () => {
       const optimizationStrategies: any = [
         { name: 'baseline', expectedSize: 480 },
         { name: 'minification', expectedSize: 420 },
@@ -410,54 +410,54 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       const results: Array<{ strategy: string; size: number; underTarge, t: boolean }> = [];
 
       for (const strategy of optimizationStrategies) {
-        mockFs?.existsSync.mockReturnValue(true);
-        mockExecSync?.mockImplementation(command => {
-          if (command?.toString().includes('du -sk')) {;
-            return strategy?.expectedSize.toString();
+        mockFs.existsSync.mockReturnValue(true);
+        mockExecSync.mockImplementation(command => {
+          if (command.toString().includes('du -sk')) {
+            return strategy.expectedSize.toString();
           }
           return '';
         });
 
-        const bundleSize: any = await progressTracker?.getBundleSize();
-        results?.push({
-          strategy: strategy?.name,
+        const bundleSize: any = await progressTracker.getBundleSize();
+        results.push({
+          strategy: strategy.name,
           size: bundleSize,
           underTarget: bundleSize < 420,
         });
       }
 
-      expect(results?.length as any).toBe(5);
+      expect(results.length).toBe(5);
 
       // Baseline should exceed target
-      expect(results?.[0].underTarget as any).toBe(false);
-      expect(results?.[0].size as any).toBe(480);
+      expect(results.[0].underTarget).toBe(false);
+      expect(results.[0].size).toBe(480);
 
       // Progressive optimization should reduce bundle size
-      for (let i: any = 1; i < results?.length; i++) {
+      for (let i: any = 1; i < results.length; i++) {
         expect(results[i].size).toBeLessThan(results[i - 1].size);
       }
 
       // Final optimizations should be under target
-      expect(results[results?.length - 1].underTarget as any).toBe(true);
-      expect(results[results?.length - 1].size as any).toBe(300);
+      expect(results[results.length - 1].underTarget).toBe(true);
+      expect(results[results.length - 1].size).toBe(300);
     });
   });
 
-  describe('Bundle Size Performance Benchmarks': any, (: any) => {
-    it('should benchmark bundle analysis performance': any, async (: any) => {
+  describe('Bundle Size Performance Benchmarks', () => {
+    it('should benchmark bundle analysis performance': any, async () => {
       const analysisTimes: number[] = [];
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {;
-          const startTime: any = Date?.now();
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
+          const startTime: any = Date.now();
           // Simulate bundle analysis time
-          const delay: any = 20 + Math?.random() * 30; // 20-50ms
+          const delay: any = 20 + Math.random() * 30; // 20-50ms
           const endTime: any = startTime + delay;
-          while (Date?.now() < endTime) {
+          while (Date.now() < endTime) {
             // Busy wait
           }
-          analysisTimes?.push(Date?.now() - startTime);
+          analysisTimes.push(Date.now() - startTime);
           return '400';
         }
         return '';
@@ -465,26 +465,26 @@ describe('Bundle Size Performance Tests': any, (: any) => {
 
       // Perform multiple bundle size analyses
       for (let i: any = 0; i < 10; i++) {
-        await progressTracker?.getBundleSize();
+        await progressTracker.getBundleSize();
       }
 
-      expect(analysisTimes?.length as any).toBe(10);
-      expect(analysisTimes?.every(time => time > 0)).toBe(true);
+      expect(analysisTimes.length).toBe(10);
+      expect(analysisTimes.every(time => time > 0)).toBe(true);
 
       // Average analysis time should be reasonable
-      const averageTime: any = analysisTimes?.reduce((sum: any, time: any) => sum + time, 0) / analysisTimes?.length;
+      const averageTime: any = analysisTimes.reduce((sum: any, time: any) => sum + time, 0) / analysisTimes.length;
       expect(averageTime).toBeLessThan(100); // Should be under 100ms
     });
 
-    it('should handle large bundle analysis efficiently': any, async (: any) => {
+    it('should handle large bundle analysis efficiently': any, async () => {
       // Mock very large bundle
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           // Simulate longer analysis time for large bundle;
           const delay: any = 50; // 50ms for large bundle
-          const endTime: any = Date?.now() + delay;
-          while (Date?.now() < endTime) {
+          const endTime: any = Date.now() + delay;
+          while (Date.now() < endTime) {
             // Busy wait
           }
           return '2000'; // 2MB bundle - very large
@@ -492,23 +492,23 @@ describe('Bundle Size Performance Tests': any, (: any) => {
         return '';
       });
 
-      const startTime: any = Date?.now();
-      const bundleSize: any = await progressTracker?.getBundleSize();
-      const analysisTime: any = Date?.now() - startTime;
+      const startTime: any = Date.now();
+      const bundleSize: any = await progressTracker.getBundleSize();
+      const analysisTime: any = Date.now() - startTime;
 
-      expect(bundleSize as any).toBe(2000);
+      expect(bundleSize).toBe(2000);
       expect(bundleSize).toBeGreaterThan(420); // Significantly exceeds target
       expect(analysisTime).toBeLessThan(200); // Should still be reasonably fast
     });
 
-    it('should benchmark concurrent bundle analyses': any, async (: any) => {
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {
+    it('should benchmark concurrent bundle analyses': any, async () => {
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           // Simulate concurrent analysis;
-          const delay: any = 30 + Math?.random() * 20; // 30-50ms
-          const endTime: any = Date?.now() + delay;
-          while (Date?.now() < endTime) {
+          const delay: any = 30 + Math.random() * 20; // 30-50ms
+          const endTime: any = Date.now() + delay;
+          while (Date.now() < endTime) {
             // Busy wait
           }
           return '400';
@@ -517,53 +517,53 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       });
 
       // Run concurrent bundle size analyses
-      const promises: any = Array?.from({ length: 5 }, () => progressTracker?.getBundleSize());
+      const promises: any = Array.from({ length: 5 }, () => progressTracker.getBundleSize());
 
-      const startTime: any = Date?.now();
-      const results: any = await Promise?.all(promises);
-      const totalTime: any = Date?.now() - startTime;
+      const startTime: any = Date.now();
+      const results: any = await Promise.all(promises);
+      const totalTime: any = Date.now() - startTime;
 
-      expect(results?.length as any).toBe(5);
-      expect(results?.every(size => size === 400)).toBe(true);
+      expect(results.length).toBe(5);
+      expect(results.every(size => size === 400)).toBe(true);
       expect(totalTime).toBeLessThan(500); // Should complete efficiently
     });
   });
 
-  describe('Bundle Size Monitoring Integration': any, (: any) => {
-    it('should integrate bundle size monitoring with campaign execution': any, async (: any) => {
-      const phase: any = mockConfig?.phases?.[0];
+  describe('Bundle Size Monitoring Integration', () => {
+    it('should integrate bundle size monitoring with campaign execution': any, async () => {
+      const phase: any = mockConfig.phases.[0];
 
-      mockFs?.existsSync.mockReturnValue(true);
-      mockExecSync?.mockImplementation(command => {
-        if (command?.toString().includes('du -sk')) {;
+      mockFs.existsSync.mockReturnValue(true);
+      mockExecSync.mockImplementation(command => {
+        if (command.toString().includes('du -sk')) {
           return '390'; // Under target
         }
         return '';
       });
 
       // Mock campaign execution with bundle monitoring
-      jest?.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async (: any) => {
-        const bundleSize: any = await progressTracker?.getBundleSize();
+      jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async () => {
+        const bundleSize: any = await progressTracker.getBundleSize();
         return {
           typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
-          buildPerformance: { currentTim, e: 8?.5, targetTime: 10, cacheHitRate: 0?.8, memoryUsage: 45 },
+          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
           enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
           bundleSize: bundleSize, // Additional bundle size tracking
         };
       });
 
-      const result: any = await campaignController?.executePhase(phase);
+      const result: any = await campaignController.executePhase(phase);
 
-      expect(result?.success as any).toBe(true);
+      expect(result.success).toBe(true);
 
       // Verify bundle size is monitored
-      const bundleSize: any = await progressTracker?.getBundleSize();
-      expect(bundleSize as any).toBe(390);
+      const bundleSize: any = await progressTracker.getBundleSize();
+      expect(bundleSize).toBe(390);
       expect(bundleSize).toBeLessThan(420);
     });
 
-    it('should alert on bundle size threshold violations': any, async (: any) => {
+    it('should alert on bundle size threshold violations': any, async () => {
       const thresholds: any = {
         warning: 400, // 400kB warning threshold;
         critical: 420, // 420kB critical threshold
@@ -573,28 +573,28 @@ describe('Bundle Size Performance Tests': any, (: any) => {
       const alerts: Array<{ size: number; leve, l: string }> = [];
 
       for (const testSize of testSizes) {
-        mockFs?.existsSync.mockReturnValue(true);
-        mockExecSync?.mockImplementation(command => {
-          if (command?.toString().includes('du -sk')) {;
-            return testSize?.toString();
+        mockFs.existsSync.mockReturnValue(true);
+        mockExecSync.mockImplementation(command => {
+          if (command.toString().includes('du -sk')) {
+            return testSize.toString();
           }
           return '';
         });
 
-        const bundleSize: any = await progressTracker?.getBundleSize();
+        const bundleSize: any = await progressTracker.getBundleSize();
 
-        if (bundleSize > thresholds?.critical) {
-          alerts?.push({ size: bundleSize, level: 'critical' });
-        } else if (bundleSize > thresholds?.warning) {
-          alerts?.push({ size: bundleSize, level: 'warning' });
+        if (bundleSize > thresholds.critical) {
+          alerts.push({ size: bundleSize, level: 'critical' });
+        } else if (bundleSize > thresholds.warning) {
+          alerts.push({ size: bundleSize, level: 'warning' });
         }
       }
 
-      expect(alerts?.length as any).toBe(2); // Should have warning and critical alerts
-      expect(alerts?.[0].level as any).toBe('warning');
-      expect(alerts?.[0].size as any).toBe(410);
-      expect(alerts?.[1].level as any).toBe('critical');
-      expect(alerts?.[1].size as any).toBe(450);
+      expect(alerts.length).toBe(2); // Should have warning and critical alerts
+      expect(alerts.[0].level).toBe('warning');
+      expect(alerts.[0].size).toBe(410);
+      expect(alerts.[1].level).toBe('critical');
+      expect(alerts.[1].size).toBe(450);
     });
   });
 });

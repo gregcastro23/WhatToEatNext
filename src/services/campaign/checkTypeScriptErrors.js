@@ -175,7 +175,7 @@ async function createManualReviewTask(errorCount, errorBreakdown) {
 
 ## Error Breakdown
 
-${Object.entries(errorBreakdown)
+${Object.entries(errorBreakdown)}
   .map(([errorType, count]) => `- **${errorType}**: ${count} errors`)
   .join('\n')}
 

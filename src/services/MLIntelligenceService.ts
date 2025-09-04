@@ -39,8 +39,7 @@ const calculateAstrologicalAlignment = (
 
   // Check zodiac compatibility with recipe's astrological timing
   if (recipe.astrologicalTiming?.zodiacCompatibility) {
-    const zodiacCompatibility =
-      recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as any];
+    const zodiacCompatibility = recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as any];
     if (zodiacCompatibility) {
       alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
     }
@@ -374,8 +373,7 @@ export class MLIntelligenceService {
   private calculateMLOptimizedScore(recipe: Recipe, _astrologicalContext: MLContext): number {
     // Calculate base optimization score
     const elementalAlignment = calculateElementalCompatibility(
-      (recipe as { elementalProperties?: ElementalProperties })?.elementalProperties ??
-        {},
+      (recipe as { elementalProperties?: ElementalProperties })?.elementalProperties ?? {},
       (_astrologicalContext as { elementalProperties?: ElementalProperties })
         ?.elementalProperties ?? {},
     );

@@ -1,6 +1,12 @@
 import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
 
-import type { Ingredient, CookingMethod, Modality, SensoryProfile, ElementalAffinity } from '../../data/ingredients/types';
+import type {
+  Ingredient,
+  CookingMethod,
+  Modality,
+  SensoryProfile,
+  ElementalAffinity,
+} from '../../data/ingredients/types';
 import type { Element } from '@/types/unified';
 
 // Phase 10: Calculation Type Interfaces
@@ -640,10 +646,8 @@ export async function getRecommendedIngredients(
   // Sort by dominant element if available
   if (astroState.dominantElement) {
     filteredIngredients.sort((a, b) => {
-      const aValue =
-        a.elementalProperties[astroState.dominantElement as any] || 0;
-      const bValue =
-        b.elementalProperties[astroState.dominantElement as any] || 0;
+      const aValue = a.elementalProperties[astroState.dominantElement as any] || 0;
+      const bValue = b.elementalProperties[astroState.dominantElement as any] || 0;
       return bValue - aValue;
     });
   }

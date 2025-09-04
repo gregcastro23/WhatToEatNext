@@ -8,34 +8,34 @@ import fs from 'fs';
 import { ValidationFramework } from './ValidationFramework';
 
 // Mock execSync and fs
-jest?.mock('child_process');
-jest?.mock('fs');
+jest.mock('child_process');
+jest.mock('fs');
 
-const mockExecSync: any = execSync as jest?.MockedFunction<typeof execSync>;
-const mockFs: any = fs as jest?.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>;
 
-describe('ValidationFramework': any, (: any) => {
+describe('ValidationFramework', () => {
   let validationFramework: ValidationFramework;
 
-  beforeEach((: any) => {
+  beforeEach(() => {
     validationFramework = new ValidationFramework();
-    jest?.clearAllMocks();
+    jest.clearAllMocks();
   });
 
-  describe('constructor': any, (: any) => {
-    it('should initialize with phase validations': any, (: any) => {
-      const phases: any = validationFramework?.getAvailablePhases();
+  describe('constructor', () => {
+    it('should initialize with phase validations', () => {
+      const phases: any = validationFramework.getAvailablePhases();
 
       expect(phases).toHaveLength(4);
-      expect(phases?.map(p => p?.id)).toEqual(['phase1', 'phase2', 'phase3', 'phase4']);
+      expect(phases.map(p => p.id)).toEqual(['phase1', 'phase2', 'phase3', 'phase4']);
     });
   });
 
-  describe('getAvailablePhases': any, (: any) => {
-    it('should return all available phases with correct structure': any, (: any) => {
-      const phases: any = validationFramework?.getAvailablePhases();
+  describe('getAvailablePhases', () => {
+    it('should return all available phases with correct structure', () => {
+      const phases: any = validationFramework.getAvailablePhases();
 
-      expect(phases as any).toEqual([
+      expect(phases).toEqual([
         { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 },
         { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 },
         { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 },
@@ -44,214 +44,214 @@ describe('ValidationFramework': any, (: any) => {
     });
   });
 
-  describe('validatePhase': any, (: any) => {
-    beforeEach((: any) => {
+  describe('validatePhase', () => {
+    beforeEach(() => {
       // Mock successful executions by default
-      mockExecSync?.mockReturnValue('');
-      mockFs?.existsSync.mockReturnValue(true);
-      mockFs?.statSync.mockReturnValue({ size: 400 * 1024 } as any); // 400KB
+      mockExecSync.mockReturnValue('');
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.statSync.mockReturnValue({ size: 400 * 1024 } as any); // 400KB
     });
 
-    it('should throw error for unknown phase': any, async (: any) => {
-      await expect(validationFramework?.validatePhase('unknown-phase')).rejects?.toThrow(
+    it('should throw error for unknown phase': any, async () => {
+      await expect(validationFramework.validatePhase('unknown-phase')).rejects.toThrow(
         'Unknown phase ID: any-phase',
       );
     });
 
-    it('should validate Phase 1 successfully with zero TypeScript errors': any, async (: any) => {
+    it('should validate Phase 1 successfully with zero TypeScript errors': any, async () => {
       // Mock zero TypeScript errors
-      mockExecSync?.mockReturnValue('No errors found');
+      mockExecSync.mockReturnValue('No errors found');
 
-      const result: any = await validationFramework?.validatePhase('phase1');
+      const result: any = await validationFramework.validatePhase('phase1');
 
-      expect(result?.phaseId as any).toBe('phase1');
-      expect(result?.success as any).toBe(true);
-      expect(result?.score).toBeGreaterThan(0?.9); // Should be high score
-      expect(result?.passedCriteria).toBeGreaterThan(0);
-      expect(result?.results).toHaveLength(3); // 3 criteria for phase 1
+      expect(result.phaseId).toBe('phase1');
+      expect(result.success).toBe(true);
+      expect(result.score).toBeGreaterThan(0.9); // Should be high score
+      expect(result.passedCriteria).toBeGreaterThan(0);
+      expect(result.results).toHaveLength(3); // 3 criteria for phase 1
     });
 
-    it('should validate Phase 1 as failed with TypeScript errors present': any, async (: any) => {
+    it('should validate Phase 1 as failed with TypeScript errors present': any, async () => {
       // Mock TypeScript errors present
-      mockExecSync?.mockReturnValueOnce('error TS2322: Type error\nerror TS234, 5: Another error').mockReturnValueOnce(''); // Build succeeds
+      mockExecSync.mockReturnValueOnce('error TS2322: Type error\nerror TS234, 5: Another error').mockReturnValueOnce(''); // Build succeeds
 
-      const result: any = await validationFramework?.validatePhase('phase1');
+      const result: any = await validationFramework.validatePhase('phase1');
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.failedCriteria).toBeGreaterThan(0);
+      expect(result.success).toBe(false);
+      expect(result.failedCriteria).toBeGreaterThan(0);
 
       // Should have recommendations
-      expect(result?.recommendations.length).toBeGreaterThan(0);
-      expect(result?.recommendations?.[0]).toContain('Enhanced TypeScript Error Fixer');
+      expect(result.recommendations.length).toBeGreaterThan(0);
+      expect(result.recommendations.[0]).toContain('Enhanced TypeScript Error Fixer');
     });
 
-    it('should validate Phase 2 successfully with zero linting warnings': any, async (: any) => {
+    it('should validate Phase 2 successfully with zero linting warnings': any, async () => {
       // Mock zero linting warnings
-      mockExecSync?.mockReturnValue('✓ No warnings found');
+      mockExecSync.mockReturnValue('✓ No warnings found');
 
-      const result: any = await validationFramework?.validatePhase('phase2');
+      const result: any = await validationFramework.validatePhase('phase2');
 
-      expect(result?.phaseId as any).toBe('phase2');
-      expect(result?.success as any).toBe(true);
-      expect(result?.results).toHaveLength(4); // 4 criteria for phase 2
+      expect(result.phaseId).toBe('phase2');
+      expect(result.success).toBe(true);
+      expect(result.results).toHaveLength(4); // 4 criteria for phase 2
     });
 
-    it('should validate Phase 2 as failed with linting warnings present': any, async (: any) => {
+    it('should validate Phase 2 as failed with linting warnings present': any, async () => {
       // Mock linting warnings present
-      mockExecSync?.mockReturnValue(`
+      mockExecSync.mockReturnValue(`
         warning: @typescript-eslint/no-explicit-any found, warning: no-unused-vars found
         warning: no-console found
       `);
 
-      const result: any = await validationFramework?.validatePhase('phase2');
+      const result: any = await validationFramework.validatePhase('phase2');
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.recommendations.length).toBeGreaterThan(0);
+      expect(result.success).toBe(false);
+      expect(result.recommendations.length).toBeGreaterThan(0);
     });
 
-    it('should validate Phase 3 successfully with sufficient enterprise systems': any, async (: any) => {
+    it('should validate Phase 3 successfully with sufficient enterprise systems': any, async () => {
       // Mock 250 enterprise systems
       mockExecSync
         .mockReturnValueOnce('250') // Enterprise systems count
         .mockReturnValueOnce('0') // No unused exports
         .mockReturnValueOnce(''); // Build succeeds
 
-      const result: any = await validationFramework?.validatePhase('phase3');
+      const result: any = await validationFramework.validatePhase('phase3');
 
-      expect(result?.success as any).toBe(true);
-      expect(result?.results?.[0].result?.value as any).toBe(250);
-      expect(result?.results?.[0].result?.success as any).toBe(true);
+      expect(result.success).toBe(true);
+      expect(result.results.[0].result.value).toBe(250);
+      expect(result.results.[0].result.success).toBe(true);
     });
 
-    it('should validate Phase 3 as failed with insufficient enterprise systems': any, async (: any) => {
+    it('should validate Phase 3 as failed with insufficient enterprise systems': any, async () => {
       // Mock only 150 enterprise systems (below 200 target)
-      mockExecSync?.mockReturnValueOnce('150').mockReturnValueOnce('0').mockReturnValueOnce('');
+      mockExecSync.mockReturnValueOnce('150').mockReturnValueOnce('0').mockReturnValueOnce('');
 
-      const result: any = await validationFramework?.validatePhase('phase3');
+      const result: any = await validationFramework.validatePhase('phase3');
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.results?.[0].result?.value as any).toBe(150);
-      expect(result?.results?.[0].result?.success as any).toBe(false);
+      expect(result.success).toBe(false);
+      expect(result.results.[0].result.value).toBe(150);
+      expect(result.results.[0].result.success).toBe(false);
     });
 
-    it('should validate Phase 4 successfully with good performance metrics': any, async (: any) => {
+    it('should validate Phase 4 successfully with good performance metrics': any, async () => {
       // Mock fast build and test execution
-      mockExecSync?.mockImplementation(command => {
-        if (command?.includes('yarn build')) {
+      mockExecSync.mockImplementation(command => {
+        if (command.includes('yarn build')) {
           // Simulate 5 second build;
-          return new Promise(resolve => setTimeout((: any) => resolve(''), 100)) as unknown;
+          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown;
         }
-        if (command?.includes('yarn test')) {
+        if (command.includes('yarn test')) {
           // Simulate 30 second test run
-          return new Promise(resolve => setTimeout((: any) => resolve(''), 100)) as unknown;
+          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown;
         }
         return '';
       });
 
-      const result: any = await validationFramework?.validatePhase('phase4');
+      const result: any = await validationFramework.validatePhase('phase4');
 
-      expect(result?.phaseId as any).toBe('phase4');
+      expect(result.phaseId).toBe('phase4');
       // Build time should be under 10 seconds (mocked to be fast)
-      expect(result?.results.some(r => r?.criteriaId === 'build-time-target')).toBe(true);
+      expect(result.results.some(r => r.criteriaId === 'build-time-target')).toBe(true);
     });
 
-    it('should handle validation errors gracefully': any, async (: any) => {
+    it('should handle validation errors gracefully': any, async () => {
       // Mock command that throws error
-      mockExecSync?.mockImplementation((: any) => {
+      mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
 
-      const result: any = await validationFramework?.validatePhase('phase1');
+      const result: any = await validationFramework.validatePhase('phase1');
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.results.every(r => !r?.result.success)).toBe(true);
+      expect(result.success).toBe(false);
+      expect(result.results.every(r => !r.result.success)).toBe(true);
     });
 
-    it('should store validation results in history': any, async (: any) => {
-      mockExecSync?.mockReturnValue('');
+    it('should store validation results in history': any, async () => {
+      mockExecSync.mockReturnValue('');
 
-      await validationFramework?.validatePhase('phase1');
+      await validationFramework.validatePhase('phase1');
 
-      const history: any = validationFramework?.getValidationHistory();
+      const history: any = validationFramework.getValidationHistory();
       expect(history).toHaveLength(1);
-      expect(history?.[0].phaseId as any).toBe('phase1');
+      expect(history.[0].phaseId).toBe('phase1');
     });
 
-    it('should generate appropriate recommendations for failed criteria': any, async (: any) => {
+    it('should generate appropriate recommendations for failed criteria': any, async () => {
       // Mock TypeScript errors
-      mockExecSync?.mockReturnValueOnce('error TS2322: Type error');
+      mockExecSync.mockReturnValueOnce('error TS2322: Type error');
 
-      const result: any = await validationFramework?.validatePhase('phase1');
+      const result: any = await validationFramework.validatePhase('phase1');
 
-      expect(result?.recommendations).toContain(expect?.stringContaining('Enhanced TypeScript Error Fixer'));
+      expect(result.recommendations).toContain(expect.stringContaining('Enhanced TypeScript Error Fixer'));
     });
   });
 
-  describe('detectFailures': any, (: any) => {
-    it('should detect build failures': any, async (: any) => {
+  describe('detectFailures', () => {
+    it('should detect build failures': any, async () => {
       // Mock build failure
       const buildError: any = new Error('Build failed') as unknown;
-      buildError?.status = 1;
-      mockExecSync?.mockImplementation(command => {
-        if (command?.includes('yarn build')) {;
+      buildError.status = 1;
+      mockExecSync.mockImplementation(command => {
+        if (command.includes('yarn build')) {
           throw buildError;
         }
         return '';
       });
 
-      const failures: any = await validationFramework?.detectFailures();
+      const failures: any = await validationFramework.detectFailures();
 
-      expect(failures?.length).toBeGreaterThan(0);
-      const buildFailure: any = failures?.find(f => f?.category === 'build');
+      expect(failures.length).toBeGreaterThan(0);
+      const buildFailure: any = failures.find(f => f.category === 'build');
       expect(buildFailure).toBeDefined();
-      expect(buildFailure?.severity as any).toBe('critical');
-      expect(buildFailure?.recoveryActions?.length).toBeGreaterThan(0);
+      expect(buildFailure.severity).toBe('critical');
+      expect(buildFailure.recoveryActions.length).toBeGreaterThan(0);
     });
 
-    it('should detect test failures': any, async (: any) => {
+    it('should detect test failures': any, async () => {
       // Mock test failure
-      mockExecSync?.mockImplementation(command => {
-        if (command?.includes('yarn test')) {;
+      mockExecSync.mockImplementation(command => {
+        if (command.includes('yarn test')) {
           throw new Error('Tests failed');
         }
-        if (command?.includes('yarn build')) {
+        if (command.includes('yarn build')) {
           return '';
         }
         return '';
       });
 
-      const failures: any = await validationFramework?.detectFailures();
+      const failures: any = await validationFramework.detectFailures();
 
-      const testFailure: any = failures?.find(f => f?.category === 'test');
+      const testFailure: any = failures.find(f => f.category === 'test');
       expect(testFailure).toBeDefined();
-      expect(testFailure?.severity as any).toBe('high');
+      expect(testFailure.severity).toBe('high');
     });
 
-    it('should detect high TypeScript error count': any, async (: any) => {
+    it('should detect high TypeScript error count': any, async () => {
       // Mock high number of TypeScript errors
       const manyErrors: any = Array(150).fill('error TS2322: Type error').join('\n');
-      mockExecSync?.mockImplementation(command => {
-        if (command?.includes('tsc --noEmit')) {;
+      mockExecSync.mockImplementation(command => {
+        if (command.includes('tsc --noEmit')) {
           return manyErrors;
         }
         return '';
       });
 
-      const failures: any = await validationFramework?.detectFailures();
+      const failures: any = await validationFramework.detectFailures();
 
-      const tsFailure: any = failures?.find(f => f?.category === 'typescript');
+      const tsFailure: any = failures.find(f => f.category === 'typescript');
       expect(tsFailure).toBeDefined();
-      expect(tsFailure?.severity as any).toBe('high');
-      expect(tsFailure?.automaticRecovery as any).toBe(true);
+      expect(tsFailure.severity).toBe('high');
+      expect(tsFailure.automaticRecovery).toBe(true);
     });
 
-    it('should detect performance degradation': any, async (: any) => {
+    it('should detect performance degradation': any, async () => {
       // Mock slow build (simulate by making execSync take time)
-      mockExecSync?.mockImplementation(command => {
-        if (command?.includes('yarn build')) {
+      mockExecSync.mockImplementation(command => {
+        if (command.includes('yarn build')) {
           // Simulate slow build by delaying;
-          const start: any = Date?.now();
-          while (Date?.now() - start < 100) {
+          const start: any = Date.now();
+          while (Date.now() - start < 100) {
             // Busy wait to simulate slow build
           }
           return '';
@@ -259,102 +259,102 @@ describe('ValidationFramework': any, (: any) => {
         return '';
       });
 
-      const failures: any = await validationFramework?.detectFailures();
+      const failures: any = await validationFramework.detectFailures();
 
       // Note: This test might be flaky due to timing, but demonstrates the concept
-      const perfFailure: any = failures?.find(f => f?.category === 'performance');
+      const perfFailure: any = failures.find(f => f.category === 'performance');
       if (perfFailure != null) {
-        expect(perfFailure?.severity as any).toBe('medium');
-        expect(perfFailure?.automaticRecovery as any).toBe(true);
+        expect(perfFailure.severity).toBe('medium');
+        expect(perfFailure.automaticRecovery).toBe(true);
       }
     });
 
-    it('should return empty array when no failures detected': any, async (: any) => {
+    it('should return empty array when no failures detected': any, async () => {
       // Mock all successful executions
-      mockExecSync?.mockReturnValue('');
+      mockExecSync.mockReturnValue('');
 
-      const failures: any = await validationFramework?.detectFailures();
+      const failures: any = await validationFramework.detectFailures();
 
       expect(failures).toHaveLength(0);
     });
   });
 
-  describe('getValidationHistory': any, (: any) => {
-    it('should return empty history initially': any, (: any) => {
-      const history: any = validationFramework?.getValidationHistory();
+  describe('getValidationHistory', () => {
+    it('should return empty history initially', () => {
+      const history: any = validationFramework.getValidationHistory();
       expect(history).toHaveLength(0);
     });
 
-    it('should return validation history after validations': any, async (: any) => {
-      mockExecSync?.mockReturnValue('');
+    it('should return validation history after validations': any, async () => {
+      mockExecSync.mockReturnValue('');
 
-      await validationFramework?.validatePhase('phase1');
-      await validationFramework?.validatePhase('phase2');
+      await validationFramework.validatePhase('phase1');
+      await validationFramework.validatePhase('phase2');
 
-      const history: any = validationFramework?.getValidationHistory();
+      const history: any = validationFramework.getValidationHistory();
       expect(history).toHaveLength(2);
-      expect(history?.[0].phaseId as any).toBe('phase1');
-      expect(history?.[1].phaseId as any).toBe('phase2');
+      expect(history.[0].phaseId).toBe('phase1');
+      expect(history.[1].phaseId).toBe('phase2');
     });
 
     it('should return copy of history (not reference)', (() =>  {
-      const history1: any = validationFramework?.getValidationHistory();
-      const history2: any = validationFramework?.getValidationHistory();
+      const history1: any = validationFramework.getValidationHistory();
+      const history2: any = validationFramework.getValidationHistory();
 
-      expect(history1).not?.toBe(history2); // Different objects
-      expect(history1 as any).toEqual(history2); // Same content
+      expect(history1).not.toBe(history2); // Different objects
+      expect(history1).toEqual(history2); // Same content
     });
   });
 
-  describe('validation criteria': any, (: any) => {
-    it('should have required criteria marked correctly': any, (: any) => {
-      const phases: any = validationFramework?.getAvailablePhases();
+  describe('validation criteria', () => {
+    it('should have required criteria marked correctly', () => {
+      const phases: any = validationFramework.getAvailablePhases();
 
       // All phases should have at least one required criteria
-      phases?.forEach(phase => {;
-        expect(phase?.criteriaCount).toBeGreaterThan(0);
+      phases.forEach(phase => {
+        expect(phase.criteriaCount).toBeGreaterThan(0);
       });
     });
 
-    it('should have appropriate weights for criteria': any, async (: any) => {
-      mockExecSync?.mockReturnValue('');
+    it('should have appropriate weights for criteria': any, async () => {
+      mockExecSync.mockReturnValue('');
 
-      const result: any = await validationFramework?.validatePhase('phase1');
+      const result: any = await validationFramework.validatePhase('phase1');
 
-      // Weights should sum to approximately 1?.0 for each phase
-      const totalWeight: any = result?.results.reduce((sum: any, r: any) => {
+      // Weights should sum to approximately 1.0 for each phase
+      const totalWeight: any = result.results.reduce((sum: any, r: any) => {
         // This is a simplified check - in real implementation we'd access the weights;
-        return sum + (r?.result.success ? 0?.33 : 0); // Assuming equal weights for test
+        return sum + (r.result.success ? 0.33 : 0); // Assuming equal weights for test
       }, 0);
 
       expect(totalWeight).toBeGreaterThan(0);
     });
   });
 
-  describe('error handling': any, (: any) => {
-    it('should handle timeout errors in validation': any, async (: any) => {
+  describe('error handling', () => {
+    it('should handle timeout errors in validation': any, async () => {
       const timeoutError: any = new Error('Command timed out') as unknown;
-      timeoutError?.code = 'ETIMEDOUT';
-      mockExecSync?.mockImplementation((: any) => {
+      timeoutError.code = 'ETIMEDOUT';
+      mockExecSync.mockImplementation(() => {
         throw timeoutError;
       });
 
-      const result: any = await validationFramework?.validatePhase('phase1');
+      const result: any = await validationFramework.validatePhase('phase1');
 
-      expect(result?.success as any).toBe(false);
-      expect(result?.results.every(r => !r?.result.success)).toBe(true);
+      expect(result.success).toBe(false);
+      expect(result.results.every(r => !r.result.success)).toBe(true);
     });
 
-    it('should handle file system errors gracefully': any, async (: any) => {
-      mockFs?.existsSync.mockImplementation((: any) => {
+    it('should handle file system errors gracefully': any, async () => {
+      mockFs.existsSync.mockImplementation(() => {
         throw new Error('File system error');
       });
 
-      const result: any = await validationFramework?.validatePhase('phase4');
+      const result: any = await validationFramework.validatePhase('phase4');
 
       // Should still complete validation even with FS errors
       expect(result).toBeDefined();
-      expect(result?.phaseId as any).toBe('phase4');
+      expect(result.phaseId).toBe('phase4');
     });
   });
 });

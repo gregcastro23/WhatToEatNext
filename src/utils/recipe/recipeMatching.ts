@@ -5,9 +5,9 @@ import { LocalRecipeService } from '@/services/LocalRecipeService';
 import { AstrologicalState, /* Element, */ IngredientMapping, Season } from '@/types/alchemy';
 // Removed unused import: Element
 import type {
-    ElementalProperties,
-    // nutritionInfo // unused - removed for performance
-    Recipe,
+  ElementalProperties,
+  // nutritionInfo // unused - removed for performance
+  Recipe,
 } from '@/types/recipe';
 
 // Add missing imports for TS2304 fixes
@@ -35,15 +35,15 @@ interface ScoredItem {
 
 // DUPLICATE: import { Element } from "@/types/alchemy";
 import {
-    getRecipeAstrologicalInfluences,
-    getRecipeCookingMethods,
-    getRecipeCookingTime,
-    getRecipeElementalProperties,
-    getRecipeMealTypes,
-    getRecipeSeasons,
-    // recipeHasTag, // unused - removed for performance
-    isRecipeDietaryCompatible,
-    recipeHasIngredient,
+  getRecipeAstrologicalInfluences,
+  getRecipeCookingMethods,
+  getRecipeCookingTime,
+  getRecipeElementalProperties,
+  getRecipeMealTypes,
+  getRecipeSeasons,
+  // recipeHasTag, // unused - removed for performance
+  isRecipeDietaryCompatible,
+  recipeHasIngredient,
 } from './recipeUtils';
 
 // Moved imports to top of file for proper order
@@ -249,8 +249,8 @@ export async function findBestMatches(
   const cachedData = typeof getLatestData === 'function' ? await getLatestData() : null;
 
   // Use enhanced energy if available from cache
-  const enhancedCurrentEnergy =
-    cachedData?.elementalAbsolutes || currentEnergy || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const enhancedCurrentEnergy = cachedData?.elementalAbsolutes ||
+    currentEnergy || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   // Calculate relative elemental values if we have absolute values
   let relativeElementalValues: ElementalProperties | null = null;
@@ -695,8 +695,7 @@ async function calculateMonicaCompatibility(
 
   // Recipes with transformation-heavy cooking methods benefit from higher monica values
   const transformationMethods = ['fermentation', 'curing', 'smoking', 'aging', 'reduction'];
-  const cookingMethod =
-    (recipe as any).cookingMethod?.toString().toLowerCase() || '';
+  const cookingMethod = (recipe as any).cookingMethod?.toString().toLowerCase() || '';
 
   const isTransformational = transformationMethods.some(method => cookingMethod.includes(method));
 
@@ -970,15 +969,15 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
 
 // Export all the main functions and utilities
 export {
-    calculateAstrologicalMatch,
-    calculateComplexityMatch,
-    calculateElementalAlignment,
-    calculateEnergyMatch,
-    calculateEnhancedAstrologicalMatch,
-    calculateModalityScore,
-    calculateMonicaCompatibility,
-    calculateNutritionalMatch,
-    calculateRecipeEnergyMatch,
-    determineIngredientModality,
-    getStringSimilarity
+  calculateAstrologicalMatch,
+  calculateComplexityMatch,
+  calculateElementalAlignment,
+  calculateEnergyMatch,
+  calculateEnhancedAstrologicalMatch,
+  calculateModalityScore,
+  calculateMonicaCompatibility,
+  calculateNutritionalMatch,
+  calculateRecipeEnergyMatch,
+  determineIngredientModality,
+  getStringSimilarity,
 };

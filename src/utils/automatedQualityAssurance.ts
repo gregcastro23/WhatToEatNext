@@ -167,7 +167,8 @@ export class AutomatedQualityAssurance {
       this.metrics.planetaryDataQuality = {
         accuracy: Math.max(0, score),
         freshness: this.calculateDataFreshness(positions),
-        reliability: issues.length === 0 ? 1.0 : Math.max(0, 1.0 - ((issues as any)?.length || 0) * 0.2),
+        reliability:
+          issues.length === 0 ? 1.0 : Math.max(0, 1.0 - ((issues as any)?.length || 0) * 0.2),
       };
 
       // Check for campaign triggers

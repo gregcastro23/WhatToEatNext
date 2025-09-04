@@ -442,10 +442,7 @@ export class RecommendationAdapter {
     const items = this.getSortedItems(this.transformedIngredients, limit);
     // Compatibility scores: use gregsEnergy or 1.0 as fallback
     const scores = Object.fromEntries(
-      items.map(item => [
-        item.id,
-        this.safeGetNumber((item as any).gregsEnergy) || 1.0,
-      ]),
+      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),
     );
     return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
@@ -456,10 +453,7 @@ export class RecommendationAdapter {
   getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {
     const items = this.getSortedItems(this.transformedMethods, limit);
     const scores = Object.fromEntries(
-      items.map(item => [
-        item.id,
-        this.safeGetNumber((item as any).gregsEnergy) || 1.0,
-      ]),
+      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),
     );
     return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
@@ -470,10 +464,7 @@ export class RecommendationAdapter {
   getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {
     const items = this.getSortedItems(this.transformedCuisines, limit);
     const scores = Object.fromEntries(
-      items.map(item => [
-        item.id,
-        this.safeGetNumber((item as any).gregsEnergy) || 1.0,
-      ]),
+      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),
     );
     return { items, scores, context: { source: 'RecommendationAdapter' } };
   }

@@ -302,7 +302,9 @@ export class SteeringFileIntelligence {
     )[0] as Element;
   }
 
-  private calculateElementalBalance(planetaryPositions: Record<string, unknown>): ElementalProperties {
+  private calculateElementalBalance(
+    planetaryPositions: Record<string, unknown>,
+  ): ElementalProperties {
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     const totalPlanets = Object.keys(planetaryPositions).length;
 

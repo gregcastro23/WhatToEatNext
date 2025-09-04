@@ -9,9 +9,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import {
-    DEFAULT_DEPENDENCY_SECURITY_CONFIG,
-    DependencySecurityConfig,
-    DependencySecurityMonitor,
+  DEFAULT_DEPENDENCY_SECURITY_CONFIG,
+  DependencySecurityConfig,
+  DependencySecurityMonitor,
 } from './DependencySecurityMonitor';
 
 interface CLIOptions {
@@ -198,9 +198,7 @@ class DependencySecurityCLI {
 
     if ((result as any)?.(errors as any).length > 0) {
       console.log('\n❌ Errors:');
-      (result as any)?.(errors as any).forEach((error: string) =>
-        console.log(`  - ${error}`),
-      );
+      (result as any)?.(errors as any).forEach((error: string) => console.log(`  - ${error}`));
     }
 
     if ((result as any)?.(warnings as any).length > 0) {
@@ -215,10 +213,7 @@ class DependencySecurityCLI {
     console.log('\n🔒 Security Vulnerability Report:');
     this.printSecuritySummary(securityReport);
 
-    if (
-      this.options.verbose &&
-      (securityReport as any)?.vulnerabilities?.length > 0
-    ) {
+    if (this.options.verbose && (securityReport as any)?.vulnerabilities?.length > 0) {
       console.log('\n📋 Detailed Vulnerabilities:');
       (securityReport as any)?.vulnerabilities?.forEach((vuln: any) => {
         const severityIcon = this.getSeverityIcon(vuln.severity);
@@ -247,10 +242,7 @@ class DependencySecurityCLI {
     console.log('\n📦 Dependency Update Report:');
     this.printUpdateSummary(updateReport);
 
-    if (
-      this.options.verbose &&
-      (updateReport as any)?.availableUpdates?.length > 0
-    ) {
+    if (this.options.verbose && (updateReport as any)?.availableUpdates?.length > 0) {
       console.log('\n📋 Available Updates:');
       (updateReport as any)?.availableUpdates?.forEach((update: any) => {
         const updateIcon = this.getUpdateTypeIcon(update.updateType);
@@ -361,7 +353,7 @@ function parseArguments(): CLIOptions {
       case '--severity-threshold':
         const threshold = args[++i];
         if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
-          options.severityThreshold = (threshold as unknown as any);
+          options.severityThreshold = threshold as unknown as any;
         }
         break;
       case '--help':

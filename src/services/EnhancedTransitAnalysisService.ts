@@ -249,10 +249,7 @@ export class EnhancedTransitAnalysisService {
     // Base recommendations from planet data
     if ((planetData as unknown as any).FoodAssociations) {
       recommendations.push(
-        ...((planetData as unknown as any).FoodAssociations as string[]).slice(
-          0,
-          3,
-        ),
+        ...((planetData as unknown as any).FoodAssociations as string[]).slice(0, 3),
       );
     }
 
@@ -369,8 +366,7 @@ export class EnhancedTransitAnalysisService {
 
     // Add aspect-influenced methods
     aspectInfluences.forEach(aspectInfluence => {
-      const effects = (aspectInfluence as unknown as any)
-        .culinaryEffects as string[];
+      const effects = (aspectInfluence as unknown as any).culinaryEffects as string[];
       if (Array.isArray(effects)) {
         cookingMethods.push(...effects.slice(0, 1));
       }

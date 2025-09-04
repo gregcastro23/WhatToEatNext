@@ -269,9 +269,7 @@ export function explainRecommendation(
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = String(
-        (dominantPlanet as unknown as any).name || dominantPlanet,
-      );
+      const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet);
       const planetScore = calculatePlanetaryScore(recipe, planetName as any);
       if (planetScore > 0.6) {
         reasons.push(

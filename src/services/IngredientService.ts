@@ -1,8 +1,4 @@
-import type {
-    ElementalProperties,
-    IngredientMapping,
-    ThermodynamicMetrics
-} from '@/types/alchemy';
+import type { ElementalProperties, IngredientMapping, ThermodynamicMetrics } from '@/types/alchemy';
 import type { Recipe, ZodiacSign } from '@/types/unified';
 
 import { cuisinesMap as _cuisinesMap } from '../data/cuisines';
@@ -17,9 +13,7 @@ import type { Season } from '../types/constants';
 import type { Recipe as _Recipe } from '../types/recipe';
 import { logger } from '../utils/logger';
 import { filterRecipesByIngredientMappings as _filterRecipesByIngredientMappings } from '../utils/recipe/recipeFiltering';
-import {
-    connectIngredientsToMappings
-} from '../utils/recipe/recipeMatching';
+import { connectIngredientsToMappings } from '../utils/recipe/recipeMatching';
 
 // Phase 10: Calculation Type Interfaces
 
@@ -36,7 +30,6 @@ interface ElementalData {
   [key: string]: unknown;
 }
 
-
 import type { ElementalFilter } from '../types/elemental';
 import type { NutritionData, NutritionalFilter } from '../types/nutrition';
 // SpoonacularNutritionData import removed with cleanup
@@ -44,17 +37,17 @@ import type { NutritionData, NutritionalFilter } from '../types/nutrition';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 
 import {
-    DietaryFilter,
-    IngredientFilter,
-    IngredientRecommendationOptions,
-    IngredientServiceInterface,
+  DietaryFilter,
+  IngredientFilter,
+  IngredientRecommendationOptions,
+  IngredientServiceInterface,
 } from './interfaces/IngredientServiceInterface';
 
 import { isNonEmptyArray, safeMap, safeSome, toArray } from '../utils/common/arrayUtils';
 import {
-    createElementalProperties,
-    isElementalProperties,
-    mergeElementalProperties,
+  createElementalProperties,
+  isElementalProperties,
+  mergeElementalProperties,
 } from '../utils/elemental/elementalUtils';
 
 // Structure for recipe recommendations
@@ -125,7 +118,10 @@ function isNutritionProfile(value: unknown): value is NutritionProfile {
 
 // --- Astrological/Culinary profile guards ---
 type ElementalAffinity = string | { base?: string; secondary?: string };
-type AstroProfile = { elementalAffinity?: ElementalAffinity; favorableZodiac?: Array<string | ZodiacSign>; };
+type AstroProfile = {
+  elementalAffinity?: ElementalAffinity;
+  favorableZodiac?: Array<string | ZodiacSign>;
+};
 type CulinaryProperties = { modality?: string };
 
 function isAstroProfile(value: unknown): value is AstroProfile {
@@ -133,7 +129,9 @@ function isAstroProfile(value: unknown): value is AstroProfile {
   return true;
 }
 
-function hasCulinaryProperties(value: unknown): value is { culinaryProperties: CulinaryProperties } {
+function hasCulinaryProperties(
+  value: unknown,
+): value is { culinaryProperties: CulinaryProperties } {
   return isObjectLike(value) && 'culinaryProperties' in (value as any);
 }
 
@@ -210,26 +208,16 @@ export class IngredientService implements IngredientServiceInterface {
               })) as unknown as ElementalProperties,
             alchemicalProperties: {
               Spirit: Number(
-                ((data as any).alchemicalProperties as any)
-                  .Spirit ||
-                  (data as any).Spirit ||
-                  0,
+                ((data as any).alchemicalProperties as any).Spirit || (data as any).Spirit || 0,
               ),
               Essence: Number(
-                ((data as any).alchemicalProperties as any)
-                  .Essence ||
-                  (data as any).Essence ||
-                  0,
+                ((data as any).alchemicalProperties as any).Essence || (data as any).Essence || 0,
               ),
               Matter: Number(
-                ((data as any).alchemicalProperties as any)
-                  .Matter ||
-                  (data as any).Matter ||
-                  0,
+                ((data as any).alchemicalProperties as any).Matter || (data as any).Matter || 0,
               ),
               Substance: Number(
-                ((data as any).alchemicalProperties as any)
-                  .Substance ||
+                ((data as any).alchemicalProperties as any).Substance ||
                   (data as any).Substance ||
                   0,
               ),
@@ -371,10 +359,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply elemental filter if specified
         if (filter.elemental) {
           // Apply Pattern A: Safe type casting for elemental filter parameter compatibility
-          filtered = this.applyElementalFilterUnified(
-            filtered,
-            filter.elemental as any,
-          );
+          filtered = this.applyElementalFilterUnified(filtered, filter.elemental as any);
         }
 
         // Apply dietary filter if specified
@@ -440,47 +425,29 @@ export class IngredientService implements IngredientServiceInterface {
         if (!profile) return false;
 
         // Check protein constraints
-        if (
-          filter.minProtein !== undefined &&
-          (profile.macros?.protein || 0) < filter.minProtein
-        ) {
+        if (filter.minProtein !== undefined && (profile.macros?.protein || 0) < filter.minProtein) {
           return false;
         }
 
-        if (
-          filter.maxProtein !== undefined &&
-          (profile.macros?.protein || 0) > filter.maxProtein
-        ) {
+        if (filter.maxProtein !== undefined && (profile.macros?.protein || 0) > filter.maxProtein) {
           return false;
         }
 
         // Check fiber constraints
-        if (
-          filter.minFiber !== undefined &&
-          (profile.macros?.fiber || 0) < filter.minFiber
-        ) {
+        if (filter.minFiber !== undefined && (profile.macros?.fiber || 0) < filter.minFiber) {
           return false;
         }
 
-        if (
-          filter.maxFiber !== undefined &&
-          (profile.macros?.fiber || 0) > filter.maxFiber
-        ) {
+        if (filter.maxFiber !== undefined && (profile.macros?.fiber || 0) > filter.maxFiber) {
           return false;
         }
 
         // Check calorie constraints
-        if (
-          filter.minCalories !== undefined &&
-          (profile.calories || 0) < filter.minCalories
-        ) {
+        if (filter.minCalories !== undefined && (profile.calories || 0) < filter.minCalories) {
           return false;
         }
 
-        if (
-          filter.maxCalories !== undefined &&
-          (profile.calories || 0) > filter.maxCalories
-        ) {
+        if (filter.maxCalories !== undefined && (profile.calories || 0) > filter.maxCalories) {
           return false;
         }
 
@@ -544,9 +511,9 @@ export class IngredientService implements IngredientServiceInterface {
       return (ingredients || []).filter(ingredient => {
         const elementalProps =
           (ingredient.elementalPropertiesState &&
-            isElementalProperties(ingredient.elementalPropertiesState)
-              ? ingredient.elementalPropertiesState
-              : undefined) ||
+          isElementalProperties(ingredient.elementalPropertiesState)
+            ? ingredient.elementalPropertiesState
+            : undefined) ||
           createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
         // Apply Pattern A: Safe type casting for filter parameter compatibility
@@ -1268,9 +1235,11 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Calculate elemental compatibility
       const elemental1 =
-        ing1.elementalState || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+        ing1.elementalState ||
+        createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
       const elemental2 =
-        ing2.elementalState || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+        ing2.elementalState ||
+        createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
       const elementalCompatibility = this.calculateElementalSimilarity(elemental1, elemental2);
 
       // Calculate flavor compatibility
@@ -1657,7 +1626,12 @@ export class IngredientService implements IngredientServiceInterface {
         const baseElement = typeof affinity === 'string' ? affinity : affinity.base;
 
         // Create elemental properties based on base element
-        const elementalProps = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+        const elementalProps = createElementalProperties({
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        });
 
         switch (baseElement?.toLowerCase()) {
           case 'Fire':
@@ -1727,7 +1701,12 @@ export class IngredientService implements IngredientServiceInterface {
       // If no astrologicalProfile, use category to make educated guess
       if (ingredient.category) {
         const category = ingredient.category.toLowerCase();
-        const elementalProps = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+        const elementalProps = createElementalProperties({
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        });
 
         if (category.includes('fruit')) {
           elementalProps.Water = 0.6;
@@ -2027,7 +2006,8 @@ export class IngredientService implements IngredientServiceInterface {
       const scoredIngredients = ingredientsToScore.map(ingredient => {
         // Calculate elemental compatibility
         const ingredientProps =
-          ingredient.elementalProperties || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+          ingredient.elementalProperties ||
+          createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
         const elementalScore = this.calculateElementalSimilarity(ingredientProps, elementalState);
 
         // Apply seasonal bonus if enabled
@@ -2042,9 +2022,7 @@ export class IngredientService implements IngredientServiceInterface {
         if (currentZodiacSign && ingredient.astrologicalProfile) {
           const astro = ingredient.astrologicalProfile as any;
           const fav = astro['favorableZodiac'];
-          const favorable = Array.isArray(fav)
-            ? (fav as Array<string | ZodiacSign>)
-            : undefined;
+          const favorable = Array.isArray(fav) ? (fav as Array<string | ZodiacSign>) : undefined;
           if (favorable) {
             const isCompatible = favorable.some(sign =>
               typeof sign === 'string'

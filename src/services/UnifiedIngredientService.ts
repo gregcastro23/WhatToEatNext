@@ -2,11 +2,11 @@ import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { IngredientRecommendationOptions } from '@/services/interfaces/IngredientServiceInterface';
 import {
-    Element,
-    ElementalProperties,
-    Planet,
-    Season,
-    ThermodynamicProperties
+  Element,
+  ElementalProperties,
+  Planet,
+  Season,
+  ThermodynamicProperties,
 } from '@/types/alchemy';
 import { alchemicalEngine } from '@/utils/alchemyInitializer';
 
@@ -602,11 +602,17 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!nutrition) return true; // Skip if no nutrition data
 
       // Check protein
-      if (filter.minProtein !== undefined && ((nutrition as any)?.protein || 0) < filter.minProtein) {
+      if (
+        filter.minProtein !== undefined &&
+        ((nutrition as any)?.protein || 0) < filter.minProtein
+      ) {
         return false;
       }
 
-      if (filter.minProtein !== undefined && ((nutrition as any)?.protein || 0) < filter.minProtein) {
+      if (
+        filter.minProtein !== undefined &&
+        ((nutrition as any)?.protein || 0) < filter.minProtein
+      ) {
         return false;
       }
 
@@ -619,16 +625,26 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const filterData = filter as any;
       const maxFiber = filterData.maxFiber;
 
-      if (maxFiber !== undefined && maxFiber !== null && ((nutrition as any)?.fiber || 0) > maxFiber) {
+      if (
+        maxFiber !== undefined &&
+        maxFiber !== null &&
+        ((nutrition as any)?.fiber || 0) > maxFiber
+      ) {
         return false;
       }
 
       // Check calories
-      if (filter.maxCalories !== undefined && ((nutrition as any)?.calories || 0) > filter.maxCalories) {
+      if (
+        filter.maxCalories !== undefined &&
+        ((nutrition as any)?.calories || 0) > filter.maxCalories
+      ) {
         return false;
       }
 
-      if (filter.maxCalories !== undefined && ((nutrition as any)?.calories || 0) > filter.maxCalories) {
+      if (
+        filter.maxCalories !== undefined &&
+        ((nutrition as any)?.calories || 0) > filter.maxCalories
+      ) {
         return false;
       }
 
@@ -840,7 +856,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       return (seasons || []).some(season =>
         void Array.isArray(_ingredient.seasonality)
-          ? _ingredient?.seasonality.includes((season as any) (as as any) (unknown as any))
+          ? _ingredient?.seasonality.includes((season as any)(as as any)(unknown as any))
           : _ingredient.seasonality === (season as unknown),
       );
     });
@@ -874,7 +890,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
 
       // Check tags
-      if (((_ingredient as any).tags || []).some((tag: any) => tag?.toLowerCase()?.includes(normalizedQuery))) {
+      if (
+        ((_ingredient as any).tags || []).some((tag: any) =>
+          tag?.toLowerCase()?.includes(normalizedQuery),
+        )
+      ) {
         return true;
       }
 
@@ -889,8 +909,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[],
     excludedIngredients: string[],
   ): UnifiedIngredient[] {
-    const normalizedExclusions = (excludedIngredients || []).map(
-      (name: string) => name.toLowerCase().trim(),
+    const normalizedExclusions = (excludedIngredients || []).map((name: string) =>
+      name.toLowerCase().trim(),
     );
 
     return (ingredients || []).filter(ingredient => {
@@ -1040,7 +1060,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate differences in key properties
     const heatDiff = (Math as any).abs((metrics1 as any)?.heat - (metrics2 as any)?.heat);
     const entropyDiff = (Math as any).abs((metrics1 as any)?.entropy - (metrics2 as any)?.entropy);
-    const reactivityDiff = (Math as any).abs((metrics1 as any)?.reactivity - (metrics2 as any)?.reactivity);
+    const reactivityDiff = (Math as any).abs(
+      (metrics1 as any)?.reactivity - (metrics2 as any)?.reactivity,
+    );
 
     // Calculate average difference
     const avgDiff = (heatDiff + entropyDiff + reactivityDiff) / 3;

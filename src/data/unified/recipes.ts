@@ -1,9 +1,5 @@
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import type {
-  ElementalProperties,
-  Element,
-  Season,
-} from '@/types/alchemy';
+import type { ElementalProperties, Element, Season } from '@/types/alchemy';
 import { Recipe } from '@/types/recipe';
 
 // ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====
@@ -18,10 +14,7 @@ function isValidObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function hasProperty<T extends string>(
-  obj: unknown,
-  prop: T
-): obj is Record<T, unknown> {
+function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj;
 }
 
@@ -162,10 +155,11 @@ export class RecipeEnhancer {
 
     for (const ingredient of ingredients) {
       if (!isIngredientLike(ingredient)) continue;
-      
-      const ingredientName = hasProperty(ingredient, 'name') && typeof ingredient.name === 'string' 
-        ? ingredient.name.toLowerCase() 
-        : undefined;
+
+      const ingredientName =
+        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string'
+          ? ingredient.name.toLowerCase()
+          : undefined;
       let kalchm = 1.0; // Default Kalchm
       let elementalContribution: ElementalProperties = {
         Fire: 0.25,
@@ -185,9 +179,10 @@ export class RecipeEnhancer {
         matchedIngredients++;
       } else {
         // Fallback: derive from element if available
-        const elementValue = hasProperty(ingredient, 'element') && typeof ingredient.element === 'string'
-          ? ingredient.element
-          : null;
+        const elementValue =
+          hasProperty(ingredient, 'element') && typeof ingredient.element === 'string'
+            ? ingredient.element
+            : null;
         if (elementValue) {
           elementalContribution = this.elementToElementalProperties(elementValue as Element);
           kalchm = this.estimateKalchmFromElement(elementValue as Element);
@@ -195,9 +190,10 @@ export class RecipeEnhancer {
       }
 
       totalKalchm += kalchm;
-      const ingredientDisplayName = hasProperty(ingredient, 'name') && typeof ingredient.name === 'string'
-        ? ingredient.name
-        : 'unknown ingredient';
+      const ingredientDisplayName =
+        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string'
+          ? ingredient.name
+          : 'unknown ingredient';
       breakdown.push({
         name: ingredientDisplayName,
         kalchm,
@@ -278,13 +274,14 @@ export class RecipeEnhancer {
 
     for (const item of breakdown) {
       if (!isValidObject(item)) continue;
-      
-      const contribution = hasProperty(item, 'elementalContribution') 
-        ? item.elementalContribution as ElementalProperties
+
+      const contribution = hasProperty(item, 'elementalContribution')
+        ? (item.elementalContribution as ElementalProperties)
         : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-      const weight = hasProperty(item, 'contribution') && typeof item.contribution === 'number'
-        ? item.contribution 
-        : 0;
+      const weight =
+        hasProperty(item, 'contribution') && typeof item.contribution === 'number'
+          ? item.contribution
+          : 0;
 
       totalFire += contribution.Fire * weight;
       totalWater += contribution.Water * weight;
@@ -393,12 +390,16 @@ export class RecipeEnhancer {
     monica: number | null,
   ): string[] {
     const recommendations: string[] = [];
-    
+
     // Safe access to thermodynamics properties
     const thermo = isValidObject(thermodynamics) ? thermodynamics : {};
     const heat = hasProperty(thermo, 'heat') && typeof thermo.heat === 'number' ? thermo.heat : 0;
-    const entropy = hasProperty(thermo, 'entropy') && typeof thermo.entropy === 'number' ? thermo.entropy : 0;
-    const reactivity = hasProperty(thermo, 'reactivity') && typeof thermo.reactivity === 'number' ? thermo.reactivity : 0;
+    const entropy =
+      hasProperty(thermo, 'entropy') && typeof thermo.entropy === 'number' ? thermo.entropy : 0;
+    const reactivity =
+      hasProperty(thermo, 'reactivity') && typeof thermo.reactivity === 'number'
+        ? thermo.reactivity
+        : 0;
 
     // Heat-based recommendations
     if (heat > 0.7) {

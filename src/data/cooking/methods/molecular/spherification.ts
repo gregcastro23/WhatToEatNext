@@ -163,7 +163,7 @@ export const spherification: CookingMethodData = {
     heat: 0.15, // Minimal heat involvement
     entropy: 0.4, // Moderate structural transformation
     reactivity: 0.65, // High chemical reactivity (ionic gelation)
-    gregsEnergy: -0.150 // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: -0.15, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

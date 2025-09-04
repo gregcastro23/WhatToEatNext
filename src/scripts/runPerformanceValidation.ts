@@ -243,7 +243,6 @@ class PerformanceValidationCLI {
     console.log('🧪 Running performance validation tests...\n');
 
     try {
-
       console.log('📊 Running Jest tests for performance validation...');
       const output = execSync(
         'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose',

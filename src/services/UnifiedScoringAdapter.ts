@@ -136,8 +136,7 @@ export class UnifiedScoringAdapter {
           },
         seasonality: (recipe.seasonality as Season[]) || [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
-        flavorProfile:
-          ((recipe as any).flavorProfile as Record<string, number>) || {},
+        flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {},
         culturalOrigins:
           ((recipe as unknown as any).culturalOrigins as string[]) ||
           [String((recipe as unknown as any).cuisine || '')].filter(Boolean),
@@ -187,15 +186,9 @@ export class UnifiedScoringAdapter {
           Air: 0.25,
         },
         seasonality: ((method as unknown as any).seasonality as Season[]) || [],
-        planetaryRulers:
-          ((method as unknown as any).planetaryRulers as Planet[]) || [],
-        flavorProfile:
-          ((method as unknown as any).flavorProfile as Record<
-            string,
-            number
-          >) || {},
-        culturalOrigins:
-          ((method as unknown as any).culturalOrigins as string[]) || [],
+        planetaryRulers: ((method as unknown as any).planetaryRulers as Planet[]) || [],
+        flavorProfile: ((method as unknown as any).flavorProfile as Record<string, number>) || {},
+        culturalOrigins: ((method as unknown as any).culturalOrigins as string[]) || [],
       },
       options: {
         debugMode: options.debugMode,

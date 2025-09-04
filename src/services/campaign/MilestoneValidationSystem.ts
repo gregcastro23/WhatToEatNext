@@ -706,10 +706,7 @@ export class MilestoneValidationSystem {
 
   private async validateBundleSize(metrics: ProgressMetrics): Promise<MilestoneValidation> {
     const bundleSize: number =
-      Number(
-        ((metrics as unknown as any).buildMetrics as any)
-          .bundleSize,
-      ) || 0;
+      Number(((metrics as unknown as any).buildMetrics as any).bundleSize) || 0;
 
     const criteria: ValidationCriteria[] = [
       {

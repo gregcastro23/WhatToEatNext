@@ -164,7 +164,7 @@ class StateManager {
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
     if (!obj || typeof obj !== 'object') return false;
-    
+
     const data = obj as any;
     return !!(data.recipes && data.celestial && data.user && data.ui);
   }

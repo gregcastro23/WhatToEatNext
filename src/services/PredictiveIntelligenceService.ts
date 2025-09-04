@@ -687,10 +687,7 @@ export class PredictiveIntelligenceService {
   ): number {
     const planetaryPositions = astrologicalContext.planetaryPositions || {};
     const planetaryInfluences = Object.values(planetaryPositions).map(position =>
-      this.calculatePlanetaryInfluence(
-        position as unknown as any,
-        culinaryContext,
-      ),
+      this.calculatePlanetaryInfluence(position as unknown as any, culinaryContext),
     );
 
     return planetaryInfluences.length > 0
@@ -1201,7 +1198,7 @@ export class PredictiveIntelligenceService {
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): string {
-    return `predictive_${JSON.stringify({
+    return `predictive_${JSON.stringify({}
       recipeId: (recipeData as { id?: string })?.id,
       ingredientCount: (ingredientData as any[])?.length,
       cuisineName: cuisineData.name,
