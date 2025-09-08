@@ -150,7 +150,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               toolsRequired: (methodData.toolsRequired as Element[]) || [],
               bestFor: (methodData.bestFor as Element[]) || [],
               culturalOrigin: methodData.culturalOrigin as string,
-              astrologicalInfluences: methodData.astrologicalInfluences as any,
+              astrologicalInfluences: methodData.astrologicalInfluences as unknown,
               duration: {
                 min: (methodData.duration as { min?: number }).min || 0,
                 max: (methodData.duration as { max?: number }).max || 0,
@@ -179,11 +179,11 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         culturalOrigin: methodData.culturalOrigin as string,
         astrologicalInfluences: {
           favorableZodiac:
-            ((methodData.astrologicalInfluences as any).favorableZodiac as any[]) || [],
+            ((methodData.astrologicalInfluences as unknown).favorableZodiac as any[]) || [],
           unfavorableZodiac:
-            ((methodData.astrologicalInfluences as any).unfavorableZodiac as any[]) || [],
+            ((methodData.astrologicalInfluences as unknown).unfavorableZodiac as any[]) || [],
           dominantPlanets:
-            ((methodData.astrologicalInfluences as any).dominantPlanets as string[]) || [],
+            ((methodData.astrologicalInfluences as unknown).dominantPlanets as string[]) || [],
         },
         duration: {
           min: (methodData.duration as { min?: number }).min || 0,
@@ -461,7 +461,7 @@ export function getRecommendedCookingMethods(
     }
 
     // Zodiac compatibility (20% weight)
-    const astrologicalInfluences = methodData.astrologicalInfluences as any;
+    const astrologicalInfluences = methodData.astrologicalInfluences as unknown;
     const favorableZodiac = astrologicalInfluences.favorableZodiac as string[];
     if (currentZodiac && favorableZodiac) {
       const zodiacMatch = favorableZodiac.includes(currentZodiac);
@@ -718,7 +718,7 @@ export function getCookingMethodRecommendations(
     const elementalEffect =
       (methodData.elementalEffect as ElementalProperties) ||
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
-    const astrologicalInfluences = (methodData.astrologicalInfluences as any) || {};
+    const astrologicalInfluences = (methodData.astrologicalInfluences as unknown) || {};
     const description = String(methodData.description || 'Recommended cooking method');
 
     return {

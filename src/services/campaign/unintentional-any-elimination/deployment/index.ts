@@ -10,6 +10,7 @@
 
 import { spawn } from 'child_process';
 import { existsSync, writeFileSync } from 'fs';
+
 import { ConfigurationManager, UnintentionalAnyConfig, environmentConfigManager } from '../config';
 
 export interface DeploymentPhase {

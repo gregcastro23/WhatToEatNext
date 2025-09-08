@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
@@ -36,8 +37,8 @@ jest.mock('@/utils/logger', () => ({
 }));
 
 // Mock components with realistic behavior
-jest.mock('@/components/CuisineRecommender'( {
-  return function MockCuisineRecommender() : any {
+jest.mock('@/components/CuisineRecommender', () => {
+  return function MockCuisineRecommender(): any {
     const [selectedCuisine, setSelectedCuisine] = React.useState<string | null>(null);
 
     return (<div data-testid='cuisine-recommender'>
@@ -60,7 +61,7 @@ jest.mock('@/components/CuisineRecommender'( {
   };
 });
 
-jest.mock('@/components/IngredientRecommender'( {
+jest.mock('@/components/IngredientRecommender', () => {
   return function MockIngredientRecommender(: any : any { maxDisplayed = 8 }: { maxDisplayed?: number }) {
     const [selectedIngredients, setSelectedIngredients] = React.useState<string[]>([]);
 
@@ -93,7 +94,7 @@ jest.mock('@/components/IngredientRecommender'( {
   };
 });
 
-jest.mock('@/components/CookingMethodsSection'( {
+jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection({
     maxDisplayed = 6,
     onViewMore,
@@ -129,8 +130,8 @@ jest.mock('@/components/CookingMethodsSection'( {
   };
 });
 
-jest.mock('@/components/recipes/RecipeBuilderSimple'( {
-  return function MockRecipeBuilderSimple() : any {
+jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
+  return function MockRecipeBuilderSimple(): any {
     const [recipeName, setRecipeName] = React.useState('');
     const [ingredients, setIngredients] = React.useState<string[]>([]);
     const [steps, setSteps] = React.useState<string[]>([]);
@@ -175,8 +176,8 @@ jest.mock('@/components/recipes/RecipeBuilderSimple'( {
   };
 });
 
-jest.mock('@/components/debug/ConsolidatedDebugInfo'( {
-  return function MockConsolidatedDebugInfo() : any {
+jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
+  return function MockConsolidatedDebugInfo(): any {
     return (
       <div data-testid='debug-info'>
         <h4>Debug Panel</h4>

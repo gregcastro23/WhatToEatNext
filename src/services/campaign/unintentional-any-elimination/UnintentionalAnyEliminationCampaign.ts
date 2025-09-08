@@ -10,14 +10,14 @@ import {
   SafetyEventSeverity,
   SafetyEventType,
 } from '../../../types/campaign';
+import { ProgressTracker } from '../ProgressTracker';
+import { SafetyProtocol } from '../SafetyProtocol';
 
+import { DocumentationQualityAssurance } from './DocumentationQualityAssurance';
+import { ProgressiveImprovementEngine } from './ProgressiveImprovementEngine';
 import { UnintentionalAnyCampaignResult, UnintentionalAnyConfig } from './types';
 
 import { AutoDocumentationGenerator } from '.';
-import { ProgressTracker } from '../ProgressTracker';
-import { SafetyProtocol } from '../SafetyProtocol';
-import { DocumentationQualityAssurance } from './DocumentationQualityAssurance';
-import { ProgressiveImprovementEngine } from './ProgressiveImprovementEngine';
 
 export class UnintentionalAnyEliminationCampaign {
   private engine: ProgressiveImprovementEngine;

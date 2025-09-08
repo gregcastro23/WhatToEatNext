@@ -391,12 +391,12 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       Air: 0.25,
     },
     qualities: (mapping.qualities as unknown as string[]) || [],
-    storage: (mapping.storage as unknown as any) || {
+    storage: (mapping.storage as unknown as unknown) || {
       duration: 'unknown',
     },
     // Add missing required properties for Ingredient interface
-    amount: (mapping as unknown as any).amount || 1,
-    astrologicalProfile: (mapping as unknown as any).astrologicalProfile || {
+    amount: (mapping as unknown as unknown).amount || 1,
+    astrologicalProfile: (mapping as unknown as unknown).astrologicalProfile || {
       elementalAffinity: { base: 'Earth' },
       rulingPlanets: [],
       zodiacAffinity: [],
@@ -411,7 +411,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       key !== 'elementalProperties' &&
       key !== 'qualities'
     ) {
-      (ingredient as unknown as any)[key] = mapping[key];
+      (ingredient as unknown as unknown)[key] = mapping[key];
     }
   }
 
@@ -432,11 +432,11 @@ export function ingredientToRecipeIngredient(
     unit,
     category: ingredient.category || 'culinary_herb',
     elementalProperties: ingredient.elementalProperties as any,
-    qualities: (ingredient as unknown as any).qualities || [],
+    qualities: (ingredient as unknown as unknown).qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
     // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as unknown as any).origin || undefined,
-    seasonality: (ingredient as unknown as any).seasonality || undefined,
+    origin: (ingredient as unknown as unknown).origin || undefined,
+    seasonality: (ingredient as unknown as unknown).seasonality || undefined,
   } as RecipeIngredient;
 }
 

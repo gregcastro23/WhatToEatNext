@@ -155,7 +155,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle nutrition information
   if (recipeData.nutrition) {
     const nutritionData = recipeData.nutrition as any;
-    const macronutrients = (nutritionData.macronutrients as any) || {};
+    const macronutrients = (nutritionData.macronutrients as unknown) || {};
     const micronutrients = (nutritionData.micronutrients as any) || {};
     recipe.nutrition = {
       calories: Number(nutritionData.calories) || 0,

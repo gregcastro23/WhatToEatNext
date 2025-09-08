@@ -17,9 +17,9 @@ import {
   MLMetrics,
   IngredientCompatibilityResult,
 } from '@/types/mlIntelligence';
+import { getCurrentSeason } from '@/types/seasons';
 import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
 import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
-import { getCurrentSeason } from '@/types/seasons';
 import { logger } from '@/utils/logger';
 
 // Note: These functions are not yet implemented in calculations/index
@@ -378,7 +378,7 @@ export class MLIntelligenceService {
         ?.elementalProperties ?? {},
     );
 
-    const recipeData = recipe as unknown as any;
+    const recipeData = recipe as unknown as unknown;
     const seasonalOptimization = calculateSeasonalOptimization(
       (recipeData.seasonality as string) || 'all',
       getCurrentSeason(),
@@ -427,7 +427,7 @@ export class MLIntelligenceService {
 
     // Add seasonal substitution recommendations
     const currentSeason = getCurrentSeason();
-    const recipeSeason = recipe as unknown as any;
+    const recipeSeason = recipe as unknown as unknown;
     if (
       recipeSeason.seasonality &&
       recipeSeason.seasonality !== 'all' &&
@@ -455,7 +455,7 @@ export class MLIntelligenceService {
     const optimizations: string[] = [];
 
     // Analyze current cooking methods
-    const recipeMethodData = recipe as unknown as any;
+    const recipeMethodData = recipe as unknown as unknown;
     if (recipeMethodData.cookingMethods) {
       (recipeMethodData.cookingMethods as string[]).forEach(method => {
         const optimization = this.findCookingMethodOptimization(method, __astrologicalContext);
@@ -488,10 +488,10 @@ export class MLIntelligenceService {
     const suggestions: string[] = [];
 
     // Analyze flavor profile for enhancements
-    const recipeFlavorData = recipe as unknown as any;
+    const recipeFlavorData = recipe as unknown as unknown;
     if (recipeFlavorData.flavorProfile) {
       const flavorEnhancements = this.analyzeFlavorEnhancements(
-        recipeFlavorData.flavorProfile as any,
+        recipeFlavorData.flavorProfile as unknown,
         __astrologicalContext,
       );
       suggestions.push(...flavorEnhancements);
@@ -521,10 +521,10 @@ export class MLIntelligenceService {
     const optimizations: string[] = [];
 
     // Analyze nutritional balance
-    const recipeNutritionData = recipe as unknown as any;
+    const recipeNutritionData = recipe as unknown as unknown;
     if (recipeNutritionData.nutrition) {
       const nutritionalOptimizations = this.analyzeNutritionalOptimizations(
-        recipeNutritionData.nutrition as any,
+        recipeNutritionData.nutrition as unknown,
         __astrologicalContext,
       );
       optimizations.push(...nutritionalOptimizations);
@@ -994,7 +994,7 @@ export class MLIntelligenceService {
 
     // Time of day optimization
     const hour = new Date().getHours();
-    const recipeData = recipe as unknown as any;
+    const recipeData = recipe as unknown as unknown;
     if (recipeData.cookingMethod === 'baking' && hour >= 14 && hour <= 17) {
       timingRecommendations.push('Afternoon baking aligns with natural cooling cycle');
     }

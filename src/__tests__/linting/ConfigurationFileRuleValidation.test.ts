@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean;
 }
@@ -45,7 +46,7 @@ describe('Configuration File Rule Validation', () => {
         const devTools = isDevelopment ? require('./dev-tools') : null;
         
         // Runtime requires
-        function loadConfig(configPath: any) : any {
+        function loadConfig(configPath: any): any {
           return require(configPath);
         }
         
@@ -79,7 +80,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow dynamic requires
           expect(dynamicRequireErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -144,7 +145,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(dynamicRequireErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -215,7 +216,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow var requires
           expect(varRequireErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -304,7 +305,7 @@ describe('Configuration File Rule Validation', () => {
           // Webpack config should not have restrictive errors
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -364,7 +365,7 @@ describe('Configuration File Rule Validation', () => {
               ? 'http: //localhos, t:3001' 
               : 'https://api.example.com'
           },
-          async redirects() : any {
+          async redirects(): any {
             return [
               {
   source: '/old-path',
@@ -373,7 +374,7 @@ describe('Configuration File Rule Validation', () => {
               }
             ];
           },
-          async rewrites() : any {
+          async rewrites(): any {
             return [
               {
   source: '/api/:path*',
@@ -406,7 +407,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -518,7 +519,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -617,7 +618,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -696,7 +697,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow explicit any types
           expect(anyTypeErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -767,7 +768,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow console statements
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -802,7 +803,7 @@ describe('Configuration File Rule Validation', () => {
         ] : [];
         
         // Function-based requires
-        function loadTSConfig(configPath: string) : any {
+        function loadTSConfig(configPath: string): any {
           return require(configPath);
         }
         
@@ -833,7 +834,7 @@ describe('Configuration File Rule Validation', () => {
           // TypeScript config files should allow var requires
           expect(varRequireErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -920,7 +921,7 @@ describe('Configuration File Rule Validation', () => {
             // Existing Next.js config should not have restrictive errors
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error) : any {
+        } catch (error): any {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -965,7 +966,7 @@ describe('Configuration File Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error) : any {
+        } catch (error): any {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -1008,7 +1009,7 @@ describe('Configuration File Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error) : any {
+        } catch (error): any {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -1065,7 +1066,7 @@ describe('Configuration File Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error) : any {
+        } catch (error): any {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);

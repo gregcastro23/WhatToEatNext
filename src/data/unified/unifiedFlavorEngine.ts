@@ -1,5 +1,6 @@
 import { log } from '@/services/LoggingService';
 import type { AlchemicalProperties, ElementalProperties, Season } from '@/types/alchemy';
+
 import * as flavorProfileMigration from './flavorProfileMigration';
 
 // ===== UNIFIED INTERFACES =====

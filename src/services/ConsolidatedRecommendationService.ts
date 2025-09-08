@@ -391,7 +391,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       // Transform to standardized result format - ensure CookingMethod type
       // TODO: Enhance getCookingMethodRecommendations to return CookingMethod[]
       const items: CookingMethod[] = (methodRecommendations || []).map((method: unknown) => {
-        const methodData = method as any;
+        const methodData = method as unknown;
         return {
           id: String(methodData.id || methodData.name || ''),
           name: String(methodData.name || ''),

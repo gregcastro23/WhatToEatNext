@@ -6,6 +6,7 @@
  */
 
 import * as fs from 'fs/promises';
+
 import {
   AnyTypeCategory,
   AnyTypeClassification,

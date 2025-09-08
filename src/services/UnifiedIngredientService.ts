@@ -317,7 +317,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       return (seasons || []).some(s =>
         void Array.isArray(_ingredient.seasonality)
           ? _ingredient?.seasonality.includes(s)
-          : _ingredient.seasonality === (s as unknown as any),
+          : _ingredient.seasonality === (s as unknown as unknown),
       );
     });
   }
@@ -334,7 +334,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const planets = (_ingredient as any)?.astrologicalProperties?.planets;
       return Array.isArray(planets)
         ? planets.includes(planet as unknown as string) // ← Pattern HH-1: Safe conversion via unknown
-        : planets === (planet as unknown as any); // ← Pattern HH-1: Safe conversion via unknown
+        : planets === (planet as unknown as unknown); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
 
@@ -350,7 +350,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const signs = (_ingredient as any)?.astrologicalProperties?.signs;
       return Array.isArray(signs)
         ? signs.includes(sign as unknown as string) // ← Pattern HH-1: Safe conversion via unknown
-        : signs === (sign as unknown as any); // ← Pattern HH-1: Safe conversion via unknown
+        : signs === (sign as unknown as unknown); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
 
@@ -386,7 +386,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(_ingredient => {
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as unknown as any;
+      const alchemicalEngineData = alchemicalEngine as unknown as unknown;
       const compatibilityMethod =
         alchemicalEngineData.calculateElementalCompatibility || this.fallbackElementalCompatibility;
       const compatibility =
@@ -794,7 +794,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!dietary) return true; // Skip if no dietary data
 
       // Extract filter data with safe property access for dietary properties
-      const filterData = filter as unknown as any;
+      const filterData = filter as unknown as unknown;
       const isVegetarian = filterData.isVegetarian;
       const isVegan = filterData.isVegan;
       const isGlutenFree = filterData.isGlutenFree;
@@ -856,7 +856,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       return (seasons || []).some(season =>
         void Array.isArray(_ingredient.seasonality)
-          ? _ingredient?.seasonality.includes((season as any)(as as any)(unknown as any))
+          ? _ingredient?.seasonality.includes((season as any)(as as any)(unknown as unknown))
           : _ingredient.seasonality === (season as unknown),
       );
     });

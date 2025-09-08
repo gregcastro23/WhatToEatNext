@@ -1,7 +1,8 @@
 'use client';
 
-import { useServices } from '@/hooks/useServices';
 import { useState } from 'react';
+
+import { useServices } from '@/hooks/useServices';
 
 // Inline temporary fallbacks for missing shared components
 const CookingMethodsSection = ({

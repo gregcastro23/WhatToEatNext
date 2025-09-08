@@ -48,7 +48,7 @@ export const getFruitsByPreparation = (method: string): Record<string, Ingredien
   return Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
-      const preparationData = fruitData.preparation as any;
+      const preparationData = fruitData.preparation as unknown;
       return preparationData && preparationData[String(method || '')];
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -90,7 +90,7 @@ export const getFruitsByRulingPlanet = (planet: string): Record<string, Ingredie
   return Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
-      const astroProfile = fruitData.astrologicalProfile as any;
+      const astroProfile = fruitData.astrologicalProfile as unknown;
       const rulingPlanets = astroProfile.rulingPlanets;
       return Array.isArray(rulingPlanets) && rulingPlanets.includes(String(planet || ''));
     })
@@ -104,7 +104,7 @@ export const getFruitsByElementalAffinity = (
   return Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
-      const astroProfile = fruitData.astrologicalProfile as any;
+      const astroProfile = fruitData.astrologicalProfile as unknown;
       const affinity = astroProfile.elementalAffinity;
       if (!affinity) return false;
 

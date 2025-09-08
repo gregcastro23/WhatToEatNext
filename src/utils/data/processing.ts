@@ -127,7 +127,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
         : typeof raw.cookTime === 'string'
           ? raw.cookTime
           : '30 minutes',
-    difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as any) : 'medium',
+    difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as unknown) : 'medium',
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw.instructions || [].map(String) : [],
     elementalProperties: standardizeElementalProperties(raw.elementalState),
@@ -418,7 +418,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
       favorableZodiac: [],
     } as unknown as AstrologicalProfile;
   }
-  const prof = profile as any;
+  const prof = profile as unknown;
   return {
     elementalAffinity: standardizeElementalAffinity(
       String((prof.elementalAffinity as any).base || ''),
@@ -443,7 +443,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   }
 
   const result: { [key: string]: number } = {};
-  const prof = profile as any;
+  const prof = profile as unknown;
 
   Object.entries(prof || {}).forEach(([key, value]) => {
     if (typeof value === 'number' && value >= 0 && value <= 1) {
@@ -459,7 +459,7 @@ function standardizeNutritionalProfile(profile: unknown): { [key: string]: unkno
     return undefined;
   }
 
-  return profile as any;
+  return profile as unknown;
 }
 
 function standardizeSeasons(seasons: unknown): string[] {
@@ -556,12 +556,12 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   // Safe property access for AstrologicalProfile properties
-  const elementalAffinity = (profile as any).elementalAffinity;
+  const elementalAffinity = (profile as unknown).elementalAffinity;
   if (!(elementalAffinity as any).base) {
     errors.push('Elemental affinity is required');
   }
 
-  const rulingPlanets = (profile as any).rulingPlanets;
+  const rulingPlanets = (profile as unknown).rulingPlanets;
   if (!Array.isArray(rulingPlanets)) {
     errors.push('Ruling planets must be an array');
   }

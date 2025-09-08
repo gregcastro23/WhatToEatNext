@@ -1,9 +1,10 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useServices } from '@/hooks/useServices';
 import { logger } from '@/utils/logger';
-import { useEffect, useState } from 'react';
 
 // Lightweight fallbacks for missing components
 const CuisineSection = ({

@@ -120,7 +120,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...(data as any),
+        ...(data as unknown),
       } as EnhancedIngredient;
 
       // Special tracking for grains and herbs
@@ -210,7 +210,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     const sum = Object.values(standardized.elementalProperties).reduce((a, b) => a + b, 0);
     if (sum > 0) {
       Object.keys(standardized.elementalProperties).forEach(key => {
-        standardized.elementalProperties[key as any] /= sum;
+        standardized.elementalProperties[key as unknown] /= sum;
       });
     }
   }
@@ -867,7 +867,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     };
 
     if (standardized.sensoryProfile) {
-      const sensory = standardized.sensoryProfile as any;
+      const sensory = standardized.sensoryProfile as unknown;
 
       // Calculate weighted scores based on user preferences
       if (sensory.taste) {

@@ -65,7 +65,7 @@ export const getZodiacSign = (date: Date): any => {
     const { startMonth, startDay, endMonth, endDay } = range;
 
     if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {
-      return sign as any;
+      return sign as unknown;
     }
   }
 

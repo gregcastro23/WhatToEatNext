@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean;
 }
@@ -106,7 +107,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         // If no error, constants are properly preserved
         expect(true).toBe(true);
-      } catch (error) : any {
+      } catch (error): any {
         // Check if it's a legitimate constant preservation error
         const output: any = (error as any).stderr.toString() || '';
         if (output.includes('preserve-planetary-constants')) {
@@ -150,7 +151,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         // ESLint errors are expected, check if they're the right kind
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
@@ -197,7 +198,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         // Valid elemental properties should not cause errors
         expect(true).toBe(true);
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stderr.toString() || '';
         if (output.includes('validate-elemental-properties')) {
           fail('Valid elemental properties should not be flagged');
@@ -230,7 +231,7 @@ describe('Domain-Specific Rule Validation', () => {
         // Should have caught the invalid properties
         // If we reach here without error, the rule didn't work
         console.warn('Invalid elemental properties not caught by validation rule');
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stderr.toString() || '';
         // We expect this to fail with our custom rule
         expect(output.includes('validate-elemental-properties') || output.length > 0).toBe(true);
@@ -259,7 +260,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         // Valid fallback values should not cause errors
         expect(true).toBe(true);
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stderr.toString() || '';
         if (output.includes('preserve-fallback-values')) {
           fail('Valid fallback values should not be flagged');
@@ -276,7 +277,7 @@ describe('Domain-Specific Rule Validation', () => {
     test('should allow enterprise patterns': any, async () => {
       const testContent: any = `
         class CampaignController {
-          private complexMethod() : any {
+          private complexMethod(): any {
             // Complex enterprise logic with high complexity;
             let result: any = 0;
             for (let i: any = 0; i < 10; i++) {
@@ -316,7 +317,7 @@ describe('Domain-Specific Rule Validation', () => {
           // Campaign files should allow higher complexity
           expect(complexityErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -362,7 +363,7 @@ describe('Domain-Specific Rule Validation', () => {
           // Campaign files should allow console logging
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -412,7 +413,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -467,7 +468,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -519,7 +520,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -577,7 +578,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -627,7 +628,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(requireErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -673,7 +674,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);

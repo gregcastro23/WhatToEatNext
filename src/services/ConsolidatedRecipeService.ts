@@ -96,7 +96,7 @@ export class ConsolidatedRecipeService {
       const serviceObj = unifiedRecipeService as unknown as {
         searchRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
-      const unifiedResults = await serviceObj.searchRecipes(criteria as any);
+      const unifiedResults = await serviceObj.searchRecipes(criteria as unknown);
 
       // Extract just the Recipe objects from the results
       return (unifiedResults || []).map((result: unknown) => {

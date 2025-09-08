@@ -57,10 +57,10 @@ import {
   MethodRecommendationOptions,
   PlanetaryAspect,
 } from '@/types/alchemy';
-import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 // Removed unused import: CookingMethodEnum
 import type { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
+import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 // Removed unused import: getCulturalVariations
 
 // Define interfaces for the various method types we work with
@@ -1047,7 +1047,7 @@ export async function getRecommendedCookingMethods(
 
     // Lunar phase influence (new component)
     if (lunarPhase) {
-      const methodData = method as any;
+      const methodData = method as unknown;
       const methodNameLower = String(methodData.name || '').toLowerCase();
 
       // New moon favors starting new methods, preparation methods
@@ -1101,7 +1101,7 @@ export async function getRecommendedCookingMethods(
     if (isVenusActive) {
       // Check if method aligns with Venus culinary techniques
       if (venusData.PlanetSpecific?.CulinaryTechniques) {
-        const methodData = method as any;
+        const methodData = method as unknown;
         const methodNameLower = String(methodData.name || '').toLowerCase();
         const methodDescLower = String(methodData.description || '').toLowerCase();
 
@@ -1165,7 +1165,7 @@ export async function getRecommendedCookingMethods(
       // Add score for culinary temperament alignment
       if (venusTemperament && venusTemperament.FoodFocus) {
         const foodFocus = String(venusTemperament.FoodFocus || '').toLowerCase();
-        const methodData = method as any;
+        const methodData = method as unknown;
         const methodName = String(methodData.name || '').toLowerCase();
         const methodDesc = String(methodData.description || '').toLowerCase();
 
@@ -1178,14 +1178,14 @@ export async function getRecommendedCookingMethods(
         venusScore += matchCount * 0.8;
 
         // Check elements alignment with Venus temperament
-        if (venusTemperament.Elements && (method as any).elementalEffect) {
+        if (venusTemperament.Elements && (method as unknown).elementalEffect) {
           for (const element in venusTemperament.Elements) {
-            const elementProperty = element as any;
-            const methodElementalEffect = (method as any).elementalEffect as Record<string, number>;
+            const elementProperty = element as unknown;
+            const methodElementalEffect = (method as unknown).elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
                 venusTemperament.Elements[element] *
-                ((method as any).elementalEffect?.[elementProperty] || 0) *
+                ((method as unknown).elementalEffect?.[elementProperty] || 0) *
                 1.2;
             }
           }
@@ -1197,7 +1197,7 @@ export async function getRecommendedCookingMethods(
         // Check food focus alignment
         if (venusZodiacTransit.FoodFocus) {
           const transitFocus = (venusZodiacTransit.FoodFocus as string).toLowerCase();
-          const methodData = method as any;
+          const methodData = method as unknown;
           const methodDesc =
             typeof methodData.description === 'string' ? methodData.description.toLowerCase() : '';
           const methodName =
@@ -1213,10 +1213,10 @@ export async function getRecommendedCookingMethods(
         }
 
         // Check elements alignment with transit
-        if (venusZodiacTransit.Elements && (method as any).elementalEffect) {
+        if (venusZodiacTransit.Elements && (method as unknown).elementalEffect) {
           for (const element in venusZodiacTransit.Elements) {
-            const elementProperty = element as any;
-            const methodElementalEffect = (method as any).elementalEffect as Record<string, number>;
+            const elementProperty = element as unknown;
+            const methodElementalEffect = (method as unknown).elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
                 venusZodiacTransit.Elements[element] * methodElementalEffect[elementProperty] * 0.8;
@@ -1234,7 +1234,7 @@ export async function getRecommendedCookingMethods(
 
         if (foodFocus) {
           const retroFocus = typeof foodFocus === 'string' ? foodFocus.toLowerCase() : '';
-          const methodData = method as any;
+          const methodData = method as unknown;
           const methodName =
             typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '';
           const methodDesc =
@@ -1268,11 +1268,11 @@ export async function getRecommendedCookingMethods(
 
         // Apply retrograde elements influence
         const elements = retrogradeData.Elements;
-        if (elements && (method as any).elementalEffect) {
+        if (elements && (method as unknown).elementalEffect) {
           const elementsData = elements as any;
           for (const element in elementsData) {
-            const elementProperty = element as any;
-            const methodElementalEffect = (method as any).elementalEffect as Record<string, number>;
+            const elementProperty = element as unknown;
+            const methodElementalEffect = (method as unknown).elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore *=
                 1 +
@@ -1298,7 +1298,7 @@ export async function getRecommendedCookingMethods(
       };
 
       for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
-        const methodData = method as any;
+        const methodData = method as unknown;
         const methodNameStr =
           typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '';
         const methodDescStr =
@@ -1326,7 +1326,7 @@ export async function getRecommendedCookingMethods(
 
     // Capture detailed scoring components for transparency
     // Extract method data with safe property access
-    const methodData = method as any;
+    const methodData = method as unknown;
     const scoreDetails = {
       elemental: elementalScore * 0.4,
       astrological: astrologicalScore * 0.25,
@@ -1407,7 +1407,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
   for (const aspect of aspects) {
     // Convert method to proper type with safe property access
     const methodData = method as unknown as any;
-    const _sensoryProfile = methodData.sensoryProfile as any;
+    const _sensoryProfile = methodData.sensoryProfile as unknown;
     const properties = methodData.properties as any;
 
     if (!properties) continue;
@@ -1561,8 +1561,8 @@ function calculateElementalCompatibility(
   let totalWeight = 0;
 
   for (const element of elements) {
-    const valA = elementalA[element as any];
-    const valB = elementalB[element as any];
+    const valA = elementalA[element as unknown];
+    const valB = elementalB[element as unknown];
 
     // Ensure both values are numbers before calculating
     if (typeof valA === 'number' && typeof valB === 'number') {

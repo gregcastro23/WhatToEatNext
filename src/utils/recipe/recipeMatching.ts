@@ -204,11 +204,11 @@ const calculateEnergyMatch = async (
     // Apply safe casting for kalchm property access
     const recipeKalchmData =
       typeof recipeKalchmResult === 'object'
-        ? (recipeKalchmResult as any)
+        ? (recipeKalchmResult as unknown)
         : { kalchm: recipeKalchmResult };
     const currentKalchmData =
       typeof currentKalchmResult === 'object'
-        ? (currentKalchmResult as any)
+        ? (currentKalchmResult as unknown)
         : { kalchm: currentKalchmResult };
 
     const recipeKalchmValue = Number(recipeKalchmData.kalchm ?? recipeKalchmResult ?? 0);

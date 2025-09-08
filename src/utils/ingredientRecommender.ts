@@ -336,8 +336,8 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
     filteredIngredients.sort((a, b) => {
       const ingredientA = a as unknown as BaseIngredient;
       const ingredientB = b as unknown as BaseIngredient;
-      const aValue = ingredientA.elementalProperties?.[astroState.dominantElement as any] || 0;
-      const bValue = ingredientB.elementalProperties?.[astroState.dominantElement as any] || 0;
+      const aValue = ingredientA.elementalProperties?.[astroState.dominantElement as unknown] || 0;
+      const bValue = ingredientB.elementalProperties?.[astroState.dominantElement as unknown] || 0;
       return bValue - aValue;
     });
   }
@@ -584,7 +584,7 @@ export async function getIngredientRecommendations(
     ingredients: scoredIngredients,
     elementalProperties: elementalProps,
     astrologicalContext: {
-      zodiacSign: elementalProps.zodiacSign as any,
+      zodiacSign: elementalProps.zodiacSign as unknown,
       lunarPhase: elementalProps.lunarPhase as LunarPhase,
       elementalProperties: elementalProps,
       planetaryPositions: elementalProps.planetaryAlignment,
@@ -828,7 +828,7 @@ function calculateEnhancedPlanetaryScore(
 
   // Check ruling planet correspondence - this gets extra weight
   const ingredientData = ingredient as unknown as any;
-  const astrologicalProfile = ingredientData.astrologicalProfile as any;
+  const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
   const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
   if (rulingPlanets.includes(rulingPlanet)) {
     score += 1.5; // Significant boost for ruling planet correspondence
@@ -2074,7 +2074,7 @@ function calculateMercuryInfluence(
 
   // Base score for Mercury-ruled ingredients
   const ingredientData = ingredient as unknown as any;
-  const astrologicalProfile = ingredientData.astrologicalProfile as any;
+  const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
   const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
   if (rulingPlanets.includes('Mercury')) {
     score += 3.0; // Strong baseline for Mercury-ruled ingredients
@@ -2722,7 +2722,7 @@ function calculatePlanetaryDayInfluence(
   }
 
   // If the food has a direct planetary affinity, give bonus points
-  const astrologicalProfile = ingredientData.astrologicalProfile as any;
+  const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
   const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
   if (rulingPlanets.includes(planetaryDay)) {
     elementalScore = Math.min(1.0, elementalScore + 0.3);
@@ -2818,7 +2818,7 @@ function calculatePlanetaryHourInfluence(
       }
 
       // Apply the aspect modifier if the ingredient is ruled by the other planet in the aspect
-      const astrologicalProfile = ingredientData.astrologicalProfile as any;
+      const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
       const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
       if (rulingPlanets.includes(otherPlanet)) {
         elementalMatch = Math.min(1.0, Math.max(0.0, elementalMatch + aspectModifier));
@@ -2827,7 +2827,7 @@ function calculatePlanetaryHourInfluence(
   }
 
   // If the food has a direct planetary affinity, give bonus points
-  const astrologicalProfile = ingredientData.astrologicalProfile as any;
+  const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
   const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
   if (rulingPlanets.includes(planetaryHour)) {
     elementalMatch = Math.min(1.0, elementalMatch + 0.3);
@@ -3116,7 +3116,7 @@ function generateRecommendationsForIngredient(
       const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
 
       const ingredientData = ingredient as unknown as any;
-      const astrologicalProfile = ingredientData.astrologicalProfile as any;
+      const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
       const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
       if (dayDignity && dayDignity > 0 && rulingPlanets.includes(planetaryDay)) {
         recs.push(
@@ -3135,7 +3135,7 @@ function generateRecommendationsForIngredient(
       const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
 
       const ingredientData = ingredient as unknown as any;
-      const astrologicalProfile = ingredientData.astrologicalProfile as any;
+      const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
       const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
       if (hourDignity && hourDignity > 0 && rulingPlanets.includes(planetaryHour)) {
         recs.push(
@@ -3161,7 +3161,7 @@ function generateRecommendationsForIngredient(
         if (planets.includes(planetaryDay) || planets.includes(planetaryHour)) {
           const otherPlanet = planets.find(p => p !== planetaryDay && p !== planetaryHour);
           const ingredientData = ingredient as unknown as any;
-          const astrologicalProfile = ingredientData.astrologicalProfile as any;
+          const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
           const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
           if (otherPlanet && rulingPlanets.includes(otherPlanet)) {
             recs.push(
@@ -3174,7 +3174,7 @@ function generateRecommendationsForIngredient(
         if (planets.includes(planetaryDay) || planets.includes(planetaryHour)) {
           const otherPlanet = planets.find(p => p !== planetaryDay && p !== planetaryHour);
           const ingredientData = ingredient as unknown as any;
-          const astrologicalProfile = ingredientData.astrologicalProfile as any;
+          const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
           const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
           if (otherPlanet && rulingPlanets.includes(otherPlanet)) {
             recs.push(
@@ -3188,7 +3188,7 @@ function generateRecommendationsForIngredient(
 
   // Direct planetary affinity recommendation
   const ingredientData = ingredient as unknown as any;
-  const astrologicalProfile = ingredientData.astrologicalProfile as any;
+  const astrologicalProfile = ingredientData.astrologicalProfile as unknown;
   const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
   if (rulingPlanets) {
     if (rulingPlanets.includes(planetaryDay)) {

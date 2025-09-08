@@ -395,11 +395,11 @@ export class EnterpriseIntelligenceIntegration {
       // Generate intelligent recommendations
       const recommendations = [
         ...((compatibilityAnalysis as { recommendations?: string[] })?.recommendations ?? []),
-        ...this.generateRecipeIntelligenceRecommendations(compatibilityAnalysis as unknown as any),
+        ...this.generateRecipeIntelligenceRecommendations(compatibilityAnalysis as unknown as unknown),
       ];
 
       // Calculate confidence based on analysis quality
-      const confidence = this.calculateRecipeConfidence(compatibilityAnalysis as unknown as any);
+      const confidence = this.calculateRecipeConfidence(compatibilityAnalysis as unknown as unknown);
 
       const formattedCompatibilityAnalysis: import('@/types/enterpriseIntelligence').CompatibilityAnalysis =
         {
@@ -578,30 +578,30 @@ export class EnterpriseIntelligenceIntegration {
         validationResults: { validationScore?: number; dataIntegrity?: number };
       } = {
         culturalAnalysis: {
-          culturalSynergy: (culturalAnalysis as unknown as any).culturalSynergy as number,
-          culturalCompatibility: (culturalAnalysis as unknown as any)
+          culturalSynergy: (culturalAnalysis as unknown as unknown).culturalSynergy as number,
+          culturalCompatibility: (culturalAnalysis as unknown as unknown)
             .culturalCompatibility as number,
-          culturalRelevance: (culturalAnalysis as unknown as any).culturalRelevance as number,
+          culturalRelevance: (culturalAnalysis as unknown as unknown).culturalRelevance as number,
         },
         fusionAnalysis: {
-          fusionPotential: (fusionAnalysis as unknown as any).fusionPotential as number,
-          fusionCompatibility: (fusionAnalysis as unknown as any).fusionCompatibility as number,
+          fusionPotential: (fusionAnalysis as unknown as unknown).fusionPotential as number,
+          fusionCompatibility: (fusionAnalysis as unknown as unknown).fusionCompatibility as number,
         },
         seasonalAnalysis: {
-          seasonalRelevance: (seasonalAnalysis as unknown as any).seasonalRelevance as number,
-          seasonalOptimization: (seasonalAnalysis as unknown as any).seasonalOptimization as number,
+          seasonalRelevance: (seasonalAnalysis as unknown as unknown).seasonalRelevance as number,
+          seasonalOptimization: (seasonalAnalysis as unknown as unknown).seasonalOptimization as number,
         },
         compatibilityAnalysis: {
-          overallCompatibility: (compatibilityAnalysis as unknown as any)
+          overallCompatibility: (compatibilityAnalysis as unknown as unknown)
             .overallCompatibility as number,
         },
         astrologicalAnalysis: {
-          astrologicalAlignment: (astrologicalAnalysis as unknown as any)
+          astrologicalAlignment: (astrologicalAnalysis as unknown as unknown)
             .astrologicalAlignment as number,
         },
         validationResults: {
-          validationScore: (validationResults as unknown as any).validationScore as number,
-          dataIntegrity: (validationResults as unknown as any).dataIntegrity as number,
+          validationScore: (validationResults as unknown as unknown).validationScore as number,
+          dataIntegrity: (validationResults as unknown as unknown).dataIntegrity as number,
         },
       };
 
@@ -2142,7 +2142,7 @@ export class EnterpriseIntelligenceIntegration {
           (recipeData || {}) as unknown as import('@/types/unified').Recipe,
           (ingredientData || []) as unknown as import('@/types/unified').Ingredient[],
           (cuisineData || {}) as Record<string, unknown>,
-          astrologicalContext as unknown as any,
+          astrologicalContext as unknown as unknown,
         );
 
       this.log(

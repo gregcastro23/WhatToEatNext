@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { AstrologicalState } from '@/types/alchemy';
 import { Ingredient } from '@/types/ingredient';
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
 
 // Mock implementation of getRecommendedIngredients
-jest.mock('@/utils/ingredientRecommender'( {
+jest.mock('@/utils/ingredientRecommender', () => {
   return {
     getRecommendedIngredients: (): Ingredient[] => [
       {

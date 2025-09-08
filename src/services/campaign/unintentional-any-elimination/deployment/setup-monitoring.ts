@@ -8,6 +8,7 @@
  */
 
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
+
 import { environmentConfigManager } from '../config/loader';
 
 interface MonitoringConfig {

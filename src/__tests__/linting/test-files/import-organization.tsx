@@ -1,17 +1,19 @@
-import React from 'react';
-interface CustomComponentProps {
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+import { NextPage } from 'next';
+import React, { useState, useEffect, useMemo } from 'react';
+
+import './styles.css';
+
+interface _CustomComponentProps {
   title?: string;
   children?: React.ReactNode;
 }
 
-import { NextPage } from 'next';
-import { useState, useEffect, useMemo } from 'react';
 
 // Mock imports for linting test file
 const CustomComponent = ({ children }: { children: React.ReactNode }) => <div>{children}</div>;
 const useCustomHook = () => 'mocked-value';
 
-import './styles.css';
 
 const ImportOrganizationPage: NextPage = () => {
   const [state, setState] = useState('');

@@ -1,9 +1,10 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
+
 import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { log } from '@/services/LoggingService';
-import React, { useEffect, useState } from 'react';
 
 // Fallback stubs: real debug components are not available in this build
 const StateInspector = () => (

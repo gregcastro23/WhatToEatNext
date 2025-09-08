@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Automated Error Resolution Integration Tests
  *
@@ -79,7 +80,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(() => {
         try {
           mockExecSync('yarn lint:fix', { encoding: 'utf8' });
-        } catch (error: any) : any {
+        } catch (error: any): any {
           // Simulate error handling
           const err: any = error as { status?: number; stdout?: string };
           if (err.status === 1 && err.stdout) {
@@ -218,7 +219,7 @@ describe('Automated Error Resolution Integration', () => {
   describe('Unused Variable Resolution', () => {
     test('should handle unused variable warnings': any, async () => {
       const testFileContent: any = `
-        function calculateElements() : any {
+        function calculateElements(): any {
           const unusedVar: any = 'test';
           const usedVar: any = 'active';
           const _intentionallyUnused: any = 'ok';
@@ -254,7 +255,7 @@ describe('Automated Error Resolution Integration', () => {
 
     test('should preserve astrological variable patterns': any, async () => {
       const astrologicalCode: any = `
-        function calculatePlanetaryInfluence() : any {
+        function calculatePlanetaryInfluence(): any {
           const planet: any = 'mars';
           const position: any = { sign: 'cancer', degree: 22.63 };
           const degree: any = position.degree;
@@ -282,7 +283,7 @@ describe('Automated Error Resolution Integration', () => {
 
     test('should handle campaign system variable patterns': any, async () => {
       const campaignCode: any = `
-        function executeCampaign() : any {
+        function executeCampaign(): any {
           const campaign: any = 'typescript-elimination';
           const progress: any = { completed: 50, total: 100 };
           const UNUSED_metrics: any = { errors: 10, warnings: 25 };
@@ -312,7 +313,7 @@ describe('Automated Error Resolution Integration', () => {
   describe('Console Statement Resolution', () => {
     test('should handle console statement warnings': any, async () => {
       const testFileContent: any = `
-        function debugCalculation() : any {
+        function debugCalculation(): any {
           console.log('Debug info'); // Should be warning
           console.warn('Warning message'); // Should be allowed
           console.error('Error message'); // Should be allowed
@@ -347,7 +348,7 @@ describe('Automated Error Resolution Integration', () => {
 
     test('should allow console statements in astrological calculations': any, async () => {
       const astrologicalCode: any = `
-        function calculatePlanetaryPositions() : any {
+        function calculatePlanetaryPositions(): any {
           console.log('Calculating planetary positions');
           console.debug('Debug astronomical data');
           console.info('Using fallback positions');
@@ -373,7 +374,7 @@ describe('Automated Error Resolution Integration', () => {
 
     test('should allow console statements in campaign system files': any, async () => {
       const campaignCode: any = `
-        function executeCampaignPhase() : any {
+        function executeCampaignPhase(): any {
           console.log('Starting campaign phase');
           console.info('Progress: 50%');
           console.warn('Safety protocol activated');
@@ -401,11 +402,11 @@ describe('Automated Error Resolution Integration', () => {
   describe('TypeScript Error Resolution', () => {
     test('should handle explicit any type errors': any, async () => {
       const testFileContent: any = `
-        function processData(data: any) : any { // Should be error;
+        function processData(data: any): any { // Should be error;
           return data.someProperty;
         }
 
-        function processAstrologicalData(data: any) : any { // May be allowed in astrological files
+        function processAstrologicalData(data: any): any { // May be allowed in astrological files
           return data.planetaryPosition;
         }
       `;
@@ -436,7 +437,7 @@ describe('Automated Error Resolution Integration', () => {
 
     test('should handle unnecessary condition warnings': any, async () => {
       const testFileContent: any = `
-        function checkValue(value?: string) : any {
+        function checkValue(value?: string): any {
           if (value !== undefined && value !== null) { // May be unnecessary;
             return value.length;
           }
@@ -474,7 +475,7 @@ describe('Automated Error Resolution Integration', () => {
       const reactCode: any = `;
         import { useEffect, useState } from 'react';
 
-        function Component() : any {
+        function Component(): any {
           const [count, setCount] = useState(0);
           const [name, setName] = useState('');
 
@@ -517,7 +518,7 @@ describe('Automated Error Resolution Integration', () => {
         import { useRecoilValue } from 'recoil';
         import { usePlanetaryPositions } from '@/hooks/usePlanetaryPositions';
 
-        function AstrologicalComponent() : any {
+        function AstrologicalComponent(): any {
           const positions: any = usePlanetaryPositions();
           const currentDate: any = useRecoilValue(currentDateState);
 

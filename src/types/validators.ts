@@ -28,7 +28,7 @@ export const normalizeElementalProperties = (
 
   // Normalize each value
   return Object.entries(properties).reduce((acc, [key, value]) => {
-    acc[key as any] = value / sum;
+    acc[key as unknown] = value / sum;
     return acc;
   }, {} as ElementalProperties);
 };

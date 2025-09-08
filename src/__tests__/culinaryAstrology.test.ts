@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { CulinaryAstrologer } from '@/calculations/culinaryAstrology';
 import { AstrologicalState } from '@/types/alchemy';
 
 // Mock the getRecipeRecommendations method
-jest.mock('@/calculations/culinaryAstrology'( {
+jest.mock('@/calculations/culinaryAstrology', () => {
   const original = jest.requireActual('@/calculations/culinaryAstrology');
   return {
     ...original,
     CulinaryAstrologer: class MockCulinaryAstrologer {
-      getRecipeRecommendations() : any {
+      getRecipeRecommendations(): any {
         return [
           {
             name: 'Grilled Salmon',
@@ -24,7 +25,7 @@ jest.mock('@/calculations/culinaryAstrology'( {
         ];
       }
 
-      getGuidance() : any {
+      getGuidance(): any {
         return {
           dominantElement: 'Fire',
           technique: { name: 'Roasting',

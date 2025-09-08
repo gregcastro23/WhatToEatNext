@@ -7,15 +7,19 @@
  * Supports viewing, updating, validating, and resetting configurations.
  */
 
-import { program } from 'commander';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { ConfigurationManager, DEFAULT_CONFIG } from './index';
+
+import { program } from 'commander';
+
 import {
   Environment,
   getCurrentEnvironment,
   getEnvironmentConfig,
   validateEnvironmentConfig,
 } from './loader';
+
+import { ConfigurationManager, DEFAULT_CONFIG } from './index';
+
 
 // Initialize configuration manager
 const configManager = new ConfigurationManager();

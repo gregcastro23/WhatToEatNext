@@ -1,4 +1,5 @@
 import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
+import type { Element } from '@/types/unified';
 
 import type {
   Ingredient,
@@ -7,7 +8,6 @@ import type {
   SensoryProfile,
   ElementalAffinity,
 } from '../../data/ingredients/types';
-import type { Element } from '@/types/unified';
 
 // Phase 10: Calculation Type Interfaces
 interface _CalculationData {
@@ -409,7 +409,7 @@ export const getIngredientsFromCategories = async (
         ({
           name,
           category: categoryName,
-          ...(data as any),
+          ...(data as unknown),
         }) as EnhancedIngredient,
     );
 
@@ -523,7 +523,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...(data as any),
+        ...(data as unknown),
       } as EnhancedIngredient;
 
       // Special categorization for grains and herbs
@@ -646,8 +646,8 @@ export async function getRecommendedIngredients(
   // Sort by dominant element if available
   if (astroState.dominantElement) {
     filteredIngredients.sort((a, b) => {
-      const aValue = a.elementalProperties[astroState.dominantElement as any] || 0;
-      const bValue = b.elementalProperties[astroState.dominantElement as any] || 0;
+      const aValue = a.elementalProperties[astroState.dominantElement as unknown] || 0;
+      const bValue = b.elementalProperties[astroState.dominantElement as unknown] || 0;
       return bValue - aValue;
     });
   }
@@ -847,7 +847,7 @@ function calculateElementalScore(
   let totalWeight = 0;
 
   Object.entries(ingredientProps).forEach(([element, value]) => {
-    const systemValue = systemProps[element as any] || 0;
+    const systemValue = systemProps[element as unknown] || 0;
     const weight = systemValue;
     // Higher compatibility for similar values (following elemental principles)
     const compatibility = 1 - Math.abs((Number(value) || 0) - (Number(systemValue) || 0));
@@ -1077,7 +1077,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
     Object.keys(elements).forEach(key => {
-      elements[key as any] /= total;
+      elements[key as unknown] /= total;
     });
   }
 

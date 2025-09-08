@@ -161,7 +161,7 @@ export const zodiacSigns: any[] = [
 
 // Utility function to validate zodiac sign
 export function isValidZodiacSign(sign: string): sign is ZodiacSign {
-  return zodiacSigns.includes(sign as any);
+  return zodiacSigns.includes(sign as unknown);
 }
 
 export type PlanetPositionData = {
@@ -379,7 +379,7 @@ export async function calculatePlanetaryPositions(
         const { sign, degree } = getSignFromLongitude(data.exactLongitude);
 
         formattedPositions[planet] = {
-          sign: sign as any, // Cast string to ZodiacSign
+          sign: sign as unknown, // Cast string to ZodiacSign
           degree: parseFloat(degree.toFixed(3)),
           minute: Math.round((degree % 1) * 60), // Add minute calculation
           exactLongitude: data.exactLongitude,
@@ -874,7 +874,7 @@ export function calculateEnhancedStelliumEffects(
     if (planets.length >= 3) {
       // Get the element of the sign
       const element = getZodiacElement(
-        sign as any,
+        sign as unknown,
       ).toLowerCase() as keyof LowercaseElementalProperties;
 
       // 1. Add bonus of +n of the sign element (n = number of planets)
@@ -1152,8 +1152,8 @@ export function calculateCompleteAstrologicalEffects(
 
   // Process each planet for dignity
   for (const [planet, position] of Object.entries(planetPositions)) {
-    const dignity = getPlanetaryDignity(planet, position.sign as any); // Cast to ZodiacSign
-    const element = getZodiacElement(position.sign as any).toLowerCase();
+    const dignity = getPlanetaryDignity(planet, position.sign as unknown); // Cast to ZodiacSign
+    const element = getZodiacElement(position.sign as unknown).toLowerCase();
 
     // Apply dignity strength based on type
     dignityEffects[element as keyof LowercaseElementalProperties] += dignity.strength;
@@ -1468,8 +1468,8 @@ export function calculateAspects(
           const strength = 1 - orb / definition.maxOrb;
 
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as any).toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as any).toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as unknown).toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as unknown).toLowerCase();
 
           // Base multiplier from definition
           let multiplier = definition.multiplier;
@@ -2545,7 +2545,7 @@ function calculateCurrentElementalInfluence(
     const total = Object.values(influence).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
       Object.keys(influence).forEach(key => {
-        influence[key as any] /= total;
+        influence[key as unknown] /= total;
       });
     }
 
@@ -2576,7 +2576,7 @@ function calculateItemCompatibilityScore(
     Object.keys(itemProperties).forEach(element => {
       if (element in currentInfluence) {
         const itemStrength = itemProperties[element] || 0;
-        const currentStrength = currentInfluence[element as any] || 0;
+        const currentStrength = currentInfluence[element as unknown] || 0;
 
         // Elements work best with themselves (no opposing elements principle)
         if (itemStrength > 0 && currentStrength > 0) {
@@ -2752,7 +2752,7 @@ function calculateElementalTransformations(
     // Find strongest interactions
     Object.entries(itemProperties).forEach(([element, strength]) => {
       if (strength > 0.3) {
-        const influenceStrength = currentInfluence[element as any] || 0;
+        const influenceStrength = currentInfluence[element as unknown] || 0;
 
         if (influenceStrength > 0.3) {
           transformations.push({

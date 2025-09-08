@@ -13,9 +13,11 @@
  *   - status: Check campaign status and progress
  */
 
-import { program } from 'commander';
 import fs from 'fs';
 import path from 'path';
+
+import { program } from 'commander';
+
 import { BatchProcessingOrchestrator, OrchestratorConfig } from './BatchProcessingOrchestrator';
 import { FileProcessingInfo } from './SafeBatchProcessor';
 

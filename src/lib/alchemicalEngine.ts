@@ -209,10 +209,10 @@ export class AlchemicalEngineBase {
     let totalFactors = 0;
 
     Object.entries(recipeElements).forEach(([element, value]) => {
-      if (userElements[element as any]) {
-        const userValue = userElements[element as any];
-        const astroValue = astroModifiers[element as any];
-        const seasonValue = seasonModifiers[element as any];
+      if (userElements[element as unknown]) {
+        const userValue = userElements[element as unknown];
+        const astroValue = astroModifiers[element as unknown];
+        const seasonValue = seasonModifiers[element as unknown];
 
         const baseHarmony = 1 - Math.abs(value - userValue);
         const astroHarmony = baseHarmony * astroValue;
@@ -233,7 +233,7 @@ export class AlchemicalEngineBase {
       return 2;
     };
 
-    const astroStateData = astrologicalState as any;
+    const astroStateData = astrologicalState as unknown;
     const sunDegree = Number(astroStateData.sunDegree) || 15;
     const currentDecan = getCurrentDecan(sunDegree);
 
@@ -246,7 +246,7 @@ export class AlchemicalEngineBase {
     let power = 0.2;
 
     const recipeElement = this.zodiacElements[recipeSunSign].baseElement;
-    const moonSignElementData = astrologicalState as any;
+    const moonSignElementData = astrologicalState as unknown;
     if (recipeElement === moonSignElementData.moonSignElement) power += 0.3;
 
     if (astrologicalState.activePlanets?.includes(decanRuler)) power += 0.25;
@@ -280,12 +280,12 @@ export class AlchemicalEngineBase {
     baseModifiers[moonElement] += 0.1;
 
     Object.entries(lunarModifiers).forEach(([element, value]) => {
-      baseModifiers[element as any] *= value as number;
+      baseModifiers[element as unknown] *= value as number;
     });
 
     const total = Object.values(baseModifiers).reduce((sum, val) => sum + val, 0);
     Object.keys(baseModifiers).forEach(element => {
-      baseModifiers[element as any] /= total;
+      baseModifiers[element as unknown] /= total;
     });
 
     return baseModifiers;

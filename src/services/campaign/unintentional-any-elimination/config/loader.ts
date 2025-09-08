@@ -7,6 +7,7 @@
 
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+
 import { ConfigurationManager, DEFAULT_CONFIG, UnintentionalAnyConfig } from './index';
 
 export type Environment = 'development' | 'production' | 'testing';

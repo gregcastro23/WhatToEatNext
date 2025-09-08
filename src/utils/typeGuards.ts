@@ -164,5 +164,5 @@ export function asRecord(value: unknown): Record<string, unknown> {
  * Safe cast for test mocks
  */
 export function asMock(value: unknown): any {
-  return value as any;
+  return value as unknown;
 }

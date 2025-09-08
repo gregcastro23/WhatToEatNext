@@ -201,7 +201,7 @@ export class EnhancedRecommendationService {
           return await this.enhanceRecommendation(
             enhancedIngredient,
             chakraEnergyStates,
-            tarotGuidance as any,
+            tarotGuidance as unknown,
             astroState,
             chakraEnergies, // Pass chakra energies for flavor compatibility
           );
@@ -416,7 +416,7 @@ export class EnhancedRecommendationService {
     if (!tarotGuidance || !ingredient.elementalProperties) return undefined;
 
     // Use safe type casting for tarot guidance property access
-    const tarotData = tarotGuidance as any;
+    const tarotData = tarotGuidance as unknown;
 
     const dominantElement = this.getDominantElement(ingredient.elementalProperties);
 

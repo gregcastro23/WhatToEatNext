@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Campaign System Rule Validation Test Suite
  *
@@ -29,7 +30,7 @@ describe('Campaign System Rule Validation', () => {
     test('should allow high complexity in campaign files': any, async () => {
       const testContent: any = `
         class CampaignController {
-          private executeComplexCampaign(config: any) : any {
+          private executeComplexCampaign(config: any): any {
             // High complexity enterprise logic;
             let result: any = 0;
 
@@ -114,7 +115,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow high complexity
           expect(complexityErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -229,7 +230,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow long functions
           expect(functionLengthErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -314,7 +315,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow explicit any types (warn level is OK);
           expect(anyTypeErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -405,7 +406,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow deep nesting
           expect(depthErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -493,7 +494,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow all console methods
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -557,7 +558,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow process.exit
           expect(processExitErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -620,7 +621,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign variable patterns should be ignored
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -696,7 +697,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign constants should be allowed even if unused
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -765,7 +766,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow dynamic imports
           expect(dynamicImportErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -847,7 +848,7 @@ describe('Campaign System Rule Validation', () => {
             // Existing campaign files should not have restrictive errors
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error) : any {
+        } catch (error): any {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -890,7 +891,7 @@ describe('Campaign System Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error) : any {
+        } catch (error): any {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);

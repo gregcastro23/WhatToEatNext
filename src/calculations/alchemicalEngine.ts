@@ -2,9 +2,13 @@
 
 // Internal imports - constants
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
+import { planetInfo } from '@/constants/planetInfo';
 import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
 import signs, { signInfo } from '@/data/astrology';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
+import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
+import { log } from '@/services/LoggingService';
 import type {
   AlchemicalCalculationResult,
   BirthInfo,
@@ -23,14 +27,9 @@ import type {
 } from '@/types/unified';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { ErrorHandler } from '@/utils/errorHandler';
-import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
-
-import { planetInfo } from '@/constants/planetInfo';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
-import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-import { log } from '@/services/LoggingService';
 import { logger } from '@/utils/logger';
 import { recipeCalculations } from '@/utils/recipeCalculations';
+import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 
 // Import planetary and sign data for alchemical calculations
 // Note: Removed circular import - these constants should be defined locally or in a separate constants file
@@ -472,8 +471,8 @@ export class AlchemicalEngineAdvanced {
           : 0;
 
     return {
-      primary: element1 as any,
-      secondary: element2 as any,
+      primary: element1 as unknown,
+      secondary: element2 as unknown,
       strength,
       compatibility: {
         Fire: element2 === 'Fire' ? strength : 0.7,
@@ -516,7 +515,7 @@ export class AlchemicalEngineAdvanced {
 
     const total = Object.values(result).reduce((sum, val) => sum + val, 0);
     Object.keys(result).forEach(element => {
-      result[element as any] /= total;
+      result[element as unknown] /= total;
     });
 
     return result;
@@ -556,7 +555,7 @@ export class AlchemicalEngineAdvanced {
     };
 
     Object.keys(result).forEach(element => {
-      const key = element as any;
+      const key = element as unknown;
       result[key] = (seasonBase[key] + lunarBase[key]) / 2;
     });
 
@@ -694,12 +693,12 @@ export class AlchemicalEngineAdvanced {
     baseModifiers[moonSignElement] += 0.1;
 
     Object.entries(lunarModifiers).forEach(([element, value]) => {
-      baseModifiers[element as any] *= value;
+      baseModifiers[element as unknown] *= value;
     });
 
     const total = Object.values(baseModifiers).reduce((sum, val) => sum + val, 0);
     Object.keys(baseModifiers).forEach(element => {
-      baseModifiers[element as any] /= total;
+      baseModifiers[element as unknown] /= total;
     });
 
     return baseModifiers;
@@ -2101,7 +2100,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       // Normalize the values
       const total = Object.values(elementalProperties).reduce((sum, val) => sum + val, 0);
       Object.keys(elementalProperties).forEach(key => {
-        elementalProperties[key as any] /= total;
+        elementalProperties[key as unknown] /= total;
       });
     }
 

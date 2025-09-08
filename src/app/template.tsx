@@ -1,8 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { errorHandler } from '@/services/errorHandler';
 import { logger } from '@/utils/logger';
-import { useEffect, useState } from 'react';
 
 const Loading = ({
   fullScreen,

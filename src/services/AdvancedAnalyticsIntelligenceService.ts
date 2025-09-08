@@ -33,8 +33,8 @@ import {
   RecipeIngredient,
   ElementalProperties,
 } from '@/types/unified';
-import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 import { getCurrentSeason } from '@/utils/dateUtils';
+import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 import { logger } from '@/utils/logger';
 
 // Type definitions imported from @/types/advancedAnalytics
@@ -490,7 +490,7 @@ export class AdvancedAnalyticsIntelligenceService {
       astrologicalContext.elementalProperties,
     );
 
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     const seasonalDimension = calculateSeasonalOptimization(
       String(recipeData.seasonality || 'all'),
       getCurrentSeason(),
@@ -930,7 +930,7 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   private calculateTechniqueComplexity(recipe: Recipe): number {
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     const cookingMethods =
       (recipeData.cookingMethod as string[] | undefined) ||
       (recipeData.cookingMethods as string[] | undefined) ||

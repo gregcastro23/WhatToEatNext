@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Campaign System Test Integration Tests
  *
@@ -26,7 +27,7 @@ describe('Campaign System Test Integration', () => {
     // Ensure cleanup after each test
     try {
       void campaignTestController.cleanupAfterTest('test-cleanup');
-    } catch (error) : any {
+    } catch (error: any) {
       console.warn('Cleanup warning:', error);
     }
   });
@@ -38,7 +39,7 @@ describe('Campaign System Test Integration', () => {
   });
 
   describe('Campaign System Mocking', () => {
-    it('should initialize mock campaign system without running actual builds': any, async () => {
+    it('should initialize mock campaign system without running actual builds', async () => {
       const context: any = await setupCampaignTest({
         testName: 'mock-initialization-test',
         preventActualBuilds: true,
@@ -60,7 +61,7 @@ describe('Campaign System Test Integration', () => {
         expect(process.env.DISABLE_GIT_OPERATIONS).toBe('true');
 
         // Test that mock controller doesn't run actual scripts
-        const mockPhase: any = createMockCampaignConfig().phases.[0];
+        const mockPhase: any = createMockCampaignConfig().phases[0];
         const result: any = await context.controller.executePhase(mockPhase);
 
         expect(result.success).toBe(true);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import type { } from 'jest';
 /**
  * React 19 and Next.js 15 Compatibility Validation Test Suite
@@ -35,7 +36,7 @@ describe('React 19 and Next.js 15 Compatibility Validation', () => {
       const testFile: any = path.join(testFilesDir, 'modern-jsx.tsx');
       const content = `
 // React 19 modern JSX transform - no React import needed
-export default function ModernComponent() : any {
+export default function ModernComponent(): any {
   return <div>Hello World</div>;
 }
 `;
@@ -77,7 +78,7 @@ export function JSXComponent(: any : any { title, children }: Props) {
     test('should validate JSX key prop usage', () => {
       const testFile: any = path.join(testFilesDir, 'jsx-key-validation.tsx');
       const content: any = `
-export function ListComponent() : any {
+export function ListComponent(): any {
   const items: any = ['a', 'b', 'c'];
 
   return (
@@ -102,7 +103,7 @@ export function ListComponent() : any {
       const content: any = `;
 import { Suspense, startTransition, useDeferredValue, useTransition } from 'react';
 
-export function ConcurrentComponent() : any {
+export function ConcurrentComponent(): any {
   const [isPending, startTransition] = useTransition()
   const deferredValue: any = useDeferredValue('test');
 
@@ -139,7 +140,7 @@ export function ConcurrentComponent() : any {
       const testFile: any = path.join(testFilesDir, 'app-page.tsx');
       const content: any = `
 // Next.js 15 App Router page component
-export default function Page() : any {
+export default function Page(): any {
   return (
     <main>
       <h1>App Router Page</h1>
@@ -147,7 +148,7 @@ export default function Page() : any {
   );
 }
 
-export function generateMetadata() : any {
+export function generateMetadata(): any {
   return {
   title: 'Test Page'
   };
@@ -194,7 +195,7 @@ export default function RootLayout(: any : any {
       const testFile: any = path.join(testFilesDir, 'server-component.tsx');
       const _content: any = `
 // Next.js 15 Server Component
-async function ServerComponent() : any {
+async function ServerComponent(): any {
   const data = fetch
   const json = await data.json()
 ;
@@ -221,7 +222,7 @@ export default ServerComponent;
 
 import { useState } from 'react';
 
-export default function ClientComponent() : any {
+export default function ClientComponent(): any {
   const [count, setCount] = useState(0);
 
   return (
@@ -250,7 +251,7 @@ export default function ClientComponent() : any {
 import { useEffect, useCallback } from 'react';
 import { useRecoilCallback } from 'recoil';
 
-export function EnhancedHooksComponent() : any {
+export function EnhancedHooksComponent(): any {
   const value: any = 'test';
 
   // Standard useEffect
@@ -279,7 +280,7 @@ export function EnhancedHooksComponent() : any {
       const content: any = `;
 import { useState, useEffect } from 'react';
 
-function useCustomHook(dependency: string) : any {
+function useCustomHook(dependency: string): any {
   const [state, setState] = useState('');
 
   useEffect(() => {
@@ -289,7 +290,7 @@ function useCustomHook(dependency: string) : any {
   return state;
 }
 
-export function CustomHookComponent() : any {
+export function CustomHookComponent(): any {
   const value: any = useCustomHook('test');
 
   return <div>{value}</div>;
@@ -334,7 +335,7 @@ import { Suspense, lazy } from 'react';
 
 const LazyComponent = lazy(() => import('./LazyComponent'));
 
-export function SuspenseBoundary() : any {
+export function SuspenseBoundary(): any {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <LazyComponent />
@@ -364,7 +365,7 @@ interface State {
 }
 
 export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) : any {
+  constructor(props: Props): any {
     super(props);
     this.state = { hasError: false };
   }
@@ -373,11 +374,11 @@ export class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) : any {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): any {
     console.error('Error caught by boundary:', error, errorInfo);
   }
 
-  render() : any {
+  render(): any {
     if (this.state.hasError) {
       return <h1>Something went wrong.</h1>;
     }
@@ -546,7 +547,7 @@ const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {
   );
 });
 
-export function LargeComponentTree() : any {
+export function LargeComponentTree(): any {
   const items: any = useMemo(() =>
     Array.from({ length: 1000 }, (_, i) => ({
   id: i,
@@ -632,7 +633,7 @@ function runESLintOnFile(filePath: string): { exitCode: number; outpu, t: string
       stdio: 'pipe',
     });
     return { exitCode: 0, output };
-  } catch (error: any) : any {
+  } catch (error: any): any {
     const err: any = error as any;
     return {
       exitCode: err.status || 1,

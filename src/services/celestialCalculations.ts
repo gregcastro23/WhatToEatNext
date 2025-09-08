@@ -930,7 +930,7 @@ class CelestialCalculator {
     // Normalize values
     const sum = Object.values(balance).reduce((a, b) => a + b, 0);
     Object.keys(balance).forEach(key => {
-      balance[key as any] /= sum;
+      balance[key as unknown] /= sum;
     });
 
     return balance;
@@ -1171,7 +1171,7 @@ class CelestialCalculator {
       const sum = Object.values(balance).reduce((a, b) => a + b, 0);
       if (sum > 0) {
         Object.keys(balance).forEach(key => {
-          balance[key as any] /= sum;
+          balance[key as unknown] /= sum;
         });
       }
 

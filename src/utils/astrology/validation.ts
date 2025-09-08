@@ -562,7 +562,7 @@ export function validatePlanetaryPositions(
 
   for (const [planet, data] of Object.entries(positions)) {
     if (typeof data === 'object' && data !== null) {
-      const src = data as any;
+      const src = data as unknown;
       const position: CelestialPosition = {
         sign: String(src.sign || ''),
         degree: Number(src.degree || 0),

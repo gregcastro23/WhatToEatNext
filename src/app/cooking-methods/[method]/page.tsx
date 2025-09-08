@@ -1,7 +1,5 @@
 'use client';
 
-import { allCookingMethods } from '@/data/cooking/methods';
-import { CookingMethodInfo } from '@/types/cooking';
 import {
   AccessTime,
   Kitchen,
@@ -29,6 +27,9 @@ import {
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import { allCookingMethods } from '@/data/cooking/methods';
+import { CookingMethodInfo } from '@/types/cooking';
 
 // Fallback placeholders for missing components to keep page functional
 const MethodImage = ({ method }: { method: string }) => (

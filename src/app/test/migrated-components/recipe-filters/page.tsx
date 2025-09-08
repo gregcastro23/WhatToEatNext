@@ -1,7 +1,8 @@
 'use client';
 
-import { logger } from '@/utils/logger';
 import { useState } from 'react';
+
+import { logger } from '@/utils/logger';
 
 // Minimal local fallback for RecipeFilters
 type FilterState = Record<string, unknown>;

@@ -10,6 +10,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+
 import { AnyTypeCategory, Element, SafetyLevel } from '../types';
 
 export interface ClassificationConfig {

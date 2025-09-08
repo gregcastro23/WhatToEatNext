@@ -185,7 +185,7 @@ export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalM
   let alignmentScore = 0;
 
   Object.entries(recipeElements).forEach(([element, value]) => {
-    const modifierValue = seasonalModifier[element as any] || 0;
+    const modifierValue = seasonalModifier[element as unknown] || 0;
     const numericValue = typeof value === 'number' ? value : 0;
     alignmentScore += numericValue * modifierValue;
   });

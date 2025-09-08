@@ -1,9 +1,10 @@
 'use client';
 
-import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
 import { ArrowLeft, Home } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
 
 // Fallback lightweight placeholder if the full component isn't available
 const IngredientRecommender = ({

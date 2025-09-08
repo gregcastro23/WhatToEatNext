@@ -11,6 +11,7 @@
 
 import { execSync } from 'child_process';
 import { writeFileSync } from 'fs';
+
 import { PerformanceMonitoringService } from '../services/linting/PerformanceMonitoringService';
 
 import { LintingPerformanceValidator } from './validateLintingPerformance';

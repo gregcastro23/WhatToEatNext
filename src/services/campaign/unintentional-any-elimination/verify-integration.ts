@@ -8,7 +8,6 @@ import {
   UnintentionalAnyIntegrationHelper,
   createUnintentionalAnyCampaignController,
 } from './CampaignIntegration';
-
 import { UnintentionalAnyConfig } from './types';
 
 async function verifyIntegration(): Promise<void> {

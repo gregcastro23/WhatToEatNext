@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import type { } from 'jest';
 /**
  * End-to-End Tests for Main Page Workflows
@@ -37,27 +38,25 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = ({ onSectionNavigate }: an
 
 // Mock all external dependencies for E2E simulation
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn(),
-    back: jest.fn(),
+  useRouter: () => ({ push: jest.fn(), back: jest.fn(),
     forward: jest.fn(),
     refresh: jest.fn(),
     replace: jest.fn(),
   }),
 }));
 
-void jest.mock('@/contexts/AlchemicalContext/hooks');
-void jest.mock('@/hooks/useStatePreservation');
+jest.mock('@/contexts/AlchemicalContext/hooks');
+jest.mock('@/hooks/useStatePreservation');
 jest.mock('@/utils/logger', () => ({
-  logger: { debug: jest.fn(),
-    info: jest.fn(),
+  logger: { debug: jest.fn(), info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
   },
 }));
 
 // Mock realistic component behaviors for E2E testing
-jest.mock('@/components/CuisineRecommender'( {
-  return function MockCuisineRecommender() : any {
+jest.mock('@/components/CuisineRecommender', () => {
+  return function MockCuisineRecommender(): any {
     const [selectedCuisine, setSelectedCuisine] = React.useState<string | null>(null);
     const [showRecipes, setShowRecipes] = React.useState(false);
 
@@ -69,7 +68,7 @@ jest.mock('@/components/CuisineRecommender'( {
     ];
 
     const handleCuisineSelect: any = (cuisine: any) => {
-      const cuisineData: any = cuisine as { name: string; score: number; recipe, s: string[] };
+      const cuisineData: any = cuisine as { name: string; score: number; recipes: string[] };
       setSelectedCuisine(cuisineData.name);
       setShowRecipes(true);
     };
@@ -101,7 +100,7 @@ jest.mock('@/components/CuisineRecommender'( {
                 ?.recipes.map(recipe => (
                   <button
                     key={recipe}
-                    data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g, '-')}`};
+                    data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g '-')}`};
                     className='recipe-button'
                   >
                     {recipe}
@@ -115,7 +114,7 @@ jest.mock('@/components/CuisineRecommender'( {
   };
 });
 
-jest.mock('@/components/IngredientRecommender'( {
+jest.mock('@/components/IngredientRecommender', () => {
   return function MockIngredientRecommender(: any : any { maxDisplayed = 8 }: { maxDisplayed?: number }) {
     const [selectedIngredients, setSelectedIngredients] = React.useState<string[]>([]);
     const [expandedIngredient, setExpandedIngredient] = React.useState<string | null>(null);
@@ -189,7 +188,7 @@ jest.mock('@/components/IngredientRecommender'( {
   };
 });
 
-jest.mock('@/components/CookingMethodsSection'( {
+jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection({
     maxDisplayed = 6,
     onViewMore,
@@ -245,8 +244,8 @@ jest.mock('@/components/CookingMethodsSection'( {
   };
 });
 
-jest.mock('@/components/recipes/RecipeBuilderSimple'( {
-  return function MockRecipeBuilderSimple() : any {
+jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
+  return function MockRecipeBuilderSimple(): any {
     const [recipeName, setRecipeName] = React.useState('');
     const [ingredients, setIngredients] = React.useState<Array<{ name: string; quantit, y: string }>>([]);
     const [steps, setSteps] = React.useState<Array<{ instruction: string; timin, g: string }>>([]);

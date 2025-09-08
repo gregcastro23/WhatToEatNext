@@ -12,14 +12,14 @@ import {
   SafetySettings,
   ValidationResult,
 } from '../../../types/campaign';
-
 import { CampaignController } from '../CampaignController';
-import { UnintentionalAnyEliminationCampaign } from './UnintentionalAnyEliminationCampaign';
+
 import {
   UnintentionalAnyConfig,
   UnintentionalAnyMetrics,
   UnintentionalAnyProgressMetrics,
 } from './types';
+import { UnintentionalAnyEliminationCampaign } from './UnintentionalAnyEliminationCampaign';
 
 /**
  * Extended Campaign Controller with Unintentional Any Elimination support

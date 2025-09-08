@@ -96,9 +96,9 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
       const planetaryHour = planetaryHours[currentHour % 7];
 
       const mockState = {
-        currentZodiac: zodiac as any,
-        sunSign: zodiac as any, // Add sunSign property
-        moonSign: zodiac as any, // Add moonSign property
+        currentZodiac: zodiac as unknown,
+        sunSign: zodiac as unknown, // Add sunSign property
+        moonSign: zodiac as unknown, // Add moonSign property
         planetaryHour: planetaryHour, // Add planetary hour
         planetaryPositions: {
           sun: { sign: zodiac, degree: 15 },

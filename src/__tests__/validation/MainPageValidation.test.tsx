@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean;
 }
@@ -46,16 +47,16 @@ describe('Simplified Main Page Validation - Task 12', () => {
   describe('2. Error Handling Validation', () => {
     test('Error boundaries can be created', () => {
       class TestErrorBoundary extends React.Component {
-        constructor(props: any) : any {
+        constructor(props: any): any {
           super(props);
           this.state = { hasError: false };
         }
 
-        static getDerivedStateFromError() : any {
+        static getDerivedStateFromError(): any {
           return { hasError: true };
         }
 
-        render() : any {
+        render(): any {
           if ((this.state as unknown).hasError) {
             return <div data-testid='error-boundary'>Error caught</div>;
           }

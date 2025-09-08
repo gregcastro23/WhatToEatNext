@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { useEffect, useCallback as _useCallback } from 'react';
 // Mock recoil for testing
 const useRecoilCallback = (callback: (utils: { set: Function }) => () => void, _deps: unknown[]) =>

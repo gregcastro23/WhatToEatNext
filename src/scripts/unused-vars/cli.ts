@@ -8,6 +8,7 @@
 
 import childProcess from 'node:child_process';
 import path from 'node:path';
+
 import { createBaselineReport, updateProgress } from './progressReporter';
 
 function execNode(cmd: string): void {

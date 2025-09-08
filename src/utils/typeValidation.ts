@@ -5,9 +5,9 @@
  * and ensure type safety throughout the application.
  */
 
-import type { ElementalProperties } from '@/types/unified';
 import type { CookingMethod } from '@/data/ingredients/types';
 import type { PlanetaryPosition as PlanetPosition } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/unified';
 
 // Validation result interface
 export interface ValidationResult {

@@ -7,6 +7,10 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
+
+import { AnyTypeClassifier } from './AnyTypeClassifier';
+import { DomainContextAnalyzer } from './DomainContextAnalyzer';
+import { SafeTypeReplacer } from './SafeTypeReplacer';
 import {
   BatchMetrics,
   ClassificationContext,
@@ -15,10 +19,6 @@ import {
   UnintentionalAnyConfig,
   UnintentionalAnyProgress,
 } from './types';
-
-import { AnyTypeClassifier } from './AnyTypeClassifier';
-import { DomainContextAnalyzer } from './DomainContextAnalyzer';
-import { SafeTypeReplacer } from './SafeTypeReplacer';
 
 export class ProgressiveImprovementEngine {
   private classifier: AnyTypeClassifier;

@@ -91,7 +91,7 @@ class ConfigurationServiceImpl {
    */
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
     const storedApi = (stored.api as any) || {};
-    const storedAstrology = (stored.astrology as any) || {};
+    const storedAstrology = (stored.astrology as unknown) || {};
     const celestialUpdateInterval = Number(
       storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
     );

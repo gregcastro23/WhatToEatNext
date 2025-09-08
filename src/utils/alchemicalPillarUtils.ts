@@ -1,5 +1,6 @@
 import type { ZodiacSign } from '@/types/celestial';
 import { logger } from '@/utils/logger';
+
 import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
 import {
   AlchemicalPillar,
@@ -209,7 +210,7 @@ export function applyPillarTransformation(
   // Also apply elemental effects if the item has elemental properties and the pillar has elemental associations
   if (pillar?.elementalAssociations) {
     const pillarData = pillar as unknown as any;
-    const elementalAssociations = pillarData.elementalAssociations as any;
+    const elementalAssociations = pillarData.elementalAssociations as unknown;
     const primaryElement = elementalAssociations.primary;
     const secondaryElement = elementalAssociations.secondary;
 
@@ -484,7 +485,7 @@ const getMethodCompatibility = (
   logger.debug(`- Associated Pillar: ${(pillar as any).name} (ID: ${(pillar as any).id})`);
 
   if ((pillar as unknown as any).elementalAssociations) {
-    const elementalAssociations = (pillar as unknown as any).elementalAssociations as any;
+    const elementalAssociations = (pillar as unknown as any).elementalAssociations as unknown;
     logger.debug(`- Primary Element: ${elementalAssociations.primary}`);
     if (elementalAssociations.secondary) {
       logger.debug(`- Secondary Element: ${elementalAssociations.secondary}`);
@@ -510,7 +511,7 @@ const getMethodCompatibility = (
 
   // Element match - if both the transformed item and pillar have elemental associations
   if ((transformedItem as any).element && (pillar as unknown as any).elementalAssociations) {
-    const elementalAssociations = (pillar as unknown as any).elementalAssociations as any;
+    const elementalAssociations = (pillar as unknown as any).elementalAssociations as unknown;
     const primaryElement = elementalAssociations.primary;
 
     // Primary element match (case insensitive)
@@ -554,7 +555,7 @@ const getMethodCompatibility = (
   };
 
   if ((transformedItem as any).element && (pillar as unknown as any).elementalAssociations) {
-    const elementalAssociations = (pillar as unknown as any).elementalAssociations as any;
+    const elementalAssociations = (pillar as unknown as any).elementalAssociations as unknown;
     const primaryElement = String(elementalAssociations.primary || '').toLowerCase();
 
     if (
@@ -716,7 +717,7 @@ export const getHolisticCookingRecommendations = async (
       // Add elemental associations
       if ((pillar as unknown as any).elementalAssociations) {
         const pillarData = pillar as unknown as any;
-        const elementalAssociations = pillarData.elementalAssociations as any;
+        const elementalAssociations = pillarData.elementalAssociations as unknown;
         const elements = [String(elementalAssociations.primary || '')];
         if (elementalAssociations.secondary) {
           (elements as unknown[]).push(String(elementalAssociations.secondary));
@@ -911,8 +912,8 @@ export function getEnhancedCookingRecommendations(
       // Apply safe type conversion for property access
       const sustainabilityRating = Number(methodData.sustainabilityRating || 0.5);
       const equipmentComplexity = Number(methodData.equipmentComplexity || 0.5);
-      const astrologicalInfluences = (methodData.astrologicalInfluences as any) || {};
-      const duration = (methodData.duration as any) || {};
+      const astrologicalInfluences = (methodData.astrologicalInfluences as unknown) || {};
+      const duration = (methodData.duration as unknown) || {};
       const _toolsRequired = (methodData.toolsRequired as string[]) || [];
 
       // Calculate base compatibility

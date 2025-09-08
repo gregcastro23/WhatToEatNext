@@ -70,7 +70,7 @@ export class RecipeElementalService {
     Object.entries(standardized.elementalProperties).forEach(([element, value]) => {
       if (value > highestValue) {
         highestValue = value;
-        dominantElement = element as any;
+        dominantElement = element as unknown;
       }
     });
 

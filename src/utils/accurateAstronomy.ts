@@ -391,7 +391,7 @@ export async function getAccuratePlanetaryPositions(
           const { sign, degree } = getLongitudeToZodiacPosition(sunLong);
 
           positions[planet] = {
-            sign: sign as any,
+            sign: sign as unknown,
             degree,
             exactLongitude: sunLong,
             isRetrograde: false, // The Sun is never retrograde from Earth's perspective
@@ -404,7 +404,7 @@ export async function getAccuratePlanetaryPositions(
           const { sign, degree } = getLongitudeToZodiacPosition(eclipLong);
 
           positions[planet] = {
-            sign: sign as any,
+            sign: sign as unknown,
             degree,
             exactLongitude: eclipLong,
             isRetrograde,
@@ -428,7 +428,7 @@ export async function getAccuratePlanetaryPositions(
     const { sign: nodeSign, degree: nodeDegree } = getLongitudeToZodiacPosition(nodeData.northNode);
 
     positions.northNode = {
-      sign: nodeSign as any,
+      sign: nodeSign as unknown,
       degree: nodeDegree,
       exactLongitude: nodeData.northNode,
       isRetrograde: nodeData.isRetrograde,
@@ -439,7 +439,7 @@ export async function getAccuratePlanetaryPositions(
     const { sign: southSign, degree: southDegree } = getLongitudeToZodiacPosition(southNodeLong);
 
     positions.southNode = {
-      sign: southSign as any,
+      sign: southSign as unknown,
       degree: southDegree,
       exactLongitude: southNodeLong,
       isRetrograde: nodeData.isRetrograde,

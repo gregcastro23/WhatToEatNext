@@ -8,6 +8,7 @@
  */
 
 import { existsSync, readFileSync } from 'fs';
+
 import { ZeroErrorAchievementDashboard } from '../services/linting/ZeroErrorAchievementDashboard';
 
 interface CLIOptions {

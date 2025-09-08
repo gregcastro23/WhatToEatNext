@@ -7,12 +7,16 @@
  * phased rollouts, monitoring setup, and rollback procedures.
  */
 
-import { program } from 'commander';
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'fs';
+
+import { program } from 'commander';
+
 import { environmentConfigManager } from '../config/loader';
-import { DeploymentManager, createStandardDeploymentPhases } from './index';
+
 import { setupMonitoring } from './setup-monitoring';
 import { validateMonitoring } from './validate-monitoring';
+
+import { DeploymentManager, createStandardDeploymentPhases } from './index';
 
 // Initialize deployment manager
 const deploymentManager = new DeploymentManager();

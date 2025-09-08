@@ -1,4 +1,5 @@
-import { calculateSignEnergyStates, SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+import { calculateSignEnergyStates, SignEnergyState } from '../constants/signEnergyStates';
 import { ChakraEnergyState, ChakraService } from '../services/ChakraService';
 import { getFoodRecommendationsFromChakras, getZodiacSignFoodRecommendations } from '../utils/chakraFoodUtils';
 

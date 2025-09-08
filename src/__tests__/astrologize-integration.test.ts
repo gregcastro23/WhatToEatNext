@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import {
     fetchPlanetaryPositions,
     getCurrentPlanetaryPositions,
@@ -18,7 +19,7 @@ describe('Astrologize API Integration', () => {
   });
 
   describe('API Connection Tests', () => {
-    test('should test API connection successfully': any, async () => {
+    test('should test API connection successfully', async () => {
       const result: any = await testAstrologizeApi();
       expect(typeof result).toBe('boolean');
 
@@ -31,7 +32,7 @@ describe('Astrologize API Integration', () => {
   });
 
   describe('Current Planetary Positions', () => {
-    test('should get current planetary positions': any, async () => {
+    test('should get current planetary positions', async () => {
       try {
         const positions: any = await getCurrentPlanetaryPositions();
         // Verify structure
@@ -80,14 +81,14 @@ describe('Astrologize API Integration', () => {
         console.log('Timestamp:', new Date().toISOString());
         console.log('--------------------------------');
 
-        Object.entries(positions || []).forEach(([_planet: any, position]: any) => {
+        Object.entries(positions || []).forEach(([_planet, position]: [string, any]) => {
           console.log(
             `${_planet.padEnd(10)}: ${(position as { sign?: string }).sign.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2).padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude.toFixed(2)?.padStart(6)}°)`,
           );
         });
 
         console.log('================================\n');
-      } catch (error) : any {
+      } catch (error): any {
         console.log(
           '❌ Failed to get current positions (expected in test environment):',
           (error as { message: string }).message,
@@ -102,7 +103,7 @@ describe('Astrologize API Integration', () => {
         const positions: any = await getCurrentPlanetaryPositions();
         expect(typeof positions).toBe('object');
         console.log('✅ Successfully got positions for custom location (London)');
-      } catch (error) : any {
+      } catch (error): any {
         console.log('❌ Failed to get positions for custom location (expected in test environment)');
       }
     }, 30000);
@@ -128,7 +129,7 @@ describe('Astrologize API Integration', () => {
         }
 
         console.log('===================================\n');
-      } catch (error) : any {
+      } catch (error): any {
         console.log('❌ Failed to get positions for specific date (expected in test environment)');
       }
     }, 30000);
@@ -155,7 +156,7 @@ describe('Astrologize API Integration', () => {
         });
 
         console.log('==================================\n');
-      } catch (error) : any {
+      } catch (error): any {
         console.log('❌ Failed to get birth chart positions (expected in test environment)');
       }
     }, 30000);
@@ -174,7 +175,7 @@ describe('Astrologize API Integration', () => {
           latitude: 91,
           longitude: 181,
         });
-      } catch (error) : any {
+      } catch (error): any {
         expect(error).toBeInstanceOf(Error);
         console.log('✅ API error handling working correctly');
       }
@@ -197,7 +198,7 @@ describe('Astrologize API Integration', () => {
         });
 
         console.log('✅ Planetary data structure validation passed');
-      } catch (error) : any {
+      } catch (error): any {
         console.log('❌ Planetary data validation failed (expected in test environment)');
       }
     });
@@ -215,7 +216,7 @@ describe('Astrologize API Integration', () => {
         const positions: any = getCurrentPlanetaryPositions();
         expect(typeof positions).toBe('object');
         console.log('✅ Integration with geolocation simulation working');
-      } catch (error) : any {
+      } catch (error): any {
         console.log('❌ Geolocation integration failed (expected in test environment)');
       }
     });
@@ -312,7 +313,7 @@ describe('Real-time Astrologize Output Demo', () => {
         console.log('Note: This would show real-time data when API is available');
         console.log('Current test shows that integration is properly set up');
       }
-    } catch (error) : any {
+    } catch (error): any {
       console.log('\n❌ Demo failed (expected in test environment)');
       console.log('This demonstrates error handling is working correctly');
     }

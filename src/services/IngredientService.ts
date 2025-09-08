@@ -2020,7 +2020,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply zodiac compatibility if specified
         let zodiacScore = 1;
         if (currentZodiacSign && ingredient.astrologicalProfile) {
-          const astro = ingredient.astrologicalProfile as any;
+          const astro = ingredient.astrologicalProfile as unknown;
           const fav = astro['favorableZodiac'];
           const favorable = Array.isArray(fav) ? (fav as Array<string | ZodiacSign>) : undefined;
           if (favorable) {

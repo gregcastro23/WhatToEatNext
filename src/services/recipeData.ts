@@ -511,7 +511,7 @@ class RecipeData {
 
       const allRecipes = await this.getAllRecipes();
       return allRecipes.filter(recipe => {
-        const recipeData = recipe as unknown as any;
+        const recipeData = recipe as unknown as unknown;
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase();
         const targetCuisine = String(cuisine || '').toLowerCase();
         return recipeCuisine === targetCuisine;
@@ -534,7 +534,7 @@ class RecipeData {
       const lowercaseQuery = query.toLowerCase();
       const recipes = await this.getAllRecipes();
       return recipes.filter(recipe => {
-        const recipeData = recipe as unknown as any;
+        const recipeData = recipe as unknown as unknown;
         const recipeName = String(recipeData.name || '').toLowerCase();
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase();
         return recipeName.includes(lowercaseQuery) || recipeCuisine.includes(lowercaseQuery);

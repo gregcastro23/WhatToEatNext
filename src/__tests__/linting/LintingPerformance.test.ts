@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Linting Performance and Memory Usage Tests
  *
@@ -309,7 +310,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(() => {
         try {
           JSON.parse(String(mockReadFileSync('.eslint-cache.json', 'utf8')));
-        } catch (error) : any {
+        } catch (error): any {
           // Simulate graceful handling
           return mockExecSync('yarn lint --no-cache --format=json', { encoding: 'utf8' });
         }

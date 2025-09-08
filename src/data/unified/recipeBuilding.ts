@@ -6,17 +6,17 @@
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, LunarPhase, PlanetName, Season } from '@/types/alchemy';
+import type {
+  MethodAdjustment,
+  TemperatureAdjustment,
+  TimingAdjustment,
+} from '@/types/recipeAdjustments';
 
 import {
   getAllEnhancedCookingMethods,
   type EnhancedCookingMethod,
 } from '../../constants/alchemicalPillars';
 
-import type {
-  MethodAdjustment,
-  TemperatureAdjustment,
-  TimingAdjustment,
-} from '@/types/recipeAdjustments';
 import {
   unifiedCuisineIntegrationSystem,
   type CuisineIngredientAnalysis,
@@ -457,11 +457,11 @@ export class UnifiedRecipeBuildingSystem {
     // Apply all adaptations to create adapted recipe
     const adaptedRecipe = this.applyAdaptationsToRecipe(
       recipe,
-      ingredientSubstitutions as unknown as any,
-      cookingMethodAdjustments as unknown as any,
-      timingAdjustments as unknown as any,
-      temperatureAdjustments as unknown as any,
-      targetSeason as unknown as any,
+      ingredientSubstitutions as unknown as unknown,
+      cookingMethodAdjustments as unknown as unknown,
+      timingAdjustments as unknown as unknown,
+      temperatureAdjustments as unknown as unknown,
+      targetSeason as unknown as unknown,
     );
 
     // Calculate improvement scores
@@ -1548,7 +1548,7 @@ export class UnifiedRecipeBuildingSystem {
       kalchmAccuracy: (recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm || 0,
       monicaOptimization: ((recipe.monicaOptimization as any)?.overallScore as number) || 0,
       seasonalAlignment: ((recipe.seasonalAdaptation as any)?.seasonalScore as number) || 0,
-      cuisineAuthenticity: ((recipe as unknown as any)?.culturalIntegration as number) || 0,
+      cuisineAuthenticity: ((recipe as unknown as unknown)?.culturalIntegration as number) || 0,
       generatedAt: new Date().toISOString(),
       generationMethod: 'unified-recipe-builder',
     };

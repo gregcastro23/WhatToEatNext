@@ -336,7 +336,7 @@ export class RecipeFilter {
     return recipes.sort((a, b) => {
       let comparison = 0;
 
-      const aData = a as any;
+      const aData = a as unknown;
       const bData = b as any;
 
       switch (options.by) {

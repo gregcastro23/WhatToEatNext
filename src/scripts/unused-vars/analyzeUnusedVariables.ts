@@ -11,6 +11,7 @@
 import childProcess from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+
 import { classifyFileKind, decidePreservation } from './domainPreservation';
 
 type CliOptions = {

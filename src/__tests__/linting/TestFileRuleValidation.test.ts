@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean;
 }
@@ -72,7 +73,7 @@ describe('Test File Rule Validation', () => {
           // Mock variable patterns should be ignored in test files
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -133,7 +134,7 @@ describe('Test File Rule Validation', () => {
           // Jest mock functions should be allowed
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -184,7 +185,7 @@ describe('Test File Rule Validation', () => {
           // Test data structures should be allowed
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -251,7 +252,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow explicit any types
           expect(anyTypeErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -316,7 +317,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow console statements
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -379,7 +380,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow non-null assertions
           expect(nonNullErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -456,7 +457,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow magic numbers
           expect(magicNumberErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -533,7 +534,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow complex logic
           expect(complexityErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -641,7 +642,7 @@ describe('Test File Rule Validation', () => {
           // Jest globals should be available without no-undef errors
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -731,7 +732,7 @@ describe('Test File Rule Validation', () => {
           // No undefined variable errors should occur
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -837,7 +838,7 @@ describe('Test File Rule Validation', () => {
           // Environment globals should be available
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -915,7 +916,7 @@ describe('Test File Rule Validation', () => {
           // Test helper functions should be allowed even if unused
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error) : any {
+      } catch (error): any {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);

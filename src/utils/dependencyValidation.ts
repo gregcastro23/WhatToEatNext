@@ -6,6 +6,7 @@
  */
 
 import * as nodePath from 'path';
+
 import { logger } from './logger';
 
 /**

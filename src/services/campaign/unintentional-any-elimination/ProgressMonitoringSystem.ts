@@ -2,6 +2,7 @@ import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { AnalysisTools } from './AnalysisTools';
 import { AnalysisReport, TrendingData, UnintentionalAnyProgress } from './types';
 

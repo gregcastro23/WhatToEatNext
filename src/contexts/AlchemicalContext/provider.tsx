@@ -327,7 +327,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       value={{
         state,
         dispatch,
-        planetaryPositions: planetaryPositions as any,
+        planetaryPositions: planetaryPositions as unknown,
         isDaytime,
         updatePlanetaryPositions: updatePlanetaryPositions as (
           positions: Record<string, unknown>,

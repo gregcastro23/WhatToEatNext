@@ -21,7 +21,7 @@ export default function CookingMethodsDemoPage() {
     const demoMethods = [
       ..._formatMethodsForComponent(dryCookingMethods as any, 'dry'),
       ..._formatMethodsForComponent(wetCookingMethods as any, 'wet'),
-      ..._formatMethodsForComponent(molecularCookingMethods as any, 'molecular'),
+      ..._formatMethodsForComponent(molecularCookingMethods as unknown, 'molecular'),
     ];
 
     // Sort by score for a more realistic demo

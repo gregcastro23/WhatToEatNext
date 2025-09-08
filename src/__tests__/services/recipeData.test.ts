@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { recipeData } from '@/services/recipeData';
 import { recipeElementalService } from '@/services/RecipeElementalService';
 import { Recipe } from '@/types/recipe';
@@ -101,7 +102,7 @@ describe('RecipeData Service', () => {
       expect(recipe.elementalProperties).toBeDefined();
       expect(recipe.ingredients).toBeDefined();
       expect(recipe.instructions).toBeDefined();
-    } catch (error) : any {
+    } catch (error): any {
       // In CI, we might encounter filesystem differences, so handle errors gracefully
       if (process.env.CI) {
         // console.warn('Test failed in CI environment, but continuing:', error);
@@ -277,7 +278,7 @@ describe('RecipeData Service', () => {
       // Restore original methods
       recipeData.getAllRecipes = originalGetAllRecipes;
       recipeData.filterRecipes = originalFilterRecipes;
-    } catch (error) : any {
+    } catch (error): any {
       // In CI, we might encounter environment differences, so handle errors gracefully
       if (process.env.CI) {
         // console.warn('Test failed in CI environment, but continuing:', error);

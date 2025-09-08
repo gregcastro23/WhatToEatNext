@@ -246,7 +246,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
       Object.entries(elements).forEach(([element, value]) => {
         // Pattern KK-1: Safe arithmetic with type validation
         const numericValue = typeof value === 'number' ? value : 0;
-        combined[element as any] += numericValue;
+        combined[element as unknown] += numericValue;
       });
     }
   });
@@ -255,7 +255,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   const total = Object.values(combined).reduce((a, b) => a + b, 0);
   if (total > 0) {
     Object.keys(combined).forEach(key => {
-      combined[key as any] /= total;
+      combined[key as unknown] /= total;
     });
   }
 

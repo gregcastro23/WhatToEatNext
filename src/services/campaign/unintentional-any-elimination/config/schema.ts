@@ -6,6 +6,7 @@
  */
 
 import { z } from 'zod';
+
 import { AnyTypeCategory, SafetyLevel } from '../types';
 
 // Enum schemas

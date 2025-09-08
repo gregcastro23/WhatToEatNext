@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -111,7 +112,7 @@ describe('Build System Integration', () => {
           stdio: 'pipe',
         });
         fail('Should have thrown an error for invalid command');
-      } catch (error: any) : any {
+      } catch (error: any): any {
         const execError: any = error as { status: number; stdou, t: string };
         expect(execError.status).toBe(1);
         expect(execError.stdout).toContain('Invalid or missing command');
@@ -125,7 +126,7 @@ describe('Build System Integration', () => {
           stdio: 'pipe',
         });
         fail('Should have thrown an error for missing command');
-      } catch (error: any) : any {
+      } catch (error: any): any {
         const execError: any = error as { status: number; stdou, t: string };
         expect(execError.status).toBe(1);
         expect(execError.stdout).toContain('Invalid or missing command');

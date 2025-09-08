@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-09-07T06:13:47.608Z",
+  "targetRules": [
+    "@typescript-eslint/no-unnecessary-type-assertion",
+    "import/order",
+    "import/no-duplicates"
+  ],
+  "processedFiles": 86,
+  "fixedFiles": 0,
+  "success": false
+}

@@ -1,12 +1,13 @@
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import React from 'react';
+
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { cuisines } from '@/data/cuisines';
 import { allRecipes, getBestRecipeMatches } from '@/data/recipes';
 import type { Season } from '@/types/common';
 import type { Recipe } from '@/types/recipe';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility

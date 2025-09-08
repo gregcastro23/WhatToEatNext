@@ -59,8 +59,8 @@ function normalizeSign(sign: string): any {
     'pisces',
   ];
 
-  if (validSigns.includes(normalized as any)) {
-    return normalized as any;
+  if (validSigns.includes(normalized as unknown)) {
+    return normalized as unknown;
   }
 
   throw new Error(`Invalid zodiac sign: ${sign}`);

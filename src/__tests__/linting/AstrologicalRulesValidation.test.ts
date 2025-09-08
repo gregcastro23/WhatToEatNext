@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import type { } from 'jest';
 /**
  * Comprehensive Tests for Astrological ESLint Rules
@@ -229,7 +230,7 @@ describe('Astrological ESLint Rules', () => {
     test('should warn when astrological file lacks validation import': any, async () => {
       const code: any = `
         // This is in a calculations file but has no validation
-        function calculatePlanetaryInfluence() : any {
+        function calculatePlanetaryInfluence(): any {
           return { influence: 0.8 };
         }
       `;
@@ -248,7 +249,7 @@ describe('Astrological ESLint Rules', () => {
       const code: any = `;
         import { validateTransitDate } from '@/utils/astrology/transitValidation';
 
-        function calculatePlanetaryInfluence() : any {
+        function calculatePlanetaryInfluence(): any {
           // Validation imported but not called
           return { influence: 0.8 };
         }
@@ -268,7 +269,7 @@ describe('Astrological ESLint Rules', () => {
       const code: any = `;
         import { validateTransitDate } from '@/utils/astrology/transitValidation';
 
-        function calculatePlanetaryInfluence(planet: any, date: any) : any {
+        function calculatePlanetaryInfluence(planet: any, date: any): any {
           const isValid: any = validateTransitDate(planet, date, 'aries', transitDates);
           return { influence: isValid ? 0.8 : 0.5 };
         }
@@ -284,7 +285,7 @@ describe('Astrological ESLint Rules', () => {
 
     test('should not flag non-astrological files': any, async () => {
       const code: any = `
-        function regularFunction() : any {
+        function regularFunction(): any {
           return { result: 'success' };
         }
       `;

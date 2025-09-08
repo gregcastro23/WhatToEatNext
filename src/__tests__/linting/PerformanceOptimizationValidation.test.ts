@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Performance Optimization Validation Test Suite
  *
@@ -30,7 +31,7 @@ describe('Performance Optimization Validation', () => {
           if (existsSync('.eslintcache')) {
             unlinkSync('.eslintcache');
           }
-        } catch (error) : any {
+        } catch (error): any {
           // Ignore cleanup errors
         }
 
@@ -104,7 +105,7 @@ describe('Performance Optimization Validation', () => {
           stdio: 'pipe',
           timeout: 30000,
         });
-      } catch (error) : any {
+      } catch (error): any {
         // Ignore linting errors
       }
 
@@ -138,7 +139,7 @@ describe('Performance Optimization Validation', () => {
 
           // Output should indicate parallel processing
           expect(typeof output).toBe('string');
-        } catch (error) : any {
+        } catch (error): any {
           // May have linting errors, but should complete
           const parallelTime: any = Date.now() - startTime;
           expect(parallelTime).toBeLessThan(60000); // 60 seconds max
@@ -164,7 +165,7 @@ describe('Performance Optimization Validation', () => {
 
         expect(optimalProcesses).toBeGreaterThan(0);
         expect(optimalProcesses).toBeLessThanOrEqual(maxProcesses);
-      } catch (error) : any {
+      } catch (error): any {
         // Fallback validation
         expect(maxProcesses).toBeGreaterThan(0);
       }
@@ -194,7 +195,7 @@ describe('Performance Optimization Validation', () => {
             timeout: 30000,
             env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },
           });
-        } catch (error) : any {
+        } catch (error): any {
           // May have linting errors
         } finally {
           clearInterval(memoryMonitor);
@@ -218,7 +219,7 @@ describe('Performance Optimization Validation', () => {
           stdio: 'pipe',
           timeout: 30000,
         });
-      } catch (error) : any {
+      } catch (error): any {
         // May have linting errors
       }
 
@@ -264,7 +265,7 @@ export function testFunction(): string {
           stdio: 'pipe',
           timeout: 15000, // 15 second timeout
         });
-      } catch (error) : any {
+      } catch (error): any {
         // May have linting errors, but should complete quickly
       }
 
@@ -284,7 +285,7 @@ export function testFunction(): string {
           stdio: 'pipe',
           timeout: 10000,
         });
-      } catch (error) : any {
+      } catch (error): any {
         // May have errors
       }
 
@@ -298,7 +299,7 @@ export function testFunction(): string {
           stdio: 'pipe',
           timeout: 10000,
         });
-      } catch (error) : any {
+      } catch (error): any {
         // May have errors
       }
 
@@ -323,7 +324,7 @@ export function testFunction(): string {
             stdio: 'pipe',
             timeout: 10000,
           });
-        } catch (error) : any {
+        } catch (error): any {
           // May have errors
         }
 
@@ -425,7 +426,7 @@ export function testFunction(): string {
             stdio: 'pipe',
             timeout: 30000,
           });
-        } catch (error) : any {
+        } catch (error): any {
           // May have errors
         }
         const cachedTime: any = Date.now() - startTime;

@@ -14,16 +14,16 @@ import {
 } from '@/services/EnterpriseIntelligenceIntegration';
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import type {
-  EnterpriseIntelligenceConfig,
-  EnterpriseIntelligenceResult,
-} from '@/types/enterpriseIntelligence';
-import { logger } from '@/utils/logger';
-import type {
   EnterpriseRecipeData,
   EnterpriseIngredientData,
   EnterpriseAstrologicalContext,
   EnterpriseIntelligenceAnalysisState,
 } from '@/types/enterpriseHooks';
+import type {
+  EnterpriseIntelligenceConfig,
+  EnterpriseIntelligenceResult,
+} from '@/types/enterpriseIntelligence';
+import { logger } from '@/utils/logger';
 
 // ========== INTERFACES ==========
 

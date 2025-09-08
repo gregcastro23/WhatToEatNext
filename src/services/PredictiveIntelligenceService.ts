@@ -6,18 +6,18 @@
  * with advanced prediction algorithms and real-time optimization capabilities.
  */
 
+import { calculateElementalCompatibility } from '@/calculations/index';
 import type {
-  AdvancedIntelligenceConfig,
-  AdvancedIntelligenceMetrics,
+    AdvancedIntelligenceConfig,
+    AdvancedIntelligenceMetrics,
 } from '@/types/advancedIntelligence';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
 import type { PredictiveContext } from '@/types/predictiveIntelligence';
 import type { Recipe } from '@/types/recipe';
-import { calculateElementalCompatibility } from '@/calculations/index';
+import { logger } from '@/utils/logger';
 import { getCurrentSeason } from '@/utils/timeUtils';
 
-import { logger } from '@/utils/logger';
 
 // Enhanced Type definitions for predictive intelligence with comprehensive type safety
 
@@ -687,7 +687,7 @@ export class PredictiveIntelligenceService {
   ): number {
     const planetaryPositions = astrologicalContext.planetaryPositions || {};
     const planetaryInfluences = Object.values(planetaryPositions).map(position =>
-      this.calculatePlanetaryInfluence(position as unknown as any, culinaryContext),
+      this.calculatePlanetaryInfluence(position as unknown as unknown, culinaryContext),
     );
 
     return planetaryInfluences.length > 0
@@ -1198,7 +1198,7 @@ export class PredictiveIntelligenceService {
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): string {
-    return `predictive_${JSON.stringify({}
+    return `predictive_${JSON.stringify({
       recipeId: (recipeData as { id?: string })?.id,
       ingredientCount: (ingredientData as any[])?.length,
       cuisineName: cuisineData.name,

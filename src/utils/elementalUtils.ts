@@ -616,7 +616,7 @@ export function transformItemsWithPlanetaryPositions(
         .sort(([_, valA], [__, valB]) => {
           // Sort by strength /dignity if available
           if (typeof valA === 'object' && typeof valB === 'object') {
-            const dataA = valA as any;
+            const dataA = valA as unknown;
             const dataB = valB as any;
             const strengthA = Number(dataA.strength) || 0;
             const strengthB = Number(dataB.strength) || 0;
@@ -1479,7 +1479,7 @@ export function fixRawIngredientMappings(
     // Skip null or undefined values
     if (!value) return acc;
 
-    const valueData = value as any;
+    const valueData = value as unknown;
     // Ensure elemental properties are normalized
     const elementalProperties = normalizeProperties(
       (valueData.elementalProperties as Partial<ElementalProperties>) || {},
@@ -1500,7 +1500,7 @@ export function fixRawIngredientMappings(
     }
 
     acc[key] = {
-      ...(value as any),
+      ...(value as unknown),
       name: valueData.name || key.replace(/_/g, ' '),
       category: valueData.category || 'ingredient',
       elementalProperties,

@@ -7,11 +7,12 @@
 
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+
 import { AnalysisTools } from './AnalysisTools';
 import { AnyTypeClassifier } from './AnyTypeClassifier';
 import { DomainContextAnalyzer } from './DomainContextAnalyzer';
-import { ProgressMonitoringSystem } from './ProgressMonitoringSystem';
 import { ProgressiveImprovementEngine } from './ProgressiveImprovementEngine';
+import { ProgressMonitoringSystem } from './ProgressMonitoringSystem';
 import { SafeTypeReplacer } from './SafeTypeReplacer';
 import {
   AnyTypeCategory,

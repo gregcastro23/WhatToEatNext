@@ -7,12 +7,12 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import { PhaseReport, PhaseStatus, ProgressReport } from '../../../types/campaign';
-
 import { ProgressTracker } from '../ProgressTracker';
-import { UnintentionalAnyMetrics, UnintentionalAnyProgressMetrics } from './types';
+
 
 import { AutoDocumentationGenerator } from './AutoDocumentationGenerator';
 import { DocumentationQualityAssurance } from './DocumentationQualityAssurance';
+import { UnintentionalAnyMetrics, UnintentionalAnyProgressMetrics } from './types';
 
 /**
  * Enhanced Progress Tracker with Unintentional Any Metrics

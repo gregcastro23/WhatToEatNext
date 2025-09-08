@@ -9,8 +9,8 @@ import {
   createErrorResponse,
 } from '@/constants/typeDefaults';
 import { ElementalPropertiesType, ServiceResponseType } from '@/types/alchemy';
-import type { AstrologicalTestData } from '@/types/astrologicalTestData';
 import { PlanetaryInfluenceResponse } from '@/types/apiResponses';
+import type { AstrologicalTestData } from '@/types/astrologicalTestData';
 import {
   PlanetaryPositions,
   StandardZodiacSign,

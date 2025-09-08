@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean;
 }
@@ -165,7 +166,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(typeof (remover).processDirectory).toBe('function');
 
           console.log('SafeUnusedImportRemover integration validated');
-        } catch (error) : any {
+        } catch (error): any {
           console.warn('SafeUnusedImportRemover not available, skipping integration test');
         }
       });
@@ -222,7 +223,7 @@ describe('Integration Validation Tests - Task 12', () => {
             const module = import(`../../services/campaign/${component}`);
             expect(module[component]).toBeDefined();
             console.log(`${component} loaded successfully`);
-          } catch (error) : any {
+          } catch (error): any {
             console.warn(`${component} not available, skipping integration test`);
           }
         }

@@ -28,6 +28,7 @@ import type {
 } from '@/types/alchemy';
 import type { Season } from '@/types/seasons';
 import { Ingredient } from '@/types/unified';
+
 import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 import type { Recipe } from '../types/unified';
 import type { ZodiacSign } from '../types/zodiac';
