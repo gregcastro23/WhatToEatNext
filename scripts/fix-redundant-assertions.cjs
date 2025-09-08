@@ -9,7 +9,7 @@ const CONFIG = {
   dryRun: process.argv.includes('--dry-run'),
   maxFiles: parseInt(process.argv.find(arg => arg.startsWith('--max-files='))?.split('=')[1]) || 25,
   createBackup: true,
-  validateBuild: true,
+  validateBuild: !process.argv.includes('--skip-validation'),
   analysisFile: 'type-assertions-analysis.json',
 };
 

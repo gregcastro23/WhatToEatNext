@@ -84,7 +84,7 @@ export default function RecipeFiltersTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>⚠️ Note: Original Implementation</h2>
           <p className='mb-4 text-gray-700'>
             The original implementation of recipe filters is embedded directly in the RecipeList
-            component rather than existing as a standalone component. We've extracted the filtering
+            component rather than existing as a standalone component. We&apos;ve extracted the filtering
             functionality into a new RecipeFilters component as part of the migration process.
           </p>
           <div className='rounded-lg border border-yellow-200 bg-yellow-50 p-4'>
@@ -116,7 +116,7 @@ export default function RecipeFiltersTestPage() {
         <ul className='list-disc space-y-2 pl-6'>
           <li>The original filtering functionality was embedded within the RecipeList component</li>
           <li>
-            We've extracted this into a separate RecipeFilters component following the service-based
+            We&apos;ve extracted this into a separate RecipeFilters component following the service-based
             architecture pattern
           </li>
           <li>

@@ -112,7 +112,7 @@ export default function AlchemizeDemoPage() {
                 </span>
               </div>
               <div className='flex items-center justify-between'>
-                <span className='font-medium text-white'>Greg's Energy</span>
+                <span className='font-medium text-white'>Greg&apos;s Energy</span>
                 <span className='font-mono text-green-300'>
                   {thermodynamicProperties.gregsEnergy.toFixed(4)}
                 </span>

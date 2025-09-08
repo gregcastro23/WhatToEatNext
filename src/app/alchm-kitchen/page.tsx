@@ -7,6 +7,7 @@ import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { createLogger } from '@/utils/logger';
 
 import AlchmKitchenTab from '../../../Alchm Kitchen/AlchmKitchenTab';
+import SignVectorPanel from './SignVectorPanel';
 
 const logger = createLogger('AlchmKitchenPage');
 
@@ -41,6 +42,10 @@ export default function AlchmKitchenPage() {
         <main className='min-h-screen p-4 md:p-8'>
           <ClientOnly>
             <AlchmKitchenTab />
+            {/* Minimal sign vector panel demo with empty positions; the hosting tab can pass real data */}
+            <div className='mt-6'>
+              <SignVectorPanel planetaryPositions={{}} governing='dominant' />
+            </div>
           </ClientOnly>
         </main>
       </AstrologicalProvider>

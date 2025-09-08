@@ -474,7 +474,7 @@ export function PropValidationComponent(: any : any { required, optional, callba
       const eslintConfig = require('../../../eslint.(config as any).cjs');
 
       // Find React settings in configuration
-      const reactSettings: any = eslintConfig.find((config: any) => (config as any).settings.react.version);
+      const reactSettings = eslintConfig.find((config: any) => (config).settings.react.version);
 
       expect(reactSettings).toBeDefined();
       expect(reactSettings.settings.react.version).toBe('19.1.0');
@@ -484,7 +484,7 @@ export function PropValidationComponent(: any : any { required, optional, callba
       const eslintConfig = require('../../../eslint.(config as any).cjs');
 
       // Find React rules configuration
-      const reactRules: any = eslintConfig.find((config: any) => (config as any).rules && (config as any).rules['react/react-in-jsx-scope']);
+      const reactRules = eslintConfig.find((config: any) => (config as any).rules && (config).rules['react/react-in-jsx-scope']);
 
       expect(reactRules).toBeDefined();
       expect(reactRules.rules['react/react-in-jsx-scope']).toBe('off');
@@ -495,8 +495,8 @@ export function PropValidationComponent(: any : any { required, optional, callba
       const eslintConfig = require('../../../eslint.(config as any).cjs');
 
       // Find React hooks configuration
-      const hooksConfig: any = eslintConfig.find(
-        (config: any) => (config as any).rules && (config as any).rules['react-hooks/exhaustive-deps'],
+      const hooksConfig = eslintConfig.find(
+        (config: any) => (config as any).rules && (config).rules['react-hooks/exhaustive-deps'],
       );
 
       expect(hooksConfig).toBeDefined();
@@ -628,13 +628,13 @@ export default ImportOrganizationPage;
  */
 function runESLintOnFile(filePath: string): { exitCode: number; outpu, t: string } {
   try {
-    const output: any = execSync(`npx eslint --config eslint.(config as any).cjs "${filePath}" --format=compact`, {
+    const output = execSync(`npx eslint --config eslint.(config).cjs "${filePath}" --format=compact`, {
       encoding: 'utf8',
       stdio: 'pipe',
     });
     return { exitCode: 0, output };
   } catch (error: any): any {
-    const err: any = error as any;
+    const err = error;
     return {
       exitCode: err.status || 1,
       output: err.stdout || err.message || '',

@@ -44,8 +44,8 @@ const CuisineDetailsPage: NextPage = () => {
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
       ...currentState,
-      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
-      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
+      season: 'spring', // Default value since getCurrentElementalState doesn&apos;t provide season
+      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apos;t provide timeOfDay
     });
   }, []);
 
@@ -166,7 +166,7 @@ const CuisineDetailsPage: NextPage = () => {
     return (
       <div className='container mx-auto px-4 py-8'>
         <h1 className='mb-8 text-3xl font-bold'>Cuisine not found</h1>
-        <p>The cuisine you're looking for doesn&amp;apos;t exist.</p>
+        <p>The cuisine you&apos;re looking for doesn&amp;apos;t exist.</p>
       </div>
     );
   }

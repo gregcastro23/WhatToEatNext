@@ -12,7 +12,7 @@ import { FileCategory, FilePriority, TransformationComplexity, UnusedExportAnaly
 jest.mock('fs');
 jest.mock('glob');
 
-const mockFs: any = fs as jest.Mocked<typeof fs>;
+const mockFs = fs.Mocked<typeof fs>;
 const mockGlob = require('glob') as {
   glob: jest.MockedFunction<(patter, n: string, options?: unknown) => Promise<string[]>>;
 };
@@ -127,7 +127,7 @@ export interface TestInterface {}
 export type TestType = string;
       `;
 
-      const exports: any = (analyzer as unknown as { extractExports: (conten, t: string) => string[] }).extractExports(;
+      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(;
         content,
       );
 
@@ -146,7 +146,7 @@ export default class DefaultClass {};
 export default TestComponent;
       `;
 
-      const exports: any = (analyzer as unknown as { extractExports: (conten, t: string) => string[] }).extractExports(;
+      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(;
         content,
       );
 
@@ -159,7 +159,7 @@ export default TestComponent;
 export { testA, testB, testC as aliasC };
       `;
 
-      const exports: any = (analyzer as unknown as { extractExports: (conten, t: string) => string[] }).extractExports(;
+      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(;
         content,
       );
 
@@ -172,21 +172,21 @@ export { testA, testB, testC as aliasC };
 
   describe('determinePriority', () => {
     it('should assign HIGH priority to recipe files', () => {
-      const priority: any = (analyzer as unknown as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(
+      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(
         '/project/src/data/recipes/TestRecipe.ts',
       );
       expect(priority).toBe(FilePriority.HIGH);
     });
 
     it('should assign MEDIUM priority to component files', () => {
-      const priority: any = (analyzer as unknown as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(
+      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(
         '/project/src/components/TestComponent.tsx',
       );
       expect(priority).toBe(FilePriority.MEDIUM);
     });
 
     it('should assign LOW priority to type files', () => {
-      const priority: any = (analyzer as unknown as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(
+      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(
         '/project/src/types/TestTypes.ts',
       );
       expect(priority).toBe(FilePriority.LOW);
@@ -195,28 +195,28 @@ export { testA, testB, testC as aliasC };
 
   describe('determineCategory', () => {
     it('should categorize recipe files correctly', () => {
-      const category: any = (analyzer as unknown as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
         '/project/src/data/recipes/TestRecipe.ts',
       );
       expect(category).toBe(FileCategory.RECIPE);
     });
 
     it('should categorize core files correctly', () => {
-      const category: any = (analyzer as unknown as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
         '/project/src/components/TestComponent.tsx',
       );
       expect(category).toBe(FileCategory.CORE);
     });
 
     it('should categorize external files correctly', () => {
-      const category: any = (analyzer as unknown as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
         '/project/src/types/TestTypes.ts',
       );
       expect(category).toBe(FileCategory.EXTERNAL);
     });
 
     it('should categorize test files correctly', () => {
-      const category: any = (analyzer as unknown as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(
         '/project/src/components/TestComponent.test.tsx',
       );
       expect(category).toBe(FileCategory.TEST);
@@ -333,8 +333,8 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       };
 
-      const complexity: any = (
-        analyzer as unknown as {
+      const complexity = (
+        analyzer as {
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity;
         }
       ).assessTransformationComplexity(exportInfo);
@@ -352,8 +352,8 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       };
 
-      const complexity: any = (
-        analyzer as unknown as {
+      const complexity = (
+        analyzer as {
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity;
         }
       ).assessTransformationComplexity(exportInfo);
@@ -371,8 +371,8 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       };
 
-      const complexity: any = (
-        analyzer as unknown as {
+      const complexity = (
+        analyzer as {
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity;
         }
       ).assessTransformationComplexity(exportInfo);
@@ -390,8 +390,8 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       };
 
-      const complexity: any = (
-        analyzer as unknown as {
+      const complexity = (
+        analyzer as {
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity;
         }
       ).assessTransformationComplexity(exportInfo);

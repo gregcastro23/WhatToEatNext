@@ -247,13 +247,13 @@ describe('DomainContextAnalyzer', () => {
         lineNumber: 8,
         codeSnippet: 'const spiceDat, a: any = getSpiceProperties();',
         surroundingLines: [
-          'export const cumin: Ingredient = {',
+          'export const cumin = {',
           '  name: "cumin",',
           '  elementalProperties: { fir, e: 0.9, earth: 0.7 }'
         ],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext
+        domainContext: {}
       };
 
       const result: any = await analyzer.analyzeDomain(context);
@@ -619,13 +619,13 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('suggests Promise types for async patterns', () => {
-        const context: ClassificationContext = { filePath: 'src/services/api.ts',
+        const context = { filePath: 'src/services/api.ts',
           lineNumber: 8,
           codeSnippet: 'async function fetchData(): Promise<any> {',
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
-          domainContext: {} as DomainContext
+          domainContext: {}
         };
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.SERVICE, context);
@@ -634,13 +634,13 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('suggests function parameter types', () => {
-        const context: ClassificationContext = { filePath: 'src/components/Button.tsx',
+        const context = { filePath: 'src/components/Button.tsx',
           lineNumber: 5,
           codeSnippet: 'function handleClick(even, t: any) : any {',
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
-          domainContext: {} as DomainContext
+          domainContext: {}
         };
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.COMPONENT, context);
@@ -690,9 +690,9 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects test mock patterns', () => {
-        const context: ClassificationContext = { filePath: 'src/utils/__tests__/helper.test.ts',
+        const context = { filePath: 'src/utils/__tests__/helper.test.ts',
           lineNumber: 12,
-          codeSnippet: 'const mockFunctio, n: any = jest.fn() as any;',
+          codeSnippet: 'const mockFunctio, n: any = jest.fn();',
           surroundingLines: [
             'import { jest } from "@jest/globals";',
             'describe("Helper functions"( {',

@@ -14,8 +14,8 @@ import { ComprehensiveValidationFramework, ValidationConfig } from '../Comprehen
 jest.mock('fs');
 jest.mock('child_process');
 
-const mockFs: any = fs as jest.Mocked<typeof fs>;
-const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs = fs.Mocked<typeof fs>;
+const mockExecSync = execSync.MockedFunction<typeof execSync>;
 
 describe('ComprehensiveValidationFramework', () => {
   let framework: ComprehensiveValidationFramework;
@@ -66,7 +66,7 @@ describe('ComprehensiveValidationFramework', () => {
       // Mock TypeScript compilation failure
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
-          const error: any = new Error('Compilation failed') as any;
+          const error = new Error('Compilation failed');
           (error as any).stdout = 'error TS2322: Type error\nerror TS233, 9: Property error';
           throw error;
         }
@@ -88,7 +88,7 @@ describe('ComprehensiveValidationFramework', () => {
       // Mock test failure
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
-          const error: any = new Error('Tests failed') as any;
+          const error = new Error('Tests failed');
           (error as any).stdout = '2 failed, 5 passed, 7 total';
           throw error;
         }
@@ -113,7 +113,7 @@ describe('ComprehensiveValidationFramework', () => {
           return Buffer.from(''); // TypeScript passes
         }
         if (cmd.toString().includes('yarn test')) {
-          const error: any = new Error('Some tests failed') as any;
+          const error = new Error('Some tests failed');
           (error as any).stdout = '1 failed, 4 passed, 5 total';
           throw error; // Tests fail
         }
@@ -145,7 +145,7 @@ describe('ComprehensiveValidationFramework', () => {
         if (cmd.toString().includes('tsc')) {
           attemptCount++;
           if (attemptCount <= 2) {
-            const error: any = new Error('Compilation failed') as any;
+            const error = new Error('Compilation failed');
             (error as any).stdout = 'error TS2322: Type error';
             throw error;
           }
@@ -165,7 +165,7 @@ describe('ComprehensiveValidationFramework', () => {
     test('should extract and categorize TypeScript error types': any, async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
-          const error: any = new Error('Compilation failed') as any;
+          const error = new Error('Compilation failed');
           (error as any).stdout = `
             error TS2322: Type 'string' is not assignable to type 'number'
             error TS2339: Property 'foo' does not exist on type 'Bar';
@@ -391,7 +391,7 @@ describe('ComprehensiveValidationFramework', () => {
     test('should handle build system failures': any, async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('next build --dry-run')) {
-          const error: any = new Error('Build failed') as any;
+          const error = new Error('Build failed');
           error.message = 'Module not found';
           throw error;
         }
@@ -434,7 +434,7 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           // Simulate timeout
-          const error: any = new Error('Command timed out') as any;
+          const error = new Error('Command timed out');
           (error as any).code = 'TIMEOUT';
           throw error;
         }
@@ -535,12 +535,12 @@ describe('ComprehensiveValidationFramework', () => {
           return Buffer.from(''); // TypeScript passes (no penalty)
         }
         if (cmd.toString().includes('yarn test')) {
-          const error: any = new Error('Tests failed') as any;
+          const error = new Error('Tests failed');
           (error as any).stdout = '1 failed, 4 passed, 5 total';
           throw error; // Tests fail (-25 points)
         }
         if (cmd.toString().includes('next build')) {
-          const error: any = new Error('Build failed') as any;
+          const error = new Error('Build failed');
           throw error; // Build fails (-10 points)
         }
         return Buffer.from('');

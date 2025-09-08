@@ -42,8 +42,8 @@ const RecipeDetailsPage: NextPage = () => {
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
       ...currentState,
-      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
-      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
+      season: 'spring', // Default value since getCurrentElementalState doesn&apos;t provide season
+      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apos;t provide timeOfDay
     });
   }, []);
 
@@ -82,7 +82,7 @@ const RecipeDetailsPage: NextPage = () => {
       <div className='container mx-auto px-4 py-16'>
         <h1 className='mb-8 text-3xl font-bold'>Recipe not found</h1>
         <p className='mb-8 text-lg'>
-          The recipe you're looking for doesn&amp;apos;t exist or may have been removed.
+          The recipe you&apos;re looking for doesn&amp;apos;t exist or may have been removed.
         </p>
         <Link
           href='/recipes'

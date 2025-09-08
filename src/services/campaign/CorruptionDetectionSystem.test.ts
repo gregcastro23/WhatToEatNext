@@ -23,7 +23,7 @@ jest.mock('fs', () => ({
 }));
 
 const { execSync } = require('child_process');
-const mockFs: any = fs as jest.Mocked<typeof fs>;
+const mockFs = fs.Mocked<typeof fs>;
 
 describe('Corruption Detection System - Task 6.2', () => {
   let safetyProtocol: SafetyProtocol;
