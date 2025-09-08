@@ -1,8 +1,11 @@
 "use client";
+import { planetaryPositionsService } from '@/services/PlanetaryPositionsService';
 import type { Season } from '@/types/alchemy';
 import type { PlanetaryPosition } from '@/types/celestial';
 import { getAlchemicalStateWithVectors } from '@/utils';
-import { planetaryPositionsService } from '@/services/PlanetaryPositionsService';
+import { calculateAspects } from '@/utils/astrologyUtils';
+import { createLogger } from '@/utils/logger';
+import { VECTOR_CONFIG } from '@/utils/signVectors';
 import React from 'react';
 
 type Props = {
@@ -16,6 +19,8 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
   const [positions, setPositions] = React.useState<Record<string, PlanetaryPosition> | null>(propPositions || null);
   const [mode, setMode] = React.useState<'sun' | 'moon' | 'dominant' | 'ensemble'>(governing);
   const [loading, setLoading] = React.useState<boolean>(!propPositions);
+  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha);
+  const logger = React.useMemo(() => createLogger('SignVectorPanel'), []);
 
   React.useEffect(() => {
     let mounted = true;
@@ -39,8 +44,39 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
 
   const state = React.useMemo(() => {
     if (!positions) return null;
-    return getAlchemicalStateWithVectors({ planetaryPositions: positions, aspects: aspects as any, season, governing: mode });
-  }, [positions, aspects, season, mode]);
+    // Compute aspects from current positions if not provided
+    let realAspects = aspects as any;
+    try {
+      if (!realAspects) {
+        const minimal = Object.fromEntries(
+          Object.entries(positions).map(([k, v]) => [k, { sign: (v as any).sign, degree: (v as any).degree }]),
+        ) as Record<string, { sign: string; degree: number }>;
+        const { aspects: computed } = calculateAspects(minimal);
+        realAspects = computed as any;
+      }
+    } catch (_e) {
+      // aspects remain undefined on failure
+    }
+    // Apply dev alpha to global config
+    if (process.env.NODE_ENV !== 'production') {
+      VECTOR_CONFIG.blendWeightAlpha = alpha;
+    }
+    const res = getAlchemicalStateWithVectors({ planetaryPositions: positions, aspects: realAspects, season, governing: mode });
+    // Dev instrumentation: log deltas
+    if (process.env.NODE_ENV !== 'production') {
+      const base = res.base.alchemical;
+      const blended = res.blendedAlchemical;
+      const d = {
+        Spirit: Number((blended.Spirit - base.Spirit).toFixed(4)),
+        Essence: Number((blended.Essence - base.Essence).toFixed(4)),
+        Matter: Number((blended.Matter - base.Matter).toFixed(4)),
+        Substance: Number((blended.Substance - base.Substance).toFixed(4)),
+      };
+      logger.debug('Vector blend deltas', { d, mode, alpha, selected: res.selected.sign });
+      logger.debug('Thermo metrics', { thermodynamics: res.thermodynamics });
+    }
+    return res;
+  }, [positions, aspects, season, mode, alpha, logger]);
 
   if (loading || !state) {
     return (
@@ -65,6 +101,13 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
           <option value='ensemble'>ensemble</option>
         </select>
       </div>
+      {process.env.NODE_ENV !== 'production' && (
+        <div style={{ marginBottom: 8 }}>
+          <label htmlFor='alpha' style={{ marginRight: 8 }}>Blend α:</label>
+          <input id='alpha' type='range' min={0} max={0.5} step={0.01} value={alpha} onChange={e => setAlpha(Number(e.target.value))} />
+          <span style={{ marginLeft: 8 }}>{alpha.toFixed(2)}</span>
+        </div>
+      )}
       <div>Sign: {selected.sign}</div>
       <div>Direction: {selected.direction}</div>
       <div>Magnitude: {(selected.magnitude * 100).toFixed(1)}%</div>
