@@ -719,7 +719,7 @@ export function getPrimaryElement(elementalAffinity: ElementalAffinity): string 
 // Get element strength if available
 export function getElementStrength(elementalAffinity: ElementalAffinity): number {
   const affinityData = elementalAffinity as unknown as any;
-  const strength = affinityData.strength as number;
+  const strength = affinityData.strength;
   return typeof strength === 'number' ? strength : 1;
 }
 

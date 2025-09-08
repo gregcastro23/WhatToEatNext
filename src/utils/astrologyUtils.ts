@@ -1722,7 +1722,7 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
 /**
  * Helper function to get the zodiac sign from a longitude
  * @param longitude Longitude in degrees
- * @returns Zodiac sign as string
+ * @returns Zodiac sign
  */
 export function getZodiacSign(longitude: number): string {
   const signs = [

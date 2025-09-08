@@ -3051,17 +3051,17 @@ export async function recommendIngredients(
     const ingredientRecommendation: IngredientRecommendation = {
       name: String(recommendationData.name || ''),
       type: String(recommendationData.type || ''),
-      category: recommendationData.category as string,
+      category: recommendationData.category,
       elementalProperties: recommendationData.elementalProperties as ElementalProperties,
       qualities: recommendationData.qualities as string[],
       matchScore: totalScore,
       modality: recommendationData.modality as Modality,
       recommendations: ingredientRecommendations,
-      description: recommendationData.description as string,
+      description: recommendationData.description,
       totalScore,
       elementalScore: elementalScore * 0.45,
       astrologicalScore: planetaryDayScore * 0.35 + planetaryHourScore * 0.2,
-      seasonalScore: recommendationData.seasonalScore as number,
+      seasonalScore: recommendationData.seasonalScore,
       dietary: recommendationData.dietary as string[],
     };
 

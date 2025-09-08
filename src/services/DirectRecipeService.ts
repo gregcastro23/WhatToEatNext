@@ -135,15 +135,9 @@ export class DirectRecipeService {
       // Get current date, time, and location for astrologize API
       const currentDate = new Date();
 
-      // Fetch real planetary positions from astrologize API
-      const planetaryPositions = await fetchPlanetaryPositions({
-        // This will use current date/time/location by default
-        date: currentDate.getDate(),
-        month: currentDate.getMonth() + 1, // API expects 1-12
-        year: currentDate.getFullYear(),
-        hour: currentDate.getHours(),
-        minutes: currentDate.getMinutes(),
-      });
+      // Unified positions service
+      const { planetaryPositionsService } = await import('@/services/PlanetaryPositionsService');
+      const planetaryPositions = await planetaryPositionsService.getCurrent();
 
       // Calculate celestial alignment using our celestial calculator
       const _alignment = celestialCalculator.calculateCurrentInfluences();

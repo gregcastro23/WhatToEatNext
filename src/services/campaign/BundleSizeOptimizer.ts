@@ -370,7 +370,7 @@ export class BundleSizeOptimizer {
           dependencies.push({
             name,
             size,
-            version: version as string,
+            version: version,
             usage,
             alternatives,
           });

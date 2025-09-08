@@ -68,22 +68,22 @@ describe('Comprehensive Linting Test Suite', () => {
       // Required configuration sections
       const hasJavaScriptConfig: any = config.some((c: any) => {
         const conf: any = c as any;
-        const files: any = conf.files as string[] | undefined;
+        const files: any = conf.files[] | undefined;
         return files && files.includes('**/*.js');
       });
       const hasTypeScriptConfig: any = config.some((c: any) => {
         const conf: any = c as any;
-        const files: any = conf.files as string[] | undefined;
+        const files: any = conf.files[] | undefined;
         return files && files.includes('**/*.ts');
       });
       const hasAstrologicalConfig: any = config.some((c: any) => {
         const conf: any = c as any;
-        const files: any = conf.files as string[] | undefined;
+        const files: any = conf.files[] | undefined;
         return files && files.some((f: string) => f.includes('**/calculations/**'));
       });
       const hasTestConfig: any = config.some((c: any) => {
         const conf: any = c as any;
-        const files: any = conf.files as string[] | undefined;
+        const files: any = conf.files[] | undefined;
         return files && files.some((f: string) => f.includes('**/*.test.ts'));
       });
       const hasIgnoreConfig: any = config.some((c: any) => {
@@ -139,7 +139,7 @@ describe('Comprehensive Linting Test Suite', () => {
       // Astrological files should have custom rules
       const astroConfig: any = config.find((c: any) => {
         const conf: any = c as any;
-        const files: any = conf.files as string[] | undefined;
+        const files: any = conf.files[] | undefined;
         return files && files.some((f: string) => f.includes('**/calculations/**'));
       });
       expect(astroConfig.rules).toHaveProperty('astrological/preserve-planetary-constants');
@@ -149,7 +149,7 @@ describe('Comprehensive Linting Test Suite', () => {
       // Campaign files should allow extensive logging
       const campaignConfig: any = config.find((c: any) => {
         const conf: any = c as any;
-        const files: any = conf.files as string[] | undefined;
+        const files: any = conf.files[] | undefined;
         return files && files.some((f: string) => f.includes('**/services/campaign/**'));
       });
       expect(campaignConfig.rules['no-console']).toBe('off');
@@ -158,7 +158,7 @@ describe('Comprehensive Linting Test Suite', () => {
       // Test files should have relaxed rules
       const testConfig: any = config.find((c: any) => {
         const conf: any = c as any;
-        const files: any = conf.files as string[] | undefined;
+        const files: any = conf.files[] | undefined;
         return files && files.some((f: string) => f.includes('**/*.test.ts'));
       });
       expect(testConfig.rules['no-console']).toBe('off');

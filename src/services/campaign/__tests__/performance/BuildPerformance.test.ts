@@ -278,7 +278,7 @@ describe('Build Performance Tests', () => {
       const expectedSizes: any = [200, 150, 50]; // kB
 
       mockFs.existsSync.mockImplementation(path => {
-        return buildDirs.includes(path as string);
+        return buildDirs.includes(path);
       });
 
       mockExecSync.mockImplementation(command => {

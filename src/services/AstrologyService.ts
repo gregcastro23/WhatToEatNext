@@ -1,15 +1,14 @@
 import {
-  getCurrentPlanetaryPositions,
-  getPlanetaryPositionsForDateTime,
+    getCurrentPlanetaryPositions
 } from '@/services/astrologizeApi';
 import { log } from '@/services/LoggingService';
 import {
-  PlanetaryAlignment,
-  AstrologicalState,
-  CelestialPosition,
-  ZodiacSign,
-  Planet,
-  LunarPhase,
+    AstrologicalState,
+    CelestialPosition,
+    LunarPhase,
+    Planet,
+    PlanetaryAlignment,
+    ZodiacSign,
 } from '@/types/celestial';
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 
@@ -50,8 +49,9 @@ export class AstrologyService {
     forceRefresh = false,
   ): Promise<Record<Planet, CelestialPosition>> {
     try {
-      // Use astrologize API for real planetary positions
-      const rawPositions = await getCurrentPlanetaryPositions();
+      // Unified: PlanetaryPositionsService
+      const { planetaryPositionsService } = await import('@/services/PlanetaryPositionsService');
+      const rawPositions = await planetaryPositionsService.getCurrent();
       const positions = normalizePlanetaryPositions(rawPositions);
 
       // Convert to CelestialPosition format

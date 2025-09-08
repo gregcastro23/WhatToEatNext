@@ -1085,7 +1085,7 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
             entry = celestialArray[celestialBodiesIndex] || {};
             // Use safe type casting for entry property access
             const entryData = entry as any;
-            planet = (entryData.label as string) || '';
+            planet = (entryData.label) || '';
           }
         } catch (error) {
           console.error(`Error getting planet at index ${celestialBodiesIndex}:`, error);
@@ -1118,7 +1118,7 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
         let sign: string;
         try {
           const entryWithSign = entry as any;
-          sign = ((entryWithSign.Sign as any).label as string) || 'Aries';
+          sign = ((entryWithSign.Sign as any).label) || 'Aries';
 
           // SAFELY update planet's sign
           if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
@@ -1183,7 +1183,7 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
             let house = '';
             try {
               const entryWithHouse = entry as any;
-              house = ((entryWithHouse.House as any).label as string) || '1';
+              house = ((entryWithHouse.House as any).label) || '1';
 
               if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
                 alchmInfo['Planets'][planet]['House'] = house;
@@ -1999,7 +1999,7 @@ export function calculateChakraEnergies(zodiacEnergies: Record<string, number>):
       chakraData.thirdEye = chakraEnergies.brow;
       affectedChakras.add('thirdEye');
     } else if (affectedChakras.has('thirdEye') && !affectedChakras.has('brow')) {
-      chakraEnergies.brow = (chakraData.thirdEye as number) || 0;
+      chakraEnergies.brow = (chakraData.thirdEye) || 0;
       affectedChakras.add('brow');
     }
 
@@ -2070,7 +2070,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
 
     // Determine current lunar phase
     const lunarPhase =
-      (((moonPosition as unknown as any).phase as string).toLowerCase() as LunarPhase) ||
+      (((moonPosition as unknown as any).phase).toLowerCase() as LunarPhase) ||
       'full moon';
 
     // Get current season based on sun sign
@@ -2267,7 +2267,7 @@ function alchemizeWithSafety(
     const celestialBodies = (horoscopeData.tropical as any).CelestialBodies;
     const sunData = (celestialBodies as any).sun;
     const sunSignData = (sunData as any).Sign;
-    const sunSignLabel = ((sunSignData as any).label as string) || 'aries';
+    const sunSignLabel = ((sunSignData as any).label) || 'aries';
 
     const heat = 0.5;
     const entropy = 0.5;

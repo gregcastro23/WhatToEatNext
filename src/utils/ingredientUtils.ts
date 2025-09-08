@@ -382,7 +382,7 @@ export function getDominantElement(elementalProperties: ElementalProperties): st
 export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   // Set default values for required properties
   const ingredient = {
-    name: (mapping.name as unknown as string) || '',
+    name: (mapping.name as unknown) || '',
     category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb',
     elementalProperties: (mapping.elementalProperties as unknown as ElementalProperties) || {
       Fire: 0.25,

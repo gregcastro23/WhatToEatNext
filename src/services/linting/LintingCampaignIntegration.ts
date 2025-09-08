@@ -536,7 +536,7 @@ export class LintingCampaignIntegration {
 
   private saveCampaignReport(report: Record<string, unknown>): void {
     try {
-      const id = typeof report.campaignId === 'string' ? (report.campaignId as string) : 'unknown';
+      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown';
       const reportFile = `.kiro/campaigns/report-${id}-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2));
     } catch (error) {

@@ -578,30 +578,30 @@ export class EnterpriseIntelligenceIntegration {
         validationResults: { validationScore?: number; dataIntegrity?: number };
       } = {
         culturalAnalysis: {
-          culturalSynergy: (culturalAnalysis as unknown as unknown).culturalSynergy as number,
+          culturalSynergy: (culturalAnalysis as unknown as unknown).culturalSynergy,
           culturalCompatibility: (culturalAnalysis as unknown as unknown)
-            .culturalCompatibility as number,
-          culturalRelevance: (culturalAnalysis as unknown as unknown).culturalRelevance as number,
+            .culturalCompatibility,
+          culturalRelevance: (culturalAnalysis as unknown as unknown).culturalRelevance,
         },
         fusionAnalysis: {
-          fusionPotential: (fusionAnalysis as unknown as unknown).fusionPotential as number,
-          fusionCompatibility: (fusionAnalysis as unknown as unknown).fusionCompatibility as number,
+          fusionPotential: (fusionAnalysis as unknown as unknown).fusionPotential,
+          fusionCompatibility: (fusionAnalysis as unknown as unknown).fusionCompatibility,
         },
         seasonalAnalysis: {
-          seasonalRelevance: (seasonalAnalysis as unknown as unknown).seasonalRelevance as number,
-          seasonalOptimization: (seasonalAnalysis as unknown as unknown).seasonalOptimization as number,
+          seasonalRelevance: (seasonalAnalysis as unknown as unknown).seasonalRelevance,
+          seasonalOptimization: (seasonalAnalysis as unknown as unknown).seasonalOptimization,
         },
         compatibilityAnalysis: {
           overallCompatibility: (compatibilityAnalysis as unknown as unknown)
-            .overallCompatibility as number,
+            .overallCompatibility,
         },
         astrologicalAnalysis: {
           astrologicalAlignment: (astrologicalAnalysis as unknown as unknown)
-            .astrologicalAlignment as number,
+            .astrologicalAlignment,
         },
         validationResults: {
-          validationScore: (validationResults as unknown as unknown).validationScore as number,
-          dataIntegrity: (validationResults as unknown as unknown).dataIntegrity as number,
+          validationScore: (validationResults as unknown as unknown).validationScore,
+          dataIntegrity: (validationResults as unknown as unknown).dataIntegrity,
         },
       };
 
@@ -681,8 +681,8 @@ export class EnterpriseIntelligenceIntegration {
           culturalAnalysis as unknown as import('@/types/enterpriseIntelligence').CulturalAnalysis,
         fusionAnalysis: {
           compatibleCuisines: [],
-          fusionScore: ((fusionAnalysis as any).fusionCompatibility as number) || 0.7,
-          innovationPotential: ((fusionAnalysis as any).fusionPotential as number) || 0.7,
+          fusionScore: ((fusionAnalysis as any).fusionCompatibility) || 0.7,
+          innovationPotential: ((fusionAnalysis as any).fusionPotential) || 0.7,
           culturalHarmony: 0.7,
           marketAcceptance: 0.7,
         },
@@ -690,7 +690,7 @@ export class EnterpriseIntelligenceIntegration {
           seasonalAnalysis as unknown as import('@/types/enterpriseIntelligence').SeasonalAnalysis,
         compatibilityAnalysis:
           ((): import('@/types/enterpriseIntelligence').CompatibilityAnalysis => {
-            const overall = ((compatibilityAnalysis as any).overallCompatibility as number) || 0.7;
+            const overall = ((compatibilityAnalysis as any).overallCompatibility) || 0.7;
             return {
               elementalCompatibility: overall,
               seasonalCompatibility: overall,
@@ -1220,7 +1220,7 @@ export class EnterpriseIntelligenceIntegration {
       (analysis as { coreMetrics?: { overallCompatibility?: number } })?.coreMetrics
         ?.overallCompatibility !== undefined &&
       ((analysis as { coreMetrics?: { overallCompatibility?: number } })?.coreMetrics
-        ?.overallCompatibility as number) < 0.9
+        ?.overallCompatibility) < 0.9
     ) {
       recommendations.push('Consider ingredient substitutions for better compatibility');
     }
@@ -1234,7 +1234,7 @@ export class EnterpriseIntelligenceIntegration {
         analysis as unknown as {
           advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } };
         }
-      )?.advancedAnalysis?.temporalFactors?.seasonalRelevance as number) < 0.8
+      )?.advancedAnalysis?.temporalFactors?.seasonalRelevance) < 0.8
     ) {
       recommendations.push('Adjust timing for better seasonal alignment');
     }
@@ -1698,7 +1698,7 @@ export class EnterpriseIntelligenceIntegration {
       return sum + (1 - alignment); // Convert difference to alignment score
     }, 0);
 
-    return (avgAlignment as number) / ingredients.length;
+    return (avgAlignment) / ingredients.length;
   }
 
   /**
@@ -1926,8 +1926,8 @@ export class EnterpriseIntelligenceIntegration {
         compatibilityScore: Math.min(1, compatibilityScore),
         elementalBalance:
           1 -
-          Math.max(...Object.values(elementalProperties).map(v => v as number)) +
-          Math.min(...Object.values(elementalProperties).map(v => v as number)),
+          Math.max(...Object.values(elementalProperties).map(v => v)) +
+          Math.min(...Object.values(elementalProperties).map(v => v)),
         compatibilityFactors: ['Elemental balance', 'Cultural harmony', 'Seasonal alignment'],
       };
     } catch (error) {
@@ -1995,11 +1995,11 @@ export class EnterpriseIntelligenceIntegration {
 
   private calculateCuisineOptimizationScore(analyses: CuisineAnalyses): number {
     const scores = [
-      ((analyses.culturalAnalysis as any)?.culturalSynergy as number) || 0.7,
-      ((analyses.fusionAnalysis as any)?.fusionScore as number) || 0.7,
-      ((analyses.seasonalAnalysis as any)?.seasonalOptimization as number) || 0.7,
-      ((analyses.compatibilityAnalysis as any)?.overallCompatibility as number) || 0.7,
-      ((analyses.astrologicalAnalysis as any)?.astrologicalAlignment as number) || 0.7,
+      ((analyses.culturalAnalysis as any)?.culturalSynergy) || 0.7,
+      ((analyses.fusionAnalysis as any)?.fusionScore) || 0.7,
+      ((analyses.seasonalAnalysis as any)?.seasonalOptimization) || 0.7,
+      ((analyses.compatibilityAnalysis as any)?.overallCompatibility) || 0.7,
+      ((analyses.astrologicalAnalysis as any)?.astrologicalAlignment) || 0.7,
     ];
 
     return scores.reduce((sum, score) => sum + score, 0) / scores.length;
@@ -2017,7 +2017,7 @@ export class EnterpriseIntelligenceIntegration {
       analyses.culturalAnalysis.culturalSynergy || 0.7,
       analyses.fusionAnalysis.fusionPotential || 0.7,
       analyses.seasonalAnalysis.seasonalOptimization || 0.7,
-      ((analyses.compatibilityAnalysis as any)?.overallCompatibility as number) || 0.7,
+      ((analyses.compatibilityAnalysis as any)?.overallCompatibility) || 0.7,
       analyses.astrologicalAnalysis.astrologicalAlignment || 0.7,
     ];
 
@@ -2031,19 +2031,19 @@ export class EnterpriseIntelligenceIntegration {
   private generateCuisineIntelligenceRecommendations(analyses: CuisineAnalyses): string[] {
     const recommendations: string[] = [];
 
-    if (((analyses.culturalAnalysis as any)?.culturalSynergy as number) < 0.7) {
+    if (((analyses.culturalAnalysis as any)?.culturalSynergy) < 0.7) {
       recommendations.push('Consider cultural context for better cuisine selection');
     }
 
-    if (((analyses.fusionAnalysis as any)?.innovationPotential as number) > 0.8) {
+    if (((analyses.fusionAnalysis as any)?.innovationPotential) > 0.8) {
       recommendations.push('Explore fusion cuisine possibilities for enhanced variety');
     }
 
-    if (((analyses.seasonalAnalysis as any)?.seasonalOptimization as number) < 0.7) {
+    if (((analyses.seasonalAnalysis as any)?.seasonalOptimization) < 0.7) {
       recommendations.push('Consider seasonal alternatives for optimal timing');
     }
 
-    if (((analyses.compatibilityAnalysis as any)?.overallCompatibility as number) < 0.7) {
+    if (((analyses.compatibilityAnalysis as any)?.overallCompatibility) < 0.7) {
       recommendations.push('Enhance cuisine compatibility matching');
     }
 

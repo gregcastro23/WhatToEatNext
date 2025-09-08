@@ -8,7 +8,7 @@ import { logger } from './logger';
  * Safely get a value from a nested object structure with a default fallback
  *
  * @param obj The object to access
- * @param path The path to the property as string array
+ * @param path The path to the property array
  * @param defaultValue The default value to return if property doesn't exist
  * @returns The value at the path or the default value if not found
  *
@@ -147,7 +147,7 @@ export function safeArray<T>(value: unknown, defaultValue: T[] = []): T[] {
  * @returns The property value or default value
  *
  * @example
- * // Return user.age as number with default 0
+ * // Return user.age with default 0
  * safeProperty(user, 'age', 0, (val) => typeof val === 'number')
  */
 export function safeProperty<T>(

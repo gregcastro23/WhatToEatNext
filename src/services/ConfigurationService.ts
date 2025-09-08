@@ -98,11 +98,11 @@ class ConfigurationServiceImpl {
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
     const retryCount = Number(storedApi.retryCount ?? config.api.retryCount);
     const baseUrl =
-      typeof storedApi.baseUrl === 'string' ? (storedApi.baseUrl as string) : config.api.baseUrl;
+      typeof storedApi.baseUrl === 'string' ? (storedApi.baseUrl) : config.api.baseUrl;
 
     const defaultTimezoneName =
       typeof storedAstrology.defaultTimezoneName === 'string'
-        ? (storedAstrology.defaultTimezoneName as string)
+        ? (storedAstrology.defaultTimezoneName)
         : config.astrology.defaultTimezoneName;
     const retrogradeThreshold = Number(
       storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold,
@@ -112,7 +112,7 @@ class ConfigurationServiceImpl {
       ...((storedAstrology.aspectOrbs as Record<string, number>) || {}),
     };
 
-    const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug as boolean) : config.debug;
+    const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug) : config.debug;
 
     return {
       api: { celestialUpdateInterval, timeout, retryCount, baseUrl },

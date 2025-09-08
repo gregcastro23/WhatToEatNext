@@ -605,7 +605,7 @@ export const getBestRecipeMatches = async (
               name: String((ing as any).name || ''),
               amount:
                 typeof (ing as any).amount === 'number'
-                  ? ((ing as any).amount as number)
+                  ? ((ing as any).amount)
                   : parseFloat(String((ing as any).amount)) || 1,
               unit: String((ing as any).unit || ''),
               optional: Boolean((ing as any).optional || false),
@@ -698,7 +698,7 @@ export const getBestRecipeMatches = async (
                 name: String((ing as any).name || ''),
                 amount:
                   typeof (ing as any).amount === 'number'
-                    ? ((ing as any).amount as number)
+                    ? ((ing as any).amount)
                     : parseFloat(String((ing as any).amount)) || 1,
                 unit: String((ing as any).unit || ''),
                 optional: Boolean((ing as any).optional || false),

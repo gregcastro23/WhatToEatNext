@@ -1196,7 +1196,7 @@ export async function getRecommendedCookingMethods(
       if (venusZodiacTransit) {
         // Check food focus alignment
         if (venusZodiacTransit.FoodFocus) {
-          const transitFocus = (venusZodiacTransit.FoodFocus as string).toLowerCase();
+          const transitFocus = (venusZodiacTransit.FoodFocus).toLowerCase();
           const methodData = method as unknown;
           const methodDesc =
             typeof methodData.description === 'string' ? methodData.description.toLowerCase() : '';
@@ -1341,7 +1341,7 @@ export async function getRecommendedCookingMethods(
 
     // Add the recommendation with calculated score
     // Extract affinity data with safe property access
-    const planetaryAffinity = (methodData.planetaryAffinity as number) || 0;
+    const planetaryAffinity = (methodData.planetaryAffinity) || 0;
     const scoreDetailsForUI = scoreDetails;
 
     // Store score on the method object and push the method itself
@@ -1360,7 +1360,7 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
   // Convert method to proper type with safe property access
   const methodData = method as unknown as any;
   const properties = methodData.properties as any;
-  const element = properties.element as string;
+  const element = properties.element;
 
   if (!element) return 0.5;
 

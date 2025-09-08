@@ -1537,7 +1537,7 @@ export class UnifiedRecipeBuildingSystem {
       (recipe as { culturalIntegration?: { authenticityScore?: number } }).culturalIntegration
         ?.authenticityScore !== undefined &&
       ((recipe as { culturalIntegration?: { authenticityScore?: number } }).culturalIntegration
-        ?.authenticityScore as number) >= 0.6
+        ?.authenticityScore) >= 0.6
     )
       criteriaMatched++;
     criteriaMatched++; // Always count generation success as one criteria
@@ -1546,9 +1546,9 @@ export class UnifiedRecipeBuildingSystem {
       criteriaMatched,
       totalCriteria,
       kalchmAccuracy: (recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm || 0,
-      monicaOptimization: ((recipe.monicaOptimization as any)?.overallScore as number) || 0,
-      seasonalAlignment: ((recipe.seasonalAdaptation as any)?.seasonalScore as number) || 0,
-      cuisineAuthenticity: ((recipe as unknown as unknown)?.culturalIntegration as number) || 0,
+      monicaOptimization: ((recipe.monicaOptimization as any)?.overallScore) || 0,
+      seasonalAlignment: ((recipe.seasonalAdaptation as any)?.seasonalScore) || 0,
+      cuisineAuthenticity: ((recipe as unknown as unknown)?.culturalIntegration) || 0,
       generatedAt: new Date().toISOString(),
       generationMethod: 'unified-recipe-builder',
     };

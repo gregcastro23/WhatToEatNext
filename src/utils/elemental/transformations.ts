@@ -183,7 +183,7 @@ export function transformSingleItem(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties,
-    uniqueness: ((item as unknown as any).uniqueness as number) || uniqueness,
+    uniqueness: ((item as unknown as any).uniqueness) || uniqueness,
     planetaryInfluences:
       ((item as unknown as any).planetaryInfluences as string[]) ||
       Object.keys(planetaryInfluences),
@@ -572,7 +572,7 @@ function calculateCompatibilityScore(
   });
 
   // ✅ Pattern MM-1: Safe property access for transformation score
-  score += ((((item as unknown as any).transformations as any).score as number) || 0.5) * 0.4;
+  score += ((((item as unknown as any).transformations as any).score) || 0.5) * 0.4;
   totalWeight += 0.4;
 
   return totalWeight > 0 ? score / totalWeight : 0;

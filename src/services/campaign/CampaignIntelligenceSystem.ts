@@ -88,8 +88,8 @@ export const ERROR_PATTERN_INTELLIGENCE = {
 
     // Analyze error patterns
     errors.forEach(error => {
-      const errorCode = error.code as string;
-      const errorCategory = error.category as string;
+      const errorCode = error.code;
+      const errorCategory = error.category;
       const pattern = `${errorCode}_${errorCategory}`;
       patternRecognition[pattern] = (patternRecognition[pattern] || 0) + 1;
 

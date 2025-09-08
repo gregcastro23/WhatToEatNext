@@ -92,7 +92,7 @@ function isObjectLike(value: unknown): value is Record<string, unknown> {
 }
 
 function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && Number.isFinite(value as number);
+  return typeof value === 'number' && Number.isFinite(value);
 }
 
 function isMacroProfile(value: unknown): value is MacroProfile {

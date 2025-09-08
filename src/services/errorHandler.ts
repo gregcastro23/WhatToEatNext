@@ -150,7 +150,7 @@ class ErrorHandlerService {
   handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
     this.log(error, {
-      context: (context as string) || 'unknown',
+      context: (context) || 'unknown',
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR,
     });

@@ -223,7 +223,7 @@ export class RecipeFilter {
 
   private meetsRestriction(recipe: Recipe, restriction: DietaryRestriction): boolean {
     // Properly check dietary restrictions based on recipe properties
-    switch (restriction as string) {
+    switch (restriction) {
       case 'vegetarian':
         return recipe.isVegetarian === true;
       case 'vegan':

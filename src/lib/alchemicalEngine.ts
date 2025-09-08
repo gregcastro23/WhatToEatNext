@@ -280,7 +280,7 @@ export class AlchemicalEngineBase {
     baseModifiers[moonElement] += 0.1;
 
     Object.entries(lunarModifiers).forEach(([element, value]) => {
-      baseModifiers[element as unknown] *= value as number;
+      baseModifiers[element as unknown] *= value;
     });
 
     const total = Object.values(baseModifiers).reduce((sum, val) => sum + val, 0);
@@ -296,7 +296,7 @@ export class AlchemicalEngineBase {
     element2: keyof ElementalProperties,
   ): number {
     if (element1 === element2) return 1;
-    if (this.elementalAffinities[element1].includes(element2 as string)) return 0.5;
+    if (this.elementalAffinities[element1].includes(element2)) return 0.5;
     return 0;
   }
 

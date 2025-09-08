@@ -184,7 +184,7 @@ export function getCuisineRecommendations(
       const zodiacInfluences = (cuisine as any).zodiacInfluences;
       if (
         astrologicalState.zodiacSign &&
-        (zodiacInfluences as string[]).includes(astrologicalState.zodiacSign as string)
+        (zodiacInfluences as string[]).includes(astrologicalState.zodiacSign)
       ) {
         score += 0.3;
         reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`);
@@ -194,7 +194,7 @@ export function getCuisineRecommendations(
       const lunarPhaseInfluences = (cuisine as any).lunarPhaseInfluences;
       if (
         astrologicalState.lunarPhase &&
-        (lunarPhaseInfluences as string[]).includes(astrologicalState.lunarPhase as string)
+        (lunarPhaseInfluences as string[]).includes(astrologicalState.lunarPhase)
       ) {
         score += 0.2;
         reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`);

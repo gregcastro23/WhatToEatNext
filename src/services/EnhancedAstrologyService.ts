@@ -9,9 +9,9 @@
  */
 
 import {
-  getAvailableYears,
-  getSeasonalAnalysis,
-  getTransitForDate,
+    getAvailableYears,
+    getSeasonalAnalysis,
+    getTransitForDate,
 } from '@/data/transits/comprehensiveTransitDatabase';
 import { CelestialPosition, Planet, ZodiacSign } from '@/types/celestial';
 import { getFallbackPlanetaryPositions } from '@/utils/accurateAstronomy';
@@ -167,37 +167,25 @@ export class EnhancedAstrologyService {
     let dataSource: EnhancedAstrologicalData['dataSource'] = 'fallback';
     let confidence = 0.5;
 
-    // Try Astrologize API first (if not recently checked)
-    if (Date.now() - this.lastAstrologizeCheck > this.astrologizeCheckInterval) {
-      try {
-        primaryPositions = await this.getAstrologizePositions(date);
-        dataSource = 'astrologize';
-        confidence = 0.95;
-        this.lastAstrologizeCheck = Date.now();
-        logger.debug('Using Astrologize API data');
-      } catch (error) {
-        logger.warn('Astrologize API unavailable, trying Swiss Ephemeris');
-      }
-    }
-
-    // Try Swiss Ephemeris if Astrologize failed
-    if (!primaryPositions) {
+    // Unified positions service
+    try {
+      const { planetaryPositionsService } = await import('@/services/PlanetaryPositionsService');
+      const servicePositions = await planetaryPositionsService.getForDate(date);
+      primaryPositions = servicePositions as unknown as Record<string, CelestialPosition>;
+      dataSource = 'positions-service';
+      confidence = 0.95;
+    } catch (error) {
+      logger.warn('Positions service failed, falling back to Swiss/fallback chain');
+      // Try Swiss Ephemeris then fallback
       try {
         primaryPositions = await swissEphemerisService.getPlanetaryPositions(date);
         dataSource = 'swiss-ephemeris';
         confidence = 0.9;
-        logger.debug('Using Swiss Ephemeris data');
-      } catch (error) {
-        logger.warn('Swiss Ephemeris unavailable, using fallback calculations');
+      } catch (_e) {
+        primaryPositions = getFallbackPlanetaryPositions(date);
+        dataSource = 'fallback';
+        confidence = 0.7;
       }
-    }
-
-    // Use fallback calculations if all else fails
-    if (!primaryPositions) {
-      primaryPositions = getFallbackPlanetaryPositions(date);
-      dataSource = 'fallback';
-      confidence = 0.7;
-      logger.debug('Using fallback calculations');
     }
 
     // Get seasonal transit information

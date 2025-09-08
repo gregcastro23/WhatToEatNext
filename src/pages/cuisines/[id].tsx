@@ -61,7 +61,7 @@ const CuisineDetailsPage: NextPage = () => {
     if (!cuisine) return [];
 
     // Safe property access for cuisine name
-    const cuisineName = cuisine.name || (id as string);
+    const cuisineName = cuisine.name || (id);
 
     // 1. Get recipe matches based on cuisine flavor profiles
     const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20);
@@ -174,7 +174,7 @@ const CuisineDetailsPage: NextPage = () => {
   return (
     <div className='container mx-auto px-4 py-8'>
       <h1 className='mb-8 text-3xl font-bold capitalize'>
-        {cuisine.name || (id as string)} Cuisine
+        {cuisine.name || (id)} Cuisine
       </h1>
 
       <div className='mb-8'>
@@ -196,7 +196,7 @@ const CuisineDetailsPage: NextPage = () => {
       </div>
 
       <CuisineSection
-        cuisine={cuisine.name || (id as string)}
+        cuisine={cuisine.name || (id)}
         recipes={combinedRecipes} // Pass the memoized recipes
         elementalState={elementalState}
       />

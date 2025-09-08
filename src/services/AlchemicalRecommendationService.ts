@@ -225,7 +225,7 @@ export class AlchemicalRecommendationService {
 
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
     const thermodynamicsData = thermodynamics as unknown as any;
-    if ((thermodynamicsData.kalchm as number) > 2.0) {
+    if ((thermodynamicsData.kalchm) > 2.0) {
       recommendations.push(
         'Exceptional transformation potential - fermentation and aging processes are enhanced.',
       );

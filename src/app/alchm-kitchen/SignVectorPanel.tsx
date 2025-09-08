@@ -5,6 +5,7 @@ import type { PlanetaryPosition } from '@/types/celestial';
 import { getAlchemicalStateWithVectors } from '@/utils';
 import { calculateAspects } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
+import { TelemetryDev } from '@/services/TelemetryDev';
 import { VECTOR_CONFIG } from '@/utils/signVectors';
 import React from 'react';
 
@@ -66,14 +67,13 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
     if (process.env.NODE_ENV !== 'production') {
       const base = res.base.alchemical;
       const blended = res.blendedAlchemical;
-      const d = {
+      const deltas = {
         Spirit: Number((blended.Spirit - base.Spirit).toFixed(4)),
         Essence: Number((blended.Essence - base.Essence).toFixed(4)),
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
         Substance: Number((blended.Substance - base.Substance).toFixed(4)),
       };
-      logger.debug('Vector blend deltas', { d, mode, alpha, selected: res.selected.sign });
-      logger.debug('Thermo metrics', { thermodynamics: res.thermodynamics });
+      TelemetryDev.recordVectorBlend(res.selected.sign, alpha, deltas as any, res.thermodynamics as any);
     }
     return res;
   }, [positions, aspects, season, mode, alpha, logger]);
@@ -120,7 +120,7 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
       <div>Heat: {thermodynamics.heat.toFixed(4)}</div>
       <div>Entropy: {thermodynamics.entropy.toFixed(4)}</div>
       <div>Reactivity: {thermodynamics.reactivity.toFixed(4)}</div>
-      <div>Greg's Energy: {thermodynamics.gregsEnergy.toFixed(4)}</div>
+      <div>Greg&apos;s Energy: {thermodynamics.gregsEnergy.toFixed(4)}</div>
       <div>Kalchm: {thermodynamics.kalchm.toFixed(4)}</div>
       <div>Monica: {Number.isFinite(thermodynamics.monica) ? thermodynamics.monica.toFixed(4) : 'NaN'}</div>
     </div>

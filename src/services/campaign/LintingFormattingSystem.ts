@@ -151,7 +151,7 @@ export class LintingFormattingSystem {
         formattingIssuesFixed: 0,
         patternBasedFixesApplied: 0,
         buildValidationPassed: false,
-        errors: [((error as any).message as string) || 'Unknown error'],
+        errors: [((error as any).message) || 'Unknown error'],
         warnings: [],
         violationBreakdown: {
           typeScriptErrors: 0,
@@ -347,7 +347,7 @@ export class LintingFormattingSystem {
       // ESLint returns non-zero exit code when violations are found
       const errorData = error as any;
       if (errorData.stdout) {
-        return errorData.stdout as string;
+        return errorData.stdout;
       }
       throw error;
     }

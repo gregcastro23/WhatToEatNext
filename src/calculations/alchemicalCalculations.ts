@@ -38,7 +38,7 @@ export const calculateBalance = (properties: Record<string, number>): number => 
 /**
  * Get recommended adjustments to balance elemental properties
  * @param properties Record of elemental properties
- * @returns Array of recommended adjustments as strings
+ * @returns Array of recommended adjustmentss
  */
 export const getRecommendedAdjustments = (properties: Record<string, number>): string[] => {
   const adjustments: string[] = [];

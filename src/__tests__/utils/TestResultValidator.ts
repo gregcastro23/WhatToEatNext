@@ -60,7 +60,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).executionTime === 'number' &&
-          ((result as any).executionTime as number) > 0,
+          ((result as any).executionTime) > 0,
         errorMessage: 'Execution time must be a positive number',
         severity: 'error',
       },
@@ -70,7 +70,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&
-          ((result as any).memoryUsage as number) >= 0,
+          ((result as any).memoryUsage) >= 0,
         errorMessage: 'Memory usage must be a non-negative number',
         severity: 'error',
       },
@@ -80,7 +80,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).executionTime === 'number' &&
-          ((result as any).executionTime as number) < 60000, // 1 minute
+          ((result as any).executionTime) < 60000, // 1 minute
         errorMessage: 'Execution time exceeds reasonable limit (60 seconds)',
         severity: 'warning',
       },
@@ -90,7 +90,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&
-          ((result as any).memoryUsage as number) < 1024 * 1024 * 1024, // 1GB
+          ((result as any).memoryUsage) < 1024 * 1024 * 1024, // 1GB
         errorMessage: 'Memory usage exceeds efficiency threshold (1GB)',
         severity: 'warning',
       },
@@ -104,7 +104,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).responseTime === 'number' &&
-          ((result as any).responseTime as number) < 5000, // 5 seconds
+          ((result as any).responseTime) < 5000, // 5 seconds
         errorMessage: 'Real-time response time exceeds acceptable limit (5 seconds)',
         severity: 'error',
       },
@@ -114,7 +114,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).accuracy === 'number' &&
-          ((result as any).accuracy as number) >= 0.95, // 95% accuracy
+          ((result as any).accuracy) >= 0.95, // 95% accuracy
         errorMessage: 'Monitoring accuracy below acceptable threshold (95%)',
         severity: 'error',
       },
@@ -148,7 +148,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).errorCount === 'number' &&
-          ((result as any).errorCount as number) >= 0,
+          ((result as any).errorCount) >= 0,
         errorMessage: 'Error count must be a non-negative number',
         severity: 'error',
       },
@@ -158,7 +158,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).buildTime === 'number' &&
-          ((result as any).buildTime as number) < 120000, // 2 minutes
+          ((result as any).buildTime) < 120000, // 2 minutes
         errorMessage: 'Build time exceeds acceptable limit (2 minutes)',
         severity: 'warning',
       },
@@ -182,7 +182,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).peakMemory === 'number' &&
-          ((result as any).peakMemory as number) < 2048 * 1024 * 1024, // 2GB
+          ((result as any).peakMemory) < 2048 * 1024 * 1024, // 2GB
         errorMessage: 'Peak memory usage exceeds limit (2GB)',
         severity: 'error',
       },
@@ -192,7 +192,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as any).memoryVariance === 'number' &&
-          ((result as any).memoryVariance as number) < 0.3, // 30% variance
+          ((result as any).memoryVariance) < 0.3, // 30% variance
         errorMessage: 'Memory usage variance exceeds stability threshold (30%)',
         severity: 'warning',
       },

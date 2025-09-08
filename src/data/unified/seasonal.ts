@@ -1403,7 +1403,7 @@ export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: strin
 export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: string): string {
   const tarotInfluence = unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences[cardKey];
   if (tarotInfluence && typeof tarotInfluence === 'object' && 'cookingMethod' in tarotInfluence) {
-    return tarotInfluence.cookingMethod as unknown as string;
+    return tarotInfluence.cookingMethod as unknown;
   }
   return '';
 }

@@ -1190,7 +1190,7 @@ export class AdvancedAnalyticsIntelligenceService {
     const uniqueTypes = new Set(
       ingredients.map(ing => {
         const ingData = ing as any;
-        return (ingData.category as string) || (ingData.type as string) || 'unknown';
+        return (ingData.category) || (ingData.type) || 'unknown';
       }),
     ).size;
     return Math.min(1, uniqueTypes / Math.max(1, ingredients.length));

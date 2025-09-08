@@ -58,7 +58,7 @@ export class ElementalCalculator {
     // Calculate base seasonal alignment
     Object.entries((recipeData as any)?.elementalProperties).forEach(([element, value]) => {
       const modifier = seasonalModifiers[element as any] || 0;
-      score += (value as number) * modifier * 100;
+      score += (value) * modifier * 100;
     });
 
     // Apply seasonal bonuses/penalties

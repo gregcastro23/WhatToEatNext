@@ -52,7 +52,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle serving-related properties
   if (recipeDataAny.servingSize !== undefined) {
-    recipe.servings = recipeDataAny.servingSize as string;
+    recipe.servings = recipeDataAny.servingSize;
   }
 
   // Handle elemental properties

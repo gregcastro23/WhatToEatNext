@@ -598,7 +598,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
           const boosts = modifier.elementalBoost as Partial<ElementalProperties>;
           Object.entries(boosts).forEach(([element, boost]) => {
             if (standardized.elementalProperties[element as any] > 0.3) {
-              lunarScore += (boost as number) * 0.1; // Small additional boost
+              lunarScore += (boost) * 0.1; // Small additional boost
             }
           });
 
@@ -712,7 +712,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       if (adjustment.elementalBoost) {
         Object.entries(adjustment.elementalBoost).forEach(([element, boost]) => {
           if (standardized.elementalProperties[element as any] > 0.3) {
-            seasonalScore = Math.min(1, seasonalScore + (boost as number) * 0.1);
+            seasonalScore = Math.min(1, seasonalScore + (boost) * 0.1);
           }
         });
       }
@@ -876,7 +876,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
         // Weight taste dimensions based on user preferences
         Object.entries(sensory.taste).forEach(([taste, value]) => {
-          const tasteValue = value as number;
+          const tasteValue = value;
           const preference = tastePreferences[taste] || 0.5;
           tasteScore += tasteValue * preference;
           weightSum += preference;

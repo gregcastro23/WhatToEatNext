@@ -172,7 +172,7 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
       return time;
     }
 
-    // Try to parse as number
+    // Try to parse
     const timeNum = parseInt(time, 10);
     if (!isNaN(timeNum)) {
       return `${timeNum} minutes`;
@@ -219,7 +219,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
   if (Array.isArray(mealType)) {
     const validEntries = mealType
       .filter(type => typeof type === 'string')
-      .map(type => (type as string).toLowerCase())
+      .map(type => (type).toLowerCase())
       .filter(type => validMealTypes.includes(type));
 
     return validEntries.length > 0 ? validEntries : ['dinner'];
@@ -241,7 +241,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
   if (Array.isArray(season)) {
     const validEntries = season
       .filter(s => typeof s === 'string')
-      .map(s => (s as string).toLowerCase())
+      .map(s => (s).toLowerCase())
       .filter(s => validSeasons.includes(s));
 
     return validEntries.length > 0 ? validEntries : ['all'];

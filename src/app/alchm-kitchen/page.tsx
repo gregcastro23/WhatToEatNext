@@ -7,6 +7,7 @@ import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { createLogger } from '@/utils/logger';
 
 import AlchmKitchenTab from '../../../Alchm Kitchen/AlchmKitchenTab';
+import DevSettings from './DevSettings';
 import SignVectorPanel from './SignVectorPanel';
 
 const logger = createLogger('AlchmKitchenPage');
@@ -44,6 +45,9 @@ export default function AlchmKitchenPage() {
             <AlchmKitchenTab />
             <div className='mt-6'>
               <SignVectorPanel governing='dominant' />
+            </div>
+            <div className='mt-6'>
+              <DevSettings />
             </div>
           </ClientOnly>
         </main>

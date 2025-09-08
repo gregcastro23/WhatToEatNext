@@ -169,7 +169,7 @@ export async function findBestMatches(
         const lowerExcluded = excluded.toLowerCase();
         return recipe.ingredients.some(ingredient => {
           if (typeof ingredient === 'string') {
-            const ingredientStr = ingredient as string;
+            const ingredientStr = ingredient;
             return ingredientStr.toLowerCase().includes(lowerExcluded);
           } else {
             // Extract ingredient data with safe property access
@@ -308,7 +308,7 @@ const calculateBaseElements = async (recipe: Recipe): Promise<ElementalPropertie
     } else {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as any;
-      ingredientName = (ingredientData.name as string) || 'unknown';
+      ingredientName = (ingredientData.name) || 'unknown';
     }
 
     // Get ingredient mapping
@@ -553,25 +553,25 @@ function calculateNutritionalAlignment(recipe: Recipe, currentEnergy: Astrologic
   }
 
   // Check for high protein preference
-  const highProtein = nutritionalGoals.highProtein as boolean;
+  const highProtein = nutritionalGoals.highProtein;
   if (highProtein && hasHighProtein(recipe)) {
     return 0.9;
   }
 
   // Check for low carb preference
-  const lowCarb = nutritionalGoals.lowCarb as boolean;
+  const lowCarb = nutritionalGoals.lowCarb;
   if (lowCarb && hasLowCarb(recipe)) {
     return 0.9;
   }
 
   // Check for high fiber preference
-  const highFiber = nutritionalGoals.highFiber as boolean;
+  const highFiber = nutritionalGoals.highFiber;
   if (highFiber && hasHighFiber(recipe)) {
     return 0.9;
   }
 
   // Check for low fat preference
-  const lowFat = nutritionalGoals.lowFat as boolean;
+  const lowFat = nutritionalGoals.lowFat;
   if (lowFat && hasLowFat(recipe)) {
     return 0.9;
   }
@@ -587,7 +587,7 @@ function hasHighProtein(recipe: Recipe): boolean {
 
   if (!profile) return false;
 
-  const protein = profile.protein as number;
+  const protein = profile.protein;
   return typeof protein === 'number' && protein >= 20;
 }
 
@@ -598,7 +598,7 @@ function hasLowCarb(recipe: Recipe): boolean {
 
   if (!profile) return false;
 
-  const carbs = profile.carbohydrates as number;
+  const carbs = profile.carbohydrates;
   return typeof carbs === 'number' && carbs <= 30;
 }
 
@@ -609,7 +609,7 @@ function hasHighFiber(recipe: Recipe): boolean {
 
   if (!profile) return false;
 
-  const fiber = profile.fiber as number;
+  const fiber = profile.fiber;
   return typeof fiber === 'number' && fiber >= 8;
 }
 
@@ -620,7 +620,7 @@ function hasLowFat(recipe: Recipe): boolean {
 
   if (!profile) return false;
 
-  const fat = profile.fat as number;
+  const fat = profile.fat;
   return typeof fat === 'number' && fat <= 10;
 }
 

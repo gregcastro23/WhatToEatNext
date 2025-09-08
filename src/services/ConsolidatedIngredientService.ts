@@ -573,7 +573,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => (sortByScore ? b.score - a.score : 0));
 
       // Return top results
-      const results = filtered.slice(0, (maxResults as number) || 10).map(item => ({
+      const results = filtered.slice(0, (maxResults) || 10).map(item => ({
         ...item.ingredient,
         score: item.score,
       }));
@@ -620,7 +620,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           heat,
           entropy,
           reactivity,
-          gregsEnergy: gregsEnergy as number, // Correctly map to gregsEnergy property
+          gregsEnergy: gregsEnergy, // Correctly map to gregsEnergy property
           // Pattern JJ-5: ThermodynamicMetrics Completion - Add missing alchemical properties
           kalchm: 1.0, // Default kalchm value
           monica: 0.5, // Default monica constant

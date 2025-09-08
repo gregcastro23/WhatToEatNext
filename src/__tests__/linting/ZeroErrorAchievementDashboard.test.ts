@@ -306,14 +306,14 @@ describe('ZeroErrorAchievementDashboard', () => {
       }
 
       // Check explicit any gate (should warn with 150 errors)
-      const anyGate: any = (gates as any[]).find(g => g.name === 'explicit-any');
+      const anyGate: any = (gates).find(g => g.name === 'explicit-any');
       expect(anyGate).toBeDefined();
       if (anyGate != null) {
         expect(anyGate.status).toBe('warning'); // 150 > 100 but <= 150
       }
 
       // Check quality score gate (should pass with 85)
-      const qualityGate: any = (gates as any[]).find(g => g.id === 'quality-score-minimum');
+      const qualityGate: any = (gates).find(g => g.id === 'quality-score-minimum');
       expect(qualityGate).toBeDefined();
       if (qualityGate != null) {
         expect(qualityGate.status).toBe('passing'); // 85 >= 80

@@ -223,12 +223,12 @@ async function runComprehensiveTests() {
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
     const legacyResultData = legacyResult as any;
     log.info('Legacy Alchemize Results:', {
-      Spirit: ((legacyResultData?.Spirit as number) || 0).toFixed(4),
-      Essence: ((legacyResultData?.Essence as number) || 0).toFixed(4),
-      Matter: ((legacyResultData?.Matter as number) || 0).toFixed(4),
-      Substance: ((legacyResultData?.Substance as number) || 0).toFixed(4),
-      dominantElement: (legacyResultData?.dominantElement as string) || 'Fire',
-      recommendation: (legacyResultData?.recommendation as string) || 'No recommendation available',
+      Spirit: ((legacyResultData?.Spirit) || 0).toFixed(4),
+      Essence: ((legacyResultData?.Essence) || 0).toFixed(4),
+      Matter: ((legacyResultData?.Matter) || 0).toFixed(4),
+      Substance: ((legacyResultData?.Substance) || 0).toFixed(4),
+      dominantElement: (legacyResultData?.dominantElement) || 'Fire',
+      recommendation: (legacyResultData?.recommendation) || 'No recommendation available',
     });
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {

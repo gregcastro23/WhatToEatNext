@@ -133,7 +133,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
     // Check if this method is a variation of a main method
     if (methodData.relatedToMainMethod) {
       // If the main method exists, add this as a variation
-      const mainId = methodData.relatedToMainMethod as string;
+      const mainId = methodData.relatedToMainMethod;
       if (methods[mainId]) {
         const existingVariations = methods[mainId].variations || [];
         const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [];
@@ -141,15 +141,15 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           methods[mainId].variations = [
             ...existingVariationsArray,
             {
-              id: methodData.id as string,
-              name: (methodData.variationName as string) || (methodData.name as string),
-              description: methodData.description as string,
+              id: methodData.id,
+              name: (methodData.variationName) || (methodData.name),
+              description: methodData.description,
               elementalEffect:
                 (methodData.elementalState as ElementalProperties) ||
                 createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
               toolsRequired: (methodData.toolsRequired as Element[]) || [],
               bestFor: (methodData.bestFor as Element[]) || [],
-              culturalOrigin: methodData.culturalOrigin as string,
+              culturalOrigin: methodData.culturalOrigin,
               astrologicalInfluences: methodData.astrologicalInfluences as unknown,
               duration: {
                 min: (methodData.duration as { min?: number }).min || 0,
@@ -168,15 +168,15 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
     // Only add as standalone if it doesn't already exist and isn't a variation
     if (!methods[methodData.id as string] && !methodData.relatedToMainMethod) {
       methods[methodData.id as string] = {
-        id: methodData.id as string,
-        name: methodData.name as string,
-        description: methodData.description as string,
+        id: methodData.id,
+        name: methodData.name,
+        description: methodData.description,
         elementalEffect:
           (methodData.elementalState as ElementalProperties) ||
           createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         toolsRequired: (methodData.toolsRequired as Element[]) || [],
         bestFor: (methodData.bestFor as Element[]) || [],
-        culturalOrigin: methodData.culturalOrigin as string,
+        culturalOrigin: methodData.culturalOrigin,
         astrologicalInfluences: {
           favorableZodiac:
             ((methodData.astrologicalInfluences as unknown).favorableZodiac as any[]) || [],

@@ -673,7 +673,7 @@ async function calculateEnhancedAstrologicalMatch(
       const planetInfluence = getRecipePlanetaryInfluence(recipe, planet);
       if (planetInfluence > 0) {
         // Calculate simple planetary alignment score based on position
-        const alignmentScore = Math.cos(((position as number) * Math.PI) / 180) * 0.5 + 0.5;
+        const alignmentScore = Math.cos(((position) * Math.PI) / 180) * 0.5 + 0.5;
         score += planetInfluence * alignmentScore * 0.1;
       }
     }

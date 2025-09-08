@@ -58,7 +58,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
       const degreeValue =
         typeof position === 'number'
           ? position
-          : ((position as unknown as any).degree as number) || 0;
+          : ((position as unknown as any).degree) || 0;
 
       const sign = getSignFromDegree(degreeValue);
       planetaryPositions[planet.toLowerCase()] = {
@@ -352,7 +352,7 @@ export function calculateElementalBalanceFromPositions(
 
     const planetKey = planet.toLowerCase();
     const weight = planetaryWeights[planetKey as keyof typeof planetaryWeights] || 0.05;
-    const element = getElementFromZodiac((planetData as unknown)?.sign as string);
+    const element = getElementFromZodiac((planetData as unknown)?.sign);
 
     elementalBalance[element as keyof typeof elementalBalance] += weight;
     totalInfluence += weight;

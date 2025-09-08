@@ -1,11 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import {
-  getCurrentPlanetaryPositions,
-  getPlanetaryPositionsForDateTime,
-  testAstrologizeApi,
-} from '@/services/astrologizeApi';
 import { log } from '@/services/LoggingService';
+import { planetaryPositionsService } from '@/services/PlanetaryPositionsService';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 
 interface PlanetaryPositionsState {
@@ -50,35 +46,12 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      // Try using astrologize API first for real calculations
-      let positions: { [key: string]: PlanetPosition };
-      let source = 'astrologize-api-realtime';
-
-      try {
-        positions = await getCurrentPlanetaryPositions(location, zodiacSystem);
-        log.info('🌟 Successfully fetched real-time positions from astrologize API using', {
-          zodiacSystem,
-          type: 'zodiac',
-        });
-      } catch (astrologizeError) {
-        console.warn('Astrologize API failed, falling back to API endpoint:', astrologizeError);
-
-        // Fallback to our API endpoint
-        const params = new URLSearchParams();
-        if (location?.latitude) params.set('latitude', location.latitude.toString());
-        if (location?.longitude) params.set('longitude', location.longitude.toString());
-
-        const url = `/api/planetary-positions${params.toString() ? `?${params.toString()}` : ''}`;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch planetary positions: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        positions = data.positions;
-        source = data.source || 'api-fallback';
-      }
+      // Unified: PlanetaryPositionsService (API→engine fallback)
+      const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getCurrent(
+        location,
+        zodiacSystem,
+      )) as unknown as { [key: string]: PlanetPosition };
+      const source = 'positions-service';
 
       setState({
         positions,
@@ -144,43 +117,13 @@ export function usePlanetaryPositionsForDate(
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      // Try astrologize API first for specific date/time calculations
-      let positions: { [key: string]: PlanetPosition };
-      let source = 'astrologize-api-custom';
-
-      try {
-        positions = await getPlanetaryPositionsForDateTime(date, location, zodiacSystem);
-        log.info('🌟 Successfully fetched positions for specific date from astrologize API using', {
-          zodiacSystem,
-          type: 'zodiac',
-        });
-      } catch (astrologizeError) {
-        console.warn(
-          'Astrologize API failed for custom date, falling back to API endpoint:',
-          astrologizeError,
-        );
-
-        // Fallback to our API endpoint
-        const body: unknown = { date: date.toISOString() };
-        if (location) {
-          body.latitude = location.latitude;
-          body.longitude = location.longitude;
-        }
-
-        const response = await fetch('/api/planetary-positions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch planetary positions: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        positions = data.positions;
-        source = data.source || 'api-fallback';
-      }
+      // Unified: PlanetaryPositionsService for specific date
+      const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getForDate(
+        date,
+        location,
+        zodiacSystem,
+      )) as unknown as { [key: string]: PlanetPosition };
+      const source = 'positions-service-custom';
 
       setState({
         positions,

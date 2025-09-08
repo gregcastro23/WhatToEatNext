@@ -380,7 +380,7 @@ export class MLIntelligenceService {
 
     const recipeData = recipe as unknown as unknown;
     const seasonalOptimization = calculateSeasonalOptimization(
-      (recipeData.seasonality as string) || 'all',
+      (recipeData.seasonality) || 'all',
       getCurrentSeason(),
     );
     const astrologicalAlignment = calculateAstrologicalAlignment(
@@ -431,7 +431,7 @@ export class MLIntelligenceService {
     if (
       recipeSeason.seasonality &&
       recipeSeason.seasonality !== 'all' &&
-      !(recipeSeason.seasonality as string).toLowerCase().includes(currentSeason.toLowerCase())
+      !(recipeSeason.seasonality).toLowerCase().includes(currentSeason.toLowerCase())
     ) {
       recommendations.push(
         `Consider seasonal ingredient adjustments for ${currentSeason} optimization`,

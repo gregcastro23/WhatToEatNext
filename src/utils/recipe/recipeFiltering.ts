@@ -394,7 +394,7 @@ export class RecipeFilter {
   private meetsRestriction(recipe: Recipe, restriction: DietaryRestriction): boolean {
     const recipeData = recipe as any;
 
-    switch (restriction as string) {
+    switch (restriction) {
       case 'vegetarian':
         return (
           Boolean(recipeData.isVegetarian) ||
@@ -653,13 +653,13 @@ export class RecipeFilter {
         };
 
         // Check recipe name
-        if (checkMatch(recipeData.name as string)) {
+        if (checkMatch(recipeData.name)) {
           return true;
         }
 
         // Check cuisine property
         const recipeCuisine = recipeData.cuisine;
-        if (recipeCuisine && checkMatch(recipeCuisine as string)) {
+        if (recipeCuisine && checkMatch(recipeCuisine)) {
           return true;
         }
 
@@ -668,7 +668,7 @@ export class RecipeFilter {
         if (Array.isArray(ingredients)) {
           const hasCuisineIngredient = ingredients.some(ingredient => {
             const ingredientData = ingredient as any;
-            const ingredientName = ingredientData.name as string;
+            const ingredientName = ingredientData.name;
             return ingredientName && checkMatch(ingredientName);
           });
           if (hasCuisineIngredient) {
@@ -713,14 +713,14 @@ export class RecipeFilter {
       let matches = 0;
 
       // Check recipe name
-      if (checkMatch(recipeData.name as string)) {
+      if (checkMatch(recipeData.name)) {
         score += 0.4;
         matches++;
       }
 
       // Check cuisine property
       const recipeCuisine = recipeData.cuisine;
-      if (recipeCuisine && checkMatch(recipeCuisine as string)) {
+      if (recipeCuisine && checkMatch(recipeCuisine)) {
         score += 0.3;
         matches++;
       }
@@ -730,7 +730,7 @@ export class RecipeFilter {
       if (Array.isArray(ingredients)) {
         const cuisineIngredients = ingredients.filter(ingredient => {
           const ingredientData = ingredient as any;
-          const ingredientName = ingredientData.name as string;
+          const ingredientName = ingredientData.name;
           return ingredientName && checkMatch(ingredientName);
         });
 

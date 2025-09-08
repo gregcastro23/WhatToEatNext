@@ -207,7 +207,7 @@ export class AlchemicalService {
 
       // Convert to format expected by adapter
       const lunarPhaseFormatted = convertToLunarPhase(
-        lunarPhase as unknown as string,
+        lunarPhase as unknown,
       ) as LunarPhaseWithSpaces;
 
       // Calculate if it's currently daytime

@@ -708,7 +708,7 @@ export class ErrorTrackingEnterpriseSystem {
         const metricsData = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8'));
         this.metricsHistory = metricsData.map((item: Record<string, unknown>) => ({
           ...item,
-          timestamp: new Date(item.timestamp as string),
+          timestamp: new Date(item.timestamp),
         }));
       }
 

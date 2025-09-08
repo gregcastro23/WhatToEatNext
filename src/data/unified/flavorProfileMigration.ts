@@ -176,9 +176,9 @@ export class FlavorProfileMigration {
   private convertUnifiedProfile(id: string, profile: unknown): UnifiedFlavorProfile {
     const profileData = profile as any;
     return {
-      id: (profileData.id as string) || id,
-      name: (profileData.name as string) || id,
-      category: this.mapCategory((profileData.category as string) || (profileData.type as string)),
+      id: (profileData.id) || id,
+      name: (profileData.name) || id,
+      category: this.mapCategory((profileData.category) || (profileData.type)),
 
       baseNotes: this.extractBaseNotes(profile),
       elementalFlavors: this.extractElementalFlavors(profile),
@@ -197,7 +197,7 @@ export class FlavorProfileMigration {
       nutritionalSynergy: Number(profileData.nutritionalSynergy) || 0.7,
 
       description:
-        (profileData.description as string) || `${profileData.name || id} flavor profile`,
+        (profileData.description) || `${profileData.name || id} flavor profile`,
 
       // Required properties missing from original interface
       planetaryResonance: this.getDefaultPlanetaryResonance(),
@@ -331,8 +331,8 @@ export class FlavorProfileMigration {
         Earth: 0.25,
         Air: 0.25,
       },
-      intensity: (planetData.intensity as number) || 0.5,
-      complexity: (planetData.complexity as number) || 0.5,
+      intensity: (planetData.intensity) || 0.5,
+      complexity: (planetData.complexity) || 0.5,
 
       kalchm: 0, // Will be calculated
       monicaOptimization: 1.0,
@@ -599,7 +599,7 @@ export class FlavorProfileMigration {
 
   private calculateCuisineIntensity(cuisineData: CuisineFlavorProfile): number {
     const cuisineRecord = cuisineData as unknown as any;
-    const intensity = cuisineRecord.intensity as number;
+    const intensity = cuisineRecord.intensity;
     if (intensity) return intensity;
 
     // Calculate from flavor intensities
@@ -613,7 +613,7 @@ export class FlavorProfileMigration {
 
   private calculateCuisineComplexity(cuisineData: CuisineFlavorProfile): number {
     const cuisineRecord = cuisineData as unknown as any;
-    const complexity = cuisineRecord.complexity as number;
+    const complexity = cuisineRecord.complexity;
     if (complexity) return complexity;
 
     // Estimate based on number of signature ingredients and techniques

@@ -321,7 +321,7 @@ describe('ProgressiveImprovementEngine', () => {
           batchCount++;
           if (batchCount > 2) {
             // Simulate increasing errors after a few batches
-            return '10'; // Return error count as string
+            return '10'; // Return error count
           }
           const error: any = new Error('No matches') as unknown;
           error.status = 1;
