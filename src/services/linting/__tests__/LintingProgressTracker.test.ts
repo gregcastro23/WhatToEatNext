@@ -35,7 +35,7 @@ describe('LintingProgressTracker', () => {
   });
 
   describe('collectMetrics', () => {
-    test('should collect and parse linting metrics successfully': any, async () => {
+    test('should collect and parse linting metrics successfully', async () => {
       const mockLintOutput: any = JSON.stringify([
         {
           filePath: '/test/file1.ts',
@@ -74,7 +74,7 @@ describe('LintingProgressTracker', () => {
       expect(mockWriteFileSync).toHaveBeenCalled();
     });
 
-    test('should handle ESLint execution errors gracefully': any, async () => {
+    test('should handle ESLint execution errors gracefully', async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Mock error object needs custom stdout property for testing
       const mockError: any = new Error('ESLint failed') as unknown;
@@ -90,7 +90,7 @@ describe('LintingProgressTracker', () => {
       expect(metrics.warnings).toBe(0);
     });
 
-    test('should handle invalid JSON output': any, async () => {
+    test('should handle invalid JSON output', async () => {
       mockExecSync.mockReturnValue('invalid json');
 
       await expect(tracker.collectMetrics()).rejects.toThrow();
@@ -98,7 +98,7 @@ describe('LintingProgressTracker', () => {
   });
 
   describe('generateProgressReport', () => {
-    test('should generate comprehensive progress report': any, async () => {
+    test('should generate comprehensive progress report', async () => {
       const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 50,
         errors: 5,
@@ -144,7 +144,7 @@ describe('LintingProgressTracker', () => {
       expect(report.trends).toBeDefined();
     });
 
-    test('should handle missing previous metrics': any, async () => {
+    test('should handle missing previous metrics', async () => {
       const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 50,
         errors: 5,
@@ -175,7 +175,7 @@ describe('LintingProgressTracker', () => {
   });
 
   describe('integrateCampaignProgress', () => {
-    test('should integrate with campaign system successfully': any, async () => {
+    test('should integrate with campaign system successfully', async () => {
       const campaignData: any = {
         campaignId: 'test-campaign',
         phase: 'phase-1',

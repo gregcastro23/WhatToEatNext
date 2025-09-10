@@ -151,28 +151,28 @@ describe('ESLint Configuration Validation', () => {
   });
 
   describe('File Pattern Matching', () => {
-    test('should match TypeScript files correctly': any, async () => {
+    test('should match TypeScript files correctly', async () => {
       const config: any = eslint.calculateConfigForFile('src/test.ts');
       expect(config.parser).toContain('@typescript-eslint/parser');
     });
 
-    test('should match JavaScript files correctly': any, async () => {
+    test('should match JavaScript files correctly', async () => {
       const config: any = eslint.calculateConfigForFile('src/test.js');
       expect(config.languageOptions.ecmaVersion).toBe(2022);
     });
 
-    test('should apply astrological rules to calculation files': any, async () => {
+    test('should apply astrological rules to calculation files', async () => {
       const config: any = eslint.calculateConfigForFile('src/calculations/test.ts');
       expect(config.rules).toHaveProperty('astrological/preserve-planetary-constants');
     });
 
-    test('should apply test-specific rules to test files': any, async () => {
+    test('should apply test-specific rules to test files', async () => {
       const config: any = eslint.calculateConfigForFile('src/__tests__/test.test.ts');
       expect(config.rules['no-console']).toBe('off');
       expect(config.rules['@typescript-eslint/no-explicit-any']).toBe('off');
     });
 
-    test('should apply campaign rules to campaign files': any, async () => {
+    test('should apply campaign rules to campaign files', async () => {
       const config: any = eslint.calculateConfigForFile('src/services/campaign/test.ts');
       expect(config.rules['no-console']).toBe('off');
       expect(config.rules['complexity']).toEqual(['warn', 15]);
@@ -244,7 +244,7 @@ describe('ESLint Configuration Validation', () => {
   });
 
   describe('Configuration Validation', () => {
-    test('should validate configuration syntax': any, async () => {
+    test('should validate configuration syntax', async () => {
       // This test ensures the configuration can be loaded by ESLint
       expect(eslint).toBeDefined();
 

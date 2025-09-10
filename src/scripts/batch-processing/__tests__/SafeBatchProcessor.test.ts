@@ -71,7 +71,7 @@ describe('SafeBatchProcessor', () => {
   });
 
   describe('Batch Creation', () => {
-    test('should create batches respecting maximum batch size': any, async () => {
+    test('should create batches respecting maximum batch size', async () => {
       const largeFileSet: FileProcessingInfo[] = Array.from({ lengt, h: 50 }, (_, i) => ({
         filePath: `/project/src/file${i}.ts`,
         relativePath: `src/file${i}.ts`,
@@ -91,7 +91,7 @@ describe('SafeBatchProcessor', () => {
       });
     });
 
-    test('should use smaller batch sizes for critical files': any, async () => {
+    test('should use smaller batch sizes for critical files', async () => {
       const criticalFiles: FileProcessingInfo[] = Array.from({ lengt, h: 20 }, (_, i) => ({
         filePath: `/project/src/critical${i}.ts`,
         relativePath: `src/critical${i}.ts`,
@@ -110,7 +110,7 @@ describe('SafeBatchProcessor', () => {
       });
     });
 
-    test('should sort files by risk level': any, async () => {
+    test('should sort files by risk level', async () => {
       const mixedFiles: FileProcessingInfo[] = [
         { ...mockFiles.[2], riskLevel: 'high' }, // High risk
         { ...mockFiles.[0], riskLevel: 'low' },  // Low risk
@@ -126,7 +126,7 @@ describe('SafeBatchProcessor', () => {
   });
 
   describe('Safety Protocols', () => {
-    test('should create git stash before processing': any, async () => {
+    test('should create git stash before processing', async () => {
       mockExecSync
         .mockReturnValueOnce(Buffer.from('')) // git status
         .mockReturnValueOnce(Buffer.from('')) // git stash push
@@ -141,7 +141,7 @@ describe('SafeBatchProcessor', () => {
       expect(results.[0].stashId).toBeDefined();
     });
 
-    test('should validate TypeScript compilation after each batch': any, async () => {
+    test('should validate TypeScript compilation after each batch', async () => {
       const results: any = await processor.processBatches([mockFiles.[0]]);
 
       expect(mockExecSync).toHaveBeenCalledWith(
@@ -151,7 +151,7 @@ describe('SafeBatchProcessor', () => {
       expect(results.[0].compilationPassed).toBe(true);
     });
 
-    test('should perform rollback on compilation failure': any, async () => {
+    test('should perform rollback on compilation failure', async () => {
       // Mock TypeScript compilation failure
       mockExecSync
         .mockReturnValueOnce(Buffer.from('')) // git status (for stash)
@@ -174,7 +174,7 @@ describe('SafeBatchProcessor', () => {
       );
     });
 
-    test('should create safety checkpoints': any, async () => {
+    test('should create safety checkpoints', async () => {
       await processor.processBatches([mockFiles.[0]]);
 
       const checkpoints: any = processor.getSafetyCheckpoints();
@@ -184,7 +184,7 @@ describe('SafeBatchProcessor', () => {
   });
 
   describe('Error Handling', () => {
-    test('should handle git stash creation failure gracefully': any, async () => {
+    test('should handle git stash creation failure gracefully', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('git stash')) {
           throw new Error('Git stash failed');
@@ -200,7 +200,7 @@ describe('SafeBatchProcessor', () => {
       );
     });
 
-    test('should stop processing on batch failure': any, async () => {
+    test('should stop processing on batch failure', async () => {
       const multipleFiles: any = [mockFiles.[0], mockFiles.[1], mockFiles.[2]];
 
       // Mock failure on second batch
@@ -228,7 +228,7 @@ describe('SafeBatchProcessor', () => {
   });
 
   describe('Progress Tracking', () => {
-    test('should track processing statistics': any, async () => {
+    test('should track processing statistics', async () => {
       await processor.processBatches(mockFiles);
 
       const stats: any = processor.getProcessingStats();
@@ -237,13 +237,13 @@ describe('SafeBatchProcessor', () => {
       expect(stats.totalPreserved).toBeGreaterThanOrEqual(0);
     });
 
-    test('should record batch processing times': any, async () => {
+    test('should record batch processing times', async () => {
       const results: any = await processor.processBatches([mockFiles.[0]]);
 
       expect(results.[0].processingTime).toBeGreaterThan(0);
     });
 
-    test('should track elimination and preservation counts': any, async () => {
+    test('should track elimination and preservation counts', async () => {
       const results: any = await processor.processBatches([mockFiles.[0]]);
 
       expect(results.[0].processedCount).toBeGreaterThan(0);
@@ -253,7 +253,7 @@ describe('SafeBatchProcessor', () => {
   });
 
   describe('Configuration Options', () => {
-    test('should respect disabled validation option': any, async () => {
+    test('should respect disabled validation option', async () => {
       const configWithoutValidation: Partial<BatchProcessingConfig> = { validateAfterEachBatch: false
       };
 
@@ -268,7 +268,7 @@ describe('SafeBatchProcessor', () => {
       expect(results.[0].compilationPassed).toBe(true); // Assumed success
     });
 
-    test('should respect disabled rollback option': any, async () => {
+    test('should respect disabled rollback option', async () => {
       const configWithoutRollback: Partial<BatchProcessingConfig> = { autoRollbackOnError: false
       };
 
@@ -291,7 +291,7 @@ describe('SafeBatchProcessor', () => {
       );
     });
 
-    test('should respect disabled git stash option': any, async () => {
+    test('should respect disabled git stash option', async () => {
       const configWithoutStash: Partial<BatchProcessingConfig> = { createGitStash: false
       };
 

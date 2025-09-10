@@ -87,7 +87,7 @@ describe('RecipeData Service', () => {
     jest.clearAllMocks();
   });
 
-  it('should provide a fallback recipe when no recipes are loaded': any, async () => {
+  it('should provide a fallback recipe when no recipes are loaded', async () => {
     try {
       // Force the service to return the fallback recipe
       const recipes: any = await recipeData.getAllRecipes();
@@ -102,7 +102,7 @@ describe('RecipeData Service', () => {
       expect(recipe.elementalProperties).toBeDefined();
       expect(recipe.ingredients).toBeDefined();
       expect(recipe.instructions).toBeDefined();
-    } catch (error): any {
+    } catch (error) {
       // In CI, we might encounter filesystem differences, so handle errors gracefully
       if (process.env.CI) {
         // console.warn('Test failed in CI environment, but continuing:', error);
@@ -112,7 +112,7 @@ describe('RecipeData Service', () => {
     }
   });
 
-  it('should properly handle filtering recipes': any, async () => {
+  it('should properly handle filtering recipes', async () => {
     try {
       // Mock the getAllRecipes method to return test recipes
       const originalGetAllRecipes: any = recipeData.getAllRecipes;
@@ -278,7 +278,7 @@ describe('RecipeData Service', () => {
       // Restore original methods
       recipeData.getAllRecipes = originalGetAllRecipes;
       recipeData.filterRecipes = originalFilterRecipes;
-    } catch (error): any {
+    } catch (error) {
       // In CI, we might encounter environment differences, so handle errors gracefully
       if (process.env.CI) {
         // console.warn('Test failed in CI environment, but continuing:', error);
@@ -288,7 +288,7 @@ describe('RecipeData Service', () => {
     }
   });
 
-  it('should ensure recipes have standardized elemental properties': any, async () => {
+  it('should ensure recipes have standardized elemental properties', async () => {
     // Mock getAllRecipes and standardizeRecipe
     const originalGetAllRecipes: any = recipeData.getAllRecipes;
 

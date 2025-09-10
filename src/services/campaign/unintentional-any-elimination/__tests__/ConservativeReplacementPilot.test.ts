@@ -105,28 +105,28 @@ describe('ConservativeReplacementPilot', () => {
       });
     });
 
-    test('should identify array type cases with high confidence': any, async () => {
+    test('should identify array type cases with high confidence', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.success).toBeDefined();
       // Should have found array type cases
     });
 
-    test('should identify Record type cases': any, async () => {
+    test('should identify Record type cases', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.success).toBeDefined();
       // Should have found Record type cases
     });
 
-    test('should prioritize array types over Record types': any, async () => {
+    test('should prioritize array types over Record types', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.success).toBeDefined();
       // Array types should be processed first due to higher confidence
     });
 
-    test('should exclude cases in comments': any, async () => {
+    test('should exclude cases in comments', async () => {
       mockFs.readFileSync.mockReturnValue(`
         // const items: any[] = []; // This should be ignored
         const realItems: any[] = []; // This should be found
@@ -138,7 +138,7 @@ describe('ConservativeReplacementPilot', () => {
       // Should only find the non-commented case
     });
 
-    test('should exclude cases in error handling contexts': any, async () => {
+    test('should exclude cases in error handling contexts', async () => {
       mockFs.readFileSync.mockReturnValue(`
         try : any {
           // some code
@@ -164,13 +164,13 @@ describe('ConservativeReplacementPilot', () => {
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
     });
 
-    test('should process batches within size limits': any, async () => {
+    test('should process batches within size limits', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.batchesExecuted).toBeLessThanOrEqual(mockConfig.maxBatches);
     });
 
-    test('should validate build after each batch': any, async () => {
+    test('should validate build after each batch', async () => {
       await pilot.executePilot();
 
       // Should have called TypeScript compilation validation
@@ -180,7 +180,7 @@ describe('ConservativeReplacementPilot', () => {
       );
     });
 
-    test('should rollback on build failure when configured': any, async () => {
+    test('should rollback on build failure when configured', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
@@ -194,7 +194,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.rollbacksPerformed).toBeGreaterThan(0);
     });
 
-    test('should stop processing on consecutive build failures': any, async () => {
+    test('should stop processing on consecutive build failures', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
@@ -209,7 +209,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.buildFailures).toBeGreaterThan(0);
     });
 
-    test('should create backups before making changes': any, async () => {
+    test('should create backups before making changes', async () => {
       await pilot.executePilot();
 
       // Should have created backup directory
@@ -221,7 +221,7 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Real-Time Validation', () => {
-    test('should perform validation after each batch': any, async () => {
+    test('should perform validation after each batch', async () => {
       const result: any = await pilot.executePilot();
 
       // Should have performed build validation
@@ -231,7 +231,7 @@ describe('ConservativeReplacementPilot', () => {
       );
     });
 
-    test('should track TypeScript error count': any, async () => {
+    test('should track TypeScript error count', async () => {
       // Mock error count output
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -c "error TS"')) {
@@ -246,7 +246,7 @@ describe('ConservativeReplacementPilot', () => {
       // Should have tracked error count
     });
 
-    test('should calculate safety score': any, async () => {
+    test('should calculate safety score', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.safetyScore).toBeGreaterThanOrEqual(0);
@@ -255,7 +255,7 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Success Rate Tracking', () => {
-    test('should achieve target success rate with good cases': any, async () => {
+    test('should achieve target success rate with good cases', async () => {
       // Mock successful replacements
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
@@ -267,14 +267,14 @@ describe('ConservativeReplacementPilot', () => {
       }
     });
 
-    test('should track successful and failed replacements': any, async () => {
+    test('should track successful and failed replacements', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.totalSuccessfulReplacements).toBeGreaterThanOrEqual(0);
       expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(result.totalSuccessfulReplacements);
     });
 
-    test('should meet target success rate for pilot success': any, async () => {
+    test('should meet target success rate for pilot success', async () => {
       // Mock high success scenario
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
@@ -287,7 +287,7 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Safety Protocol Integration', () => {
-    test('should activate safety protocols on build failure': any, async () => {
+    test('should activate safety protocols on build failure', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
@@ -301,7 +301,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.safetyMetrics.buildFailures).toBeGreaterThan(0);
     });
 
-    test('should track safety metrics': any, async () => {
+    test('should track safety metrics', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.safetyMetrics).toBeDefined();
@@ -309,7 +309,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.safetyMetrics.rollbacksPerformed).toBeGreaterThanOrEqual(0);
     });
 
-    test('should maintain safety score above threshold': any, async () => {
+    test('should maintain safety score above threshold', async () => {
       const result: any = await pilot.executePilot();
 
       // Safety score should be calculated
@@ -318,14 +318,14 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Campaign Infrastructure Integration', () => {
-    test('should validate campaign integration': any, async () => {
+    test('should validate campaign integration', async () => {
       const result: any = await pilot.executePilot();
 
       // Should complete without integration errors
       expect(result.success).toBeDefined();
     });
 
-    test('should integrate with metrics system': any, async () => {
+    test('should integrate with metrics system', async () => {
       const result: any = await pilot.executePilot();
 
       // Should have metrics data
@@ -333,7 +333,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.batchesExecuted).toBeGreaterThanOrEqual(0);
     });
 
-    test('should work with progressive improvement engine': any, async () => {
+    test('should work with progressive improvement engine', async () => {
       const result: any = await pilot.executePilot();
 
       // Should complete without engine integration errors
@@ -342,7 +342,7 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Report Generation', () => {
-    test('should generate comprehensive pilot report': any, async () => {
+    test('should generate comprehensive pilot report', async () => {
       const result: any = await pilot.executePilot();
 
       // Should have generated report data
@@ -351,7 +351,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.batchResults).toBeDefined();
     });
 
-    test('should include recommendations in report': any, async () => {
+    test('should include recommendations in report', async () => {
       const result: any = await pilot.executePilot();
 
       // Should have result data for recommendations
@@ -359,7 +359,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.targetAchieved).toBeDefined();
     });
 
-    test('should save report to correct location': any, async () => {
+    test('should save report to correct location', async () => {
       await pilot.executePilot();
 
       // Should have attempted to create report directory
@@ -371,7 +371,7 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Error Handling and Edge Cases', () => {
-    test('should handle no high-confidence cases gracefully': any, async () => {
+    test('should handle no high-confidence cases gracefully', async () => {
       // Mock no TypeScript files
       mockExecSync.mockReturnValue('');
 
@@ -381,7 +381,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.message).toContain('No high-confidence cases found');
     });
 
-    test('should handle file read errors gracefully': any, async () => {
+    test('should handle file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File read error');
       });
@@ -392,7 +392,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.success).toBeDefined();
     });
 
-    test('should handle TypeScript compilation timeout': any, async () => {
+    test('should handle TypeScript compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command timed out');
       });
@@ -402,7 +402,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.success).toBe(false);
     });
 
-    test('should handle backup creation failure': any, async () => {
+    test('should handle backup creation failure', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Backup creation failed');
       });
@@ -415,7 +415,7 @@ describe('ConservativeReplacementPilot', () => {
   });
 
   describe('Performance and Limits', () => {
-    test('should respect batch size limits': any, async () => {
+    test('should respect batch size limits', async () => {
       const result: any = await pilot.executePilot();
 
       // Each batch should respect size limits
@@ -424,13 +424,13 @@ describe('ConservativeReplacementPilot', () => {
       });
     });
 
-    test('should respect maximum batch count': any, async () => {
+    test('should respect maximum batch count', async () => {
       const result: any = await pilot.executePilot();
 
       expect(result.batchesExecuted).toBeLessThanOrEqual(mockConfig.maxBatches);
     });
 
-    test('should complete within reasonable time': any, async () => {
+    test('should complete within reasonable time', async () => {
       const startTime: any = Date.now();
       await pilot.executePilot();
       const endTime: any = Date.now();
@@ -450,7 +450,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(0);
     });
 
-    test('should focus on simple Record types': any, async () => {
+    test('should focus on simple Record types', async () => {
       mockFs.readFileSync.mockReturnValue('const config: Record<string, unknown> = {};');
 
       const result: any = await pilot.executePilot();
@@ -459,7 +459,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(0);
     });
 
-    test('should target >80% successful replacements': any, async () => {
+    test('should target >80% successful replacements', async () => {
       // Mock successful scenario
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
@@ -471,7 +471,7 @@ describe('ConservativeReplacementPilot', () => {
       }
     });
 
-    test('should target zero build failures': any, async () => {
+    test('should target zero build failures', async () => {
       // Mock successful scenario
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
@@ -483,7 +483,7 @@ describe('ConservativeReplacementPilot', () => {
       }
     });
 
-    test('should monitor build stability with real-time validation': any, async () => {
+    test('should monitor build stability with real-time validation', async () => {
       const result: any = await pilot.executePilot();
 
       // Should have performed real-time validation
@@ -491,7 +491,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.batchResults.length).toBeGreaterThanOrEqual(0);
     });
 
-    test('should collect success rate metrics': any, async () => {
+    test('should collect success rate metrics', async () => {
       const result: any = await pilot.executePilot();
 
       // Should have success rate metrics
@@ -499,7 +499,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.successRate).toBeLessThanOrEqual(1);
     });
 
-    test('should validate safety protocol effectiveness': any, async () => {
+    test('should validate safety protocol effectiveness', async () => {
       const result: any = await pilot.executePilot();
 
       // Should have safety metrics
@@ -507,7 +507,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(result.safetyScore).toBeGreaterThanOrEqual(0);
     });
 
-    test('should validate integration with existing campaign infrastructure': any, async () => {
+    test('should validate integration with existing campaign infrastructure', async () => {
       const result: any = await pilot.executePilot();
 
       // Should complete without integration failures
@@ -529,7 +529,7 @@ describe('ConservativeReplacementPilot Integration Tests', () => {
     });
   });
 
-  test('should integrate with existing campaign system': any, async () => {
+  test('should integrate with existing campaign system', async () => {
     // This would test actual integration in a real environment
     // For now, we verify the pilot can be instantiated and configured
     expect(pilot).toBeDefined();

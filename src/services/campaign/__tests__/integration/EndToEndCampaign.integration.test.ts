@@ -165,7 +165,7 @@ describe('End-to-End Campaign Integration Tests', () => {
   }
 
   describe('Complete Campaign Execution', () => {
-    it('should execute all phases in sequence successfully': any, async () => {
+    it('should execute all phases in sequence successfully', async () => {
       // Mock progressive improvement across phases
       let tsErrors: any = 86;
       let lintWarnings: any = 4506;
@@ -216,7 +216,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(phaseResults.length).toBe(4);
     });
 
-    it('should maintain safety protocols throughout entire campaign': any, async () => {
+    it('should maintain safety protocols throughout entire campaign', async () => {
       const allSafetyEvents: Array<any> = [];
 
       for (const phase of mockConfig.phases) {
@@ -239,7 +239,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       }
     });
 
-    it('should track progress metrics throughout campaign': any, async () => {
+    it('should track progress metrics throughout campaign', async () => {
       // Mock progressive metrics improvement
       const metricsHistory: Array<any> = [];
 
@@ -283,7 +283,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(finalMetrics.lintingWarnings.current ?? 0).toBeLessThanOrEqual(4506);
     });
 
-    it('should validate all milestones after campaign completion': any, async () => {
+    it('should validate all milestones after campaign completion', async () => {
       // Mock successful campaign completion
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -315,7 +315,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       }
     });
 
-    it('should generate comprehensive final report': any, async () => {
+    it('should generate comprehensive final report', async () => {
       // Mock successful campaign completion
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -339,7 +339,7 @@ describe('End-to-End Campaign Integration Tests', () => {
   });
 
   describe('Campaign Failure and Recovery Scenarios', () => {
-    it('should handle phase failure and trigger rollback': any, async () => {
+    it('should handle phase failure and trigger rollback', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock tool execution failure
@@ -354,7 +354,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(result.safetyEvents.some(event => event.type === SafetyEventType.BUILD_FAILURE)).toBe(true);
     });
 
-    it('should handle corruption detection during campaign': any, async () => {
+    it('should handle corruption detection during campaign', async () => {
       // Mock corruption detection
       mockFs.readFileSync.mockReturnValue(`
         function test() : any {
@@ -381,7 +381,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       }
     });
 
-    it('should handle build failures during phase execution': any, async () => {
+    it('should handle build failures during phase execution', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock build failure
@@ -400,7 +400,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(result.phaseId).toBe('phase1');
     });
 
-    it('should recover from partial phase failures': any, async () => {
+    it('should recover from partial phase failures', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock partial failure - first tool fails, second succeeds
@@ -428,7 +428,7 @@ describe('End-to-End Campaign Integration Tests', () => {
   });
 
   describe('Performance and Scalability', () => {
-    it('should handle large file batches efficiently': any, async () => {
+    it('should handle large file batches efficiently', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock large file processing
@@ -449,7 +449,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(executionTime).toBeLessThan(10000); // Should complete within 10 seconds
     });
 
-    it('should maintain memory usage within limits during campaign': any, async () => {
+    it('should maintain memory usage within limits during campaign', async () => {
       // Mock memory tracking
       jest.spyOn(progressTracker, 'getMemoryUsage').mockResolvedValue(45); // 45MB
 
@@ -461,7 +461,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       }
     });
 
-    it('should handle concurrent safety operations': any, async () => {
+    it('should handle concurrent safety operations', async () => {
       // Create multiple stashes concurrently
       const stashPromises: any = Array.from({ length: 5 }, (_, i) => safetyProtocol.createStash(`Concurrent stash ${i}`));
 
@@ -476,7 +476,7 @@ describe('End-to-End Campaign Integration Tests', () => {
   });
 
   describe('Configuration and Customization', () => {
-    it('should support custom phase configurations': any, async () => {
+    it('should support custom phase configurations', async () => {
       const customPhase: any = {
         id: 'custom-phase',
         name: 'Custom Phase',
@@ -498,7 +498,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(result.phaseId).toBe('custom-phase');
     });
 
-    it('should support custom safety settings': any, async () => {
+    it('should support custom safety settings', async () => {
       const customSafetySettings: SafetySettings = { maxFilesPerBatch: 50,
         buildValidationFrequency: 10,
         testValidationFrequency: 20,
@@ -514,7 +514,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect((customSafetyProtocol).settings.stashRetentionDays).toBe(14);
     });
 
-    it('should support custom success criteria': any, async () => {
+    it('should support custom success criteria', async () => {
       const customPhase: any = {
         ...mockConfig.phases.[0],
         successCriteria: { typeScriptErrors: 5, // Allow 5 errors instead of 0
@@ -540,7 +540,7 @@ describe('End-to-End Campaign Integration Tests', () => {
   });
 
   describe('Reporting and Analytics', () => {
-    it('should generate detailed execution analytics': any, async () => {
+    it('should generate detailed execution analytics', async () => {
       const executionMetrics: Array<any> = [];
 
       for (const phase of mockConfig.phases) {
@@ -564,7 +564,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(executionMetrics.every(metric => typeof metric.success === 'boolean')).toBe(true);
     });
 
-    it('should export comprehensive campaign metrics': any, async () => {
+    it('should export comprehensive campaign metrics', async () => {
       // Execute campaign
       for (const phase of mockConfig.phases) {
         await campaignController.executePhase(phase);
@@ -581,7 +581,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       );
     });
 
-    it('should track improvement trends over time': any, async () => {
+    it('should track improvement trends over time', async () => {
       // Mock progressive improvement
       let improvementStep: any = 0;
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {

@@ -31,7 +31,7 @@ describe('Domain-Specific Rule Validation', () => {
 
   afterEach(() => {
     // Clean up any temporary test files
-    const tempFiles = [
+    const tempFiles = [;
       'temp-planetary-test.ts',
       'temp-elemental-test.ts',
       'temp-fallback-test.ts',
@@ -52,7 +52,7 @@ describe('Domain-Specific Rule Validation', () => {
   });
 
   describe('Overall Validation', () => {
-    test('should validate all domain-specific rules': any, async () => {
+    test('should validate all domain-specific rules', async () => {
       const results: any = validator.validateDomainSpecificRules();
 
       expect(results).toBeDefined();
@@ -67,7 +67,7 @@ describe('Domain-Specific Rule Validation', () => {
       expect(results.configurationFiles).toBeDefined();
     });
 
-    test('should generate validation report': any, async () => {
+    test('should generate validation report', async () => {
       const _results: any = validator.validateDomainSpecificRules();
 
       // Check that report file is created
@@ -85,7 +85,7 @@ describe('Domain-Specific Rule Validation', () => {
   });
 
   describe('Astrological File Rules', () => {
-    test('should preserve mathematical constants': any, async () => {
+    test('should preserve mathematical constants', async () => {
       // Create test file with protected constants
       const testContent: any = `;
         const UNUSED_DEGREES_PER_SIGN: any = 30;
@@ -107,7 +107,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         // If no error, constants are properly preserved
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         // Check if it's a legitimate constant preservation error
         const output: any = (error as any).stderr.toString() || '';
         if (output.includes('preserve-planetary-constants')) {
@@ -121,7 +121,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should recognize planetary variable patterns': any, async () => {
+    test('should recognize planetary variable patterns', async () => {
       const testContent: any = `;
         const planet: any = 'mars';
         const position: any = { sign: 'cancer', degree: 22.63 };
@@ -151,7 +151,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         // ESLint errors are expected, check if they're the right kind
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
@@ -177,7 +177,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should validate elemental properties structure': any, async () => {
+    test('should validate elemental properties structure', async () => {
       const validElementalContent: any = `
         const UNUSED_elementalProps = {
           Fire: 0.8,
@@ -198,7 +198,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         // Valid elemental properties should not cause errors
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stderr.toString() || '';
         if (output.includes('validate-elemental-properties')) {
           fail('Valid elemental properties should not be flagged');
@@ -210,7 +210,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should detect invalid elemental properties': any, async () => {
+    test('should detect invalid elemental properties', async () => {
       const invalidElementalContent: any = `
         const badElementalProps = {
           Fire: 0.8,
@@ -231,7 +231,7 @@ describe('Domain-Specific Rule Validation', () => {
         // Should have caught the invalid properties
         // If we reach here without error, the rule didn't work
         console.warn('Invalid elemental properties not caught by validation rule');
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stderr.toString() || '';
         // We expect this to fail with our custom rule
         expect(output.includes('validate-elemental-properties') || output.length > 0).toBe(true);
@@ -242,7 +242,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should preserve fallback values': any, async () => {
+    test('should preserve fallback values', async () => {
       const testContent: any = `;
         const FALLBACK_POSITIONS: any = { sun: { sig, n: 'aries', degree: 8.5 } };
         const RELIABLE_DATA: any = { mars: { sig, n: 'cancer', degree: 22.63 } };
@@ -260,7 +260,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         // Valid fallback values should not cause errors
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stderr.toString() || '';
         if (output.includes('preserve-fallback-values')) {
           fail('Valid fallback values should not be flagged');
@@ -274,7 +274,7 @@ describe('Domain-Specific Rule Validation', () => {
   });
 
   describe('Campaign System File Rules', () => {
-    test('should allow enterprise patterns': any, async () => {
+    test('should allow enterprise patterns', async () => {
       const testContent: any = `
         class CampaignController {
           private complexMethod(): any {
@@ -317,7 +317,7 @@ describe('Domain-Specific Rule Validation', () => {
           // Campaign files should allow higher complexity
           expect(complexityErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -336,7 +336,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should allow extensive logging': any, async () => {
+    test('should allow extensive logging', async () => {
       const testContent: any = `;
         console.log('Campaign progress update');
         console.warn('Safety protocol activated');
@@ -363,7 +363,7 @@ describe('Domain-Specific Rule Validation', () => {
           // Campaign files should allow console logging
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -382,7 +382,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should recognize campaign variable patterns': any, async () => {
+    test('should recognize campaign variable patterns', async () => {
       const testContent: any = `;
         const campaign: any = 'typescript-elimination';
         const progress: any = 0.75;
@@ -413,7 +413,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -439,7 +439,7 @@ describe('Domain-Specific Rule Validation', () => {
   });
 
   describe('Test File Rules', () => {
-    test('should allow mock variable patterns': any, async () => {
+    test('should allow mock variable patterns', async () => {
       const testContent: any = `;
         const mockFunction = jest.fn() as any;
         const stubValue: any = 'test-stub';
@@ -468,7 +468,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -491,7 +491,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should have relaxed rules for testing patterns': any, async () => {
+    test('should have relaxed rules for testing patterns', async () => {
       const testContent: any = `;
         const anyValue: any = 'test-any';
         console.log('Test output');
@@ -520,7 +520,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -543,7 +543,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should have Jest globals available': any, async () => {
+    test('should have Jest globals available', async () => {
       const testContent: any = `
         describe('Test suite', () => {
           it('should work', () => {
@@ -578,7 +578,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -604,7 +604,7 @@ describe('Domain-Specific Rule Validation', () => {
   });
 
   describe('Configuration File Rules', () => {
-    test('should allow dynamic requires': any, async () => {
+    test('should allow dynamic requires', async () => {
       const testContent: any = `;
         const config = require('./some-config');
         const dynamicModule = require(process.env.MODULE_NAME);
@@ -628,7 +628,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(requireErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -647,7 +647,7 @@ describe('Domain-Specific Rule Validation', () => {
       }
     });
 
-    test('should have relaxed rules for build patterns': any, async () => {
+    test('should have relaxed rules for build patterns', async () => {
       const testContent: any = `;
         const anyConfig: any = process.env.CONFIG;
         console.log('Configuration loaded');
@@ -674,7 +674,7 @@ describe('Domain-Specific Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);

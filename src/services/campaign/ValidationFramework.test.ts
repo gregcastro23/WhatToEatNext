@@ -52,13 +52,13 @@ describe('ValidationFramework', () => {
       mockFs.statSync.mockReturnValue({ size: 400 * 1024 } as any); // 400KB
     });
 
-    it('should throw error for unknown phase': any, async () => {
+    it('should throw error for unknown phase', async () => {
       await expect(validationFramework.validatePhase('unknown-phase')).rejects.toThrow(
         'Unknown phase ID: any-phase',
       );
     });
 
-    it('should validate Phase 1 successfully with zero TypeScript errors': any, async () => {
+    it('should validate Phase 1 successfully with zero TypeScript errors', async () => {
       // Mock zero TypeScript errors
       mockExecSync.mockReturnValue('No errors found');
 
@@ -71,7 +71,7 @@ describe('ValidationFramework', () => {
       expect(result.results).toHaveLength(3); // 3 criteria for phase 1
     });
 
-    it('should validate Phase 1 as failed with TypeScript errors present': any, async () => {
+    it('should validate Phase 1 as failed with TypeScript errors present', async () => {
       // Mock TypeScript errors present
       mockExecSync.mockReturnValueOnce('error TS2322: Type error\nerror TS234, 5: Another error').mockReturnValueOnce(''); // Build succeeds
 
@@ -85,7 +85,7 @@ describe('ValidationFramework', () => {
       expect(result.recommendations.[0]).toContain('Enhanced TypeScript Error Fixer');
     });
 
-    it('should validate Phase 2 successfully with zero linting warnings': any, async () => {
+    it('should validate Phase 2 successfully with zero linting warnings', async () => {
       // Mock zero linting warnings
       mockExecSync.mockReturnValue('✓ No warnings found');
 
@@ -96,7 +96,7 @@ describe('ValidationFramework', () => {
       expect(result.results).toHaveLength(4); // 4 criteria for phase 2
     });
 
-    it('should validate Phase 2 as failed with linting warnings present': any, async () => {
+    it('should validate Phase 2 as failed with linting warnings present', async () => {
       // Mock linting warnings present
       mockExecSync.mockReturnValue(`
         warning: @typescript-eslint/no-explicit-any found, warning: no-unused-vars found
@@ -109,7 +109,7 @@ describe('ValidationFramework', () => {
       expect(result.recommendations.length).toBeGreaterThan(0);
     });
 
-    it('should validate Phase 3 successfully with sufficient enterprise systems': any, async () => {
+    it('should validate Phase 3 successfully with sufficient enterprise systems', async () => {
       // Mock 250 enterprise systems
       mockExecSync
         .mockReturnValueOnce('250') // Enterprise systems count
@@ -123,7 +123,7 @@ describe('ValidationFramework', () => {
       expect(result.results.[0].result.success).toBe(true);
     });
 
-    it('should validate Phase 3 as failed with insufficient enterprise systems': any, async () => {
+    it('should validate Phase 3 as failed with insufficient enterprise systems', async () => {
       // Mock only 150 enterprise systems (below 200 target)
       mockExecSync.mockReturnValueOnce('150').mockReturnValueOnce('0').mockReturnValueOnce('');
 
@@ -134,7 +134,7 @@ describe('ValidationFramework', () => {
       expect(result.results.[0].result.success).toBe(false);
     });
 
-    it('should validate Phase 4 successfully with good performance metrics': any, async () => {
+    it('should validate Phase 4 successfully with good performance metrics', async () => {
       // Mock fast build and test execution
       mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
@@ -155,7 +155,7 @@ describe('ValidationFramework', () => {
       expect(result.results.some(r => r.criteriaId === 'build-time-target')).toBe(true);
     });
 
-    it('should handle validation errors gracefully': any, async () => {
+    it('should handle validation errors gracefully', async () => {
       // Mock command that throws error
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
@@ -167,7 +167,7 @@ describe('ValidationFramework', () => {
       expect(result.results.every(r => !r.result.success)).toBe(true);
     });
 
-    it('should store validation results in history': any, async () => {
+    it('should store validation results in history', async () => {
       mockExecSync.mockReturnValue('');
 
       await validationFramework.validatePhase('phase1');
@@ -177,7 +177,7 @@ describe('ValidationFramework', () => {
       expect(history.[0].phaseId).toBe('phase1');
     });
 
-    it('should generate appropriate recommendations for failed criteria': any, async () => {
+    it('should generate appropriate recommendations for failed criteria', async () => {
       // Mock TypeScript errors
       mockExecSync.mockReturnValueOnce('error TS2322: Type error');
 
@@ -188,7 +188,7 @@ describe('ValidationFramework', () => {
   });
 
   describe('detectFailures', () => {
-    it('should detect build failures': any, async () => {
+    it('should detect build failures', async () => {
       // Mock build failure
       const buildError: any = new Error('Build failed') as unknown;
       buildError.status = 1;
@@ -208,7 +208,7 @@ describe('ValidationFramework', () => {
       expect(buildFailure.recoveryActions.length).toBeGreaterThan(0);
     });
 
-    it('should detect test failures': any, async () => {
+    it('should detect test failures', async () => {
       // Mock test failure
       mockExecSync.mockImplementation(command => {
         if (command.includes('yarn test')) {
@@ -227,7 +227,7 @@ describe('ValidationFramework', () => {
       expect(testFailure.severity).toBe('high');
     });
 
-    it('should detect high TypeScript error count': any, async () => {
+    it('should detect high TypeScript error count', async () => {
       // Mock high number of TypeScript errors
       const manyErrors: any = Array(150).fill('error TS2322: Type error').join('\n');
       mockExecSync.mockImplementation(command => {
@@ -245,7 +245,7 @@ describe('ValidationFramework', () => {
       expect(tsFailure.automaticRecovery).toBe(true);
     });
 
-    it('should detect performance degradation': any, async () => {
+    it('should detect performance degradation', async () => {
       // Mock slow build (simulate by making execSync take time)
       mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
@@ -269,7 +269,7 @@ describe('ValidationFramework', () => {
       }
     });
 
-    it('should return empty array when no failures detected': any, async () => {
+    it('should return empty array when no failures detected', async () => {
       // Mock all successful executions
       mockExecSync.mockReturnValue('');
 
@@ -285,7 +285,7 @@ describe('ValidationFramework', () => {
       expect(history).toHaveLength(0);
     });
 
-    it('should return validation history after validations': any, async () => {
+    it('should return validation history after validations', async () => {
       mockExecSync.mockReturnValue('');
 
       await validationFramework.validatePhase('phase1');
@@ -316,7 +316,7 @@ describe('ValidationFramework', () => {
       });
     });
 
-    it('should have appropriate weights for criteria': any, async () => {
+    it('should have appropriate weights for criteria', async () => {
       mockExecSync.mockReturnValue('');
 
       const result: any = await validationFramework.validatePhase('phase1');
@@ -332,7 +332,7 @@ describe('ValidationFramework', () => {
   });
 
   describe('error handling', () => {
-    it('should handle timeout errors in validation': any, async () => {
+    it('should handle timeout errors in validation', async () => {
       const timeoutError: any = new Error('Command timed out') as unknown;
       timeoutError.code = 'ETIMEDOUT';
       mockExecSync.mockImplementation(() => {
@@ -345,7 +345,7 @@ describe('ValidationFramework', () => {
       expect(result.results.every(r => !r.result.success)).toBe(true);
     });
 
-    it('should handle file system errors gracefully': any, async () => {
+    it('should handle file system errors gracefully', async () => {
       mockFs.existsSync.mockImplementation(() => {
         throw new Error('File system error');
       });

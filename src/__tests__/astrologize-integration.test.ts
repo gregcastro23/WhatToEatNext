@@ -90,7 +90,7 @@ describe('Astrologize API Integration', () => {
         });
 
         console.log('================================\n');
-      } catch (error): any {
+      } catch (error) {
         console.log(
           '❌ Failed to get current positions (expected in test environment):',
           (error as { message: string }).message,
@@ -99,20 +99,20 @@ describe('Astrologize API Integration', () => {
       }
     }, 30000);
 
-    test('should get positions with custom location': any, async () => {
+    test('should get positions with custom location', async () => {
       try {
         const _customLocation: any = { latitude: 51.5074, longitude: -0.1278 }; // London
         const positions: any = await getCurrentPlanetaryPositions();
         expect(typeof positions).toBe('object');
         console.log('✅ Successfully got positions for custom location (London)');
-      } catch (error): any {
+      } catch (error) {
         console.log('❌ Failed to get positions for custom location (expected in test environment)');
       }
     }, 30000);
   });
 
   describe('Specific Date/Time Positions', () => {
-    test('should get positions for a specific date': any, async () => {
+    test('should get positions for a specific date', async () => {
       try {
         const testDate: any = new Date('2024-06-21T12: 0, 0:00Z'); // Summer solstice
         const positions: any = await getPlanetaryPositionsForDateTime(testDate);
@@ -131,12 +131,12 @@ describe('Astrologize API Integration', () => {
         }
 
         console.log('===================================\n');
-      } catch (error): any {
+      } catch (error) {
         console.log('❌ Failed to get positions for specific date (expected in test environment)');
       }
     }, 30000);
 
-    test('should get positions for birth date with location': any, async () => {
+    test('should get positions for birth date with location', async () => {
       try {
         const birthDate: any = new Date('1990-03-20T16: 2, 0:00Z');
         const _birthLocation: any = { latitude: 40.7498, longitude: -73.7976 }; // NYC
@@ -158,14 +158,14 @@ describe('Astrologize API Integration', () => {
         });
 
         console.log('==================================\n');
-      } catch (error): any {
+      } catch (error) {
         console.log('❌ Failed to get birth chart positions (expected in test environment)');
       }
     }, 30000);
   });
 
   describe('API Response Validation', () => {
-    test('should handle API errors gracefully': any, async () => {
+    test('should handle API errors gracefully', async () => {
       // Test with invalid parameters to see error handling
       try {
         await fetchPlanetaryPositions({
@@ -177,13 +177,13 @@ describe('Astrologize API Integration', () => {
           latitude: 91,
           longitude: 181,
         });
-      } catch (error): any {
+      } catch (error) {
         expect(error).toBeInstanceOf(Error);
         console.log('✅ API error handling working correctly');
       }
     });
 
-    test('should validate planetary data structure': any, async () => {
+    test('should validate planetary data structure', async () => {
       try {
         const positions: any = await getCurrentPlanetaryPositions();
         // Test that all position objects have required properties
@@ -200,14 +200,14 @@ describe('Astrologize API Integration', () => {
         });
 
         console.log('✅ Planetary data structure validation passed');
-      } catch (error): any {
+      } catch (error) {
         console.log('❌ Planetary data validation failed (expected in test environment)');
       }
     });
   });
 
   describe('Integration with other services', () => {
-    test('should work with browser geolocation simulation': any, async () => {
+    test('should work with browser geolocation simulation', async () => {
       // Simulate getting location from browser
       const _mockGeolocation: any = {
         latitude: 37.7749,
@@ -218,7 +218,7 @@ describe('Astrologize API Integration', () => {
         const positions: any = getCurrentPlanetaryPositions();
         expect(typeof positions).toBe('object');
         console.log('✅ Integration with geolocation simulation working');
-      } catch (error): any {
+      } catch (error) {
         console.log('❌ Geolocation integration failed (expected in test environment)');
       }
     });
@@ -237,7 +237,7 @@ describe('Astrologize API Integration', () => {
 
 // Additional utility test to show real-time output
 describe('Real-time Astrologize Output Demo', () => {
-  test('should demonstrate current moment astrology data': any, async () => {
+  test('should demonstrate current moment astrology data', async () => {
     console.log('\n🌟 REAL-TIME ASTROLOGY DEMONSTRATION');
     console.log('=====================================');
 
@@ -315,7 +315,7 @@ describe('Real-time Astrologize Output Demo', () => {
         console.log('Note: This would show real-time data when API is available');
         console.log('Current test shows that integration is properly set up');
       }
-    } catch (error): any {
+    } catch (error) {
       console.log('\n❌ Demo failed (expected in test environment)');
       console.log('This demonstrates error handling is working correctly');
     }

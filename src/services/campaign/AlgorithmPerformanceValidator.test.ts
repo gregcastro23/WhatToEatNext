@@ -21,7 +21,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('runPerformanceBenchmarks', () => {
-    it('should run comprehensive performance benchmarks': any, async () => {
+    it('should run comprehensive performance benchmarks', async () => {
       const benchmarks: any = await validator.runPerformanceBenchmarks();
 
       expect(benchmarks.length).toBeGreaterThan(0);
@@ -52,7 +52,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(typeof firstBenchmark.samples.[0]).toBe('number');
     });
 
-    it('should calculate performance improvements correctly': any, async () => {
+    it('should calculate performance improvements correctly', async () => {
       const benchmarks: any = await validator.runPerformanceBenchmarks();
 
       for (const benchmark of benchmarks) {
@@ -65,7 +65,7 @@ describe('AlgorithmPerformanceValidator', () => {
       }
     });
 
-    it('should set correct benchmark status': any, async () => {
+    it('should set correct benchmark status', async () => {
       const benchmarks: any = await validator.runPerformanceBenchmarks();
 
       for (const benchmark of benchmarks) {
@@ -81,7 +81,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('validateCachePerformance', () => {
-    it('should validate 3-tier caching system': any, async () => {
+    it('should validate 3-tier caching system', async () => {
       const cacheMetrics: any = await validator.validateCachePerformance();
 
       expect(cacheMetrics).toHaveProperty('tier1');
@@ -115,7 +115,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(cacheMetrics.overall.efficiency).toBeLessThanOrEqual(100);
     });
 
-    it('should generate cache performance alerts when hit rate is low': any, async () => {
+    it('should generate cache performance alerts when hit rate is low', async () => {
       // Mock low cache performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockValidateMemoryCache: any = jest.spyOn(validator as unknown, 'validateMemoryCache');
@@ -140,7 +140,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('detectPerformanceRegressions', () => {
-    it('should detect performance regressions': any, async () => {
+    it('should detect performance regressions', async () => {
       // First, run benchmarks to establish baseline
       await validator.runPerformanceBenchmarks();
 
@@ -169,7 +169,7 @@ describe('AlgorithmPerformanceValidator', () => {
       (mockRunAlgorithmBenchmark as any)?.mockRestore();
     });
 
-    it('should not detect regression when performance improves': any, async () => {
+    it('should not detect regression when performance improves', async () => {
       // First, run benchmarks to establish baseline
       await validator.runPerformanceBenchmarks();
 
@@ -203,7 +203,7 @@ describe('AlgorithmPerformanceValidator', () => {
       (mockRunUiBenchmark as any)?.mockRestore();
     });
 
-    it('should generate alerts for detected regressions': any, async () => {
+    it('should generate alerts for detected regressions', async () => {
       // First, run benchmarks
       await validator.runPerformanceBenchmarks();
 
@@ -228,7 +228,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('validateImprovementMaintenance', () => {
-    it('should validate 50% improvement maintenance': any, async () => {
+    it('should validate 50% improvement maintenance', async () => {
       // Run benchmarks to populate history
       await validator.runPerformanceBenchmarks();
 
@@ -237,13 +237,13 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(typeof improvementMaintained).toBe('boolean');
     });
 
-    it('should return false when no benchmark history exists': any, async () => {
+    it('should return false when no benchmark history exists', async () => {
       const improvementMaintained: any = await validator.validateImprovementMaintenance();
 
       expect(improvementMaintained).toBe(false);
     });
 
-    it('should generate alert when improvement is below target': any, async () => {
+    it('should generate alert when improvement is below target', async () => {
       // Mock poor performance benchmarks
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockBenchmarkAlgorithms: any = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
@@ -275,7 +275,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('generatePerformanceReport', () => {
-    it('should generate comprehensive performance report': any, async () => {
+    it('should generate comprehensive performance report', async () => {
       const report: any = await validator.generatePerformanceReport();
 
       expect(report).toHaveProperty('timestamp');
@@ -300,7 +300,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(typeof report.improvementMaintained).toBe('boolean');
     });
 
-    it('should include recommendations based on performance issues': any, async () => {
+    it('should include recommendations based on performance issues', async () => {
       // Mock poor performance to trigger recommendations
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mockBenchmarkAlgorithms: any = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
@@ -328,7 +328,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('alert management', () => {
-    it('should manage alerts correctly': any, async () => {
+    it('should manage alerts correctly', async () => {
       const initialAlerts: any = validator.getCurrentAlerts();
       expect(initialAlerts).toHaveLength(0);
 
@@ -358,7 +358,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('data export', () => {
-    it('should export performance data to file': any, async () => {
+    it('should export performance data to file', async () => {
       mockFs.writeFileSync.mockImplementation(() => {});
 
       await validator.exportPerformanceData('./test-performance-data.json');
@@ -369,7 +369,7 @@ describe('AlgorithmPerformanceValidator', () => {
       );
     });
 
-    it('should handle export errors gracefully': any, async () => {
+    it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Write failed');
       });
@@ -381,7 +381,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('benchmark history', () => {
-    it('should maintain benchmark history': any, async () => {
+    it('should maintain benchmark history', async () => {
       const initialHistory: any = validator.getBenchmarkHistory();
       expect(initialHistory).toHaveLength(0);
 
@@ -397,7 +397,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(historyAfterSecondRun.length).toBeGreaterThan(historyAfterBenchmarks.length);
     });
 
-    it('should limit benchmark history size': any, async () => {
+    it('should limit benchmark history size', async () => {
       // Mock a large number of benchmarks
       const mockBenchmarks: any = Array.from({ length: 1200 }, (_, i) => ({
         name: `test_${i}`,
@@ -424,7 +424,7 @@ describe('AlgorithmPerformanceValidator', () => {
   });
 
   describe('benchmark categories', () => {
-    it('should benchmark all performance categories': any, async () => {
+    it('should benchmark all performance categories', async () => {
       const benchmarks: any = await validator.runPerformanceBenchmarks();
 
       const categories: any = [...new Set(benchmarks.map(b => b.category))];
@@ -438,7 +438,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(categories.length).toBe(5);
     });
 
-    it('should have realistic performance ranges for each category': any, async () => {
+    it('should have realistic performance ranges for each category', async () => {
       const benchmarks: any = await validator.runPerformanceBenchmarks();
 
       const algorithmBenchmarks: any = benchmarks.filter(b => b.category === 'algorithm');

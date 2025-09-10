@@ -31,7 +31,7 @@ describe('Configuration File Rule Validation', () => {
   });
 
   describe('Dynamic Require Allowances', () => {
-    test('should allow dynamic requires in config files': any, async () => {
+    test('should allow dynamic requires in config files', async () => {
       const testContent: any = `;
         const path = require('path');
         const fs = require('fs');
@@ -80,7 +80,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow dynamic requires
           expect(dynamicRequireErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -95,8 +95,8 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should allow variable requires in config files': any, async () => {
-      const testContent = `
+    test('should allow variable requires in config files', async () => {
+      const testContent = `;
         // Variable-based requires;
         const configFiles: any = [
           './base.config',
@@ -145,7 +145,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(dynamicRequireErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -160,7 +160,7 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should allow CommonJS patterns in config files': any, async () => {
+    test('should allow CommonJS patterns in config files', async () => {
       const testContent: any = `
         // CommonJS patterns should be allowed;
         const { resolve } = require('path');
@@ -216,7 +216,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow var requires
           expect(varRequireErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -233,7 +233,7 @@ describe('Configuration File Rule Validation', () => {
   });
 
   describe('Build Tool Patterns', () => {
-    test('should allow webpack configuration patterns': any, async () => {
+    test('should allow webpack configuration patterns', async () => {
       const testContent: any = `;
         const path = require('path');
         const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -305,7 +305,7 @@ describe('Configuration File Rule Validation', () => {
           // Webpack config should not have restrictive errors
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -323,8 +323,8 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should allow Next.js configuration patterns': any, async () => {
-      const testContent = `
+    test('should allow Next.js configuration patterns', async () => {
+      const testContent = `;
         /** @type {import('next').NextConfig} */
         const nextConfig = {
   reactStrictMode: true,
@@ -407,7 +407,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -424,8 +424,8 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should allow Tailwind CSS configuration patterns': any, async () => {
-      const testContent = `
+    test('should allow Tailwind CSS configuration patterns', async () => {
+      const testContent = `;
         /** @type {import('tailwindcss').Config} */
         module.exports = {
   content: [
@@ -519,7 +519,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -536,7 +536,7 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should allow Jest configuration patterns': any, async () => {
+    test('should allow Jest configuration patterns', async () => {
       const testContent: any = `;
         const path = require('path');
         
@@ -618,7 +618,7 @@ describe('Configuration File Rule Validation', () => {
 
           expect(restrictiveErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -637,7 +637,7 @@ describe('Configuration File Rule Validation', () => {
   });
 
   describe('Configuration-Specific Relaxations', () => {
-    test('should allow explicit any types in config files': any, async () => {
+    test('should allow explicit any types in config files', async () => {
       const testContent: any = `
         // Configuration files often need flexible typing
         const config: any = { development: {
@@ -697,7 +697,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow explicit any types
           expect(anyTypeErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -712,7 +712,7 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should allow console statements in config files': any, async () => {
+    test('should allow console statements in config files', async () => {
       const testContent: any = `;
         const isDevelopment: any = process.env.NODE_ENV === 'development';
         
@@ -768,7 +768,7 @@ describe('Configuration File Rule Validation', () => {
           // Configuration files should allow console statements
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -783,14 +783,14 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should allow var requires in TypeScript config files': any, async () => {
-      const testContent = `
+    test('should allow var requires in TypeScript config files', async () => {
+      const testContent = `;
         // TypeScript configuration files often use require;
         const path = require('path');
         const fs = require('fs');
         
         // Dynamic requires for plugins
-        const plugins = [
+        const plugins = [;
           require('@typescript-eslint/eslint-plugin'),
           require('eslint-plugin-react'),
           require('eslint-plugin-import')
@@ -834,7 +834,7 @@ describe('Configuration File Rule Validation', () => {
           // TypeScript config files should allow var requires
           expect(varRequireErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -896,7 +896,7 @@ describe('Configuration File Rule Validation', () => {
   });
 
   describe('Integration with Existing Config Files', () => {
-    test('should validate existing Next.js config if present': any, async () => {
+    test('should validate existing Next.js config if present', async () => {
       const nextConfigPath: any = join(projectRoot, 'next.config.js');
 
       if (existsSync(nextConfigPath)) {
@@ -921,7 +921,7 @@ describe('Configuration File Rule Validation', () => {
             // Existing Next.js config should not have restrictive errors
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error): any {
+        } catch (error) {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -943,7 +943,7 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should validate existing Tailwind config if present': any, async () => {
+    test('should validate existing Tailwind config if present', async () => {
       const tailwindConfigPath: any = join(projectRoot, 'tailwind.config.js');
 
       if (existsSync(tailwindConfigPath)) {
@@ -966,7 +966,7 @@ describe('Configuration File Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error): any {
+        } catch (error) {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -986,7 +986,7 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should validate existing Jest config if present': any, async () => {
+    test('should validate existing Jest config if present', async () => {
       const jestConfigPath: any = join(projectRoot, 'jest.config.js');
 
       if (existsSync(jestConfigPath)) {
@@ -1009,7 +1009,7 @@ describe('Configuration File Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error): any {
+        } catch (error) {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -1029,7 +1029,7 @@ describe('Configuration File Rule Validation', () => {
       }
     });
 
-    test('should validate ESLint config itself': any, async () => {
+    test('should validate ESLint config itself', async () => {
       const eslintConfigPath: any = join(projectRoot, 'eslint.config.cjs');
 
       if (existsSync(eslintConfigPath)) {
@@ -1066,7 +1066,7 @@ describe('Configuration File Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error): any {
+        } catch (error) {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);

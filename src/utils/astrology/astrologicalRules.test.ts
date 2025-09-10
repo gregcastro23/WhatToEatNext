@@ -297,7 +297,7 @@ describe('Astrological Validation Utilities', () => {
   });
 
   describe('Comprehensive Astrological Calculation Validation', () => {
-    test('should validate complete astrological calculation input': any, async () => {
+    test('should validate complete astrological calculation input', async () => {
       const validInput: any = {
         planetaryPositions: { sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
           moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
@@ -317,7 +317,7 @@ describe('Astrological Validation Utilities', () => {
       expect(result.isValid).toBe(true);
     });
 
-    test('should collect all validation errors and warnings': any, async () => {
+    test('should collect all validation errors and warnings', async () => {
       const invalidInput: any = {
         planetaryPositions: { sun: { sign: 'aries', degree: 8.5 }, // Missing properties
         },

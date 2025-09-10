@@ -31,7 +31,7 @@ describe('Test File Rule Validation', () => {
   });
 
   describe('Mock Variable Relaxations', () => {
-    test('should ignore unused mock variables': any, async () => {
+    test('should ignore unused mock variables', async () => {
       const testContent: any = `
         describe('Mock Variable Tests', () => {
           test('should handle mock variables', () => {
@@ -73,7 +73,7 @@ describe('Test File Rule Validation', () => {
           // Mock variable patterns should be ignored in test files
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -90,7 +90,7 @@ describe('Test File Rule Validation', () => {
       }
     });
 
-    test('should allow Jest mock functions': any, async () => {
+    test('should allow Jest mock functions', async () => {
       const testContent: any = `
         describe('Jest Mock Functions', () => {
           const mockCallback = jest.fn() as any;
@@ -134,7 +134,7 @@ describe('Test File Rule Validation', () => {
           // Jest mock functions should be allowed
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -149,7 +149,7 @@ describe('Test File Rule Validation', () => {
       }
     });
 
-    test('should allow test data structures': any, async () => {
+    test('should allow test data structures', async () => {
       const testContent: any = `
         describe('Test Data Structures', () => {
           const testUser: any = { id: 1, name: 'Test User', email: 'test@example.com' };
@@ -185,7 +185,7 @@ describe('Test File Rule Validation', () => {
           // Test data structures should be allowed
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -202,7 +202,7 @@ describe('Test File Rule Validation', () => {
   });
 
   describe('Test-Specific Rule Relaxations', () => {
-    test('should allow explicit any types in tests': any, async () => {
+    test('should allow explicit any types in tests', async () => {
       const testContent: any = `
         describe('Any Type Tests', () => {
           test('should allow any types for flexible testing', () => {
@@ -252,7 +252,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow explicit any types
           expect(anyTypeErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -267,7 +267,7 @@ describe('Test File Rule Validation', () => {
       }
     });
 
-    test('should allow console statements in tests': any, async () => {
+    test('should allow console statements in tests', async () => {
       const testContent: any = `
         describe('Console Statement Tests', () => {
           test('should allow console output for debugging', () => {
@@ -317,7 +317,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow console statements
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -332,7 +332,7 @@ describe('Test File Rule Validation', () => {
       }
     });
 
-    test('should allow non-null assertions in tests': any, async () => {
+    test('should allow non-null assertions in tests', async () => {
       const testContent: any = `
         describe('Non-null Assertion Tests', () => {
           test('should allow non-null assertions for test certainty', () => {
@@ -380,7 +380,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow non-null assertions
           expect(nonNullErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -395,7 +395,7 @@ describe('Test File Rule Validation', () => {
       }
     });
 
-    test('should allow magic numbers in tests': any, async () => {
+    test('should allow magic numbers in tests', async () => {
       const testContent: any = `
         describe('Magic Numbers Tests', () => {
           test('should allow magic numbers for test values', () => {
@@ -457,7 +457,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow magic numbers
           expect(magicNumberErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -472,7 +472,7 @@ describe('Test File Rule Validation', () => {
       }
     });
 
-    test('should allow relaxed complexity in tests': any, async () => {
+    test('should allow relaxed complexity in tests', async () => {
       const testContent: any = `
         describe('Complex Test Logic', () => {
           test('should allow complex test scenarios', () => {
@@ -534,7 +534,7 @@ describe('Test File Rule Validation', () => {
           // Test files should allow complex logic
           expect(complexityErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -551,7 +551,7 @@ describe('Test File Rule Validation', () => {
   });
 
   describe('Jest Globals Availability', () => {
-    test('should have Jest globals available without no-undef errors': any, async () => {
+    test('should have Jest globals available without no-undef errors', async () => {
       const testContent: any = `
         describe('Jest Globals Test', () => {
           beforeAll(() => {
@@ -642,7 +642,7 @@ describe('Test File Rule Validation', () => {
           // Jest globals should be available without no-undef errors
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -667,7 +667,7 @@ describe('Test File Rule Validation', () => {
       }
     });
 
-    test('should have additional Jest matchers available': any, async () => {
+    test('should have additional Jest matchers available', async () => {
       const testContent: any = `
         describe('Jest Matchers Test', () => {
           test('should have extended Jest matchers', () => {
@@ -732,7 +732,7 @@ describe('Test File Rule Validation', () => {
           // No undefined variable errors should occur
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -786,7 +786,7 @@ describe('Test File Rule Validation', () => {
   });
 
   describe('Test Environment Configuration', () => {
-    test('should have proper Jest environment globals': any, async () => {
+    test('should have proper Jest environment globals', async () => {
       const testContent: any = `
         describe('Environment Globals', () => {
           test('should have Node.js globals available', () => {
@@ -838,7 +838,7 @@ describe('Test File Rule Validation', () => {
           // Environment globals should be available
           expect(undefErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -853,7 +853,7 @@ describe('Test File Rule Validation', () => {
   });
 
   describe('Test-Specific Patterns', () => {
-    test('should allow test helper functions': any, async () => {
+    test('should allow test helper functions', async () => {
       const testContent: any = `
         describe('Test Helpers', () => {
           // Test helper functions should be allowed even if unused
@@ -916,7 +916,7 @@ describe('Test File Rule Validation', () => {
           // Test helper functions should be allowed even if unused
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);

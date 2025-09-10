@@ -119,7 +119,7 @@ describe('UnintentionalAnyCampaignController', () => {
   });
 
   describe('getUnintentionalAnyMetrics', () => {
-    it('should return metrics with default values when linting fails': any, async () => {
+    it('should return metrics with default values when linting fails', async () => {
       const metrics: any = await controller.getUnintentionalAnyMetrics();
 
       expect(metrics).toBeDefined();
@@ -147,7 +147,7 @@ describe('UnintentionalAnyCampaignController', () => {
   });
 
   describe('validateUnintentionalAnyPhaseCompletion', () => {
-    it('should validate analysis phase completion': any, async () => {
+    it('should validate analysis phase completion', async () => {
       const mockPhase: CampaignPhase = { id: 'unintentional-any-analysis',
         name: 'Analysis Phase',
         description: 'Test analysis phase',
@@ -330,7 +330,7 @@ describe('UnintentionalAnyProgressTracker', () => {
   });
 
   describe('getUnintentionalAnyMetrics', () => {
-    it('should return default metrics when linting fails': any, async () => {
+    it('should return default metrics when linting fails', async () => {
       const metrics: any = await tracker.getUnintentionalAnyMetrics();
 
       expect(metrics).toBeDefined();
@@ -343,7 +343,7 @@ describe('UnintentionalAnyProgressTracker', () => {
   });
 
   describe('setBaselineMetrics', () => {
-    it('should set baseline metrics': any, async () => {
+    it('should set baseline metrics', async () => {
       await tracker.setBaselineMetrics();
 
       const history: any = tracker.getUnintentionalAnyMetricsHistory();
@@ -352,24 +352,24 @@ describe('UnintentionalAnyProgressTracker', () => {
   });
 
   describe('validateUnintentionalAnyMilestone', () => {
-    it('should validate baseline-established milestone': any, async () => {
+    it('should validate baseline-established milestone', async () => {
       const isValid: any = await tracker.validateUnintentionalAnyMilestone('baseline-established');
       expect(typeof isValid).toBe('boolean');
     });
 
-    it('should validate analysis-complete milestone': any, async () => {
+    it('should validate analysis-complete milestone', async () => {
       const isValid: any = await tracker.validateUnintentionalAnyMilestone('analysis-complete');
       expect(typeof isValid).toBe('boolean');
     });
 
-    it('should return false for unknown milestone': any, async () => {
+    it('should return false for unknown milestone', async () => {
       const isValid: any = await tracker.validateUnintentionalAnyMilestone('unknown-milestone' as any);
       expect(isValid).toBe(false);
     });
   });
 
   describe('getDashboardMetrics', () => {
-    it('should return dashboard-compatible metrics': any, async () => {
+    it('should return dashboard-compatible metrics', async () => {
       const dashboardMetrics: any = await tracker.getDashboardMetrics();
 
       expect(dashboardMetrics.current).toBeDefined();
@@ -382,7 +382,7 @@ describe('UnintentionalAnyProgressTracker', () => {
   });
 
   describe('resetUnintentionalAnyMetricsHistory', () => {
-    it('should reset metrics history': any, async () => {
+    it('should reset metrics history', async () => {
       await tracker.setBaselineMetrics();
       expect(tracker.getUnintentionalAnyMetricsHistory().length).toBeGreaterThan(0);
 
@@ -400,7 +400,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
   });
 
   describe('shouldTriggerCampaign', () => {
-    it('should return trigger decision': any, async () => {
+    it('should return trigger decision', async () => {
       const decision: any = await scheduler.shouldTriggerCampaign();
 
       expect(decision.shouldTrigger).toBeDefined();

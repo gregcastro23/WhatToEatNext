@@ -1,223 +1,194 @@
 #!/usr/bin/env node
 
-/**
- * TS1005 Remaining Pattern Fixer
- *
- * This script fixes the remaining TS1005 patterns after catch blocks and test signatures:
- * 1. Object destructuring issues
- * 2. Function parameter syntax errors
- * 3. Template literal and expression issues
- * 4. Missing commas and parentheses
- *
- * Very conservative approach with validation after each fix.
- */
-
 const fs = require('fs');
-const path = require('path');
 const { execSync } = require('child_process');
 
-class TS1005RemainingPatternFixer {
-  constructor() {
-    this.fixedFiles = [];
-    this.totalFixes = 0;
-    this.batchSize = 5; // Small batch size for safety
-  }
+console.log('🔧 Starting TS1005 Remaining Pattern Fixes...\n');
 
-  async run() {
-    console.log('🔧 Starting TS1005 Remaining Pattern Fixes...\n');
-
-    try {
-      const initialErrors = this.getTS1005ErrorCount();
-      console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
-
-      if (initialErrors === 0) {
-        console.log('✅ No TS1005 errors found!');
-        return;
-      }
-
-      // Get files with errors
-      const errorFiles = await this.getFilesWithTS1005Errors();
-      console.log(`🔍 Found ${errorFiles.length} files with TS1005 errors`);
-
-      // Apply remaining pattern fixes in small batches
-      console.log('\n🛠️ Applying remaining pattern fixes...');
-
-      for (let i = 0; i < errorFiles.length; i += this.batchSize) {
-        const batch = errorFiles.slice(i, i + this.batchSize);
-        console.log(`\n📦 Processing batch ${Math.floor(i/this.batchSize) + 1}/${Math.ceil(errorFiles.length/this.batchSize)} (${batch.length} files)`);
-
-        let batchFixes = 0;
-        for (const filePath of batch) {
-          const fixes = await this.fixRemainingPatterns(filePath);
-          batchFixes += fixes;
-        }
-
-        // Validate build after each batch
-        if (batchFixes > 0) {
-          console.log(`   🔍 Validating build after ${batchFixes} fixes...`);
-          const buildSuccess = this.validateBuild();
-          if (!buildSuccess) {
-            console.log('   ⚠️ Build validation failed, reverting batch...');
-            execSync('git checkout -- .');
-            break;
-          } else {
-            console.log('   ✅ Build validation passed');
-          }
-        }
-
-        // Check progress after each batch
-        const currentErrors = this.getTS1005ErrorCount();
-        console.log(`   📊 Current TS1005 errors: ${currentErrors}`);
-
-        // Safety check - if errors increase, stop
-        if (currentErrors > initialErrors) {
-          console.log('⚠️ Error count increased, stopping fixes');
-          break;
-        }
-      }
-
-      // Final results
-      const finalErrors = this.getTS1005ErrorCount();
-      const reduction = initialErrors - finalErrors;
-      const percentage = reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : '0.0';
-
-      console.log(`\n📈 Final Results:`);
-      console.log(`   Initial errors: ${initialErrors}`);
-      console.log(`   Final errors: ${finalErrors}`);
-      console.log(`   Errors fixed: ${reduction}`);
-      console.log(`   Reduction: ${percentage}%`);
-      console.log(`   Files processed: ${this.fixedFiles.length}`);
-      console.log(`   Total fixes applied: ${this.totalFixes}`);
-
-    } catch (error) {
-      console.error('❌ Error during fixing:', error.message);
-    }
-  }
-
-  getTS1005ErrorCount() {
-    try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      return parseInt(output.trim()) || 0;
-    } catch (error) {
-      return 0;
-    }
-  }
-
-  validateBuild() {
-    try {
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  async getFilesWithTS1005Errors() {
-    try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-
-      const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
-
-      for (const line of lines) {
-        const match = line.match(/^(.+?)\(/);
-        if (match) {
-          files.add(match[1]);
-        }
-      }
-
-      return Array.from(files);
-    } catch (error) {
-      return [];
-    }
-  }
-
-  async fixRemainingPatterns(filePath) {
-    try {
-      if (!fs.existsSync(filePath)) {
-        return 0;
-      }
-
-      let content = fs.readFileSync(filePath, 'utf8');
-      const originalContent = content;
-      let fixesApplied = 0;
-
-      // Fix 1: Remove trailing commas in console.log statements
-      // Pattern: console.log(..., \n);
-      const consoleTrailingPattern = /console\.log\s*\([^)]*,\s*\n\s*\);/g;
-      const consoleMatches = content.match(consoleTrailingPattern);
-      if (consoleMatches) {
-        content = content.replace(/console\.log\s*\(([^)]*),\s*\n\s*\);/g, 'console.log($1\n          );');
-        fixesApplied += consoleMatches.length;
-      }
-
-      // Fix 2: Fix trailing commas in function calls
-      // Pattern: someFunction(..., )
-      const trailingCommaPattern = /,\s*\)/g;
-      const trailingMatches = content.match(trailingCommaPattern);
-      if (trailingMatches) {
-        content = content.replace(trailingCommaPattern, ')');
-        fixesApplied += trailingMatches.length;
-      }
-
-      // Fix 3: Fix missing commas in object destructuring
-      // Pattern: {prop1 prop2} -> {prop1, prop2}
-      const destructuringPattern = /\{\s*(\w+)\s+(\w+)\s*\}/g;
-      const destructuringMatches = content.match(destructuringPattern);
-      if (destructuringMatches) {
-        content = content.replace(destructuringPattern, '{$1, $2}');
-        fixesApplied += destructuringMatches.length;
-      }
-
-      // Fix 4: Fix incomplete template literals
-      // Pattern: `${variable -> `${variable}`
-      const incompleteTemplatePattern = /`\$\{[^}]*$/gm;
-      const templateMatches = content.match(incompleteTemplatePattern);
-      if (templateMatches) {
-        // Only fix obvious cases where there's clearly a missing closing brace
-        content = content.replace(/`\$\{([^}]*)\s*$/gm, '`${$1}`');
-        fixesApplied += templateMatches.length;
-      }
-
-      // Fix 5: Fix missing semicolons in simple statements
-      // Pattern: const x = value\n -> const x = value;\n
-      const missingSemicolonPattern = /^(\s*(?:const|let|var)\s+\w+\s*=\s*[^;]+)\s*$/gm;
-      const semicolonMatches = content.match(missingSemicolonPattern);
-      if (semicolonMatches) {
-        content = content.replace(missingSemicolonPattern, '$1;');
-        fixesApplied += semicolonMatches.length;
-      }
-
-      if (fixesApplied > 0 && content !== originalContent) {
-        fs.writeFileSync(filePath, content, 'utf8');
-        this.fixedFiles.push(filePath);
-        this.totalFixes += fixesApplied;
-        console.log(`   ✅ ${path.basename(filePath)}: ${fixesApplied} remaining pattern fixes applied`);
-        return fixesApplied;
-      }
-
-      return 0;
-
-    } catch (error) {
-      console.log(`   ❌ Error fixing ${filePath}: ${error.message}`);
-      return 0;
-    }
+// Get initial error count
+function getTS1005ErrorCount() {
+  try {
+    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005"', {
+      encoding: 'utf8',
+      stdio: 'pipe'
+    });
+    return parseInt(output.trim()) || 0;
+  } catch (error) {
+    return error.status === 1 ? 0 : -1;
   }
 }
 
-// Execute the fixer
-if (require.main === module) {
-  const fixer = new TS1005RemainingPatternFixer();
-  fixer.run().catch(console.error);
+// Get specific TS1005 errors with line numbers
+function getTS1005Errors() {
+  try {
+    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
+      encoding: 'utf8',
+      stdio: 'pipe'
+    });
+    return output.trim().split('\n').filter(line => line.trim());
+  } catch (error) {
+    return [];
+  }
 }
 
-module.exports = TS1005RemainingPatternFixer;
+// Parse error to get file, line, and expected token
+function parseError(errorLine) {
+  const match = errorLine.match(/^(.+?)\((\d+),(\d+)\): error TS1005: '(.+?)' expected\.$/);
+  if (match) {
+    return {
+      file: match[1],
+      line: parseInt(match[2]),
+      column: parseInt(match[3]),
+      expected: match[4]
+    };
+  }
+  return null;
+}
+
+// Fix specific patterns in a file
+function fixFilePatterns(filePath) {
+  if (!fs.existsSync(filePath)) {
+    console.log(`   ❌ File not found: ${filePath}`);
+    return 0;
+  }
+
+  let content = fs.readFileSync(filePath, 'utf8');
+  const originalContent = content;
+  let fixCount = 0;
+
+  // Pattern 1: Missing comma in function parameters
+  // Example: function(param1: type param2: type) -> function(param1: type, param2: type)
+  const commaPattern1 = /(\w+:\s*\w+)\s+(\w+:\s*\w+)/g;
+  content = content.replace(commaPattern1, (match, p1, p2) => {
+    fixCount++;
+    return `${p1}, ${p2}`;
+  });
+
+  // Pattern 2: Missing comma in object literals
+  // Example: { prop1: value prop2: value } -> { prop1: value, prop2: value }
+  const commaPattern2 = /(\w+:\s*[^,}\n]+)\s+(\w+:\s*)/g;
+  content = content.replace(commaPattern2, (match, p1, p2) => {
+    if (!p1.endsWith(',') && !p1.endsWith(';')) {
+      fixCount++;
+      return `${p1}, ${p2}`;
+    }
+    return match;
+  });
+
+  // Pattern 3: Missing closing parenthesis in function calls
+  // Look for lines that end with a comma but should end with )
+  const lines = content.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Pattern: expect(...).toBe(...,  -> expect(...).toBe(...);
+    if (line.match(/\.toBe\([^)]*,\s*$/)) {
+      lines[i] = line.replace(/,\s*$/, ');');
+      fixCount++;
+    }
+
+    // Pattern: expect(...).toEqual(...,  -> expect(...).toEqual(...);
+    if (line.match(/\.toEqual\([^)]*,\s*$/)) {
+      lines[i] = line.replace(/,\s*$/, ');');
+      fixCount++;
+    }
+
+    // Pattern: Missing closing brace in object literals
+    if (line.match(/^\s*\w+:\s*[^{},]+\s*$/) && i < lines.length - 1) {
+      const nextLine = lines[i + 1];
+      if (nextLine.match(/^\s*\w+:/)) {
+        lines[i] = line + ',';
+        fixCount++;
+      }
+    }
+  }
+  content = lines.join('\n');
+
+  // Pattern 4: Missing semicolon after statements
+  // Example: const x = value -> const x = value;
+  const semicolonPattern = /^(\s*const\s+\w+\s*=\s*[^;]+)$/gm;
+  content = content.replace(semicolonPattern, (match, p1) => {
+    if (!p1.endsWith(';') && !p1.endsWith(',') && !p1.endsWith('{')) {
+      fixCount++;
+      return `${p1};`;
+    }
+    return match;
+  });
+
+  // Pattern 5: Missing opening brace in function/object definitions
+  // Example: function test() -> function test() {
+  const bracePattern = /^(\s*(?:function\s+\w+\s*\([^)]*\)|test\s*\([^)]*\))\s*)$/gm;
+  content = content.replace(bracePattern, (match, p1) => {
+    fixCount++;
+    return `${p1} {`;
+  });
+
+  if (content !== originalContent) {
+    fs.writeFileSync(filePath, content, 'utf8');
+    console.log(`   ✅ ${filePath}: ${fixCount} fixes applied`);
+    return fixCount;
+  }
+
+  return 0;
+}
+
+// Main execution
+async function main() {
+  const initialErrors = getTS1005ErrorCount();
+  console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
+
+  if (initialErrors === 0) {
+    console.log('🎉 No TS1005 errors found!');
+    return;
+  }
+
+  // Get all files with TS1005 errors
+  const errors = getTS1005Errors();
+  const filesWithErrors = [...new Set(errors.map(error => {
+    const parsed = parseError(error);
+    return parsed ? parsed.file : null;
+  }).filter(Boolean))];
+
+  console.log(`🔍 Found ${filesWithErrors.length} files with TS1005 errors\n`);
+
+  let totalFixes = 0;
+  let processedFiles = 0;
+
+  // Process files in batches of 10
+  const batchSize = 10;
+  for (let i = 0; i < filesWithErrors.length; i += batchSize) {
+    const batch = filesWithErrors.slice(i, i + batchSize);
+    console.log(`📦 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(filesWithErrors.length/batchSize)} (${batch.length} files)`);
+
+    for (const file of batch) {
+      const fixes = fixFilePatterns(file);
+      if (fixes > 0) {
+        totalFixes += fixes;
+        processedFiles++;
+      }
+    }
+
+    // Validate progress every batch
+    const currentErrors = getTS1005ErrorCount();
+    console.log(`   📊 TS1005 errors: ${initialErrors} → ${currentErrors}`);
+
+    if (currentErrors > initialErrors) {
+      console.log('   ⚠️  Error count increased, stopping...');
+      break;
+    }
+  }
+
+  const finalErrors = getTS1005ErrorCount();
+  const errorsFixed = initialErrors - finalErrors;
+  const reductionPercent = initialErrors > 0 ? ((errorsFixed / initialErrors) * 100).toFixed(1) : 0;
+
+  console.log('\n📈 Final Results:');
+  console.log(`   Initial TS1005 errors: ${initialErrors}`);
+  console.log(`   Final TS1005 errors: ${finalErrors}`);
+  console.log(`   TS1005 errors fixed: ${errorsFixed}`);
+  console.log(`   TS1005 reduction: ${reductionPercent}%`);
+  console.log(`   Files processed: ${processedFiles}`);
+  console.log(`   Total fixes applied: ${totalFixes}`);
+}
+
+main().catch(console.error);

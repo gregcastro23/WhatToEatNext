@@ -24,7 +24,7 @@ describe('BundleSizeOptimizer', () => {
   });
 
   describe('analyzeBundleSize', () => {
-    it('should analyze Next.js bundle size': any, async () => {
+    it('should analyze Next.js bundle size', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === '.next' || path === '.next/static/chunks';
       });
@@ -54,7 +54,7 @@ describe('BundleSizeOptimizer', () => {
       expect(analysis.chunks.[2].isLazyLoaded).toBe(true); // lazy-component.js
     });
 
-    it('should analyze generic build directory': any, async () => {
+    it('should analyze generic build directory', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === 'dist';
       });
@@ -67,7 +67,7 @@ describe('BundleSizeOptimizer', () => {
       expect(analysis.compressedSize).toBe(245); // 70% compression
     });
 
-    it('should estimate bundle size from source code': any, async () => {
+    it('should estimate bundle size from source code', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('200000\n'); // 200kB source code
 
@@ -76,7 +76,7 @@ describe('BundleSizeOptimizer', () => {
       expect(analysis.totalSize).toBe(293); // Math.round(200000 / 1024 * 1.5) = 293
     });
 
-    it('should handle bundle analysis errors gracefully': any, async () => {
+    it('should handle bundle analysis errors gracefully', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
         throw new Error('Analysis failed');
@@ -91,7 +91,7 @@ describe('BundleSizeOptimizer', () => {
   });
 
   describe('validateLazyLoading', () => {
-    it('should validate lazy loading implementation': any, async () => {
+    it('should validate lazy loading implementation', async () => {
       mockExecSync
         .mockReturnValueOnce('25\n') // 25 components
         .mockReturnValueOnce('10\n') // 10 lazy loaded
@@ -110,7 +110,7 @@ describe('BundleSizeOptimizer', () => {
       );
     });
 
-    it('should handle lazy loading validation errors': any, async () => {
+    it('should handle lazy loading validation errors', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Validation failed');
       });
@@ -124,7 +124,7 @@ describe('BundleSizeOptimizer', () => {
   });
 
   describe('bundle size alerts', () => {
-    it('should generate alert when bundle size exceeds target': any, async () => {
+    it('should generate alert when bundle size exceeds target', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('500000\n'); // Large source code resulting in 732kB bundle
 
@@ -140,7 +140,7 @@ describe('BundleSizeOptimizer', () => {
       expect(sizeAlert.targetValue).toBe(420);
     });
 
-    it('should generate alert for large chunks': any, async () => {
+    it('should generate alert for large chunks', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === '.next' || path === '.next/static/chunks';
       });
@@ -160,7 +160,7 @@ describe('BundleSizeOptimizer', () => {
       expect(chunkAlert.targetValue).toBe(100);
     });
 
-    it('should generate alert for unused dependencies': any, async () => {
+    it('should generate alert for unused dependencies', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === 'package.json';
       });
@@ -185,7 +185,7 @@ describe('BundleSizeOptimizer', () => {
   });
 
   describe('generateOptimizationReport', () => {
-    it('should generate comprehensive optimization report': any, async () => {
+    it('should generate comprehensive optimization report', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync
         .mockReturnValueOnce('280000\n') // Source size (410kB bundle)
@@ -205,7 +205,7 @@ describe('BundleSizeOptimizer', () => {
       expect(report.recommendations).toBeInstanceOf(Array);
     });
 
-    it('should indicate non-compliance when bundle exceeds target': any, async () => {
+    it('should indicate non-compliance when bundle exceeds target', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync
         .mockReturnValueOnce('350000\n') // Source size (513kB bundle)
@@ -224,7 +224,7 @@ describe('BundleSizeOptimizer', () => {
   });
 
   describe('asset analysis', () => {
-    it('should analyze assets correctly': any, async () => {
+    it('should analyze assets correctly', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === 'public';
       });
@@ -260,7 +260,7 @@ describe('BundleSizeOptimizer', () => {
   });
 
   describe('dependency analysis', () => {
-    it('should analyze dependencies for bundle impact': any, async () => {
+    it('should analyze dependencies for bundle impact', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === 'package.json';
       });
@@ -307,7 +307,7 @@ describe('BundleSizeOptimizer', () => {
   });
 
   describe('data export', () => {
-    it('should export bundle data to file': any, async () => {
+    it('should export bundle data to file', async () => {
       mockFs.writeFileSync.mockImplementation(() => {});
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync
@@ -326,7 +326,7 @@ describe('BundleSizeOptimizer', () => {
       );
     });
 
-    it('should handle export errors gracefully': any, async () => {
+    it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Write failed');
       });
@@ -347,7 +347,7 @@ describe('BundleSizeOptimizer', () => {
       expect(isHeavy('simple-util')).toBe(false);
     });
 
-    it('should estimate dependency sizes correctly': any, async () => {
+    it('should estimate dependency sizes correctly', async () => {
       const estimateSize: any = (bundleOptimizer as any).estimateDependencySize;
 
       expect(await estimateSize('react')).toBe(45);

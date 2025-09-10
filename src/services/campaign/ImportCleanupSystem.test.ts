@@ -34,7 +34,7 @@ describe('ImportCleanupSystem', () => {
   });
 
   describe('detectUnusedImports', () => {
-    test('detects unused named imports': any, async () => {
+    test('detects unused named imports', async () => {
       const testFileContent: any = `;
 import UnusedDefault, * as UnusedNamespace, { anotherVeryLongFunctionName, internalFunction, unusedFunction, unusedFunction1, unusedFunction2, usedFunction, veryLongFunctionName, yetAnotherLongName } from './utils';
 import UsedDefault, * as UsedNamespace, { AnotherUnused, usedFunction } from './other';
@@ -54,7 +54,7 @@ function component() : any {
       expect(unusedImports.[1].importName).toBe('AnotherUnused');
     });
 
-    test('detects unused default imports': any, async () => {
+    test('detects unused default imports', async () => {
       const testFileContent: any = `;
 import UsedDefault from './other';
 function component() : any {
@@ -71,7 +71,7 @@ function component() : any {
       expect(unusedImports.[0].importName).toBe('UnusedDefault');
     });
 
-    test('detects unused namespace imports': any, async () => {
+    test('detects unused namespace imports', async () => {
       const testFileContent: any = `;
 import * as UnusedNamespace from './unused';
 import * as UsedNamespace from './other';
@@ -90,7 +90,7 @@ function component() : any {
       expect(unusedImports.[0].importName).toBe('UnusedNamespace');
     });
 
-    test('correctly identifies used imports in JSX': any, async () => {
+    test('correctly identifies used imports in JSX', async () => {
       const testFileContent: any = `;
 import React from 'react';
 import { Button, UnusedComponent } from './components';
@@ -109,7 +109,7 @@ import React, { Component, ReactNode } from 'react';
       expect(unusedImports.[0].importName).toBe('UnusedComponent');
     });
 
-    test('correctly identifies used type imports': any, async () => {
+    test('correctly identifies used type imports', async () => {
       const testFileContent: any = `;
 import type { UsedType, UnusedType } from './types';
 
@@ -130,7 +130,7 @@ import { InternalType, UnusedType, UsedType } from './types';
   });
 
   describe('removeUnusedImports', () => {
-    test('removes unused imports from file': any, async () => {
+    test('removes unused imports from file', async () => {
       const originalContent: any = `;
 import { AnotherUnused } from './other';
 
@@ -157,7 +157,7 @@ function component() : any {
       expect(writtenContent.trim()).toBe(expectedContent.trim());
     });
 
-    test('removes entire import line when all imports are unused': any, async () => {
+    test('removes entire import line when all imports are unused', async () => {
       const originalContent: any = `;
 import { unusedFunction1, unusedFunction2 } from './unused';
 import { usedFunction } from './other';
@@ -189,7 +189,7 @@ function component() : any {
   });
 
   describe('organizeImports', () => {
-    test('groups external and internal imports': any, async () => {
+    test('groups external and internal imports', async () => {
       const originalContent: any = `;
 import React from 'react';
 import { externalFunction } from 'lodash';
@@ -221,7 +221,7 @@ function component() : any {
       expect(writtenContent.trim()).toBe(expectedContent.trim());
     });
 
-    test('separates type imports when configured': any, async () => {
+    test('separates type imports when configured', async () => {
       const originalContent: any = `;
 import { Component } from 'react';
 import type { ReactNode } from 'react';
@@ -246,7 +246,7 @@ function component() : any {
       expect(writtenContent).toContain('import { internalFunction }');
     });
 
-    test('sorts imports alphabetically when configured': any, async () => {
+    test('sorts imports alphabetically when configured', async () => {
       const originalContent: any = `;
 import { zebra } from 'zoo';
 import { apple } from 'fruits';
@@ -274,7 +274,7 @@ function component() : any {
   });
 
   describe('enforceImportStyle', () => {
-    test('adds trailing commas to multi-line imports': any, async () => {
+    test('adds trailing commas to multi-line imports', async () => {
       const originalContent = `
 import {
   functionA,
@@ -309,7 +309,7 @@ function component() : any {
       expect(writtenContent.trim()).toBe(expectedContent.trim());
     });
 
-    test('breaks long import lines when over max length': any, async () => {
+    test('breaks long import lines when over max length', async () => {
       const config: any = {
         ...testConfig,
         organizationRules: {
@@ -342,7 +342,7 @@ function component() : any {
   });
 
   describe('executeCleanup', () => {
-    test('executes complete cleanup workflow': any, async () => {
+    test('executes complete cleanup workflow', async () => {
       const testFiles: any = ['file1.ts', 'file2.ts'];
       const testContent: any = `;
 import React from 'react';
@@ -363,7 +363,7 @@ function component() : any {
       expect(result.errors).toHaveLength(0);
     });
 
-    test('handles build validation failures': any, async () => {
+    test('handles build validation failures', async () => {
       const testFiles: any = ['file1.ts'];
 
       mockExecSync
@@ -382,7 +382,7 @@ function component() : any {
       expect(result.errors.length).toBeGreaterThan(0);
     });
 
-    test('processes files in batches': any, async () => {
+    test('processes files in batches', async () => {
       const testFiles: any = Array.from({ length: 12 }, (_, i) => `file${i}.ts`);
       const batchSize: any = 5;
 
@@ -402,7 +402,7 @@ function component() : any {
   });
 
   describe('error handling', () => {
-    test('handles file read errors gracefully': any, async () => {
+    test('handles file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File not found');
       });
@@ -412,7 +412,7 @@ function component() : any {
       expect(unusedImports).toHaveLength(0);
     });
 
-    test('handles file write errors gracefully': any, async () => {
+    test('handles file write errors gracefully', async () => {
       mockFs.readFileSync.mockReturnValue('import { unused } from "./utils";');
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Permission denied');
@@ -423,7 +423,7 @@ function component() : any {
       expect(removedCount).toBe(0);
     });
 
-    test('continues processing other files when one fails': any, async () => {
+    test('continues processing other files when one fails', async () => {
       const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'];
 
       mockFs.readFileSync

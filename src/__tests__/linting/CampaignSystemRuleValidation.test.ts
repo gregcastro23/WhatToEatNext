@@ -27,7 +27,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Enterprise Patterns Allowance', () => {
-    test('should allow high complexity in campaign files': any, async () => {
+    test('should allow high complexity in campaign files', async () => {
       const testContent: any = `
         class CampaignController {
           private executeComplexCampaign(config: any): any {
@@ -115,7 +115,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow high complexity
           expect(complexityErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -130,7 +130,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow long functions in campaign files': any, async () => {
+    test('should allow long functions in campaign files', async () => {
       const testContent: any = `
         class ProgressTracker {
           public generateComprehensiveReport(): string {
@@ -230,7 +230,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow long functions
           expect(functionLengthErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -245,8 +245,8 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow explicit any types in campaign files': any, async () => {
-      const testContent = `
+    test('should allow explicit any types in campaign files', async () => {
+      const testContent = `;
         class CampaignIntelligenceSystem {
           private analyzeErrorPatterns(data: any): unknown {
             // Enterprise intelligence requires flexible typing;
@@ -315,7 +315,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow explicit any types (warn level is OK);
           expect(anyTypeErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -330,7 +330,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow deep nesting in campaign files': any, async () => {
+    test('should allow deep nesting in campaign files', async () => {
       const testContent: any = `
         class SafetyProtocolSystem {
           private executeEmergencyProtocol_(event: any): void {
@@ -406,7 +406,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow deep nesting
           expect(depthErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -423,7 +423,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Extensive Logging Allowance', () => {
-    test('should allow all console methods in campaign files': any, async () => {
+    test('should allow all console methods in campaign files', async () => {
       const testContent: any = `
         class CampaignLogger {
           public logCampaignProgress(): void {
@@ -494,7 +494,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow all console methods
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -509,7 +509,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow process.exit in emergency protocols': any, async () => {
+    test('should allow process.exit in emergency protocols', async () => {
       const testContent: any = `
         class EmergencyProtocol {
           public executeEmergencyShutdown(reason: string): void { = undefined as any;
@@ -558,7 +558,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow process.exit
           expect(processExitErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -575,7 +575,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Campaign Variable Patterns', () => {
-    test('should ignore unused campaign variables': any, async () => {
+    test('should ignore unused campaign variables', async () => {
       const testContent: any = `
         class CampaignManager {
           private initializeCampaign(): void {
@@ -621,7 +621,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign variable patterns should be ignored
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -641,7 +641,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should recognize campaign constant patterns': any, async () => {
+    test('should recognize campaign constant patterns', async () => {
       const testContent: any = `
         class CampaignConstants {
           private static readonly CAMPAIGN_TYPES = {
@@ -697,7 +697,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign constants should be allowed even if unused
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -714,8 +714,8 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Dynamic Import Allowance', () => {
-    test('should allow dynamic imports for campaign tools': any, async () => {
-      const testContent = `
+    test('should allow dynamic imports for campaign tools', async () => {
+      const testContent = `;
         class CampaignToolLoader {
           public async loadCampaignTool(toolName: string): Promise<any> {
             // Dynamic imports for campaign tools should be allowed;
@@ -766,7 +766,7 @@ describe('Campaign System Rule Validation', () => {
           // Campaign files should allow dynamic imports
           expect(dynamicImportErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
@@ -826,7 +826,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Integration with Existing Campaign Files', () => {
-    test('should validate existing CampaignController if present': any, async () => {
+    test('should validate existing CampaignController if present', async () => {
       const campaignControllerPath: any = join(projectRoot, 'src/services/campaign/CampaignController.ts');
 
       if (existsSync(campaignControllerPath)) {
@@ -848,7 +848,7 @@ describe('Campaign System Rule Validation', () => {
             // Existing campaign files should not have restrictive errors
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error): any {
+        } catch (error) {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);
@@ -870,7 +870,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should validate existing ProgressTracker if present': any, async () => {
+    test('should validate existing ProgressTracker if present', async () => {
       const progressTrackerPath: any = join(projectRoot, 'src/services/campaign/ProgressTracker.ts');
 
       if (existsSync(progressTrackerPath)) {
@@ -891,7 +891,7 @@ describe('Campaign System Rule Validation', () => {
 
             expect(restrictiveErrors.length).toBe(0);
           }
-        } catch (error): any {
+        } catch (error) {
           const output: any = (error as any).stdout.toString() || '';
           if (output != null) {
             const result: any = JSON.parse(output);

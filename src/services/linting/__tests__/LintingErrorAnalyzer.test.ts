@@ -24,7 +24,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(analyzer).toBeInstanceOf(LintingErrorAnalyzer);
     });
 
-    it('should handle empty ESLint output': any, async () => {
+    it('should handle empty ESLint output', async () => {
       mockExecSync.mockReturnValue('[]');
 
       const result: any = await analyzer.analyzeAllIssues();
@@ -36,7 +36,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(result.autoFixable).toHaveLength(0);
     });
 
-    it('should parse ESLint output correctly': any, async () => {
+    it('should parse ESLint output correctly', async () => {
       const mockOutput = JSON.stringify([
         {
           filePath: '/test/src/App.tsx',
@@ -70,7 +70,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(result.autoFixable).toHaveLength(1); // import/order has fix
     });
 
-    it('should categorize issues correctly': any, async () => {
+    it('should categorize issues correctly', async () => {
       const mockOutput = JSON.stringify([
         {
           filePath: '/test/src/App.tsx',
@@ -110,7 +110,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(result.byCategory['react']).toHaveLength(1);
     });
 
-    it('should generate resolution plan': any, async () => {
+    it('should generate resolution plan', async () => {
       const mockOutput = JSON.stringify([
         {
           filePath: '/test/src/App.tsx',
@@ -140,7 +140,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(plan.successProbability).toBeGreaterThan(0);
     });
 
-    it('should handle ESLint execution errors': any, async () => {
+    it('should handle ESLint execution errors', async () => {
       const error: any = new Error('ESLint failed');
       (error as any).stdout = '[]';
       mockExecSync.mockImplementation(() => {
@@ -155,7 +155,7 @@ describe('LintingErrorAnalyzer', () => {
   });
 
   describe('Domain Context Detection', () => {
-    it('should detect astrological files': any, async () => {
+    it('should detect astrological files', async () => {
       const mockOutput: any = JSON.stringify([
         {
           filePath: '/test/src/calculations/astrology.ts',
@@ -180,7 +180,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(issue.domainContext.requiresSpecialHandling).toBe(true);
     });
 
-    it('should detect campaign system files': any, async () => {
+    it('should detect campaign system files', async () => {
       const mockOutput: any = JSON.stringify([
         {
           filePath: '/test/src/services/campaign/CampaignController.ts',
@@ -205,7 +205,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(issue.domainContext.requiresSpecialHandling).toBe(true);
     });
 
-    it('should detect test files': any, async () => {
+    it('should detect test files', async () => {
       const mockOutput: any = JSON.stringify([
         {
           filePath: '/test/src/components/__tests__/Component.test.tsx',
@@ -232,7 +232,7 @@ describe('LintingErrorAnalyzer', () => {
   });
 
   describe('Resolution Strategy Generation', () => {
-    it('should prioritize auto-fixable issues': any, async () => {
+    it('should prioritize auto-fixable issues', async () => {
       const mockOutput = JSON.stringify([
         {
           filePath: '/test/src/App.tsx',
@@ -267,7 +267,7 @@ describe('LintingErrorAnalyzer', () => {
       expect(autoFixPhase.riskLevel).toBe('low');
     });
 
-    it('should handle domain-specific issues with higher risk': any, async () => {
+    it('should handle domain-specific issues with higher risk', async () => {
       const mockOutput: any = JSON.stringify([
         {
           filePath: '/test/src/calculations/astrology.ts',

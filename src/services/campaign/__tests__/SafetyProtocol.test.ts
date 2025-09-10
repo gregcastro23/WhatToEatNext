@@ -74,14 +74,14 @@ describe('SafetyProtocol', () => {
         .mockReturnValueOnce('main'); // git branch --show-current
     });
 
-    it('should create git stash with descriptive name': any, async () => {
+    it('should create git stash with descriptive name', async () => {
       const stashId: any = await safetyProtocol.createStash('Test stash', 'phase1');
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-/);
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object));
     });
 
-    it('should store stash information': any, async () => {
+    it('should store stash information', async () => {
       const stashId: any = await safetyProtocol.createStash('Test stash');
 
       const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -92,7 +92,7 @@ describe('SafetyProtocol', () => {
       expect(stash.ref).toBe('stash@{0}');
     });
 
-    it('should record safety event for stash creation': any, async () => {
+    it('should record safety event for stash creation', async () => {
       await safetyProtocol.createStash('Test stash');
 
       const events: any = (safetyProtocol as any).safetyEvents;
@@ -101,7 +101,7 @@ describe('SafetyProtocol', () => {
       expect(events.[0].description).toContain('Git stash created');
     });
 
-    it('should handle git validation failure': any, async () => {
+    it('should handle git validation failure', async () => {
       // Mock git validation failure
       jest
         .spyOn(
@@ -119,7 +119,7 @@ describe('SafetyProtocol', () => {
       );
     });
 
-    it('should handle git stash creation failure': any, async () => {
+    it('should handle git stash creation failure', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
@@ -161,13 +161,13 @@ describe('SafetyProtocol', () => {
         });
     });
 
-    it('should apply stash successfully': any, async () => {
+    it('should apply stash successfully', async () => {
       await safetyProtocol.applyStash('test-stash-1');
 
       expect(mockExecSync).toHaveBeenCalledWith('git stash apply stash@{0}', expect.any(Object));
     });
 
-    it('should record safety event for stash application': any, async () => {
+    it('should record safety event for stash application', async () => {
       await safetyProtocol.applyStash('test-stash-1');
 
       const events: any = (safetyProtocol as any).safetyEvents;
@@ -176,17 +176,17 @@ describe('SafetyProtocol', () => {
       expect(events.[0].description).toContain('Git stash applied: test-stash-1');
     });
 
-    it('should validate git state after application when requested': any, async () => {
+    it('should validate git state after application when requested', async () => {
       await safetyProtocol.applyStash('test-stash-1', true);
 
       expect(safetyProtocol['validateGitState']).toHaveBeenCalled();
     });
 
-    it('should handle non-existent stash': any, async () => {
+    it('should handle non-existent stash', async () => {
       await expect(safetyProtocol.applyStash('non-existent')).rejects.toThrow('Stash not found: non-existent');
     });
 
-    it('should handle git stash apply failure': any, async () => {
+    it('should handle git stash apply failure', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash apply')) {
           throw new Error('Git stash apply failed');
@@ -225,14 +225,14 @@ describe('SafetyProtocol', () => {
       jest.spyOn(safetyProtocol, 'applyStash').mockResolvedValue();
     });
 
-    it('should apply the most recent stash': any, async () => {
+    it('should apply the most recent stash', async () => {
       const appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
 
       expect(appliedStashId).toBe('stash-2');
       expect(safetyProtocol.applyStash).toHaveBeenCalledWith('stash-2');
     });
 
-    it('should handle no available stashes': any, async () => {
+    it('should handle no available stashes', async () => {
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
       await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow(
@@ -249,7 +249,7 @@ describe('SafetyProtocol', () => {
       mockFs.readFileSync.mockReturnValue('valid content');
     });
 
-    it('should detect no corruption in valid files': any, async () => {
+    it('should detect no corruption in valid files', async () => {
       const report: any = await safetyProtocol.detectCorruption(mockFiles);
 
       expect(report.detectedFiles).toEqual([]);
@@ -258,7 +258,7 @@ describe('SafetyProtocol', () => {
       expect(report.recommendedAction).toBe(RecoveryAction.CONTINUE);
     });
 
-    it('should detect git merge conflict markers': any, async () => {
+    it('should detect git merge conflict markers', async () => {
       mockFs.readFileSync.mockReturnValue(`
         function test() : any {
         <<<<<<< HEAD
@@ -276,7 +276,7 @@ describe('SafetyProtocol', () => {
       expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     });
 
-    it('should detect corrupted import statements': any, async () => {
+    it('should detect corrupted import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
         import @/types from './types';
         import @/services from './services';
@@ -289,7 +289,7 @@ describe('SafetyProtocol', () => {
       expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted type import'))).toBe(true);
     });
 
-    it('should detect syntax corruption': any, async () => {
+    it('should detect syntax corruption', async () => {
       mockFs.readFileSync.mockReturnValue(`
         function test() : any {
           return 'missing closing brace';
@@ -301,7 +301,7 @@ describe('SafetyProtocol', () => {
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should handle file read errors': any, async () => {
+    it('should handle file read errors', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('Permission denied');
       });
@@ -313,7 +313,7 @@ describe('SafetyProtocol', () => {
       expect(report.corruptionPatterns.some(p => p.pattern === 'FILE_READ_ERROR')).toBe(true);
     });
 
-    it('should skip non-existent files': any, async () => {
+    it('should skip non-existent files', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       const report: any = await safetyProtocol.detectCorruption(['non-existent.ts']);
@@ -322,7 +322,7 @@ describe('SafetyProtocol', () => {
       expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
-    it('should record safety event when corruption is detected': any, async () => {
+    it('should record safety event when corruption is detected', async () => {
       mockFs.readFileSync.mockReturnValue('<<<<<<< HEAD\nconflict\n>>>>>>> branch');
 
       await safetyProtocol.detectCorruption(['file1.ts']);
@@ -338,7 +338,7 @@ describe('SafetyProtocol', () => {
       mockFs.existsSync.mockReturnValue(true);
     });
 
-    it('should detect empty import statements': any, async () => {
+    it('should detect empty import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
 import something, { a, b } from './module';
         export { };
@@ -351,7 +351,7 @@ import something, { a, b } from './module';
       expect(report.corruptionPatterns.some(p => p.description.includes('Empty export'))).toBe(true);
     });
 
-    it('should detect import from undefined module': any, async () => {
+    it('should detect import from undefined module', async () => {
       mockFs.readFileSync.mockReturnValue(`
         import something from "undefined";
       `);
@@ -363,7 +363,7 @@ import something, { a, b } from './module';
       expect(report.corruptionPatterns.some(p => p.description.includes('Import from undefined'))).toBe(true);
     });
 
-    it('should detect duplicate from clauses': any, async () => {
+    it('should detect duplicate from clauses', async () => {
       mockFs.readFileSync.mockReturnValue(`
       `);
 
@@ -373,7 +373,7 @@ import something, { a, b } from './module';
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should detect double commas in destructuring': any, async () => {
+    it('should detect double commas in destructuring', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export { x,, y };
       `);
@@ -384,7 +384,7 @@ import something, { a, b } from './module';
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should skip non-JavaScript/TypeScript files': any, async () => {
+    it('should skip non-JavaScript/TypeScript files', async () => {
       const report: any = await safetyProtocol.detectImportExportCorruption(['file1.txt', 'file2.md']);
 
       expect(report.detectedFiles).toEqual([]);
@@ -393,7 +393,7 @@ import something, { a, b } from './module';
   });
 
   describe('validateSyntaxWithTypeScript', () => {
-    it('should validate syntax using TypeScript compiler': any, async () => {
+    it('should validate syntax using TypeScript compiler', async () => {
       mockExecSync.mockReturnValue('No errors found');
 
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
@@ -403,7 +403,7 @@ import something, { a, b } from './module';
       expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
-    it('should detect TypeScript syntax errors': any, async () => {
+    it('should detect TypeScript syntax errors', async () => {
       mockExecSync.mockReturnValue(`
         file1.ts(10,5): error TS1005: Unexpected token 'function'
         file2.ts(15,10): error TS1109: Expression expected
@@ -416,7 +416,7 @@ import something, { a, b } from './module';
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
-    it('should handle TypeScript compilation errors': any, async () => {
+    it('should handle TypeScript compilation errors', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string };
         (error as any).stdout = 'Unexpected token at line 5';
@@ -429,7 +429,7 @@ import something, { a, b } from './module';
       expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true);
     });
 
-    it('should skip non-TypeScript files': any, async () => {
+    it('should skip non-TypeScript files', async () => {
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.js', 'file2.txt']);
 
       expect(report.detectedFiles).toEqual([]);
@@ -451,13 +451,13 @@ import something, { a, b } from './module';
       jest.spyOn(safetyProtocol, 'applyStash').mockResolvedValue();
     });
 
-    it('should apply the most recent stash for emergency rollback': any, async () => {
+    it('should apply the most recent stash for emergency rollback', async () => {
       await safetyProtocol.emergencyRollback();
 
       expect(safetyProtocol.applyStash).toHaveBeenCalledWith('emergency-stash');
     });
 
-    it('should record safety event for emergency rollback': any, async () => {
+    it('should record safety event for emergency rollback', async () => {
       await safetyProtocol.emergencyRollback();
 
       const events: any = (safetyProtocol as any).safetyEvents;
@@ -466,13 +466,13 @@ import something, { a, b } from './module';
       expect(events.[0].description).toContain('Emergency rollback completed');
     });
 
-    it('should handle no available stashes': any, async () => {
+    it('should handle no available stashes', async () => {
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
       await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('No stashes available for emergency rollback');
     });
 
-    it('should handle rollback failure': any, async () => {
+    it('should handle rollback failure', async () => {
       jest.spyOn(safetyProtocol, 'applyStash').mockRejectedValue(new Error('Rollback failed'));
 
       await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('Emergency rollback failed: Rollback failed');
@@ -485,7 +485,7 @@ import something, { a, b } from './module';
   });
 
   describe('validateGitState', () => {
-    it('should validate successful git state': any, async () => {
+    it('should validate successful git state', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValue(''); // No uncommitted changes
 
@@ -495,7 +495,7 @@ import something, { a, b } from './module';
       expect(result.errors).toEqual([]);
     });
 
-    it('should detect non-git repository': any, async () => {
+    it('should detect non-git repository', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       const result: any = await safetyProtocol.validateGitState();
@@ -504,7 +504,7 @@ import something, { a, b } from './module';
       expect(result.errors).toContain('Not a git repository');
     });
 
-    it('should warn about uncommitted changes when automatic rollback is disabled': any, async () => {
+    it('should warn about uncommitted changes when automatic rollback is disabled', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValue('M file1.ts\nA file2.ts'); // Uncommitted changes
 
@@ -517,7 +517,7 @@ import something, { a, b } from './module';
       expect(result.warnings).toContain('Uncommitted changes detected - consider creating a stash');
     });
 
-    it('should handle git command failure': any, async () => {
+    it('should handle git command failure', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
         throw new Error('Git command failed');
@@ -559,7 +559,7 @@ import something, { a, b } from './module';
       stashMap.set('recent-stash', recentStash);
     });
 
-    it('should cleanup stashes older than retention period': any, async () => {
+    it('should cleanup stashes older than retention period', async () => {
       await safetyProtocol.cleanupOldStashes();
 
       const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -567,13 +567,13 @@ import something, { a, b } from './module';
       expect(stashes.has('recent-stash')).toBe(true);
     });
 
-    it('should attempt to drop git stashes': any, async () => {
+    it('should attempt to drop git stashes', async () => {
       await safetyProtocol.cleanupOldStashes();
 
       expect(mockExecSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect.any(Object));
     });
 
-    it('should handle git stash drop failures gracefully': any, async () => {
+    it('should handle git stash drop failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash drop')) {
           throw new Error('Stash not found');
@@ -589,7 +589,7 @@ import something, { a, b } from './module';
       expect(stashes.has('old-stash')).toBe(false);
     });
 
-    it('should record safety event for cleanup': any, async () => {
+    it('should record safety event for cleanup', async () => {
       await safetyProtocol.cleanupOldStashes();
 
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;

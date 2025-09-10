@@ -42,7 +42,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getTypeScriptErrorCount', () => {
-    it('should return error count from tsc output': any, async () => {
+    it('should return error count from tsc output', async () => {
       mockExecSync.mockReturnValue('5');
 
       const count: any = await progressTracker.getTypeScriptErrorCount();
@@ -54,7 +54,7 @@ describe('ProgressTracker', () => {
       );
     });
 
-    it('should return 0 when no errors found': any, async () => {
+    it('should return 0 when no errors found', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('No matches found') as any & { status: number };
         error.status = 1; // grep returns 1 when no matches
@@ -66,7 +66,7 @@ describe('ProgressTracker', () => {
       expect(count).toBe(0);
     });
 
-    it('should return -1 on command failure': any, async () => {
+    it('should return -1 on command failure', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Command failed') as any & { status: number };
         error.status = 2; // Other error
@@ -78,7 +78,7 @@ describe('ProgressTracker', () => {
       expect(count).toBe(-1);
     });
 
-    it('should handle empty output': any, async () => {
+    it('should handle empty output', async () => {
       mockExecSync.mockReturnValue('');
 
       const count: any = await progressTracker.getTypeScriptErrorCount();
@@ -88,7 +88,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getTypeScriptErrorBreakdown', () => {
-    it('should return error breakdown by type': any, async () => {
+    it('should return error breakdown by type', async () => {
       mockExecSync.mockReturnValue(`
         15 TS2352
         10 TS2345
@@ -104,7 +104,7 @@ describe('ProgressTracker', () => {
       expect(breakdown['TS2304']).toBe(3);
     });
 
-    it('should handle empty breakdown': any, async () => {
+    it('should handle empty breakdown', async () => {
       mockExecSync.mockReturnValue('');
 
       const breakdown: any = await progressTracker.getTypeScriptErrorBreakdown();
@@ -112,7 +112,7 @@ describe('ProgressTracker', () => {
       expect(breakdown).toEqual({});
     });
 
-    it('should handle command failure gracefully': any, async () => {
+    it('should handle command failure gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
@@ -124,7 +124,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getLintingWarningCount', () => {
-    it('should return warning count from lint output': any, async () => {
+    it('should return warning count from lint output', async () => {
       mockExecSync.mockReturnValue('42');
 
       const count: any = await progressTracker.getLintingWarningCount();
@@ -133,7 +133,7 @@ describe('ProgressTracker', () => {
       expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c "warning"', expect.any(Object));
     });
 
-    it('should return 0 when no warnings found': any, async () => {
+    it('should return 0 when no warnings found', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('No matches found') as any & { status: number };
         error.status = 1; // grep returns 1 when no matches
@@ -145,7 +145,7 @@ describe('ProgressTracker', () => {
       expect(count).toBe(0);
     });
 
-    it('should return -1 on command failure': any, async () => {
+    it('should return -1 on command failure', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Command failed') as any & { status: number };
         error.status = 2; // Other error
@@ -159,7 +159,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getLintingWarningBreakdown', () => {
-    it('should return warning breakdown by rule type': any, async () => {
+    it('should return warning breakdown by rule type', async () => {
       mockExecSync.mockReturnValue(`
         file1.ts: 10:5 - warnin, g: Unexpected any @typescript-eslint/no-explicit-any
         file2.ts: 15:10 - warnin, g: Unused variable no-unused-vars
@@ -174,7 +174,7 @@ describe('ProgressTracker', () => {
       expect(breakdown['no-console']).toBe(1);
     });
 
-    it('should handle empty breakdown': any, async () => {
+    it('should handle empty breakdown', async () => {
       mockExecSync.mockReturnValue('');
 
       const breakdown: any = await progressTracker.getLintingWarningBreakdown();
@@ -182,7 +182,7 @@ describe('ProgressTracker', () => {
       expect(breakdown).toEqual({});
     });
 
-    it('should handle command failure gracefully': any, async () => {
+    it('should handle command failure gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
@@ -194,7 +194,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getBuildTime', () => {
-    it('should measure build time successfully': any, async () => {
+    it('should measure build time successfully', async () => {
       // Mock successful build
       mockExecSync.mockImplementation(() => {
         // Simulate build taking some time
@@ -207,7 +207,7 @@ describe('ProgressTracker', () => {
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object));
     });
 
-    it('should return -1 on build failure': any, async () => {
+    it('should return -1 on build failure', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Build failed');
       });
@@ -219,7 +219,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getEnterpriseSystemCount', () => {
-    it('should count intelligence systems': any, async () => {
+    it('should count intelligence systems', async () => {
       mockExecSync.mockReturnValue('25');
 
       const count: any = await progressTracker.getEnterpriseSystemCount();
@@ -228,7 +228,7 @@ describe('ProgressTracker', () => {
       expect(mockExecSync).toHaveBeenCalledWith('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l', expect.any(Object));
     });
 
-    it('should return 0 when no systems found': any, async () => {
+    it('should return 0 when no systems found', async () => {
       mockExecSync.mockReturnValue('0');
 
       const count: any = await progressTracker.getEnterpriseSystemCount();
@@ -236,7 +236,7 @@ describe('ProgressTracker', () => {
       expect(count).toBe(0);
     });
 
-    it('should handle command failure gracefully': any, async () => {
+    it('should handle command failure gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
@@ -248,13 +248,13 @@ describe('ProgressTracker', () => {
   });
 
   describe('getCacheHitRate', () => {
-    it('should return mock cache hit rate': any, async () => {
+    it('should return mock cache hit rate', async () => {
       const rate: any = await progressTracker.getCacheHitRate();
 
       expect(rate).toBe(0.8);
     });
 
-    it('should handle errors gracefully': any, async () => {
+    it('should handle errors gracefully', async () => {
       // Mock implementation that throws
       jest.spyOn(progressTracker as unknown, 'getCacheHitRate').mockImplementation(() => {
         throw new Error('Cache measurement failed');
@@ -267,7 +267,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getMemoryUsage', () => {
-    it('should return current memory usage': any, async () => {
+    it('should return current memory usage', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockReturnValue({
         heapUsed: 50 * 1024 * 1024, // 50MB
@@ -284,7 +284,7 @@ describe('ProgressTracker', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should handle memory measurement errors': any, async () => {
+    it('should handle memory measurement errors', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
         throw new Error('Memory measurement failed');
@@ -299,7 +299,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getBundleSize', () => {
-    it('should calculate bundle size from build directories': any, async () => {
+    it('should calculate bundle size from build directories', async () => {
       mockFs.existsSync.mockImplementation(path => {
         return path === '.next' || path === 'dist';
       });
@@ -319,7 +319,7 @@ describe('ProgressTracker', () => {
       expect(size).toBe(420); // 300 + 120
     });
 
-    it('should return 0 when no build directories exist': any, async () => {
+    it('should return 0 when no build directories exist', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       const size: any = await progressTracker.getBundleSize();
@@ -327,7 +327,7 @@ describe('ProgressTracker', () => {
       expect(size).toBe(0);
     });
 
-    it('should handle command failure gracefully': any, async () => {
+    it('should handle command failure gracefully', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
@@ -349,7 +349,7 @@ describe('ProgressTracker', () => {
       jest.spyOn(progressTracker, 'getMemoryUsage').mockResolvedValue(42);
     });
 
-    it('should return comprehensive progress metrics': any, async () => {
+    it('should return comprehensive progress metrics', async () => {
       const metrics: any = await progressTracker.getProgressMetrics();
 
       expect(metrics.typeScriptErrors.current).toBe(50);
@@ -372,14 +372,14 @@ describe('ProgressTracker', () => {
       expect(metrics.enterpriseSystems.transformedExports).toBe(100);
     });
 
-    it('should store metrics in history': any, async () => {
+    it('should store metrics in history', async () => {
       await progressTracker.getProgressMetrics();
 
       const history: any = progressTracker.getMetricsHistory();
       expect(history.length).toBe(1);
     });
 
-    it('should limit metrics history to prevent memory issues': any, async () => {
+    it('should limit metrics history to prevent memory issues', async () => {
       // Add many metrics to history
       for (let i: any = 0; i < 110; i++) {
         await progressTracker.getProgressMetrics();
@@ -389,7 +389,7 @@ describe('ProgressTracker', () => {
       expect(history.length).toBe(50); // Should be trimmed to 50
     });
 
-    it('should handle negative error counts gracefully': any, async () => {
+    it('should handle negative error counts gracefully', async () => {
       jest.spyOn(progressTracker, 'getTypeScriptErrorCount').mockResolvedValue(-1);
       jest.spyOn(progressTracker, 'getLintingWarningCount').mockResolvedValue(-1);
 
@@ -410,27 +410,27 @@ describe('ProgressTracker', () => {
       });
     });
 
-    it('should validate zero-typescript-errors milestone': any, async () => {
+    it('should validate zero-typescript-errors milestone', async () => {
       const result: any = await progressTracker.validateMilestone('zero-typescript-errors');
       expect(result).toBe(true);
     });
 
-    it('should validate zero-linting-warnings milestone': any, async () => {
+    it('should validate zero-linting-warnings milestone', async () => {
       const result: any = await progressTracker.validateMilestone('zero-linting-warnings');
       expect(result).toBe(true);
     });
 
-    it('should validate build-time-under-10s milestone': any, async () => {
+    it('should validate build-time-under-10s milestone', async () => {
       const result: any = await progressTracker.validateMilestone('build-time-under-10s');
       expect(result).toBe(true);
     });
 
-    it('should validate enterprise-systems-200 milestone': any, async () => {
+    it('should validate enterprise-systems-200 milestone', async () => {
       const result: any = await progressTracker.validateMilestone('enterprise-systems-200');
       expect(result).toBe(true);
     });
 
-    it('should validate phase completion milestones': any, async () => {
+    it('should validate phase completion milestones', async () => {
       const phase1: any = await progressTracker.validateMilestone('phase-1-complete');
       const phase2: any = await progressTracker.validateMilestone('phase-2-complete');
       const phase3: any = await progressTracker.validateMilestone('phase-3-complete');
@@ -442,7 +442,7 @@ describe('ProgressTracker', () => {
       expect(phase4).toBe(true);
     });
 
-    it('should fail validation for incomplete milestones': any, async () => {
+    it('should fail validation for incomplete milestones', async () => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
         typeScriptErrors: { curren, t: 5, target: 0, reduction: 81, percentage: 94 },
         lintingWarnings: { curren, t: 100, target: 0, reduction: 4406, percentage: 98 },
@@ -461,7 +461,7 @@ describe('ProgressTracker', () => {
       expect(enterprise).toBe(false);
     });
 
-    it('should handle unknown milestones': any, async () => {
+    it('should handle unknown milestones', async () => {
       const result: any = await progressTracker.validateMilestone('unknown-milestone' as Milestone);
       expect(result).toBe(false);
     });
@@ -477,7 +477,7 @@ describe('ProgressTracker', () => {
       });
     });
 
-    it('should generate comprehensive progress report': any, async () => {
+    it('should generate comprehensive progress report', async () => {
       const report: any = await progressTracker.generateProgressReport();
 
       expect(report.campaignId).toBe('perfect-codebase-campaign');
@@ -488,7 +488,7 @@ describe('ProgressTracker', () => {
       expect(report.estimatedCompletion).toBeInstanceOf(Date);
     });
 
-    it('should calculate overall progress correctly': any, async () => {
+    it('should calculate overall progress correctly', async () => {
       const report: any = await progressTracker.generateProgressReport();
 
       // Overall progress should be average of all phase progress
@@ -497,7 +497,7 @@ describe('ProgressTracker', () => {
       expect(report.overallProgress).toBe(81);
     });
 
-    it('should generate phase reports with correct status': any, async () => {
+    it('should generate phase reports with correct status', async () => {
       const report: any = await progressTracker.generateProgressReport();
 
       const phase1: any = report.phases.find(p => p.phaseId === 'phase1');
@@ -509,7 +509,7 @@ describe('ProgressTracker', () => {
       expect(phase2.issues).toContain('1000 linting warnings remaining');
     });
 
-    it('should show completed status for finished phases': any, async () => {
+    it('should show completed status for finished phases', async () => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
@@ -530,7 +530,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('getMetricsImprovement', () => {
-    it('should calculate improvement correctly': any, async () => {
+    it('should calculate improvement correctly', async () => {
       // Add initial metrics
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValueOnce({
         typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
@@ -579,7 +579,7 @@ describe('ProgressTracker', () => {
       });
     });
 
-    it('should export metrics to JSON file': any, async () => {
+    it('should export metrics to JSON file', async () => {
       await progressTracker.exportMetrics('test-metrics.json');
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
@@ -589,7 +589,7 @@ describe('ProgressTracker', () => {
       );
     });
 
-    it('should include timestamp in export': any, async () => {
+    it('should include timestamp in export', async () => {
       await progressTracker.exportMetrics('test-metrics.json');
 
       const writeCall: any = mockFs.writeFileSync.mock.calls.[0];
@@ -599,7 +599,7 @@ describe('ProgressTracker', () => {
       expect(new Date(exportData.timestamp)).toBeInstanceOf(Date);
     });
 
-    it('should handle export errors': any, async () => {
+    it('should handle export errors', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Write failed');
       });
@@ -611,7 +611,7 @@ describe('ProgressTracker', () => {
   });
 
   describe('resetMetricsHistory', () => {
-    it('should clear metrics history': any, async () => {
+    it('should clear metrics history', async () => {
       // Add some metrics first
       await progressTracker.getProgressMetrics();
       expect(progressTracker.getMetricsHistory().length).toBe(1);

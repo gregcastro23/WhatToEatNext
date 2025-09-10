@@ -11,7 +11,7 @@ import { SafetyProtocol } from './SafetyProtocol';
 
 describe('Campaign Infrastructure', () => {
   describe('CampaignController', () => {
-    test('should load default configuration': any, async () => {
+    test('should load default configuration', async () => {
       const config: any = await CampaignController.loadConfiguration();
 
       expect(config).toBeDefined();
@@ -48,7 +48,7 @@ describe('Campaign Infrastructure', () => {
       expect(controller).toBeDefined();
     });
 
-    test('should validate phase completion': any, async () => {
+    test('should validate phase completion', async () => {
       const config: any = await CampaignController.loadConfiguration();
       const controller: any = new CampaignController(config);
 
@@ -85,7 +85,7 @@ describe('Campaign Infrastructure', () => {
       expect(safetyProtocol).toBeDefined();
     });
 
-    test('should detect corruption patterns': any, async () => {
+    test('should detect corruption patterns', async () => {
       const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
@@ -104,7 +104,7 @@ describe('Campaign Infrastructure', () => {
       expect(report.corruptionPatterns).toEqual([]);
     });
 
-    test('should validate git state': any, async () => {
+    test('should validate git state', async () => {
       const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
@@ -130,7 +130,7 @@ describe('Campaign Infrastructure', () => {
       expect(tracker).toBeDefined();
     });
 
-    test('should get progress metrics': any, async () => {
+    test('should get progress metrics', async () => {
       const tracker: any = new ProgressTracker();
       const metrics: any = await tracker.getProgressMetrics();
 
@@ -146,7 +146,7 @@ describe('Campaign Infrastructure', () => {
       expect(typeof metrics.enterpriseSystems.current).toBe('number');
     });
 
-    test('should validate milestones': any, async () => {
+    test('should validate milestones', async () => {
       const tracker: any = new ProgressTracker();
 
       // Test milestone validation (should not crash)
@@ -154,7 +154,7 @@ describe('Campaign Infrastructure', () => {
       expect(typeof result).toBe('boolean');
     });
 
-    test('should generate progress report': any, async () => {
+    test('should generate progress report', async () => {
       const tracker: any = new ProgressTracker();
       const report: any = await tracker.generateProgressReport();
 
@@ -170,7 +170,7 @@ describe('Campaign Infrastructure', () => {
       expect(Array.isArray(report.phases)).toBe(true);
     });
 
-    test('should track metrics history': any, async () => {
+    test('should track metrics history', async () => {
       const tracker: any = new ProgressTracker();
 
       // Get metrics to populate history
@@ -182,7 +182,7 @@ describe('Campaign Infrastructure', () => {
       expect(history.length).toBeGreaterThan(0);
     });
 
-    test('should calculate metrics improvement': any, async () => {
+    test('should calculate metrics improvement', async () => {
       const tracker: any = new ProgressTracker();
 
       // Get metrics to populate history
@@ -206,7 +206,7 @@ describe('Campaign Infrastructure', () => {
   });
 
   describe('Integration Tests', () => {
-    test('should integrate all components': any, async () => {
+    test('should integrate all components', async () => {
       // Load configuration
       const config: any = await CampaignController.loadConfiguration();
 

@@ -41,7 +41,7 @@ describe('Linting Campaign System Integration', () => {
   });
 
   describe('End-to-End Campaign Execution', () => {
-    test('should execute complete campaign workflow successfully': any, async () => {
+    test('should execute complete campaign workflow successfully', async () => {
       // Mock initial high error state
       const initialLintOutput: any = JSON.stringify([
         {
@@ -96,7 +96,7 @@ describe('Linting Campaign System Integration', () => {
       );
     });
 
-    test('should handle campaign phase failures gracefully': any, async () => {
+    test('should handle campaign phase failures gracefully', async () => {
       const mockError: any = new Error('Tool execution failed');
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('lint:fix')) {
@@ -120,7 +120,7 @@ describe('Linting Campaign System Integration', () => {
   });
 
   describe('Quality Gates Integration', () => {
-    test('should integrate quality gates with campaign progress': any, async () => {
+    test('should integrate quality gates with campaign progress', async () => {
       // Mock metrics for quality gate evaluation
       const mockLintOutput: any = JSON.stringify([
         {
@@ -144,7 +144,7 @@ describe('Linting Campaign System Integration', () => {
       expect(gateResult.metrics.warnings).toBe(1);
     });
 
-    test('should fail quality gates with high error count': any, async () => {
+    test('should fail quality gates with high error count', async () => {
       // Mock high error state
       const mockLintOutput: any = JSON.stringify([
         {
@@ -168,7 +168,7 @@ describe('Linting Campaign System Integration', () => {
       expect(gateResult.violations.length).toBeGreaterThan(0);
     });
 
-    test('should assess deployment readiness correctly': any, async () => {
+    test('should assess deployment readiness correctly', async () => {
       // Mock clean state
       const mockLintOutput: any = JSON.stringify([]);
 
@@ -186,7 +186,7 @@ describe('Linting Campaign System Integration', () => {
   });
 
   describe('Progress Tracking Integration', () => {
-    test('should track progress across multiple campaign phases': any, async () => {
+    test('should track progress across multiple campaign phases', async () => {
       // Mock progressive improvement
       const phase1Output: any = JSON.stringify([
         {
@@ -229,7 +229,7 @@ describe('Linting Campaign System Integration', () => {
       expect(mockWriteFileSync).toHaveBeenCalledTimes(6); // 3 metrics + 3 history saves
     });
 
-    test('should generate comprehensive progress reports': any, async () => {
+    test('should generate comprehensive progress reports', async () => {
       const currentOutput: any = JSON.stringify([
         { filePath: '/test/file.ts', messages: [{ ruleI, d: 'warning', severity: 1, fix: null }] },
       ]);
@@ -307,7 +307,7 @@ describe('Linting Campaign System Integration', () => {
   });
 
   describe('Error Handling and Recovery', () => {
-    test('should handle ESLint execution failures gracefully': any, async () => {
+    test('should handle ESLint execution failures gracefully', async () => {
       const mockError: any = new Error('ESLint failed') as unknown;
       mockError.stdout = JSON.stringify([]);
 
@@ -323,7 +323,7 @@ describe('Linting Campaign System Integration', () => {
       expect(metrics.warnings).toBe(0);
     });
 
-    test('should handle missing configuration files': any, async () => {
+    test('should handle missing configuration files', async () => {
       mockExistsSync.mockReturnValue(false);
       mockReadFileSync.mockImplementation(() => {
         throw new Error('File not found');
@@ -336,7 +336,7 @@ describe('Linting Campaign System Integration', () => {
       expect(report.improvement.percentageImprovement).toBe(0);
     });
 
-    test('should validate quality gate configurations': any, async () => {
+    test('should validate quality gate configurations', async () => {
       const mockLintOutput: any = JSON.stringify([]);
       mockExecSync.mockReturnValue(mockLintOutput);
       mockExistsSync.mockReturnValue(false);
@@ -369,7 +369,7 @@ describe('Linting Campaign System Integration', () => {
   });
 
   describe('Performance and Scalability', () => {
-    test('should handle large codebases efficiently': any, async () => {
+    test('should handle large codebases efficiently', async () => {
       // Mock large codebase with many files
       const largeOutput: any = JSON.stringify(
         Array.from({ length: 100 }, (_, i) => ({
@@ -394,7 +394,7 @@ describe('Linting Campaign System Integration', () => {
       expect(executionTime).toBeLessThan(5000); // Should complete within 5 seconds
     });
 
-    test('should cache results appropriately': any, async () => {
+    test('should cache results appropriately', async () => {
       const mockOutput: any = JSON.stringify([]);
       mockExecSync.mockReturnValue(mockOutput);
       mockExistsSync.mockReturnValue(false);

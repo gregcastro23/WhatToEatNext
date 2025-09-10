@@ -32,7 +32,7 @@ describe('Linting Performance and Memory Usage', () => {
   });
 
   describe('Execution Speed Tests', () => {
-    test('should complete linting within performance targets': any, async () => {
+    test('should complete linting within performance targets', async () => {
       // Mock a medium-sized codebase response
       const mockLintOutput: any = JSON.stringify(
         Array.from({ length: 50 }, (_, i) => ({
@@ -73,7 +73,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(parsedResult.[0].messages).toHaveLength(3);
     });
 
-    test('should show performance improvement with caching': any, async () => {
+    test('should show performance improvement with caching', async () => {
       const mockLintOutput: any = JSON.stringify([{ filePath: '/test/file.ts', messages: [] }]);
 
       // First run - no cache
@@ -96,7 +96,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(mockExecSync).toHaveBeenCalledTimes(2);
     });
 
-    test('should handle incremental linting efficiently': any, async () => {
+    test('should handle incremental linting efficiently', async () => {
       // Mock git diff output for changed files
       const changedFiles: any = ['src/calculations/planetary.ts', 'src/components/AstrologicalChart.tsx'];
 
@@ -120,7 +120,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(JSON.parse(lintResult)).toHaveLength(2);
     });
 
-    test('should optimize performance for large codebases': any, async () => {
+    test('should optimize performance for large codebases', async () => {
       // Mock large codebase with many files
       const largeCodebaseOutput: any = JSON.stringify(
         Array.from({ length: 500 }, (_, i) => ({
@@ -147,7 +147,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(parsedResult).toHaveLength(500);
     });
 
-    test('should measure parallel processing performance': any, async () => {
+    test('should measure parallel processing performance', async () => {
       const mockParallelOutput: any = JSON.stringify([
         { filePath: '/test/batch1.ts', messages: [] },
         { filePath: '/test/batch2.ts', messages: [] },
@@ -168,7 +168,7 @@ describe('Linting Performance and Memory Usage', () => {
   });
 
   describe('Memory Usage Tests', () => {
-    test('should monitor memory usage during linting': any, async () => {
+    test('should monitor memory usage during linting', async () => {
       const mockLintOutput: any = JSON.stringify([{ filePath: '/test/file.ts', messages: [] }]);
 
       // Mock memory usage monitoring
@@ -185,7 +185,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(memoryIncrease).toBeLessThan(100 * 1024 * 1024); // Less than 100MB increase
     });
 
-    test('should handle memory-intensive astrological calculations': any, async () => {
+    test('should handle memory-intensive astrological calculations', async () => {
       const astrologicalLintOutput: any = JSON.stringify([
         {
           filePath: '/src/calculations/planetary.ts',
@@ -205,7 +205,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(memoryDiff).toBeLessThan(50 * 1024 * 1024); // Less than 50MB
     });
 
-    test('should optimize TypeScript parser memory usage': any, async () => {
+    test('should optimize TypeScript parser memory usage', async () => {
       const typescriptLintOutput: any = JSON.stringify([
         {
           filePath: '/src/complex.ts',
@@ -221,7 +221,7 @@ describe('Linting Performance and Memory Usage', () => {
       // Memory usage is monitored by the test framework
     });
 
-    test('should manage cache memory efficiently': any, async () => {
+    test('should manage cache memory efficiently', async () => {
       const cacheDir: any = '.eslint-ts-cache';
       const mockCacheData: any = JSON.stringify({
         version: '1.0.0',
@@ -243,7 +243,7 @@ describe('Linting Performance and Memory Usage', () => {
   });
 
   describe('Caching Performance Tests', () => {
-    test('should validate cache hit rates': any, async () => {
+    test('should validate cache hit rates', async () => {
       const cacheMetrics: any = {
         totalFiles: 100,
         cacheHits: 85,
@@ -261,7 +261,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(metricsData.cacheHits).toBeGreaterThan(metricsData.cacheMisses);
     });
 
-    test('should measure cache invalidation performance': any, async () => {
+    test('should measure cache invalidation performance', async () => {
       const mockLintOutput: any = JSON.stringify([{ filePath: '/test/file.ts', messages: [] }]);
 
       // Simulate cache invalidation
@@ -280,7 +280,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(mockExecSync).toHaveBeenCalledTimes(2);
     });
 
-    test('should optimize cache storage size': any, async () => {
+    test('should optimize cache storage size', async () => {
       const largeCacheData: any = {
         version: '1.0.0',
         files: Object.fromEntries(;
@@ -298,7 +298,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(cacheSize).toBeLessThan(10 * 1024 * 1024);
     });
 
-    test('should handle cache corruption gracefully': any, async () => {
+    test('should handle cache corruption gracefully', async () => {
       const corruptedCache: any = 'invalid json content';
       const mockLintOutput: any = JSON.stringify([{ filePath: '/test/file.ts', messages: [] }]);
 
@@ -310,7 +310,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(() => {
         try {
           JSON.parse(String(mockReadFileSync('.eslint-cache.json', 'utf8')));
-        } catch (error): any {
+        } catch (error) {
           // Simulate graceful handling
           return mockExecSync('yarn lint --no-cache --format=json', { encoding: 'utf8' });
         }
@@ -319,7 +319,7 @@ describe('Linting Performance and Memory Usage', () => {
   });
 
   describe('Resource Optimization Tests', () => {
-    test('should optimize CPU usage during linting': any, async () => {
+    test('should optimize CPU usage during linting', async () => {
       const mockLintOutput: any = JSON.stringify([{ filePath: '/test/file.ts', messages: [] }]);
 
       mockExecSync.mockReturnValue(mockLintOutput);
@@ -334,7 +334,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(cpuUsageAfter.system).toBeLessThan(2000000); // 2 seconds
     });
 
-    test('should handle concurrent linting processes': any, async () => {
+    test('should handle concurrent linting processes', async () => {
       const mockOutputs: any = [
         JSON.stringify([{ filePath: '/test/file1.ts', messages: [] }]),
         JSON.stringify([{ filePath: '/test/file2.ts', messages: [] }]),
@@ -359,7 +359,7 @@ describe('Linting Performance and Memory Usage', () => {
       });
     });
 
-    test('should optimize import resolution performance': any, async () => {
+    test('should optimize import resolution performance', async () => {
       const importResolutionOutput = JSON.stringify([
         {
           filePath: '/test/imports.ts',
@@ -378,7 +378,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(JSON.parse(String(result))).toHaveLength(1);
     });
 
-    test('should measure rule execution performance': any, async () => {
+    test('should measure rule execution performance', async () => {
       const rulePerformanceData: any = {
         rules: {
           '@typescript-eslint/no-unused-vars': { executionTime: 150, fileCount: 50 },
@@ -402,7 +402,7 @@ describe('Linting Performance and Memory Usage', () => {
   });
 
   describe('Scalability Tests', () => {
-    test('should scale with increasing file count': any, async () => {
+    test('should scale with increasing file count', async () => {
       const fileCounts: any = [10, 50, 100, 500];
       const executionTimes: number[] = [];
 
@@ -428,7 +428,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(executionTimes.[2]).toBeLessThan(executionTimes.[1] * 5); // 100 files shouldn't take 5x longer than 50 files
     });
 
-    test('should handle memory pressure gracefully': any, async () => {
+    test('should handle memory pressure gracefully', async () => {
       // Simulate memory pressure scenario
       const memoryIntensiveOutput: any = JSON.stringify(
         Array.from({ length: 1000 }, (_, i) => ({
@@ -454,7 +454,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(parsedResult.[0].messages).toHaveLength(20);
     });
 
-    test('should optimize for CI/CD environments': any, async () => {
+    test('should optimize for CI/CD environments', async () => {
       const ciOptimizedOutput: any = JSON.stringify([{ filePath: '/test/file.ts', messages: [] }]);
 
       // Simulate CI environment variables
@@ -490,7 +490,7 @@ describe('Linting Performance and Memory Usage', () => {
   });
 
   describe('Performance Regression Detection', () => {
-    test('should detect performance regressions': any, async () => {
+    test('should detect performance regressions', async () => {
       const baselineMetrics: any = {
         executionTime: 5000,
         memoryUsage: 128 * 1024 * 1024, // 128MB,
@@ -522,7 +522,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(cacheRegression).toBeGreaterThan(0.05); // 5% regression threshold
     });
 
-    test('should track performance trends over time': any, async () => {
+    test('should track performance trends over time', async () => {
       const performanceHistory: any = [
         { date: '2024-01-01', executionTime: 5000, memoryUsage: 128 * 1024 * 1024 },
         { date: '2024-01-02', executionTime: 5100, memoryUsage: 130 * 1024 * 1024 },

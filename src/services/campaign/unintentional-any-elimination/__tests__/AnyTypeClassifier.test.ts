@@ -30,7 +30,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Error Handling Classification', () => {
-    test('classifies error handling any as intentional': any, async () => {
+    test('classifies error handling any as intentional', async () => {
       const context: any = createContext('} catch (error: any) : any {');
       const result: any = await classifier.classify(context);
 
@@ -39,7 +39,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.confidence).toBeGreaterThan(0.8);
     });
 
-    test('classifies error variable as intentional': any, async () => {
+    test('classifies error variable as intentional', async () => {
       const context: any = createContext('const error: any = e;');
       const result: any = await classifier.classify(context);
 
@@ -49,7 +49,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Array Type Classification', () => {
-    test('classifies simple array any as unintentional': any, async () => {
+    test('classifies simple array any as unintentional', async () => {
       const context: any = createContext('const items: any[] = [];');
       const result: any = await classifier.classify(context);
 
@@ -59,7 +59,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.confidence).toBeGreaterThan(0.9);
     });
 
-    test('classifies Array<any> as unintentional': any, async () => {
+    test('classifies Array<any> as unintentional', async () => {
       const context: any = createContext('const items: Array<any> = [];');
       const result: any = await classifier.classify(context);
 
@@ -69,7 +69,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Record Type Classification', () => {
-    test('classifies Record<string: any, unknown> as unintentional': any, async () => {
+    test('classifies Record<string: any, unknown> as unintentional', async () => {
       const context: any = createContext('const data: Record<string, unknown> = {};');
       const result: any = await classifier.classify(context);
 
@@ -78,7 +78,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.suggestedReplacement).toBe('Record<string, unknown>');
     });
 
-    test('classifies index signature as unintentional': any, async () => {
+    test('classifies index signature as unintentional', async () => {
       const context: any = createContext('{ [key: string]: unknown }');
       const result: any = await classifier.classify(context);
 
@@ -88,7 +88,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Existing Documentation', () => {
-    test('respects existing intentional documentation': any, async () => {
+    test('respects existing intentional documentation', async () => {
       const context: any = createContext(
         'const data: any = response;',
         {
@@ -106,7 +106,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Test File Context', () => {
-    test('classifies test mocks as intentional': any, async () => {
+    test('classifies test mocks as intentional', async () => {
       const context = createContext(
         'const mockFn = jest.fn() as any as unknown;',
         { isInTestFile: true }
@@ -120,7 +120,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Domain-Specific Analysis', () => {
-    test('analyzes astrological domain context': any, async () => {
+    test('analyzes astrological domain context', async () => {
       const context: any = createContext(
         'const planetaryPositions: any = data;',
         {
@@ -140,7 +140,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toContain('Astrological');
     });
 
-    test('analyzes recipe domain context': any, async () => {
+    test('analyzes recipe domain context', async () => {
       const context: any = createContext(
         'const ingredient: any = data;',
         {
@@ -161,7 +161,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Batch Processing', () => {
-    test('processes multiple contexts in batch': any, async () => {
+    test('processes multiple contexts in batch', async () => {
       const contexts: any = [;
         createContext('const items: any[] = [];'),
         createContext('} catch (error: any) : any {'),
@@ -176,7 +176,7 @@ describe('AnyTypeClassifier', () => {
       expect(results.[2].isIntentional).toBe(false); // record type
     });
 
-    test('handles classification errors gracefully in batch': any, async () => {
+    test('handles classification errors gracefully in batch', async () => {
       const contexts: any = [;
         createContext('const valid: any[] = [];'),
         // This would cause an error in a real scenario
@@ -194,7 +194,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Contextual Analysis', () => {
-    test('analyzes surrounding code context for error handling': any, async () => {
+    test('analyzes surrounding code context for error handling', async () => {
       const context: any = createContext(
         'const error: any = e;',
         {
@@ -213,7 +213,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toContain('error handling context');
     });
 
-    test('analyzes file type context': any, async () => {
+    test('analyzes file type context', async () => {
       const context: any = createContext(
         'const mockData: any = {};',
         {
@@ -227,7 +227,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toContain('test file');
     });
 
-    test('detects API interaction context': any, async () => {
+    test('detects API interaction context', async () => {
       const context: any = createContext(
         'const response: any = data;',
         {
@@ -247,7 +247,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Enhanced Domain-Specific Analysis', () => {
-    test('analyzes astrological planetary position patterns': any, async () => {
+    test('analyzes astrological planetary position patterns', async () => {
       const context: any = createContext(
         'const positions: any = planetaryData;',
         {
@@ -271,7 +271,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toContain('planetary position data');
     });
 
-    test('analyzes recipe ingredient patterns': any, async () => {
+    test('analyzes recipe ingredient patterns', async () => {
       const context: any = createContext(
         'const ingredient: any = data;',
         {
@@ -295,7 +295,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toContain('Ingredient interface type');
     });
 
-    test('analyzes campaign system configuration': any, async () => {
+    test('analyzes campaign system configuration', async () => {
       const context: any = createContext(
         'const config: any = campaignSettings;',
         {
@@ -319,7 +319,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toContain('dynamic behavior adaptation');
     });
 
-    test('analyzes service layer external integration': any, async () => {
+    test('analyzes service layer external integration', async () => {
       const context: any = createContext(
         'const serviceResponse: any = response;',
         {
@@ -345,7 +345,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Enhanced Documentation Analysis', () => {
-    test('detects ESLint disable comments with explanations': any, async () => {
+    test('detects ESLint disable comments with explanations', async () => {
       const context: any = createContext(
         'const data: any = response;',
         {
@@ -360,7 +360,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.requiresDocumentation).toBe(false);
     });
 
-    test('detects flexible typing documentation': any, async () => {
+    test('detects flexible typing documentation', async () => {
       const context: any = createContext(
         'const config: any = settings;',
         {
@@ -374,7 +374,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.isIntentional).toBe(true);
     });
 
-    test('ignores TODO/FIXME comments as intentional markers': any, async () => {
+    test('ignores TODO/FIXME comments as intentional markers', async () => {
       const context: any = createContext(
         'const data: any = response;',
         {
@@ -390,7 +390,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Function Context Analysis', () => {
-    test('analyzes function parameter any types': any, async () => {
+    test('analyzes function parameter any types', async () => {
       const context: any = createContext(
         'function process(data: any) : any {',
         {
@@ -409,7 +409,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.suggestedReplacement).toBe('string');
     });
 
-    test('analyzes arrow function return types': any, async () => {
+    test('analyzes arrow function return types', async () => {
       const context: any = createContext(
         'const fn = (): unknown => {',
         {
@@ -430,14 +430,14 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Confidence Scoring', () => {
-    test('provides high confidence for clear patterns': any, async () => {
+    test('provides high confidence for clear patterns', async () => {
       const context: any = createContext('const items: any[] = [];');
       const result: any = await classifier.classify(context);
 
       expect(result.confidence).toBeGreaterThan(0.9);
     });
 
-    test('provides moderate confidence for contextual patterns': any, async () => {
+    test('provides moderate confidence for contextual patterns', async () => {
       const context: any = createContext(
         'const data: any = value;',
         {
@@ -451,7 +451,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.confidence).toBeLessThan(0.9);
     });
 
-    test('provides low confidence for unclear patterns': any, async () => {
+    test('provides low confidence for unclear patterns', async () => {
       const context: any = createContext('const value: any = something;');
       const result: any = await classifier.classify(context);
 
@@ -460,7 +460,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Edge Cases', () => {
-    test('handles empty code snippet': any, async () => {
+    test('handles empty code snippet', async () => {
       const context: any = createContext('');
       const result: any = await classifier.classify(context);
 
@@ -468,7 +468,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.confidence).toBeLessThan(0.7);
     });
 
-    test('handles complex nested any types': any, async () => {
+    test('handles complex nested any types', async () => {
       const context: any = createContext('const complex: Record<string, unknown[]> = {};');
       const result: any = await classifier.classify(context);
 
@@ -476,7 +476,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.category).toBe(AnyTypeCategory.RECORD_TYPE);
     });
 
-    test('handles classification errors gracefully': any, async () => {
+    test('handles classification errors gracefully', async () => {
       // Mock a scenario that would cause an error
       const context: any = createContext('const test: any = value;');
 
@@ -492,7 +492,7 @@ describe('AnyTypeClassifier', () => {
       (classifier as any).analyzeSurroundingCodeContext = originalMethod;
     });
 
-    test('handles malformed code snippets': any, async () => {
+    test('handles malformed code snippets', async () => {
       const malformedContexts: any = [
         createContext('const incomplete: any'),
         createContext('function broken(param: any'),
@@ -511,7 +511,7 @@ describe('AnyTypeClassifier', () => {
       }
     });
 
-    test('handles very long code snippets': any, async () => {
+    test('handles very long code snippets', async () => {
       const longSnippet: any = 'const veryLongVariableName: any = ''x'.repeat(1000) + ';';
       const context: any = createContext(longSnippet);
 
@@ -520,7 +520,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toBeDefined();
     });
 
-    test('handles unicode and special characters': any, async () => {
+    test('handles unicode and special characters', async () => {
       const unicodeContext: any = createContext('const 测试: unknown = "unicode";');
       const result: any = await classifier.classify(unicodeContext);
 
@@ -528,7 +528,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.isIntentional).toBe(false);
     });
 
-    test('handles deeply nested surrounding lines': any, async () => {
+    test('handles deeply nested surrounding lines', async () => {
       const context: any = createContext(
         'const data: any = response;',
         {
@@ -543,7 +543,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Performance and Stress Testing', () => {
-    test('handles large batch processing efficiently': any, async () => {
+    test('handles large batch processing efficiently', async () => {
       const largeBatch: any = Array(100).fill(null).map((_: any, i: any) =>;
         createContext(`const item${i}: unknown[] = [];`)
       );
@@ -562,7 +562,7 @@ describe('AnyTypeClassifier', () => {
       });
     });
 
-    test('maintains consistency across repeated classifications': any, async () => {
+    test('maintains consistency across repeated classifications', async () => {
       const context: any = createContext('const data: Record<string, unknown> = {};');
 
       const results: any = await Promise.all(;
@@ -578,7 +578,7 @@ describe('AnyTypeClassifier', () => {
       });
     });
 
-    test('handles concurrent classification requests': any, async () => {
+    test('handles concurrent classification requests', async () => {
       const contexts: any = [;
         createContext('const items: any[] = [];'),
         createContext('} catch (error: any) : any {'),
@@ -601,7 +601,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   describe('Integration with Domain Context', () => {
-    test('integrates with domain analyzer for complex scenarios': any, async () => {
+    test('integrates with domain analyzer for complex scenarios', async () => {
       const astroContext: any = createContext(
         'const planetaryData: any = await getReliablePlanetaryPositions();',
         {
@@ -625,7 +625,7 @@ describe('AnyTypeClassifier', () => {
       expect(result.reasoning).toContain('Astrological');
     });
 
-    test('handles conflicting domain signals correctly': any, async () => {
+    test('handles conflicting domain signals correctly', async () => {
       const conflictContext: any = createContext(
         'const testData: any[] = [];',
         {

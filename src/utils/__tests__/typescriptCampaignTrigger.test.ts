@@ -35,7 +35,7 @@ describe('TypeScript Campaign Trigger', () => {
   });
 
   describe('analyzeTypeScriptErrors', () => {
-    it('should analyze errors and recommend standard campaign for medium error count': any, async () => {
+    it('should analyze errors and recommend standard campaign for medium error count', async () => {
       // Mock TypeScript output with 150 errors (above medium threshold)
       const mockTscOutput: any = Array.from(
         { length: 150 },
@@ -53,7 +53,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.recommendations.length).toBeGreaterThan(0);
     });
 
-    it('should recommend aggressive campaign for high error count': any, async () => {
+    it('should recommend aggressive campaign for high error count', async () => {
       // Mock TypeScript output with 250 errors (above high threshold)
       const mockTscOutput: any = Array.from(
         { length: 250 },
@@ -70,7 +70,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.safetyLevel).toBe((SafetyLevel as any)?.HIGH);
     });
 
-    it('should recommend emergency campaign for critical error count': any, async () => {
+    it('should recommend emergency campaign for critical error count', async () => {
       // Mock TypeScript output with 600 errors (above critical threshold)
       const mockTscOutput: any = Array.from(
         { length: 600 },
@@ -88,7 +88,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.safetyLevel).toBe((SafetyLevel as any)?.MAXIMUM);
     });
 
-    it('should not trigger campaign for low error count': any, async () => {
+    it('should not trigger campaign for low error count', async () => {
       // Mock TypeScript output with 50 errors (below medium threshold)
       const mockTscOutput: any = Array.from(
         { length: 50 },
@@ -104,7 +104,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.errorAnalysis.totalErrors).toBe(50);
     });
 
-    it('should handle no errors gracefully': any, async () => {
+    it('should handle no errors gracefully', async () => {
       // Mock empty TypeScript output (no errors)
       mockExecSync.mockReturnValue('');
 
@@ -116,7 +116,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.recommendations.length).toBe(0);
     });
 
-    it('should categorize different error types correctly': any, async () => {
+    it('should categorize different error types correctly', async () => {
       const mockTscOutput: any = [
         "src/test1.ts(10,5): error TS2352: Conversion of type 'string' to type 'number'.",
         "src/test2.ts(15,10): error TS2304: Cannot find name 'undefined_var'.",
@@ -139,7 +139,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.errorAnalysis.errorsByCategory[(ErrorCategory as any)?.OTHER]).toHaveLength(1);
     });
 
-    it('should identify high-impact files': any, async () => {
+    it('should identify high-impact files', async () => {
       // Mock errors with multiple errors in same file
       const mockTscOutput: any = Array.from(
         { length: 10 },
@@ -155,7 +155,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.errorAnalysis.highImpactFiles.[0].errorCount).toBe(10);
     });
 
-    it('should handle TypeScript compilation errors gracefully': any, async () => {
+    it('should handle TypeScript compilation errors gracefully', async () => {
       // Mock execSync throwing an error (which is normal for tsc with errors)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom stdout property for test mock scenario
@@ -171,7 +171,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect((result)?.shouldTrigger).toBe(false); // 1 error is below threshold
     });
 
-    it('should handle complete TypeScript failure gracefully': any, async () => {
+    it('should handle complete TypeScript failure gracefully', async () => {
       // Mock execSync throwing an error with no stdout
       mockExecSync.mockImplementation(() => {
         throw new Error('Complete failure');
@@ -188,7 +188,7 @@ describe('TypeScript Campaign Trigger', () => {
   });
 
   describe('getCurrentTypeScriptErrorCount', () => {
-    it('should return correct error count': any, async () => {
+    it('should return correct error count', async () => {
       const mockTscOutput: any = Array.from(
         { length: 25 },
         (_, i) => `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`,
@@ -201,7 +201,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect(count).toBe(25);
     });
 
-    it('should return 0 for no errors': any, async () => {
+    it('should return 0 for no errors', async () => {
       mockExecSync.mockReturnValue('');
 
       const count: any = getCurrentTypeScriptErrorCount();
@@ -209,7 +209,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect(count).toBe(0);
     });
 
-    it('should return -1 on failure': any, async () => {
+    it('should return -1 on failure', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
@@ -221,7 +221,7 @@ describe('TypeScript Campaign Trigger', () => {
   });
 
   describe('checkCampaignTriggerConditions', () => {
-    it('should return true when error count exceeds threshold': any, async () => {
+    it('should return true when error count exceeds threshold', async () => {
       const mockTscOutput: any = Array.from(
         { length: 150 },
         (_, i) => `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`,
@@ -234,7 +234,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect(shouldTrigger).toBe(true);
     });
 
-    it('should return false when error count is below threshold': any, async () => {
+    it('should return false when error count is below threshold', async () => {
       const mockTscOutput: any = Array.from(
         { length: 50 },
         (_, i) => `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`,
@@ -247,7 +247,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect(shouldTrigger).toBe(false);
     });
 
-    it('should return false on error': any, async () => {
+    it('should return false on error', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
@@ -259,7 +259,7 @@ describe('TypeScript Campaign Trigger', () => {
   });
 
   describe('Error Parsing', () => {
-    it('should parse TypeScript error format correctly': any, async () => {
+    it('should parse TypeScript error format correctly', async () => {
       const mockTscOutput: any = "src/components/test.tsx(45,12): error TS2304: Cannot find name 'UndefinedVariable'.";
 
       mockExecSync.mockReturnValue(mockTscOutput);
@@ -277,7 +277,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect(error.message).toBe("Cannot find name 'UndefinedVariable'.");
     });
 
-    it('should ignore non-error lines': any, async () => {
+    it('should ignore non-error lines', async () => {
       const mockTscOutput: any = [
         'Found 5 errors watching for file changes.',
         "src/test.ts(10,5): error TS2304: Cannot find name 'test'.",
@@ -294,7 +294,7 @@ describe('TypeScript Campaign Trigger', () => {
   });
 
   describe('Batch Scheduling', () => {
-    it('should create appropriate batch sizes for different error categories': any, async () => {
+    it('should create appropriate batch sizes for different error categories', async () => {
       const mockTscOutput: any = [
         ...Array.from({ length: 50 }, (_, i) => `src/test${i}.ts(10,5): error TS2352: Conversion error.`),
         ...Array.from({ length: 30 }, (_, i) => `src/test${i}.ts(15,10): error TS2304: Cannot find name.`),
@@ -313,7 +313,7 @@ describe('TypeScript Campaign Trigger', () => {
       expect(new Set(batchSizes).size).toBeGreaterThan(1); // Multiple different batch sizes
     });
 
-    it('should include safety protocols based on campaign mode': any, async () => {
+    it('should include safety protocols based on campaign mode', async () => {
       const mockTscOutput: any = Array.from(
         { length: 600 },
         (_, i) => `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`,
@@ -330,7 +330,7 @@ describe('TypeScript Campaign Trigger', () => {
   });
 
   describe('Performance', () => {
-    it('should complete analysis within reasonable time': any, async () => {
+    it('should complete analysis within reasonable time', async () => {
       const mockTscOutput: any = Array.from(
         { length: 100 },
         (_, i) => `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`,

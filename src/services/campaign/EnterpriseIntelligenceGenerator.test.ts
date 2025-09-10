@@ -80,7 +80,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       category: FileCategory.CORE,
     };
 
-    it('should generate intelligence systems from file analyses': any, async () => {
+    it('should generate intelligence systems from file analyses', async () => {
       const results: any = await generator.generateIntelligenceSystems([mockFileAnalysis]);
 
       expect(results).toHaveLength(1);
@@ -93,13 +93,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
       expect(results.[0]).toHaveProperty('complexity');
     });
 
-    it('should create output directory if it does not exist': any, async () => {
+    it('should create output directory if it does not exist', async () => {
       await generator.generateIntelligenceSystems([mockFileAnalysis]);
 
       expect(mockFs.promises.mkdir).toHaveBeenCalledWith('test-output', { recursive: true });
     });
 
-    it('should write generated code to files': any, async () => {
+    it('should write generated code to files', async () => {
       await generator.generateIntelligenceSystems([mockFileAnalysis]);
 
       expect(mockFs.promises.writeFile).toHaveBeenCalledWith(
@@ -108,7 +108,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       );
     });
 
-    it('should handle generation errors gracefully': any, async () => {
+    it('should handle generation errors gracefully', async () => {
       const invalidAnalysis: any = {
         ...mockFileAnalysis,
         transformationCandidates: [

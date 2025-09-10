@@ -46,7 +46,7 @@ describe('PerformanceMonitoringSystem', () => {
   });
 
   describe('measureBuildTime', () => {
-    it('should measure build time using time command': any, async () => {
+    it('should measure build time using time command', async () => {
       mockExecSync.mockReturnValue('real 8.50\nuser 7.20\nsys 1.30\n');
 
       const buildTime: any = await performanceMonitor.measureBuildTime();
@@ -58,7 +58,7 @@ describe('PerformanceMonitoringSystem', () => {
       });
     });
 
-    it('should fallback to simple timing if time command fails': any, async () => {
+    it('should fallback to simple timing if time command fails', async () => {
       mockExecSync
         .mockImplementationOnce(() => {
           throw new Error('time command not found');
@@ -80,7 +80,7 @@ describe('PerformanceMonitoringSystem', () => {
       mockDateNow.mockRestore();
     });
 
-    it('should return -1 if build fails': any, async () => {
+    it('should return -1 if build fails', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Build failed');
       });
@@ -92,7 +92,7 @@ describe('PerformanceMonitoringSystem', () => {
   });
 
   describe('monitorCacheHitRate', () => {
-    it('should estimate cache hit rate from Next.js cache': any, async () => {
+    it('should estimate cache hit rate from Next.js cache', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === '.next' || path === '.next/cache';
       });
@@ -105,7 +105,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(cacheHitRate).toBeLessThanOrEqual(1);
     });
 
-    it('should estimate cache hit rate from other cache directories': any, async () => {
+    it('should estimate cache hit rate from other cache directories', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === '.yarn/cache';
       });
@@ -117,7 +117,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(cacheHitRate).toBe(0.8); // Should return high hit rate for large cache
     });
 
-    it('should return default estimate if cache monitoring fails': any, async () => {
+    it('should return default estimate if cache monitoring fails', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
         throw new Error('Cache monitoring failed');
@@ -130,14 +130,14 @@ describe('PerformanceMonitoringSystem', () => {
   });
 
   describe('trackMemoryUsage', () => {
-    it('should track Node.js process memory usage': any, async () => {
+    it('should track Node.js process memory usage', async () => {
       const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
 
       expect(memoryUsage.current).toBe(40); // 40MB from mock
       expect(memoryUsage.peak).toBe(50); // 50MB from mock
     });
 
-    it('should include system memory if available': any, async () => {
+    it('should include system memory if available', async () => {
       mockExecSync.mockReturnValue('  1234  100000  51200  node\n'); // 50MB RSS
 
       const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
@@ -146,7 +146,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(memoryUsage.peak).toBe(50);
     });
 
-    it('should handle memory tracking errors gracefully': any, async () => {
+    it('should handle memory tracking errors gracefully', async () => {
       (process(memoryUsage as any).Mock).mockImplementation(() => {
         throw new Error('Memory tracking failed');
       });
@@ -159,7 +159,7 @@ describe('PerformanceMonitoringSystem', () => {
   });
 
   describe('detectPerformanceRegression', () => {
-    it('should detect build time regression': any, async () => {
+    it('should detect build time regression', async () => {
       // Add performance history with increasing build times
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 5, target: 10, average: 5, trend: 'stable' },
         cacheHitRate: { curren, t: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
@@ -190,7 +190,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(alerts.[0].severity).toBe('warning');
     });
 
-    it('should detect cache hit rate regression': any, async () => {
+    it('should detect cache hit rate regression', async () => {
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
         cacheHitRate: { curren, t: 0.9, target: 0.8, average: 0.9, trend: 'stable' },
         memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 40 },
@@ -218,7 +218,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(alerts.[0].type).toBe('cache_hit_rate');
     });
 
-    it('should detect memory usage regression': any, async () => {
+    it('should detect memory usage regression', async () => {
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
         cacheHitRate: { curren, t: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
         memoryUsage: { curren, t: 30, target: 50, peak: 35, average: 30 },
@@ -247,7 +247,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(alerts.[0].severity).toBe('critical');
     });
 
-    it('should not detect regression with insufficient data': any, async () => {
+    it('should not detect regression with insufficient data', async () => {
       const regressionDetected: any = await performanceMonitor.detectPerformanceRegression();
 
       expect(regressionDetected).toBe(false);
@@ -255,7 +255,7 @@ describe('PerformanceMonitoringSystem', () => {
   });
 
   describe('getPerformanceMetrics', () => {
-    it('should return comprehensive performance metrics': any, async () => {
+    it('should return comprehensive performance metrics', async () => {
       mockExecSync
         .mockReturnValueOnce('real 8.50\nuser 7.20\nsys 1.30\n') // build time
         .mockReturnValueOnce('150\n') // cache files
@@ -278,7 +278,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(metrics.memoryUsage.target).toBe(50);
     });
 
-    it('should calculate trends correctly': any, async () => {
+    it('should calculate trends correctly', async () => {
       // First measurement
       mockExecSync.mockReturnValue('real 8.00\n');
       mockFs.existsSync.mockReturnValue(false);
@@ -298,7 +298,7 @@ describe('PerformanceMonitoringSystem', () => {
   });
 
   describe('generatePerformanceReport', () => {
-    it('should generate comprehensive performance report': any, async () => {
+    it('should generate comprehensive performance report', async () => {
       mockExecSync.mockReturnValue('real 8.50\n');
       mockFs.existsSync.mockReturnValue(false);
 
@@ -316,7 +316,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(report.overallScore).toBeLessThanOrEqual(100);
     });
 
-    it('should include recommendations for performance issues': any, async () => {
+    it('should include recommendations for performance issues', async () => {
       mockExecSync.mockReturnValue('real 15.00\n'); // Exceeds 10s target
       mockFs.existsSync.mockReturnValue(false);
 
@@ -351,7 +351,7 @@ describe('PerformanceMonitoringSystem', () => {
   });
 
   describe('data export', () => {
-    it('should export performance data to file': any, async () => {
+    it('should export performance data to file', async () => {
       mockFs.writeFileSync.mockImplementation(() => {});
       mockExecSync.mockReturnValue('real 8.50\n');
       mockFs.existsSync.mockReturnValue(false);
@@ -364,7 +364,7 @@ describe('PerformanceMonitoringSystem', () => {
       );
     });
 
-    it('should handle export errors gracefully': any, async () => {
+    it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Write failed');
       });

@@ -70,7 +70,7 @@ describe('Bundle Size Performance Tests', () => {
   });
 
   describe('Bundle Size Validation', () => {
-    it('should validate bundle size under 420kB target': any, async () => {
+    it('should validate bundle size under 420kB target', async () => {
       // Mock optimal bundle size
       mockFs.existsSync.mockImplementation(path => {
         return path === '.next' || path === 'dist';
@@ -93,7 +93,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeLessThan(420); // Under 420kB target
     });
 
-    it('should detect bundle size regression': any, async () => {
+    it('should detect bundle size regression', async () => {
       // Mock bundle size that exceeds target
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
@@ -109,7 +109,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeGreaterThan(420); // Exceeds target
     });
 
-    it('should handle missing build directories': any, async () => {
+    it('should handle missing build directories', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       const bundleSize: any = await progressTracker.getBundleSize();
@@ -117,7 +117,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBe(0); // No build directories found
     });
 
-    it('should track bundle size trends over campaign execution': any, async () => {
+    it('should track bundle size trends over campaign execution', async () => {
       const bundleSizes: number[] = [];
       let optimizationStep: any = 0;
 
@@ -150,7 +150,7 @@ describe('Bundle Size Performance Tests', () => {
   });
 
   describe('Bundle Composition Analysis', () => {
-    it('should analyze bundle composition across different build outputs': any, async () => {
+    it('should analyze bundle composition across different build outputs', async () => {
       const buildOutputs: any = [
         { dir: '.next', expectedSize: 250 },
         { dir: 'dist', expectedSize: 120 },
@@ -178,7 +178,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeLessThanOrEqual(420); // At target limit
     });
 
-    it('should handle partial build outputs': any, async () => {
+    it('should handle partial build outputs', async () => {
       // Only some build directories exist
       mockFs.existsSync.mockImplementation(path => {
         return path === '.next'; // Only .next exists
@@ -197,7 +197,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeLessThan(420); // Under target
     });
 
-    it('should detect bundle bloat in specific directories': any, async () => {
+    it('should detect bundle bloat in specific directories', async () => {
       const bloatedBuild: any = {
         '.next': 350, // Normal size
         dist: 200, // Bloated - should be ~120kB;
@@ -226,7 +226,7 @@ describe('Bundle Size Performance Tests', () => {
   });
 
   describe('Bundle Optimization Performance', () => {
-    it('should validate lazy loading impact on bundle size': any, async () => {
+    it('should validate lazy loading impact on bundle size', async () => {
       let lazyLoadingEnabled: any = false;
 
       mockFs.existsSync.mockReturnValue(true);
@@ -250,7 +250,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeLessThan(420); // Under target
     });
 
-    it('should validate tree shaking effectiveness': any, async () => {
+    it('should validate tree shaking effectiveness', async () => {
       let treeShakingEnabled: any = false;
 
       mockFs.existsSync.mockReturnValue(true);
@@ -274,7 +274,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeLessThan(420); // Under target
     });
 
-    it('should validate code splitting impact': any, async () => {
+    it('should validate code splitting impact', async () => {
       let codeSplittingEnabled: any = false;
 
       mockFs.existsSync.mockReturnValue(true);
@@ -304,7 +304,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeLessThan(420); // Well under target
     });
 
-    it('should validate compression effectiveness': any, async () => {
+    it('should validate compression effectiveness', async () => {
       let compressionEnabled: any = false;
 
       mockFs.existsSync.mockReturnValue(true);
@@ -330,7 +330,7 @@ describe('Bundle Size Performance Tests', () => {
   });
 
   describe('Bundle Size Regression Testing', () => {
-    it('should detect bundle size regression during campaign': any, async () => {
+    it('should detect bundle size regression during campaign', async () => {
       const phase: any = mockConfig.phases.[0];
       let executionCount: any = 0;
 
@@ -364,7 +364,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(lastSize).toBeGreaterThan(420); // Should exceed target
     });
 
-    it('should validate bundle size improvements during optimization': any, async () => {
+    it('should validate bundle size improvements during optimization', async () => {
       const phase: any = mockConfig.phases.[0];
       let optimizationStep: any = 0;
 
@@ -398,7 +398,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(lastSize).toBeLessThan(420); // Should be under target
     });
 
-    it('should track bundle size across different optimization strategies': any, async () => {
+    it('should track bundle size across different optimization strategies', async () => {
       const optimizationStrategies: any = [
         { name: 'baseline', expectedSize: 480 },
         { name: 'minification', expectedSize: 420 },
@@ -444,7 +444,7 @@ describe('Bundle Size Performance Tests', () => {
   });
 
   describe('Bundle Size Performance Benchmarks', () => {
-    it('should benchmark bundle analysis performance': any, async () => {
+    it('should benchmark bundle analysis performance', async () => {
       const analysisTimes: number[] = [];
 
       mockFs.existsSync.mockReturnValue(true);
@@ -476,7 +476,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(averageTime).toBeLessThan(100); // Should be under 100ms
     });
 
-    it('should handle large bundle analysis efficiently': any, async () => {
+    it('should handle large bundle analysis efficiently', async () => {
       // Mock very large bundle
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
@@ -501,7 +501,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(analysisTime).toBeLessThan(200); // Should still be reasonably fast
     });
 
-    it('should benchmark concurrent bundle analyses': any, async () => {
+    it('should benchmark concurrent bundle analyses', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
@@ -530,7 +530,7 @@ describe('Bundle Size Performance Tests', () => {
   });
 
   describe('Bundle Size Monitoring Integration', () => {
-    it('should integrate bundle size monitoring with campaign execution': any, async () => {
+    it('should integrate bundle size monitoring with campaign execution', async () => {
       const phase: any = mockConfig.phases.[0];
 
       mockFs.existsSync.mockReturnValue(true);
@@ -563,7 +563,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(bundleSize).toBeLessThan(420);
     });
 
-    it('should alert on bundle size threshold violations': any, async () => {
+    it('should alert on bundle size threshold violations', async () => {
       const thresholds: any = {
         warning: 400, // 400kB warning threshold;
         critical: 420, // 420kB critical threshold

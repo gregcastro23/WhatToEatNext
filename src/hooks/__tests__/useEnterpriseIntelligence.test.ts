@@ -61,7 +61,7 @@ describe('useEnterpriseIntelligence', () => {
     expect(result.current.needsAttention).toBe(true);
   });
 
-  it('should perform analysis when requested': any, async () => {
+  it('should perform analysis when requested', async () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
@@ -79,7 +79,7 @@ describe('useEnterpriseIntelligence', () => {
     expect(result.current.state.lastAnalyzed).toBeDefined();
   });
 
-  it('should provide recommendations after analysis': any, async () => {
+  it('should provide recommendations after analysis', async () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
@@ -94,7 +94,7 @@ describe('useEnterpriseIntelligence', () => {
     expect(result.current.recommendations.optimization).toBeDefined();
   });
 
-  it('should provide system health information': any, async () => {
+  it('should provide system health information', async () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
@@ -137,7 +137,7 @@ describe('useEnterpriseIntelligence', () => {
     expect(result.current.state.performanceMetrics.analysisCount).toBe(0);
   });
 
-  it('should handle analysis clearing': any, async () => {
+  it('should handle analysis clearing', async () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     // First perform an analysis
@@ -157,7 +157,7 @@ describe('useEnterpriseIntelligence', () => {
     expect(result.current.state.lastAnalyzed).toBeNull();
   });
 
-  it('should handle errors gracefully': any, async () => {
+  it('should handle errors gracefully', async () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     // Test with invalid data that might cause errors

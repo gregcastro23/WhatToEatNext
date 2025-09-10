@@ -86,7 +86,7 @@ describe('Safety Protocol Integration Tests', () => {
 
   describe('Corruption Detection and Recovery', () => {
     describe('Git Merge Conflict Simulation', () => {
-      it('should detect and handle git merge conflicts': any, async () => {
+      it('should detect and handle git merge conflicts', async () => {
         const corruptedContent: any = `
           function test() : any {
           <<<<<<< HEAD;
@@ -107,7 +107,7 @@ describe('Safety Protocol Integration Tests', () => {
         expect(report.corruptionPatterns.some(p => p.description.includes('Git merge conflict'))).toBe(true);
       });
 
-      it('should trigger emergency rollback for critical corruption': any, async () => {
+      it('should trigger emergency rollback for critical corruption', async () => {
         const corruptedContent: any = '<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch';
         mockFs.readFileSync.mockReturnValue(corruptedContent);
 
@@ -135,7 +135,7 @@ describe('Safety Protocol Integration Tests', () => {
     });
 
     describe('Import/Export Corruption Simulation', () => {
-      it('should detect corrupted import statements': any, async () => {
+      it('should detect corrupted import statements', async () => {
         const corruptedContent: any = `;
           import @/types from './types';
           import @/services from './services';
@@ -152,7 +152,7 @@ describe('Safety Protocol Integration Tests', () => {
         expect(report.corruptionPatterns.length).toBeGreaterThan(0);
       });
 
-      it('should detect double commas in destructuring': any, async () => {
+      it('should detect double commas in destructuring', async () => {
         const corruptedContent: any = `;
 import type type Something, { a, b } from './module';
           export { x,, y };
@@ -167,7 +167,7 @@ import type type Something, { a, b } from './module';
         expect(report.corruptionPatterns.some(p => p.description.includes('Double comma'))).toBe(true);
       });
 
-      it('should detect duplicate keywords in imports': any, async () => {
+      it('should detect duplicate keywords in imports', async () => {
         const corruptedContent: any = `;
           export default default value;
         `;
@@ -182,7 +182,7 @@ import type type Something, { a, b } from './module';
     });
 
     describe('Syntax Corruption Simulation', () => {
-      it('should detect unbalanced brackets': any, async () => {
+      it('should detect unbalanced brackets', async () => {
         const corruptedContent: any = `
           function test() : any {
             if (condition != null) {
@@ -197,7 +197,7 @@ import type type Something, { a, b } from './module';
         expect(report.severity).toBe(CorruptionSeverity.HIGH);
       });
 
-      it('should detect incomplete statements': any, async () => {
+      it('should detect incomplete statements', async () => {
         const corruptedContent = `
           export
           import
@@ -215,7 +215,7 @@ import type type Something, { a, b } from './module';
     });
 
     describe('TypeScript Syntax Validation', () => {
-      it('should validate syntax using TypeScript compiler': any, async () => {
+      it('should validate syntax using TypeScript compiler', async () => {
         mockExecSync.mockReturnValue('No errors found');
 
         const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
@@ -224,7 +224,7 @@ import type type Something, { a, b } from './module';
         expect(report.severity).toBe(CorruptionSeverity.LOW);
       });
 
-      it('should detect TypeScript syntax errors': any, async () => {
+      it('should detect TypeScript syntax errors', async () => {
         mockExecSync.mockReturnValue(`
           test-file.ts(10,5): error TS1005: Unexpected token 'function'
           test-file.ts(15,10): error TS1109: Expression expected
@@ -237,7 +237,7 @@ import type type Something, { a, b } from './module';
         expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_SYNTAX_ERROR')).toBe(true);
       });
 
-      it('should handle TypeScript compilation failures': any, async () => {
+      it('should handle TypeScript compilation failures', async () => {
         mockExecSync.mockImplementation(() => {
           const error: any = new Error('TypeScript compilation failed') as unknown;
           (error as any).stdout = 'Unexpected token at line 5';
@@ -261,7 +261,7 @@ import type type Something, { a, b } from './module';
       jest.useRealTimers();
     });
 
-    it('should monitor files in real-time during script execution': any, async () => {
+    it('should monitor files in real-time during script execution', async () => {
       const testFiles: any = ['file1.ts', 'file2.ts'];
 
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
@@ -281,7 +281,7 @@ import type type Something, { a, b } from './module';
       safetyProtocol.stopRealTimeMonitoring();
     });
 
-    it('should trigger emergency rollback on critical corruption during monitoring': any, async () => {
+    it('should trigger emergency rollback on critical corruption during monitoring', async () => {
       const testFiles: any = ['file1.ts'];
 
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
@@ -310,7 +310,7 @@ import type type Something, { a, b } from './module';
       expect(safetyProtocol.emergencyRollback).toHaveBeenCalled();
     });
 
-    it('should record safety events during real-time monitoring': any, async () => {
+    it('should record safety events during real-time monitoring', async () => {
       const testFiles: any = ['file1.ts'];
 
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
@@ -348,7 +348,7 @@ import type type Something, { a, b } from './module';
       });
     });
 
-    it('should create and manage git stashes throughout campaign': any, async () => {
+    it('should create and manage git stashes throughout campaign', async () => {
       // Create multiple stashes for different phases
       const stash1: any = await safetyProtocol.createStash('Phase 1 checkpoint', 'phase1');
       const stash2: any = await safetyProtocol.createStash('Phase 2 checkpoint', 'phase2');
@@ -360,7 +360,7 @@ import type type Something, { a, b } from './module';
       expect(stashes.length).toBe(2);
     });
 
-    it('should apply stashes by phase for targeted rollbacks': any, async () => {
+    it('should apply stashes by phase for targeted rollbacks', async () => {
       // Create stashes for different phases
       await safetyProtocol.createStash('Phase 1 checkpoint', 'phase1');
       await safetyProtocol.createStash('Phase 2 checkpoint', 'phase2');
@@ -373,14 +373,14 @@ import type type Something, { a, b } from './module';
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object));
     });
 
-    it('should validate git state before operations': any, async () => {
+    it('should validate git state before operations', async () => {
       const validation: any = await safetyProtocol.validateGitState();
 
       expect(validation.success).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith('git status --porcelain', expect.any(Object));
     });
 
-    it('should handle git operation failures gracefully': any, async () => {
+    it('should handle git operation failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
@@ -410,7 +410,7 @@ import type type Something, { a, b } from './module';
       });
     });
 
-    it('should cleanup old stashes based on retention policy': any, async () => {
+    it('should cleanup old stashes based on retention policy', async () => {
       // Create old stashes
       const oldDate: any = new Date();
       oldDate.setDate(oldDate.getDate() - 10); // 10 days old
@@ -445,7 +445,7 @@ import type type Something, { a, b } from './module';
       expect(stashes.some(s => s.id === 'recent-stash')).toBe(true);
     });
 
-    it('should generate stash statistics for reporting': any, async () => {
+    it('should generate stash statistics for reporting', async () => {
       // Create stashes for different phases
       await safetyProtocol.createStash('Phase 1 checkpoint', 'phase1');
       await safetyProtocol.createStash('Phase 2 checkpoint', 'phase2');
@@ -462,7 +462,7 @@ import type type Something, { a, b } from './module';
   });
 
   describe('Integration with Campaign Controller', () => {
-    it('should integrate safety protocols with phase execution': any, async () => {
+    it('should integrate safety protocols with phase execution', async () => {
       const phase: any = mockConfig.phases.[0];
 
       // Mock successful execution with safety protocols
@@ -481,7 +481,7 @@ import type type Something, { a, b } from './module';
       expect(campaignController['createSafetyCheckpoint']).toHaveBeenCalled();
     });
 
-    it('should handle rollback scenarios during phase execution': any, async () => {
+    it('should handle rollback scenarios during phase execution', async () => {
       const phase: any = mockConfig.phases.[0];
 
       // Mock validation failure that triggers rollback
@@ -502,7 +502,7 @@ import type type Something, { a, b } from './module';
   });
 
   describe('File System Integration', () => {
-    it('should handle file read errors during corruption detection': any, async () => {
+    it('should handle file read errors during corruption detection', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('Permission denied');
       });
@@ -514,7 +514,7 @@ import type type Something, { a, b } from './module';
       expect(report.corruptionPatterns.some(p => p.pattern === 'FILE_READ_ERROR')).toBe(true);
     });
 
-    it('should skip non-existent files gracefully': any, async () => {
+    it('should skip non-existent files gracefully', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       const report: any = await safetyProtocol.detectCorruption(['non-existent.ts']);
@@ -523,7 +523,7 @@ import type type Something, { a, b } from './module';
       expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
-    it('should handle mixed file types appropriately': any, async () => {
+    it('should handle mixed file types appropriately', async () => {
       const files: any = ['script.ts', 'style.css', 'config.json', 'readme.md'];
 
       mockFs.existsSync.mockReturnValue(true);
@@ -538,7 +538,7 @@ import type type Something, { a, b } from './module';
   });
 
   describe('Safety Event Tracking', () => {
-    it('should track safety events throughout integration scenarios': any, async () => {
+    it('should track safety events throughout integration scenarios', async () => {
       // Create stash
       await safetyProtocol.createStash('Test stash');
 
@@ -556,7 +556,7 @@ import type type Something, { a, b } from './module';
       expect(events.some(e => e.type === SafetyEventType.ROLLBACK_TRIGGERED)).toBe(true);
     });
 
-    it('should maintain event history with proper severity levels': any, async () => {
+    it('should maintain event history with proper severity levels', async () => {
       // Generate events of different severities
       await safetyProtocol.createStash('Info event'); // INFO
 

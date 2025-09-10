@@ -76,7 +76,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should prevent actual TypeScript compilation during tests': any, async () => {
+    it('should prevent actual TypeScript compilation during tests', async () => {
       const context: any = await setupCampaignTest({
         testName: 'prevent-tsc-test',
         preventActualBuilds: true,
@@ -102,7 +102,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should prevent actual git operations during tests': any, async () => {
+    it('should prevent actual git operations during tests', async () => {
       const context: any = await setupCampaignTest({
         testName: 'prevent-git-test',
         preventGitOperations: true,
@@ -133,7 +133,7 @@ describe('Campaign System Test Integration', () => {
   });
 
   describe('Test-Safe Progress Tracking', () => {
-    it('should track progress without memory leaks': any, async () => {
+    it('should track progress without memory leaks', async () => {
       const context: any = await setupCampaignTest({
         testName: 'memory-safe-tracking-test',
         enableMemoryMonitoring: true,
@@ -180,7 +180,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should simulate realistic progress over time': any, async () => {
+    it('should simulate realistic progress over time', async () => {
       const context: any = await setupCampaignTest({
         testName: 'progress-simulation-test',
         mockProgressTracking: true,
@@ -208,7 +208,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should generate comprehensive progress reports': any, async () => {
+    it('should generate comprehensive progress reports', async () => {
       const context: any = await setupCampaignTest({
         testName: 'progress-report-test',
         mockProgressTracking: true,
@@ -244,7 +244,7 @@ describe('Campaign System Test Integration', () => {
   });
 
   describe('Campaign Pause/Resume Functionality', () => {
-    it('should pause campaign operations for test isolation': any, async () => {
+    it('should pause campaign operations for test isolation', async () => {
       const context: any = await setupCampaignTest({
         testName: 'pause-resume-test',
       });
@@ -271,7 +271,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should maintain test isolation across multiple tests': any, async () => {
+    it('should maintain test isolation across multiple tests', async () => {
       // First test
       const context1: any = await setupCampaignTest({
         testName: 'isolation-test-1',
@@ -305,7 +305,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should handle concurrent test isolation': any, async () => {
+    it('should handle concurrent test isolation', async () => {
       // This test verifies that the singleton pattern works correctly
       // and doesn't cause conflicts between concurrent test setups
 
@@ -341,7 +341,7 @@ describe('Campaign System Test Integration', () => {
   });
 
   describe('Memory Management', () => {
-    it('should prevent memory leaks during campaign operations': any, async () => {
+    it('should prevent memory leaks during campaign operations', async () => {
       const context: any = await setupCampaignTest({
         testName: 'memory-leak-prevention-test',
         enableMemoryMonitoring: true,
@@ -376,7 +376,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should cleanup resources properly after test completion': any, async () => {
+    it('should cleanup resources properly after test completion', async () => {
       // Setup and use campaign test
       const context: any = await setupCampaignTest({
         testName: 'resource-cleanup-test',
@@ -414,7 +414,7 @@ describe('Campaign System Test Integration', () => {
   });
 
   describe('Complete Campaign Test Scenarios', () => {
-    it('should execute TypeScript error reduction scenario': any, async () => {
+    it('should execute TypeScript error reduction scenario', async () => {
       const scenario: any = campaignTestData.typeScriptErrorReduction();
       const _config: any = createMockCampaignConfig();
       const {
@@ -443,7 +443,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should execute linting warning cleanup scenario': any, async () => {
+    it('should execute linting warning cleanup scenario', async () => {
       const scenario: any = campaignTestData.lintingWarningCleanup();
       const _config: any = createMockCampaignConfig();
       const {
@@ -469,7 +469,7 @@ describe('Campaign System Test Integration', () => {
       }
     });
 
-    it('should handle campaign failures gracefully': any, async () => {
+    it('should handle campaign failures gracefully', async () => {
       const context: any = await setupCampaignTest({
         testName: 'failure-handling-test',
       });
@@ -498,7 +498,7 @@ describe('Campaign System Test Integration', () => {
   });
 
   describe('Integration Validation', () => {
-    it('should validate complete campaign system integration': any, async () => {
+    it('should validate complete campaign system integration', async () => {
       const context: any = await setupCampaignTest({
         testName: 'integration-validation-test',
         enableMemoryMonitoring: true,

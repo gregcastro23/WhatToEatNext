@@ -30,7 +30,7 @@ describe('DeploymentManager', () => {
   });
 
   describe('Phase Execution', () => {
-    test('executes simple phase successfully': any, async () => {
+    test('executes simple phase successfully', async () => {
       const phase: DeploymentPhase = { id: 'test-phase',
         name: 'Test Phase',
         description: 'Simple test phase',
@@ -66,7 +66,7 @@ describe('DeploymentManager', () => {
       expect(result.errors).toHaveLength(0);
     });
 
-    test('handles task failure correctly': any, async () => {
+    test('handles task failure correctly', async () => {
       const phase: DeploymentPhase = { id: 'failing-phase',
         name: 'Failing Phase',
         description: 'Phase with failing task',
@@ -101,7 +101,7 @@ describe('DeploymentManager', () => {
       expect(result.errors.length).toBeGreaterThan(0);
     });
 
-    test('executes rollback on critical task failure': any, async () => {
+    test('executes rollback on critical task failure', async () => {
       // Create a test file that rollback can remove
       const testFile: any = join(tempDir, 'test-file.txt');
       writeFileSync(testFile, 'test content');
@@ -148,7 +148,7 @@ describe('DeploymentManager', () => {
       expect(existsSync(testFile)).toBe(false); // File should be removed by rollback
     });
 
-    test('handles non-critical task failures gracefully': any, async () => {
+    test('handles non-critical task failures gracefully', async () => {
       const phase: DeploymentPhase = { id: 'mixed-phase',
         name: 'Mixed Phase',
         description: 'Phase with critical and non-critical tasks',
@@ -203,7 +203,7 @@ describe('DeploymentManager', () => {
   });
 
   describe('Validation Checks', () => {
-    test('runs validation checks successfully': any, async () => {
+    test('runs validation checks successfully', async () => {
       const phase: DeploymentPhase = { id: 'validation-phase',
         name: 'Validation Phase',
         description: 'Phase with validation checks',
@@ -237,7 +237,7 @@ describe('DeploymentManager', () => {
       expect(result.validationResults.[0].checkName).toBe('Echo Validation');
     });
 
-    test('handles validation check failures': any, async () => {
+    test('handles validation check failures', async () => {
       const phase: DeploymentPhase = { id: 'failing-validation-phase',
         name: 'Failing Validation Phase',
         description: 'Phase with failing validation',
@@ -270,7 +270,7 @@ describe('DeploymentManager', () => {
       expect(result.validationResults.[0].error).toBeDefined();
     });
 
-    test('validates output with custom validator': any, async () => {
+    test('validates output with custom validator', async () => {
       const phase: DeploymentPhase = { id: 'output-validation-phase',
         name: 'Output Validation Phase',
         description: 'Phase with output validation',
@@ -306,7 +306,7 @@ describe('DeploymentManager', () => {
   });
 
   describe('Success Criteria', () => {
-    test('evaluates custom success criteria': any, async () => {
+    test('evaluates custom success criteria', async () => {
       let customCheckCalled: any = false;
 
       const phase: DeploymentPhase = { id: 'custom-criteria-phase',
@@ -338,7 +338,7 @@ describe('DeploymentManager', () => {
       expect(customCheckCalled).toBe(true);
     });
 
-    test('fails when custom criteria not met': any, async () => {
+    test('fails when custom criteria not met', async () => {
       const phase: DeploymentPhase = { id: 'failing-criteria-phase',
         name: 'Failing Criteria Phase',
         description: 'Phase with failing custom criteria',
@@ -367,7 +367,7 @@ describe('DeploymentManager', () => {
   });
 
   describe('Full Deployment', () => {
-    test('executes multiple phases in sequence': any, async () => {
+    test('executes multiple phases in sequence', async () => {
       const phases: DeploymentPhase[] = [
         {
           id: 'phase1',
@@ -430,7 +430,7 @@ describe('DeploymentManager', () => {
       expect(results.[1].phase).toBe('phase2');
     });
 
-    test('stops deployment on phase failure': any, async () => {
+    test('stops deployment on phase failure', async () => {
       const phases: DeploymentPhase[] = [
         {
           id: 'success-phase',
@@ -543,7 +543,7 @@ describe('DeploymentManager', () => {
   });
 
   describe('Deployment Logging', () => {
-    test('maintains deployment log': any, async () => {
+    test('maintains deployment log', async () => {
       const phase: DeploymentPhase = { id: 'logging-phase',
         name: 'Logging Phase',
         description: 'Phase for testing logging',
@@ -577,7 +577,7 @@ describe('DeploymentManager', () => {
       expect(log.some(entry => entry.includes('Task completed: Log Task'))).toBe(true);
     });
 
-    test('saves deployment log to file': any, async () => {
+    test('saves deployment log to file', async () => {
       const phase: DeploymentPhase = { id: 'save-log-phase',
         name: 'Save Log Phase',
         description: 'Phase for testing log saving',

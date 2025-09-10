@@ -25,7 +25,7 @@ describe('FinalValidationSystem', () => {
   });
 
   describe('TypeScript Error Validation', () => {
-    it('should pass validation when no TypeScript errors exist': any, async () => {
+    it('should pass validation when no TypeScript errors exist', async () => {
       // Mock successful TypeScript compilation
       mockedExecSync.mockReturnValue('');
 
@@ -45,7 +45,7 @@ describe('FinalValidationSystem', () => {
       expect(result.criticalIssues).toHaveLength(0);
     });
 
-    it('should fail validation when TypeScript errors exist': any, async () => {
+    it('should fail validation when TypeScript errors exist', async () => {
       // Mock TypeScript compilation with errors
       const mockError: any = new Error('TypeScript compilation failed');
       (mockError as Error & { stdout?: string }).stdout = `
@@ -74,7 +74,7 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
   });
 
   describe('Linting Warning Validation', () => {
-    it('should pass validation when no linting warnings exist': any, async () => {
+    it('should pass validation when no linting warnings exist', async () => {
       // Mock successful linting with no warnings
       mockedExecSync.mockReturnValue('✨ All files passed linting');
 
@@ -89,7 +89,7 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
       expect(result.criticalIssues).toHaveLength(0);
     });
 
-    it('should fail validation when linting warnings exist': any, async () => {
+    it('should fail validation when linting warnings exist', async () => {
       // Mock linting with warnings
       const mockError: any = new Error('Linting warnings found');
       (mockError as Error & { stdout?: string }).stdout = `
@@ -114,7 +114,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   });
 
   describe('Enterprise Intelligence Validation', () => {
-    it('should pass validation when sufficient intelligence systems exist': any, async () => {
+    it('should pass validation when sufficient intelligence systems exist', async () => {
       // Mock grep output with 250 intelligence systems
       const mockIntelligenceOutput: any = Array(250).fill(0).map((_: any, i: any) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`)
         .join('\n');
@@ -132,7 +132,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       expect(result.criticalIssues).toHaveLength(0);
     });
 
-    it('should fail validation when insufficient intelligence systems exist': any, async () => {
+    it('should fail validation when insufficient intelligence systems exist', async () => {
       // Mock grep output with only 50 intelligence systems
       const mockIntelligenceOutput: any = Array(50).fill(0).map((_: any, i: any) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`)
         .join('\n');
@@ -150,7 +150,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       expect((result)?.criticalIssues).toBeDefined();
     });
 
-    it('should handle case when no intelligence systems exist': any, async () => {
+    it('should handle case when no intelligence systems exist', async () => {
       // Mock grep failure (no matches found)
       const mockError: any = new Error('No matches found');
       mockedExecSync.mockImplementation(() => {
@@ -170,7 +170,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   });
 
   describe('Performance Validation', () => {
-    it('should pass validation when performance targets are met': any, async () => {
+    it('should pass validation when performance targets are met', async () => {
       // Mock fast build time and low memory usage
       mockedExecSync
         .mockReturnValueOnce('') // yarn build
@@ -199,7 +199,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       Date.now = originalDateNow;
     });
 
-    it('should fail validation when performance targets are not met': any, async () => {
+    it('should fail validation when performance targets are not met', async () => {
       // Mock slow build time and high memory usage
       mockedExecSync
         .mockReturnValueOnce('') // yarn build
@@ -230,7 +230,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   });
 
   describe('Build and Test Validation', () => {
-    it('should pass validation when build and tests succeed': any, async () => {
+    it('should pass validation when build and tests succeed', async () => {
       // Mock successful build and tests
       mockedExecSync
         .mockReturnValueOnce('') // yarn build
@@ -247,7 +247,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       expect(result.criticalIssues).toHaveLength(0);
     });
 
-    it('should fail validation when build fails': any, async () => {
+    it('should fail validation when build fails', async () => {
       // Mock build failure
       mockedExecSync
         .mockImplementationOnce(() => {
@@ -266,7 +266,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       expect((result)?.(criticalIssues as any).length).toBeGreaterThan(0);
     });
 
-    it('should fail validation when tests fail': any, async () => {
+    it('should fail validation when tests fail', async () => {
       // Mock test failure
       mockedExecSync
         .mockReturnValueOnce('') // yarn build succeeds
@@ -287,7 +287,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   });
 
   describe('Campaign Summary Generation', () => {
-    it('should generate accurate campaign summary with baseline': any, async () => {
+    it('should generate accurate campaign summary with baseline', async () => {
       // Mock baseline file
       const mockBaseline: any = {
         errors: 100,
@@ -316,7 +316,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       expect((summary)?.(improvements as any).intelligenceIncrease).toBe(240);
     });
 
-    it('should handle missing baseline file': any, async () => {
+    it('should handle missing baseline file', async () => {
       // Mock missing baseline file
       mockedFs.existsSync.mockReturnValue(false);
 
@@ -403,7 +403,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   });
 
   describe('Comprehensive Validation', () => {
-    it('should execute complete validation successfully': any, async () => {
+    it('should execute complete validation successfully', async () => {
       // Mock all successful validations
       mockedExecSync
         .mockReturnValueOnce('') // TypeScript compilation
@@ -444,7 +444,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       Date.now = originalDateNow;
     });
 
-    it('should handle validation failures gracefully': any, async () => {
+    it('should handle validation failures gracefully', async () => {
       // Mock validation failures
       const mockError: any = new Error('Validation failed');
       (mockError as any).stdout = 'error TS2304: Cannot find name';
@@ -466,7 +466,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   });
 
   describe('Report Generation', () => {
-    it('should save validation report to file': any, async () => {
+    it('should save validation report to file', async () => {
       const mockReport: any = {
         timestamp: '2025-01-15T10:0, 0:00.000Z',
         overallSuccess: true,
@@ -504,7 +504,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       );
     });
 
-    it('should create certification document for successful campaigns': any, async () => {
+    it('should create certification document for successful campaigns', async () => {
       const mockReport: any = {
         timestamp: '2025-01-15T10:0, 0:00.000Z',
         overallSuccess: true,

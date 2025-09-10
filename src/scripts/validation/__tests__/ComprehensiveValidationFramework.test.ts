@@ -53,7 +53,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Comprehensive Validation', () => {
-    test('should perform all validations successfully': any, async () => {
+    test('should perform all validations successfully', async () => {
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1');
 
       expect(result.overallPassed).toBe(true);
@@ -62,7 +62,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(result.validationResults.length).toBeGreaterThan(0);
     });
 
-    test('should fail overall validation on TypeScript compilation errors': any, async () => {
+    test('should fail overall validation on TypeScript compilation errors', async () => {
       // Mock TypeScript compilation failure
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
@@ -84,7 +84,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(tsResult.details.errorCount).toBe(2);
     });
 
-    test('should handle test suite failures appropriately': any, async () => {
+    test('should handle test suite failures appropriately', async () => {
       // Mock test failure
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
@@ -104,7 +104,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(testResult.passed).toBe(false);
     });
 
-    test('should calculate quality score correctly': any, async () => {
+    test('should calculate quality score correctly', async () => {
       // Mock partial failures
       let callCount: any = 0;
       mockExecSync.mockImplementation((cmd: any) => {
@@ -129,7 +129,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('TypeScript Validation', () => {
-    test('should pass TypeScript validation with no errors': any, async () => {
+    test('should pass TypeScript validation with no errors', async () => {
       mockExecSync.mockReturnValue(Buffer.from(''));
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1');
@@ -139,7 +139,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(tsResult.errors.length).toBe(0);
     });
 
-    test('should retry TypeScript validation on failure': any, async () => {
+    test('should retry TypeScript validation on failure', async () => {
       let attemptCount: any = 0;
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
@@ -162,7 +162,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(attemptCount).toBe(3);
     });
 
-    test('should extract and categorize TypeScript error types': any, async () => {
+    test('should extract and categorize TypeScript error types', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           const error = new Error('Compilation failed');
@@ -187,7 +187,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Test Suite Validation', () => {
-    test('should find and validate related test files': any, async () => {
+    test('should find and validate related test files', async () => {
       // Mock test files exist
       mockFs.existsSync.mockImplementation((path: any) => {
         return path.toString().includes('.test.') || path.toString().includes('__tests__');
@@ -207,7 +207,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(testResult.details.relatedTestFiles).toBeDefined();
     });
 
-    test('should handle case with no related test files': any, async () => {
+    test('should handle case with no related test files', async () => {
       // Mock no test files exist
       mockFs.existsSync.mockReturnValue(false);
 
@@ -218,7 +218,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(testResult.warnings).toContain('No related test files found for processed files');
     });
 
-    test('should parse test results correctly': any, async () => {
+    test('should parse test results correctly', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
           return Buffer.from('Test Suites: 2 passed, 1 failed, 3 total\nTests: 8 passed, 2 failed, 10 total');
@@ -238,7 +238,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('React Component Validation', () => {
-    test('should validate React components successfully': any, async () => {
+    test('should validate React components successfully', async () => {
       // Mock component file content
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.toString().includes('TestComponent.tsx')) {
@@ -273,7 +273,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(componentResult.details.componentInfo.stateVariables).toContain('count');
     });
 
-    test('should detect component import issues': any, async () => {
+    test('should detect component import issues', async () => {
       // Mock component with no exports
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.toString().includes('TestComponent.tsx')) {
@@ -290,7 +290,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(componentResult.errors).toContain('Component import failed: No exports found in component');
     });
 
-    test('should validate component props interface preservation': any, async () => {
+    test('should validate component props interface preservation', async () => {
       // Mock component with props interface
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.toString().includes('TestComponent.tsx')) {
@@ -312,7 +312,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Service Integration Validation', () => {
-    test('should validate service integration successfully': any, async () => {
+    test('should validate service integration successfully', async () => {
       // Mock service file content
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.toString().includes('TestService.ts')) {
@@ -347,7 +347,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(serviceResult.details.serviceInfo.apiEndpoints).toContain('/api/submit');
     });
 
-    test('should detect service method elimination issues': any, async () => {
+    test('should detect service method elimination issues', async () => {
       // Mock service with missing methods
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.toString().includes('TestService.ts')) {
@@ -373,7 +373,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Build System Validation', () => {
-    test('should validate build system successfully': any, async () => {
+    test('should validate build system successfully', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('next build --dry-run')) {
           return Buffer.from('Build validation successful');
@@ -388,7 +388,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(buildResult.details.buildOutput).toContain('Build validation successful');
     });
 
-    test('should handle build system failures': any, async () => {
+    test('should handle build system failures', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('next build --dry-run')) {
           const error = new Error('Build failed');
@@ -407,7 +407,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Configuration Options', () => {
-    test('should respect disabled validation options': any, async () => {
+    test('should respect disabled validation options', async () => {
       const configWithDisabledValidations: Partial<ValidationConfig> = { enableTypeScriptValidation: false,
         enableTestSuiteValidation: false,
         enableComponentValidation: false,
@@ -423,7 +423,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(result.qualityScore).toBe(100);
     });
 
-    test('should respect timeout configurations': any, async () => {
+    test('should respect timeout configurations', async () => {
       const configWithShortTimeouts: Partial<ValidationConfig> = { testTimeout: 1000,
         compilationTimeout: 1000
       };
@@ -450,7 +450,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Validation History and Reporting', () => {
-    test('should store validation history': any, async () => {
+    test('should store validation history', async () => {
       await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1');
       await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-2');
 
@@ -460,7 +460,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(history.has('test-batch-2')).toBe(true);
     });
 
-    test('should generate validation report': any, async () => {
+    test('should generate validation report', async () => {
       await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1');
 
       const report: any = framework.generateValidationReport('test-batch-1');
@@ -472,7 +472,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(report).toContain('## Validation Results');
     });
 
-    test('should generate comprehensive report for all batches': any, async () => {
+    test('should generate comprehensive report for all batches', async () => {
       await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1');
       await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-2');
 
@@ -485,7 +485,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Error Handling', () => {
-    test('should handle framework errors gracefully': any, async () => {
+    test('should handle framework errors gracefully', async () => {
       // Mock file system error
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File system error');
@@ -499,7 +499,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(result.validationResults.[0].validationType).toBe('framework-error');
     });
 
-    test('should handle partial validation failures': any, async () => {
+    test('should handle partial validation failures', async () => {
       // Mock TypeScript success but test failure
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
@@ -526,7 +526,7 @@ describe('ComprehensiveValidationFramework', () => {
   });
 
   describe('Quality Score Calculation', () => {
-    test('should calculate quality score based on validation results': any, async () => {
+    test('should calculate quality score based on validation results', async () => {
       // Mock mixed results
       let callCount: any = 0;
       mockExecSync.mockImplementation((cmd: any) => {
@@ -552,7 +552,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(result.qualityScore).toBe(65);
     });
 
-    test('should not allow negative quality scores': any, async () => {
+    test('should not allow negative quality scores', async () => {
       // Mock all validations failing
       mockExecSync.mockImplementation((cmd: any) => {
         throw new Error('All validations failed');

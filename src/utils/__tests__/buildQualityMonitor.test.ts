@@ -50,7 +50,7 @@ describe('Build Quality Monitor', () => {
   });
 
   describe('monitorBuildQuality', () => {
-    it('should generate comprehensive build quality report': any, async () => {
+    it('should generate comprehensive build quality report', async () => {
       // Mock successful TypeScript compilation
       mockExecSync.mockReturnValue('');
 
@@ -66,7 +66,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.timestamp).toBeInstanceOf(Date);
     });
 
-    it('should detect build performance issues': any, async () => {
+    it('should detect build performance issues', async () => {
       // Mock TypeScript compilation
       mockExecSync.mockReturnValue('');
 
@@ -76,7 +76,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.performanceAnalysis.currentBuildTime).toBeGreaterThan(0);
     });
 
-    it('should detect TypeScript errors': any, async () => {
+    it('should detect TypeScript errors', async () => {
       // Mock TypeScript output with errors
       const mockTscOutput: any = [
         "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
@@ -98,7 +98,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.buildMetrics.success).toBe(false);
     });
 
-    it('should generate performance alerts for slow builds': any, async () => {
+    it('should generate performance alerts for slow builds', async () => {
       // Mock TypeScript compilation
       mockExecSync.mockReturnValue('');
 
@@ -111,7 +111,7 @@ describe('Build Quality Monitor', () => {
       expect(performanceAlerts.length).toBeGreaterThanOrEqual(0);
     });
 
-    it('should analyze bundle size when .next directory exists': any, async () => {
+    it('should analyze bundle size when .next directory exists', async () => {
       // Mock .next directory existence
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock function parameter requires flexible typing for path variations
@@ -135,7 +135,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.buildMetrics.bundleSize.total).toBeGreaterThanOrEqual(0);
     });
 
-    it('should estimate cache hit rate': any, async () => {
+    it('should estimate cache hit rate', async () => {
       // Mock cache directory
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock function parameter requires flexible typing for path variations
@@ -149,7 +149,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.buildMetrics.cacheHitRate).toBeLessThanOrEqual(1);
     });
 
-    it('should detect memory usage patterns': any, async () => {
+    it('should detect memory usage patterns', async () => {
       const report: any = monitorBuildQuality();
 
       expect((report)?.memoryAnalysis.peakMemoryUsage).toBeGreaterThanOrEqual(0);
@@ -158,7 +158,7 @@ describe('Build Quality Monitor', () => {
       expect((Array)?.isArray((report as any)?.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true);
     });
 
-    it('should generate optimization recommendations': any, async () => {
+    it('should generate optimization recommendations', async () => {
       const report: any = monitorBuildQuality();
 
       expect((Array)?.isArray((report as any)?.recommendations)).toBe(true);
@@ -174,7 +174,7 @@ describe('Build Quality Monitor', () => {
       }
     });
 
-    it('should calculate quality metrics': any, async () => {
+    it('should calculate quality metrics', async () => {
       mockExecSync.mockReturnValue('');
 
       const report: any = monitorBuildQuality();
@@ -187,7 +187,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.qualityMetrics.technicalDebt).toBeDefined();
     });
 
-    it('should handle build failures gracefully': any, async () => {
+    it('should handle build failures gracefully', async () => {
       // Mock complete build failure
       mockExecSync.mockImplementation(() => {
         throw new Error('Complete build failure');
@@ -199,7 +199,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.buildMetrics.errorCount).toBeGreaterThanOrEqual(0);
     });
 
-    it('should analyze parallelization efficiency': any, async () => {
+    it('should analyze parallelization efficiency', async () => {
       const report: any = monitorBuildQuality();
 
       expect((report)?.buildMetrics.parallelization.workers).toBeGreaterThan(0);
@@ -209,7 +209,7 @@ describe('Build Quality Monitor', () => {
   });
 
   describe('getBuildQualityScore', () => {
-    it('should return quality score between 0 and 100': any, async () => {
+    it('should return quality score between 0 and 100', async () => {
       mockExecSync.mockReturnValue('');
 
       const score: any = getBuildQualityScore();
@@ -218,7 +218,7 @@ describe('Build Quality Monitor', () => {
       expect(score).toBeLessThanOrEqual(100);
     });
 
-    it('should return 0 on error': any, async () => {
+    it('should return 0 on error', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Complete failure');
       });
@@ -230,7 +230,7 @@ describe('Build Quality Monitor', () => {
   });
 
   describe('Performance Analysis', () => {
-    it('should identify build bottlenecks': any, async () => {
+    it('should identify build bottlenecks', async () => {
       // Mock build with TypeScript errors (smaller number to avoid memory issues)
       const mockTscOutput: any = [
         "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
@@ -258,7 +258,7 @@ describe('Build Quality Monitor', () => {
       expect(tsBottleneck).toBeDefined();
     });
 
-    it('should analyze performance trends': any, async () => {
+    it('should analyze performance trends', async () => {
       mockExecSync.mockReturnValue('');
 
       const report: any = monitorBuildQuality();
@@ -266,7 +266,7 @@ describe('Build Quality Monitor', () => {
       expect(['improving', 'stable', 'degrading']).toContain((report as any)?.performanceAnalysis.performanceTrend);
     });
 
-    it('should calculate build time percentiles': any, async () => {
+    it('should calculate build time percentiles', async () => {
       mockExecSync.mockReturnValue('');
 
       const report: any = monitorBuildQuality();
@@ -277,7 +277,7 @@ describe('Build Quality Monitor', () => {
   });
 
   describe('Alert Generation', () => {
-    it('should generate alerts for high error counts': any, async () => {
+    it('should generate alerts for high error counts', async () => {
       // Mock TypeScript errors (smaller number to avoid memory issues)
       const mockTscOutput: any = [
         "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
@@ -300,7 +300,7 @@ describe('Build Quality Monitor', () => {
       expect((Array)?.isArray((report as any)?.alerts)).toBe(true);
     });
 
-    it('should include alert metadata': any, async () => {
+    it('should include alert metadata', async () => {
       mockExecSync.mockReturnValue('');
 
       const report: any = monitorBuildQuality();
@@ -317,7 +317,7 @@ describe('Build Quality Monitor', () => {
   });
 
   describe('Memory Analysis', () => {
-    it('should detect potential memory leaks': any, async () => {
+    it('should detect potential memory leaks', async () => {
       mockExecSync.mockReturnValue('');
 
       const report: any = monitorBuildQuality();
@@ -326,7 +326,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.memoryAnalysis.garbageCollectionStats).toBeDefined();
     });
 
-    it('should provide memory optimization suggestions': any, async () => {
+    it('should provide memory optimization suggestions', async () => {
       mockExecSync.mockReturnValue('');
 
       const report: any = monitorBuildQuality();
@@ -337,7 +337,7 @@ describe('Build Quality Monitor', () => {
   });
 
   describe('Error Handling', () => {
-    it('should handle file system errors gracefully': any, async () => {
+    it('should handle file system errors gracefully', async () => {
       mockExistsSync.mockImplementation(() => {
         throw new Error('File system error');
       });
@@ -348,7 +348,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.buildMetrics.bundleSize.total).toBe(0);
     });
 
-    it('should handle ESLint configuration errors': any, async () => {
+    it('should handle ESLint configuration errors', async () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('lint')) {
           throw new Error('ESLint not configured');
@@ -363,7 +363,7 @@ describe('Build Quality Monitor', () => {
   });
 
   describe('Performance', () => {
-    it('should complete monitoring within reasonable time': any, async () => {
+    it('should complete monitoring within reasonable time', async () => {
       mockExecSync.mockReturnValue('');
 
       const startTime: any = Date.now();

@@ -83,7 +83,7 @@ describe('MakefileIntegration', () => {
       mockExecSync.mockReturnValue('Make target executed successfully');
     });
 
-    it('should execute make target successfully': any, async () => {
+    it('should execute make target successfully', async () => {
       const result: any = await makefileIntegration.executeMakeTarget('test-target');
 
       expect(mockExecSync).toHaveBeenCalledWith('make test-target', expect.any(Object));
@@ -93,7 +93,7 @@ describe('MakefileIntegration', () => {
       expect(result.executionTime).toBeGreaterThan(0);
     });
 
-    it('should handle make target execution failure': any, async () => {
+    it('should handle make target execution failure', async () => {
       const error: any = new Error('Make failed') as unknown;
       error.status = 2;
       (error as any).stdout = 'Error output';
@@ -108,7 +108,7 @@ describe('MakefileIntegration', () => {
       expect(result.target).toBe('failing-target');
     });
 
-    it('should support dry run mode': any, async () => {
+    it('should support dry run mode', async () => {
       const result: any = await makefileIntegration.executeMakeTarget('test-target', { dryRun: true });
 
       expect(mockExecSync).not.toHaveBeenCalled();
@@ -117,13 +117,13 @@ describe('MakefileIntegration', () => {
       expect(result.executionTime).toBe(0);
     });
 
-    it('should support silent mode': any, async () => {
+    it('should support silent mode', async () => {
       await makefileIntegration.executeMakeTarget('test-target', { silent: true });
 
       expect(mockExecSync).toHaveBeenCalledWith('make test-target', expect.objectContaining({ stdio: 'pipe' }));
     });
 
-    it('should respect timeout option': any, async () => {
+    it('should respect timeout option', async () => {
       await makefileIntegration.executeMakeTarget('test-target', { timeout: 5000 });
 
       expect(mockExecSync).toHaveBeenCalledWith('make test-target', expect.objectContaining({ timeout: 5000 }));
@@ -140,7 +140,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce(''); // Build (successful)
     });
 
-    it('should return campaign progress with correct phase determination': any, async () => {
+    it('should return campaign progress with correct phase determination', async () => {
       const progress: any = await makefileIntegration.getCampaignProgress();
 
       expect(progress.currentPhase).toBe(1); // Has TS errors, so phase 1
@@ -151,7 +151,7 @@ describe('MakefileIntegration', () => {
       expect(progress.lastUpdate).toBeInstanceOf(Date);
     });
 
-    it('should determine phase 2 when TS errors are zero': any, async () => {
+    it('should determine phase 2 when TS errors are zero', async () => {
       mockExecSync
         .mockReturnValueOnce('0') // No TypeScript errors
         .mockReturnValueOnce('10') // Still has linting warnings
@@ -164,7 +164,7 @@ describe('MakefileIntegration', () => {
       expect(progress.typeScriptErrors).toBe(0);
     });
 
-    it('should determine phase 3 when TS errors and linting warnings are zero': any, async () => {
+    it('should determine phase 3 when TS errors and linting warnings are zero', async () => {
       mockExecSync
         .mockReturnValueOnce('0') // No TypeScript errors
         .mockReturnValueOnce('0') // No linting warnings
@@ -176,7 +176,7 @@ describe('MakefileIntegration', () => {
       expect(progress.currentPhase).toBe(3);
     });
 
-    it('should determine phase 4 when first three phases are complete': any, async () => {
+    it('should determine phase 4 when first three phases are complete', async () => {
       mockExecSync
         .mockReturnValueOnce('0') // No TypeScript errors
         .mockReturnValueOnce('0') // No linting warnings
@@ -188,7 +188,7 @@ describe('MakefileIntegration', () => {
       expect(progress.currentPhase).toBe(4);
     });
 
-    it('should handle errors gracefully': any, async () => {
+    it('should handle errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
@@ -209,7 +209,7 @@ describe('MakefileIntegration', () => {
       mockFs.readFileSync.mockReturnValue('# Existing Makefile content\nhelp:\n\t@echo "Help"');
     });
 
-    it('should add campaign targets to existing Makefile': any, async () => {
+    it('should add campaign targets to existing Makefile', async () => {
       const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
 
       expect(result).toBe(true);
@@ -220,7 +220,7 @@ describe('MakefileIntegration', () => {
       );
     });
 
-    it('should not add targets if they already exist': any, async () => {
+    it('should not add targets if they already exist', async () => {
       mockFs.readFileSync.mockReturnValue('# Campaign Execution Framework\nexisting content');
 
       const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
@@ -229,7 +229,7 @@ describe('MakefileIntegration', () => {
       expect(mockFs.writeFileSync).not.toHaveBeenCalled();
     });
 
-    it('should handle missing Makefile': any, async () => {
+    it('should handle missing Makefile', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
@@ -238,7 +238,7 @@ describe('MakefileIntegration', () => {
       expect(mockFs.writeFileSync).not.toHaveBeenCalled();
     });
 
-    it('should handle file system errors': any, async () => {
+    it('should handle file system errors', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File read error');
       });
@@ -250,7 +250,7 @@ describe('MakefileIntegration', () => {
   });
 
   describe('validateExistingTargets', () => {
-    it('should validate that required targets exist': any, async () => {
+    it('should validate that required targets exist', async () => {
       mockExecSync.mockReturnValue('Target executed successfully');
 
       const validation: any = await makefileIntegration.validateExistingTargets();
@@ -259,7 +259,7 @@ describe('MakefileIntegration', () => {
       expect(validation.missing).toHaveLength(0);
     });
 
-    it('should identify missing targets': any, async () => {
+    it('should identify missing targets', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.includes('make errors')) {
           throw new Error('Target not found');
@@ -273,7 +273,7 @@ describe('MakefileIntegration', () => {
       expect(validation.missing).toContain('errors');
     });
 
-    it('should check all required targets': any, async () => {
+    it('should check all required targets', async () => {
       const requiredTargets: any = ['errors', 'errors-by-type', 'errors-by-file', 'check', 'build', 'test', 'lint'];
 
       await makefileIntegration.validateExistingTargets();
@@ -288,7 +288,7 @@ describe('MakefileIntegration', () => {
   });
 
   describe('generateCampaignMakefileSection', () => {
-    it('should generate valid Makefile syntax': any, async () => {
+    it('should generate valid Makefile syntax', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('# Existing content');
 
@@ -309,7 +309,7 @@ describe('MakefileIntegration', () => {
       });
     });
 
-    it('should include phony targets declaration': any, async () => {
+    it('should include phony targets declaration', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('# Existing content');
 
@@ -323,7 +323,7 @@ describe('MakefileIntegration', () => {
       expect(phonyLine).toContain('campaign-status');
     });
 
-    it('should include target dependencies': any, async () => {
+    it('should include target dependencies', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('# Existing content');
 

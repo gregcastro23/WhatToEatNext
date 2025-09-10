@@ -112,7 +112,7 @@ describe('Build System Integration', () => {
           stdio: 'pipe',
         });
         fail('Should have thrown an error for invalid command');
-      } catch (error: any): any {
+      } catch (error: any) {
         const execError: any = error as { status: number; stdou, t: string };
         expect(execError.status).toBe(1);
         expect(execError.stdout).toContain('Invalid or missing command');
@@ -126,7 +126,7 @@ describe('Build System Integration', () => {
           stdio: 'pipe',
         });
         fail('Should have thrown an error for missing command');
-      } catch (error: any): any {
+      } catch (error: any) {
         const execError: any = error as { status: number; stdou, t: string };
         expect(execError.status).toBe(1);
         expect(execError.stdout).toContain('Invalid or missing command');

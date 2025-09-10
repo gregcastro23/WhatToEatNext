@@ -71,7 +71,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   });
 
   describe('Dashboard Generation', () => {
-    test('should generate comprehensive dashboard successfully': any, async () => {
+    test('should generate comprehensive dashboard successfully', async () => {
       // Mock validation dashboard result
       const mockValidationResult: any = {
         passed: true,
@@ -112,7 +112,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       );
     });
 
-    test('should handle dashboard generation errors gracefully': any, async () => {
+    test('should handle dashboard generation errors gracefully', async () => {
       // Mock validation dashboard failure
       void jest
         .spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
@@ -121,7 +121,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       await expect(dashboard.generateDashboard()).rejects.toThrow('Validation failed');
     });
 
-    test('should generate targets with correct progress calculations': any, async () => {
+    test('should generate targets with correct progress calculations', async () => {
       const mockValidationResult: any = {
         passed: true,
         metrics: mockMetrics,
@@ -167,7 +167,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   });
 
   describe('Real-Time Monitoring', () => {
-    test('should detect significant changes in metrics': any, async () => {
+    test('should detect significant changes in metrics', async () => {
       const previousMetrics: any = { ...mockMetrics, totalIssues: 1000 };
       const currentMetrics: any = { ...mockMetrics, totalIssues: 1500 };
 
@@ -197,7 +197,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(criticalIssues).toContain(expect.stringContaining('75000ms'));
     }, 3000); // 3 second timeout
 
-    test('should handle real-time monitoring updates efficiently': any, async () => {
+    test('should handle real-time monitoring updates efficiently', async () => {
       const startTime: any = Date.now();
 
       // Simulate rapid metric updates
@@ -212,7 +212,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(duration).toBeLessThan(1000); // Under 1 second
     }, 5000); // 5 second timeout
 
-    test('should validate monitoring consistency': any, async () => {
+    test('should validate monitoring consistency', async () => {
       const testMetrics: any = { ...mockMetrics, totalIssues: 500 };
 
       // Run the same detection multiple times
@@ -227,7 +227,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(allSame).toBe(true);
     }, 3000); // 3 second timeout
 
-    test('should update real-time status correctly': any, async () => {
+    test('should update real-time status correctly', async () => {
       dashboard['updateRealTimeStatus'](mockMetrics);
 
       const statusCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>;
@@ -245,7 +245,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   });
 
   describe('Trend Analysis', () => {
-    test('should calculate trends correctly with sufficient data': any, async () => {
+    test('should calculate trends correctly with sufficient data', async () => {
       // Mock metrics history with trend data
       const historyData: any = [
         { ...mockMetrics, totalIssues: 2000, timestamp: new Date('2025-01-01') },
@@ -269,7 +269,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       }
     });
 
-    test('should handle insufficient data for trend analysis': any, async () => {
+    test('should handle insufficient data for trend analysis', async () => {
       // Mock insufficient history data
       const historyData: any = [mockMetrics];
       void mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
@@ -292,7 +292,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   });
 
   describe('Quality Gates', () => {
-    test('should evaluate quality gates correctly': any, async () => {
+    test('should evaluate quality gates correctly', async () => {
       const gates: any = await dashboard['checkQualityGates'](mockMetrics);
 
       expect(gates).toBeInstanceOf(Array);
@@ -320,7 +320,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       }
     });
 
-    test('should identify failing quality gates': any, async () => {
+    test('should identify failing quality gates', async () => {
       const failingMetrics: any = {
         ...mockMetrics,
         parserErrors: 3,
@@ -368,7 +368,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(completion.getTime()).toBeLessThanOrEqual(deadline.getTime());
     });
 
-    test('should update targets with current metrics': any, async () => {
+    test('should update targets with current metrics', async () => {
       const mockValidationResult: any = {
         passed: true,
         metrics: mockMetrics,
@@ -443,7 +443,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(nextQuarterly.getMonth()).toBe(3); // April (0-indexed)
     });
 
-    test('should run scheduled maintenance procedures': any, async () => {
+    test('should run scheduled maintenance procedures', async () => {
       // Mock successful command execution for maintenance
       mockExecSync.mockReturnValue('0'); // Success exit code
 
@@ -465,7 +465,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   });
 
   describe('Report Generation', () => {
-    test('should generate comprehensive markdown report': any, async () => {
+    test('should generate comprehensive markdown report', async () => {
       const mockData: any = {
         validationResult: { passed: true,
           metrics: mockMetrics,
@@ -500,7 +500,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(markdownCall.[1]).toContain('Total Issues: 1500');
     });
 
-    test('should generate JSON report with structured data': any, async () => {
+    test('should generate JSON report with structured data', async () => {
       const mockData: any = {
         validationResult: { passed: true,
           metrics: mockMetrics,
@@ -601,7 +601,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   });
 
   describe('Error Handling', () => {
-    test('should handle file system errors gracefully': any, async () => {
+    test('should handle file system errors gracefully', async () => {
       mockReadFileSync.mockImplementation(() => {
         throw new Error('File not found');
       });
@@ -611,7 +611,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(trends).toEqual([]);
     });
 
-    test('should handle command execution errors in maintenance': any, async () => {
+    test('should handle command execution errors in maintenance', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });

@@ -244,7 +244,7 @@ describe('Main Page Integration Tests', () => {
     void jest.restoreAllMocks();
   });
 
-  it('renders all main sections and they interact correctly': any, async () => {
+  it('renders all main sections and they interact correctly', async () => {
     act(async () => {
       render(<MainPageLayout />);
     });
@@ -282,7 +282,7 @@ describe('Main Page Integration Tests', () => {
     expect(screen.getByText('Selected: Sauté')).toBeInTheDocument();
   });
 
-  it('handles navigation between sections correctly': any, async () => {
+  it('handles navigation between sections correctly', async () => {
     const mockOnSectionNavigate = jest.fn() as any;
 
     act(async () => {
@@ -306,7 +306,7 @@ describe('Main Page Integration Tests', () => {
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('ingredients');
   });
 
-  it('preserves state across component interactions': any, async () => {
+  it('preserves state across component interactions', async () => {
     act(async () => {
       render(<MainPageLayout />);
     });
@@ -336,7 +336,7 @@ describe('Main Page Integration Tests', () => {
     });
   });
 
-  it('handles recipe building workflow': any, async () => {
+  it('handles recipe building workflow', async () => {
     const user: any = userEvent.setup();
 
     act(async () => {
@@ -367,7 +367,7 @@ describe('Main Page Integration Tests', () => {
     expect(saveButton).toBeEnabled();
   });
 
-  it('handles error states gracefully': any, async () => {
+  it('handles error states gracefully', async () => {
     // Mock console.error to avoid noise in test output
     const consoleSpy: any = jest.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -390,7 +390,7 @@ describe('Main Page Integration Tests', () => {
     consoleSpy.mockRestore();
   });
 
-  it('displays debug information when enabled': any, async () => {
+  it('displays debug information when enabled', async () => {
     act(async () => {
       render(<MainPageLayout debugMode={true} />);
     });
@@ -404,7 +404,7 @@ describe('Main Page Integration Tests', () => {
     expect(screen.getByText('Astrological State: Active')).toBeInTheDocument();
   });
 
-  it('handles component loading states': any, async () => {
+  it('handles component loading states', async () => {
     act(async () => {
       render(<MainPageLayout />);
     });
@@ -424,7 +424,7 @@ describe('Main Page Integration Tests', () => {
     });
   });
 
-  it('handles cross-component data flow': any, async () => {
+  it('handles cross-component data flow', async () => {
     act(async () => {
       render(<MainPageLayout />);
     });
@@ -452,7 +452,7 @@ describe('Main Page Integration Tests', () => {
     });
   });
 
-  it('handles view more navigation': any, async () => {
+  it('handles view more navigation', async () => {
     const mockRouter: any = {
       push: jest.fn(),
     };
@@ -478,7 +478,7 @@ describe('Main Page Integration Tests', () => {
     expect(mockRouter.push).toHaveBeenCalledWith('/cooking-methods');
   });
 
-  it('maintains responsive behavior': any, async () => {
+  it('maintains responsive behavior', async () => {
     // Mock window.innerWidth for responsive testing
     Object.defineProperty(window, 'innerWidth', {
       writable: true,

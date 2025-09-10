@@ -30,7 +30,7 @@ describe('Automated Error Resolution Integration', () => {
   });
 
   describe('ESLint Auto-Fix Integration', () => {
-    test('should execute ESLint auto-fix successfully': any, async () => {
+    test('should execute ESLint auto-fix successfully', async () => {
       const mockLintOutput: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
@@ -67,7 +67,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(JSON.parse(result)[0].fixableErrorCount).toBe(2);
     });
 
-    test('should handle ESLint execution errors gracefully': any, async () => {
+    test('should handle ESLint execution errors gracefully', async () => {
       const mockError: any = new Error('ESLint failed') as any;
       mockError.stdout = JSON.stringify([]);
       mockError.status = 1;
@@ -80,7 +80,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(() => {
         try {
           mockExecSync('yarn lint:fix', { encoding: 'utf8' });
-        } catch (error: any): any {
+        } catch (error: any) {
           // Simulate error handling
           const err: any = error as { status?: number; stdout?: string };
           if (err.status === 1 && err.stdout) {
@@ -91,7 +91,7 @@ describe('Automated Error Resolution Integration', () => {
       }).not.toThrow();
     });
 
-    test('should process multiple files in batch': any, async () => {
+    test('should process multiple files in batch', async () => {
       const mockBatchOutput: any = JSON.stringify([
         {
           filePath: '/test/file1.ts',
@@ -122,7 +122,7 @@ describe('Automated Error Resolution Integration', () => {
   });
 
   describe('Import Organization Resolution', () => {
-    test('should fix import order violations': any, async () => {
+    test('should fix import order violations', async () => {
       const testFileContent: any = `;
         import { Component } from 'react';
         import path from 'path';
@@ -162,7 +162,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(result.[0].messages).toHaveLength(0);
     });
 
-    test('should remove duplicate imports': any, async () => {
+    test('should remove duplicate imports', async () => {
       const testFileContent: any = `;
         import { Component } from 'react';
         import { useState } from 'react';
@@ -187,7 +187,7 @@ describe('Automated Error Resolution Integration', () => {
       expect((result.[0].output.match(/import.*from 'react'/g) || []).length).toBeLessThan(3);
     });
 
-    test('should preserve astrological import patterns': any, async () => {
+    test('should preserve astrological import patterns', async () => {
       const astrologicalImports: any = `;
         import { calculatePlanetaryPositions } from '@/calculations/planetary';
         import { validateTransitDate } from '@/utils/transitValidation';
@@ -217,7 +217,7 @@ describe('Automated Error Resolution Integration', () => {
   });
 
   describe('Unused Variable Resolution', () => {
-    test('should handle unused variable warnings': any, async () => {
+    test('should handle unused variable warnings', async () => {
       const testFileContent: any = `
         function calculateElements(): any {
           const unusedVar: any = 'test';
@@ -253,7 +253,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(result.[0].messages.[0].message).toContain('unusedVar');
     });
 
-    test('should preserve astrological variable patterns': any, async () => {
+    test('should preserve astrological variable patterns', async () => {
       const astrologicalCode: any = `
         function calculatePlanetaryInfluence(): any {
           const planet: any = 'mars';
@@ -281,7 +281,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(result.[0].messages).toHaveLength(0);
     });
 
-    test('should handle campaign system variable patterns': any, async () => {
+    test('should handle campaign system variable patterns', async () => {
       const campaignCode: any = `
         function executeCampaign(): any {
           const campaign: any = 'typescript-elimination';
@@ -311,7 +311,7 @@ describe('Automated Error Resolution Integration', () => {
   });
 
   describe('Console Statement Resolution', () => {
-    test('should handle console statement warnings': any, async () => {
+    test('should handle console statement warnings', async () => {
       const testFileContent: any = `
         function debugCalculation(): any {
           console.log('Debug info'); // Should be warning
@@ -346,7 +346,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(result.[0].messages.[0].message).toContain('console statement');
     });
 
-    test('should allow console statements in astrological calculations': any, async () => {
+    test('should allow console statements in astrological calculations', async () => {
       const astrologicalCode: any = `
         function calculatePlanetaryPositions(): any {
           console.log('Calculating planetary positions');
@@ -372,7 +372,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(result.[0].messages).toHaveLength(0);
     });
 
-    test('should allow console statements in campaign system files': any, async () => {
+    test('should allow console statements in campaign system files', async () => {
       const campaignCode: any = `
         function executeCampaignPhase(): any {
           console.log('Starting campaign phase');
@@ -400,7 +400,7 @@ describe('Automated Error Resolution Integration', () => {
   });
 
   describe('TypeScript Error Resolution', () => {
-    test('should handle explicit any type errors': any, async () => {
+    test('should handle explicit any type errors', async () => {
       const testFileContent: any = `
         function processData(data: any): any { // Should be error;
           return data.someProperty;
@@ -435,7 +435,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(result.[0].messages.[0].ruleId).toBe('@typescript-eslint/no-explicit-any');
     });
 
-    test('should handle unnecessary condition warnings': any, async () => {
+    test('should handle unnecessary condition warnings', async () => {
       const testFileContent: any = `
         function checkValue(value?: string): any {
           if (value !== undefined && value !== null) { // May be unnecessary;
@@ -471,7 +471,7 @@ describe('Automated Error Resolution Integration', () => {
   });
 
   describe('React Hooks Resolution', () => {
-    test('should handle exhaustive deps warnings': any, async () => {
+    test('should handle exhaustive deps warnings', async () => {
       const reactCode: any = `;
         import { useEffect, useState } from 'react';
 
@@ -512,7 +512,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(result.[0].messages.[0].message).toContain('missing dependency');
     });
 
-    test('should handle custom hooks in astrological components': any, async () => {
+    test('should handle custom hooks in astrological components', async () => {
       const astrologicalReactCode: any = `;
         import { useEffect } from 'react';
         import { useRecoilValue } from 'recoil';
@@ -547,7 +547,7 @@ describe('Automated Error Resolution Integration', () => {
   });
 
   describe('Error Resolution Workflow', () => {
-    test('should execute complete error resolution workflow': any, async () => {
+    test('should execute complete error resolution workflow', async () => {
       const workflowSteps: any = [
         'yarn lint --format=json', // Initial analysis
         'yarn lint:fix', // Auto-fix
@@ -582,7 +582,7 @@ describe('Automated Error Resolution Integration', () => {
       expect(finalResult.[0].messages).toHaveLength(0);
     });
 
-    test('should handle partial resolution gracefully': any, async () => {
+    test('should handle partial resolution gracefully', async () => {
       const partialResolutionOutput: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
@@ -604,7 +604,7 @@ describe('Automated Error Resolution Integration', () => {
             })).toBe(true);
     });
 
-    test('should preserve file safety during resolution': any, async () => {
+    test('should preserve file safety during resolution', async () => {
       const safetyChecks: any = [
         'git status --porcelain', // Check for uncommitted changes
         'yarn build', // Verify build still works

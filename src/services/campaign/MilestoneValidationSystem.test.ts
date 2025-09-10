@@ -34,7 +34,7 @@ describe('MilestoneValidationSystem', () => {
   });
 
   describe('Phase 1 Validation - TypeScript Error Elimination', () => {
-    test('should validate successful Phase 1 completion': any, async () => {
+    test('should validate successful Phase 1 completion', async () => {
       // Mock perfect metrics
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -91,7 +91,7 @@ describe('MilestoneValidationSystem', () => {
       expect(result.nextSteps).toContain('Phase 1 complete - proceed to Phase 2: Linting Excellence');
     });
 
-    test('should validate failed Phase 1 with remaining errors': any, async () => {
+    test('should validate failed Phase 1 with remaining errors', async () => {
       // Mock metrics with remaining errors
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -148,7 +148,7 @@ describe('MilestoneValidationSystem', () => {
       expect(result.nextSteps).toContain('Continue with Enhanced TypeScript Error Fixer v3.0');
     });
 
-    test('should handle build failures in Phase 1': any, async () => {
+    test('should handle build failures in Phase 1', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -185,7 +185,7 @@ describe('MilestoneValidationSystem', () => {
   });
 
   describe('Phase 2 Validation - Linting Excellence', () => {
-    test('should validate successful Phase 2 completion': any, async () => {
+    test('should validate successful Phase 2 completion', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -219,7 +219,7 @@ describe('MilestoneValidationSystem', () => {
       );
     });
 
-    test('should validate failed Phase 2 with remaining warnings': any, async () => {
+    test('should validate failed Phase 2 with remaining warnings', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -256,7 +256,7 @@ describe('MilestoneValidationSystem', () => {
   });
 
   describe('Phase 3 Validation - Enterprise Intelligence Transformation', () => {
-    test('should validate successful Phase 3 completion': any, async () => {
+    test('should validate successful Phase 3 completion', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -294,7 +294,7 @@ describe('MilestoneValidationSystem', () => {
       expect(result.nextSteps).toContain('Phase 3 complete - proceed to Phase 4: Performance Optimization');
     });
 
-    test('should validate failed Phase 3 with insufficient enterprise systems': any, async () => {
+    test('should validate failed Phase 3 with insufficient enterprise systems', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -328,7 +328,7 @@ describe('MilestoneValidationSystem', () => {
   });
 
   describe('Phase 4 Validation - Performance Optimization', () => {
-    test('should validate successful Phase 4 completion': any, async () => {
+    test('should validate successful Phase 4 completion', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -359,7 +359,7 @@ describe('MilestoneValidationSystem', () => {
       expect(result.nextSteps).toContain('Perfect Codebase Campaign Complete! 🎉');
     });
 
-    test('should validate failed Phase 4 with poor performance': any, async () => {
+    test('should validate failed Phase 4 with poor performance', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -392,7 +392,7 @@ describe('MilestoneValidationSystem', () => {
   });
 
   describe('Comprehensive Validation', () => {
-    test('should validate all phases successfully': any, async () => {
+    test('should validate all phases successfully', async () => {
       // Mock perfect metrics for all phases
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -425,7 +425,7 @@ describe('MilestoneValidationSystem', () => {
       expect(results.every(r => r.overallSuccess)).toBe(true);
     });
 
-    test('should handle mixed phase results': any, async () => {
+    test('should handle mixed phase results', async () => {
       // Mock metrics that pass some phases but not others
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -461,7 +461,7 @@ describe('MilestoneValidationSystem', () => {
   });
 
   describe('Export Functionality', () => {
-    test('should export validation results to file': any, async () => {
+    test('should export validation results to file', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -498,7 +498,7 @@ describe('MilestoneValidationSystem', () => {
   });
 
   describe('Helper Methods', () => {
-    test('should calculate completion percentage correctly': any, async () => {
+    test('should calculate completion percentage correctly', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 5, target: 0, reduction: 81, percentage: 94 },
@@ -530,7 +530,7 @@ describe('MilestoneValidationSystem', () => {
       expect(result.completionPercentage).toBeLessThan(100);
     });
 
-    test('should generate appropriate next steps': any, async () => {
+    test('should generate appropriate next steps', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },

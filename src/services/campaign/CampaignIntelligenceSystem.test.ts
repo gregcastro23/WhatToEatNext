@@ -160,7 +160,7 @@ describe('Campaign Intelligence System', () => {
   });
 
   describe('CAMPAIGN_ENTERPRISE_INTELLIGENCE', () => {
-    it('should generate comprehensive intelligence': any, async () => {
+    it('should generate comprehensive intelligence', async () => {
       // Mock the analyzer methods to avoid actual system calls
       const mockErrorAnalyzer = {
         analyzeErrors: jest.fn().mockResolvedValue({ distribution: {
@@ -267,7 +267,7 @@ describe('Campaign Intelligence System', () => {
   });
 
   describe('CAMPAIGN_INTELLIGENCE_DEMO', () => {
-    it('should demonstrate all intelligence capabilities': any, async () => {
+    it('should demonstrate all intelligence capabilities', async () => {
       const demo: any = await CAMPAIGN_INTELLIGENCE_DEMO.demonstrateAllIntelligence();
 
       expect(demo.errorPatternDemo).toBeDefined();

@@ -26,7 +26,7 @@ describe('AnalysisTools', () => {
   });
 
   describe('analyzeDomainDistribution', () => {
-    it('should analyze any type distribution by domain': any, async () => {
+    it('should analyze any type distribution by domain', async () => {
       // Mock grep output for finding any types
       mockExecSync.mockReturnValue(`
 src/calculations/core.ts: 15:const dat, a: any = response;
@@ -65,7 +65,7 @@ src/data/ingredients/spices.ts: 1, 2:Record<string, unknown>
       expect(domainPercentages).toBeCloseTo(100, 1);
     });
 
-    it('should handle empty results gracefully': any, async () => {
+    it('should handle empty results gracefully', async () => {
       mockExecSync.mockReturnValue('');
 
       const distribution: any = await analysisTools.analyzeDomainDistribution();
@@ -77,7 +77,7 @@ src/data/ingredients/spices.ts: 1, 2:Record<string, unknown>
       expect(distribution.intentionalVsUnintentional.unintentional.count).toBe(0);
     });
 
-    it('should handle grep command errors': any, async () => {
+    it('should handle grep command errors', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('grep command failed');
       });
@@ -90,7 +90,7 @@ src/data/ingredients/spices.ts: 1, 2:Record<string, unknown>
   });
 
   describe('generateClassificationAccuracyReport', () => {
-    it('should generate classification accuracy report': any, async () => {
+    it('should generate classification accuracy report', async () => {
       // Mock grep output
       mockExecSync.mockReturnValue(`
 src/test.ts: 1:const item, s: any[] = [];
@@ -121,7 +121,7 @@ src/test.ts:3:Record<string, unknown>
       }
     });
 
-    it('should handle array type classifications accurately': any, async () => {
+    it('should handle array type classifications accurately', async () => {
       mockExecSync.mockReturnValue('src/test.ts: 1:const item, s: any[] = [];');
       mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
 
@@ -133,7 +133,7 @@ src/test.ts:3:Record<string, unknown>
       expect(arrayTypeAccuracy).toBeDefined();
     });
 
-    it('should handle error handling classifications accurately': any, async () => {
+    it('should handle error handling classifications accurately', async () => {
       mockExecSync.mockReturnValue('src/test.ts:1:} catch (error: any) : any {');
       mockFs.readFileSync.mockReturnValue('} catch (error: any) : any {');
 
@@ -147,7 +147,7 @@ src/test.ts:3:Record<string, unknown>
   });
 
   describe('generateSuccessRateAnalysis', () => {
-    it('should generate success rate analysis with trending': any, async () => {
+    it('should generate success rate analysis with trending', async () => {
       const analysis: any = await analysisTools.generateSuccessRateAnalysis();
 
       expect(analysis.currentSuccessRate).toBeGreaterThanOrEqual(0);
@@ -169,7 +169,7 @@ src/test.ts:3:Record<string, unknown>
       });
     });
 
-    it('should provide recommendations for low success rate categories': any, async () => {
+    it('should provide recommendations for low success rate categories', async () => {
       const analysis: any = await analysisTools.generateSuccessRateAnalysis();
 
       // Should have recommendations for categories with low success rates
@@ -179,7 +179,7 @@ src/test.ts:3:Record<string, unknown>
       }
     });
 
-    it('should calculate projected completion date': any, async () => {
+    it('should calculate projected completion date', async () => {
       const analysis: any = await analysisTools.generateSuccessRateAnalysis();
 
       expect(analysis.projectedCompletion).toBeInstanceOf(Date);
@@ -188,7 +188,7 @@ src/test.ts:3:Record<string, unknown>
   });
 
   describe('generateManualReviewRecommendations', () => {
-    it('should generate manual review recommendations': any, async () => {
+    it('should generate manual review recommendations', async () => {
       // Mock grep output with various any types
       mockExecSync.mockReturnValueOnce(`
 src/complex.ts: 1:const confi, g: any = getConfig();
@@ -235,7 +235,7 @@ src/legacy.ts: 3:oldDat, a: any
       });
     });
 
-    it('should prioritize recommendations correctly': any, async () => {
+    it('should prioritize recommendations correctly', async () => {
       mockExecSync.mockReturnValueOnce('src/test.ts: 1:const dat, a: any = value;');
       mockFs.readFileSync.mockReturnValue('const data: any = value;');
       mockExecSync.mockImplementation(() => '');
@@ -252,7 +252,7 @@ src/legacy.ts: 3:oldDat, a: any
       }
     });
 
-    it('should find related occurrences in the same file': any, async () => {
+    it('should find related occurrences in the same file', async () => {
       mockExecSync.mockReturnValueOnce('src/test.ts: 1:const dat, a: any = value;');
       mockFs.readFileSync.mockReturnValue('const data: any = value;');
 
@@ -275,7 +275,7 @@ src/legacy.ts: 3:oldDat, a: any
   });
 
   describe('generateComprehensiveReport', () => {
-    it('should generate comprehensive analysis report': any, async () => {
+    it('should generate comprehensive analysis report', async () => {
       // Mock all the required data
       mockExecSync.mockReturnValue('src/test.ts: 1:const dat, a: any = value;');
       mockFs.readFileSync.mockReturnValue('const data: any = value;');
@@ -300,7 +300,7 @@ src/legacy.ts: 3:oldDat, a: any
       expect(Object.values(AnyTypeCategory)).toContain(report.summary.topCategory);
     });
 
-    it('should save report to history': any, async () => {
+    it('should save report to history', async () => {
       mockExecSync.mockReturnValue('');
       mockFs.readFileSync.mockReturnValue('');
 
@@ -310,7 +310,7 @@ src/legacy.ts: 3:oldDat, a: any
       expect(mockFs.writeFileSync).toHaveBeenCalled();
     });
 
-    it('should handle file system errors gracefully': any, async () => {
+    it('should handle file system errors gracefully', async () => {
       mockExecSync.mockReturnValue('');
       mockFs.readFileSync.mockReturnValue('');
       mockFs.writeFileSync.mockImplementation(() => {
@@ -324,7 +324,7 @@ src/legacy.ts: 3:oldDat, a: any
   });
 
   describe('error handling', () => {
-    it('should handle grep command failures gracefully': any, async () => {
+    it('should handle grep command failures gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command failed');
       });
@@ -333,7 +333,7 @@ src/legacy.ts: 3:oldDat, a: any
       expect(distribution.totalAnyTypes).toBe(0);
     });
 
-    it('should handle file reading failures gracefully': any, async () => {
+    it('should handle file reading failures gracefully', async () => {
       mockExecSync.mockReturnValue('src/test.ts: 1:const dat, a: any = value;');
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File not found');
@@ -343,7 +343,7 @@ src/legacy.ts: 3:oldDat, a: any
       expect(distribution).toBeDefined();
     });
 
-    it('should handle malformed grep output': any, async () => {
+    it('should handle malformed grep output', async () => {
       mockExecSync.mockReturnValue('invalid output format');
       mockFs.readFileSync.mockReturnValue('');
 
@@ -353,7 +353,7 @@ src/legacy.ts: 3:oldDat, a: any
   });
 
   describe('data validation', () => {
-    it('should validate percentage calculations': any, async () => {
+    it('should validate percentage calculations', async () => {
       mockExecSync.mockReturnValue(`
 src/test1.ts:1:any
 src/test2.ts:1:any
@@ -374,7 +374,7 @@ src/test3.ts:1:any
       expect(intentionalTotal).toBeCloseTo(100, 1);
     });
 
-    it('should validate confidence scores are within valid range': any, async () => {
+    it('should validate confidence scores are within valid range', async () => {
       mockExecSync.mockReturnValue('src/test.ts: 1:const dat, a: any = value;');
       mockFs.readFileSync.mockReturnValue('const data: any = value;');
 
@@ -389,7 +389,7 @@ src/test3.ts:1:any
       });
     });
 
-    it('should validate success rates are within valid range': any, async () => {
+    it('should validate success rates are within valid range', async () => {
       const analysis: any = await analysisTools.generateSuccessRateAnalysis();
 
       expect(analysis.currentSuccessRate).toBeGreaterThanOrEqual(0);

@@ -75,7 +75,7 @@ export default function UnusedRecipeFunction() : any { return {}; }
       } as typeof fs.promises;
     });
 
-    it('should analyze unused exports across files': any, async () => {
+    it('should analyze unused exports across files', async () => {
       const result: any = await analyzer.analyzeUnusedExports();
 
       expect(result).toHaveProperty('totalFiles');
@@ -86,7 +86,7 @@ export default function UnusedRecipeFunction() : any { return {}; }
       expect(result).toHaveProperty('summary');
     });
 
-    it('should categorize files by priority': any, async () => {
+    it('should categorize files by priority', async () => {
       const result: any = await analyzer.analyzeUnusedExports();
 
       // Recipe files should be high priority
@@ -100,7 +100,7 @@ export default function UnusedRecipeFunction() : any { return {}; }
       expect(componentFile.priority).toBe(FilePriority.MEDIUM);
     });
 
-    it('should identify transformation candidates': any, async () => {
+    it('should identify transformation candidates', async () => {
       const result: any = await analyzer.analyzeUnusedExports();
 
       const fileWithCandidates: any = [

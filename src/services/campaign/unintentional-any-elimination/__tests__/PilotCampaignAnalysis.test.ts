@@ -52,7 +52,7 @@ describe('PilotCampaignAnalysis', () => {
   });
 
   describe('executePilotAnalysis', () => {
-    it('should execute complete pilot analysis successfully': any, async () => {
+    it('should execute complete pilot analysis successfully', async () => {
       // Mock successful execution
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
@@ -139,7 +139,7 @@ describe('PilotCampaignAnalysis', () => {
       expect(results.nextSteps).toBeInstanceOf(Array);
     });
 
-    it('should handle analysis failures gracefully': any, async () => {
+    it('should handle analysis failures gracefully', async () => {
       // Mock analysis failure
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateComprehensiveReport.mockRejectedValue(
@@ -154,7 +154,7 @@ describe('PilotCampaignAnalysis', () => {
       expect(results.nextSteps).toContain('Fix configuration issues');
     });
 
-    it('should save results to configured output directory': any, async () => {
+    it('should save results to configured output directory', async () => {
       // Mock successful execution
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
@@ -222,7 +222,7 @@ describe('PilotCampaignAnalysis', () => {
   });
 
   describe('Error Handling', () => {
-    it('should handle file system errors gracefully': any, async () => {
+    it('should handle file system errors gracefully', async () => {
       mockFs.mkdirSync.mockImplementation(() => {
         throw new Error('Permission denied');
       });
@@ -264,7 +264,7 @@ describe('PilotCampaignAnalysis', () => {
       expect(results.success).toBe(true);
     });
 
-    it('should handle classification errors': any, async () => {
+    it('should handle classification errors', async () => {
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockRejectedValue(
         new Error('Classification failed')
@@ -278,7 +278,7 @@ describe('PilotCampaignAnalysis', () => {
   });
 
   describe('Tuning System', () => {
-    it('should perform tuning when enabled': any, async () => {
+    it('should perform tuning when enabled', async () => {
       const tuningConfig: any = { ...mockConfig, enableTuning: true };
       const tuningPilot: any = new PilotCampaignAnalysis(tuningConfig);
 
@@ -319,7 +319,7 @@ describe('PilotCampaignAnalysis', () => {
       expect(results.tuningResults.tuningPerformed).toBe(true);
     });
 
-    it('should skip tuning when disabled': any, async () => {
+    it('should skip tuning when disabled', async () => {
       const noTuningConfig: any = { ...mockConfig, enableTuning: false };
       const noTuningPilot: any = new PilotCampaignAnalysis(noTuningConfig);
 
@@ -363,7 +363,7 @@ describe('PilotCampaignAnalysis', () => {
   });
 
   describe('Report Generation', () => {
-    it('should generate markdown summary for successful analysis': any, async () => {
+    it('should generate markdown summary for successful analysis', async () => {
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
         id: 'test-analysis',
@@ -404,7 +404,7 @@ describe('PilotCampaignAnalysis', () => {
       );
     });
 
-    it('should generate markdown summary for failed analysis': any, async () => {
+    it('should generate markdown summary for failed analysis', async () => {
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateComprehensiveReport.mockRejectedValue(
         new Error('Test failure')

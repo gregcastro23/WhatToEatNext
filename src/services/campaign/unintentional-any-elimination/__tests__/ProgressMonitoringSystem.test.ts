@@ -162,7 +162,7 @@ describe('ProgressMonitoringSystem', () => {
       } as any);
     });
 
-    it('should get current progress metrics': any, async () => {
+    it('should get current progress metrics', async () => {
       const progress: any = await monitoringSystem.getProgressMetrics();
 
       expect(progress.totalAnyTypes).toBe(1000);
@@ -174,7 +174,7 @@ describe('ProgressMonitoringSystem', () => {
       expect(progress.lastUpdate).toBeInstanceOf(Date);
     });
 
-    it('should handle build failures in progress metrics': any, async () => {
+    it('should handle build failures in progress metrics', async () => {
       // Mock TypeScript compilation failure
       mockExecSync.mockImplementation(() => {
         throw new Error('Compilation failed');
@@ -187,7 +187,7 @@ describe('ProgressMonitoringSystem', () => {
   });
 
   describe('build stability monitoring', () => {
-    it('should detect stable builds': any, async () => {
+    it('should detect stable builds', async () => {
       mockExecSync.mockReturnValue(''); // Successful compilation
 
       await monitoringSystem.monitorBuildStability();
@@ -198,7 +198,7 @@ describe('ProgressMonitoringSystem', () => {
       expect(history.[0].buildTime).toBeGreaterThanOrEqual(0);
     });
 
-    it('should detect build failures': any, async () => {
+    it('should detect build failures', async () => {
       const errorOutput: any = 'error TS2304: Cannot find name\nerror TS234, 5: Argument type';
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed');
@@ -230,7 +230,7 @@ describe('ProgressMonitoringSystem', () => {
       monitoringSystem.monitorBuildStability();
     });
 
-    it('should emit alert for consecutive build failures': any, async () => {
+    it('should emit alert for consecutive build failures', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Build failed');
       });
@@ -268,7 +268,7 @@ describe('ProgressMonitoringSystem', () => {
       } as any);
     });
 
-    it('should emit low success rate alert': any, async () => {
+    it('should emit low success rate alert', async () => {
       const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {
           if (alert.type === 'low_success_rate') {
@@ -286,7 +286,7 @@ describe('ProgressMonitoringSystem', () => {
       expect(alert.data.threshold).toBe(70);
     });
 
-    it('should not emit duplicate alerts within one hour': any, async () => {
+    it('should not emit duplicate alerts within one hour', async () => {
       let alertCount: any = 0;
 
       monitoringSystem.on('alert', (alert: Alert) => {
@@ -368,7 +368,7 @@ describe('ProgressMonitoringSystem', () => {
       } as any);
     });
 
-    it('should update dashboard data': any, async () => {
+    it('should update dashboard data', async () => {
       const updatePromise: any = new Promise<DashboardData>((resolve: any) => {
         monitoringSystem.on('dashboard_updated', resolve);
       });
@@ -385,7 +385,7 @@ describe('ProgressMonitoringSystem', () => {
       expect(dashboardData.systemHealth).toBeDefined();
     });
 
-    it('should get current dashboard data': any, async () => {
+    it('should get current dashboard data', async () => {
       await monitoringSystem['updateDashboard']();
 
       const dashboardData: any = monitoringSystem.getDashboardData();
@@ -393,7 +393,7 @@ describe('ProgressMonitoringSystem', () => {
       expect(dashboardData.lastUpdate).toBeInstanceOf(Date);
     });
 
-    it('should calculate system health': any, async () => {
+    it('should calculate system health', async () => {
       await monitoringSystem['updateDashboard']();
 
       const dashboardData: any = monitoringSystem.getDashboardData();
@@ -408,7 +408,7 @@ describe('ProgressMonitoringSystem', () => {
   });
 
   describe('alert history management', () => {
-    it('should maintain alert history': any, async () => {
+    it('should maintain alert history', async () => {
       // Trigger an alert
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
@@ -446,7 +446,7 @@ describe('ProgressMonitoringSystem', () => {
   });
 
   describe('error handling', () => {
-    it('should handle dashboard update errors': any, async () => {
+    it('should handle dashboard update errors', async () => {
       mockAnalysisToolsInstance.generateComprehensiveReport.mockRejectedValue(
         new Error('Analysis failed')
       );
@@ -454,7 +454,7 @@ describe('ProgressMonitoringSystem', () => {
       await expect(monitoringSystem['updateDashboard']()).rejects.toThrow('Analysis failed');
     });
 
-    it('should handle monitoring errors gracefully': any, async () => {
+    it('should handle monitoring errors gracefully', async () => {
       mockAnalysisToolsInstance.generateComprehensiveReport.mockRejectedValue(
         new Error('Monitoring error')
       );
@@ -478,7 +478,7 @@ describe('ProgressMonitoringSystem', () => {
   });
 
   describe('integration', () => {
-    it('should integrate with analysis tools': any, async () => {
+    it('should integrate with analysis tools', async () => {
       // Mock the comprehensive report properly
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,

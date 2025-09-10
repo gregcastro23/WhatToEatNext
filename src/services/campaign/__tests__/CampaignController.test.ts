@@ -146,7 +146,7 @@ describe('CampaignController', () => {
         });
     });
 
-    it('should execute phase successfully': any, async () => {
+    it('should execute phase successfully', async () => {
       const result: any = await controller.executePhase(mockPhase);
 
       expect(result.success).toBe(true);
@@ -156,7 +156,7 @@ describe('CampaignController', () => {
       expect(result.executionTime).toBeGreaterThan(0);
     });
 
-    it('should create safety checkpoint before execution': any, async () => {
+    it('should create safety checkpoint before execution', async () => {
       await controller.executePhase(mockPhase);
 
       expect(controller['createSafetyCheckpoint']).toHaveBeenCalledWith(
@@ -164,20 +164,20 @@ describe('CampaignController', () => {
       );
     });
 
-    it('should execute all tools in sequence': any, async () => {
+    it('should execute all tools in sequence', async () => {
       await controller.executePhase(mockPhase);
 
       expect(controller['executeTool']).toHaveBeenCalledTimes(1);
       expect(controller['executeTool']).toHaveBeenCalledWith(mockPhase.tools.[0]);
     });
 
-    it('should validate progress after each tool execution': any, async () => {
+    it('should validate progress after each tool execution', async () => {
       await controller.executePhase(mockPhase);
 
       expect(controller['validatePhaseProgress']).toHaveBeenCalledWith(mockPhase);
     });
 
-    it('should handle execution failure gracefully': any, async () => {
+    it('should handle execution failure gracefully', async () => {
       jest.spyOn(controller as unknown, 'executeTool').mockRejectedValue(new Error('Tool execution failed'));
 
       const result: any = await controller.executePhase(mockPhase);
@@ -188,7 +188,7 @@ describe('CampaignController', () => {
       expect(result.errorsFixed).toBe(0);
     });
 
-    it('should rollback on validation failure when automatic rollback is enabled': any, async () => {
+    it('should rollback on validation failure when automatic rollback is enabled', async () => {
       jest
         .spyOn(
           controller as unknown as { validatePhaseProgress: (phas, e: CampaignPhase) => Promise<ValidationResult> },
@@ -205,7 +205,7 @@ describe('CampaignController', () => {
       expect(controller.rollbackToCheckpoint).toHaveBeenCalledWith('checkpoint_123');
     });
 
-    it('should record safety events during execution': any, async () => {
+    it('should record safety events during execution', async () => {
       await controller.executePhase(mockPhase);
 
       const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
@@ -231,7 +231,7 @@ describe('CampaignController', () => {
         });
     });
 
-    it('should validate successful phase completion': any, async () => {
+    it('should validate successful phase completion', async () => {
       const result: any = await controller.validatePhaseCompletion(mockPhase);
 
       expect(result.success).toBe(true);
@@ -239,7 +239,7 @@ describe('CampaignController', () => {
       expect(result.warnings).toEqual([]);
     });
 
-    it('should detect TypeScript error validation failure': any, async () => {
+    it('should detect TypeScript error validation failure', async () => {
       jest
         .spyOn(controller as unknown as { getCurrentMetrics: () => Promise<ProgressMetrics> }, 'getCurrentMetrics')
         .mockResolvedValue({
@@ -255,7 +255,7 @@ describe('CampaignController', () => {
       expect(result.errors).toContain('TypeScript errors: 5 > 0');
     });
 
-    it('should detect linting warning validation failure': any, async () => {
+    it('should detect linting warning validation failure', async () => {
       const phaseWithLintingCriteria: any = {
         ...mockPhase,
         successCriteria: { lintingWarning, s: 0 },
@@ -267,7 +267,7 @@ describe('CampaignController', () => {
       expect(result.errors).toContain('Linting warnings: 4506 > 0');
     });
 
-    it('should detect build time validation warning': any, async () => {
+    it('should detect build time validation warning', async () => {
       const phaseWithBuildTimeCriteria: any = {
         ...mockPhase,
         successCriteria: { buildTim, e: 5 },
@@ -279,7 +279,7 @@ describe('CampaignController', () => {
       expect(result.warnings).toContain('Build time: 8.5s > 5s');
     });
 
-    it('should execute custom validation when provided': any, async () => {
+    it('should execute custom validation when provided', async () => {
       const customValidation = jest.fn().mockResolvedValue(true);
       const phaseWithCustomValidation: any = {
         ...mockPhase,
@@ -292,7 +292,7 @@ describe('CampaignController', () => {
       expect(result.success).toBe(true);
     });
 
-    it('should handle validation errors gracefully': any, async () => {
+    it('should handle validation errors gracefully', async () => {
       jest.spyOn(controller as unknown, 'getCurrentMetrics').mockRejectedValue(new Error('Metrics error'));
 
       const result: any = await controller.validatePhaseCompletion(mockPhase);
@@ -303,13 +303,13 @@ describe('CampaignController', () => {
   });
 
   describe('createSafetyCheckpoint', () => {
-    it('should create checkpoint with descriptive name': any, async () => {
+    it('should create checkpoint with descriptive name', async () => {
       const checkpointId: any = await controller.createSafetyCheckpoint('Test checkpoint');
 
       expect(checkpointId).toMatch(/^checkpoint_\d+$/);
     });
 
-    it('should record safety event for checkpoint creation': any, async () => {
+    it('should record safety event for checkpoint creation', async () => {
       await controller.createSafetyCheckpoint('Test checkpoint');
 
       const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
@@ -321,7 +321,7 @@ describe('CampaignController', () => {
   });
 
   describe('rollbackToCheckpoint', () => {
-    it('should record safety event for rollback': any, async () => {
+    it('should record safety event for rollback', async () => {
       await controller.rollbackToCheckpoint('checkpoint_123');
 
       const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
@@ -333,7 +333,7 @@ describe('CampaignController', () => {
   });
 
   describe('getProgressMetrics', () => {
-    it('should return current metrics': any, async () => {
+    it('should return current metrics', async () => {
       const mockMetrics: any = {
         typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
@@ -369,7 +369,7 @@ describe('CampaignController', () => {
       });
     });
 
-    it('should generate comprehensive phase report': any, async () => {
+    it('should generate comprehensive phase report', async () => {
       const report: any = await controller.generatePhaseReport(mockPhase);
 
       expect(report.phaseId).toBe('phase1');
@@ -379,7 +379,7 @@ describe('CampaignController', () => {
       expect(report.issues).toEqual([]);
     });
 
-    it('should show in-progress status for incomplete phase': any, async () => {
+    it('should show in-progress status for incomplete phase', async () => {
       jest.spyOn(controller, 'validatePhaseCompletion').mockResolvedValue({
         success: false,
         errors: ['TypeScript error, s: 5 > 0'],
@@ -394,7 +394,7 @@ describe('CampaignController', () => {
   });
 
   describe('loadConfiguration', () => {
-    it('should load default configuration': any, async () => {
+    it('should load default configuration', async () => {
       const config: any = await CampaignController.loadConfiguration();
 
       expect(config.phases).toHaveLength(2);
@@ -403,14 +403,14 @@ describe('CampaignController', () => {
       expect(config.safetySettings.automaticRollbackEnabled).toBe(true);
     });
 
-    it('should have proper tool configuration': any, async () => {
+    it('should have proper tool configuration', async () => {
       const config: any = await CampaignController.loadConfiguration();
 
       expect(config.toolConfiguration.enhancedErrorFixer).toContain('fix-typescript-errors-enhanced-v3.js');
       expect(config.toolConfiguration.explicitAnyFixer).toContain('fix-explicit-any-systematic.js');
     });
 
-    it('should have proper progress targets': any, async () => {
+    it('should have proper progress targets', async () => {
       const config: any = await CampaignController.loadConfiguration();
 
       expect(config.progressTargets.typeScriptErrors).toBe(0);
@@ -421,7 +421,7 @@ describe('CampaignController', () => {
   });
 
   describe('Safety Event Management', () => {
-    it('should limit safety events to prevent memory issues': any, async () => {
+    it('should limit safety events to prevent memory issues', async () => {
       // Add many safety events
       for (let i: any = 0; i < 1100; i++) {
         (controller as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({
@@ -437,7 +437,7 @@ describe('CampaignController', () => {
       expect(events.length).toBe(500); // Should be trimmed to 500
     });
 
-    it('should preserve most recent events when trimming': any, async () => {
+    it('should preserve most recent events when trimming', async () => {
       // Add many safety events
       for (let i: any = 0; i < 1100; i++) {
         (controller as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({

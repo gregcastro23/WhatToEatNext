@@ -441,7 +441,7 @@ describe('Main Page E2E Workflows', () => {
     void jest.restoreAllMocks();
   });
 
-  it('completes full meal planning workflow': any, async () => {
+  it('completes full meal planning workflow', async () => {
     const user: any = userEvent.setup();
 
     act(async () => {
@@ -528,7 +528,7 @@ describe('Main Page E2E Workflows', () => {
     expect(screen.getByText('Steps: 2')).toBeInTheDocument();
   });
 
-  it('handles ingredient exploration workflow': any, async () => {
+  it('handles ingredient exploration workflow', async () => {
     const user: any = userEvent.setup();
 
     act(async () => {
@@ -569,7 +569,7 @@ describe('Main Page E2E Workflows', () => {
     expect(screen.getByText('Tomatoes, Garlic, Basil')).toBeInTheDocument();
   });
 
-  it('handles cooking method exploration workflow': any, async () => {
+  it('handles cooking method exploration workflow', async () => {
     const user: any = userEvent.setup();
 
     act(async () => {
@@ -602,7 +602,7 @@ describe('Main Page E2E Workflows', () => {
     expect(viewMoreButton).toBeInTheDocument();
   });
 
-  it('handles complete recipe creation workflow': any, async () => {
+  it('handles complete recipe creation workflow', async () => {
     const user: any = userEvent.setup();
 
     act(async () => {
@@ -689,7 +689,7 @@ describe('Main Page E2E Workflows', () => {
     expect(screen.getByDisplayValue('Sear chicken in olive oil until golden')).toBeInTheDocument();
   });
 
-  it('handles navigation and state preservation workflow': any, async () => {
+  it('handles navigation and state preservation workflow', async () => {
     const user: any = userEvent.setup();
     const mockOnSectionNavigate = jest.fn() as any;
 
@@ -726,7 +726,7 @@ describe('Main Page E2E Workflows', () => {
     expect(screen.getByTestId('method-details-sauté')).toBeInTheDocument();
   });
 
-  it('handles error recovery workflow': any, async () => {
+  it('handles error recovery workflow', async () => {
     const user: any = userEvent.setup();
 
     // Mock console.error to avoid noise

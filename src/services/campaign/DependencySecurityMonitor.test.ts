@@ -37,7 +37,7 @@ describe('DependencySecurityMonitor', () => {
   });
 
   describe('scanSecurityVulnerabilities', () => {
-    test('detects and categorizes security vulnerabilities': any, async () => {
+    test('detects and categorizes security vulnerabilities', async () => {
       const auditOutput: any = JSON.stringify({
         vulnerabilities: { lodash: {
             severity: 'high',
@@ -83,7 +83,7 @@ describe('DependencySecurityMonitor', () => {
       expect(lodashVuln.fixedVersion).toBe('4.17.21');
     });
 
-    test('handles npm audit errors gracefully': any, async () => {
+    test('handles npm audit errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('npm audit failed');
       });
@@ -97,7 +97,7 @@ describe('DependencySecurityMonitor', () => {
       );
     });
 
-    test('generates appropriate security recommendations': any, async () => {
+    test('generates appropriate security recommendations', async () => {
       const auditOutput: any = JSON.stringify({
         vulnerabilities: {
           'test-package': {
@@ -122,7 +122,7 @@ describe('DependencySecurityMonitor', () => {
   });
 
   describe('checkDependencyUpdates', () => {
-    test('detects available dependency updates': any, async () => {
+    test('detects available dependency updates', async () => {
       const outdatedOutput: any = JSON.stringify({
         lodash: { current: '4.17.20',
           wanted: '4.17.21',
@@ -158,7 +158,7 @@ describe('DependencySecurityMonitor', () => {
       expect(reactUpdate.breakingChanges).toBe(true);
     });
 
-    test('handles no updates available': any, async () => {
+    test('handles no updates available', async () => {
       mockExecSync.mockReturnValue('{}');
 
       const updateReport: any = await dependencyMonitor.checkDependencyUpdates();
@@ -169,7 +169,7 @@ describe('DependencySecurityMonitor', () => {
   });
 
   describe('applySecurityPatches', () => {
-    test('applies security patches for critical vulnerabilities': any, async () => {
+    test('applies security patches for critical vulnerabilities', async () => {
       const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
@@ -203,7 +203,7 @@ describe('DependencySecurityMonitor', () => {
       expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object));
     });
 
-    test('skips excluded packages': any, async () => {
+    test('skips excluded packages', async () => {
       const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
@@ -234,7 +234,7 @@ describe('DependencySecurityMonitor', () => {
       expect(mockExecSync).not.toHaveBeenCalled();
     });
 
-    test('respects security threshold settings': any, async () => {
+    test('respects security threshold settings', async () => {
       const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
@@ -266,7 +266,7 @@ describe('DependencySecurityMonitor', () => {
   });
 
   describe('applySafeUpdates', () => {
-    test('applies safe patch updates': any, async () => {
+    test('applies safe patch updates', async () => {
       const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
@@ -293,7 +293,7 @@ describe('DependencySecurityMonitor', () => {
       expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object));
     });
 
-    test('skips major updates requiring manual approval': any, async () => {
+    test('skips major updates requiring manual approval', async () => {
       const config = {
         ...testConfig,
         autoUpdateEnabled: true,
@@ -333,7 +333,7 @@ describe('DependencySecurityMonitor', () => {
   });
 
   describe('runCompatibilityTests', () => {
-    test('runs build and test commands successfully': any, async () => {
+    test('runs build and test commands successfully', async () => {
       mockExecSync.mockReturnValue('');
 
       const result: any = await dependencyMonitor.runCompatibilityTests();
@@ -343,7 +343,7 @@ describe('DependencySecurityMonitor', () => {
       expect(mockExecSync).toHaveBeenCalledWith('yarn test', expect.any(Object));
     });
 
-    test('returns false when tests fail': any, async () => {
+    test('returns false when tests fail', async () => {
       mockExecSync
         .mockReturnValueOnce('') // Build succeeds
         .mockImplementationOnce(() => {
@@ -356,7 +356,7 @@ describe('DependencySecurityMonitor', () => {
       expect(result).toBe(false);
     });
 
-    test('returns false when build fails': any, async () => {
+    test('returns false when build fails', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Build failed');
       });
@@ -368,7 +368,7 @@ describe('DependencySecurityMonitor', () => {
   });
 
   describe('executeDependencySecurityMonitoring', () => {
-    test('executes complete monitoring workflow': any, async () => {
+    test('executes complete monitoring workflow', async () => {
       const packageJson: any = {
         dependencies: { lodas, h: '4.17.20' },
         devDependencies: { jes, t: '29.0.0' },
@@ -390,7 +390,7 @@ describe('DependencySecurityMonitor', () => {
       expect(result.errors).toHaveLength(0);
     });
 
-    test('handles security scan and update workflow': any, async () => {
+    test('handles security scan and update workflow', async () => {
       const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
@@ -444,7 +444,7 @@ describe('DependencySecurityMonitor', () => {
       expect(result.compatibilityTestsPassed).toBe(true);
     });
 
-    test('handles errors gracefully': any, async () => {
+    test('handles errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('Package.json not found');
       });

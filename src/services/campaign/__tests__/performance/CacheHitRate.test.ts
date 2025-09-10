@@ -56,7 +56,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   });
 
   describe('Cache Hit Rate Monitoring', () => {
-    it('should validate cache hit rate above 80% target': any, async () => {
+    it('should validate cache hit rate above 80% target', async () => {
       // Mock excellent cache performance
       jest.spyOn(progressTracker, 'getCacheHitRate').mockResolvedValue(0.85);
 
@@ -67,7 +67,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(cacheHitRate).toBeLessThanOrEqual(1.0); // Cannot exceed 100%
     });
 
-    it('should detect poor cache performance': any, async () => {
+    it('should detect poor cache performance', async () => {
       // Mock poor cache performance
       jest.spyOn(progressTracker, 'getCacheHitRate').mockResolvedValue(0.65);
 
@@ -77,7 +77,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(cacheHitRate).toBeLessThan(0.8); // Below 80% target
     });
 
-    it('should handle cache measurement errors gracefully': any, async () => {
+    it('should handle cache measurement errors gracefully', async () => {
       // Mock cache measurement error
       jest.spyOn(progressTracker, 'getCacheHitRate').mockRejectedValue(new Error('Cache measurement failed'));
 
@@ -86,7 +86,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(cacheHitRate).toBe(0); // Error handling returns 0
     });
 
-    it('should track cache performance trends over time': any, async () => {
+    it('should track cache performance trends over time', async () => {
       const cacheReadings: number[] = [];
       let callCount: any = 0;
 
@@ -117,7 +117,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   });
 
   describe('Cache Performance Optimization', () => {
-    it('should validate 3-tier caching system performance': any, async () => {
+    it('should validate 3-tier caching system performance', async () => {
       // Mock 3-tier cache system with different hit rates
       const cacheHitRates: any = {
         l1Cache: 0.9, // 90% L1 cache hit rate
@@ -138,7 +138,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(cacheHitRate).toBeGreaterThan(0.8); // Above target
     });
 
-    it('should detect cache invalidation impact': any, async () => {
+    it('should detect cache invalidation impact', async () => {
       let cacheInvalidated: any = false;
 
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
@@ -157,7 +157,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(cacheHitRate).toBeLessThan(0.8); // Below target after invalidation
     });
 
-    it('should validate cache warming strategies': any, async () => {
+    it('should validate cache warming strategies', async () => {
       const warmupReadings: number[] = [];
       let warmupStep: any = 0;
 
@@ -187,7 +187,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       }
     });
 
-    it('should handle cache size optimization': any, async () => {
+    it('should handle cache size optimization', async () => {
       // Mock different cache sizes and their hit rates
       const cacheSizeTests: any = [
         { size: '10MB', hitRate: 0.6 }, // Small cache
@@ -211,7 +211,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   });
 
   describe('Cache Performance Under Load', () => {
-    it('should maintain cache performance under concurrent access': any, async () => {
+    it('should maintain cache performance under concurrent access', async () => {
       let concurrentRequests: any = 0;
       const maxConcurrentRequests: any = 10;
 
@@ -241,7 +241,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(averageHitRate).toBeGreaterThan(0.75);
     });
 
-    it('should handle cache thrashing scenarios': any, async () => {
+    it('should handle cache thrashing scenarios', async () => {
       let thrashingActive: any = false;
 
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
@@ -276,7 +276,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(cacheHitRate).toBeGreaterThan(0.8); // Should recover
     });
 
-    it('should validate cache performance during campaign execution': any, async () => {
+    it('should validate cache performance during campaign execution', async () => {
       const phase: any = mockConfig.phases.[0];
       let executionStep: any = 0;
 
@@ -317,7 +317,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   });
 
   describe('Cache Performance Benchmarks', () => {
-    it('should benchmark cache lookup performance': any, async () => {
+    it('should benchmark cache lookup performance', async () => {
       const lookupTimes: number[] = [];
 
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
@@ -347,7 +347,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(averageLookupTime).toBeLessThan(50); // Should be under 50ms
     });
 
-    it('should validate cache efficiency across different data sizes': any, async () => {
+    it('should validate cache efficiency across different data sizes', async () => {
       const dataSizeTests: any = [
         { size: 'small', hitRate: 0.95, lookupTime: 5 },
         { size: 'medium', hitRate: 0.85, lookupTime: 10 },
@@ -381,7 +381,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       }
     });
 
-    it('should benchmark cache invalidation performance': any, async () => {
+    it('should benchmark cache invalidation performance', async () => {
       let cacheVersion: any = 1;
       const invalidationTimes: number[] = [];
 
@@ -426,7 +426,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   });
 
   describe('Cache Configuration Optimization', () => {
-    it('should validate optimal cache configuration': any, async () => {
+    it('should validate optimal cache configuration', async () => {
       const cacheConfigs: any = [
         { name: 'minimal', hitRate: 0.6, memoryUsage: 20 },
         { name: 'balanced', hitRate: 0.8, memoryUsage: 35 },
@@ -457,7 +457,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       }
     });
 
-    it('should handle cache configuration changes dynamically': any, async () => {
+    it('should handle cache configuration changes dynamically', async () => {
       let currentConfig: any = 'default';
 
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {

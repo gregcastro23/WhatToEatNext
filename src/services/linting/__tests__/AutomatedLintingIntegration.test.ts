@@ -46,7 +46,7 @@ describe('AutomatedLintingIntegration', () => {
   });
 
   describe('executeAutomatedWorkflow', () => {
-    it('should execute complete workflow successfully': any, async () => {
+    it('should execute complete workflow successfully', async () => {
       // Mock comprehensive analysis
       const mockAnalysis = {
         summary: { totalIssues: 10,
@@ -145,7 +145,7 @@ describe('AutomatedLintingIntegration', () => {
       expect(result.metrics).toBeDefined();
     });
 
-    it('should handle conservative automation level': any, async () => {
+    it('should handle conservative automation level', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 5,
           errorCount: 1,
@@ -222,7 +222,7 @@ describe('AutomatedLintingIntegration', () => {
       );
     });
 
-    it('should handle aggressive automation level': any, async () => {
+    it('should handle aggressive automation level', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 20,
           errorCount: 0,
@@ -293,13 +293,13 @@ describe('AutomatedLintingIntegration', () => {
       expect(result.summary.automationSuccessRate).toBe(1.0);
     });
 
-    it('should handle workflow failures gracefully': any, async () => {
+    it('should handle workflow failures gracefully', async () => {
       mockAnalysisService.performComprehensiveAnalysis.mockRejectedValue(new Error('Analysis failed'));
 
       await expect(integration.executeAutomatedWorkflow()).rejects.toThrow('Analysis failed');
     });
 
-    it('should generate appropriate recommendations based on results': any, async () => {
+    it('should generate appropriate recommendations based on results', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 150, // Large number to trigger continuous linting recommendation
           errorCount: 10,
@@ -381,7 +381,7 @@ describe('AutomatedLintingIntegration', () => {
   });
 
   describe('executeQuickFixes', () => {
-    it('should execute quick fixes successfully': any, async () => {
+    it('should execute quick fixes successfully', async () => {
       const mockQuickAnalysis = {
         summary: { totalIssues: 5,
           errorCount: 0,
@@ -437,7 +437,7 @@ describe('AutomatedLintingIntegration', () => {
       );
     });
 
-    it('should handle dry run mode': any, async () => {
+    it('should handle dry run mode', async () => {
       const mockQuickAnalysis: any = {
         summary: { totalIssues: 3,
           errorCount: 0,
@@ -486,7 +486,7 @@ describe('AutomatedLintingIntegration', () => {
   });
 
   describe('executeUnusedVariableCleanup', () => {
-    it('should execute unused variable cleanup successfully': any, async () => {
+    it('should execute unused variable cleanup successfully', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 5,
           errorCount: 0,
@@ -569,7 +569,7 @@ describe('AutomatedLintingIntegration', () => {
       );
     });
 
-    it('should handle no unused variables gracefully': any, async () => {
+    it('should handle no unused variables gracefully', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 0,
           errorCount: 0,
@@ -623,7 +623,7 @@ describe('AutomatedLintingIntegration', () => {
   });
 
   describe('executeImportOptimization', () => {
-    it('should execute import optimization successfully': any, async () => {
+    it('should execute import optimization successfully', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 3,
           errorCount: 0,
@@ -706,7 +706,7 @@ describe('AutomatedLintingIntegration', () => {
       );
     });
 
-    it('should handle no import issues gracefully': any, async () => {
+    it('should handle no import issues gracefully', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 0,
           errorCount: 0,
@@ -760,13 +760,13 @@ describe('AutomatedLintingIntegration', () => {
   });
 
   describe('Error Handling', () => {
-    it('should handle analysis service failures': any, async () => {
+    it('should handle analysis service failures', async () => {
       mockAnalysisService.performComprehensiveAnalysis.mockRejectedValue(new Error('Analysis service unavailable'));
 
       await expect(integration.executeAutomatedWorkflow()).rejects.toThrow('Analysis service unavailable');
     });
 
-    it('should handle fixer failures gracefully in workflow': any, async () => {
+    it('should handle fixer failures gracefully in workflow', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 5,
           errorCount: 0,
@@ -846,7 +846,7 @@ describe('AutomatedLintingIntegration', () => {
   });
 
   describe('Metrics and Reporting', () => {
-    it('should calculate comprehensive workflow metrics': any, async () => {
+    it('should calculate comprehensive workflow metrics', async () => {
       const mockAnalysis = {
         summary: { totalIssues: 10,
           errorCount: 2,

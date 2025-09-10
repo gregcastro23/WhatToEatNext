@@ -55,7 +55,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Service Integration Validation', () => {
-    test('should validate service integration successfully': any, async () => {
+    test('should validate service integration successfully', async () => {
       // Mock service file content
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.toString().includes('ApiService.ts')) {
@@ -96,7 +96,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.targetStatus.readyForProduction).toBeDefined();
     });
 
-    test('should identify service files correctly': any, async () => {
+    test('should identify service files correctly', async () => {
       const mixedFiles: any = [
         '/project/src/services/ApiService.ts',
         '/project/src/components/Component.tsx',
@@ -114,7 +114,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.processedServices).toContain('/project/src/api/routes.ts');
     });
 
-    test('should calculate quality metrics correctly': any, async () => {
+    test('should calculate quality metrics correctly', async () => {
       // Mock baseline metrics
       const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
 
@@ -145,7 +145,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.qualityMetrics.targetAchievement.stabilityAchieved).toBe(true);
     });
 
-    test('should handle quality targets not met': any, async () => {
+    test('should handle quality targets not met', async () => {
       // Mock insufficient reduction and build errors
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
@@ -180,7 +180,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('API Endpoint Validation', () => {
-    test('should analyze API endpoints correctly': any, async () => {
+    test('should analyze API endpoints correctly', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export class ApiService : any {
           async fetchUsers() {
@@ -210,7 +210,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(endpoints.some(e => e.endpoint === '/api/users')).toBe(true);
     });
 
-    test('should handle services with no API endpoints': any, async () => {
+    test('should handle services with no API endpoints', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export class UtilityService {
           formatData(data: any) {
@@ -228,7 +228,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(apiResult.recommendations).toContain('Verify if this service should contain API endpoints');
     });
 
-    test('should detect invalid API endpoints': any, async () => {
+    test('should detect invalid API endpoints', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export class ApiService : any {
           async fetchData() {
@@ -248,7 +248,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Service Method Validation', () => {
-    test('should analyze service methods correctly': any, async () => {
+    test('should analyze service methods correctly', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export class UserService : any {
           async getUser(id: string) {
@@ -281,7 +281,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(methods.some(m => m.methodName === 'userService')).toBe(true);
     });
 
-    test('should handle services with no exported methods': any, async () => {
+    test('should handle services with no exported methods', async () => {
       mockFs.readFileSync.mockReturnValue(`
         class InternalService : any {
           private processData() {
@@ -301,7 +301,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Configuration Validation', () => {
-    test('should analyze configuration dependencies correctly': any, async () => {
+    test('should analyze configuration dependencies correctly', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export class ConfigService : any {
           private apiUrl = process.env.API_URL || 'http: //localhos, t:3000' = undefined as any;
@@ -328,7 +328,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(configs.some(c => c.key === 'API_KEY')).toBe(true);
     });
 
-    test('should identify required vs optional configuration': any, async () => {
+    test('should identify required vs optional configuration', async () => {
       mockFs.readFileSync.mockReturnValue(`
         const requiredConfig: any = process.env.REQUIRED_API_KEY;
         const optionalConfig: any = process.env.OPTIONAL_SETTING || 'default';
@@ -349,7 +349,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Integration Test Validation', () => {
-    test('should find and run integration tests': any, async () => {
+    test('should find and run integration tests', async () => {
       // Mock test files exist
       mockFs.existsSync.mockImplementation((path: any) => {
         return path.toString().includes('.integration.test.ts');
@@ -377,7 +377,7 @@ describe('ServiceIntegrationValidator', () => {
       });
     });
 
-    test('should handle services with no integration tests': any, async () => {
+    test('should handle services with no integration tests', async () => {
       // Mock no test files exist
       mockFs.existsSync.mockReturnValue(false);
 
@@ -390,7 +390,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(testResult.recommendations).toContain('Consider adding integration tests for this service');
     });
 
-    test('should handle failing integration tests': any, async () => {
+    test('should handle failing integration tests', async () => {
       mockFs.existsSync.mockReturnValue(true);
 
       // Mock failing test execution
@@ -415,7 +415,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Quality Metrics Calculation', () => {
-    test('should calculate unused variable reduction correctly': any, async () => {
+    test('should calculate unused variable reduction correctly', async () => {
       const baselineMetrics: any = { unusedVariables: 200, buildErrors: 0 };
 
       // Mock 20 remaining unused variables (90% reduction)
@@ -442,7 +442,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.qualityMetrics.targetAchievement.reductionAchieved).toBe(true);
     });
 
-    test('should calculate build stability score correctly': any, async () => {
+    test('should calculate build stability score correctly', async () => {
       // Mock build with errors
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn tsc')) {
@@ -463,7 +463,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.qualityMetrics.targetAchievement.stabilityAchieved).toBe(false);
     });
 
-    test('should calculate overall quality score correctly': any, async () => {
+    test('should calculate overall quality score correctly', async () => {
       const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
 
       // Mock perfect scenario
@@ -491,7 +491,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Quality Assurance Reporting', () => {
-    test('should generate comprehensive quality report': any, async () => {
+    test('should generate comprehensive quality report', async () => {
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
       expect(report.timestamp).toBeInstanceOf(Date);
@@ -505,7 +505,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.targetStatus).toBeDefined();
     });
 
-    test('should generate appropriate action items for unmet targets': any, async () => {
+    test('should generate appropriate action items for unmet targets', async () => {
       // Mock scenario where targets are not met
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
@@ -536,7 +536,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.targetStatus.readyForProduction).toBe(false);
     });
 
-    test('should export quality reports to file system': any, async () => {
+    test('should export quality reports to file system', async () => {
       await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
       await validator.exportQualityReports('./test-reports');
 
@@ -549,7 +549,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Configuration Options', () => {
-    test('should respect disabled validation options': any, async () => {
+    test('should respect disabled validation options', async () => {
       const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false,
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
@@ -563,7 +563,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.serviceResults.length).toBe(0);
     });
 
-    test('should respect timeout configurations': any, async () => {
+    test('should respect timeout configurations', async () => {
       const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000,
         testTimeout: 1000
       };
@@ -591,7 +591,7 @@ describe('ServiceIntegrationValidator', () => {
   });
 
   describe('Error Handling', () => {
-    test('should handle service file read errors gracefully': any, async () => {
+    test('should handle service file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('File read error');
       });
@@ -603,7 +603,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(report.serviceResults.some(r => !r.passed)).toBe(true);
     });
 
-    test('should handle command execution errors gracefully': any, async () => {
+    test('should handle command execution errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Command execution failed');
       });

@@ -64,7 +64,7 @@ describe('Corruption Detection System - Task 6.2', () => {
   });
 
   describe('File Corruption Detection using Syntax Validation Patterns', () => {
-    test('should detect git merge conflict markers': any, async () => {
+    test('should detect git merge conflict markers', async () => {
       const corruptedContent: any = `;
 import React, * as React, { useEffect, useState } from 'react';
         
@@ -87,7 +87,7 @@ import React, * as React, { useEffect, useState } from 'react';
       expect(report.corruptionPatterns.some(p => p.description.includes('Git merge conflict markers'))).toBe(true);
     });
 
-    test('should detect corrupted parameter names': any, async () => {
+    test('should detect corrupted parameter names', async () => {
       const corruptedContent: any = `
         function testFunction(posit: anyi: anyo: anyn: any, s: string) : any {
           return posit;
@@ -103,7 +103,7 @@ import React, * as React, { useEffect, useState } from 'react';
       expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted parameter names'))).toBe(true);
     });
 
-    test('should detect syntax corruption with unbalanced brackets': any, async () => {
+    test('should detect syntax corruption with unbalanced brackets', async () => {
       const corruptedContent: any = `
         function testFunction() : any {
           if (true != null) {
@@ -120,7 +120,7 @@ import React, * as React, { useEffect, useState } from 'react';
       expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true);
     });
 
-    test('should detect incomplete statements': any, async () => {
+    test('should detect incomplete statements', async () => {
       const corruptedContent = `
         import
         export
@@ -136,7 +136,7 @@ import React, * as React, { useEffect, useState } from 'react';
       expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true);
     });
 
-    test('should handle file read errors gracefully': any, async () => {
+    test('should handle file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
         throw new Error('Permission denied');
       });
@@ -148,7 +148,7 @@ import React, * as React, { useEffect, useState } from 'react';
       expect(report.corruptionPatterns.some(p => p.pattern === 'FILE_READ_ERROR')).toBe(true);
     });
 
-    test('should skip non-existent files': any, async () => {
+    test('should skip non-existent files', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       const report: any = await safetyProtocol.detectCorruption(['non-existent-file.ts']);
@@ -159,7 +159,7 @@ import React, * as React, { useEffect, useState } from 'react';
   });
 
   describe('Import/Export Corruption Detection based on Existing Script Knowledge', () => {
-    test('should detect empty import statements': any, async () => {
+    test('should detect empty import statements', async () => {
       const corruptedContent: any = `;
         import { } from './utils';
       `;
@@ -173,7 +173,7 @@ import React, * as React, { useEffect, useState } from 'react';
       expect(report.corruptionPatterns.some(p => p.description.includes('Empty import statement'))).toBe(true);
     });
 
-    test('should detect import from undefined module': any, async () => {
+    test('should detect import from undefined module', async () => {
       const corruptedContent: any = `;
         import React from 'undefined';
 import React, { Component } from 'undefined';
@@ -188,7 +188,7 @@ import React, { Component } from 'undefined';
       expect(report.corruptionPatterns.some(p => p.description.includes('Import from undefined module'))).toBe(true);
     });
 
-    test('should detect duplicate from clause in import': any, async () => {
+    test('should detect duplicate from clause in import', async () => {
       const corruptedContent: any = `
       `;
 
@@ -201,7 +201,7 @@ import React, { Component } from 'undefined';
       expect(report.corruptionPatterns.some(p => p.description.includes('Duplicate from clause in import'))).toBe(true);
     });
 
-    test('should detect double comma in import destructuring': any, async () => {
+    test('should detect double comma in import destructuring', async () => {
       const corruptedContent: any = `
       `;
 
@@ -246,7 +246,7 @@ import React, { Component } from 'undefined';
       );
     });
 
-    test('should detect malformed import statements': any, async () => {
+    test('should detect malformed import statements', async () => {
       const corruptedContent: any = `;
         import React from react;
         import { useState } from react;
@@ -263,7 +263,7 @@ import React, { Component } from 'undefined';
       ).toBe(true);
     });
 
-    test('should skip non-JavaScript/TypeScript files': any, async () => {
+    test('should skip non-JavaScript/TypeScript files', async () => {
       const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.txt', 'test-file.md']);
 
       expect(report.detectedFiles).toHaveLength(0);
@@ -272,7 +272,7 @@ import React, { Component } from 'undefined';
   });
 
   describe('Real-time Monitoring during Script Execution', () => {
-    test('should start real-time monitoring': any, async () => {
+    test('should start real-time monitoring', async () => {
       const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
@@ -286,7 +286,7 @@ import React, { Component } from 'undefined';
       consoleSpy.mockRestore();
     });
 
-    test('should stop real-time monitoring': any, async () => {
+    test('should stop real-time monitoring', async () => {
       const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
@@ -297,7 +297,7 @@ import React, { Component } from 'undefined';
       consoleSpy.mockRestore();
     });
 
-    test('should trigger emergency rollback on critical corruption': any, async () => {
+    test('should trigger emergency rollback on critical corruption', async () => {
       const corruptedContent: any = `
         // Git merge conflict markers for testing
         // <<<<<<< HEAD;
@@ -322,7 +322,7 @@ import React, { Component } from 'undefined';
       emergencyRollbackSpy.mockRestore();
     });
 
-    test('should handle monitoring errors gracefully': any, async () => {
+    test('should handle monitoring errors gracefully', async () => {
       const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation();
 
       // Mock file read error during monitoring
@@ -344,14 +344,14 @@ import React, { Component } from 'undefined';
   });
 
   describe('TypeScript Syntax Validation', () => {
-    test('should validate syntax with TypeScript compiler': any, async () => {
+    test('should validate syntax with TypeScript compiler', async () => {
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
 
       expect(execSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object));
       expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
-    test('should detect TypeScript syntax errors': any, async () => {
+    test('should detect TypeScript syntax errors', async () => {
       execSync.mockImplementation((command: string) => {
         if (command.includes('yarn tsc --noEmit')) {
           return [
@@ -369,7 +369,7 @@ import React, { Component } from 'undefined';
       expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_SYNTAX_ERROR')).toBe(true);
     });
 
-    test('should handle TypeScript compilation errors': any, async () => {
+    test('should handle TypeScript compilation errors', async () => {
       execSync.mockImplementation((command: string) => {
         if (command.includes('yarn tsc --noEmit')) {
           const error: any = new Error('TypeScript compilation failed');
@@ -385,7 +385,7 @@ import React, { Component } from 'undefined';
       expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true);
     });
 
-    test('should skip validation for non-TypeScript files': any, async () => {
+    test('should skip validation for non-TypeScript files', async () => {
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.js', 'test-file.txt']);
 
       expect(report.detectedFiles).toHaveLength(0);
@@ -394,7 +394,7 @@ import React, { Component } from 'undefined';
   });
 
   describe('Recovery Action Determination', () => {
-    test('should recommend emergency restore for critical corruption': any, async () => {
+    test('should recommend emergency restore for critical corruption', async () => {
       const criticalContent: any = `
         // Git merge conflict markers for testing
         // <<<<<<< HEAD
@@ -409,7 +409,7 @@ import React, { Component } from 'undefined';
       expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     });
 
-    test('should recommend rollback for high severity corruption': any, async () => {
+    test('should recommend rollback for high severity corruption', async () => {
       const highSeverityContent: any = `;
         import React from 'undefined';
       `;
@@ -419,7 +419,7 @@ import React, { Component } from 'undefined';
       const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
     });
 
-    test('should recommend retry for medium severity corruption': any, async () => {
+    test('should recommend retry for medium severity corruption', async () => {
       const mediumSeverityContent: any = `;
         export { };
       `;
@@ -431,7 +431,7 @@ import React, { Component } from 'undefined';
       expect(report.recommendedAction).toBe(RecoveryAction.RETRY);
     });
 
-    test('should recommend continue for no corruption': any, async () => {
+    test('should recommend continue for no corruption', async () => {
       const cleanContent: any = `
         export default function Component() : any {
           return React.createElement('div', null, 'Hello World');
@@ -447,7 +447,7 @@ import React, { Component } from 'undefined';
   });
 
   describe('Safety Event Tracking', () => {
-    test('should track corruption detection events': any, async () => {
+    test('should track corruption detection events', async () => {
       const corruptedContent: any = `
       `;
 
@@ -462,7 +462,7 @@ import React, { Component } from 'undefined';
       expect(corruptionEvent.description).toContain('Corruption detected in 1 files');
     });
 
-    test('should track real-time corruption detection events': any, async () => {
+    test('should track real-time corruption detection events', async () => {
       const corruptedContent: any = `
       `;
 
@@ -483,7 +483,7 @@ import React, { Component } from 'undefined';
   });
 
   describe('Comprehensive Corruption Analysis', () => {
-    test('should analyze multiple corruption types in single file': any, async () => {
+    test('should analyze multiple corruption types in single file', async () => {
       const multipleCorruptionContent: any = `
         // Git merge conflict markers for testing
         // <<<<<<< HEAD
@@ -507,7 +507,7 @@ import React, { Component } from 'undefined';
       expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     });
 
-    test('should provide detailed corruption analysis': any, async () => {
+    test('should provide detailed corruption analysis', async () => {
       const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
       const corruptedContent: any = `

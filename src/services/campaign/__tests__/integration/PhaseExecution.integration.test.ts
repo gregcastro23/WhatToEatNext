@@ -137,7 +137,7 @@ describe('Phase Execution Integration Tests', () => {
       });
     });
 
-    it('should execute Phase 1 with complete workflow': any, async () => {
+    it('should execute Phase 1 with complete workflow', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock progress tracking
@@ -155,7 +155,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(result.safetyEvents.length).toBeGreaterThan(0);
     });
 
-    it('should create safety checkpoint before execution': any, async () => {
+    it('should create safety checkpoint before execution', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       await campaignController.executePhase(phase1);
@@ -164,7 +164,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object));
     });
 
-    it('should validate phase completion successfully': any, async () => {
+    it('should validate phase completion successfully', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock zero TypeScript errors
@@ -181,7 +181,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(validation.errors).toEqual([]);
     });
 
-    it('should generate comprehensive phase report': any, async () => {
+    it('should generate comprehensive phase report', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock successful completion metrics
@@ -230,7 +230,7 @@ describe('Phase Execution Integration Tests', () => {
       });
     });
 
-    it('should execute Phase 2 with complete workflow': any, async () => {
+    it('should execute Phase 2 with complete workflow', async () => {
       const phase2: any = mockConfig.phases.[1];
 
       // Mock progress tracking
@@ -247,7 +247,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(result.executionTime).toBeGreaterThan(0);
     });
 
-    it('should validate phase completion successfully': any, async () => {
+    it('should validate phase completion successfully', async () => {
       const phase2: any = mockConfig.phases.[1];
 
       // Mock zero linting warnings
@@ -266,7 +266,7 @@ describe('Phase Execution Integration Tests', () => {
   });
 
   describe('Multi-Phase Campaign Execution', () => {
-    it('should execute multiple phases in sequence': any, async () => {
+    it('should execute multiple phases in sequence', async () => {
       // Mock progressive improvement
       let tsErrorCount: any = 86;
       let lintWarningCount: any = 4506;
@@ -299,7 +299,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(finalMetrics.lintingWarnings.current).toBe(0);
     });
 
-    it('should maintain safety protocols across phases': any, async () => {
+    it('should maintain safety protocols across phases', async () => {
       // Track safety events across phases
       const allSafetyEvents: any[] = [];
 
@@ -316,7 +316,7 @@ describe('Phase Execution Integration Tests', () => {
   });
 
   describe('Error Handling and Recovery', () => {
-    it('should handle tool execution failure gracefully': any, async () => {
+    it('should handle tool execution failure gracefully', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock tool execution failure
@@ -330,7 +330,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(result.errorsFixed).toBe(0);
     });
 
-    it('should trigger rollback on validation failure': any, async () => {
+    it('should trigger rollback on validation failure', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock validation failure
@@ -350,7 +350,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(campaignController.rollbackToCheckpoint).toHaveBeenCalled();
     });
 
-    it('should handle build failure during phase execution': any, async () => {
+    it('should handle build failure during phase execution', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock build failure
@@ -372,7 +372,7 @@ describe('Phase Execution Integration Tests', () => {
   });
 
   describe('Progress Tracking Integration', () => {
-    it('should track progress throughout phase execution': any, async () => {
+    it('should track progress throughout phase execution', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock progressive improvement
@@ -388,7 +388,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(progressTracker.getTypeScriptErrorCount).toHaveBeenCalledTimes(3);
     });
 
-    it('should generate progress report after phase completion': any, async () => {
+    it('should generate progress report after phase completion', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       await campaignController.executePhase(phase1);
@@ -400,7 +400,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(report.overallProgress).toBeGreaterThanOrEqual(0);
     });
 
-    it('should validate milestones after phase completion': any, async () => {
+    it('should validate milestones after phase completion', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock successful phase completion
@@ -419,7 +419,7 @@ describe('Phase Execution Integration Tests', () => {
   });
 
   describe('Safety Protocol Integration', () => {
-    it('should integrate safety protocols with phase execution': any, async () => {
+    it('should integrate safety protocols with phase execution', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock safety protocol operations
@@ -438,7 +438,7 @@ describe('Phase Execution Integration Tests', () => {
       expect(phase1.tools.length).toBeGreaterThan(0);
     });
 
-    it('should handle corruption detection during phase execution': any, async () => {
+    it('should handle corruption detection during phase execution', async () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock corruption detection
@@ -464,7 +464,7 @@ describe('Phase Execution Integration Tests', () => {
   });
 
   describe('Configuration Loading and Validation', () => {
-    it('should load and validate campaign configuration': any, async () => {
+    it('should load and validate campaign configuration', async () => {
       const config: any = await CampaignController.loadConfiguration();
 
       expect(config.phases.length).toBeGreaterThan(0);

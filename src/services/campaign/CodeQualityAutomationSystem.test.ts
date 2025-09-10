@@ -68,7 +68,7 @@ describe('CodeQualityAutomationSystem', () => {
   });
 
   describe('executeAutomation', () => {
-    test('executes all enabled phases in order': any, async () => {
+    test('executes all enabled phases in order', async () => {
       // Setup mock responses
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: ['file1.ts', 'file2.ts'],
@@ -137,7 +137,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(result.globalMetrics.dependencyUpdatesApplied).toBe(3);
     });
 
-    test('handles phase failures gracefully': any, async () => {
+    test('handles phase failures gracefully', async () => {
       // Setup import cleanup to fail
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: [],
@@ -195,7 +195,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(result.errors).toContain('Import cleanup failed');
     });
 
-    test('respects phase dependencies': any, async () => {
+    test('respects phase dependencies', async () => {
       // Configure linting to depend on import cleanup
       const configWithDependencies = {
         ...testConfig,
@@ -239,7 +239,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(mockLintingFormatting.executeLintingAndFormatting).toHaveBeenCalled();
     });
 
-    test('stops execution on critical failure when continueOnError is false': any, async () => {
+    test('stops execution on critical failure when continueOnError is false', async () => {
       const configStopOnError = {
         ...testConfig,
         globalSettings: {
@@ -286,7 +286,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(mockLintingFormatting.executeLintingAndFormatting).not.toHaveBeenCalled();
     });
 
-    test('skips disabled phases': any, async () => {
+    test('skips disabled phases', async () => {
       const configWithDisabled = {
         ...testConfig,
         executionOrder: [
@@ -330,7 +330,7 @@ describe('CodeQualityAutomationSystem', () => {
   });
 
   describe('executePhase', () => {
-    test('executes import cleanup phase correctly': any, async () => {
+    test('executes import cleanup phase correctly', async () => {
       const phase = {
         name: 'Import Cleanup',
         description: 'Clean up imports',
@@ -361,7 +361,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(result.warnings).toEqual(['Warning message']);
     });
 
-    test('executes linting formatting phase correctly': any, async () => {
+    test('executes linting formatting phase correctly', async () => {
       const phase: any = {
         name: 'Linting and Formatting',
         description: 'Fix linting and formatting',
@@ -397,7 +397,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(result.result).toEqual(mockResult);
     });
 
-    test('executes dependency security phase correctly': any, async () => {
+    test('executes dependency security phase correctly', async () => {
       const phase: any = {
         name: 'Dependency Security',
         description: 'Monitor dependencies and security',
@@ -437,7 +437,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(result.result).toEqual(mockResult);
     });
 
-    test('handles unknown system gracefully': any, async () => {
+    test('handles unknown system gracefully', async () => {
       const phase: any = {
         name: 'Unknown Phase',
         description: 'Unknown system',

@@ -185,7 +185,7 @@ const another: any = 'value';
   });
 
   describe('validatePreConditions', () => {
-    it('should validate script exists': any, async () => {
+    it('should validate script exists', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       await expect(
@@ -193,7 +193,7 @@ const another: any = 'value';
       ).rejects.toThrow('Console removal script not found');
     });
 
-    it('should check git status when git stash is enabled': any, async () => {
+    it('should check git status when git stash is enabled', async () => {
       mockExecSync.mockReturnValue('');
 
       await expect(
@@ -204,7 +204,7 @@ const another: any = 'value';
   });
 
   describe('createSafetyStash', () => {
-    it('should create git stash with timestamp': any, async () => {
+    it('should create git stash with timestamp', async () => {
       mockExecSync.mockReturnValue('');
 
       const stashId: any = await (;
@@ -217,7 +217,7 @@ const another: any = 'value';
       });
     });
 
-    it('should handle git stash errors gracefully': any, async () => {
+    it('should handle git stash errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Git error');
       });
@@ -230,7 +230,7 @@ const another: any = 'value';
   });
 
   describe('executeScript', () => {
-    it('should execute script with correct arguments for dry run': any, async () => {
+    it('should execute script with correct arguments for dry run', async () => {
       const config: any = { dryRun: true, maxFiles: 10 };
       const system: any = new ConsoleStatementRemovalSystem(config);
 
@@ -263,7 +263,7 @@ const another: any = 'value';
       );
     });
 
-    it('should calculate preserved statements correctly': any, async () => {
+    it('should calculate preserved statements correctly', async () => {
       const mockAnalysis: ConsoleStatement[] = [
         {
           file: '/test/file.ts',
@@ -297,7 +297,7 @@ const another: any = 'value';
       expect(result.preservedFiles).toContain('/test/file.ts');
     });
 
-    it('should handle script execution errors': any, async () => {
+    it('should handle script execution errors', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Script execution failed');
       });
@@ -308,7 +308,7 @@ const another: any = 'value';
       expect(result.errors).toContain(expect.stringContaining('Script execution failed'));
     });
 
-    it('should parse warnings and errors from output': any, async () => {
+    it('should parse warnings and errors from output', async () => {
       const output: any = `
         Files processed: 5
         ⚠️ Warning: Some statements preserved
@@ -371,7 +371,7 @@ const another: any = 'value';
   });
 
   describe('estimateFilesWithConsoleStatements', () => {
-    it('should return default estimate when analyzer fails': any, async () => {
+    it('should return default estimate when analyzer fails', async () => {
       // Mock the dynamic import to fail
       jest.doMock('./LintingWarningAnalyzer.js'( {
         throw new Error('Module not found');
@@ -386,7 +386,7 @@ const another: any = 'value';
   });
 
   describe('saveMetrics', () => {
-    it('should save metrics to file': any, async () => {
+    it('should save metrics to file', async () => {
       const result: ConsoleRemovalResult = { success: true,
         filesProcessed: 5,
         consoleStatementsRemoved: 10,
@@ -409,7 +409,7 @@ const another: any = 'value';
       );
     });
 
-    it('should handle save metrics errors gracefully': any, async () => {
+    it('should handle save metrics errors gracefully', async () => {
       const result: ConsoleRemovalResult = { success: true,
         filesProcessed: 5,
         consoleStatementsRemoved: 10,

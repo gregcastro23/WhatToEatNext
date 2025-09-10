@@ -37,7 +37,7 @@ describe('ProgressReportingSystem', () => {
   });
 
   describe('Campaign Summary Report Generation', () => {
-    test('should generate comprehensive campaign summary report': any, async () => {
+    test('should generate comprehensive campaign summary report', async () => {
       // Mock successful campaign metrics
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -157,7 +157,7 @@ describe('ProgressReportingSystem', () => {
       expect(report.executiveSummary).toContain('completed successfully');
     });
 
-    test('should generate report for campaign in progress': any, async () => {
+    test('should generate report for campaign in progress', async () => {
       // Mock partial progress metrics
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -244,7 +244,7 @@ describe('ProgressReportingSystem', () => {
   });
 
   describe('Phase Completion Reports', () => {
-    test('should generate detailed phase completion report': any, async () => {
+    test('should generate detailed phase completion report', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -298,7 +298,7 @@ describe('ProgressReportingSystem', () => {
       expect(report.issues).toHaveLength(0);
     });
 
-    test('should handle invalid phase ID': any, async () => {
+    test('should handle invalid phase ID', async () => {
       await expect(reportingSystem.generatePhaseCompletionReport('invalid-phase')).rejects.toThrow(
         'Unknown phase: invalid-phase',
       );
@@ -306,7 +306,7 @@ describe('ProgressReportingSystem', () => {
   });
 
   describe('Visualization Data Generation', () => {
-    test('should generate comprehensive visualization data': any, async () => {
+    test('should generate comprehensive visualization data', async () => {
       // Mock snapshots for time series data
       mockMetricsCollector.getSnapshots.mockReturnValue([
         {
@@ -394,7 +394,7 @@ describe('ProgressReportingSystem', () => {
   });
 
   describe('Report Export Functionality', () => {
-    test('should export report in JSON format': any, async () => {
+    test('should export report in JSON format', async () => {
       const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',
         generatedAt: new Date(),
         overallStatus: CampaignStatus.IN_PROGRESS,
@@ -424,7 +424,7 @@ describe('ProgressReportingSystem', () => {
       );
     });
 
-    test('should export report in multiple formats': any, async () => {
+    test('should export report in multiple formats', async () => {
       const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',
         generatedAt: new Date(),
         overallStatus: CampaignStatus.COMPLETED,
@@ -475,7 +475,7 @@ describe('ProgressReportingSystem', () => {
   });
 
   describe('Dashboard Data Generation', () => {
-    test('should generate real-time dashboard data': any, async () => {
+    test('should generate real-time dashboard data', async () => {
       // Mock all required data
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -524,7 +524,7 @@ describe('ProgressReportingSystem', () => {
   });
 
   describe('Report History Management', () => {
-    test('should maintain report history': any, async () => {
+    test('should maintain report history', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
@@ -564,14 +564,14 @@ describe('ProgressReportingSystem', () => {
   });
 
   describe('Error Handling', () => {
-    test('should handle metrics collection errors gracefully': any, async () => {
+    test('should handle metrics collection errors gracefully', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockRejectedValue(new Error('Metrics collection failed'));
       mockValidationSystem.validateAllPhases.mockResolvedValue([]);
 
       await expect(reportingSystem.generateCampaignSummaryReport()).rejects.toThrow('Metrics collection failed');
     });
 
-    test('should handle validation system errors gracefully': any, async () => {
+    test('should handle validation system errors gracefully', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue(
         {} as any<ReturnType<typeof mockMetricsCollector.collectDetailedMetrics>>,
       );

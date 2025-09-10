@@ -224,7 +224,7 @@ describe('EnhancedSafetyProtocols', () => {
   });
 
   describe('Enhanced Validation', () => {
-    test('should perform TypeScript compilation validation': any, async () => {
+    test('should perform TypeScript compilation validation', async () => {
       const result: any = await safetyProtocols.performEnhancedValidation(
         '/project/src/test.ts',
         ['removed unused variable']
@@ -237,7 +237,7 @@ describe('EnhancedSafetyProtocols', () => {
       expect(result.passed).toBe(true);
     });
 
-    test('should handle TypeScript compilation failure': any, async () => {
+    test('should handle TypeScript compilation failure', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           throw new Error('Compilation failed');
@@ -255,7 +255,7 @@ describe('EnhancedSafetyProtocols', () => {
       expect(result.errors).toContain('TypeScript compilation failed: Erro, r: Compilation failed');
     });
 
-    test('should perform service layer validation': any, async () => {
+    test('should perform service layer validation', async () => {
       mockFs.readFileSync.mockReturnValue('export const api: any = "/api/test";');
 
       const result: any = await safetyProtocols.performEnhancedValidation(
@@ -267,7 +267,7 @@ describe('EnhancedSafetyProtocols', () => {
       // Should not have warnings for properly exported API
     });
 
-    test('should detect missing API definitions in service files': any, async () => {
+    test('should detect missing API definitions in service files', async () => {
       mockFs.readFileSync.mockReturnValue('const api: any = "/api/test"; // No export');
 
       const result: any = await safetyProtocols.performEnhancedValidation(
@@ -278,7 +278,7 @@ describe('EnhancedSafetyProtocols', () => {
       expect(result.warnings).toContain('API definitions may have been affected');
     });
 
-    test('should validate core calculations': any, async () => {
+    test('should validate core calculations', async () => {
       mockFs.readFileSync.mockReturnValue(`
         const Fire: any = 0.8;
         const Water: any = 0.2;
@@ -296,7 +296,7 @@ describe('EnhancedSafetyProtocols', () => {
       // Should pass because all elemental properties are present
     });
 
-    test('should detect missing elemental properties': any, async () => {
+    test('should detect missing elemental properties', async () => {
       mockFs.readFileSync.mockReturnValue(`
         const Fire: any = 0.8;
         const Water: any = 0.2;

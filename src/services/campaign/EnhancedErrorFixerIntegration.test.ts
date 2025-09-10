@@ -101,7 +101,7 @@ describe('EnhancedErrorFixerIntegration', () => {
   });
 
   describe('validateBuild', () => {
-    it('should return true when build succeeds': any, async () => {
+    it('should return true when build succeeds', async () => {
       mockExecSync.mockReturnValue('Build successful');
 
       const validateMethod: any = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(;
@@ -116,7 +116,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       });
     });
 
-    it('should return false when build fails': any, async () => {
+    it('should return false when build fails', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Build failed');
       });
@@ -131,7 +131,7 @@ describe('EnhancedErrorFixerIntegration', () => {
   });
 
   describe('getCurrentErrorCount', () => {
-    it('should return current error count': any, async () => {
+    it('should return current error count', async () => {
       mockExecSync.mockReturnValue('123\n');
 
       const countMethod: any = (;
@@ -146,7 +146,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       });
     });
 
-    it('should return 0 when no errors found': any, async () => {
+    it('should return 0 when no errors found', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('No matches found');
       });
@@ -161,7 +161,7 @@ describe('EnhancedErrorFixerIntegration', () => {
   });
 
   describe('executeEnhancedFixer', () => {
-    it('should execute fixer with correct options': any, async () => {
+    it('should execute fixer with correct options', async () => {
       // Mock spawn to simulate successful execution
       const mockChild = {
         stdout: { o, n: jest.fn() },
@@ -200,7 +200,7 @@ describe('EnhancedErrorFixerIntegration', () => {
   });
 
   describe('executeBatchProcessing', () => {
-    it('should process multiple batches correctly': any, async () => {
+    it('should process multiple batches correctly', async () => {
       // Mock successful executions
       const mockChild = {
         stdout: { o, n: jest.fn() },
@@ -233,7 +233,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       expect(mockSpawn).toHaveBeenCalled();
     });
 
-    it('should stop on build failure when configured': any, async () => {
+    it('should stop on build failure when configured', async () => {
       // Mock failed build
       const mockChild = {
         stdout: { o, n: jest.fn() },
@@ -267,7 +267,7 @@ describe('EnhancedErrorFixerIntegration', () => {
   });
 
   describe('validateSafety', () => {
-    it('should return safety validation results': any, async () => {
+    it('should return safety validation results', async () => {
       const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
@@ -290,7 +290,7 @@ describe('EnhancedErrorFixerIntegration', () => {
   });
 
   describe('executeWithSafetyProtocols', () => {
-    it('should execute with safety protocols': any, async () => {
+    it('should execute with safety protocols', async () => {
       // Mock safety validation success
       const mockChild = {
         stdout: { o, n: jest.fn() },
@@ -311,7 +311,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       expect(result).toHaveProperty('buildValidationPassed');
     });
 
-    it('should use conservative settings when safety validation fails': any, async () => {
+    it('should use conservative settings when safety validation fails', async () => {
       // Mock safety validation failure
       const mockChild = {
         stdout: { o, n: jest.fn() },

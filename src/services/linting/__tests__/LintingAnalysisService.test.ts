@@ -63,7 +63,7 @@ describe('LintingAnalysisService', () => {
   });
 
   describe('Quick Analysis', () => {
-    it('should perform quick analysis without errors': any, async () => {
+    it('should perform quick analysis without errors', async () => {
       const result: any = await service.performQuickAnalysis();
 
       expect(result).toBeDefined();
@@ -74,7 +74,7 @@ describe('LintingAnalysisService', () => {
       expect(result.criticalIssues).toBeDefined();
     });
 
-    it('should identify auto-fixable issues as quick wins': any, async () => {
+    it('should identify auto-fixable issues as quick wins', async () => {
       const result: any = await service.performQuickAnalysis();
 
       // Should have at least one quick win (import/order is auto-fixable)
@@ -82,7 +82,7 @@ describe('LintingAnalysisService', () => {
       expect(result.quickWins.[0].autoFixable).toBe(true);
     });
 
-    it('should categorize issues by severity': any, async () => {
+    it('should categorize issues by severity', async () => {
       const result: any = await service.performQuickAnalysis();
 
       expect(result.summary.errorCount).toBeGreaterThanOrEqual(0);
@@ -92,7 +92,7 @@ describe('LintingAnalysisService', () => {
   });
 
   describe('Comprehensive Analysis', () => {
-    it('should perform comprehensive analysis with default options': any, async () => {
+    it('should perform comprehensive analysis with default options', async () => {
       const result: any = await service.performComprehensiveAnalysis();
 
       expect(result).toBeDefined();
@@ -105,7 +105,7 @@ describe('LintingAnalysisService', () => {
       expect(result.metrics).toBeDefined();
     });
 
-    it('should generate resolution strategies when requested': any, async () => {
+    it('should generate resolution strategies when requested', async () => {
       const result: any = await service.performComprehensiveAnalysis({
         generateStrategies: true,
       });
@@ -114,7 +114,7 @@ describe('LintingAnalysisService', () => {
       expect(result.optimizedPlan.totalStrategies).toBeGreaterThan(0);
     });
 
-    it('should skip file analysis when disabled': any, async () => {
+    it('should skip file analysis when disabled', async () => {
       const result: any = await service.performComprehensiveAnalysis({
         includeFileAnalysis: false,
       });
@@ -122,7 +122,7 @@ describe('LintingAnalysisService', () => {
       expect(result.fileAnalyses).toHaveLength(0);
     });
 
-    it('should focus on specific areas when requested': any, async () => {
+    it('should focus on specific areas when requested', async () => {
       const result: any = await service.performComprehensiveAnalysis({
         focusAreas: ['import', 'typescript'],
       });
@@ -132,7 +132,7 @@ describe('LintingAnalysisService', () => {
       expect(result.summary.totalIssues).toBeGreaterThanOrEqual(0);
     });
 
-    it('should generate appropriate recommendations': any, async () => {
+    it('should generate appropriate recommendations', async () => {
       const result: any = await service.performComprehensiveAnalysis();
 
       expect(result.recommendations).toBeDefined();
@@ -146,7 +146,7 @@ describe('LintingAnalysisService', () => {
       expect(firstRec.actionItems.length).toBeGreaterThan(0);
     });
 
-    it('should calculate comprehensive metrics': any, async () => {
+    it('should calculate comprehensive metrics', async () => {
       const result: any = await service.performComprehensiveAnalysis();
 
       expect(result.metrics).toBeDefined();
@@ -160,7 +160,7 @@ describe('LintingAnalysisService', () => {
   });
 
   describe('Error Handling', () => {
-    it('should handle ESLint execution errors gracefully': any, async () => {
+    it('should handle ESLint execution errors gracefully', async () => {
       // Mock execSync to throw an error
       const mockExecSync = require('child_process').execSync;
       mockExecSync.mockImplementationOnce(() => {
@@ -174,7 +174,7 @@ describe('LintingAnalysisService', () => {
       expect(result).toBeDefined();
     });
 
-    it('should handle file system errors gracefully': any, async () => {
+    it('should handle file system errors gracefully', async () => {
       // Mock fs.readFileSync to throw an error
       const mockReadFileSync = require('fs').readFileSync;
       mockReadFileSync.mockImplementationOnce(() => {
@@ -188,7 +188,7 @@ describe('LintingAnalysisService', () => {
   });
 
   describe('Integration', () => {
-    it('should integrate all analysis components': any, async () => {
+    it('should integrate all analysis components', async () => {
       const result: any = await service.performComprehensiveAnalysis({
         includeFileAnalysis: true,
         generateStrategies: true,
@@ -209,7 +209,7 @@ describe('LintingAnalysisService', () => {
       expect(result.optimizedPlan.totalStrategies).toBe(result.resolutionStrategies.length);
     });
 
-    it('should provide consistent analysis results': any, async () => {
+    it('should provide consistent analysis results', async () => {
       // Run analysis twice and compare results
       const result1: any = await service.performQuickAnalysis();
       const result2: any = await service.performQuickAnalysis();

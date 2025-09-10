@@ -166,7 +166,7 @@ describe('ExportTransformationEngine', () => {
   });
 
   describe('executeTransformation', () => {
-    it('should execute complete transformation campaign': any, async () => {
+    it('should execute complete transformation campaign', async () => {
       const summary: any = await engine.executeTransformation();
 
       expect(summary).toHaveProperty('totalBatches');
@@ -177,13 +177,13 @@ describe('ExportTransformationEngine', () => {
       expect(summary).toHaveProperty('generationSummary');
     });
 
-    it('should perform analysis phase': any, async () => {
+    it('should perform analysis phase', async () => {
       await engine.executeTransformation();
 
       expect(mockAnalyzer.prototype.analyzeUnusedExports).toHaveBeenCalledTimes(1);
     });
 
-    it('should create safety checkpoints': any, async () => {
+    it('should create safety checkpoints', async () => {
       await engine.executeTransformation();
 
       expect(
@@ -195,7 +195,7 @@ describe('ExportTransformationEngine', () => {
       ).toHaveBeenCalledWith('transformation-start');
     });
 
-    it('should handle critical failures': any, async () => {
+    it('should handle critical failures', async () => {
       mockAnalyzer.prototype.analyzeUnusedExports.mockRejectedValueOnce(new Error('Analysis failed'));
 
       await expect(engine.executeTransformation()).rejects.toThrow('Analysis failed');
@@ -210,14 +210,14 @@ describe('ExportTransformationEngine', () => {
   });
 
   describe('batch planning', () => {
-    it('should create batches based on priority': any, async () => {
+    it('should create batches based on priority', async () => {
       const summary: any = await engine.executeTransformation();
 
       // Should have created batches for high and medium priority files
       expect(summary.totalBatches).toBeGreaterThan(0);
     });
 
-    it('should respect batch size configuration': any, async () => {
+    it('should respect batch size configuration', async () => {
       const smallBatchEngine: any = new ExportTransformationEngine({
         batchSize: 1,
         dryRun: true,
@@ -231,14 +231,14 @@ describe('ExportTransformationEngine', () => {
   });
 
   describe('batch execution', () => {
-    it('should execute batches in priority order': any, async () => {
+    it('should execute batches in priority order', async () => {
       const summary: any = await engine.executeTransformation();
 
       expect(summary.successfulBatches).toBeGreaterThan(0);
       expect(summary.successRate).toBe(100); // Dry run should always succeed
     });
 
-    it('should handle batch failures with rollback': any, async () => {
+    it('should handle batch failures with rollback', async () => {
       const failingEngine: any = new ExportTransformationEngine({
         dryRun: false,
         rollbackOnFailure: true,
@@ -258,7 +258,7 @@ describe('ExportTransformationEngine', () => {
       ).toHaveBeenCalled();
     });
 
-    it('should skip rollback when disabled': any, async () => {
+    it('should skip rollback when disabled', async () => {
       const noRollbackEngine: any = new ExportTransformationEngine({
         dryRun: false,
         rollbackOnFailure: false,
@@ -273,7 +273,7 @@ describe('ExportTransformationEngine', () => {
   });
 
   describe('safety validation', () => {
-    it('should enforce safety threshold': any, async () => {
+    it('should enforce safety threshold', async () => {
       const strictEngine: any = new ExportTransformationEngine({
         safetyThreshold: 95, // Higher than mock data;
         dryRun: false,
@@ -285,7 +285,7 @@ describe('ExportTransformationEngine', () => {
       expect(summary.totalWarnings).toBeGreaterThan(0);
     });
 
-    it('should create checkpoints for each batch': any, async () => {
+    it('should create checkpoints for each batch', async () => {
       await engine.executeTransformation();
 
       // Should create transformation-start checkpoint plus batch checkpoints
@@ -300,7 +300,7 @@ describe('ExportTransformationEngine', () => {
   });
 
   describe('error handling', () => {
-    it('should log transformation errors': any, async () => {
+    it('should log transformation errors', async () => {
       const errorEngine: any = new ExportTransformationEngine({
         dryRun: false,
       });
@@ -385,7 +385,7 @@ describe('ExportTransformationEngine', () => {
   });
 
   describe('summary generation', () => {
-    it('should generate comprehensive summary': any, async () => {
+    it('should generate comprehensive summary', async () => {
       const summary: any = await engine.executeTransformation();
 
       expect(summary.totalBatches).toBeGreaterThan(0);

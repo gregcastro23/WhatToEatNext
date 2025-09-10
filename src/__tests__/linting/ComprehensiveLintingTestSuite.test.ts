@@ -101,7 +101,7 @@ describe('Comprehensive Linting Test Suite', () => {
     test('should validate all custom astrological rules', () => {
       const astrologicalRules = require(astrologicalRulesPath);
 
-      const expectedRules = [
+      const expectedRules = [;
         'preserve-planetary-constants',
         'validate-planetary-position-structure',
         'validate-elemental-properties',
@@ -290,7 +290,7 @@ describe('Comprehensive Linting Test Suite', () => {
     test('should validate auto-fixable rule configuration', () => {
       const config = require(configPath);
 
-      const fixableRules = [
+      const fixableRules = [;
         'prefer-const',
         'import/order',
         'import/no-duplicates',

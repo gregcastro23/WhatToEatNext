@@ -63,7 +63,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('getCurrentExplicitAnyCount', () => {
-    it('should return current explicit-any count': any, async () => {
+    it('should return current explicit-any count', async () => {
       mockExecSync.mockReturnValue('624\n');
 
       const count: any = await system.getCurrentExplicitAnyCount();
@@ -75,7 +75,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       });
     });
 
-    it('should return 0 when no explicit-any warnings found': any, async () => {
+    it('should return 0 when no explicit-any warnings found', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('No matches found');
       });
@@ -122,7 +122,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('loadCampaignProgress', () => {
-    it('should load existing campaign progress': any, async () => {
+    it('should load existing campaign progress', async () => {
       const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 500,
@@ -144,7 +144,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       expect(progress.campaignTarget).toBe(75.5);
     });
 
-    it('should initialize new campaign progress when file does not exist': any, async () => {
+    it('should initialize new campaign progress when file does not exist', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('800\n'); // Current count
 
@@ -161,7 +161,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('updateCampaignProgress', () => {
-    it('should update campaign progress correctly': any, async () => {
+    it('should update campaign progress correctly', async () => {
       const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 600,
@@ -190,7 +190,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('executeExplicitAnyFixer', () => {
-    it('should execute fixer with correct options and calculate reduction': any, async () => {
+    it('should execute fixer with correct options and calculate reduction', async () => {
       // Mock spawn to simulate successful execution
       const mockChild = {
         stdout: { o, n: jest.fn() },
@@ -235,7 +235,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('executeBatchProcessing', () => {
-    it('should process multiple batches until target is met': any, async () => {
+    it('should process multiple batches until target is met', async () => {
       // Mock successful executions
       const mockChild = {
         stdout: { o, n: jest.fn() },
@@ -275,7 +275,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       expect(mockSpawn).toHaveBeenCalled();
     });
 
-    it('should stop when no progress is made': any, async () => {
+    it('should stop when no progress is made', async () => {
       const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
@@ -300,7 +300,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('showCampaignProgress', () => {
-    it('should display campaign progress correctly': any, async () => {
+    it('should display campaign progress correctly', async () => {
       const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 245,
@@ -327,7 +327,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('executeCampaignContinuation', () => {
-    it('should continue campaign when target not met': any, async () => {
+    it('should continue campaign when target not met', async () => {
       const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 400,
@@ -360,7 +360,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       // Should attempt to continue the campaign
     });
 
-    it('should return empty array when target already met': any, async () => {
+    it('should return empty array when target already met', async () => {
       const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 200,
@@ -381,7 +381,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   });
 
   describe('resetCampaignProgress', () => {
-    it('should reset campaign progress file': any, async () => {
+    it('should reset campaign progress file', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.promises.unlink = jest.fn().mockResolvedValue(undefined);
 
@@ -390,7 +390,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       expect(mockFs.promises.unlink).toHaveBeenCalledWith('.explicit-any-campaign-progress.json');
     });
 
-    it('should handle case when progress file does not exist': any, async () => {
+    it('should handle case when progress file does not exist', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       await system.resetCampaignProgress();

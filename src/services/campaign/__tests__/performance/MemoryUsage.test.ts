@@ -61,7 +61,7 @@ describe('Memory Usage Performance Tests', () => {
   });
 
   describe('Memory Usage Monitoring', () => {
-    it('should track memory usage under 50MB target': any, async () => {
+    it('should track memory usage under 50MB target', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockReturnValue({
         heapUsed: 40 * 1024 * 1024, // 40MB
@@ -79,7 +79,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should detect memory usage spikes': any, async () => {
+    it('should detect memory usage spikes', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockReturnValue({
         heapUsed: 75 * 1024 * 1024, // 75MB - exceeds target
@@ -97,7 +97,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should handle memory measurement errors gracefully': any, async () => {
+    it('should handle memory measurement errors gracefully', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
         throw new Error('Memory measurement failed');
@@ -110,7 +110,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should track memory usage trends over time': any, async () => {
+    it('should track memory usage trends over time', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const memoryReadings: number[] = [];
       let callCount: any = 0;
@@ -151,7 +151,7 @@ describe('Memory Usage Performance Tests', () => {
   });
 
   describe('Memory Leak Detection', () => {
-    it('should detect potential memory leaks in progress tracking': any, async () => {
+    it('should detect potential memory leaks in progress tracking', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       let simulatedMemoryLeak: any = 30; // Start at 30MB
 
@@ -185,7 +185,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should validate memory cleanup in safety protocol': any, async () => {
+    it('should validate memory cleanup in safety protocol', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const memoryUsage: any = 35; // Start at 35MB
 
@@ -222,7 +222,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should validate memory cleanup in progress tracker': any, async () => {
+    it('should validate memory cleanup in progress tracker', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const memoryUsage: any = 30; // Start at 30MB
 
@@ -265,7 +265,7 @@ describe('Memory Usage Performance Tests', () => {
   });
 
   describe('Memory Efficiency Testing', () => {
-    it('should efficiently handle large file processing': any, async () => {
+    it('should efficiently handle large file processing', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const baseMemory: any = 35;
 
@@ -304,7 +304,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should efficiently manage concurrent operations': any, async () => {
+    it('should efficiently manage concurrent operations', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const baseMemory: any = 30;
 
@@ -341,7 +341,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should handle memory pressure gracefully': any, async () => {
+    it('should handle memory pressure gracefully', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       let memoryPressure: any = false;
 
@@ -377,7 +377,7 @@ describe('Memory Usage Performance Tests', () => {
   });
 
   describe('Memory Performance Benchmarks', () => {
-    it('should benchmark memory allocation patterns': any, async () => {
+    it('should benchmark memory allocation patterns', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const memorySnapshots: number[] = [];
       let allocationCount: any = 0;
@@ -427,7 +427,7 @@ describe('Memory Usage Performance Tests', () => {
       process.memoryUsage = originalMemoryUsage;
     });
 
-    it('should validate memory efficiency across different operations': any, async () => {
+    it('should validate memory efficiency across different operations', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const operationMemoryUsage: Record<string, number[]> = {
         typeScriptCheck: [],

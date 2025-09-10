@@ -64,7 +64,7 @@ describe('ScriptIntegrationSystem', () => {
       mockExecSync.mockReturnValue('Script executed successfully\n5 files processed\n3 errors fixed');
     });
 
-    it('should execute script with default options': any, async () => {
+    it('should execute script with default options', async () => {
       const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
 
       expect(mockExecSync).toHaveBeenCalledWith(
@@ -76,7 +76,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(result.errorsFixed).toBe(3);
     });
 
-    it('should execute script with custom options': any, async () => {
+    it('should execute script with custom options', async () => {
       const options: ScriptExecutionOptions = { maxFiles: 10,
         autoFix: true,
         dryRun: false,
@@ -90,17 +90,17 @@ describe('ScriptIntegrationSystem', () => {
       );
     });
 
-    it('should throw error for unknown script ID': any, async () => {
+    it('should throw error for unknown script ID', async () => {
       await expect(scriptSystem.executeScript('unknown-script')).rejects.toThrow('Unknown script ID: any-script');
     });
 
-    it('should throw error if script file does not exist': any, async () => {
+    it('should throw error if script file does not exist', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       await expect(scriptSystem.executeScript('typescript-enhanced-v3')).rejects.toThrow('Script not found:');
     });
 
-    it('should handle script execution failure': any, async () => {
+    it('should handle script execution failure', async () => {
       const error: any = new Error('Script failed') as unknown;
       error.status = 1;
       (error as any).stdout = 'Some output';
@@ -116,7 +116,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(result.stdout).toContain('Some output');
     });
 
-    it('should parse JSON output correctly': any, async () => {
+    it('should parse JSON output correctly', async () => {
       const jsonOutput: any = JSON.stringify({
         safetyMetrics: { totalRuns: 10,
           successfulRuns: 8,
@@ -136,7 +136,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(result.metrics.safetyScore).toBe(0.85);
     });
 
-    it('should parse safety events from output': any, async () => {
+    it('should parse safety events from output', async () => {
       const output: any = `
         Processing files...
         🚨 Corruption detected in file.ts;
@@ -155,12 +155,12 @@ describe('ScriptIntegrationSystem', () => {
   });
 
   describe('getScriptMetrics', () => {
-    it('should return null for unknown script': any, async () => {
+    it('should return null for unknown script', async () => {
       const metrics: any = await scriptSystem.getScriptMetrics('unknown-script');
       expect(metrics).toBeNull();
     });
 
-    it('should return metrics from script execution': any, async () => {
+    it('should return metrics from script execution', async () => {
       const jsonOutput: any = JSON.stringify({
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
@@ -178,7 +178,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(metrics.safetyScore).toBe(0.8);
     });
 
-    it('should fallback to reading metrics file directly': any, async () => {
+    it('should fallback to reading metrics file directly', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
         throw new Error('Script failed');
@@ -200,14 +200,14 @@ describe('ScriptIntegrationSystem', () => {
   });
 
   describe('validateScriptSafety', () => {
-    it('should return unsafe for unknown script': any, async () => {
+    it('should return unsafe for unknown script', async () => {
       const validation: any = await scriptSystem.validateScriptSafety('unknown-script');
 
       expect(validation.safe).toBe(false);
       expect(validation.issues).toContain('Unknown script');
     });
 
-    it('should parse safety validation from script output': any, async () => {
+    it('should parse safety validation from script output', async () => {
       const jsonOutput: any = JSON.stringify({
         safe: true,
         issues: [],
@@ -223,7 +223,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(validation.recommendedBatchSize).toBe(10);
     });
 
-    it('should fallback to metrics-based safety check': any, async () => {
+    it('should fallback to metrics-based safety check', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValueOnce('No safety validation output').mockReturnValueOnce(
         JSON.stringify({
@@ -241,7 +241,7 @@ describe('ScriptIntegrationSystem', () => {
   });
 
   describe('resetScriptMetrics', () => {
-    it('should successfully reset metrics': any, async () => {
+    it('should successfully reset metrics', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValue('Metrics reset successfully');
 
@@ -254,7 +254,7 @@ describe('ScriptIntegrationSystem', () => {
       );
     });
 
-    it('should handle reset failure gracefully': any, async () => {
+    it('should handle reset failure gracefully', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
         throw new Error('Reset failed');
@@ -267,7 +267,7 @@ describe('ScriptIntegrationSystem', () => {
   });
 
   describe('buildCommandArguments', () => {
-    it('should build correct arguments for all options': any, async () => {
+    it('should build correct arguments for all options', async () => {
       const options: ScriptExecutionOptions = { maxFiles: 15,
         autoFix: true,
         validateSafety: true,

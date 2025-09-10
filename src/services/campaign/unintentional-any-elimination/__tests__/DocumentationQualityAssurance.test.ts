@@ -37,7 +37,7 @@ describe('DocumentationQualityAssurance', () => {
   });
 
   describe('performQualityAssurance', () => {
-    it('should perform comprehensive quality assurance scan': any, async () => {
+    it('should perform comprehensive quality assurance scan', async () => {
       const mockFiles: any = ['src/service.ts', 'src/component.tsx'];
       mockGlob.mockResolvedValue(mockFiles);
 
@@ -71,7 +71,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(Array.isArray(report.recommendations)).toBe(true);
     });
 
-    it('should handle files with no any types': any, async () => {
+    it('should handle files with no any types', async () => {
       const mockFiles: any = ['src/clean.ts'];
       mockGlob.mockResolvedValue(mockFiles);
 
@@ -91,7 +91,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(report.documentationCoverage).toBe(100);
     });
 
-    it('should handle file read errors gracefully': any, async () => {
+    it('should handle file read errors gracefully', async () => {
       const mockFiles: any = ['src/error.ts'];
       mockGlob.mockResolvedValue(mockFiles);
       mockFs.readFile.mockRejectedValue(new Error('File not found'));
@@ -104,7 +104,7 @@ describe('DocumentationQualityAssurance', () => {
   });
 
   describe('validateDocumentationQuality', () => {
-    it('should validate high-quality documentation': any, async () => {
+    it('should validate high-quality documentation', async () => {
       const fileContent = [
         'export class Service {',
         '  // Intentionally any: External API response requires flexible typing because structure varies',
@@ -141,7 +141,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(validation.suggestions).toContain('Documentation is complete and meets quality standards');
     });
 
-    it('should identify poor quality documentation': any, async () => {
+    it('should identify poor quality documentation', async () => {
       const fileContent: any = [
         'export class Service {',
         '  // any',
@@ -176,7 +176,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(validation.suggestions).toContain('Improve comment quality with more detailed explanation');
     });
 
-    it('should identify missing documentation': any, async () => {
+    it('should identify missing documentation', async () => {
       const fileContent: any = [
         'export class Service {',
         '  processData(data: any): void {',
@@ -209,7 +209,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(validation.suggestions).toContain('Add explanatory comment indicating intentional use of any type');
     });
 
-    it('should cache validation results': any, async () => {
+    it('should cache validation results', async () => {
       const fileContent: any = 'processData(data: any): void {}';
       mockFs.readFile.mockResolvedValue(fileContent);
 
@@ -237,7 +237,7 @@ describe('DocumentationQualityAssurance', () => {
   });
 
   describe('generateQualityReport', () => {
-    it('should generate comprehensive quality metrics': any, async () => {
+    it('should generate comprehensive quality metrics', async () => {
       const mockFiles: any = ['src/service.ts', 'src/component.tsx'];
       mockGlob.mockResolvedValue(mockFiles);
 
@@ -269,7 +269,7 @@ describe('DocumentationQualityAssurance', () => {
   });
 
   describe('findAnyTypesInFile', () => {
-    it('should find various any type patterns': any, async () => {
+    it('should find various any type patterns', async () => {
       const fileContent: any = [
         'const data: any = response;',
         'const items: any[] = [];',
@@ -294,7 +294,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(anyTypes.some((t: any) => t.codeSnippet.includes('as unknown'))).toBe(true);
     });
 
-    it('should categorize any types correctly': any, async () => {
+    it('should categorize any types correctly', async () => {
       const testCases: any = [
         { code: 'catch (erro, r: any) : any {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
         { code: 'const respons, e: any = await api.fetch();', expectedCategory: AnyTypeCategory.EXTERNAL_API },
@@ -310,7 +310,7 @@ describe('DocumentationQualityAssurance', () => {
       }
     });
 
-    it('should determine domain correctly': any, async () => {
+    it('should determine domain correctly', async () => {
       const testCases: any = [
         { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL },
         { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE },

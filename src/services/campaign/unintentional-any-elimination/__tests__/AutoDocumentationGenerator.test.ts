@@ -56,7 +56,7 @@ describe('AutoDocumentationGenerator', () => {
   });
 
   describe('generateDocumentation', () => {
-    it('should generate documentation for intentional any type': any, async () => {
+    it('should generate documentation for intentional any type', async () => {
       const fileContent: any = [
         'function processResponse() : any {',
         '  try {',
@@ -79,7 +79,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(mockFs.writeFile).toHaveBeenCalled();
     });
 
-    it('should not generate documentation for unintentional any type': any, async () => {
+    it('should not generate documentation for unintentional any type', async () => {
       const unintentionalClassification: any = {
         ...mockClassification,
         isIntentional: false,
@@ -93,7 +93,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(mockFs.writeFile).not.toHaveBeenCalled();
     });
 
-    it('should skip documentation if adequate comment exists': any, async () => {
+    it('should skip documentation if adequate comment exists', async () => {
       const contextWithComment: any = {
         ...mockContext,
         hasExistingComment: true,
@@ -107,7 +107,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(mockFs.writeFile).not.toHaveBeenCalled();
     });
 
-    it('should handle different domain contexts': any, async () => {
+    it('should handle different domain contexts', async () => {
       const astrologicalContext: any = {
         ...mockContext,
         domainContext: {
@@ -131,7 +131,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(result.commentAdded).toContain('astrological API');
     });
 
-    it('should add ESLint disable comment': any, async () => {
+    it('should add ESLint disable comment', async () => {
       const fileContent: any = 'const data: any = response;';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
@@ -143,7 +143,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(result.eslintDisableAdded).toContain('no-explicit-any');
     });
 
-    it('should handle file read errors gracefully': any, async () => {
+    it('should handle file read errors gracefully', async () => {
       mockFs.readFile.mockRejectedValue(new Error('File not found'));
 
       const result: any = await generator.generateDocumentation(mockClassification, mockContext);
@@ -152,7 +152,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(result.error).toContain('File not found');
     });
 
-    it('should preserve indentation when adding comments': any, async () => {
+    it('should preserve indentation when adding comments', async () => {
       const fileContent: any = [
         'class TestClass {',
         '  processData() : any {',
@@ -184,7 +184,7 @@ describe('AutoDocumentationGenerator', () => {
   });
 
   describe('validateDocumentation', () => {
-    it('should validate existing documentation': any, async () => {
+    it('should validate existing documentation', async () => {
       const fileContent: any = [
         'function test() : any {',
         '  // Intentionally any: External API response',
@@ -211,7 +211,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(validation.isComplete).toBe(false); // Missing explanation in ESLint disable
     });
 
-    it('should detect poor quality comments': any, async () => {
+    it('should detect poor quality comments', async () => {
       const fileContent: any = [
         'function test() : any {',
         '  // any',
@@ -236,7 +236,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(validation.suggestions).toContain('Improve comment quality with more detailed explanation');
     });
 
-    it('should provide suggestions for improvement': any, async () => {
+    it('should provide suggestions for improvement', async () => {
       const fileContent: any = 'const data: any = response;';
       mockFs.readFile.mockResolvedValue(fileContent);
 
@@ -249,7 +249,7 @@ describe('AutoDocumentationGenerator', () => {
   });
 
   describe('generateReport', () => {
-    it('should generate basic documentation report': any, async () => {
+    it('should generate basic documentation report', async () => {
       const report: any = await generator.generateReport();
 
       expect(report).toHaveProperty('totalIntentionalAnyTypes');
@@ -263,7 +263,7 @@ describe('AutoDocumentationGenerator', () => {
   });
 
   describe('template selection', () => {
-    it('should select appropriate template for error handling': any, async () => {
+    it('should select appropriate template for error handling', async () => {
       const errorContext: any = {
         ...mockContext,
         codeSnippet: 'catch (erro, r: any) : any {',
@@ -289,7 +289,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(result.commentAdded).toContain('flexible typing');
     });
 
-    it('should select appropriate template for test mocks': any, async () => {
+    it('should select appropriate template for test mocks', async () => {
       const testContext: any = {
         ...mockContext,
         isInTestFile: true,
@@ -315,7 +315,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(result.commentAdded).toContain('comprehensive testing');
     });
 
-    it('should use fallback template for unknown combinations': any, async () => {
+    it('should use fallback template for unknown combinations', async () => {
       const unknownContext: any = {
         ...mockContext,
         domainContext: {

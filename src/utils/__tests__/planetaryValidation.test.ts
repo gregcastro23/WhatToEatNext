@@ -30,7 +30,7 @@ describe('Planetary Data Validation', () => {
   });
 
   describe('validatePlanetaryData', () => {
-    it('should pass validation with valid planetary data': any, async () => {
+    it('should pass validation with valid planetary data', async () => {
       // Mock valid planetary positions
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
@@ -63,7 +63,7 @@ describe('Planetary Data Validation', () => {
       expect(result.isValid).toBe(true);
     });
 
-    it('should fail validation with invalid planetary positions': any, async () => {
+    it('should fail validation with invalid planetary positions', async () => {
       // Mock invalid planetary positions (invalid degree values)
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: { sig, n: 'aries', degree: 35, exactLongitude: 8.5, isRetrograde: false }, // Invalid degree > 30
@@ -79,7 +79,7 @@ describe('Planetary Data Validation', () => {
       expect(result.summary).toContain('FAILED');
     });
 
-    it('should handle API failures gracefully': any, async () => {
+    it('should handle API failures gracefully', async () => {
       // Mock API failure
       mockGetReliablePlanetaryPositions.mockRejectedValue(new Error('API timeout'));
 
@@ -91,7 +91,7 @@ describe('Planetary Data Validation', () => {
       expect(result.errors.some(e => e.type === 'API_TIMEOUT')).toBe(true);
     });
 
-    it('should validate retrograde status correctly': any, async () => {
+    it('should validate retrograde status correctly', async () => {
       // Mock positions with retrograde data
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         mercury: { sig, n: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
@@ -112,7 +112,7 @@ describe('Planetary Data Validation', () => {
       expect(result.errors.filter(e => e.message.includes('retrograde')).length).toBe(0);
     });
 
-    it('should validate lunar nodes are opposite': any, async () => {
+    it('should validate lunar nodes are opposite', async () => {
       // Mock positions with incorrect lunar nodes (not opposite)
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
@@ -232,7 +232,7 @@ describe('Planetary Data Validation', () => {
   });
 
   describe('Performance', () => {
-    it('should complete validation within reasonable time': any, async () => {
+    it('should complete validation within reasonable time', async () => {
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
@@ -248,7 +248,7 @@ describe('Planetary Data Validation', () => {
   });
 
   describe('Error Handling', () => {
-    it('should handle missing planet data gracefully': any, async () => {
+    it('should handle missing planet data gracefully', async () => {
       // Mock empty planetary positions
       mockGetReliablePlanetaryPositions.mockResolvedValue({});
 
@@ -259,7 +259,7 @@ describe('Planetary Data Validation', () => {
       expect(result.summary).toContain('FAILED');
     });
 
-    it('should handle malformed planetary data': any, async () => {
+    it('should handle malformed planetary data', async () => {
       // Mock malformed planetary positions
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: null,

@@ -34,7 +34,7 @@ describe('React 19 and Next.js 15 Compatibility Validation', () => {
   describe('React 19 Modern JSX Transform', () => {
     test('should not require React import with modern JSX transform', () => {
       const testFile: any = path.join(testFilesDir, 'modern-jsx.tsx');
-      const content = `
+      const content = `;
 // React 19 modern JSX transform - no React import needed
 export default function ModernComponent(): any {
   return <div>Hello World</div>;
@@ -196,7 +196,7 @@ export default function RootLayout(: any : any {
       const _content: any = `
 // Next.js 15 Server Component
 async function ServerComponent(): any {
-  const data = fetch
+  const data = fetch;
   const json = await data.json()
 ;
   return (
@@ -633,7 +633,7 @@ function runESLintOnFile(filePath: string): { exitCode: number; outpu, t: string
       stdio: 'pipe',
     });
     return { exitCode: 0, output };
-  } catch (error: any): any {
+  } catch (error: any) {
     const err = error;
     return {
       exitCode: err.status || 1,

@@ -89,7 +89,7 @@ describe('Memory Management Integration', () => {
     expect(afterCleanup).toBeLessThanOrEqual(beforeCleanup + 10 * 1024 * 1024); // Allow 10MB tolerance
   });
 
-  it('should complete within the reduced timeout limit': any, async () => {
+  it('should complete within the reduced timeout limit', async () => {
       const startTime: any = Date.now();
 
       // Simulate an integration test operation
@@ -119,7 +119,7 @@ describe('Memory Management Integration', () => {
     expect(memoryInfo.arrayBuffers).toMatch(/^\d+\.\d+MB$/);
   });
 
-  it('should handle memory-intensive operations safely': any, async () => {
+  it('should handle memory-intensive operations safely', async () => {
     const monitor: any = new TestMemoryMonitor({
       heapUsed: 100 * 1024 * 1024, // 100MB
       heapTotal: 500 * 1024 * 1024, // 500MB

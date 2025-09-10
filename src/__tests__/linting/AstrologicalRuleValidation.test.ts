@@ -27,7 +27,7 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Mathematical Constants Preservation', () => {
-    test('should preserve DEGREES_PER_SIGN constant': any, async () => {
+    test('should preserve DEGREES_PER_SIGN constant', async () => {
       const testContent: any = `;
         const DEGREES_PER_SIGN: any = 30;
 
@@ -48,7 +48,7 @@ describe('Astrological Rule Validation', () => {
 
         // Should not throw error for valid constant usage
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         if (output.includes('preserve-planetary-constants')) {
@@ -57,7 +57,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should preserve RELIABLE_POSITIONS constant': any, async () => {
+    test('should preserve RELIABLE_POSITIONS constant', async () => {
       const testContent: any = `
         const RELIABLE_POSITIONS = {
   sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
@@ -80,7 +80,7 @@ describe('Astrological Rule Validation', () => {
         });
 
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         if (output.includes('preserve-planetary-constants')) {
@@ -89,7 +89,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should flag modification of protected constants': any, async () => {
+    test('should flag modification of protected constants', async () => {
       const testContent: any = `;
         const DEGREES_PER_SIGN: any = 30;
 
@@ -109,7 +109,7 @@ describe('Astrological Rule Validation', () => {
 
         // Should have caught the constant modification
         console.warn('Constant modification not caught by validation rule');
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         // We expect this to fail with our custom rule or TypeScript error
@@ -117,7 +117,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should preserve MARCH2025_POSITIONS fallback data': any, async () => {
+    test('should preserve MARCH2025_POSITIONS fallback data', async () => {
       const testContent: any = `
         const MARCH2025_POSITIONS = {
   sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
@@ -140,7 +140,7 @@ describe('Astrological Rule Validation', () => {
         });
 
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         if (output.includes('preserve-planetary-constants')) {
@@ -151,7 +151,7 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Planetary Variable Patterns', () => {
-    test('should ignore unused planetary variables': any, async () => {
+    test('should ignore unused planetary variables', async () => {
       const testContent: any = `;
         const planet: any = 'mars';
         const position: any = { sign: 'cancer', degree: 22.63 };
@@ -187,7 +187,7 @@ describe('Astrological Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stdout?: Buffer | string };
         const output: any = errorObj.stdout.toString() || '';
         if (output != null) {
@@ -211,7 +211,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should ignore UNUSED_ prefixed planetary variables': any, async () => {
+    test('should ignore UNUSED_ prefixed planetary variables', async () => {
       const testContent: any = `;
         const UNUSED_planet: any = 'jupiter';
         const UNUSED_position: any = { sign: 'gemini', degree: 15.52 };
@@ -240,7 +240,7 @@ describe('Astrological Rule Validation', () => {
 
           expect(unusedVarErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stdout?: Buffer | string };
         const output: any = errorObj.stdout.toString() || '';
         if (output != null) {
@@ -259,7 +259,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should preserve astrological naming conventions': any, async () => {
+    test('should preserve astrological naming conventions', async () => {
       const testContent: any = `;
         const exactLongitude: any = 112.63;
         const isRetrograde: any = false;
@@ -292,7 +292,7 @@ describe('Astrological Rule Validation', () => {
           // These naming conventions should be allowed
           expect(camelCaseErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stdout?: Buffer | string };
         const output: any = errorObj.stdout.toString() || '';
         if (output != null) {
@@ -313,7 +313,7 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Elemental Properties Validation', () => {
-    test('should validate complete elemental properties': any, async () => {
+    test('should validate complete elemental properties', async () => {
       const testContent: any = `
         const elementalProps = {
           Fire: 0.8,
@@ -339,7 +339,7 @@ describe('Astrological Rule Validation', () => {
 
         // Complete elemental properties should not cause errors
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         if (output.includes('validate-elemental-properties')) {
@@ -348,7 +348,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should detect incomplete elemental properties': any, async () => {
+    test('should detect incomplete elemental properties', async () => {
       const testContent: any = `
         const incompleteElemental = {
           Fire: 0.8,
@@ -369,7 +369,7 @@ describe('Astrological Rule Validation', () => {
 
         // Should have caught incomplete elemental properties
         console.warn('Incomplete elemental properties not caught');
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         // We expect this to fail with validation or syntax error
@@ -377,7 +377,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should validate elemental property values': any, async () => {
+    test('should validate elemental property values', async () => {
       const testContent: any = `
         const validElemental = {
           Fire: 0.8,
@@ -404,7 +404,7 @@ describe('Astrological Rule Validation', () => {
 
         // Should have caught invalid elemental values
         console.warn('Invalid elemental values not caught');
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         // We expect this to fail with validation error
@@ -412,7 +412,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should detect invalid element names': any, async () => {
+    test('should detect invalid element names', async () => {
       const testContent: any = `
         const invalidElements = {
           Fire: 0.8,
@@ -434,7 +434,7 @@ describe('Astrological Rule Validation', () => {
 
         // Should have caught invalid element name
         console.warn('Invalid element name not caught');
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         // We expect this to fail with validation error
@@ -444,7 +444,7 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Planetary Position Structure Validation', () => {
-    test('should validate complete planetary position structure': any, async () => {
+    test('should validate complete planetary position structure', async () => {
       const testContent: any = `
         const planetPosition = {
   sign: 'cancer',
@@ -470,7 +470,7 @@ describe('Astrological Rule Validation', () => {
 
         // Complete planetary position should not cause errors
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         if (output.includes('validate-planetary-position-structure')) {
@@ -479,7 +479,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should detect incomplete planetary position structure': any, async () => {
+    test('should detect incomplete planetary position structure', async () => {
       const testContent: any = `
         const incompletePosition = {
   sign: 'cancer',
@@ -500,7 +500,7 @@ describe('Astrological Rule Validation', () => {
 
         // Should have caught incomplete position structure
         console.warn('Incomplete planetary position not caught');
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         // We expect this to fail with validation error
@@ -510,7 +510,7 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Fallback Value Preservation', () => {
-    test('should preserve valid fallback values': any, async () => {
+    test('should preserve valid fallback values', async () => {
       const testContent: any = `
         const FALLBACK_POSITIONS = {
   sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
@@ -537,7 +537,7 @@ describe('Astrological Rule Validation', () => {
 
         // Valid fallback values should not cause errors
         expect(true).toBe(true);
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         if (output.includes('preserve-fallback-values')) {
@@ -546,7 +546,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should detect null fallback values': any, async () => {
+    test('should detect null fallback values', async () => {
       const testContent: any = `;
         const FALLBACK_POSITIONS: any = null; // Should be flagged
         const RELIABLE_DATA: any = undefined; // Should be flagged
@@ -564,7 +564,7 @@ describe('Astrological Rule Validation', () => {
 
         // Should have caught null fallback values
         console.warn('Null fallback values not caught');
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stderr?: Buffer | string };
         const output: any = errorObj.stderr.toString() || '';
         // We expect this to fail with validation error
@@ -574,8 +574,8 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Transit Date Validation Requirements', () => {
-    test('should suggest transit validation imports': any, async () => {
-      const testContent = `
+    test('should suggest transit validation imports', async () => {
+      const testContent = `;
         function calculatePlanetaryInfluence(date: Date): any {
           // This file should import transit validation;
           const positions: any = getPlanetaryPositions();
@@ -604,7 +604,7 @@ describe('Astrological Rule Validation', () => {
           // Should suggest transit validation
           expect(transitWarnings.length).toBeGreaterThan(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stdout?: Buffer | string };
         const output: any = errorObj.stdout.toString() || '';
         if (output != null) {
@@ -624,7 +624,7 @@ describe('Astrological Rule Validation', () => {
       }
     });
 
-    test('should not warn when transit validation is present': any, async () => {
+    test('should not warn when transit validation is present', async () => {
       const testContent: any = `;
         import { validateTransitDate } from '@/utils/astrology/transitValidation';
 
@@ -660,7 +660,7 @@ describe('Astrological Rule Validation', () => {
           // Should not warn when validation is present
           expect(transitWarnings.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stdout?: Buffer | string };
         const output: any = errorObj.stdout.toString() || '';
         if (output != null) {
@@ -681,7 +681,7 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Console Debugging Allowance', () => {
-    test('should allow console statements in astrological files': any, async () => {
+    test('should allow console statements in astrological files', async () => {
       const testContent: any = `
         function calculatePlanetaryPosition(date: Date): any {
           console.info('Calculating planetary position for', date);
@@ -716,7 +716,7 @@ describe('Astrological Rule Validation', () => {
           // Console statements should be allowed in astrological files
           expect(consoleErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stdout?: Buffer | string };
         const output: any = errorObj.stdout.toString() || '';
         if (output != null) {
@@ -737,7 +737,7 @@ describe('Astrological Rule Validation', () => {
   });
 
   describe('Complexity Allowances', () => {
-    test('should allow complex astronomical calculations': any, async () => {
+    test('should allow complex astronomical calculations', async () => {
       const testContent: any = `
         function complexAstronomicalCalculation(date: Date): any {
           // Complex calculation with multiple nested conditions;
@@ -794,7 +794,7 @@ describe('Astrological Rule Validation', () => {
           // Complex astronomical calculations should be allowed
           expect(complexityErrors.length).toBe(0);
         }
-      } catch (error): any {
+      } catch (error) {
         const errorObj: any = error as { stdout?: Buffer | string };
         const output: any = errorObj.stdout.toString() || '';
         if (output != null) {

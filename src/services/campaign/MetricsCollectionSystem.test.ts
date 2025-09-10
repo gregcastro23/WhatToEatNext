@@ -52,7 +52,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('TypeScript Metrics Collection', () => {
-    test('should collect TypeScript error count and breakdown': any, async () => {
+    test('should collect TypeScript error count and breakdown', async () => {
       // Mock TypeScript error count
       mockExecSync
         .mockReturnValueOnce('5') // Error count
@@ -67,7 +67,7 @@ describe('MetricsCollectionSystem', () => {
       });
     });
 
-    test('should handle zero TypeScript errors': any, async () => {
+    test('should handle zero TypeScript errors', async () => {
       mockExecSync.mockReturnValueOnce('0');
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase1');
@@ -76,7 +76,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.typeScriptErrors.percentage).toBe(100);
     });
 
-    test('should handle TypeScript compilation errors gracefully': any, async () => {
+    test('should handle TypeScript compilation errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Command failed') as unknown;
         error.status = 2;
@@ -90,7 +90,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Linting Metrics Collection', () => {
-    test('should collect linting warning count and breakdown': any, async () => {
+    test('should collect linting warning count and breakdown', async () => {
       mockExecSync
         .mockReturnValueOnce('0') // TS errors first
         .mockReturnValueOnce('10') // Warning count
@@ -109,7 +109,7 @@ describe('MetricsCollectionSystem', () => {
       });
     });
 
-    test('should handle zero linting warnings': any, async () => {
+    test('should handle zero linting warnings', async () => {
       mockExecSync
         .mockReturnValueOnce('0') // TS errors first
         .mockReturnValueOnce('0'); // Warning count
@@ -122,7 +122,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Build Metrics Collection', () => {
-    test('should collect build performance metrics': any, async () => {
+    test('should collect build performance metrics', async () => {
       // Mock successful build sequence
       mockExecSync
         .mockReturnValueOnce('0') // TS errors
@@ -141,7 +141,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.buildMetrics.bundleSize).toBe(420);
     });
 
-    test('should handle build failures gracefully': any, async () => {
+    test('should handle build failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed');
@@ -156,7 +156,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Enterprise Systems Counting', () => {
-    test('should count enterprise intelligence systems': any, async () => {
+    test('should count enterprise intelligence systems', async () => {
       mockExecSync.mockReturnValueOnce('25'); // Enterprise system count
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase3');
@@ -166,7 +166,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Trend Analysis', () => {
-    test('should calculate trend data from multiple snapshots': any, async () => {
+    test('should calculate trend data from multiple snapshots', async () => {
       // Mock consistent responses for multiple snapshots
       mockExecSync
         .mockReturnValue('5') // First snapshot
@@ -190,14 +190,14 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Resource Metrics', () => {
-    test('should collect system resource metrics': any, async () => {
+    test('should collect system resource metrics', async () => {
       const snapshot: any = await metricsSystem.collectSnapshot();
 
       expect(snapshot.metrics.resourceMetrics.nodeMemoryUsage).toBeDefined();
       expect(snapshot.metrics.resourceMetrics.nodeMemoryUsage.heapUsed).toBeGreaterThan(0);
     });
 
-    test('should collect system memory on Linux systems': any, async () => {
+    test('should collect system memory on Linux systems', async () => {
       mockExecSync.mockReturnValueOnce('Mem:       8192     4096     4096');
 
       const snapshot: any = await metricsSystem.collectSnapshot();
@@ -208,7 +208,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Snapshot Management', () => {
-    test('should create and store snapshots': any, async () => {
+    test('should create and store snapshots', async () => {
       mockExecSync.mockReturnValue('0');
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase1', 'milestone1', 'Test snapshot');
@@ -223,7 +223,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshots.[0]).toEqual(snapshot);
     });
 
-    test('should limit snapshot history to prevent memory issues': any, async () => {
+    test('should limit snapshot history to prevent memory issues', async () => {
       mockExecSync.mockReturnValue('0');
 
       // Create more than 1000 snapshots
@@ -235,7 +235,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshots.length).toBeLessThanOrEqual(500);
     });
 
-    test('should get latest snapshot': any, async () => {
+    test('should get latest snapshot', async () => {
       mockExecSync.mockReturnValue('0');
 
       expect(metricsSystem.getLatestSnapshot()).toBeNull();
@@ -246,7 +246,7 @@ describe('MetricsCollectionSystem', () => {
       expect(metricsSystem.getLatestSnapshot()).toEqual(snapshot2);
     });
 
-    test('should clear snapshots': any, async () => {
+    test('should clear snapshots', async () => {
       mockExecSync.mockReturnValue('0');
 
       await metricsSystem.collectSnapshot('phase1');
@@ -258,7 +258,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Export Functionality', () => {
-    test('should export snapshots to file': any, async () => {
+    test('should export snapshots to file', async () => {
       mockExecSync.mockReturnValue('0');
       mockFs.writeFileSync.mockImplementation();
 
@@ -271,7 +271,7 @@ describe('MetricsCollectionSystem', () => {
       );
     });
 
-    test('should handle export errors gracefully': any, async () => {
+    test('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Write failed');
       });
@@ -281,7 +281,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Error Handling', () => {
-    test('should handle command execution errors gracefully': any, async () => {
+    test('should handle command execution errors gracefully', async () => {
       const consoleWarnSpy: any = jest.spyOn(console, 'warn').mockImplementation();
 
       mockExecSync.mockImplementation(() => {
@@ -315,7 +315,7 @@ describe('MetricsCollectionSystem', () => {
   });
 
   describe('Metrics Calculation', () => {
-    test('should calculate correct percentages for TypeScript errors': any, async () => {
+    test('should calculate correct percentages for TypeScript errors', async () => {
       mockExecSync.mockReturnValueOnce('43'); // Half of initial 86 errors
 
       const snapshot: any = await metricsSystem.collectSnapshot();
@@ -325,7 +325,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.typeScriptErrors.percentage).toBe(50);
     });
 
-    test('should calculate correct percentages for linting warnings': any, async () => {
+    test('should calculate correct percentages for linting warnings', async () => {
       mockExecSync
         .mockReturnValueOnce('0') // No TS errors
         .mockReturnValueOnce('2253'); // Half of initial 4506 warnings

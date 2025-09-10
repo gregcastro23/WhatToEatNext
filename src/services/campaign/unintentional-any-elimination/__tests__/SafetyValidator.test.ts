@@ -25,7 +25,7 @@ describe('SafetyValidator', () => {
   });
 
   describe('TypeScript Compilation Validation', () => {
-    test('handles successful compilation': any, async () => {
+    test('handles successful compilation', async () => {
       mockExecSync.mockReturnValue('');
 
       const result: any = await validator.validateTypeScriptCompilation();
@@ -35,7 +35,7 @@ describe('SafetyValidator', () => {
       expect(result.performanceMetrics).toBeDefined();
     });
 
-    test('handles compilation errors': any, async () => {
+    test('handles compilation errors', async () => {
       const errorOutput: any = `
         src/test.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
         src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.;
@@ -56,7 +56,7 @@ describe('SafetyValidator', () => {
       expect(result.compilationErrors.[1]).toContain('error TS2304');
     });
 
-    test('handles compilation timeout': any, async () => {
+    test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Timeout') as unknown;
         (error as any).code = 'TIMEOUT';
@@ -71,7 +71,7 @@ describe('SafetyValidator', () => {
   });
 
   describe('Build Validation After Batch', () => {
-    test('validates build successfully': any, async () => {
+    test('validates build successfully', async () => {
       mockExecSync.mockReturnValue('');
 
       const result: any = await validator.validateBuildAfterBatch(['test.ts']);
@@ -81,7 +81,7 @@ describe('SafetyValidator', () => {
       expect(result.performanceMetrics.buildTime ?? -1).toBeGreaterThanOrEqual(0);
     });
 
-    test('includes test validation when requested': any, async () => {
+    test('includes test validation when requested', async () => {
       mockExecSync.mockReturnValue('');
 
       const result: any = await validator.validateBuildAfterBatch(['test.ts'], true);
@@ -91,7 +91,7 @@ describe('SafetyValidator', () => {
       expect(result.testResults.testsPass ?? false).toBe(true);
     });
 
-    test('handles performance threshold violations': any, async () => {
+    test('handles performance threshold violations', async () => {
       // Mock slow build
       mockExecSync.mockImplementation(() => {
         // Simulate slow execution
@@ -116,7 +116,7 @@ describe('SafetyValidator', () => {
   });
 
   describe('Rollback Validation', () => {
-    test('validates rollback capability successfully': any, async () => {
+    test('validates rollback capability successfully', async () => {
       const originalFiles: any = new Map([['test.ts', 'test.ts']]);
       const backupFiles: any = new Map([['test.ts', 'test.ts.backup']]);
 
@@ -133,7 +133,7 @@ describe('SafetyValidator', () => {
       expect(result.rollbackErrors).toHaveLength(0);
     });
 
-    test('detects missing backup files': any, async () => {
+    test('detects missing backup files', async () => {
       const originalFiles: any = new Map([['test.ts', 'test.ts']]);
       const backupFiles: any = new Map([['test.ts', 'missing.backup']]);
 
@@ -146,7 +146,7 @@ describe('SafetyValidator', () => {
       expect(result.rollbackErrors).toContain('Backup file missing: missing.backup');
     });
 
-    test('detects empty backup files': any, async () => {
+    test('detects empty backup files', async () => {
       const originalFiles: any = new Map([['test.ts', 'test.ts']]);
       const backupFiles: any = new Map([['test.ts', 'empty.backup']]);
 
@@ -357,7 +357,7 @@ describe('SafetyValidator', () => {
   });
 
   describe('Error Output Parsing', () => {
-    test('parses TypeScript errors correctly': any, async () => {
+    test('parses TypeScript errors correctly', async () => {
       const complexErrorOutput: any = `
         src/file1.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
         src/file2.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.
@@ -380,7 +380,7 @@ describe('SafetyValidator', () => {
       expect(result.compilationErrors.[2]).toContain('TS2345');
     });
 
-    test('limits error count to maximum threshold': any, async () => {
+    test('limits error count to maximum threshold', async () => {
       const manyErrorsOutput: any = Array.from({ length: 20 }, (_, i) =>
         `src/file${i}.ts(${i},5): error TS2322: Type error ${i}.`
       ).join('\n');

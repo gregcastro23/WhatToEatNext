@@ -131,7 +131,7 @@ describe('ErrorHandler', () => {
     jest.clearAllMocks();
   });
 
-  it('handles errors and logs them correctly': any, async () => {
+  it('handles errors and logs them correctly', async () => {
     const testError: any = new Error('Test error');
 
     try {
@@ -145,7 +145,7 @@ describe('ErrorHandler', () => {
     }
   });
 
-  it('attempts recovery with registered strategies': any, async () => {
+  it('attempts recovery with registered strategies', async () => {
     const mockRecoveryStrategy = {
       canRecover: jest.fn(() => true),
       recover: jest.fn(() => Promise.resolve('recovered data')),
@@ -162,7 +162,7 @@ describe('ErrorHandler', () => {
     expect(result).toBe('recovered data');
   });
 
-  it('uses fallback when recovery fails': any, async () => {
+  it('uses fallback when recovery fails', async () => {
     const mockRecoveryStrategy = {
       canRecover: jest.fn(() => true),
       recover: jest.fn(() => Promise.reject(new Error('Recovery failed'))),
@@ -180,13 +180,13 @@ describe('ErrorHandler', () => {
     expect(result).toBe('fallback data');
   });
 
-  it('throws enhanced error when no recovery is possible': any, async () => {
+  it('throws enhanced error when no recovery is possible', async () => {
     const testError: any = new Error('Test error');
 
     await expect(errorHandler.handleError(testError)).rejects.toThrow('Test error');
   });
 
-  it('tracks error statistics correctly': any, async () => {
+  it('tracks error statistics correctly', async () => {
     const errors: any = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')];
 
     for (const error of errors) {
@@ -204,7 +204,7 @@ describe('ErrorHandler', () => {
     expect(stats.recent).toHaveLength(3);
   });
 
-  it('maintains error queue size limit': any, async () => {
+  it('maintains error queue size limit', async () => {
     // Create more errors than the max queue size (50)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Promise array for error handling can resolve to various result types
@@ -219,7 +219,7 @@ describe('ErrorHandler', () => {
     expect(stats.total).toBe(50); // Should be capped at max size
   });
 
-  it('clears error queue': any, async () => {
+  it('clears error queue', async () => {
     try {
       errorHandler.handleError(new Error('Test error'));
     } catch {
@@ -242,7 +242,7 @@ describe('Global Error Handler', () => {
     jest.clearAllMocks();
   });
 
-  it('has default recovery strategies': any, async () => {
+  it('has default recovery strategies', async () => {
     // Test astrological calculation recovery
     const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
 
@@ -257,7 +257,7 @@ describe('Global Error Handler', () => {
     expect(result).toEqual({ zodiacSign: 'aries' });
   });
 
-  it('uses fallback when cached data is not available': any, async () => {
+  it('uses fallback when cached data is not available', async () => {
     const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
 
     // Mock localStorage with no cached data
@@ -281,7 +281,7 @@ describe('Utility Functions', () => {
     jest.clearAllMocks();
   });
 
-  it('handleAsyncError wraps promises with error handling': any, async () => {
+  it('handleAsyncError wraps promises with error handling', async () => {
     const successPromise: any = Promise.resolve('success');
     const result: any = handleAsyncError(successPromise);
     expect(result).toBe('success');
@@ -301,7 +301,7 @@ describe('Utility Functions', () => {
     expect(() => handleSyncError(failureFn)).toThrow();
   });
 
-  it('handleAsyncError passes context to error handler': any, async () => {
+  it('handleAsyncError passes context to error handler', async () => {
     const context: any = { operation: 'test' };
     const failurePromise: any = Promise.reject(new Error('async error'));
 

@@ -50,7 +50,7 @@ describe('UnusedVariablesCleanupSystem', () => {
   });
 
   describe('validatePreConditions', () => {
-    it('should validate script exists': any, async () => {
+    it('should validate script exists', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
       await expect(
@@ -58,7 +58,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       ).rejects.toThrow('Unused variables script not found');
     });
 
-    it('should check git status when git stash is enabled': any, async () => {
+    it('should check git status when git stash is enabled', async () => {
       mockExecSync.mockReturnValue('');
 
       await expect(
@@ -67,7 +67,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       expect(mockExecSync).toHaveBeenCalledWith('git status --porcelain', { encoding: 'utf-8' });
     });
 
-    it('should validate TypeScript compilation': any, async () => {
+    it('should validate TypeScript compilation', async () => {
       mockExecSync.mockImplementation(command => {
         if (command === 'git status --porcelain') return '';
         if (command === 'yarn tsc --noEmit --skipLibCheck') return '';
@@ -81,7 +81,7 @@ describe('UnusedVariablesCleanupSystem', () => {
   });
 
   describe('createSafetyStash', () => {
-    it('should create git stash with timestamp': any, async () => {
+    it('should create git stash with timestamp', async () => {
       mockExecSync.mockReturnValue('');
 
       const stashId: any = await (;
@@ -95,7 +95,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       );
     });
 
-    it('should handle git stash errors gracefully': any, async () => {
+    it('should handle git stash errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Git error');
       });
@@ -108,7 +108,7 @@ describe('UnusedVariablesCleanupSystem', () => {
   });
 
   describe('executeScript', () => {
-    it('should execute script with correct arguments for dry run': any, async () => {
+    it('should execute script with correct arguments for dry run', async () => {
       const config: any = { dryRun: true, maxFiles: 20, validateSafety: true };
       const system: any = new UnusedVariablesCleanupSystem(config);
 
@@ -130,7 +130,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       );
     });
 
-    it('should execute script with auto-fix arguments': any, async () => {
+    it('should execute script with auto-fix arguments', async () => {
       const config: any = { autoFix: true, maxFiles: 15 };
       const system: any = new UnusedVariablesCleanupSystem(config);
 
@@ -146,7 +146,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       );
     });
 
-    it('should handle script execution errors': any, async () => {
+    it('should handle script execution errors', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Script execution failed');
       });
@@ -159,7 +159,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       expect(result.errors).toContain(expect.stringContaining('Script execution failed'));
     });
 
-    it('should parse warnings and errors from output': any, async () => {
+    it('should parse warnings and errors from output', async () => {
       const output: any = `
         5 files processed
         ⚠️ Warning: Some variables may be used
@@ -181,7 +181,7 @@ describe('UnusedVariablesCleanupSystem', () => {
   });
 
   describe('validateBuild', () => {
-    it('should validate build successfully': any, async () => {
+    it('should validate build successfully', async () => {
       mockExecSync.mockReturnValue('');
 
       const isValid: any = await (cleanupSystem as unknown as { validateBuild: () => Promise<boolean> }).validateBuild();
@@ -190,7 +190,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object));
     });
 
-    it('should handle build validation failure': any, async () => {
+    it('should handle build validation failure', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Build failed');
       });
@@ -202,7 +202,7 @@ describe('UnusedVariablesCleanupSystem', () => {
   });
 
   describe('rollbackFromStash', () => {
-    it('should rollback from specified stash': any, async () => {
+    it('should rollback from specified stash', async () => {
       mockExecSync.mockReturnValue('');
 
       await (cleanupSystem as unknown as { rollbackFromStash: (stashNam, e: string) => Promise<any> }).rollbackFromStash(
@@ -212,7 +212,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       expect(mockExecSync).toHaveBeenCalledWith('git stash apply stash^{/test-stash-name}', { encoding: 'utf-8' });
     });
 
-    it('should handle rollback errors': any, async () => {
+    it('should handle rollback errors', async () => {
       mockExecSync.mockImplementation(() => {
         throw new Error('Rollback failed');
       });
@@ -269,7 +269,7 @@ describe('UnusedVariablesCleanupSystem', () => {
   });
 
   describe('estimateFilesWithUnusedVariables', () => {
-    it('should return default estimate when analyzer fails': any, async () => {
+    it('should return default estimate when analyzer fails', async () => {
       // Mock the dynamic import to fail
       jest.doMock('./LintingWarningAnalyzer.js'( {
         throw new Error('Module not found');
@@ -284,7 +284,7 @@ describe('UnusedVariablesCleanupSystem', () => {
   });
 
   describe('saveMetrics', () => {
-    it('should save metrics to file': any, async () => {
+    it('should save metrics to file', async () => {
       const result: UnusedVariablesResult = { success: true,
         filesProcessed: 5,
         variablesRemoved: 2,
@@ -307,7 +307,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       );
     });
 
-    it('should handle save metrics errors gracefully': any, async () => {
+    it('should handle save metrics errors gracefully', async () => {
       const result: UnusedVariablesResult = { success: true,
         filesProcessed: 5,
         variablesRemoved: 2,

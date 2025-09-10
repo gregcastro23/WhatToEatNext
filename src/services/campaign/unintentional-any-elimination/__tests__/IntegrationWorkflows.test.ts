@@ -65,7 +65,7 @@ describe('Integration Workflows', () => {
   });
 
   describe('Complete Classification and Replacement Workflows', () => {
-    test('should execute complete workflow from classification to replacement': any, async () => {
+    test('should execute complete workflow from classification to replacement', async () => {
       // Setup test scenario with various any types
       const testFiles: any = {
         'src/arrays.ts': 'const items: any[] = []; const dat, a: Array<any> = [];',
@@ -159,7 +159,7 @@ describe('Integration Workflows', () => {
       expect(intentionalTypes.some(c => c.category === AnyTypeCategory.EXTERNAL_API)).toBe(true);
     });
 
-    test('should handle mixed success and failure scenarios': any, async () => {
+    test('should handle mixed success and failure scenarios', async () => {
       const mixedScenarios: any = {
         'src/safe.ts': 'const items: any[] = []; const dat, a: Record<string, unknown> = {};',
         'src/risky.ts': 'const complex: any = getComplexObject(); function dangerous(para, m: any): any { return param; }',
@@ -216,7 +216,7 @@ describe('Integration Workflows', () => {
       }
     });
 
-    test('should preserve domain-specific intentional any types': any, async () => {
+    test('should preserve domain-specific intentional any types', async () => {
       const domainSpecificFiles: any = {
         'src/calculations/planetary/positions.ts': `;
           const planetaryData: any = await getReliablePlanetaryPositions();
@@ -296,7 +296,7 @@ describe('Integration Workflows', () => {
   });
 
   describe('Campaign System Integration', () => {
-    test('should integrate with existing campaign infrastructure': any, async () => {
+    test('should integrate with existing campaign infrastructure', async () => {
       const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 5,
         targetReductionPercentage: 20,
         confidenceThreshold: 0.85,
@@ -323,7 +323,7 @@ describe('Integration Workflows', () => {
       expect(campaignResult.validationResults).toBeInstanceOf(Array);
     });
 
-    test('should follow campaign safety protocols': any, async () => {
+    test('should follow campaign safety protocols', async () => {
       // Mock scenario that triggers safety protocols
       let errorCount: any = 0;
       mockExecSync.mockImplementation((command: any) => {
@@ -361,7 +361,7 @@ describe('Integration Workflows', () => {
       )).toBe(true);
     });
 
-    test('should integrate with progress tracking and metrics': any, async () => {
+    test('should integrate with progress tracking and metrics', async () => {
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('metrics')) {
           return 'const progressData: any = getMetrics(); const confi, g: Record<string, unknown> = {};';
@@ -393,7 +393,7 @@ describe('Integration Workflows', () => {
   });
 
   describe('Safety Protocol Activation and Rollback Scenarios', () => {
-    test('should activate rollback on compilation failures': any, async () => {
+    test('should activate rollback on compilation failures', async () => {
       mockFs.readFileSync.mockReturnValue('const data: any = getValue();');
 
       // Mock compilation failure
@@ -422,7 +422,7 @@ describe('Integration Workflows', () => {
       expect(result.compilationErrors).toContain('error TS2322');
     });
 
-    test('should handle emergency rollback scenarios': any, async () => {
+    test('should handle emergency rollback scenarios', async () => {
       const multipleReplacements: any = [
         {
           original: 'unknown[]',
@@ -469,7 +469,7 @@ describe('Integration Workflows', () => {
       expect(result.compilationErrors).toContain('Multiple type conflicts detected');
     });
 
-    test('should validate rollback integrity': any, async () => {
+    test('should validate rollback integrity', async () => {
       const replacement: any = {
         original: 'unknown[]',
         replacement: 'unknown[]',
@@ -510,7 +510,7 @@ describe('Integration Workflows', () => {
   });
 
   describe('Realistic Batch Processing with Actual Codebase Samples', () => {
-    test('should process realistic TypeScript codebase patterns': any, async () => {
+    test('should process realistic TypeScript codebase patterns', async () => {
       const realisticCodeSamples: any = {
         'src/components/RecipeCard.tsx': `;
           import React from 'react';
@@ -621,7 +621,7 @@ describe('Integration Workflows', () => {
       expect(batchResult.safetyScore).toBeGreaterThan(0.5);
     });
 
-    test('should handle large-scale batch processing': any, async () => {
+    test('should handle large-scale batch processing', async () => {
       // Generate a large number of files with various any type patterns
       const generateFileContent: any = (index: number) => {
         const patterns: any = [
@@ -677,7 +677,7 @@ describe('Integration Workflows', () => {
       expect(campaignResult.safetyEvents.length).toBeLessThan(10); // Should have minimal safety issues
     });
 
-    test('should adapt to different codebase characteristics': any, async () => {
+    test('should adapt to different codebase characteristics', async () => {
       // Test with different codebase profiles
       const codebases: any = {
         'test-heavy': {
@@ -755,7 +755,7 @@ describe('Integration Workflows', () => {
   });
 
   describe('Error Recovery and Resilience', () => {
-    test('should recover from transient failures': any, async () => {
+    test('should recover from transient failures', async () => {
       let failureCount: any = 0;
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('tsc')) {
@@ -791,7 +791,7 @@ describe('Integration Workflows', () => {
       expect(failureCount).toBeGreaterThan(2);
     });
 
-    test('should maintain data integrity during failures': any, async () => {
+    test('should maintain data integrity during failures', async () => {
       const originalContent: any = 'const items: any[] = []; const dat, a: Record<string, unknown> = {};';
       let backupContent: any = '';
 

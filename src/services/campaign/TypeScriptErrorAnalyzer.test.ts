@@ -171,7 +171,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
   });
 
   describe('getCurrentErrorCount', () => {
-    it('should return current error count': any, async () => {
+    it('should return current error count', async () => {
       // Mock execSync to return a known count
       const originalExecSync = require('child_process').execSync;
       require('child_process').execSync = jest.fn().mockReturnValue('42\n');
@@ -183,7 +183,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
       require('child_process').execSync = originalExecSync;
     });
 
-    it('should return 0 when no errors found': any, async () => {
+    it('should return 0 when no errors found', async () => {
       // Mock execSync to throw (grep returns exit code 1 when no matches)
       const originalExecSync = require('child_process').execSync;
       require('child_process').execSync = jest.fn().mockImplementation(() => {
