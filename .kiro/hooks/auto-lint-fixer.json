@@ -1,29 +1,34 @@
 {
-  "name": "Auto-Lint Fixer",
-  "description": "Automatically fixes linting issues on save using fast configuration (95% faster) with comprehensive validation",
+  "name": "Auto-Lint Fixer v2.0",
+  "description": "Intelligent linting recovery system with dry-run validation, specialized error fixing, and comprehensive safety protocols",
   "trigger": {
     "type": "onSave",
     "filePattern": "src/**/*.{ts,tsx,js,jsx}"
   },
   "condition": {
-    "script": "const fs = require('fs'); const path = require('path'); const filePath = process.env.KIRO_FILE_PATH; if (!filePath || !fs.existsSync(filePath)) return false; const content = fs.readFileSync(filePath, 'utf8'); return content.includes('// TODO') || content.includes('console.log') || content.includes('any;') || content.includes('unused');"
+    "script": "const fs = require('fs'); const path = require('path'); const { execSync } = require('child_process'); const filePath = process.env.KIRO_FILE_PATH; if (!filePath || !fs.existsSync(filePath)) return false; try { const tsErrors = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c \"error TS\" || echo \"0\"', {encoding: 'utf8'}).trim(); const eslintIssues = execSync('yarn lint --max-warnings=0 2>&1 | grep -E \"warning|error\" | wc -l || echo \"0\"', {encoding: 'utf8'}).trim(); const hasErrors = parseInt(tsErrors) > 0 || parseInt(eslintIssues) > 0; if (hasErrors) { try { execSync('node .kiro/specs/linting-excellence/backup-tasks.cjs create \"auto-trigger-protection\"', {stdio: 'pipe'}); } catch (e) { console.warn('Protection backup failed, but proceeding'); } } return hasErrors; } catch { return true; }"
   },
   "actions": [
     {
       "type": "runScript",
       "script": "src/scripts/auto-lint-fixer.cjs",
       "parameters": {
-        "safetyLevel": "conservative",
-        "autoFix": true,
-        "preserveComments": true,
-        "useFastConfig": true
+        "safetyLevel": "maximum",
+        "dryRunFirst": true,
+        "useSpecializedTools": true,
+        "preserveDomainPatterns": true,
+        "realTimeMonitoring": true,
+        "rollbackProtection": true,
+        "autoBackup": true,
+        "emergencyRecovery": true
       }
     }
   ],
   "settings": {
-    "autoExecute": true,
-    "cooldown": 5000,
-    "maxExecutionsPerHour": 20,
-    "runInBackground": true
+    "autoExecute": false,
+    "cooldown": 10000,
+    "maxExecutionsPerHour": 15,
+    "runInBackground": false,
+    "requireConfirmation": true
   }
 }
