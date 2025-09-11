@@ -47,13 +47,13 @@ describe('Astrological ESLint Rules Integration', () => {
   describe('Planetary Position Validation', () => {
     test('validates correct planetary positions structure', () => {
       const validPositions: any = {
-        sun: { sig, n: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false },
-        moon: { sig, n: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false },
-        mercury: { sig, n: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
-        venus: { sig, n: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
-        mars: { sig, n: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
-        jupiter: { sig, n: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
-        saturn: { sig, n: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
+        sun: { sign: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false },
+        moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false },
+        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
+        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
+        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
+        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
+        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
       };
 
       const result: any = validatePlanetaryPositions(validPositions);
@@ -67,7 +67,7 @@ describe('Astrological ESLint Rules Integration', () => {
 
     test('detects missing required properties', () => {
       const invalidPositions: any = {
-        sun: { sig, n: 'aries', degree: 15.5 }, // Missing exactLongitude and isRetrograde;
+        sun: { sign: 'aries', degree: 15.5 }, // Missing exactLongitude and isRetrograde;
         moon: { degre, e: 22.3, exactLongitude: 52.3, isRetrograde: false }, // Missing sign
       };
 
@@ -78,13 +78,13 @@ describe('Astrological ESLint Rules Integration', () => {
 
     test('validates degree ranges', () => {
       const invalidPositions: any = {
-        sun: { sig, n: 'aries', degree: 35.0, exactLongitude: 35.0, isRetrograde: false }, // Invalid degree > 30
-        moon: { sig, n: 'taurus', degree: -5.0, exactLongitude: 325.0, isRetrograde: false }, // Invalid degree < 0
-        mercury: { sig, n: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
-        venus: { sig, n: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
-        mars: { sig, n: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
-        jupiter: { sig, n: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
-        saturn: { sig, n: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
+        sun: { sign: 'aries', degree: 35.0, exactLongitude: 35.0, isRetrograde: false }, // Invalid degree > 30
+        moon: { sign: 'taurus', degree: -5.0, exactLongitude: 325.0, isRetrograde: false }, // Invalid degree < 0
+        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
+        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
+        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
+        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
+        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
       };
 
       const result: any = validatePlanetaryPositions(invalidPositions, { strictMode: true });
@@ -104,13 +104,13 @@ describe('Astrological ESLint Rules Integration', () => {
   describe('Quick Validation Functions', () => {
     test('quick validate planetary positions', () => {
       const validPositions: any = {
-        sun: { sig, n: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false },
-        moon: { sig, n: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false },
-        mercury: { sig, n: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
-        venus: { sig, n: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
-        mars: { sig, n: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
-        jupiter: { sig, n: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
-        saturn: { sig, n: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
+        sun: { sign: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false },
+        moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false },
+        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
+        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
+        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
+        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
+        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
       };
 
       const result: any = quickValidate(validPositions, 'planetary');
@@ -148,7 +148,7 @@ describe('Astrological ESLint Rules Integration', () => {
     const SIGNS_PER_CIRCLE: any = 12;
     const MAX_LONGITUDE: any = 360;
     const FALLBACK_POSITIONS: any = {
-      sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
+      sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
     };
 
     test('mathematical constants maintain correct values', () => {
@@ -181,8 +181,8 @@ describe('Astrological ESLint Rules Integration', () => {
 
     test('preserves fallback and reliability patterns', () => {
       // These variables should be allowed by the custom rules
-      const FALLBACK_DATA: any = { sun: { sig, n: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false } };
-      const RELIABLE_POSITIONS: any = { moon: { sig, n: 'taurus', degree: 15, exactLongitude: 45, isRetrograde: false } };
+      const FALLBACK_DATA: any = { sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false } };
+      const RELIABLE_POSITIONS: any = { moon: { sign: 'taurus', degree: 15, exactLongitude: 45, isRetrograde: false } };
       const TRANSIT_DATES: any = { aries: { Star, t: '2024-03-20', End: '2024-04-19' } };
       const DEFAULT_VALUES: any = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 

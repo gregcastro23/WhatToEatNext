@@ -180,5 +180,3 @@ if (Number.isFinite(after)) {
   console.log(`   TS1128 count: ${baseline} -> ${after}`);
 }
 console.log('✅ Done.');
-
-

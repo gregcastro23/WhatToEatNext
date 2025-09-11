@@ -33,18 +33,18 @@ describe('Planetary Data Validation', () => {
     it('should pass validation with valid planetary data', async () => {
       // Mock valid planetary positions
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
-        mercury: { sig, n: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
-        venus: { sig, n: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
-        mars: { sig, n: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
-        jupiter: { sig, n: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
-        saturn: { sig, n: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
-        uranus: { sig, n: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-        neptune: { sig, n: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-        pluto: { sig, n: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
-        northNode: { sig, n: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-        southNode: { sig, n: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
+        venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
+        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
+        jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
+        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
+        uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
+        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
+        pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
+        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
+        southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
       });
 
       const result: any = validatePlanetaryData();
@@ -66,9 +66,9 @@ describe('Planetary Data Validation', () => {
     it('should fail validation with invalid planetary positions', async () => {
       // Mock invalid planetary positions (invalid degree values)
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        sun: { sig, n: 'aries', degree: 35, exactLongitude: 8.5, isRetrograde: false }, // Invalid degree > 30
-        moon: { sig, n: 'aries', degree: -5, exactLongitude: 1.57, isRetrograde: false }, // Invalid degree < 0
-        mercury: { sig, n: 'aries', degree: 0.85, exactLongitude: 400, isRetrograde: true }, // Invalid longitude > 360
+        sun: { sign: 'aries', degree: 35, exactLongitude: 8.5, isRetrograde: false }, // Invalid degree > 30
+        moon: { sign: 'aries', degree: -5, exactLongitude: 1.57, isRetrograde: false }, // Invalid degree < 0
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 400, isRetrograde: true }, // Invalid longitude > 360
       });
 
       const result: any = validatePlanetaryData();
@@ -94,16 +94,16 @@ describe('Planetary Data Validation', () => {
     it('should validate retrograde status correctly', async () => {
       // Mock positions with retrograde data
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        mercury: { sig, n: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
-        venus: { sig, n: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
-        mars: { sig, n: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
-        jupiter: { sig, n: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
-        saturn: { sig, n: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
-        uranus: { sig, n: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-        neptune: { sig, n: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-        pluto: { sig, n: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
-        northNode: { sig, n: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-        southNode: { sig, n: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
+        venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
+        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
+        jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
+        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
+        uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
+        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
+        pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
+        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
+        southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
       });
 
       const result: any = validatePlanetaryData();
@@ -115,18 +115,18 @@ describe('Planetary Data Validation', () => {
     it('should validate lunar nodes are opposite', async () => {
       // Mock positions with incorrect lunar nodes (not opposite)
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
-        mercury: { sig, n: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
-        venus: { sig, n: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
-        mars: { sig, n: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
-        jupiter: { sig, n: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
-        saturn: { sig, n: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
-        uranus: { sig, n: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-        neptune: { sig, n: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-        pluto: { sig, n: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
-        northNode: { sig, n: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-        southNode: { sig, n: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }, // Same position as north node - should fail
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
+        venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
+        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
+        jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
+        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
+        uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
+        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
+        pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
+        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
+        southNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }, // Same position as north node - should fail
       });
 
       const result: any = validatePlanetaryData();
@@ -234,8 +234,8 @@ describe('Planetary Data Validation', () => {
   describe('Performance', () => {
     it('should complete validation within reasonable time', async () => {
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
       });
 
       const startTime: any = Date.now();
