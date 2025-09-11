@@ -56,7 +56,7 @@ describe('Astrological ESLint Rules', () => {
 
     test('should error when modifying constant object properties', async () => {
       const code: any = `;
-        const RELIABLE_POSITIONS: any = { sun: { sig, n: 'aries' } };
+        const RELIABLE_POSITIONS: any = { sun: { sign: 'aries' } };
         RELIABLE_POSITIONS.sun = { sign: 'taurus' }; // This should error
       `;
 
@@ -318,7 +318,7 @@ describe('Astrological ESLint Rules', () => {
 
     test('should error when fallback variable reassigned to null', async () => {
       const code: any = `;
-        let MARCH2025_POSITIONS: any = { sun: { sig, n: 'aries' } };
+        let MARCH2025_POSITIONS: any = { sun: { sign: 'aries' } };
         MARCH2025_POSITIONS = null; // This should error
       `;
 
@@ -333,7 +333,7 @@ describe('Astrological ESLint Rules', () => {
     test('should allow valid fallback assignments', async () => {
       const code: any = `
         const FALLBACK_POSITIONS = {
-          sun: { sig, n: 'aries', degree: 8.5 }
+          sun: { sign: 'aries', degree: 8.5 }
         };
 
         let RELIABLE_DATA: any = getReliableData;

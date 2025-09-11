@@ -89,7 +89,7 @@ describe('Domain-Specific Rule Validation', () => {
       // Create test file with protected constants
       const testContent: any = `;
         const UNUSED_DEGREES_PER_SIGN: any = 30;
-        const RELIABLE_POSITIONS: any = { sun: { sig, n: 'aries', degree: 8.5 } };
+        const RELIABLE_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
 
         // This should be flagged
         // UNUSED_DEGREES_PER_SIGN = 25;
@@ -244,9 +244,9 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should preserve fallback values', async () => {
       const testContent: any = `;
-        const FALLBACK_POSITIONS: any = { sun: { sig, n: 'aries', degree: 8.5 } };
-        const RELIABLE_DATA: any = { mars: { sig, n: 'cancer', degree: 22.63 } };
-        const MARCH2025_BACKUP: any = { moon: { sig, n: 'aries', degree: 1.57 } };
+        const FALLBACK_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
+        const RELIABLE_DATA: any = { mars: { sign: 'cancer', degree: 22.63 } };
+        const MARCH2025_BACKUP: any = { moon: { sign: 'aries', degree: 1.57 } };
       `;
 
       const testFile: any = join(projectRoot, 'src/calculations/temp-fallback-valid.ts');

@@ -599,7 +599,7 @@ describe('Automated Error Resolution Integration', () => {
 
       expect(result.[0].messages).toHaveLength(2);
       expect(result.[0].messages.every((msg: any) => {
-              const message: any = msg as { fix: any; [ke, y: string]: any };
+              const message: any = msg as { fix: any; [key: string]: any };
               return message.fix === null;
             })).toBe(true);
     });

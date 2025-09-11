@@ -6,16 +6,16 @@ import { getFoodRecommendationsFromChakras, getZodiacSignFoodRecommendations } f
 describe('Chakra System', () => {
   // Mock planetary positions and aspects
   const mockPlanetaryPositions: any = {
-    Sun: { sig, n: 'Leo', degree: 15 },
-    Moon: { sig, n: 'Cancer', degree: 10 },
-    Mercury: { sig, n: 'Virgo', degree: 5 },
-    Venus: { sig, n: 'Libra', degree: 20 },
-    Mars: { sig, n: 'Aries', degree: 8 },
-    Jupiter: { sig, n: 'Sagittarius', degree: 12 },
-    Saturn: { sig, n: 'Capricorn', degree: 25 },
-    Uranus: { sig, n: 'Aquarius', degree: 3 },
-    Neptune: { sig, n: 'Pisces', degree: 18 },
-    Pluto: { sig, n: 'Scorpio', degree: 22 },
+    Sun: { sign: 'Leo', degree: 15 },
+    Moon: { sign: 'Cancer', degree: 10 },
+    Mercury: { sign: 'Virgo', degree: 5 },
+    Venus: { sign: 'Libra', degree: 20 },
+    Mars: { sign: 'Aries', degree: 8 },
+    Jupiter: { sign: 'Sagittarius', degree: 12 },
+    Saturn: { sign: 'Capricorn', degree: 25 },
+    Uranus: { sign: 'Aquarius', degree: 3 },
+    Neptune: { sign: 'Pisces', degree: 18 },
+    Pluto: { sign: 'Scorpio', degree: 22 },
   };
 
   const mockAspects: any = [

@@ -405,7 +405,7 @@ describe('Main Page E2E Workflows', () => {
     state: { astrologicalState: { sunSign: 'aries' },
       elementalState: { Fir, e: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     },
-    planetaryPositions: { sun: { sig, n: 'aries' } },
+    planetaryPositions: { sun: { sign: 'aries' } },
     isDaytime: true,
   };
 

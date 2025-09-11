@@ -70,7 +70,7 @@ describe('Integration Workflows', () => {
       const testFiles: any = {
         'src/arrays.ts': 'const items: any[] = []; const dat, a: Array<any> = [];',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-        'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [ke, y: string]: unknown  } = {} as any;',
+        'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: unknown  } = {} as any;',
         'src/functions.ts': 'function process(param: any): any { return param; }',
         'src/errors.ts': '} catch (error: any) : any { console.log(error); }',
         'src/api.ts': 'const response: any = await fetch("/api/data");'

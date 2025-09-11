@@ -49,9 +49,9 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should preserve fallback position structures', () => {
       const RELIABLE_POSITIONS: any = {
-        sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
-        mercury: { sig, n: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
       };
 
       // Fallback positions should maintain structure
@@ -254,8 +254,8 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should preserve fallback data integrity', () => {
       const FALLBACK_POSITIONS: any = {
-        sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
       };
 
       // Fallback data should never be null or undefined
@@ -490,7 +490,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should handle error conditions gracefully', () => {
       // Test with malformed data
-      const malformedData: any = [null, undefined, {}, { invalidStructure: true }, { sun: null }, { sun: { sig, n: null } }];
+      const malformedData: any = [null, undefined, {}, { invalidStructure: true }, { sun: null }, { sun: { sign: null } }];
 
       malformedData.forEach(data => {
         expect(() => {
