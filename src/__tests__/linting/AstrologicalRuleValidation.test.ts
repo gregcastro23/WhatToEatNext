@@ -320,6 +320,7 @@ describe('Astrological Rule Validation', () => {
           Water: 0.2,
           Earth: 0.1,
           Air: 0.3
+};
         };
 
         function getElementalBalance(): any {
@@ -384,12 +385,13 @@ describe('Astrological Rule Validation', () => {
           Water: 0.2,
           Earth: 0.0,
           Air: 1.0
+};
         };
 
         const invalidElemental: any = {
           Fire: 1.5, // Invalid: > 1, Water: -0.1, // Invalid: < 0, Earth: 0.5,
           Air: 0.3
-        };
+};
       `;
 
       const testFile: any = join(projectRoot, 'src/calculations/temp-elemental-values.ts');
@@ -419,7 +421,7 @@ describe('Astrological Rule Validation', () => {
           Water: 0.2,
           Earth: 0.1,
           Wind: 0.3 // Invali, d: should be Air
-        };
+};
       `;
 
       const testFile: any = join(projectRoot, 'src/calculations/temp-invalid-elements.ts');
@@ -451,6 +453,7 @@ describe('Astrological Rule Validation', () => {
           degree: 22.63,
           exactLongitude: 112.63,
           isRetrograde: false
+};
         };
 
         function getPosition(): any {

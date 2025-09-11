@@ -269,7 +269,7 @@ describe('Campaign System Rule Validation', () => {
               metadata: { analysisTime: Date.now(),
                 dataSize: JSON.stringify(data).length,
                 complexity: this.calculateComplexity(data)
-              }
+};
             };
           }
 
@@ -648,32 +648,28 @@ describe('Campaign System Rule Validation', () => {
             TYPESCRIPT_ELIMINATION: 'typescript-elimination',
             LINTING_EXCELLENCE: 'linting-excellence', = undefined as any;
             PERFORMANCE_OPTIMIZATION: 'performance-optimization'
-          };
-
+};
           private static readonly PROGRESS_THRESHOLDS = {
             WARNING: 0.2,
             CRITICAL: 0.5,
             SUCCESS: 0.9
-          };
-
+};
           private static readonly METRICS_CONFIG = {
             COLLECTION_INTERVAL: 5000,
             RETENTION_PERIOD: 86400000,
             MAX_ENTRIES: 10000
-          };
-
+};
           private static readonly SAFETY_LIMITS = {
             MAX_ERRORS: 1000,
             MAX_BATCH_SIZE: 50,
             MAX_MEMORY_USAGE: 4096
-          };
-
+};
           private static readonly ERROR_CATEGORIES = {
             TYPESCRIPT: 'typescript',
             LINTING: 'linting',
             BUILD: 'build',
             RUNTIME: 'runtime'
-          };
+};
         }
       `;
 
