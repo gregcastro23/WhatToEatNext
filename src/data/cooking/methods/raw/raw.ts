@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Preparation of food without applying heat, preserving natural enzymes and nutrients
  */
-export const raw: CookingMethodData = {
+export const raw: CookingMethodData = {;
   name: 'raw',
   description:
     'Preparing and serving food without applying heat, preserving natural enzymes, nutrients, and flavors while utilizing techniques like chopping, blending, dehydrating, fermenting, sprouting, and marinating to create textures and enhance digestibility.',
@@ -14,7 +14,7 @@ export const raw: CookingMethodData = {
     Water: 0.3,
     Air: 0.5,
     Earth: 0.2,
-    Fire: 0.0,
+    Fire: 0.0
   },
   duration: {
     min: 1, // 1 minute for simple preparation
@@ -40,7 +40,7 @@ export const raw: CookingMethodData = {
     'microgreens',
     'juices',
     'leafy greens',
-    'berries',
+    'berries'
   ],
   benefits: [
     'enzyme preservation',
@@ -57,7 +57,7 @@ export const raw: CookingMethodData = {
     'living probiotic preservation',
     'heat-sensitive vitamin retention',
     'natural hydration from foods',
-    'natural fiber structure preservation',
+    'natural fiber structure preservation'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['gemini', 'libra', 'aquarius', 'virgo'] as any[],
@@ -68,7 +68,7 @@ export const raw: CookingMethodData = {
       full_moon: 0.9, // Slightly reduced energy
       waxing_crescent: 1.2, // Good phase for starting raw preparations
       waning_gibbous: 1.0, // Neutral effect
-    },
+    }
   },
   toolsRequired: [
     'Sharp knives',
@@ -86,7 +86,7 @@ export const raw: CookingMethodData = {
     'pH test strips',
     'Vacuum sealer (optional)',
     'Fine mesh strainers',
-    'Cutting boards (separate for different foods)',
+    'Cutting boards (separate for different foods)'
   ],
   commonMistakes: [
     'inadequate food safety precautions',
@@ -103,7 +103,7 @@ export const raw: CookingMethodData = {
     'ignoring ripeness levels',
     'unnecessary ingredient processing',
     'inadequate marination for tougher ingredients',
-    'ignoring enzyme inhibitors in nuts/seeds',
+    'ignoring enzyme inhibitors in nuts/seeds'
   ],
   pairingSuggestions: [
     'Cold-pressed oils for richness',
@@ -120,7 +120,7 @@ export const raw: CookingMethodData = {
     'Cold-brewed beverages',
     'Edible flowers for visual appeal',
     'Seaweed for mineral complexity',
-    'Cold-infused waters',
+    'Cold-infused waters'
   ],
   nutrientRetention: {
     vitamins: 0.98, // Excellent vitamin retention
@@ -142,7 +142,7 @@ export const raw: CookingMethodData = {
     general_storage: 40, // Refrigeration temperature (°F)
     serving_temperature: 45, // Ideal serving temperature (°F)
     sprouting: 70, // Ideal sprouting temperature (°F)
-    dehydration: 115, // Maximum temperature for "raw" dehydration (°F)
+    dehydration: 115, // Maximum temperature for 'raw' dehydration (°F)
     nut_activation: 95, // Soaking temperature for nuts (°F)
     fermentation: 72, // Ideal fermentation temperature (°F)
     cold_infusion: 45, // Cold infusion temperature (°F)
@@ -155,9 +155,9 @@ export const raw: CookingMethodData = {
     japanese: ['sashimi', 'namasu', 'tataki'],
     peruvian: ['ceviche', 'tiradito', 'causa'],
     mediterranean: ['mezze platters', 'carpaccio', 'crudo'],
-    pacific: ['poisson cru', "oka i'a", 'kokoda'],
+    pacific: ['poisson cru', 'oka i'a', 'kokoda'],
     indian: ['kachumber', 'mooli salads', 'sprouted legume preparations'],
-    caribbean: ['pepper sauces', 'chow', 'green banana salads'],
+    caribbean: ['pepper sauces', 'chow', 'green banana salads']
   },
   chemicalChanges: {
     enzyme_activity: true,
@@ -174,7 +174,7 @@ export const raw: CookingMethodData = {
     protein_structure_preservation: true,
     chlorophyll_preservation: true,
     volatile_compound_retention: true,
-    phytochemical_preservation: true,
+    phytochemical_preservation: true
   },
   safetyFeatures: [
     'Proper sourcing from reliable suppliers',
@@ -191,7 +191,7 @@ export const raw: CookingMethodData = {
     'Understanding of ingredient-specific risks',
     'Cross-contamination prevention',
     'Allergen awareness and separation',
-    'Implementation of HACCP principles for raw preparation',
+    'Implementation of HACCP principles for raw preparation'
   ],
   thermodynamicProperties: {
     heat: 0.0, // No heat applied
@@ -202,7 +202,7 @@ export const raw: CookingMethodData = {
 
   // Additional metadata
   history:
-    "The practice of eating foods in their natural, uncooked state dates back to the beginning of human existence, predating cooking technologies. Throughout history, various cultures developed sophisticated raw food preparations, from Mediterranean crudo to Polynesian poisson cru and Japanese sashimi. The modern raw food movement emerged in the 1800s with figures like Sylvester Graham advocating for unprocessed foods. Dr. Max Bircher-Benner's raw food sanitarium in the early 1900s popularized therapeutic raw eating (creating muesli in the process). The 1970s saw increased interest in \"living foods\" through Ann Wigmore's work. By the 1990s-2000s, raw food cuisine evolved into a sophisticated culinary approach with chefs like Matthew Kenney elevating raw preparation to fine dining. Today's approach integrates traditional knowledge with modern nutritional science and creative culinary techniques.",
+    'The practice of eating foods in their natural, uncooked state dates back to the beginning of human existence, predating cooking technologies. Throughout history, various cultures developed sophisticated raw food preparations, from Mediterranean crudo to Polynesian poisson cru and Japanese sashimi. The modern raw food movement emerged in the 1800s with figures like Sylvester Graham advocating for unprocessed foods. Dr. Max Bircher-Benner's raw food sanitarium in the early 1900s popularized therapeutic raw eating (creating muesli in the process). The 1970s saw increased interest in \"living foods\" through Ann Wigmore's work. By the 1990s-2000s, raw food cuisine evolved into a sophisticated culinary approach with chefs like Matthew Kenney elevating raw preparation to fine dining. Today's approach integrates traditional knowledge with modern nutritional science and creative culinary techniques.',
 
   scientificPrinciples: [
     'Enzyme preservation occurs below ~118°F (48°C) - the threshold at which most food enzymes denature',
@@ -219,12 +219,12 @@ export const raw: CookingMethodData = {
     'Oxidative reactions occur at slower rates without heat acceleration',
     'Dehydration below critical temperatures preserves enzyme activity while removing water',
     'Cold-pressing techniques extract oils without damaging heat-sensitive compounds',
-    'Natural ripening processes involve enzymatic transformation of carbohydrates and softening of tissues',
+    'Natural ripening processes involve enzymatic transformation of carbohydrates and softening of tissues'
   ],
 
   modernVariations: [
     'High-pressure processing (HPP) for safety and shelf-life extension',
-    'Sous vide "raw" (very low temperature water bath preparation)',
+    'Sous vide 'raw' (very low temperature water bath preparation)',
     'Cold-smoking techniques (below enzyme denaturation threshold)',
     'Molecular gastronomy applications (spherification, gelification)',
     'Ultrasonic extraction methods for intensified flavors',
@@ -240,7 +240,7 @@ export const raw: CookingMethodData = {
     'Pressure-based juice extraction systems',
     'Advanced dehydration with humidity control',
     'Wild fermentation with native microbes',
-    'Nitrogen-assisted cutting and processing',
+    'Nitrogen-assisted cutting and processing'
   ],
 
   healthConsiderations: [
@@ -258,7 +258,7 @@ export const raw: CookingMethodData = {
     'Unprocessed oils retain more omega fatty acids',
     'Raw preparation preserves natural food structure',
     'May require more thorough chewing, potentially improving digestion',
-    'Consideration needed for individual digestive sensitivities',
+    'Consideration needed for individual digestive sensitivities'
   ],
 
   sustainabilityRating: 0.95, // Extremely high - minimal energy use, maximum food integrity

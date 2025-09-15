@@ -12,7 +12,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
     strength: engineData?.strength,
     source: engineData?.source,
     // Preserve other properties
-    ...engineData,
+    ...engineData
   };
 }
 
@@ -25,6 +25,6 @@ export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): 
     ...standardAffinity,
     element: affinityData?.base,
     strength: affinityData?.strength || 1,
-    source: affinityData?.source || 'default',
+    source: affinityData?.source || 'default'
   };
 }

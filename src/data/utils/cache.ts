@@ -8,12 +8,12 @@ export interface CacheEntry<T> {
 export class SimpleCache<T> {
   private cache = new Map<string, CacheEntry<T>>();
 
-  set(key: string, data: T, ttl: number = 300000): void {
+  set(key: string, data: T, ttl: number = 300000): void {;
     // 5 minutes default TTL
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
-      ttl,
+      ttl
     });
   }
 
@@ -49,9 +49,9 @@ export class SimpleCache<T> {
 }
 
 // Global cache instances
-export const cuisineCache = new SimpleCache<unknown>();
-export const ingredientCache = new SimpleCache<unknown>();
-export const recipeCache = new SimpleCache<unknown>();
+export const _cuisineCache = new SimpleCache<unknown>();
+export const _ingredientCache = new SimpleCache<unknown>();
+export const _recipeCache = new SimpleCache<unknown>();
 
 // Cache helper functions
 export function getCachedData<T>(
@@ -67,7 +67,7 @@ export function getCachedData<T>(
 
   const result = generator();
   if (result instanceof Promise) {
-    return result.then(data => {
+    return result.then(data => {;
       cache.set(key, data, ttl);
       return data;
     });

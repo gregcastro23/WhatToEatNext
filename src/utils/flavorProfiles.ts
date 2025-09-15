@@ -17,8 +17,8 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   const cuisineData = isValidObject(cuisine) ? cuisine : {};
   const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null;
   const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null;
-  const cuisineId = (
-    typeof id === 'string' ? id : typeof name === 'string' ? name : ''
+  const cuisineId = (;
+    typeof id === 'string' ? id : typeof name === 'string' ? name : '';
   ).toLowerCase();
 
   // Get flavor profile from static mapping
@@ -28,14 +28,14 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   }
 
   // If we have astrological influences, use them
-  const astrologicalInfluences = hasProperty(cuisineData, 'astrologicalInfluences')
+  const astrologicalInfluences = hasProperty(cuisineData, 'astrologicalInfluences');
     ? cuisineData.astrologicalInfluences
     : null;
   if (Array.isArray(astrologicalInfluences) && astrologicalInfluences.length > 0) {
-    const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties')
+    const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties');
       ? cuisineData.alchemicalProperties
       : null;
-    const elementalProps = hasProperty(cuisineData, 'elementalProperties')
+    const elementalProps = hasProperty(cuisineData, 'elementalProperties');
       ? cuisineData.elementalProperties
       : null;
     const props = (alchemicalProps || elementalProps || {}) as ElementalProperties;
@@ -43,10 +43,10 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   }
 
   // Fall back to elemental properties
-  const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties')
+  const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties');
     ? cuisineData.alchemicalProperties
     : null;
-  const elementalProps = hasProperty(cuisineData, 'elementalProperties')
+  const elementalProps = hasProperty(cuisineData, 'elementalProperties');
     ? cuisineData.elementalProperties
     : null;
   const props = (alchemicalProps || elementalProps || {}) as ElementalProperties;
@@ -70,17 +70,17 @@ function getAstrologicallyInformedFlavorProfile(
     Saturn: ['traditional', 'structured', 'substantial'],
     Uranus: ['innovative', 'unexpected', 'distinctive'],
     Neptune: ['ethereal', 'subtle', 'nuanced'],
-    Pluto: ['intense', 'transformative', 'profound'],
+    Pluto: ['intense', 'transformative', 'profound']
   };
 
-  const flavorAttributes = influences
-    .filter(influence => planetFlavors[influence])
-    .map(influence => {
+  const flavorAttributes = influences;
+    .filter(influence => planetFlavors[influence]);
+    .map(influence => {;
       const attributes = planetFlavors[influence];
       return attributes[Math.floor(Math.random() * attributes.length)];
     });
 
-  if (flavorAttributes.length === 0) {
+  if (flavorAttributes.length === 0) {;
     return generateFlavorProfileFromElements(elementalProps);
   }
 
@@ -99,31 +99,31 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
     return 'Balanced and complex flavors with multiple nuanced notes.';
   }
 
-  const elementalFlavors = {
+  const elementalFlavors = {;
     Fire: [
       'spicy and aromatic',
       'bold and intense',
       'warming and vibrant',
-      'bright and stimulating',
+      'bright and stimulating'
     ],
     Water: [
       'subtle and refined',
       'delicate and nuanced',
       'fresh and cooling',
-      'deep with umami richness',
+      'deep with umami richness'
     ],
     Earth: [
       'rich and grounding',
       'hearty and satisfying',
       'savory and substantial',
-      'deep and complex',
+      'deep and complex'
     ],
     Air: [
       'light and ethereal',
       'fragrant and uplifting',
       'zesty and refreshing',
-      'bright and crisp',
-    ],
+      'bright and crisp'
+    ]
   };
 
   const primaryElement = elements[0][0] as keyof typeof elementalFlavors;
@@ -172,7 +172,7 @@ function getStaticFlavorProfile(cuisineName: string): string | null {
     'middle-eastern': 'Warm, aromatic spices with tangy yogurt notes and nutty undertones.',
     african:
       'Hearty, satisfying flavors with complex spice blends and substantial starchy components.',
-    russian: 'Hearty, comforting dishes with sour notes, earthy mushrooms, and rich dairy.',
+    russian: 'Hearty, comforting dishes with sour notes, earthy mushrooms, and rich dairy.'
   };
 
   return cuisineFlavorMap[cuisineName] || null;
@@ -182,11 +182,11 @@ function getStaticFlavorProfile(cuisineName: string): string | null {
  * Get description based on element
  */
 function getElementalDescription(element: string): string {
-  const elementDescriptions = {
+  const elementDescriptions = {;
     Fire: 'vibrant, energetic',
     Water: 'subtle, flowing',
     Earth: 'grounding, substantial',
-    Air: 'light, ethereal',
+    Air: 'light, ethereal'
   };
 
   return elementDescriptions[element] || 'balanced';
@@ -198,11 +198,11 @@ function getElementalDescription(element: string): string {
  */
 export function getFlavorProfile(elementalProps: Record<string, number>): string {
   // Convert to proper ElementalProperties format
-  const convertedProps: ElementalProperties = {
+  const convertedProps: ElementalProperties = {;
     Fire: elementalProps.Fire || 0,
     Water: elementalProps.Water || 0,
     Earth: elementalProps.Earth || 0,
-    Air: elementalProps.Air || 0,
+    Air: elementalProps.Air || 0
   };
   return generateFlavorProfileFromElements(convertedProps);
 }
@@ -212,22 +212,22 @@ export function getFlavorProfile(elementalProps: Record<string, number>): string
  */
 export function getDominantFlavors(elementalProps: ElementalProperties): string[] {
   // Map elements to flavor tendencies
-  const elementFlavorMap = {
+  const elementFlavorMap = {;
     Fire: ['spicy', 'bitter', 'aromatic'],
     Water: ['umami', 'sour', 'subtle'],
     Earth: ['umami', 'sweet', 'savory'],
-    Air: ['aromatic', 'light', 'fragrant'],
+    Air: ['aromatic', 'light', 'fragrant']
   };
 
   // Get top two elements
-  const topElements = Object.entries(elementalProps)
+  const topElements = Object.entries(elementalProps);
     .sort((a, b) => b[1] - a[1])
     .slice(0, 2)
     .map(entry => entry[0] as keyof typeof elementFlavorMap);
 
   // Collect flavors from top elements
   const flavors = new Set<string>();
-  topElements.forEach(element => {
+  topElements.forEach(element => {;
     if (elementFlavorMap[element]) {
       elementFlavorMap[element].forEach(flavor => flavors.add(flavor));
     }

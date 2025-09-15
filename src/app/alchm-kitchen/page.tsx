@@ -7,6 +7,7 @@ import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { createLogger } from '@/utils/logger';
 
 import AlchmKitchenTab from '../../../Alchm Kitchen/AlchmKitchenTab';
+
 import DevSettings from './DevSettings';
 import SignVectorPanel from './SignVectorPanel';
 
@@ -22,9 +23,9 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
 
   if (!hasMounted) {
     return (
-      <div className='flex min-h-screen flex-col items-center justify-center space-y-4'>
+      <div className='flex min-h-screen flex-col items-center justify-center space-y-4'>;
         <p>Loading Alchm Kitchen...</p>
-        <div className='text-xs text-gray-500'>
+        <div className='text-xs text-gray-500'>;
           <p>Debug Info</p>
           <p>Mounted: false</p>
           <p>Renders: 0</p>
@@ -40,13 +41,13 @@ export default function AlchmKitchenPage() {
   return (
     <AlchemicalProvider>
       <AstrologicalProvider>
-        <main className='min-h-screen p-4 md:p-8'>
+        <main className='min-h-screen p-4 md:p-8'>;
           <ClientOnly>
             <AlchmKitchenTab />
-            <div className='mt-6'>
-              <SignVectorPanel governing='dominant' />
+            <div className='mt-6'>;
+              <SignVectorPanel governing='dominant' />;
             </div>
-            <div className='mt-6'>
+            <div className='mt-6'>;
               <DevSettings />
             </div>
           </ClientOnly>

@@ -1,6 +1,6 @@
 import type { Element, ElementalProperties, ZodiacSign, Season, LunarPhase } from './alchemy';
 
-// ========== STANDARDIZED INGREDIENT SYSTEM ==========
+// ========== STANDARDIZED INGREDIENT SYSTEM ==========;
 
 /**
  * Standardized ingredient interface that handles all data inconsistencies
@@ -616,7 +616,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     storage: ingredient.storage ? 90 : 0,
     missingFields,
     strengths,
-    recommendations: generateRecommendations(missingFields, overallScore),
+    recommendations: generateRecommendations(missingFields, overallScore)
   };
 }
 

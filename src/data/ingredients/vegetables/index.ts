@@ -19,14 +19,14 @@ export const vegetables: Record<string, IngredientMapping> = fixIngredientMappin
   ...alliums,
   ...squash,
   ...starchyVegetables,
-  ...legumes,
+  ...legumes
 });
 
 // Create enhanced vegetables with additional properties
-export const enhancedVegetables = vegetables;
+export const _enhancedVegetables = vegetables;
 
 // For standardization - both exports refer to the same object
-export const standardizedVegetables = vegetables;
+export const _standardizedVegetables = vegetables;
 
 // Export individual categories
 export {
@@ -37,25 +37,25 @@ export {
   alliums,
   squash,
   starchyVegetables,
-  legumes,
+  legumes
 };
 
 // Helper functions
-export const getVegetablesBySubCategory = (
+export const _getVegetablesBySubCategory = (;
   subCategory: string,
 ): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
-    .filter(([_, value]) => value.subCategory === subCategory)
+    .filter(([_, value]) => value.subCategory === subCategory);
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const getSeasonalVegetables = (season: string): Record<string, IngredientMapping> => {
+export const _getSeasonalVegetables = (season: string): Record<string, IngredientMapping> => {;
   return Object.entries(vegetables)
     .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const getVegetablesByCookingMethod = (method: string): Record<string, IngredientMapping> => {
+export const _getVegetablesByCookingMethod = (method: string): Record<string, IngredientMapping> => {;
   return Object.entries(vegetables)
     .filter(
       ([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(method),

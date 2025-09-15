@@ -16,13 +16,13 @@ interface DraggableOptions {
   };
 }
 
-export const useDraggable = (options: DraggableOptions = {}) => {
+export const _useDraggable = (options: DraggableOptions = {}) => {;
   const elementRef = useRef<HTMLElement>(null);
   const isDragging = useRef(false);
   const startPos = useRef({ x: 0, y: 0 });
   const currentPos = useRef({ x: 0, y: 0 });
 
-  const handleMouseDown = useCallback(
+  const handleMouseDown = useCallback(;
     (e: MouseEvent) => {
       if (options.disabled) return;
 
@@ -60,7 +60,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     [options],
   );
 
-  const handleMouseMove = useCallback(
+  const handleMouseMove = useCallback(;
     (e: MouseEvent) => {
       if (!isDragging.current || !elementRef.current) return;
 
@@ -102,7 +102,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     [options],
   );
 
-  const handleMouseUp = useCallback(
+  const handleMouseUp = useCallback(;
     (e: MouseEvent) => {
       if (!isDragging.current || !elementRef.current) return;
 
@@ -124,7 +124,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
   );
 
   // Touch events for mobile support
-  const handleTouchStart = useCallback(
+  const handleTouchStart = useCallback(;
     (e: TouchEvent) => {
       if (options.disabled || e.touches.length !== 1) return;
 
@@ -157,7 +157,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     [options],
   );
 
-  const handleTouchMove = useCallback(
+  const handleTouchMove = useCallback(;
     (e: TouchEvent) => {
       if (!isDragging.current || !elementRef.current || e.touches.length !== 1) return;
 
@@ -200,7 +200,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     [options],
   );
 
-  const handleTouchEnd = useCallback(
+  const handleTouchEnd = useCallback(;
     (e: TouchEvent) => {
       if (!isDragging.current || !elementRef.current) return;
 
@@ -241,11 +241,11 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     handleMouseMove,
     handleMouseUp,
     handleTouchMove,
-    handleTouchEnd,
+    handleTouchEnd
   ]);
 
   // Reset position function
-  const resetPosition = useCallback(() => {
+  const resetPosition = useCallback(() => {;
     const element = elementRef.current;
     if (!element) return;
 
@@ -256,7 +256,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
   }, []);
 
   // Set position function
-  const setPosition = useCallback((x: number, y: number) => {
+  const setPosition = useCallback((x: number, y: number) => {;
     const element = elementRef.current;
     if (!element) return;
 
@@ -270,6 +270,6 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     ref: elementRef,
     isDragging: isDragging.current,
     resetPosition,
-    setPosition,
+    setPosition
   };
 };

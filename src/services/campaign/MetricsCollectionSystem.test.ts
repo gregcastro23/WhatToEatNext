@@ -63,7 +63,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.typeScriptErrors.current).toBe(5);
       expect(snapshot.metrics.errorBreakdown).toEqual({
         TS2352: 3,
-        TS2345: 2,
+        TS2345: 2
       });
     });
 
@@ -105,7 +105,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.warningBreakdown).toEqual({
         '@typescript-eslint/no-unused-vars': 1,
         '@typescript-eslint/no-explicit-any': 1,
-        'no-console': 1,
+        'no-console': 1
       });
     });
 
@@ -142,7 +142,7 @@ describe('MetricsCollectionSystem', () => {
     });
 
     test('should handle build failures gracefully', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed');
         }
@@ -240,7 +240,7 @@ describe('MetricsCollectionSystem', () => {
 
       expect(metricsSystem.getLatestSnapshot()).toBeNull();
 
-      const snapshot1: any = await metricsSystem.collectSnapshot('phase1');
+      const _snapshot1: any = await metricsSystem.collectSnapshot('phase1');
       const snapshot2: any = await metricsSystem.collectSnapshot('phase2');
 
       expect(metricsSystem.getLatestSnapshot()).toEqual(snapshot2);
@@ -267,7 +267,7 @@ describe('MetricsCollectionSystem', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         'test-metrics.json',
-        expect.stringContaining('"totalSnapshots": 1'),
+        expect.stringContaining(''totalSnapshots': 1'),
       );
     });
 
@@ -296,7 +296,7 @@ describe('MetricsCollectionSystem', () => {
       consoleWarnSpy.mockRestore();
     });
 
-    test('should handle collection errors during real-time collection', done => {
+    test('should handle collection errors during real-time collection', done => {;
       const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation();
 
       mockExecSync.mockImplementation(() => {

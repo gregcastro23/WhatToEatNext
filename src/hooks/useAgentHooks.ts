@@ -13,7 +13,7 @@ import {
   ValidationResult,
   CampaignTrigger,
   QualityMetrics,
-  QualityAssuranceConfig,
+  QualityAssuranceConfig
 } from '@/utils/automatedQualityAssurance';
 import { logger } from '@/utils/logger';
 import { ElementalProperties } from '@/utils/steeringFileIntelligence';
@@ -38,7 +38,7 @@ export interface AgentHookState {
  * Main agent hook for automated quality assurance integration
  */
 export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
-  const defaultConfig: AgentHookConfig = {
+  const defaultConfig: AgentHookConfig = {;
     enablePlanetaryValidation: true,
     enableIngredientValidation: true,
     enableCampaignTriggers: true,
@@ -54,19 +54,19 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
     lastValidation: 0,
     validationResults: {},
     campaignTriggers: [],
-    qualityMetrics: qa.getQualityMetrics(),
+    qualityMetrics: qa.getQualityMetrics()
   });
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Start agent hooks
-  const startAgentHooks = useCallback(() => {
+  const startAgentHooks = useCallback(() => {;
     if (hookState.isActive) return;
 
     setHookState(prev => ({ ...prev, isActive: true }));
 
     // Set up validation interval
-    intervalRef.current = setInterval(
+    intervalRef.current = setInterval(;
       () => {
         void (async () => {
           try {
@@ -91,12 +91,12 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
             }
 
             // Update state
-            setHookState(prev => ({
+            setHookState(prev => ({;
               ...prev,
               lastValidation: Date.now(),
               validationResults: { ...prev.validationResults, ...results },
               campaignTriggers: qa.getActiveCampaignTriggers(),
-              qualityMetrics: qa.getQualityMetrics(),
+              qualityMetrics: qa.getQualityMetrics()
             }));
 
             logger.debug('Agent hooks validation cycle completed');
@@ -112,7 +112,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
   }, [finalConfig, hookState.isActive, qa]);
 
   // Stop agent hooks
-  const stopAgentHooks = useCallback(() => {
+  const stopAgentHooks = useCallback(() => {;
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -123,30 +123,30 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
   }, []);
 
   // Manual validation trigger
-  const triggerValidation = useCallback(
+  const triggerValidation = useCallback(;
     async (type?: 'planetary' | 'ingredient' | 'typescript' | 'all') => {
       try {
         const results: Record<string, ValidationResult> = {};
 
-        if (!type || type === 'all' || type === 'planetary') {
+        if (!type || type === 'all' || type === 'planetary') {;
           results.planetary = await qa.validatePlanetaryData();
         }
 
-        if (!type || type === 'all' || type === 'typescript') {
+        if (!type || type === 'all' || type === 'typescript') {;
           const trigger = await qa.checkTypeScriptErrorThreshold();
           if (trigger) {
-            setHookState(prev => ({
+            setHookState(prev => ({;
               ...prev,
-              campaignTriggers: [...prev.campaignTriggers, trigger],
+              campaignTriggers: [...prev.campaignTriggers, trigger]
             }));
           }
         }
 
-        setHookState(prev => ({
+        setHookState(prev => ({;
           ...prev,
           lastValidation: Date.now(),
           validationResults: { ...prev.validationResults, ...results },
-          qualityMetrics: qa.getQualityMetrics(),
+          qualityMetrics: qa.getQualityMetrics()
         }));
 
         logger.debug('Manual validation triggered:', { type, results });
@@ -171,19 +171,19 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
     startAgentHooks,
     stopAgentHooks,
     triggerValidation,
-    isActive: hookState.isActive,
+    isActive: hookState.isActive
   };
 }
 
 /**
  * Agent hook specifically for planetary data validation
  */
-export function usePlanetaryDataValidationHook(autoStart: boolean = true) {
+export function usePlanetaryDataValidationHook(autoStart: boolean = true) {;
   const qa = getAutomatedQualityAssurance();
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
 
-  const validatePlanetaryData = useCallback(
+  const validatePlanetaryData = useCallback(;
     async (date?: Date) => {
       setIsValidating(true);
       try {
@@ -197,7 +197,7 @@ export function usePlanetaryDataValidationHook(autoStart: boolean = true) {
           if (typeof window !== 'undefined') {
             window.dispatchEvent(
               new CustomEvent('planetary-validation-failed', {
-                detail: result,
+                detail: result
               }),
             );
           }
@@ -225,7 +225,7 @@ export function usePlanetaryDataValidationHook(autoStart: boolean = true) {
     validationResult,
     isValidating,
     validatePlanetaryData,
-    isValid: validationResult?.isValid ?? null,
+    isValid: validationResult?.isValid ?? null
   };
 }
 
@@ -237,7 +237,7 @@ export function useIngredientConsistencyHook() {
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
 
-  const validateIngredients = useCallback(
+  const validateIngredients = useCallback(;
     async (
       ingredients: Array<{
         name: string;
@@ -245,7 +245,7 @@ export function useIngredientConsistencyHook() {
         category?: string;
       }>,
     ) => {
-      if (ingredients.length === 0) {
+      if (ingredients.length === 0) {;
         return null;
       }
 
@@ -261,7 +261,7 @@ export function useIngredientConsistencyHook() {
           if (typeof window !== 'undefined') {
             window.dispatchEvent(
               new CustomEvent('ingredient-validation-failed', {
-                detail: { result, ingredients },
+                detail: { result, ingredients }
               }),
             );
           }
@@ -282,19 +282,19 @@ export function useIngredientConsistencyHook() {
     validationResult,
     isValidating,
     validateIngredients,
-    isValid: validationResult?.isValid ?? null,
+    isValid: validationResult?.isValid ?? null
   };
 }
 
 /**
  * Agent hook for TypeScript campaign triggers
  */
-export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
+export function useTypeScriptCampaignHook(autoCheck: boolean = true) {;
   const qa = getAutomatedQualityAssurance();
   const [campaignTrigger, setCampaignTrigger] = useState<CampaignTrigger | null>(null);
   const [isChecking, setIsChecking] = useState(false);
 
-  const checkErrorThreshold = useCallback(async () => {
+  const checkErrorThreshold = useCallback(async () => {;
     setIsChecking(true);
     try {
       const trigger = await qa.checkTypeScriptErrorThreshold();
@@ -307,7 +307,7 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
         if (typeof window !== 'undefined') {
           window.dispatchEvent(
             new CustomEvent('typescript-campaign-trigger', {
-              detail: trigger,
+              detail: trigger
             }),
           );
         }
@@ -337,7 +337,7 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
     campaignTrigger,
     isChecking,
     checkErrorThreshold,
-    isTriggered: campaignTrigger?.triggered ?? false,
+    isTriggered: campaignTrigger?.triggered ?? false
   };
 }
 
@@ -349,7 +349,7 @@ export function useBuildQualityMonitoringHook() {
   const [qualityResult, setQualityResult] = useState<ValidationResult | null>(null);
   const [isMonitoring, setIsMonitoring] = useState(false);
 
-  const monitorBuildQuality = useCallback(
+  const monitorBuildQuality = useCallback(;
     async (buildMetrics: {
       buildTime?: number;
       bundleSize?: number;
@@ -368,7 +368,7 @@ export function useBuildQualityMonitoringHook() {
           if (typeof window !== 'undefined') {
             window.dispatchEvent(
               new CustomEvent('build-quality-issues', {
-                detail: { result, buildMetrics },
+                detail: { result, buildMetrics }
               }),
             );
           }
@@ -389,20 +389,20 @@ export function useBuildQualityMonitoringHook() {
     qualityResult,
     isMonitoring,
     monitorBuildQuality,
-    isQualityGood: qualityResult?.isValid ?? null,
+    isQualityGood: qualityResult?.isValid ?? null
   };
 }
 
 /**
  * Agent hook for comprehensive quality metrics monitoring
  */
-export function useQualityMetricsHook(updateInterval: number = 30000) {
+export function useQualityMetricsHook(updateInterval: number = 30000) {;
   // 30 seconds
   const qa = getAutomatedQualityAssurance();
   const [metrics, setMetrics] = useState<QualityMetrics>(qa.getQualityMetrics());
   const [lastUpdate, setLastUpdate] = useState(Date.now());
 
-  const updateMetrics = useCallback(() => {
+  const updateMetrics = useCallback(() => {;
     const newMetrics = qa.getQualityMetrics();
     setMetrics(newMetrics);
     setLastUpdate(Date.now());
@@ -417,7 +417,7 @@ export function useQualityMetricsHook(updateInterval: number = 30000) {
   return {
     metrics,
     lastUpdate,
-    updateMetrics,
+    updateMetrics
   };
 }
 
@@ -427,7 +427,7 @@ export function useQualityMetricsHook(updateInterval: number = 30000) {
 export function useAgentHookConfiguration() {
   const qa = getAutomatedQualityAssurance();
 
-  const updateConfiguration = useCallback(
+  const updateConfiguration = useCallback(;
     (config: Partial<QualityAssuranceConfig>) => {
       qa.updateConfig(config);
       logger.info('Agent hook configuration updated:', config);
@@ -435,12 +435,12 @@ export function useAgentHookConfiguration() {
     [qa],
   );
 
-  const getActiveTriggers = useCallback(() => {
+  const getActiveTriggers = useCallback(() => {;
     return qa.getActiveCampaignTriggers();
   }, [qa]);
 
   return {
     updateConfiguration,
-    getActiveTriggers,
+    getActiveTriggers
   };
 }

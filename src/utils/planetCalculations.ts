@@ -3,7 +3,7 @@ import * as accurateAstronomy from '@/utils/accurateAstronomy';
 import * as astrologyUtils from '@/utils/astrologyUtils';
 
 // Sun calculation
-export function calculateSunPosition(date: Date = new Date()) {
+export function calculateSunPosition(date: Date = new Date()) {;
   const t =
     (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 365.25);
   const longitude = 280.46061837 + 360.98564736629 * t;
@@ -16,7 +16,7 @@ export function calculateSunPosition(date: Date = new Date()) {
 }
 
 // Moon calculation
-export function calculateMoonPosition(date: Date = new Date()) {
+export function calculateMoonPosition(date: Date = new Date()) {;
   const t =
     (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 27.322);
   const longitude = 218.3164477 + 481267.88123421 * t;
@@ -29,7 +29,7 @@ export function calculateMoonPosition(date: Date = new Date()) {
 }
 
 // Mercury calculation
-export function calculateMercuryPosition(date: Date = new Date()) {
+export function calculateMercuryPosition(date: Date = new Date()) {;
   const t =
     (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 87.969);
   const longitude = 252.25084 + 538101.03 * t;
@@ -45,7 +45,7 @@ export function calculateMercuryPosition(date: Date = new Date()) {
 
 // Helper function to get sign from longitude
 function getSignFromLongitude(longitude: number): string {
-  const signs = [
+  const signs = [;
     'aries',
     'taurus',
     'gemini',
@@ -57,14 +57,14 @@ function getSignFromLongitude(longitude: number): string {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
   const signIndex = Math.floor((longitude % 360) / 30);
   return signs[signIndex];
 }
 
 // Add to your existing function or file
-export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
+export function calculateBasicPlanetaryPositions(date: Date = new Date()) {;
   // Calculate positions for the basic planets
   const sun = calculateSunPosition(date);
   const moon = calculateMoonPosition(date);
@@ -81,7 +81,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
 
     // First try to import and use the accurate astronomy module
     const nodeData =
-      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function'
+      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function';
         ? calculateLunarNodesMethod(date)
         : null;
 
@@ -90,7 +90,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     }
 
     // Apply surgical type casting for node data access
-    const nodeDataTyped = nodeData as any;
+    const nodeDataTyped = nodeData ;
     const northNodeValue = Number(nodeDataTyped.northNode) || 0;
     const _southNodeValue = Number(nodeDataTyped.southNode) || (northNodeValue + 180) % 360;
 
@@ -105,18 +105,18 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // Apply surgical type casting for node data properties
     const isRetrograde = nodeDataTyped.isRetrograde || true;
 
-    northNode = {
+    northNode = {;
       sign: northNodeSign,
       degree: northNodeDegree,
       exactLongitude: northNodeValue,
-      isRetrograde: isRetrograde,
+      isRetrograde: isRetrograde
     };
 
-    southNode = {
+    southNode = {;
       sign: southNodeSign,
       degree: southNodeDegree,
       exactLongitude: southNodeLongitude,
-      isRetrograde: isRetrograde,
+      isRetrograde: isRetrograde
     };
   } catch (error) {
     // If that fails, fall back to the simplified calculation
@@ -126,18 +126,18 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
       southNode = (lunarNodes as any).southNode;
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
-      northNode = {
+      northNode = {;
         sign: 'aries',
         degree: 27,
         exactLongitude: 27,
-        isRetrograde: true,
+        isRetrograde: true
       };
 
-      southNode = {
+      southNode = {;
         sign: 'libra',
         degree: 27,
         exactLongitude: 207,
-        isRetrograde: true,
+        isRetrograde: true
       };
     }
   }
@@ -148,6 +148,6 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     mercury,
     // Other planets...
     northNode,
-    southNode,
+    southNode
   };
 }

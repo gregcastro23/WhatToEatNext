@@ -104,7 +104,7 @@ export function getTechnicalTips(methodName: string): string[] {
 
     case 'steaming':
       tips.push(
-        "Ensure water doesn't touch the food or steamer basket to prevent boiling instead of steaming",
+        'Ensure water doesn't touch the food or steamer basket to prevent boiling instead of steaming',
       );
       tips.push('Add herbs, citrus peel, or spices to the steaming water for aromatic infusion');
       tips.push('Arrange foods with longest cooking times at the bottom of multi-tier steamers');
@@ -152,7 +152,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Cook in small batches to maintain wok temperature—overcrowding creates steam instead of sear',
       );
       tips.push(
-        "Master the 'wok hei' technique by slightly tossing ingredients through the hottest part of the flame",
+        'Master the 'wok hei' technique by slightly tossing ingredients through the hottest part of the flame',
       );
       tips.push(
         'Add aromatics (garlic, ginger) briefly at the beginning for 10-15 seconds to flavor the oil',
@@ -220,7 +220,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Monitor smoke color: blue-gray smoke is ideal; thick white or black smoke creates bitter flavors',
       );
       tips.push(
-        "Use the Texas Crutch (wrapping in foil) to overcome the 'stall' in large meat cuts",
+        'Use the Texas Crutch (wrapping in foil) to overcome the 'stall' in large meat cuts',
       );
       break;
 
@@ -290,7 +290,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Rotate baking sheets halfway through cooking for even browning');
       tips.push('For bread and pastry, create steam in the oven by using a water pan or ice cubes');
       tips.push(
-        "Understand your flour's protein content: higher protein for bread, lower for cakes and pastries",
+        'Understand your flour's protein content: higher protein for bread, lower for cakes and pastries',
       );
       tips.push(
         'Always cool baked goods on a wire rack to prevent soggy bottoms from condensation',
@@ -395,9 +395,9 @@ export function getTechnicalTips(methodName: string): string[] {
         'For non-alcoholic distillation, use steam distillation to extract volatile compounds',
       );
       tips.push(
-        "Discard the 'heads' (first 30ml per liter of distillate) which contain harmful compounds",
+        'Discard the 'heads' (first 30ml per liter of distillate) which contain harmful compounds',
       );
-      tips.push("Collect the 'hearts' (middle portion) of the distillation for purest flavor");
+      tips.push('Collect the 'hearts' (middle portion) of the distillation for purest flavor');
       tips.push(
         'Allow distilled products to rest for 1-2 weeks before final use to develop flavor complexity',
       );
@@ -555,7 +555,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'For vegetable preparations, ice water bath restores crispness before final assembly',
       );
       tips.push(
-        "Balance acidity carefully to 'cook' proteins without heat in preparations like ceviche",
+        'Balance acidity carefully to 'cook' proteins without heat in preparations like ceviche',
       );
       tips.push(
         'Apply heat-mimicking techniques selectively: salting, massaging kale/cabbage, acid marination',
@@ -606,8 +606,8 @@ export function getTechnicalTips(methodName: string): string[] {
       // Get expert tips from the cooking method data
       try {
         const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find(
-          method =>
+        const methodData = allMethods.find(;
+          method =>;
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase()),
         );
@@ -654,7 +654,7 @@ export function getMethodDetails(methodName: string): string {
       return 'Slow simmering is a gentle cooking method where ingredients are cooked in liquid maintained just below the boiling point. This technique allows for gradual extraction of flavors and transformation of tough proteins into tender morsels. The gentle, sustained heat breaks down connective tissues while preserving structural integrity, resulting in deeply flavored dishes with exceptional tenderness.';
 
     case 'clay pot cooking':
-      return "Clay pot cooking utilizes unglazed or partially glazed earthenware that naturally regulates moisture and temperature. The porous nature of clay allows micro-evaporation that concentrates flavors while keeping ingredients moist. The clay also imparts subtle mineral notes to the food and creates a uniquely even, radiant heating environment that's forgiving and develops deep, complex flavors.";
+      return 'Clay pot cooking utilizes unglazed or partially glazed earthenware that naturally regulates moisture and temperature. The porous nature of clay allows micro-evaporation that concentrates flavors while keeping ingredients moist. The clay also imparts subtle mineral notes to the food and creates a uniquely even, radiant heating environment that's forgiving and develops deep, complex flavors.';
 
     case 'charcoal grilling':
       return 'Charcoal grilling harnesses the intense, dry heat produced by burning hardwood charcoal to quickly cook ingredients while developing complex smoky flavors and distinctive caramelization patterns. This method creates the characteristic grilled appearance through the Maillard reaction and introduces aromatic compounds from both the charcoal itself and drippings that vaporize on contact with the hot coals.';
@@ -669,7 +669,7 @@ export function getMethodDetails(methodName: string): string {
     case 'wok cooking':
     case 'stir fry':
     case 'stir-fry':
-      return "Wok cooking utilizes a rounded, high-sided pan capable of achieving extremely high temperatures to quickly cook ingredients while preserving texture and nutritional value. The technique relies on the wok's unique thermal properties—intense heat at the bottom that diminishes up the sides—to allow simultaneous cooking at different temperatures. The high heat and constant motion produce 'wok hei', a distinctive smoky flavor prized in Asian cuisines.";
+      return 'Wok cooking utilizes a rounded, high-sided pan capable of achieving extremely high temperatures to quickly cook ingredients while preserving texture and nutritional value. The technique relies on the wok's unique thermal properties—intense heat at the bottom that diminishes up the sides—to allow simultaneous cooking at different temperatures. The high heat and constant motion produce 'wok hei', a distinctive smoky flavor prized in Asian cuisines.';
 
     case 'open fire cooking':
     case 'open-fire cooking':
@@ -680,8 +680,8 @@ export function getMethodDetails(methodName: string): string {
       try {
         // Get cooking method data from imported methods
         const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find(
-          method =>
+        const methodData = allMethods.find(;
+          method =>;
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase()),
         );
@@ -1034,8 +1034,8 @@ export function getIdealIngredients(methodName: string): string[] {
       // Get method-specific ingredients from the cooking method data
       try {
         const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find(
-          method =>
+        const methodData = allMethods.find(;
+          method =>;
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase()),
         );
@@ -1047,7 +1047,7 @@ export function getIdealIngredients(methodName: string): string[] {
         } else {
           // Generic fallback
           ingredients.push('Ingredients traditionally used with this method');
-          ingredients.push("Foods that benefit from this method's properties");
+          ingredients.push('Foods that benefit from this method's properties');
           ingredients.push('Items with complementary flavors and textures');
           ingredients.push('Local, seasonal produce');
           ingredients.push('Proteins suited to this cooking technique');
@@ -1055,7 +1055,7 @@ export function getIdealIngredients(methodName: string): string[] {
       } catch (error) {
         // Generic fallback if import fails
         ingredients.push('Ingredients traditionally used with this method');
-        ingredients.push("Foods that benefit from this method's properties");
+        ingredients.push('Foods that benefit from this method's properties');
         ingredients.push('Items with complementary flavors and textures');
         ingredients.push('Local, seasonal produce');
         ingredients.push('Proteins suited to this cooking technique');

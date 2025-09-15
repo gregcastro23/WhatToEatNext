@@ -7,7 +7,7 @@ import { LintingErrorAnalyzer } from '../LintingErrorAnalyzer';
 // Mock child_process to prevent actual ESLint execution
 const mockExecSync = jest.fn() as any;
 jest.mock('child_process', () => ({
-  execSync: mockExecSync,
+  execSync: mockExecSync
 }));
 
 describe('LintingErrorAnalyzer', () => {
@@ -37,7 +37,7 @@ describe('LintingErrorAnalyzer', () => {
     });
 
     it('should parse ESLint output correctly', async () => {
-      const mockOutput = JSON.stringify([
+      const mockOutput = JSON.stringify([;
         {
           filePath: '/test/src/App.tsx',
           messages: [
@@ -47,17 +47,17 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
+              fix: { rang, e: [0, 10], text: 'fixed' }
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -71,7 +71,7 @@ describe('LintingErrorAnalyzer', () => {
     });
 
     it('should categorize issues correctly', async () => {
-      const mockOutput = JSON.stringify([
+      const mockOutput = JSON.stringify([;
         {
           filePath: '/test/src/App.tsx',
           messages: [
@@ -81,24 +81,24 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
+              fix: { rang, e: [0, 10], text: 'fixed' }
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
+              column: 10
             },
             {
               ruleId: 'react-hooks/exhaustive-deps',
               severity: 1,
               message: 'Missing dependency',
               line: 10,
-              column: 5,
-            },
-          ],
-        },
+              column: 5
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -111,7 +111,7 @@ describe('LintingErrorAnalyzer', () => {
     });
 
     it('should generate resolution plan', async () => {
-      const mockOutput = JSON.stringify([
+      const mockOutput = JSON.stringify([;
         {
           filePath: '/test/src/App.tsx',
           messages: [
@@ -121,10 +121,10 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
-            },
-          ],
-        },
+              fix: { rang, e: [0, 10], text: 'fixed' }
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -156,7 +156,7 @@ describe('LintingErrorAnalyzer', () => {
 
   describe('Domain Context Detection', () => {
     it('should detect astrological files', async () => {
-      const mockOutput: any = JSON.stringify([
+      const mockOutput: any = JSON.stringify([;
         {
           filePath: '/test/src/calculations/astrology.ts',
           messages: [
@@ -165,10 +165,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -181,7 +181,7 @@ describe('LintingErrorAnalyzer', () => {
     });
 
     it('should detect campaign system files', async () => {
-      const mockOutput: any = JSON.stringify([
+      const mockOutput: any = JSON.stringify([;
         {
           filePath: '/test/src/services/campaign/CampaignController.ts',
           messages: [
@@ -190,10 +190,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected console statement',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -206,7 +206,7 @@ describe('LintingErrorAnalyzer', () => {
     });
 
     it('should detect test files', async () => {
-      const mockOutput: any = JSON.stringify([
+      const mockOutput: any = JSON.stringify([;
         {
           filePath: '/test/src/components/__tests__/Component.test.tsx',
           messages: [
@@ -215,10 +215,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -233,7 +233,7 @@ describe('LintingErrorAnalyzer', () => {
 
   describe('Resolution Strategy Generation', () => {
     it('should prioritize auto-fixable issues', async () => {
-      const mockOutput = JSON.stringify([
+      const mockOutput = JSON.stringify([;
         {
           filePath: '/test/src/App.tsx',
           messages: [
@@ -243,17 +243,17 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
+              fix: { rang, e: [0, 10], text: 'fixed' }
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -268,7 +268,7 @@ describe('LintingErrorAnalyzer', () => {
     });
 
     it('should handle domain-specific issues with higher risk', async () => {
-      const mockOutput: any = JSON.stringify([
+      const mockOutput: any = JSON.stringify([;
         {
           filePath: '/test/src/calculations/astrology.ts',
           messages: [
@@ -277,10 +277,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);

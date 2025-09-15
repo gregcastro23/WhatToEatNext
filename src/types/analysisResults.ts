@@ -78,7 +78,7 @@ export interface PredictiveAnalysisConfig {
 }
 
 // General analysis result wrapper
-export interface AnalysisResultWrapper<T = unknown> {
+export interface AnalysisResultWrapper<T = unknown> {;
   success: boolean;
   data: T;
   metadata: {

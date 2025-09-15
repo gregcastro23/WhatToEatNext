@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawStoneFruit = {
+const rawStoneFruit = {;
   peach: {
     name: 'Peach',
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
@@ -13,9 +13,9 @@ const rawStoneFruit = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Venus' },
           second: { element: 'Earth', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' },
-        },
-      },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      }
     },
     qualities: ['sweet', 'juicy', 'fragrant'],
     season: ['summer'],
@@ -30,20 +30,20 @@ const rawStoneFruit = {
       calories: 39,
       carbs_g: 10,
       fiber_g: 1.5,
-      antioxidants: ['beta-carotene', 'lutein'],
+      antioxidants: ['beta-carotene', 'lutein']
     },
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
-      notes: 'Can be peeled if desired',
+      notes: 'Can be peeled if desired'
     },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    },
+      notes: 'Refrigerate when ripe'
+    }
   },
   plum: {
     name: 'Plum',
@@ -56,9 +56,9 @@ const rawStoneFruit = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Venus' },
           second: { element: 'Earth', planet: 'Pluto' },
-          third: { element: 'Air', planet: 'Uranus' },
-        },
-      },
+          third: { element: 'Air', planet: 'Uranus' }
+        }
+      }
     },
     qualities: ['sweet-tart', 'juicy', 'refreshing'],
     season: ['summer', 'early fall'],
@@ -73,20 +73,20 @@ const rawStoneFruit = {
       calories: 30,
       carbs_g: 8,
       fiber_g: 0.9,
-      antioxidants: ['anthocyanins', 'quercetin'],
+      antioxidants: ['anthocyanins', 'quercetin']
     },
     preparation: {
       washing: true,
       ripeness: 'slight give when pressed',
       cutting: 'slice around pit',
-      notes: 'Some varieties are better for cooking',
+      notes: 'Some varieties are better for cooking'
     },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    },
+      notes: 'Refrigerate when ripe'
+    }
   },
   apricot: {
     name: 'Apricot',
@@ -104,20 +104,20 @@ const rawStoneFruit = {
       calories: 17,
       carbs_g: 3.9,
       fiber_g: 0.7,
-      antioxidants: ['beta-carotene', 'lutein'],
+      antioxidants: ['beta-carotene', 'lutein']
     },
     preparation: {
       washing: true,
       ripeness: 'gentle squeeze',
       cutting: 'halve and twist',
-      notes: 'Best eaten when fully ripe',
+      notes: 'Best eaten when fully ripe'
     },
     storage: {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
-      notes: 'Very perishable when ripe',
-    },
+      notes: 'Very perishable when ripe'
+    }
   },
   cherry: {
     name: 'Cherry',
@@ -135,20 +135,20 @@ const rawStoneFruit = {
       calories: 50,
       carbs_g: 12,
       fiber_g: 1.6,
-      antioxidants: ['anthocyanins', 'quercetin'],
+      antioxidants: ['anthocyanins', 'quercetin']
     },
     preparation: {
       washing: true,
       pitting: 'recommended',
       sorting: 'remove stems and damaged fruit',
-      notes: 'Can be used with or without pits',
+      notes: 'Can be used with or without pits'
     },
     storage: {
       temperature: 'refrigerated',
       duration: '4-7 days',
       humidity: 'moderate',
-      notes: 'Store unwashed until ready to use',
-    },
+      notes: 'Store unwashed until ready to use'
+    }
   },
   nectarine: {
     name: 'Nectarine',
@@ -166,20 +166,20 @@ const rawStoneFruit = {
       calories: 44,
       carbs_g: 10.5,
       fiber_g: 1.7,
-      antioxidants: ['beta-carotene', 'lutein'],
+      antioxidants: ['beta-carotene', 'lutein']
     },
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
-      notes: 'No peeling required unlike peaches',
+      notes: 'No peeling required unlike peaches'
     },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    },
+      notes: 'Refrigerate when ripe'
+    }
   },
   greengage: {
     name: 'Greengage',
@@ -197,20 +197,20 @@ const rawStoneFruit = {
       calories: 34,
       carbs_g: 8.5,
       fiber_g: 1.1,
-      antioxidants: ['chlorophyll', 'beta-carotene'],
+      antioxidants: ['chlorophyll', 'beta-carotene']
     },
     preparation: {
       washing: true,
       ripeness: 'should yield slightly',
       cutting: 'halve and twist',
-      notes: 'Best eaten when fully ripe',
+      notes: 'Best eaten when fully ripe'
     },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when fully ripe',
-    },
+      notes: 'Refrigerate when fully ripe'
+    }
   },
   damson: {
     name: 'Damson',
@@ -228,25 +228,25 @@ const rawStoneFruit = {
       calories: 30,
       carbs_g: 7.5,
       fiber_g: 1.7,
-      antioxidants: ['anthocyanins', 'quercetin'],
+      antioxidants: ['anthocyanins', 'quercetin']
     },
     preparation: {
       washing: true,
       ripeness: 'firm but yielding',
       cooking: 'usually cooked before eating',
-      notes: 'Too tart for most raw applications',
+      notes: 'Too tart for most raw applications'
     },
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Ideal for preserving and cooking',
-    },
-  },
+      notes: 'Ideal for preserving and cooking'
+    }
+  }
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const stoneFruit: Record<string, IngredientMapping> = fixIngredientMappings(
+export const _stoneFruit: Record<string, IngredientMapping> = fixIngredientMappings(
   rawStoneFruit as Record<string, Partial<IngredientMapping>>,
 );

@@ -14,14 +14,14 @@ jest.mock('@/calculations/culinaryAstrology', () => {
             name: 'Grilled Salmon',
             alignmentScore: 0.85,
             elementDistribution: { Fir, e: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
-            planetaryActivators: ['Sun', 'Mars'],
+            planetaryActivators: ['Sun', 'Mars']
           },
           {
             name: 'Roasted Vegetables',
             alignmentScore: 0.78,
             elementDistribution: { Fir, e: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
-            planetaryActivators: ['Sun', 'Saturn'],
-          },
+            planetaryActivators: ['Sun', 'Saturn']
+          }
         ];
       }
 
@@ -30,19 +30,19 @@ jest.mock('@/calculations/culinaryAstrology', () => {
           dominantElement: 'Fire',
           technique: { name: 'Roasting',
             rationale: 'Aligns with Fire dominance',
-            optimalTiming: 'Best during full moon',
+            optimalTiming: 'Best during full moon'
           },
           ingredientFocus: { element: 'Fire',
             examples: ['Beef', 'Lamb', 'Chicken'],
-            pairingTip: 'Combine with Air-dominant preparations',
+            pairingTip: 'Combine with Air-dominant preparations'
           },
           cuisineRecommendation: { style: 'Mediterranean',
             modification: 'Use more spices',
-            astrologicalBoost: 0.75,
-          },
+            astrologicalBoost: 0.75
+          }
         };
       }
-    },
+    }
   };
 });
 
@@ -54,29 +54,29 @@ describe('CulinaryAstrologer', () => {
   });
 
   it('should return recipe recommendations based on astrological state', () => {
-    const astroState: AstrologicalState = { currentZodiac: 'leo',
+    const astroState: AstrologicalState = { currentZodiac: 'leo',;
       moonPhase: 'full moon',
       currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
-        Moon: { sign: 'cancer', degree: 5 },
+        Moon: { sign: 'cancer', degree: 5 }
       },
       activePlanets: ['sun', 'moon'],
       planetaryPositions: { sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 },
+        moon: { sign: 'cancer', degree: 5 }
       },
       lunarPhase: 'full moon',
       planetaryHour: 'Sun',
       planetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
-        Moon: { sign: 'cancer', degree: 5 },
+        Moon: { sign: 'cancer', degree: 5 }
       },
       aspects: [],
       tarotElementBoosts: { Fir, e: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Su, n: 0.2, Moon: 0.1 },
+      tarotPlanetaryBoosts: { Su, n: 0.2, Moon: 0.1 }
     };
 
     const recommendations: any = astrologer.getRecipeRecommendations(astroState);
 
     expect(recommendations).toBeInstanceOf(Array);
-    recommendations.forEach(recipe => {
+    recommendations.forEach(recipe => {;
       expect(recipe).toHaveProperty('alignmentScore');
       expect(recipe.planetaryActivators).toContain('Sun');
     });

@@ -1,7 +1,7 @@
 function getAstrologicalElementalProfile(astroState: unknown): ElementalProperties {
-  if (astroState && typeof astroState === 'object' && 'elementalProperties' in astroState) {
+  if (astroState && typeof astroState === 'object' && 'elementalProperties' in astroState) {;
     const props = (astroState as any).elementalProperties;
-    if (props && typeof props === 'object') {
+    if (props && typeof props === 'object') {;
       return props as ElementalProperties;
     }
   }
@@ -13,14 +13,14 @@ function createElementalProperties(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
+    Air: 0
   },
 ): ElementalProperties {
   return {
     Fire: props.Fire || 0,
     Water: props.Water || 0,
     Earth: props.Earth || 0,
-    Air: props.Air || 0,
+    Air: props.Air || 0
   };
 }
 import {
@@ -32,7 +32,7 @@ import {
   LunarPhase,
   MethodRecommendation,
   MethodRecommendationOptions,
-  PlanetaryAspect,
+  PlanetaryAspect
 } from '@/types/alchemy';
 import type { AstrologicalState } from '@/types/celestial';
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
@@ -58,11 +58,11 @@ function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
 
   const objRecord = obj as any;
   return (
-    typeof objRecord.bitter === 'number' ||
-    typeof objRecord.sweet === 'number' ||
-    typeof objRecord.sour === 'number' ||
-    typeof objRecord.salty === 'number' ||
-    typeof objRecord.umami === 'number'
+    typeof objRecord.bitter === 'number' ||;
+    typeof objRecord.sweet === 'number' ||;
+    typeof objRecord.sour === 'number' ||;
+    typeof objRecord.salty === 'number' ||;
+    typeof objRecord.umami === 'number';
   );
 }
 
@@ -74,7 +74,7 @@ function _getElementalProperty(obj: unknown, property: keyof ElementalProperties
   return 0;
 }
 
-// ===== TYPES AND INTERFACES =====
+// ===== TYPES AND INTERFACES =====;
 
 interface CookingMethodData {
   id: string;
@@ -104,10 +104,10 @@ interface CookingMethodData {
 
 type CookingMethodDictionary = Record<string, CookingMethodData>;
 
-// ===== DATA AGGREGATION =====
+// ===== DATA AGGREGATION =====;
 
 // Combine traditional and cultural cooking methods
-const allCookingMethodsCombined: CookingMethodDictionary = {
+const allCookingMethodsCombined: CookingMethodDictionary = {;
   // Convert allCookingMethods to our format
   ...Object.entries(allCookingMethods).reduce((acc: CookingMethodDictionary, [id, method]) => {
     const methodData = method as unknown as any;
@@ -122,7 +122,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       duration: { min: 0, max: 60 },
       suitable_for: (methodData.suitable_for as string[]) || [],
       benefits: (methodData.benefits as string[]) || [],
-      variations: [],
+      variations: []
     };
     return acc;
   }, {}),
@@ -137,8 +137,8 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       if (methods[mainId]) {
         const existingVariations = methods[mainId].variations || [];
         const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [];
-        if (!existingVariationsArray.some(v => v.id === methodData.id)) {
-          methods[mainId].variations = [
+        if (!existingVariationsArray.some(v => v.id === methodData.id)) {;
+          methods[mainId].variations = [;
             ...existingVariationsArray,
             {
               id: methodData.id,
@@ -153,12 +153,12 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               astrologicalInfluences: methodData.astrologicalInfluences as unknown,
               duration: {
                 min: (methodData.duration as { min?: number }).min || 0,
-                max: (methodData.duration as { max?: number }).max || 0,
+                max: (methodData.duration as { max?: number }).max || 0
               },
               suitable_for: (methodData.bestFor as string[]) || [],
               benefits: [],
-              relatedToMainMethod: mainId,
-            },
+              relatedToMainMethod: mainId
+            }
           ];
         }
         return methods;
@@ -183,22 +183,22 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           unfavorableZodiac:
             ((methodData.astrologicalInfluences as unknown).unfavorableZodiac as any[]) || [],
           dominantPlanets:
-            ((methodData.astrologicalInfluences as unknown).dominantPlanets as string[]) || [],
+            ((methodData.astrologicalInfluences as unknown).dominantPlanets as string[]) || []
         },
         duration: {
           min: (methodData.duration as { min?: number }).min || 0,
-          max: (methodData.duration as { max?: number }).max || 0,
+          max: (methodData.duration as { max?: number }).max || 0
         },
         suitable_for: (methodData.bestFor as string[]) || [],
         benefits: [],
-        variations: [],
+        variations: []
       };
     }
     return methods;
-  }, {}),
+  }, {})
 };
 
-// ===== THERMODYNAMIC HELPERS =====
+// ===== THERMODYNAMIC HELPERS =====;
 
 /**
  * Get thermodynamic properties for a cooking method
@@ -216,19 +216,19 @@ export function getMethodThermodynamics(
       heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
       entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,
       reactivity: detailedMethodData.thermodynamicProperties.reactivity ?? 0.5,
-      gregsEnergy: detailedMethodData.thermodynamicProperties.gregsEnergy ?? 0.5,
+      gregsEnergy: detailedMethodData.thermodynamicProperties.gregsEnergy ?? 0.5
     };
   }
 
   // 2. Check if the method object itself has thermodynamic properties
   const methodData = method as unknown as any;
-  const thermodynamicProperties = methodData.thermodynamicProperties as any;
+  const thermodynamicProperties = methodData.thermodynamicProperties ;
   if (thermodynamicProperties) {
     return {
       heat: Number(thermodynamicProperties.heat) || 0.5,
       entropy: Number(thermodynamicProperties.entropy) || 0.5,
       reactivity: Number(thermodynamicProperties.reactivity) || 0.5,
-      gregsEnergy: Number(thermodynamicProperties.gregsEnergy) || 0.5,
+      gregsEnergy: Number(thermodynamicProperties.gregsEnergy) || 0.5
     };
   }
 
@@ -302,7 +302,7 @@ export function calculateThermodynamicBaseScore(
   return balance * 0.6 + intensity * 0.4;
 }
 
-// ===== UTILITY FUNCTIONS =====
+// ===== UTILITY FUNCTIONS =====;
 
 export function normalizeMethodName(methodName: string): string {
   return methodName.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -330,7 +330,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
   return matches / (shorter || []).length >= similarityThreshold;
 }
 
-// ===== COMPATIBILITY FUNCTIONS =====
+// ===== COMPATIBILITY FUNCTIONS =====;
 
 /**
  * Calculate enhanced elemental compatibility between method and target properties
@@ -367,21 +367,21 @@ export function calculatePlanetaryDayInfluence(
   method: CookingMethodProfile,
   planetaryDay: string,
 ): number {
-  const planetaryMethodAffinities = {
+  const planetaryMethodAffinities = {;
     Sun: ['grill', 'roast', 'bake', 'sear', 'broil'],
     Moon: ['steam', 'poach', 'simmer', 'braise', 'slow cook'],
     Mars: ['fry', 'sauté', 'stir fry', 'char', 'blacken'],
     Mercury: ['julienne', 'dice', 'mince', 'chop', 'slice'],
     Jupiter: ['feast', 'banquet', 'abundance', 'large batch'],
     Venus: ['garnish', 'plate', 'present', 'decorate'],
-    Saturn: ['preserve', 'cure', 'age', 'ferment', 'pickle'],
+    Saturn: ['preserve', 'cure', 'age', 'ferment', 'pickle']
   };
 
   const methodData = method as unknown as any;
   const methodName = String(methodData.name || '').toLowerCase();
   const affinities = planetaryMethodAffinities[planetaryDay] || [];
 
-  const hasAffinity = affinities.some(affinity =>
+  const hasAffinity = affinities.some(affinity =>;
     methodName.includes(String(affinity || '').toLowerCase()),
   );
 
@@ -396,33 +396,33 @@ export function calculatePlanetaryHourInfluence(
   planetaryHour: string,
   isDaytime: boolean,
 ): number {
-  const hourMethodAffinities = {
+  const hourMethodAffinities = {;
     Sun: isDaytime ? ['grill', 'roast', 'bake'] : ['warm', 'heat'],
     Moon: isDaytime ? ['steam', 'poach'] : ['simmer', 'braise'],
     Mars: isDaytime ? ['fry', 'sear'] : ['char', 'blacken'],
     Mercury: isDaytime ? ['chop', 'dice'] : ['mince', 'julienne'],
     Jupiter: isDaytime ? ['feast', 'abundance'] : ['comfort', 'hearty'],
     Venus: isDaytime ? ['garnish', 'present'] : ['delicate', 'refined'],
-    Saturn: isDaytime ? ['preserve', 'cure'] : ['age', 'ferment'],
+    Saturn: isDaytime ? ['preserve', 'cure'] : ['age', 'ferment']
   };
 
   const methodData = method as unknown as any;
   const methodName = String(methodData.name || '').toLowerCase();
   const affinities = hourMethodAffinities[planetaryHour] || [];
 
-  const hasAffinity = affinities.some(affinity =>
+  const hasAffinity = affinities.some(affinity =>;
     methodName.includes(String(affinity || '').toLowerCase()),
   );
 
   return hasAffinity ? 0.7 : 0.5;
 }
 
-export function isDaytime(date: Date = new Date()): boolean {
+export function isDaytime(date: Date = new Date()): boolean {;
   const hours = date.getHours();
   return hours >= 6 && hours < 18;
 }
 
-// ===== MAIN RECOMMENDATION FUNCTION =====
+// ===== MAIN RECOMMENDATION FUNCTION =====;
 
 /**
  * Get recommended cooking methods based on elemental composition and preferences
@@ -431,7 +431,7 @@ export function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: any,
   planets?: string[],
-  season = getCurrentSeason(),
+  season = getCurrentSeason(),;
   culturalPreference?: string,
   dietaryPreferences?: string[],
   availableTools?: string[],
@@ -444,14 +444,14 @@ export function getRecommendedCookingMethods(
   }> = [];
 
   // Score each cooking method
-  Object.values(allCookingMethodsCombined || {}).forEach(method => {
+  Object.values(allCookingMethodsCombined || {}).forEach(method => {;
     let score = 0.5; // Base score
     const reasons: string[] = [];
 
     // Elemental compatibility (40% weight)
     const methodData = method as unknown as any;
     const elementalEffect = methodData.elementalEffect as ElementalProperties;
-    const elementalScore = calculateEnhancedElementalCompatibility(
+    const elementalScore = calculateEnhancedElementalCompatibility(;
       elementalEffect,
       elementalComposition,
     );
@@ -490,7 +490,7 @@ export function getRecommendedCookingMethods(
 
     // Cultural preference (10% weight)
     const culturalOrigin = String(methodData.culturalOrigin || '');
-    if (culturalPreference && culturalOrigin === culturalPreference) {
+    if (culturalPreference && culturalOrigin === culturalPreference) {;
       score += 0.1;
       reasons.push(`${culturalPreference} tradition`);
     }
@@ -498,8 +498,8 @@ export function getRecommendedCookingMethods(
     // Tool availability (5% weight)
     const toolsRequired = methodData.toolsRequired as string[];
     if (availableTools && toolsRequired) {
-      const toolsAvailable = toolsRequired.every(tool =>
-        availableTools.some(available =>
+      const toolsAvailable = toolsRequired.every(tool =>;
+        availableTools.some(available =>;
           String(available || '')
             .toLowerCase()
             .includes(String(tool || '').toLowerCase()),
@@ -518,7 +518,7 @@ export function getRecommendedCookingMethods(
       method,
       score: Math.min(1, score),
       reasons,
-      thermodynamics,
+      thermodynamics
     });
   });
 
@@ -526,7 +526,7 @@ export function getRecommendedCookingMethods(
   return recommendations
     .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
     .slice(0, 10)
-    .map(rec => ({
+    .map(rec => ({;
       name: rec.method.name,
       score: rec.score,
       description: rec.method.description,
@@ -534,14 +534,14 @@ export function getRecommendedCookingMethods(
       elementalEffect: rec.method.elementalEffect,
       duration: rec.method.duration,
       thermodynamics: rec.thermodynamics,
-      variations: rec.method.variations || [],
+      variations: rec.method.variations || []
     }));
 }
 
-// ===== LUNAR AND ASPECT CALCULATIONS =====
+// ===== LUNAR AND ASPECT CALCULATIONS =====;
 
 export function calculateLunarMethodAffinity(method: CookingMethodData, phase: LunarPhase): number {
-  const lunarAffinities = {
+  const lunarAffinities = {;
     'new moon': ['ferment', 'pickle', 'cure', 'preserve'],
     'waxing crescent': ['steam', 'poach', 'simmer'],
     'first quarter': ['sauté', 'stir fry', 'quick cook'],
@@ -549,7 +549,7 @@ export function calculateLunarMethodAffinity(method: CookingMethodData, phase: L
     'full Moon': ['feast', 'celebration', 'abundance'],
     'waning gibbous': ['braise', 'slow cook', 'stew'],
     'last quarter': ['reduce', 'concentrate', 'intensify'],
-    'waning crescent': ['rest', 'minimal cooking', 'raw'],
+    'waning crescent': ['rest', 'minimal cooking', 'raw']
   };
 
   const methodData = method as unknown as any;
@@ -570,14 +570,14 @@ function _calculateAspectMethodAffinity(
   let totalAffinity = 0;
   let aspectCount = 0;
 
-  (aspects || []).forEach(aspect => {
+  (aspects || []).forEach(aspect => {;
     // Different aspects favor different cooking approaches
     let affinity = 0.5;
 
     const methodData = method as unknown as any;
     const methodName = String(methodData.name || '').toLowerCase();
 
-    if (aspect.type === 'conjunction' || aspect.type === 'trine') {
+    if (aspect.type === 'conjunction' || aspect.type === 'trine') {;
       // Harmonious aspects favor gentle, harmonious cooking methods
       if (
         methodName.includes('steam') ||
@@ -586,7 +586,7 @@ function _calculateAspectMethodAffinity(
       ) {
         affinity = 0.8;
       }
-    } else if (aspect.type === 'square' || aspect.type === 'opposition') {
+    } else if (aspect.type === 'square' || aspect.type === 'opposition') {;
       // Challenging aspects favor more intense cooking methods
       if (
         methodName.includes('grill') ||
@@ -604,7 +604,7 @@ function _calculateAspectMethodAffinity(
   return aspectCount > 0 ? (Number(totalAffinity) || 0) / (Number(aspectCount) || 0) : 0.5;
 }
 
-// ===== ENHANCED SCORING FUNCTIONS =====
+// ===== ENHANCED SCORING FUNCTIONS =====;
 
 export function calculateMethodScore(
   method: CookingMethodProfile,
@@ -623,7 +623,7 @@ export function calculateMethodScore(
 
   // Lunar phase compatibility
   if (astroState.lunarPhase) {
-    const lunarAffinity = calculateLunarMethodAffinity(
+    const lunarAffinity = calculateLunarMethodAffinity(;
       method as unknown as CookingMethodData,
       astroState.lunarPhase,
     );
@@ -633,7 +633,7 @@ export function calculateMethodScore(
   // Planetary aspects compatibility
   if (astroState.aspects) {
     // ✅ Pattern MM-1: Type assertion to resolve PlanetaryAspect[] import mismatch
-    const aspectAffinity = _calculateAspectMethodAffinity(
+    const aspectAffinity = _calculateAspectMethodAffinity(;
       astroState.aspects as unknown as PlanetaryAspect[],
       method as unknown as CookingMethodData,
     );
@@ -666,8 +666,8 @@ export function createElementalProfileFromAstroState(
   const profile = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
   // Enhance the dominant element
-  Object.keys(profile || {}).forEach(element => {
-    if (element === astroState.dominantElement) {
+  Object.keys(profile || {}).forEach(element => {;
+    if (element === astroState.dominantElement) {;
       profile[element as Element] = Math.min(1.0, profile[element as Element] + 0.3);
     }
   });
@@ -704,11 +704,11 @@ export function calculateElementalCompatibility(
  */
 export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
-  options: MethodRecommendationOptions = {},
+  options: MethodRecommendationOptions = {},;
 ): MethodRecommendation[] {
   const methods = Object.values(allCookingMethodsCombined);
 
-  const scoredMethods = (methods || []).map(method => {
+  const scoredMethods = (methods || []).map(method => {;
     const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState);
 
     // Apply surgical type casting with variable extraction
@@ -716,7 +716,7 @@ export function getCookingMethodRecommendations(
     const methodId = String(methodData.id || methodData.name || 'unknown');
     const methodName = String(methodData.name || 'Unknown Method');
     const elementalEffect =
-      (methodData.elementalEffect as ElementalProperties) ||
+      (methodData.elementalEffect as ElementalProperties) ||;
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
     const astrologicalInfluences = (methodData.astrologicalInfluences as unknown) || {};
     const description = String(methodData.description || 'Recommended cooking method');
@@ -726,10 +726,10 @@ export function getCookingMethodRecommendations(
         id: methodId,
         name: methodName,
         elementalEffect: elementalEffect,
-        astrologicalInfluences: astrologicalInfluences,
+        astrologicalInfluences: astrologicalInfluences
       },
       score: score,
-      reasons: [description],
+      reasons: [description]
     } as unknown as MethodRecommendation;
   });
 
@@ -755,7 +755,7 @@ export function getElementForSign(sign: string): Element {
   return 'Fire'; // Default
 }
 
-// ===== EXPORTS =====
+// ===== EXPORTS =====;
 
 export type { CookingMethodData, CookingMethodDictionary };
 
@@ -772,21 +772,21 @@ export function getHolisticCookingRecommendations(
   ingredient: Ingredient | UnifiedIngredient,
   astroState?: Record<string, unknown>,
   season?: string,
-  includeReasons = false,
+  includeReasons = false,;
   availableMethods: string[] = [],
-  limit = 5,
+  limit = 5,;
 ): { method: string; compatibility: number; reason?: string }[] {
   try {
     // Default to empty elementalProperties if not provided
-    const elementalProperties = ingredient.transformedElementalProperties || {
+    const elementalProperties = ingredient.transformedElementalProperties || {;
       Fire: ingredient.Fire || 0.25,
       Water: ingredient.Water || 0.25,
       Earth: ingredient.Earth || 0.25,
-      Air: ingredient.Air || 0.25,
+      Air: ingredient.Air || 0.25
     };
 
     // Get recommended methods
-    const recommendations = getRecommendedCookingMethods(
+    const recommendations = getRecommendedCookingMethods(;
       elementalProperties,
       undefined, // zodiac sign
       undefined, // planets
@@ -795,9 +795,9 @@ export function getHolisticCookingRecommendations(
 
     // Filter by available methods if provided
     const filteredRecs =
-      (availableMethods || []).length > 0
-        ? (recommendations || []).filter(rec =>
-            (availableMethods || []).some(method =>
+      (availableMethods || []).length > 0;
+        ? (recommendations || []).filter(rec =>;
+            (availableMethods || []).some(method =>;
               areSimilarMethods(
                 String((rec as any).method || (rec as any).name || (rec as any).id),
                 method,
@@ -807,10 +807,10 @@ export function getHolisticCookingRecommendations(
         : recommendations;
 
     // Format the results with safe property access
-    return filteredRecs.slice(0, limit || 5).map(rec => ({
+    return filteredRecs.slice(0, limit || 5).map(rec => ({;
       method: String(
-        ((rec as any).method as any).name ||
-          ((rec as any).method as any).id ||
+        ((rec as any).method ).name ||
+          ((rec as any).method ).id ||
           (rec as any).name ||
           (rec as any).id ||
           'unknown',
@@ -818,7 +818,7 @@ export function getHolisticCookingRecommendations(
       compatibility: (Number((rec as any).score) || 0) * 100,
       reason: includeReasons
         ? String(((rec as any).reasons as string[])[0]) || `Good match for ${ingredient.name}`
-        : undefined,
+        : undefined
     }));
   } catch (error) {
     console.error('Error in getHolisticCookingRecommendations:', error);
@@ -834,19 +834,19 @@ export function getHolisticCookingRecommendations(
 export function getRecommendedCookingMethodsForIngredient(
   ingredient: Ingredient | UnifiedIngredient,
   cookingMethods: Ingredient | UnifiedIngredient[],
-  limit = 5,
+  limit = 5,;
 ): { method: string; compatibility: number }[] {
   try {
     // Extract elemental properties from ingredient
-    const elementalProps = {
+    const elementalProps = {;
       Fire: ingredient.Fire || 0.25,
       Water: ingredient.Water || 0.25,
       Earth: ingredient.Earth || 0.25,
-      Air: ingredient.Air || 0.25,
+      Air: ingredient.Air || 0.25
     };
 
     // Calculate compatibility for each method
-    const scoredMethods = (cookingMethods as unknown[]).map(method => {
+    const scoredMethods = (cookingMethods as unknown[]).map(method => {;
       const methodData = method as any;
       const methodElement = String(methodData.element || '').toLowerCase();
 
@@ -854,7 +854,7 @@ export function getRecommendedCookingMethodsForIngredient(
       let compatibility = 0.5; // Base score
 
       // Boost score for matching element
-      if (methodElement === String(ingredient.element || '').toLowerCase()) {
+      if (methodElement === String(ingredient.element || '').toLowerCase()) {;
         compatibility += 0.3;
       }
 

@@ -22,10 +22,10 @@ describe('ImportCleanupSystem', () => {
   let testConfig: ImportCleanupConfig;
 
   beforeEach(() => {
-    testConfig = {
+    testConfig = {;
       ...DEFAULT_IMPORT_CLEANUP_CONFIG,
       maxFilesPerBatch: 5,
-      safetyValidationEnabled: true,
+      safetyValidationEnabled: true
     };
     importCleanupSystem = new ImportCleanupSystem(testConfig);
 
@@ -138,7 +138,7 @@ function component() : any {
 }
 `;
 
-      const expectedContent: any = `
+      const expectedContent: any = `;
 
 function component() : any {
   return usedFunction();
@@ -275,7 +275,7 @@ function component() : any {
 
   describe('enforceImportStyle', () => {
     test('adds trailing commas to multi-line imports', async () => {
-      const originalContent = `
+      const originalContent = `;
 import {
   functionA,
   functionB
@@ -286,10 +286,10 @@ function component() : any {
 }
 `;
 
-      const expectedContent = `
+      const expectedContent = `;
 import {
   functionA,
-  functionB,
+  functionB
 } from './utils';
 
 function component() : any {
@@ -310,16 +310,16 @@ function component() : any {
     });
 
     test('breaks long import lines when over max length', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig,
         organizationRules: {
           ...testConfig.organizationRules,
-          maxLineLength: 50,
-        },
+          maxLineLength: 50
+        }
       };
       const system: any = new ImportCleanupSystem(config);
 
-      const originalContent: any = `
+      const originalContent: any = `;
 
 function component() : any {
   return null;
@@ -373,7 +373,7 @@ function component() : any {
           throw new Error('Build failed');
         });
 
-      mockFs.readFileSync.mockReturnValue('import { unused } from "./utils";');
+      mockFs.readFileSync.mockReturnValue('import { unused } from './utils';');
       mockFs.writeFileSync.mockImplementation(() => {});
 
       const result = await importCleanupSystem.executeCleanup(testFiles);
@@ -390,7 +390,7 @@ function component() : any {
       const system: any = new ImportCleanupSystem(config);
 
       mockExecSync.mockReturnValue(''); // Build validation passes
-      mockFs.readFileSync.mockReturnValue('import { used } from "./utils"; used();');
+      mockFs.readFileSync.mockReturnValue('import { used } from './utils'; used();');
       mockFs.writeFileSync.mockImplementation(() => {});
 
       const result: any = await system.executeCleanup(testFiles);
@@ -413,7 +413,7 @@ function component() : any {
     });
 
     test('handles file write errors gracefully', async () => {
-      mockFs.readFileSync.mockReturnValue('import { unused } from "./utils";');
+      mockFs.readFileSync.mockReturnValue('import { unused } from './utils';');
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Permission denied');
       });
@@ -427,11 +427,11 @@ function component() : any {
       const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'];
 
       mockFs.readFileSync
-        .mockReturnValueOnce('import { used } from "./utils"; used();') // good.ts
+        .mockReturnValueOnce('import { used } from './utils'; used();') // good.ts
         .mockImplementationOnce(() => {
           throw new Error('Bad file');
         }) // bad.ts
-        .mockReturnValueOnce('import { used } from "./utils"; used();'); // good2.ts
+        .mockReturnValueOnce('import { used } from './utils'; used();'); // good2.ts
 
       const unusedImports = await importCleanupSystem.detectUnusedImports(testFiles);
 
@@ -447,7 +447,7 @@ function component() : any {
     });
 
     test('respects custom configuration', () => {
-      const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,
+      const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,;
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
         importStyleEnforcement: false,
@@ -456,8 +456,8 @@ function component() : any {
           sortAlphabetically: false,
           separateTypeImports: false,
           enforceTrailingCommas: false,
-          maxLineLength: 120,
-        },
+          maxLineLength: 120
+        }
       };
 
       const system: any = new ImportCleanupSystem(customConfig);

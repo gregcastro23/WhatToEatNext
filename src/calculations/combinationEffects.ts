@@ -2,7 +2,7 @@ import type {
   ElementalProperties,
   CombinationEffect,
   EffectType,
-  LunarPhase,
+  LunarPhase
 } from '@/types/alchemy';
 import type { Element } from '@/types/celestial';
 import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
@@ -41,20 +41,20 @@ const COMBINATION_RULES: CombinationRule[] = [
     effect: 'amplify' as EffectType,
     modifier: 1.3,
     elements: { Fire: 0.2 },
-    notes: 'Classic warming combination',
+    notes: 'Classic warming combination'
   },
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
     effect: 'amplify' as EffectType,
     modifier: 1.4,
     elements: { Fire: 0.3, Air: 0.1 },
-    notes: 'Warming spice blend',
+    notes: 'Warming spice blend'
   },
   // ... other rules remain the same
 ];
 
 // Create a normalization function at the top of the file
-const normalizeLunarPhase = (phase: LunarPhase): string => {
+const normalizeLunarPhase = (phase: LunarPhase): string => {;
   // Convert spaces to underscores for consistent lookup
   return phase.replace(/\s+/g, '_');
 };
@@ -65,7 +65,7 @@ export function calculateCombinationEffects({
   cookingMethod,
   season,
   temperature,
-  lunarPhase,
+  lunarPhase
 }: CalculateEffectsParams): CombinationEffect[] {
   const effects: CombinationEffect[] = [];
 
@@ -79,12 +79,12 @@ export function calculateCombinationEffects({
     }
 
     // Check for known combinations
-    COMBINATION_RULES.forEach(rule => {
+    COMBINATION_RULES.forEach(rule => {;
       if (hasIngredientCombination(ingredients, rule.ingredients)) {
         // Verify conditions if they exist
         if (rule.conditions) {
           const meetsConditions =
-            (!rule.conditions.cookingMethod ||
+            (!rule.conditions.cookingMethod ||;
               !cookingMethod ||
               rule.conditions.cookingMethod.includes(cookingMethod)) &&
             (!rule.conditions.season || !season || rule.conditions.season.includes(season)) &&
@@ -95,11 +95,11 @@ export function calculateCombinationEffects({
           if (!meetsConditions) return;
         }
 
-        const effect: CombinationEffect = {
+        const effect: CombinationEffect = {;
           type: rule.effect,
           strength: rule.modifier,
           description: rule.notes || '',
-          elements: rule.elements ? (Object.keys(rule.elements) as Element[]) : [],
+          elements: rule.elements ? (Object.keys(rule.elements) as Element[]) : []
         };
 
         effects.push(effect);
@@ -126,16 +126,16 @@ export function calculateCombinationEffects({
   }
 }
 
-const hasIngredientCombination = (
+const hasIngredientCombination = (;
   recipeIngredients: string[],
   combinationIngredients: string[],
-): boolean => {
-  return combinationIngredients.every(ingredient =>
-    recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),
+): boolean => {;
+  return combinationIngredients.every(ingredient =>;
+    recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),;
   );
 };
 
-const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {
+const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {;
   const effects: CombinationEffect[] = [];
   const ingredientPairs = getPairs(ingredients);
 
@@ -151,7 +151,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
         type: 'synergy' as EffectType,
         strength: 1.2,
         elements: ['Fire'] as Element[],
-        description: 'Harmonious elemental combination',
+        description: 'Harmonious elemental combination'
       } as CombinationEffect);
     }
 
@@ -161,7 +161,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
         type: 'conflict' as EffectType,
         strength: 0.8,
         elements: ['Water'] as Element[],
-        description: 'Conflicting elemental combination',
+        description: 'Conflicting elemental combination'
       } as CombinationEffect);
     }
   });
@@ -169,7 +169,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
   return effects;
 };
 
-const getPairs = <T>(array: T[]): [T, T][] => {
+const getPairs = <T>(array: T[]): [T, T][] => {;
   const pairs: [T, T][] = [];
   for (let i = 0; i < array.length; i++) {
     for (let j = i + 1; j < array.length; j++) {
@@ -179,10 +179,10 @@ const getPairs = <T>(array: T[]): [T, T][] => {
   return pairs;
 };
 
-const isHarmoniousCombination = (
+const isHarmoniousCombination = (;
   elem1: ElementalProperties,
   elem2: ElementalProperties,
-): boolean => {
+): boolean => {;
   return ELEMENT_COMBINATIONS.harmonious.some(
     ([e1, e2]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
@@ -190,10 +190,10 @@ const isHarmoniousCombination = (
   );
 };
 
-const isAntagonisticCombination = (
+const isAntagonisticCombination = (;
   elem1: ElementalProperties,
   elem2: ElementalProperties,
-): boolean => {
+): boolean => {;
   const antagonistic =
     (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })?.antagonistic || [];
   return antagonistic.some(
@@ -203,11 +203,11 @@ const isAntagonisticCombination = (
   );
 };
 
-const getDominantElement = (elements: ElementalProperties): Element => {
+const getDominantElement = (elements: ElementalProperties): Element => {;
   return Object.entries(elements).sort(([, a], [, b]) => b - a)[0][0] as Element;
 };
 
-export const suggestComplementaryIngredients = (
+export const _suggestComplementaryIngredients = (;
   currentIngredients: string[],
   season?: Season,
 ): string[] => {
@@ -232,15 +232,15 @@ export const suggestComplementaryIngredients = (
   return suggestions.slice(0, 5);
 };
 
-const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {
-  const combined: ElementalProperties = {
+const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {;
+  const combined: ElementalProperties = {;
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0,
+    Earth: 0
   };
 
-  ingredients.forEach(ing => {
+  ingredients.forEach(ing => {;
     const elements = ingredientMappings[ing]?.elementalProperties;
     if (elements) {
       Object.entries(elements).forEach(([element, value]) => {
@@ -254,7 +254,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   // Normalize
   const total = Object.values(combined).reduce((a, b) => a + b, 0);
   if (total > 0) {
-    Object.keys(combined).forEach(key => {
+    Object.keys(combined).forEach(key => {;
       combined[key as unknown] /= total;
     });
   }
@@ -262,17 +262,17 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   return combined;
 };
 
-const isHarmoniousWith = (element1: Element, element2: Element): boolean => {
+const isHarmoniousWith = (element1: Element, element2: Element): boolean => {;
   return ELEMENT_COMBINATIONS.harmonious.some(
-    ([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1),
+    ([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1),;
   );
 };
 
-const calculateLunarEffect = (
+const calculateLunarEffect = (;
   ingredients: string[],
   lunarPhase: LunarPhase,
-): CombinationEffect | null => {
-  const lunarModifiers = {
+): CombinationEffect | null => {;
+  const lunarModifiers = {;
     new_moon: { modifier: 0.9, effect: 'neutralize' as EffectType },
     full_moon: { modifier: 1.2, effect: 'amplify' as EffectType },
     first_quarter: { modifier: 1.1, effect: 'synergy' as EffectType },
@@ -280,7 +280,7 @@ const calculateLunarEffect = (
     waxing_crescent: { modifier: 1.05, effect: 'amplify' as EffectType },
     waning_crescent: { modifier: 0.95, effect: 'neutralize' as EffectType },
     waxing_gibbous: { modifier: 1.15, effect: 'amplify' as EffectType },
-    waning_gibbous: { modifier: 1.05, effect: 'synergy' as EffectType },
+    waning_gibbous: { modifier: 1.05, effect: 'synergy' as EffectType }
   };
 
   // Use the normalized lunar phase for lookup
@@ -293,6 +293,6 @@ const calculateLunarEffect = (
     type: 'amplify' as EffectType,
     strength: modifier.modifier,
     description: `Lunar phase (${lunarPhase}) influence`,
-    elements: ['Water'] as Element[],
+    elements: ['Water'] as Element[]
   };
 };

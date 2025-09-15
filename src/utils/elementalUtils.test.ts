@@ -6,7 +6,7 @@ import { elementalUtils } from '@/utils/elementalUtils';
 describe('elementalUtils', () => {
   const validProps: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
 
-  const invalidProps: ElementalProperties = {
+  const invalidProps: ElementalProperties = {;
     Fire: 0.5,
     Water: 0.5,
     Air: 0.5,
@@ -31,11 +31,11 @@ describe('elementalUtils', () => {
     });
 
     it('should handle empty or zero properties', () => {
-      const emptyProps: any = {
+      const emptyProps: any = {;
         Fire: 0,
         Water: 0,
         Air: 0,
-        Earth: 0,
+        Earth: 0
       };
       const normalized: any = elementalUtils.normalizeProperties(emptyProps);
       expect(normalized.Fire).toBe(0.25);

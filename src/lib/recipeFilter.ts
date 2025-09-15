@@ -3,7 +3,7 @@ import type { Recipe, ElementalProperties } from '@/types/recipe';
 import { elementalUtils, getCurrentElementalState } from '@/utils/elementalUtils';
 
 // Calculate elemental harmony between two sets of elemental properties
-const calculateElementalHarmony = (
+const calculateElementalHarmony = (;
   _recipeProperties: ElementalProperties,
   _targetProperties: ElementalProperties,
 ): { elementalHarmony: number } => {
@@ -13,7 +13,7 @@ const calculateElementalHarmony = (
   };
 };
 
-export const recipeFilter = {
+export const _recipeFilter = {;
   async filterAndSortRecipes(
     recipes: Recipe[],
     filters: {
@@ -33,8 +33,8 @@ export const recipeFilter = {
     // Apply search filter
     if (filters.searchQuery) {
       const searchLower = filters.searchQuery.toLowerCase();
-      filteredRecipes = filteredRecipes.filter(
-        recipe =>
+      filteredRecipes = filteredRecipes.filter(;
+        recipe =>;
           recipe.name.toLowerCase().includes(searchLower) ||
           false ||
           recipe.description?.toLowerCase().includes(searchLower) ||
@@ -44,14 +44,14 @@ export const recipeFilter = {
 
     // Apply cuisine filter
     if (filters.cuisineTypes && filters.cuisineTypes.length > 0) {
-      filteredRecipes = filteredRecipes.filter(
-        recipe => recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),
+      filteredRecipes = filteredRecipes.filter(;
+        recipe => recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),;
       );
     }
 
     // Apply meal type filter
     if (filters.mealType && filters.mealType.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe => {
+      filteredRecipes = filteredRecipes.filter(recipe => {;
         if (Array.isArray(recipe.mealType)) {
           return recipe.mealType.some(type => filters.mealType?.includes(type));
         }
@@ -61,11 +61,11 @@ export const recipeFilter = {
 
     // Apply dietary restrictions filter
     if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe => {
+      filteredRecipes = filteredRecipes.filter(recipe => {;
         const recipeDietaryRestrictions = recipe.dietaryRestrictions;
         // Safe array access with type checking
         if (Array.isArray(recipeDietaryRestrictions)) {
-          return filters.dietaryRestrictions?.every(restriction =>
+          return filters.dietaryRestrictions?.every(restriction =>;
             recipeDietaryRestrictions.includes(restriction),
           );
         }
@@ -74,50 +74,50 @@ export const recipeFilter = {
     }
 
     // Apply prep time filter
-    if (typeof filters.maxPrepTime === 'number') {
-      filteredRecipes = filteredRecipes.filter(
-        recipe =>
-          typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),
+    if (typeof filters.maxPrepTime === 'number') {;
+      filteredRecipes = filteredRecipes.filter(;
+        recipe =>;
+          typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),;
       );
     }
 
     // Apply spiciness filter
-    if (typeof filters.spiciness === 'number') {
-      filteredRecipes = filteredRecipes.filter(
-        recipe =>
-          typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),
+    if (typeof filters.spiciness === 'number') {;
+      filteredRecipes = filteredRecipes.filter(;
+        recipe =>;
+          typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),;
       );
     }
 
     // Apply complexity filter
-    if (typeof filters.complexity === 'number') {
-      filteredRecipes = filteredRecipes.filter(
-        recipe =>
-          typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),
+    if (typeof filters.complexity === 'number') {;
+      filteredRecipes = filteredRecipes.filter(;
+        recipe =>;
+          typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),;
       );
     }
 
     // Apply elemental balance filter
     if (filters.elementalState) {
-      const recipesWithScores = await Promise.all(
-        filteredRecipes.map(async recipe => {
-          const recipeElementalProps = recipe.elementalProperties || {
+      const recipesWithScores = await Promise.all(;
+        filteredRecipes.map(async recipe => {;
+          const recipeElementalProps = recipe.elementalProperties || {;
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
+            Air: 0.25
           };
           return {
             ...recipe,
             matchScore: calculateElementalHarmony(
               recipeElementalProps,
               filters.elementalState as ElementalProperties,
-            ).elementalHarmony,
+            ).elementalHarmony
           };
         }),
       );
 
-      filteredRecipes = recipesWithScores.sort((a, b) => {
+      filteredRecipes = recipesWithScores.sort((a, b) => {;
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
         const scoreB = Number(b.matchScore) || 0;
@@ -126,7 +126,7 @@ export const recipeFilter = {
     }
 
     // Apply sorting
-    if (sortOptions.by === 'relevance') {
+    if (sortOptions.by === 'relevance') {;
       filteredRecipes.sort((a, b) => {
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
@@ -136,5 +136,5 @@ export const recipeFilter = {
     }
 
     return filteredRecipes;
-  },
+  }
 };

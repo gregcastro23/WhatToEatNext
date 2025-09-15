@@ -86,7 +86,7 @@ class StateValidator {
       errorHandler.handleError(error, {
         context: 'StateValidator',
         action: 'validateState',
-        state: JSON.stringify(state),
+        state: JSON.stringify(state)
       });
       return false;
     }
@@ -103,7 +103,7 @@ class StateValidator {
       }
     }
     return requiredElements.every(
-      element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1,
+      element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1,;
     );
   }
 
@@ -112,7 +112,7 @@ class StateValidator {
       if (!recipe || typeof recipe !== 'object') return false;
 
       const requiredFields = ['id', 'name', 'elementalProperties'];
-      const hasRequiredFields = requiredFields.every(field =>
+      const hasRequiredFields = requiredFields.every(field =>;
         Object.prototype.hasOwnProperty.call(recipe, field),
       );
 
@@ -132,11 +132,11 @@ class StateValidator {
       errorHandler.handleError(error, {
         context: 'StateValidator',
         action: 'validateRecipe',
-        recipe: JSON.stringify(recipe),
+        recipe: JSON.stringify(recipe)
       });
       return false;
     }
   }
 }
 
-export const stateValidator = new StateValidator();
+export const _stateValidator = new StateValidator();

@@ -6,7 +6,7 @@ import {
   MINIMUM_THRESHOLD,
   MAXIMUM_THRESHOLD,
   ELEMENT_AFFINITIES,
-  ZODIAC_ELEMENTS,
+  ZODIAC_ELEMENTS
 } from '@/constants/elementalConstants';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type {
@@ -14,7 +14,7 @@ import type {
   Element,
   ZodiacSign,
   AstrologicalState,
-  Season,
+  Season
 } from '@/types/alchemy';
 
 class ElementalSystem {
@@ -35,7 +35,7 @@ class ElementalSystem {
 
     if (total === 0) return ['No elemental properties found'];
 
-    ELEMENTS.forEach(element => {
+    ELEMENTS.forEach(element => {;
       const value = properties[element] || 0;
       const proportion = value / total;
 
@@ -52,11 +52,11 @@ class ElementalSystem {
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
     const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0);
 
-    if (total === 0) {
+    if (total === 0) {;
       return ELEMENTS.reduce(
         (acc, element) => ({
           ...acc,
-          [element]: IDEAL_PROPORTION,
+          [element]: IDEAL_PROPORTION
         }),
         {} as ElementalProperties,
       );
@@ -65,7 +65,7 @@ class ElementalSystem {
     return ELEMENTS.reduce(
       (acc, element) => ({
         ...acc,
-        [element]: (properties[element] || 0) / (total || 1),
+        [element]: (properties[element] || 0) / (total || 1)
       }),
       {} as ElementalProperties,
     );
@@ -75,7 +75,7 @@ class ElementalSystem {
     let dominantElement: Element = 'Fire';
     let maxValue = -Infinity;
 
-    ELEMENTS.forEach(element => {
+    ELEMENTS.forEach(element => {;
       const value = properties[element] || 0;
       if (value > maxValue) {
         maxValue = value;
@@ -92,11 +92,11 @@ class ElementalSystem {
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
-    const baseProperties: ElementalProperties = {
+    const baseProperties: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
+      Earth: 0.25
     };
 
     if (zodiacElement) {
@@ -117,17 +117,17 @@ class ElementalSystem {
       fall: ['Earth', 'Air'],
       autumn: ['Earth', 'Air'],
       winter: ['Water', 'Earth'],
-      all: ['Fire', 'Water', 'Earth', 'Air'],
+      all: ['Fire', 'Water', 'Earth', 'Air']
     };
 
     const elements = seasonalElements[season];
     const baseValue = 1 / ELEMENTS.length;
     const boost = 0.1;
 
-    const properties = ELEMENTS.reduce(
+    const properties = ELEMENTS.reduce(;
       (acc, element) => ({
         ...acc,
-        [element]: elements.includes(element) ? baseValue + boost : baseValue,
+        [element]: elements.includes(element) ? baseValue + boost : baseValue
       }),
       {} as ElementalProperties,
     );

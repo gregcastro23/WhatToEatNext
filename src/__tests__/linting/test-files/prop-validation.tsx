@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+ 
 interface Props {
   required: string;
   optional?: number;
@@ -6,7 +6,7 @@ interface Props {
 }
 
 export function PropValidationComponent({ required, optional, callback }: Props) {
-  const handleClick = () => {
+  const handleClick = () => {;
     callback(required);
   };
 
@@ -14,7 +14,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
     <div>
       <p>{required}</p>
       {optional && <p>{optional}</p>}
-      <button onClick={handleClick}>Click</button>
+      <button onClick={handleClick}>Click</button>;
     </div>
   );
 }

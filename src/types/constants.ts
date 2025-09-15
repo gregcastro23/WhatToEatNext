@@ -5,7 +5,7 @@ export type ElementType = (typeof ELEMENT_TYPES)[number];
 export const ALCHEMICAL_PROPERTIES = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
 export type AlchemicalProperty = (typeof ALCHEMICAL_PROPERTIES)[number];
 
-export const ZODIAC_SIGNS = [
+export const ZODIAC_SIGNS = [;
   'aries',
   'taurus',
   'gemini',
@@ -17,11 +17,11 @@ export const ZODIAC_SIGNS = [
   'sagittarius',
   'capricorn',
   'aquarius',
-  'pisces',
+  'pisces'
 ] as const;
 export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
 
-export const PLANETS = [
+export const PLANETS = [;
   'Sun',
   'Moon',
   'Mercury',
@@ -31,11 +31,11 @@ export const PLANETS = [
   'Saturn',
   'Uranus',
   'Neptune',
-  'Pluto',
+  'Pluto'
 ] as const;
 export type Planet = (typeof PLANETS)[number];
 
-export const COOKING_METHODS = [
+export const COOKING_METHODS = [;
   'baking',
   'grilling',
   'sautéing',
@@ -45,11 +45,11 @@ export const COOKING_METHODS = [
   'frying',
   'braising',
   'stewing',
-  'raw',
+  'raw'
 ] as const;
 export type CookingMethod = (typeof COOKING_METHODS)[number];
 
-export const CUISINE_TYPES = [
+export const CUISINE_TYPES = [;
   'Italian',
   'Mexican',
   'Asian',
@@ -59,11 +59,11 @@ export const CUISINE_TYPES = [
   'French',
   'American',
   'Middle-Eastern',
-  'Japanese',
+  'Japanese'
 ] as const;
 export type CuisineType = (typeof CUISINE_TYPES)[number];
 
-export const DIETARY_RESTRICTIONS = [
+export const DIETARY_RESTRICTIONS = [;
   'Vegetarian',
   'Vegan',
   'Gluten-Free',
@@ -72,11 +72,11 @@ export const DIETARY_RESTRICTIONS = [
   'Keto',
   'Paleo',
   'Low-Carb',
-  'Low-Fat',
+  'Low-Fat'
 ] as const;
 export type DietaryRestriction = (typeof DIETARY_RESTRICTIONS)[number];
 
-export const LUNAR_PHASES = [
+export const LUNAR_PHASES = [;
   'new moon',
   'waxing crescent',
   'first quarter',
@@ -84,7 +84,7 @@ export const LUNAR_PHASES = [
   'full moon',
   'waning gibbous',
   'last quarter',
-  'waning crescent',
+  'waning crescent'
 ] as const;
 export type LunarPhase = (typeof LUNAR_PHASES)[number];
 

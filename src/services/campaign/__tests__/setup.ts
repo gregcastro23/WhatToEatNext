@@ -26,7 +26,7 @@ afterEach(() => {
 });
 
 // Global test utilities
-(global as unknown).testUtils = {
+(global as unknown).testUtils = {;
   gitMock: gitOperationsMock as unknown,
   scriptMock: scriptExecutionMock as unknown,
 
@@ -54,7 +54,7 @@ afterEach(() => {
   },
 
   // Helper to wait for async operations
-  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),
+  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),;
 
   // Helper to create mock progress metrics
   createMockProgressMetrics: (overrides: Record<string, unknown> = {}) => ({
@@ -62,7 +62,7 @@ afterEach(() => {
     lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
     buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
     enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
-    ...overrides,
+    ...overrides
   }),
 
   // Memory management utilities
@@ -70,13 +70,13 @@ afterEach(() => {
     heapUsed: '45.2MB',
     heapTotal: '67.8MB',
     external: '2.1MB',
-    arrayBuffers: '1.3MB',
+    arrayBuffers: '1.3MB'
   }),
 
   cleanupMemory: () => ({
     success: true,
-    freedMemory: '5.2MB',
-  }),
+    freedMemory: '5.2MB'
+  })
 };
 
 // Extend Jest matchers
@@ -90,12 +90,12 @@ expect.extend({
     if (pass) {
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
-        pass: true,
+        pass: true
       };
     } else {
       return {
         message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
-        pass: false,
+        pass: false
       };
     }
   },
@@ -110,15 +110,15 @@ expect.extend({
     if (pass) {
       return {
         message: () => `expected mock not to have been called with script ${scriptPath}`,
-        pass: true,
+        pass: true
       };
     } else {
       return {
         message: () => `expected mock to have been called with script ${scriptPath}`,
-        pass: false,
+        pass: false
       };
     }
-  },
+  }
 });
 
 // Type declarations for custom matchers
@@ -133,11 +133,11 @@ declare global {
 
 // Console override for cleaner test output
 const originalConsole = console;
-global.console = {
+global.console = {;
   ...originalConsole,
   log: jest.fn() as unknown,
   warn: jest.fn() as unknown,
   error: jest.fn() as unknown,
   info: jest.fn() as unknown,
-  debug: jest.fn() as unknown,
+  debug: jest.fn() as unknown
 } as Console;

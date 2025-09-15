@@ -23,7 +23,7 @@ export const planetaryElementMap: Record<RulingPlanet, ElementalCharacter> = {
   Saturn: 'Earth',
   Neptune: 'Water',
   Uranus: 'Air',
-  Pluto: 'Earth',
+  Pluto: 'Earth'
 };
 
 /**
@@ -33,13 +33,13 @@ export const tarotSuitElementMap: Record<string, ElementalCharacter> = {
   Wands: 'Fire',
   Cups: 'Water',
   Pentacles: 'Earth',
-  Swords: 'Air',
+  Swords: 'Air'
 };
 
 /**
  * Maps tarot cards to their quantum values
  * Court cards have the following values:
- * Page = 1, Knight = 2, Queen = 3, King = 4
+ * Page = 1, Knight = 2, Queen = 3, King = 4;
  */
 export const tarotCardQuantumValues: Record<string, number> = {
   // Wands (Fire)
@@ -104,7 +104,7 @@ export const tarotCardQuantumValues: Record<string, number> = {
   'Page of Swords': 1,
   'Knight of Swords': 2,
   'Queen of Swords': 3,
-  'King of Swords': 4,
+  'King of Swords': 4
 };
 
 /**
@@ -131,7 +131,7 @@ export const majorArcanaPlanetMap: Record<string, RulingPlanet> = {
   'The Moon': 'Moon',
   'The Sun': 'Sun',
   Judgement: 'Pluto',
-  'The World': 'Saturn',
+  'The World': 'Saturn'
 };
 
 /**
@@ -147,7 +147,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
   Saturn: 'Matter',
   Neptune: 'Essence',
   Uranus: 'Substance',
-  Pluto: 'Matter',
+  Pluto: 'Matter'
 };
 
 /**
@@ -155,7 +155,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
  * @param planet Ruling planet
  * @returns The associated elemental character
  */
-export const getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => {
+export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => {;
   return planetaryElementMap[planet];
 };
 
@@ -164,7 +164,7 @@ export const getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter =>
  * @param planet Ruling planet
  * @returns The associated alchemical property
  */
-export const getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => {
+export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => {;
   return planetaryAlchemicalMap[planet];
 };
 
@@ -173,7 +173,7 @@ export const getPlanetaryAlchemicalProperty = (planet: RulingPlanet): Alchemical
  * @param cardName Tarot card name
  * @returns The associated elemental character or null if not found
  */
-export const getTarotCardElement = (cardName: string): ElementalCharacter | null => {
+export const _getTarotCardElement = (cardName: string): ElementalCharacter | null => {;
   // Check if it's a minor arcana card
   for (const [suit, element] of Object.entries(tarotSuitElementMap)) {
     if (cardName.includes(suit)) {
@@ -195,7 +195,7 @@ export const getTarotCardElement = (cardName: string): ElementalCharacter | null
  * @param cardName Tarot card name
  * @returns The quantum value or 0 if not found
  */
-export const getTarotCardQuantum = (cardName: string): number => {
+export const _getTarotCardQuantum = (cardName: string): number => {;
   return tarotCardQuantumValues[cardName] || 0;
 };
 
@@ -204,6 +204,6 @@ export const getTarotCardQuantum = (cardName: string): number => {
  * @param cardName Major arcana card name
  * @returns The ruling planet or null if not found
  */
-export const getTarotCardPlanet = (cardName: string): RulingPlanet | null => {
+export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null => {;
   return majorArcanaPlanetMap[cardName] || null;
 };

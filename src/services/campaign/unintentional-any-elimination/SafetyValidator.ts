@@ -57,18 +57,18 @@ export class SafetyValidator {
   private testCommand: string;
 
   constructor(
-    validationTimeout = 60000, // 1 minute default
+    validationTimeout = 60000, // 1 minute default;
     safetyThresholds: Partial<SafetyThresholds> = {},
-    buildCommand = 'yarn tsc --noEmit --skipLibCheck',
-    testCommand = 'yarn test --passWithNoTests --silent',
+    buildCommand = 'yarn tsc --noEmit --skipLibCheck',;
+    testCommand = 'yarn test --passWithNoTests --silent',;
   ) {
     this.validationTimeout = validationTimeout;
-    this.safetyThresholds = {
+    this.safetyThresholds = {;
       minimumSafetyScore: 0.7,
       maximumErrorCount: 10,
       maximumBuildTime: 30000, // 30 seconds
       minimumTestCoverage: 0.8,
-      ...safetyThresholds,
+      ...safetyThresholds
     };
     this.buildCommand = buildCommand;
     this.testCommand = testCommand;
@@ -81,10 +81,10 @@ export class SafetyValidator {
     const startTime = Date.now();
 
     try {
-      const output = execSync(this.buildCommand, {
+      const output = execSync(this.buildCommand, {;
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: this.validationTimeout,
+        timeout: this.validationTimeout
       });
 
       const buildTime = Date.now() - startTime;
@@ -95,8 +95,8 @@ export class SafetyValidator {
         lintingWarnings: [],
         performanceMetrics: {
           buildTime,
-          memoryUsage: process.memoryUsage().heapUsed,
-        },
+          memoryUsage: process.memoryUsage().heapUsed
+        }
       };
     } catch (error) {
       const buildTime = Date.now() - startTime;
@@ -109,8 +109,8 @@ export class SafetyValidator {
         lintingWarnings: [],
         performanceMetrics: {
           buildTime,
-          memoryUsage: process.memoryUsage().heapUsed,
-        },
+          memoryUsage: process.memoryUsage().heapUsed
+        }
       };
     }
   }
@@ -120,7 +120,7 @@ export class SafetyValidator {
    */
   async validateBuildAfterBatch(
     modifiedFiles: string[],
-    includeTests = false,
+    includeTests = false,;
   ): Promise<BuildValidationResult> {
     // First, validate TypeScript compilation
     const compilationResult = await this.validateTypeScriptCompilation();
@@ -169,7 +169,7 @@ export class SafetyValidator {
 
         try {
           const backupContent = fs.readFileSync(backupPath, 'utf8');
-          if (backupContent.length === 0) {
+          if (backupContent.length === 0) {;
             rollbackErrors.push(`Backup file is empty: ${backupPath}`);
             backupIntegrity = false;
           }
@@ -187,7 +187,7 @@ export class SafetyValidator {
         canRollback,
         backupIntegrity,
         rollbackErrors,
-        restorationVerified,
+        restorationVerified
       };
     } catch (error) {
       rollbackErrors.push(`Rollback validation failed: ${error}`);
@@ -195,7 +195,7 @@ export class SafetyValidator {
         canRollback: false,
         backupIntegrity: false,
         rollbackErrors,
-        restorationVerified: false,
+        restorationVerified: false
       };
     }
   }
@@ -249,7 +249,7 @@ export class SafetyValidator {
       safetyScore: Math.max(0, Math.min(1, safetyScore)),
       validationErrors,
       warnings,
-      recommendations,
+      recommendations
     };
   }
 
@@ -280,11 +280,11 @@ export class SafetyValidator {
     }
 
     return {
-      isValid: validationErrors.length === 0,
-      safetyScore: validationErrors.length === 0 ? 1.0 : 0.5,
+      isValid: validationErrors.length === 0,;
+      safetyScore: validationErrors.length === 0 ? 1.0 : 0.5,;
       validationErrors,
       warnings,
-      recommendations,
+      recommendations
     };
   }
 
@@ -294,27 +294,27 @@ export class SafetyValidator {
   private async validateTests(modifiedFiles: string[]): Promise<TestValidationResult> {
     try {
       // Run tests for modified files
-      const testPattern = modifiedFiles
-        .filter(file => !file.includes('.test.') && !file.includes('__tests__'))
-        .map(file => file.replace(/\.ts$/, '.test.ts'))
+      const testPattern = modifiedFiles;
+        .filter(file => !file.includes('.test.') && !file.includes('__tests__'));
+        .map(file => file.replace(/\.ts$/, '.test.ts'));
         .join('|');
 
       if (!testPattern) {
         return {
           testsPass: true,
-          failedTests: [],
+          failedTests: []
         };
       }
 
-      const output = execSync(`${this.testCommand} --testPathPattern="${testPattern}"`, {
+      const output = execSync(`${this.testCommand} --testPathPattern='${testPattern}'`, {;
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: this.validationTimeout,
+        timeout: this.validationTimeout
       });
 
       return {
         testsPass: true,
-        failedTests: [],
+        failedTests: []
       };
     } catch (error) {
       const errorOutput = this.extractErrorOutput(error);
@@ -322,7 +322,7 @@ export class SafetyValidator {
 
       return {
         testsPass: false,
-        failedTests,
+        failedTests
       };
     }
   }
@@ -425,7 +425,7 @@ export class SafetyValidator {
     return {
       score: Math.max(0, Math.min(1, score)),
       warnings,
-      recommendations,
+      recommendations
     };
   }
 
@@ -440,7 +440,7 @@ export class SafetyValidator {
     const warnings: string[] = [];
 
     // Array replacements are very safe
-    if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {
+    if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {;
       score = 0.95;
     }
 
@@ -513,7 +513,7 @@ export class SafetyValidator {
    * Extract error output from command execution
    */
   private extractErrorOutput(error: unknown): string {
-    if (error && typeof error === 'object') {
+    if (error && typeof error === 'object') {;
       return error.stdout || error.stderr || error.message || String(error);
     }
     return String(error);
@@ -524,9 +524,9 @@ export class SafetyValidator {
    */
   private parseTypeScriptErrors(output: string): string[] {
     const lines = output.split('\n');
-    const errors = lines
-      .filter(line => line.includes('error TS'))
-      .map(line => line.trim())
+    const errors = lines;
+      .filter(line => line.includes('error TS'));
+      .map(line => line.trim());
       .filter(line => line.length > 0);
 
     return errors.slice(0, this.safetyThresholds.maximumErrorCount);
@@ -537,9 +537,9 @@ export class SafetyValidator {
    */
   private parseTestFailures(output: string): string[] {
     const lines = output.split('\n');
-    const failures = lines
-      .filter(line => line.includes('FAIL') || line.includes('✕') || line.includes('failed'))
-      .map(line => line.trim())
+    const failures = lines;
+      .filter(line => line.includes('FAIL') || line.includes('✕') || line.includes('failed'));
+      .map(line => line.trim());
       .filter(line => line.length > 0);
 
     return failures.slice(0, 10); // Limit to 10 failures

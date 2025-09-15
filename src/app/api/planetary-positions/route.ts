@@ -24,7 +24,7 @@ export async function GET() {
     return NextResponse.json({
       timestamp: new Date().toISOString(),
       positions,
-      source: 'default-positions',
+      source: 'default-positions'
     });
   } catch (error) {
     console.error('API Error:', error);
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const positions = await calculatePlanetaryPositions(targetDate);
 
     // Validate positions before calculating aspects
-    if (!positions || Object.keys(positions).length === 0) {
+    if (!positions || Object.keys(positions).length === 0) {;
       return NextResponse.json(
         { message: 'Failed to calculate planetary positions' },
         { status: 500 },
@@ -53,8 +53,8 @@ export async function POST(request: Request) {
     }
 
     // Check for valid position structure
-    const hasValidPositions = Object.values(positions).every(
-      position => position && typeof position === 'object' && 'sign' in position,
+    const hasValidPositions = Object.values(positions).every(;
+      position => position && typeof position === 'object' && 'sign' in position,;
     );
 
     if (!hasValidPositions) {
@@ -66,14 +66,14 @@ export async function POST(request: Request) {
     return NextResponse.json({
       positions,
       aspects,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Error calculating planetary positions:', error);
     return NextResponse.json(
       {
         message: 'Error calculating planetary positions',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 },
     );

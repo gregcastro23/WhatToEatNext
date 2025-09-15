@@ -7,7 +7,7 @@ import { Element } from '@/types/alchemy';
  * 1. No opposing elements - all elements are individually valuable
  * 2. Elements reinforce themselves (like reinforces like)
  * 3. All element combinations have good compatibility
- * 4. No elemental "balancing" - match based on individual qualities
+ * 4. No elemental 'balancing' - match based on individual qualities
  */
 
 /**
@@ -20,7 +20,7 @@ import { Element } from '@/types/alchemy';
  */
 export function getElementalCompatibility(element1: Element, element2: Element): number {
   // Same element has highest compatibility
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9; // Same element has high compatibility
   }
 
@@ -99,7 +99,7 @@ export function enhanceElementalProfile(profile: Record<Element, number>): Recor
 
   if (enhancedSum > 0) {
     const normalizeFactor = originalSum / enhancedSum;
-    Object.keys(enhancedProfile || {}).forEach(element => {
+    Object.keys(enhancedProfile || {}).forEach(element => {;
       enhancedProfile[element as Element] *= normalizeFactor;
     });
   }
@@ -126,7 +126,7 @@ export function getElementalPercentages(
     Fire: Math.round((elementalProfile.Fire / total) * 100),
     Water: Math.round((elementalProfile.Water / total) * 100),
     Earth: Math.round((elementalProfile.Earth / total) * 100),
-    Air: Math.round((elementalProfile.Air / total) * 100),
+    Air: Math.round((elementalProfile.Air / total) * 100)
   };
 }
 

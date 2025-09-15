@@ -14,7 +14,7 @@ export interface SeasonalAdjustment {
   recommendations: string[];
 }
 
-// ========== MISSING TYPES FOR TS2305 FIXES ==========
+// ========== MISSING TYPES FOR TS2305 FIXES ==========;
 
 // SeasonalRecommendations (causing error in recipeBuilding.ts)
 export interface SeasonalRecommendations {

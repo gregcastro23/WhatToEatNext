@@ -126,7 +126,7 @@ export class DevelopmentExperienceOptimizer {
           '@data/*': ['./src/data/*'],
           '@calculations/*': ['./src/calculations/*'],
           '@hooks/*': ['./src/hooks/*'],
-          '@contexts/*': ['./src/contexts/*'],
+          '@contexts/*': ['./src/contexts/*']
         },
 
         // Enhanced type definitions
@@ -138,7 +138,7 @@ export class DevelopmentExperienceOptimizer {
         isolatedModules: true,
         jsx: 'preserve',
         noEmit: true,
-        resolveJsonModule: true,
+        resolveJsonModule: true
       },
 
       // Include patterns for faster compilation
@@ -154,11 +154,11 @@ export class DevelopmentExperienceOptimizer {
         '**/*.test.ts',
         '**/*.test.tsx',
         '**/*.spec.ts',
-        '**/*.spec.tsx',
+        '**/*.spec.tsx'
       ],
 
       // TypeScript project references for faster builds
-      references: config.enableProjectReferences ? [{ path: './tsconfig.paths.json' }] : undefined,
+      references: config.enableProjectReferences ? [{ path: './tsconfig.paths.json' }] : undefined
     };
   }
 
@@ -310,12 +310,12 @@ export type {
     }
 
     // Remove unused imports
-    const usedImports = this.optimizationConfig.importOrganization.enableUnusedImportRemoval
+    const usedImports = this.optimizationConfig.importOrganization.enableUnusedImportRemoval;
       ? this.removeUnusedImports(imports, otherLines.join('\n'))
       : imports;
 
     // Sort imports
-    const sortedImports = this.optimizationConfig.importOrganization.enableImportSorting
+    const sortedImports = this.optimizationConfig.importOrganization.enableImportSorting;
       ? this.sortImports(usedImports)
       : usedImports;
 
@@ -335,30 +335,30 @@ export type {
     const remainingErrors: string[] = [];
 
     // Fix common TypeScript errors
-    const commonFixes = [
+    const commonFixes = [;
       {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
-        description: 'Fixed React.FC type annotation',
+        description: 'Fixed React.FC type annotation'
       },
       {
         pattern: /useEffect\(\(\) => \{([^}]+)\}, \[\]\)/g,
         replacement: 'useEffect(() => {1}, [])',
-        description: 'Fixed useEffect dependency array',
+        description: 'Fixed useEffect dependency array'
       },
       {
         pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g,
         replacement: 'const [1, set2] = useState<any>()',
-        description: 'Added type annotation to useState',
+        description: 'Added type annotation to useState'
       },
       {
         pattern: /interface ([A-Z][a-zA-Z]*) \{/g,
         replacement: 'interface 1 {',
-        description: 'Fixed interface naming convention',
-      },
+        description: 'Fixed interface naming convention'
+      }
     ];
 
-    commonFixes.forEach(fix => {
+    commonFixes.forEach(fix => {;
       if (fix.pattern.test(fixedCode)) {
         fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
         fixes.push(fix.description);
@@ -366,13 +366,13 @@ export type {
     });
 
     // Detect remaining errors (simplified detection)
-    const errorPatterns = [
+    const errorPatterns = [;
       /Property '([^']+)' does not exist on type/g,
       /Type '([^']+)' is not assignable to type/g,
-      /Cannot find name '([^']+)'/g,
+      /Cannot find name '([^']+)'/g
     ];
 
-    errorPatterns.forEach(pattern => {
+    errorPatterns.forEach(pattern => {;
       const matches = fixedCode.match(pattern);
       if (matches) {
         matches.forEach(match => remainingErrors.push(match));
@@ -409,11 +409,11 @@ export type {
     runtime: string[];
     development: string[];
   } {
-    const recommendations = {
+    const recommendations = {;
       typescript: [] as string[],
       bundling: [] as string[],
       runtime: [] as string[],
-      development: [] as string[],
+      development: [] as string[]
     };
 
     // TypeScript recommendations
@@ -498,7 +498,7 @@ export type {
       errorCount: 0,
       warningCount: 0,
       hotReloadTime: 0,
-      lastOptimization: Date.now(),
+      lastOptimization: Date.now()
     };
   }
 
@@ -515,14 +515,14 @@ export type {
         noUncheckedIndexedAccess: false,
         target: 'es2018' as const,
         module: 'esnext' as const,
-        moduleResolution: 'bundler' as const,
+        moduleResolution: 'bundler' as const
       },
       intelliSense: {
         enableAstrologicalTypeDefinitions: true,
         enableElementalPropertyIntelliSense: true,
         enablePlanetaryPositionAutoComplete: true,
         enableCulinaryAstrologySnippets: true,
-        enableCustomTypeGuards: true,
+        enableCustomTypeGuards: true
       },
       importOrganization: {
         enableAutoImportOrganization: true,
@@ -530,15 +530,15 @@ export type {
         enableImportSorting: true,
         enablePathMapping: true,
         groupExternalImports: true,
-        groupInternalImports: true,
+        groupInternalImports: true
       },
       performanceMonitoring: {
         enableRealTimeErrorDetection: true,
         enableCompilationTimeTracking: true,
         enableMemoryUsageMonitoring: true,
         enableBundleSizeTracking: true,
-        enableHotReloadOptimization: true,
-      },
+        enableHotReloadOptimization: true
+      }
     };
   }
 
@@ -556,36 +556,36 @@ export type {
   }
 
   private checkPerformanceThresholds(): void {
-    const thresholds = {
+    const thresholds = {;
       compilationTime: 30000, // 30 seconds
       memoryUsage: 100, // 100MB
       bundleSize: 500 * 1024, // 500KB
-      errorCount: 10,
+      errorCount: 10
     };
 
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];
-      if (typeof currentValue === 'number' && currentValue > threshold) {
+      if (typeof currentValue === 'number' && currentValue > threshold) {;
         logger.warn(`Performance threshold exceeded for ${metric}:`, {
           current: currentValue,
-          threshold,
+          threshold
         });
       }
     });
   }
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
-    return imports.filter(importLine => {
+    return imports.filter(importLine => {;
       // Extract imported names from the import statement
       const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
       if (!importMatch) return true;
 
-      const importedNames = importMatch[1]
-        ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0])
+      const importedNames = importMatch[1];
+        ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0]);
         : [importMatch[2] || importMatch[3]];
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => {
+      return importedNames.some(name => {;
         const regex = new RegExp(`\\b${name}\\b`, 'g');
         return regex.test(codeBody);
       });
@@ -596,7 +596,7 @@ export type {
     const externalImports: string[] = [];
     const internalImports: string[] = [];
 
-    imports.forEach(importLine => {
+    imports.forEach(importLine => {;
       if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {
         internalImports.push(importLine);
       } else if (importLine.trim().startsWith('import ')) {
@@ -607,7 +607,7 @@ export type {
     return [
       ...externalImports.sort(),
       ...(externalImports.length > 0 && internalImports.length > 0 ? [''] : []),
-      ...internalImports.sort(),
+      ...internalImports.sort()
     ];
   }
 
@@ -645,6 +645,6 @@ export function useDevelopmentExperienceOptimizations() {
     getDevelopmentMetrics: () => optimizer.getDevelopmentMetrics(),
     getPerformanceOptimizationRecommendations: () =>
       optimizer.getPerformanceOptimizationRecommendations(),
-    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations(),
+    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations()
   };
 }

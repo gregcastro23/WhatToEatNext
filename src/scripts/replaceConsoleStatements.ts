@@ -49,7 +49,7 @@ class ConsoleStatementReplacer {
   private getAllTypeScriptFiles(): string[] {
     const files: string[] = [];
 
-    const scanDirectory = (dir: string) => {
+    const scanDirectory = (dir: string) => {;
       const entries = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const entry of entries) {
@@ -113,7 +113,7 @@ class ConsoleStatementReplacer {
         }
 
         // Replace console.log statements
-        if (trimmed.includes('console.log(')) {
+        if (trimmed.includes('// console.log(')) {
           const replacement = line.replace(/console\.log\(/g, 'logger.info(');
 
           // Add logger import if not present
@@ -125,7 +125,7 @@ class ConsoleStatementReplacer {
             file: filePath,
             line: i + 1,
             original: line,
-            replacement: replacement,
+            replacement: replacement
           });
 
           lines[i] = replacement;
@@ -136,10 +136,10 @@ class ConsoleStatementReplacer {
       if (hasChanges) {
         // Add logger import at the top if console.log was replaced
         const hasLoggerImport =
-          content.includes("from '@/services/LoggingService'") ||
-          content.includes('from "@/services/LoggingService"');
+          content.includes('from '@/services/LoggingService'') ||;
+          content.includes('from '@/services/LoggingService'');
 
-        if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {
+        if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {;
           // Find the best place to add the import
           let importInsertIndex = 0;
           for (let i = 0; i < lines.length; i++) {
@@ -152,7 +152,7 @@ class ConsoleStatementReplacer {
             }
           }
 
-          lines.splice(importInsertIndex, 0, "import { logger } from '@/services/LoggingService';");
+          lines.splice(importInsertIndex, 0, 'import { logger } from '@/services/LoggingService';');
         }
 
         fs.writeFileSync(filePath, lines.join('\n'));
@@ -171,7 +171,7 @@ class ConsoleStatementReplacer {
     const loggingServicePath = path.join(this.srcDir, 'services', 'LoggingService.ts');
 
     if (!fs.existsSync(loggingServicePath)) {
-      const loggingServiceContent = `/**
+      const loggingServiceContent = `/**;
  * Centralized Logging Service
  * 
  * Provides structured logging capabilities to replace console.log statements
@@ -190,7 +190,7 @@ class LoggingService implements Logger {
 
   info(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      console.log(\`[INFO] \${message}\`, ...args);
+      // console.log(\`[INFO] \${message}\`, ...args);
     }
   }
 
@@ -204,7 +204,7 @@ class LoggingService implements Logger {
 
   debug(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      console.log(\`[DEBUG] \${message}\`, ...args);
+      // console.log(\`[DEBUG] \${message}\`, ...args);
     }
   }
 }
@@ -214,12 +214,12 @@ export default logger;
 `;
 
       fs.writeFileSync(loggingServicePath, loggingServiceContent);
-      console.log('✅ Created LoggingService.ts');
+      // console.log('✅ Created LoggingService.ts');
     }
   }
 
   private generateReport(): void {
-    const report = `
+    const report = `;
 # Console Statement Replacement Report
 
 ## Summary
@@ -229,7 +229,7 @@ export default logger;
 ## Replacements Made
 ${this.replacements
   .map(
-    r =>
+    r =>;
       `- **${path.relative(this.srcDir, r.file)}:${r.line}**
   - Before: \`${r.original.trim()}\`
   - After: \`${r.replacement.trim()}\``,
@@ -243,12 +243,12 @@ Generated: ${new Date().toISOString()}
 `;
 
     fs.writeFileSync('console-replacement-report.md', report);
-    console.log('📊 Report generated: console-replacement-report.md');
+    // console.log('📊 Report generated: console-replacement-report.md');
   }
 
   public async run(): Promise<void> {
-    console.log('🚀 Starting Console Statement Replacement');
-    console.log('='.repeat(60));
+    // console.log('🚀 Starting Console Statement Replacement');
+    // console.log('='.repeat(60));
 
     try {
       // Step 1: Create logging service
@@ -256,7 +256,7 @@ Generated: ${new Date().toISOString()}
 
       // Step 2: Process all TypeScript files
       const files = this.getAllTypeScriptFiles();
-      console.log(`📁 Found ${files.length} TypeScript files`);
+      // console.log(`📁 Found ${files.length} TypeScript files`);
 
       for (const file of files) {
         this.replaceConsoleStatements(file);
@@ -265,11 +265,11 @@ Generated: ${new Date().toISOString()}
       // Step 3: Generate report
       this.generateReport();
 
-      console.log('='.repeat(60));
-      console.log(`✅ Console statement replacement completed!`);
-      console.log(`   Files processed: ${this.processedFiles}`);
-      console.log(`   Statements replaced: ${this.replacements.length}`);
-      console.log(`   Backup location: ${this.backupDir}`);
+      // console.log('='.repeat(60));
+      // console.log(`✅ Console statement replacement completed!`);
+      // console.log(`   Files processed: ${this.processedFiles}`);
+      // console.log(`   Statements replaced: ${this.replacements.length}`);
+      // console.log(`   Backup location: ${this.backupDir}`);
     } catch (error) {
       console.error('❌ Console statement replacement failed:', error);
       process.exit(1);
@@ -278,7 +278,7 @@ Generated: ${new Date().toISOString()}
 }
 
 // Run the script
-if (require.main === module) {
+if (require.main === module) {;
   const replacer = new ConsoleStatementReplacer();
   replacer.run().catch(console.error);
 }

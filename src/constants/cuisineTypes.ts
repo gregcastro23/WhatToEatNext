@@ -1,4 +1,4 @@
-export const CUISINE_TYPES = {
+export const _CUISINE_TYPES = {;
   AFRICAN: 'african',
   CHINESE: 'chinese',
   FRENCH: 'french',
@@ -15,5 +15,5 @@ export const CUISINE_TYPES = {
   SPANISH: 'spanish',
   THAI: 'thai',
   TURKISH: 'turkish',
-  VIETNAMESE: 'vietnamese',
+  VIETNAMESE: 'vietnamese'
 } as const;

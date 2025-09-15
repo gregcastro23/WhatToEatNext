@@ -22,7 +22,7 @@ export function getCurrentTimeFactors(): TimeFactors {
     hour: now.getHours(),
     minute: now.getMinutes(),
     dayPlanet: getPlanetaryDayRuler(now.getDay()),
-    hourPlanet: getPlanetaryHourRuler(now.getDay(), now.getHours()),
+    hourPlanet: getPlanetaryHourRuler(now.getDay(), now.getHours())
   };
 }
 
@@ -30,7 +30,7 @@ export function getCurrentTimeFactors(): TimeFactors {
  * Determine the current season based on date
  * This is primarily northern hemisphere focused
  */
-export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' | 'fall' | 'winter' {
+export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' | 'fall' | 'winter' {;
   const month = date.getMonth(); // 0-11
 
   if (month >= 2 && month <= 4) {
@@ -78,7 +78,7 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
     'Sun' as unknown as Planet,
     'Venus' as unknown as Planet,
     'Mercury' as unknown as Planet,
-    'Moon' as unknown as Planet,
+    'Moon' as unknown as Planet
   ];
 
   // Each day starts with its ruling planet
@@ -102,11 +102,11 @@ export function calculateSeasonalAppropriateness(
   recipeSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'all',
   currentSeason: 'spring' | 'summer' | 'fall' | 'winter',
 ): number {
-  if (recipeSeason === 'all') {
+  if (recipeSeason === 'all') {;
     return 0.8; // All-season recipes are generally good but not perfect
   }
 
-  if (recipeSeason === currentSeason) {
+  if (recipeSeason === currentSeason) {;
     return 1.0; // Perfect match for the season
   }
 
@@ -116,7 +116,7 @@ export function calculateSeasonalAppropriateness(
   const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown);
 
   // Check if it's an adjacent season (circular)
-  if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {
+  if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {;
     return 0.6; // Adjacent season, moderate appropriateness
   }
 
@@ -130,7 +130,7 @@ export function calculateSeasonalAppropriateness(
 export function calculatePlanetaryTimeAffinity(planet: Planet, hour: number): number {
   // Morning: 5-11, Afternoon: 12-17, Evening: 18-22, Night: 23-4
   const timeOfDay =
-    hour >= 5 && hour <= 11
+    hour >= 5 && hour <= 11;
       ? 'morning'
       : hour >= 12 && hour <= 17
         ? 'afternoon'
@@ -146,7 +146,7 @@ export function calculatePlanetaryTimeAffinity(planet: Planet, hour: number): nu
     Venus: { morning: 0.6, afternoon: 0.8, evening: 1.0, night: 0.7 },
     Mars: { morning: 0.7, afternoon: 1.0, evening: 0.8, night: 0.5 },
     Jupiter: { morning: 0.8, afternoon: 1.0, evening: 0.7, night: 0.5 },
-    Saturn: { morning: 0.5, afternoon: 0.7, evening: 0.8, night: 1.0 },
+    Saturn: { morning: 0.5, afternoon: 0.7, evening: 0.8, night: 1.0 }
   };
 
   return affinities[planet as unknown as string][timeOfDay];

@@ -60,7 +60,7 @@ class InitializationService {
   private async performInitialization(): Promise<InitializationResult> {
     try {
       logger.info('Starting application initialization', {
-        attempt: this.retryCount + 1,
+        attempt: this.retryCount + 1
       });
 
       // Ensure clean state
@@ -82,20 +82,20 @@ class InitializationService {
 
       // Update the state with the elemental preference - safe method access
       const managerObj = manager as any;
-      if (typeof managerObj.updateState === 'function') {
+      if (typeof managerObj.updateState === 'function') {;
         await managerObj.updateState({
           elementalPreference,
-          lastUpdated: new Date(),
+          lastUpdated: new Date()
         });
-      } else if (typeof managerObj.setState === 'function') {
+      } else if (typeof managerObj.setState === 'function') {;
         await managerObj.setState({
           elementalPreference,
-          lastUpdated: new Date(),
+          lastUpdated: new Date()
         });
       }
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({
+      const isValid = stateValidator.validateState({;
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -106,7 +106,7 @@ class InitializationService {
         currentEnergy: {
           zodiacEnergy: '',
           lunarEnergy: '',
-          planetaryEnergy: [],
+          planetaryEnergy: []
         },
         errorMessage: '',
         errors: [],
@@ -117,10 +117,10 @@ class InitializationService {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
+          Substance: 0.25
         },
         lunarPhase: 'new moon',
-        currentTime: new Date(),
+        currentTime: new Date()
       } as unknown);
 
       if (!isValid) {
@@ -134,14 +134,14 @@ class InitializationService {
         data: {
           recipes: processedRecipes,
           favorites: userState.recipes.favorites,
-          celestialData,
-        },
+          celestialData
+        }
       };
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'InitializationService',
         action: 'initialize',
-        attempt: this.retryCount + 1,
+        attempt: this.retryCount + 1
       });
 
       if (this.retryCount < this.MAX_RETRIES) {
@@ -153,7 +153,7 @@ class InitializationService {
 
       return {
         success: false,
-        error: 'Failed to initialize application after multiple attempts',
+        error: 'Failed to initialize application after multiple attempts'
       };
     } finally {
       this.isInitializing = false;
@@ -163,7 +163,7 @@ class InitializationService {
   private async initializeRecipes(): Promise<Recipe[]> {
     try {
       const recipes = await recipeData.getAllRecipes();
-      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {
+      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {;
         throw new Error('Invalid recipe data received');
       }
       return recipes;
@@ -196,7 +196,7 @@ class InitializationService {
         Fire: alignmentData?.Fire || 0.25,
         Water: alignmentData?.Water || 0.25,
         Earth: alignmentData?.Earth || 0.25,
-        Air: alignmentData?.Air || 0.25,
+        Air: alignmentData?.Air || 0.25
       } as CelestialData;
     } catch (error) {
       logger.error('Failed to calculate celestial influences:', error);
@@ -205,16 +205,16 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({
+    return recipes.map(recipe => ({;
       ...recipe,
-      score: this.calculateRecipeScore(recipe, celestialData),
+      score: this.calculateRecipeScore(recipe, celestialData)
     }));
   }
 
   private calculateRecipeScore(recipe: Recipe, celestialData: CelestialData): number {
     // Implement your scoring logic here
     // Pattern KK-9: Cross-Module Arithmetic Safety for service calculations
-    const score = Object.entries(recipe.elementalProperties).reduce((acc, [element, value]) => {
+    const score = Object.entries(recipe.elementalProperties).reduce((acc, [element, value]) => {;
       const numericAcc = Number(acc) || 0;
       const numericValue = Number(value) || 0;
       const celestialValue = Number(celestialData[element]) || 0;
@@ -239,13 +239,13 @@ class InitializationService {
       sun: {
         sign: celestialData.sun?.sign || '',
         degree: celestialData.sun?.degree,
-        exactLongitude: celestialData.sun?.exactLongitude,
+        exactLongitude: celestialData.sun?.exactLongitude
       },
       moon: {
         sign: celestialData.moon?.sign || '',
         degree: celestialData.moon?.degree,
-        exactLongitude: celestialData.moon?.exactLongitude,
-      },
+        exactLongitude: celestialData.moon?.exactLongitude
+      }
     };
   }
 
@@ -270,9 +270,9 @@ class InitializationService {
       Fire: celestialData.Fire || 0.25,
       Water: celestialData.Water || 0.25,
       Earth: celestialData.Earth || 0.25,
-      Air: celestialData.Air || 0.25,
+      Air: celestialData.Air || 0.25
     };
   }
 }
 
-export const initializationService = new InitializationService();
+export const _initializationService = new InitializationService();

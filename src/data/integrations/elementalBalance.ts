@@ -3,16 +3,16 @@ import {
   MINIMUM_THRESHOLD,
   MAXIMUM_THRESHOLD,
   DEFAULT_ELEMENTAL_PROPERTIES,
-  VALIDATION_THRESHOLDS,
+  VALIDATION_THRESHOLDS
 } from '@/constants/elementalConstants';
 import type { ElementalProperties, Element, Recipe } from '@/types/alchemy';
 import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
 
-export const elementalBalance = {
+export const elementalBalance = {;
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties);
-    const deviations = ELEMENTS.map(
-      element => Math.abs(normalized[element] - 0.25), // Ideal balance point
+    const deviations = ELEMENTS.map(;
+      element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
     );
 
     const totalDeviation = deviations.reduce((sum, dev) => sum + dev, 0);
@@ -23,14 +23,14 @@ export const elementalBalance = {
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
     const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0);
 
-    if (total === 0) {
+    if (total === 0) {;
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
 
     return ELEMENTS.reduce(
       (acc, element) => ({
         ...acc,
-        [element]: (properties[element] || 0) / total,
+        [element]: (properties[element] || 0) / total
       }),
       {} as ElementalProperties,
     );
@@ -43,8 +43,8 @@ export const elementalBalance = {
     const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number');
 
     // Check value ranges
-    const hasValidValues = Object.values(properties).every(
-      value =>
+    const hasValidValues = Object.values(properties).every(;
+      value =>;
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
         value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT,
     );
@@ -101,11 +101,11 @@ export const elementalBalance = {
             ? 'low'
             : normalized[element] > MAXIMUM_THRESHOLD
               ? 'high'
-              : 'balanced',
+              : 'balanced'
       }),
       {} as Record<Element, 'low' | 'balanced' | 'high'>,
     );
-  },
+  }
 };
 
 export default elementalBalance;

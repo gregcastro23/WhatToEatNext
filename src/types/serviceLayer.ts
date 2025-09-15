@@ -167,7 +167,7 @@ export interface RecipeQueryParams {
   };
 }
 
-export interface RecipeServiceResult<T = unknown> {
+export interface RecipeServiceResult<T = unknown> {;
   success: boolean;
   data?: T;
   error?: {
@@ -215,7 +215,7 @@ export interface EnterpriseFilter {
   value: unknown;
 }
 
-export interface EnterpriseServiceResult<T = unknown> {
+export interface EnterpriseServiceResult<T = unknown> {;
   success: boolean;
   data?: T;
   confidence: number;
@@ -286,7 +286,7 @@ export interface LintingSuggestion {
 }
 
 // Generic service response wrapper
-export interface ServiceResponse<T = unknown> {
+export interface ServiceResponse<T = unknown> {;
   success: boolean;
   data?: T;
   error?: ServiceError;

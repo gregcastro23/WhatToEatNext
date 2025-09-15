@@ -1,7 +1,7 @@
 // global-types.d.ts - created 2025-07-06
 // Provides ambient global type aliases so that frequently used types
 // (which are often referenced without explicit import) compile without
-// triggering TS2304 "Cannot find name" errors.  These aliases do NOT
+// triggering TS2304 'Cannot find name' errors.  These aliases do NOT
 // pollute runtime—they are erased during compilation.
 
 import type {
@@ -12,7 +12,7 @@ import type {
   ThermodynamicMetrics as _ThermodynamicMetrics,
   Season as _Season,
   LunarPhase as _LunarPhase,
-  AlchemicalProperties as _AlchemicalProperties,
+  AlchemicalProperties as _AlchemicalProperties
 } from '@/types/alchemy';
 import type { PlanetName as _PlanetName } from '@/types/celestial';
 import type { createElementalProperties as _createElementalProperties } from '@/utils/elemental/elementalUtils';
@@ -27,7 +27,7 @@ declare global {
   type Season = _Season;
   type LunarPhase = _LunarPhase;
   const createElementalProperties: typeof _createElementalProperties;
-  const isElementalProperties: typeof import('@/utils/elemental/elementalUtils')._isElementalProperties;
+  const _isElementalProperties: typeof import('@/utils/elemental/elementalUtils')._isElementalProperties;
   const elementalUtils: typeof import('@/utils/elementalUtils').elementalUtils;
   const validatePlanetaryPositions: typeof import('@/utils/validatePlanetaryPositions').validatePlanetaryPositions;
   type AlchemicalProperties = _AlchemicalProperties;

@@ -18,9 +18,9 @@ describe('Astrological Rule Validation', () => {
 
   afterEach(() => {
     // Clean up temporary test files
-    tempFiles.forEach(file => {
+    tempFiles.forEach(file => {;
       try {
-        execSync(`rm -f "${file}"`);
+        execSync(`rm -f '${file}'`);
       } catch {}
     });
     tempFiles.length = 0;
@@ -41,9 +41,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should not throw error for valid constant usage
@@ -58,8 +58,8 @@ describe('Astrological Rule Validation', () => {
     });
 
     test('should preserve RELIABLE_POSITIONS constant', async () => {
-      const testContent: any = `
-        const RELIABLE_POSITIONS = {
+      const testContent: any = `;
+        const RELIABLE_POSITIONS = {;
   sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
           moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
         };
@@ -74,9 +74,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         expect(true).toBe(true);
@@ -102,9 +102,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should have caught the constant modification
@@ -118,8 +118,8 @@ describe('Astrological Rule Validation', () => {
     });
 
     test('should preserve MARCH2025_POSITIONS fallback data', async () => {
-      const testContent: any = `
-        const MARCH2025_POSITIONS = {
+      const testContent: any = `;
+        const MARCH2025_POSITIONS = {;
   sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
           mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
         };
@@ -134,9 +134,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         expect(true).toBe(true);
@@ -166,17 +166,17 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(
+          const unusedVarErrors: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as { ruleId: string; messag, e: string };
-              return message.ruleId === '@typescript-eslint/no-unused-vars' &&
+              return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
                 (message.message.includes('planet') ||
                   message.message.includes('position') ||
                   message.message.includes('longitude') ||
@@ -193,10 +193,10 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(
+            const unusedVarErrors: any = result.[0].messages.filter(;
               (msg: any) => {
                 const message: any = msg as { ruleId: string; messag, e: string };
-                return message.ruleId === '@typescript-eslint/no-unused-vars' &&
+                return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
                   (message.message.includes('planet') ||
                     message.message.includes('position') ||
                     message.message.includes('longitude') ||
@@ -213,9 +213,9 @@ describe('Astrological Rule Validation', () => {
 
     test('should ignore UNUSED_ prefixed planetary variables', async () => {
       const testContent: any = `;
-        const UNUSED_planet: any = 'jupiter';
-        const UNUSED_position: any = { sign: 'gemini', degree: 15.52 };
-        const UNUSED_longitude: any = 75.52;
+        const _UNUSED_planet: any = 'jupiter';
+        const _UNUSED_position: any = { sign: 'gemini', degree: 15.52 };
+        const _UNUSED_longitude: any = 75.52;
         const UNUSED_retrograde: any = false;
       `;
 
@@ -224,14 +224,14 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(
+          const unusedVarErrors: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as { ruleId: string };
               return message.ruleId === '@typescript-eslint/no-unused-vars';
@@ -246,7 +246,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(
+            const unusedVarErrors: any = result.[0].messages.filter(;
               (msg: any) => {
                 const message: any = msg as { ruleId: any; [key: string]: any };
                 return message.ruleId === '@typescript-eslint/no-unused-vars';
@@ -263,10 +263,10 @@ describe('Astrological Rule Validation', () => {
       const testContent: any = `;
         const exactLongitude: any = 112.63;
         const isRetrograde: any = false;
-        const UNUSED_TransitDates: any = { Start: '2024-07-01', End: '2024-09-15' };
-        const UNUSED_PlanetSpecific: any = { mars: 'cancer' };
-        const UNUSED_ZodiacTransit: any = { sign: 'cancer', degree: 22.63 };
-        const UNUSED_RetrogradePhases: any = { current: false };
+        const _UNUSED_TransitDates: any = { Start: '2024-07-01', End: '2024-09-15' };
+        const _UNUSED_PlanetSpecific: any = { mars: 'cancer' };
+        const _UNUSED_ZodiacTransit: any = { sign: 'cancer', degree: 22.63 };
+        const _UNUSED_RetrogradePhases: any = { current: false };
       `;
 
       const testFile: any = join(projectRoot, 'src/calculations/temp-naming-test.ts');
@@ -274,15 +274,15 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const camelCaseErrors: any = result.[0].messages.filter(
+          const camelCaseErrors: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as { ruleId: string; severity: number };
               return message.ruleId === 'camelcase' && message.severity === 2; // error level
@@ -298,7 +298,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const camelCaseErrors: any = result.[0].messages.filter(
+            const camelCaseErrors: any = result.[0].messages.filter(;
               (msg: any) => {
                 const message: any = msg as { ruleId: string; severity: number };
                 return message.ruleId === 'camelcase' && message.severity === 2;
@@ -314,8 +314,8 @@ describe('Astrological Rule Validation', () => {
 
   describe('Elemental Properties Validation', () => {
     test('should validate complete elemental properties', async () => {
-      const testContent: any = `
-        const elementalProps = {
+      const testContent: any = `;
+        const elementalProps = {;
           Fire: 0.8,
           Water: 0.2,
           Earth: 0.1,
@@ -333,9 +333,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Complete elemental properties should not cause errors
@@ -350,8 +350,8 @@ describe('Astrological Rule Validation', () => {
     });
 
     test('should detect incomplete elemental properties', async () => {
-      const testContent: any = `
-        const incompleteElemental = {
+      const testContent: any = `;
+        const _incompleteElemental = {;
           Fire: 0.8,
           Water: 0.2
           // Missing Earth and Air
@@ -363,9 +363,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should have caught incomplete elemental properties
@@ -379,8 +379,8 @@ describe('Astrological Rule Validation', () => {
     });
 
     test('should validate elemental property values', async () => {
-      const testContent: any = `
-        const validElemental = {
+      const testContent: any = `;
+        const _validElemental = {;
           Fire: 0.8,
           Water: 0.2,
           Earth: 0.0,
@@ -388,7 +388,7 @@ describe('Astrological Rule Validation', () => {
 };
         };
 
-        const invalidElemental: any = {
+        const _invalidElemental: any = {;
           Fire: 1.5, // Invalid: > 1, Water: -0.1, // Invalid: < 0, Earth: 0.5,
           Air: 0.3
 };
@@ -399,9 +399,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should have caught invalid elemental values
@@ -415,8 +415,8 @@ describe('Astrological Rule Validation', () => {
     });
 
     test('should detect invalid element names', async () => {
-      const testContent: any = `
-        const invalidElements = {
+      const testContent: any = `;
+        const _invalidElements = {;
           Fire: 0.8,
           Water: 0.2,
           Earth: 0.1,
@@ -429,9 +429,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should have caught invalid element name
@@ -447,8 +447,8 @@ describe('Astrological Rule Validation', () => {
 
   describe('Planetary Position Structure Validation', () => {
     test('should validate complete planetary position structure', async () => {
-      const testContent: any = `
-        const planetPosition = {
+      const testContent: any = `;
+        const planetPosition = {;
   sign: 'cancer',
           degree: 22.63,
           exactLongitude: 112.63,
@@ -466,9 +466,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Complete planetary position should not cause errors
@@ -483,8 +483,8 @@ describe('Astrological Rule Validation', () => {
     });
 
     test('should detect incomplete planetary position structure', async () => {
-      const testContent: any = `
-        const incompletePosition = {
+      const testContent: any = `;
+        const _incompletePosition = {;
   sign: 'cancer',
           degree: 22.63
           // Missing exactLongitude and isRetrograde
@@ -496,9 +496,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should have caught incomplete position structure
@@ -514,16 +514,16 @@ describe('Astrological Rule Validation', () => {
 
   describe('Fallback Value Preservation', () => {
     test('should preserve valid fallback values', async () => {
-      const testContent: any = `
-        const FALLBACK_POSITIONS = {
+      const testContent: any = `;
+        const FALLBACK_POSITIONS = {;
   sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
         };
 
-        const RELIABLE_DATA: any = {
+        const RELIABLE_DATA: any = {;
   mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false }
         };
 
-        const MARCH2025_BACKUP: any = {
+        const _MARCH2025_BACKUP: any = {;
   moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
         };
       `;
@@ -533,9 +533,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Valid fallback values should not cause errors
@@ -560,9 +560,9 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should have caught null fallback values
@@ -591,13 +591,13 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync('yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + testFile, {
-          encoding: 'utf8',
+        const output: any = execSync('yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + testFile, {;
+          encoding: 'utf8'
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const transitWarnings: any = result.[0].messages.filter(
+          const transitWarnings: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as { ruleId: any; [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -613,7 +613,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const transitWarnings: any = result.[0].messages.filter(
+            const transitWarnings: any = result.[0].messages.filter(;
               (msg: any) => {
               const message: any = msg as { ruleId: any; [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -645,15 +645,15 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const transitWarnings: any = result.[0].messages.filter(
+          const transitWarnings: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as { ruleId: any; [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -669,7 +669,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const transitWarnings: any = result.[0].messages.filter(
+            const transitWarnings: any = result.[0].messages.filter(;
               (msg: any) => {
               const message: any = msg as { ruleId: any; [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -685,7 +685,7 @@ describe('Astrological Rule Validation', () => {
 
   describe('Console Debugging Allowance', () => {
     test('should allow console statements in astrological files', async () => {
-      const testContent: any = `
+      const testContent: any = `;
         function calculatePlanetaryPosition(date: Date): any {
           console.info('Calculating planetary position for', date);
           console.debug('Using reliable astronomy calculations');
@@ -701,15 +701,15 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const consoleErrors: any = result.[0].messages.filter(
+          const consoleErrors: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as { ruleId: string; severity: number };
               return message.ruleId === 'no-console' && message.severity === 2; // error level
@@ -725,7 +725,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const consoleErrors: any = result.[0].messages.filter(
+            const consoleErrors: any = result.[0].messages.filter(;
               (msg: any) => {
                 const message: any = msg as { ruleId: string; severity: number };
                 return message.ruleId === 'no-console' && message.severity === 2;
@@ -741,14 +741,14 @@ describe('Astrological Rule Validation', () => {
 
   describe('Complexity Allowances', () => {
     test('should allow complex astronomical calculations', async () => {
-      const testContent: any = `
+      const testContent: any = `;
         function complexAstronomicalCalculation(date: Date): any {
           // Complex calculation with multiple nested conditions;
           let result: any = 0;
 
           for (let i: any = 0; i < 12; i++) { // 12 zodiac signs
             for (let j: any = 0; j < 30; j++) { // 30 degrees per sign
-              if (i % 2 === 0) {
+              if (i % 2 === 0) {;
                 if (j < 10) {
                   if (date.getMonth() > 6) {
                     result += i * j * 0.1;
@@ -779,15 +779,15 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const complexityErrors: any = result.[0].messages.filter(
+          const complexityErrors: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as { ruleId: any; severity: any; [key: string]: any };
               return message.ruleId === 'complexity' && message.severity === 2; // error level
@@ -803,7 +803,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const complexityErrors: any = result.[0].messages.filter(
+            const complexityErrors: any = result.[0].messages.filter(;
               (msg: any) => {
                 const message: any = msg as { ruleId: any; severity: any; [key: string]: any };
                 return message.ruleId === 'complexity' && message.severity === 2;

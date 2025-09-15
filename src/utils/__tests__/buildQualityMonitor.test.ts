@@ -7,14 +7,14 @@ import { AlertType, getBuildQualityScore, monitorBuildQuality } from '../buildQu
 
 // Mock child_process
 jest.mock('child_process', () => ({
-  execSync: jest.fn(),
+  execSync: jest.fn()
 }));
 
 // Mock fs
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
   readdirSync: jest.fn(),
-  statSync: jest.fn(),
+  statSync: jest.fn()
 }));
 
 // Mock the logger
@@ -22,8 +22,8 @@ jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn(),
-  },
+    debug: jest.fn()
+  }
 }));
 
 import { execSync } from 'child_process';
@@ -78,10 +78,10 @@ describe('Build Quality Monitor', () => {
 
     it('should detect TypeScript errors', async () => {
       // Mock TypeScript output with errors
-      const mockTscOutput: any = [
-        "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
+      const mockTscOutput: any = [;
+        'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
         'src/test2.ts(15,10): error TS2352: Conversion error.',
-        'src/test3.ts(20,15): error TS2345: Argument error.',
+        'src/test3.ts(20,15): error TS2345: Argument error.'
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -232,12 +232,12 @@ describe('Build Quality Monitor', () => {
   describe('Performance Analysis', () => {
     it('should identify build bottlenecks', async () => {
       // Mock build with TypeScript errors (smaller number to avoid memory issues)
-      const mockTscOutput: any = [
-        "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
+      const mockTscOutput: any = [;
+        'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
         'src/test2.ts(15,10): error TS2352: Conversion error.',
         'src/test3.ts(20,15): error TS2345: Argument error.',
         'src/test4.ts(25,20): error TS2698: Spread error.',
-        'src/test5.ts(30,25): error TS2362: Arithmetic error.',
+        'src/test5.ts(30,25): error TS2362: Arithmetic error.'
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -253,7 +253,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0);
 
       const tsBottleneck: any = (report as any)?.performanceAnalysis.bottleneckAnalysis.find(;
-        b => b.phase === 'TypeScript Compilation',
+        b => b.phase === 'TypeScript Compilation',;
       );
       expect(tsBottleneck).toBeDefined();
     });
@@ -279,10 +279,10 @@ describe('Build Quality Monitor', () => {
   describe('Alert Generation', () => {
     it('should generate alerts for high error counts', async () => {
       // Mock TypeScript errors (smaller number to avoid memory issues)
-      const mockTscOutput: any = [
-        "src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.",
+      const mockTscOutput: any = [;
+        'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
         'src/test2.ts(15,10): error TS2352: Conversion error.',
-        'src/test3.ts(20,15): error TS2345: Argument error.',
+        'src/test3.ts(20,15): error TS2345: Argument error.'
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -305,7 +305,7 @@ describe('Build Quality Monitor', () => {
 
       const report: any = monitorBuildQuality();
 
-      (report as any)?.alerts.forEach(alert => {
+      (report as any)?.alerts.forEach(alert => {;
         expect(alert.type).toBeDefined();
         expect(alert.severity).toBeDefined();
         expect(alert.message).toBeDefined();

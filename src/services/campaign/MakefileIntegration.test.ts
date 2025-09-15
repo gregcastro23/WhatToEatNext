@@ -206,7 +206,7 @@ describe('MakefileIntegration', () => {
   describe('addCampaignTargetsToMakefile', () => {
     beforeEach(() => {
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue('# Existing Makefile content\nhelp:\n\t@echo "Help"');
+      mockFs.readFileSync.mockReturnValue('# Existing Makefile content\nhelp:\n\t@echo 'Help'');
     });
 
     it('should add campaign targets to existing Makefile', async () => {
@@ -260,7 +260,7 @@ describe('MakefileIntegration', () => {
     });
 
     it('should identify missing targets', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.includes('make errors')) {
           throw new Error('Target not found');
         }
@@ -281,7 +281,7 @@ describe('MakefileIntegration', () => {
       // Should have called execSync for each required target
       expect(mockExecSync).toHaveBeenCalledTimes(requiredTargets.length);
 
-      requiredTargets.forEach(target => {
+      requiredTargets.forEach(target => {;
         expect(mockExecSync).toHaveBeenCalledWith(`make ${target}`, expect.any(Object));
       });
     });
@@ -303,7 +303,7 @@ describe('MakefileIntegration', () => {
 
       // Check that all campaign targets are included
       const targets: any = makefileIntegration.getCampaignTargets();
-      targets.forEach(target => {
+      targets.forEach(target => {;
         expect(writtenContent).toContain(`${target.name}:`);
         expect(writtenContent).toContain(target.description);
       });

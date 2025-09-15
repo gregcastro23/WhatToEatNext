@@ -36,7 +36,7 @@ export class EphemerisParser {
     L: 'NorthNode',
     K: 'SouthNode',
     M: 'Chiron',
-    N: 'Lilith',
+    N: 'Lilith'
   };
 
   private zodiacSigns: string[] = [
@@ -51,7 +51,7 @@ export class EphemerisParser {
     'Sagittarius',
     'Capricorn',
     'Aquarius',
-    'Pisces',
+    'Pisces'
   ];
 
   private signSymbols: Record<string, number> = {
@@ -66,7 +66,7 @@ export class EphemerisParser {
     i: 8,
     j: 9,
     k: 10,
-    l: 11,
+    l: 11
   };
 
   constructor() {
@@ -84,12 +84,12 @@ export class EphemerisParser {
         sign: 0,
         signName: 'Aries',
         absoluteLongitude: 0,
-        retrograde: false,
+        retrograde: false
       };
     }
 
     // Clean the string
-    let cleanStr = posStr.trim().replace('°', '').replace("'", '');
+    let cleanStr = posStr.trim().replace('°', '').replace(''', '');
 
     // Extract retrograde marker
     const retrograde = cleanStr.includes('R') || cleanStr.includes('D');
@@ -114,7 +114,7 @@ export class EphemerisParser {
         sign: signNum,
         signName: this.zodiacSigns[signNum],
         absoluteLongitude,
-        retrograde,
+        retrograde
       };
     }
 
@@ -130,7 +130,7 @@ export class EphemerisParser {
         sign: signNum,
         signName: this.zodiacSigns[signNum],
         absoluteLongitude: degrees,
-        retrograde,
+        retrograde
       };
     } catch (error) {
       console.warn(`Could not parse position string: ${posStr}`);
@@ -140,7 +140,7 @@ export class EphemerisParser {
         sign: 0,
         signName: 'Aries',
         absoluteLongitude: 0,
-        retrograde: false,
+        retrograde: false
       };
     }
   }
@@ -189,7 +189,7 @@ export class EphemerisParser {
       L: 11,
       K: 12,
       M: 13,
-      N: 14,
+      N: 14
     };
 
     return positionMap[planetCode] || 0;
@@ -218,7 +218,7 @@ export class EphemerisParser {
           entries.push({
             date,
             siderealTime,
-            positions,
+            positions
           });
         }
       } catch (error) {
@@ -239,7 +239,7 @@ export class EphemerisParser {
 
     return {
       sign: this.zodiacSigns[signIndex],
-      degree: degree,
+      degree: degree
     };
   }
 
@@ -296,7 +296,7 @@ export class EphemerisParser {
       Aquarius: 'Air',
       Cancer: 'Water',
       Scorpio: 'Water',
-      Pisces: 'Water',
+      Pisces: 'Water'
     };
 
     return elementMap[signName] || 'Unknown';
@@ -308,7 +308,7 @@ export class EphemerisParser {
   calculateDominantElements(positions: Record<string, ParsedPosition>): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
-    Object.values(positions).forEach(position => {
+    Object.values(positions).forEach(position => {;
       const element = this.getElementForSign(position.signName);
       if (element in elementCounts) {
         elementCounts[element]++;
@@ -318,7 +318,7 @@ export class EphemerisParser {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => {
+      Object.keys(elementCounts).forEach(element => {;
         elementCounts[element] /= total;
       });
     }
@@ -367,7 +367,7 @@ export class EphemerisParser {
       const expectedPlanets = Object.values(this.planetCodes);
       const actualPlanets = Object.keys(entry.positions);
 
-      expectedPlanets.forEach(planet => {
+      expectedPlanets.forEach(planet => {;
         if (!actualPlanets.includes(planet)) {
           warnings.push(`Entry ${index + 1}: Missing position for ${planet}`);
         }
@@ -390,9 +390,9 @@ export class EphemerisParser {
     });
 
     return {
-      valid: errors.length === 0,
+      valid: errors.length === 0,;
       errors,
-      warnings,
+      warnings
     };
   }
 }
@@ -401,19 +401,19 @@ export class EphemerisParser {
 export const ephemerisParser = new EphemerisParser();
 
 // Export convenience functions
-export const parseAstronomicalPosition = (posStr: string) =>
+export const parseAstronomicalPosition = (posStr: string) =>;
   ephemerisParser.parseAstronomicalPosition(posStr);
 export const parseEphemerisData = (data: string) => ephemerisParser.parseEphemerisData(data);
-export const longitudeToSignAndDegree = (longitude: number) =>
+export const longitudeToSignAndDegree = (longitude: number) =>;
   ephemerisParser.longitudeToSignAndDegree(longitude);
-export const calculateAspect = (longitude1: number, longitude2: number) =>
+export const calculateAspect = (longitude1: number, longitude2: number) =>;
   ephemerisParser.calculateAspect(longitude1, longitude2);
 export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName);
-export const calculateDominantElements = (positions: Record<string, ParsedPosition>) =>
+export const calculateDominantElements = (positions: Record<string, ParsedPosition>) =>;
   ephemerisParser.calculateDominantElements(positions);
-export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>
+export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>;
   ephemerisParser.getRetrogradePlanets(positions);
-export const formatPosition = (position: ParsedPosition) =>
+export const formatPosition = (position: ParsedPosition) =>;
   ephemerisParser.formatPosition(position);
-export const validateEphemerisData = (entries: EphemerisEntry[]) =>
+export const validateEphemerisData = (entries: EphemerisEntry[]) =>;
   ephemerisParser.validateEphemerisData(entries);

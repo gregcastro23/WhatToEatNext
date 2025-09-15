@@ -11,7 +11,7 @@ import type {
   ElementalProperties,
   ZodiacSign,
   PlanetName,
-  Season,
+  Season
 } from '@/types/alchemy';
 
 import {
@@ -22,7 +22,7 @@ import {
   getPlanetaryNutritionalRecommendations,
   getSeasonalNutritionalRecommendations,
   evaluateNutritionalElementalBalance,
-  getEnhancedPlanetaryNutritionalRecommendations,
+  getEnhancedPlanetaryNutritionalRecommendations
 } from '../../data/nutritional';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 import { errorHandler } from '../errorHandler';
@@ -94,11 +94,11 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {
+      if (typeof logError === 'function') {;
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getNutritionalData',
-          foodName,
+          foodName
         });
       }
       return null;
@@ -117,10 +117,10 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {
+      if (typeof logError === 'function') {;
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'calculateNutritionalBalance',
+          action: 'calculateNutritionalBalance'
         });
       }
       return {
@@ -129,8 +129,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           protein: 0,
           carbs: 0,
           fat: 0,
-          fiber: 0,
-        },
+          fiber: 0
+        }
       } as import('@/types/alchemy').NutritionalProfile;
     }
   }
@@ -140,7 +140,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    */
   convertNutritionalToElemental(profile: NutritionalProfile): ElementalProperties {
     try {
-      // The original function returns { Fire, Water, Earth, Air } with "Earth" capitalized
+      // The original function returns { Fire, Water, Earth, Air } with 'Earth' capitalized
       // We need to convert it to proper ElementalProperties
       const result = nutritionalToElemental(profile as any);
 
@@ -149,16 +149,16 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Fire: result.Fire,
         Water: result.Water,
         Earth: result.Earth,
-        Air: result.Air,
+        Air: result.Air
       });
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {
+      if (typeof logError === 'function') {;
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'convertNutritionalToElemental',
+          action: 'convertNutritionalToElemental'
         });
       }
       return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
@@ -184,23 +184,23 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return {
         focusNutrients: result.focusNutrients,
         recommendedFoods: result.recommendedFoods,
-        avoidFoods: result.avoidFoods,
+        avoidFoods: result.avoidFoods
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {
+      if (typeof logError === 'function') {;
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getZodiacNutritionalRecommendations',
-          sign: String(sign),
+          sign: String(sign)
         });
       }
       return {
         focusNutrients: [],
         recommendedFoods: [],
-        avoidFoods: [],
+        avoidFoods: []
       };
     }
   }
@@ -222,16 +222,16 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {
+      if (typeof logError === 'function') {;
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'getPlanetaryNutritionalRecommendations',
+          action: 'getPlanetaryNutritionalRecommendations'
         });
       }
       return {
         focusNutrients: [],
         healthAreas: [],
-        recommendedFoods: [],
+        recommendedFoods: []
       };
     }
   }
@@ -242,7 +242,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   getEnhancedPlanetaryNutritionalRecommendations(
     planetaryDay: PlanetName | string,
     planetaryHour: PlanetName | string,
-    currentTime: Date = new Date(),
+    currentTime: Date = new Date(),;
   ): {
     elements: ElementalProperties;
     focusNutrients: string[];
@@ -258,36 +258,36 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime);
 
       // Convert elements to proper ElementalProperties
-      const elements = createElementalProperties({
+      const elements = createElementalProperties({;
         Fire: result.elements.Fire || 0,
         Water: result.elements.Water || 0,
         Earth: result.elements.Earth || 0,
-        Air: result.elements.Air || 0,
+        Air: result.elements.Air || 0
       });
 
       return {
         elements,
         focusNutrients: result.focusNutrients,
         healthAreas: result.healthAreas,
-        recommendedFoods: result.recommendedFoods,
+        recommendedFoods: result.recommendedFoods
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {
+      if (typeof logError === 'function') {;
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getEnhancedPlanetaryNutritionalRecommendations',
           planetaryDay: String(planetaryDay),
-          planetaryHour: String(planetaryHour),
+          planetaryHour: String(planetaryHour)
         });
       }
       return {
         elements: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         focusNutrients: [],
         healthAreas: [],
-        recommendedFoods: [],
+        recommendedFoods: []
       };
     }
   }
@@ -307,23 +307,23 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getSeasonalNutritionalRecommendations(seasonStr);
       return {
         ...result,
-        element: result.element as Element,
+        element: result.element as Element
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      type ErrorHandlerWithLogError = typeof errorHandler & {
+      type ErrorHandlerWithLogError = typeof errorHandler & {;
         logError?: (error: unknown, context: unknown) => void;
       };
       const errorHandlerService = errorHandler as ErrorHandlerWithLogError;
       errorHandlerService.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',
-        season: String(season),
+        season: String(season)
       });
       return {
         element: 'Fire' as Element,
         focusNutrients: [],
-        seasonalFoods: [],
+        seasonalFoods: []
       };
     }
   }
@@ -341,11 +341,11 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert targetElements to the format expected by the original function
-      const legacyTargetElements = {
+      const legacyTargetElements = {;
         Fire: targetElements.Fire,
         Water: targetElements.Water,
         Earth: targetElements.Earth, // Convert to legacy capitalization
-        Air: targetElements.Air,
+        Air: targetElements.Air
       };
 
       return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
@@ -353,16 +353,16 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {
+      if (typeof logError === 'function') {;
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'evaluateNutritionalElementalBalance',
+          action: 'evaluateNutritionalElementalBalance'
         });
       }
       return {
         score: 0.5, // Default moderate score
         imbalances: [],
-        recommendations: [],
+        recommendations: []
       };
     }
   }

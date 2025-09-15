@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+ 
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import '@testing-library/jest-dom';
 
@@ -9,25 +9,25 @@ process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
 
 // Suppress console output during tests to reduce noise in CI
 if (process.env.CI) {
-  global.console = {
+  global.console = {;
     ...console,
     log: jest.fn(),
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn(),
+    error: jest.fn()
   };
 }
 
 // Mock fetch for all tests
-global.fetch = jest.fn(() =>
+global.fetch = jest.fn(() =>;
   Promise.resolve({
     json: () => Promise.resolve({}),
     text: () => Promise.resolve(''),
     ok: true,
     status: 200,
     statusText: 'OK',
-    headers: new Headers(),
+    headers: new Headers()
   } as Response),
 );
 
@@ -38,12 +38,12 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     }),
-    initialize: jest.fn(_initialState => {
+    initialize: jest.fn(_initialState => {;
       // console.log('Mock initialize called', initialState);
     }),
-    updateElementalState: jest.fn(_newState => {
+    updateElementalState: jest.fn(_newState => {;
       // console.log('Mock updateElementalState called', newState);
     }),
     getInstance: jest.fn().mockReturnValue({
@@ -52,15 +52,15 @@ jest.mock('@/services/ElementalCalculator', () => ({
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
-    }),
-  },
+        Air: 0.25
+      }
+    })
+  }
 }));
 
 // Add platform-specific mocks
-const UNUSED_isMacOS = process.platform === 'darwin';
-const UNUSED_isWindows = process.platform === 'win32';
+const _UNUSED_isMacOS = process.platform === 'darwin';
+const _UNUSED_isWindows = process.platform === 'win32';
 const isLinux = process.platform === 'linux';
 
 // Add platform-specific configuration if needed
@@ -69,12 +69,12 @@ if (isLinux && process.env.CI) {
   jest.setTimeout(30000); // 30 seconds for CI environment
 }
 
-// Add a simple test so the file doesn't fail with "no tests" error
+// Add a simple test so the file doesn't fail with 'no tests' error
 test('setup is working correctly', () => {
   expect(ElementalCalculator.getCurrentElementalState()).toEqual({
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
+    Air: 0.25
   });
 });

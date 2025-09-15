@@ -19,7 +19,7 @@ import { updateVegetables } from './updateVegetables';
 import { updateVinegars } from './updateVinegars';
 
 // Map of all available category update functions
-const categoryUpdaters = {
+const categoryUpdaters = {;
   herbs: updateHerbs,
   vegetables: updateVegetables,
   fruits: updateFruits,
@@ -27,11 +27,11 @@ const categoryUpdaters = {
   proteins: updateProteins,
   spices: updateSpices,
   oils: updateOils,
-  vinegars: updateVinegars,
+  vinegars: updateVinegars
 };
 
 // All categories in the order they should be processed
-const ALL_CATEGORIES = [
+const ALL_CATEGORIES = [;
   'herbs',
   'spices',
   'vegetables',
@@ -39,7 +39,7 @@ const ALL_CATEGORIES = [
   'grains',
   'proteins',
   'oils',
-  'vinegars',
+  'vinegars'
 ];
 
 /**
@@ -48,7 +48,7 @@ const ALL_CATEGORIES = [
  * @returns {Promise<void>}
  */
 async function updateCategories(categories: string[]): Promise<void> {
-  // console.log(`Starting update for categories: ${categories.join(', ')}`);
+  // // console.log(`Starting update for categories: ${categories.join(', ')}`);
 
   for (const category of categories) {
     const updater = categoryUpdaters[category];
@@ -57,7 +57,7 @@ async function updateCategories(categories: string[]): Promise<void> {
       continue;
     }
 
-    // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
+    // // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
     try {
       await updater();
     } catch (error) {
@@ -65,7 +65,7 @@ async function updateCategories(categories: string[]): Promise<void> {
     }
   }
 
-  // console.log('\nAll specified categories have been processed.');
+  // // console.log('\nAll specified categories have been processed.');
 }
 
 // Main function
@@ -79,7 +79,7 @@ async function main() {
   if (args.length > 0) {
     const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()));
 
-    if (validCategories.length === 0) {
+    if (validCategories.length === 0) {;
       // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`);
       process.exit(1);
     }
@@ -92,9 +92,9 @@ async function main() {
 
 // Run the main function
 // Execute only when run directly
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+ 
 // @ts-expect-error Node.js runtime check
-if (typeof require !== 'undefined' && require.main === module) {
+if (typeof require !== 'undefined' && require.main === module) {;
   void main().catch(() => process.exit(1));
 }
 

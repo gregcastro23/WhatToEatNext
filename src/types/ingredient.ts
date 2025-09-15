@@ -4,7 +4,7 @@ import type {
   CookingMethod,
   AlchemicalProperties,
   ThermodynamicProperties,
-  Modality,
+  Modality
 } from '@/data/ingredients/types';
 
 import type { ElementalProperties } from './alchemy';
@@ -85,7 +85,7 @@ export interface Ingredient {
   [key: string]: unknown;
 }
 
-// ========== TYPE RE-EXPORTS FOR DOWNSTREAM COMPATIBILITY ==========
+// ========== TYPE RE-EXPORTS FOR DOWNSTREAM COMPATIBILITY ==========;
 // These re-exports ensure downstream adapters and services can import from ingredient.ts
 export type { ElementalProperties, Season } from './alchemy';
 export type { ZodiacSign, PlanetName } from './celestial';

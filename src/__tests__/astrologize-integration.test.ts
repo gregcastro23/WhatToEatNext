@@ -3,7 +3,7 @@ import {
     fetchPlanetaryPositions,
     getCurrentPlanetaryPositions,
     getPlanetaryPositionsForDateTime,
-    testAstrologizeApi,
+    testAstrologizeApi
 } from '@/services/astrologizeApi';
 import error from 'next/error';
 import { any } from 'zod';
@@ -52,7 +52,7 @@ describe('Astrologize API Integration', () => {
             expect(positions[planet]).toHaveProperty('isRetrograde');
 
             // Validate sign is a valid zodiac sign
-            const validSigns: any = [
+            const validSigns: any = [;
               'aries',
               'taurus',
               'gemini',
@@ -64,7 +64,7 @@ describe('Astrologize API Integration', () => {
               'sagittarius',
               'capricorn',
               'aquarius',
-              'pisces',
+              'pisces'
             ];
             expect(validSigns).toContain(positions[planet].sign);
 
@@ -175,7 +175,7 @@ describe('Astrologize API Integration', () => {
           hour: 25,
           minute: 61,
           latitude: 91,
-          longitude: 181,
+          longitude: 181
         });
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
@@ -209,7 +209,7 @@ describe('Astrologize API Integration', () => {
   describe('Integration with other services', () => {
     test('should work with browser geolocation simulation', async () => {
       // Simulate getting location from browser
-      const _mockGeolocation: any = {
+      const _mockGeolocation: any = {;
         latitude: 37.7749,
         longitude: -122.4194 // San Francisco
       };
@@ -257,7 +257,7 @@ describe('Real-time Astrologize Output Demo', () => {
         console.log('⏰ Current Time:', new Date().toLocaleString());
         console.log('\n🪐 PLANETARY POSITIONS:');
 
-        const planetOrder: any = [
+        const planetOrder: any = [;
           'Sun',
           'Moon',
           'Mercury',
@@ -267,10 +267,10 @@ describe('Real-time Astrologize Output Demo', () => {
           'Saturn',
           'Uranus',
           'Neptune',
-          'Pluto',
+          'Pluto'
         ];
 
-        (planetOrder || []).forEach(planet => {
+        (planetOrder || []).forEach(planet => {;
           if (currentPositions[planet]) {
             const pos: any = currentPositions[planet];
             const retrograde: any = (pos as { isRetrograde?: boolean }).isRetrograde ? ' ℞' : '';
@@ -297,7 +297,7 @@ describe('Real-time Astrologize Output Demo', () => {
 
         // Count planets by element
         const elementCounts: any = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
-        Object.values(currentPositions || []).forEach(pos => {
+        Object.values(currentPositions || []).forEach(pos => {;
           if (pos.sign) {
             const element: any = getSignElement(pos.sign);
             if (element !== null) elementCounts[element as keyof typeof elementCounts]++;
@@ -328,7 +328,7 @@ describe('Real-time Astrologize Output Demo', () => {
 
 // Helper functions for interpretation
 function getSeason(sign: string): string {
-  const seasons: any = {
+  const seasons: any = {;
     aries: 'Spring',
     taurus: 'Spring',
     gemini: 'Spring',
@@ -340,13 +340,13 @@ function getSeason(sign: string): string {
     sagittarius: 'Autumn',
     capricorn: 'Winter',
     aquarius: 'Winter',
-    pisces: 'Winter',
+    pisces: 'Winter'
   };
   return seasons[sign as keyof typeof seasons] || 'Unknown';
 }
 
 function getSignElement(sign: string): string | null {
-  const elements: any = {
+  const elements: any = {;
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -358,17 +358,17 @@ function getSignElement(sign: string): string | null {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
+    pisces: 'Water'
   };
   return elements[sign as keyof typeof elements] || null;
 }
 
 function getElementDescription(element: string | null): string {
-  const descriptions: any = {
+  const descriptions: any = {;
     Fire: 'action and inspiration',
     Earth: 'stability and practicality',
     Air: 'communication and ideas',
-    Water: 'emotions and intuition',
+    Water: 'emotions and intuition'
   };
   return descriptions[element as keyof typeof descriptions] || 'balance';
 }

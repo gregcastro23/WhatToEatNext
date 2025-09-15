@@ -40,7 +40,7 @@ export class RecipeElementalService {
       // Return recipe with current elemental state if there's an error
       return {
         ...recipe,
-        elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       } as T & { elementalProperties: ElementalProperties };
     }
   }
@@ -87,7 +87,7 @@ export class RecipeElementalService {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
     // Calculate average difference across all elements
-    const totalDifference = elements.reduce((sum: number, element) => {
+    const totalDifference = elements.reduce((sum: number, element) => {;
       const aValue = a[element] || 0;
       const bValue = b[element] || 0;
       return sum + Math.abs(aValue - bValue);
@@ -111,17 +111,17 @@ export class RecipeElementalService {
    */
   public deriveElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     // Start with a balanced base
-    const elementalProps: ElementalProperties = {
+    const elementalProps: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
 
     try {
       // Adjust based on cooking method - safe property access for string/string[]
       if (recipe.cookingMethod) {
-        const methodValue = Array.isArray(recipe.cookingMethod)
+        const methodValue = Array.isArray(recipe.cookingMethod);
           ? recipe.cookingMethod[0]
           : recipe.cookingMethod;
         const method = (methodValue || '').toString().toLowerCase();
@@ -186,16 +186,16 @@ export class RecipeElementalService {
       // Consider ingredients if available
       if (recipe.ingredients && recipe.ingredients.length > 0) {
         // Create a new object for ingredient properties
-        const ingredientProps: ElementalProperties = {
+        const ingredientProps: ElementalProperties = {;
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0,
+          Air: 0
         };
 
         // Process ingredients with elemental properties
         let ingredientCount = 0;
-        recipe.ingredients.forEach(ingredient => {
+        recipe.ingredients.forEach(ingredient => {;
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
             ingredientProps.Fire += ingredient.elementalProperties.Fire || 0;
@@ -227,4 +227,4 @@ export class RecipeElementalService {
 }
 
 // Export singleton instance
-export const recipeElementalService = RecipeElementalService.getInstance();
+export const _recipeElementalService = RecipeElementalService.getInstance();

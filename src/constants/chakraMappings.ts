@@ -1,6 +1,6 @@
 import { ZODIAC_SIGNS, ZodiacSign } from './signEnergyStates';
 
-export const CHAKRAS = [
+export const CHAKRAS = [;
   'Root', // Muladhara
   'Sacral', // Svadhisthana
   'Solar Plexus', // Manipura
@@ -24,7 +24,7 @@ export interface ChakraProperties {
   imbalanceIndicators: string[];
 }
 
-export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
+export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
   Root: {
     name: 'Root',
     sanskritName: 'Muladhara',
@@ -33,7 +33,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     planet: 'Saturn',
     governs: ['Survival', 'Grounding', 'Security', 'Basic needs'],
     balanceIndicators: ['Stability', 'Security', 'Presence'],
-    imbalanceIndicators: ['Fear', 'Anxiety', 'Disconnection'],
+    imbalanceIndicators: ['Fear', 'Anxiety', 'Disconnection']
   },
   Sacral: {
     name: 'Sacral',
@@ -43,7 +43,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     planet: 'Jupiter',
     governs: ['Creativity', 'Passion', 'Pleasure', 'Sexuality'],
     balanceIndicators: ['Flow', 'Pleasure', 'Emotional balance'],
-    imbalanceIndicators: ['Emotional volatility', 'Lack of desire', 'Creative blocks'],
+    imbalanceIndicators: ['Emotional volatility', 'Lack of desire', 'Creative blocks']
   },
   'Solar Plexus': {
     name: 'Solar Plexus',
@@ -53,7 +53,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     planet: 'Mars',
     governs: ['Personal power', 'Will', 'Confidence', 'Self-esteem'],
     balanceIndicators: ['Confidence', 'Purpose', 'Drive'],
-    imbalanceIndicators: ['Control issues', 'Lack of direction', 'Low self-esteem'],
+    imbalanceIndicators: ['Control issues', 'Lack of direction', 'Low self-esteem']
   },
   Heart: {
     name: 'Heart',
@@ -63,7 +63,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     planet: 'Venus',
     governs: ['Love', 'Compassion', 'Harmony', 'Connection'],
     balanceIndicators: ['Empathy', 'Compassion', 'Self-love'],
-    imbalanceIndicators: ['Isolation', 'Bitterness', 'Fear of intimacy'],
+    imbalanceIndicators: ['Isolation', 'Bitterness', 'Fear of intimacy']
   },
   Throat: {
     name: 'Throat',
@@ -73,7 +73,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     planet: 'Mercury',
     governs: ['Communication', 'Expression', 'Truth', 'Authenticity'],
     balanceIndicators: ['Clear communication', 'Authentic expression', 'Active listening'],
-    imbalanceIndicators: ['Inability to express', 'Dishonesty', 'Fear of speaking up'],
+    imbalanceIndicators: ['Inability to express', 'Dishonesty', 'Fear of speaking up']
   },
   'Third Eye': {
     name: 'Third Eye',
@@ -83,7 +83,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     planet: 'Moon',
     governs: ['Intuition', 'Perception', 'Insight', 'Wisdom'],
     balanceIndicators: ['Clear intuition', 'Insight', 'Good judgment'],
-    imbalanceIndicators: ['Confusion', 'Lack of focus', 'Poor memory'],
+    imbalanceIndicators: ['Confusion', 'Lack of focus', 'Poor memory']
   },
   Crown: {
     name: 'Crown',
@@ -93,8 +93,8 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     planet: 'Sun',
     governs: ['Consciousness', 'Spirituality', 'Connection to higher self'],
     balanceIndicators: ['Spiritual connection', 'Awareness', 'Presence'],
-    imbalanceIndicators: ['Disconnection', 'Apathy', 'Materialism'],
-  },
+    imbalanceIndicators: ['Disconnection', 'Apathy', 'Materialism']
+  }
 };
 
 // Chakra to Zodiac Sign mappings
@@ -105,11 +105,11 @@ export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
   Heart: ['libra', 'taurus'],
   Throat: ['gemini', 'virgo'],
   'Third Eye': ['pisces', 'sagittarius'],
-  Crown: ['aquarius', 'pisces'],
+  Crown: ['aquarius', 'pisces']
 };
 
 // Zodiac Sign to Chakra mappings (reverse of above)
-export const ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGNS.reduce(
+export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGNS.reduce(
   (mappings, sign) => {
     mappings[sign] = CHAKRAS.filter(chakra => CHAKRA_ZODIAC_MAPPINGS[chakra].includes(sign));
     return mappings;
@@ -123,13 +123,13 @@ export function calculateChakraEnergies(
 ): Record<Chakra, number> {
   const chakraEnergies: Record<Chakra, number> = {} as Record<Chakra, number>;
 
-  CHAKRAS.forEach(chakra => {
+  CHAKRAS.forEach(chakra => {;
     // Get all zodiac signs related to this chakra
     const relatedSigns = CHAKRA_ZODIAC_MAPPINGS[chakra];
 
     // If there are related signs, calculate the average energy
     if (relatedSigns.length > 0) {
-      const totalEnergy = relatedSigns.reduce(
+      const totalEnergy = relatedSigns.reduce(;
         (sum, sign) => sum + (signEnergyStates[sign] || 0),
         0,
       );
@@ -148,44 +148,44 @@ export const CHAKRA_BALANCING_FOODS: Record<Chakra, string[]> = {
     'Root vegetables (carrots, potatoes, radishes)',
     'Red foods (apples, pomegranates)',
     'Proteins (meats, beans, nuts)',
-    'Spices (paprika, chili pepper)',
+    'Spices (paprika, chili pepper)'
   ],
   Sacral: [
     'Orange foods (oranges, mangoes, sweet potatoes)',
     'Water-rich foods (melons, cucumbers)',
     'Seeds (pumpkin, sunflower)',
-    'Honey and cinnamon',
+    'Honey and cinnamon'
   ],
   'Solar Plexus': [
     'Yellow foods (corn, bananas, pineapple)',
     'Whole grains (brown rice, oats)',
     'Spices (turmeric, ginger)',
-    'Lentils and legumes',
+    'Lentils and legumes'
   ],
   Heart: [
     'Green foods (leafy greens, avocados)',
     'Hydrating foods (cucumber, celery)',
     'Green tea',
-    'Rose water and rosemary',
+    'Rose water and rosemary'
   ],
   Throat: [
     'Blue/purple foods (blueberries, plums)',
     'Fruit juices and herbal teas',
     'Citrus fruits',
-    'Sea vegetables (kelp, nori)',
+    'Sea vegetables (kelp, nori)'
   ],
   'Third Eye': [
     'Purple foods (eggplant, purple grapes)',
     'Omega-rich foods (salmon, walnuts)',
     'Dark chocolate',
-    'Spices (lavender, star anise)',
+    'Spices (lavender, star anise)'
   ],
   Crown: [
     'Violet/white foods (cauliflower, garlic)',
     'Purified water',
     'Fasting-friendly foods',
-    'Detoxifying herbs (sage, peppermint)',
-  ],
+    'Detoxifying herbs (sage, peppermint)'
+  ]
 };
 
 // Recommend foods based on chakra energy levels

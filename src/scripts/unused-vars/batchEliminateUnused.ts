@@ -15,7 +15,7 @@ import path from 'node:path';
 
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
-type Finding = {
+type Finding = {;
   filePath: string;
   fileKind: ReturnType<typeof classifyFileKind>;
   variableName: string;
@@ -26,7 +26,7 @@ type Finding = {
   confidence: number;
 };
 
-type CliOptions = {
+type CliOptions = {;
   inPath: string;
   dryRun: boolean;
   maxBatch: number;
@@ -45,7 +45,7 @@ function parseArgs(argv: string[]): CliOptions {
     maxBatchCritical:
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
-        : 8,
+        : 8
   };
 }
 
@@ -58,7 +58,7 @@ function execCmd(cmd: string): { code: number; stdout: string; stderr: string } 
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
-      stderr: e.stderr ? e.stderr.toString() : 'Execution failed',
+      stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
     };
   }
 }
@@ -200,16 +200,16 @@ async function main(): Promise<void> {
   const files = sortFilesForSafety(Array.from(byFile.keys()));
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
-  // eslint-disable-next-line no-console
-  console.log(
-    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
+   
+  // console.log(
+    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,;
   );
 
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];
     const ok = processBatch(batch, byFile, opts.dryRun);
     if (!ok) {
-      // eslint-disable-next-line no-console
+       
       console.error(`Type check failed for batch ${i + 1}. Rolled back changes for the batch.`);
       break;
     }

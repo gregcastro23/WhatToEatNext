@@ -31,8 +31,8 @@ export function createSuccessResponse<T>(
     metadata: {
       timestamp: Date.now(),
       version: API_VERSION,
-      ...metadata,
-    },
+      ...metadata
+    }
   };
 }
 
@@ -64,8 +64,8 @@ export function createCollectionResponse<T>(
       totalPages,
       cache: {
         hit: false, // Default to false, can be overridden by cache middleware
-      },
-    },
+      }
+    }
   };
 }
 
@@ -91,9 +91,9 @@ export function createErrorResponse<T>(
       code,
       message,
       // Only include details in development environment
-      details: process.env.NODE_ENV === 'development' ? details : undefined,
+      details: process.env.NODE_ENV === 'development' ? details : undefined,;
     },
-    metadata: { timestamp: Date.now(), version: API_VERSION },
+    metadata: { timestamp: Date.now(), version: API_VERSION }
   };
 }
 

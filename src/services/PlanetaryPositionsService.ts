@@ -19,9 +19,9 @@ let cache: CacheEntry | null = null;
 function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 'sidereal') {
   return JSON.stringify({
     t: date ? date.toISOString() : 'now',
-    lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,
-    lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,
-    sys: system || 'tropical',
+    lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,;
+    lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,;
+    sys: system || 'tropical'
   });
 }
 
@@ -37,7 +37,7 @@ function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; ex
       degree: Number(p?.degree || 0),
       minute: 0,
       exactLongitude: Number(p?.exactLongitude || 0),
-      isRetrograde: !!p?.isRetrograde,
+      isRetrograde: !!p?.isRetrograde
     };
   });
   return out;
@@ -49,7 +49,7 @@ export class PlanetaryPositionsService {
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
   ): Promise<PositionRecord> {
     const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem);
-    if (isFresh(cache, key)) return cache!.positions;
+    if (isFresh(cache, key)) return cache.positions;
 
     try {
       // Primary: local astrologize API wrapper
@@ -71,7 +71,7 @@ export class PlanetaryPositionsService {
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
   ): Promise<PositionRecord> {
     const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem);
-    if (isFresh(cache, key)) return cache!.positions;
+    if (isFresh(cache, key)) return cache.positions;
 
     try {
       // Primary: local astrologize API wrapper
@@ -88,4 +88,4 @@ export class PlanetaryPositionsService {
   }
 }
 
-export const planetaryPositionsService = new PlanetaryPositionsService();
+export const _planetaryPositionsService = new PlanetaryPositionsService();

@@ -41,26 +41,26 @@ export interface StandardizationOptions {
 export function standardizeElementalAffinity(
   value: string | { base: string; decanModifiers?: { [key: string]: unknown } },
 ): ElementalAffinity {
-  if (typeof value === 'string') {
+  if (typeof value === 'string') {;
     return {
       primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
-      compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 },
+      compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     };
   }
 
-  if (value && typeof value === 'object' && 'base' in value) {
+  if (value && typeof value === 'object' && 'base' in value) {;
     return {
       primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
-      compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 },
+      compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     };
   }
 
   return {
     primary: 'Fire',
     strength: 1.0,
-    compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 },
+    compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
   };
 }
 
@@ -92,7 +92,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     storage: raw.storage ? String(raw.storage) : undefined,
     preparationTips: Array.isArray(raw.preparationTips)
       ? raw.preparationTips || [].map(String)
-      : [],
+      : []
   } as Ingredient;
 }
 
@@ -114,17 +114,17 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     description: raw.description ? String(raw.description) : undefined,
     cuisine: String(raw.cuisine || 'international'),
     mealType: Array.isArray(raw.mealType) ? raw.mealType || [].map(String) : ['dinner'],
-    servings: typeof raw.servings === 'number' ? raw.servings : 4,
+    servings: typeof raw.servings === 'number' ? raw.servings : 4,;
     prepTime:
-      typeof raw.prepTime === 'number'
+      typeof raw.prepTime === 'number';
         ? `${raw.prepTime} minutes`
-        : typeof raw.prepTime === 'string'
+        : typeof raw.prepTime === 'string';
           ? raw.prepTime
           : '30 minutes',
     cookTime:
-      typeof raw.cookTime === 'number'
+      typeof raw.cookTime === 'number';
         ? `${raw.cookTime} minutes`
-        : typeof raw.cookTime === 'string'
+        : typeof raw.cookTime === 'string';
           ? raw.cookTime
           : '30 minutes',
     difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as unknown) : 'medium',
@@ -138,7 +138,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     tags: Array.isArray(raw.tags) ? raw.tags || [].map(String) : [],
     nutritionalInfo: standardizeNutritionalInfo(raw.nutritionalInfo),
     equipment: Array.isArray(raw.equipment) ? raw.equipment || [].map(String) : [],
-    tips: Array.isArray(raw.tips) ? raw.tips || [].map(String) : [],
+    tips: Array.isArray(raw.tips) ? raw.tips || [].map(String) : []
   };
 }
 
@@ -186,9 +186,9 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: (errors || []).length === 0,;
     errors,
-    warnings,
+    warnings
   };
 }
 
@@ -214,7 +214,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
     !recipe.ingredients ||
     !Array.isArray(recipe.ingredients) ||
     recipe.ingredients ||
-    [].length === 0
+    [].length === 0;
   ) {
     errors.push('Recipe must have at least one ingredient');
   }
@@ -223,7 +223,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
     !recipe.instructions ||
     !Array.isArray(recipe.instructions) ||
     recipe.instructions ||
-    [].length === 0
+    [].length === 0;
   ) {
     errors.push('Recipe must have instructions');
   }
@@ -254,7 +254,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
 
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(
+    const elementalValidation = validateElementalProperties(;
       recipe.elementalState as unknown as ElementalProperties,
     );
     if (!elementalValidation.isValid) {
@@ -265,9 +265,9 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: (errors || []).length === 0,;
     errors,
-    warnings,
+    warnings
   };
 }
 
@@ -279,13 +279,13 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  */
 export function cleanupIngredientsDatabase(
   ingredients: Ingredient | UnifiedIngredient[],
-  _options: StandardizationOptions = {},
+  _options: StandardizationOptions = {},;
 ): DataCleanupResult {
-  const result: DataCleanupResult = {
+  const result: DataCleanupResult = {;
     processed: 0,
     cleaned: 0,
     errors: 0,
-    warnings: [],
+    warnings: []
   };
 
   const cleanedIngredients: Ingredient[] = [];
@@ -329,13 +329,13 @@ export function cleanupIngredientsDatabase(
 export function mergeElementalProperties(
   base: ElementalProperties,
   addition: ElementalProperties,
-  weight = 0.5,
+  weight = 0.5,;
 ): ElementalProperties {
-  const merged = {
+  const merged = {;
     Fire: base.Fire * (1 - weight) + addition.Fire * weight,
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
-    Air: base.Air * (1 - weight) + addition.Air * weight,
+    Air: base.Air * (1 - weight) + addition.Air * weight
   };
 
   // Normalize to ensure sum equals 1
@@ -345,7 +345,7 @@ export function mergeElementalProperties(
       Fire: merged.Fire / total,
       Water: merged.Water / total,
       Earth: merged.Earth / total,
-      Air: merged.Air / total,
+      Air: merged.Air / total
     };
   }
 
@@ -365,7 +365,7 @@ function createDefaultIngredient(id: string): Ingredient {
     qualities: [],
     cookingMethods: [],
     pairings: [],
-    preparationTips: [],
+    preparationTips: []
   } as Ingredient;
 }
 
@@ -386,7 +386,7 @@ function createDefaultRecipe(id: string): Recipe {
     seasons: [],
     tags: [],
     equipment: [],
-    tips: [],
+    tips: []
   };
 }
 
@@ -415,7 +415,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
     return {
       elementalAffinity: {} as ElementalAffinity,
       rulingPlanets: [],
-      favorableZodiac: [],
+      favorableZodiac: []
     } as unknown as AstrologicalProfile;
   }
   const prof = profile as unknown;
@@ -426,7 +426,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac)
       ? (prof.favorableZodiac || []).map(String)
-      : [],
+      : []
   } as unknown as AstrologicalProfile;
 }
 
@@ -438,7 +438,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
       salty: 0,
       bitter: 0,
       umami: 0,
-      spicy: 0,
+      spicy: 0
     };
   }
 
@@ -446,7 +446,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   const prof = profile as unknown;
 
   Object.entries(prof || {}).forEach(([key, value]) => {
-    if (typeof value === 'number' && value >= 0 && value <= 1) {
+    if (typeof value === 'number' && value >= 0 && value <= 1) {;
       result[key] = value;
     }
   });
@@ -467,7 +467,7 @@ function standardizeSeasons(seasons: unknown): string[] {
     return (seasons || []).map(String);
   }
 
-  if (typeof seasons === 'string') {
+  if (typeof seasons === 'string') {;
     return [seasons];
   }
 
@@ -479,31 +479,31 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return [];
   }
 
-  return (ingredients || []).map(ingredient => {
-    if (typeof ingredient === 'string') {
+  return (ingredients || []).map(ingredient => {;
+    if (typeof ingredient === 'string') {;
       return {
         name: ingredient,
         amount: 1,
-        unit: 'item',
+        unit: 'item'
       };
     }
 
-    if (ingredient && typeof ingredient === 'object') {
-      const ing = ingredient as any;
+    if (ingredient && typeof ingredient === 'object') {;
+      const ing = ingredient ;
       return {
         name: String(ing.name || 'Unknown'),
-        amount: typeof ing.amount === 'number' ? ing.amount : 1,
+        amount: typeof ing.amount === 'number' ? ing.amount : 1,;
         unit: String(ing.unit || 'item'),
         preparation: ing.preparation ? String(ing.preparation) : undefined,
         optional: Boolean(ing.optional),
-        notes: ing.notes ? String(ing.notes) : undefined,
+        notes: ing.notes ? String(ing.notes) : undefined
       };
     }
 
     return {
       name: 'Unknown',
       amount: 1,
-      unit: 'item',
+      unit: 'item'
     };
   });
 }
@@ -530,7 +530,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
 
-  (requiredElements || []).forEach(element => {
+  (requiredElements || []).forEach(element => {;
     if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
       errors.push(`${element} must be a number`);
     } else {
@@ -542,8 +542,8 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
   });
 
   return {
-    isValid: (errors || []).length === 0,
-    errors,
+    isValid: (errors || []).length === 0,;
+    errors
   };
 }
 
@@ -567,8 +567,8 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   return {
-    isValid: (errors || []).length === 0,
-    errors,
+    isValid: (errors || []).length === 0,;
+    errors
   };
 }
 
@@ -595,8 +595,8 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,
-    errors,
+    isValid: (errors || []).length === 0,;
+    errors
   };
 }
 
@@ -607,5 +607,5 @@ export default {
   validateIngredient,
   validateRecipe,
   cleanupIngredientsDatabase,
-  mergeElementalProperties,
+  mergeElementalProperties
 };

@@ -6,7 +6,7 @@
 */
 
 export type PreservationReason =
-  | 'astrological-variable'
+  | 'astrological-variable';
   | 'elemental-property'
   | 'campaign-system'
   | 'test-context'

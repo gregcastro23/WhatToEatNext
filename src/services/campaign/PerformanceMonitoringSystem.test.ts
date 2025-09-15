@@ -37,7 +37,7 @@ describe('PerformanceMonitoringSystem', () => {
       heapUsed: 40 * 1024 * 1024, // 40MB
       heapTotal: 50 * 1024 * 1024, // 50MB
       external: 5 * 1024 * 1024,
-      arrayBuffers: 1 * 1024 * 1024,
+      arrayBuffers: 1 * 1024 * 1024
     });
   });
 
@@ -54,7 +54,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(buildTime).toBe(8.5);
       expect(mockExecSync).toHaveBeenCalledWith('time -p yarn build 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
     });
 
@@ -74,7 +74,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(buildTime).toBe(8); // 8 seconds
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       mockDateNow.mockRestore();
@@ -161,20 +161,20 @@ describe('PerformanceMonitoringSystem', () => {
   describe('detectPerformanceRegression', () => {
     it('should detect build time regression', async () => {
       // Add performance history with increasing build times
-      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 5, target: 10, average: 5, trend: 'stable' },
+      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 5, target: 10, average: 5, trend: 'stable' },;
         cacheHitRate: { curren, t: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
         memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 40 },
-        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' },
+        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {
+      const mockMetrics2: PerformanceMetrics = {;
         ...mockMetrics1,
-        buildTime: { curren, t: 7, target: 10, average: 6, trend: 'degrading' },
+        buildTime: { curren, t: 7, target: 10, average: 6, trend: 'degrading' }
       };
 
-      const mockMetrics3: PerformanceMetrics = {
+      const mockMetrics3: PerformanceMetrics = {;
         ...mockMetrics1,
-        buildTime: { curren, t: 9, target: 10, average: 7, trend: 'degrading' },
+        buildTime: { curren, t: 9, target: 10, average: 7, trend: 'degrading' }
       };
 
       // Manually add to history
@@ -191,20 +191,20 @@ describe('PerformanceMonitoringSystem', () => {
     });
 
     it('should detect cache hit rate regression', async () => {
-      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
+      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },;
         cacheHitRate: { curren, t: 0.9, target: 0.8, average: 0.9, trend: 'stable' },
         memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 40 },
-        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' },
+        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {
+      const mockMetrics2: PerformanceMetrics = {;
         ...mockMetrics1,
-        cacheHitRate: { curren, t: 0.75, target: 0.8, average: 0.825, trend: 'degrading' },
+        cacheHitRate: { curren, t: 0.75, target: 0.8, average: 0.825, trend: 'degrading' }
       };
 
-      const mockMetrics3: PerformanceMetrics = {
+      const mockMetrics3: PerformanceMetrics = {;
         ...mockMetrics1,
-        cacheHitRate: { curren, t: 0.6, target: 0.8, average: 0.75, trend: 'degrading' },
+        cacheHitRate: { curren, t: 0.6, target: 0.8, average: 0.75, trend: 'degrading' }
       };
 
       (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
@@ -219,20 +219,20 @@ describe('PerformanceMonitoringSystem', () => {
     });
 
     it('should detect memory usage regression', async () => {
-      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
+      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },;
         cacheHitRate: { curren, t: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
         memoryUsage: { curren, t: 30, target: 50, peak: 35, average: 30 },
-        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' },
+        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {
+      const mockMetrics2: PerformanceMetrics = {;
         ...mockMetrics1,
-        memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 35 },
+        memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 35 }
       };
 
-      const mockMetrics3: PerformanceMetrics = {
+      const mockMetrics3: PerformanceMetrics = {;
         ...mockMetrics1,
-        memoryUsage: { curren, t: 55, target: 50, peak: 60, average: 42 },
+        memoryUsage: { curren, t: 55, target: 50, peak: 60, average: 42 }
       };
 
       (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
@@ -283,11 +283,11 @@ describe('PerformanceMonitoringSystem', () => {
       mockExecSync.mockReturnValue('real 8.00\n');
       mockFs.existsSync.mockReturnValue(false);
 
-      const metrics1: any = await performanceMonitor.getPerformanceMetrics();
+      const _metrics1: any = await performanceMonitor.getPerformanceMetrics();
 
       // Add more measurements to establish trend (need at least 3 for trend calculation)
       mockExecSync.mockReturnValue('real 7.50\n');
-      const metrics2: any = await performanceMonitor.getPerformanceMetrics();
+      const _metrics2: any = await performanceMonitor.getPerformanceMetrics();
 
       // Third measurement with significant improvement
       mockExecSync.mockReturnValue('real 6.00\n');
@@ -360,7 +360,7 @@ describe('PerformanceMonitoringSystem', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         './test-performance-data.json',
-        expect.stringContaining('"timestamp"'),
+        expect.stringContaining(''timestamp''),
       );
     });
 
@@ -381,13 +381,13 @@ describe('PerformanceMonitoringSystem', () => {
       expect(initialAlerts).toHaveLength(0);
 
       // Add alert through private method (simulate regression detection)
-      const mockAlert: PerformanceAlert = { type: 'build_time',
+      const mockAlert: PerformanceAlert = { type: 'build_time',;
         severity: 'warning',
         message: 'Test alert',
         currentValue: 15,
         targetValue: 10,
         timestamp: new Date(),
-        recommendations: ['Test recommendation'],
+        recommendations: ['Test recommendation']
       };
 
       (performanceMonitor as any).addAlert(mockAlert);

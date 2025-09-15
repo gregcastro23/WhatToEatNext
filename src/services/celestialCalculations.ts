@@ -8,7 +8,7 @@ import type {
   ZodiacSign,
   AspectType,
   PlanetaryAspect,
-  CelestialBody,
+  CelestialBody
 } from '../types/alchemy';
 import type { LunarPhase } from '../types/shared';
 // astronomia calculator removed - using direct calculations
@@ -24,7 +24,7 @@ const TAROT_ELEMENTAL_MAPPING: Record<
   wands: { Element: 'Fire', Spirit: 0.9, Essence: 0.3, Matter: 0.2, Substance: 0.4 },
   cups: { Element: 'Water', Essence: 0.8, Spirit: 0.4, Matter: 0.3, Substance: 0.5 },
   swords: { Element: 'Air', Substance: 0.8, Spirit: 0.5, Matter: 0.3, Essence: 0.4 },
-  pentacles: { Element: 'Earth', Matter: 0.9, Spirit: 0.2, Substance: 0.4, Essence: 0.3 },
+  pentacles: { Element: 'Earth', Matter: 0.9, Spirit: 0.2, Substance: 0.4, Essence: 0.3 }
 };
 
 // Tarot zodiac associations
@@ -40,7 +40,7 @@ const TAROT_ZODIAC_MAPPING: Record<string, string[]> = {
   sagittarius: ['Temperance', 'Wheel of Fortune'],
   capricorn: ['Devil', 'World'],
   aquarius: ['Star', 'Fool'],
-  pisces: ['Moon', 'Hanged Man'],
+  pisces: ['Moon', 'Hanged Man']
 };
 
 // Planetary tarot associations
@@ -54,12 +54,12 @@ const TAROT_PLANETARY_MAPPING: Record<string, string[]> = {
   Saturn: ['World', 'Hermit'],
   Uranus: ['Fool', 'Star'],
   Neptune: ['Hanged Man', 'Moon'],
-  Pluto: ['Death', 'Judgment'],
+  Pluto: ['Death', 'Judgment']
 };
 
 // Add minor arcana mappings after the existing major arcana mappings
 // Minor arcana cards mapped to dates in the year - 36 decans of 10 days each
-const MINOR_ARCANA_DATE_MAPPING = {
+const MINOR_ARCANA_DATE_MAPPING = {;
   // Wands (Fire) - Spring
   ace_of_wands: { startMonth: 2, startDay: 21, endMonth: 2, endDay: 30 }, // aries decan 1
   two_of_wands: { startMonth: 3, startDay: 1, endMonth: 3, endDay: 10 }, // aries decan 2
@@ -106,11 +106,11 @@ const MINOR_ARCANA_DATE_MAPPING = {
 };
 
 // Minor arcana elemental affinities
-const MINOR_ARCANA_ELEMENTAL_AFFINITIES = {
+const MINOR_ARCANA_ELEMENTAL_AFFINITIES = {;
   wands: { element: 'Fire', energyState: 'Spirit' },
   cups: { element: 'Water', energyState: 'Essence' },
   swords: { element: 'Air', energyState: 'Substance' },
-  pentacles: { element: 'Earth', energyState: 'Matter' },
+  pentacles: { element: 'Earth', energyState: 'Matter' }
 };
 
 interface CelestialPosition {
@@ -172,10 +172,10 @@ class CelestialCalculator {
         if (
           !cached.astrologicalInfluences ||
           !Array.isArray(cached.astrologicalInfluences) ||
-          cached.astrologicalInfluences.length === 0
+          cached.astrologicalInfluences.length === 0;
         ) {
-          const influences = cached.dominantPlanets
-            ? [...cached.dominantPlanets.map(p => p.name), cached.zodiacSign || 'libra', 'all']
+          const influences = cached.dominantPlanets;
+            ? [...cached.dominantPlanets.map(p => p.name), cached.zodiacSign || 'libra', 'all'];
             : ['Sun', 'Moon', cached.zodiacSign || 'libra', 'all'];
 
           cached.astrologicalInfluences = influences;
@@ -200,12 +200,12 @@ class CelestialCalculator {
         throw new Error('Astronomy calculator removed - using fallback positions');
       } catch (error) {
         // Fallback to default positions if we can't calculate them
-        planetaryPositions = {
+        planetaryPositions = {;
           sun: { sign: zodiacSign.toLowerCase(), degree: 15 },
           moon: { sign: this.calculateMoonSign(now), degree: 10 },
           uranus: { sign: 'taurus', degree: 24 }, // Current positions as of 2025
           neptune: { sign: 'aries', degree: 0 },
-          pluto: { sign: 'aquarius', degree: 3 },
+          pluto: { sign: 'aquarius', degree: 3 }
         };
       }
 
@@ -216,7 +216,7 @@ class CelestialCalculator {
       const lunarPhase = this.calculateLunarPhase(now);
 
       // Calculate elemental balance
-      const elementalBalance = this.calculateElementalBalance(
+      const elementalBalance = this.calculateElementalBalance(;
         zodiacSign,
         dominantPlanets,
         lunarPhase,
@@ -227,28 +227,28 @@ class CelestialCalculator {
       cache.set(this.TAROT_CACHE_KEY, tarotInfluences, 60 * 60);
 
       // Generate astrological influences from planets, zodiac, and tarot
-      const astroInfluences = [
-        ...dominantPlanets.map(p => p.name),
+      const astroInfluences = [;
+        ...dominantPlanets.map(p => p.name),;
         zodiacSign,
-        ...tarotInfluences.map(t => t.name),
+        ...tarotInfluences.map(t => t.name),;
         'all', // Always include 'all' for universal matching
       ];
 
       // Build complete celestial alignment (using type assertion due to interface mismatch)
-      const alignment = {
+      const alignment = {;
         date: now.toISOString(),
         zodiacSign,
         dominantPlanets,
         lunarPhase,
         elementalBalance,
         aspectInfluences: this.calculatePlanetaryAspects(now).map(
-          aspect =>
+          aspect =>;
             ({
               planet1: aspect.planets[0],
               planet2: aspect.planets[1],
               type: aspect.type,
               orb: aspect.orb || 0,
-              strength: aspect.influence,
+              strength: aspect.influence
             }) as PlanetaryAspect,
         ),
         astrologicalInfluences: astroInfluences, // Ensure this is always present and includes tarot influences and 'all'
@@ -288,7 +288,7 @@ class CelestialCalculator {
       const signsPassed = Math.floor((daysSinceReference % lunarCycle) / 2.28);
 
       // Define zodiac signs in order
-      const signs = [
+      const signs = [;
         'aries',
         'taurus',
         'gemini',
@@ -300,7 +300,7 @@ class CelestialCalculator {
         'sagittarius',
         'capricorn',
         'aquarius',
-        'pisces',
+        'pisces'
       ];
 
       // Find the reference sign index
@@ -333,14 +333,14 @@ class CelestialCalculator {
 
     // Add zodiac-related major arcana cards
     const zodiacCards = TAROT_ZODIAC_MAPPING[zodiacSign] || [];
-    zodiacCards.forEach(cardName => {
+    zodiacCards.forEach(cardName => {;
       tarotCards.push(this.createTarotCard(cardName, zodiacSign));
     });
 
     // Add planet-related major arcana cards
-    dominantPlanets.forEach(planet => {
+    dominantPlanets.forEach(planet => {;
       const planetCards = TAROT_PLANETARY_MAPPING[planet.name] || [];
-      planetCards.forEach(cardName => {
+      planetCards.forEach(cardName => {;
         tarotCards.push(this.createTarotCard(cardName, undefined, planet.name));
       });
     });
@@ -376,7 +376,7 @@ class CelestialCalculator {
       name,
       suit,
       description: `Tarot card associated with ${zodiacAssociation || planetaryAssociation || 'universal forces'}`,
-      planetaryInfluences: planetaryAssociation ? { [planetaryAssociation]: 1.0 } : undefined,
+      planetaryInfluences: planetaryAssociation ? { [planetaryAssociation]: 1.0 } : undefined
     };
   }
 
@@ -389,30 +389,30 @@ class CelestialCalculator {
     }
 
     // Start with complete defaults (using type assertion due to interface mismatch)
-    const safeAlignment = {
+    const safeAlignment = {;
       date: new Date().toISOString(),
       zodiacSign: 'libra' as any,
       dominantPlanets: [
         { name: 'Sun', influence: 0.5 },
-        { name: 'Moon', influence: 0.5 },
+        { name: 'Moon', influence: 0.5 }
       ],
       lunarPhase: 'full moon' as LunarPhase,
       elementalBalance: {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
+        Air: 0.25
       },
       aspectInfluences: [],
-      astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'],
+      astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
     } as unknown as CelestialAlignment;
 
     // Override with any valid properties from the input
-    if (typeof alignment.date === 'string') {
+    if (typeof alignment.date === 'string') {;
       safeAlignment.date = alignment.date;
     }
 
-    if (typeof alignment.zodiacSign === 'string') {
+    if (typeof alignment.zodiacSign === 'string') {;
       safeAlignment.zodiacSign = alignment.zodiacSign;
     }
 
@@ -420,11 +420,11 @@ class CelestialCalculator {
       safeAlignment.dominantPlanets = alignment.dominantPlanets;
     }
 
-    if (typeof alignment.lunarPhase === 'string') {
+    if (typeof alignment.lunarPhase === 'string') {;
       safeAlignment.lunarPhase = alignment.lunarPhase;
     }
 
-    if (alignment.elementalBalance && typeof alignment.elementalBalance === 'object') {
+    if (alignment.elementalBalance && typeof alignment.elementalBalance === 'object') {;
       safeAlignment.elementalBalance = alignment.elementalBalance;
     }
 
@@ -450,8 +450,8 @@ class CelestialCalculator {
       safeAlignment.astrologicalInfluences = alignment.astrologicalInfluences;
     } else {
       // Generate from dominant planets and zodiac sign
-      safeAlignment.astrologicalInfluences = [
-        ...(safeAlignment.dominantPlanets?.map(p => p.name) || []),
+      safeAlignment.astrologicalInfluences = [;
+        ...(safeAlignment.dominantPlanets?.map(p => p.name) || []),;
         safeAlignment.zodiacSign || 'libra',
         'all', // Add 'all' as a fallback to ensure matches with recipes
       ];
@@ -469,14 +469,14 @@ class CelestialCalculator {
       zodiacSign: 'libra' as any, // Balance
       dominantPlanets: [
         { name: 'Sun', influence: 0.5 },
-        { name: 'Moon', influence: 0.5 },
+        { name: 'Moon', influence: 0.5 }
       ],
       lunarPhase: 'full moon' as LunarPhase,
       elementalBalance: {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25,
+        Water: 0.25
       },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'], // Ensure this is always present and has values
@@ -510,7 +510,7 @@ class CelestialCalculator {
    * Jupiter expands while Saturn restricts - they have opposing but complementary effects
    */
   private calculateGasGiantInfluences(
-    planetaryPositions: PlanetaryPositionRecord = {},
+    planetaryPositions: PlanetaryPositionRecord = {},;
     aspectInfluences: Array<{ type: AspectType; planets: string[]; influence: number }> = [],
   ): {
     jupiterInfluence: number;
@@ -555,9 +555,9 @@ class CelestialCalculator {
         jupiterDignityName = dignity.type;
 
         // Determine effect based on dignity
-        if (dignity.type === 'Domicile' || dignity.type === 'Exaltation') {
+        if (dignity.type === 'Domicile' || dignity.type === 'Exaltation') {;
           jupiterEffect = 'expansive';
-        } else if (dignity.type === 'Detriment' || dignity.type === 'Fall') {
+        } else if (dignity.type === 'Detriment' || dignity.type === 'Fall') {;
           jupiterEffect = 'restricted';
         }
       }
@@ -572,9 +572,9 @@ class CelestialCalculator {
         saturnDignityName = dignity.type;
 
         // Determine effect based on dignity
-        if (dignity.type === 'Domicile' || dignity.type === 'Exaltation') {
+        if (dignity.type === 'Domicile' || dignity.type === 'Exaltation') {;
           saturnEffect = 'restrictive';
-        } else if (dignity.type === 'Detriment' || dignity.type === 'Fall') {
+        } else if (dignity.type === 'Detriment' || dignity.type === 'Fall') {;
           saturnEffect = 'softened';
         }
       }
@@ -582,8 +582,8 @@ class CelestialCalculator {
 
     // Check if Jupiter and Saturn are making aspects to each other
     // This is critical as their interaction dramatically affects their expression
-    const jupiterSaturnAspect = aspectInfluences.find(
-      aspect => aspect.planets.includes('Jupiter') && aspect.planets.includes('Saturn'),
+    const jupiterSaturnAspect = aspectInfluences.find(;
+      aspect => aspect.planets.includes('Jupiter') && aspect.planets.includes('Saturn'),;
     );
 
     let aspectType = '';
@@ -624,10 +624,10 @@ class CelestialCalculator {
     }
 
     // Create more descriptive effects
-    if (jupiterEffect === 'expansive') {
+    if (jupiterEffect === 'expansive') {;
       jupiterEffect = 'expansive';
       // Keep the base effect as union type compliant - don't modify with template strings
-    } else if (jupiterEffect === 'restricted') {
+    } else if (jupiterEffect === 'restricted') {;
       jupiterEffect = 'restricted';
       // Keep the base effect as union type compliant - don't modify with template strings
     } else {
@@ -635,10 +635,10 @@ class CelestialCalculator {
       jupiterEffect = 'balanced';
     }
 
-    if (saturnEffect === 'restrictive') {
+    if (saturnEffect === 'restrictive') {;
       saturnEffect = 'restrictive';
       // Keep the base effect as union type compliant - don't modify with template strings
-    } else if (saturnEffect === 'softened') {
+    } else if (saturnEffect === 'softened') {;
       saturnEffect = 'softened';
       // Keep the base effect as union type compliant - don't modify with template strings
     } else {
@@ -647,7 +647,7 @@ class CelestialCalculator {
     }
 
     // Additional adjustments for conjunction - keep union type compliance
-    if (aspectType === 'conjunction') {
+    if (aspectType === 'conjunction') {;
       jupiterEffect = 'balanced'; // Instead of template string
       saturnEffect = 'balanced'; // Instead of template string
     }
@@ -665,10 +665,10 @@ class CelestialCalculator {
   private determineDominantPlanets(
     dayOfWeek: number,
     hour: number,
-    planetaryPositions: PlanetaryPositionRecord = {},
+    planetaryPositions: PlanetaryPositionRecord = {},;
   ): CelestialBody[] {
     // Simplified planetary rulers based on day of week
-    const dayRulers = [
+    const dayRulers = [;
       'Sun', // Sunday
       'Moon', // Monday
       'Mars', // Tuesday
@@ -679,7 +679,7 @@ class CelestialCalculator {
     ];
 
     // Hour rulers (simplified)
-    const hourRulers = [
+    const hourRulers = [;
       'Sun',
       'Venus',
       'Mercury',
@@ -703,7 +703,7 @@ class CelestialCalculator {
       'Mars',
       'Sun',
       'Venus',
-      'Mercury',
+      'Mercury'
     ];
 
     const dayRuler = dayRulers[dayOfWeek];
@@ -712,18 +712,18 @@ class CelestialCalculator {
     // Create dominant planets array with weights
     const dominantPlanets: CelestialBody[] = [
       { name: dayRuler, influence: 0.7 },
-      { name: hourRuler, influence: 0.5 },
+      { name: hourRuler, influence: 0.5 }
     ];
 
     // Add Sun sign placement if it exists in planetary positions
     const sunPos = planetaryPositions['sun'] || planetaryPositions['Sun'];
     if (sunPos?.sign) {
       // Add the Sun with its sign placement if not already included
-      if (!dominantPlanets.some(p => p.name === 'Sun')) {
+      if (!dominantPlanets.some(p => p.name === 'Sun')) {;
         dominantPlanets.push({
           name: 'Sun',
           influence: 0.65,
-          effect: `in ${sunPos.sign}`,
+          effect: `in ${sunPos.sign}`
         });
       } else {
         // Update existing Sun with sign placement effect
@@ -731,7 +731,7 @@ class CelestialCalculator {
         if (sunIndex >= 0) {
           dominantPlanets[sunIndex] = {
             ...dominantPlanets[sunIndex],
-            effect: `in ${sunPos.sign}`,
+            effect: `in ${sunPos.sign}`
           };
         }
       }
@@ -740,7 +740,7 @@ class CelestialCalculator {
     // If it's a full moon, add lunar influence
     const now = new Date();
     const lunarPhase = this.calculateLunarPhase(now);
-    if (lunarPhase === 'full') {
+    if (lunarPhase === 'full') {;
       dominantPlanets.push({ name: 'Moon', influence: 0.6 });
     }
 
@@ -753,11 +753,11 @@ class CelestialCalculator {
 
     // Add Jupiter and Saturn with their calculated influences
     // Only add them if they're not already included from day/hour rulers
-    if (!dominantPlanets.some(p => p.name === 'Jupiter')) {
+    if (!dominantPlanets.some(p => p.name === 'Jupiter')) {;
       dominantPlanets.push({
         name: 'Jupiter',
         influence: jupiterInfluence,
-        effect: jupiterEffect,
+        effect: jupiterEffect
       });
     } else {
       // Update the existing Jupiter with the new influence value
@@ -766,16 +766,16 @@ class CelestialCalculator {
         dominantPlanets[jupiterIndex] = {
           ...dominantPlanets[jupiterIndex],
           influence: Math.max(dominantPlanets[jupiterIndex].influence || 0, jupiterInfluence),
-          effect: jupiterEffect,
+          effect: jupiterEffect
         };
       }
     }
 
-    if (!dominantPlanets.some(p => p.name === 'Saturn')) {
+    if (!dominantPlanets.some(p => p.name === 'Saturn')) {;
       dominantPlanets.push({
         name: 'Saturn',
         influence: saturnInfluence,
-        effect: saturnEffect,
+        effect: saturnEffect
       });
     } else {
       // Update the existing Saturn with the new influence value
@@ -784,14 +784,14 @@ class CelestialCalculator {
         dominantPlanets[saturnIndex] = {
           ...dominantPlanets[saturnIndex],
           influence: Math.max(dominantPlanets[saturnIndex].influence || 0, saturnInfluence),
-          effect: saturnEffect,
+          effect: saturnEffect
         };
       }
     }
 
     // Add outer planets based on their actual positions and dignities
     const outerPlanets = ['Uranus', 'Neptune', 'Pluto'];
-    const outerPlanetDignities = {
+    const outerPlanetDignities = {;
       Uranus: {
         aquarius: 0.8, // Modern rulership
         scorpio: 0.5, // Exaltation
@@ -806,10 +806,10 @@ class CelestialCalculator {
         scorpio: 0.8, // Modern rulership
         aquarius: 0.5, // Currently in Aquarius long-term
         taurus: 0.3, // Detriment
-      },
+      }
     };
 
-    outerPlanets.forEach(planet => {
+    outerPlanets.forEach(planet => {;
       // Get the planet's current position from the passed positions or default values
       const position = planetaryPositions[planet.toLowerCase()] || { sign: '', degree: 0 };
       const sign = position.sign.toLowerCase() || '';
@@ -867,11 +867,11 @@ class CelestialCalculator {
     lunarPhase: string,
   ): ElementalProperties {
     // Initialize elemental balance
-    const balance: ElementalProperties = {
+    const balance: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
 
     // Apply zodiac influence
@@ -887,7 +887,7 @@ class CelestialCalculator {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water',
+      pisces: 'Water'
     };
 
     const zodiacElement = zodiacElements[zodiacSign.toLowerCase()];
@@ -906,10 +906,10 @@ class CelestialCalculator {
       Saturn: 'Earth',
       Pluto: 'Earth',
       Mercury: 'Air',
-      Uranus: 'Air',
+      Uranus: 'Air'
     };
 
-    dominantPlanets.forEach(planet => {
+    dominantPlanets.forEach(planet => {;
       const element = planetElements[planet.name];
       if (element) {
         balance[element] += 0.1 * (planet.influence || 0);
@@ -917,9 +917,9 @@ class CelestialCalculator {
     });
 
     // Apply lunar phase influence
-    if (lunarPhase === 'full moon') {
+    if (lunarPhase === 'full moon') {;
       balance.Water += 0.15;
-    } else if (lunarPhase === 'new moon') {
+    } else if (lunarPhase === 'new moon') {;
       balance.Air += 0.15;
     } else if (lunarPhase.includes('waxing')) {
       balance.Fire += 0.1;
@@ -929,7 +929,7 @@ class CelestialCalculator {
 
     // Normalize values
     const sum = Object.values(balance).reduce((a, b) => a + b, 0);
-    Object.keys(balance).forEach(key => {
+    Object.keys(balance).forEach(key => {;
       balance[key as unknown] /= sum;
     });
 
@@ -948,54 +948,54 @@ class CelestialCalculator {
 
     // Add a conjunction aspect based on day of week
     const weekday = date.getDay();
-    if (weekday === 0) {
+    if (weekday === 0) {;
       aspects.push({
         type: 'conjunction' as AspectType,
         planets: ['Sun', 'Mercury'],
         influence: 0.7,
-        orb: 2.1,
+        orb: 2.1
       });
-    } else if (weekday === 1) {
+    } else if (weekday === 1) {;
       aspects.push({
         type: 'trine' as AspectType,
         planets: ['Moon', 'Venus'],
         influence: 0.6,
-        orb: 3.2,
+        orb: 3.2
       });
-    } else if (weekday === 2) {
+    } else if (weekday === 2) {;
       aspects.push({
         type: 'square' as AspectType,
         planets: ['Mars', 'Saturn'],
         influence: 0.5,
-        orb: 2.5,
+        orb: 2.5
       });
-    } else if (weekday === 3) {
+    } else if (weekday === 3) {;
       aspects.push({
         type: 'sextile' as AspectType,
         planets: ['Mercury', 'Jupiter'],
         influence: 0.6,
-        orb: 1.8,
+        orb: 1.8
       });
-    } else if (weekday === 4) {
+    } else if (weekday === 4) {;
       aspects.push({
         type: 'opposition' as AspectType,
         planets: ['Jupiter', 'Saturn'],
         influence: 0.5,
-        orb: 4.0,
+        orb: 4.0
       });
-    } else if (weekday === 5) {
+    } else if (weekday === 5) {;
       aspects.push({
         type: 'trine' as AspectType,
         planets: ['Venus', 'Neptune'],
         influence: 0.6,
-        orb: 2.7,
+        orb: 2.7
       });
     } else {
       aspects.push({
         type: 'square' as AspectType,
         planets: ['Saturn', 'Uranus'],
         influence: 0.5,
-        orb: 3.3,
+        orb: 3.3
       });
     }
 
@@ -1006,7 +1006,7 @@ class CelestialCalculator {
       type: 'sextile' as AspectType,
       planets: ['Sun', 'Jupiter'],
       influence: 0.55,
-      orb: 2.4,
+      orb: 2.4
     });
 
     // Add Moon-Neptune aspect (intuition, imagination)
@@ -1014,7 +1014,7 @@ class CelestialCalculator {
       type: 'trine' as AspectType,
       planets: ['Moon', 'Neptune'],
       influence: 0.5,
-      orb: 3.1,
+      orb: 3.1
     });
 
     // Add Mars-Pluto aspect (intensity, determination)
@@ -1022,7 +1022,7 @@ class CelestialCalculator {
       type: 'square' as AspectType,
       planets: ['Mars', 'Pluto'],
       influence: 0.6,
-      orb: 2.2,
+      orb: 2.2
     });
 
     // Add Mercury-Uranus aspect (creativity, unexpected insights)
@@ -1030,7 +1030,7 @@ class CelestialCalculator {
       type: 'trine' as AspectType,
       planets: ['Mercury', 'Uranus'],
       influence: 0.45,
-      orb: 2.9,
+      orb: 2.9
     });
 
     // Add Venus-Saturn aspect (lasting relationships, stability in values)
@@ -1038,7 +1038,7 @@ class CelestialCalculator {
       type: 'sextile' as AspectType,
       planets: ['Venus', 'Saturn'],
       influence: 0.4,
-      orb: 1.5,
+      orb: 1.5
     });
 
     return aspects;
@@ -1070,9 +1070,9 @@ class CelestialCalculator {
   private getTarotInfluences(): TarotCard[] {
     let tarotCards = cache.get(this.TAROT_CACHE_KEY) as TarotCard[] | undefined;
 
-    if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {
+    if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {;
       const alignment = this.getCurrentAlignment();
-      tarotCards = this.calculateTarotInfluences(
+      tarotCards = this.calculateTarotInfluences(;
         alignment.zodiacSign || 'libra',
         alignment.dominantPlanets || [],
       );
@@ -1130,7 +1130,7 @@ class CelestialCalculator {
 
       // Apply tarot influences with priority on minor arcana
       const tarotCards = this.getTarotInfluences();
-      tarotCards.forEach(card => {
+      tarotCards.forEach(card => {;
         // For each card suit, adjust elements and energy states
         let suitAdjustment = 0.02;
 
@@ -1139,19 +1139,19 @@ class CelestialCalculator {
           suitAdjustment = 0.04; // Double the influence for minor arcana
         }
 
-        if (card.suit === 'wands') {
+        if (card.suit === 'wands') {;
           balance.Fire += suitAdjustment;
           energyStateBalance.Spirit += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
-        if (card.suit === 'cups') {
+        if (card.suit === 'cups') {;
           balance.Water += suitAdjustment;
           energyStateBalance.Essence += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
-        if (card.suit === 'swords') {
+        if (card.suit === 'swords') {;
           balance.Air += suitAdjustment;
           energyStateBalance.Substance += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
-        if (card.suit === 'pentacles') {
+        if (card.suit === 'pentacles') {;
           balance.Earth += suitAdjustment;
           energyStateBalance.Matter += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
@@ -1161,7 +1161,7 @@ class CelestialCalculator {
       const chakraEnergies = this.calculateChakraEnergies(alignment, energyStateBalance);
 
       // Store the calculated energy states and chakra energies in the cache
-      if (alignment && typeof alignment === 'object') {
+      if (alignment && typeof alignment === 'object') {;
         alignment.energyStateBalance = energyStateBalance;
         alignment.chakraEmphasis = chakraEnergies;
         cache.set(this.CACHE_KEY, alignment, 60 * 60);
@@ -1170,7 +1170,7 @@ class CelestialCalculator {
       // Normalize values again
       const sum = Object.values(balance).reduce((a, b) => a + b, 0);
       if (sum > 0) {
-        Object.keys(balance).forEach(key => {
+        Object.keys(balance).forEach(key => {;
           balance[key as unknown] /= sum;
         });
       }
@@ -1184,7 +1184,7 @@ class CelestialCalculator {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25,
+        Water: 0.25
       };
     }
   }
@@ -1194,11 +1194,11 @@ class CelestialCalculator {
    */
   private calculateEnergyStateBalance(alignment: CelestialAlignment): EnergyStateProperties {
     // Initialize energy states with equal distribution
-    const energyStateBalance: EnergyStateProperties = {
+    const energyStateBalance: EnergyStateProperties = {;
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25,
+      Substance: 0.25
     };
 
     // Skip calculation if missing required data
@@ -1258,25 +1258,25 @@ class CelestialCalculator {
       const jupiterPlanet = alignment.dominantPlanets.find(p => p.name === 'Jupiter');
       if (jupiterPlanet) {
         const jupiterInfluence = jupiterPlanet.influence;
-        const jupiterEffect = (jupiterPlanet as any).effect as
+        const jupiterEffect = (jupiterPlanet as any).effect as;
           | 'expansive'
           | 'balanced'
           | 'restricted';
 
         // Apply effects based on Jupiter's condition
-        if (jupiterEffect === 'expansive') {
+        if (jupiterEffect === 'expansive') {;
           // Jupiter expands all energies, but especially Spirit and Substance
           energyStateBalance.Spirit += 0.07 * (jupiterInfluence || 0);
           energyStateBalance.Substance += 0.06 * (jupiterInfluence || 0);
           energyStateBalance.Essence += 0.04 * (jupiterInfluence || 0);
           energyStateBalance.Matter += 0.03 * (jupiterInfluence || 0);
-        } else if (jupiterEffect === 'balanced') {
+        } else if (jupiterEffect === 'balanced') {;
           // Balanced Jupiter provides moderate expansion to all energies
           energyStateBalance.Spirit += 0.04 * (jupiterInfluence || 0);
           energyStateBalance.Substance += 0.04 * (jupiterInfluence || 0);
           energyStateBalance.Essence += 0.04 * (jupiterInfluence || 0);
           energyStateBalance.Matter += 0.04 * (jupiterInfluence || 0);
-        } else if (jupiterEffect === 'restricted') {
+        } else if (jupiterEffect === 'restricted') {;
           // Restricted Jupiter still expands, but mainly focused on practical energies
           energyStateBalance.Spirit += 0.02 * (jupiterInfluence || 0);
           energyStateBalance.Substance += 0.03 * (jupiterInfluence || 0);
@@ -1289,25 +1289,25 @@ class CelestialCalculator {
       const saturnPlanet = alignment.dominantPlanets.find(p => p.name === 'Saturn');
       if (saturnPlanet) {
         const saturnInfluence = saturnPlanet.influence;
-        const saturnEffect = (saturnPlanet as any).effect as
+        const saturnEffect = (saturnPlanet as any).effect as;
           | 'restrictive'
           | 'balanced'
           | 'softened';
 
         // Apply effects based on Saturn's condition
-        if (saturnEffect === 'restrictive') {
+        if (saturnEffect === 'restrictive') {;
           // Strong Saturn restricts expansion but adds discipline and structure, especially to Matter
           energyStateBalance.Spirit -= 0.02 * (saturnInfluence || 0);
           energyStateBalance.Substance += 0.02 * (saturnInfluence || 0);
           energyStateBalance.Essence -= 0.02 * (saturnInfluence || 0);
           energyStateBalance.Matter += 0.06 * (saturnInfluence || 0);
-        } else if (saturnEffect === 'balanced') {
+        } else if (saturnEffect === 'balanced') {;
           // Balanced Saturn provides helpful structure without excessive restriction
           energyStateBalance.Spirit += 0.01 * (saturnInfluence || 0);
           energyStateBalance.Substance += 0.03 * (saturnInfluence || 0);
           energyStateBalance.Essence -= 0.01 * (saturnInfluence || 0);
           energyStateBalance.Matter += 0.04 * (saturnInfluence || 0);
-        } else if (saturnEffect === 'softened') {
+        } else if (saturnEffect === 'softened') {;
           // Softened Saturn has reduced restrictive qualities
           energyStateBalance.Substance += 0.02 * (saturnInfluence || 0);
           energyStateBalance.Matter += 0.03 * (saturnInfluence || 0);
@@ -1318,7 +1318,7 @@ class CelestialCalculator {
     // Normalize energy state values
     const total = Object.values(energyStateBalance).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(energyStateBalance).forEach(key => {
+      Object.keys(energyStateBalance).forEach(key => {;
         energyStateBalance[key as keyof EnergyStateProperties] /= total;
       });
     }
@@ -1333,7 +1333,7 @@ class CelestialCalculator {
     alignment: CelestialAlignment,
     energyStates: EnergyStateProperties,
   ): ChakraEnergies {
-    const chakraEnergies: ChakraEnergies = {
+    const chakraEnergies: ChakraEnergies = {;
       root: 0.1, // Earth, Matter
       sacral: 0.1, // Water, Essence (lower)
       solarPlexus: 0.1, // Fire, Essence (upper)
@@ -1344,11 +1344,11 @@ class CelestialCalculator {
     };
 
     // Map elements to chakras
-    const elementalBalance = alignment.elementalBalance || {
+    const elementalBalance = alignment.elementalBalance || {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
     chakraEnergies.root += ((elementalBalance as any)?.Earth || 0) * 0.2;
     chakraEnergies.sacral += ((elementalBalance as any)?.Water || 0) * 0.2;
@@ -1402,7 +1402,7 @@ class CelestialCalculator {
     // Normalize chakra energy values
     const total = Object.values(chakraEnergies).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(chakraEnergies).forEach(key => {
+      Object.keys(chakraEnergies).forEach(key => {;
         chakraEnergies[key as keyof ChakraEnergies] /= total;
       });
     }
@@ -1472,12 +1472,12 @@ class CelestialCalculator {
           seven: 7,
           eight: 8,
           nine: 9,
-          ten: 10,
+          ten: 10
         };
         const value = valueMap[cardName.split('_')[0]] || 0;
 
         // Get elemental association
-        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[
+        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[;
           suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES
         ] as Record<string, unknown>;
         const { element, _energyState } = affinityData;
@@ -1486,9 +1486,9 @@ class CelestialCalculator {
         const zodiacSign = this.determineZodiacSign(month, day);
 
         // Create and return the minor arcana card
-        const displayName = cardName
+        const displayName = cardName;
           .split('_')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1));
           .join(' ');
 
         return {
@@ -1509,7 +1509,7 @@ class CelestialCalculator {
    */
   private getMeaningForMinorArcana(suit: string, value: number, isUpright: boolean): string[] {
     // Default meanings
-    const meanings = {
+    const meanings = {;
       wands: {
         upright: [
           'Creativity',
@@ -1574,7 +1574,7 @@ class CelestialCalculator {
           'Release',
           'Delegation',
           'Collapse', // Ten
-        ],
+        ]
       },
       // Similar mappings for cups, swords, and pentacles...
       cups: {
@@ -1641,7 +1641,7 @@ class CelestialCalculator {
           'Broken relationships',
           'Disconnection',
           'Misalignment', // Ten
-        ],
+        ]
       },
       swords: {
         upright: [
@@ -1707,7 +1707,7 @@ class CelestialCalculator {
           'Recovery',
           'Regeneration',
           'Inevitable end', // Ten
-        ],
+        ]
       },
       pentacles: {
         upright: [
@@ -1773,8 +1773,8 @@ class CelestialCalculator {
           'Short-term focus',
           'Lack of stability',
           'Fleeting success', // Ten
-        ],
-      },
+        ]
+      }
     };
 
     // Adjust for zero-indexing of arrays
@@ -1786,10 +1786,10 @@ class CelestialCalculator {
       meanings[suit as keyof typeof meanings][orientation].slice(index * 3, index * 3 + 3) || [
         'Balance',
         'Harmony',
-        'Connection',
+        'Connection'
       ]
     );
   }
 }
 
-export const celestialCalculator = CelestialCalculator.getInstance();
+export const _celestialCalculator = CelestialCalculator.getInstance();

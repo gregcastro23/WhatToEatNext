@@ -1,20 +1,20 @@
 import { PlanetData } from './types';
 
-const marsData: PlanetData = {
+const marsData: PlanetData = {;
   'Dignity Effect': {
     aries: 1,
     scorpio: 1,
     capricorn: 2,
     taurus: -1,
     libra: -1,
-    cancer: -2,
+    cancer: -2
   },
   Elements: ['Fire', 'Water'],
   Alchemy: {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0,
+    Substance: 0
   },
   'Diurnal Element': 'Fire',
   'Nocturnal Element': 'Water',
@@ -22,7 +22,7 @@ const marsData: PlanetData = {
     DistanceFromSun: '142 million miles (228 million kilometers)',
     DistanceFromEarth: {
       Minimum: '34 million miles (55 million kilometers)',
-      Maximum: '249 million miles (401 million kilometers)',
+      Maximum: '249 million miles (401 million kilometers)'
     },
     Diameter: '4,220 miles (6,792 kilometers)',
     SurfaceTemperature: '-195 to 70 degrees Fahrenheit (-125 to 20 Celsius)',
@@ -37,20 +37,20 @@ const marsData: PlanetData = {
       MagneticField: 'No global magnetic field, but localized crustal fields',
       Composition: 'Iron-rich core, silicate mantle, iron oxide surface',
       NotableFeatures:
-        'Olympus Mons (largest volcano), Valles Marineris (largest canyon), red color from iron oxide dust',
-    },
+        'Olympus Mons (largest volcano), Valles Marineris (largest canyon), red color from iron oxide dust'
+    }
   },
   AstrologicalProperties: {
     AlchemicalName: 'Ares',
     MaleficType: 'Lesser malefic',
     DualDomicile: {
       Spring: 'aries (yang)',
-      Autumn: 'scorpio (yin)',
+      Autumn: 'scorpio (yin)'
     },
     HouseJoy: 6,
     CyclePeriod: {
       Return: '2 years',
-      Retrograde: '2-2.5 months every 2 years',
+      Retrograde: '2-2.5 months every 2 years'
     },
     Exaltation: 'capricorn',
     Fall: 'cancer',
@@ -61,15 +61,15 @@ const marsData: PlanetData = {
     Metal: 'Iron',
     BodyParts: ['Muscles', 'Head', 'Face', 'Blood', 'Adrenal glands', 'Sex organs'],
     Animals: ['Wolf', 'Tiger', 'Scorpion', 'Ram'],
-    Stones: ['Ruby', 'Garnet', 'Bloodstone', 'Red Jasper'],
+    Stones: ['Ruby', 'Garnet', 'Bloodstone', 'Red Jasper']
   } as unknown,
   ElementalConnections: {
-    DayEmission: 'Essence - "that which an object cannot exist without"',
-    NightEmission: 'Matter - "that which is minimally reactive"',
+    DayEmission: 'Essence - 'that which an object cannot exist without'',
+    NightEmission: 'Matter - 'that which is minimally reactive'',
     ElementalBridges: ['Connects Fire to Water', 'Connects Water to Fire'],
     SharedElements: {
       Fire: ['Sun'],
-      Water: ['Pluto'],
+      Water: ['Pluto']
     },
     AssociatedQualities: [
       'Hot',
@@ -79,8 +79,8 @@ const marsData: PlanetData = {
       'Bitter',
       'Pungent',
       'Assertive',
-      'Dynamic',
-    ],
+      'Dynamic'
+    ]
   },
   HerbalAssociations: {
     Herbs: [
@@ -103,7 +103,7 @@ const marsData: PlanetData = {
       'Saffron',
       'Turmeric',
       'Allspice',
-      'Hops',
+      'Hops'
     ],
     Flowers: [
       'Red Rose',
@@ -115,13 +115,13 @@ const marsData: PlanetData = {
       'Holly',
       'Geranium',
       'Cardinal Flower',
-      'Hot Poker',
+      'Hot Poker'
     ],
     Woods: ['Oak', 'Ash', 'Pine', 'Thorn'],
     Scents: [
       'Tobacco',
       'Pepper',
-      "Dragon's Blood",
+      'Dragon's Blood',
       'Ammonia',
       'Camphor',
       'Cinnamon',
@@ -129,8 +129,8 @@ const marsData: PlanetData = {
       'Leather',
       'Metal',
       'Musk',
-      'Sulfur',
-    ],
+      'Sulfur'
+    ]
   },
   FoodAssociations: [
     'red meats',
@@ -157,7 +157,7 @@ const marsData: PlanetData = {
     'kimchi',
     'wasabi',
     'blood sausage',
-    'red-colored foods',
+    'red-colored foods'
   ],
   FlavorProfiles: {
     Sweet: 0.1,
@@ -165,7 +165,7 @@ const marsData: PlanetData = {
     Salty: 0.5,
     Bitter: 0.4,
     Umami: 0.6,
-    Spicy: 0.9,
+    Spicy: 0.9
   },
   CulinaryInfluences: [
     'Intensifies flavors and heat',
@@ -177,7 +177,7 @@ const marsData: PlanetData = {
     'Encourages assertive seasoning',
     'Supports fast cooking methods',
     'Creates dishes with strong character',
-    'Develops complex, assertive flavors',
+    'Develops complex, assertive flavors'
   ],
   AspectsEffect: {
     Sun: {
@@ -185,36 +185,36 @@ const marsData: PlanetData = {
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5,
+      Sextile: 0.5
     },
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4,
+      Sextile: 0.4
     },
     Moon: {
       Conjunction: 0.5,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.2,
+      Sextile: 0.2
     },
     Saturn: {
       Conjunction: 0.4,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.3,
-      Sextile: 0.2,
+      Sextile: 0.2
     },
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+    }
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -224,7 +224,7 @@ const marsData: PlanetData = {
           Fire: 0.9,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'chili peppers',
@@ -232,8 +232,8 @@ const marsData: PlanetData = {
           'grilled meats',
           'strong mustard',
           'seared foods',
-          'impulsively created dishes',
-        ],
+          'impulsively created dishes'
+        ]
       },
       taurus: {
         FoodFocus: 'Rich, hearty dishes with profound flavor intensity and substantial texture',
@@ -241,7 +241,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.7,
           Air: 0.1,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'aged steaks',
@@ -249,8 +249,8 @@ const marsData: PlanetData = {
           'sharp cheese',
           'bone marrow',
           'rustic breads',
-          'bold red wines',
-        ],
+          'bold red wines'
+        ]
       },
       gemini: {
         FoodFocus: 'Dual cooking methods, contrasting spice levels, quick-shifting flavor profiles',
@@ -258,7 +258,7 @@ const marsData: PlanetData = {
           Fire: 0.6,
           Earth: 0.1,
           Air: 0.7,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'spice blends',
@@ -266,8 +266,8 @@ const marsData: PlanetData = {
           'foods with contrasting temperatures',
           'quick-cooking vegetables',
           'varied tapas',
-          'spicy finger foods',
-        ],
+          'spicy finger foods'
+        ]
       },
       cancer: {
         FoodFocus:
@@ -276,7 +276,7 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.7,
+          Water: 0.7
         },
         Ingredients: [
           'spicy seafood',
@@ -284,8 +284,8 @@ const marsData: PlanetData = {
           'fermented shellfish',
           'briny pickles',
           'kimchi',
-          'spicy broths',
-        ],
+          'spicy broths'
+        ]
       },
       leo: {
         FoodFocus: 'Dramatic, fiery presentations, bold centerpiece dishes, primal cooking methods',
@@ -293,7 +293,7 @@ const marsData: PlanetData = {
           Fire: 0.9,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'flambéed dishes',
@@ -301,8 +301,8 @@ const marsData: PlanetData = {
           'theatrical presentations',
           'food cooked over open flame',
           'spicy centerpiece dishes',
-          'dramatic sauces',
-        ],
+          'dramatic sauces'
+        ]
       },
       virgo: {
         FoodFocus:
@@ -311,7 +311,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.7,
           Air: 0.3,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'measured spice blends',
@@ -319,8 +319,8 @@ const marsData: PlanetData = {
           'precisely fermented items',
           'surgical knife work',
           'carefully calibrated cooking times',
-          'methodically prepared spices',
-        ],
+          'methodically prepared spices'
+        ]
       },
       libra: {
         FoodFocus:
@@ -329,7 +329,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.2,
           Air: 0.7,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'balanced spice blends',
@@ -337,8 +337,8 @@ const marsData: PlanetData = {
           'fair trade spices',
           'elegant hot dishes',
           'moderate heat with complex flavors',
-          'complementary opposites',
-        ],
+          'complementary opposites'
+        ]
       },
       scorpio: {
         FoodFocus:
@@ -347,7 +347,7 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.8,
+          Water: 0.8
         },
         Ingredients: [
           'fermented hot sauces',
@@ -355,8 +355,8 @@ const marsData: PlanetData = {
           'hidden heat in dishes',
           'vinegar reductions',
           'intense umami flavors',
-          'deeply transformed ingredients',
-        ],
+          'deeply transformed ingredients'
+        ]
       },
       sagittarius: {
         FoodFocus:
@@ -365,7 +365,7 @@ const marsData: PlanetData = {
           Fire: 0.8,
           Earth: 0.1,
           Air: 0.4,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'international hot peppers',
@@ -373,8 +373,8 @@ const marsData: PlanetData = {
           'exotic meat preparations',
           'food with a story',
           'large-format spicy dishes',
-          'expanded flavor horizons',
-        ],
+          'expanded flavor horizons'
+        ]
       },
       capricorn: {
         FoodFocus: 'Traditional cooking with disciplined heat, achievement-oriented complexity',
@@ -382,7 +382,7 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'slow-cooked spicy dishes',
@@ -390,8 +390,8 @@ const marsData: PlanetData = {
           'heirloom peppers',
           'strategic use of heat',
           'historic preparations',
-          'foods requiring mastery',
-        ],
+          'foods requiring mastery'
+        ]
       },
       aquarius: {
         FoodFocus:
@@ -400,7 +400,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.1,
           Air: 0.7,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'innovative spice combinations',
@@ -408,8 +408,8 @@ const marsData: PlanetData = {
           'alternative proteins',
           'scientific approach to heat',
           'unexpected cooking methods',
-          'future-focused foods',
-        ],
+          'future-focused foods'
+        ]
       },
       pisces: {
         FoodFocus:
@@ -418,7 +418,7 @@ const marsData: PlanetData = {
           Fire: 0.3,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.8,
+          Water: 0.8
         },
         Ingredients: [
           'foods with subtle but profound heat',
@@ -426,9 +426,9 @@ const marsData: PlanetData = {
           'intuitive fermentations',
           'mystical tea preparations',
           'multi-sensory experiences',
-          'dishes with emotional impact',
-        ],
-      },
+          'dishes with emotional impact'
+        ]
+      }
     },
     Retrograde: {
       CulinaryEffect:
@@ -437,11 +437,11 @@ const marsData: PlanetData = {
         Spirit: -0.1,
         Essence: 0.5,
         Matter: 0.7,
-        Substance: 0.3,
+        Substance: 0.3
       },
       FoodFocus:
         'Internalizing heat, revisiting traditional spices, return to primal cooking methods',
-      HerbalShift: 'Emphasis on dried herbs and spices, concentrated extracts, intensified flavors',
+      HerbalShift: 'Emphasis on dried herbs and spices, concentrated extracts, intensified flavors'
     },
     TransitDates: {
       aries: { Start: '2024-06-09', End: '2024-07-20' },
@@ -455,14 +455,14 @@ const marsData: PlanetData = {
       sagittarius: { Start: '2025-04-20', End: '2025-05-31' },
       capricorn: { Start: '2025-05-31', End: '2025-07-11' },
       aquarius: { Start: '2025-07-11', End: '2025-08-22' },
-      pisces: { Start: '2025-08-22', End: '2025-10-03' },
+      pisces: { Start: '2025-08-22', End: '2025-10-03' }
     },
     CulinaryTechniques: {
       'High Heat Cooking': 0.9,
       Fermentation: 0.7,
       Grilling: 0.9,
       Smoking: 0.8,
-      'Knife Work': 0.8,
+      'Knife Work': 0.8
     },
     MealTypes: {
       Breakfast: {
@@ -471,16 +471,16 @@ const marsData: PlanetData = {
           'spicy breakfast meats',
           'bold egg dishes',
           'strong coffee',
-          'savory morning meals',
-        ],
+          'savory morning meals'
+        ]
       },
       Lunch: {
         Influence: 0.7,
         Recommendations: [
           'quick-cooked proteins',
           'assertive sandwiches',
-          'energy-boosting dishes',
-        ],
+          'energy-boosting dishes'
+        ]
       },
       Dinner: {
         Influence: 0.8,
@@ -488,13 +488,13 @@ const marsData: PlanetData = {
           'grilled meats',
           'bold flavor profiles',
           'aggressive seasoning',
-          'hearty dishes',
-        ],
+          'hearty dishes'
+        ]
       },
       Snacks: {
         Influence: 0.6,
-        Recommendations: ['spicy nuts', 'jerky', 'bold finger foods', 'intense flavored crisps'],
-      },
+        Recommendations: ['spicy nuts', 'jerky', 'bold finger foods', 'intense flavored crisps']
+      }
     },
     LunarConnection: 'Antagonistic water interaction but complementary with Moon in fire signs',
     CulinaryTemperament: {
@@ -504,8 +504,8 @@ const marsData: PlanetData = {
           'Open flame cooking',
           'Flash searing',
           'Spicy marinades',
-          'Aggressive heat levels',
-        ],
+          'Aggressive heat levels'
+        ]
       },
       WaterMars: {
         FoodFocus:
@@ -514,11 +514,11 @@ const marsData: PlanetData = {
           'Fermented hot sauces',
           'Aged spice pastes',
           'Umami-rich broths with heat',
-          'Spicy seafood dishes',
-        ],
-      },
-    },
-  },
+          'Spicy seafood dishes'
+        ]
+      }
+    }
+  }
 };
 
 export default marsData;

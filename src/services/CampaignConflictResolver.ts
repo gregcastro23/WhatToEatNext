@@ -12,7 +12,7 @@ import type {
   CampaignConfig,
   CampaignPhase,
   SafetyEvent,
-  ProgressMetrics,
+  ProgressMetrics
 } from '../types/campaign';
 
 import { CampaignController } from './campaign/CampaignController';
@@ -20,7 +20,7 @@ import { ProgressTracker } from './campaign/ProgressTracker';
 import { kiroCampaignIntegration } from './KiroCampaignIntegration';
 import type { KiroCampaignStatus, CampaignExecutionRequest } from './KiroCampaignIntegration';
 
-// ========== CONFLICT RESOLUTION TYPES ==========
+// ========== CONFLICT RESOLUTION TYPES ==========;
 
 export interface CampaignConflict {
   id: string;
@@ -120,85 +120,85 @@ export interface SchedulingConstraint {
   resourceLimits?: Record<string, number>;
 }
 
-// ========== ENUMS ==========
+// ========== ENUMS ==========;
 
 export enum ConflictType {
-  RESOURCE_CONTENTION = 'resource_contention',
-  FILE_LOCK_CONFLICT = 'file_lock_conflict',
-  DEPENDENCY_VIOLATION = 'dependency_violation',
-  PRIORITY_CONFLICT = 'priority_conflict',
-  SAFETY_VIOLATION = 'safety_violation',
-  SCHEDULING_CONFLICT = 'scheduling_conflict',
+  RESOURCE_CONTENTION = 'resource_contention',;
+  FILE_LOCK_CONFLICT = 'file_lock_conflict',;
+  DEPENDENCY_VIOLATION = 'dependency_violation',;
+  PRIORITY_CONFLICT = 'priority_conflict',;
+  SAFETY_VIOLATION = 'safety_violation',;
+  SCHEDULING_CONFLICT = 'scheduling_conflict',;
 }
 
 export enum ConflictSeverity {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CRITICAL = 'critical',
+  LOW = 'low',;
+  MEDIUM = 'medium',;
+  HIGH = 'high',;
+  CRITICAL = 'critical',;
 }
 
 export enum ConflictStatus {
-  DETECTED = 'detected',
-  ANALYZING = 'analyzing',
-  PENDING_RESOLUTION = 'pending_resolution',
-  RESOLVING = 'resolving',
-  RESOLVED = 'resolved',
-  FAILED = 'failed',
+  DETECTED = 'detected',;
+  ANALYZING = 'analyzing',;
+  PENDING_RESOLUTION = 'pending_resolution',;
+  RESOLVING = 'resolving',;
+  RESOLVED = 'resolved',;
+  FAILED = 'failed',;
 }
 
 export enum ResourceType {
-  FILE = 'file',
-  DIRECTORY = 'directory',
-  BUILD_SYSTEM = 'build_system',
-  TYPESCRIPT_COMPILER = 'typescript_compiler',
-  LINTER = 'linter',
-  TEST_RUNNER = 'test_runner',
-  GIT_REPOSITORY = 'git_repository',
+  FILE = 'file',;
+  DIRECTORY = 'directory',;
+  BUILD_SYSTEM = 'build_system',;
+  TYPESCRIPT_COMPILER = 'typescript_compiler',;
+  LINTER = 'linter',;
+  TEST_RUNNER = 'test_runner',;
+  GIT_REPOSITORY = 'git_repository',;
 }
 
 export enum ResolutionType {
-  QUEUE_CAMPAIGNS = 'queue_campaigns',
-  MERGE_CAMPAIGNS = 'merge_campaigns',
-  PRIORITIZE_CAMPAIGN = 'prioritize_campaign',
-  SPLIT_RESOURCES = 'split_resources',
-  DEFER_CAMPAIGN = 'defer_campaign',
-  CANCEL_CAMPAIGN = 'cancel_campaign',
-  MANUAL_INTERVENTION = 'manual_intervention',
+  QUEUE_CAMPAIGNS = 'queue_campaigns',;
+  MERGE_CAMPAIGNS = 'merge_campaigns',;
+  PRIORITIZE_CAMPAIGN = 'prioritize_campaign',;
+  SPLIT_RESOURCES = 'split_resources',;
+  DEFER_CAMPAIGN = 'defer_campaign',;
+  CANCEL_CAMPAIGN = 'cancel_campaign',;
+  MANUAL_INTERVENTION = 'manual_intervention',;
 }
 
 export enum ResolutionAction {
-  PAUSE_CAMPAIGN = 'pause_campaign',
-  RESUME_CAMPAIGN = 'resume_campaign',
-  RESCHEDULE_CAMPAIGN = 'reschedule_campaign',
-  MODIFY_CAMPAIGN_CONFIG = 'modify_campaign_config',
-  ALLOCATE_RESOURCES = 'allocate_resources',
-  CREATE_DEPENDENCY = 'create_dependency',
-  NOTIFY_USER = 'notify_user',
+  PAUSE_CAMPAIGN = 'pause_campaign',;
+  RESUME_CAMPAIGN = 'resume_campaign',;
+  RESCHEDULE_CAMPAIGN = 'reschedule_campaign',;
+  MODIFY_CAMPAIGN_CONFIG = 'modify_campaign_config',;
+  ALLOCATE_RESOURCES = 'allocate_resources',;
+  CREATE_DEPENDENCY = 'create_dependency',;
+  NOTIFY_USER = 'notify_user',;
 }
 
 export enum DependencyType {
-  PREREQUISITE = 'prerequisite',
-  MUTUAL_EXCLUSION = 'mutual_exclusion',
-  RESOURCE_SHARING = 'resource_sharing',
-  SEQUENTIAL_EXECUTION = 'sequential_execution',
+  PREREQUISITE = 'prerequisite',;
+  MUTUAL_EXCLUSION = 'mutual_exclusion',;
+  RESOURCE_SHARING = 'resource_sharing',;
+  SEQUENTIAL_EXECUTION = 'sequential_execution',;
 }
 
 export enum DependencyStatus {
-  ACTIVE = 'active',
-  SATISFIED = 'satisfied',
-  VIOLATED = 'violated',
-  EXPIRED = 'expired',
+  ACTIVE = 'active',;
+  SATISFIED = 'satisfied',;
+  VIOLATED = 'violated',;
+  EXPIRED = 'expired',;
 }
 
 export enum ConstraintType {
-  TIME_WINDOW = 'time_window',
-  RESOURCE_LIMIT = 'resource_limit',
-  DEPENDENCY_ORDER = 'dependency_order',
-  SAFETY_RESTRICTION = 'safety_restriction',
+  TIME_WINDOW = 'time_window',;
+  RESOURCE_LIMIT = 'resource_limit',;
+  DEPENDENCY_ORDER = 'dependency_order',;
+  SAFETY_RESTRICTION = 'safety_restriction',;
 }
 
-// ========== CAMPAIGN CONFLICT RESOLVER ==========
+// ========== CAMPAIGN CONFLICT RESOLVER ==========;
 
 export class CampaignConflictResolver {
   private conflicts: Map<string, CampaignConflict> = new Map();
@@ -213,7 +213,7 @@ export class CampaignConflictResolver {
     void this.initializeResolutionStrategies();
   }
 
-  // ========== CONFLICT DETECTION ==========
+  // ========== CONFLICT DETECTION ==========;
 
   /**
    * Detect conflicts between active campaigns
@@ -239,7 +239,7 @@ export class CampaignConflictResolver {
     void detectedConflicts.push(...safetyConflicts);
 
     // Store detected conflicts
-    detectedConflicts.forEach(conflict => {
+    detectedConflicts.forEach(conflict => {;
       this.conflicts.set(conflict.id, conflict);
     });
 
@@ -282,11 +282,11 @@ export class CampaignConflictResolver {
               type: this.getResourceType(resource),
               identifier: resource,
               conflictReason: 'Multiple campaigns attempting to use the same resource',
-              campaigns: users,
-            },
+              campaigns: users
+            }
           ],
           detectedAt: new Date(),
-          status: ConflictStatus.DETECTED,
+          status: ConflictStatus.DETECTED
         });
       }
     }
@@ -304,7 +304,7 @@ export class CampaignConflictResolver {
     const activeCampaignIds = campaigns.map(c => c.campaignId);
 
     for (const dependency of this.dependencies.values()) {
-      if (dependency.status === DependencyStatus.ACTIVE) {
+      if (dependency.status === DependencyStatus.ACTIVE) {;
         const dependentActive = activeCampaignIds.includes(dependency.dependentCampaign);
         const requiredActive = activeCampaignIds.includes(dependency.requiredCampaign);
 
@@ -312,7 +312,7 @@ export class CampaignConflictResolver {
         if (
           dependentActive &&
           !requiredActive &&
-          dependency.dependencyType === DependencyType.PREREQUISITE
+          dependency.dependencyType === DependencyType.PREREQUISITE;
         ) {
           const conflictId = `dependency_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -324,7 +324,7 @@ export class CampaignConflictResolver {
             involvedCampaigns: [dependency.dependentCampaign, dependency.requiredCampaign],
             conflictingResources: [],
             detectedAt: new Date(),
-            status: ConflictStatus.DETECTED,
+            status: ConflictStatus.DETECTED
           });
         }
 
@@ -332,7 +332,7 @@ export class CampaignConflictResolver {
         if (
           dependentActive &&
           requiredActive &&
-          dependency.dependencyType === DependencyType.MUTUAL_EXCLUSION
+          dependency.dependencyType === DependencyType.MUTUAL_EXCLUSION;
         ) {
           const conflictId = `exclusion_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -344,7 +344,7 @@ export class CampaignConflictResolver {
             involvedCampaigns: [dependency.dependentCampaign, dependency.requiredCampaign],
             conflictingResources: [],
             detectedAt: new Date(),
-            status: ConflictStatus.DETECTED,
+            status: ConflictStatus.DETECTED
           });
         }
       }
@@ -360,9 +360,9 @@ export class CampaignConflictResolver {
     campaigns: KiroCampaignStatus[],
   ): Promise<CampaignConflict[]> {
     const conflicts: CampaignConflict[] = [];
-    const campaignPriorities = campaigns
-      .map(c => ({ campaign: c, priority: this.priorities.get(c.campaignId) }))
-      .filter(cp => cp.priority)
+    const campaignPriorities = campaigns;
+      .map(c => ({ campaign: c, priority: this.priorities.get(c.campaignId) }));
+      .filter(cp => cp.priority);
       .sort((a, b) => (b.priority?.priority || 0) - (a.priority?.priority || 0));
 
     // Check for high-priority campaigns being blocked by lower-priority ones
@@ -381,11 +381,11 @@ export class CampaignConflictResolver {
             description: `High-priority campaign ${highPriority.campaign.campaignId} blocked by lower-priority campaign ${lowerPriority.campaign.campaignId}`,
             involvedCampaigns: [
               highPriority.campaign.campaignId,
-              lowerPriority.campaign.campaignId,
+              lowerPriority.campaign.campaignId
             ],
             conflictingResources: [],
             detectedAt: new Date(),
-            status: ConflictStatus.DETECTED,
+            status: ConflictStatus.DETECTED
           });
         }
       }
@@ -412,17 +412,17 @@ export class CampaignConflictResolver {
         type: ConflictType.SAFETY_VIOLATION,
         severity: ConflictSeverity.HIGH,
         description: `Too many high-risk campaigns running concurrently (${highRiskCampaigns.length})`,
-        involvedCampaigns: highRiskCampaigns.map(c => c.campaignId),
+        involvedCampaigns: highRiskCampaigns.map(c => c.campaignId),;
         conflictingResources: [],
         detectedAt: new Date(),
-        status: ConflictStatus.DETECTED,
+        status: ConflictStatus.DETECTED
       });
     }
 
     return conflicts;
   }
 
-  // ========== CONFLICT RESOLUTION ==========
+  // ========== CONFLICT RESOLUTION ==========;
 
   /**
    * Resolve a specific conflict
@@ -440,7 +440,7 @@ export class CampaignConflictResolver {
 
     try {
       // Select resolution strategy
-      const strategy = strategyId
+      const strategy = strategyId;
         ? this.findResolutionStrategy(conflict.type, strategyId)
         : this.selectOptimalResolutionStrategy(conflict);
 
@@ -470,17 +470,17 @@ export class CampaignConflictResolver {
       conflict.resolvedAt = new Date();
       conflict.resolvedBy = 'system';
 
-      const result: ConflictResolutionResult = {
+      const result: ConflictResolutionResult = {;
         conflictId,
         success: true,
         resolutionStrategy: strategy,
         executionTime,
         affectedCampaigns: [...new Set(affectedCampaigns)],
-        sideEffects,
+        sideEffects
       };
 
       // Create rollback plan if needed
-      if (strategy.steps.some(s => s.rollbackable)) {
+      if (strategy.steps.some(s => s.rollbackable)) {;
         result.rollbackPlan = this.createRollbackPlan(conflict, strategy);
       }
 
@@ -494,7 +494,7 @@ export class CampaignConflictResolver {
         resolutionStrategy: conflict.resolutionStrategy || 'unknown',
         executionTime: 0,
         affectedCampaigns: [],
-        sideEffects: [`Resolution failed: ${(error as Error).message}`],
+        sideEffects: [`Resolution failed: ${(error as Error).message}`]
       };
     }
   }
@@ -503,8 +503,8 @@ export class CampaignConflictResolver {
    * Auto-resolve conflicts based on predefined strategies
    */
   async autoResolveConflicts(): Promise<ConflictResolutionResult[]> {
-    const unresolvedConflicts = Array.from(this.conflicts.values()).filter(
-      c => c.status === ConflictStatus.DETECTED,
+    const unresolvedConflicts = Array.from(this.conflicts.values()).filter(;
+      c => c.status === ConflictStatus.DETECTED,;
     );
 
     const results: ConflictResolutionResult[] = [];
@@ -512,8 +512,8 @@ export class CampaignConflictResolver {
     for (const conflict of unresolvedConflicts) {
       // Only auto-resolve low and medium severity conflicts
       if (
-        conflict.severity === ConflictSeverity.LOW ||
-        conflict.severity === ConflictSeverity.MEDIUM
+        conflict.severity === ConflictSeverity.LOW ||;
+        conflict.severity === ConflictSeverity.MEDIUM;
       ) {
         try {
           const result = await this.resolveConflict(conflict.id);
@@ -527,7 +527,7 @@ export class CampaignConflictResolver {
     return results;
   }
 
-  // ========== PRIORITY MANAGEMENT ==========
+  // ========== PRIORITY MANAGEMENT ==========;
 
   /**
    * Set campaign priority
@@ -536,14 +536,14 @@ export class CampaignConflictResolver {
     campaignId: string,
     priority: number,
     reason: string,
-    setBy: string = 'system',
+    setBy: string = 'system',;
   ): void {
-    const campaignPriority: CampaignPriority = {
+    const campaignPriority: CampaignPriority = {;
       campaignId,
       priority: Math.max(1, Math.min(10, priority)), // Clamp between 1-10
       reason,
       setBy,
-      setAt: new Date(),
+      setAt: new Date()
     };
 
     this.priorities.set(campaignId, campaignPriority);
@@ -567,7 +567,7 @@ export class CampaignConflictResolver {
     });
   }
 
-  // ========== DEPENDENCY MANAGEMENT ==========
+  // ========== DEPENDENCY MANAGEMENT ==========;
 
   /**
    * Create campaign dependency
@@ -580,14 +580,14 @@ export class CampaignConflictResolver {
   ): string {
     const dependencyId = `dep_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    const dependency: CampaignDependency = {
+    const dependency: CampaignDependency = {;
       id: dependencyId,
       dependentCampaign,
       requiredCampaign,
       dependencyType: type,
       description,
       status: DependencyStatus.ACTIVE,
-      createdAt: new Date(),
+      createdAt: new Date()
     };
 
     this.dependencies.set(dependencyId, dependency);
@@ -606,11 +606,11 @@ export class CampaignConflictResolver {
    */
   getCampaignDependencies(campaignId: string): CampaignDependency[] {
     return Array.from(this.dependencies.values()).filter(
-      dep => dep.dependentCampaign === campaignId || dep.requiredCampaign === campaignId,
+      dep => dep.dependentCampaign === campaignId || dep.requiredCampaign === campaignId,;
     );
   }
 
-  // ========== SCHEDULING COORDINATION ==========
+  // ========== SCHEDULING COORDINATION ==========;
 
   /**
    * Schedule campaigns with conflict avoidance
@@ -662,13 +662,13 @@ export class CampaignConflictResolver {
     const conflict = this.conflicts.get(conflictId);
     if (!conflict) return false;
 
-    const overrideStep: ResolutionStep = {
+    const overrideStep: ResolutionStep = {;
       id: `manual_override_${Date.now()}`,
       description: `Manual override: ${overrideReason}`,
       action: resolutionAction,
       parameters: { ...parameters, overrideBy, overrideReason },
       estimatedDuration: 0,
-      rollbackable: true,
+      rollbackable: true
     };
 
     try {
@@ -685,12 +685,12 @@ export class CampaignConflictResolver {
     }
   }
 
-  // ========== HELPER METHODS ==========
+  // ========== HELPER METHODS ==========;
 
   private async getActiveCampaigns(): Promise<KiroCampaignStatus[]> {
     const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel();
     return controlPanel.activeCampaigns.filter(
-      c => c.status === 'running' || c.status === 'paused',
+      c => c.status === 'running' || c.status === 'paused',;
     );
   }
 
@@ -710,10 +710,10 @@ export class CampaignConflictResolver {
   }
 
   private assessResourceConflictSeverity(resource: string, users: string[]): ConflictSeverity {
-    if (resource === 'typescript_compiler' && users.length > 2) {
+    if (resource === 'typescript_compiler' && users.length > 2) {;
       return ConflictSeverity.HIGH;
     }
-    if (resource === 'build_system' && users.length > 1) {
+    if (resource === 'build_system' && users.length > 1) {;
       return ConflictSeverity.MEDIUM;
     }
     return ConflictSeverity.LOW;
@@ -744,7 +744,7 @@ export class CampaignConflictResolver {
     const strategies = this.resolutionStrategies.get(conflict.type) || [];
 
     // Select strategy based on severity and involved campaigns
-    if (conflict.severity === ConflictSeverity.CRITICAL) {
+    if (conflict.severity === ConflictSeverity.CRITICAL) {;
       return strategies.find(s => s.type === ResolutionType.MANUAL_INTERVENTION) || strategies[0];
     }
 
@@ -797,14 +797,14 @@ export class CampaignConflictResolver {
     strategy: ConflictResolutionStrategy,
   ): RollbackPlan {
     const rollbackSteps: RollbackStep[] = strategy.steps
-      .filter(s => s.rollbackable)
+      .filter(s => s.rollbackable);
       .reverse()
-      .map(step => ({
+      .map(step => ({;
         id: `rollback_${step.id}`,
         description: `Rollback: ${step.description}`,
         action: this.getRollbackAction(step.action),
         parameters: step.parameters,
-        estimatedDuration: step.estimatedDuration,
+        estimatedDuration: step.estimatedDuration
       }));
 
     return {
@@ -812,7 +812,7 @@ export class CampaignConflictResolver {
       conflictId: conflict.id,
       steps: rollbackSteps,
       estimatedDuration: rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0),
-      riskAssessment: 'Low risk - reverting conflict resolution changes',
+      riskAssessment: 'Low risk - reverting conflict resolution changes'
     };
   }
 
@@ -843,8 +843,8 @@ export class CampaignConflictResolver {
     const now = new Date();
 
     // Check if any scheduled campaigns would conflict
-    const hasConflict = scheduled.some(
-      s =>
+    const hasConflict = scheduled.some(;
+      s =>;
         this.requestsConflict(request, s.request) &&
         Math.abs(s.scheduledTime.getTime() - now.getTime()) < 30 * 60 * 1000, // 30 minutes
     );
@@ -878,7 +878,7 @@ export class CampaignConflictResolver {
           involvedCampaigns: [], // Would be populated with actual campaign IDs
           conflictingResources: [],
           detectedAt: new Date(),
-          status: ConflictStatus.DETECTED,
+          status: ConflictStatus.DETECTED
         });
       }
     }
@@ -905,7 +905,7 @@ export class CampaignConflictResolver {
             action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 1,
-            rollbackable: true,
+            rollbackable: true
           },
           {
             id: 'schedule_sequential',
@@ -913,10 +913,10 @@ export class CampaignConflictResolver {
             action: ResolutionAction.RESCHEDULE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 2,
-            rollbackable: true,
-          },
-        ],
-      },
+            rollbackable: true
+          }
+        ]
+      }
     ]);
 
     // Priority conflict strategies
@@ -937,7 +937,7 @@ export class CampaignConflictResolver {
             action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 1,
-            rollbackable: true,
+            rollbackable: true
           },
           {
             id: 'notify_users',
@@ -945,10 +945,10 @@ export class CampaignConflictResolver {
             action: ResolutionAction.NOTIFY_USER,
             parameters: { message: 'Campaign paused due to higher priority campaign' },
             estimatedDuration: 0,
-            rollbackable: false,
-          },
-        ],
-      },
+            rollbackable: false
+          }
+        ]
+      }
     ]);
 
     // Safety violation strategies
@@ -969,14 +969,14 @@ export class CampaignConflictResolver {
             action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 1,
-            rollbackable: true,
-          },
-        ],
-      },
+            rollbackable: true
+          }
+        ]
+      }
     ]);
   }
 
-  // ========== PUBLIC API ==========
+  // ========== PUBLIC API ==========;
 
   /**
    * Get all conflicts
@@ -1002,14 +1002,14 @@ export class CampaignConflictResolver {
   /**
    * Clear resolved conflicts older than specified days
    */
-  clearOldConflicts(daysOld: number = 7): number {
+  clearOldConflicts(daysOld: number = 7): number {;
     const cutoffDate = new Date();
     void cutoffDate.setDate(cutoffDate.getDate() - daysOld);
 
     let cleared = 0;
     for (const [id, conflict] of this.conflicts.entries()) {
       if (
-        conflict.status === ConflictStatus.RESOLVED &&
+        conflict.status === ConflictStatus.RESOLVED &&;
         conflict.resolvedAt &&
         conflict.resolvedAt < cutoffDate
       ) {
@@ -1023,4 +1023,4 @@ export class CampaignConflictResolver {
 }
 
 // Export singleton instance
-export const campaignConflictResolver = new CampaignConflictResolver();
+export const _campaignConflictResolver = new CampaignConflictResolver();

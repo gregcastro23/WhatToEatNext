@@ -12,7 +12,7 @@ import { LintingWarningAnalyzer, WarningCategory, type LintingWarning } from './
 
 // Mock fs module
 jest.mock('fs');
-const mockFs: any = fs as jest.Mocked<typeof fs>;
+const _mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('LintingWarningAnalyzer', () => {
   let analyzer: LintingWarningAnalyzer;
@@ -24,7 +24,7 @@ describe('LintingWarningAnalyzer', () => {
 
   describe('analyzeFileContent', () => {
     it('should detect explicit any warnings', () => {
-      const content: any = `
+      const content: any = `;
 function test(param: any) : any {
   const value: any = param;
   return value;
@@ -79,7 +79,7 @@ console.log(usedVar);
           rule: '@typescript-eslint/no-explicit-any',
           severity: 'warning',
           message: 'Unexpected any',
-          category: WarningCategory.EXPLICIT_ANY,
+          category: WarningCategory.EXPLICIT_ANY
         },
         {
           file: '/test/file2.ts',
@@ -88,7 +88,7 @@ console.log(usedVar);
           rule: 'no-unused-vars',
           severity: 'warning',
           message: 'Unused variable',
-          category: WarningCategory.UNUSED_VARIABLES,
+          category: WarningCategory.UNUSED_VARIABLES
         },
         {
           file: '/test/file3.ts',
@@ -97,8 +97,8 @@ console.log(usedVar);
           rule: 'no-console',
           severity: 'warning',
           message: 'Console statement',
-          category: WarningCategory.CONSOLE_STATEMENTS,
-        },
+          category: WarningCategory.CONSOLE_STATEMENTS
+        }
       ];
 
       const distribution: any = (analyzer as any).categorizeWarnings(warnings);
@@ -121,7 +121,7 @@ console.log(usedVar);
           rule: '@typescript-eslint/no-explicit-any',
           severity: 'warning',
           message: 'Unexpected any',
-          category: WarningCategory.EXPLICIT_ANY,
+          category: WarningCategory.EXPLICIT_ANY
         },
         {
           file: '/test/high-priority.ts',
@@ -130,7 +130,7 @@ console.log(usedVar);
           rule: '@typescript-eslint/no-explicit-any',
           severity: 'warning',
           message: 'Unexpected any',
-          category: WarningCategory.EXPLICIT_ANY,
+          category: WarningCategory.EXPLICIT_ANY
         },
         {
           file: '/test/low-priority.ts',
@@ -139,8 +139,8 @@ console.log(usedVar);
           rule: 'no-console',
           severity: 'warning',
           message: 'Console statement',
-          category: WarningCategory.CONSOLE_STATEMENTS,
-        },
+          category: WarningCategory.CONSOLE_STATEMENTS
+        }
       ];
 
       const prioritized: any = (analyzer as any).prioritizeFiles(warnings);
@@ -152,12 +152,12 @@ console.log(usedVar);
 
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
-      const distribution: any = {
+      const distribution: any = {;
         explicitAny: { coun, t: 100, priority: 1, files: [] },
         unusedVariables: { coun, t: 50, priority: 2, files: [] },
         consoleStatements: { coun, t: 25, priority: 3, files: [] },
         other: { coun, t: 0, priority: 4, files: [] },
-        total: 175,
+        total: 175
       };
 
       const recommendations: any = (analyzer as any).generateRecommendations(distribution);
@@ -171,19 +171,19 @@ console.log(usedVar);
 
   describe('generateReport', () => {
     it('should generate a comprehensive report', () => {
-      const mockResult: any = {
+      const mockResult: any = {;
         distribution: { explicitAny: { count: 10, priority: 1, files: ['file1.ts'] },
           unusedVariables: { coun, t: 5, priority: 2, files: ['file2.ts'] },
           consoleStatements: { coun, t: 3, priority: 3, files: ['file3.ts'] },
           other: { coun, t: 0, priority: 4, files: [] },
-          total: 18,
+          total: 18
         },
         warnings: [],
         prioritizedFiles: { highPriority: ['file1.ts'],
           mediumPriority: ['file2.ts'],
-          lowPriority: ['file3.ts'],
+          lowPriority: ['file3.ts']
         },
-        recommendations: ['Fix explicit-any warnings first'],
+        recommendations: ['Fix explicit-any warnings first']
       };
 
       const report: any = analyzer.generateReport(mockResult);
@@ -212,7 +212,7 @@ console.log(usedVar);
     it('should correctly identify unused variables', () => {
       const content: any = `;
 const unusedVar: any = 'test';
-const otherVar: any = 'other';
+const _otherVar: any = 'other';
       `;
 
       const isUsed: any = (analyzer as any).isVariableUsed(content, 'unusedVar', 0);

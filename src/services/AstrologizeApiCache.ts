@@ -1,7 +1,7 @@
 import {
   AstrologicalState,
   PlanetaryPosition,
-  StandardizedAlchemicalResult,
+  StandardizedAlchemicalResult
 } from '@/types/alchemy';
 
 /**
@@ -82,19 +82,19 @@ class AstrologizeApiCache {
     const Air = Number(elementalBalance.Air) || 0;
 
     // Absolute values (direct from alchemical result)
-    const elementalAbsolutes = {
+    const elementalAbsolutes = {;
       fire: Fire,
       water: Water,
       earth: Earth,
-      air: Air,
+      air: Air
     };
 
     // Relative values: each element / sum of other three
-    const elementalRelatives = {
+    const elementalRelatives = {;
       fire: Fire / (Water + Earth + Air || 1),
       water: Water / (Fire + Earth + Air || 1),
       earth: Earth / (Fire + Water + Air || 1),
-      air: Air / (Fire + Water + Earth || 1),
+      air: Air / (Fire + Water + Earth || 1)
     };
 
     return { elementalAbsolutes, elementalRelatives };
@@ -119,7 +119,7 @@ class AstrologizeApiCache {
     // Safe access to alchemical result properties
     const resultData = alchemicalResult as unknown as any;
 
-    const cachedData: CachedAstrologicalData = {
+    const cachedData: CachedAstrologicalData = {;
       timestamp: Date.now(),
       date,
       coordinates: { lat, lng },
@@ -134,9 +134,9 @@ class AstrologizeApiCache {
         reactivity: Number(resultData.reactivity) || 0,
         gregsEnergy: Number(resultData.energy) || 0,
         kalchm: Number(resultData.kalchm) || 1,
-        monica: Number(resultData.monica) || 1,
+        monica: Number(resultData.monica) || 1
       },
-      quality: this.assessDataQuality(alchemicalResult),
+      quality: this.assessDataQuality(alchemicalResult)
     };
 
     this.cache.set(key, cachedData);
@@ -164,8 +164,8 @@ class AstrologizeApiCache {
     lat: number,
     lng: number,
     date: Date,
-    maxDistanceKm: number = 50,
-    maxDaysDiff: number = 7,
+    maxDistanceKm: number = 50,;
+    maxDaysDiff: number = 7,;
   ): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
     const targetTime = date.getTime();
@@ -204,7 +204,7 @@ class AstrologizeApiCache {
   public predictPositions(lat: number, lng: number, targetDate: Date): TransitPrediction | null {
     const nearbyData = this.findNearby(lat, lng, targetDate, 100, 30); // Wider search for predictions
 
-    if (nearbyData.length === 0) {
+    if (nearbyData.length === 0) {;
       return null;
     }
 
@@ -219,14 +219,14 @@ class AstrologizeApiCache {
       predictedPositions[planet] = {
         sign: (String(planetData.sign) || 'aries') as unknown,
         degree: Number(planetData.degree) || 0,
-        isRetrograde: Boolean(planetData.isRetrograde) || false,
+        isRetrograde: Boolean(planetData.isRetrograde) || false
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
     }
 
     // Calculate confidence based on how much data we have and how recent it is
     const confidence =
-      Math.min(1, nearbyData.length / 5) *
+      Math.min(1, nearbyData.length / 5) *;
       Math.max(
         0.3,
         1 - Math.abs(targetDate.getTime() - baseData.date.getTime()) / (30 * 24 * 60 * 60 * 1000),
@@ -236,7 +236,7 @@ class AstrologizeApiCache {
       date: targetDate,
       predictedPositions,
       confidence,
-      sources,
+      sources
     };
   }
 
@@ -266,7 +266,7 @@ class AstrologizeApiCache {
         elementalAbsolutes: cached.elementalAbsolutes,
         elementalRelatives: cached.elementalRelatives,
         thermodynamics: cached.thermodynamics,
-        quality: cached.quality,
+        quality: cached.quality
       };
     }
 
@@ -289,7 +289,7 @@ class AstrologizeApiCache {
    * Private helper methods
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
-    type WithAlchemical = {
+    type WithAlchemical = {;
       elementalBalance?: Record<string, number>;
       heat?: number;
       entropy?: number;
@@ -302,16 +302,16 @@ class AstrologizeApiCache {
     const resultData = result as WithAlchemical;
     // Assess based on completeness and reasonableness of data
     const hasAllElements =
-      resultData.elementalBalance &&
+      resultData.elementalBalance &&;
       Object.values(resultData.elementalBalance).every(v => typeof v === 'number' && v >= 0);
     const hasThermodynamics =
-      typeof resultData.heat === 'number' &&
-      typeof resultData.entropy === 'number' &&
+      typeof resultData.heat === 'number' &&;
+      typeof resultData.entropy === 'number' &&;
       typeof resultData.reactivity === 'number';
     const hasAlchemical =
-      typeof resultData.Spirit === 'number' &&
-      typeof resultData.Essence === 'number' &&
-      typeof resultData.Matter === 'number' &&
+      typeof resultData.Spirit === 'number' &&;
+      typeof resultData.Essence === 'number' &&;
+      typeof resultData.Matter === 'number' &&;
       typeof resultData.Substance === 'number';
     if (hasAllElements && hasThermodynamics && hasAlchemical) {
       return 'high';
@@ -327,7 +327,7 @@ class AstrologizeApiCache {
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLng = ((lng2 - lng1) * Math.PI) / 180;
     const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +;
       Math.cos((lat1 * Math.PI) / 180) *
         Math.cos((lat2 * Math.PI) / 180) *
         Math.sin(dLng / 2) *
@@ -337,7 +337,7 @@ class AstrologizeApiCache {
   }
 
   private degreeToSign(degree: number): string {
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -349,7 +349,7 @@ class AstrologizeApiCache {
       'sagittarius',
       'capricorn',
       'aquarius',
-      'pisces',
+      'pisces'
     ];
     return signs[Math.floor(degree / 30) % 12];
   }
@@ -393,13 +393,13 @@ class AstrologizeApiCache {
     return {
       size: this.cache.size,
       maxSize: this.maxCacheSize,
-      oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),
-      newestEntry: Math.max(...Array.from(this.cache.values()).map(v => v.timestamp)),
+      oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),;
+      newestEntry: Math.max(...Array.from(this.cache.values()).map(v => v.timestamp)),;
       qualityDistribution: {
-        high: Array.from(this.cache.values()).filter(v => v.quality === 'high').length,
-        medium: Array.from(this.cache.values()).filter(v => v.quality === 'medium').length,
-        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length,
-      },
+        high: Array.from(this.cache.values()).filter(v => v.quality === 'high').length,;
+        medium: Array.from(this.cache.values()).filter(v => v.quality === 'medium').length,;
+        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length,;
+      }
     };
   }
 

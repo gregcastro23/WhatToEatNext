@@ -27,7 +27,7 @@ const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
   Uranus: ['Innovative', 'Unusual', 'Future-forward', 'Molecular'],
   Neptune: ['Ethereal', 'Mystical', 'Fluid', 'Oceanic'],
   Pluto: ['Transformative', 'Intense', 'Powerful', 'Regenerative'],
-  Ascendant: ['Personal', 'Identity', 'Self-expression', 'Signature'],
+  Ascendant: ['Personal', 'Identity', 'Self-expression', 'Signature']
 };
 
 // Season to cuisine mapping
@@ -35,7 +35,7 @@ const SEASONAL_CUISINE_AFFINITIES: Record<Season, string[]> = {
   Spring: ['Mediterranean', 'Asian', 'Light', 'Fresh'],
   Summer: ['Mexican', 'Greek', 'Indian', 'BBQ', 'Salads'],
   Fall: ['American', 'German', 'Hearty', 'Spiced'],
-  Winter: ['Slow-cooked', 'Soup', 'Stew', 'Rich', 'Warming'],
+  Winter: ['Slow-cooked', 'Soup', 'Stew', 'Rich', 'Warming']
 };
 
 // Weekday to cuisine mapping
@@ -46,7 +46,7 @@ const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
   Wednesday: ['Variety', 'Fusion', 'Creative'],
   Thursday: ['Hearty', 'Abundant', 'Social'],
   Friday: ['Festive', 'Indulgent', 'Special'],
-  Saturday: ['Complex', 'Experimental', 'Project Cooking'],
+  Saturday: ['Complex', 'Experimental', 'Project Cooking']
 };
 
 // Time of day to meal type mapping is already in time.ts
@@ -94,7 +94,7 @@ function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
 
 // Calculate meal type appropriateness
 function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
-  if (recipe.mealType === mealType || recipe.mealType === 'Anytime') {
+  if (recipe.mealType === mealType || recipe.mealType === 'Anytime') {;
     return 1;
   }
   // Some meal types can work for others
@@ -118,13 +118,13 @@ function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
     sagittarius: ['Adventurous', 'Exotic', 'Foreign'],
     capricorn: ['Traditional', 'Classic', 'Quality'],
     aquarius: ['Unusual', 'Innovative', 'Unexpected'],
-    pisces: ['Ethereal', 'Delicate', 'Romantic'],
+    pisces: ['Ethereal', 'Delicate', 'Romantic']
   };
 
   const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity && recipe.name) {
     const recipeName = recipe.name.toLowerCase();
-    if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {
+    if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {;
       return 1;
     }
   }
@@ -187,13 +187,13 @@ export function calculateRecommendationScore(
 export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
-  count = 3,
-  timeFactors: TimeFactors = getTimeFactors(),
+  count = 3,;
+  timeFactors: TimeFactors = getTimeFactors(),;
 ): Recipe[] {
   // Score all recipes
-  const scoredRecipes = recipes.map(recipe => ({
+  const scoredRecipes = recipes.map(recipe => ({;
     recipe,
-    score: calculateRecommendationScore(recipe, astrologicalState, timeFactors),
+    score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }));
 
   // Sort by score (highest first)
@@ -207,13 +207,13 @@ export function getRecommendedRecipes(
 export function explainRecommendation(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
-  timeFactors: TimeFactors = getTimeFactors(),
+  timeFactors: TimeFactors = getTimeFactors(),;
 ): string {
   const reasons: string[] = [];
 
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore(
+    const elementalScore = calculateElementalScore(;
       recipe.element as Element,
       astrologicalState.dominantElement as Element,
     );
@@ -240,11 +240,11 @@ export function explainRecommendation(
       const mealTypeData = timeFactors.mealType as unknown as any;
       const timeOfDayData = timeFactors.timeOfDay as unknown as any;
       const mealTypeLower =
-        typeof mealTypeData.toLowerCase === 'function'
+        typeof mealTypeData.toLowerCase === 'function';
           ? mealTypeData.toLowerCase()
           : String(timeFactors.mealType || '');
       const timeOfDayLower =
-        typeof timeOfDayData.toLowerCase === 'function'
+        typeof timeOfDayData.toLowerCase === 'function';
           ? timeOfDayData.toLowerCase()
           : String(timeFactors.timeOfDay || '');
 
@@ -280,7 +280,7 @@ export function explainRecommendation(
     }
   }
 
-  if (reasons.length === 0) {
+  if (reasons.length === 0) {;
     return 'This recipe was selected based on a combination of factors including the current time, astrological influences, and seasonal considerations.';
   }
 

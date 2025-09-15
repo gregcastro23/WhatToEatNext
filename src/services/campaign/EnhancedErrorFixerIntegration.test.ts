@@ -23,9 +23,9 @@ describe('EnhancedErrorFixerIntegration', () => {
 
   describe('buildFixerArguments', () => {
     it('should build correct arguments for basic options', () => {
-      const options: FixerOptions = { maxFiles: 15,
+      const options: FixerOptions = { maxFiles: 15,;
         autoFix: true,
-        validateSafety: true,
+        validateSafety: true
       };
 
       // Use reflection to access private method
@@ -40,9 +40,9 @@ describe('EnhancedErrorFixerIntegration', () => {
     });
 
     it('should build correct arguments for dry run', () => {
-      const options: FixerOptions = { dryRun: true,
+      const options: FixerOptions = { dryRun: true,;
         silent: true,
-        json: true,
+        json: true
       };
 
       const buildMethod: any = (;
@@ -58,7 +58,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
   describe('parseFixerOutput', () => {
     it('should parse successful fixer output correctly', () => {
-      const mockOutput: any = `
+      const mockOutput: any = `;
 🚀 Starting Enhanced TypeScript Error Fixer v3.0...
 📊 Processed 15 files
 ✅ Fixed 42 errors
@@ -66,7 +66,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 ✅ Build validation passed
       `.trim();
 
-      const parseMethod: any = (
+      const parseMethod: any = (;
         integration as unknown as {
           parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>;
         }
@@ -80,13 +80,13 @@ describe('EnhancedErrorFixerIntegration', () => {
     });
 
     it('should extract warnings and errors from output', () => {
-      const mockOutput: any = `
+      const mockOutput: any = `;
 ⚠️ Warning: Some files skipped due to corruption
 ❌ Error: Build validation failed
 ⚠️ Warning: Safety score below threshold
       `.trim();
 
-      const parseMethod: any = (
+      const parseMethod: any = (;
         integration as unknown as {
           parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>;
         }
@@ -112,7 +112,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       expect(result).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', {
         stdio: 'pipe',
-        timeout: 120000,
+        timeout: 120000
       });
     });
 
@@ -140,9 +140,9 @@ describe('EnhancedErrorFixerIntegration', () => {
       const count: any = await countMethod();
 
       expect(count).toBe(123);
-      expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
+      expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
     });
 
@@ -163,22 +163,22 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeEnhancedFixer', () => {
     it('should execute fixer with correct options', async () => {
       // Mock spawn to simulate successful execution
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0); // Success exit code
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
       mockExecSync.mockReturnValue('Build successful'); // Mock build validation
 
-      const options: FixerOptions = { maxFiles: 10,
+      const options: FixerOptions = { maxFiles: 10,;
         autoFix: true,
-        validateSafety: true,
+        validateSafety: true
       };
 
       const result: any = await integration.executeEnhancedFixer(options);
@@ -187,9 +187,9 @@ describe('EnhancedErrorFixerIntegration', () => {
         'node',
         [
           'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-          '--max-files=10',
+          '--max-files=10',;
           '--auto-fix',
-          '--validate-safety',
+          '--validate-safety'
         ],
         { stdio: ['pipe', 'pipe', 'pipe'], cwd: process.cwd() },
       );
@@ -202,14 +202,14 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeBatchProcessing', () => {
     it('should process multiple batches correctly', async () => {
       // Mock successful executions
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
@@ -221,10 +221,10 @@ describe('EnhancedErrorFixerIntegration', () => {
         .mockReturnValueOnce('Build successful') // Third build validation
         .mockReturnValueOnce('0\n'); // Final error count (no more errors)
 
-      const options: BatchProcessingOptions = { batchSize: 15,
+      const options: BatchProcessingOptions = { batchSize: 15,;
         buildValidationInterval: 5,
         maxBatches: 3,
-        stopOnBuildFailure: true,
+        stopOnBuildFailure: true
       };
 
       const results: any = await integration.executeBatchProcessing(options);
@@ -235,14 +235,14 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should stop on build failure when configured', async () => {
       // Mock failed build
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
@@ -252,10 +252,10 @@ describe('EnhancedErrorFixerIntegration', () => {
         }) // Build validation fails
         .mockReturnValue('50\n'); // Error count
 
-      const options: BatchProcessingOptions = { batchSize: 10,
+      const options: BatchProcessingOptions = { batchSize: 10,;
         buildValidationInterval: 5,
         maxBatches: 5,
-        stopOnBuildFailure: true,
+        stopOnBuildFailure: true
       };
 
       const results: any = await integration.executeBatchProcessing(options);
@@ -268,14 +268,14 @@ describe('EnhancedErrorFixerIntegration', () => {
 
   describe('validateSafety', () => {
     it('should return safety validation results', async () => {
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
@@ -292,14 +292,14 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeWithSafetyProtocols', () => {
     it('should execute with safety protocols', async () => {
       // Mock safety validation success
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
@@ -313,14 +313,14 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should use conservative settings when safety validation fails', async () => {
       // Mock safety validation failure
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(1); // Failure exit code
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);

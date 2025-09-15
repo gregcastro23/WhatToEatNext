@@ -1,14 +1,14 @@
 import { ChakraEnergies } from '@/types/alchemy';
 
 // Define the known chakra keys
-export const CHAKRA_KEYS = [
+export const CHAKRA_KEYS = [;
   'root',
   'sacral',
   'solarPlexus',
   'heart',
   'throat',
   'brow',
-  'crown',
+  'crown'
 ] as const;
 
 export type ChakraKey = (typeof CHAKRA_KEYS)[number];
@@ -74,28 +74,28 @@ export function hasProperty<T extends string>(obj: unknown, prop: T): obj is Rec
 /**
  * Safe getter for number values with default fallback
  */
-export function safeGetNumber(value: unknown, defaultValue = 0): number {
+export function safeGetNumber(value: unknown, defaultValue = 0): number {;
   return typeof value === 'number' && !isNaN(value) ? value : defaultValue;
 }
 
 /**
  * Safe getter for string values with default fallback
  */
-export function safeGetString(value: unknown, defaultValue = ''): string {
+export function safeGetString(value: unknown, defaultValue = ''): string {;
   return typeof value === 'string' ? value : defaultValue;
 }
 
 /**
  * Safe getter for boolean values with default fallback
  */
-export function safeGetBoolean(value: unknown, defaultValue = false): boolean {
+export function safeGetBoolean(value: unknown, defaultValue = false): boolean {;
   return typeof value === 'boolean' ? value : defaultValue;
 }
 
 /**
  * Safe getter for array values with default fallback
  */
-export function safeGetArray<T = unknown>(value: unknown, defaultValue: T[] = []): T[] {
+export function safeGetArray<T = unknown>(value: unknown, defaultValue: T[] = []): T[] {;
   return Array.isArray(value) ? value : defaultValue;
 }
 
@@ -135,7 +135,7 @@ export function isDefined<T>(value: T | null | undefined): value is T {
 /**
  * Safe JSON parse with type guard
  */
-export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | undefined {
+export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | undefined {;
   try {
     return JSON.parse(json) as T;
   } catch {
@@ -149,7 +149,7 @@ export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | 
 export function isError(value: unknown): value is Error {
   return (
     value instanceof Error ||
-    (isObject(value) && 'message' in value && typeof value.message === 'string')
+    (isObject(value) && 'message' in value && typeof value.message === 'string');
   );
 }
 
@@ -164,5 +164,5 @@ export function asRecord(value: unknown): Record<string, unknown> {
  * Safe cast for test mocks
  */
 export function asMock(value: unknown): any {
-  return value as unknown;
+  return value ;
 }

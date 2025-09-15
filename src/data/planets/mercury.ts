@@ -1,19 +1,19 @@
 import { PlanetData, MercurySpecificData } from './types';
 export type { MercurySpecificData };
 
-const mercuryData: PlanetData = {
+const mercuryData: PlanetData = {;
   'Dignity Effect': {
     gemini: 1,
     virgo: 3,
     sagittarius: 1,
-    pisces: -3,
+    pisces: -3
   },
   Elements: ['Air', 'Earth'],
   Alchemy: {
     Spirit: 1,
     Essence: 0,
     Matter: 0,
-    Substance: 1,
+    Substance: 1
   },
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
@@ -21,7 +21,7 @@ const mercuryData: PlanetData = {
     DistanceFromSun: '36 million miles (58 million kilometers)',
     DistanceFromEarth: {
       Minimum: '48 million miles (77 million kilometers)',
-      Maximum: '138 million miles (222 million kilometers)',
+      Maximum: '138 million miles (222 million kilometers)'
     },
     Diameter: '3,031 miles (4,879 kilometers)',
     SurfaceTemperature: '-290 to 800 degrees Fahrenheit (-180 to 427 Celsius)',
@@ -34,23 +34,23 @@ const mercuryData: PlanetData = {
     SunlightTravelTime: '3.2 minutes',
     ZodiacalRestriction: 'Never more than 1 sign away from the Sun',
     PhysicalCharacteristics: {
-      Surface: "Heavily cratered, resembling Earth's moon",
+      Surface: 'Heavily cratered, resembling Earth's moon',
       MagneticField: 'Weak global magnetic field',
       Composition: 'Large iron core, thin crust, silicate mantle',
       NotableFeatures:
-        'Closest planet to the Sun, fastest orbit in solar system, extreme temperature variations',
-    },
+        'Closest planet to the Sun, fastest orbit in solar system, extreme temperature variations'
+    }
   },
   AstrologicalProperties: {
     AlchemicalName: 'Hermes',
     DualDomicile: {
       Spring: 'Gemini (yang)',
-      Autumn: 'Virgo (yin)',
+      Autumn: 'Virgo (yin)'
     },
     HouseJoy: 1,
     CyclePeriod: {
       Return: 'Yearly',
-      Retrograde: '3 weeks, three to four times yearly',
+      Retrograde: '3 weeks, three to four times yearly'
     },
     Exaltation: 'Virgo',
     Fall: 'Pisces',
@@ -63,25 +63,25 @@ const mercuryData: PlanetData = {
       'Education',
       'Commerce',
       'Adaptability',
-      'Analysis',
+      'Analysis'
     ],
     Colors: ['Yellow', 'Orange', 'Light Blue', 'Silver', 'Gray', 'Iridescent'],
     Day: 'Wednesday',
     Metal: 'Quicksilver (mercury)',
     BodyParts: ['Brain', 'Nervous system', 'Hands', 'Arms', 'Lungs', 'Respiratory system'],
     Animals: ['Fox', 'Monkey', 'Ibis', 'Magpie'],
-    Stones: ['Agate', 'Aquamarine', 'Opal', 'Topaz'],
+    Stones: ['Agate', 'Aquamarine', 'Opal', 'Topaz']
   },
   ElementalConnections: {
-    DayEmission: 'Spirit - "that which animates"',
-    NightEmission: 'Substance - "that which takes form"',
+    DayEmission: 'Spirit - 'that which animates'',
+    NightEmission: 'Substance - 'that which takes form'',
     ElementalBridges: [
       'Connects Air and Earth',
-      'Facilitates transition between immaterial and material',
+      'Facilitates transition between immaterial and material'
     ],
     SharedElements: {
       Air: ['Saturn', 'Jupiter'],
-      Earth: ['Venus', 'Saturn'],
+      Earth: ['Venus', 'Saturn']
     },
     AssociatedQualities: [
       'Adaptable',
@@ -91,8 +91,8 @@ const mercuryData: PlanetData = {
       'Communicative',
       'Detail-oriented',
       'Precise',
-      'Neutral',
-    ],
+      'Neutral'
+    ]
   },
   HerbalAssociations: {
     Herbs: [
@@ -113,7 +113,7 @@ const mercuryData: PlanetData = {
       'Majoram',
       'Almond',
       'Celery',
-      'Clover',
+      'Clover'
     ],
     Flowers: [
       'Lily of the Valley',
@@ -125,7 +125,7 @@ const mercuryData: PlanetData = {
       'Yarrow',
       'Yellow Lily',
       'Aspen',
-      'Vervain',
+      'Vervain'
     ],
     Woods: ['Hazel', 'Almond', 'Aspen', 'Olive'],
     Scents: [
@@ -139,14 +139,14 @@ const mercuryData: PlanetData = {
       'Grapefruit',
       'Citronella',
       'Anise',
-      'Light Spices',
-    ],
+      'Light Spices'
+    ]
   },
   RetrogradeEffect: {
     Spirit: -0.3,
     Essence: 0,
     Matter: 0.3,
-    Substance: -0.2,
+    Substance: -0.2
   },
   FoodAssociations: [
     'mixed foods',
@@ -175,7 +175,7 @@ const mercuryData: PlanetData = {
     'refined dishes',
     'foods with many components',
     'dishes requiring precise timing',
-    'raw foods',
+    'raw foods'
   ],
   FlavorProfiles: {
     Sweet: 0.3,
@@ -183,7 +183,7 @@ const mercuryData: PlanetData = {
     Salty: 0.4,
     Bitter: 0.6,
     Umami: 0.3,
-    Spicy: 0.3,
+    Spicy: 0.3
   },
   CulinaryInfluences: [
     'Enhances complexity in flavor combinations',
@@ -198,7 +198,7 @@ const mercuryData: PlanetData = {
     'Encourages mental engagement with food',
     'Promotes varied diets',
     'Facilitates learning new cooking techniques',
-    'Enhances food presentation details',
+    'Enhances food presentation details'
   ],
   AspectsEffect: {
     Sun: {
@@ -206,43 +206,43 @@ const mercuryData: PlanetData = {
       Opposition: -0.1,
       Trine: 0.4,
       Square: 0.0,
-      Sextile: 0.3,
+      Sextile: 0.3
     },
     Moon: {
       Conjunction: 0.3,
       Opposition: 0.1,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2,
+      Sextile: 0.2
     },
     Venus: {
       Conjunction: 0.4,
       Opposition: 0.0,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2,
+      Sextile: 0.2
     },
     Mars: {
       Conjunction: 0.3,
       Opposition: -0.2,
       Trine: 0.2,
       Square: -0.3,
-      Sextile: 0.1,
+      Sextile: 0.1
     },
     Jupiter: {
       Conjunction: 0.5,
       Opposition: 0.1,
       Trine: 0.4,
       Square: 0.0,
-      Sextile: 0.3,
+      Sextile: 0.3
     },
     Saturn: {
       Conjunction: -0.2,
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.3,
-      Sextile: 0.1,
-    },
+      Sextile: 0.1
+    }
   },
   PlanetSpecific: {
     Mercury: {
@@ -251,7 +251,7 @@ const mercuryData: PlanetData = {
         Direct:
           'Enhances clarity of flavor and precision in cooking techniques. Good for following complex recipes and experimental cooking.',
         Retrograde:
-          'Increases likelihood of cooking mishaps. Best to stick to familiar recipes and comfort foods. May cause unexpected flavor combinations that can be surprisingly good.',
+          'Increases likelihood of cooking mishaps. Best to stick to familiar recipes and comfort foods. May cause unexpected flavor combinations that can be surprisingly good.'
       },
       FlavorModulation: {
         Direct: {
@@ -260,7 +260,7 @@ const mercuryData: PlanetData = {
           Salty: 0.4,
           Bitter: 0.6,
           Umami: 0.3,
-          Spicy: 0.3,
+          Spicy: 0.3
         },
         Retrograde: {
           Sweet: 0.2,
@@ -268,8 +268,8 @@ const mercuryData: PlanetData = {
           Salty: 0.3,
           Bitter: 0.7,
           Umami: 0.2,
-          Spicy: 0.4,
-        },
+          Spicy: 0.4
+        }
       },
       ZodiacInfluence: {
         gemini: {
@@ -278,8 +278,8 @@ const mercuryData: PlanetData = {
             'stir-frying',
             'small plates',
             'appetizers',
-            'varied tasting menus',
-          ],
+            'varied tasting menus'
+          ]
         },
         virgo: {
           CulinaryEffect: 'Increases precision and attention to detail in cooking',
@@ -287,8 +287,8 @@ const mercuryData: PlanetData = {
             'detailed garnishing',
             'precise baking',
             'health-focused cooking',
-            'fermentation',
-          ],
+            'fermentation'
+          ]
         },
         pisces: {
           CulinaryEffect: 'Can cause confusion in recipes, but increases intuitive cooking',
@@ -296,27 +296,27 @@ const mercuryData: PlanetData = {
             'infusions',
             'seafood preparation',
             'ethereal presentation',
-            'subtle seasoning',
-          ],
-        },
+            'subtle seasoning'
+          ]
+        }
       },
       RetrogradeCycle: {
         PreShadow: {
           Duration: '2 weeks',
           CulinaryEffect: 'Begin simplifying recipes, check ingredients carefully',
-          Recommendation: 'Start preparing make-ahead meals and batch cooking',
+          Recommendation: 'Start preparing make-ahead meals and batch cooking'
         },
         Retrograde: {
           Duration: '3 weeks',
           CulinaryEffect: 'Communication breakdowns affect recipe following, unexpected results',
-          Recommendation: 'Use tried and true recipes, avoid complex new techniques',
+          Recommendation: 'Use tried and true recipes, avoid complex new techniques'
         },
         PostShadow: {
           Duration: '2 weeks',
           CulinaryEffect: 'Gradually return to normal cooking patterns, integrate lessons learned',
-          Recommendation: 'Revisit and perfect recipes that had issues during retrograde',
-        },
-      },
+          Recommendation: 'Revisit and perfect recipes that had issues during retrograde'
+        }
+      }
     },
     ZodiacTransit: {
       gemini: {
@@ -325,7 +325,7 @@ const mercuryData: PlanetData = {
           Fire: 0.2,
           Earth: 0.1,
           Air: 0.9,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'fresh herbs',
@@ -333,8 +333,8 @@ const mercuryData: PlanetData = {
           'finger foods',
           'fusion cuisine',
           'appetizer flights',
-          'complex salads',
-        ],
+          'complex salads'
+        ]
       },
       cancer: {
         FoodFocus: 'Thoughtful comfort food with precise seasoning and nostalgic elements',
@@ -342,14 +342,14 @@ const mercuryData: PlanetData = {
           Fire: 0.1,
           Earth: 0.2,
           Air: 0.4,
-          Water: 0.7,
+          Water: 0.7
         },
         Ingredients: [
           'herb-infused broths',
           'delicate seafood',
           'carefully seasoned rice dishes',
-          'family recipes with modern twists',
-        ],
+          'family recipes with modern twists'
+        ]
       },
       leo: {
         FoodFocus:
@@ -358,14 +358,14 @@ const mercuryData: PlanetData = {
           Fire: 0.7,
           Earth: 0.1,
           Air: 0.5,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'dishes requiring technical skill',
           'visually impressive presentations',
           'foods that foster sharing',
-          'aromatic herbs',
-        ],
+          'aromatic herbs'
+        ]
       },
       virgo: {
         FoodFocus:
@@ -374,14 +374,14 @@ const mercuryData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.3,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'carefully measured spices',
           'meticulously prepared vegetables',
           'precise fermentations',
-          'artfully arranged plates',
-        ],
+          'artfully arranged plates'
+        ]
       },
       libra: {
         FoodFocus:
@@ -390,14 +390,14 @@ const mercuryData: PlanetData = {
           Fire: 0.1,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.3,
+          Water: 0.3
         },
         Ingredients: [
           'harmonious ingredient pairings',
           'visually balanced plates',
           'social dining experiences',
-          'contrasting textures',
-        ],
+          'contrasting textures'
+        ]
       },
       scorpio: {
         FoodFocus:
@@ -406,15 +406,15 @@ const mercuryData: PlanetData = {
           Fire: 0.3,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.8,
+          Water: 0.8
         },
         Ingredients: [
           'fermented foods',
           'umami-rich ingredients',
           'surprising flavor reveals',
-          'intense herb infusions',
-        ],
-      },
+          'intense herb infusions'
+        ]
+      }
     },
     TransitDates: {
       RetrogradePhases: {
@@ -424,7 +424,7 @@ const mercuryData: PlanetData = {
           PostShadow: { Start: '2024-05-14', End: '2024-05-31' },
           Signs: ['Taurus', 'Aries'],
           CulinaryEffect:
-            'Review food sourcing and preparation techniques, return to traditional cooking methods',
+            'Review food sourcing and preparation techniques, return to traditional cooking methods'
         },
         Retrograde2024Q3: {
           PreShadow: { Start: '2024-08-08', End: '2024-08-23' },
@@ -432,22 +432,22 @@ const mercuryData: PlanetData = {
           PostShadow: { Start: '2024-09-15', End: '2024-10-02' },
           Signs: ['Virgo', 'Leo'],
           CulinaryEffect:
-            'Revisit precise cooking techniques, double-check measurements, simplify elaborate dishes',
+            'Revisit precise cooking techniques, double-check measurements, simplify elaborate dishes'
         },
         Retrograde2024Q4: {
           PreShadow: { Start: '2024-12-01', End: '2024-12-13' },
           Retrograde: { Start: '2024-12-13', End: '2025-01-02' },
           PostShadow: { Start: '2025-01-02', End: '2025-01-21' },
           Signs: ['Capricorn', 'Sagittarius'],
-          CulinaryEffect: 'Reassess traditional holiday recipes, reconnect with food heritage',
+          CulinaryEffect: 'Reassess traditional holiday recipes, reconnect with food heritage'
         },
         Retrograde2025Q1: {
           PreShadow: { Start: '2025-03-26', End: '2025-04-13' },
           Retrograde: { Start: '2025-04-13', End: '2025-05-07' },
           PostShadow: { Start: '2025-05-07', End: '2025-05-22' },
           Signs: ['Aries', 'Pisces'],
-          CulinaryEffect: 'Balance impulsive cooking urges, revisit intuitive cooking approaches',
-        },
+          CulinaryEffect: 'Balance impulsive cooking urges, revisit intuitive cooking approaches'
+        }
       },
       DirectPhasesQ2_2024: {
         aries: { Start: '2024-04-01', End: '2024-04-13' },
@@ -455,7 +455,7 @@ const mercuryData: PlanetData = {
         gemini: { Start: '2024-05-31', End: '2024-06-17' },
         cancer: { Start: '2024-06-17', End: '2024-07-02' },
         leo: { Start: '2024-07-02', End: '2024-07-21' },
-        virgo: { Start: '2024-07-21', End: '2024-08-08' },
+        virgo: { Start: '2024-07-21', End: '2024-08-08' }
       },
       DirectPhasesQ4_2024: {
         libra: { Start: '2024-10-02', End: '2024-10-26' },
@@ -463,10 +463,10 @@ const mercuryData: PlanetData = {
         sagittarius: { Start: '2024-11-15', End: '2024-12-01' },
         capricorn: { Start: '2025-01-02', End: '2025-01-22' },
         aquarius: { Start: '2025-01-22', End: '2025-02-10' },
-        pisces: { Start: '2025-02-10', End: '2025-02-27' },
-      },
-    },
-  },
+        pisces: { Start: '2025-02-10', End: '2025-02-27' }
+      }
+    }
+  }
 };
 
 export default mercuryData;

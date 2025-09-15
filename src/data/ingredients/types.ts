@@ -4,7 +4,7 @@ import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 export type { ElementalProperties };
 
 export type IngredientCategory =
-  | 'culinary_herb'
+  | 'culinary_herb';
   | 'spice'
   | 'vegetable'
   | 'fruit'
@@ -150,7 +150,7 @@ export interface Ingredient extends BaseIngredient {
   };
 }
 
-export const VALID_CATEGORIES: IngredientCategory[] = [
+export const _VALID_CATEGORIES: IngredientCategory[] = [
   'culinary_herb',
   'spice',
   'vegetable',
@@ -160,12 +160,12 @@ export const VALID_CATEGORIES: IngredientCategory[] = [
   'dairy',
   'oil',
   'vinegar',
-  'seasoning',
+  'seasoning'
 ];
 
 // Improved subcategories
 export type VegetableSubcategory =
-  | 'leafy_green'
+  | 'leafy_green';
   | 'cruciferous'
   | 'root'
   | 'allium'

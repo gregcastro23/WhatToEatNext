@@ -8,7 +8,7 @@ import {
   AlchemicalEngineAdvanced,
   calculateChakraEnergies as _calculateChakraEnergies,
   calculateZodiacEnergies as _calculateZodiacEnergies,
-  alchemize,
+  alchemize
 } from '@/calculations/alchemicalEngine';
 import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
 import type {
@@ -16,7 +16,7 @@ import type {
   BirthInfo,
   ChakraEnergies,
   HoroscopeData,
-  StandardizedAlchemicalResult,
+  StandardizedAlchemicalResult
 } from '@/types/alchemy';
 
 // Re-export the main functions and classes
@@ -26,18 +26,18 @@ export { AlchemicalEngineAdvanced, AlchemicalEngineBase };
 export { alchemize };
 
 // Create and export a unified default object with all alchemical functionality
-const alchemicalEngine = {
-  alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
+const alchemicalEngine = {;
+  alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {;
     try {
       const tropical = horoscopeDict.tropical as any | undefined;
-      const extendedHoroscope = {
+      const extendedHoroscope = {;
         ...horoscopeDict,
         tropical: {
           CelestialBodies:
             tropical?.CelestialBodies || (horoscopeDict as any).CelestialBodies || {},
           Ascendant: tropical?.Ascendant || (horoscopeDict as any).Ascendant || {},
-          Aspects: tropical?.Aspects || (horoscopeDict as any).Aspects || {},
-        },
+          Aspects: tropical?.Aspects || (horoscopeDict as any).Aspects || {}
+        }
       };
       return alchemize(birthInfo, extendedHoroscope);
     } catch (error) {
@@ -61,13 +61,13 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
+          Air: 0.25
         },
         thermodynamicProperties: {
           heat: 0.5,
           entropy: 0.5,
           reactivity: 0.5,
-          gregsEnergy: 0.0,
+          gregsEnergy: 0.0
         },
         kalchm: 1.0,
         monica: 1.0,
@@ -77,8 +77,8 @@ const alchemicalEngine = {
         metadata: {
           name: 'Alchm NFT',
           description: 'Fallback result due to error.',
-          attributes: [],
-        },
+          attributes: []
+        }
       };
     }
   },
@@ -96,7 +96,7 @@ const alchemicalEngine = {
       // Return a safe fallback
       return {
         Sun: { Sign: { label: 'Aries' } },
-        Moon: { Sign: { label: 'Cancer' } },
+        Moon: { Sign: { label: 'Cancer' } }
       };
     }
   },
@@ -120,12 +120,12 @@ const alchemicalEngine = {
         sagittarius: 0.0833,
         capricorn: 0.0833,
         aquarius: 0.0833,
-        pisces: 0.0833,
+        pisces: 0.0833
       };
     }
   },
 
-  calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {
+  calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {;
     try {
       // Use ESM import binding
       return _calculateChakraEnergies(zodiacEnergies);
@@ -139,13 +139,13 @@ const alchemicalEngine = {
         heart: 0.125,
         throat: 0.125,
         thirdEye: 0.125,
-        crown: 0.125,
+        crown: 0.125
       };
     }
   },
 
   // Add a convenient factory method to create engine instances with error handling
-  createEngine: (advanced: boolean = false) => {
+  createEngine: (advanced: boolean = false) => {;
     try {
       return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase();
     } catch (error) {
@@ -156,8 +156,8 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Air: 0.25,
-          Earth: 0.25,
-        }),
+          Earth: 0.25
+        })
       };
     }
   },
@@ -180,8 +180,8 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        },
+          Air: 0.25
+        }
       } as AstrologicalState;
     } catch (error) {
       console.error('Error getting current astrological state:', error);
@@ -199,15 +199,15 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        },
+          Air: 0.25
+        }
       } as AstrologicalState;
     }
-  },
+  }
 };
 
 // Create and export the alchemical engine instance
-export const alchemicalEngineInstance = new AlchemicalEngineBase();
+export const _alchemicalEngineInstance = new AlchemicalEngineBase();
 
 // Export the alchemicalEngine object as well
 export { alchemicalEngine };
@@ -217,5 +217,5 @@ export default {
   AlchemicalEngineBase,
   AlchemicalEngineAdvanced,
   alchemize,
-  alchemicalEngine,
+  alchemicalEngine
 };

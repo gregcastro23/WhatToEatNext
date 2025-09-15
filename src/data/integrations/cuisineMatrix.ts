@@ -32,7 +32,7 @@ export function getIngredientsForCuisine(
     herb: [],
     spice: [],
     protein: [],
-    vegetable: [],
+    vegetable: []
   };
 
   // Process each matrix to find ingredients that pair with this cuisine

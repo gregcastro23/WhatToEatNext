@@ -92,14 +92,14 @@ export class LintingProgressTracker {
 
       const executionTime = Date.now() - startTime;
 
-      const fullMetrics: LintingMetrics = {
+      const fullMetrics: LintingMetrics = {;
         ...metrics,
         timestamp: new Date(),
         performanceMetrics: {
           executionTime,
           memoryUsage: this.getMemoryUsage(),
-          cacheHitRate: this.calculateCacheHitRate(),
-        },
+          cacheHitRate: this.calculateCacheHitRate()
+        }
       };
 
       // Save metrics
@@ -126,12 +126,12 @@ export class LintingProgressTracker {
       const trends = this.calculateTrends(history);
       const qualityGates = this.evaluateQualityGates(currentMetrics);
 
-      const report: LintingProgressReport = {
+      const report: LintingProgressReport = {;
         currentMetrics,
         previousMetrics,
         improvement,
         trends,
-        qualityGates,
+        qualityGates
       };
 
       logger.info('Linting progress report generated');
@@ -150,13 +150,13 @@ export class LintingProgressTracker {
       const report = await this.generateProgressReport();
 
       // Calculate campaign-specific metrics
-      const campaignProgress = {
+      const campaignProgress = {;
         campaignId: campaignData.campaignId,
         phase: campaignData.phase,
         currentProgress: this.calculateCampaignProgress(report, campaignData),
         qualityScore: this.calculateQualityScore(report.currentMetrics),
         riskAssessment: this.assessRisk(report),
-        recommendations: this.generateRecommendations(report),
+        recommendations: this.generateRecommendations(report)
       };
 
       // Save campaign integration data
@@ -189,10 +189,10 @@ export class LintingProgressTracker {
         return false;
       }
 
-      const gates = {
+      const gates = {;
         errorGate: metrics.errors <= thresholds.maxErrors,
         warningGate: metrics.warnings <= thresholds.maxWarnings,
-        performanceGate: metrics.performanceMetrics.executionTime <= thresholds.maxExecutionTime,
+        performanceGate: metrics.performanceMetrics.executionTime <= thresholds.maxExecutionTime
       };
 
       const allGatesPassed = Object.values(gates).every(gate => gate);
@@ -203,8 +203,8 @@ export class LintingProgressTracker {
         metrics: {
           errors: metrics.errors,
           warnings: metrics.warnings,
-          executionTime: metrics.performanceMetrics.executionTime,
-        },
+          executionTime: metrics.performanceMetrics.executionTime
+        }
       });
 
       return allGatesPassed;
@@ -221,7 +221,7 @@ export class LintingProgressTracker {
     try {
       // Run ESLint with JSON format and capture both stdout and stderr
       const command = 'yarn lint --format json --max-warnings 10000';
-      const result = execSync(command, {
+      const result = execSync(command, {;
         encoding: 'utf8',
         stdio: 'pipe',
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
@@ -264,10 +264,10 @@ export class LintingProgressTracker {
             fix?: unknown;
           }>;
         }) => {
-          file.messages?.forEach(message => {
+          file.messages?.forEach(message => {;
             totalIssues++;
 
-            if (message.severity === 2) {
+            if (message.severity === 2) {;
               errors++;
               errorsByCategory[message.ruleId || 'unknown'] =
                 (errorsByCategory[message.ruleId || 'unknown'] || 0) + 1;
@@ -291,7 +291,7 @@ export class LintingProgressTracker {
         errorsByCategory,
         warningsByCategory,
         filesCovered,
-        fixableIssues,
+        fixableIssues
       };
     } catch (error) {
       logger.error('Error parsing linting output:', error);
@@ -308,7 +308,7 @@ export class LintingProgressTracker {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0,
+        percentageImprovement: 0
       };
     }
 
@@ -322,7 +322,7 @@ export class LintingProgressTracker {
       totalIssuesReduced,
       errorsReduced,
       warningsReduced,
-      percentageImprovement,
+      percentageImprovement
     };
   }
 
@@ -360,7 +360,7 @@ export class LintingProgressTracker {
    */
   private evaluateQualityGates(metrics: LintingMetrics) {
     return {
-      zeroErrors: metrics.errors === 0,
+      zeroErrors: metrics.errors === 0,;
       warningsUnderThreshold: metrics.warnings < 1000, // Configurable threshold
       performanceAcceptable: metrics.performanceMetrics.executionTime < 60000, // 1 minute
     };
@@ -378,7 +378,7 @@ export class LintingProgressTracker {
 
     // Assume we started with some baseline (could be stored in campaign data)
     const baselineIssues = targetReduction;
-    const progress = Math.max(
+    const progress = Math.max(;
       0,
       Math.min(100, ((baselineIssues - currentIssues) / baselineIssues) * 100),
     );

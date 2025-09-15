@@ -2,7 +2,7 @@
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
 export type ZodiacSign =
-  | 'aries'
+  | 'aries';
   | 'taurus'
   | 'gemini'
   | 'cancer'

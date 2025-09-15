@@ -11,7 +11,7 @@ import * as fs from 'fs';
 import {
   UnusedVariablesCleanupSystem,
   type UnusedVariablesConfig,
-  type UnusedVariablesResult,
+  type UnusedVariablesResult
 } from './UnusedVariablesCleanupSystem';
 
 // Mock dependencies
@@ -41,7 +41,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should accept custom configuration', () => {
       const config: Partial<UnusedVariablesConfig> = { maxFiles: 30,
         autoFix: true,
-        dryRun: false,
+        dryRun: false
       };
 
       const system: any = new UnusedVariablesCleanupSystem(config);
@@ -68,7 +68,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     });
 
     it('should validate TypeScript compilation', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command === 'git status --porcelain') return '';
         if (command === 'yarn tsc --noEmit --skipLibCheck') return '';
         return '';
@@ -90,7 +90,7 @@ describe('UnusedVariablesCleanupSystem', () => {
 
       expect(stashId).toContain('unused-variables-cleanup-');
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('git stash push -m "unused-variables-cleanup-'),
+        expect.stringContaining('git stash push -m 'unused-variables-cleanup-'),
         { encoding: 'utf-8' },
       );
     });
@@ -125,7 +125,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       expect(result.safetyScore).toBe(85.5);
 
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('--dry-run --max-files=20 --validate-safety'),
+        expect.stringContaining('--dry-run --max-files=20 --validate-safety'),;
         expect.any(Object),
       );
     });
@@ -141,7 +141,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       ).executeScript();
 
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('--auto-fix --max-files=15'),
+        expect.stringContaining('--auto-fix --max-files=15'),;
         expect.any(Object),
       );
     });
@@ -160,7 +160,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     });
 
     it('should parse warnings and errors from output', async () => {
-      const output: any = `
+      const output: any = `;
         5 files processed
         ⚠️ Warning: Some variables may be used
         ❌ Error: Failed to process file;
@@ -227,14 +227,14 @@ describe('UnusedVariablesCleanupSystem', () => {
 
   describe('generateReport', () => {
     it('should generate single execution report', () => {
-      const result: UnusedVariablesResult = { success: true,
+      const result: UnusedVariablesResult = { success: true,;
         filesProcessed: 10,
         variablesRemoved: 5,
         variablesPrefixed: 3,
         buildTime: 2000,
         errors: [],
         warnings: ['Test warning'],
-        safetyScore: 90.5,
+        safetyScore: 90.5
       };
 
       const report: any = cleanupSystem.generateReport(result);
@@ -250,14 +250,14 @@ describe('UnusedVariablesCleanupSystem', () => {
     });
 
     it('should generate failure report', () => {
-      const result: UnusedVariablesResult = { success: false,
+      const result: UnusedVariablesResult = { success: false,;
         filesProcessed: 0,
         variablesRemoved: 0,
         variablesPrefixed: 0,
         buildTime: 0,
         errors: ['Test error'],
         warnings: [],
-        safetyScore: 0,
+        safetyScore: 0
       };
 
       const report: any = cleanupSystem.generateReport(result);
@@ -285,14 +285,14 @@ describe('UnusedVariablesCleanupSystem', () => {
 
   describe('saveMetrics', () => {
     it('should save metrics to file', async () => {
-      const result: UnusedVariablesResult = { success: true,
+      const result: UnusedVariablesResult = { success: true,;
         filesProcessed: 5,
         variablesRemoved: 2,
         variablesPrefixed: 1,
         buildTime: 1500,
         errors: [],
         warnings: [],
-        safetyScore: 85.0,
+        safetyScore: 85.0
       };
 
       mockFs.writeFileSync.mockImplementation(() => {});
@@ -303,19 +303,19 @@ describe('UnusedVariablesCleanupSystem', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringContaining('.unused-variables-cleanup-metrics.json'),
-        expect.stringContaining('"success":true'),
+        expect.stringContaining(''success":true'),
       );
     });
 
     it('should handle save metrics errors gracefully', async () => {
-      const result: UnusedVariablesResult = { success: true,
+      const result: UnusedVariablesResult = { success: true,;
         filesProcessed: 5,
         variablesRemoved: 2,
         variablesPrefixed: 1,
         buildTime: 1500,
         errors: [],
         warnings: [],
-        safetyScore: 85.0,
+        safetyScore: 85.0
       };
 
       mockFs.writeFileSync.mockImplementation(() => {

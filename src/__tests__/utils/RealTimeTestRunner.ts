@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Real-Time Test Runner
  *
@@ -53,14 +53,14 @@ export class RealTimeTestRunner {
   ): Promise<RealTimeTestResult> {
     const {
       testName,
-      timeout = TEST_TIMEOUTS.realtime,
-      memoryLimit = MEMORY_LIMITS.integration,
-      retries = 2,
+      timeout = TEST_TIMEOUTS.realtime,;
+      memoryLimit = MEMORY_LIMITS.integration,;
+      retries = 2,;
       cleanupFunction,
-      expectedErrors = [],
+      expectedErrors = [],;
     } = config;
 
-    const result: RealTimeTestResult = {
+    const result: RealTimeTestResult = {;
       success: false,
       duration: 0,
       memoryUsage: 0,
@@ -71,8 +71,8 @@ export class RealTimeTestRunner {
         averageMemory: 0,
         memoryReadings: [],
         timeouts: 0,
-        retries: 0,
-      },
+        retries: 0
+      }
     };
 
     const startTime = Date.now();
@@ -83,10 +83,10 @@ export class RealTimeTestRunner {
         result.metrics.retries = attempt;
 
         // Set up timeout monitoring
-        const timeoutPromise = new Promise<never>((_, reject) => {
-          const timeoutId = setTimeout(() => {
+        const timeoutPromise = new Promise<never>((_, reject) => {;
+          const timeoutId = setTimeout(() => {;
             result.metrics.timeouts++;
-            reject(new Error(`Real-time test "${testName}" timed out after ${timeout}ms`));
+            reject(new Error(`Real-time test '${testName}' timed out after ${timeout}ms`));
           }, timeout);
 
           this.activeTests.set(testName, timeoutId);
@@ -137,7 +137,7 @@ export class RealTimeTestRunner {
 
     if (result.metrics.memoryReadings.length > 0) {
       result.metrics.averageMemory =
-        result.metrics.memoryReadings.reduce((a, b) => a + b, 0) /
+        result.metrics.memoryReadings.reduce((a, b) => a + b, 0) /;
         result.metrics.memoryReadings.length;
     }
 
@@ -169,9 +169,9 @@ export class RealTimeTestRunner {
     const results = new Map<string, RealTimeTestResult>();
 
     for (const test of tests) {
-      const config: RealTimeTestConfig = {
+      const config: RealTimeTestConfig = {;
         testName: test.name,
-        ...test.config,
+        ...test.config
       };
 
       try {
@@ -191,8 +191,8 @@ export class RealTimeTestRunner {
             averageMemory: 0,
             memoryReadings: [],
             timeouts: 0,
-            retries: 0,
-          },
+            retries: 0
+          }
         });
       }
 
@@ -217,14 +217,14 @@ export class RealTimeTestRunner {
     },
   ): { isValid: boolean; issues: string[]; summary: unknown } {
     const issues: string[] = [];
-    const summary = {
+    const summary = {;
       totalTests: results.size,
       successfulTests: 0,
       failedTests: 0,
       averageDuration: 0,
       averageMemoryUsage: 0,
       totalTimeouts: 0,
-      totalRetries: 0,
+      totalRetries: 0
     };
 
     let totalDuration = 0;
@@ -235,7 +235,7 @@ export class RealTimeTestRunner {
         summary.successfulTests++;
       } else {
         summary.failedTests++;
-        issues.push(`Test "${testName}" failed: ${result.errors.join(', ')}`);
+        issues.push(`Test '${testName}' failed: ${result.errors.join(', ')}`);
       }
 
       totalDuration += result.duration;
@@ -246,13 +246,13 @@ export class RealTimeTestRunner {
       // Check individual test expectations
       if (expectations.maxDuration && result.duration > expectations.maxDuration) {
         issues.push(
-          `Test "${testName}" exceeded max duration: ${result.duration}ms > ${expectations.maxDuration}ms`,
+          `Test '${testName}' exceeded max duration: ${result.duration}ms > ${expectations.maxDuration}ms`,
         );
       }
 
       if (expectations.maxMemoryUsage && result.memoryUsage > expectations.maxMemoryUsage) {
         issues.push(
-          `Test "${testName}" exceeded memory limit: ${result.memoryUsage / 1024 / 1024}MB > ${expectations.maxMemoryUsage / 1024 / 1024}MB`,
+          `Test '${testName}' exceeded memory limit: ${result.memoryUsage / 1024 / 1024}MB > ${expectations.maxMemoryUsage / 1024 / 1024}MB`,
         );
       }
     }
@@ -273,15 +273,15 @@ export class RealTimeTestRunner {
       for (const requiredTest of expectations.requiredSuccessTests) {
         const result = results.get(requiredTest);
         if (!result || !result.success) {
-          issues.push(`Required test "${requiredTest}" did not succeed`);
+          issues.push(`Required test '${requiredTest}' did not succeed`);
         }
       }
     }
 
     return {
-      isValid: issues.length === 0,
+      isValid: issues.length === 0,;
       issues,
-      summary,
+      summary
     };
   }
 
@@ -300,7 +300,7 @@ export class RealTimeTestRunner {
 
       if (currentMemory > memoryLimit) {
         result.warnings.push(
-          `Memory limit exceeded in "${testName}": ${currentMemory / 1024 / 1024}MB`,
+          `Memory limit exceeded in '${testName}': ${currentMemory / 1024 / 1024}MB`,
         );
       }
     }, 100);

@@ -1,4 +1,4 @@
-export const cuisines = {
+export const _cuisines = {;
   japanese: {
     name: 'Japanese',
     dishes: {
@@ -13,7 +13,7 @@ export const cuisines = {
               Fire: 0.25,
               Water: 0.25,
               Earth: 0.25,
-              Air: 0.25,
+              Air: 0.25
             },
             ingredients: [
               {
@@ -24,17 +24,17 @@ export const cuisines = {
                   Fire: 0.25,
                   Water: 0.25,
                   Earth: 0.25,
-                  Air: 0.25,
-                },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
+                  Air: 0.25
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
 };
 
-export const cuisinesMap = {
-  japanese: { name: 'Japanese' },
+export const _cuisinesMap = {;
+  japanese: { name: 'Japanese' }
 };

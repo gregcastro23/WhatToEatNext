@@ -41,12 +41,12 @@ describe('Domain-Specific Rule Validation', () => {
       'temp-relaxation-test.test.ts',
       'temp-globals-test.test.ts',
       'temp-require-test.config.js',
-      'temp-config-relaxation.config.ts',
+      'temp-config-relaxation.config.ts'
     ];
 
-    tempFiles.forEach(file => {
+    tempFiles.forEach(file => {;
       try {
-        execSync(`rm -f "${join(projectRoot, file)}"`);
+        execSync(`rm -f '${join(projectRoot, file)}'`);
       } catch {}
     });
   });
@@ -89,7 +89,7 @@ describe('Domain-Specific Rule Validation', () => {
       // Create test file with protected constants
       const testContent: any = `;
         const UNUSED_DEGREES_PER_SIGN: any = 30;
-        const RELIABLE_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
+        const _RELIABLE_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
 
         // This should be flagged
         // UNUSED_DEGREES_PER_SIGN = 25;
@@ -100,9 +100,9 @@ describe('Domain-Specific Rule Validation', () => {
 
       try {
         // Run ESLint to check for violations
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // If no error, constants are properly preserved
@@ -116,7 +116,7 @@ describe('Domain-Specific Rule Validation', () => {
       } finally {
         // Clean up
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
@@ -126,25 +126,25 @@ describe('Domain-Specific Rule Validation', () => {
         const planet: any = 'mars';
         const position: any = { sign: 'cancer', degree: 22.63 };
         const longitude: any = 112.63;
-        const UNUSED_retrograde: any = false;
-        const UNUSED_planet: any = 'unused';
+        const _UNUSED_retrograde: any = false;
+        const _UNUSED_planet: any = 'unused';
       `;
 
       const testFile: any = join(projectRoot, 'src/calculations/temp-planetary-vars.ts');
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(
+          const unusedVarErrors: any = result.[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as any;
-              return message.ruleId === '@typescript-eslint/no-unused-vars' &&
+              return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
                 (String(message.message).includes('planet') || String(message.message).includes('position') || String(message.message).includes('longitude'));
             }
           );
@@ -157,10 +157,10 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(
+            const unusedVarErrors: any = result.[0].messages.filter(;
               (msg: any) => {
                 const message: any = msg as any;
-                return message.ruleId === '@typescript-eslint/no-unused-vars' &&
+                return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
                   (String(message.message).includes('planet') ||
                     String(message.message).includes('position') ||;
                     String(message.message).includes('longitude'));
@@ -172,14 +172,14 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
 
     test('should validate elemental properties structure', async () => {
-      const validElementalContent: any = `
-        const UNUSED_elementalProps = {
+      const validElementalContent: any = `;
+        const _UNUSED_elementalProps = {;
           Fire: 0.8,
           Water: 0.2,
           Earth: 0.1,
@@ -191,9 +191,9 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, validElementalContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Valid elemental properties should not cause errors
@@ -205,14 +205,14 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
 
     test('should detect invalid elemental properties', async () => {
-      const invalidElementalContent: any = `
-        const badElementalProps = {
+      const invalidElementalContent: any = `;
+        const _badElementalProps = {;
           Fire: 0.8,
           Water: 0.2,
           // Missing Earth and Air - should be flagged
@@ -223,9 +223,9 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, invalidElementalContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Should have caught the invalid properties
@@ -237,25 +237,25 @@ describe('Domain-Specific Rule Validation', () => {
         expect(output.includes('validate-elemental-properties') || output.length > 0).toBe(true);
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
 
     test('should preserve fallback values', async () => {
       const testContent: any = `;
-        const FALLBACK_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
-        const RELIABLE_DATA: any = { mars: { sign: 'cancer', degree: 22.63 } };
-        const MARCH2025_BACKUP: any = { moon: { sign: 'aries', degree: 1.57 } };
+        const _FALLBACK_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
+        const _RELIABLE_DATA: any = { mars: { sign: 'cancer', degree: 22.63 } };
+        const _MARCH2025_BACKUP: any = { moon: { sign: 'aries', degree: 1.57 } };
       `;
 
       const testFile: any = join(projectRoot, 'src/calculations/temp-fallback-valid.ts');
       writeFileSync(testFile, testContent);
 
       try {
-        execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
+        execSync(`npx eslint '${testFile}' --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         // Valid fallback values should not cause errors
@@ -267,7 +267,7 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
@@ -275,7 +275,7 @@ describe('Domain-Specific Rule Validation', () => {
 
   describe('Campaign System File Rules', () => {
     test('should allow enterprise patterns', async () => {
-      const testContent: any = `
+      const testContent: any = `;
         class CampaignController {
           private complexMethod(): any {
             // Complex enterprise logic with high complexity;
@@ -302,16 +302,16 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
 
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const complexityErrors: any = result.[0].messages.filter(
-            (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2, // error level
+          const complexityErrors: any = result.[0].messages.filter(;
+            (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2, // error level;
           );
 
           // Campaign files should allow higher complexity
@@ -322,8 +322,8 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const complexityErrors: any = result.[0].messages.filter(
-              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,
+            const complexityErrors: any = result.[0].messages.filter(;
+              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,;
             );
 
             expect(complexityErrors.length).toBe(0);
@@ -331,7 +331,7 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
@@ -349,15 +349,15 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const consoleErrors: any = result.[0].messages.filter(
-            (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2, // error level
+          const consoleErrors: any = result.[0].messages.filter(;
+            (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2, // error level;
           );
 
           // Campaign files should allow console logging
@@ -368,8 +368,8 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const consoleErrors: any = result.[0].messages.filter(
-              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,
+            const consoleErrors: any = result.[0].messages.filter(;
+              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,;
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -377,7 +377,7 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
@@ -388,23 +388,23 @@ describe('Domain-Specific Rule Validation', () => {
         const progress: any = 0.75;
         const metrics: any = { errors: 100 };
         const safety: any = true;
-        const UNUSED_campaign: any = 'unused';
+        const _UNUSED_campaign: any = 'unused';
       `;
 
       const testFile: any = join(projectRoot, 'src/services/campaign/temp-campaign-vars.ts');
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(
+          const unusedVarErrors: any = result.[0].messages.filter(;
             (msg: any) =>
-              (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
               (String((msg as any)?.message).includes('campaign') ||
                 String((msg as any)?.message).includes('progress') ||
                 String((msg as any)?.message).includes('metrics') ||;
@@ -418,9 +418,9 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(
+            const unusedVarErrors: any = result.[0].messages.filter(;
               (msg: any) =>
-                (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
                 (String((msg as any)?.message).includes('campaign') ||
                   String((msg as any)?.message).includes('progress') ||
                   String((msg as any)?.message).includes('metrics') ||;
@@ -432,7 +432,7 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
@@ -444,23 +444,23 @@ describe('Domain-Specific Rule Validation', () => {
         const mockFunction = jest.fn() as any;
         const stubValue: any = 'test-stub';
         const testData: any = { id: 1 };
-        const UNUSED_mock: any = 'unused';
+        const _UNUSED_mock: any = 'unused';
       `;
 
       const testFile: any = join(projectRoot, 'temp-mock-patterns.test.ts');
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(
+          const unusedVarErrors: any = result.[0].messages.filter(;
             (msg: any) =>
-              (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+              (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
               (String((msg as any)?.message).includes('mockFunction') ||
                 String((msg as any)?.message).includes('stubValue') ||;
                 String((msg as any)?.message).includes('testData')),
@@ -473,9 +473,9 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(
+            const unusedVarErrors: any = result.[0].messages.filter(;
               (msg: any) =>
-                (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&
+                (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
                 (String((msg as any)?.message).includes('mockFunction') ||
                   String((msg as any)?.message).includes('stubValue') ||;
                   String((msg as any)?.message).includes('testData')),
@@ -486,36 +486,36 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
 
     test('should have relaxed rules for testing patterns', async () => {
       const testContent: any = `;
-        const anyValue: any = 'test-any';
+        const _anyValue: any = 'test-any';
         console.log('Test output');
-        const value: any = someObject.property ?? null; // Using safe optional chaining instead of non-null
-        const magicNumber: any = 42; // magic number
+        const _value: any = someObject.property ?? null; // Using safe optional chaining instead of non-null
+        const _magicNumber: any = 42; // magic number
       `;
 
       const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts');
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const restrictiveErrors: any = result.[0].messages.filter(
+          const restrictiveErrors: any = result.[0].messages.filter(;
             (msg: any) =>
-              ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
-              ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
-              ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||
-              ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
+              ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
+              ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
+              ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
+              ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
           );
 
           expect(restrictiveErrors.length).toBe(0);
@@ -525,12 +525,12 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const restrictiveErrors: any = result.[0].messages.filter(
+            const restrictiveErrors: any = result.[0].messages.filter(;
               (msg: any) =>
-                ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
-                ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
-                ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||
-                ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
+                ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
+                ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
+                ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
+                ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
             );
 
             expect(restrictiveErrors.length).toBe(0);
@@ -538,13 +538,13 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
 
     test('should have Jest globals available', async () => {
-      const testContent: any = `
+      const testContent: any = `;
         describe('Test suite', () => {
           it('should work', () => {
             expect(true).toBe(true);
@@ -560,16 +560,16 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const undefErrors: any = result.[0].messages.filter(
+          const undefErrors: any = result.[0].messages.filter(;
             (msg: any) =>
-              (msg as any)?.ruleId === 'no-undef' &&
+              (msg as any)?.ruleId === 'no-undef' &&;
               (String((msg as any)?.message).includes('describe') ||
                 String((msg as any)?.message).includes('it') ||
                 String((msg as any)?.message).includes('expect') ||;
@@ -583,9 +583,9 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const undefErrors: any = result.[0].messages.filter(
+            const undefErrors: any = result.[0].messages.filter(;
               (msg: any) =>
-                (msg as any)?.ruleId === 'no-undef' &&
+                (msg as any)?.ruleId === 'no-undef' &&;
                 (String((msg as any)?.message).includes('describe') ||
                   String((msg as any)?.message).includes('it') ||
                   String((msg as any)?.message).includes('expect') ||;
@@ -597,7 +597,7 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
@@ -607,7 +607,7 @@ describe('Domain-Specific Rule Validation', () => {
     test('should allow dynamic requires', async () => {
       const testContent: any = `;
         const config = require('./some-config');
-        const dynamicModule = require(process.env.MODULE_NAME);
+        const _dynamicModule = require(process.env.MODULE_NAME);
         module.exports = { ...config };
       `;
 
@@ -615,15 +615,15 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const requireErrors = result.[0].messages.filter(
-            (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
+          const requireErrors = result.[0].messages.filter(;
+            (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
           );
 
           expect(requireErrors.length).toBe(0);
@@ -633,8 +633,8 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const requireErrors = result.[0].messages.filter(
-              (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
+            const requireErrors = result.[0].messages.filter(;
+              (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
             );
 
             expect(requireErrors.length).toBe(0);
@@ -642,34 +642,34 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });
 
     test('should have relaxed rules for build patterns', async () => {
       const testContent: any = `;
-        const anyConfig: any = process.env.CONFIG;
+        const _anyConfig: any = process.env.CONFIG;
         console.log('Configuration loaded');
-        const dynamicRequire = require(process.env.MODULE);
+        const _dynamicRequire = require(process.env.MODULE);
       `;
 
       const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts');
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
-          cwd: projectRoot,
+          cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result.[0].messages) {
-          const restrictiveErrors = result.[0].messages.filter(
+          const restrictiveErrors = result.[0].messages.filter(;
             (msg: any) =>
-              ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
-              ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
-              ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
+              ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
+              ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
+              ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
           );
 
           expect(restrictiveErrors.length).toBe(0);
@@ -679,11 +679,11 @@ describe('Domain-Specific Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result.[0].messages) {
-            const restrictiveErrors = result.[0].messages.filter(
+            const restrictiveErrors = result.[0].messages.filter(;
               (msg: any) =>
-                ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||
-                ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||
-                ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
+                ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
+                ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
+                ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
             );
 
             expect(restrictiveErrors.length).toBe(0);
@@ -691,7 +691,7 @@ describe('Domain-Specific Rule Validation', () => {
         }
       } finally {
         try {
-          execSync(`rm -f "${testFile}"`);
+          execSync(`rm -f '${testFile}'`);
         } catch {}
       }
     });

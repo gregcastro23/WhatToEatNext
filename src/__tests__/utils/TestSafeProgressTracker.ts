@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable no-console -- Campaign/test file with intentional patterns */
 /**
  * Test-Safe Progress Tracker
  *
@@ -11,7 +11,7 @@ import {
   ProgressReport,
   PhaseReport,
   PhaseStatus,
-  ValidationResult,
+  ValidationResult
 } from '../../types/campaign';
 
 import { TestMemoryMonitor } from './TestMemoryMonitor';
@@ -46,19 +46,19 @@ export class TestSafeProgressTracker {
   private memoryCheckCounter: number = 0;
 
   constructor(config?: Partial<TestProgressConfig>) {
-    this.config = {
+    this.config = {;
       maxHistorySize: 20, // Keep only 20 snapshots to prevent memory issues
       memoryCheckFrequency: 5, // Check memory every 5 operations
       enableMemoryMonitoring: true,
       simulateRealProgress: false,
       progressUpdateInterval: 1000, // 1 second for simulated progress
-      ...config,
+      ...config
     };
 
     this.currentMetrics = this.createInitialMetrics();
 
     if (this.config.enableMemoryMonitoring) {
-      this.memoryMonitor = new TestMemoryMonitor({
+      this.memoryMonitor = new TestMemoryMonitor({;
         heapUsed: 50 * 1024 * 1024, // 50MB
         heapTotal: 100 * 1024 * 1024, // 100MB
         external: 25 * 1024 * 1024, // 25MB
@@ -148,13 +148,13 @@ export class TestSafeProgressTracker {
     durationMs: number,
     testName?: string,
   ): Promise<void> {
-    return new Promise(resolve => {
-      const UNUSED_startTime = Date.now();
+    return new Promise(resolve => {;
+      const _UNUSED_startTime = Date.now();
       const startMetrics = { ...this.currentMetrics };
       const steps = Math.max(1, Math.floor(durationMs / 100)); // Update every 100ms
       let currentStep = 0;
 
-      const progressInterval = setInterval(() => {
+      const progressInterval = setInterval(() => {;
         currentStep++;
         const progress = Math.min(1, currentStep / steps);
 
@@ -192,11 +192,11 @@ export class TestSafeProgressTracker {
         metrics: currentMetrics,
         achievements: this.generateMockAchievements(currentMetrics),
         issues: this.generateMockIssues(currentMetrics),
-        recommendations: this.generateMockRecommendations(currentMetrics),
-      },
+        recommendations: this.generateMockRecommendations(currentMetrics)
+      }
     ];
 
-    const report: ProgressReport = {
+    const report: ProgressReport = {;
       campaignId: `test-campaign-${testName || 'default'}`,
       overallProgress,
       phases,
@@ -263,14 +263,14 @@ export class TestSafeProgressTracker {
     }
 
     // Check for tracking consistency
-    if (this.isTracking && this.trackingStartTime === 0) {
+    if (this.isTracking && this.trackingStartTime === 0) {;
       errors.push('Tracking is active but start time is not set');
     }
 
     return {
-      success: errors.length === 0,
+      success: errors.length === 0,;
       errors,
-      warnings,
+      warnings
     };
   }
 
@@ -295,7 +295,7 @@ export class TestSafeProgressTracker {
 
     // Reset memory monitor
     if (this.memoryMonitor) {
-      this.memoryMonitor = new TestMemoryMonitor({
+      this.memoryMonitor = new TestMemoryMonitor({;
         heapUsed: 50 * 1024 * 1024, // 50MB
         heapTotal: 100 * 1024 * 1024, // 100MB
         external: 25 * 1024 * 1024, // 25MB
@@ -335,11 +335,11 @@ export class TestSafeProgressTracker {
   // Private helper methods
 
   private takeProgressSnapshot(testName: string): void {
-    const snapshot: ProgressSnapshot = {
+    const snapshot: ProgressSnapshot = {;
       timestamp: Date.now(),
       metrics: { ...this.currentMetrics },
       testName,
-      memoryUsage: this.memoryMonitor ? process.memoryUsage().heapUsed : undefined,
+      memoryUsage: this.memoryMonitor ? process.memoryUsage().heapUsed : undefined
     };
 
     this.progressHistory.push(snapshot);
@@ -354,8 +354,8 @@ export class TestSafeProgressTracker {
   private checkMemoryPeriodically(): void {
     this.memoryCheckCounter++;
 
-    if (this.memoryCheckCounter % this.config.memoryCheckFrequency === 0 && this.memoryMonitor) {
-      const memoryCheck = this.memoryMonitor.checkMemoryUsage(
+    if (this.memoryCheckCounter % this.config.memoryCheckFrequency === 0 && this.memoryMonitor) {;
+      const memoryCheck = this.memoryMonitor.checkMemoryUsage(;
         `periodic-${this.memoryCheckCounter}`,
       );
 
@@ -393,17 +393,17 @@ export class TestSafeProgressTracker {
       return;
     }
 
-    this.progressUpdateTimer = setInterval(() => {
+    this.progressUpdateTimer = setInterval(() => {;
       // Simulate small progress increments
       const updates: Partial<ProgressMetrics> = {
         typeScriptErrors: {
           ...this.currentMetrics.typeScriptErrors,
-          current: Math.max(0, this.currentMetrics.typeScriptErrors.current - 1),
+          current: Math.max(0, this.currentMetrics.typeScriptErrors.current - 1)
         },
         lintingWarnings: {
           ...this.currentMetrics.lintingWarnings,
-          current: Math.max(0, this.currentMetrics.lintingWarnings.current - 5),
-        },
+          current: Math.max(0, this.currentMetrics.lintingWarnings.current - 5)
+        }
       };
 
       this.updateMetrics(updates, 'simulation');
@@ -416,25 +416,25 @@ export class TestSafeProgressTracker {
         current: 86,
         target: 0,
         reduction: 0,
-        percentage: 0,
+        percentage: 0
       },
       lintingWarnings: {
         current: 4506,
         target: 0,
         reduction: 0,
-        percentage: 0,
+        percentage: 0
       },
       buildPerformance: {
         currentTime: 12.5,
         targetTime: 10,
         cacheHitRate: 0.6,
-        memoryUsage: 60,
+        memoryUsage: 60
       },
       enterpriseSystems: {
         current: 0,
         target: 200,
-        transformedExports: 0,
-      },
+        transformedExports: 0
+      }
     };
   }
 
@@ -444,25 +444,25 @@ export class TestSafeProgressTracker {
         current: 0,
         target: 0,
         reduction: 86,
-        percentage: 100,
+        percentage: 100
       },
       lintingWarnings: {
         current: 0,
         target: 0,
         reduction: 4506,
-        percentage: 100,
+        percentage: 100
       },
       buildPerformance: {
         currentTime: 8,
         targetTime: 10,
         cacheHitRate: 0.8,
-        memoryUsage: 45,
+        memoryUsage: 45
       },
       enterpriseSystems: {
         current: 200,
         target: 200,
-        transformedExports: 200,
-      },
+        transformedExports: 200
+      }
     };
   }
 
@@ -472,12 +472,12 @@ export class TestSafeProgressTracker {
   ): ProgressMetrics {
     const result = { ...current };
 
-    Object.keys(updates).forEach(key => {
+    Object.keys(updates).forEach(key => {;
       const updateValue = updates[key as keyof ProgressMetrics];
-      if (updateValue && typeof updateValue === 'object') {
+      if (updateValue && typeof updateValue === 'object') {;
         result[key as keyof ProgressMetrics] = {
           ...current[key as keyof ProgressMetrics],
-          ...updateValue,
+          ...updateValue
         } as unknown;
       }
     });
@@ -496,7 +496,7 @@ export class TestSafeProgressTracker {
     if (target.typeScriptErrors?.current !== undefined) {
       const startValue = start.typeScriptErrors.current;
       const targetValue = target.typeScriptErrors.current;
-      result.typeScriptErrors.current = Math.round(
+      result.typeScriptErrors.current = Math.round(;
         startValue + (targetValue - startValue) * progress,
       );
     }
@@ -505,7 +505,7 @@ export class TestSafeProgressTracker {
     if (target.lintingWarnings?.current !== undefined) {
       const startValue = start.lintingWarnings.current;
       const targetValue = target.lintingWarnings.current;
-      result.lintingWarnings.current = Math.round(
+      result.lintingWarnings.current = Math.round(;
         startValue + (targetValue - startValue) * progress,
       );
     }
@@ -532,11 +532,11 @@ export class TestSafeProgressTracker {
   private generateMockAchievements(metrics: ProgressMetrics): string[] {
     const achievements: string[] = [];
 
-    if (metrics.typeScriptErrors.current === 0) {
+    if (metrics.typeScriptErrors.current === 0) {;
       achievements.push('Zero TypeScript errors achieved');
     }
 
-    if (metrics.lintingWarnings.current === 0) {
+    if (metrics.lintingWarnings.current === 0) {;
       achievements.push('Zero linting warnings achieved');
     }
 

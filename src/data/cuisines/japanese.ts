@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const japanese: Cuisine = {
+export const japanese: Cuisine = {;
   id: 'japanese',
   name: 'Japanese',
   description:
@@ -20,7 +20,7 @@ export const japanese: Cuisine = {
         Water: 0.6,
         Earth: 0.2,
         Air: 0.1,
-        Fire: 0.1,
+        Fire: 0.1
       },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
       seasonality: 'all',
@@ -28,7 +28,7 @@ export const japanese: Cuisine = {
       technicalTips: 'Remove kombu before water boils, then add katsuobushi off heat',
       difficulty: 'easy',
       storageInstructions: 'Store refrigerated up to 3 days or freeze up to 1 month',
-      yield: '1 liter',
+      yield: '1 liter'
     },
     tare: {
       name: 'Tare',
@@ -42,7 +42,7 @@ export const japanese: Cuisine = {
         Earth: 0.4,
         Water: 0.3,
         Fire: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
       seasonality: 'all',
@@ -50,8 +50,8 @@ export const japanese: Cuisine = {
       technicalTips: 'Balance sweet, salty, and umami carefully; adjust with kombu or bonito',
       difficulty: 'medium',
       storageInstructions: 'Store refrigerated up to 1 month',
-      yield: '500 ml',
-    },
+      yield: '500 ml'
+    }
   },
   dishes: {
     breakfast: {
@@ -69,7 +69,7 @@ export const japanese: Cuisine = {
             'Prepare miso soup',
             'Steam vegetables',
             'Arrange components',
-            'Serve with pickles',
+            'Serve with pickles'
           ],
           ingredients: [
             {
@@ -77,14 +77,14 @@ export const japanese: Cuisine = {
               amount: '150',
               unit: 'g',
               category: 'grain',
-              swaps: ['quinoa'],
+              swaps: ['quinoa']
             },
             {
               name: 'grilled mackerel',
               amount: '100',
               unit: 'g',
               category: 'protein',
-              swaps: ['tofu', 'tempeh'],
+              swaps: ['tofu', 'tempeh']
             },
             { name: 'miso paste', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'nori', amount: '1', unit: 'sheet', category: 'seaweed' },
@@ -94,13 +94,13 @@ export const japanese: Cuisine = {
               amount: '1',
               unit: 'large',
               category: 'protein',
-              swaps: ['soft tofu'],
-            },
+              swaps: ['soft tofu']
+            }
           ],
           substitutions: {
             mackerel: ['salmon', 'tofu', 'tempeh'],
             'raw egg': ['soft tofu', 'scrambled egg'],
-            'white rice': ['brown rice', 'quinoa'],
+            'white rice': ['brown rice', 'quinoa']
           },
           servingSize: 1,
           allergens: ['fish', 'egg', 'soy'],
@@ -117,7 +117,7 @@ export const japanese: Cuisine = {
             carbs: 55,
             fat: 16,
             vitamins: ['D', 'B12', 'A'],
-            minerals: ['Omega-3', 'Iodine', 'Iron'],
+            minerals: ['Omega-3', 'Iodine', 'Iron']
           },
           timeToMake: '20 minutes',
           season: ['all'],
@@ -126,7 +126,7 @@ export const japanese: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1,
+            Air: 0.1
           },
           instructions: [
             'Cook rice in rice cooker',
@@ -134,15 +134,15 @@ export const japanese: Cuisine = {
             'Prepare miso soup by dissolving paste in dashi and adding tofu and seaweed',
             'Steam vegetables until tender',
             'Arrange all components in traditional serving dishes',
-            'Serve with pickles and garnishes',
+            'Serve with pickles and garnishes'
           ],
           astrologicalAffinities: {
             planets: ['Neptune', 'Moon'],
             signs: ['Cancer', 'Pisces'],
-            lunarPhases: ['Full Moon', 'Third Quarter'],
+            lunarPhases: ['Full Moon', 'Third Quarter']
           },
           lunarPhaseInfluences: ['Full Moon', 'Third Quarter'],
-          zodiacInfluences: ['Cancer', 'Pisces'],
+          zodiacInfluences: ['Cancer', 'Pisces']
         },
         {
           name: 'Tamagoyaki',
@@ -157,7 +157,7 @@ export const japanese: Cuisine = {
             'Roll partially cooked egg',
             'Add more egg mixture',
             'Continue rolling until complete',
-            'Shape with bamboo mat',
+            'Shape with bamboo mat'
           ],
           ingredients: [
             { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['JUST Egg'] },
@@ -166,23 +166,23 @@ export const japanese: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'broth',
-              swaps: ['vegetable stock'],
+              swaps: ['vegetable stock']
             },
             { name: 'mirin', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' },
-            { name: 'sugar', amount: '1', unit: 'tsp', category: 'seasoning' },
+            { name: 'sugar', amount: '1', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
             eggs: ['JUST Egg', 'chickpea flour mixture'],
             dashi: ['vegetable stock', 'mushroom stock'],
-            mirin: ['rice vinegar + sugar'],
+            mirin: ['rice vinegar + sugar']
           },
           servingSize: 2,
           allergens: ['egg', 'soy'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
           culturalNotes:
-            "A staple in bento boxes and breakfast. The technique of rolling the omelette requires practice and is considered a test of a chef's skill",
+            'A staple in bento boxes and breakfast. The technique of rolling the omelette requires practice and is considered a test of a chef's skill',
           pairingSuggestions: ['steamed rice', 'miso soup', 'pickled vegetables'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -192,7 +192,7 @@ export const japanese: Cuisine = {
             carbs: 8,
             fat: 18,
             vitamins: ['B12', 'D', 'A'],
-            minerals: ['Iron', 'Selenium'],
+            minerals: ['Iron', 'Selenium']
           },
           timeToMake: '15 minutes',
           season: ['all'],
@@ -201,8 +201,8 @@ export const japanese: Cuisine = {
             Fire: 0.4,
             Air: 0.3,
             Earth: 0.2,
-            Water: 0.1,
-          },
+            Water: 0.1
+          }
         },
         {
           name: 'Natto Gohan',
@@ -216,7 +216,7 @@ export const japanese: Cuisine = {
             'Add seasonings to natto',
             'Serve over hot rice',
             'Top with egg and garnishes',
-            'Mix well before eating',
+            'Mix well before eating'
           ],
           ingredients: [
             { name: 'steamed rice', amount: '200', unit: 'g', category: 'grain' },
@@ -226,16 +226,16 @@ export const japanese: Cuisine = {
               amount: '1',
               unit: 'large',
               category: 'protein',
-              swaps: ['soft tofu'],
+              swaps: ['soft tofu']
             },
             { name: 'green onion', amount: '1', unit: 'stalk', category: 'vegetable' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' },
-            { name: 'karashi mustard', amount: '1/4', unit: 'tsp', category: 'condiment' },
+            { name: 'karashi mustard', amount: '1/4', unit: 'tsp', category: 'condiment' }
           ],
           substitutions: {
             'raw egg': ['soft tofu', 'avocado'],
             'karashi mustard': ['regular mustard', 'wasabi'],
-            'white rice': ['brown rice', 'quinoa'],
+            'white rice': ['brown rice', 'quinoa']
           },
           servingSize: 1,
           allergens: ['soy', 'egg'],
@@ -252,7 +252,7 @@ export const japanese: Cuisine = {
             carbs: 65,
             fat: 8,
             vitamins: ['K2', 'B12', 'D'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           timeToMake: '10 minutes',
           season: ['all'],
@@ -261,10 +261,10 @@ export const japanese: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
-        },
-      ],
+            Air: 0.1
+          }
+        }
+      ]
     },
     lunch: {
       all: [
@@ -278,7 +278,7 @@ export const japanese: Cuisine = {
             'onigiri mold (optional)',
             'bowl of water',
             'plastic wrap',
-            'cutting board',
+            'cutting board'
           ],
           preparationSteps: [
             'Cook sushi rice',
@@ -287,7 +287,7 @@ export const japanese: Cuisine = {
             'Create indent for filling',
             'Add chosen filling',
             'Shape into triangle',
-            'Wrap with nori',
+            'Wrap with nori'
           ],
           ingredients: [
             { name: 'sushi rice', amount: '300', unit: 'g', category: 'grain' },
@@ -297,21 +297,21 @@ export const japanese: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'protein',
-              swaps: ['tempeh'],
+              swaps: ['tempeh']
             },
             {
               name: 'tuna mayo',
               amount: '100',
               unit: 'g',
               category: 'protein',
-              swaps: ['mashed chickpea'],
+              swaps: ['mashed chickpea']
             },
-            { name: 'nori', amount: '2', unit: 'sheets', category: 'seaweed' },
+            { name: 'nori', amount: '2', unit: 'sheets', category: 'seaweed' }
           ],
           substitutions: {
             'grilled salmon': ['tempeh', 'tofu', 'mushrooms'],
             'tuna mayo': ['mashed chickpea', 'tofu salad'],
-            'white rice': ['brown rice', 'quinoa'],
+            'white rice': ['brown rice', 'quinoa']
           },
           servingSize: 4,
           allergens: ['fish', 'soy'],
@@ -328,7 +328,7 @@ export const japanese: Cuisine = {
             carbs: 75,
             fat: 10,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Iodine'],
+            minerals: ['Iron', 'Iodine']
           },
           timeToMake: '30 minutes',
           season: ['all'],
@@ -337,9 +337,9 @@ export const japanese: Cuisine = {
             Earth: 0.5,
             Water: 0.2,
             Fire: 0.2,
-            Air: 0.1,
-          },
-        },
+            Air: 0.1
+          }
+        }
       ],
       summer: [
         {
@@ -354,7 +354,7 @@ export const japanese: Cuisine = {
             'Make sesame sauce',
             'Arrange noodles',
             'Add toppings in sections',
-            'Serve with sauce',
+            'Serve with sauce'
           ],
           ingredients: [
             {
@@ -362,17 +362,17 @@ export const japanese: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice noodles'],
+              swaps: ['rice noodles']
             },
             { name: 'ham', amount: '50', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
-            { name: 'sesame sauce', amount: '60', unit: 'ml', category: 'sauce' },
+            { name: 'sesame sauce', amount: '60', unit: 'ml', category: 'sauce' }
           ],
           substitutions: {
             ham: ['tofu', 'tempeh', 'seitan'],
             egg: ['tofu', 'vegan egg'],
-            'ramen noodles': ['soba', 'rice noodles'],
+            'ramen noodles': ['soba', 'rice noodles']
           },
           servingSize: 2,
           allergens: ['egg', 'wheat', 'soy', 'sesame'],
@@ -389,7 +389,7 @@ export const japanese: Cuisine = {
             carbs: 65,
             fat: 12,
             vitamins: ['A', 'C', 'B12'],
-            minerals: ['Iron', 'Selenium'],
+            minerals: ['Iron', 'Selenium']
           },
           timeToMake: '25 minutes',
           season: ['summer'],
@@ -398,8 +398,8 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Air: 0.3,
             Earth: 0.2,
-            Fire: 0.2,
-          },
+            Fire: 0.2
+          }
         },
         {
           name: 'Soba Salad',
@@ -413,7 +413,7 @@ export const japanese: Cuisine = {
             'Prepare vegetables',
             'Make sesame dressing',
             'Toss ingredients',
-            'Garnish and serve',
+            'Garnish and serve'
           ],
           ingredients: [
             {
@@ -421,17 +421,17 @@ export const japanese: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free soba'],
+              swaps: ['gluten-free soba']
             },
             { name: 'mixed vegetables', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'sesame dressing', amount: '60', unit: 'ml', category: 'sauce' },
             { name: 'nori strips', amount: '2', unit: 'sheets', category: 'seaweed' },
-            { name: 'toasted sesame seeds', amount: '1', unit: 'tbsp', category: 'garnish' },
+            { name: 'toasted sesame seeds', amount: '1', unit: 'tbsp', category: 'garnish' }
           ],
           substitutions: {
             'soba noodles': ['gluten-free soba', 'rice noodles'],
             'sesame dressing': ['ponzu', 'ginger dressing'],
-            nori: ['kale chips', 'toasted sesame'],
+            nori: ['kale chips', 'toasted sesame']
           },
           servingSize: 2,
           allergens: ['wheat', 'soy', 'sesame'],
@@ -448,7 +448,7 @@ export const japanese: Cuisine = {
             carbs: 70,
             fat: 8,
             vitamins: ['B1', 'B2', 'E'],
-            minerals: ['Manganese', 'Iron'],
+            minerals: ['Manganese', 'Iron']
           },
           timeToMake: '20 minutes',
           season: ['summer'],
@@ -457,9 +457,9 @@ export const japanese: Cuisine = {
             Air: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Fire: 0.1,
-          },
-        },
+            Fire: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -477,8 +477,8 @@ export const japanese: Cuisine = {
               amount: '150',
               unit: 'g',
               category: 'protein',
-              swaps: ['seitan', 'mushrooms'],
-            },
+              swaps: ['seitan', 'mushrooms']
+            }
           ],
           nutrition: {
             calories: 650,
@@ -486,7 +486,7 @@ export const japanese: Cuisine = {
             carbs: 95,
             fat: 22,
             vitamins: ['A', 'B6', 'C'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           timeToMake: '45 minutes',
           season: ['winter'],
@@ -495,10 +495,10 @@ export const japanese: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Water: 0.2,
-            Air: 0.1,
-          },
-        },
-      ],
+            Air: 0.1
+          }
+        }
+      ]
     },
     dinner: {
       all: [
@@ -513,11 +513,11 @@ export const japanese: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'protein',
-              swaps: ['marinated vegetables'],
+              swaps: ['marinated vegetables']
             },
             { name: 'nori', amount: '4', unit: 'sheets', category: 'seaweed' },
             { name: 'wasabi', amount: '15', unit: 'g', category: 'condiment' },
-            { name: 'pickled ginger', amount: '30', unit: 'g', category: 'pickle' },
+            { name: 'pickled ginger', amount: '30', unit: 'g', category: 'pickle' }
           ],
           nutrition: {
             calories: 550,
@@ -525,7 +525,7 @@ export const japanese: Cuisine = {
             carbs: 80,
             fat: 12,
             vitamins: ['D', 'B12', 'A'],
-            minerals: ['Omega-3', 'Iodine'],
+            minerals: ['Omega-3', 'Iodine']
           },
           timeToMake: '60 minutes',
           season: ['all'],
@@ -534,9 +534,9 @@ export const japanese: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          },
-        },
+            Fire: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -549,7 +549,7 @@ export const japanese: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms', 'tofu'],
+              swaps: ['mushrooms', 'tofu']
             },
             { name: 'napa cabbage', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'shirataki noodles', amount: '200', unit: 'g', category: 'noodles' },
@@ -559,8 +559,8 @@ export const japanese: Cuisine = {
               amount: '4',
               unit: 'large',
               category: 'protein',
-              swaps: ['soft tofu'],
-            },
+              swaps: ['soft tofu']
+            }
           ],
           nutrition: {
             calories: 580,
@@ -568,7 +568,7 @@ export const japanese: Cuisine = {
             carbs: 25,
             fat: 35,
             vitamins: ['B12', 'D', 'K'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           timeToMake: '40 minutes',
           season: ['winter'],
@@ -577,8 +577,8 @@ export const japanese: Cuisine = {
             Fire: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Ramen',
@@ -590,14 +590,14 @@ export const japanese: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice noodles'],
+              swaps: ['rice noodles']
             },
             {
               name: 'chashu pork',
               amount: '100',
               unit: 'g',
               category: 'protein',
-              swaps: ['marinated mushrooms'],
+              swaps: ['marinated mushrooms']
             },
             { name: 'miso broth', amount: '500', unit: 'ml', category: 'soup' },
             { name: 'corn', amount: '50', unit: 'g', category: 'vegetable' },
@@ -607,8 +607,8 @@ export const japanese: Cuisine = {
               amount: '1',
               unit: 'large',
               category: 'protein',
-              swaps: ['tofu'],
-            },
+              swaps: ['tofu']
+            }
           ],
           nutrition: {
             calories: 650,
@@ -616,7 +616,7 @@ export const japanese: Cuisine = {
             carbs: 85,
             fat: 22,
             vitamins: ['B12', 'A', 'K'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           timeToMake: '30 minutes',
           season: ['winter'],
@@ -625,9 +625,9 @@ export const japanese: Cuisine = {
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
-            Air: 0.1,
-          },
-        },
+            Air: 0.1
+          }
+        }
       ],
       summer: [
         {
@@ -640,11 +640,11 @@ export const japanese: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms', 'tofu'],
+              swaps: ['mushrooms', 'tofu']
             },
             { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'tare sauce', amount: '100', unit: 'ml', category: 'sauce' },
-            { name: 'shichimi togarashi', amount: '1', unit: 'tbsp', category: 'seasoning' },
+            { name: 'shichimi togarashi', amount: '1', unit: 'tbsp', category: 'seasoning' }
           ],
           nutrition: {
             calories: 450,
@@ -652,7 +652,7 @@ export const japanese: Cuisine = {
             carbs: 15,
             fat: 28,
             vitamins: ['B6', 'B12'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           timeToMake: '25 minutes',
           season: ['summer'],
@@ -661,8 +661,8 @@ export const japanese: Cuisine = {
             Fire: 0.5,
             Air: 0.2,
             Earth: 0.2,
-            Water: 0.1,
-          },
+            Water: 0.1
+          }
         },
         {
           name: 'Oyakodon',
@@ -674,7 +674,7 @@ export const japanese: Cuisine = {
             'rice cooker',
             'cooking chopsticks',
             'sharp knife',
-            'serving bowls',
+            'serving bowls'
           ],
           preparationSteps: [
             'Cook rice',
@@ -682,7 +682,7 @@ export const japanese: Cuisine = {
             'Simmer in dashi mixture',
             'Add beaten eggs',
             'Cover and steam briefly',
-            'Serve over hot rice',
+            'Serve over hot rice'
           ],
           ingredients: [
             { name: 'steamed rice', amount: '400', unit: 'g', category: 'grain' },
@@ -691,25 +691,25 @@ export const japanese: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'protein',
-              swaps: ['tofu'],
+              swaps: ['tofu']
             },
             { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
             { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' },
             { name: 'mirin', amount: '2', unit: 'tbsp', category: 'seasoning' },
-            { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' },
+            { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
           substitutions: {
             chicken: ['tofu', 'mushrooms'],
             dashi: ['vegetable stock', 'mushroom stock'],
-            eggs: ['Just Egg', 'soft tofu'],
+            eggs: ['Just Egg', 'soft tofu']
           },
           servingSize: 2,
           allergens: ['egg', 'soy'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            "Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan",
+            'Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan',
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -719,10 +719,10 @@ export const japanese: Cuisine = {
             carbs: 70,
             fat: 22,
             vitamins: ['B12', 'D', 'A'],
-            minerals: ['Iron', 'Selenium'],
+            minerals: ['Iron', 'Selenium']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Okonomiyaki',
@@ -736,7 +736,7 @@ export const japanese: Cuisine = {
             'Cook on hot griddle',
             'Flip when golden',
             'Add toppings',
-            'Apply sauces and garnishes',
+            'Apply sauces and garnishes'
           ],
           ingredients: [
             { name: 'cabbage', amount: '400', unit: 'g', category: 'vegetable' },
@@ -745,7 +745,7 @@ export const japanese: Cuisine = {
               amount: '150',
               unit: 'g',
               category: 'grain',
-              swaps: ['all-purpose flour + dashi powder'],
+              swaps: ['all-purpose flour + dashi powder']
             },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             {
@@ -753,23 +753,23 @@ export const japanese: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms'],
+              swaps: ['mushrooms']
             },
             { name: 'okonomiyaki sauce', amount: '4', unit: 'tbsp', category: 'sauce' },
             { name: 'mayonnaise', amount: '2', unit: 'tbsp', category: 'sauce' },
-            { name: 'bonito flakes', amount: '10', unit: 'g', category: 'garnish', optional: true },
+            { name: 'bonito flakes', amount: '10', unit: 'g', category: 'garnish', optional: true }
           ],
           substitutions: {
             'pork belly': ['mushrooms', 'tofu', 'shrimp'],
             'bonito flakes': ['nori strips', 'sesame seeds'],
-            'okonomiyaki flour': ['all-purpose flour + dashi powder'],
+            'okonomiyaki flour': ['all-purpose flour + dashi powder']
           },
           servingSize: 2,
           allergens: ['wheat', 'egg', 'fish', 'soy'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            "A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature",
+            'A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature',
           pairingSuggestions: ['beer', 'sake', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -779,10 +779,10 @@ export const japanese: Cuisine = {
             carbs: 45,
             fat: 32,
             vitamins: ['A', 'C', 'B12'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner', 'street food'],
+          mealType: ['lunch', 'dinner', 'street food']
         },
         {
           name: 'Tempura',
@@ -795,7 +795,7 @@ export const japanese: Cuisine = {
             'wire skimmer',
             'thermometer',
             'paper towels',
-            'strainer',
+            'strainer'
           ],
           preparationSteps: [
             'Prepare dipping sauce',
@@ -803,7 +803,7 @@ export const japanese: Cuisine = {
             'Heat oil to 180°C',
             'Coat ingredients in batter',
             'Fry until golden',
-            'Drain on paper towels',
+            'Drain on paper towels'
           ],
           ingredients: [
             {
@@ -811,7 +811,7 @@ export const japanese: Cuisine = {
               amount: '8',
               unit: 'pieces',
               category: 'seafood',
-              swaps: ['vegetables'],
+              swaps: ['vegetables']
             },
             { name: 'assorted vegetables', amount: '400', unit: 'g', category: 'vegetable' },
             {
@@ -819,16 +819,16 @@ export const japanese: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice flour mix'],
+              swaps: ['rice flour mix']
             },
             { name: 'ice water', amount: '200', unit: 'ml', category: 'liquid' },
             { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' },
-            { name: 'mirin', amount: '2', unit: 'tbsp', category: 'seasoning' },
+            { name: 'mirin', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
           substitutions: {
             shrimp: ['sweet potato', 'mushrooms', 'tofu'],
             'tempura flour': ['rice flour + cornstarch'],
-            dashi: ['vegetable stock'],
+            dashi: ['vegetable stock']
           },
           servingSize: 4,
           allergens: ['wheat', 'shellfish'],
@@ -845,10 +845,10 @@ export const japanese: Cuisine = {
             carbs: 45,
             fat: 22,
             vitamins: ['A', 'C', 'D'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Udon Noodle Soup',
@@ -862,7 +862,7 @@ export const japanese: Cuisine = {
             'Slice toppings',
             'Heat broth with seasonings',
             'Assemble in bowls',
-            'Add garnishes',
+            'Add garnishes'
           ],
           ingredients: [
             {
@@ -870,18 +870,18 @@ export const japanese: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice noodles'],
+              swaps: ['rice noodles']
             },
             { name: 'dashi stock', amount: '1', unit: 'L', category: 'broth' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
             { name: 'kamaboko', amount: '100', unit: 'g', category: 'seafood', optional: true },
             { name: 'tempura bits', amount: '30', unit: 'g', category: 'topping', optional: true },
-            { name: 'soy sauce', amount: '3', unit: 'tbsp', category: 'seasoning' },
+            { name: 'soy sauce', amount: '3', unit: 'tbsp', category: 'seasoning' }
           ],
           substitutions: {
             udon: ['rice noodles', 'soba'],
             kamaboko: ['tofu', 'mushrooms'],
-            dashi: ['vegetable stock', 'mushroom stock'],
+            dashi: ['vegetable stock', 'mushroom stock']
           },
           servingSize: 2,
           allergens: ['wheat', 'soy'],
@@ -898,10 +898,10 @@ export const japanese: Cuisine = {
             carbs: 75,
             fat: 4,
             vitamins: ['B1', 'B2'],
-            minerals: ['Iron', 'Manganese'],
+            minerals: ['Iron', 'Manganese']
           },
           season: ['winter', 'all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Tonkatsu',
@@ -916,7 +916,7 @@ export const japanese: Cuisine = {
             'Dip in beaten egg',
             'Cover with panko',
             'Deep fry until golden',
-            'Rest and slice',
+            'Rest and slice'
           ],
           ingredients: [
             {
@@ -924,18 +924,18 @@ export const japanese: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'protein',
-              swaps: ['chicken', 'tofu'],
+              swaps: ['chicken', 'tofu']
             },
             { name: 'panko breadcrumbs', amount: '200', unit: 'g', category: 'coating' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'flour', amount: '100', unit: 'g', category: 'grain' },
             { name: 'tonkatsu sauce', amount: '60', unit: 'ml', category: 'sauce' },
-            { name: 'cabbage', amount: '200', unit: 'g', category: 'vegetable' },
+            { name: 'cabbage', amount: '200', unit: 'g', category: 'vegetable' }
           ],
           substitutions: {
             pork: ['chicken breast', 'firm tofu', 'seitan'],
             panko: ['gluten-free breadcrumbs'],
-            eggs: ['plant-based egg substitute'],
+            eggs: ['plant-based egg substitute']
           },
           servingSize: 2,
           allergens: ['wheat', 'egg'],
@@ -952,10 +952,10 @@ export const japanese: Cuisine = {
             carbs: 48,
             fat: 34,
             vitamins: ['B1', 'B6', 'B12'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Chawanmushi',
@@ -969,7 +969,7 @@ export const japanese: Cuisine = {
             'Place ingredients in cups',
             'Pour egg mixture',
             'Steam gently',
-            'Garnish and serve',
+            'Garnish and serve'
           ],
           ingredients: [
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
@@ -977,19 +977,19 @@ export const japanese: Cuisine = {
             { name: 'chicken', amount: '60', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
             { name: 'shrimp', amount: '4', unit: 'pieces', category: 'seafood', optional: true },
             { name: 'mitsuba', amount: '4', unit: 'sprigs', category: 'herb', swaps: ['spinach'] },
-            { name: 'kamaboko', amount: '30', unit: 'g', category: 'seafood', optional: true },
+            { name: 'kamaboko', amount: '30', unit: 'g', category: 'seafood', optional: true }
           ],
           substitutions: {
             chicken: ['mushrooms', 'tofu'],
             shrimp: ['vegetables'],
-            dashi: ['vegetable stock'],
+            dashi: ['vegetable stock']
           },
           servingSize: 4,
           allergens: ['egg', 'shellfish', 'fish'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            "A delicate dish that showcases the Japanese mastery of egg cookery. The name means 'steamed in a tea bowl'",
+            'A delicate dish that showcases the Japanese mastery of egg cookery. The name means 'steamed in a tea bowl'',
           pairingSuggestions: ['sake', 'green tea', 'rice'],
           dietaryInfo: ['contains seafood', 'contains meat'],
           spiceLevel: 'none',
@@ -999,10 +999,10 @@ export const japanese: Cuisine = {
             carbs: 2,
             fat: 7,
             vitamins: ['B12', 'D', 'A'],
-            minerals: ['Selenium', 'Iodine'],
+            minerals: ['Selenium', 'Iodine']
           },
           season: ['all'],
-          mealType: ['appetizer', 'side dish'],
+          mealType: ['appetizer', 'side dish']
         },
         {
           name: 'Yakitori',
@@ -1015,7 +1015,7 @@ export const japanese: Cuisine = {
             'basting brush',
             'cutting board',
             'sharp knife',
-            'tongs',
+            'tongs'
           ],
           preparationSteps: [
             'Soak bamboo skewers',
@@ -1023,7 +1023,7 @@ export const japanese: Cuisine = {
             'Thread onto skewers',
             'Prepare tare sauce',
             'Grill while basting',
-            'Apply final glaze',
+            'Apply final glaze'
           ],
           ingredients: [
             {
@@ -1031,18 +1031,18 @@ export const japanese: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms', 'tofu'],
+              swaps: ['mushrooms', 'tofu']
             },
             { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'sake', amount: '60', unit: 'ml', category: 'seasoning' },
             { name: 'mirin', amount: '60', unit: 'ml', category: 'seasoning' },
             { name: 'soy sauce', amount: '60', unit: 'ml', category: 'seasoning' },
-            { name: 'sugar', amount: '2', unit: 'tbsp', category: 'seasoning' },
+            { name: 'sugar', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
           substitutions: {
             chicken: ['mushrooms', 'tofu', 'seitan'],
             sake: ['rice vinegar + water'],
-            mirin: ['sweet rice wine', 'rice vinegar + sugar'],
+            mirin: ['sweet rice wine', 'rice vinegar + sugar']
           },
           servingSize: 4,
           allergens: ['soy'],
@@ -1059,10 +1059,10 @@ export const japanese: Cuisine = {
             carbs: 12,
             fat: 18,
             vitamins: ['B6', 'B12'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['dinner', 'appetizer'],
+          mealType: ['dinner', 'appetizer']
         },
         {
           name: 'Miso Ramen',
@@ -1076,7 +1076,7 @@ export const japanese: Cuisine = {
             'Sauté corn and bean sprouts',
             'Slice chashu pork',
             'Assemble bowls',
-            'Add toppings',
+            'Add toppings'
           ],
           ingredients: [
             {
@@ -1084,7 +1084,7 @@ export const japanese: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice noodles'],
+              swaps: ['rice noodles']
             },
             { name: 'miso paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
             {
@@ -1092,17 +1092,17 @@ export const japanese: Cuisine = {
               amount: '1',
               unit: 'L',
               category: 'broth',
-              swaps: ['vegetable broth'],
+              swaps: ['vegetable broth']
             },
             { name: 'chashu pork', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'corn', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'butter', amount: '20', unit: 'g', category: 'dairy', optional: true },
+            { name: 'butter', amount: '20', unit: 'g', category: 'dairy', optional: true }
           ],
           substitutions: {
             'pork broth': ['vegetable broth', 'mushroom broth'],
             'chashu pork': ['marinated tofu', 'seitan'],
-            butter: ['vegan butter', 'sesame oil'],
+            butter: ['vegan butter', 'sesame oil']
           },
           servingSize: 2,
           allergens: ['wheat', 'soy', 'dairy'],
@@ -1119,10 +1119,10 @@ export const japanese: Cuisine = {
             carbs: 85,
             fat: 24,
             vitamins: ['B12', 'A', 'C'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['winter', 'all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Katsudon',
@@ -1134,7 +1134,7 @@ export const japanese: Cuisine = {
             'donburi pan',
             'rice cooker',
             { name: 'wire rack', category: 'coating' },
-            'sharp knife',
+            'sharp knife'
           ],
           preparationSteps: [
             'Prepare tonkatsu',
@@ -1143,7 +1143,7 @@ export const japanese: Cuisine = {
             'Add sliced tonkatsu',
             'Pour beaten eggs',
             'Steam until set',
-            'Serve over rice',
+            'Serve over rice'
           ],
           ingredients: [
             {
@@ -1151,25 +1151,25 @@ export const japanese: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'protein',
-              swaps: ['chicken', 'tofu'],
+              swaps: ['chicken', 'tofu']
             },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'steamed rice', amount: '400', unit: 'g', category: 'grain' },
             { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' },
-            { name: 'panko breadcrumbs', amount: '100', unit: 'g', category: 'coating' },
+            { name: 'panko breadcrumbs', amount: '100', unit: 'g', category: 'coating' }
           ],
           substitutions: {
             pork: ['chicken cutlet', 'tofu steak'],
             dashi: ['vegetable stock'],
-            eggs: ['Just Egg', 'soft tofu'],
+            eggs: ['Just Egg', 'soft tofu']
           },
           servingSize: 2,
           allergens: ['wheat', 'egg', 'soy'],
           prepTime: '20 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            "A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese",
+            'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese',
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -1179,10 +1179,10 @@ export const japanese: Cuisine = {
             carbs: 90,
             fat: 38,
             vitamins: ['B1', 'B12', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Gyoza',
@@ -1194,7 +1194,7 @@ export const japanese: Cuisine = {
             'spatula',
             'mixing bowls',
             'cutting board',
-            'gyoza press (optional)',
+            'gyoza press (optional)'
           ],
           preparationSteps: [
             'Mix filling ingredients',
@@ -1203,7 +1203,7 @@ export const japanese: Cuisine = {
             'Arrange gyoza',
             'Add water and steam',
             'Crisp bottom',
-            'Serve with dipping sauce',
+            'Serve with dipping sauce'
           ],
           ingredients: [
             { name: 'gyoza wrappers', amount: '30', unit: 'pieces', category: 'grain' },
@@ -1212,17 +1212,17 @@ export const japanese: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms'],
+              swaps: ['mushrooms']
             },
             { name: 'cabbage', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'chives', amount: '50', unit: 'g', category: 'vegetable' },
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'seasoning' },
-            { name: 'garlic', amount: '2', unit: 'cloves', category: 'seasoning' },
+            { name: 'garlic', amount: '2', unit: 'cloves', category: 'seasoning' }
           ],
           substitutions: {
             'ground pork': ['minced mushrooms', 'plant-based meat'],
             'gyoza wrappers': ['rice paper', 'homemade wrappers'],
-            cabbage: ['napa cabbage', 'bok choy'],
+            cabbage: ['napa cabbage', 'bok choy']
           },
           servingSize: 4,
           allergens: ['wheat', 'soy'],
@@ -1239,10 +1239,10 @@ export const japanese: Cuisine = {
             carbs: 30,
             fat: 12,
             vitamins: ['A', 'C'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['appetizer', 'side dish'],
+          mealType: ['appetizer', 'side dish']
         },
         {
           name: 'Karaage',
@@ -1256,7 +1256,7 @@ export const japanese: Cuisine = {
             'Coat with potato starch',
             'Heat oil to 170°C',
             'Double fry for crispiness',
-            'Drain and serve',
+            'Drain and serve'
           ],
           ingredients: [
             { name: 'chicken thigh', amount: '600', unit: 'g', category: 'protein' },
@@ -1264,12 +1264,12 @@ export const japanese: Cuisine = {
             { name: 'sake', amount: '2', unit: 'tbsp', category: 'seasoning' },
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'garlic', amount: '2', unit: 'cloves', category: 'seasoning' },
-            { name: 'potato starch', amount: '100', unit: 'g', category: 'coating' },
+            { name: 'potato starch', amount: '100', unit: 'g', category: 'coating' }
           ],
           substitutions: {
             'chicken thigh': ['tofu', 'cauliflower'],
             'potato starch': ['cornstarch'],
-            sake: ['rice vinegar + water'],
+            sake: ['rice vinegar + water']
           },
           servingSize: 4,
           allergens: ['soy'],
@@ -1286,13 +1286,13 @@ export const japanese: Cuisine = {
             carbs: 15,
             fat: 24,
             vitamins: ['B6', 'B12'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['appetizer', 'main dish'],
-        },
-      ],
-    },
+          mealType: ['appetizer', 'main dish']
+        }
+      ]
+    }
   },
   traditionalSauces: {
     shoyu: {
@@ -1306,13 +1306,13 @@ export const japanese: Cuisine = {
         Water: 0.4,
         Earth: 0.3,
         Fire: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Saturn', 'Pluto', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Traditional brewing takes months of fermentation',
       technicalTips:
-        'Different shoyu types are suited for different applications; usukuchi is lighter and saltier',
+        'Different shoyu types are suited for different applications; usukuchi is lighter and saltier'
     },
     miso: {
       name: 'Miso',
@@ -1325,12 +1325,12 @@ export const japanese: Cuisine = {
         Earth: 0.5,
         Water: 0.2,
         Fire: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Jupiter', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Fermentation period determines color and flavor intensity',
-      technicalTips: 'Never boil miso to preserve live cultures and flavor complexity',
+      technicalTips: 'Never boil miso to preserve live cultures and flavor complexity'
     },
     ponzu: {
       name: 'Ponzu',
@@ -1342,7 +1342,7 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Best when aged for several days to develop flavor',
-      yield: '500ml',
+      yield: '500ml'
     },
     mentsuyu: {
       name: 'Mentsuyu',
@@ -1354,7 +1354,7 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Can be prepared concentrated and diluted as needed',
-      yield: '750ml',
+      yield: '750ml'
     },
     teriyaki: {
       name: 'Teriyaki',
@@ -1366,8 +1366,8 @@ export const japanese: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Traditionally applied in layers while grilling',
-      yield: '500ml',
-    },
+      yield: '500ml'
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1375,38 +1375,38 @@ export const japanese: Cuisine = {
       chicken: ['teriyaki', 'katsu sauce', 'yuzu kosho', 'sesame sauce'],
       beef: ['yakiniku sauce', 'ponzu', 'warishita', 'ginger sauce'],
       tofu: ['ponzu', 'sesame sauce', 'ginger sauce', 'miso sauce'],
-      pork: ['tonkatsu sauce', 'shogayaki sauce', 'miso sauce', 'teriyaki'],
+      pork: ['tonkatsu sauce', 'shogayaki sauce', 'miso sauce', 'teriyaki']
     },
     forVegetable: {
       leafy: ['sesame dressing', 'ponzu', 'shiro dashi', 'miso dressing'],
       root: ['miso sauce', 'mentsuyu', 'kinpira sauce', 'sesame sauce'],
       seaweed: ['ponzu', 'soy vinegar', 'miso sauce', 'sesame dressing'],
-      mushroom: ['butter shoyu', 'mirin glaze', 'dashi-based', 'mentsuyu'],
+      mushroom: ['butter shoyu', 'mirin glaze', 'dashi-based', 'mentsuyu']
     },
     forCookingMethod: {
       grilling: ['teriyaki', 'yakitori tare', 'miso glaze', 'yuzu kosho'],
       simmering: ['mentsuyu', 'kake sauce', 'dashi-based', 'warishita'],
       'deep-frying': ['tentsuyu', 'tonkatsu sauce', 'ponzu', 'curry sauce'],
-      steaming: ['ponzu', 'ginger sauce', 'yuzu sauce', 'dashi vinegar'],
+      steaming: ['ponzu', 'ginger sauce', 'yuzu sauce', 'dashi vinegar']
     },
     byAstrological: {
       fire: ['spicy yuzu kosho', 'karashi mustard sauce', 'wasabi dressing', 'chili oil'],
       water: ['clear dashi-based sauces', 'gentle ponzu', 'light broths', 'nikiri'],
       earth: ['miso-based sauces', 'thick teriyaki', 'rich tonkatsu sauce', 'sesame'],
-      air: ['citrus dressings', 'light vinaigrettes', 'delicate herb sauces', 'yuzu'],
+      air: ['citrus dressings', 'light vinaigrettes', 'delicate herb sauces', 'yuzu']
     },
     byRegion: {
       kanto: ['thick sweet sauces', 'dark soy-based', 'rich dashi'],
       kansai: ['light dashi', 'delicate seasonings', 'subtle umami'],
       hokkaido: ['butter-miso', 'rich seafood sauces', 'hearty broths'],
-      kyushu: ['intense tonkotsu', 'spicy yuzu kosho', 'bold marinades'],
+      kyushu: ['intense tonkotsu', 'spicy yuzu kosho', 'bold marinades']
     },
     byDietary: {
       vegetarian: ['kombu dashi-based', 'shiitake broth', 'vegan ponzu', 'miso-based'],
       vegan: ['mushroom dashi', 'soy-based sauces', 'yuzu dressing', 'umeboshi sauce'],
       glutenFree: ['tamari-based sauces', 'rice vinegar dressings', 'citrus sauces'],
-      lowSodium: ['yuzu dressing', 'vinegar-based', 'herb oils', 'mirin glazes'],
-    },
+      lowSodium: ['yuzu dressing', 'vinegar-based', 'herb oils', 'mirin glazes']
+    }
   },
   cookingTechniques: [
     {
@@ -1415,7 +1415,7 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['heavy-bottomed pot', 'otoshibuta (drop lid)', 'cooking chopsticks'],
       bestFor: ['root vegetables', 'fish', 'tofu', 'meat'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Tempura',
@@ -1423,7 +1423,7 @@ export const japanese: Cuisine = {
       elementalProperties: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 },
       toolsRequired: ['deep pot', 'chopsticks', 'wire skimmer', 'thermometer'],
       bestFor: ['seafood', 'vegetables', 'mushrooms', 'herbs'],
-      difficulty: 'hard',
+      difficulty: 'hard'
     },
     {
       name: 'Yakimono',
@@ -1431,8 +1431,8 @@ export const japanese: Cuisine = {
       elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
       toolsRequired: ['konro grill', 'binchotan charcoal', 'metal skewers', 'tongs'],
       bestFor: ['fish', 'chicken', 'beef', 'vegetables'],
-      difficulty: 'medium',
-    },
+      difficulty: 'medium'
+    }
   ],
   regionalCuisines: {
     kansai: {
@@ -1447,8 +1447,8 @@ export const japanese: Cuisine = {
         'Kyoto vegetables',
         'fu (wheat gluten)',
         'refined tofu',
-        'high-grade teas',
-      ],
+        'high-grade teas'
+      ]
     },
     kanto: {
       name: 'Kanto/Tokyo Cuisine',
@@ -1457,7 +1457,7 @@ export const japanese: Cuisine = {
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mars', 'Capricorn'],
       seasonality: 'moderate seasonal emphasis',
-      specialIngredients: ['dark soy sauce', 'abundant seafood', 'creative fusion elements'],
+      specialIngredients: ['dark soy sauce', 'abundant seafood', 'creative fusion elements']
     },
     hokkaido: {
       name: 'Hokkaido Cuisine',
@@ -1466,8 +1466,8 @@ export const japanese: Cuisine = {
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
       seasonality: 'strong winter emphasis',
-      specialIngredients: ['butter', 'corn', 'potatoes', 'dairy', 'sea urchin', 'crab'],
-    },
+      specialIngredients: ['butter', 'corn', 'potatoes', 'dairy', 'sea urchin', 'crab']
+    }
   },
   elementalProperties: {
     Water: 0.35, // Represents broths, gentle cooking methods, and seafood focus
@@ -1478,8 +1478,8 @@ export const japanese: Cuisine = {
   astrologicalInfluences: [
     'Neptune - Governs the subtle dashi broths and seafood elements',
     'Mercury - Influences the precision and attention to detail',
-    'Moon - Shapes the cyclical nature of seasonal cuisine',
-  ],
+    'Moon - Shapes the cyclical nature of seasonal cuisine'
+  ]
 };
 
 export default japanese;

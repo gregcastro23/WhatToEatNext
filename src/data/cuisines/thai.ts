@@ -1,7 +1,7 @@
 // src/data/cuisines/thai.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const thai: Cuisine = {
+export const thai: Cuisine = {;
   id: 'thai',
   name: 'Thai',
   description:
@@ -19,7 +19,7 @@ export const thai: Cuisine = {
             'wooden spoon',
             'measuring cups',
             'small bowls for garnishes',
-            'ladle',
+            'ladle'
           ],
           preparationSteps: [
             'Rinse rice thoroughly',
@@ -27,7 +27,7 @@ export const thai: Cuisine = {
             'Cook ground pork separately',
             'Prepare garnishes',
             'Season the porridge',
-            'Serve with toppings',
+            'Serve with toppings'
           ],
           ingredients: [
             { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' },
@@ -37,24 +37,24 @@ export const thai: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms', 'tofu'],
+              swaps: ['mushrooms', 'tofu']
             },
             {
               name: 'soft-boiled egg',
               amount: '2',
               unit: 'large',
               category: 'protein',
-              swaps: ['silken tofu'],
+              swaps: ['silken tofu']
             },
             { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'fried garlic', amount: '2', unit: 'tbsp', category: 'garnish' },
             { name: 'white pepper', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' },
+            { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
           substitutions: {
             'ground pork': ['minced mushrooms', 'crumbled tofu', 'plant-based meat'],
             'soft-boiled egg': ['silken tofu', 'century egg'],
-            'soy sauce': ['tamari', 'coconut aminos'],
+            'soy sauce': ['tamari', 'coconut aminos']
           },
           servingSize: 4,
           allergens: ['soy', 'eggs'],
@@ -71,7 +71,7 @@ export const thai: Cuisine = {
             carbs: 58,
             fat: 8,
             vitamins: ['B6', 'B12'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -79,8 +79,8 @@ export const thai: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Khao Tom',
@@ -94,7 +94,7 @@ export const thai: Cuisine = {
             'Clean and devein shrimp',
             'Add shrimp and ginger',
             'Season with fish sauce',
-            'Garnish with herbs',
+            'Garnish with herbs'
           ],
           ingredients: [
             { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' },
@@ -108,21 +108,21 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
-            { name: 'white pepper', amount: '1', unit: 'tsp', category: 'spice' },
+            { name: 'white pepper', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             shrimp: ['firm tofu', 'mushrooms', 'chicken'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
-            'jasmine rice': ['brown rice', 'quinoa'],
+            'jasmine rice': ['brown rice', 'quinoa']
           },
           servingSize: 4,
           allergens: ['shellfish', 'fish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            "A gentle morning dish that exemplifies the Thai principle of 'khao tom' (boiled rice), often served to those feeling under the weather",
+            'A gentle morning dish that exemplifies the Thai principle of 'khao tom' (boiled rice), often served to those feeling under the weather',
           pairingSuggestions: ['pickled chilies', 'fried garlic', 'fresh lime', 'prik nam pla'],
           dietaryInfo: ['adaptable to vegetarian/vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -132,7 +132,7 @@ export const thai: Cuisine = {
             carbs: 48,
             fat: 6,
             vitamins: ['B12', 'C'],
-            minerals: ['Iron', 'Iodine'],
+            minerals: ['Iron', 'Iodine']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -140,8 +140,8 @@ export const thai: Cuisine = {
             Water: 0.5,
             Earth: 0.2,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Patongo with Sangkaya',
@@ -155,7 +155,7 @@ export const thai: Cuisine = {
             'Prepare pandan custard',
             'Shape dough pieces',
             'Deep fry until golden',
-            'Serve with warm custard',
+            'Serve with warm custard'
           ],
           ingredients: [
             {
@@ -163,18 +163,18 @@ export const thai: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour blend'],
+              swaps: ['gluten-free flour blend']
             },
             { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' },
             { name: 'pandan leaves', amount: '4', unit: 'pieces', category: 'herb' },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
             { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
-            { name: 'yeast', amount: '1', unit: 'tsp', category: 'leavening' },
+            { name: 'yeast', amount: '1', unit: 'tsp', category: 'leavening' }
           ],
           substitutions: {
             'all-purpose flour': ['gluten-free flour blend', 'rice flour mix'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
-            'pandan leaves': ['pandan extract', 'vanilla extract'],
+            'pandan leaves': ['pandan extract', 'vanilla extract']
           },
           servingSize: 6,
           allergens: ['gluten', 'eggs', 'dairy'],
@@ -192,7 +192,7 @@ export const thai: Cuisine = {
             carbs: 65,
             fat: 14,
             vitamins: ['A', 'D', 'E'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['all'],
           mealType: ['breakfast', 'snack'],
@@ -200,8 +200,8 @@ export const thai: Cuisine = {
             Air: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Water: 0.1,
-          },
+            Water: 0.1
+          }
         },
         {
           name: 'Khao Kai Jeow',
@@ -215,7 +215,7 @@ export const thai: Cuisine = {
             'Pour in egg mixture',
             'Cook until edges crisp',
             'Fold omelet',
-            'Serve over hot rice',
+            'Serve over hot rice'
           ],
           ingredients: [
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein', swaps: ['JUST Egg'] },
@@ -225,16 +225,16 @@ export const thai: Cuisine = {
               amount: '1',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
             { name: 'white pepper', amount: '1/2', unit: 'tsp', category: 'spice' },
-            { name: 'sriracha sauce', amount: '2', unit: 'tbsp', category: 'sauce' },
+            { name: 'sriracha sauce', amount: '2', unit: 'tbsp', category: 'sauce' }
           ],
           substitutions: {
             eggs: ['JUST Egg', 'chickpea flour mixture'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
-            sriracha: ['chili garlic sauce', 'sambal oelek'],
+            sriracha: ['chili garlic sauce', 'sambal oelek']
           },
           servingSize: 2,
           allergens: ['eggs', 'fish'],
@@ -251,7 +251,7 @@ export const thai: Cuisine = {
             carbs: 45,
             fat: 16,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Selenium'],
+            minerals: ['Iron', 'Selenium']
           },
           season: ['all'],
           mealType: ['breakfast', 'lunch'],
@@ -259,8 +259,8 @@ export const thai: Cuisine = {
             Fire: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.1,
-          },
+            Water: 0.1
+          }
         },
         {
           name: 'Khao Tom Moo',
@@ -274,7 +274,7 @@ export const thai: Cuisine = {
             'Simmer with ginger',
             'Add seasonings',
             'Prepare garnishes',
-            'Serve hot with condiments',
+            'Serve hot with condiments'
           ],
           ingredients: [
             { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' },
@@ -283,7 +283,7 @@ export const thai: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'protein',
-              swaps: ['chicken', 'tofu'],
+              swaps: ['chicken', 'tofu']
             },
             { name: 'ginger', amount: '30', unit: 'g', category: 'spice' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
@@ -295,25 +295,25 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
-            },
+              swaps: ['soy sauce']
+            }
           ],
           substitutions: {
             'minced pork': ['ground chicken', 'crumbled tofu', 'mushrooms'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
-            'jasmine rice': ['brown rice', 'quinoa'],
+            'jasmine rice': ['brown rice', 'quinoa']
           },
           servingSize: 4,
           allergens: ['fish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            "A comforting breakfast dish that's often served to those feeling under the weather. The ginger and pepper make it especially warming",
+            'A comforting breakfast dish that's often served to those feeling under the weather. The ginger and pepper make it especially warming',
           pairingSuggestions: [
             'fried garlic',
             'chili vinegar',
             'century eggs',
-            'pickled vegetables',
+            'pickled vegetables'
           ],
           dietaryInfo: ['dairy-free', 'adaptable to vegan'],
           spiceLevel: 'mild',
@@ -323,7 +323,7 @@ export const thai: Cuisine = {
             carbs: 45,
             fat: 8,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -331,10 +331,10 @@ export const thai: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.2,
-          },
-        },
-      ],
+            Air: 0.2
+          }
+        }
+      ]
     },
     lunch: {
       all: [
@@ -350,7 +350,7 @@ export const thai: Cuisine = {
             'Stir-fry aromatics',
             'Add meat and seasonings',
             'Toss in holy basil',
-            'Serve with fried egg',
+            'Serve with fried egg'
           ],
           ingredients: [
             {
@@ -358,7 +358,7 @@ export const thai: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'protein',
-              swaps: ['tofu', 'mushrooms'],
+              swaps: ['tofu', 'mushrooms']
             },
             { name: 'holy basil', amount: '2', unit: 'cups', category: 'herb' },
             { name: 'Thai chilies', amount: '5', unit: 'pieces', category: 'spice' },
@@ -368,28 +368,28 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['mushroom sauce'],
+              swaps: ['mushroom sauce']
             },
             {
               name: 'fish sauce',
               amount: '1',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', optional: true },
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', optional: true }
           ],
           substitutions: {
             'minced chicken': ['minced pork', 'crumbled tofu', 'chopped mushrooms'],
             'holy basil': ['Thai basil', 'regular basil'],
-            'oyster sauce': ['vegetarian oyster sauce', 'mushroom sauce'],
+            'oyster sauce': ['vegetarian oyster sauce', 'mushroom sauce']
           },
           servingSize: 2,
           allergens: ['fish', 'shellfish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
           culturalNotes:
-            "One of Thailand's most beloved street foods, this dish is known for its intense heat and aromatic holy basil. The name 'kra pao' refers to the holy basil that gives the dish its distinctive flavor",
+            'One of Thailand's most beloved street foods, this dish is known for its intense heat and aromatic holy basil. The name 'kra pao' refers to the holy basil that gives the dish its distinctive flavor',
           pairingSuggestions: ['jasmine rice', 'fried egg', 'cucumber slices', 'prik nam pla'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'hot',
@@ -399,7 +399,7 @@ export const thai: Cuisine = {
             carbs: 15,
             fat: 28,
             vitamins: ['A', 'C', 'K'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -407,8 +407,8 @@ export const thai: Cuisine = {
             Fire: 0.5,
             Earth: 0.2,
             Air: 0.2,
-            Water: 0.1,
-          },
+            Water: 0.1
+          }
         },
         {
           name: 'Khao Soi',
@@ -420,14 +420,14 @@ export const thai: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice noodles'],
+              swaps: ['rice noodles']
             },
             {
               name: 'chicken thighs',
               amount: '400',
               unit: 'g',
               category: 'protein',
-              swaps: ['tofu'],
+              swaps: ['tofu']
             },
             { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
             { name: 'khao soi curry paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
@@ -440,8 +440,8 @@ export const thai: Cuisine = {
               amount: '3',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
-            },
+              swaps: ['soy sauce']
+            }
           ],
           nutrition: {
             calories: 580,
@@ -449,7 +449,7 @@ export const thai: Cuisine = {
             carbs: 65,
             fat: 28,
             vitamins: ['A', 'B12', 'D'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           timeToMake: '45 minutes',
           season: ['all'],
@@ -458,8 +458,8 @@ export const thai: Cuisine = {
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Som Tam',
@@ -473,7 +473,7 @@ export const thai: Cuisine = {
             'Add dried shrimp and peanuts',
             'Mix in vegetables',
             'Season with lime and fish sauce',
-            'Adjust flavors to taste',
+            'Adjust flavors to taste'
           ],
           ingredients: [
             { name: 'green papaya', amount: '300', unit: 'g', category: 'vegetable' },
@@ -484,7 +484,7 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'protein',
-              swaps: ['toasted peanuts'],
+              swaps: ['toasted peanuts']
             },
             { name: 'long beans', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'cherry tomatoes', amount: '100', unit: 'g', category: 'vegetable' },
@@ -494,21 +494,21 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
-            { name: 'palm sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
+            { name: 'palm sugar', amount: '2', unit: 'tbsp', category: 'sweetener' }
           ],
           substitutions: {
             'green papaya': ['shredded carrot', 'green mango'],
             'dried shrimp': ['toasted peanuts', 'crispy tofu'],
-            'fish sauce': ['soy sauce', 'coconut aminos'],
+            'fish sauce': ['soy sauce', 'coconut aminos']
           },
           servingSize: 2,
           allergens: ['fish', 'shellfish', 'peanuts'],
           prepTime: '20 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            "Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally",
+            'Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally',
           pairingSuggestions: ['sticky rice', 'grilled chicken', 'cold beer'],
           dietaryInfo: ['raw', 'adaptable to vegan', 'gluten-free'],
           spiceLevel: 'very hot',
@@ -518,7 +518,7 @@ export const thai: Cuisine = {
             carbs: 25,
             fat: 4,
             vitamins: ['C', 'A', 'K'],
-            minerals: ['Potassium', 'Calcium'],
+            minerals: ['Potassium', 'Calcium']
           },
           season: ['all'],
           mealType: ['lunch', 'dinner', 'appetizer'],
@@ -526,8 +526,8 @@ export const thai: Cuisine = {
             Fire: 0.4,
             Earth: 0.2,
             Water: 0.2,
-            Air: 0.2,
-          },
+            Air: 0.2
+          }
         },
         {
           name: 'Tom Yum Goong',
@@ -541,7 +541,7 @@ export const thai: Cuisine = {
             'Add mushrooms',
             'Cook shrimp',
             'Season with lime and chili',
-            'Finish with herbs',
+            'Finish with herbs'
           ],
           ingredients: [
             { name: 'shrimp', amount: '400', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
@@ -551,19 +551,19 @@ export const thai: Cuisine = {
             { name: 'mushrooms', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'Thai chilies', amount: '4', unit: 'pieces', category: 'spice' },
             { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' },
-            { name: 'nam prik pao', amount: '2', unit: 'tbsp', category: 'paste' },
+            { name: 'nam prik pao', amount: '2', unit: 'tbsp', category: 'paste' }
           ],
           substitutions: {
             shrimp: ['tofu', 'mushrooms', 'chicken'],
             'kaffir lime leaves': ['lime zest', 'bay leaves'],
-            galangal: ['ginger', 'turmeric'],
+            galangal: ['ginger', 'turmeric']
           },
           servingSize: 4,
           allergens: ['shellfish', 'fish'],
           prepTime: '15 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            "Thailand's most famous soup, known worldwide for its complex blend of hot, sour, and aromatic flavors. The name 'tom yum' refers to the boiling process and sour taste",
+            'Thailand's most famous soup, known worldwide for its complex blend of hot, sour, and aromatic flavors. The name 'tom yum' refers to the boiling process and sour taste',
           pairingSuggestions: ['jasmine rice', 'stir-fried vegetables', 'coconut water'],
           dietaryInfo: ['gluten-free', 'adaptable to vegan'],
           spiceLevel: 'hot',
@@ -573,7 +573,7 @@ export const thai: Cuisine = {
             carbs: 12,
             fat: 10,
             vitamins: ['B12', 'C', 'D'],
-            minerals: ['Iodine', 'Zinc'],
+            minerals: ['Iodine', 'Zinc']
           },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -581,8 +581,8 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Water: 0.3,
             Air: 0.2,
-            Earth: 0.2,
-          },
+            Earth: 0.2
+          }
         },
         {
           name: 'Yum Woon Sen',
@@ -596,7 +596,7 @@ export const thai: Cuisine = {
             'Prepare dressing',
             'Mix ingredients',
             'Add herbs and peanuts',
-            'Serve chilled',
+            'Serve chilled'
           ],
           ingredients: [
             { name: 'glass noodles', amount: '200', unit: 'g', category: 'noodles' },
@@ -608,18 +608,18 @@ export const thai: Cuisine = {
               amount: '3',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
             { name: 'Thai chilies', amount: '4', unit: 'pieces', category: 'spice' },
             { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' },
             { name: 'mint leaves', amount: '1', unit: 'cup', category: 'herb' },
             { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' },
-            { name: 'roasted peanuts', amount: '1/2', unit: 'cup', category: 'nuts' },
+            { name: 'roasted peanuts', amount: '1/2', unit: 'cup', category: 'nuts' }
           ],
           substitutions: {
             shrimp: ['tofu', 'mushrooms'],
             'ground pork': ['ground chicken', 'crumbled tofu'],
-            'fish sauce': ['soy sauce', 'coconut aminos'],
+            'fish sauce': ['soy sauce', 'coconut aminos']
           },
           servingSize: 4,
           allergens: ['shellfish', 'fish', 'peanuts'],
@@ -636,7 +636,7 @@ export const thai: Cuisine = {
             carbs: 48,
             fat: 12,
             vitamins: ['B12', 'C'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['summer'],
           mealType: ['lunch', 'dinner'],
@@ -644,9 +644,9 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Earth: 0.2,
-            Air: 0.3,
-          },
-        },
+            Air: 0.3
+          }
+        }
       ],
       summer: [
         {
@@ -662,7 +662,7 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'protein',
-              swaps: ['crushed toasted peanuts'],
+              swaps: ['crushed toasted peanuts']
             },
             { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' },
             { name: 'palm sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
@@ -671,11 +671,11 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
             { name: 'Thai chilies', amount: '2', unit: 'pieces', category: 'spice' },
             { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
-            { name: 'peanuts', amount: '1/4', unit: 'cup', category: 'nuts' },
+            { name: 'peanuts', amount: '1/4', unit: 'cup', category: 'nuts' }
           ],
           nutrition: {
             calories: 280,
@@ -683,7 +683,7 @@ export const thai: Cuisine = {
             carbs: 32,
             fat: 16,
             vitamins: ['C', 'A', 'K'],
-            minerals: ['Potassium', 'Iron'],
+            minerals: ['Potassium', 'Iron']
           },
           timeToMake: '20 minutes',
           season: ['summer'],
@@ -692,9 +692,9 @@ export const thai: Cuisine = {
             Fire: 0.5,
             Water: 0.2,
             Earth: 0.2,
-            Air: 0.1,
-          },
-        },
+            Air: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -707,7 +707,7 @@ export const thai: Cuisine = {
               amount: '800',
               unit: 'g',
               category: 'protein',
-              swaps: ['braised mushrooms'],
+              swaps: ['braised mushrooms']
             },
             { name: 'jasmine rice', amount: '400', unit: 'g', category: 'grain' },
             { name: 'star anise', amount: '3', unit: 'whole', category: 'spice' },
@@ -715,7 +715,7 @@ export const thai: Cuisine = {
             { name: 'soy sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'pickled mustard greens', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' },
-            { name: 'boiled eggs', amount: '4', unit: 'large', category: 'protein' },
+            { name: 'boiled eggs', amount: '4', unit: 'large', category: 'protein' }
           ],
           nutrition: {
             calories: 650,
@@ -723,7 +723,7 @@ export const thai: Cuisine = {
             carbs: 55,
             fat: 28,
             vitamins: ['B12', 'D', 'K'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           timeToMake: '180 minutes',
           season: ['winter'],
@@ -732,8 +732,8 @@ export const thai: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Tom Kha Gai',
@@ -745,7 +745,7 @@ export const thai: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'protein',
-              swaps: ['tofu'],
+              swaps: ['tofu']
             },
             { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
             { name: 'mushrooms', amount: '200', unit: 'g', category: 'vegetable' },
@@ -759,8 +759,8 @@ export const thai: Cuisine = {
               amount: '3',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
-            },
+              swaps: ['soy sauce']
+            }
           ],
           nutrition: {
             calories: 420,
@@ -768,7 +768,7 @@ export const thai: Cuisine = {
             carbs: 12,
             fat: 28,
             vitamins: ['D', 'B12', 'C'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           timeToMake: '35 minutes',
           season: ['winter'],
@@ -777,14 +777,14 @@ export const thai: Cuisine = {
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
-            Air: 0.1,
+            Air: 0.1
           },
           astrologicalProfile: {
             favorableZodiac: ['cancer', 'pisces'],
             rulingPlanets: ['moon', 'venus'],
-            elementalAffinity: 'Water',
+            elementalAffinity: 'Water'
           },
-          astrologicalInfluences: ['neptune', 'mars', 'pisces'],
+          astrologicalInfluences: ['neptune', 'mars', 'pisces']
         },
         {
           name: 'Kuay Teow Reua',
@@ -798,7 +798,7 @@ export const thai: Cuisine = {
               amount: '100',
               unit: 'ml',
               category: 'protein',
-              swaps: ['dark soy sauce'],
+              swaps: ['dark soy sauce']
             },
             { name: 'morning glory', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'bean sprouts', amount: '100', unit: 'g', category: 'vegetable' },
@@ -809,8 +809,8 @@ export const thai: Cuisine = {
               amount: '50',
               unit: 'g',
               category: 'garnish',
-              swaps: ['fried shallots'],
-            },
+              swaps: ['fried shallots']
+            }
           ],
           nutrition: {
             calories: 480,
@@ -818,7 +818,7 @@ export const thai: Cuisine = {
             carbs: 58,
             fat: 18,
             vitamins: ['B12', 'Iron', 'A'],
-            minerals: ['Zinc', 'Iron'],
+            minerals: ['Zinc', 'Iron']
           },
           timeToMake: '45 minutes',
           season: ['winter'],
@@ -827,10 +827,10 @@ export const thai: Cuisine = {
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
-            Air: 0.1,
-          },
-        },
-      ],
+            Air: 0.1
+          }
+        }
+      ]
     },
     dinner: {
       all: [
@@ -847,7 +847,7 @@ export const thai: Cuisine = {
             'Cook proteins',
             'Add noodles and sauce',
             'Toss with bean sprouts',
-            'Garnish and serve',
+            'Garnish and serve'
           ],
           ingredients: [
             { name: 'rice noodles', amount: '400', unit: 'g', category: 'grain' },
@@ -860,7 +860,7 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
             { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'garlic chives', amount: '100', unit: 'g', category: 'vegetable' },
@@ -869,20 +869,20 @@ export const thai: Cuisine = {
               amount: '1/2',
               unit: 'cup',
               category: 'garnish',
-              optional: true,
-            },
+              optional: true
+            }
           ],
           substitutions: {
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
-            'tamarind paste': ['lime juice + brown sugar'],
+            'tamarind paste': ['lime juice + brown sugar']
           },
           servingSize: 4,
           allergens: ['peanuts', 'eggs', 'soy', 'fish'],
           prepTime: '30 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            "Created in the 1930s as part of Thailand's nation-building efforts, Pad Thai has become the country's national dish and a global ambassador of Thai cuisine",
+            'Created in the 1930s as part of Thailand's nation-building efforts, Pad Thai has become the country's national dish and a global ambassador of Thai cuisine',
           pairingSuggestions: ['lime wedges', 'chili flakes', 'extra peanuts', 'bean sprouts'],
           dietaryInfo: ['adaptable to vegan', 'gluten-free'],
           spiceLevel: 'mild to adjustable',
@@ -892,7 +892,7 @@ export const thai: Cuisine = {
             carbs: 68,
             fat: 16,
             vitamins: ['A', 'C', 'E'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -900,8 +900,8 @@ export const thai: Cuisine = {
             Earth: 0.3,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.2,
-          },
+            Water: 0.2
+          }
         },
         {
           name: 'Pad Krapow Moo',
@@ -913,7 +913,7 @@ export const thai: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'protein',
-              swaps: ['plant-based ground'],
+              swaps: ['plant-based ground']
             },
             { name: 'holy basil', amount: '2', unit: 'cups', category: 'herb' },
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
@@ -923,17 +923,17 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['mushroom sauce'],
+              swaps: ['mushroom sauce']
             },
             {
               name: 'fish sauce',
               amount: '1',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
             { name: 'jasmine rice', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'fried egg', amount: '2', unit: 'large', category: 'protein', swaps: ['tofu'] },
+            { name: 'fried egg', amount: '2', unit: 'large', category: 'protein', swaps: ['tofu'] }
           ],
           nutrition: {
             calories: 580,
@@ -941,7 +941,7 @@ export const thai: Cuisine = {
             carbs: 45,
             fat: 28,
             vitamins: ['B12', 'K', 'A'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           timeToMake: '20 minutes',
           season: ['all'],
@@ -950,8 +950,8 @@ export const thai: Cuisine = {
             Fire: 0.5,
             Earth: 0.2,
             Water: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Pla Neung Manao',
@@ -965,7 +965,7 @@ export const thai: Cuisine = {
             'Steam fish until done',
             'Pound chilies and garlic',
             'Make lime sauce',
-            'Pour over hot fish',
+            'Pour over hot fish'
           ],
           ingredients: [
             {
@@ -973,7 +973,7 @@ export const thai: Cuisine = {
               amount: '1',
               unit: 'kg',
               category: 'protein',
-              swaps: ['snapper', 'tilapia'],
+              swaps: ['snapper', 'tilapia']
             },
             { name: 'lime juice', amount: '6', unit: 'tbsp', category: 'acid' },
             { name: 'Thai chilies', amount: '6', unit: 'pieces', category: 'spice' },
@@ -986,13 +986,13 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'tbsp',
               category: 'liquid',
-              optional: true,
-            },
+              optional: true
+            }
           ],
           substitutions: {
             'sea bass': ['snapper', 'cod', 'tilapia'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
-            'chicken stock': ['vegetable stock', 'water'],
+            'chicken stock': ['vegetable stock', 'water']
           },
           servingSize: 4,
           allergens: ['fish'],
@@ -1009,7 +1009,7 @@ export const thai: Cuisine = {
             carbs: 8,
             fat: 12,
             vitamins: ['D', 'B12', 'C'],
-            minerals: ['Selenium', 'Omega-3'],
+            minerals: ['Selenium', 'Omega-3']
           },
           season: ['all'],
           mealType: ['dinner'],
@@ -1017,9 +1017,9 @@ export const thai: Cuisine = {
             Water: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Earth: 0.1,
-          },
-        },
+            Earth: 0.1
+          }
+        }
       ],
       summer: [
         {
@@ -1034,7 +1034,7 @@ export const thai: Cuisine = {
             'Shave ice',
             'Layer ingredients',
             'Add coconut milk',
-            'Serve immediately',
+            'Serve immediately'
           ],
           ingredients: [
             { name: 'shaved ice', amount: '4', unit: 'cups', category: 'ice' },
@@ -1044,12 +1044,12 @@ export const thai: Cuisine = {
             { name: 'red beans', amount: '100', unit: 'g', category: 'legume' },
             { name: 'grass jelly', amount: '100', unit: 'g', category: 'jelly' },
             { name: 'sweet corn', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' },
+            { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' }
           ],
           substitutions: {
             'palm seeds': ['lychee', 'longan'],
             'grass jelly': ['agar jelly', 'coconut jelly'],
-            'red beans': ['mung beans', 'black beans'],
+            'red beans': ['mung beans', 'black beans']
           },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
@@ -1057,7 +1057,7 @@ export const thai: Cuisine = {
           cookTime: '20 minutes',
           chillTime: '60 minutes',
           culturalNotes:
-            "A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing",
+            'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing',
           pairingSuggestions: ['Thai iced tea', 'additional coconut milk'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1067,7 +1067,7 @@ export const thai: Cuisine = {
             carbs: 65,
             fat: 8,
             vitamins: ['A', 'C'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['summer'],
           mealType: ['dessert'],
@@ -1075,8 +1075,8 @@ export const thai: Cuisine = {
             Water: 0.6,
             Air: 0.2,
             Earth: 0.1,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Yum Woon Sen',
@@ -1091,7 +1091,7 @@ export const thai: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'protein',
-              swaps: ['crumbled tempeh'],
+              swaps: ['crumbled tempeh']
             },
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' },
@@ -1102,9 +1102,9 @@ export const thai: Cuisine = {
               amount: '3',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
-            { name: 'Thai chilies', amount: '4', unit: 'pieces', category: 'spice' },
+            { name: 'Thai chilies', amount: '4', unit: 'pieces', category: 'spice' }
           ],
           nutrition: {
             calories: 420,
@@ -1112,7 +1112,7 @@ export const thai: Cuisine = {
             carbs: 45,
             fat: 12,
             vitamins: ['B12', 'C', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           timeToMake: '25 minutes',
           season: ['summer'],
@@ -1121,9 +1121,9 @@ export const thai: Cuisine = {
             Fire: 0.4,
             Water: 0.3,
             Air: 0.2,
-            Earth: 0.1,
-          },
-        },
+            Earth: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -1138,7 +1138,7 @@ export const thai: Cuisine = {
             'Add coconut milk',
             'Simmer with potatoes',
             'Add peanuts and tamarind',
-            'Season to taste',
+            'Season to taste'
           ],
           ingredients: [
             {
@@ -1146,7 +1146,7 @@ export const thai: Cuisine = {
               amount: '600',
               unit: 'g',
               category: 'protein',
-              swaps: ['jackfruit', 'seitan'],
+              swaps: ['jackfruit', 'seitan']
             },
             { name: 'massaman curry paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
@@ -1156,19 +1156,19 @@ export const thai: Cuisine = {
             { name: 'tamarind paste', amount: '2', unit: 'tbsp', category: 'seasoning' },
             { name: 'palm sugar', amount: '3', unit: 'tbsp', category: 'sweetener' },
             { name: 'cardamom pods', amount: '4', unit: 'pieces', category: 'spice' },
-            { name: 'cinnamon stick', amount: '1', unit: 'piece', category: 'spice' },
+            { name: 'cinnamon stick', amount: '1', unit: 'piece', category: 'spice' }
           ],
           substitutions: {
             'beef chuck': ['jackfruit', 'seitan', 'mushrooms'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
-            'tamarind paste': ['lime juice + brown sugar'],
+            'tamarind paste': ['lime juice + brown sugar']
           },
           servingSize: 6,
           allergens: ['peanuts', 'tree nuts (coconut)'],
           prepTime: '30 minutes',
           cookTime: '120 minutes',
           culturalNotes:
-            "A Thai adaptation of Persian cuisine, influenced by Muslim traders. The word 'massaman' is believed to refer to the Muslims who brought this style of curry to Thailand",
+            'A Thai adaptation of Persian cuisine, influenced by Muslim traders. The word 'massaman' is believed to refer to the Muslims who brought this style of curry to Thailand',
           pairingSuggestions: ['jasmine rice', 'roti', 'cucumber relish'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'mild',
@@ -1178,7 +1178,7 @@ export const thai: Cuisine = {
             carbs: 42,
             fat: 38,
             vitamins: ['B12', 'A', 'E'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
@@ -1186,8 +1186,8 @@ export const thai: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Water: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Tom Yum Goong Nam Khon',
@@ -1201,7 +1201,7 @@ export const thai: Cuisine = {
             'Add mushrooms',
             'Cook shrimp',
             'Add coconut milk',
-            'Season with lime and chili',
+            'Season with lime and chili'
           ],
           ingredients: [
             {
@@ -1209,7 +1209,7 @@ export const thai: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'protein',
-              swaps: ['king oyster mushrooms'],
+              swaps: ['king oyster mushrooms']
             },
             { name: 'straw mushrooms', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'lemongrass', amount: '3', unit: 'stalks', category: 'herb' },
@@ -1221,16 +1221,16 @@ export const thai: Cuisine = {
               amount: '200',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['coconut milk'],
+              swaps: ['coconut milk']
             },
             { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' },
             { name: 'nam prik pao', amount: '3', unit: 'tbsp', category: 'seasoning' },
-            { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' },
+            { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' }
           ],
           substitutions: {
             'tiger prawns': ['tofu', 'mushrooms', 'fish'],
             'evaporated milk': ['coconut milk', 'cashew cream'],
-            'nam prik pao': ['roasted chili paste', 'sambal oelek'],
+            'nam prik pao': ['roasted chili paste', 'sambal oelek']
           },
           servingSize: 4,
           allergens: ['shellfish', 'dairy'],
@@ -1247,7 +1247,7 @@ export const thai: Cuisine = {
             carbs: 18,
             fat: 22,
             vitamins: ['D', 'B12', 'C'],
-            minerals: ['Zinc', 'Iron'],
+            minerals: ['Zinc', 'Iron']
           },
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
@@ -1255,8 +1255,8 @@ export const thai: Cuisine = {
             Fire: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Gaeng Panang Neua',
@@ -1271,7 +1271,7 @@ export const thai: Cuisine = {
             'Cook beef until tender',
             'Add aromatics',
             'Season to taste',
-            'Finish with kaffir lime leaves',
+            'Finish with kaffir lime leaves'
           ],
           ingredients: [
             {
@@ -1279,7 +1279,7 @@ export const thai: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'protein',
-              swaps: ['seitan'],
+              swaps: ['seitan']
             },
             { name: 'panang curry paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'coconut cream', amount: '400', unit: 'ml', category: 'liquid' },
@@ -1292,14 +1292,14 @@ export const thai: Cuisine = {
               amount: '3',
               unit: 'tbsp',
               category: 'seasoning',
-              swaps: ['soy sauce'],
+              swaps: ['soy sauce']
             },
-            { name: 'peanuts', amount: '1/2', unit: 'cup', category: 'nuts' },
+            { name: 'peanuts', amount: '1/2', unit: 'cup', category: 'nuts' }
           ],
           substitutions: {
             'beef tenderloin': ['seitan', 'mushrooms', 'tofu'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
-            'palm sugar': ['coconut sugar', 'brown sugar'],
+            'palm sugar': ['coconut sugar', 'brown sugar']
           },
           servingSize: 4,
           allergens: ['peanuts', 'tree nuts (coconut)', 'fish'],
@@ -1316,7 +1316,7 @@ export const thai: Cuisine = {
             carbs: 22,
             fat: 45,
             vitamins: ['B12', 'E', 'K'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
@@ -1324,8 +1324,8 @@ export const thai: Cuisine = {
             Fire: 0.4,
             Earth: 0.3,
             Water: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Khao Soi Gai',
@@ -1339,7 +1339,7 @@ export const thai: Cuisine = {
             'Fry crispy noodles',
             'Cook chicken in curry',
             'Assemble with toppings',
-            'Serve with condiments',
+            'Serve with condiments'
           ],
           ingredients: [
             {
@@ -1347,14 +1347,14 @@ export const thai: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice noodles'],
+              swaps: ['rice noodles']
             },
             {
               name: 'chicken legs',
               amount: '600',
               unit: 'g',
               category: 'protein',
-              swaps: ['tofu'],
+              swaps: ['tofu']
             },
             { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
             { name: 'khao soi curry paste', amount: '5', unit: 'tbsp', category: 'seasoning' },
@@ -1362,14 +1362,14 @@ export const thai: Cuisine = {
             { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' },
             { name: 'pickled mustard greens', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' },
-            { name: 'chili oil', amount: '4', unit: 'tbsp', category: 'oil' },
+            { name: 'chili oil', amount: '4', unit: 'tbsp', category: 'oil' }
           ],
           substitutions: {
             'chicken legs': ['tofu', 'mushrooms', 'seitan'],
             'egg noodles': ['rice noodles', 'wheat noodles'],
             'pickled mustard greens': ['sauerkraut', 'kimchi'],
             lime: ['lemon', 'vinegar'],
-            'chili oil': ['sriracha', 'sambal'],
+            'chili oil': ['sriracha', 'sambal']
           },
           servingSize: 4,
           allergens: ['eggs', 'wheat', 'tree nuts (coconut)'],
@@ -1386,7 +1386,7 @@ export const thai: Cuisine = {
             carbs: 65,
             fat: 42,
             vitamins: ['A', 'D', 'K'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner'],
@@ -1394,10 +1394,10 @@ export const thai: Cuisine = {
             Water: 0.3,
             Fire: 0.3,
             Earth: 0.2,
-            Air: 0.2,
-          },
-        },
-      ],
+            Air: 0.2
+          }
+        }
+      ]
     },
     dessert: {
       all: [
@@ -1411,14 +1411,14 @@ export const thai: Cuisine = {
             'pot',
             'cheesecloth or steamer basket',
             'saucepan',
-            'knife',
+            'knife'
           ],
           preparationSteps: [
             'Soak sticky rice',
             'Steam sticky rice',
             'Prepare coconut sauce',
             'Cut fresh mango',
-            'Combine and serve',
+            'Combine and serve'
           ],
           ingredients: [
             { name: 'sticky rice', amount: '2', unit: 'cups', category: 'grain' },
@@ -1429,7 +1429,7 @@ export const thai: Cuisine = {
               amount: '1/2',
               unit: 'cup',
               category: 'sweetener',
-              swaps: ['coconut sugar'],
+              swaps: ['coconut sugar']
             },
             { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' },
             {
@@ -1437,13 +1437,13 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'pieces',
               category: 'herb',
-              optional: true,
-            },
+              optional: true
+            }
           ],
           substitutions: {
             'palm sugar': ['coconut sugar', 'raw sugar'],
             'pandan leaves': ['vanilla extract'],
-            'fresh mango': ['ripe peaches', 'sweet papaya'],
+            'fresh mango': ['ripe peaches', 'sweet papaya']
           },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
@@ -1451,7 +1451,7 @@ export const thai: Cuisine = {
           cookTime: '30 minutes',
           soakTime: '4 hours',
           culturalNotes:
-            "Thailand's most famous dessert, traditionally eaten during mango season. The combination of sweet sticky rice and ripe mango represents the perfect harmony of flavors and textures",
+            'Thailand's most famous dessert, traditionally eaten during mango season. The combination of sweet sticky rice and ripe mango represents the perfect harmony of flavors and textures',
           pairingSuggestions: ['Thai iced tea', 'fresh coconut water'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1461,7 +1461,7 @@ export const thai: Cuisine = {
             carbs: 72,
             fat: 10,
             vitamins: ['A', 'C'],
-            minerals: ['Potassium', 'Manganese'],
+            minerals: ['Potassium', 'Manganese']
           },
           season: ['spring', 'summer'],
           mealType: ['dessert'],
@@ -1469,8 +1469,8 @@ export const thai: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Tub Tim Grob',
@@ -1484,7 +1484,7 @@ export const thai: Cuisine = {
             'Cook in boiling water',
             'Prepare coconut syrup',
             'Chill components',
-            'Assemble with crushed ice',
+            'Assemble with crushed ice'
           ],
           ingredients: [
             { name: 'water chestnuts', amount: '200', unit: 'g', category: 'vegetable' },
@@ -1494,17 +1494,17 @@ export const thai: Cuisine = {
               amount: '1',
               unit: 'tsp',
               category: 'coloring',
-              optional: true,
+              optional: true
             },
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
             { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'jackfruit', amount: '100', unit: 'g', category: 'fruit', optional: true },
-            { name: 'crushed ice', amount: '2', unit: 'cups', category: 'ice' },
+            { name: 'crushed ice', amount: '2', unit: 'cups', category: 'ice' }
           ],
           substitutions: {
             'water chestnuts': ['jicama', 'Asian pear'],
             'palm sugar': ['coconut sugar', 'raw sugar'],
-            jackfruit: ['lychee', 'longan'],
+            jackfruit: ['lychee', 'longan']
           },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
@@ -1512,7 +1512,7 @@ export const thai: Cuisine = {
           cookTime: '10 minutes',
           chillTime: '60 minutes',
           culturalNotes:
-            "A refreshing dessert popular during hot season. The name 'tub tim' means ruby, referring to the red coloring of the water chestnuts",
+            'A refreshing dessert popular during hot season. The name 'tub tim' means ruby, referring to the red coloring of the water chestnuts',
           pairingSuggestions: ['Thai iced tea', 'fresh young coconut'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1522,7 +1522,7 @@ export const thai: Cuisine = {
             carbs: 45,
             fat: 16,
             vitamins: ['E', 'K'],
-            minerals: ['Manganese', 'Copper'],
+            minerals: ['Manganese', 'Copper']
           },
           season: ['summer'],
           mealType: ['dessert'],
@@ -1530,8 +1530,8 @@ export const thai: Cuisine = {
             Water: 0.5,
             Earth: 0.2,
             Air: 0.2,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Bua Loi',
@@ -1545,7 +1545,7 @@ export const thai: Cuisine = {
             'Roll into small balls',
             'Boil dumplings',
             'Prepare coconut sauce',
-            'Combine and serve warm',
+            'Combine and serve warm'
           ],
           ingredients: [
             { name: 'glutinous rice flour', amount: '200', unit: 'g', category: 'flour' },
@@ -1554,24 +1554,24 @@ export const thai: Cuisine = {
               amount: '1',
               unit: 'tsp',
               category: 'flavoring',
-              optional: true,
+              optional: true
             },
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
             { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' },
-            { name: 'ginger', amount: '2', unit: 'slices', category: 'spice', optional: true },
+            { name: 'ginger', amount: '2', unit: 'slices', category: 'spice', optional: true }
           ],
           substitutions: {
             'glutinous rice flour': ['regular rice flour', 'tapioca starch'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
-            'pandan extract': ['vanilla extract'],
+            'pandan extract': ['vanilla extract']
           },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
           prepTime: '25 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            "A comforting dessert often served during festivals and special occasions. The name means 'floating lotus' in Thai, referring to the dumpling's shape",
+            'A comforting dessert often served during festivals and special occasions. The name means 'floating lotus' in Thai, referring to the dumpling's shape',
           pairingSuggestions: ['ginger tea', 'Chinese donuts'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1581,7 +1581,7 @@ export const thai: Cuisine = {
             carbs: 48,
             fat: 10,
             vitamins: ['E'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['all'],
           mealType: ['dessert'],
@@ -1589,8 +1589,8 @@ export const thai: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Sangkaya Fak Thong',
@@ -1604,7 +1604,7 @@ export const thai: Cuisine = {
             'Fill pumpkin',
             'Steam until set',
             'Cool slightly',
-            'Slice and serve',
+            'Slice and serve'
           ],
           ingredients: [
             { name: 'kabocha pumpkin', amount: '1', unit: 'medium', category: 'vegetable' },
@@ -1616,14 +1616,14 @@ export const thai: Cuisine = {
               amount: '2',
               unit: 'pieces',
               category: 'herb',
-              optional: true,
+              optional: true
             },
-            { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' },
+            { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
             'kabocha pumpkin': ['butternut squash', 'acorn squash'],
             'palm sugar': ['coconut sugar', 'brown sugar'],
-            'pandan leaves': ['vanilla extract'],
+            'pandan leaves': ['vanilla extract']
           },
           servingSize: 8,
           allergens: ['eggs', 'tree nuts (coconut)'],
@@ -1640,7 +1640,7 @@ export const thai: Cuisine = {
             carbs: 28,
             fat: 12,
             vitamins: ['A', 'E'],
-            minerals: ['Potassium', 'Iron'],
+            minerals: ['Potassium', 'Iron']
           },
           season: ['autumn', 'winter'],
           mealType: ['dessert'],
@@ -1648,9 +1648,9 @@ export const thai: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          },
-        },
+            Fire: 0.1
+          }
+        }
       ],
       summer: [
         {
@@ -1665,7 +1665,7 @@ export const thai: Cuisine = {
             'Shave ice',
             'Layer ingredients',
             'Add coconut milk',
-            'Serve immediately',
+            'Serve immediately'
           ],
           ingredients: [
             { name: 'shaved ice', amount: '4', unit: 'cups', category: 'ice' },
@@ -1675,12 +1675,12 @@ export const thai: Cuisine = {
             { name: 'red beans', amount: '100', unit: 'g', category: 'legume' },
             { name: 'grass jelly', amount: '100', unit: 'g', category: 'jelly' },
             { name: 'sweet corn', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' },
+            { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' }
           ],
           substitutions: {
             'palm seeds': ['lychee', 'longan'],
             'grass jelly': ['agar jelly', 'coconut jelly'],
-            'red beans': ['mung beans', 'black beans'],
+            'red beans': ['mung beans', 'black beans']
           },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
@@ -1688,7 +1688,7 @@ export const thai: Cuisine = {
           cookTime: '20 minutes',
           chillTime: '60 minutes',
           culturalNotes:
-            "A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing",
+            'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing',
           pairingSuggestions: ['Thai iced tea', 'additional coconut milk'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1698,7 +1698,7 @@ export const thai: Cuisine = {
             carbs: 65,
             fat: 8,
             vitamins: ['A', 'C'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['summer'],
           mealType: ['dessert'],
@@ -1706,10 +1706,10 @@ export const thai: Cuisine = {
             Water: 0.6,
             Air: 0.2,
             Earth: 0.1,
-            Fire: 0.1,
-          },
-        },
-      ],
+            Fire: 0.1
+          }
+        }
+      ]
     },
     snacks: {
       all: [
@@ -1725,7 +1725,7 @@ export const thai: Cuisine = {
             'Heat oil',
             'Fry until golden',
             'Drain excess oil',
-            'Serve hot',
+            'Serve hot'
           ],
           ingredients: [
             { name: 'ripe bananas', amount: '8', unit: 'medium', category: 'fruit' },
@@ -1733,12 +1733,12 @@ export const thai: Cuisine = {
             { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' },
             { name: 'sesame seeds', amount: '2', unit: 'tbsp', category: 'seed' },
             { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
-            { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' },
+            { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
             'rice flour': ['all-purpose flour', 'gluten-free flour blend'],
             'coconut milk': ['regular milk', 'plant-based milk'],
-            bananas: ['plantains', 'sweet potato'],
+            bananas: ['plantains', 'sweet potato']
           },
           servingSize: 4,
           allergens: ['tree nuts (coconut)', 'sesame'],
@@ -1755,7 +1755,7 @@ export const thai: Cuisine = {
             carbs: 45,
             fat: 12,
             vitamins: ['B6', 'C'],
-            minerals: ['Potassium', 'Magnesium'],
+            minerals: ['Potassium', 'Magnesium']
           },
           season: ['all'],
           mealType: ['snack', 'dessert'],
@@ -1763,11 +1763,11 @@ export const thai: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1,
-          },
-        },
-      ],
-    },
+            Water: 0.1
+          }
+        }
+      ]
+    }
   },
   traditionalSauces: {
     namPlaWaan: {
@@ -1781,13 +1781,13 @@ export const thai: Cuisine = {
         Water: 0.4,
         Fire: 0.3,
         Earth: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
       preparationNotes:
         'Balance is key - should achieve equal sweet, sour, and salty notes with heat according to preference',
-      technicalTips: 'Palm sugar can be melted with a little water to help it dissolve more easily',
+      technicalTips: 'Palm sugar can be melted with a little water to help it dissolve more easily'
     },
     namPhrik: {
       name: 'Nam Phrik (Chili Paste)',
@@ -1799,7 +1799,7 @@ export const thai: Cuisine = {
         'garlic',
         'shallots',
         'fermented shrimp paste',
-        'lime juice',
+        'lime juice'
       ],
       culinaryUses: ['flavor base', 'dipping sauce', 'stir-fry paste', 'marinade', 'soup enhancer'],
       variants: [
@@ -1807,31 +1807,31 @@ export const thai: Cuisine = {
         'Nam Phrik Ong',
         'Nam Phrik Kapi',
         'Nam Phrik Pao',
-        'Nam Phrik Narok',
+        'Nam Phrik Narok'
       ],
       elementalProperties: {
         Fire: 0.6,
         Earth: 0.2,
         Water: 0.1,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes:
         'Traditional preparation involves pounding in a mortar and pestle to develop complex flavors',
       technicalTips:
-        'Roasting ingredients before pounding enhances aroma and reduces raw spiciness',
+        'Roasting ingredients before pounding enhances aroma and reduces raw spiciness'
     },
     padThaiSauce: {
       name: 'Pad Thai Sauce',
-      description: "Sweet-sour-salty sauce that defines Thailand's most famous noodle dish",
+      description: 'Sweet-sour-salty sauce that defines Thailand's most famous noodle dish',
       base: 'tamarind paste',
       keyIngredients: [
         'tamarind paste',
         'fish sauce',
         'palm sugar',
         'rice vinegar',
-        'preserved radish',
+        'preserved radish'
       ],
       culinaryUses: ['noodle sauce', 'stir-fry sauce', 'marinade', 'dressing', 'glaze'],
       variants: ['Traditional', 'Vegetarian/Vegan', 'Spicy', 'Royal-style', 'Street vendor style'],
@@ -1839,14 +1839,14 @@ export const thai: Cuisine = {
         Earth: 0.4,
         Water: 0.3,
         Fire: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Venus', 'Mercury', 'Taurus'],
       seasonality: 'all',
       preparationNotes:
         'Balance of sour from tamarind, sweet from palm sugar, and salty from fish sauce is crucial',
       technicalTips:
-        'Prepare in advance and reduce to concentrate flavors before adding to noodles',
+        'Prepare in advance and reduce to concentrate flavors before adding to noodles'
     },
     currySauces: {
       name: 'Curry Pastes/Sauces',
@@ -1859,7 +1859,7 @@ export const thai: Cuisine = {
         'kaffir lime',
         'shallots',
         'garlic',
-        'shrimp paste',
+        'shrimp paste'
       ],
       culinaryUses: ['curry base', 'stir-fry paste', 'marinade', 'flavor enhancer', 'soup base'],
       variants: [
@@ -1867,20 +1867,20 @@ export const thai: Cuisine = {
         'Red (Kaeng Phet)',
         'Yellow (Kaeng Kari)',
         'Massaman',
-        'Panang',
+        'Panang'
       ],
       elementalProperties: {
         Fire: 0.4,
         Earth: 0.3,
         Water: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Jupiter', 'Leo'],
       seasonality: 'all',
       preparationNotes:
         'Traditional preparation requires significant time pounding ingredients to release oils and flavor compounds',
       technicalTips:
-        'Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates',
+        'Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates'
     },
     srirachaSauce: {
       name: 'Sriracha Sauce',
@@ -1893,27 +1893,27 @@ export const thai: Cuisine = {
         'marinade component',
         'stir-fry addition',
         'dipping sauce',
-        'flavor enhancer',
+        'flavor enhancer'
       ],
       variants: [
         'Original Thai style',
         'Vietnamese style',
         'American style',
         'Extra garlic',
-        'Aged version',
+        'Aged version'
       ],
       elementalProperties: {
         Fire: 0.5,
         Water: 0.2,
         Earth: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Mercury', 'Sagittarius'],
       seasonality: 'all',
       preparationNotes:
         'Traditional Thai version is tangier and thinner than the popular American version',
-      technicalTips: 'Fermentation develops depth of flavor beyond simple chili heat',
-    },
+      technicalTips: 'Fermentation develops depth of flavor beyond simple chili heat'
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1924,16 +1924,16 @@ export const thai: Cuisine = {
         'massaman curry',
         'nam jim jaew',
         'oyster sauce blend',
-        'panang curry',
+        'panang curry'
       ],
       seafood: [
         'seafood nam jim',
         'yellow curry',
         'lime-chili-garlic sauce',
         'sweet fish sauce',
-        'green curry',
+        'green curry'
       ],
-      tofu: ['peanut sauce', 'massaman curry', 'sweet soy glaze', 'tamarind sauce', 'red curry'],
+      tofu: ['peanut sauce', 'massaman curry', 'sweet soy glaze', 'tamarind sauce', 'red curry']
     },
     forVegetable: {
       leafy: ['nam jim', 'sweet fish sauce', 'sesame-soy dressing', 'coconut-lime', 'peanut sauce'],
@@ -1942,7 +1942,7 @@ export const thai: Cuisine = {
         'massaman curry',
         'ginger sauce',
         'tamarind glaze',
-        'sweet fish sauce',
+        'sweet fish sauce'
       ],
       fruiting: ['nam pla wan', 'sriracha-lime', 'sweet chili sauce', 'nam phrik', 'lime dressing'],
       herbs: [
@@ -1950,15 +1950,15 @@ export const thai: Cuisine = {
         'simple fish sauce',
         'lime dressing',
         'chili oil',
-        'garlic-pepper sauce',
+        'garlic-pepper sauce'
       ],
       mushroom: [
         'oyster sauce blend',
         'nam prik pao',
         'golden mountain sauce',
         'black pepper sauce',
-        'light soy',
-      ],
+        'light soy'
+      ]
     },
     forCookingMethod: {
       grilling: [
@@ -1966,30 +1966,30 @@ export const thai: Cuisine = {
         'nam jim seafood',
         'tamarind glaze',
         'sriracha marinade',
-        'sweet fish sauce',
+        'sweet fish sauce'
       ],
       stirFrying: [
         'pad thai sauce',
         'oyster sauce blend',
         'holy basil sauce',
         'black pepper sauce',
-        'golden mountain',
+        'golden mountain'
       ],
       steaming: [
         'lime-garlic-chili',
         'ginger sauce',
         'soy-sesame',
         'nam jim',
-        'seafood dipping sauce',
+        'seafood dipping sauce'
       ],
       currying: [
         'curry pastes with coconut milk',
         'massaman curry',
         'panang curry',
         'jungle curry',
-        'khao soi',
+        'khao soi'
       ],
-      salads: ['som tam dressing', 'yam dressing', 'larb dressing', 'nam tok', 'plaa dressing'],
+      salads: ['som tam dressing', 'yam dressing', 'larb dressing', 'nam tok', 'plaa dressing']
     },
     byAstrological: {
       fire: ['nam phrik', 'jungle curry', 'dried chili dip', 'sriracha', 'prik king'],
@@ -1998,22 +1998,22 @@ export const thai: Cuisine = {
         'nam jim seafood',
         'coconut-based sauces',
         'fish sauce blends',
-        'herb infusions',
+        'herb infusions'
       ],
       earth: [
         'massaman curry',
         'peanut sauce',
         'tamarind-based sauces',
         'nam phrik ong',
-        'sweet soy',
+        'sweet soy'
       ],
       air: [
         'lime-based dressings',
         'herb-infused oils',
         'light nam pla prik',
         'citrus vinaigrettes',
-        'lemongrass dips',
-      ],
+        'lemongrass dips'
+      ]
     },
     byRegion: {
       northern: ['nam phrik num', 'nam phrik ong', 'jaew bong', 'sai ua paste', 'hang lay curry'],
@@ -2022,7 +2022,7 @@ export const thai: Cuisine = {
         'som tam sauce',
         'larb dressing',
         'fermented fish sauce',
-        'tamarind dipping',
+        'tamarind dipping'
       ],
       central: ['green curry', 'red curry', 'nam prik kapi', 'pad thai sauce', 'sweet chili sauce'],
       southern: [
@@ -2030,8 +2030,8 @@ export const thai: Cuisine = {
         'khua kling paste',
         'nam phrik goong siap',
         'sator sauce',
-        'gaeng tai pla',
-      ],
+        'gaeng tai pla'
+      ]
     },
     byDietary: {
       vegetarian: [
@@ -2039,40 +2039,40 @@ export const thai: Cuisine = {
         'sweet soy glaze',
         'tamarind sauce',
         'mushroom sauce',
-        'coconut curry',
+        'coconut curry'
       ],
       vegan: [
         'lime-herb dressing',
         'tamarind-based sauces',
         'vegetable curry',
         'sesame-soy dressing',
-        'chili jam',
+        'chili jam'
       ],
       glutenFree: [
         'nam jim',
         'green curry',
         'herb infusions',
         'fish sauce-based',
-        'coconut-based sauces',
+        'coconut-based sauces'
       ],
       dairyFree: [
         'all traditional Thai sauces',
         'curry pastes',
         'oil-based dressings',
         'chili dips',
-        'herb infused oils',
-      ],
-    },
+        'herb infused oils'
+      ]
+    }
   },
   cookingTechniques: [
     {
       name: 'Wok Cooking (Pad)',
       description:
-        "Fast high-heat stir-frying that preserves texture and creates 'wok hei' or breath of the wok",
+        'Fast high-heat stir-frying that preserves texture and creates 'wok hei' or breath of the wok',
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['wok', 'wok spatula', 'high BTU burner', 'spider strainer', 'cleaver'],
       bestFor: ['stir-fries', 'noodle dishes', 'quick curries', 'fried rice', 'sautéed vegetables'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Pounding (Tam/Dtam)',
@@ -2081,7 +2081,7 @@ export const thai: Cuisine = {
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
       toolsRequired: ['clay or stone mortar', 'wooden pestle', 'preparation bowls', 'strainer'],
       bestFor: ['curry pastes', 'som tam', 'nam prik', 'herb pastes', 'spice blends'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Steaming (Neung)',
@@ -2089,7 +2089,7 @@ export const thai: Cuisine = {
       elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ['bamboo steamer', 'wok', 'cheesecloth', 'banana leaves', 'steamer rack'],
       bestFor: ['fish', 'custards', 'dumplings', 'sticky rice', 'certain vegetables'],
-      difficulty: 'easy',
+      difficulty: 'easy'
     },
     {
       name: 'Grilling (Yang)',
@@ -2097,7 +2097,7 @@ export const thai: Cuisine = {
       elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['charcoal grill', 'bamboo skewers', 'banana leaf wrappers', 'basting brush'],
       bestFor: ['marinated meats', 'fish', 'skewered foods', 'vegetables', 'sticky rice in bamboo'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Curry Making (Gaeng)',
@@ -2109,11 +2109,11 @@ export const thai: Cuisine = {
         'heavy pot',
         'coconut press',
         'strainer',
-        'wooden spoons',
+        'wooden spoons'
       ],
       bestFor: ['coconut-based curries', 'clear spicy soups', 'braised dishes', 'complex stews'],
-      difficulty: 'hard',
-    },
+      difficulty: 'hard'
+    }
   ],
   regionalCuisines: [
     {
@@ -2126,7 +2126,7 @@ export const thai: Cuisine = {
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       culturalInfluences: ['Lanna Kingdom', 'Burmese', 'Chinese Yunnan', 'Lao'],
       philosophicalFoundations:
-        'Connected to Lanna traditions with an emphasis on communal dining and seasonal ingredients',
+        'Connected to Lanna traditions with an emphasis on communal dining and seasonal ingredients'
     },
     {
       name: 'Northeastern Thai (Isaan)',
@@ -2139,13 +2139,13 @@ export const thai: Cuisine = {
         'lime',
         'fish sauce',
         'fresh herbs',
-        'fermented fish',
+        'fermented fish'
       ],
       cookingTechniques: ['grilling', 'pounding', 'fermenting', 'raw preparations'],
       elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 },
       culturalInfluences: ['Lao', 'Khmer', 'Vietnamese'],
       philosophicalFoundations:
-        'Emphasizes simple, straightforward preparations that highlight fresh ingredients',
+        'Emphasizes simple, straightforward preparations that highlight fresh ingredients'
     },
     {
       name: 'Central Thai',
@@ -2158,13 +2158,13 @@ export const thai: Cuisine = {
         'palm sugar',
         'fish sauce',
         'chilies',
-        'galangal',
+        'galangal'
       ],
       cookingTechniques: ['stir-frying', 'curry making', 'deep-frying', 'slow simmering'],
       elementalProperties: { Water: 0.3, Fire: 0.3, Earth: 0.2, Air: 0.2 },
       culturalInfluences: ['Royal Thai Court', 'Chinese', 'Persian', 'Portuguese'],
       philosophicalFoundations:
-        'Balance and refinement from royal court traditions, with elaborate preparations',
+        'Balance and refinement from royal court traditions, with elaborate preparations'
     },
     {
       name: 'Southern Thai',
@@ -2175,20 +2175,20 @@ export const thai: Cuisine = {
         'Khua Kling',
         'Gaeng Som',
         'Sataw Pad Kapi Goong',
-        'Khao Yam',
+        'Khao Yam'
       ],
       keyIngredients: [
         'seafood',
         'turmeric',
-        "southern bird's eye chilies",
+        'southern bird's eye chilies',
         'sator beans',
-        'coconut',
+        'coconut'
       ],
       cookingTechniques: ['slow cooking', 'dry currying', 'stewing', 'fermenting'],
       elementalProperties: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
       culturalInfluences: ['Malay', 'Indonesian', 'Indian'],
       philosophicalFoundations:
-        'Bold approach to flavor showcasing heat, pungency, and freshness of local ingredients',
+        'Bold approach to flavor showcasing heat, pungency, and freshness of local ingredients'
     },
     {
       name: 'Royal Thai Cuisine',
@@ -2200,21 +2200,21 @@ export const thai: Cuisine = {
         'coconut cream',
         'palm sugar',
         'edible flowers',
-        'aromatic spices',
+        'aromatic spices'
       ],
       cookingTechniques: ['carving', 'intricate presentation', 'reduction', 'slow cooking'],
       elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 },
       culturalInfluences: ['Thai Royal Court', 'Ayutthaya Kingdom', 'Persian', 'European'],
       philosophicalFoundations:
-        'Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation',
-    },
+        'Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation'
+    }
   ],
   elementalProperties: {
     Fire: 0.35, // Represents spicy elements, chili heat, and grilling techniques
     Water: 0.25, // Represents soups, coconut-based dishes, and steaming
     Earth: 0.25, // Represents grains, proteins, and root vegetables
     Air: 0.15, // Represents herbs, aromatics, and light textures
-  },
+  }
 };
 
 export default thai;

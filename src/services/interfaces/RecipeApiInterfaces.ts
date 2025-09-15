@@ -11,7 +11,7 @@ import {
   ZodiacSign,
   LunarPhase,
   PlanetName,
-  ElementalProperties,
+  ElementalProperties
 } from '@/types/alchemy';
 import { PlanetaryAlignment } from '@/types/celestial';
 import { Recipe } from '@/types/recipe';
@@ -45,11 +45,11 @@ export interface ApiResponse<T> {
  * Recipe-specific error codes
  */
 export enum RecipeErrorCode {
-  NOT_FOUND = 'RECIPE_NOT_FOUND',
-  INVALID_PARAMETERS = 'INVALID_PARAMETERS',
-  PROCESSING_ERROR = 'PROCESSING_ERROR',
-  DATA_SOURCE_ERROR = 'DATA_SOURCE_ERROR',
-  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  NOT_FOUND = 'RECIPE_NOT_FOUND',;
+  INVALID_PARAMETERS = 'INVALID_PARAMETERS',;
+  PROCESSING_ERROR = 'PROCESSING_ERROR',;
+  DATA_SOURCE_ERROR = 'DATA_SOURCE_ERROR',;
+  VALIDATION_ERROR = 'VALIDATION_ERROR',;
 }
 
 /**

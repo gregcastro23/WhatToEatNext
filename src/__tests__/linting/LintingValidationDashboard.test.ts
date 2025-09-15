@@ -41,7 +41,7 @@ describe('LintingValidationDashboard', () => {
         return JSON.stringify({
           thresholds: [],
           alertingEnabled: true,
-          regressionDetectionEnabled: true,
+          regressionDetectionEnabled: true
         });
       }
       if (path.includes('history.json')) {
@@ -66,16 +66,16 @@ describe('LintingValidationDashboard', () => {
               severity: 2,
               message: 'Unexpected any',
               line: 10,
-              column: 5,
+              column: 5
             },
             {
               ruleId: 'import/order',
               severity: 1,
               message: 'Import order incorrect',
               line: 1,
-              column: 1,
-            },
-          ],
+              column: 1
+            }
+          ]
         },
         {
           filePath: '/src/calculations/astrology.ts',
@@ -85,10 +85,10 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Unused variable',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -118,7 +118,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should categorize domain-specific issues correctly', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/calculations/culinary/astrology.ts',
           messages: [
@@ -127,9 +127,9 @@ describe('LintingValidationDashboard', () => {
               severity: 2,
               message: 'Unexpected any',
               line: 10,
-              column: 5,
-            },
-          ],
+              column: 5
+            }
+          ]
         },
         {
           filePath: '/src/services/campaign/CampaignController.ts',
@@ -139,9 +139,9 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Console statement',
               line: 15,
-              column: 8,
-            },
-          ],
+              column: 8
+            }
+          ]
         },
         {
           filePath: '/src/__tests__/validation/test.spec.ts',
@@ -151,10 +151,10 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Unused variable',
               line: 5,
-              column: 10,
-            },
-          ],
-        },
+              column: 10
+            }
+          ]
+        }
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -178,10 +178,10 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Import order incorrect',
               line: 1,
-              column: 1,
-            },
-          ],
-        },
+              column: 1
+            }
+          ]
+        }
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -191,7 +191,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should penalize quality score for parser errors', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -201,10 +201,10 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
-          ],
-        },
+              column: 1
+            }
+          ]
+        }
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -215,7 +215,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should penalize quality score for explicit any errors', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -223,9 +223,9 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
-        ],
+            column: 5
+          }
+        ]
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -238,7 +238,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Alert Generation', () => {
     test('should generate critical alert for parser errors', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -248,10 +248,10 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
-          ],
-        },
+              column: 1
+            }
+          ]
+        }
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -263,7 +263,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate error alert for excessive explicit any', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -271,9 +271,9 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
-        ],
+            column: 5
+          }
+        ]
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -304,14 +304,14 @@ describe('LintingValidationDashboard', () => {
   describe('Regression Analysis', () => {
     test('should detect regression when issues increase', async () => {
       // Mock historical data with fewer issues
-      const historicalMetrics: any = [
+      const historicalMetrics: any = [;
         {
           timestamp: new Date(Date.now() - 86400000), // 1 day ago,
           totalIssues: 100,
           qualityScore: 85,
           parserErrors: 0,
-          explicitAnyErrors: 50,
-        },
+          explicitAnyErrors: 50
+        }
       ];
 
       mockReadFileSync.mockImplementation((path: string) => {
@@ -322,7 +322,7 @@ describe('LintingValidationDashboard', () => {
       });
 
       // Mock current results with more issues
-      const mockLintResults: any = Array.from({ length: 200 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 200 }, (_, i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -330,9 +330,9 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
-        ],
+            column: 5
+          }
+        ]
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -364,7 +364,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Recommendations Generation', () => {
     test('should generate parser error recommendations', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -374,10 +374,10 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
-          ],
-        },
+              column: 1
+            }
+          ]
+        }
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -388,7 +388,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate explicit any recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -396,9 +396,9 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
-        ],
+            column: 5
+          }
+        ]
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -409,7 +409,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate import organization recommendations', async () => {
-      const mockLintResults = Array.from({ length: 60 }, (_, i) => ({
+      const mockLintResults = Array.from({ length: 60 }, (_, i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -417,9 +417,9 @@ describe('LintingValidationDashboard', () => {
             severity: 1,
             message: 'Import order incorrect',
             line: 1,
-            column: 1,
-          },
-        ],
+            column: 1
+          }
+        ]
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -430,7 +430,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate domain-specific recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 25 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 25 }, (_, i) => ({;
         filePath: `/src/calculations/astrology/calculation${i}.ts`,
         messages: [
           {
@@ -438,9 +438,9 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
-        ],
+            column: 5
+          }
+        ]
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -552,7 +552,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Integration with Alerting System', () => {
     test('should process alerts through alerting system', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -562,10 +562,10 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
-          ],
-        },
+              column: 1
+            }
+          ]
+        }
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
@@ -599,7 +599,7 @@ describe('LintingAlertingSystem', () => {
         channels: [{ typ, e: 'console', config: {}, severityFilter: ['error', 'critical'] }],
         regressionDetection: { enable, d: true, sensitivity: 'medium', cooldownPeriod: 15 },
         performanceMonitoring: { enable, d: true, thresholds: [] },
-        autoResponse: { enable, d: true, actions: [] },
+        autoResponse: { enable, d: true, actions: [] }
       });
     });
 
@@ -608,7 +608,7 @@ describe('LintingAlertingSystem', () => {
 
   describe('Alert Processing', () => {
     test('should process alerts when enabled', async () => {
-      const mockAlerts: any = [
+      const mockAlerts: any = [;
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -617,11 +617,11 @@ describe('LintingAlertingSystem', () => {
           currentValue: 1,
           threshold: 0,
           message: 'Parser errors detected',
-          resolved: false,
-        },
+          resolved: false
+        }
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -633,15 +633,15 @@ describe('LintingAlertingSystem', () => {
         consoleStatements: 0,
         domainSpecificIssues: { astrologicalCalculations: 0,
           campaignSystem: 0,
-          testFiles: 0,
+          testFiles: 0
         },
         performanceMetrics: { lintingDuration: 5000,
           cacheHitRate: 0.75,
           memoryUsage: 256,
-          filesProcessed: 100,
+          filesProcessed: 100
         },
         qualityScore: 85,
-        regressionDetected: false,
+        regressionDetected: false
       };
 
       // Should not throw
@@ -656,13 +656,13 @@ describe('LintingAlertingSystem', () => {
           channels: [],
           regressionDetection: { enable, d: false },
           performanceMonitoring: { enable, d: false },
-          autoResponse: { enable, d: false },
+          autoResponse: { enable, d: false }
         });
       });
 
       const disabledAlerting: any = new LintingAlertingSystem();
 
-      const mockAlerts: any = [
+      const mockAlerts: any = [;
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -671,11 +671,11 @@ describe('LintingAlertingSystem', () => {
           currentValue: 1,
           threshold: 0,
           message: 'Parser errors detected',
-          resolved: false,
-        },
+          resolved: false
+        }
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -687,15 +687,15 @@ describe('LintingAlertingSystem', () => {
         consoleStatements: 0,
         domainSpecificIssues: { astrologicalCalculations: 0,
           campaignSystem: 0,
-          testFiles: 0,
+          testFiles: 0
         },
         performanceMetrics: { lintingDuration: 5000,
           cacheHitRate: 0.75,
           memoryUsage: 256,
-          filesProcessed: 100,
+          filesProcessed: 100
         },
         qualityScore: 85,
-        regressionDetected: false,
+        regressionDetected: false
       };
 
       // Should complete quickly when disabled
@@ -705,7 +705,7 @@ describe('LintingAlertingSystem', () => {
 
   describe('Performance Monitoring', () => {
     test('should detect performance threshold violations', async () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 0,
         errors: 0,
         warnings: 0,
@@ -717,15 +717,15 @@ describe('LintingAlertingSystem', () => {
         consoleStatements: 0,
         domainSpecificIssues: { astrologicalCalculations: 0,
           campaignSystem: 0,
-          testFiles: 0,
+          testFiles: 0
         },
         performanceMetrics: { lintingDuration: 35000, // Exceeds 30s threshold
           cacheHitRate: 0.3, // Below 50% threshold
           memoryUsage: 600, // Exceeds 512MB threshold
-          filesProcessed: 100,
+          filesProcessed: 100
         },
         qualityScore: 85,
-        regressionDetected: false,
+        regressionDetected: false
       };
 
       // Should process performance monitoring

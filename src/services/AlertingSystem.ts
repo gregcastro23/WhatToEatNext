@@ -111,7 +111,7 @@ class AlertingSystem {
       }
 
       const configPath = path.join(settingsDir, 'alerting-config.json');
-      const config = {
+      const config = {;
         alertRules: this.alertRules,
         escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts
@@ -125,7 +125,7 @@ class AlertingSystem {
   }
 
   private initializeDefaultRules() {
-    if (this.alertRules.length === 0) {
+    if (this.alertRules.length === 0) {;
       const defaultRules: AlertRule[] = [
         {
           id: 'build-time-critical',
@@ -148,7 +148,7 @@ class AlertingSystem {
               config: { script: 'analyze-build-performance.js' },
               conditions: [],
               retryCount: 2,
-              timeoutSeconds: 300,
+              timeoutSeconds: 300
             },
             {
               id: 'clear-build-cache',
@@ -157,10 +157,10 @@ class AlertingSystem {
               config: { command: 'yarn cache clean' },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 60,
-            },
+              timeoutSeconds: 60
+            }
           ],
-          notificationChannels: ['console', 'file'],
+          notificationChannels: ['console', 'file']
         },
         {
           id: 'typescript-errors-high',
@@ -183,14 +183,14 @@ class AlertingSystem {
               config: {
                 campaignType: 'typescript-error-reduction',
                 maxFiles: 20,
-                safetyLevel: 'HIGH',
+                safetyLevel: 'HIGH'
               },
               conditions: ['error_count > 500'],
               retryCount: 1,
-              timeoutSeconds: 1800,
-            },
+              timeoutSeconds: 1800
+            }
           ],
-          notificationChannels: ['console', 'file'],
+          notificationChannels: ['console', 'file']
         },
         {
           id: 'code-quality-low',
@@ -213,10 +213,10 @@ class AlertingSystem {
               config: { script: 'generate-quality-report.js' },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 120,
-            },
+              timeoutSeconds: 120
+            }
           ],
-          notificationChannels: ['console', 'file'],
+          notificationChannels: ['console', 'file']
         },
         {
           id: 'memory-usage-high',
@@ -239,10 +239,10 @@ class AlertingSystem {
               config: { script: 'force-gc.js' },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 30,
-            },
+              timeoutSeconds: 30
+            }
           ],
-          notificationChannels: ['console'],
+          notificationChannels: ['console']
         },
         {
           id: 'technical-debt-critical',
@@ -264,21 +264,21 @@ class AlertingSystem {
               type: 'campaign',
               config: {
                 campaignType: 'technical-debt-reduction',
-                priority: 'high',
+                priority: 'high'
               },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 300,
-            },
+              timeoutSeconds: 300
+            }
           ],
-          notificationChannels: ['console', 'file'],
-        },
+          notificationChannels: ['console', 'file']
+        }
       ];
 
       this.alertRules = defaultRules;
     }
 
-    if (this.escalationRules.length === 0) {
+    if (this.escalationRules.length === 0) {;
       const defaultEscalationRules: EscalationRule[] = [
         {
           id: 'critical-escalation',
@@ -293,14 +293,14 @@ class AlertingSystem {
               type: 'notification',
               config: {
                 message: 'Critical alert requires immediate attention',
-                channels: ['console', 'file'],
+                channels: ['console', 'file']
               },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 30,
-            },
+              timeoutSeconds: 30
+            }
           ],
-          maxEscalations: 3,
+          maxEscalations: 3
         },
         {
           id: 'error-escalation',
@@ -315,15 +315,15 @@ class AlertingSystem {
               type: 'campaign',
               config: {
                 campaignType: 'automated-error-fix',
-                conservative: true,
+                conservative: true
               },
               conditions: ['automation_opportunities > 5'],
               retryCount: 1,
-              timeoutSeconds: 600,
-            },
+              timeoutSeconds: 600
+            }
           ],
-          maxEscalations: 2,
-        },
+          maxEscalations: 2
+        }
       ];
 
       this.escalationRules = defaultEscalationRules;
@@ -343,15 +343,15 @@ class AlertingSystem {
     );
 
     // Subscribe to data sources
-    buildPerformanceMonitor.subscribe(data => {
+    buildPerformanceMonitor.subscribe(data => {;
       this.evaluatePerformanceAlerts(data);
     });
 
-    errorTrackingSystem.subscribe(data => {
+    errorTrackingSystem.subscribe(data => {;
       this.evaluateErrorAlerts(data);
     });
 
-    qualityMetricsService.subscribe(data => {
+    qualityMetricsService.subscribe(data => {;
       this.evaluateQualityAlerts(data);
     });
   }
@@ -495,7 +495,7 @@ class AlertingSystem {
   }
 
   private createAlert(rule: AlertRule, currentValue: number) {
-    const alert: Alert = {
+    const alert: Alert = {;
       id: `alert-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: rule.type,
       severity: rule.severity,
@@ -507,12 +507,12 @@ class AlertingSystem {
       acknowledged: false,
       resolved: false,
       escalated: false,
-      responseActions: rule.responseActions.map(a => a.name),
+      responseActions: rule.responseActions.map(a => a.name),;
       metadata: {
         ruleId: rule.id,
         metric: rule.metric,
-        condition: rule.condition,
-      },
+        condition: rule.condition
+      }
     };
 
     this.alerts.push(alert);
@@ -540,12 +540,12 @@ class AlertingSystem {
         continue;
       }
 
-      const response: AlertResponse = {
+      const response: AlertResponse = {;
         alertId: alert.id,
         actionId: action.id,
         status: 'pending',
         startTime: new Date(),
-        retryCount: 0,
+        retryCount: 0
       };
 
       this.alertResponses.push(response);
@@ -614,7 +614,7 @@ class AlertingSystem {
   private async executeAction(
     action: AlertAction,
   ): Promise<{ success: boolean; result?: unknown; error?: string }> {
-    const timeout = new Promise((_, reject) => {
+    const timeout = new Promise((_, reject) => {;
       setTimeout(() => reject(new Error('Action timeout')), action.timeoutSeconds * 1000);
     });
 
@@ -643,7 +643,7 @@ class AlertingSystem {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Script execution results depend on external script implementations
   private async executeScript(
     scriptName: string,
@@ -654,7 +654,7 @@ class AlertingSystem {
     return { success: true, message: `Script ${scriptName} executed` };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Shell command execution results vary based on command and system state
   private async executeCommand(
     command: string,
@@ -665,7 +665,7 @@ class AlertingSystem {
     return { success: true, message: `Command ${command} executed` };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Campaign configurations and results have diverse structures across campaign types
   private async triggerCampaign(
     config: Record<string, unknown>,
@@ -676,7 +676,7 @@ class AlertingSystem {
     return { success: true, message: `Campaign ${config.campaignType} triggered` };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: External API configurations and responses have unknown schemas from diverse services
   private async makeApiCall(
     config: Record<string, unknown>,
@@ -687,7 +687,7 @@ class AlertingSystem {
     return { success: true, message: `API call to ${config.url} completed` };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Notification system configurations support various delivery channels with different options
   private async sendNotification(
     config: Record<string, unknown>,
@@ -727,7 +727,7 @@ class AlertingSystem {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Performance monitoring data comes from various sources with different metrics
   private evaluatePerformanceAlerts(data: {
     metrics?: Record<string, number>;
@@ -738,7 +738,7 @@ class AlertingSystem {
     // The main monitoring loop handles rule evaluation
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Error tracking data varies significantly across different error types and sources
   private evaluateErrorAlerts(data: {
     errorCount?: number;
@@ -749,7 +749,7 @@ class AlertingSystem {
     // The main monitoring loop handles rule evaluation
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Code quality metrics include diverse analysis results from various quality tools
   private evaluateQualityAlerts(data: {
     qualityScore?: number;
@@ -800,7 +800,7 @@ class AlertingSystem {
   }
 
   private notifySubscribers(alert: Alert) {
-    this.subscribers.forEach(callback => {
+    this.subscribers.forEach(callback => {;
       try {
         callback(alert);
       } catch (error) {
@@ -916,20 +916,20 @@ class AlertingSystem {
     return {
       totalAlerts: this.alerts.length,
       recentAlerts: recentAlerts.length,
-      unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,
-      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,
-      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,
+      unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,;
+      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,;
+      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,;
       alertsByType: this.getAlertCountsByType(),
       alertsBySeverity: this.getAlertCountsBySeverity(),
       responseSuccessRate: this.calculateResponseSuccessRate(),
-      averageResolutionTime: this.calculateAverageResolutionTime(),
+      averageResolutionTime: this.calculateAverageResolutionTime()
     };
   }
 
   private getAlertCountsByType(): Record<string, number> {
     const counts: Record<string, number> = {};
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {
+    for (const alert of this.alerts.filter(a => !a.resolved)) {;
       counts[alert.type] = (counts[alert.type] || 0) + 1;
     }
 
@@ -939,7 +939,7 @@ class AlertingSystem {
   private getAlertCountsBySeverity(): Record<string, number> {
     const counts: Record<string, number> = {};
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {
+    for (const alert of this.alerts.filter(a => !a.resolved)) {;
       counts[alert.severity] = (counts[alert.severity] || 0) + 1;
     }
 
@@ -958,7 +958,7 @@ class AlertingSystem {
     const resolvedAlerts = this.alerts.filter(a => a.resolved && a.resolvedAt);
     if (resolvedAlerts.length === 0) return 0;
 
-    const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {
+    const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {;
       if (alert.resolvedAt) {
         return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime());
       }
@@ -985,5 +985,5 @@ class AlertingSystem {
   }
 }
 
-export const alertingSystem = new AlertingSystem();
+export const _alertingSystem = new AlertingSystem();
 export default AlertingSystem;

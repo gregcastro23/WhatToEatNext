@@ -21,7 +21,7 @@ import {
   ReplacementResult,
   ReplacementStrategy,
   SafetyProtocolError,
-  TypeReplacement,
+  TypeReplacement
 } from './types';
 
 export class SafeTypeReplacer {
@@ -33,18 +33,18 @@ export class SafeTypeReplacer {
   private safetyValidator: SafetyValidator;
 
   constructor(
-    backupDirectory = './.any-elimination-backups',
-    safetyThreshold = 0.7,
-    validationTimeout = 30000,
-    maxRetries = 3,
+    backupDirectory = './.any-elimination-backups',;
+    safetyThreshold = 0.7,;
+    validationTimeout = 30000,;
+    maxRetries = 3,;
   ) {
     this.backupDirectory = backupDirectory;
     this.safetyThreshold = safetyThreshold;
     this.validationTimeout = validationTimeout;
     this.maxRetries = maxRetries;
     this.strategies = this.initializeStrategies();
-    this.safetyValidator = new SafetyValidator(validationTimeout, {
-      minimumSafetyScore: safetyThreshold,
+    this.safetyValidator = new SafetyValidator(validationTimeout, {;
+      minimumSafetyScore: safetyThreshold
     });
     this.ensureBackupDirectory();
   }
@@ -65,7 +65,7 @@ export class SafeTypeReplacer {
     } else {
       // Fallback to basic safety score calculation
       const basicSafetyScore = this.calculateSafetyScore(replacement);
-      safetyValidation = {
+      safetyValidation = {;
         isValid: basicSafetyScore >= this.safetyThreshold,
         safetyScore: basicSafetyScore,
         validationErrors:
@@ -73,7 +73,7 @@ export class SafeTypeReplacer {
             ? [`Safety score ${basicSafetyScore} below threshold ${this.safetyThreshold}`]
             : [],
         warnings: [],
-        recommendations: [],
+        recommendations: []
       };
     }
 
@@ -83,7 +83,7 @@ export class SafeTypeReplacer {
         appliedReplacements: [],
         failedReplacements: [replacement],
         compilationErrors: safetyValidation.validationErrors,
-        rollbackPerformed: false,
+        rollbackPerformed: false
       };
     }
 
@@ -97,7 +97,7 @@ export class SafeTypeReplacer {
 
         if (result.success) {
           // Verify rollback capability before declaring success
-          const rollbackVerification = await this.verifyRollbackCapability(
+          const rollbackVerification = await this.verifyRollbackCapability(;
             replacement.filePath,
             backupPath,
           );
@@ -109,7 +109,7 @@ export class SafeTypeReplacer {
               failedReplacements: [replacement],
               compilationErrors: [`Rollback verification failed: ${rollbackVerification.error}`],
               rollbackPerformed: true,
-              backupPath,
+              backupPath
             };
           }
 
@@ -129,7 +129,7 @@ export class SafeTypeReplacer {
             failedReplacements: [replacement],
             compilationErrors: [error instanceof Error ? error.message : String(error)],
             rollbackPerformed: true,
-            backupPath,
+            backupPath
           };
         }
 
@@ -146,7 +146,7 @@ export class SafeTypeReplacer {
       failedReplacements: [replacement],
       compilationErrors: ['Maximum retries exceeded'],
       rollbackPerformed: true,
-      backupPath,
+      backupPath
     };
   }
 
@@ -189,7 +189,7 @@ export class SafeTypeReplacer {
 
       // Enhanced build validation after batch operations
       const modifiedFiles = Array.from(backupPaths.keys());
-      const buildValidation = await this.safetyValidator.validateBuildAfterBatch(
+      const buildValidation = await this.safetyValidator.validateBuildAfterBatch(;
         modifiedFiles,
         false,
       );
@@ -203,13 +203,13 @@ export class SafeTypeReplacer {
           appliedReplacements: [],
           failedReplacements: replacements,
           compilationErrors: buildValidation.compilationErrors,
-          rollbackPerformed: true,
+          rollbackPerformed: true
         };
       }
 
       // Validate rollback capability
-      const rollbackValidation = await this.safetyValidator.validateRollbackCapability(
-        new Map(modifiedFiles.map(file => [file, file])),
+      const rollbackValidation = await this.safetyValidator.validateRollbackCapability(;
+        new Map(modifiedFiles.map(file => [file, file])),;
         backupPaths,
       );
 
@@ -224,7 +224,7 @@ export class SafeTypeReplacer {
         appliedReplacements,
         failedReplacements,
         compilationErrors,
-        rollbackPerformed: false,
+        rollbackPerformed: false
       };
     } catch (error) {
       // Emergency rollback
@@ -250,7 +250,7 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('any[]') && !this.isInErrorHandlingContext(context),
-        priority: 1,
+        priority: 1
       },
 
       // Record type replacement with validation (Record<string, any> → Record<string, unknown>)
@@ -268,7 +268,7 @@ export class SafeTypeReplacer {
           context.codeSnippet.includes('Record<string, any>') &&
           !this.isInErrorHandlingContext(context) &&
           !this.isDynamicConfigContext(context),
-        priority: 2,
+        priority: 2
       },
 
       // Generic Record replacement (Record<number, any> → Record<number, unknown>)
@@ -284,7 +284,7 @@ export class SafeTypeReplacer {
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('Record<number, any>') &&
           !this.isInErrorHandlingContext(context),
-        priority: 2,
+        priority: 2
       },
 
       // Index signature replacement ([key: string]: any → [key: string]: unknown)
@@ -297,7 +297,7 @@ export class SafeTypeReplacer {
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('[key: string]: any') &&
           !this.isInErrorHandlingContext(context),
-        priority: 3,
+        priority: 3
       },
 
       // Function parameter analysis and replacement
@@ -315,7 +315,7 @@ export class SafeTypeReplacer {
           this.isFunctionParameterContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isEventHandlerContext(context),
-        priority: 4,
+        priority: 4
       },
 
       // Function parameter in arrow functions
@@ -331,7 +331,7 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('=>') && !this.isInErrorHandlingContext(context),
-        priority: 4,
+        priority: 4
       },
 
       // Return type inference and replacement
@@ -345,7 +345,7 @@ export class SafeTypeReplacer {
           this.isFunctionReturnTypeContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context),
-        priority: 5,
+        priority: 5
       },
 
       // Generic type parameter replacement
@@ -357,7 +357,7 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('<any>') && !this.isInErrorHandlingContext(context),
-        priority: 6,
+        priority: 6
       },
 
       // Object property type replacement
@@ -373,7 +373,7 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>
           this.isObjectPropertyContext(context) && !this.isInErrorHandlingContext(context),
-        priority: 7,
+        priority: 7
       },
 
       // Simple variable type replacement (fallback)
@@ -388,8 +388,8 @@ export class SafeTypeReplacer {
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context) &&
           !this.isDynamicConfigContext(context),
-        priority: 8,
-      },
+        priority: 8
+      }
     ];
   }
 
@@ -462,9 +462,9 @@ export class SafeTypeReplacer {
           const originalLine = lines[lineIndex];
           const modifiedLine = originalLine.replace(replacement.original, replacement.replacement);
 
-          if (originalLine === modifiedLine) {
+          if (originalLine === modifiedLine) {;
             failed.push(replacement);
-            errors.push(`Pattern "${replacement.original}" not found in line: ${originalLine}`);
+            errors.push(`Pattern '${replacement.original}' not found in line: ${originalLine}`);
             continue;
           }
 
@@ -492,7 +492,7 @@ export class SafeTypeReplacer {
     const buildResult = await this.safetyValidator.validateTypeScriptCompilation();
     return {
       success: buildResult.buildSuccessful,
-      errors: buildResult.compilationErrors,
+      errors: buildResult.compilationErrors
     };
   }
 
@@ -522,10 +522,10 @@ export class SafeTypeReplacer {
           appliedReplacements: [],
           failedReplacements: [replacement],
           compilationErrors: [
-            `Invalid line number ${replacement.lineNumber} for file ${replacement.filePath}`,
+            `Invalid line number ${replacement.lineNumber} for file ${replacement.filePath}`
           ],
           rollbackPerformed: false,
-          backupPath,
+          backupPath
         };
       }
 
@@ -534,16 +534,16 @@ export class SafeTypeReplacer {
       const modifiedLine = originalLine.replace(replacement.original, replacement.replacement);
 
       // Verify replacement was applied
-      if (originalLine === modifiedLine) {
+      if (originalLine === modifiedLine) {;
         return {
           success: false,
           appliedReplacements: [],
           failedReplacements: [replacement],
           compilationErrors: [
-            `Pattern "${replacement.original}" not found in line: ${originalLine}`,
+            `Pattern '${replacement.original}' not found in line: ${originalLine}`
           ],
           rollbackPerformed: false,
-          backupPath,
+          backupPath
         };
       }
 
@@ -563,7 +563,7 @@ export class SafeTypeReplacer {
           failedReplacements: [replacement],
           compilationErrors: compilationResult.errors,
           rollbackPerformed: true,
-          backupPath,
+          backupPath
         };
       }
 
@@ -573,7 +573,7 @@ export class SafeTypeReplacer {
         failedReplacements: [],
         compilationErrors: [],
         rollbackPerformed: false,
-        backupPath,
+        backupPath
       };
     } catch (error) {
       // Don't rollback here - let the calling method handle it
@@ -598,7 +598,7 @@ export class SafeTypeReplacer {
 
       // For testing purposes, we'll just verify the backup exists and is readable
       // In a real scenario, we might do a more comprehensive test
-      if (backupContent.length === 0) {
+      if (backupContent.length === 0) {;
         return { success: false, error: 'Backup file is empty' };
       }
 
@@ -606,7 +606,7 @@ export class SafeTypeReplacer {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : String(error),
+        error: error instanceof Error ? error.message : String(error)
       };
     }
   }
@@ -628,7 +628,7 @@ export class SafeTypeReplacer {
     }
 
     // Adjust based on replacement pattern complexity
-    if (replacement.original === 'any[]') {
+    if (replacement.original === 'any[]') {;
       score += 0.15; // Array replacements are very safe
     } else if (replacement.original.includes('Record<string, any>')) {
       score += 0.1; // Record replacements are generally safe
@@ -675,7 +675,7 @@ export class SafeTypeReplacer {
   /**
    * Clean up old backup files (older than specified days)
    */
-  cleanupOldBackups(daysToKeep = 7): void {
+  cleanupOldBackups(daysToKeep = 7): void {;
     try {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
@@ -709,7 +709,7 @@ export class SafeTypeReplacer {
     // Look for array initialization patterns
     if (codeSnippet.includes('= [')) {
       // Check if array has string literals
-      if (codeSnippet.includes("'") || codeSnippet.includes('"')) {
+      if (codeSnippet.includes(''') || codeSnippet.includes(''')) {
         return 'string';
       }
       // Check if array has numbers
@@ -725,7 +725,7 @@ export class SafeTypeReplacer {
     // Look for push operations in surrounding lines
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
     if (allContext.includes('.push(')) {
-      if (allContext.includes('.push("') || allContext.includes(".push('")) {
+      if (allContext.includes('.push('') || allContext.includes('.push('')) {
         return 'string';
       }
       if (/\.push\(\d/.test(allContext)) {
@@ -734,7 +734,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (codeSnippet.includes('planet') || codeSnippet.includes('sign')) {
         return 'string';
       }
@@ -743,7 +743,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    if (context.domainContext.domain === CodeDomain.RECIPE) {
+    if (context.domainContext.domain === CodeDomain.RECIPE) {;
       if (codeSnippet.includes('ingredient') || codeSnippet.includes('recipe')) {
         return 'string';
       }
@@ -762,7 +762,7 @@ export class SafeTypeReplacer {
     // Look for object literal assignments
     if (codeSnippet.includes('= {')) {
       // Check for string values
-      if (codeSnippet.includes(': "') || codeSnippet.includes(": '")) {
+      if (codeSnippet.includes(': '') || codeSnippet.includes(': '')) {
         return 'string';
       }
       // Check for number values
@@ -797,7 +797,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (codeSnippet.includes('element') || codeSnippet.includes('Element')) {
         return 'number'; // Elemental properties are numeric
       }
@@ -827,7 +827,7 @@ export class SafeTypeReplacer {
     const paramLower = paramName.toLowerCase();
 
     // Event handlers
-    if (paramLower.includes('event') || paramLower === 'e') {
+    if (paramLower.includes('event') || paramLower === 'e') {;
       if (context.codeSnippet.includes('onClick') || context.codeSnippet.includes('onSubmit')) {
         return 'React.MouseEvent | React.FormEvent';
       }
@@ -835,17 +835,17 @@ export class SafeTypeReplacer {
     }
 
     // Error parameters
-    if (paramLower.includes('error') || paramLower === 'err') {
+    if (paramLower.includes('error') || paramLower === 'err') {;
       return 'Error';
     }
 
     // ID parameters
-    if (paramLower.includes('id') || paramLower === 'key') {
+    if (paramLower.includes('id') || paramLower === 'key') {;
       return 'string | number';
     }
 
     // Index parameters
-    if (paramLower.includes('index') || paramLower === 'i') {
+    if (paramLower.includes('index') || paramLower === 'i') {;
       return 'number';
     }
 
@@ -864,7 +864,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (paramLower.includes('planet') || paramLower.includes('sign')) {
         return 'string';
       }
@@ -876,7 +876,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    if (context.domainContext.domain === CodeDomain.RECIPE) {
+    if (context.domainContext.domain === CodeDomain.RECIPE) {;
       if (paramLower.includes('ingredient')) {
         return 'Ingredient';
       }
@@ -900,7 +900,7 @@ export class SafeTypeReplacer {
     // Check for explicit return statements
     if (allContext.includes('return ')) {
       // String returns
-      if (allContext.includes('return "') || allContext.includes("return '")) {
+      if (allContext.includes('return '') || allContext.includes('return '')) {
         return 'string';
       }
       // Number returns
@@ -966,7 +966,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific generics
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (
         codeSnippet.includes('PlanetaryPosition') ||
         codeSnippet.includes('ElementalProperties')
@@ -986,7 +986,7 @@ export class SafeTypeReplacer {
     const propLower = propertyName.toLowerCase();
 
     // Common property patterns
-    if (propLower.includes('id') || propLower === 'key') {
+    if (propLower.includes('id') || propLower === 'key') {;
       return 'string | number';
     }
 
@@ -1016,7 +1016,7 @@ export class SafeTypeReplacer {
 
     // Look for assignment patterns
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
-    if (allContext.includes(`${propertyName}: "`)) {
+    if (allContext.includes(`${propertyName}: '`)) {
       return 'string';
     }
     if (allContext.includes(`${propertyName}: \d`)) {
@@ -1024,7 +1024,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (
         propLower.includes('element') ||
         propLower.includes('fire') ||
@@ -1049,7 +1049,7 @@ export class SafeTypeReplacer {
     const { codeSnippet } = context;
 
     // Look for assignment patterns
-    if (codeSnippet.includes('= "') || codeSnippet.includes("= '")) {
+    if (codeSnippet.includes('= '') || codeSnippet.includes('= '')) {
       return 'string';
     }
 
@@ -1125,8 +1125,8 @@ export class SafeTypeReplacer {
       allContext.includes('config') ||
       allContext.includes('settings') ||
       allContext.includes('options') ||
-      context.domainContext.domain === CodeDomain.CAMPAIGN ||
-      context.domainContext.domain === CodeDomain.INTELLIGENCE
+      context.domainContext.domain === CodeDomain.CAMPAIGN ||;
+      context.domainContext.domain === CodeDomain.INTELLIGENCE;
     );
   }
 
@@ -1196,7 +1196,7 @@ export class SafeTypeReplacer {
    */
   async validateBuildSafety(
     modifiedFiles: string[],
-    includeTests = false,
+    includeTests = false,;
   ): Promise<BuildValidationResult> {
     return this.safetyValidator.validateBuildAfterBatch(modifiedFiles, includeTests);
   }
@@ -1225,7 +1225,7 @@ export class SafeTypeReplacer {
     if (thresholds.minimumSafetyScore !== undefined) {
       this.safetyThreshold = thresholds.minimumSafetyScore;
       this.safetyValidator.updateSafetyThresholds({
-        minimumSafetyScore: thresholds.minimumSafetyScore,
+        minimumSafetyScore: thresholds.minimumSafetyScore
       });
     }
   }

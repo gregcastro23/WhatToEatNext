@@ -66,14 +66,14 @@ export class SafeBatchProcessor {
   private totalPreserved = 0;
 
   constructor(config: Partial<BatchProcessingConfig> = {}) {
-    this.config = {
+    this.config = {;
       maxBatchSize: 15,
       maxBatchSizeCritical: 5,
       validateAfterEachBatch: true,
       autoRollbackOnError: true,
       createGitStash: true,
       logLevel: 'info',
-      ...config,
+      ...config
     };
   }
 
@@ -84,7 +84,7 @@ export class SafeBatchProcessor {
     this.log('info', `🚀 Starting safe batch processing of ${files.length} files`);
     this.log(
       'info',
-      `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`,
+      `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`,;
     );
 
     const results: BatchResult[] = [];
@@ -128,7 +128,7 @@ export class SafeBatchProcessor {
     this.log('info', `   Total Preserved: ${this.totalPreserved}`);
     this.log(
       'info',
-      `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,
+      `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,;
     );
 
     return results;
@@ -141,9 +141,9 @@ export class SafeBatchProcessor {
     const startTime = Date.now();
     let stashId: string | undefined;
 
-    const result: BatchResult = {
+    const result: BatchResult = {;
       batchId,
-      files: files.map(f => f.filePath),
+      files: files.map(f => f.filePath),;
       success: false,
       processedCount: 0,
       eliminatedCount: 0,
@@ -153,7 +153,7 @@ export class SafeBatchProcessor {
       errors: [],
       warnings: [],
       processingTime: 0,
-      stashId: undefined,
+      stashId: undefined
     };
 
     try {
@@ -309,7 +309,7 @@ export class SafeBatchProcessor {
    */
   private getBatchLimit(file: FileProcessingInfo): number {
     // Use smaller batch sizes for critical files
-    if (file.isCritical || file.riskLevel === 'high' || file.unusedVariableCount > 20) {
+    if (file.isCritical || file.riskLevel === 'high' || file.unusedVariableCount > 20) {;
       return this.config.maxBatchSizeCritical;
     }
 
@@ -327,11 +327,11 @@ export class SafeBatchProcessor {
       const statusOutput = execSync('git status --porcelain', { encoding: 'utf8' });
       if (!statusOutput.trim()) {
         // No changes to stash, create empty stash
-        execSync('git stash push --keep-index -m "' + stashMessage + '" --allow-empty', {
-          stdio: 'pipe',
+        execSync('git stash push --keep-index -m '' + stashMessage + '' --allow-empty', {
+          stdio: 'pipe'
         });
       } else {
-        execSync('git stash push -m "' + stashMessage + '"', { stdio: 'pipe' });
+        execSync('git stash push -m '' + stashMessage + ''', { stdio: 'pipe' });
       }
 
       // Get the stash ID
@@ -391,17 +391,17 @@ export class SafeBatchProcessor {
    */
   private async createSafetyCheckpoint(
     id: string,
-    compilationStatus: boolean = true,
-    errorCount: number = 0,
+    compilationStatus: boolean = true,;
+    errorCount: number = 0,;
     stashId?: string,
   ): Promise<void> {
-    const checkpoint: SafetyCheckpoint = {
+    const checkpoint: SafetyCheckpoint = {;
       id,
       timestamp: new Date(),
       batchId: id,
       compilationStatus,
       errorCount,
-      stashId,
+      stashId
     };
 
     this.checkpoints.push(checkpoint);
@@ -417,7 +417,7 @@ export class SafeBatchProcessor {
       totalEliminated: this.totalEliminated,
       totalPreserved: this.totalPreserved,
       checkpointsCreated: this.checkpoints.length,
-      lastCheckpoint: this.checkpoints[this.checkpoints.length - 1],
+      lastCheckpoint: this.checkpoints[this.checkpoints.length - 1]
     };
   }
 
@@ -439,7 +439,7 @@ export class SafeBatchProcessor {
     if (messageLevel >= configLevel) {
       const timestamp = new Date().toISOString();
       const prefix = level.toUpperCase().padEnd(5);
-      console.log(`[${timestamp}] ${prefix} ${message}`);
+      // console.log(`[${timestamp}] ${prefix} ${message}`);
     }
   }
 }

@@ -6,11 +6,11 @@ import { useFlavorEngine } from '../contexts/FlavorEngineContext';
 import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
 
 // Keep track of global init state across hook instances
-const globalInitState = {
+const globalInitState = {;
   initialized: false,
   attempted: false,
   checkCount: 0,
-  lastCheckTime: Date.now(),
+  lastCheckTime: Date.now()
 };
 
 /**
@@ -44,7 +44,7 @@ export function useSafeFlavorEngine() {
         searchProfiles: () => [],
         calculateCompatibility: () => null,
         profileCount: 0,
-        categories: {},
+        categories: {}
       };
     }
   }
@@ -103,8 +103,8 @@ export function useSafeFlavorEngine() {
   }, [flavorEngine]);
 
   // Create safe, memoized versions of the engine methods to prevent re-renders
-  const getProfile = useCallback(
-    (id: string): UnifiedFlavorProfile | undefined => {
+  const getProfile = useCallback(;
+    (id: string): UnifiedFlavorProfile | undefined => {;
       if (!isReady) return undefined;
 
       try {
@@ -118,7 +118,7 @@ export function useSafeFlavorEngine() {
   );
 
   // Safe search profiles function with error handling
-  const searchProfiles = useCallback(
+  const searchProfiles = useCallback(;
     (_criteria: unknown): UnifiedFlavorProfile[] => {
       if (!isReady) return [];
 
@@ -133,7 +133,7 @@ export function useSafeFlavorEngine() {
   );
 
   // Safe compatibility calculation with error handling
-  const calculateCompatibility = useCallback(
+  const calculateCompatibility = useCallback(;
     (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => {
       if (!isReady) return null;
 
@@ -160,7 +160,7 @@ export function useSafeFlavorEngine() {
       searchProfiles,
       calculateCompatibility,
       profileCount,
-      categories: isReady ? flavorEngine.categories : {},
+      categories: isReady ? flavorEngine.categories : {}
     }),
     [
       isReady,
@@ -169,7 +169,7 @@ export function useSafeFlavorEngine() {
       searchProfiles,
       calculateCompatibility,
       profileCount,
-      categoriesString,
+      categoriesString
     ],
   );
 }

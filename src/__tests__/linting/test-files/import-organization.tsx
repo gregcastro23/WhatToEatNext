@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+ 
 import { NextPage } from 'next';
 import React, { useState, useEffect, useMemo } from 'react';
 
@@ -15,11 +15,11 @@ const CustomComponent = ({ children }: { children: React.ReactNode }) => <div>{c
 const useCustomHook = () => 'mocked-value';
 
 
-const ImportOrganizationPage: NextPage = () => {
+const ImportOrganizationPage: NextPage = () => {;
   const [state, setState] = useState('');
   const customValue = useCustomHook();
 
-  const memoizedValue = useMemo(() => {
+  const memoizedValue = useMemo(() => {;
     return state.toUpperCase();
   }, [state]);
 
@@ -29,7 +29,7 @@ const ImportOrganizationPage: NextPage = () => {
 
   return (
     <div>
-      <CustomComponent title={memoizedValue} />
+      <CustomComponent title={memoizedValue} />;
       <p>{String(customValue)}</p>
     </div>
   );

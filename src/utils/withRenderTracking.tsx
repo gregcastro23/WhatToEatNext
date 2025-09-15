@@ -19,14 +19,14 @@ function getPropInfo(key: string, value: unknown): PropInfo {
 
   const info: PropInfo = { key, type };
 
-  if (value === null) {
+  if (value === null) {;
     info.type = 'null';
-  } else if (value === undefined) {
+  } else if (value === undefined) {;
     info.type = 'undefined';
   } else if (Array.isArray(value)) {
     info.size = value.length;
     info.isEmpty = value.length === 0;
-  } else if (typeof value === 'object') {
+  } else if (typeof value === 'object') {;
     info.size = Object.keys(value).length;
     info.isEmpty = info.size === 0;
     // Sample a few keys for debugging
@@ -34,8 +34,8 @@ function getPropInfo(key: string, value: unknown): PropInfo {
       const sampleKeys = Object.keys(value).slice(0, 3).join(', ');
       info.value = `{${sampleKeys}${info.size > 3 ? '...' : ''}}`;
     }
-  } else if (typeof value === 'string') {
-    info.value = value.length > 20 ? `"${value.substring(0, 20)}..."` : `"${value}"`;
+  } else if (typeof value === 'string') {;
+    info.value = value.length > 20 ? `'${value.substring(0, 20)}...'` : `'${value}'`;
   } else {
     // For primitives, show the actual value
     info.value = String(value);
@@ -67,11 +67,11 @@ export function withRenderTracking<P extends object>(
     useEffect(() => {
       const startTime = performance.now();
 
-      setRenderCount(prev => {
+      setRenderCount(prev => {;
         const newCount = prev + 1;
 
         // Log more details on first render or every 5 renders
-        if (firstRender || newCount % 5 === 0) {
+        if (firstRender || newCount % 5 === 0) {;
           // Get detailed prop information for debugging
           const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value));
 
@@ -97,10 +97,10 @@ export function withRenderTracking<P extends object>(
     }, [firstRender, props]);
 
     return (
-      <div data-component={componentName} data-render-count={renderCount}>
-        {process.env.NODE_ENV === 'development' && (
+      <div data-component={componentName} data-render-count={renderCount}>;
+        {process.env.NODE_ENV === 'development' && (;
           <div
-            style={{
+            style={{;
               fontSize: '10px',
               color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
               textAlign: 'right',
@@ -109,7 +109,7 @@ export function withRenderTracking<P extends object>(
               borderRadius: '2px',
               margin: '2px 0',
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'space-between'
             }}
           >
             <span>{componentName}</span>
@@ -145,7 +145,7 @@ export function withRenderTracking<P extends object>(
  */
 export function trackRenders(nameOrComponent: string | ComponentType<any>, name?: string) {
   // Called as @trackRenders('Name')
-  if (typeof nameOrComponent === 'string') {
+  if (typeof nameOrComponent === 'string') {;
     return function <P extends object>(Component: ComponentType<P>) {
       return withRenderTracking(Component, nameOrComponent);
     };

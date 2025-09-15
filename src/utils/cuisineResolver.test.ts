@@ -13,7 +13,7 @@ import {
   getCuisineVariants,
   groupCuisinesByType,
   isSupportedCuisine,
-  standardizeCuisine,
+  standardizeCuisine
 } from './cuisineResolver';
 
 describe('Cuisine Resolver', () => {
@@ -135,12 +135,12 @@ describe('Cuisine Resolver', () => {
   });
 
   describe('getCuisineSuggestions', () => {
-    it('should suggest Chinese variants for "sich"', () => {
+    it('should suggest Chinese variants for 'sich'', () => {
       const suggestions: any = getCuisineSuggestions('sich');
       expect(suggestions).toContain('sichuanese');
     });
 
-    it('should suggest Chinese variants for "cant"', () => {
+    it('should suggest Chinese variants for 'cant'', () => {
       const suggestions: any = getCuisineSuggestions('cant');
       expect(suggestions).toContain('cantonese');
     });

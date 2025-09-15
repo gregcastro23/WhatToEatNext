@@ -1,20 +1,20 @@
 import { PlanetData } from './types';
 
-const saturnData: PlanetData = {
+const saturnData: PlanetData = {;
   'Dignity Effect': {
     aquarius: 1,
     capricorn: 1,
     libra: 2,
     cancer: -1,
     leo: -1,
-    aries: -2,
+    aries: -2
   },
   Elements: ['Air', 'Earth'],
   Alchemy: {
     Spirit: 1,
     Essence: 0,
     Matter: 1,
-    Substance: 0,
+    Substance: 0
   },
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
@@ -22,7 +22,7 @@ const saturnData: PlanetData = {
     DistanceFromSun: '886 million miles (1.4 billion kilometers)',
     DistanceFromEarth: {
       Minimum: '746 million miles (1.2 billion kilometers)',
-      Maximum: '1 billion miles (1.7 billion kilometers)',
+      Maximum: '1 billion miles (1.7 billion kilometers)'
     },
     Diameter: '72,400 miles (116,500 kilometers)',
     SurfaceTemperature: '-288 degrees Fahrenheit (-178 Celsius)',
@@ -35,23 +35,23 @@ const saturnData: PlanetData = {
     SunlightTravelTime: '80 minutes',
     PhysicalCharacteristics: {
       Surface: 'Gas giant with no solid surface, characterized by subtle bands and periodic storms',
-      MagneticField: "Strong magnetic field, about 578 times Earth's strength",
+      MagneticField: 'Strong magnetic field, about 578 times Earth's strength',
       Composition: 'Mostly hydrogen and helium with a rocky core',
       NotableFeatures:
-        'Most prominent ring system in solar system, at least 82 moons, hexagonal storm at north pole',
-    },
+        'Most prominent ring system in solar system, at least 82 moons, hexagonal storm at north pole'
+    }
   },
   AstrologicalProperties: {
     AlchemicalName: 'Chronos',
     BeneficType: 'Greater malefic',
     DualDomicile: {
       Spring: 'Aquarius (yang)',
-      Autumn: 'Capricorn (yin)',
+      Autumn: 'Capricorn (yin)'
     },
     HouseJoy: 12,
     CyclePeriod: {
       Return: '29.5 years',
-      Retrograde: '4.5 months yearly',
+      Retrograde: '4.5 months yearly'
     },
     Exaltation: 'Libra',
     Fall: 'Aries',
@@ -65,26 +65,26 @@ const saturnData: PlanetData = {
       'Responsibility',
       'Authority',
       'Endurance',
-      'Patience',
+      'Patience'
     ],
     Colors: ['Black', 'Dark Brown', 'Dark Blue', 'Gray', 'Deep Purple', 'Dark Green'],
     Day: 'Saturday',
     Metal: 'Lead',
     BodyParts: ['Bones', 'Teeth', 'Skin', 'Joints', 'Gallbladder', 'Spleen', 'Knees'],
     Animals: ['Crow', 'Raven', 'Owl', 'Goat', 'Bat', 'Elephant'],
-    Stones: ['Onyx', 'Obsidian', 'Jet', 'Black Tourmaline', 'Hematite', 'Smoky Quartz'],
+    Stones: ['Onyx', 'Obsidian', 'Jet', 'Black Tourmaline', 'Hematite', 'Smoky Quartz']
   },
   ElementalConnections: {
-    DayEmission: 'Spirit - "that which animates"',
-    NightEmission: 'Matter - "that which is minimally reactive"',
+    DayEmission: 'Spirit - 'that which animates'',
+    NightEmission: 'Matter - 'that which is minimally reactive'',
     ElementalBridges: [
       'Connects Air and Earth',
       'Bridges theory and practice',
-      'Links thought and form',
+      'Links thought and form'
     ],
     SharedElements: {
       Air: ['Mercury', 'Jupiter'],
-      Earth: ['Mercury', 'Venus'],
+      Earth: ['Mercury', 'Venus']
     },
     AssociatedQualities: [
       'Dry',
@@ -96,17 +96,17 @@ const saturnData: PlanetData = {
       'Binding',
       'Structuring',
       'Concentrating',
-      'Contracting',
-    ],
+      'Contracting'
+    ]
   },
   HerbalAssociations: {
     Herbs: [
       'Comfrey',
-      "Solomon's Seal",
+      'Solomon's Seal',
       'Mullein',
       'Horsetail',
       'Skullcap',
-      "Shepherd's Purse",
+      'Shepherd's Purse',
       'Knotweed',
       'Hemlock',
       'Mandrake',
@@ -118,7 +118,7 @@ const saturnData: PlanetData = {
       'Slippery Elm',
       'Barley',
       'Fumitory',
-      'Bistort',
+      'Bistort'
     ],
     Flowers: [
       'Pansy',
@@ -130,7 +130,7 @@ const saturnData: PlanetData = {
       'Bryony',
       'Black Orchid',
       'Dark Tulip',
-      'Winter Blooms',
+      'Winter Blooms'
     ],
     Woods: ['Cypress', 'Yew', 'Oak', 'Pine', 'Elm'],
     Scents: [
@@ -143,8 +143,8 @@ const saturnData: PlanetData = {
       'Pine',
       'Black Pepper',
       'Camphor',
-      'Earthy Scents',
-    ],
+      'Earthy Scents'
+    ]
   },
   FoodAssociations: [
     'root vegetables',
@@ -176,7 +176,7 @@ const saturnData: PlanetData = {
     'black sesame',
     'mushrooms',
     'black beans',
-    'aged wine',
+    'aged wine'
   ],
   FlavorProfiles: {
     Sweet: 0.1,
@@ -184,7 +184,7 @@ const saturnData: PlanetData = {
     Salty: 0.3,
     Bitter: 0.9,
     Umami: 0.5,
-    Spicy: 0.2,
+    Spicy: 0.2
   },
   CulinaryInfluences: [
     'Preserves and ages foods',
@@ -198,7 +198,7 @@ const saturnData: PlanetData = {
     'Brings forth traditional methods',
     'Emphasizes essential flavors',
     'Reduces excess to reveal foundation',
-    'Reinforces established culinary principles',
+    'Reinforces established culinary principles'
   ],
   AspectsEffect: {
     Sun: {
@@ -206,43 +206,43 @@ const saturnData: PlanetData = {
       Opposition: -0.3,
       Trine: 0.1,
       Square: -0.4,
-      Sextile: 0.0,
+      Sextile: 0.0
     },
     Moon: {
       Conjunction: -0.3,
       Opposition: -0.4,
       Trine: 0.0,
       Square: -0.5,
-      Sextile: -0.1,
+      Sextile: -0.1
     },
     Mercury: {
       Conjunction: -0.2,
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.3,
-      Sextile: 0.1,
+      Sextile: 0.1
     },
     Jupiter: {
       Conjunction: 0.3,
       Opposition: -0.2,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2,
+      Sextile: 0.2
     },
     Venus: {
       Conjunction: 0.1,
       Opposition: -0.2,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2,
+      Sextile: 0.2
     },
     Mars: {
       Conjunction: 0.4,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.3,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+    }
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -252,7 +252,7 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.2,
-          Water: 0.3,
+          Water: 0.3
         },
         Ingredients: [
           'root vegetables',
@@ -260,8 +260,8 @@ const saturnData: PlanetData = {
           'preserved meats',
           'traditional grains',
           'heirloom varieties',
-          'bone broths',
-        ],
+          'bone broths'
+        ]
       },
       aquarius: {
         FoodFocus:
@@ -270,15 +270,15 @@ const saturnData: PlanetData = {
           Fire: 0.2,
           Earth: 0.3,
           Air: 0.8,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'fermented foods',
           'ancient grains',
           'heritage ingredients',
           'experimental preservation',
-          'structured presentations',
-        ],
+          'structured presentations'
+        ]
       },
       libra: {
         FoodFocus: 'Balanced traditional dishes with careful attention to structure and proportion',
@@ -286,15 +286,15 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.4,
           Air: 0.7,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'precisely measured ingredients',
           'balanced bitter elements',
           'aged vinegars',
           'structured flavor profiles',
-          'architectural presentations',
-        ],
+          'architectural presentations'
+        ]
       },
       taurus: {
         FoodFocus:
@@ -303,16 +303,16 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.1,
-          Water: 0.3,
+          Water: 0.3
         },
         Ingredients: [
           'dense root vegetables',
           'slow-cooked grains',
           'carefully aged dairy',
           'earthy mushrooms',
-          'minerality-focused ingredients',
-        ],
-      },
+          'minerality-focused ingredients'
+        ]
+      }
     },
     Retrograde: {
       CulinaryEffect:
@@ -321,8 +321,8 @@ const saturnData: PlanetData = {
         Spirit: 0.7,
         Essence: 0.1,
         Matter: 0.9,
-        Substance: 0.1,
-      },
+        Substance: 0.1
+      }
     },
     CulinaryTemperament: {
       EarthSaturn: {
@@ -332,15 +332,15 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.2,
-          Water: 0.2,
+          Water: 0.2
         },
         Recommendations: [
           'long aging processes',
           'traditional preservation',
           'structured cooking methods',
           'disciplined techniques',
-          'time-honored recipes',
-        ],
+          'time-honored recipes'
+        ]
       },
       AirSaturn: {
         FoodFocus:
@@ -349,25 +349,25 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.3,
           Air: 0.8,
-          Water: 0.1,
+          Water: 0.1
         },
         Recommendations: [
           'methodical experimentation',
           'structured innovation',
           'planned cooking sequences',
           'disciplined fusion',
-          'systematic approaches',
-        ],
-      },
+          'systematic approaches'
+        ]
+      }
     },
     CulinaryTechniques: {
       Preservation: 0.9,
       Aging: 0.9,
       'Slow Cooking': 0.8,
       Fermentation: 0.7,
-      'Traditional Methods': 0.9,
-    },
-  },
+      'Traditional Methods': 0.9
+    }
+  }
 };
 
 export default saturnData;

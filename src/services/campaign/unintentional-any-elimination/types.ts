@@ -16,16 +16,16 @@ export interface AnyTypeClassification {
 }
 
 export enum AnyTypeCategory {
-  ERROR_HANDLING = 'error_handling',
-  EXTERNAL_API = 'external_api',
-  TEST_MOCK = 'test_mock',
-  DYNAMIC_CONFIG = 'dynamic_config',
-  LEGACY_COMPATIBILITY = 'legacy_compatibility',
-  ARRAY_TYPE = 'array_type',
-  RECORD_TYPE = 'record_type',
-  FUNCTION_PARAM = 'function_param',
-  RETURN_TYPE = 'return_type',
-  TYPE_ASSERTION = 'type_assertion',
+  ERROR_HANDLING = 'error_handling',;
+  EXTERNAL_API = 'external_api',;
+  TEST_MOCK = 'test_mock',;
+  DYNAMIC_CONFIG = 'dynamic_config',;
+  LEGACY_COMPATIBILITY = 'legacy_compatibility',;
+  ARRAY_TYPE = 'array_type',;
+  RECORD_TYPE = 'record_type',;
+  FUNCTION_PARAM = 'function_param',;
+  RETURN_TYPE = 'return_type',;
+  TYPE_ASSERTION = 'type_assertion',;
 }
 
 export interface ClassificationContext {
@@ -75,14 +75,14 @@ export interface DomainContext {
 }
 
 export enum CodeDomain {
-  ASTROLOGICAL = 'astrological',
-  RECIPE = 'recipe',
-  CAMPAIGN = 'campaign',
-  INTELLIGENCE = 'intelligence',
-  SERVICE = 'service',
-  COMPONENT = 'component',
-  UTILITY = 'utility',
-  TEST = 'test',
+  ASTROLOGICAL = 'astrological',;
+  RECIPE = 'recipe',;
+  CAMPAIGN = 'campaign',;
+  INTELLIGENCE = 'intelligence',;
+  SERVICE = 'service',;
+  COMPONENT = 'component',;
+  UTILITY = 'utility',;
+  TEST = 'test',;
 }
 
 export interface IntentionalityHint {
@@ -450,7 +450,7 @@ export interface Alert {
 }
 
 export type AlertType =
-  | 'low_success_rate'
+  | 'low_success_rate';
   | 'build_failure'
   | 'consecutive_build_failures'
   | 'low_classification_accuracy'

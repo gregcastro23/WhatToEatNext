@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-any, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Test Result Validation and Consistency Checking
  *
@@ -56,146 +56,146 @@ export class TestResultValidator {
     this.addValidationRules('performance', [
       {
         name: 'execution_time',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).executionTime === 'number' &&
+          typeof (result as any).executionTime === 'number' &&;
           ((result as any).executionTime) > 0,
         errorMessage: 'Execution time must be a positive number',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'memory_usage',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).memoryUsage === 'number' &&
+          typeof (result as any).memoryUsage === 'number' &&;
           ((result as any).memoryUsage) >= 0,
         errorMessage: 'Memory usage must be a non-negative number',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'reasonable_execution_time',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).executionTime === 'number' &&
+          typeof (result as any).executionTime === 'number' &&;
           ((result as any).executionTime) < 60000, // 1 minute
         errorMessage: 'Execution time exceeds reasonable limit (60 seconds)',
-        severity: 'warning',
+        severity: 'warning'
       },
       {
         name: 'memory_efficiency',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).memoryUsage === 'number' &&
+          typeof (result as any).memoryUsage === 'number' &&;
           ((result as any).memoryUsage) < 1024 * 1024 * 1024, // 1GB
         errorMessage: 'Memory usage exceeds efficiency threshold (1GB)',
-        severity: 'warning',
-      },
+        severity: 'warning'
+      }
     ]);
 
     // Real-time monitoring test validation rules
     this.addValidationRules('realtime', [
       {
         name: 'response_time',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).responseTime === 'number' &&
+          typeof (result as any).responseTime === 'number' &&;
           ((result as any).responseTime) < 5000, // 5 seconds
         errorMessage: 'Real-time response time exceeds acceptable limit (5 seconds)',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'monitoring_accuracy',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).accuracy === 'number' &&
+          typeof (result as any).accuracy === 'number' &&;
           ((result as any).accuracy) >= 0.95, // 95% accuracy
         errorMessage: 'Monitoring accuracy below acceptable threshold (95%)',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'resource_cleanup',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).resourcesCleanedUp === 'boolean' &&
-          (result as any).resourcesCleanedUp === true,
+          typeof (result as any).resourcesCleanedUp === 'boolean' &&;
+          (result as any).resourcesCleanedUp === true,;
         errorMessage: 'Resources were not properly cleaned up',
-        severity: 'warning',
-      },
+        severity: 'warning'
+      }
     ]);
 
     // Build and compilation test validation rules
     this.addValidationRules('build', [
       {
         name: 'build_success',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).success === 'boolean' &&
-          (result as any).success === true,
+          typeof (result as any).success === 'boolean' &&;
+          (result as any).success === true,;
         errorMessage: 'Build did not complete successfully',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'error_count',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).errorCount === 'number' &&
+          typeof (result as any).errorCount === 'number' &&;
           ((result as any).errorCount) >= 0,
         errorMessage: 'Error count must be a non-negative number',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'build_time',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).buildTime === 'number' &&
+          typeof (result as any).buildTime === 'number' &&;
           ((result as any).buildTime) < 120000, // 2 minutes
         errorMessage: 'Build time exceeds acceptable limit (2 minutes)',
-        severity: 'warning',
-      },
+        severity: 'warning'
+      }
     ]);
 
     // Memory test validation rules
     this.addValidationRules('memory', [
       {
         name: 'memory_leak_check',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).memoryLeakDetected === 'boolean' &&
+          typeof (result as any).memoryLeakDetected === 'boolean' &&;
           (result as any).memoryLeakDetected !== true,
         errorMessage: 'Memory leak detected during test execution',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'peak_memory',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).peakMemory === 'number' &&
+          typeof (result as any).peakMemory === 'number' &&;
           ((result as any).peakMemory) < 2048 * 1024 * 1024, // 2GB
         errorMessage: 'Peak memory usage exceeds limit (2GB)',
-        severity: 'error',
+        severity: 'error'
       },
       {
         name: 'memory_stability',
-        validator: result =>
-          typeof result === 'object' &&
+        validator: result =>;
+          typeof result === 'object' &&;
           result !== null &&
-          typeof (result as any).memoryVariance === 'number' &&
+          typeof (result as any).memoryVariance === 'number' &&;
           ((result as any).memoryVariance) < 0.3, // 30% variance
         errorMessage: 'Memory usage variance exceeds stability threshold (30%)',
-        severity: 'warning',
-      },
+        severity: 'warning'
+      }
     ]);
   }
 
@@ -217,7 +217,7 @@ export class TestResultValidator {
    * Validate a single test result
    */
   validateResult(result: unknown, category: string): ValidationResult {
-    const validationResult: ValidationResult = {
+    const validationResult: ValidationResult = {;
       isValid: true,
       errors: [],
       warnings: [],
@@ -226,8 +226,8 @@ export class TestResultValidator {
         totalChecks: 0,
         passedChecks: 0,
         failedChecks: 0,
-        warningChecks: 0,
-      },
+        warningChecks: 0
+      }
     };
 
     const rules = this.validationRules.get(category) || [];
@@ -269,7 +269,7 @@ export class TestResultValidator {
    * Validate multiple test results for consistency
    */
   validateConsistency(testName: string, results: unknown[]): ValidationResult {
-    const validationResult: ValidationResult = {
+    const validationResult: ValidationResult = {;
       isValid: true,
       errors: [],
       warnings: [],
@@ -278,8 +278,8 @@ export class TestResultValidator {
         totalChecks: 0,
         passedChecks: 0,
         failedChecks: 0,
-        warningChecks: 0,
-      },
+        warningChecks: 0
+      }
     };
 
     const check = this.consistencyChecks.get(testName);
@@ -303,8 +303,8 @@ export class TestResultValidator {
       // Check required fields if specified
       if (check.requiredFields) {
         for (const field of check.requiredFields) {
-          const fieldCheck = results.every(
-            result => typeof result === 'object' && result !== null && field in result,
+          const fieldCheck = results.every(;
+            result => typeof result === 'object' && result !== null && field in result,;
           );
           if (!fieldCheck) {
             validationResult.errors.push(`Required field missing: ${field}`);
@@ -315,7 +315,7 @@ export class TestResultValidator {
       }
 
       // Check tolerance for numeric results
-      if (check.tolerancePercent && check.expectedType === 'number') {
+      if (check.tolerancePercent && check.expectedType === 'number') {;
         const numericResults = results.filter(r => typeof r === 'number') as number[];
         if (numericResults.length > 1) {
           const mean = numericResults.reduce((a, b) => a + b, 0) / numericResults.length;
@@ -347,8 +347,8 @@ export class TestResultValidator {
 
       // If no specific checks failed, mark as passed
       if (
-        validationResult.summary.failedChecks === 0 &&
-        validationResult.summary.passedChecks === 0
+        validationResult.summary.failedChecks === 0 &&;
+        validationResult.summary.passedChecks === 0;
       ) {
         validationResult.summary.passedChecks = 1;
       }
@@ -397,7 +397,7 @@ export class TestResultValidator {
       issues: string[];
     }>;
   } {
-    const summary = {
+    const summary = {;
       overallValid: true,
       totalTests: validationResults.size,
       validTests: 0,
@@ -410,7 +410,7 @@ export class TestResultValidator {
         errorCount: number;
         warningCount: number;
         issues: string[];
-      }>,
+      }>
     };
 
     for (const [testName, result] of validationResults) {
@@ -429,7 +429,7 @@ export class TestResultValidator {
         isValid: result.isValid,
         errorCount: result.errors.length,
         warningCount: result.warnings.length,
-        issues: [...result.errors, ...result.warnings],
+        issues: [...result.errors, ...result.warnings]
       });
     }
 
@@ -510,6 +510,6 @@ export function createConsistencyCheck(
   return {
     testName,
     expectedType,
-    ...options,
+    ...options
   };
 }

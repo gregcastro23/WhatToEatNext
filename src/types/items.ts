@@ -56,7 +56,7 @@ export type ItemType = Item['type'];
 export type ItemCategory = IngredientItem['category'] | RecipeItem['type'] | FoodItem['category'];
 
 // Item collections
-export interface ItemCollection<T extends Item = Item> {
+export interface ItemCollection<T extends Item = Item> {;
   items: T[];
   count: number;
   categories: string[];

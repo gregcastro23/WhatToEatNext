@@ -7,7 +7,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Molecular gastronomy technique for creating caviar-like spheres
  * with thin gel membranes containing liquid centers
  */
-export const spherification: CookingMethodData = {
+export const spherification: CookingMethodData = {;
   name: 'spherification',
   description:
     'Molecular gastronomy technique that creates caviar-like spheres or larger droplets with thin gel membranes containing liquid centers',
@@ -15,11 +15,11 @@ export const spherification: CookingMethodData = {
     Water: 0.6,
     Air: 0.2,
     Earth: 0.1,
-    Fire: 0.1,
+    Fire: 0.1
   },
   duration: {
     min: 1,
-    max: 10,
+    max: 10
   },
   suitable_for: [
     'fruit juices',
@@ -32,7 +32,7 @@ export const spherification: CookingMethodData = {
     'sauces',
     'vegetable essences',
     'herbal infusions',
-    'dairy products',
+    'dairy products'
   ],
   benefits: [
     'dramatic presentation',
@@ -42,7 +42,7 @@ export const spherification: CookingMethodData = {
     'modern aesthetic',
     'controlled flavor release',
     'interactive dining experience',
-    'preservation of volatile flavors',
+    'preservation of volatile flavors'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['aquarius', 'gemini', 'pisces'] as any[],
@@ -53,7 +53,7 @@ export const spherification: CookingMethodData = {
       new_moon: 0.7, // Difficult to form spheres
       waxing_gibbous: 1.2, // Good membrane formation
       waning_crescent: 0.8, // Unstable membranes
-    },
+    }
   },
   toolsRequired: [
     'Digital scale (precision to 0.1g)',
@@ -69,7 +69,7 @@ export const spherification: CookingMethodData = {
     'Rinsing bowls',
     'Non-reactive metal spoons',
     'Silicone tubing for specialized applications',
-    'Magnetic stirrer for consistent hydration',
+    'Magnetic stirrer for consistent hydration'
   ],
   commonMistakes: [
     'Incorrect pH balance (most liquids need pH 4.0-6.0 for optimal reaction)',
@@ -82,7 +82,7 @@ export const spherification: CookingMethodData = {
     'Failing to strain alginate solutions before use',
     'Inadequate rinsing after calcium bath',
     'Using metal tools that can interfere with gelation',
-    'Storing spheres in water (causes osmotic imbalance)',
+    'Storing spheres in water (causes osmotic imbalance)'
   ],
   pairingSuggestions: [
     'Contrasting textures (crisp tuiles with soft spheres)',
@@ -94,7 +94,7 @@ export const spherification: CookingMethodData = {
     'Olive oil spheres with balsamic pearls',
     'Yogurt spheres with honey caviar',
     'Coffee spheres with condensed milk foam',
-    'Cucumber water spheres with gin granita',
+    'Cucumber water spheres with gin granita'
   ],
   nutrientRetention: {
     vitamins: 0.85,
@@ -103,7 +103,7 @@ export const spherification: CookingMethodData = {
     antioxidants: 0.8,
     flavor_compounds: 0.95,
     volatile_aromatics: 0.9,
-    color_pigments: 0.85,
+    color_pigments: 0.85
   },
   optimalTemperatures: {
     alginate_hydration: 70, // 70°F/21°C - room temperature
@@ -119,25 +119,25 @@ export const spherification: CookingMethodData = {
       'modern tapas applications',
       'culinary foams with spheres',
       'savory olive spheres',
-      'liquid paella spherifications',
+      'liquid paella spherifications'
     ],
     french: [
       'modernist cuisine applications',
       'wine reductions as spheres',
-      'classical sauce spherifications',
+      'classical sauce spherifications'
     ],
     japanese: ['modern kaiseki presentations', 'dashi spheres', 'sake pearls'],
     nordic: [
       'fermented flavor spheres',
       'smoked liquid encapsulations',
-      'foraged essence spherifications',
+      'foraged essence spherifications'
     ],
     latin_american: [
       'tropical fruit spheres',
       'leche de tigre pearls',
-      'chili-infused micro-spheres',
+      'chili-infused micro-spheres'
     ],
-    middle_eastern: ['aromatic tea spheres', 'rosewater pearls', 'tahini-based applications'],
+    middle_eastern: ['aromatic tea spheres', 'rosewater pearls', 'tahini-based applications']
   },
   chemicalChanges: {
     ionic_gelation: true, // Cross-linking of alginate polymers with calcium ions
@@ -151,13 +151,13 @@ export const spherification: CookingMethodData = {
   },
   safetyFeatures: [
     'Use food-grade chemicals only (USP or equivalent grade)',
-    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',
+    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',;
     'Follow sanitation protocols (sterile tools and work surfaces)',
     'Proper labeling of all chemical solutions',
     'Keep spherified products refrigerated if not serving immediately',
     'Discard spheres after 2-4 hours at room temperature',
     'Use mineral water if tap water has high calcium content',
-    'Avoid cross-contamination between calcium and alginate solutions',
+    'Avoid cross-contamination between calcium and alginate solutions'
   ],
   thermodynamicProperties: {
     heat: 0.15, // Minimal heat involvement
@@ -174,13 +174,13 @@ export const spherification: CookingMethodData = {
     'Ionic gelation between negatively charged sodium alginate and positively charged calcium ions (Ca2+)',
     'Formation of semi-permeable membranes through cross-linking of polymer chains',
     'Diffusion of calcium ions into alginate solution following concentration gradient',
-    'Cross-linking of alginate polymer chains creates "egg-box" molecular structure',
+    'Cross-linking of alginate polymer chains creates 'egg-box' molecular structure',
     'Osmotic pressure equilibrium determines membrane thickness',
     'pH-dependent reaction kinetics (optimal in mildly acidic to neutral pH)',
     'Temperature affects diffusion rates and reaction speed',
     'Viscosity of solution affects sphere formation and shape retention',
     'Gelation occurs from the outside inward due to contact pattern',
-    'Divalent cations (Ca2+) are necessary for effective cross-linking',
+    'Divalent cations (Ca2+) are necessary for effective cross-linking'
   ],
 
   modernVariations: [
@@ -193,7 +193,7 @@ export const spherification: CookingMethodData = {
     'Sous-vide infused liquids for spherification',
     'Co-extruded double spherification with two flavors',
     'Suspended spherification (spheres suspended in compatible liquids)',
-    'Color-changing spheres (using pH-sensitive natural colors)',
+    'Color-changing spheres (using pH-sensitive natural colors)'
   ],
 
   sustainabilityRating: 0.4, // Chemicals and precise measurements create waste
@@ -208,18 +208,18 @@ export const spherification: CookingMethodData = {
     'May contain sodium from sodium alginate (consideration for low-sodium diets)',
     'Alginate may provide beneficial dietary fiber properties',
     'Potential for reduced use of salt, sugar, or fat due to intense flavor delivery',
-    'Some chemicals like calcium chloride can impart bitter flavors if not thoroughly rinsed',
+    'Some chemicals like calcium chloride can impart bitter flavors if not thoroughly rinsed'
   ],
 
   // More detailed technical information
   technicalNotes: {
     basicProcedure: {
       description:
-        'Dissolve sodium alginate in flavored liquid (0.5-1% by weight), rest 24 hours to hydrate and remove air bubbles, then drop into calcium bath (0.5-1% calcium chloride) to form spheres',
+        'Dissolve sodium alginate in flavored liquid (0.5-1% by weight), rest 24 hours to hydrate and remove air bubbles, then drop into calcium bath (0.5-1% calcium chloride) to form spheres'
     },
     reverseProcedure: {
       description:
-        'Mix calcium salt (calcium lactate gluconate 1-2%) into flavored liquid, then drop into sodium alginate bath (0.5% solution) for spheres with liquid centers',
+        'Mix calcium salt (calcium lactate gluconate 1-2%) into flavored liquid, then drop into sodium alginate bath (0.5% solution) for spheres with liquid centers'
     },
     requiredAdditives: {
       sodium_alginate: '0.5-1% by weight of liquid (higher % = firmer membrane)',
@@ -229,20 +229,20 @@ export const spherification: CookingMethodData = {
       sodium_citrate: '0.25-0.5% for acidic liquids (buffers pH above 4.0)',
       xanthan_gum: '0.1-0.2% to stabilize alcohol or increase viscosity',
       calcium_lactate: '0.5-1% alternative to calcium chloride with less bitter taste',
-      sodium_hexametaphosphate: '0.1% to sequester existing calcium in liquids',
+      sodium_hexametaphosphate: '0.1% to sequester existing calcium in liquids'
     },
     pHRequirements: {
-      idealRange: "4.0-6.0 (alginate won't gel properly below pH 3.8)",
+      idealRange: '4.0-6.0 (alginate won't gel properly below pH 3.8)',
       acidicSolutions: 'May require sodium citrate to adjust pH; test with pH meter',
       alcoholicSolutions: 'May require xanthan gum stabilizer (0.1-0.2%) to prevent separation',
       highCalciumLiquids:
-        'Use sodium hexametaphosphate to sequester calcium before basic spherification',
+        'Use sodium hexametaphosphate to sequester calcium before basic spherification'
     },
     shelf_life: {
       basicSpheres: '1-2 hours before membrane continues to thicken',
       reverseSpheres: '2-4 days when stored in original liquid, refrigerated',
-      frozen: 'Up to 1 week when prepared using frozen reverse spherification',
-    },
+      frozen: 'Up to 1 week when prepared using frozen reverse spherification'
+    }
   },
 
   expertTips: [
@@ -250,16 +250,16 @@ export const spherification: CookingMethodData = {
     'Rest alginate solutions for 24 hours in refrigerator to fully hydrate and remove air bubbles',
     'Use a vacuum chamber to degas alginate solutions for absolutely clear spheres',
     'For alcohol spherification, add 0.15% xanthan gum to prevent ingredient separation',
-    'Create a "wash bath" of clean water to rinse spheres after calcium bath to remove bitter taste',
+    'Create a 'wash bath' of clean water to rinse spheres after calcium bath to remove bitter taste',
     'For extremely thin membranes, limit bath time to 20-30 seconds with immediate washing',
     'Use calcium lactate gluconate instead of calcium chloride for better taste in reverse spherification',
     'Freeze flavored liquids in silicone molds before reverse spherification for perfect shapes',
     'Test all liquids for calcium content before attempting basic spherification',
-    "For stable colored spheres, use oil-soluble natural colors that won't diffuse through membrane",
+    'For stable colored spheres, use oil-soluble natural colors that won't diffuse through membrane',
     'Use flavored oils to coat finished spheres and prevent them from sticking together',
     'For spheres with perfect round bottoms, drop liquid into a bath with deeper depth (4+ inches)',
     'Use spray bottle with water to mist spheres occasionally during service to maintain moisture',
-    'Create neutral flavored "carrier spheres" that can be injected with different flavors before service',
+    'Create neutral flavored 'carrier spheres' that can be injected with different flavors before service'
   ],
 
   ingredientPreparation: {
@@ -277,7 +277,7 @@ export const spherification: CookingMethodData = {
       'Strain through fine-mesh sieve to remove all solids before adding hydrocolloids. Adjust water content if too thick.',
     oils: 'Mix with lecithin (1%) to create emulsion that can accept alginate or calcium.',
     high_sugar_liquids:
-      'May require reduced alginate percentage (0.4-0.5%) due to binding competition with sugars.',
+      'May require reduced alginate percentage (0.4-0.5%) due to binding competition with sugars.'
   },
 
   timingConsiderations: {
@@ -294,19 +294,19 @@ export const spherification: CookingMethodData = {
     freezing_considerations:
       'Frozen reverse spheres must thaw at least 50% before serving for proper texture.',
     prep_timing:
-      'Prepare solutions at least 24 hours before service; actual spherification should be done 10-30 minutes before serving.',
+      'Prepare solutions at least 24 hours before service; actual spherification should be done 10-30 minutes before serving.'
   },
 
   doneness_indicators: {
     basic_spheres:
       'Membrane holds shape when gently lifted with slotted spoon; liquid center moves freely inside.',
     reverse_spheres:
-      "Shape holds when rolled on flat surface; membrane is elastic but doesn't break under light pressure.",
-    caviar: "Individual spheres remain separate and don't merge; bounce slightly when dropped.",
+      'Shape holds when rolled on flat surface; membrane is elastic but doesn't break under light pressure.',
+    caviar: 'Individual spheres remain separate and don't merge; bounce slightly when dropped.',
     large_spheres:
       'Surface tension creates slight resistance when touched; membrane is continuous with no weak spots.',
     over_gelled: 'Sphere feels firm throughout with reduced liquid center; membrane too thick.',
-    under_gelled: 'Membrane breaks easily when handled; sphere loses shape outside of liquid.',
+    under_gelled: 'Membrane breaks easily when handled; sphere loses shape outside of liquid.'
   },
 
   ingredientInteractions: {
@@ -324,6 +324,6 @@ export const spherification: CookingMethodData = {
     sugar_and_alginate:
       'High sugar concentration competes with alginate hydration; may need adjustment of percentages.',
     natural_calcium_content:
-      'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate; use reverse method.',
-  },
+      'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate; use reverse method.'
+  }
 };

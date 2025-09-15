@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console -- Campaign/test file with intentional patterns */
 /**
  * Campaign Test Controller
  *
@@ -12,13 +12,13 @@ import {
   ProgressMetrics,
   SafetyEvent,
   SafetyEventType,
-  SafetyEventSeverity,
+  SafetyEventSeverity
 } from '../../types/campaign';
 import {
   MockCampaignController,
   MockProgressTracker,
   MockSafetyProtocol,
-  campaignTestIsolation,
+  campaignTestIsolation
 } from '../mocks/CampaignSystemMocks';
 
 import { TestSafeProgressTracker } from './TestSafeProgressTracker';
@@ -59,28 +59,28 @@ export class CampaignTestController {
   private activeTestName: string | null = null;
 
   private constructor() {
-    this.testState = {
+    this.testState = {;
       isPaused: false,
       isIsolated: false,
       pausedAt: null,
       resumedAt: null,
       testName: null,
-      originalState: null,
+      originalState: null
     };
 
-    this.isolationConfig = {
+    this.isolationConfig = {;
       pauseProgressTracking: true,
       preventBuildExecution: true,
       preventGitOperations: true,
       enableMemoryMonitoring: true,
       isolateFileSystem: false, // Can be enabled for specific tests
-      mockExternalAPIs: true,
+      mockExternalAPIs: true
     };
 
-    this.mockInstances = {
+    this.mockInstances = {;
       controller: null,
       tracker: null,
-      safety: null,
+      safety: null
     };
 
     this.setupTestEnvironment();
@@ -109,11 +109,11 @@ export class CampaignTestController {
 
     // Initialize test-safe progress tracker
     if (this.isolationConfig.pauseProgressTracking) {
-      this.testSafeTracker = new TestSafeProgressTracker({
+      this.testSafeTracker = new TestSafeProgressTracker({;
         maxHistorySize: 10, // Smaller for tests
         memoryCheckFrequency: 3,
         enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring,
-        simulateRealProgress: false,
+        simulateRealProgress: false
       });
     }
 
@@ -231,7 +231,7 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000,
+    durationMs: number = 1000,;
     testName?: string,
   ): Promise<void> {
     if (!this.testSafeTracker) {
@@ -271,14 +271,14 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO,
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO,;
   ): SafetyEvent {
     return {
       type,
       timestamp: new Date(),
       description: `Mock: ${description}`,
       severity,
-      action: 'MOCK_TEST_EVENT',
+      action: 'MOCK_TEST_EVENT'
     };
   }
 
@@ -295,7 +295,7 @@ export class CampaignTestController {
 
     // Check environment variables
     if (process.env.NODE_ENV !== 'test') {
-      issues.push('NODE_ENV is not set to "test"');
+      issues.push('NODE_ENV is not set to 'test'');
     }
 
     if (!process.env.CAMPAIGN_TEST_MODE) {
@@ -328,9 +328,9 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0,
+      isValid: issues.length === 0,;
       issues,
-      warnings,
+      warnings
     };
   }
 
@@ -351,10 +351,10 @@ export class CampaignTestController {
 
     // Reset mock instances
     campaignTestIsolation.resetAllMockStates();
-    this.mockInstances = {
+    this.mockInstances = {;
       controller: null,
       tracker: null,
-      safety: null,
+      safety: null
     };
 
     // Restore original state
@@ -363,13 +363,13 @@ export class CampaignTestController {
     }
 
     // Reset test state
-    this.testState = {
+    this.testState = {;
       isPaused: false,
       isIsolated: false,
       pausedAt: null,
       resumedAt: null,
       testName: null,
-      originalState: null,
+      originalState: null
     };
 
     this.activeTestName = null;
@@ -401,12 +401,12 @@ export class CampaignTestController {
 
   private setupTestEnvironment(): void {
     // Store original environment variables
-    this.originalEnvVars = {
+    this.originalEnvVars = {;
       NODE_ENV: process.env.NODE_ENV,
       CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE,
       DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS,
       DISABLE_GIT_OPERATIONS: process.env.DISABLE_GIT_OPERATIONS,
-      MOCK_CAMPAIGN_SYSTEM: process.env.MOCK_CAMPAIGN_SYSTEM,
+      MOCK_CAMPAIGN_SYSTEM: process.env.MOCK_CAMPAIGN_SYSTEM
     };
 
     // Set basic test environment
@@ -457,7 +457,7 @@ export class CampaignTestController {
 
   private mockExternalAPIs(): void {
     // Mock child_process.execSync to prevent actual command execution
-    const UNUSED_originalExecSync = require('child_process').execSync;
+    const _UNUSED_originalExecSync = require('child_process').execSync;
 
     jest.spyOn(require('child_process'), 'execSync').mockImplementation((command: string) => {
       // Return mock outputs for common commands
@@ -513,21 +513,21 @@ export class CampaignTestController {
   private captureOriginalState(): any {
     return {
       envVars: { ...process.env },
-      mockStates: this.mockInstances,
+      mockStates: this.mockInstances
     };
   }
 
   private restoreOriginalState(originalState: unknown): void {
     // Restore environment variables
     if ((originalState as any).envVars) {
-      Object.keys(process.env).forEach(key => {
+      Object.keys(process.env).forEach(key => {;
         if (!(key in (originalState as any).envVars)) {
           delete process.env[key];
         }
       });
 
       Object.entries((originalState as any).envVars).forEach(([key, value]) => {
-        if (typeof value === 'string') {
+        if (typeof value === 'string') {;
           process.env[key] = value;
         }
       });
@@ -536,7 +536,7 @@ export class CampaignTestController {
 }
 
 // Export singleton instance for easy access
-export const campaignTestController = CampaignTestController.getInstance();
+export const _campaignTestController = CampaignTestController.getInstance();
 
 // Class is already exported above
 

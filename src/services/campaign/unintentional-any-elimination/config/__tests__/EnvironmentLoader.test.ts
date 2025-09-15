@@ -30,7 +30,7 @@ describe('Environment Configuration Loader', () => {
       expect(getCurrentEnvironment()).toBe('production');
     });
 
-    test('detects production environment with "prod"', () => {
+    test('detects production environment with 'prod'', () => {
       (process.env as any).NODE_ENV = 'prod';
       expect(getCurrentEnvironment()).toBe('production');
     });
@@ -40,7 +40,7 @@ describe('Environment Configuration Loader', () => {
       expect(getCurrentEnvironment()).toBe('testing');
     });
 
-    test('detects testing environment with "testing"', () => {
+    test('detects testing environment with 'testing'', () => {
       (process.env as any).NODE_ENV = 'testing';
       expect(getCurrentEnvironment()).toBe('testing');
     });
@@ -217,7 +217,7 @@ describe('Environment Configuration Loader', () => {
     test('all environments have valid configurations', () => {
       const environments: any = ['development', 'production', 'testing'] as const;
 
-      environments.forEach(env => {
+      environments.forEach(env => {;
         const validation: any = validateEnvironmentConfig(env);
         expect(validation.isValid).toBe(true);
       });
@@ -226,7 +226,7 @@ describe('Environment Configuration Loader', () => {
     test('all environments maintain required properties', () => {
       const environments: any = ['development', 'production', 'testing'] as const;
 
-      environments.forEach(env => {
+      environments.forEach(env => {;
         const config: any = getEnvironmentConfig(env);
 
         expect(config.classification).toBeDefined();

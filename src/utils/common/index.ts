@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { logger } from '../logger';
-// ===== THEME MANAGEMENT =====
+// ===== THEME MANAGEMENT =====;
 
 export interface ThemeData {
   mode: 'light' | 'dark' | 'system';
@@ -33,7 +33,7 @@ export class ThemeManager {
 
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
-        accent: savedAccent,
+        accent: savedAccent
       };
     } catch (error) {
       logger.error('Error getting theme:', error);
@@ -44,9 +44,9 @@ export class ThemeManager {
 
 export const themeManager = new ThemeManager();
 
-// ===== ENVIRONMENT VALIDATION =====
+// ===== ENVIRONMENT VALIDATION =====;
 
-const envSchema = z.object({
+const envSchema = z.object({;
   NODE_ENV: z.enum(['development', 'production', 'test']),
   NEXT_PUBLIC_API_URL: z.string().url().optional(),
   // Add other environment variables here
@@ -72,7 +72,7 @@ export function validateAstrologyConfig() {
   }
 }
 
-// ===== FEEDBACK COLLECTION =====
+// ===== FEEDBACK COLLECTION =====;
 
 export interface FeedbackData {
   type: 'bug' | 'feature' | 'improvement' | 'other';
@@ -96,7 +96,7 @@ export async function collectFeedback(
     if (!feedback.title || !feedback.description || !feedback.type) {
       return {
         success: false,
-        message: 'Missing required feedback fields: title, description, and type are required',
+        message: 'Missing required feedback fields: title, description, and type are required'
       };
     }
 
@@ -104,7 +104,7 @@ export async function collectFeedback(
     logger.info('Received user feedback', {
       type: feedback.type,
       title: feedback.title,
-      priority: feedback.priority || 'medium',
+      priority: feedback.priority || 'medium'
     });
 
     // In a real application, you would send this to a server/API endpoint
@@ -113,13 +113,13 @@ export async function collectFeedback(
 
     return {
       success: true,
-      message: 'Thank you for your feedback! We will review it shortly.',
+      message: 'Thank you for your feedback! We will review it shortly.'
     };
   } catch (error) {
     logger.error('Error processing feedback', error);
     return {
       success: false,
-      message: 'Failed to process feedback. Please try again later.',
+      message: 'Failed to process feedback. Please try again later.'
     };
   }
 }
@@ -133,9 +133,9 @@ export function getFeedbackCategories(): { id: string; label: string }[] {
     { id: 'bug', label: 'Report a Bug' },
     { id: 'feature', label: 'Request a Feature' },
     { id: 'improvement', label: 'Suggest Improvement' },
-    { id: 'other', label: 'Other Feedback' },
+    { id: 'other', label: 'Other Feedback' }
   ];
 }
 
-// ===== EXPORTS =====
+// ===== EXPORTS =====;
 export { themeManager as default };

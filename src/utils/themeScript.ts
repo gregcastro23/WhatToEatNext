@@ -1,4 +1,4 @@
-export const themeScript = `
+export const _themeScript = `;
   (function() {
     try {
       const savedTheme = localStorage.getItem('theme');

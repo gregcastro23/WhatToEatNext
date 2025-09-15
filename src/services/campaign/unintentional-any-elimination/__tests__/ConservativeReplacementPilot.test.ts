@@ -28,7 +28,7 @@ describe('ConservativeReplacementPilot', () => {
     jest.clearAllMocks();
 
     // Default test configuration
-    mockConfig = {
+    mockConfig = {;
       maxFilesPerBatch: 10,
       minFilesPerBatch: 5,
       targetSuccessRate: 0.8,
@@ -98,7 +98,7 @@ describe('ConservativeReplacementPilot', () => {
         if (filePath.includes('test2.tsx')) {
           return `
             const data: any[] = [1, 2, 3];
-            const mapping: Record<number, unknown> = {};
+            const _mapping: Record<number, unknown> = {};
           `;
         }
         return 'mock content';
@@ -129,7 +129,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should exclude cases in comments', async () => {
       mockFs.readFileSync.mockReturnValue(`
         // const items: any[] = []; // This should be ignored
-        const realItems: any[] = []; // This should be found
+        const _realItems: any[] = []; // This should be found
       `);
 
       const result: any = await pilot.executePilot();
@@ -234,7 +234,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should track TypeScript error count', async () => {
       // Mock error count output
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c 'error TS'')) {
           return '5'; // Mock 5 errors
         }
         return '';
@@ -280,7 +280,7 @@ describe('ConservativeReplacementPilot', () => {
 
       const result: any = await pilot.executePilot();
 
-      if (result.successRate >= mockConfig.targetSuccessRate && result.buildFailures === 0) {
+      if (result.successRate >= mockConfig.targetSuccessRate && result.buildFailures === 0) {;
         expect(result.targetAchieved).toBe(true);
       }
     });
@@ -419,7 +419,7 @@ describe('ConservativeReplacementPilot', () => {
       const result: any = await pilot.executePilot();
 
       // Each batch should respect size limits
-      result.batchResults.forEach(batch => {
+      result.batchResults.forEach(batch => {;
         expect(batch.casesProcessed).toBeLessThanOrEqual(mockConfig.maxFilesPerBatch);
       });
     });
@@ -521,7 +521,7 @@ describe('ConservativeReplacementPilot Integration Tests', () => {
   let pilot: ConservativeReplacementPilot;
 
   beforeEach(() => {
-    pilot = new ConservativeReplacementPilot({
+    pilot = new ConservativeReplacementPilot({;
       maxFilesPerBatch: 5,
       maxBatches: 2,
       targetSuccessRate: 0.8,

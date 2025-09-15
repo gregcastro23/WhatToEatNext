@@ -18,7 +18,7 @@ export interface SignVectorConfig {
   };
 }
 
-export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
+export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
   blendWeightAlpha: 0.15,
   
   // Elemental to ESMS mapping
@@ -85,7 +85,7 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
 };
 
 // Development configuration with more aggressive values for testing
-export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
+export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
   ...DEFAULT_SIGN_VECTOR_CONFIG,
   blendWeightAlpha: 0.25, // Higher blend weight for development
   
@@ -134,7 +134,7 @@ export function mergeSignVectorConfig(
 // Environment-based configuration selector
 export function getSignVectorConfig(): SignVectorConfig {
   if (process.env.NODE_ENV === 'production') {;
-    return DEFAULT_SIGN_VECTOR_CONFIG,
+    return DEFAULT_SIGN_VECTOR_CONFIG
   }
   return DEV_SIGN_VECTOR_CONFIG;
 }
@@ -143,7 +143,7 @@ export function getSignVectorConfig(): SignVectorConfig {
 let currentConfig: SignVectorConfig = getSignVectorConfig();
 
 export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
-  currentConfig = mergeSignVectorConfig(currentConfig, config),
+  currentConfig = mergeSignVectorConfig(currentConfig, config),;
 }
 
 export function getCurrentSignVectorConfig(): SignVectorConfig {
@@ -151,5 +151,5 @@ export function getCurrentSignVectorConfig(): SignVectorConfig {
 }
 
 export function resetSignVectorConfig(): void {
-  currentConfig = getSignVectorConfig(),
+  currentConfig = getSignVectorConfig(),;
 }

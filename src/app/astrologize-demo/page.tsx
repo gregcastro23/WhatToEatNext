@@ -1,17 +1,17 @@
 import { Metadata } from 'next';
 
-const AstrologizeDemo = () => (
-  <div className='text-gray-600'>AstrologizeDemo component unavailable.</div>
+const AstrologizeDemo = () => (;
+  <div className='text-gray-600'>AstrologizeDemo component unavailable.</div>;
 );
 
-export const metadata: Metadata = {
+export const _metadata: Metadata = {;
   title: 'Astrologize API Demo',
-  description: 'Demo page for the Astrologize API integration',
+  description: 'Demo page for the Astrologize API integration'
 };
 
 export default function AstrologizeDemoPage() {
   return (
-    <div className='container mx-auto py-8'>
+    <div className='container mx-auto py-8'>;
       <AstrologizeDemo />
     </div>
   );

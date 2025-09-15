@@ -164,79 +164,79 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
       sign: 'cancer',
       degree: 101.48333333333333,
       exactLongitude: 101.4844,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Moon: {
       sign: 'libra',
       degree: 195.16666666666666,
       exactLongitude: 195.18319999999994,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Mercury: {
       sign: 'leo',
       degree: 127.38333333333334,
       exactLongitude: 127.38920000000002,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Venus: {
       sign: 'taurus',
       degree: 58.35,
       exactLongitude: 58.35340000000002,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Mars: { sign: 'virgo', degree: 159, exactLongitude: 159.0158, isRetrograde: false },
     Jupiter: {
       sign: 'cancer',
       degree: 95.3,
       exactLongitude: 95.30540000000002,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Saturn: {
       sign: 'aries',
       degree: 1.85,
       exactLongitude: 1.8501999999999725,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Uranus: { sign: 'taurus', degree: 59.8, exactLongitude: 59.8091, isRetrograde: false },
     Neptune: {
       sign: 'aries',
       degree: 2.1666666666666665,
       exactLongitude: 2.174699999999973,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Pluto: {
       sign: 'aquarius',
       degree: 303.0833333333333,
       exactLongitude: 303.09529999999995,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Chiron: {
       sign: 'aries',
       degree: 26.933333333333334,
       exactLongitude: 26.939399999999978,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Sirius: {
       sign: 'aries',
       degree: 1.7666666666666666,
       exactLongitude: 1.7726000000000113,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+    }
   };
 
   // Validate positions against transit dates
   const validatedPositions = validatePositionsWithTransitDates(basePositions);
 
   // Cache the positions
-  positionsCache = {
+  positionsCache = {;
     positions: validatedPositions,
-    timestamp: Date.now(),
+    timestamp: Date.now()
   };
 
   logger.info('Updated planetary positions cache with transit validation', {
     sunSign: validatedPositions.Sun.sign,
     moonSign: validatedPositions.moon.sign,
-    timestamp: new Date().toISOString(),
+    timestamp: new Date().toISOString()
   });
 
   return validatedPositions;
@@ -272,7 +272,7 @@ function validatePositionsWithTransitDates(positions: { [key: string]: Celestial
           `Transit data discrepancy for ${planetName}: transit data suggests ${transitSign}, but using accurate position ${position.sign}. Transit dates may need updating.`,
         );
 
-        // Keep the user's accurate position rather than "correcting" it
+        // Keep the user's accurate position rather than 'correcting' it
         // This ensures we use the most accurate current data
       }
     } catch (error) {
@@ -333,7 +333,7 @@ export function getPlanetaryPositionsForDate(date: Date): { [key: string]: Celes
       sign,
       degree,
       exactLongitude: adjustedLongitude,
-      isRetrograde: position.isRetrograde,
+      isRetrograde: position.isRetrograde
     };
   }
 
@@ -356,7 +356,7 @@ function longitudeToSignAndDegree(longitude: number): { sign: any; degree: numbe
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
 
   const normalizedLong = ((longitude % 360) + 360) % 360;
@@ -365,7 +365,7 @@ function longitudeToSignAndDegree(longitude: number): { sign: any; degree: numbe
 
   return {
     sign: signs[signIndex],
-    degree: parseFloat(degree.toFixed(2)),
+    degree: parseFloat(degree.toFixed(2))
   };
 }
 

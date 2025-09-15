@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Memory Leak Detector for Test Environment
  *
@@ -43,7 +43,7 @@ export class MemoryLeakDetector {
             typeof window !== 'undefined' &&
             (window as { _eventListeners?: Record<string, unknown[]> })._eventListeners
           ) {
-            const totalListeners = Object.values(
+            const totalListeners = Object.values(;
               (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners,
             ).reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0);
             return totalListeners > 50;
@@ -52,7 +52,7 @@ export class MemoryLeakDetector {
         },
         description: 'Too many event listeners attached to DOM elements',
         fix: 'Remove event listeners in test cleanup or use cleanup utilities',
-        severity: 'high',
+        severity: 'high'
       },
       {
         name: 'Unclosed Timers',
@@ -63,7 +63,7 @@ export class MemoryLeakDetector {
         },
         description: 'Active timers not cleared after tests',
         fix: 'Clear all timers in afterEach hooks using clearTimeout/clearInterval',
-        severity: 'medium',
+        severity: 'medium'
       },
       {
         name: 'Large Test Cache',
@@ -75,7 +75,7 @@ export class MemoryLeakDetector {
         },
         description: 'Test cache has grown too large',
         fix: 'Clear test cache regularly or implement cache size limits',
-        severity: 'medium',
+        severity: 'medium'
       },
       {
         name: 'Memory Growth Pattern',
@@ -86,7 +86,7 @@ export class MemoryLeakDetector {
         },
         description: 'Significant memory growth detected during test execution',
         fix: 'Review test setup/teardown and ensure proper cleanup',
-        severity: 'critical',
+        severity: 'critical'
       },
       {
         name: 'Jest Module Cache Bloat',
@@ -99,7 +99,7 @@ export class MemoryLeakDetector {
         },
         description: 'Jest module cache has grown excessively large',
         fix: 'Use jest.resetModules() in test cleanup',
-        severity: 'medium',
+        severity: 'medium'
       },
       {
         name: 'DOM Node Accumulation',
@@ -112,7 +112,7 @@ export class MemoryLeakDetector {
         },
         description: 'Too many DOM nodes accumulated during testing',
         fix: 'Clear document.body.innerHTML in afterEach hooks',
-        severity: 'high',
+        severity: 'high'
       },
       {
         name: 'Global Reference Accumulation',
@@ -124,8 +124,8 @@ export class MemoryLeakDetector {
         },
         description: 'Too many global test references accumulated',
         fix: 'Clear global.__TEST_REFS__ in test cleanup',
-        severity: 'medium',
-      },
+        severity: 'medium'
+      }
     ];
   }
 
@@ -136,7 +136,7 @@ export class MemoryLeakDetector {
     const currentMemory = process.memoryUsage().heapUsed;
     const memoryIncrease = currentMemory - this.baseline;
 
-    const leaksDetected = this.patterns.filter(pattern => {
+    const leaksDetected = this.patterns.filter(pattern => {;
       try {
         return pattern.detector();
       } catch (error) {
@@ -155,7 +155,7 @@ export class MemoryLeakDetector {
         baseline: this.baseline / (1024 * 1024), // MB
         increase: memoryIncrease / (1024 * 1024), // MB
       },
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
   }
 
@@ -190,7 +190,7 @@ export class MemoryLeakDetector {
       recommendations.push('Consider implementing a comprehensive test cleanup strategy');
     }
 
-    if (recommendations.length === 0) {
+    if (recommendations.length === 0) {;
       recommendations.push('No significant memory leaks detected');
     }
 
@@ -212,9 +212,9 @@ export class MemoryLeakDetector {
       ) {
         Object.keys(
           (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners,
-        ).forEach(eventType => {
+        ).forEach(eventType => {;
           const listeners =
-            (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners[
+            (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners[;
               eventType
             ] || [];
           listeners.forEach((listener: (event: Event) => void) => {
@@ -235,7 +235,7 @@ export class MemoryLeakDetector {
     try {
       // Fix 2: Clear test cache
       if (global.__TEST_CACHE__) {
-        if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {
+        if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {;
           (global.__TEST_CACHE__ as { clear: () => void }).clear();
         } else {
           global.__TEST_CACHE__ = new Map<unknown, unknown>();
@@ -295,9 +295,9 @@ export class MemoryLeakDetector {
   generateDetailedReport(): string {
     const report = this.scanForLeaks();
 
-    let output = `
+    let output = `;
 Memory Leak Detection Report
-============================
+============================;
 Generated: ${report.timestamp}
 
 Memory Usage:

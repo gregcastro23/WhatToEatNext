@@ -45,13 +45,13 @@ class PerformanceMonitoringService {
   private readonly ERROR_RATE_WARNING = 0.1; // 10% error rate
 
   constructor() {
-    this.systemMetrics = {
+    this.systemMetrics = {;
       totalMemoryUsage: 0,
       peakMemoryUsage: 0,
       totalErrors: 0,
       activeComponents: 0,
       systemUptime: 0,
-      lastUpdated: new Date(),
+      lastUpdated: new Date()
     };
 
     this.startMonitoring();
@@ -77,13 +77,13 @@ class PerformanceMonitoringService {
     }
 
     // Update system metrics
-    this.systemMetrics = {
+    this.systemMetrics = {;
       ...this.systemMetrics,
       totalMemoryUsage: totalMemory,
       peakMemoryUsage: Math.max(this.systemMetrics.peakMemoryUsage, totalMemory),
       activeComponents: this.componentMetrics.size,
       systemUptime: now - this.startTime,
-      lastUpdated: new Date(),
+      lastUpdated: new Date()
     };
   }
 
@@ -99,7 +99,7 @@ class PerformanceMonitoringService {
           timestamp: new Date(),
           metric: 'renderTime',
           value: metrics.averageRenderTime,
-          threshold: this.RENDER_TIME_ERROR,
+          threshold: this.RENDER_TIME_ERROR
         });
       } else if (metrics.averageRenderTime > this.RENDER_TIME_WARNING) {
         this.addAlert({
@@ -109,7 +109,7 @@ class PerformanceMonitoringService {
           timestamp: new Date(),
           metric: 'renderTime',
           value: metrics.averageRenderTime,
-          threshold: this.RENDER_TIME_WARNING,
+          threshold: this.RENDER_TIME_WARNING
         });
       }
 
@@ -123,7 +123,7 @@ class PerformanceMonitoringService {
           timestamp: new Date(),
           metric: 'errorRate',
           value: errorRate,
-          threshold: this.ERROR_RATE_WARNING,
+          threshold: this.ERROR_RATE_WARNING
         });
       }
     });
@@ -136,7 +136,7 @@ class PerformanceMonitoringService {
         timestamp: new Date(),
         metric: 'memoryUsage',
         value: this.systemMetrics.totalMemoryUsage,
-        threshold: this.MEMORY_ERROR,
+        threshold: this.MEMORY_ERROR
       });
     } else if (this.systemMetrics.totalMemoryUsage > this.MEMORY_WARNING) {
       this.addAlert({
@@ -145,7 +145,7 @@ class PerformanceMonitoringService {
         timestamp: new Date(),
         metric: 'memoryUsage',
         value: this.systemMetrics.totalMemoryUsage,
-        threshold: this.MEMORY_WARNING,
+        threshold: this.MEMORY_WARNING
       });
     }
   }
@@ -159,22 +159,22 @@ class PerformanceMonitoringService {
     }
 
     // Log critical alerts
-    if (alert.type === 'error') {
+    if (alert.type === 'error') {;
       console.error('[Performance Monitor]', alert.message, alert);
-    } else if (alert.type === 'warning') {
+    } else if (alert.type === 'warning') {;
       console.warn('[Performance Monitor]', alert.message, alert);
     }
   }
 
   private notifySubscribers() {
-    const data = {
+    const data = {;
       componentMetrics: Array.from(this.componentMetrics.entries()),
       systemMetrics: this.systemMetrics,
       alerts: this.alerts.slice(-10), // Last 10 alerts
-      summary: this.getPerformanceSummary(),
+      summary: this.getPerformanceSummary()
     };
 
-    this.subscribers.forEach(callback => {
+    this.subscribers.forEach(callback => {;
       try {
         callback(data);
       } catch (error) {
@@ -197,7 +197,7 @@ class PerformanceMonitoringService {
         totalRenderTime: newTotalTime,
         averageRenderTime: newTotalTime / newRenderCount,
         lastRenderTime: renderTime,
-        lastUpdated: new Date(),
+        lastUpdated: new Date()
       });
     } else {
       this.componentMetrics.set(componentName, {
@@ -208,7 +208,7 @@ class PerformanceMonitoringService {
         lastRenderTime: renderTime,
         errorCount: 0,
         memoryUsage: 0,
-        lastUpdated: new Date(),
+        lastUpdated: new Date()
       });
     }
   }
@@ -220,7 +220,7 @@ class PerformanceMonitoringService {
       this.componentMetrics.set(componentName, {
         ...existing,
         errorCount: existing.errorCount + 1,
-        lastUpdated: new Date(),
+        lastUpdated: new Date()
       });
     } else {
       this.componentMetrics.set(componentName, {
@@ -231,7 +231,7 @@ class PerformanceMonitoringService {
         lastRenderTime: 0,
         errorCount: 1,
         memoryUsage: 0,
-        lastUpdated: new Date(),
+        lastUpdated: new Date()
       });
     }
 
@@ -272,8 +272,8 @@ class PerformanceMonitoringService {
   public getPerformanceSummary() {
     const components = Array.from(this.componentMetrics.values());
     const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
-    const errorProneComponents = components.filter(
-      c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,
+    const errorProneComponents = components.filter(;
+      c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,;
     );
 
     return {
@@ -286,7 +286,7 @@ class PerformanceMonitoringService {
       totalErrors: this.systemMetrics.totalErrors,
       memoryUsage: this.systemMetrics.totalMemoryUsage,
       uptime: this.systemMetrics.systemUptime,
-      healthScore: this.calculateHealthScore(),
+      healthScore: this.calculateHealthScore()
     };
   }
 
@@ -314,18 +314,18 @@ class PerformanceMonitoringService {
   public reset() {
     this.componentMetrics.clear();
     this.alerts = [];
-    this.systemMetrics = {
+    this.systemMetrics = {;
       totalMemoryUsage: 0,
       peakMemoryUsage: 0,
       totalErrors: 0,
       activeComponents: 0,
       systemUptime: 0,
-      lastUpdated: new Date(),
+      lastUpdated: new Date()
     };
     this.startTime = Date.now();
   }
 }
 
 // Export singleton instance
-export const performanceMonitor = new PerformanceMonitoringService();
+export const _performanceMonitor = new PerformanceMonitoringService();
 export default PerformanceMonitoringService;

@@ -43,32 +43,32 @@ class IngredientMappingService {
     const allRecipes: Recipe[] = [];
 
     // Filter by cuisine if specified
-    const cuisines = options.cuisineType
+    const cuisines = options.cuisineType;
       ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(Boolean)
       : Object.values(cuisinesMap);
 
     // Collect recipes from specified cuisines
-    cuisines.forEach(cuisine => {
+    cuisines.forEach(cuisine => {;
       if (!cuisine.dishes) return;
 
       // Define which meal types to include
-      const mealTypes = options.mealType
+      const mealTypes = options.mealType;
         ? [options.mealType as keyof typeof cuisine.dishes].filter(
-            mealType => cuisine.dishes[mealType],
+            mealType => cuisine.dishes[mealType],;
           )
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
 
       // Define which seasons to include
-      const seasons = options.season
+      const seasons = options.season;
         ? [options.season as 'spring' | 'summer' | 'autumn' | 'winter']
         : ['spring', 'summer', 'autumn', 'winter'];
 
       // Collect recipes matching criteria
-      mealTypes.forEach(mealType => {
+      mealTypes.forEach(mealType => {;
         const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
         if (!mealDishes) return;
 
-        seasons.forEach(season => {
+        seasons.forEach(season => {;
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
           if (Array.isArray(seasonalDishes)) {
             allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
@@ -85,7 +85,7 @@ class IngredientMappingService {
         required: options.requiredIngredients || [],
         excluded: options.excludedIngredients || [],
         dietaryRestrictions: options.dietaryRestrictions || [],
-        emphasized: options.emphasizedIngredients || [],
+        emphasized: options.emphasizedIngredients || []
       },
     );
   }
@@ -107,14 +107,14 @@ class IngredientMappingService {
       return {
         success: false,
         message: `Ingredient '${ingredientName}' not found in database`,
-        suggestions: [],
+        suggestions: []
       };
     }
 
     const { similarityThreshold = 0.7, maxResults = 5, category } = options;
 
     // Find alternatives with similar elemental properties
-    const potentialAlternatives = Object.entries(ingredientsMap)
+    const potentialAlternatives = Object.entries(ingredientsMap);
       .filter(([name, mapping]) => {
         // Skip the original ingredient
         if (name.toLowerCase() === ingredientName.toLowerCase()) return false;
@@ -126,7 +126,7 @@ class IngredientMappingService {
         if (!category && mapping.category !== originalIngredient.category) return false;
 
         // Check elemental similarity
-        const similarity = this.calculateElementalSimilarity(
+        const similarity = this.calculateElementalSimilarity(;
           originalIngredient.elementalProperties as unknown as ElementalProperties,
           mapping.elementalProperties as unknown as ElementalProperties,
         );
@@ -139,7 +139,7 @@ class IngredientMappingService {
           originalIngredient.elementalProperties as unknown as ElementalProperties,
           mapping.elementalProperties as unknown as ElementalProperties,
         ),
-        mapping,
+        mapping
       }))
       .sort((a, b) => b.similarity - a.similarity)
       .slice(0, maxResults);
@@ -147,7 +147,7 @@ class IngredientMappingService {
     return {
       success: true,
       original: originalIngredient,
-      suggestions: potentialAlternatives,
+      suggestions: potentialAlternatives
     };
   }
 
@@ -171,12 +171,12 @@ class IngredientMappingService {
         message: !mapping1
           ? `Ingredient '${ingredient1}' not found`
           : `Ingredient '${ingredient2}' not found`,
-        compatibility: 0,
+        compatibility: 0
       };
     }
 
     // Calculate base elemental similarity
-    const similarity = this.calculateElementalSimilarity(
+    const similarity = this.calculateElementalSimilarity(;
       mapping1.elementalProperties as unknown as ElementalProperties,
       mapping2.elementalProperties as unknown as ElementalProperties,
     );
@@ -198,7 +198,7 @@ class IngredientMappingService {
       vegetable: ['oil', 'herb'],
       fruit: ['spice', 'sweetener'],
       dairy: ['fruit', 'sweetener'],
-      spice: ['protein', 'vegetable', 'fruit'],
+      spice: ['protein', 'vegetable', 'fruit']
     };
 
     const category1 = mapping1.category as string;
@@ -206,7 +206,7 @@ class IngredientMappingService {
 
     if (category1 && category2) {
       // Same category usually works well together
-      if (category1 === category2) {
+      if (category1 === category2) {;
         categoryAdjustment = 0.1;
       }
       // Check for complementary categories
@@ -229,8 +229,8 @@ class IngredientMappingService {
       type: compatibilityType,
       ingredients: {
         first: mapping1,
-        second: mapping2,
-      },
+        second: mapping2
+      }
     };
   }
 
@@ -246,7 +246,7 @@ class IngredientMappingService {
       return {
         success: false,
         message: 'Not enough mapped ingredients to analyze combinations',
-        mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length),
+        mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
       };
     }
 
@@ -263,7 +263,7 @@ class IngredientMappingService {
         const ing2 = validMappings[j];
 
         if (ing1.matchedTo && ing2.matchedTo) {
-          const result = this.calculateCompatibility(
+          const result = this.calculateCompatibility(;
             ing1.matchedTo as unknown as IngredientMapping,
             ing2.matchedTo as unknown as IngredientMapping,
           );
@@ -272,7 +272,7 @@ class IngredientMappingService {
             combinations.push({
               ingredients: [ing1.name, ing2.name],
               compatibility: result.compatibility,
-              type: result.type || 'unknown',
+              type: result.type || 'unknown'
             });
           }
         }
@@ -281,7 +281,7 @@ class IngredientMappingService {
 
     // Calculate overall recipe harmony
     const averageCompatibility =
-      combinations.length > 0
+      combinations.length > 0;
         ? combinations.reduce((sum, combo) => sum + combo.compatibility, 0) / combinations.length
         : 0;
 
@@ -294,7 +294,7 @@ class IngredientMappingService {
       bestCombinations: sortedCombinations.slice(0, 3),
       weakestCombinations: sortedCombinations.slice(-3).reverse(),
       allCombinations: combinations,
-      mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length),
+      mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
     };
   }
 

@@ -18,7 +18,7 @@ export {
   standardizeIngredient,
   standardizeRecipe,
   validateIngredient,
-  validateRecipe,
+  validateRecipe
 } from './processing';
 
 // Type exports

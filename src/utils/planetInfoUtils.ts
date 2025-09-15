@@ -53,7 +53,7 @@ export function getPlanetInfo(
     const planetPosition = planetaryPositions[planetKey];
 
     // Use safe type casting for unknown property access
-    const positionData = planetPosition as unknown;
+    const positionData = planetPosition ;
     const planetSign = positionData?.sign || 'Unknown';
     const planetDegree = positionData?.degree;
     const planetIsRetrograde = positionData?.isRetrograde;
@@ -66,11 +66,11 @@ export function getPlanetInfo(
     let normalizedPlanetName = planetName;
 
     // Normalize planet names for chart data
-    if (planetName === 'north_node' || planetName === 'northnode') {
+    if (planetName === 'north_node' || planetName === 'northnode') {;
       normalizedPlanetName = 'NorthNode';
-    } else if (planetName === 'south_node' || planetName === 'southnode') {
+    } else if (planetName === 'south_node' || planetName === 'southnode') {;
       normalizedPlanetName = 'SouthNode';
-    } else if (planetName === 'ascendant') {
+    } else if (planetName === 'ascendant') {;
       normalizedPlanetName = 'Ascendant';
     } else {
       normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
@@ -98,9 +98,9 @@ export function getPlanetInfo(
 
     // For Ascendant or Lunar Nodes, set tarot card based on sign
     if (
-      normalizedPlanetName === 'Ascendant' ||
-      normalizedPlanetName === 'NorthNode' ||
-      normalizedPlanetName === 'SouthNode'
+      normalizedPlanetName === 'Ascendant' ||;
+      normalizedPlanetName === 'NorthNode' ||;
+      normalizedPlanetName === 'SouthNode';
     ) {
       // Map sign to a card
       const signToCard: Record<string, string> = {
@@ -115,19 +115,19 @@ export function getPlanetInfo(
         sagittarius: 'Temperance',
         capricorn: 'The Devil',
         aquarius: 'The Star',
-        pisces: 'The Moon',
+        pisces: 'The Moon'
       };
 
       const cardName = signToCard[planetSign] || 'The Fool';
-      tarotCard = {
+      tarotCard = {;
         name: cardName,
-        element: MAJOR_ARCANA[cardName]?.element || 'Unknown',
+        element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
-      tarotCard = {
+      tarotCard = {;
         name: cardName,
-        element: MAJOR_ARCANA[cardName]?.element || 'Unknown',
+        element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     }
 
@@ -137,12 +137,12 @@ export function getPlanetInfo(
       const { aspects } = calculateAspects(planetaryPositions as unknown, 0);
 
       // Filter aspects for this planet
-      planetAspects = aspects
-        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey)
-        .map(aspect => ({
-          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,
+      planetAspects = aspects;
+        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
+        .map(aspect => ({;
+          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,;
           type: aspect.type,
-          orb: aspect.orb || 0,
+          orb: aspect.orb || 0
         }));
     } catch (error) {
       console.error(`Error calculating aspects for ${planetName}:`, error);
@@ -154,9 +154,9 @@ export function getPlanetInfo(
     let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 };
 
     if (
-      normalizedPlanetName === 'Ascendant' ||
-      normalizedPlanetName === 'NorthNode' ||
-      normalizedPlanetName === 'SouthNode'
+      normalizedPlanetName === 'Ascendant' ||;
+      normalizedPlanetName === 'NorthNode' ||;
+      normalizedPlanetName === 'SouthNode';
     ) {
       // Set elemental influence based on the sign
       const signToElement: Record<string, string> = {
@@ -171,7 +171,7 @@ export function getPlanetInfo(
         aquarius: 'Air',
         cancer: 'Water',
         scorpio: 'Water',
-        pisces: 'Water',
+        pisces: 'Water'
       };
 
       const element = signToElement[planetSign] || 'air';
@@ -180,11 +180,11 @@ export function getPlanetInfo(
       elementalInfluence[element] = strength;
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {
-        elementalInfluence = {
+        elementalInfluence = {;
           fire: planetaryModifiers[normalizedPlanetName].Fire || 0,
           water: planetaryModifiers[normalizedPlanetName].Water || 0,
           air: planetaryModifiers[normalizedPlanetName].Air || 0,
-          earth: planetaryModifiers[normalizedPlanetName].Earth || 0,
+          earth: planetaryModifiers[normalizedPlanetName].Earth || 0
         };
       } else {
         console.warn(`No planetary modifier found for ${normalizedPlanetName}`);
@@ -196,9 +196,9 @@ export function getPlanetInfo(
     let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 };
 
     if (
-      normalizedPlanetName === 'Ascendant' ||
-      normalizedPlanetName === 'NorthNode' ||
-      normalizedPlanetName === 'SouthNode'
+      normalizedPlanetName === 'Ascendant' ||;
+      normalizedPlanetName === 'NorthNode' ||;
+      normalizedPlanetName === 'SouthNode';
     ) {
       // Set token influence based on the sign element
       const signToElement: Record<string, string> = {
@@ -213,52 +213,52 @@ export function getPlanetInfo(
         aquarius: 'Air',
         cancer: 'Water',
         scorpio: 'Water',
-        pisces: 'Water',
+        pisces: 'Water'
       };
 
       const element = signToElement[planetSign] || 'air';
 
       // Map elements to tokens with different emphasis for North vs South Node
-      if (normalizedPlanetName === 'NorthNode') {
-        if (element === 'fire') {
+      if (normalizedPlanetName === 'NorthNode') {;
+        if (element === 'fire') {;
           tokenInfluence.spirit = 0.4;
           tokenInfluence.essence = 0.1;
-        } else if (element === 'water') {
+        } else if (element === 'water') {;
           tokenInfluence.essence = 0.4;
           tokenInfluence.substance = 0.1;
-        } else if (element === 'air') {
+        } else if (element === 'air') {;
           tokenInfluence.spirit = 0.3;
           tokenInfluence.matter = 0.2;
-        } else if (element === 'earth') {
+        } else if (element === 'earth') {;
           tokenInfluence.matter = 0.3;
           tokenInfluence.substance = 0.2;
         }
-      } else if (normalizedPlanetName === 'SouthNode') {
-        if (element === 'fire') {
+      } else if (normalizedPlanetName === 'SouthNode') {;
+        if (element === 'fire') {;
           tokenInfluence.spirit = 0.2;
           tokenInfluence.matter = 0.2;
-        } else if (element === 'water') {
+        } else if (element === 'water') {;
           tokenInfluence.essence = 0.2;
           tokenInfluence.substance = 0.2;
-        } else if (element === 'air') {
+        } else if (element === 'air') {;
           tokenInfluence.spirit = 0.1;
           tokenInfluence.essence = 0.3;
-        } else if (element === 'earth') {
+        } else if (element === 'earth') {;
           tokenInfluence.matter = 0.2;
           tokenInfluence.substance = 0.2;
         }
       } else {
         // Ascendant
-        if (element === 'fire') {
+        if (element === 'fire') {;
           tokenInfluence.spirit = 0.3;
           tokenInfluence.essence = 0.1;
-        } else if (element === 'water') {
+        } else if (element === 'water') {;
           tokenInfluence.essence = 0.3;
           tokenInfluence.substance = 0.1;
-        } else if (element === 'air') {
+        } else if (element === 'air') {;
           tokenInfluence.spirit = 0.2;
           tokenInfluence.matter = 0.2;
-        } else if (element === 'earth') {
+        } else if (element === 'earth') {;
           tokenInfluence.matter = 0.2;
           tokenInfluence.substance = 0.2;
         }
@@ -267,11 +267,11 @@ export function getPlanetInfo(
       // Use the planetary modifiers for token influence
       const planetary = planetaryModifiers[normalizedPlanetName];
       if (planetary) {
-        tokenInfluence = {
+        tokenInfluence = {;
           spirit: planetary.Spirit || 0,
           essence: planetary.Essence || 0,
           matter: planetary.Matter || 0,
-          substance: planetary.Substance || 0,
+          substance: planetary.Substance || 0
         };
       } else {
         console.warn(`No planetary token influence for ${normalizedPlanetName}`);
@@ -282,13 +282,13 @@ export function getPlanetInfo(
     return {
       name: normalizedPlanetName,
       sign: planetSign || 'Unknown',
-      degree: typeof planetDegree === 'number' ? planetDegree : 0,
+      degree: typeof planetDegree === 'number' ? planetDegree : 0,;
       isRetrograde: !!planetIsRetrograde,
       dignity,
       tarotCard,
       aspects: planetAspects,
       elementalInfluence,
-      tokenInfluence,
+      tokenInfluence
     };
   } catch (error) {
     console.error('Error in getPlanetInfo:', error);

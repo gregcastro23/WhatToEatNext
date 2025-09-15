@@ -6,7 +6,7 @@ import { ValidationResult, shouldRollback, validatePlanetaryData } from '../plan
 
 // Mock the reliable astronomy module
 jest.mock('../reliableAstronomy', () => ({
-  getReliablePlanetaryPositions: jest.fn(),
+  getReliablePlanetaryPositions: jest.fn()
 }));
 
 // Mock the logger
@@ -14,8 +14,8 @@ jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn(),
-  },
+    debug: jest.fn()
+  }
 }));
 
 import { getReliablePlanetaryPositions } from '../reliableAstronomy';
@@ -44,7 +44,7 @@ describe('Planetary Data Validation', () => {
         neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
         pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
         northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-        southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
+        southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
       });
 
       const result: any = validatePlanetaryData();
@@ -103,7 +103,7 @@ describe('Planetary Data Validation', () => {
         neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
         pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
         northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-        southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
+        southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
       });
 
       const result: any = validatePlanetaryData();
@@ -133,7 +133,7 @@ describe('Planetary Data Validation', () => {
 
       // Should detect that nodes are not opposite (either in errors or test failures)
       const hasOppositeError: any = result.errors.some(;
-        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),
+        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),;
       );
       expect(hasOppositeError).toBe(true);
     });
@@ -141,90 +141,90 @@ describe('Planetary Data Validation', () => {
 
   describe('shouldRollback', () => {
     it('should recommend rollback for critical errors', () => {
-      const validationResult: ValidationResult = { isValid: false,
+      const validationResult: ValidationResult = { isValid: false,;
         errors: [
           {
             type: 'DATA_CORRUPTION',
             severity: 'CRITICAL',
             message: 'Critical data corruption detected',
-            timestamp: new Date(),
-          },
+            timestamp: new Date()
+          }
         ],
         warnings: [],
         summary: 'Critical failure',
-        timestamp: new Date(),
+        timestamp: new Date()
       };
 
       expect(shouldRollback(validationResult)).toBe(true);
     });
 
     it('should recommend rollback for multiple high-severity errors', () => {
-      const validationResult: ValidationResult = { isValid: false,
+      const validationResult: ValidationResult = { isValid: false,;
         errors: [
           {
             type: 'POSITION_DRIFT',
             severity: 'HIGH',
             message: 'Position drift detected',
-            timestamp: new Date(),
+            timestamp: new Date()
           },
           {
             type: 'TRANSIT_MISMATCH',
             severity: 'HIGH',
             message: 'Transit mismatch detected',
-            timestamp: new Date(),
+            timestamp: new Date()
           },
           {
             type: 'TEST_FAILURE',
             severity: 'HIGH',
             message: 'Test failure detected',
-            timestamp: new Date(),
-          },
+            timestamp: new Date()
+          }
         ],
         warnings: [],
         summary: 'Multiple high-severity errors',
-        timestamp: new Date(),
+        timestamp: new Date()
       };
 
       expect(shouldRollback(validationResult)).toBe(true);
     });
 
     it('should not recommend rollback for minor issues', () => {
-      const validationResult: ValidationResult = { isValid: true,
+      const validationResult: ValidationResult = { isValid: true,;
         errors: [
           {
             type: 'POSITION_DRIFT',
             severity: 'LOW',
             message: 'Minor position drift',
-            timestamp: new Date(),
-          },
+            timestamp: new Date()
+          }
         ],
         warnings: [
           {
             type: 'MINOR_DRIFT',
             message: 'Minor warning',
-            timestamp: new Date(),
-          },
+            timestamp: new Date()
+          }
         ],
         summary: 'Minor issues only',
-        timestamp: new Date(),
+        timestamp: new Date()
       };
 
       expect(shouldRollback(validationResult)).toBe(false);
     });
 
     it('should not recommend rollback for single high-severity error', () => {
-      const validationResult: ValidationResult = { isValid: false,
+      const validationResult: ValidationResult = { isValid: false,;
         errors: [
           {
             type: 'POSITION_DRIFT',
             severity: 'HIGH',
             message: 'Single high-severity error',
-            timestamp: new Date(),
-          },
+            timestamp: new Date()
+          }
         ],
         warnings: [],
         summary: 'Single high error',
-        timestamp: new Date(),
+        timestamp: new Date()
       };
 
       expect(shouldRollback(validationResult)).toBe(false);
@@ -235,7 +235,7 @@ describe('Planetary Data Validation', () => {
     it('should complete validation within reasonable time', async () => {
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
       });
 
       const startTime: any = Date.now();
@@ -265,7 +265,7 @@ describe('Planetary Data Validation', () => {
         sun: null,
         moon: undefined,
         mercury: 'invalid',
-        venus: { invalidStructur, e: true },
+        venus: { invalidStructur, e: true }
       });
 
       const result: any = validatePlanetaryData();

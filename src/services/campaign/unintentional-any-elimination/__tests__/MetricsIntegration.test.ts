@@ -33,7 +33,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
   describe('getExplicitAnyWarningCount', () => {
     it('should count explicit-any warnings from linting output', async () => {
-      const mockLintOutput: any = `
+      const mockLintOutput: any = `;
         src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any
         src/file2.ts: 20:1, 0: warning @typescript-eslint/no-explicit-any;
         src/file3.ts: 30:1, 5: error some-other-rule
@@ -46,7 +46,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     });
 
     it('should return 0 when no explicit-any warnings found', async () => {
-      const mockLintOutput: any = `
+      const mockLintOutput: any = `;
         src/file1.ts: 10:, 5: warning some-other-rule;
         src/file2.ts: 20:1, 0: error another-rule
       `;
@@ -80,7 +80,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
   describe('getExplicitAnyBreakdownByFile', () => {
     it('should break down explicit-any warnings by file', async () => {
-      const mockLintOutput: any = `
+      const mockLintOutput: any = `;
         src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any
         src/file1.ts: 20:1, 0: warning @typescript-eslint/no-explicit-any
         src/file2.ts: 30:1, 5: warning @typescript-eslint/no-explicit-any;
@@ -97,7 +97,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     });
 
     it('should return empty breakdown when no warnings found', async () => {
-      const mockLintOutput: any = `
+      const mockLintOutput: any = `;
         src/file1.ts: 10:, 5: warning some-other-rule;
         src/file2.ts: 20:1, 0: error another-rule
       `;
@@ -242,7 +242,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     });
 
     it('should include top files with most any types', async () => {
-      const mockLintOutput: any = `
+      const mockLintOutput: any = `;
         src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any
         src/file1.ts: 20:1, 0: warning @typescript-eslint/no-explicit-any;
         src/file2.ts: 30:1, 5: warning @typescript-eslint/no-explicit-any
@@ -265,7 +265,7 @@ describe('UnintentionalAnyProgressTracker', () => {
       const dashboardMetrics: any = await tracker.getDashboardMetrics();
 
       const highCountAlert: any = dashboardMetrics.alerts.find(alert =>;
-        alert.type === 'high-unintentional-any-count'
+        alert.type === 'high-unintentional-any-count';
       );
       expect(highCountAlert).toBeDefined();
       expect(highCountAlert.severity).toBe('warning');
@@ -280,7 +280,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         'test-metrics.json',
-        expect.stringContaining('"timestamp"'),
+        expect.stringContaining(''timestamp''),
         undefined
       );
     });
@@ -349,7 +349,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
 
   describe('resolveCampaignConflicts', () => {
     it('should allow execution when no conflicts exist', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(
+      const resolution: any = scheduler.resolveCampaignConflicts(;
         ['other-campaign', 'unrelated-task'],
         'unintentional-any-elimination'
       );
@@ -360,7 +360,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     });
 
     it('should detect conflicts with TypeScript campaigns', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(
+      const resolution: any = scheduler.resolveCampaignConflicts(;
         ['typescript-error-elimination', 'other-campaign'],
         'unintentional-any-elimination'
       );
@@ -370,7 +370,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     });
 
     it('should detect conflicts with linting campaigns', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(
+      const resolution: any = scheduler.resolveCampaignConflicts(;
         ['linting-excellence', 'explicit-any-cleanup'],
         'unintentional-any-elimination'
       );
@@ -380,7 +380,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     });
 
     it('should allow resolution for non-critical conflicts', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(
+      const resolution: any = scheduler.resolveCampaignConflicts(;
         ['typescript-cleanup', 'linting-improvement'],
         'unintentional-any-elimination'
       );
@@ -390,7 +390,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     });
 
     it('should prevent execution for critical campaigns', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(
+      const resolution: any = scheduler.resolveCampaignConflicts(;
         ['critical-typescript-emergency', 'emergency-linting-fix'],
         'unintentional-any-elimination'
       );
@@ -420,7 +420,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     });
 
     it('should delay execution for high load', () => {
-      const recommendation: any = scheduler.getRecommendedExecutionTime(
+      const recommendation: any = scheduler.getRecommendedExecutionTime(;
         ['campaign1', 'campaign2', 'campaign3'],
         'high'
       );

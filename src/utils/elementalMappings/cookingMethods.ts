@@ -1,6 +1,6 @@
 import type { CookingMethodModifier } from '@/types/alchemy';
 
-export const cookingMethodModifiers: CookingMethodModifier[] = [
+export const _cookingMethodModifiers: CookingMethodModifier[] = [
   {
     element: 'Water',
     intensity: 0.9,
@@ -8,9 +8,9 @@ export const cookingMethodModifiers: CookingMethodModifier[] = [
     applicableTo: ['vegetables', 'grains', 'legumes'],
     duration: {
       min: 5,
-      max: 30,
+      max: 30
     },
-    notes: 'Boiling increases water element, good for softening foods',
+    notes: 'Boiling increases water element, good for softening foods'
   },
   {
     element: 'Fire',
@@ -19,9 +19,9 @@ export const cookingMethodModifiers: CookingMethodModifier[] = [
     applicableTo: ['meats', 'vegetables', 'seafood'],
     duration: {
       min: 3,
-      max: 15,
+      max: 15
     },
-    notes: 'Grilling adds fire element, creating char and smoke flavors',
+    notes: 'Grilling adds fire element, creating char and smoke flavors'
   },
   // Add other cooking methods as needed
 ];

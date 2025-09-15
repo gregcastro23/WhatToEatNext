@@ -71,7 +71,7 @@ export class ScriptIntegrationSystem {
   private readonly scriptsBasePath: string;
   private readonly scriptConfigs: Map<string, ScriptConfig>;
 
-  constructor(scriptsBasePath: string = 'scripts') {
+  constructor(scriptsBasePath: string = 'scripts') {;
     this.scriptsBasePath = scriptsBasePath;
     this.scriptConfigs = new Map();
     this.initializeScriptConfigs();
@@ -89,12 +89,12 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true,
+        interactive: true
       },
       safetyLevel: 'maximum',
       maxBatchSize: 25,
       requiresGitClean: true,
-      supportsJsonOutput: true,
+      supportsJsonOutput: true
     });
 
     // Explicit-Any Systematic Fixer
@@ -105,12 +105,12 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true,
+        interactive: true
       },
       safetyLevel: 'high',
       maxBatchSize: 50,
       requiresGitClean: true,
-      supportsJsonOutput: true,
+      supportsJsonOutput: true
     });
 
     // Unused Variables Enhanced Fixer
@@ -121,12 +121,12 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true,
+        interactive: true
       },
       safetyLevel: 'high',
       maxBatchSize: 100,
       requiresGitClean: true,
-      supportsJsonOutput: true,
+      supportsJsonOutput: true
     });
 
     // Console Statement Removal System
@@ -134,12 +134,12 @@ export class ScriptIntegrationSystem {
       scriptPath: 'scripts/lint-fixes/fix-console-statements-only.js',
       defaultOptions: {
         dryRun: true,
-        validateSafety: true,
+        validateSafety: true
       },
       safetyLevel: 'medium',
       maxBatchSize: 50,
       requiresGitClean: false,
-      supportsJsonOutput: false,
+      supportsJsonOutput: false
     });
   }
 
@@ -148,7 +148,7 @@ export class ScriptIntegrationSystem {
    */
   async executeScript(
     scriptId: string,
-    options: ScriptExecutionOptions = {},
+    options: ScriptExecutionOptions = {},;
   ): Promise<ScriptExecutionResult> {
     const config = this.scriptConfigs.get(scriptId);
     if (!config) {
@@ -173,14 +173,14 @@ export class ScriptIntegrationSystem {
     const args = this.buildCommandArguments(mergedOptions);
     const command = `node ${scriptPath} ${args.join(' ')}`;
 
-    console.log(`🚀 Executing script: ${scriptId}`);
-    console.log(`📝 Command: ${command}`);
+    // console.log(`🚀 Executing script: ${scriptId}`);
+    // console.log(`📝 Command: ${command}`);
 
     const startTime = Date.now();
     let result: ScriptExecutionResult;
 
     try {
-      const output = execSync(command, {
+      const output = execSync(command, {;
         encoding: 'utf8',
         timeout: 300000, // 5 minute timeout
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
@@ -212,10 +212,10 @@ export class ScriptIntegrationSystem {
     }
 
     try {
-      const result = await this.executeScript(scriptId, {
+      const result = await this.executeScript(scriptId, {;
         showMetrics: true,
         json: true,
-        silent: true,
+        silent: true
       });
 
       if (result.metrics) {
@@ -233,7 +233,7 @@ export class ScriptIntegrationSystem {
           errorsFixed: metricsData.errorsFixed || 0,
           safetyScore: metricsData.safetyScore || 0,
           recommendedBatchSize: metricsData.recommendedBatchSize || 5,
-          lastRunTime: metricsData.lastRunTime || '',
+          lastRunTime: metricsData.lastRunTime || ''
         };
       }
 
@@ -258,10 +258,10 @@ export class ScriptIntegrationSystem {
     }
 
     try {
-      const result = await this.executeScript(scriptId, {
+      const result = await this.executeScript(scriptId, {;
         validateSafety: true,
         json: true,
-        silent: true,
+        silent: true
       });
 
       // Parse safety validation from output
@@ -270,7 +270,7 @@ export class ScriptIntegrationSystem {
         return {
           safe: safetyData.safe || false,
           issues: safetyData.issues || [],
-          recommendedBatchSize: safetyData.recommendedBatchSize || 5,
+          recommendedBatchSize: safetyData.recommendedBatchSize || 5
         };
       }
 
@@ -286,9 +286,9 @@ export class ScriptIntegrationSystem {
         }
 
         return {
-          safe: issues.length === 0,
+          safe: issues.length === 0,;
           issues,
-          recommendedBatchSize: metrics.recommendedBatchSize,
+          recommendedBatchSize: metrics.recommendedBatchSize
         };
       }
 
@@ -297,7 +297,7 @@ export class ScriptIntegrationSystem {
       return {
         safe: false,
         issues: [`Safety validation failed: ${error}`],
-        recommendedBatchSize: 1,
+        recommendedBatchSize: 1
       };
     }
   }
@@ -309,7 +309,7 @@ export class ScriptIntegrationSystem {
     try {
       await this.executeScript(scriptId, {
         resetMetrics: true,
-        silent: true,
+        silent: true
       });
       return true;
     } catch (error) {
@@ -324,7 +324,7 @@ export class ScriptIntegrationSystem {
   getAvailableScripts(): Array<{ id: string; config: ScriptConfig }> {
     return Array.from(this.scriptConfigs.entries()).map(([id, config]) => ({
       id,
-      config,
+      config
     }));
   }
 
@@ -377,7 +377,7 @@ export class ScriptIntegrationSystem {
     success: boolean,
     exitCode: number,
   ): ScriptExecutionResult {
-    const result: ScriptExecutionResult = {
+    const result: ScriptExecutionResult = {;
       success,
       exitCode,
       stdout: output,
@@ -386,7 +386,7 @@ export class ScriptIntegrationSystem {
       errorsFixed: 0,
       warningsFixed: 0,
       executionTime,
-      safetyEvents: [],
+      safetyEvents: []
     };
 
     // Try to parse JSON output first
@@ -394,14 +394,14 @@ export class ScriptIntegrationSystem {
       if (output.trim().startsWith('{')) {
         const jsonData = JSON.parse(output);
         if (jsonData.safetyMetrics) {
-          result.metrics = {
+          result.metrics = {;
             totalRuns: jsonData.safetyMetrics.totalRuns || 0,
             successfulRuns: jsonData.safetyMetrics.successfulRuns || 0,
             filesProcessed: jsonData.safetyMetrics.filesProcessed || 0,
             errorsFixed: jsonData.safetyMetrics.errorsFixed || 0,
             safetyScore: jsonData.safetyMetrics.safetyScore || 0,
             recommendedBatchSize: jsonData.safetyMetrics.recommendedBatchSize || 5,
-            lastRunTime: jsonData.safetyMetrics.lastRunTime || '',
+            lastRunTime: jsonData.safetyMetrics.lastRunTime || ''
           };
         }
         return result;
@@ -438,7 +438,7 @@ export class ScriptIntegrationSystem {
           type: 'corruption',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'high',
+          severity: 'high'
         });
       }
 
@@ -447,7 +447,7 @@ export class ScriptIntegrationSystem {
           type: 'build_failure',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'critical',
+          severity: 'critical'
         });
       }
 
@@ -456,7 +456,7 @@ export class ScriptIntegrationSystem {
           type: 'stash_created',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'low',
+          severity: 'low'
         });
       }
     }
@@ -491,7 +491,7 @@ export class ScriptIntegrationSystem {
     const metricsFiles: Record<string, string> = {
       'typescript-enhanced-v3': '.typescript-errors-metrics.json',
       'explicit-any-systematic': '.explicit-any-metrics.json',
-      'unused-variables-enhanced': '.unused-variables-metrics.json',
+      'unused-variables-enhanced': '.unused-variables-metrics.json'
     };
 
     return path.resolve(metricsFiles[scriptId] || `.${scriptId}-metrics.json`);
@@ -501,23 +501,23 @@ export class ScriptIntegrationSystem {
    * Log execution summary
    */
   private logExecutionSummary(scriptId: string, result: ScriptExecutionResult): void {
-    console.log(`\n📊 Script Execution Summary: ${scriptId}`);
-    console.log(`✅ Success: ${result.success}`);
-    console.log(`⏱️ Execution Time: ${result.executionTime}ms`);
-    console.log(`📁 Files Processed: ${result.filesProcessed}`);
-    console.log(`🔧 Errors Fixed: ${result.errorsFixed}`);
-    console.log(`⚠️ Warnings Fixed: ${result.warningsFixed}`);
+    // console.log(`\n📊 Script Execution Summary: ${scriptId}`);
+    // console.log(`✅ Success: ${result.success}`);
+    // console.log(`⏱️ Execution Time: ${result.executionTime}ms`);
+    // console.log(`📁 Files Processed: ${result.filesProcessed}`);
+    // console.log(`🔧 Errors Fixed: ${result.errorsFixed}`);
+    // console.log(`⚠️ Warnings Fixed: ${result.warningsFixed}`);
 
     if (result.safetyEvents.length > 0) {
-      console.log(`🚨 Safety Events: ${result.safetyEvents.length}`);
-      result.safetyEvents.forEach(event => {
-        console.log(`   ${event.type}: ${event.description}`);
+      // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`);
+      result.safetyEvents.forEach(event => {;
+        // console.log(`   ${event.type}: ${event.description}`);
       });
     }
 
     if (result.metrics) {
-      console.log(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`);
-      console.log(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`);
+      // console.log(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`);
+      // console.log(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`);
     }
   }
 }

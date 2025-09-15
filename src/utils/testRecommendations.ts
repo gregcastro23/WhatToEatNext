@@ -11,26 +11,26 @@ import { getRecommendedCookingMethodsForIngredient } from './alchemicalTransform
  */
 export async function testCookingMethodRecommendations() {
   // Create a mock ingredient
-  const mockIngredient: AlchemicalItem = {
+  const mockIngredient: AlchemicalItem = {;
     id: 'tomato',
     name: 'Tomato',
     elementalProperties: {
       Fire: 0.3,
       Water: 0.7,
       Earth: 0.4,
-      Air: 0.2,
+      Air: 0.2
     },
     alchemicalProperties: {
       Spirit: 0.4,
       Essence: 0.3,
       Matter: 0.6,
-      Substance: 0.7,
+      Substance: 0.7
     },
     transformedElementalProperties: {
       Fire: 0.3,
       Water: 0.7,
       Earth: 0.4,
-      Air: 0.2,
+      Air: 0.2
     },
     heat: 0.3,
     entropy: 0.4,
@@ -40,11 +40,11 @@ export async function testCookingMethodRecommendations() {
     dominantAlchemicalProperty: 'Substance',
     planetaryBoost: 1.0,
     dominantPlanets: ['Venus'],
-    planetaryDignities: {},
+    planetaryDignities: {}
   };
 
   // Create mock cooking methods
-  const mockCookingMethods = [
+  const mockCookingMethods = [;
     { name: 'baking', element: 'Fire' },
     { name: 'boiling', element: 'Water' },
     { name: 'grilling', element: 'Fire' },
@@ -54,7 +54,7 @@ export async function testCookingMethodRecommendations() {
     { name: 'braising', element: 'Water' },
     { name: 'poaching', element: 'Water' },
     { name: 'frying', element: 'Fire' },
-    { name: 'fermenting', element: 'Earth' },
+    { name: 'fermenting', element: 'Earth' }
   ];
 
   // Run the test
@@ -68,7 +68,7 @@ export async function testCookingMethodRecommendations() {
   try {
     console.warn('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
     const methods = mockCookingMethods.map(m => m.name);
-    const holisticRecs = await getHolisticCookingRecommendations(
+    const holisticRecs = await getHolisticCookingRecommendations(;
       mockIngredient,
       undefined,
       undefined,
@@ -91,7 +91,7 @@ export async function testCookingMethodRecommendations() {
   // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
     console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
-    const recommendations = await getRecommendedCookingMethodsForIngredient(
+    const recommendations = await getRecommendedCookingMethodsForIngredient(;
       mockIngredient,
       mockCookingMethods as any,
       5,
@@ -108,15 +108,15 @@ export async function testCookingMethodRecommendations() {
     }
   }
 
-  const holisticRecs = await getHolisticCookingRecommendations(
+  const holisticRecs = await getHolisticCookingRecommendations(;
     mockIngredient,
     undefined,
     undefined,
     true,
-    mockCookingMethods.map(m => m.name),
+    mockCookingMethods.map(m => m.name),;
     5,
   );
-  const standardRecs = await getRecommendedCookingMethodsForIngredient(
+  const standardRecs = await getRecommendedCookingMethodsForIngredient(;
     mockIngredient,
     mockCookingMethods as any,
     5,
@@ -125,6 +125,6 @@ export async function testCookingMethodRecommendations() {
   return {
     ingredient: mockIngredient,
     holisticRecommendations: holisticRecs,
-    standardRecommendations: standardRecs,
+    standardRecommendations: standardRecs
   };
 }

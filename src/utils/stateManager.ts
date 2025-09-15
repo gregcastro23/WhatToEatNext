@@ -17,7 +17,7 @@ interface ScoredRecipe extends Recipe {
 }
 
 type DietaryRestriction =
-  | 'vegetarian'
+  | 'vegetarian';
   | 'vegan'
   | 'gluten-free'
   | 'dairy-free'
@@ -27,7 +27,7 @@ type DietaryRestriction =
   | 'paleo';
 
 export type CuisineType =
-  | 'italian'
+  | 'italian';
   | 'chinese'
   | 'mexican'
   | 'indian'
@@ -177,18 +177,18 @@ class StateManager {
         favorites: [],
         recent: [],
         loading: false,
-        error: null,
+        error: null
       },
       celestial: {
         elementalState: {
           Fire: 0.25,
           Earth: 0.25,
           Air: 0.25,
-          Water: 0.25,
+          Water: 0.25
         },
         season: 'spring',
         moonPhase: 'new',
-        lastUpdated: Date.now(),
+        lastUpdated: Date.now()
       },
       user: {
         preferences: {
@@ -196,30 +196,30 @@ class StateManager {
             mode: 'system',
             colorScheme: 'default',
             fontSize: 16,
-            animations: true,
+            animations: true
           },
           dietary: {
             restrictions: [],
             favorites: [],
             excluded: [],
-            spiciness: 'medium',
+            spiciness: 'medium'
           },
           cooking: {
             preferredMethods: [],
             maxPrepTime: 60,
             servingSize: 2,
-            complexity: 'moderate',
+            complexity: 'moderate'
           },
           cuisines: {
             preferred: [],
-            excluded: [],
-          },
+            excluded: []
+          }
         },
         history: {
           viewed: [],
           cooked: [],
-          rated: {},
-        },
+          rated: {}
+        }
       },
       ui: {
         activeFilters: new Set(),
@@ -227,8 +227,8 @@ class StateManager {
         selectedRecipe: null,
         modalOpen: false,
         sidebarOpen: false,
-        notifications: [],
-      },
+        notifications: []
+      }
     };
   }
 
@@ -261,19 +261,19 @@ class StateManager {
     try {
       const influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
-      const elementalState: ElementalProperties = {
+      const elementalState: ElementalProperties = {;
         Fire: influences.elementalBalance?.Fire || 0,
         Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
-        Air: influences.elementalBalance?.Air || 0,
+        Air: influences.elementalBalance?.Air || 0
       };
 
       this.setState({
         celestial: {
           ...this.state.celestial,
           elementalState,
-          lastUpdated: Date.now(),
-        },
+          lastUpdated: Date.now()
+        }
       });
     } catch (error) {
       logger.error('Error updating celestial data:', error);
@@ -282,13 +282,13 @@ class StateManager {
 
   private saveState(): void {
     try {
-      const serializable = {
+      const serializable = {;
         ...this.state,
         ui: {
           ...this.state.ui,
           // Convert Set to array for serialization
-          activeFilters: Array.from(this.state.ui.activeFilters),
-        },
+          activeFilters: Array.from(this.state.ui.activeFilters)
+        }
       };
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable));
@@ -323,7 +323,7 @@ class StateManager {
       const listeners = this.listeners.get(key);
       if (listeners) {
         listeners.delete(listener);
-        if (listeners.size === 0) {
+        if (listeners.size === 0) {;
           this.listeners.delete(key);
         }
       }
@@ -331,7 +331,7 @@ class StateManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listeners => {
+    this.listeners.forEach(listeners => {;
       listeners.forEach(listener => listener(this.state));
     });
   }
@@ -353,9 +353,9 @@ class StateManager {
         ...this.state.user,
         history: {
           ...this.state.user.history,
-          [type]: history,
-        },
-      },
+          [type]: history
+        }
+      }
     });
   }
 
@@ -367,10 +367,10 @@ class StateManager {
           ...this.state.user.history,
           rated: {
             ...this.state.user.history.rated,
-            [recipeId]: rating,
-          },
-        },
-      },
+            [recipeId]: rating
+          }
+        }
+      }
     });
   }
 
@@ -387,17 +387,17 @@ class StateManager {
     this.setState({
       recipes: {
         ...this.state.recipes,
-        favorites,
-      },
+        favorites
+      }
     });
   }
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
-    const notification = {
+    const notification = {;
       id: Date.now().toString(),
       type,
       message,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     };
 
     const notifications = [notification, ...this.state.ui.notifications].slice(0, 5);
@@ -405,8 +405,8 @@ class StateManager {
     this.setState({
       ui: {
         ...this.state.ui,
-        notifications,
-      },
+        notifications
+      }
     });
 
     // Auto-remove after 5 seconds
@@ -414,8 +414,8 @@ class StateManager {
       this.setState({
         ui: {
           ...this.state.ui,
-          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),
-        },
+          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),;
+        }
       });
     }, 5000);
   }

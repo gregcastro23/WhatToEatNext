@@ -14,9 +14,9 @@ interface AstroEvent {
  * @returns Array of astrological events
  */
 export function getUpcomingAstroEvents(
-  days = 30,
-  latitude = 40.7128,
-  longitude = -74.006,
+  days = 30,;
+  latitude = 40.7128,;
+  longitude = -74.006,;
 ): AstroEvent[] {
   const events: AstroEvent[] = [];
   const now = new Date();
@@ -33,7 +33,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'full_moon',
         date,
-        description: `Full Moon ${Math.round(moonIllum.fraction * 100)}% illuminated`,
+        description: `Full Moon ${Math.round(moonIllum.fraction * 100)}% illuminated`
       });
     }
 
@@ -42,7 +42,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'new_moon',
         date,
-        description: 'New Moon',
+        description: 'New Moon'
       });
     }
 
@@ -54,7 +54,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: moonIllum.phase < 0.5 ? 'first_quarter' : 'last_quarter',
         date,
-        description: `${moonIllum.phase < 0.5 ? 'First' : 'Last'} Quarter Moon`,
+        description: `${moonIllum.phase < 0.5 ? 'First' : 'Last'} Quarter Moon`
       });
     }
 
@@ -67,7 +67,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'equinox',
         date,
-        description: 'Spring Equinox (approximate)',
+        description: 'Spring Equinox (approximate)'
       });
     }
 
@@ -76,7 +76,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'solstice',
         date,
-        description: 'Summer Solstice (approximate)',
+        description: 'Summer Solstice (approximate)'
       });
     }
 
@@ -85,7 +85,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'equinox',
         date,
-        description: 'Fall Equinox (approximate)',
+        description: 'Fall Equinox (approximate)'
       });
     }
 
@@ -94,7 +94,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'solstice',
         date,
-        description: 'Winter Solstice (approximate)',
+        description: 'Winter Solstice (approximate)'
       });
     }
   }

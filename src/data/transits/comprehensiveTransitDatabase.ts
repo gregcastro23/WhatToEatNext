@@ -56,7 +56,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 2.5,
             influence: 0.9,
-            description: 'Dynamic fire energy, perfect for bold culinary experiments',
+            description: 'Dynamic fire energy, perfect for bold culinary experiments'
           } as PlanetaryAspect,
           {
             planet1: 'Mercury',
@@ -64,8 +64,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 1.8,
             influence: 0.8,
-            description: 'Harmonious communication between air and earth elements',
-          } as PlanetaryAspect,
+            description: 'Harmonious communication between air and earth elements'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false },
@@ -77,26 +77,26 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Saturn: { sign: 'pisces', degree: 24, exactLongitude: 354, isRetrograde: false },
           Uranus: { sign: 'taurus', degree: 27, exactLongitude: 57, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 1, exactLongitude: 1, isRetrograde: false },
-          Pluto: { sign: 'aquarius', degree: 3, exactLongitude: 303, isRetrograde: false },
+          Pluto: { sign: 'aquarius', degree: 3, exactLongitude: 303, isRetrograde: false }
         },
         seasonalThemes: [
           'New beginnings',
           'Dynamic energy',
           'Bold flavors',
           'Spicy dishes',
-          'Quick preparation',
+          'Quick preparation'
         ],
         culinaryInfluences: [
           'Fire element cooking',
           'Spicy ingredients',
           'Quick preparation methods',
           'Bold seasoning',
-          'High heat cooking',
+          'High heat cooking'
         ],
         alchemicalProperties: { Spirit: 0.4, Essence: 0.2, Matter: 0.2, Substance: 0.2 },
         dominantPlanets: ['Sun', 'Mars', 'Mercury'],
         retrogradePlanets: ['Mercury', 'Venus'],
-        specialEvents: ['Spring Equinox', 'Mercury Retrograde', 'Venus Retrograde'],
+        specialEvents: ['Spring Equinox', 'Mercury Retrograde', 'Venus Retrograde']
       },
       {
         id: '2024-taurus-early',
@@ -112,7 +112,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 1.2,
             influence: 0.8,
-            description: 'Harmonious earth energy, ideal for grounding comfort foods',
+            description: 'Harmonious earth energy, ideal for grounding comfort foods'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
@@ -120,8 +120,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.7,
-            description: 'Innovative earth energy, perfect for experimental comfort cooking',
-          } as PlanetaryAspect,
+            description: 'Innovative earth energy, perfect for experimental comfort cooking'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false },
@@ -133,26 +133,26 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Saturn: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: false },
           Uranus: { sign: 'taurus', degree: 29, exactLongitude: 59, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 2, exactLongitude: 2, isRetrograde: false },
-          Pluto: { sign: 'aquarius', degree: 4, exactLongitude: 304, isRetrograde: false },
+          Pluto: { sign: 'aquarius', degree: 4, exactLongitude: 304, isRetrograde: false }
         },
         seasonalThemes: [
           'Stability',
           'Sensual pleasures',
           'Comfort foods',
           'Rich flavors',
-          'Slow cooking',
+          'Slow cooking'
         ],
         culinaryInfluences: [
           'Slow cooking',
           'Rich sauces',
           'Comfort dishes',
           'Earth element ingredients',
-          'Butter and cream',
+          'Butter and cream'
         ],
         alchemicalProperties: { Spirit: 0.2, Essence: 0.3, Matter: 0.4, Substance: 0.1 },
         dominantPlanets: ['Venus', 'Jupiter', 'Uranus'],
         retrogradePlanets: [],
-        specialEvents: ['Venus Direct', 'Mercury Direct'],
+        specialEvents: ['Venus Direct', 'Mercury Direct']
       },
       {
         id: '2024-gemini-early',
@@ -168,7 +168,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 2.8,
             influence: 0.85,
-            description: 'Intellectual air energy, perfect for experimental and varied cuisine',
+            description: 'Intellectual air energy, perfect for experimental and varied cuisine'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
@@ -176,8 +176,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 1.5,
             influence: 0.75,
-            description: 'Harmonious communication between fire and earth elements',
-          } as PlanetaryAspect,
+            description: 'Harmonious communication between fire and earth elements'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 8, exactLongitude: 68, isRetrograde: false },
@@ -189,27 +189,27 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Saturn: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: false },
           Uranus: { sign: 'taurus', degree: 1, exactLongitude: 31, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 3, exactLongitude: 3, isRetrograde: false },
-          Pluto: { sign: 'aquarius', degree: 5, exactLongitude: 305, isRetrograde: false },
+          Pluto: { sign: 'aquarius', degree: 5, exactLongitude: 305, isRetrograde: false }
         },
         seasonalThemes: [
           'Communication',
           'Variety',
           'Light dishes',
           'Fresh ingredients',
-          'Quick meals',
+          'Quick meals'
         ],
         culinaryInfluences: [
           'Quick cooking methods',
           'Fresh herbs',
           'Varied textures',
           'Light sauces',
-          'Finger foods',
+          'Finger foods'
         ],
         alchemicalProperties: { Spirit: 0.3, Essence: 0.3, Matter: 0.2, Substance: 0.2 },
         dominantPlanets: ['Mercury', 'Jupiter', 'Sun'],
         retrogradePlanets: [],
-        specialEvents: ['Gemini Season', 'Jupiter-Mercury Conjunction'],
-      },
+        specialEvents: ['Gemini Season', 'Jupiter-Mercury Conjunction']
+      }
     ],
     majorTransits: [
       {
@@ -218,8 +218,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         aspectType: 'square' as AspectType,
         orb: 1.8,
         influence: 0.9,
-        description: 'Major structural changes in spiritual and material realms',
-      } as PlanetaryAspect,
+        description: 'Major structural changes in spiritual and material realms'
+      } as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2024-04-08'), // Solar Eclipse
@@ -235,8 +235,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
       Saturn: { start: new Date('2024-06-29'), end: new Date('2024-11-15') },
       Uranus: { start: new Date('2024-09-01'), end: new Date('2025-01-27') },
       Neptune: { start: new Date('2024-07-02'), end: new Date('2024-12-06') },
-      Pluto: { start: new Date('2024-05-02'), end: new Date('2024-10-10') },
-    },
+      Pluto: { start: new Date('2024-05-02'), end: new Date('2024-10-10') }
+    }
   },
 
   '2025': {
@@ -256,7 +256,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.85,
-            description: 'Intellectual air energy, perfect for experimental and varied cuisine',
+            description: 'Intellectual air energy, perfect for experimental and varied cuisine'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
@@ -264,7 +264,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 2.8,
             influence: 0.75,
-            description: 'Harmonious communication between fire and earth elements',
+            description: 'Harmonious communication between fire and earth elements'
           } as PlanetaryAspect,
           {
             planet1: 'Mars',
@@ -272,8 +272,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 1.2,
             influence: 0.9,
-            description: 'Dynamic fire expansion, ideal for bold culinary experiments',
-          } as PlanetaryAspect,
+            description: 'Dynamic fire expansion, ideal for bold culinary experiments'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
@@ -285,26 +285,26 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Saturn: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: false },
           Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 5, exactLongitude: 5, isRetrograde: false },
-          Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true },
+          Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true }
         },
         seasonalThemes: [
           'Communication',
           'Variety',
           'Light dishes',
           'Fresh ingredients',
-          'Social dining',
+          'Social dining'
         ],
         culinaryInfluences: [
           'Quick cooking methods',
           'Fresh herbs',
           'Varied textures',
           'Light sauces',
-          'Sharing plates',
+          'Sharing plates'
         ],
         alchemicalProperties: { Spirit: 0.35, Essence: 0.25, Matter: 0.25, Substance: 0.15 },
         dominantPlanets: ['Mercury', 'Jupiter', 'Mars', 'Sun'],
         retrogradePlanets: ['Pluto'],
-        specialEvents: ['Gemini Season', 'Mars-Jupiter Conjunction', 'Pluto Retrograde'],
+        specialEvents: ['Gemini Season', 'Mars-Jupiter Conjunction', 'Pluto Retrograde']
       },
       {
         id: '2025-cancer-early',
@@ -320,7 +320,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 2.1,
             influence: 0.8,
-            description: 'Intuitive water energy, perfect for nurturing comfort foods',
+            description: 'Intuitive water energy, perfect for nurturing comfort foods'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
@@ -328,8 +328,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'opposition' as AspectType,
             orb: 1.8,
             influence: 0.7,
-            description: 'Balancing structure with emotional nourishment',
-          } as PlanetaryAspect,
+            description: 'Balancing structure with emotional nourishment'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
@@ -341,27 +341,27 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Saturn: { sign: 'pisces', degree: 2, exactLongitude: 332, isRetrograde: false },
           Uranus: { sign: 'taurus', degree: 22, exactLongitude: 52, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 7, exactLongitude: 7, isRetrograde: false },
-          Pluto: { sign: 'aquarius', degree: 6, exactLongitude: 306, isRetrograde: true },
+          Pluto: { sign: 'aquarius', degree: 6, exactLongitude: 306, isRetrograde: true }
         },
         seasonalThemes: [
           'Nurturing',
           'Comfort',
           'Family meals',
           'Traditional cooking',
-          'Emotional nourishment',
+          'Emotional nourishment'
         ],
         culinaryInfluences: [
           'Slow cooking',
           'Soups and stews',
           'Family recipes',
           'Comfort foods',
-          'Water element cooking',
+          'Water element cooking'
         ],
         alchemicalProperties: { Spirit: 0.2, Essence: 0.4, Matter: 0.3, Substance: 0.1 },
         dominantPlanets: ['Moon', 'Neptune', 'Sun'],
         retrogradePlanets: ['Pluto'],
-        specialEvents: ['Summer Solstice', 'Cancer Season', 'Pluto Retrograde'],
-      },
+        specialEvents: ['Summer Solstice', 'Cancer Season', 'Pluto Retrograde']
+      }
     ],
     majorTransits: [
       {
@@ -370,8 +370,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         aspectType: 'square',
         orb: 2.1,
         influence: 0.8,
-        description: 'Expansion meets structure in food and culture',
-      } as PlanetaryAspect,
+        description: 'Expansion meets structure in food and culture'
+      } as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2025-03-29'), // Solar Eclipse
@@ -387,9 +387,9 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
       Saturn: { start: new Date('2025-06-29'), end: new Date('2025-11-15') },
       Uranus: { start: new Date('2025-09-01'), end: new Date('2026-01-27') },
       Neptune: { start: new Date('2025-07-02'), end: new Date('2025-12-06') },
-      Pluto: { start: new Date('2025-05-02'), end: new Date('2025-10-10') },
-    },
-  },
+      Pluto: { start: new Date('2025-05-02'), end: new Date('2025-10-10') }
+    }
+  }
 };
 
 /**
@@ -406,7 +406,7 @@ export class TransitAnalysisService {
     if (!yearData) return null;
 
     return (
-      yearData.seasons.find(season => date >= season.startDate && date <= season.endDate) || null
+      yearData.seasons.find(season => date >= season.startDate && date <= season.endDate) || null;
     );
   }
 
@@ -435,10 +435,10 @@ export class TransitAnalysisService {
     const retrogradePlanets: string[] = [];
 
     const years = this.getAvailableYears();
-    years.forEach(year => {
+    years.forEach(year => {;
       const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
       if (yearData) {
-        yearData.seasons.forEach(season => {
+        yearData.seasons.forEach(season => {;
           if (season.startDate >= startDate && season.endDate <= endDate) {
             seasons.push(season);
 
@@ -460,7 +460,7 @@ export class TransitAnalysisService {
     // Normalize dominant elements
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(dominantElements).forEach(element => {
+      Object.keys(dominantElements).forEach(element => {;
         dominantElements[element] /= total;
       });
     }
@@ -501,9 +501,9 @@ export class TransitAnalysisService {
 // Export convenience functions
 export const getTransitForDate = (date: Date) => TransitAnalysisService.getTransitForDate(date);
 export const getAvailableYears = () => TransitAnalysisService.getAvailableYears();
-export const getSeasonalAnalysis = (startDate: Date, endDate: Date) =>
+export const getSeasonalAnalysis = (startDate: Date, endDate: Date) =>;
   TransitAnalysisService.getSeasonalAnalysis(startDate, endDate);
-export const getRetrogradePeriods = (planet: string, year: string) =>
+export const getRetrogradePeriods = (planet: string, year: string) =>;
   TransitAnalysisService.getRetrogradePeriods(planet, year);
 export const getEclipseSeasons = (year: string) => TransitAnalysisService.getEclipseSeasons(year);
 export const getMajorTransits = (year: string) => TransitAnalysisService.getMajorTransits(year);

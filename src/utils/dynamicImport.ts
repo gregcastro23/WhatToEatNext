@@ -1,13 +1,13 @@
 /**
  * Improved utility functions for dynamic imports in Next.js
- * This approach avoids the "Critical dependency" error with better typing
+ * This approach avoids the 'Critical dependency' error with better typing
  */
 
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {;
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -16,7 +16,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (_message: string, ..._args: unknown[]): void => {
+const errorLog = (_message: string, ..._args: unknown[]): void => {;
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
@@ -94,7 +94,7 @@ interface SolarPositionsModule {
 }
 
 // Module map for type-safe imports
-const MODULE_MAP = {
+const MODULE_MAP = {;
   '@/utils/astrologyUtils': () =>
     import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
   '@/utils/accurateAstronomy': () =>
@@ -198,17 +198,17 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
     // Use static imports for known modules
     let importedModule: unknown;
 
-    if (path === '@/utils/astrologyUtils') {
+    if (path === '@/utils/astrologyUtils') {;
       importedModule = astrologyUtils;
-    } else if (path === '@/utils/accurateAstronomy') {
+    } else if (path === '@/utils/accurateAstronomy') {;
       importedModule = accurateAstronomy;
-    } else if (path === '@/utils/safeAstrology') {
+    } else if (path === '@/utils/safeAstrology') {;
       importedModule = safeAstrology;
-    } else if (path === '@/calculations/alchemicalCalculations') {
+    } else if (path === '@/calculations/alchemicalCalculations') {;
       importedModule = alchemicalCalculations;
-    } else if (path === '@/calculations/gregsEnergy') {
+    } else if (path === '@/calculations/gregsEnergy') {;
       importedModule = gregsEnergy;
-    } else if (path === 'astronomia') {
+    } else if (path === 'astronomia') {;
       // astronomia removed from dependencies
       errorLog(`Astronomia module removed: ${functionName}`);
       return null;
@@ -237,8 +237,8 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
 
     // Return default values for known functions
     if (
-      path === '@/calculations/alchemicalCalculations' &&
-      functionName === 'calculateAlchemicalProperties'
+      path === '@/calculations/alchemicalCalculations' &&;
+      functionName === 'calculateAlchemicalProperties';
     ) {
       const calculatedResults = {} as R;
 
@@ -247,20 +247,20 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
 
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {
-        resultData.elementalCounts = {
+        resultData.elementalCounts = {;
           Fire: 0.32,
           Water: 0.28,
           Earth: 0.18,
-          Air: 0.22,
+          Air: 0.22
         };
       }
 
       if (!resultData.alchemicalCounts) {
-        resultData.alchemicalCounts = {
+        resultData.alchemicalCounts = {;
           Spirit: 0.29,
           Essence: 0.28,
           Matter: 0.21,
-          Substance: 0.22,
+          Substance: 0.22
         };
       }
 
@@ -285,7 +285,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
     }
 
     // astronomia modules removed
-    if (path === 'astronomia') {
+    if (path === 'astronomia') {;
       errorLog(`Astronomia module removed: ${functionName}`);
       return null;
     }
@@ -303,9 +303,9 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
  * Legacy functions for backward compatibility
  */
 
-export async function dynamicImport<T, F = null>(
+export async function dynamicImport<T, F = null>(;
   importFn: () => Promise<T>,
-  fallbackFn: (() => F) | null = null,
+  fallbackFn: (() => F) | null = null,;
 ): Promise<T | F | null> {
   debugLog('dynamicImport is deprecated, use safeImportFunction instead');
   try {
@@ -318,17 +318,17 @@ export async function dynamicImport<T, F = null>(
 
 export async function dynamicImportFunction<
   T extends (...args: unknown[]) => unknown,
-  F extends (...args: unknown[]) => unknown = T,
->(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {
+  F extends (...args: unknown[]) => unknown = T,;
+>(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {;
   debugLog('dynamicImportFunction is deprecated, use safeImportFunction instead');
   return safeImportFunction<T>(path, functionName);
 }
 
-export async function dynamicImportAndExecute<R, A extends unknown[] = unknown[], F = R>(
+export async function dynamicImportAndExecute<R, A extends unknown[] = unknown[], F = R>(;
   path: string,
   functionName: string,
   _args: A,
-  _fallbackFn: ((...args: A) => F) | null = null,
+  _fallbackFn: ((...args: A) => F) | null = null,;
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
   return safeImportAndExecute<R, A>(path, functionName, _args);

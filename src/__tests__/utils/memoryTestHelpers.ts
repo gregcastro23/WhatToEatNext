@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable no-console -- Campaign/test file with intentional patterns */
 /**
  * Memory-Safe Test Helpers
  *
@@ -28,7 +28,7 @@ interface MemorySafeTestConfig {
  */
 export function withMemoryManagement<T>(
   testFn: () => Promise<T> | T,
-  config: MemorySafeTestConfig = {},
+  config: MemorySafeTestConfig = {},;
 ): () => Promise<T> {
   return async () => {
     const monitor = config.enableMonitoring ? new TestMemoryMonitor(config.memoryThresholds) : null;
@@ -71,7 +71,7 @@ export function withMemoryManagement<T>(
 export function describeWithMemoryManagement(
   description: string,
   testSuite: () => void,
-  config: MemorySafeTestConfig = {},
+  config: MemorySafeTestConfig = {},;
 ): void {
   describe(description, () => {
     let suiteMonitor: TestMemoryMonitor | null = null;
@@ -90,10 +90,10 @@ export function describeWithMemoryManagement(
         const summary = suiteMonitor.getMemorySummary();
         if (summary.totalIncrease > 25) {
           // 25MB threshold for suite reporting
-          console.log(`Memory summary for "${description}":`, {
+          console.log(`Memory summary for '${description}':`, {
             totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
             peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
-            duration: `${(summary.testDuration / 1000).toFixed(2)}s`,
+            duration: `${(summary.testDuration / 1000).toFixed(2)}s`
           });
         }
 
@@ -130,7 +130,7 @@ export function itWithMemoryCleanup(
     description,
     withMemoryManagement(testFn, {
       enableMonitoring: true,
-      cleanupAfterEach: true,
+      cleanupAfterEach: true
     }),
     timeout || 15000,
   ); // Default to 15s timeout
@@ -154,7 +154,7 @@ export function itMemoryIntensive(
         heapTotal: 200 * 1024 * 1024, // 200MB
         external: 25 * 1024 * 1024, // 25MB
         rss: 300 * 1024 * 1024, // 300MB
-      },
+      }
     }),
     timeout || 30000,
   ); // Longer timeout for memory-intensive tests
@@ -177,7 +177,7 @@ export function createTestDataset<T>(
     data.push(generator());
   }
 
-  const cleanupFn = () => {
+  const cleanupFn = () => {;
     if (cleanup) {
       cleanup(data);
     }
@@ -197,7 +197,7 @@ export function createTestDataset<T>(
  */
 export async function withMemoryTracking<T>(
   operation: () => Promise<T>,
-  operationName: string = 'async-operation',
+  operationName: string = 'async-operation',;
 ): Promise<T> {
   const initialMemory = process.memoryUsage().heapUsed;
 
@@ -233,8 +233,8 @@ export async function withMemoryTracking<T>(
 export async function processBatchWithMemoryManagement<T, R>(
   items: T[],
   processor: (item: T) => Promise<R> | R,
-  batchSize: number = 10,
-  cleanupBetweenBatches: boolean = true,
+  batchSize: number = 10,;
+  cleanupBetweenBatches: boolean = true,;
 ): Promise<R[]> {
   const results: R[] = [];
 
@@ -263,11 +263,11 @@ export async function processBatchWithMemoryManagement<T, R>(
 /**
  * Memory usage assertion helpers
  */
-export const memoryAssertions = {
+export const memoryAssertions = {;
   /**
    * Assert that memory usage is within expected bounds
    */
-  expectMemoryWithinBounds: (maxIncreaseMB: number = 50) => {
+  expectMemoryWithinBounds: (maxIncreaseMB: number = 50) => {;
     const currentMemory = process.memoryUsage().heapUsed / (1024 * 1024);
 
     // This is a soft assertion - we log warnings rather than failing tests
@@ -281,7 +281,7 @@ export const memoryAssertions = {
   /**
    * Assert that no significant memory leaks occurred
    */
-  expectNoMemoryLeaks: (beforeMemory: number, tolerance: number = 25) => {
+  expectNoMemoryLeaks: (beforeMemory: number, tolerance: number = 25) => {;
     const afterMemory = process.memoryUsage().heapUsed;
     const increaseMB = (afterMemory - beforeMemory) / (1024 * 1024);
 
@@ -295,15 +295,15 @@ export const memoryAssertions = {
   /**
    * Get current memory usage for comparison
    */
-  getMemoryBaseline: (): number => {
+  getMemoryBaseline: (): number => {;
     return process.memoryUsage().heapUsed;
-  },
+  }
 };
 
 /**
  * Test timeout configurations based on test type
  */
-export const TEST_TIMEOUTS = {
+export const TEST_TIMEOUTS = {;
   unit: 5000, // 5 seconds for unit tests
   integration: 15000, // 15 seconds for integration tests (reduced from 30s)
   memory: 20000, // 20 seconds for memory-intensive tests
@@ -313,15 +313,15 @@ export const TEST_TIMEOUTS = {
 /**
  * Memory-safe test configuration presets
  */
-export const MEMORY_TEST_CONFIGS = {
+export const MEMORY_TEST_CONFIGS = {;
   strict: {
     enableMonitoring: true,
     cleanupAfterEach: true,
     memoryThresholds: {
       warningThreshold: 25,
       errorThreshold: 100,
-      leakThreshold: 10,
-    },
+      leakThreshold: 10
+    }
   },
 
   moderate: {
@@ -330,8 +330,8 @@ export const MEMORY_TEST_CONFIGS = {
     memoryThresholds: {
       warningThreshold: 50,
       errorThreshold: 200,
-      leakThreshold: 25,
-    },
+      leakThreshold: 25
+    }
   },
 
   relaxed: {
@@ -340,9 +340,9 @@ export const MEMORY_TEST_CONFIGS = {
     memoryThresholds: {
       warningThreshold: 100,
       errorThreshold: 500,
-      leakThreshold: 50,
-    },
-  },
+      leakThreshold: 50
+    }
+  }
 };
 
 export default {
@@ -355,5 +355,5 @@ export default {
   processBatchWithMemoryManagement,
   memoryAssertions,
   TEST_TIMEOUTS,
-  MEMORY_TEST_CONFIGS,
+  MEMORY_TEST_CONFIGS
 };

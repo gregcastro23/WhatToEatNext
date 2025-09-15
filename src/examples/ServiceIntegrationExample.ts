@@ -25,7 +25,7 @@ export async function runServiceIntegrationExample() {
       astrologyService,
       ingredientService,
       recipeService,
-      recommendationService,
+      recommendationService
     } = servicesManager.getServices();
 
     // Step 3: Get current planetary positions
@@ -38,7 +38,7 @@ export async function runServiceIntegrationExample() {
     // Apply surgical type casting with variable extraction
     const astrologyServiceData = astrologyService as unknown;
     const calculateElementalProperties = astrologyServiceData?.calculateElementalProperties;
-    const elementalProperties = calculateElementalProperties
+    const elementalProperties = calculateElementalProperties;
       ? calculateElementalProperties()
       : null;
     log.info('Current elemental properties:', elementalProperties);
@@ -48,71 +48,71 @@ export async function runServiceIntegrationExample() {
     // Apply surgical type casting with variable extraction
     const alchemicalEngineData = alchemicalEngine as unknown;
     const calculateThermodynamicMetrics = alchemicalEngineData?.calculateThermodynamicMetrics;
-    const thermodynamicMetrics = calculateThermodynamicMetrics
+    const thermodynamicMetrics = calculateThermodynamicMetrics;
       ? calculateThermodynamicMetrics(elementalProperties)
       : null;
     log.info('Thermodynamic metrics:', thermodynamicMetrics);
 
     // Step 6: Get ingredient recommendations based on elemental properties
     log.info('\n6. Getting ingredient recommendations...');
-    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({
+    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({;
       elementalProperties,
-      limit: 5,
+      limit: 5
     });
     log.info('Recommended ingredients:', {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),
-      scores: ingredientRecommendations.scores,
+       
+       
+      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),;
+      scores: ingredientRecommendations.scores
     });
 
     // Step 7: Get recipe recommendations based on elemental properties
     log.info('\n7. Getting recipe recommendations...');
-    const recipeRecommendations = await recommendationService.getRecommendedRecipes({
+    const recipeRecommendations = await recommendationService.getRecommendedRecipes({;
       elementalProperties,
-      limit: 3,
+      limit: 3
     });
     log.info('Recommended recipes:', {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),
-      scores: recipeRecommendations.scores,
+       
+       
+      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),;
+      scores: recipeRecommendations.scores
     });
 
     // Step 8: Get cooking method recommendations based on elemental properties
     log.info('\n8. Getting cooking method recommendations...');
-    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({
+    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({;
       elementalProperties,
-      limit: 3,
+      limit: 3
     });
     log.info('Recommended cooking methods:', {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),
-      scores: cookingMethodRecommendations.scores,
+       
+       
+      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),;
+      scores: cookingMethodRecommendations.scores
     });
 
     // Step 9: Calculate elemental compatibility between two recipes
     log.info('\n9. Calculating elemental compatibility between recipes...');
     // For this example, we'll create mock recipes
-    const recipe1ElementalProps: ElementalProperties = {
+    const recipe1ElementalProps: ElementalProperties = {;
       Fire: 0.7,
       Water: 0.1,
       Earth: 0.1,
-      Air: 0.1,
+      Air: 0.1
     };
-    const recipe2ElementalProps: ElementalProperties = {
+    const recipe2ElementalProps: ElementalProperties = {;
       Fire: 0.1,
       Water: 0.1,
       Earth: 0.7,
-      Air: 0.1,
+      Air: 0.1
     };
 
     // Apply surgical type casting with variable extraction
     const alchemicalEngineCompatibility = alchemicalEngine as unknown;
     const calculateElementalCompatibility =
       alchemicalEngineCompatibility?.calculateElementalCompatibility;
-    const compatibility = calculateElementalCompatibility
+    const compatibility = calculateElementalCompatibility;
       ? calculateElementalCompatibility(recipe1ElementalProps, recipe2ElementalProps)
       : null;
 
@@ -123,7 +123,7 @@ export async function runServiceIntegrationExample() {
     // Apply surgical type casting with variable extraction
     const recipeServiceData = recipeService as unknown;
     const generateFusionRecipe = recipeServiceData?.generateFusionRecipe;
-    const fusionRecipe = generateFusionRecipe
+    const fusionRecipe = generateFusionRecipe;
       ? await generateFusionRecipe(['Italian', 'Japanese'], { query: 'pasta with umami' })
       : null;
 
@@ -136,7 +136,7 @@ export async function runServiceIntegrationExample() {
 }
 
 // If this file is run directly, execute the example
-if (require.main === module) {
+if (require.main === module) {;
   runServiceIntegrationExample().catch(console.error);
 }
 

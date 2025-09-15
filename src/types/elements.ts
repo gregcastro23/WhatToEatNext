@@ -18,7 +18,7 @@ export interface ElementalBalance {
 }
 
 // Mapping between zodiac signs and their elements
-export const signElementMap: Record<string, ElementType> = {
+export const _signElementMap: Record<string, ElementType> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -33,5 +33,5 @@ export const signElementMap: Record<string, ElementType> = {
 
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water',
+  pisces: 'Water'
 };

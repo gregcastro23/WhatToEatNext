@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import {
   getCurrentMoment,
   updateCurrentMoment,
-  currentMomentManager,
+  currentMomentManager
 } from '@/services/CurrentMomentManager';
 import { createLogger } from '@/utils/logger';
 
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     const currentMoment = await getCurrentMoment(forceRefresh);
     const performanceMetrics = currentMomentManager.getPerformanceMetrics();
 
-    const response = {
+    const response = {;
       success: true,
       timestamp: new Date().toISOString(),
       currentMoment,
@@ -43,9 +43,9 @@ export async function GET(request: Request) {
           averageResponseTime: Math.round(performanceMetrics.averageResponseTime) + 'ms',
           lastError: performanceMetrics.lastError,
           currentMinuteUpdates:
-            performanceMetrics.updateFrequency[new Date().toISOString().slice(0, 16)] || 0,
-        },
-      },
+            performanceMetrics.updateFrequency[new Date().toISOString().slice(0, 16)] || 0
+        }
+      }
     };
 
     return NextResponse.json(response);
@@ -57,7 +57,7 @@ export async function GET(request: Request) {
         success: false,
         error: 'Failed to get current moment data',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
       { status: 500 },
     );
@@ -93,8 +93,8 @@ export async function POST(request: Request) {
             'current-moment-chart.ipynb',
             'src/constants/systemDefaults.ts',
             'src/utils/streamlinedPlanetaryPositions.ts',
-            'src/utils/accurateAstronomy.ts',
-          ],
+            'src/utils/accurateAstronomy.ts'
+          ]
         });
 
       case 'status':
@@ -110,8 +110,8 @@ export async function POST(request: Request) {
             lastUpdate: currentMoment.metadata.lastUpdated,
             source: currentMoment.metadata.source,
             dataIntegrity:
-              Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete',
-          },
+              Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete'
+          }
         });
 
       default:
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
             success: false,
             error: 'Invalid action',
             validActions: ['update', 'status'],
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toISOString()
           },
           { status: 400 },
         );
@@ -133,7 +133,7 @@ export async function POST(request: Request) {
         success: false,
         error: 'Failed to process current moment request',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
       { status: 500 },
     );
@@ -156,11 +156,11 @@ export async function PUT(request: Request) {
 
     const currentMoment = await updateCurrentMoment(customDate, customLocation);
 
-    const updateResults = {
+    const updateResults = {;
       notebook: false,
       systemDefaults: false,
       streamlinedPositions: false,
-      accurateAstronomy: false,
+      accurateAstronomy: false
     };
 
     // Note: The updateCurrentMoment already updates all files,
@@ -185,7 +185,7 @@ export async function PUT(request: Request) {
       message: 'Selective update completed',
       targets,
       updateResults,
-      currentMoment,
+      currentMoment
     });
   } catch (error) {
     logger.error('Error in current moment PUT:', error);
@@ -195,7 +195,7 @@ export async function PUT(request: Request) {
         success: false,
         error: 'Failed to process selective update',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
       { status: 500 },
     );

@@ -8,7 +8,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Dissolution - the breaking down of complex structures
  * into simpler forms through the action of liquid and gentle heat.
  */
-export const braising: CookingMethodData = {
+export const braising: CookingMethodData = {;
   name: 'braising',
   description:
     'Slow cooking method where food is first seared at high temperature, then finished in a covered pot with liquid at lower temperature. This dual-stage process transforms tough, collagen-rich ingredients into tender, flavorful dishes through the gradual breakdown of connective tissues and the concentration of flavors. The enclosed environment creates a cycle of evaporation and condensation that continuously bastes the food, while the liquid medium facilitates the exchange of flavors between ingredients.',
@@ -43,7 +43,7 @@ export const braising: CookingMethodData = {
     'venison shoulder',
     'octopus',
     'whole duck',
-    'artichokes',
+    'artichokes'
   ],
   benefits: [
     'tenderizes tough foods',
@@ -60,7 +60,7 @@ export const braising: CookingMethodData = {
     'preserves nutritional value',
     'requires minimal active cooking time',
     'balances fat content through emulsification',
-    'intensifies aromatics through prolonged contact',
+    'intensifies aromatics through prolonged contact'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['taurus', 'cancer', 'scorpio', 'capricorn'] as any[], // Earth and water signs enhance patience and depth
@@ -74,7 +74,7 @@ export const braising: CookingMethodData = {
       first_quarter: 1.1, // Good for initial stages of braising
       last_quarter: 1.2, // Ideal for finishing and reduction
       waning_crescent: 1.15, // Excellent for slow transformation
-    },
+    }
   },
   toolsRequired: [
     'Dutch oven or heavy-bottomed pot with lid',
@@ -89,7 +89,7 @@ export const braising: CookingMethodData = {
     'Fat separator (for finishing sauce)',
     'Immersion blender (optional for sauce refinement)',
     'Parchment paper lid (cartouche)',
-    'Heavy, well-fitting lid',
+    'Heavy, well-fitting lid'
   ],
   commonMistakes: [
     'too much liquid (should cover only 1/2 to 2/3 of ingredients)',
@@ -104,7 +104,7 @@ export const braising: CookingMethodData = {
     'using lean cuts (insufficient collagen)',
     'insufficient aromatics (flat flavor profile)',
     'adding delicate ingredients too early (disintegration)',
-    'frequent lid opening (temperature fluctuation)',
+    'frequent lid opening (temperature fluctuation)'
   ],
   pairingSuggestions: [
     'Fresh herb garnishes (parsley, chervil, tarragon)',
@@ -118,7 +118,7 @@ export const braising: CookingMethodData = {
     'Root vegetable purées (complementary earthiness)',
     'Preserved lemon or capers (brightening effect)',
     'Mushroom accompaniments (umami enhancement)',
-    'Aged cheese rinds (flavor deepening agent)',
+    'Aged cheese rinds (flavor deepening agent)'
   ],
   nutrientRetention: {
     collagen: 0.95, // Converted to gelatin
@@ -148,31 +148,31 @@ export const braising: CookingMethodData = {
       'boeuf bourguignon (beef in red wine)',
       'cassoulet (bean and meat casserole)',
       'daube provençale (beef stew with olives and orange)',
-      "navarin d'agneau (lamb stew with spring vegetables)",
+      'navarin d'agneau (lamb stew with spring vegetables)'
     ],
     italian: [
       'osso buco (veal shanks)',
       'brasato al barolo (beef braised in wine)',
-      "pollo alla cacciatora (hunter's chicken)",
+      'pollo alla cacciatora (hunter's chicken)'
     ],
     chinese: [
       'hong shao rou (red-braised pork belly)',
       'lu rou (braised minced pork)',
-      'dongpo rou (braised pork belly)',
+      'dongpo rou (braised pork belly)'
     ],
     mexican: [
       'barbacoa (slow-cooked meat)',
       'chile colorado (red chile braised beef)',
-      'pollo en mole (chicken in complex sauce)',
+      'pollo en mole (chicken in complex sauce)'
     ],
     moroccan: [
       'tagine (slow-cooked stews)',
       'mrouzia (lamb with honey and spices)',
-      'tangia (slow-cooked meat dish)',
+      'tangia (slow-cooked meat dish)'
     ],
     german: ['sauerbraten (sour roast)', 'rinderrouladen (beef rolls)'],
     jewish: ['cholent (sabbath stew)', 'tzimmes (sweet stew with carrots)'],
-    american: ['pot roast', 'yankee pot roast', 'mississippi pot roast'],
+    american: ['pot roast', 'yankee pot roast', 'mississippi pot roast']
   },
   chemicalChanges: {
     collagen_breakdown: true, // Conversion of collagen to gelatin via hydrolysis
@@ -200,7 +200,7 @@ export const braising: CookingMethodData = {
     'Proper refrigeration of leftovers (rapid cooling)',
     'Thorough reheating (165°F minimum for leftovers)',
     'Use tempered cookware (prevents cracking)',
-    'Keep pot handles turned inward on stovetop (prevents accidents)',
+    'Keep pot handles turned inward on stovetop (prevents accidents)'
   ],
   thermodynamicProperties: {
     heat: 0.55, // Moderate heat with liquid limiting max temperature
@@ -211,7 +211,7 @@ export const braising: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the "New England boiled dinner" emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.',
+    'Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the 'New England boiled dinner' emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.',
 
   scientificPrinciples: [
     'Initial Maillard reaction develops base flavors via high-heat searing',
@@ -227,7 +227,7 @@ export const braising: CookingMethodData = {
     'Cyclic evaporation and condensation creates self-basting effect',
     'Acidic components in liquid medium accelerate collagen breakdown',
     'Gelatinization of starches occurs between 150°F-180°F, contributing to thickening',
-    'Fat renders at temperatures above 130°F, contributing flavor compounds',
+    'Fat renders at temperatures above 130°F, contributing flavor compounds'
   ],
 
   modernVariations: [
@@ -243,7 +243,7 @@ export const braising: CookingMethodData = {
     'Controlled enzymatic addition (meat tenderization optimization)',
     'Centrifuge-clarified braising liquids (refined sauces)',
     'Thermostatically controlled braising (precision temperature maintenance)',
-    'Cryoconcentration of braising liquids (intensified flavors)',
+    'Cryoconcentration of braising liquids (intensified flavors)'
   ],
 
   sustainabilityRating: 0.75, // Energy-efficient slow cooking, typically uses less desirable cuts
@@ -262,7 +262,7 @@ export const braising: CookingMethodData = {
     'Cooking liquid contains water-soluble nutrients (complete nutrition)',
     'Long cooking times allow phenolic compounds to transfer from herbs (antioxidants)',
     'Leftovers often develop enhanced flavor profiles (flavor compounds continue interacting)',
-    'Balanced macronutrient profile when properly composed (protein, fat, carbohydrate)',
+    'Balanced macronutrient profile when properly composed (protein, fat, carbohydrate)'
   ],
 
   /**
@@ -293,7 +293,7 @@ export const braising: CookingMethodData = {
     associatedElements: {
       primary: 'Water', // Dissolving and transformative
       secondary: 'Fire', // Catalyst for change and transformation
-    },
+    }
   },
 
   /**
@@ -309,7 +309,7 @@ export const braising: CookingMethodData = {
       'Broth can be enriched with demi-glace for intensity',
       'Coconut milk creates creamy texture and tropical notes',
       'Citrus juices tenderize through acidity but added later prevent bitterness',
-      'Combinations often most effective: stock + wine is classic foundation',
+      'Combinations often most effective: stock + wine is classic foundation'
     ],
 
     aromaticBases: [
@@ -319,7 +319,7 @@ export const braising: CookingMethodData = {
       'Suppengrün: leek, carrot, celeriac',
       'Włoszczyzna: leek, carrot, parsley root, celeriac',
       'Battuto: onion, celery, carrot, pancetta',
-      "Sachet d'épices: herbs and spices in cheesecloth with string (removable)",
+      'Sachet d'épices: herbs and spices in cheesecloth with string (removable)'
     ],
 
     textureConsiderations: [
@@ -331,7 +331,7 @@ export const braising: CookingMethodData = {
       'Resting period allows proteins to reabsorb juices',
       'Cooling completely in liquid then reheating improves texture',
       'Gentle simmer (tiny bubbles) rather than boiling prevents toughening',
-      'Viscosity of final sauce affected by reduction level and natural gelatin',
+      'Viscosity of final sauce affected by reduction level and natural gelatin'
     ],
 
     troubleshooting: [
@@ -344,7 +344,7 @@ export const braising: CookingMethodData = {
       'Vegetables mushy: Added too early in cooking process',
       'Meat falling apart: Slightly overcooked (sometimes desirable)',
       'Cloudy sauce: Boiled rather than simmered or insufficient skimming',
-      'Acid balance: Add acid elements later in cooking process to preserve brightness',
-    ],
-  },
+      'Acid balance: Add acid elements later in cooking process to preserve brightness'
+    ]
+  }
 } as unknown as CookingMethodData;

@@ -40,7 +40,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
         Venus: ['Heart', 'Sacral'],
         Mars: ['Root', 'Solar Plexus'],
         Jupiter: ['Crown', 'Heart'],
-        Saturn: ['Root', 'Third Eye'],
+        Saturn: ['Root', 'Third Eye']
       };
 
       setPlanetaryHourChakras(chakraMapping[planetaryHour] || []);
@@ -52,7 +52,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
     }
 
     // Update every minute
-    const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {;
       try {
         const now = new Date();
         const planetaryHour = calculator.calculatePlanetaryHour(now);
@@ -69,7 +69,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
     currentPlanetaryHour,
     planetaryHourChakras,
     isLoading,
-    error,
+    error
   };
 }
 

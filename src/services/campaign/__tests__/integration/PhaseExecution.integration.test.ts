@@ -13,7 +13,7 @@ import {
   SafetyLevel,
   PhaseStatus,
   CorruptionSeverity,
-  RecoveryAction,
+  RecoveryAction
 } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
@@ -35,17 +35,17 @@ describe('Phase Execution Integration Tests', () => {
 
   beforeEach(() => {
     // Setup mock safety settings
-    mockSafetySettings = {
+    mockSafetySettings = {;
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
+      stashRetentionDays: 7
     };
 
     // Setup mock campaign configuration
-    mockConfig = {
+    mockConfig = {;
       phases: [
         {
           id: 'phase1',
@@ -56,12 +56,12 @@ describe('Phase Execution Integration Tests', () => {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFile, s: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
-              safetyLevel: SafetyLevel.MAXIMUM,
-            },
+              safetyLevel: SafetyLevel.MAXIMUM
+            }
           ],
-          successCriteria: { typeScriptErrors: 0,
+          successCriteria: { typeScriptErrors: 0
           },
-          safetyCheckpoints: [],
+          safetyCheckpoints: []
         },
         {
           id: 'phase2',
@@ -72,25 +72,25 @@ describe('Phase Execution Integration Tests', () => {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFile, s: 25, autoFix: true },
               batchSize: 25,
-              safetyLevel: SafetyLevel.HIGH,
-            },
+              safetyLevel: SafetyLevel.HIGH
+            }
           ],
-          successCriteria: { lintingWarnings: 0,
+          successCriteria: { lintingWarnings: 0
           },
-          safetyCheckpoints: [],
-        },
+          safetyCheckpoints: []
+        }
       ],
       safetySettings: mockSafetySettings,
       progressTargets: { typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200,
+        enterpriseSystems: 200
       },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      },
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+      }
     };
 
     // Initialize components
@@ -111,7 +111,7 @@ describe('Phase Execution Integration Tests', () => {
   describe('Complete Phase 1 Execution Workflow', () => {
     beforeEach(() => {
       // Mock successful TypeScript error fixing
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         const cmd: any = command.toString();
 
         if (cmd.includes('yarn tsc --noEmit --skipLibCheck')) {
@@ -172,7 +172,7 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       });
 
       const validation: any = await campaignController.validatePhaseCompletion(phase1);
@@ -189,7 +189,7 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       });
 
       const report: any = await campaignController.generatePhaseReport(phase1);
@@ -204,10 +204,10 @@ describe('Phase Execution Integration Tests', () => {
   describe('Complete Phase 2 Execution Workflow', () => {
     beforeEach(() => {
       // Mock successful linting warning fixing
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         const cmd: any = command.toString();
 
-        if (cmd.includes('yarn lint 2>&1 | grep -c "warning"')) {
+        if (cmd.includes('yarn lint 2>&1 | grep -c 'warning'')) {
           return '0'; // No linting warnings after fixing
         }
         if (cmd.includes('yarn build')) {
@@ -255,7 +255,7 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       });
 
       const validation: any = await campaignController.validatePhaseCompletion(phase2);
@@ -337,7 +337,7 @@ describe('Phase Execution Integration Tests', () => {
       jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Build validation failed'],
-        warnings: [],
+        warnings: []
       });
 
       // Mock rollback
@@ -354,7 +354,7 @@ describe('Phase Execution Integration Tests', () => {
       const phase1: any = mockConfig.phases.[0];
 
       // Mock build failure
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed');
         }
@@ -408,7 +408,7 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       });
 
       await campaignController.executePhase(phase1);
@@ -428,7 +428,7 @@ describe('Phase Execution Integration Tests', () => {
         detectedFiles: [],
         corruptionPatterns: [],
         severity: CorruptionSeverity.LOW,
-        recommendedAction: RecoveryAction.CONTINUE,
+        recommendedAction: RecoveryAction.CONTINUE
       });
 
       await campaignController.executePhase(phase1);
@@ -448,11 +448,11 @@ describe('Phase Execution Integration Tests', () => {
           {
             pattern: 'MERGE_CONFLICT',
             description: 'Git merge conflict markers detected',
-            files: ['corrupted-file.ts'],
-          },
+            files: ['corrupted-file.ts']
+          }
         ],
         severity: CorruptionSeverity.HIGH,
-        recommendedAction: RecoveryAction.ROLLBACK,
+        recommendedAction: RecoveryAction.ROLLBACK
       });
 
       // This would require actual integration to test properly

@@ -5,7 +5,7 @@ import { ZodiacAffinity, DEFAULT_ZODIAC_AFFINITY } from '@/types/zodiacAffinity'
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {;
   // Intentionally left blank to avoid linting warnings
 };
 
@@ -13,7 +13,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * Get the current zodiac sign based on the current date
  * @returns The current zodiac sign as a string
  */
-export const getCurrentZodiacSign = (): string => {
+export const _getCurrentZodiacSign = (): string => {;
   const now = new Date();
   const month = now.getMonth() + 1;
   const day = now.getDate();
@@ -41,7 +41,7 @@ export const getCurrentZodiacSign = (): string => {
 export function toZodiacSign(zodiac: string | null | undefined): any {
   if (!zodiac) return 'aries';
 
-  const validSigns = [
+  const validSigns = [;
     'aries',
     'taurus',
     'gemini',
@@ -53,7 +53,7 @@ export function toZodiacSign(zodiac: string | null | undefined): any {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
 
   const normalized = zodiac.toLowerCase();
@@ -66,7 +66,7 @@ export function toZodiacSign(zodiac: string | null | undefined): any {
  * @returns Zodiac sign as a string
  */
 export function getSignFromLongitude(longitude: number): string {
-  const signs = [
+  const signs = [;
     'Aries',
     'Taurus',
     'Gemini',
@@ -78,7 +78,7 @@ export function getSignFromLongitude(longitude: number): string {
     'Sagittarius',
     'Capricorn',
     'Aquarius',
-    'Pisces',
+    'Pisces'
   ];
   const signIndex = Math.floor((longitude % 360) / 30);
   return signs[signIndex];
@@ -133,11 +133,11 @@ export function getZodiacElementalInfluence(sign: any): ElementalProperties {
   const element = getElementForZodiac(sign);
 
   // Base values
-  const result: ElementalProperties = {
+  const result: ElementalProperties = {;
     Fire: 0.2,
     Earth: 0.2,
     Air: 0.2,
-    Water: 0.2,
+    Water: 0.2
   };
 
   // Boost the primary element
@@ -171,7 +171,7 @@ export function calculateZodiacAffinityFromElements(
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
+    pisces: 'Water'
   };
 
   // Calculate affinities based on elemental properties
@@ -180,11 +180,11 @@ export function calculateZodiacAffinityFromElements(
     result[sign as any] = elementalProperties[element] * 0.7;
 
     // Add smaller contributions from other elements based on compatibility
-    const otherElements = Object.keys(elementalProperties).filter(e => e !== element) as Array<
+    const otherElements = Object.keys(elementalProperties).filter(e => e !== element) as Array<;
       keyof ElementalProperties
     >;
 
-    otherElements.forEach(otherElement => {
+    otherElements.forEach(otherElement => {;
       // Get compatibility between elements
       const compatibility = getElementalCompatibility(element, otherElement);
       result[sign as any] += elementalProperties[otherElement] * compatibility * 0.2;
@@ -196,25 +196,25 @@ export function calculateZodiacAffinityFromElements(
       const primaryModality = getModalityForZodiac(primaryZodiacSign);
 
       // Apply hierarchical modality-element affinities
-      if (signModality === primaryModality) {
+      if (signModality === primaryModality) {;
         // Boost affinity for signs with the same modality
         result[sign as any] += 0.2;
 
         // Add additional boost based on hierarchical element-modality affinities
-        if (signModality === 'mutable' && element === 'Air') {
+        if (signModality === 'mutable' && element === 'Air') {;
           result[sign as any] += 0.1; // Air has strongest affinity with Mutable
-        } else if (signModality === 'fixed' && element === 'Earth') {
+        } else if (signModality === 'fixed' && element === 'Earth') {;
           result[sign as any] += 0.1; // Earth has strongest affinity with Fixed
-        } else if (signModality === 'cardinal') {
+        } else if (signModality === 'cardinal') {;
           // Cardinal has equal affinity with all elements, small boost
           result[sign as any] += 0.05;
         }
       } else {
         // Apply hierarchical cross-modality affinities
-        if (signModality === 'mutable' && primaryModality === 'cardinal') {
+        if (signModality === 'mutable' && primaryModality === 'cardinal') {;
           // Mutable and Cardinal have moderate affinity
           result[sign as any] += 0.1;
-        } else if (signModality === 'fixed' && primaryModality === 'cardinal') {
+        } else if (signModality === 'fixed' && primaryModality === 'cardinal') {;
           // Fixed and Cardinal have moderate affinity
           result[sign as any] += 0.1;
         }
@@ -223,7 +223,7 @@ export function calculateZodiacAffinityFromElements(
   });
 
   // Ensure all values are in the 0-1 range
-  Object.keys(result).forEach(sign => {
+  Object.keys(result).forEach(sign => {;
     result[sign as any] = Math.min(1, Math.max(0, result[sign as any]));
   });
 
@@ -245,7 +245,7 @@ function getElementalCompatibility(
   element2: keyof ElementalProperties,
 ): number {
   // Same element has highest compatibility
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9; // Same element has high compatibility
   }
 

@@ -27,7 +27,7 @@ export interface MemoryUsageFn {
 
 // Jest mock-compatible memory usage function type for tests
 export type MockableMemoryUsageFn =
-  | MemoryUsageFn
+  | MemoryUsageFn;
   | jest.Mock<MemoryUsage, []>
   | jest.Mock<unknown, unknown[]>;
 
@@ -156,10 +156,10 @@ export interface AlchemicalProviderProps {
 
 // Global declarations
 declare global {
-  let testUtils: ExtendedTestUtils;
-  let forceGC: (() => boolean) | undefined;
-  let getMemoryUsage: (() => MemoryUsage) | undefined;
-  let cleanupTestMemory: (() => unknown) | undefined;
+  let _testUtils: ExtendedTestUtils;
+  let _forceGC: (() => boolean) | undefined;
+  let _getMemoryUsage: (() => MemoryUsage) | undefined;
+  let _cleanupTestMemory: (() => unknown) | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
   let __TEST_REFS__: unknown[] | undefined;

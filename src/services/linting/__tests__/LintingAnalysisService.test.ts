@@ -22,19 +22,19 @@ jest.mock('child_process', () => ({
             message: 'Import order is incorrect',
             line: 1,
             column: 1,
-            fix: { rang, e: [0, 10], text: 'fixed import' },
+            fix: { rang, e: [0, 10], text: 'fixed import' }
           },
           {
             ruleId: '@typescript-eslint/no-explicit-any',
             severity: 1,
             message: 'Unexpected any type',
             line: 5,
-            column: 10,
-          },
-        ],
-      },
+            column: 10
+          }
+        ]
+      }
     ]),
-  ),
+  )
 }));
 
 // Mock fs to prevent actual file system access during tests
@@ -43,14 +43,14 @@ jest.mock('fs', () => ({
   readFileSync: jest.fn().mockReturnValue(`
 import React, { useState } from 'react';
     
-    const component: any = {};
+    const _component: any = {};
     
     function TestComponent() : any {
       const [state, setState] = useState(0);
       return <div>Test</div>;
     }
   `),
-  statSync: jest.fn().mockReturnValue({ mtim, e: new Date() }),
+  statSync: jest.fn().mockReturnValue({ mtim, e: new Date() })
 }));
 
 describe('LintingAnalysisService', () => {
@@ -106,8 +106,8 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should generate resolution strategies when requested', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
-        generateStrategies: true,
+      const result: any = await service.performComprehensiveAnalysis({;
+        generateStrategies: true
       });
 
       expect(result.resolutionStrategies.length).toBeGreaterThan(0);
@@ -115,16 +115,16 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should skip file analysis when disabled', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
-        includeFileAnalysis: false,
+      const result: any = await service.performComprehensiveAnalysis({;
+        includeFileAnalysis: false
       });
 
       expect(result.fileAnalyses).toHaveLength(0);
     });
 
     it('should focus on specific areas when requested', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
-        focusAreas: ['import', 'typescript'],
+      const result: any = await service.performComprehensiveAnalysis({;
+        focusAreas: ['import', 'typescript']
       });
 
       expect(result).toBeDefined();
@@ -189,13 +189,13 @@ describe('LintingAnalysisService', () => {
 
   describe('Integration', () => {
     it('should integrate all analysis components', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
+      const result: any = await service.performComprehensiveAnalysis({;
         includeFileAnalysis: true,
         generateStrategies: true,
         projectContext: { hasTests: true,
           teamSize: 'small',
-          riskTolerance: 'moderate',
-        },
+          riskTolerance: 'moderate'
+        }
       });
 
       // Verify all components worked together

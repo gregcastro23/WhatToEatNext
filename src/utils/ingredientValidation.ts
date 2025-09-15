@@ -55,11 +55,11 @@ export interface IngredientTestResult {
 }
 
 // Validation tolerances
-const VALIDATION_TOLERANCES = {
+const VALIDATION_TOLERANCES = {;
   ELEMENTAL_SUM_TOLERANCE: 0.01,
   SELF_COMPATIBILITY_THRESHOLD: 0.9,
   CROSS_COMPATIBILITY_THRESHOLD: 0.7,
-  ALCHEMICAL_CONSISTENCY_THRESHOLD: 0.8,
+  ALCHEMICAL_CONSISTENCY_THRESHOLD: 0.8
 };
 
 /**
@@ -114,14 +114,14 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       errors,
       warnings,
       summary,
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   } catch (error) {
-    const criticalError: IngredientValidationError = {
+    const criticalError: IngredientValidationError = {;
       type: 'DATA_INCOMPLETE',
       severity: 'CRITICAL',
       message: `Ingredient validation process failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date(),
+      timestamp: new Date()
     };
 
     return {
@@ -129,7 +129,7 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       errors: [criticalError],
       warnings,
       summary: 'Critical validation failure - process could not complete',
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   }
 }
@@ -158,7 +158,7 @@ async function validateElementalProperties(): Promise<{
           severity: 'MEDIUM',
           ingredient: name,
           message: `Failed to validate elemental properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       }
     }
@@ -167,7 +167,7 @@ async function validateElementalProperties(): Promise<{
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
       message: `Elemental properties validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date(),
+      timestamp: new Date()
     });
   }
 
@@ -192,7 +192,7 @@ function validateIngredientElementalProperties(
         ingredient: name,
         property: 'elementalProperties',
         message: `Missing elemental properties for ${name}`,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
       return { errors, warnings };
     }
@@ -211,7 +211,7 @@ function validateIngredientElementalProperties(
           property: element,
           actualValue: value,
           message: `Invalid ${element} value for ${name}: ${value} (should be a number)`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       } else if (value < 0 || value > 1) {
         errors.push({
@@ -221,13 +221,13 @@ function validateIngredientElementalProperties(
           property: element,
           actualValue: value,
           message: `${element} value for ${name} out of range: ${value} (should be 0-1)`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       }
     }
 
     // Check that elemental properties sum to approximately 1.0
-    const sum = elements.reduce((total, element) => {
+    const sum = elements.reduce((total, element) => {;
       const value = props[element as any];
       return total + (typeof value === 'number' ? value : 0);
     }, 0);
@@ -241,13 +241,13 @@ function validateIngredientElementalProperties(
         expectedValue: 1.0,
         actualValue: sum,
         message: `Elemental properties sum for ${name} is ${sum.toFixed(3)}, should be 1.0 (±${VALIDATION_TOLERANCES.ELEMENTAL_SUM_TOLERANCE})`,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
     }
 
     // Check for elemental dominance (at least one element should be > 0.3)
-    const maxElement = Math.max(
-      ...elements.map(el => {
+    const maxElement = Math.max(;
+      ...elements.map(el => {;
         const value = props[el as unknown];
         return typeof value === 'number' ? value : 0;
       }),
@@ -259,7 +259,7 @@ function validateIngredientElementalProperties(
         ingredient: name,
         property: 'elementalProperties',
         message: `No dominant element for ${name} (max: ${maxElement.toFixed(3)})`,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
     }
   } catch (error) {
@@ -268,7 +268,7 @@ function validateIngredientElementalProperties(
       severity: 'MEDIUM',
       ingredient: name,
       message: `Error validating elemental properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date(),
+      timestamp: new Date()
     });
   }
 
@@ -315,7 +315,7 @@ async function validateCompatibilityScores(): Promise<{
       try {
         if (!ingredient.elementalProperties) continue;
 
-        const selfCompatibility = calculateElementalPropertiesCompatibility(
+        const selfCompatibility = calculateElementalPropertiesCompatibility(;
           ingredient.elementalProperties,
           ingredient.elementalProperties,
         );
@@ -330,7 +330,7 @@ async function validateCompatibilityScores(): Promise<{
             expectedValue: `≥${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD}`,
             actualValue: selfCompatibility,
             message: `Self-compatibility score ${selfCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD} threshold for ${ingredient.name}`,
-            timestamp: new Date(),
+            timestamp: new Date()
           });
         }
       } catch (error) {
@@ -338,7 +338,7 @@ async function validateCompatibilityScores(): Promise<{
           type: 'PERFORMANCE_SLOW',
           ingredient: ingredient.name,
           message: `Could not calculate self-compatibility for ${ingredient.name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       }
     }
@@ -355,7 +355,7 @@ async function validateCompatibilityScores(): Promise<{
         if (!ingredient1.elementalProperties || !ingredient2.elementalProperties) continue;
 
         try {
-          const crossCompatibility = calculateElementalPropertiesCompatibility(
+          const crossCompatibility = calculateElementalPropertiesCompatibility(;
             ingredient1.elementalProperties,
             ingredient2.elementalProperties,
           );
@@ -370,7 +370,7 @@ async function validateCompatibilityScores(): Promise<{
               expectedValue: `≥${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD}`,
               actualValue: crossCompatibility,
               message: `Cross-compatibility score ${crossCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD} threshold for ${ingredient1.name} + ${ingredient2.name}`,
-              timestamp: new Date(),
+              timestamp: new Date()
             });
           }
         } catch (error) {
@@ -378,7 +378,7 @@ async function validateCompatibilityScores(): Promise<{
             type: 'PERFORMANCE_SLOW',
             ingredient: `${ingredient1.name} + ${ingredient2.name}`,
             message: `Could not calculate cross-compatibility: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            timestamp: new Date(),
+            timestamp: new Date()
           });
         }
       }
@@ -388,7 +388,7 @@ async function validateCompatibilityScores(): Promise<{
       type: 'COMPATIBILITY_VIOLATION',
       severity: 'HIGH',
       message: `Compatibility score validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date(),
+      timestamp: new Date()
     });
   }
 
@@ -420,7 +420,7 @@ async function validateAlchemicalMappings(): Promise<{
             ingredient: name,
             property: 'alchemicalProperties',
             message: `Missing alchemical properties for ${name}`,
-            timestamp: new Date(),
+            timestamp: new Date()
           });
         }
       } catch (error) {
@@ -428,7 +428,7 @@ async function validateAlchemicalMappings(): Promise<{
           type: 'MINOR_INCONSISTENCY',
           ingredient: name,
           message: `Could not validate alchemical properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       }
     }
@@ -437,7 +437,7 @@ async function validateAlchemicalMappings(): Promise<{
       type: 'ALCHEMICAL_MISMATCH',
       severity: 'MEDIUM',
       message: `Alchemical mapping validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date(),
+      timestamp: new Date()
     });
   }
 
@@ -460,7 +460,7 @@ function validateAlchemicalConsistency(
       return { errors, warnings };
     }
 
-    const alchemical = ingredientData.alchemicalProperties as any;
+    const alchemical = ingredientData.alchemicalProperties ;
     const elemental = ingredient.elementalProperties;
 
     // Check that alchemical properties are numeric and in valid range
@@ -475,7 +475,7 @@ function validateAlchemicalConsistency(
           property: prop,
           actualValue: value,
           message: `Invalid ${prop} value for ${name}: ${value} (should be a number)`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       } else if (value < 0 || value > 1) {
         warnings.push({
@@ -483,7 +483,7 @@ function validateAlchemicalConsistency(
           ingredient: name,
           property: prop,
           message: `${prop} value for ${name} out of typical range: ${value} (typically 0-1)`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       }
     }
@@ -498,7 +498,7 @@ function validateAlchemicalConsistency(
         ingredient: name,
         property: 'spirit-elemental correlation',
         message: `Spirit (${spirit.toFixed(3)}) doesn't correlate well with Air+Fire (${airFire.toFixed(3)}) for ${name}`,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
     }
 
@@ -511,7 +511,7 @@ function validateAlchemicalConsistency(
         ingredient: name,
         property: 'matter-elemental correlation',
         message: `Matter (${matter.toFixed(3)}) doesn't correlate well with Earth+Water (${earthWater.toFixed(3)}) for ${name}`,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
     }
   } catch (error) {
@@ -520,7 +520,7 @@ function validateAlchemicalConsistency(
       severity: 'LOW',
       ingredient: name,
       message: `Error validating alchemical consistency for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date(),
+      timestamp: new Date()
     });
   }
 
@@ -552,7 +552,7 @@ async function validateDataCompleteness(): Promise<{
             ingredient: name,
             property: field,
             message: `Missing required field '${field}' for ${name}`,
-            timestamp: new Date(),
+            timestamp: new Date()
           });
         }
       }
@@ -565,13 +565,13 @@ async function validateDataCompleteness(): Promise<{
             ingredient: name,
             property: field,
             message: `Missing recommended field '${field}' for ${name}`,
-            timestamp: new Date(),
+            timestamp: new Date()
           });
         }
       }
 
       // Check category validity
-      const validCategories = [
+      const validCategories = [;
         'culinary_herb',
         'spice',
         'vegetable',
@@ -581,7 +581,7 @@ async function validateDataCompleteness(): Promise<{
         'dairy',
         'oil',
         'vinegar',
-        'seasoning',
+        'seasoning'
       ];
 
       if (ingredient.category && !validCategories.includes(ingredient.category)) {
@@ -593,7 +593,7 @@ async function validateDataCompleteness(): Promise<{
           actualValue: ingredient.category,
           expectedValue: validCategories,
           message: `Invalid category '${ingredient.category}' for ${name}`,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       }
     }
@@ -602,7 +602,7 @@ async function validateDataCompleteness(): Promise<{
       type: 'DATA_INCOMPLETE',
       severity: 'MEDIUM',
       message: `Data completeness validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date(),
+      timestamp: new Date()
     });
   }
 
@@ -652,15 +652,15 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
       duration,
       details: {
         ingredientCount,
-        loadTime: duration,
-      },
+        loadTime: duration
+      }
     };
   } catch (error) {
     return {
       testName: 'Ingredient Data Loading',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -680,7 +680,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       totalCount++;
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air'];
-        const hasValidElements = elements.every(el => {
+        const hasValidElements = elements.every(el => {;
           const value = ingredient.elementalProperties[el as unknown];
           return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1;
         });
@@ -701,15 +701,15 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       details: {
         validCount,
         totalCount,
-        successRate: totalCount > 0 ? (validCount / totalCount) * 100 : 0,
-      },
+        successRate: totalCount > 0 ? (validCount / totalCount) * 100 : 0
+      }
     };
   } catch (error) {
     return {
       testName: 'Elemental Properties Validation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -730,7 +730,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 
       try {
         totalCalculations++;
-        const selfCompatibility = calculateElementalPropertiesCompatibility(
+        const selfCompatibility = calculateElementalPropertiesCompatibility(;
           ingredient.elementalProperties,
           ingredient.elementalProperties,
         );
@@ -754,15 +754,15 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
       details: {
         validCalculations,
         totalCalculations,
-        successRate: totalCalculations > 0 ? (validCalculations / totalCalculations) * 100 : 0,
-      },
+        successRate: totalCalculations > 0 ? (validCalculations / totalCalculations) * 100 : 0
+      }
     };
   } catch (error) {
     return {
       testName: 'Compatibility Calculations',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -783,8 +783,8 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
       if (ingredientData.alchemicalProperties) {
         totalMappings++;
 
-        const alchemical = ingredientData.alchemicalProperties as any;
-        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
+        const alchemical = ingredientData.alchemicalProperties ;
+        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {;
           const value = alchemical[prop] as number;
           return typeof value === 'number' && !isNaN(value);
         });
@@ -805,15 +805,15 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
       details: {
         validMappings,
         totalMappings,
-        successRate: totalMappings > 0 ? (validMappings / totalMappings) * 100 : 100,
-      },
+        successRate: totalMappings > 0 ? (validMappings / totalMappings) * 100 : 100
+      }
     };
   } catch (error) {
     return {
       testName: 'Alchemical Mappings',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -826,7 +826,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
 
   try {
     const ingredients = allIngredients;
-    const validCategories = [
+    const validCategories = [;
       'culinary_herb',
       'spice',
       'vegetable',
@@ -836,7 +836,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       'dairy',
       'oil',
       'vinegar',
-      'seasoning',
+      'seasoning'
     ];
 
     let validCategories_count = 0;
@@ -859,15 +859,15 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       details: {
         validCategories: validCategories_count,
         totalIngredients,
-        successRate: totalIngredients > 0 ? (validCategories_count / totalIngredients) * 100 : 0,
-      },
+        successRate: totalIngredients > 0 ? (validCategories_count / totalIngredients) * 100 : 0
+      }
     };
   } catch (error) {
     return {
       testName: 'Category Consistency',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -892,7 +892,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
       message: `Test pass rate ${passRate.toFixed(1)}% below 80% threshold`,
-      timestamp: new Date(),
+      timestamp: new Date()
     });
   }
 
@@ -900,7 +900,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
   for (const test of testResults) {
     if (!test.passed) {
       const severity =
-        test.testName.includes('Loading') || test.testName.includes('Properties')
+        test.testName.includes('Loading') || test.testName.includes('Properties');
           ? 'HIGH'
           : 'MEDIUM';
 
@@ -908,7 +908,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
         type: 'DATA_INCOMPLETE',
         severity: severity,
         message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
     }
 
@@ -918,7 +918,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
       warnings.push({
         type: 'PERFORMANCE_SLOW',
         message: `Test ${test.testName} took ${test.duration}ms (>5s)`,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
     }
   }
@@ -947,15 +947,15 @@ function generateIngredientValidationSummary(
   if (!isValid) {
     summary += '\nCritical Issues:\n';
     errors
-      .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
-      .forEach(error => {
+      .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH');
+      .forEach(error => {;
         summary += `- ${error.message}\n`;
       });
   }
 
   if (warnings.length > 0) {
     summary += '\nWarnings:\n';
-    warnings.slice(0, 5).forEach(warning => {
+    warnings.slice(0, 5).forEach(warning => {;
       summary += `- ${warning.message}\n`;
     });
 
@@ -986,5 +986,5 @@ export {
   validateCompatibilityScores,
   validateAlchemicalMappings,
   validateDataCompleteness,
-  runIngredientTests,
+  runIngredientTests
 };

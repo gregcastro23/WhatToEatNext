@@ -39,7 +39,7 @@ describe('ServiceIntegrationValidator', () => {
     validator = new ServiceIntegrationValidator(config);
 
     // Setup mock processed files
-    mockProcessedFiles = [
+    mockProcessedFiles = [;
       '/project/src/services/ApiService.ts',
       '/project/src/services/UserService.ts',
       '/project/src/components/TestComponent.tsx',
@@ -97,7 +97,7 @@ describe('ServiceIntegrationValidator', () => {
     });
 
     test('should identify service files correctly', async () => {
-      const mixedFiles: any = [
+      const mixedFiles: any = [;
         '/project/src/services/ApiService.ts',
         '/project/src/components/Component.tsx',
         '/project/src/utils/helper.ts',
@@ -122,7 +122,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 10 remaining unused variables (90% reduction)
-          const lintResults: any = Array.from({ length: 10 }, () => ({
+          const lintResults: any = Array.from({ length: 10 }, () => ({;
             messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -133,7 +133,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(;
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics
@@ -150,7 +150,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 50 remaining unused variables (50% reduction)
-          const lintResults: any = Array.from({ length: 50 }, () => ({
+          const lintResults: any = Array.from({ length: 50 }, () => ({;
             messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -165,7 +165,7 @@ describe('ServiceIntegrationValidator', () => {
       });
 
       const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
-      const report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(;
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics
@@ -421,7 +421,7 @@ describe('ServiceIntegrationValidator', () => {
       // Mock 20 remaining unused variables (90% reduction)
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
-          const lintResults: any = Array.from({ length: 20 }, () => ({
+          const lintResults: any = Array.from({ length: 20 }, () => ({;
             messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -432,7 +432,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(;
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics
@@ -477,7 +477,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(;
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics
@@ -510,7 +510,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // 50% reduction (below 90% target)
-          const lintResults: any = Array.from({ length: 50 }, () => ({
+          const lintResults: any = Array.from({ length: 50 }, () => ({;
             messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -525,7 +525,7 @@ describe('ServiceIntegrationValidator', () => {
       });
 
       const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
-      const report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(;
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics

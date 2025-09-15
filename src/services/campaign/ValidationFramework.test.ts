@@ -39,7 +39,7 @@ describe('ValidationFramework', () => {
         { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 },
         { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 },
         { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 },
-        { id: 'phase4', name: 'Performance Optimization Maintenance', criteriaCount: 4 },
+        { id: 'phase4', name: 'Performance Optimization Maintenance', criteriaCount: 4 }
       ]);
     });
   });
@@ -136,7 +136,7 @@ describe('ValidationFramework', () => {
 
     it('should validate Phase 4 successfully with good performance metrics', async () => {
       // Mock fast build and test execution
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.includes('yarn build')) {
           // Simulate 5 second build;
           return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown;
@@ -192,7 +192,7 @@ describe('ValidationFramework', () => {
       // Mock build failure
       const buildError: any = new Error('Build failed') as unknown;
       buildError.status = 1;
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.includes('yarn build')) {
           throw buildError;
         }
@@ -210,7 +210,7 @@ describe('ValidationFramework', () => {
 
     it('should detect test failures', async () => {
       // Mock test failure
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.includes('yarn test')) {
           throw new Error('Tests failed');
         }
@@ -230,7 +230,7 @@ describe('ValidationFramework', () => {
     it('should detect high TypeScript error count', async () => {
       // Mock high number of TypeScript errors
       const manyErrors: any = Array(150).fill('error TS2322: Type error').join('\n');
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.includes('tsc --noEmit')) {
           return manyErrors;
         }
@@ -247,7 +247,7 @@ describe('ValidationFramework', () => {
 
     it('should detect performance degradation', async () => {
       // Mock slow build (simulate by making execSync take time)
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.includes('yarn build')) {
           // Simulate slow build by delaying;
           const start: any = Date.now();
@@ -311,7 +311,7 @@ describe('ValidationFramework', () => {
       const phases: any = validationFramework.getAvailablePhases();
 
       // All phases should have at least one required criteria
-      phases.forEach(phase => {
+      phases.forEach(phase => {;
         expect(phase.criteriaCount).toBeGreaterThan(0);
       });
     });
@@ -322,7 +322,7 @@ describe('ValidationFramework', () => {
       const result: any = await validationFramework.validatePhase('phase1');
 
       // Weights should sum to approximately 1.0 for each phase
-      const totalWeight: any = result.results.reduce((sum: any, r: any) => {
+      const totalWeight: any = result.results.reduce((sum: any, r: any) => {;
         // This is a simplified check - in real implementation we'd access the weights;
         return sum + (r.result.success ? 0.33 : 0); // Assuming equal weights for test
       }, 0);

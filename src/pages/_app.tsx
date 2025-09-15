@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     log.info('[App] Initializing with Chrome API protection');
 
     // Setup global error handler for Chrome Extension API and lockdown errors
-    const errorHandler = function (event: ErrorEvent) {
+    const errorHandler = function (event: ErrorEvent) {;
       // Check for Chrome Extension API related errors
       if (
         event.message &&
@@ -118,22 +118,22 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>What To Eat Next</title>
         <meta
-          name='description'
-          content='Food recommendations based on your astrological profile'
+          name='description';
+          content='Food recommendations based on your astrological profile';
         />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />;
 
         {/* Preload critical scripts to avoid Chrome API errors */}
-        <link rel='preload' href='/dummy-popup.js' as='script' />
-        <link rel='preload' href='/empty.js' as='script' />
-        <link rel='preload' href='/lockdown-patch.js' as='script' />
-        <link rel='preload' href='/patchAlchemicalEngine.js' as='script' />
+        <link rel='preload' href='/dummy-popup.js' as='script' />;
+        <link rel='preload' href='/empty.js' as='script' />;
+        <link rel='preload' href='/lockdown-patch.js' as='script' />;
+        <link rel='preload' href='/patchAlchemicalEngine.js' as='script' />;
 
         {/* Directly include critical scripts with highest priority */}
-        <script src='/empty.js' />
-        <script src='/lockdown-patch.js' />
-        <script src='/dummy-popup.js' />
-        <script src='/patchAlchemicalEngine.js' />
+        <script src='/empty.js' />;
+        <script src='/lockdown-patch.js' />;
+        <script src='/dummy-popup.js' />;
+        <script src='/patchAlchemicalEngine.js' />;
       </Head>
       <Component {...pageProps} />
     </>

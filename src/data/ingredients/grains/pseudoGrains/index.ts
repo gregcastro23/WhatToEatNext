@@ -7,12 +7,12 @@ import { flaxseed } from './flaxseed';
 import { quinoa } from './quinoa';
 
 // Export all pseudo grains as a consolidated object
-export const pseudoGrains: Record<string, IngredientMapping> = {
+export const _pseudoGrains: Record<string, IngredientMapping> = {
   ...quinoa,
   ...amaranth,
   ...buckwheat,
   ...chia,
-  ...flaxseed,
+  ...flaxseed
 };
 
 // Export individual pseudo grains for direct access

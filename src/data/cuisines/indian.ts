@@ -1,7 +1,7 @@
 // src/data/cuisines/indian.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const indian: Cuisine = {
+export const indian: Cuisine = {;
   id: 'indian',
   name: 'Indian',
   description:
@@ -20,7 +20,7 @@ export const indian: Cuisine = {
             'Ladle and spread dosa batter',
             'Add oil to edges',
             'Place potato filling',
-            'Fold and serve with accompaniments',
+            'Fold and serve with accompaniments'
           ],
           ingredients: [
             {
@@ -28,17 +28,17 @@ export const indian: Cuisine = {
               amount: '200',
               unit: 'ml',
               category: 'grain',
-              swaps: ['quinoa dosa batter'],
+              swaps: ['quinoa dosa batter']
             },
             { name: 'potato masala', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'sambar', amount: '200', unit: 'ml', category: 'soup' },
             { name: 'coconut chutney', amount: '50', unit: 'g', category: 'condiment' },
-            { name: 'ghee', amount: '1', unit: 'tbsp', category: 'fat', swaps: ['oil'] },
+            { name: 'ghee', amount: '1', unit: 'tbsp', category: 'fat', swaps: ['oil'] }
           ],
           substitutions: {
             'dosa batter': ['quinoa dosa batter', 'mung bean dosa batter'],
             ghee: ['oil', 'vegan butter'],
-            'potato filling': ['cauliflower filling', 'mixed vegetable filling'],
+            'potato filling': ['cauliflower filling', 'mixed vegetable filling']
           },
           servingSize: 2,
           allergens: ['none'],
@@ -55,7 +55,7 @@ export const indian: Cuisine = {
             carbs: 85,
             fat: 8,
             vitamins: ['B12', 'C', 'D'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['all'],
           mealType: ['breakfast', 'lunch'],
@@ -63,8 +63,8 @@ export const indian: Cuisine = {
             Earth: 0.3,
             Fire: 0.4,
             Air: 0.2,
-            Water: 0.1,
-          },
+            Water: 0.1
+          }
         },
         {
           name: 'Aloo Paratha',
@@ -77,7 +77,7 @@ export const indian: Cuisine = {
             'Make wheat dough',
             'Stuff and seal parathas',
             'Cook on griddle with butter',
-            'Serve hot with accompaniments',
+            'Serve hot with accompaniments'
           ],
           ingredients: [
             {
@@ -85,7 +85,7 @@ export const indian: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour blend'],
+              swaps: ['gluten-free flour blend']
             },
             { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'spices', amount: '2', unit: 'tbsp', category: 'spice' },
@@ -94,14 +94,14 @@ export const indian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'dairy',
-              swaps: ['plant-based yogurt'],
+              swaps: ['plant-based yogurt']
             },
-            { name: 'butter', amount: '30', unit: 'g', category: 'fat', swaps: ['oil'] },
+            { name: 'butter', amount: '30', unit: 'g', category: 'fat', swaps: ['oil'] }
           ],
           substitutions: {
             'whole wheat flour': ['gluten-free flour blend', 'millet flour'],
             butter: ['oil', 'ghee', 'vegan butter'],
-            yogurt: ['plant-based yogurt', 'mashed pumpkin'],
+            yogurt: ['plant-based yogurt', 'mashed pumpkin']
           },
           servingSize: 4,
           allergens: ['gluten', 'dairy'],
@@ -118,7 +118,7 @@ export const indian: Cuisine = {
             carbs: 65,
             fat: 12,
             vitamins: ['B1', 'C'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -126,8 +126,8 @@ export const indian: Cuisine = {
             Earth: 0.5,
             Fire: 0.3,
             Water: 0.1,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Idli Sambar',
@@ -140,7 +140,7 @@ export const indian: Cuisine = {
             'Prepare sambar',
             'Grease idli molds',
             'Steam idlis',
-            'Serve hot with accompaniments',
+            'Serve hot with accompaniments'
           ],
           ingredients: [
             { name: 'idli rice', amount: '300', unit: 'g', category: 'grain' },
@@ -148,12 +148,12 @@ export const indian: Cuisine = {
             { name: 'toor dal', amount: '200', unit: 'g', category: 'legume' },
             { name: 'sambar powder', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'vegetables', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'coconut chutney', amount: '100', unit: 'g', category: 'condiment' },
+            { name: 'coconut chutney', amount: '100', unit: 'g', category: 'condiment' }
           ],
           substitutions: {
             'idli rice': ['parboiled rice'],
             'urad dal': ['quick idli mix'],
-            'sambar powder': ['homemade spice blend'],
+            'sambar powder': ['homemade spice blend']
           },
           servingSize: 4,
           allergens: ['none'],
@@ -171,7 +171,7 @@ export const indian: Cuisine = {
             carbs: 58,
             fat: 6,
             vitamins: ['B12', 'C'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -179,9 +179,9 @@ export const indian: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
-        },
+            Air: 0.1
+          }
+        }
       ],
       summer: [
         {
@@ -196,7 +196,7 @@ export const indian: Cuisine = {
             'Sauté vegetables',
             'Add soaked poha',
             'Season and garnish',
-            'Serve hot',
+            'Serve hot'
           ],
           ingredients: [
             { name: 'flattened rice', amount: '200', unit: 'g', category: 'grain' },
@@ -210,13 +210,13 @@ export const indian: Cuisine = {
               amount: '2',
               unit: 'pieces',
               category: 'spice',
-              optional: true,
-            },
+              optional: true
+            }
           ],
           substitutions: {
             peanuts: ['cashews', 'roasted chana'],
             'curry leaves': ['bay leaves'],
-            'flattened rice': ['quinoa flakes'],
+            'flattened rice': ['quinoa flakes']
           },
           servingSize: 2,
           allergens: ['peanuts'],
@@ -233,7 +233,7 @@ export const indian: Cuisine = {
             carbs: 52,
             fat: 12,
             vitamins: ['B1', 'E'],
-            minerals: ['Iron', 'Magnesium'],
+            minerals: ['Iron', 'Magnesium']
           },
           season: ['all'],
           mealType: ['breakfast', 'snack'],
@@ -241,10 +241,10 @@ export const indian: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1,
-          },
-        },
-      ],
+            Water: 0.1
+          }
+        }
+      ]
     },
     lunch: {
       all: [
@@ -260,7 +260,7 @@ export const indian: Cuisine = {
             'Prepare tempering',
             'Add tempering to dal',
             'Simmer to combine flavors',
-            'Garnish with cilantro',
+            'Garnish with cilantro'
           ],
           ingredients: [
             { name: 'yellow lentils', amount: '200', unit: 'g', category: 'legume' },
@@ -269,12 +269,12 @@ export const indian: Cuisine = {
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' },
-            { name: 'asafoetida', amount: '1/4', unit: 'tsp', category: 'spice', optional: true },
+            { name: 'asafoetida', amount: '1/4', unit: 'tsp', category: 'spice', optional: true }
           ],
           substitutions: {
             ghee: ['oil', 'vegan butter'],
             asafoetida: ['garlic powder', 'omit'],
-            'yellow lentils': ['red lentils', 'split mung dal'],
+            'yellow lentils': ['red lentils', 'split mung dal']
           },
           servingSize: 4,
           allergens: ['none'],
@@ -291,10 +291,10 @@ export const indian: Cuisine = {
             carbs: 42,
             fat: 8,
             vitamins: ['B1', 'C'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Gujarati Kadhi',
@@ -308,7 +308,7 @@ export const indian: Cuisine = {
             'Prepare tempering',
             'Add tempering to kadhi',
             'Simmer until thickened',
-            'Garnish with cilantro',
+            'Garnish with cilantro'
           ],
           ingredients: [
             {
@@ -316,7 +316,7 @@ export const indian: Cuisine = {
               amount: '500',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['coconut yogurt'],
+              swaps: ['coconut yogurt']
             },
             { name: 'gram flour', amount: '3', unit: 'tbsp', category: 'flour' },
             { name: 'curry leaves', amount: '10', unit: 'leaves', category: 'herb' },
@@ -327,14 +327,14 @@ export const indian: Cuisine = {
               amount: '2',
               unit: 'pieces',
               category: 'spice',
-              optional: true,
+              optional: true
             },
-            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' },
+            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             yogurt: ['coconut yogurt', 'cashew yogurt'],
             'curry leaves': ['bay leaves'],
-            'gram flour': ['chickpea flour'],
+            'gram flour': ['chickpea flour']
           },
           servingSize: 4,
           allergens: ['dairy'],
@@ -351,11 +351,11 @@ export const indian: Cuisine = {
             carbs: 28,
             fat: 8,
             vitamins: ['B12', 'D'],
-            minerals: ['Calcium', 'Phosphorus'],
+            minerals: ['Calcium', 'Phosphorus']
           },
           season: ['summer'],
-          mealType: ['lunch'],
-        },
+          mealType: ['lunch']
+        }
       ],
       winter: [
         {
@@ -370,7 +370,7 @@ export const indian: Cuisine = {
             'Prepare tomato base',
             'Slow cook with cream',
             'Add tempering',
-            'Finish with butter',
+            'Finish with butter'
           ],
           ingredients: [
             { name: 'black lentils', amount: '300', unit: 'g', category: 'legume' },
@@ -380,17 +380,17 @@ export const indian: Cuisine = {
               amount: '200',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['cashew cream'],
+              swaps: ['cashew cream']
             },
             { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['plant butter'] },
             { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'ginger-garlic paste', amount: '2', unit: 'tbsp', category: 'paste' },
+            { name: 'ginger-garlic paste', amount: '2', unit: 'tbsp', category: 'paste' }
           ],
           substitutions: {
             cream: ['cashew cream', 'coconut cream'],
             butter: ['vegan butter', 'oil'],
-            'black lentils': ['brown lentils'],
+            'black lentils': ['brown lentils']
           },
           servingSize: 6,
           allergens: ['dairy'],
@@ -407,12 +407,12 @@ export const indian: Cuisine = {
             carbs: 45,
             fat: 22,
             vitamins: ['A', 'K'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['winter'],
-          mealType: ['lunch', 'dinner'],
-        },
-      ],
+          mealType: ['lunch', 'dinner']
+        }
+      ]
     },
     dinner: {
       all: [
@@ -428,7 +428,7 @@ export const indian: Cuisine = {
             'Prepare tomato-cream sauce',
             'Simmer chicken in sauce',
             'Finish with butter and cream',
-            'Garnish with kasuri methi',
+            'Garnish with kasuri methi'
           ],
           ingredients: [
             {
@@ -436,7 +436,7 @@ export const indian: Cuisine = {
               amount: '800',
               unit: 'g',
               category: 'protein',
-              swaps: ['cauliflower', 'seitan'],
+              swaps: ['cauliflower', 'seitan']
             },
             { name: 'tomatoes', amount: '500', unit: 'g', category: 'vegetable' },
             {
@@ -444,24 +444,24 @@ export const indian: Cuisine = {
               amount: '200',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['cashew cream'],
+              swaps: ['cashew cream']
             },
             { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['ghee'] },
             { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'kasuri methi', amount: '1', unit: 'tbsp', category: 'herb' },
-            { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', optional: true },
+            { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', optional: true }
           ],
           substitutions: {
             chicken: ['cauliflower', 'seitan', 'paneer'],
             cream: ['cashew cream', 'coconut cream'],
-            butter: ['vegan butter', 'oil'],
+            butter: ['vegan butter', 'oil']
           },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: 'overnight + 30 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            "Created in Delhi's Moti Mahal restaurant, this dish represents the evolution of Indian cuisine in the post-independence era",
+            'Created in Delhi's Moti Mahal restaurant, this dish represents the evolution of Indian cuisine in the post-independence era',
           pairingSuggestions: ['naan', 'jeera rice', 'dal makhani', 'onion salad'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild to medium',
@@ -471,10 +471,10 @@ export const indian: Cuisine = {
             carbs: 28,
             fat: 42,
             vitamins: ['A', 'D', 'B12'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
-          mealType: ['dinner'],
+          mealType: ['dinner']
         },
         {
           name: 'Hyderabadi Biryani',
@@ -486,7 +486,7 @@ export const indian: Cuisine = {
             'dum lid',
             'mixing bowls',
             'spice grinder',
-            'cheesecloth for bouquet garni',
+            'cheesecloth for bouquet garni'
           ],
           preparationSteps: [
             'Marinate meat',
@@ -495,7 +495,7 @@ export const indian: Cuisine = {
             'Add saffron milk',
             'Seal pot with dough',
             'Cook on dum',
-            'Rest before serving',
+            'Rest before serving'
           ],
           ingredients: [
             { name: 'basmati rice', amount: '500', unit: 'g', category: 'grain' },
@@ -504,25 +504,25 @@ export const indian: Cuisine = {
               amount: '600',
               unit: 'g',
               category: 'protein',
-              swaps: ['chicken', 'jackfruit'],
+              swaps: ['chicken', 'jackfruit']
             },
             { name: 'yogurt', amount: '200', unit: 'ml', category: 'dairy' },
             { name: 'onions', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
             { name: 'ghee', amount: '100', unit: 'ml', category: 'fat' },
-            { name: 'whole spices', amount: '30', unit: 'g', category: 'spice' },
+            { name: 'whole spices', amount: '30', unit: 'g', category: 'spice' }
           ],
           substitutions: {
             lamb: ['chicken', 'jackfruit', 'mushrooms'],
             ghee: ['oil', 'vegan butter'],
-            yogurt: ['coconut yogurt', 'cashew yogurt'],
+            yogurt: ['coconut yogurt', 'cashew yogurt']
           },
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: '2 hours',
           cookTime: '1 hour',
           culturalNotes:
-            "A royal dish from the Nizam's kitchen, Hyderabadi biryani is distinguished by its layering technique and use of saffron",
+            'A royal dish from the Nizam's kitchen, Hyderabadi biryani is distinguished by its layering technique and use of saffron',
           pairingSuggestions: ['mirchi ka salan', 'raita', 'boiled eggs', 'onion salad'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -532,10 +532,10 @@ export const indian: Cuisine = {
             carbs: 85,
             fat: 28,
             vitamins: ['B12', 'B6'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['dinner', 'special occasion'],
+          mealType: ['dinner', 'special occasion']
         },
         {
           name: 'Palak Paneer',
@@ -549,7 +549,7 @@ export const indian: Cuisine = {
             'Pan-fry paneer cubes',
             'Prepare tempering',
             'Cook spinach gravy',
-            'Add paneer and finish',
+            'Add paneer and finish'
           ],
           ingredients: [
             { name: 'spinach', amount: '500', unit: 'g', category: 'vegetable' },
@@ -558,12 +558,12 @@ export const indian: Cuisine = {
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'ginger-garlic paste', amount: '2', unit: 'tbsp', category: 'paste' },
             { name: 'garam masala', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'cream', amount: '50', unit: 'ml', category: 'dairy', optional: true },
+            { name: 'cream', amount: '50', unit: 'ml', category: 'dairy', optional: true }
           ],
           substitutions: {
             paneer: ['firm tofu', 'tempeh'],
             cream: ['cashew cream', 'coconut cream'],
-            spinach: ['swiss chard', 'mustard greens'],
+            spinach: ['swiss chard', 'mustard greens']
           },
           servingSize: 4,
           allergens: ['dairy'],
@@ -580,10 +580,10 @@ export const indian: Cuisine = {
             carbs: 12,
             fat: 20,
             vitamins: ['A', 'K', 'C'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['winter'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Chole Bhature',
@@ -597,7 +597,7 @@ export const indian: Cuisine = {
             'Prepare spice blend',
             'Make bhatura dough',
             'Cook chole gravy',
-            'Deep fry bhature',
+            'Deep fry bhature'
           ],
           ingredients: [
             { name: 'chickpeas', amount: '500', unit: 'g', category: 'legume' },
@@ -606,12 +606,12 @@ export const indian: Cuisine = {
             { name: 'tea bags', amount: '2', unit: 'pieces', category: 'other' },
             { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' },
             { name: 'tomatoes', amount: '4', unit: 'medium', category: 'vegetable' },
-            { name: 'chole masala', amount: '3', unit: 'tbsp', category: 'spice' },
+            { name: 'chole masala', amount: '3', unit: 'tbsp', category: 'spice' }
           ],
           substitutions: {
             'all-purpose flour': ['whole wheat flour'],
             yogurt: ['plant-based yogurt'],
-            ghee: ['oil'],
+            ghee: ['oil']
           },
           servingSize: 6,
           allergens: ['gluten', 'dairy'],
@@ -628,10 +628,10 @@ export const indian: Cuisine = {
             carbs: 82,
             fat: 16,
             vitamins: ['B6', 'C'],
-            minerals: ['Iron', 'Folate'],
+            minerals: ['Iron', 'Folate']
           },
           season: ['winter'],
-          mealType: ['breakfast', 'lunch'],
+          mealType: ['breakfast', 'lunch']
         },
         {
           name: 'Malai Kofta',
@@ -645,7 +645,7 @@ export const indian: Cuisine = {
             'Deep fry koftas',
             'Make creamy gravy',
             'Add koftas before serving',
-            'Garnish with cream',
+            'Garnish with cream'
           ],
           ingredients: [
             { name: 'paneer', amount: '250', unit: 'g', category: 'dairy', swaps: ['tofu'] },
@@ -654,12 +654,12 @@ export const indian: Cuisine = {
             { name: 'cream', amount: '200', unit: 'ml', category: 'dairy' },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
             { name: 'garam masala', amount: '2', unit: 'tsp', category: 'spice' },
-            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice', optional: true },
+            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice', optional: true }
           ],
           substitutions: {
             paneer: ['tofu', 'mixed vegetables'],
             cream: ['cashew cream', 'coconut cream'],
-            cashews: ['almonds', 'sunflower seeds'],
+            cashews: ['almonds', 'sunflower seeds']
           },
           servingSize: 4,
           allergens: ['dairy', 'nuts'],
@@ -676,10 +676,10 @@ export const indian: Cuisine = {
             carbs: 32,
             fat: 34,
             vitamins: ['A', 'D'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['winter'],
-          mealType: ['dinner', 'special occasion'],
+          mealType: ['dinner', 'special occasion']
         },
         {
           name: 'Pani Puri',
@@ -693,7 +693,7 @@ export const indian: Cuisine = {
             'Soak tamarind',
             'Chill spiced water',
             'Assemble just before serving',
-            'Serve immediately',
+            'Serve immediately'
           ],
           ingredients: [
             { name: 'puri shells', amount: '24', unit: 'pieces', category: 'bread' },
@@ -707,13 +707,13 @@ export const indian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'legume',
-              optional: true,
-            },
+              optional: true
+            }
           ],
           substitutions: {
             'black salt': ['regular salt'],
             tamarind: ['lime juice'],
-            'sprouted moong': ['boiled chickpeas'],
+            'sprouted moong': ['boiled chickpeas']
           },
           servingSize: 4,
           allergens: ['gluten'],
@@ -730,10 +730,10 @@ export const indian: Cuisine = {
             carbs: 42,
             fat: 4,
             vitamins: ['C', 'B6'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['summer'],
-          mealType: ['snack', 'appetizer'],
+          mealType: ['snack', 'appetizer']
         },
         {
           name: 'Baingan Bharta',
@@ -747,7 +747,7 @@ export const indian: Cuisine = {
             'Prepare tempering',
             'Cook spices',
             'Combine ingredients',
-            'Garnish and serve',
+            'Garnish and serve'
           ],
           ingredients: [
             { name: 'large eggplant', amount: '2', unit: 'whole', category: 'vegetable' },
@@ -763,13 +763,13 @@ export const indian: Cuisine = {
               amount: '2',
               unit: 'whole',
               category: 'spice',
-              optional: true,
-            },
+              optional: true
+            }
           ],
           substitutions: {
             eggplant: ['zucchini', 'mushrooms'],
             'green chilies': ['red chili powder', 'black pepper'],
-            'fresh tomatoes': ['canned tomatoes'],
+            'fresh tomatoes': ['canned tomatoes']
           },
           servingSize: 4,
           allergens: [],
@@ -786,7 +786,7 @@ export const indian: Cuisine = {
             carbs: 24,
             fat: 8,
             vitamins: ['C', 'K', 'B6'],
-            minerals: ['Potassium', 'Manganese'],
+            minerals: ['Potassium', 'Manganese']
           },
           season: ['summer', 'autumn'],
           mealType: ['dinner'],
@@ -794,9 +794,9 @@ export const indian: Cuisine = {
             Earth: 0.3,
             Fire: 0.4,
             Air: 0.2,
-            Water: 0.1,
-          },
-        },
+            Water: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -809,7 +809,7 @@ export const indian: Cuisine = {
             'spice grinder',
             'wooden spoon',
             'measuring spoons',
-            'mortar and pestle',
+            'mortar and pestle'
           ],
           preparationSteps: [
             'Toast and grind spices',
@@ -817,7 +817,7 @@ export const indian: Cuisine = {
             'Brown meat in batches',
             'Prepare gravy base',
             'Simmer until tender',
-            'Finish with garam masala',
+            'Finish with garam masala'
           ],
           ingredients: [
             {
@@ -825,25 +825,25 @@ export const indian: Cuisine = {
               amount: '800',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms', 'seitan'],
+              swaps: ['mushrooms', 'seitan']
             },
             {
               name: 'yogurt',
               amount: '300',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['coconut yogurt'],
+              swaps: ['coconut yogurt']
             },
             { name: 'kashmiri chilies', amount: '4', unit: 'whole', category: 'spice' },
             { name: 'whole spices', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
-            { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' },
+            { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' }
           ],
           substitutions: {
             lamb: ['beef', 'mushrooms', 'seitan'],
             yogurt: ['coconut yogurt', 'cashew yogurt'],
-            'kashmiri chilies': ['paprika + cayenne'],
+            'kashmiri chilies': ['paprika + cayenne']
           },
           servingSize: 6,
           allergens: ['dairy'],
@@ -860,12 +860,12 @@ export const indian: Cuisine = {
             carbs: 12,
             fat: 38,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['winter'],
-          mealType: ['dinner'],
-        },
-      ],
+          mealType: ['dinner']
+        }
+      ]
     },
     dessert: {
       all: [
@@ -881,7 +881,7 @@ export const indian: Cuisine = {
             'Deep fry until golden',
             'Make sugar syrup',
             'Soak in hot syrup',
-            'Rest until absorbed',
+            'Rest until absorbed'
           ],
           ingredients: [
             {
@@ -889,26 +889,26 @@ export const indian: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['almond flour blend'],
+              swaps: ['almond flour blend']
             },
             { name: 'all-purpose flour', amount: '50', unit: 'g', category: 'flour' },
             { name: 'sugar', amount: '300', unit: 'g', category: 'sweetener' },
             { name: 'cardamom', amount: '4', unit: 'pods', category: 'spice' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
             { name: 'ghee', amount: '30', unit: 'ml', category: 'fat' },
-            { name: 'milk', amount: '60', unit: 'ml', category: 'dairy' },
+            { name: 'milk', amount: '60', unit: 'ml', category: 'dairy' }
           ],
           substitutions: {
             'milk powder': ['almond flour blend', 'coconut milk powder'],
             ghee: ['vegetable oil'],
-            milk: ['plant-based milk'],
+            milk: ['plant-based milk']
           },
           servingSize: 15,
           allergens: ['dairy', 'gluten'],
           prepTime: '30 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            "A beloved dessert served at festivals and celebrations. The name means 'rose berry' due to the rose-scented syrup traditionally used",
+            'A beloved dessert served at festivals and celebrations. The name means 'rose berry' due to the rose-scented syrup traditionally used',
           pairingSuggestions: ['masala chai', 'ice cream', 'rabri'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -918,10 +918,10 @@ export const indian: Cuisine = {
             carbs: 65,
             fat: 8,
             vitamins: ['D', 'A'],
-            minerals: ['Calcium'],
+            minerals: ['Calcium']
           },
           season: ['all'],
-          mealType: ['dessert'],
+          mealType: ['dessert']
         },
         {
           name: 'Rasmalai',
@@ -933,7 +933,7 @@ export const indian: Cuisine = {
             'cheesecloth',
             'slotted spoon',
             'measuring cups',
-            'fine strainer',
+            'fine strainer'
           ],
           preparationSteps: [
             'Curdle milk for chenna',
@@ -941,7 +941,7 @@ export const indian: Cuisine = {
             'Shape into discs',
             'Poach in sugar syrup',
             'Prepare saffron milk',
-            'Soak in flavored milk',
+            'Soak in flavored milk'
           ],
           ingredients: [
             { name: 'milk', amount: '2', unit: 'L', category: 'dairy' },
@@ -949,19 +949,19 @@ export const indian: Cuisine = {
             { name: 'cardamom', amount: '6', unit: 'pods', category: 'spice' },
             { name: 'pistachios', amount: '50', unit: 'g', category: 'nuts' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
-            { name: 'rose water', amount: '1', unit: 'tsp', category: 'flavoring', optional: true },
+            { name: 'rose water', amount: '1', unit: 'tsp', category: 'flavoring', optional: true }
           ],
           substitutions: {
             milk: ['full-fat plant milk + agar'],
             pistachios: ['almonds', 'cashews'],
-            'rose water': ['kewra water', 'vanilla'],
+            'rose water': ['kewra water', 'vanilla']
           },
           servingSize: 8,
           allergens: ['dairy', 'nuts'],
           prepTime: '45 minutes',
           cookTime: '1 hour',
           culturalNotes:
-            "A refined Bengali dessert that showcases the region's expertise in milk-based sweets. Often served at weddings and special occasions",
+            'A refined Bengali dessert that showcases the region's expertise in milk-based sweets. Often served at weddings and special occasions',
           pairingSuggestions: ['masala chai', 'paan'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -971,10 +971,10 @@ export const indian: Cuisine = {
             carbs: 42,
             fat: 10,
             vitamins: ['D', 'B12'],
-            minerals: ['Calcium', 'Potassium'],
+            minerals: ['Calcium', 'Potassium']
           },
           season: ['all'],
-          mealType: ['dessert'],
+          mealType: ['dessert']
         },
         {
           name: 'Kulfi',
@@ -988,7 +988,7 @@ export const indian: Cuisine = {
             'Cool mixture',
             'Pour into molds',
             'Freeze until solid',
-            'Dip in warm water to unmold',
+            'Dip in warm water to unmold'
           ],
           ingredients: [
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy', swaps: ['coconut milk'] },
@@ -996,12 +996,12 @@ export const indian: Cuisine = {
             { name: 'cardamom', amount: '5', unit: 'pods', category: 'spice' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
             { name: 'sugar', amount: '150', unit: 'g', category: 'sweetener' },
-            { name: 'almonds', amount: '50', unit: 'g', category: 'nuts' },
+            { name: 'almonds', amount: '50', unit: 'g', category: 'nuts' }
           ],
           substitutions: {
             milk: ['coconut milk', 'cashew milk'],
             pistachios: ['any nuts'],
-            sugar: ['jaggery', 'date syrup'],
+            sugar: ['jaggery', 'date syrup']
           },
           servingSize: 6,
           allergens: ['dairy', 'nuts'],
@@ -1019,11 +1019,11 @@ export const indian: Cuisine = {
             carbs: 32,
             fat: 12,
             vitamins: ['A', 'D'],
-            minerals: ['Calcium', 'Phosphorus'],
+            minerals: ['Calcium', 'Phosphorus']
           },
           season: ['summer'],
-          mealType: ['dessert'],
-        },
+          mealType: ['dessert']
+        }
       ],
       summer: [
         {
@@ -1034,7 +1034,7 @@ export const indian: Cuisine = {
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy', swaps: ['coconut milk'] },
             { name: 'pistachios', amount: '100', unit: 'g', category: 'nuts' },
             { name: 'cardamom', amount: '5', unit: 'pods', category: 'spice' },
-            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
+            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' }
           ],
           nutrition: {
             calories: 260,
@@ -1042,14 +1042,14 @@ export const indian: Cuisine = {
             carbs: 32,
             fat: 12,
             vitamins: ['A', 'D'],
-            minerals: ['Calcium', 'Phosphorus'],
+            minerals: ['Calcium', 'Phosphorus']
           },
           timeToMake: '240 minutes',
           season: ['summer'],
-          mealType: ['dessert'],
-        },
-      ],
-    },
+          mealType: ['dessert']
+        }
+      ]
+    }
   },
   traditionalSauces: {
     tandoori: {
@@ -1061,7 +1061,7 @@ export const indian: Cuisine = {
         'ginger-garlic paste',
         'red chili powder',
         'garam masala',
-        'lemon juice',
+        'lemon juice'
       ],
       culinaryUses: ['marinating meats', 'vegetable preparation', 'flavor base', 'coloring agent'],
       variants: ['Achari tandoori', 'Hariyali tandoori', 'Malai tandoori'],
@@ -1069,14 +1069,14 @@ export const indian: Cuisine = {
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes:
         'Allow marination for at least 4 hours, preferably overnight for best flavor',
       technicalTips:
-        'For authentic color, use Kashmiri chili powder which adds color without excess heat',
+        'For authentic color, use Kashmiri chili powder which adds color without excess heat'
     },
     tikka_masala: {
       name: 'Tikka Masala',
@@ -1087,19 +1087,19 @@ export const indian: Cuisine = {
         'sauce for grilled meats',
         'vegetable curry base',
         'dipping sauce',
-        'rice accompaniment',
+        'rice accompaniment'
       ],
       variants: ['Butter masala', 'Paneer tikka masala', 'Vegetable tikka masala'],
       elementalProperties: {
         Fire: 0.3,
         Water: 0.3,
         Earth: 0.3,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Allow the sauce to simmer gently to develop complex flavors',
-      technicalTips: 'Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma',
+      technicalTips: 'Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma'
     },
     raita: {
       name: 'Raita',
@@ -1112,12 +1112,12 @@ export const indian: Cuisine = {
         Water: 0.6,
         Earth: 0.2,
         Air: 0.2,
-        Fire: 0.0,
+        Fire: 0.0
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Use thick, strained yogurt for best texture',
-      technicalTips: 'Salt and drain cucumber to prevent watery raita',
+      technicalTips: 'Salt and drain cucumber to prevent watery raita'
     },
     tamarind_chutney: {
       name: 'Tamarind Chutney',
@@ -1130,12 +1130,12 @@ export const indian: Cuisine = {
         Water: 0.4,
         Fire: 0.3,
         Earth: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mercury', 'Saturn', 'Gemini'],
       seasonality: 'all',
       preparationNotes: 'Balance sweet, sour, and spicy elements carefully',
-      technicalTips: 'Strain thoroughly for smooth consistency',
+      technicalTips: 'Strain thoroughly for smooth consistency'
     },
     coriander_mint_chutney: {
       name: 'Coriander-Mint Chutney',
@@ -1148,12 +1148,12 @@ export const indian: Cuisine = {
         Air: 0.5,
         Water: 0.3,
         Fire: 0.2,
-        Earth: 0.0,
+        Earth: 0.0
       },
       astrologicalInfluences: ['Mercury', 'Moon', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use ice water when blending to maintain bright green color',
-      technicalTips: 'Add a small amount of yogurt for creamier texture and longer shelf life',
+      technicalTips: 'Add a small amount of yogurt for creamier texture and longer shelf life'
     },
     coconut_curry: {
       name: 'Coconut Curry Sauce',
@@ -1164,25 +1164,25 @@ export const indian: Cuisine = {
         'curry leaves',
         'mustard seeds',
         'turmeric',
-        'green chilies',
+        'green chilies'
       ],
       culinaryUses: [
         'seafood sauce',
         'vegetable curry base',
         'braising liquid',
-        'rice accompaniment',
+        'rice accompaniment'
       ],
       variants: ['Kerala-style', 'Goan curry', 'Vegetable stew base', 'Seafood moilee'],
       elementalProperties: {
         Water: 0.5,
         Earth: 0.2,
         Fire: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Moon', 'Neptune', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Temper spices properly to release their flavors into the coconut milk',
-      technicalTips: 'Use full-fat coconut milk for richness; light coconut milk may separate',
+      technicalTips: 'Use full-fat coconut milk for richness; light coconut milk may separate'
     },
     onion_tomato_masala: {
       name: 'Onion-Tomato Masala',
@@ -1195,13 +1195,13 @@ export const indian: Cuisine = {
         Fire: 0.4,
         Earth: 0.3,
         Water: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Properly caramelizing onions (bhunao) is the key to depth of flavor',
-      technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking',
-    },
+      technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking'
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1212,7 +1212,7 @@ export const indian: Cuisine = {
         'amritsari masala',
         'mustard sauce',
         'malvani masala',
-        'coconut_curry',
+        'coconut_curry'
       ],
       paneer: ['makhani sauce', 'palak sauce', 'kadhai masala', 'shahi sauce', 'tikka_masala'],
       legumes: ['chana masala', 'dal makhani sauce', 'sambar', 'rasam', 'tadka'],
@@ -1221,15 +1221,15 @@ export const indian: Cuisine = {
         'kolhapuri rassa',
         'laal maas gravy',
         'saag base',
-        'achari masala',
+        'achari masala'
       ],
       eggs: [
         'mughlai gravy',
         'onion_tomato_masala',
         'curry leaf tempering',
         'mirchi ka salan',
-        'tomato chutney base',
-      ],
+        'tomato chutney base'
+      ]
     },
     forVegetable: {
       leafy: [
@@ -1237,7 +1237,7 @@ export const indian: Cuisine = {
         'methi masala',
         'coconut sauce',
         'mustard paste',
-        'sarson ka saag base',
+        'sarson ka saag base'
       ],
       root: ['korma', 'vindaloo', 'do pyaza', 'bharta masala', 'coconut curry'],
       eggplant: ['bharta masala', 'salan', 'bagara masala', 'achari sauce', 'tamarind base'],
@@ -1246,29 +1246,29 @@ export const indian: Cuisine = {
         'sambhariya masala',
         'achari masala',
         'yogurt sauce',
-        'onion_tomato_masala',
+        'onion_tomato_masala'
       ],
       potato: [
         'aloo dum masala',
         'jeera aloo spice mix',
         'chaat masala',
         'tikki masala',
-        'mustard paste',
+        'mustard paste'
       ],
       cauliflower: [
         'aloo gobi masala',
         'coconut curry',
         'kasundi paste',
         'achari masala',
-        'onion_tomato_masala',
+        'onion_tomato_masala'
       ],
       gourds: [
         'dahi wali kaddu',
         'lauki chana dal',
         'coconut curry',
         'sambhar base',
-        'peanut sauce',
-      ],
+        'peanut sauce'
+      ]
     },
     forCookingMethod: {
       tandoor: [
@@ -1276,43 +1276,43 @@ export const indian: Cuisine = {
         'hariyali marinade',
         'malai marinade',
         'achari marinade',
-        'yogurt-based marinades',
+        'yogurt-based marinades'
       ],
       curry: [
         'garam masala base',
         'dhansak sauce',
         'xacuti masala',
         'chettinad sauce',
-        'onion_tomato_masala',
+        'onion_tomato_masala'
       ],
       frying: [
         'pakora batter',
         'kathi masala',
         'besan masala',
         'amritsari masala',
-        'ajwain tempering',
+        'ajwain tempering'
       ],
       steaming: [
         'mustard paste',
         'moilee sauce',
         'patrani masala',
         'coconut sauce',
-        'coriander_mint_chutney',
+        'coriander_mint_chutney'
       ],
       grilling: [
         'boti kabab marinade',
         'tikka marinade',
         'malai kabab paste',
         'reshmi kabab mixture',
-        'hariyali paste',
+        'hariyali paste'
       ],
       'stir-frying': [
         'kadhai masala',
         'chilli paneer sauce',
         'manchurian sauce',
         'ginger-garlic base',
-        'dry mango spice',
-      ],
+        'dry mango spice'
+      ]
     },
     byAstrological: {
       fire: [
@@ -1320,11 +1320,11 @@ export const indian: Cuisine = {
         'vindaloo paste',
         'phaal curry sauce',
         'chettinad masala',
-        'achari sauce',
+        'achari sauce'
       ],
       earth: ['dal makhani sauce', 'korma paste', 'malai sauce', 'shahi gravy', 'tempering oil'],
       air: ['raita', 'green chutney', 'kadhi sauce', 'tamarind chutney', 'coriander_mint_chutney'],
-      water: ['coconut curry sauce', 'moilee gravy', 'dahi wali gravy', 'rasam', 'kadhi'],
+      water: ['coconut curry sauce', 'moilee gravy', 'dahi wali gravy', 'rasam', 'kadhi']
     },
     byRegion: {
       north: ['makhani sauce', 'korma', 'kadhai masala', 'yakhni', 'onion_tomato_masala'],
@@ -1337,8 +1337,8 @@ export const indian: Cuisine = {
         'fermented soybean paste',
         'axone base',
         'bhut jolokia oil',
-        'fish sauce',
-      ],
+        'fish sauce'
+      ]
     },
     byDietary: {
       vegetarian: ['palak sauce', 'coconut curry', 'kadhi sauce', 'sambar', 'tikka_masala'],
@@ -1348,22 +1348,22 @@ export const indian: Cuisine = {
         'chettinad masala',
         'moilee gravy',
         'dhansak sauce',
-        'tamarind_chutney',
+        'tamarind_chutney'
       ],
       dairyFree: [
         'tamarind chutney',
         'vindaloo paste',
         'mustard sauce',
         'phaal curry',
-        'coconut_curry',
+        'coconut_curry'
       ],
       jain: [
         'jain masala',
         'no-onion garlic base',
         'raw banana curry',
         'suran masala',
-        'arbi gravy',
-      ],
+        'arbi gravy'
+      ]
     },
     byFlavor: {
       spicy: [
@@ -1371,7 +1371,7 @@ export const indian: Cuisine = {
         'chettinad masala',
         'phaal curry',
         'kolhapuri rassa',
-        'andhra masala',
+        'andhra masala'
       ],
       mild: ['korma', 'pasanda sauce', 'shahi gravy', 'malai sauce', 'cashew paste'],
       tangy: [
@@ -1379,7 +1379,7 @@ export const indian: Cuisine = {
         'amchur sauce',
         'nimbu-based dressing',
         'tomato salan',
-        'imli chutney',
+        'imli chutney'
       ],
       sweet: ['kashmiri gravy', 'date chutney', 'shahi sauce', 'malai curry', 'coconut chutney'],
       aromatic: [
@@ -1387,9 +1387,9 @@ export const indian: Cuisine = {
         'garam masala oil',
         'pulao spice mix',
         'kewra water',
-        'rose essence sauce',
-      ],
-    },
+        'rose essence sauce'
+      ]
+    }
   } as unknown,
   cookingTechniques: [
     {
@@ -1398,7 +1398,7 @@ export const indian: Cuisine = {
       elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['small tadka pan', 'spoon', 'lid', 'ladle'],
       bestFor: ['dal preparations', 'curries', 'rice dishes', 'yogurt preparations'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Dum',
@@ -1406,7 +1406,7 @@ export const indian: Cuisine = {
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['heavy-bottomed pot', 'dough for sealing', 'tongs', 'weight'],
       bestFor: ['biryani', 'meat curries', 'rich vegetable dishes', 'kebabs'],
-      difficulty: 'hard',
+      difficulty: 'hard'
     },
     {
       name: 'Bhunao',
@@ -1414,7 +1414,7 @@ export const indian: Cuisine = {
       elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 },
       toolsRequired: ['heavy kadhai', 'wooden spoon', 'tongs', 'timer'],
       bestFor: ['onion-tomato masala', 'meat preparations', 'mixed vegetables', 'keema'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Tandoor',
@@ -1422,7 +1422,7 @@ export const indian: Cuisine = {
       elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['tandoor', 'skewers', 'brush', 'tongs'],
       bestFor: ['breads', 'marinated meats', 'kebabs', 'vegetables'],
-      difficulty: 'hard',
+      difficulty: 'hard'
     },
     {
       name: 'Baghar',
@@ -1430,8 +1430,8 @@ export const indian: Cuisine = {
       elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['small pan', 'spoon', 'heat-proof container', 'strainer'],
       bestFor: ['dals', 'rice dishes', 'raita', 'curries'],
-      difficulty: 'easy',
-    },
+      difficulty: 'easy'
+    }
   ],
   regionalCuisines: {
     punjabi: {
@@ -1441,7 +1441,7 @@ export const indian: Cuisine = {
       signature: ['butter chicken', 'dal makhani', 'amritsari kulcha', 'sarson da saag'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Jupiter', 'taurus'],
-      seasonality: 'all',
+      seasonality: 'all'
     },
     bengali: {
       name: 'Bengali Cuisine',
@@ -1450,7 +1450,7 @@ export const indian: Cuisine = {
       signature: ['maacher jhol', 'shorshe ilish', 'mishti doi', 'rasgulla'],
       elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Venus', 'Moon', 'cancer'],
-      seasonality: 'all',
+      seasonality: 'all'
     },
     south_indian: {
       name: 'South Indian Cuisine',
@@ -1459,7 +1459,7 @@ export const indian: Cuisine = {
       signature: ['dosa', 'idli', 'sambar', 'rasam'],
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mercury', 'Sun', 'virgo'],
-      seasonality: 'all',
+      seasonality: 'all'
     },
     gujarati: {
       name: 'Gujarati Cuisine',
@@ -1467,15 +1467,15 @@ export const indian: Cuisine = {
       signature: ['dhokla', 'thepla', 'undhiyu', 'fafda-jalebi'],
       elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'gemini'],
-      seasonality: 'all',
-    },
+      seasonality: 'all'
+    }
   },
   elementalProperties: {
     Fire: 0.5,
     Earth: 0.2,
     Water: 0.2,
-    Air: 0.1,
-  },
+    Air: 0.1
+  }
 };
 
 export default indian;

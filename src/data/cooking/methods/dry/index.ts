@@ -13,7 +13,7 @@ import { stirFrying } from './stir-frying';
  * Dry cooking methods use hot air, radiation, or hot oil (not water-based liquids)
  * to transfer heat to food
  */
-export const dryCookingMethods = {
+export const _dryCookingMethods = {;
   baking,
   roasting,
   frying,
@@ -21,7 +21,7 @@ export const dryCookingMethods = {
   grilling,
   broiling,
   // Add other cooking methods as they are implemented
-  // broiling,
+  // broiling
 };
 
 // Export individual methods
@@ -32,5 +32,5 @@ export {
   stirFrying,
   grilling,
   broiling,
-  // broiling,
+  // broiling
 };

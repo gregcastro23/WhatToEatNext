@@ -21,7 +21,7 @@ import type {
   CuisineRecommendationCriteria,
   IngredientRecommendationCriteria,
   RecipeRecommendationCriteria,
-  RecommendationResult,
+  RecommendationResult
 } from '../interfaces/RecommendationServiceInterface';
 import { unifiedRecommendationService } from '../UnifiedRecommendationService';
 
@@ -69,8 +69,8 @@ export class LegacyRecommendationAdapter {
         items: [],
         scores: {},
         context: {
-          error: error instanceof Error ? error.message : String(error),
-        },
+          error: error instanceof Error ? error.message : String(error)
+        }
       };
     }
   }
@@ -92,8 +92,8 @@ export class LegacyRecommendationAdapter {
         items: [],
         scores: {},
         context: {
-          error: error instanceof Error ? error.message : String(error),
-        },
+          error: error instanceof Error ? error.message : String(error)
+        }
       };
     }
   }
@@ -113,8 +113,8 @@ export class LegacyRecommendationAdapter {
         items: [],
         scores: {},
         context: {
-          error: error instanceof Error ? error.message : String(error),
-        },
+          error: error instanceof Error ? error.message : String(error)
+        }
       };
     }
   }
@@ -134,8 +134,8 @@ export class LegacyRecommendationAdapter {
         items: [],
         scores: {},
         context: {
-          error: error instanceof Error ? error.message : String(error),
-        },
+          error: error instanceof Error ? error.message : String(error)
+        }
       };
     }
   }
@@ -152,7 +152,7 @@ export class LegacyRecommendationAdapter {
     } catch (error) {
       logger.error('Error in calculateElementalCompatibility:', error);
       // Simple fallback calculation
-      const euclideanDistance = Math.sqrt(
+      const euclideanDistance = Math.sqrt(;
         Math.pow(source.Fire - target.Fire, 2) +
           Math.pow(source.Water - target.Water, 2) +
           Math.pow(source.Earth - target.Earth, 2) +
@@ -177,14 +177,14 @@ export class LegacyRecommendationAdapter {
         limit,
       );
     } catch (error) {
-      logger.error(`Error in getRecommendationsForElements for type "${type}":`, error);
+      logger.error(`Error in getRecommendationsForElements for type '${type}':`, error);
       // Return minimal result
       return {
         items: [],
         scores: {},
         context: {
-          error: error instanceof Error ? error.message : String(error),
-        },
+          error: error instanceof Error ? error.message : String(error)
+        }
       };
     }
   }
@@ -204,14 +204,14 @@ export class LegacyRecommendationAdapter {
         limit,
       );
     } catch (error) {
-      logger.error(`Error in getRecommendationsForPlanetaryAlignment for type "${type}":`, error);
+      logger.error(`Error in getRecommendationsForPlanetaryAlignment for type '${type}':`, error);
       // Return minimal result
       return {
         items: [],
         scores: {},
         context: {
-          error: error instanceof Error ? error.message : String(error),
-        },
+          error: error instanceof Error ? error.message : String(error)
+        }
       };
     }
   }
@@ -233,11 +233,11 @@ export class LegacyRecommendationAdapter {
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error);
       // Return minimal result with default values
-      const defaultThermodynamics = {
+      const defaultThermodynamics = {;
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        gregsEnergy: 0.5 - 0.5 * 0.2,
+        gregsEnergy: 0.5 - 0.5 * 0.2
       } as ThermodynamicProperties;
 
       return {
@@ -246,7 +246,7 @@ export class LegacyRecommendationAdapter {
         recommendedIngredients: [],
         recommendedCookingMethods: [],
         recommendations: ['Unable to generate recommendations.'],
-        warnings: [error instanceof Error ? error.message : String(error)],
+        warnings: [error instanceof Error ? error.message : String(error)]
       };
     }
   }
@@ -261,12 +261,12 @@ export class LegacyRecommendationAdapter {
         planetaryPositions,
       );
     } catch (error) {
-      logger.error(`Error in getRecipeRecommendations for recipe "${recipe.name}":`, error);
+      logger.error(`Error in getRecipeRecommendations for recipe '${recipe.name}':`, error);
       // Return minimal result with default values
       return {
         compatibility: 0.5,
         suggestions: ['Unable to generate recipe recommendations.'],
-        adjustments: [error instanceof Error ? error.message : String(error)],
+        adjustments: [error instanceof Error ? error.message : String(error)]
       };
     }
   }
@@ -286,7 +286,7 @@ export class LegacyRecommendationAdapter {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        gregsEnergy: 0.5 - 0.5 * 0.2,
+        gregsEnergy: 0.5 - 0.5 * 0.2
       };
     }
   }

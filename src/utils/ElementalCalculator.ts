@@ -11,62 +11,62 @@ export function calculateMatchScore(
   // Validate input properties to avoid NaN results
   if (!elementalProperties || typeof elementalProperties !== 'object') {
     // console.warn('Invalid elementalProperties provided to calculateMatchScore');
-    elementalProperties = {
+    elementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
   }
 
   // Ensure each elemental property is a valid number
-  const validatedProperties = {
+  const validatedProperties = {;
     Fire:
-      typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire)
+      typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire);
         ? elementalProperties.Fire
         : 0.25,
     Water:
-      typeof elementalProperties.Water === 'number' && !isNaN(elementalProperties.Water)
+      typeof elementalProperties.Water === 'number' && !isNaN(elementalProperties.Water);
         ? elementalProperties.Water
         : 0.25,
     Earth:
-      typeof elementalProperties.Earth === 'number' && !isNaN(elementalProperties.Earth)
+      typeof elementalProperties.Earth === 'number' && !isNaN(elementalProperties.Earth);
         ? elementalProperties.Earth
         : 0.25,
     Air:
-      typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air)
+      typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air);
         ? elementalProperties.Air
-        : 0.25,
+        : 0.25
   };
 
-  if (!elementalState || Object.keys(elementalState).length === 0) {
+  if (!elementalState || Object.keys(elementalState).length === 0) {;
     // If no elemental state is provided, use a standard distribution
-    elementalState = {
+    elementalState = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
   }
 
   // Validate elementalState to avoid NaN results
-  const validatedState = {
+  const validatedState = {;
     Fire:
-      typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire)
+      typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire);
         ? elementalState.Fire
         : 0.25,
     Water:
-      typeof elementalState.Water === 'number' && !isNaN(elementalState.Water)
+      typeof elementalState.Water === 'number' && !isNaN(elementalState.Water);
         ? elementalState.Water
         : 0.25,
     Earth:
-      typeof elementalState.Earth === 'number' && !isNaN(elementalState.Earth)
+      typeof elementalState.Earth === 'number' && !isNaN(elementalState.Earth);
         ? elementalState.Earth
         : 0.25,
     Air:
-      typeof elementalState.Air === 'number' && !isNaN(elementalState.Air)
+      typeof elementalState.Air === 'number' && !isNaN(elementalState.Air);
         ? elementalState.Air
-        : 0.25,
+        : 0.25
   };
 
   // Calculate similarity score between the ingredient's elemental properties and current elemental state
@@ -80,7 +80,7 @@ export function calculateMatchScore(
     const stateValue = validatedState[element] || 0;
 
     // Calculate the element-specific match using a more nuanced formula
-    // Higher values in both ingredient and state = better match
+    // Higher values in both ingredient and state = better match;
     // For high contrast, we want bigger differences between values
     let elementMatch;
     if (options?.preferHigherContrast) {
@@ -113,19 +113,19 @@ export function calculateMatchScore(
     if (options?.mealType) {
       const mealType = options.mealType.toLowerCase();
       // Breakfast emphasizes Fire and Air (energy for the day)
-      if (mealType === 'breakfast') {
+      if (mealType === 'breakfast') {;
         if (element === 'Fire' || element === 'Air') elementWeight *= 1.3;
       }
       // Lunch is balanced but with slight Fire emphasis
-      else if (mealType === 'lunch') {
+      else if (mealType === 'lunch') {;
         if (element === 'Fire') elementWeight *= 1.1;
       }
       // Dinner emphasizes Earth and Water (grounding, relaxation)
-      else if (mealType === 'dinner') {
+      else if (mealType === 'dinner') {;
         if (element === 'Earth' || element === 'Water') elementWeight *= 1.3;
       }
       // Dessert emphasizes Water (moisture) and Earth (substance)
-      else if (mealType === 'dessert') {
+      else if (mealType === 'dessert') {;
         if (element === 'Water') elementWeight *= 1.4;
         if (element === 'Earth') elementWeight *= 1.2;
       }
@@ -136,7 +136,7 @@ export function calculateMatchScore(
       try {
         // Use dynamic import to avoid circular dependencies
         import('../data/cuisineFlavorProfiles')
-          .then(module => {
+          .then(module => {;
             const { getCuisineProfile } = module;
             const cuisineProfile = getCuisineProfile(options.cuisine || '');
 

@@ -19,7 +19,7 @@ import {
   CorruptionReport,
   RecoveryAction,
   GitStash,
-  ProgressMetrics,
+  ProgressMetrics
 } from '../../types/campaign';
 
 import { SafetyProtocol } from './SafetyProtocol';
@@ -66,9 +66,9 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Requirements: 5.7, 5.8
    */
   async emergencyRollbackWithOptions(
-    options: EmergencyRecoveryOptions = {},
+    options: EmergencyRecoveryOptions = {},;
   ): Promise<RecoveryValidationResult> {
-    console.log('🚨 Initiating emergency rollback with advanced options...');
+    // console.log('🚨 Initiating emergency rollback with advanced options...');
 
     try {
       // Create backup before recovery if requested
@@ -81,7 +81,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       await this.emergencyRollback();
 
       // Validate recovery if requested
-      const validationResult = options.validateAfterRecovery
+      const validationResult = options.validateAfterRecovery;
         ? await this.validateRecoverySuccess('emergency-rollback')
         : this.createBasicValidationResult('emergency-rollback');
 
@@ -90,10 +90,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Emergency rollback completed with options: ${JSON.stringify(options)}`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'EMERGENCY_ROLLBACK_WITH_OPTIONS',
+        action: 'EMERGENCY_ROLLBACK_WITH_OPTIONS'
       });
 
-      console.log('✅ Emergency rollback completed successfully');
+      // console.log('✅ Emergency rollback completed successfully');
       return validationResult;
     } catch (error) {
       const errorMessage = `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`;
@@ -104,7 +104,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'EMERGENCY_ROLLBACK_FAILED',
+        action: 'EMERGENCY_ROLLBACK_FAILED'
       });
 
       throw new Error(errorMessage);
@@ -117,9 +117,9 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    */
   async rollbackToCommit(
     commitHash: string,
-    options: EmergencyRecoveryOptions = {},
+    options: EmergencyRecoveryOptions = {},;
   ): Promise<RecoveryValidationResult> {
-    console.log(`🔄 Rolling back to commit: ${commitHash}`);
+    // console.log(`🔄 Rolling back to commit: ${commitHash}`);
 
     try {
       // Validate commit exists
@@ -136,13 +136,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       // Perform hard reset to commit
       execSync(`git reset --hard ${commitHash}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       // Clean untracked files
       execSync('git clean -fd', {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       const validationResult = await this.validateRecoverySuccess('commit-rollback');
@@ -152,10 +152,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Rollback to commit ${commitHash} completed`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'COMMIT_ROLLBACK',
+        action: 'COMMIT_ROLLBACK'
       });
 
-      console.log(`✅ Successfully rolled back to commit: ${commitHash}`);
+      // console.log(`✅ Successfully rolled back to commit: ${commitHash}`);
       return validationResult;
     } catch (error) {
       const errorMessage = `Commit rollback failed: ${(error as any).message || 'Unknown error'}`;
@@ -166,7 +166,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'COMMIT_ROLLBACK_FAILED',
+        action: 'COMMIT_ROLLBACK_FAILED'
       });
 
       throw new Error(errorMessage);
@@ -177,66 +177,66 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Nuclear option reset with complete metrics clearing
    * Requirements: 5.7, 5.8
    */
-  async nuclearReset(options: EmergencyRecoveryOptions = {}): Promise<NuclearResetResult> {
-    console.log('☢️ Initiating NUCLEAR RESET - This will reset everything!');
-    console.log('⚠️ This operation will:');
-    console.log('   - Reset all files to clean state');
-    console.log('   - Clear all campaign metrics');
-    console.log('   - Remove all stashes (unless preserved)');
-    console.log('   - Reset git repository to clean state');
+  async nuclearReset(options: EmergencyRecoveryOptions = {}): Promise<NuclearResetResult> {;
+    // console.log('☢️ Initiating NUCLEAR RESET - This will reset everything!');
+    // console.log('⚠️ This operation will:');
+    // console.log('   - Reset all files to clean state');
+    // console.log('   - Clear all campaign metrics');
+    // console.log('   - Remove all stashes (unless preserved)');
+    // console.log('   - Reset git repository to clean state');
 
     try {
-      const result: NuclearResetResult = {
+      const result: NuclearResetResult = {;
         success: false,
         filesReset: 0,
         metricsCleared: false,
         stashesCleared: 0,
         validationResult: this.createBasicValidationResult('nuclear-reset'),
-        errors: [],
+        errors: []
       };
 
       // Create comprehensive backup before nuclear reset
       if (options.createBackupBeforeReset !== false) {
         // Default to true for nuclear reset
         result.backupCreated = await this.createEmergencyBackup('pre-nuclear-reset');
-        console.log(`📦 Emergency backup created: ${result.backupCreated}`);
+        // console.log(`📦 Emergency backup created: ${result.backupCreated}`);
       }
 
       // Step 1: Reset git repository to clean state
-      console.log('🔄 Step 1: Resetting git repository...');
+      // console.log('🔄 Step 1: Resetting git repository...');
       const resetCommit = options.resetToCommit || (await this.findLastCleanCommit());
 
       execSync(`git reset --hard ${resetCommit}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       execSync('git clean -fd', {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       result.filesReset = await this.countResetFiles();
 
       // Step 2: Clear all campaign metrics
-      console.log('🧹 Step 2: Clearing campaign metrics...');
+      // console.log('🧹 Step 2: Clearing campaign metrics...');
       if (!options.preserveMetrics) {
         await this.clearAllMetrics();
         result.metricsCleared = true;
       }
 
       // Step 3: Clear stashes (unless preserved)
-      console.log('🗑️ Step 3: Managing stashes...');
+      // console.log('🗑️ Step 3: Managing stashes...');
       if (!options.preserveStashes) {
         result.stashesCleared = await this.clearAllStashes();
       }
 
       // Step 4: Reset campaign infrastructure
-      console.log('🏗️ Step 4: Resetting campaign infrastructure...');
+      // console.log('🏗️ Step 4: Resetting campaign infrastructure...');
       await this.resetCampaignInfrastructure();
 
       // Step 5: Validate nuclear reset success
-      console.log('✅ Step 5: Validating nuclear reset...');
+      // console.log('✅ Step 5: Validating nuclear reset...');
       if (options.validateAfterRecovery !== false) {
         // Default to true for nuclear reset
         result.validationResult = await this.validateNuclearResetSuccess();
@@ -249,13 +249,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Nuclear reset completed successfully`,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'NUCLEAR_RESET_SUCCESS',
+        action: 'NUCLEAR_RESET_SUCCESS'
       });
 
-      console.log('☢️ NUCLEAR RESET COMPLETED SUCCESSFULLY');
-      console.log(`   Files reset: ${result.filesReset}`);
-      console.log(`   Metrics cleared: ${result.metricsCleared}`);
-      console.log(`   Stashes cleared: ${result.stashesCleared}`);
+      // console.log('☢️ NUCLEAR RESET COMPLETED SUCCESSFULLY');
+      // console.log(`   Files reset: ${result.filesReset}`);
+      // console.log(`   Metrics cleared: ${result.metricsCleared}`);
+      // console.log(`   Stashes cleared: ${result.stashesCleared}`);
 
       return result;
     } catch (error) {
@@ -267,7 +267,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'NUCLEAR_RESET_FAILED',
+        action: 'NUCLEAR_RESET_FAILED'
       });
 
       return {
@@ -276,7 +276,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         metricsCleared: false,
         stashesCleared: 0,
         validationResult: this.createBasicValidationResult('nuclear-reset'),
-        errors: [errorMessage],
+        errors: [errorMessage]
       };
     }
   }
@@ -289,7 +289,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     targets: string[],
     fromStash?: string,
   ): Promise<RecoveryValidationResult> {
-    console.log(`🎯 Initiating selective recovery for ${targets.length} targets...`);
+    // console.log(`🎯 Initiating selective recovery for ${targets.length} targets...`);
 
     try {
       // If no stash specified, use the most recent one
@@ -302,7 +302,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       const tempBranch = `temp-recovery-${Date.now()}`;
       execSync(`git checkout -b ${tempBranch}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       try {
@@ -312,11 +312,11 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         // Selectively checkout files from stash
         for (const target of targets) {
           if (fs.existsSync(target)) {
-            execSync(`git checkout HEAD -- "${target}"`, {
+            execSync(`git checkout HEAD -- '${target}'`, {
               encoding: 'utf8',
-              stdio: 'pipe',
+              stdio: 'pipe'
             });
-            console.log(`✅ Restored: ${target}`);
+            // console.log(`✅ Restored: ${target}`);
           } else {
             console.warn(`⚠️ Target not found: ${target}`);
           }
@@ -326,13 +326,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         const originalBranch = this.getCurrentBranch();
         execSync(`git checkout ${originalBranch}`, {
           encoding: 'utf8',
-          stdio: 'pipe',
+          stdio: 'pipe'
         });
 
         // Delete temporary branch
         execSync(`git branch -D ${tempBranch}`, {
           encoding: 'utf8',
-          stdio: 'pipe',
+          stdio: 'pipe'
         });
       } catch (error) {
         // Cleanup: return to original branch and delete temp branch
@@ -355,10 +355,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Selective recovery completed for ${targets.length} targets`,
         severity: SafetyEventSeverity.INFO,
-        action: 'SELECTIVE_RECOVERY',
+        action: 'SELECTIVE_RECOVERY'
       });
 
-      console.log(`✅ Selective recovery completed for ${targets.length} targets`);
+      // console.log(`✅ Selective recovery completed for ${targets.length} targets`);
       return validationResult;
     } catch (error) {
       const errorMessage = `Selective recovery failed: ${(error as any).message || 'Unknown error'}`;
@@ -369,7 +369,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.ERROR,
-        action: 'SELECTIVE_RECOVERY_FAILED',
+        action: 'SELECTIVE_RECOVERY_FAILED'
       });
 
       throw new Error(errorMessage);
@@ -381,9 +381,9 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Requirements: 5.7, 5.8
    */
   async validateRecoverySuccess(recoveryMethod: string): Promise<RecoveryValidationResult> {
-    console.log(`🔍 Validating recovery success for method: ${recoveryMethod}`);
+    // console.log(`🔍 Validating recovery success for method: ${recoveryMethod}`);
 
-    const result: RecoveryValidationResult = {
+    const result: RecoveryValidationResult = {;
       success: true,
       errors: [],
       warnings: [],
@@ -392,12 +392,12 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       metricsCleared: false,
       stashesPreserved: false,
       buildValidation: false,
-      testValidation: false,
+      testValidation: false
     };
 
     try {
       // 1. Validate git repository state
-      console.log('🔍 Validating git repository state...');
+      // console.log('🔍 Validating git repository state...');
       const gitValidation = await this.validateGitState();
       if (!gitValidation.success) {
         result.errors.push(...gitValidation.errors);
@@ -409,7 +409,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       result.filesRestored = await this.countTrackedFiles();
 
       // 3. Validate build system
-      console.log('🔍 Validating build system...');
+      // console.log('🔍 Validating build system...');
       try {
         execSync('yarn build', {
           encoding: 'utf8',
@@ -417,7 +417,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
           timeout: 30000, // 30 second timeout
         });
         result.buildValidation = true;
-        console.log('✅ Build validation passed');
+        // console.log('✅ Build validation passed');
       } catch (buildError) {
         result.errors.push(
           `Build validation failed: ${(buildError as any).message || 'Unknown error'}`,
@@ -427,15 +427,15 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       }
 
       // 4. Validate test system
-      console.log('🔍 Validating test system...');
+      // console.log('🔍 Validating test system...');
       try {
-        execSync('yarn test --run --reporter=basic', {
+        execSync('yarn test --run --reporter=basic', {;
           encoding: 'utf8',
           stdio: 'pipe',
           timeout: 60000, // 60 second timeout
         });
         result.testValidation = true;
-        console.log('✅ Test validation passed');
+        // console.log('✅ Test validation passed');
       } catch (testError) {
         result.warnings.push(
           `Test validation warning: ${(testError as any).message || 'Unknown error'}`,
@@ -445,7 +445,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       }
 
       // 5. Check corruption after recovery
-      console.log('🔍 Checking for corruption after recovery...');
+      // console.log('🔍 Checking for corruption after recovery...');
       const corruptionReport = await this.detectCorruption(['src/**/*.ts', 'src/**/*.tsx']);
       if (corruptionReport.detectedFiles.length > 0) {
         result.errors.push(
@@ -466,10 +466,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Recovery validation completed: ${result.success ? 'SUCCESS' : 'FAILED'}`,
         severity: result.success ? SafetyEventSeverity.INFO : SafetyEventSeverity.ERROR,
-        action: 'RECOVERY_VALIDATION',
+        action: 'RECOVERY_VALIDATION'
       });
 
-      console.log(
+      // console.log(
         `${result.success ? '✅' : '❌'} Recovery validation ${result.success ? 'passed' : 'failed'}`,
       );
       return result;
@@ -493,19 +493,19 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     lastRecovery?: Date;
     recoveryMethods: Record<string, number>;
   } {
-    const recoveryEvents = this.recoveryEvents.filter(
-      e =>
+    const recoveryEvents = this.recoveryEvents.filter(;
+      e =>;
         e.action.includes('RECOVERY') ||
         e.action.includes('ROLLBACK') ||
         e.action.includes('RESET'),
     );
 
-    const successfulRecoveries = recoveryEvents.filter(
-      e => e.action.includes('SUCCESS') || e.severity === SafetyEventSeverity.INFO,
+    const successfulRecoveries = recoveryEvents.filter(;
+      e => e.action.includes('SUCCESS') || e.severity === SafetyEventSeverity.INFO,;
     ).length;
 
-    const failedRecoveries = recoveryEvents.filter(
-      e => e.action.includes('FAILED') || e.severity === SafetyEventSeverity.CRITICAL,
+    const failedRecoveries = recoveryEvents.filter(;
+      e => e.action.includes('FAILED') || e.severity === SafetyEventSeverity.CRITICAL,;
     ).length;
 
     const nuclearResets = recoveryEvents.filter(e => e.action.includes('NUCLEAR_RESET')).length;
@@ -525,7 +525,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       failedRecoveries,
       nuclearResets,
       lastRecovery,
-      recoveryMethods,
+      recoveryMethods
     };
   }
 
@@ -550,12 +550,12 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     const backupPath = path.join(this.backupDirectory, backupName);
 
     // Create backup using git archive
-    execSync(`git archive --format=tar.gz --output="${backupPath}.tar.gz" HEAD`, {
+    execSync(`git archive --format=tar.gz --output='${backupPath}.tar.gz' HEAD`, {;
       encoding: 'utf8',
-      stdio: 'pipe',
+      stdio: 'pipe'
     });
 
-    console.log(`📦 Emergency backup created: ${backupPath}.tar.gz`);
+    // console.log(`📦 Emergency backup created: ${backupPath}.tar.gz`);
     return `${backupPath}.tar.gz`;
   }
 
@@ -563,7 +563,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     try {
       execSync(`git cat-file -e ${commitHash}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
       return true;
     } catch {
@@ -574,9 +574,9 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   private async findLastCleanCommit(): Promise<string> {
     try {
       // Find the last commit that doesn't contain campaign-related changes
-      const commits = execSync('git log --oneline -20', { encoding: 'utf8' })
+      const commits = execSync('git log --oneline -20', { encoding: 'utf8' });
         .split('\n')
-        .filter(line => line.trim())
+        .filter(line => line.trim());
         .map(line => line.split(' ')[0]);
 
       // Return the most recent commit (HEAD)
@@ -605,7 +605,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   }
 
   private async clearAllMetrics(): Promise<void> {
-    const metricsFiles = [
+    const metricsFiles = [;
       '.typescript-errors-metrics.json',
       '.linting-analysis-metrics.json',
       '.explicit-any-metrics.json',
@@ -614,13 +614,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       '.enhanced-unused-variables-metrics.json',
       '.import-cleaner-metrics.json',
       '.unicode-validation-metrics.json',
-      '.unified-safety-metrics.json',
+      '.unified-safety-metrics.json'
     ];
 
     for (const file of metricsFiles) {
       if (fs.existsSync(file)) {
         fs.unlinkSync(file);
-        console.log(`🗑️ Cleared metrics file: ${file}`);
+        // console.log(`🗑️ Cleared metrics file: ${file}`);
       }
     }
 
@@ -628,7 +628,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     const campaignMetricsPath = path.join('.kiro', 'campaign-metrics.json');
     if (fs.existsSync(campaignMetricsPath)) {
       fs.unlinkSync(campaignMetricsPath);
-      console.log(`🗑️ Cleared campaign metrics: ${campaignMetricsPath}`);
+      // console.log(`🗑️ Cleared campaign metrics: ${campaignMetricsPath}`);
     }
   }
 
@@ -641,7 +641,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       try {
         execSync('git stash clear', {
           encoding: 'utf8',
-          stdio: 'pipe',
+          stdio: 'pipe'
         });
         clearedCount = stashes.length;
       } catch (error) {
@@ -656,7 +656,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         fs.unlinkSync(stashTrackingPath);
       }
 
-      console.log(`🗑️ Cleared ${clearedCount} stashes`);
+      // console.log(`🗑️ Cleared ${clearedCount} stashes`);
       return clearedCount;
     } catch {
       return 0;
@@ -665,10 +665,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   private async resetCampaignInfrastructure(): Promise<void> {
     // Reset campaign-specific directories and files
-    const campaignPaths = [
+    const campaignPaths = [;
       path.join('.kiro', 'campaign-progress.json'),
       path.join('.kiro', 'campaign-checkpoints.json'),
-      path.join('.kiro', 'phase-reports'),
+      path.join('.kiro', 'phase-reports')
     ];
 
     for (const campaignPath of campaignPaths) {
@@ -678,7 +678,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         } else {
           fs.unlinkSync(campaignPath);
         }
-        console.log(`🗑️ Reset campaign infrastructure: ${campaignPath}`);
+        // console.log(`🗑️ Reset campaign infrastructure: ${campaignPath}`);
       }
     }
   }
@@ -701,11 +701,11 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   }
 
   private async areMetricsCleared(): Promise<boolean> {
-    const metricsFiles = [
+    const metricsFiles = [;
       '.typescript-errors-metrics.json',
       '.linting-analysis-metrics.json',
       '.explicit-any-metrics.json',
-      '.unused-variables-metrics.json',
+      '.unused-variables-metrics.json'
     ];
 
     return !metricsFiles.some(file => fs.existsSync(file));
@@ -721,7 +721,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       metricsCleared: false,
       stashesPreserved: false,
       buildValidation: false,
-      testValidation: false,
+      testValidation: false
     };
   }
 

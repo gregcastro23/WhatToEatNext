@@ -23,7 +23,7 @@ describe('FullCampaignExecutor', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    mockConfig = {
+    mockConfig = {;
       targetReductionPercentage: 17.5,
       targetFixCount: 300,
       maxBatchSize: 25,
@@ -44,7 +44,7 @@ describe('FullCampaignExecutor', () => {
       if (command.includes('tsc --noEmit')) {
         return '';
       }
-      if (command.includes('grep -c "error TS"')) {
+      if (command.includes('grep -c 'error TS'')) {
         return '0';
       }
       if (command.includes('find src')) {
@@ -72,7 +72,7 @@ describe('FullCampaignExecutor', () => {
       // Mock successful execution
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) return '';
-        if (command.includes('grep -c "error TS"')) return '100'; // Initial errors
+        if (command.includes('grep -c 'error TS'')) return '100'; // Initial errors
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts';
         return '';
       });
@@ -129,7 +129,7 @@ describe('FullCampaignExecutor', () => {
     test('should execute Phase 1: Initial Analysis and Baseline', (async () =>  {
       // Mock initial metrics
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('grep -c "error TS"')) return '150';
+        if (command.includes('grep -c 'error TS'')) return '150';
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts';
         return '';
       });
@@ -198,7 +198,7 @@ describe('FullCampaignExecutor', () => {
     test('should achieve target when sufficient fixes are applied', async () => {
       // Mock scenario where target is achieved
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c 'error TS'')) {
           // Simulate error reduction
           return Math.random() > 0.5 ? '100' : '80';
         }
@@ -234,7 +234,7 @@ describe('FullCampaignExecutor', () => {
 
       expect(result.buildStable).toBeDefined();
       // Each phase should have validated build stability
-      result.phases.forEach(phase => {
+      result.phases.forEach(phase => {;
         expect(phase.success).toBeDefined();
       });
     });
@@ -316,8 +316,8 @@ describe('FullCampaignExecutor', () => {
       const domainPhase: any = result.phases.[3];
 
       expect(domainPhase.details.domainResults).toBeDefined();
-      const astroResult: any = domainPhase.details.domainResults.find(
-        (r: any) => r.domain === 'astrological'
+      const astroResult: any = domainPhase.details.domainResults.find(;
+        (r: any) => r.domain === 'astrological';
       );
       expect(astroResult).toBeDefined();
     });
@@ -335,8 +335,8 @@ describe('FullCampaignExecutor', () => {
       const domainPhase: any = result.phases.[3];
 
       expect(domainPhase.details.domainResults).toBeDefined();
-      const recipeResult: any = domainPhase.details.domainResults.find(
-        (r: any) => r.domain === 'recipe'
+      const recipeResult: any = domainPhase.details.domainResults.find(;
+        (r: any) => r.domain === 'recipe';
       );
       expect(recipeResult).toBeDefined();
     });
@@ -354,8 +354,8 @@ describe('FullCampaignExecutor', () => {
       const domainPhase: any = result.phases.[3];
 
       expect(domainPhase.details.domainResults).toBeDefined();
-      const campaignResult: any = domainPhase.details.domainResults.find(
-        (r: any) => r.domain === 'campaign'
+      const campaignResult: any = domainPhase.details.domainResults.find(;
+        (r: any) => r.domain === 'campaign';
       );
       expect(campaignResult).toBeDefined();
     });
@@ -412,7 +412,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should handle emergency stop conditions', async () => {
       // Mock emergency stop scenario
-      const emergencyConfig: any = {
+      const emergencyConfig: any = {;
         ...mockConfig,
         emergencyStopThreshold: 0.9, // Very high threshold;
         maxCampaignDuration: 1000 // Very short duration
@@ -460,7 +460,7 @@ describe('FullCampaignExecutor', () => {
 
   describe('Configuration Validation', () => {
     test('should handle invalid configuration gracefully', () => {
-      const invalidConfig: any = {
+      const invalidConfig: any = {;
         targetReductionPercentage: -10, // Invalid negative percentage
         targetFixCount: -100, // Invalid negative count;
         maxBatchSize: 0 // Invalid zero batch size

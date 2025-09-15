@@ -45,8 +45,8 @@ describe('BuildValidator', () => {
           expect.objectContaining({
             type: 'create',
             target: '.next',
-            description: 'Create build directory',
-          }),
+            description: 'Create build directory'
+          })
         ]),
       );
     });
@@ -84,8 +84,8 @@ describe('BuildValidator', () => {
       expect(result.repairActions).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            type: 'fix',
-          }),
+            type: 'fix'
+          })
         ]),
       );
     });
@@ -131,7 +131,7 @@ describe('BuildValidator', () => {
     it('should validate existing config': any, async () => {
       mockFs.existsSync.mockImplementation((path: string) => path === 'next.config.js');
       mockFs.readFileSync.mockReturnValue(`
-        module.exports = {
+        module.exports = {;
           output: 'standalone',
           typescript: { ignoreBuildError, s: false },
           eslint: { ignoreDuringBuild, s: false }
@@ -152,7 +152,7 @@ describe('BuildValidator', () => {
       mockFs.statSync.mockReturnValue({
         mtime: new Date(),
         size: 1024,
-        isDirectory: () => false,
+        isDirectory: () => false
       } as any);
 
       const report: any = await buildValidator.monitorBuildHealth();

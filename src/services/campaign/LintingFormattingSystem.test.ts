@@ -10,7 +10,7 @@ import * as path from 'path';
 import {
   LintingFormattingSystem,
   DEFAULT_LINTING_FORMATTING_CONFIG,
-  LintingFormattingConfig,
+  LintingFormattingConfig
 } from './LintingFormattingSystem';
 
 // Mock dependencies
@@ -26,10 +26,10 @@ describe('LintingFormattingSystem', () => {
   let testConfig: LintingFormattingConfig;
 
   beforeEach(() => {
-    testConfig = {
+    testConfig = {;
       ...DEFAULT_LINTING_FORMATTING_CONFIG,
       maxFilesPerBatch: 5,
-      safetyValidationEnabled: true,
+      safetyValidationEnabled: true
     };
     lintingFormattingSystem = new LintingFormattingSystem(testConfig);
 
@@ -39,7 +39,7 @@ describe('LintingFormattingSystem', () => {
 
   describe('detectLintingViolations', () => {
     test('detects TypeScript linting violations', async () => {
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
@@ -49,17 +49,17 @@ describe('LintingFormattingSystem', () => {
               ruleId: '@typescript-eslint/no-unused-vars',
               message: 'Variable is defined but never used',
               severity: 1,
-              fix: { rang, e: [0, 10], text: '' },
+              fix: { rang, e: [0, 10], text: '' }
             },
             {
               line: 5,
               column: 15,
               ruleId: '@typescript-eslint/no-explicit-any',
               message: 'Unexpected any. Specify a different type.',
-              severity: 1,
-            },
-          ],
-        },
+              severity: 1
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(eslintOutput);
@@ -74,7 +74,7 @@ describe('LintingFormattingSystem', () => {
     });
 
     test('detects React linting violations', async () => {
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/component.tsx',
           messages: [
@@ -83,17 +83,17 @@ describe('LintingFormattingSystem', () => {
               column: 5,
               ruleId: 'react-hooks/exhaustive-deps',
               message: 'React Hook useEffect has a missing dependency',
-              severity: 1,
+              severity: 1
             },
             {
               line: 15,
               column: 20,
               ruleId: 'react/jsx-uses-vars',
               message: 'Variable is used in JSX but not defined',
-              severity: 2,
-            },
-          ],
-        },
+              severity: 2
+            }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(eslintOutput);
@@ -118,21 +118,21 @@ describe('LintingFormattingSystem', () => {
 
   describe('fixLintingViolations', () => {
     test('fixes auto-fixable linting violations', async () => {
-      const beforeOutput: any = JSON.stringify([
+      const beforeOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
             { line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} },
-            { line: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 },
-          ],
-        },
+            { line: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }
+          ]
+        }
       ]);
 
-      const afterOutput: any = JSON.stringify([
+      const afterOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
-          messages: [{ lin, e: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }],
-        },
+          messages: [{ lin, e: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }]
+        }
       ]);
 
       mockExecSync
@@ -207,7 +207,7 @@ const x: any = 1;;
 const y: any = 2;   
 `;
 
-      const expectedContent: any = `
+      const expectedContent: any = `;
 ;
 const x: any = 1;
 const y: any = 2;
@@ -228,7 +228,7 @@ const y: any = 2;
     });
 
     test('respects file extension filters', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig,
         patternBasedFixes: [
           {
@@ -237,9 +237,9 @@ const y: any = 2;
             pattern: /test/g,
             replacement: 'fixed',
             fileExtensions: ['.js'], // Only .js files;
-            enabled: true,
-          },
-        ],
+            enabled: true
+          }
+        ]
       };
       const system: any = new LintingFormattingSystem(config);
 
@@ -252,7 +252,7 @@ const y: any = 2;
     });
 
     test('skips disabled pattern fixes', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig,
         patternBasedFixes: [
           {
@@ -261,9 +261,9 @@ const y: any = 2;
             pattern: /test/g,
             replacement: 'fixed',
             fileExtensions: ['.ts'],
-            enabled: false,
-          },
-        ],
+            enabled: false
+          }
+        ]
       };
       const system: any = new LintingFormattingSystem(config);
 
@@ -277,13 +277,13 @@ const y: any = 2;
 
   describe('enforceStyleGuideCompliance', () => {
     test('enforces consistent indentation', async () => {
-      const originalContent: any = `
+      const originalContent: any = `;
 \tfunction test() : any {
 \t\treturn true;
 \t}
 `;
 
-      const expectedContent: any = `
+      const expectedContent: any = `;
   function test() : any {
     return true;
   }
@@ -303,8 +303,8 @@ const y: any = 2;
     });
 
     test('enforces trailing commas', async () => {
-      const originalContent: any = `
-const obj = {
+      const originalContent: any = `;
+const _obj = {;
   a: 1,
   b: 2
 };
@@ -323,8 +323,8 @@ const obj = {
     });
 
     test('enforces semicolons', async () => {
-      const originalContent: any = `
-const x = 1
+      const originalContent: any = `;
+const x = 1;
 const y = 2;
 return x + y
 `;
@@ -344,18 +344,18 @@ return x + y
     });
 
     test('enforces quote style', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig,
         formattingRules: {
           ...testConfig.formattingRules,
-          enforceQuoteStyle: 'single' as const,
-        },
+          enforceQuoteStyle: 'single' as const
+        }
       };
       const system: any = new LintingFormattingSystem(config);
 
       const originalContent: any = `;
-const message: any = "Hello world";
-const greeting: any = "Hi there";
+const message: any = 'Hello world';
+const _greeting: any = 'Hi there';
 `;
 
       mockFs.readFileSync.mockReturnValue(originalContent);
@@ -367,9 +367,9 @@ const greeting: any = "Hi there";
       const fixesApplied: any = await system.enforceStyleGuideCompliance(['test-file.ts']);
 
       expect(fixesApplied).toBeGreaterThan(0);
-      expect(writtenContent).toContain("'Hello world'");
-      expect(writtenContent).toContain("'Hi there'");
-      expect(writtenContent).not.toContain('"Hello world"');
+      expect(writtenContent).toContain(''Hello world'');
+      expect(writtenContent).toContain(''Hi there'');
+      expect(writtenContent).not.toContain(''Hello world'');
     });
   });
 
@@ -378,11 +378,11 @@ const greeting: any = "Hi there";
       const testFiles: any = ['file1.ts', 'file2.ts'];
 
       // Mock ESLint output
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file1.ts',
-          messages: [{ lin, e: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }],
-        },
+          messages: [{ lin, e: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }]
+        }
       ]);
 
       mockExecSync
@@ -449,16 +449,16 @@ const greeting: any = "Hi there";
 
   describe('violation breakdown', () => {
     test('categorizes violations correctly', async () => {
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
             { line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1 },
             { line: 2, column: 5, ruleId: 'react-hooks/exhaustive-deps', severity: 1 },
             { line: 3, column: 15, ruleId: 'import/no-unresolved', severity: 1 },
-            { line: 4, column: 20, ruleId: 'no-console', severity: 1 },
-          ],
-        },
+            { line: 4, column: 20, ruleId: 'no-console', severity: 1 }
+          ]
+        }
       ]);
 
       mockExecSync.mockReturnValue(eslintOutput);
@@ -519,7 +519,7 @@ const greeting: any = "Hi there";
     });
 
     test('respects custom configuration', () => {
-      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,
+      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,;
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
         autoFixEnabled: false,
@@ -528,16 +528,16 @@ const greeting: any = "Hi there";
           enforceReactRules: false,
           enforceImportRules: false,
           maxWarningsThreshold: 500,
-          customRuleOverrides: { 'no-console': 'off' },
+          customRuleOverrides: { 'no-console': 'off' }
         },
         formattingRules: { enforceConsistentIndentation: false,
           enforceTrailingCommas: false,
           enforceSemicolons: false,
           enforceQuoteStyle: 'double',
           enforceLineLength: 120,
-          enforceSpacing: false,
+          enforceSpacing: false
         },
-        patternBasedFixes: [],
+        patternBasedFixes: []
       };
 
       const system: any = new LintingFormattingSystem(customConfig);

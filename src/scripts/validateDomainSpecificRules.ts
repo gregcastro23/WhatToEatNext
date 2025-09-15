@@ -25,7 +25,7 @@ class DomainSpecificRuleValidator {
   }
 
   async validateDomainSpecificRules(): Promise<void> {
-    console.log('🔍 Starting Domain-Specific Rule Validation...\n');
+    // console.log('🔍 Starting Domain-Specific Rule Validation...\n');
 
     try {
       // Validate astrological files
@@ -37,7 +37,7 @@ class DomainSpecificRuleValidator {
       // Validate test files
       await this.validateTestFiles();
 
-      console.log('\n✅ Domain-specific rule validation completed successfully!');
+      // console.log('\n✅ Domain-specific rule validation completed successfully!');
     } catch (error) {
       console.error('❌ Validation failed:', error);
       throw error;
@@ -45,48 +45,48 @@ class DomainSpecificRuleValidator {
   }
 
   private async validateAstrologicalFiles(): Promise<void> {
-    console.log('🌟 Validating Astrological Calculation Files...');
+    // console.log('🌟 Validating Astrological Calculation Files...');
 
-    const astroFiles = [
+    const astroFiles = [;
       'src/calculations/culinary/culinaryAstrology.ts',
       'src/utils/reliableAstronomy.ts',
-      'src/data/planets/mars.ts',
+      'src/data/planets/mars.ts'
     ];
 
     for (const file of astroFiles) {
       if (existsSync(join(this.projectRoot, file))) {
-        console.log(`   ✅ Found ${file}`);
+        // console.log(`   ✅ Found ${file}`);
       }
     }
   }
 
   private async validateCampaignSystemFiles(): Promise<void> {
-    console.log('🚀 Validating Campaign System Files...');
+    // console.log('🚀 Validating Campaign System Files...');
 
-    const campaignFiles = [
+    const campaignFiles = [;
       'src/services/campaign/CampaignController.ts',
-      'src/services/campaign/ProgressTracker.ts',
+      'src/services/campaign/ProgressTracker.ts'
     ];
 
     for (const file of campaignFiles) {
       if (existsSync(join(this.projectRoot, file))) {
-        console.log(`   ✅ Found ${file}`);
+        // console.log(`   ✅ Found ${file}`);
       }
     }
   }
 
   private async validateTestFiles(): Promise<void> {
-    console.log('🧪 Validating Test Files...');
+    // console.log('🧪 Validating Test Files...');
 
     try {
-      const testCount = execSync('find src -name "*.test.ts" -o -name "*.test.tsx" | wc -l', {
+      const testCount = execSync('find src -name '*.test.ts' -o -name '*.test.tsx' | wc -l', {;
         encoding: 'utf8',
-        cwd: this.projectRoot,
+        cwd: this.projectRoot
       }).trim();
 
-      console.log(`   ✅ Found ${testCount} test files`);
+      // console.log(`   ✅ Found ${testCount} test files`);
     } catch (error) {
-      console.log('   ⚠️ Could not count test files');
+      // console.log('   ⚠️ Could not count test files');
     }
   }
 }
@@ -103,7 +103,7 @@ async function main() {
 }
 
 // Run if called directly
-if (require.main === module) {
+if (require.main === module) {;
   main();
 }
 

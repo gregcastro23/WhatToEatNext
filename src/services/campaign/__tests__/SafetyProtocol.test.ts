@@ -12,7 +12,7 @@ import {
     RecoveryAction,
     SafetyEventSeverity,
     SafetyEventType,
-    SafetySettings,
+    SafetySettings
 } from '../../../types/campaign';
 import { SafetyProtocol } from '../SafetyProtocol';
 
@@ -28,13 +28,13 @@ describe('SafetyProtocol', () => {
   let mockSettings: SafetySettings;
 
   beforeEach(() => {
-    mockSettings = {
+    mockSettings = {;
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
+      stashRetentionDays: 7
     };
 
     safetyProtocol = new SafetyProtocol(mockSettings);
@@ -111,7 +111,7 @@ describe('SafetyProtocol', () => {
         .mockResolvedValue({
           success: false,
           errors: ['Not a git repository'],
-          warnings: [],
+          warnings: []
         });
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
@@ -120,7 +120,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should handle git stash creation failure', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
         }
@@ -137,12 +137,12 @@ describe('SafetyProtocol', () => {
     let mockStash: GitStash;
 
     beforeEach(() => {
-      mockStash = {
+      mockStash = {;
         id: 'test-stash-1',
         description: 'Test stash description',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}',
+        ref: 'stash@{0}'
       };
 
       // Add stash to internal map
@@ -157,7 +157,7 @@ describe('SafetyProtocol', () => {
         .mockResolvedValue({
           success: true,
           errors: [],
-          warnings: [],
+          warnings: []
         });
     });
 
@@ -187,7 +187,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should handle git stash apply failure', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('git stash apply')) {
           throw new Error('Git stash apply failed');
         }
@@ -203,19 +203,19 @@ describe('SafetyProtocol', () => {
   describe('autoApplyLatestStash', () => {
     beforeEach(() => {
       // Add multiple stashes with different timestamps
-      const stash1: any = {
+      const stash1: any = {;
         id: 'stash-1',
         description: 'First stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
-        ref: 'stash@{1}',
+        ref: 'stash@{1}'
       };
-      const stash2: any = {
+      const stash2: any = {;
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main',
-        ref: 'stash@{0}',
+        ref: 'stash@{0}'
       };
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -353,7 +353,7 @@ import something, { a, b } from './module';
 
     it('should detect import from undefined module', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        import something from "undefined";
+        import something from 'undefined';
       `);
 
       const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
@@ -439,12 +439,12 @@ import something, { a, b } from './module';
 
   describe('emergencyRollback', () => {
     beforeEach(() => {
-      const stash: any = {
+      const stash: any = {;
         id: 'emergency-stash',
         description: 'Emergency stash',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}',
+        ref: 'stash@{0}'
       };
 
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('emergency-stash', stash);
@@ -479,7 +479,7 @@ import something, { a, b } from './module';
 
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
       expect(
-        events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),
+        events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),;
       ).toBe(true);
     });
   });
@@ -538,20 +538,20 @@ import something, { a, b } from './module';
       const recentDate: any = new Date();
       recentDate.setDate(recentDate.getDate() - 3); // 3 days old
 
-      const oldStash: any = {
+      const oldStash: any = {;
         id: 'old-stash',
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}',
+        ref: 'stash@{1}'
       };
 
-      const recentStash: any = {
+      const recentStash: any = {;
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}',
+        ref: 'stash@{0}'
       };
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -574,7 +574,7 @@ import something, { a, b } from './module';
     });
 
     it('should handle git stash drop failures gracefully', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('git stash drop')) {
           throw new Error('Stash not found');
         }
@@ -599,25 +599,25 @@ import something, { a, b } from './module';
 
   describe('getStashStatistics', () => {
     beforeEach(() => {
-      const stash1: any = {
+      const stash1: any = {;
         id: 'campaign-phase1-1-timestamp',
         description: 'Phase 1 stash',
         timestamp: new Date('2023-01-01'),
-        branch: 'main',
+        branch: 'main'
       };
 
-      const stash2: any = {
+      const stash2: any = {;
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
         timestamp: new Date('2023-01-02'),
-        branch: 'main',
+        branch: 'main'
       };
 
-      const stash3: any = {
+      const stash3: any = {;
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
         timestamp: new Date('2023-01-03'),
-        branch: 'main',
+        branch: 'main'
       };
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
@@ -655,7 +655,7 @@ import something, { a, b } from './module';
         detectedFiles: [],
         corruptionPatterns: [],
         severity: CorruptionSeverity.LOW,
-        recommendedAction: RecoveryAction.CONTINUE,
+        recommendedAction: RecoveryAction.CONTINUE
       });
     });
 
@@ -687,7 +687,7 @@ import something, { a, b } from './module';
         detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
         severity: CorruptionSeverity.CRITICAL,
-        recommendedAction: RecoveryAction.EMERGENCY_RESTORE,
+        recommendedAction: RecoveryAction.EMERGENCY_RESTORE
       });
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
 
@@ -739,7 +739,7 @@ import something, { a, b } from './module';
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST',
+          action: 'TEST'
         });
       }
 
@@ -755,7 +755,7 @@ import something, { a, b } from './module';
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST',
+          action: 'TEST'
         });
       }
 

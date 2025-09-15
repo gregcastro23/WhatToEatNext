@@ -4,32 +4,32 @@ import { PlanetPosition } from './astrologyUtils';
 import {
   getCurrentTransitSign,
   validatePlanetaryPositions,
-  getCurrentTransitPositions,
+  getCurrentTransitPositions
 } from './validatePlanetaryPositions';
 
 // Mock the planet data files
 jest.mock('@/data/planets/mars', () => ({
   PlanetSpecific: { TransitDates: {
       leo: { Start: '2024-05-01',
-        End: '2024-06-30',
+        End: '2024-06-30'
       },
       virgo: { Start: '2024-07-01',
-        End: '2024-08-31',
-      },
-    },
-  },
+        End: '2024-08-31'
+      }
+    }
+  }
 }));
 
 jest.mock('@/data/planets/venus', () => ({
   PlanetSpecific: { TransitDates: {
       aries: { Start: '2024-05-01',
-        End: '2024-06-30',
+        End: '2024-06-30'
       },
       taurus: { Start: '2024-07-01',
-        End: '2024-08-31',
-      },
-    },
-  },
+        End: '2024-08-31'
+      }
+    }
+  }
 }));
 
 describe('Planetary Position Validation', () => {
@@ -56,14 +56,14 @@ describe('Planetary Position Validation', () => {
     expect(sign).toBeNull();
   });
 
-  test("validatePlanetaryPositions corrects positions that don't match transit dates"( {
+  test('validatePlanetaryPositions corrects positions that don't match transit dates'( {
     // Create test positions with Mars in the wrong sign
     const positions: Record<string, PlanetPosition> = {
       Mars: { sign: 'cancer' as any,
         degree: 15,
         minute: 30,
-        exactLongitude: 105.5,
-      },
+        exactLongitude: 105.5
+      }
     };
 
     const validated: any = validatePlanetaryPositions(positions, testDate);
@@ -84,8 +84,8 @@ describe('Planetary Position Validation', () => {
       Mars: { sign: 'leo' as any,
         degree: 15,
         minute: 30,
-        exactLongitude: 135.5,
-      },
+        exactLongitude: 135.5
+      }
     };
 
     const validated: any = validatePlanetaryPositions(positions, testDate);
@@ -114,7 +114,7 @@ describe('Planetary Position Validation', () => {
     expect(positions).toHaveProperty('Pluto');
 
     // Each position should have required properties
-    Object.values(positions).forEach(pos => {
+    Object.values(positions).forEach(pos => {;
       expect(pos).toHaveProperty('sign');
       expect(pos).toHaveProperty('degree');
       expect(pos).toHaveProperty('exactLongitude');

@@ -15,7 +15,7 @@
  * Used for planetary influences in astrological calculations
  */
 export type Planet =
-  | 'Sun'
+  | 'Sun';
   | 'Moon'
   | 'Mercury'
   | 'Venus'
@@ -42,7 +42,7 @@ export type PlanetName = Planet;
  * Standard ZodiacSign type - lowercase format for consistency
  */
 export type ZodiacSign =
-  | 'aries'
+  | 'aries';
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -151,7 +151,7 @@ export interface ThermodynamicProperties {
   gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
 }
 
-// =============== COMPLEX TYPES ===============
+// =============== COMPLEX TYPES ===============;
 
 /**
  * Lunar phase definitions with spaces (used for display)
@@ -160,7 +160,7 @@ export interface ThermodynamicProperties {
  * Standard LunarPhase type - spaces format for display
  */
 export type LunarPhase =
-  | 'new moon'
+  | 'new moon';
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'

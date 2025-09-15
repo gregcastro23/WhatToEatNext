@@ -77,8 +77,8 @@ function createMonitoringConfig(): MonitoringConfig {
       thresholds: {
         errorIncrease: campaignConfig.targets.maxErrorIncrease,
         successRateDecrease: 1 - campaignConfig.targets.minSuccessRate,
-        buildFailureRate: 0.1,
-      },
+        buildFailureRate: 0.1
+      }
     },
     alerts: {
       enabled: true,
@@ -88,9 +88,9 @@ function createMonitoringConfig(): MonitoringConfig {
           name: 'console-alerts',
           config: {
             colors: true,
-            timestamps: true,
+            timestamps: true
           },
-          enabled: true,
+          enabled: true
         },
         {
           type: 'file',
@@ -98,10 +98,10 @@ function createMonitoringConfig(): MonitoringConfig {
           config: {
             path: '.kiro/logs/unintentional-any-alerts.log',
             maxSize: '10MB',
-            rotate: true,
+            rotate: true
           },
-          enabled: true,
-        },
+          enabled: true
+        }
       ],
       conditions: [
         {
@@ -109,42 +109,42 @@ function createMonitoringConfig(): MonitoringConfig {
           description: 'TypeScript error count increased significantly',
           condition: 'typescript_errors > baseline + threshold',
           severity: 'error',
-          enabled: true,
+          enabled: true
         },
         {
           name: 'Low Success Rate',
           description: 'Campaign success rate below minimum threshold',
           condition: 'success_rate < min_success_rate',
           severity: 'warning',
-          enabled: true,
+          enabled: true
         },
         {
           name: 'Build Failure',
           description: 'Build process failed during campaign execution',
-          condition: 'build_status == "failed"',
+          condition: 'build_status == 'failed'',;
           severity: 'critical',
-          enabled: true,
+          enabled: true
         },
         {
           name: 'Configuration Invalid',
           description: 'Campaign configuration validation failed',
-          condition: 'config_valid == false',
+          condition: 'config_valid == false',;
           severity: 'error',
-          enabled: true,
+          enabled: true
         },
         {
           name: 'Rollback Triggered',
           description: 'Safety protocol triggered rollback',
-          condition: 'rollback_triggered == true',
+          condition: 'rollback_triggered == true',;
           severity: 'warning',
-          enabled: true,
-        },
-      ],
+          enabled: true
+        }
+      ]
     },
     logging: {
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',;
       retention: 14,
-      maxFileSize: '50MB',
+      maxFileSize: '50MB'
     },
     healthChecks: {
       enabled: true,
@@ -156,7 +156,7 @@ function createMonitoringConfig(): MonitoringConfig {
           command: 'npm',
           args: ['run', 'build'],
           timeout: 180000,
-          expectedExitCode: 0,
+          expectedExitCode: 0
         },
         {
           name: 'Configuration Health',
@@ -165,10 +165,10 @@ function createMonitoringConfig(): MonitoringConfig {
           args: [
             'tsx',
             'src/services/campaign/unintentional-any-elimination/config/cli.ts',
-            'validate',
+            'validate'
           ],
           timeout: 30000,
-          expectedExitCode: 0,
+          expectedExitCode: 0
         },
         {
           name: 'Integration Health',
@@ -176,13 +176,13 @@ function createMonitoringConfig(): MonitoringConfig {
           command: 'npx',
           args: [
             'tsx',
-            'src/services/campaign/unintentional-any-elimination/verify-integration.ts',
+            'src/services/campaign/unintentional-any-elimination/verify-integration.ts'
           ],
           timeout: 60000,
-          expectedExitCode: 0,
-        },
-      ],
-    },
+          expectedExitCode: 0
+        }
+      ]
+    }
   };
 }
 
@@ -195,7 +195,7 @@ function setupMonitoringDirectories(): void {
   for (const dir of directories) {
     if (!existsSync(dir)) {
       mkdirSync(dir, { recursive: true });
-      console.log(`Created monitoring directory: ${dir}`);
+      // console.log(`Created monitoring directory: ${dir}`);
     }
   }
 }
@@ -204,7 +204,7 @@ function setupMonitoringDirectories(): void {
  * Create monitoring service
  */
 function createMonitoringService(config: MonitoringConfig): void {
-  const serviceCode = `/**
+  const serviceCode = `/**;
  * Unintentional Any Elimination Monitoring Service
  *
  * Auto-generated monitoring service for campaign system.
@@ -241,7 +241,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    * Collect current metrics
    */
   async collectMetrics(): Promise<MetricsData> {
-    const metrics: MetricsData = {
+    const metrics: MetricsData = {;
       timestamp: new Date(),
       typescriptErrors: await this.getTypeScriptErrorCount(),
       successRate: await this.getSuccessRate(),
@@ -270,7 +270,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    */
   private async getTypeScriptErrorCount(): Promise<number> {
     try {
-      const output = execSync('npx tsc --noEmit 2>&1 | grep -c "error TS" || echo "0"', {
+      const output = execSync('npx tsc --noEmit 2>&1 | grep -c 'error TS' || echo '0'', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -369,7 +369,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    * Send alert
    */
   private sendAlert(condition: unknown, metrics: MetricsData): void {
-    const alert = {
+    const alert = {;
       timestamp: new Date(),
       condition: condition.name,
       severity: condition.severity,
@@ -415,7 +415,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    */
   private persistMetrics(metrics: MetricsData): void {
     const metricsPath = '.kiro/metrics/unintentional-any-metrics.json';
-    const metricsData = {
+    const metricsData = {;
       timestamp: metrics.timestamp.toISOString(),
       data: metrics
     };
@@ -435,7 +435,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
 
     const interval = this.config.healthChecks.interval * 60 * 1000; // Convert to ms
 
-    this.healthCheckInterval = setInterval(async () => {
+    this.healthCheckInterval = setInterval(async () => {;
       for (const endpoint of this.config.healthChecks.endpoints) {
         try {
           execSync(\`\${endpoint.command} \${endpoint.args.join(' ')}\`, {
@@ -507,7 +507,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     const metrics = await this.collectMetrics();
 
     return {
-      healthy: metrics.buildStatus === 'success' && metrics.configValid,
+      healthy: metrics.buildStatus === 'success' && metrics.configValid,;
       metrics,
       alerts: 0 // Would track active alerts
     };
@@ -520,14 +520,14 @@ export const monitoringService = new UnintentionalAnyMonitoringService();
 
   const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts';
   writeFileSync(servicePath, serviceCode);
-  console.log(`Created monitoring service: ${servicePath}`);
+  // console.log(`Created monitoring service: ${servicePath}`);
 }
 
 /**
  * Create monitoring dashboard
  */
 function createMonitoringDashboard(): void {
-  const dashboardCode = `#!/usr/bin/env npx tsx
+  const dashboardCode = `#!/usr/bin/env npx tsx;
 
 /**
  * Monitoring Dashboard for Unintentional Any Elimination
@@ -539,33 +539,33 @@ import { monitoringService } from './UnintentionalAnyMonitoringService';
 
 async function displayDashboard() {
   console.clear();
-  console.log('='.repeat(80));
-  console.log('  UNINTENTIONAL ANY ELIMINATION - MONITORING DASHBOARD');
-  console.log('='.repeat(80));
+  // console.log('='.repeat(80));
+  // console.log('  UNINTENTIONAL ANY ELIMINATION - MONITORING DASHBOARD');
+  // console.log('='.repeat(80));
 
   try {
     const status = await monitoringService.getCurrentStatus();
 
-    console.log(\`\\nSystem Status: \${status.healthy ? '🟢 HEALTHY' : '🔴 UNHEALTHY'}\`);
-    console.log(\`Timestamp: \${status.metrics.timestamp.toISOString()}\`);
+    // console.log(\`\\nSystem Status: \${status.healthy ? '🟢 HEALTHY' : '🔴 UNHEALTHY'}\`);
+    // console.log(\`Timestamp: \${status.metrics.timestamp.toISOString()}\`);
 
-    console.log('\\n--- METRICS ---');
-    console.log(\`TypeScript Errors: \${status.metrics.typescriptErrors}\`);
-    console.log(\`Success Rate: \${(status.metrics.successRate * 100).toFixed(1)}%\`);
-    console.log(\`Build Status: \${status.metrics.buildStatus.toUpperCase()}\`);
-    console.log(\`Config Valid: \${status.metrics.configValid ? 'YES' : 'NO'}\`);
-    console.log(\`Campaign Active: \${status.metrics.campaignActive ? 'YES' : 'NO'}\`);
+    // console.log('\\n--- METRICS ---');
+    // console.log(\`TypeScript Errors: \${status.metrics.typescriptErrors}\`);
+    // console.log(\`Success Rate: \${(status.metrics.successRate * 100).toFixed(1)}%\`);
+    // console.log(\`Build Status: \${status.metrics.buildStatus.toUpperCase()}\`);
+    // console.log(\`Config Valid: \${status.metrics.configValid ? 'YES' : 'NO'}\`);
+    // console.log(\`Campaign Active: \${status.metrics.campaignActive ? 'YES' : 'NO'}\`);
 
-    console.log('\\n--- RECENT HISTORY ---');
+    // console.log('\\n--- RECENT HISTORY ---');
     const history = monitoringService.getMetricsHistory().slice(-5);
     history.forEach((metric, index) => {
       const time = metric.timestamp.toLocaleTimeString();
-      console.log(\`\${time}: Errors=\${metric.typescriptErrors}, Success=\${(metric.successRate * 100).toFixed(1)}%, Build=\${metric.buildStatus}\`);
+      // console.log(\`\${time}: Errors=\${metric.typescriptErrors}, Success=\${(metric.successRate * 100).toFixed(1)}%, Build=\${metric.buildStatus}\`);
     });
 
-    console.log('\\n--- CONTROLS ---');
-    console.log('Press Ctrl+C to exit');
-    console.log('Dashboard refreshes every 30 seconds');
+    // console.log('\\n--- CONTROLS ---');
+    // console.log('Press Ctrl+C to exit');
+    // console.log('Dashboard refreshes every 30 seconds');
 
   } catch (error) {
     console.error('Error displaying dashboard:', error);
@@ -578,7 +578,7 @@ setInterval(displayDashboard, 30000);
 
 // Handle graceful shutdown
 process.on('SIGINT', () => {
-  console.log('\\nShutting down monitoring dashboard...');
+  // console.log('\\nShutting down monitoring dashboard...');
   monitoringService.stop();
   process.exit(0);
 });
@@ -586,14 +586,14 @@ process.on('SIGINT', () => {
 
   const dashboardPath = '.kiro/monitoring/dashboard.ts';
   writeFileSync(dashboardPath, dashboardCode);
-  console.log(`Created monitoring dashboard: ${dashboardPath}`);
+  // console.log(`Created monitoring dashboard: ${dashboardPath}`);
 }
 
 /**
  * Main setup function
  */
 async function setupMonitoring(): Promise<void> {
-  console.log('Setting up monitoring and alerting for Unintentional Any Elimination...');
+  // console.log('Setting up monitoring and alerting for Unintentional Any Elimination...');
 
   try {
     // Setup directories
@@ -603,7 +603,7 @@ async function setupMonitoring(): Promise<void> {
     const config = createMonitoringConfig();
     const configPath = '.kiro/monitoring/monitoring-config.json';
     writeFileSync(configPath, JSON.stringify(config, null, 2));
-    console.log(`Created monitoring configuration: ${configPath}`);
+    // console.log(`Created monitoring configuration: ${configPath}`);
 
     // Create monitoring service
     createMonitoringService(config);
@@ -612,33 +612,33 @@ async function setupMonitoring(): Promise<void> {
     createMonitoringDashboard();
 
     // Create startup script
-    const startupScript = `#!/bin/bash
+    const startupScript = `#!/bin/bash;
 
 # Unintentional Any Elimination Monitoring Startup Script
 
-echo "Starting Unintentional Any Elimination Monitoring..."
+echo 'Starting Unintentional Any Elimination Monitoring...'
 
 # Start monitoring service in background
 npx tsx .kiro/monitoring/UnintentionalAnyMonitoringService.ts &
-MONITORING_PID=$!
+MONITORING_PID=$!;
 
-echo "Monitoring service started with PID: MONITORING_PID"
-echo "Dashboard available at: npx tsx .kiro/monitoring/dashboard.ts"
+echo 'Monitoring service started with PID: MONITORING_PID'
+echo 'Dashboard available at: npx tsx .kiro/monitoring/dashboard.ts'
 
 # Save PID for cleanup
 echo MONITORING_PID > .kiro/monitoring/monitoring.pid
 
-echo "Monitoring setup complete!"
+echo 'Monitoring setup complete!'
 `;
 
     writeFileSync('.kiro/monitoring/start-monitoring.sh', startupScript);
-    console.log('Created monitoring startup script: .kiro/monitoring/start-monitoring.sh');
+    // console.log('Created monitoring startup script: .kiro/monitoring/start-monitoring.sh');
 
-    console.log('\\n✅ Monitoring and alerting setup completed successfully!');
-    console.log('\\nTo start monitoring:');
-    console.log('  bash .kiro/monitoring/start-monitoring.sh');
-    console.log('\\nTo view dashboard:');
-    console.log('  npx tsx .kiro/monitoring/dashboard.ts');
+    // console.log('\\n✅ Monitoring and alerting setup completed successfully!');
+    // console.log('\\nTo start monitoring:');
+    // console.log('  bash .kiro/monitoring/start-monitoring.sh');
+    // console.log('\\nTo view dashboard:');
+    // console.log('  npx tsx .kiro/monitoring/dashboard.ts');
   } catch (error) {
     console.error('❌ Failed to setup monitoring:', error);
     process.exit(1);
@@ -646,7 +646,7 @@ echo "Monitoring setup complete!"
 }
 
 // Run setup if called directly
-if (require.main === module) {
+if (require.main === module) {;
   setupMonitoring();
 }
 

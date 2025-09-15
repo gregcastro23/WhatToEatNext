@@ -1,5 +1,5 @@
 export type LunarPhase =
-  | 'NEW_MOON'
+  | 'NEW_MOON';
   | 'WAXING_CRESCENT'
   | 'FIRST_QUARTER'
   | 'WAXING_GIBBOUS'
@@ -16,11 +16,11 @@ export const LUNAR_PHASES: Record<LunarPhase, string> = {
   FULL_MOON: 'Full Moon',
   WANING_GIBBOUS: 'Waning Gibbous',
   LAST_QUARTER: 'Last Quarter',
-  WANING_CRESCENT: 'Waning Crescent',
+  WANING_CRESCENT: 'Waning Crescent'
 };
 
 // Standard lunar cycle is approximately 29.53 days
-export const LUNAR_CYCLE_DAYS = 29.53;
+export const _LUNAR_CYCLE_DAYS = 29.53;
 
 export function getLunarPhaseDisplay(phase: LunarPhase): string {
   return LUNAR_PHASES[phase] || 'Unknown';

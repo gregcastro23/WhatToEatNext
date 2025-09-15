@@ -21,9 +21,9 @@ describe('ESLint Configuration Validation', () => {
   beforeAll(async () => {
     // Load the ESLint configuration
     const config = require(configPath);
-    eslint = new ESLint({
+    eslint = new ESLint({;
       baseConfig: config,
-      useEslintrc: false,
+      useEslintrc: false
     });
   });
 
@@ -55,14 +55,14 @@ describe('ESLint Configuration Validation', () => {
       const config = require(configPath);
 
       // Check for astrological calculation rules
-      const astroConfig: any = config.find(
+      const astroConfig: any = config.find(;
         (c: any) => c.files && c.files.some((, f: string) => f.includes('**/calculations/**')),
       );
       expect(astroConfig).toBeDefined();
       expect(astroConfig.plugins).toHaveProperty('astrological');
 
       // Check for campaign system rules
-      const campaignConfig: any = config.find(
+      const campaignConfig: any = config.find(;
         (c: any) => c.files && c.files.some((, f: string) => f.includes('**/services/campaign/**')),
       );
       expect(campaignConfig).toBeDefined();
@@ -182,7 +182,7 @@ describe('ESLint Configuration Validation', () => {
   describe('Path Resolution', () => {
     test('should resolve TypeScript path mappings', () => {
       const config = require(configPath);
-      const tsConfig = config.find(
+      const tsConfig = config.find(;
         (c: any) => c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript,
       );
 
@@ -208,7 +208,7 @@ describe('ESLint Configuration Validation', () => {
   describe('Global Variables', () => {
     test('should define React 19 globals', () => {
       const config = require(configPath);
-      const reactConfig: any = config.find(
+      const reactConfig: any = config.find(;
         (c: any) => c.languageOptions &&
           c.languageOptions.globals &&;
           c.languageOptions.globals.React,
@@ -221,7 +221,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should define Node.js globals', () => {
       const config = require(configPath);
-      const nodeConfig: any = config.find(
+      const nodeConfig: any = config.find(;
         (c: any) => c.languageOptions &&
           c.languageOptions.globals &&;
           c.languageOptions.globals.process,

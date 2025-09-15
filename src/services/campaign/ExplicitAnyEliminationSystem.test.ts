@@ -27,10 +27,10 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('buildFixerArguments', () => {
     it('should build correct arguments for explicit-any options', () => {
-      const options: ExplicitAnyOptions = { maxFiles: 25,
+      const options: ExplicitAnyOptions = { maxFiles: 25,;
         autoFix: true,
         aggressive: true,
-        validateSafety: true,
+        validateSafety: true
       };
 
       // Use reflection to access private method
@@ -46,9 +46,9 @@ describe('ExplicitAnyEliminationSystem', () => {
     });
 
     it('should build correct arguments for dry run', () => {
-      const options: ExplicitAnyOptions = { dryRun: true,
+      const options: ExplicitAnyOptions = { dryRun: true,;
         silent: true,
-        json: true,
+        json: true
       };
 
       const buildMethod: any = (;
@@ -69,9 +69,9 @@ describe('ExplicitAnyEliminationSystem', () => {
       const count: any = await system.getCurrentExplicitAnyCount();
 
       expect(count).toBe(624);
-      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any"', {
+      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any'', {
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
     });
 
@@ -88,7 +88,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('parseFixerOutput', () => {
     it('should parse successful fixer output correctly', () => {
-      const mockOutput: any = `
+      const mockOutput: any = `;
 🎯 Starting Explicit-Any Elimination System...
 📊 Processed 25 files
 ✅ Fixed 50 explicit-any warnings
@@ -105,7 +105,7 @@ describe('ExplicitAnyEliminationSystem', () => {
     });
 
     it('should extract warnings and errors from output', () => {
-      const mockOutput: any = `
+      const mockOutput: any = `;
 ⚠️ Warning: Conservative mode enabled
 ❌ Error: Some files could not be processed
 ⚠️ Warning: Build validation recommended
@@ -123,13 +123,13 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('loadCampaignProgress', () => {
     it('should load existing campaign progress', async () => {
-      const mockProgress: any = {
+      const mockProgress: any = {;
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 500,
         reductionAchieved: 500,
         reductionPercentage: 50,
         campaignTarget: 75.5,
-        isTargetMet: false,
+        isTargetMet: false
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -162,13 +162,13 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('updateCampaignProgress', () => {
     it('should update campaign progress correctly', async () => {
-      const mockProgress: any = {
+      const mockProgress: any = {;
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 600,
         reductionAchieved: 400,
         reductionPercentage: 40,
         campaignTarget: 75.5,
-        isTargetMet: false,
+        isTargetMet: false
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -192,14 +192,14 @@ describe('ExplicitAnyEliminationSystem', () => {
   describe('executeExplicitAnyFixer', () => {
     it('should execute fixer with correct options and calculate reduction', async () => {
       // Mock spawn to simulate successful execution
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0); // Success exit code
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any('child_process').ChildProcess);
@@ -208,9 +208,9 @@ describe('ExplicitAnyEliminationSystem', () => {
         .mockReturnValueOnce('Build successful') // Build validation
         .mockReturnValueOnce('80\n'); // Final count
 
-      const options: ExplicitAnyOptions = { maxFiles: 20,
+      const options: ExplicitAnyOptions = { maxFiles: 20,;
         autoFix: true,
-        validateSafety: true,
+        validateSafety: true
       };
 
       const result: any = await system.executeExplicitAnyFixer(options);
@@ -219,9 +219,9 @@ describe('ExplicitAnyEliminationSystem', () => {
         'node',
         [
           'scripts/typescript-fixes/fix-explicit-any-systematic.js',
-          '--max-files=20',
+          '--max-files=20',;
           '--auto-fix',
-          '--validate-safety',
+          '--validate-safety'
         ],
         { stdio: ['pipe', 'pipe', 'pipe'], cwd: process.cwd() },
       );
@@ -237,26 +237,26 @@ describe('ExplicitAnyEliminationSystem', () => {
   describe('executeBatchProcessing', () => {
     it('should process multiple batches until target is met', async () => {
       // Mock successful executions
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any('child_process').ChildProcess);
 
       // Mock campaign progress
-      const mockProgress: any = {
+      const mockProgress: any = {;
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
         campaignTarget: 75.5,
-        isTargetMet: true,
+        isTargetMet: true
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -276,14 +276,14 @@ describe('ExplicitAnyEliminationSystem', () => {
     });
 
     it('should stop when no progress is made', async () => {
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any('child_process').ChildProcess);
@@ -301,13 +301,13 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('showCampaignProgress', () => {
     it('should display campaign progress correctly', async () => {
-      const mockProgress: any = {
+      const mockProgress: any = {;
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 245,
         reductionAchieved: 755,
         reductionPercentage: 75.5,
         campaignTarget: 75.5,
-        isTargetMet: true,
+        isTargetMet: true
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -328,13 +328,13 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('executeCampaignContinuation', () => {
     it('should continue campaign when target not met', async () => {
-      const mockProgress: any = {
+      const mockProgress: any = {;
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 400,
         reductionAchieved: 600,
         reductionPercentage: 60,
         campaignTarget: 75.5,
-        isTargetMet: false,
+        isTargetMet: false
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -342,14 +342,14 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.writeFile = jest.fn().mockResolvedValue(undefined);
       mockExecSync.mockReturnValue('400\n');
 
-      const mockChild = {
+      const mockChild = {;
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
-        }),
+        })
       };
 
       mockSpawn.mockReturnValue(mockChild as any('child_process').ChildProcess);
@@ -361,13 +361,13 @@ describe('ExplicitAnyEliminationSystem', () => {
     });
 
     it('should return empty array when target already met', async () => {
-      const mockProgress: any = {
+      const mockProgress: any = {;
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
         campaignTarget: 75.5,
-        isTargetMet: true,
+        isTargetMet: true
       };
 
       mockFs.existsSync.mockReturnValue(true);

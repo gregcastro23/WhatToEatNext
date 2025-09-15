@@ -124,7 +124,7 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.5, // Low hit rate
         avgResponseTime: 5,
         size: 50,
-        maxSize: 100,
+        maxSize: 100
       });
 
       await validator.validateCachePerformance();
@@ -257,8 +257,8 @@ describe('AlgorithmPerformanceValidator', () => {
           target: 50,
           status: 'failing',
           samples: [95],
-          timestamp: new Date(),
-        },
+          timestamp: new Date()
+        }
       ]);
 
       await validator.runPerformanceBenchmarks();
@@ -314,8 +314,8 @@ describe('AlgorithmPerformanceValidator', () => {
           target: 50,
           status: 'failing',
           samples: [150],
-          timestamp: new Date(),
-        },
+          timestamp: new Date()
+        }
       ]);
 
       const report: any = await validator.generatePerformanceReport();
@@ -340,7 +340,7 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.4, // Very low hit rate
         avgResponseTime: 10,
         size: 50,
-        maxSize: 100,
+        maxSize: 100
       });
 
       await validator.validateCachePerformance();
@@ -365,7 +365,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         './test-performance-data.json',
-        expect.stringContaining('"timestamp"'),
+        expect.stringContaining(''timestamp''),
       );
     });
 
@@ -399,7 +399,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
     it('should limit benchmark history size', async () => {
       // Mock a large number of benchmarks
-      const mockBenchmarks: any = Array.from({ length: 1200 }, (_, i) => ({
+      const mockBenchmarks: any = Array.from({ length: 1200 }, (_, i) => ({;
         name: `test_${i}`,
         category: 'algorithm' as const,
         baseline: 100,
@@ -408,7 +408,7 @@ describe('AlgorithmPerformanceValidator', () => {
         target: 50,
         status: 'passing' as const,
         samples: [80],
-        timestamp: new Date(),
+        timestamp: new Date()
       }));
 
       // Directly set the history to test size limiting
@@ -448,31 +448,31 @@ describe('AlgorithmPerformanceValidator', () => {
       const uiBenchmarks: any = benchmarks.filter(b => b.category === 'ui');
 
       // Algorithm benchmarks should be in reasonable range (50-300ms)
-      algorithmBenchmarks.forEach(b => {
+      algorithmBenchmarks.forEach(b => {;
         expect(b.current).toBeGreaterThan(10);
         expect(b.current).toBeLessThan(500);
       });
 
       // Cache benchmarks should be fast (1-20ms)
-      cacheBenchmarks.forEach(b => {
+      cacheBenchmarks.forEach(b => {;
         expect(b.current).toBeGreaterThan(0);
         expect(b.current).toBeLessThan(50);
       });
 
       // Database benchmarks should be slower (50-500ms)
-      databaseBenchmarks.forEach(b => {
+      databaseBenchmarks.forEach(b => {;
         expect(b.current).toBeGreaterThan(10);
         expect(b.current).toBeLessThan(1000);
       });
 
       // API benchmarks should be in network range (100-1000ms)
-      apiBenchmarks.forEach(b => {
+      apiBenchmarks.forEach(b => {;
         expect(b.current).toBeGreaterThan(50);
         expect(b.current).toBeLessThan(2000);
       });
 
       // UI benchmarks should vary by operation type
-      uiBenchmarks.forEach(b => {
+      uiBenchmarks.forEach(b => {;
         expect(b.current).toBeGreaterThan(1);
         expect(b.current).toBeLessThan(3000);
       });

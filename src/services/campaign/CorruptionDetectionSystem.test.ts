@@ -11,7 +11,7 @@ import { SafetyProtocol } from './SafetyProtocol';
 
 // Mock child_process for testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn(),
+  execSync: jest.fn()
 }));
 
 // Mock fs for testing
@@ -19,7 +19,7 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
   readFileSync: jest.fn(),
   writeFileSync: jest.fn(),
-  mkdirSync: jest.fn(),
+  mkdirSync: jest.fn()
 }));
 
 const { execSync } = require('child_process');
@@ -32,13 +32,13 @@ describe('Corruption Detection System - Task 6.2', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    mockSettings = {
+    mockSettings = {;
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
+      stashRetentionDays: 7
     };
 
     // Mock git repository existence
@@ -88,7 +88,7 @@ import React, * as React, { useEffect, useState } from 'react';
     });
 
     test('should detect corrupted parameter names', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
         function testFunction(posit: anyi: anyo: anyn: any, s: string) : any {
           return posit;
         }
@@ -104,7 +104,7 @@ import React, * as React, { useEffect, useState } from 'react';
     });
 
     test('should detect syntax corruption with unbalanced brackets', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
         function testFunction() : any {
           if (true != null) {
             console.log('test');
@@ -121,7 +121,7 @@ import React, * as React, { useEffect, useState } from 'react';
     });
 
     test('should detect incomplete statements', async () => {
-      const corruptedContent = `
+      const corruptedContent = `;
         import
         export
         function;
@@ -189,7 +189,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should detect duplicate from clause in import', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
@@ -202,7 +202,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should detect double comma in import destructuring', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
@@ -217,7 +217,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should detect duplicate destructuring braces (critical)', (async () =>  {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
@@ -227,12 +227,12 @@ import React, { Component } from 'undefined';
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
       expect(
-        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),
+        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),;
       ).toBe(true);
     });
 
     test('should detect corrupted namespace import syntax (critical)', (async () =>  {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
@@ -259,7 +259,7 @@ import React, { Component } from 'undefined';
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
       expect(
-        report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),
+        report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),;
       ).toBe(true);
     });
 
@@ -298,7 +298,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should trigger emergency rollback on critical corruption', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
         // Git merge conflict markers for testing
         // <<<<<<< HEAD;
         const test: any = 'conflict';
@@ -356,7 +356,7 @@ import React, { Component } from 'undefined';
         if (command.includes('yarn tsc --noEmit')) {
           return [
             'test-file.ts(10,5) error TS1005 Unexpected token',
-            'test-file.ts(15,10) error TS1109 Expression expected',
+            'test-file.ts(15,10) error TS1109 Expression expected'
           ].join('\\n');
         }
         return '';
@@ -395,7 +395,7 @@ import React, { Component } from 'undefined';
 
   describe('Recovery Action Determination', () => {
     test('should recommend emergency restore for critical corruption', async () => {
-      const criticalContent: any = `
+      const criticalContent: any = `;
         // Git merge conflict markers for testing
         // <<<<<<< HEAD
         // =======
@@ -432,7 +432,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should recommend continue for no corruption', async () => {
-      const cleanContent: any = `
+      const cleanContent: any = `;
         export default function Component() : any {
           return React.createElement('div', null, 'Hello World');
         }
@@ -448,7 +448,7 @@ import React, { Component } from 'undefined';
 
   describe('Safety Event Tracking', () => {
     test('should track corruption detection events', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
@@ -463,7 +463,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should track real-time corruption detection events', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
@@ -484,7 +484,7 @@ import React, { Component } from 'undefined';
 
   describe('Comprehensive Corruption Analysis', () => {
     test('should analyze multiple corruption types in single file', async () => {
-      const multipleCorruptionContent: any = `
+      const multipleCorruptionContent: any = `;
         // Git merge conflict markers for testing
         // <<<<<<< HEAD
         // =======;
@@ -510,7 +510,7 @@ import React, { Component } from 'undefined';
     test('should provide detailed corruption analysis', async () => {
       const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
         // Empty corrupted content for testing
       `;
 

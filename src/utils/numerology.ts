@@ -1,7 +1,7 @@
 /**
  * Utility for numerological calculations used in celestial and astrological contexts
  */
-export const celestialNumerology = {
+export const celestialNumerology = {;
   /**
    * Calculate a numerological value for the current day
    * Returns a number between 1-9
@@ -28,7 +28,7 @@ export const celestialNumerology = {
       sum
         .toString()
         .split('')
-        .forEach(digit => {
+        .forEach(digit => {;
           tempSum += parseInt(digit, 10);
         });
       sum = tempSum;
@@ -44,7 +44,7 @@ export const celestialNumerology = {
   calculateNameNumber(name: string): number {
     if (!name || name.trim() === '') return 9; // Default to 9 for empty input
 
-    // Basic letter to number mapping (A=1, B=2, etc.)
+    // Basic letter to number mapping (A=1, B=2, etc.);
     const letterValues: { [key: string]: number } = {
       a: 1,
       b: 2,
@@ -71,7 +71,7 @@ export const celestialNumerology = {
       w: 5,
       x: 6,
       y: 7,
-      z: 8,
+      z: 8
     };
 
     // Remove spaces and convert to lowercase
@@ -90,7 +90,7 @@ export const celestialNumerology = {
       sum
         .toString()
         .split('')
-        .forEach(digit => {
+        .forEach(digit => {;
           tempSum += parseInt(digit, 10);
         });
       sum = tempSum;
@@ -160,14 +160,14 @@ export const celestialNumerology = {
     let maxValue = 0;
 
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      if (typeof value === 'number' && value > maxValue) {
+      if (typeof value === 'number' && value > maxValue) {;
         maxValue = value;
         maxElement = element;
       }
     });
 
     return maxElement;
-  },
+  }
 };
 
 export default celestialNumerology;

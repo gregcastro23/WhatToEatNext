@@ -16,7 +16,7 @@ import type {
   Season,
   ZodiacSign,
   LunarPhase,
-  PlanetName,
+  PlanetName
 } from '@/types/alchemy';
 
 // Import ScoredRecipe from correct location
@@ -79,7 +79,7 @@ export class LegacyRecipeAdapter {
    */
   public async searchRecipes(
     criteria: RecipeSearchCriteria,
-    options: RecipeRecommendationOptions = {},
+    options: RecipeRecommendationOptions = {},;
   ): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Safe type conversion for search criteria
@@ -92,10 +92,10 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe argument type conversion for string parameter
       const criteriaData = criteria as unknown as any;
       const queryValue = criteriaData.query;
-      if (queryValue && typeof queryValue === 'string') {
+      if (queryValue && typeof queryValue === 'string') {;
         const recipes = await LocalRecipeService.searchRecipes(queryValue);
         return recipes as unknown as Recipe[];
-      } else if (criteria && typeof criteria === 'object') {
+      } else if (criteria && typeof criteria === 'object') {;
         // Convert criteria object to search string
         const searchString = JSON.stringify(criteria).toLowerCase();
         const recipes = await LocalRecipeService.searchRecipes(searchString);
@@ -114,7 +114,7 @@ export class LegacyRecipeAdapter {
       const recipes = await unifiedRecipeService.getRecipesForCuisine(cuisine);
       return recipes as unknown as Recipe[];
     } catch (error) {
-      logger.error(`Error in getRecipesByCuisine for "${cuisine}":`, error);
+      logger.error(`Error in getRecipesByCuisine for '${cuisine}':`, error);
       // Fall back to LocalRecipeService if needed
       const recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
       return recipes as unknown as Recipe[];
@@ -131,11 +131,11 @@ export class LegacyRecipeAdapter {
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
-      logger.error(`Error in getRecipesByZodiac for "${zodiacSign}":`, error);
+      logger.error(`Error in getRecipesByZodiac for '${zodiacSign}':`, error);
       // Simple fallback - get all recipes and filter
       const allRecipes = await LocalRecipeService.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe =>
-        (recipe.astrologicalInfluences || []).some(influence =>
+      const filtered = (allRecipes || []).filter(recipe =>;
+        (recipe.astrologicalInfluences || []).some(influence =>;
           influence.toLowerCase().includes(zodiacSign.toLowerCase()),
         ),
       );
@@ -151,7 +151,7 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe type assertion for service access
       const serviceData = unifiedRecipeService as unknown as any;
       // ✅ Pattern GG-6: Safe method call with proper typing
-      const methodCall = serviceData.getRecipesBySeason as
+      const methodCall = serviceData.getRecipesBySeason as;
         | ((season: Season) => Promise<Recipe[]>)
         | undefined;
       if (methodCall) {
@@ -163,7 +163,7 @@ export class LegacyRecipeAdapter {
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
-      logger.error(`Error in getRecipesBySeason for "${season}":`, error);
+      logger.error(`Error in getRecipesBySeason for '${season}':`, error);
       // Fall back to LocalRecipeService if needed
       const recipes = await LocalRecipeService.getRecipesBySeason(season);
       return recipes as unknown as Recipe[];
@@ -178,7 +178,7 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe type assertion for service access (fixed type)
       const serviceData = unifiedRecipeService as unknown as any;
       // ✅ Pattern GG-6: Safe method call with proper typing
-      const lunarMethod = serviceData.getRecipesByLunarPhase as
+      const lunarMethod = serviceData.getRecipesByLunarPhase as;
         | ((phase: LunarPhase) => Promise<Recipe[]>)
         | undefined;
       if (lunarMethod) {
@@ -190,11 +190,11 @@ export class LegacyRecipeAdapter {
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
-      logger.error(`Error in getRecipesByLunarPhase for "${lunarPhase}":`, error);
+      logger.error(`Error in getRecipesByLunarPhase for '${lunarPhase}':`, error);
       // Simple fallback - get all recipes and filter
       const allRecipes = await LocalRecipeService.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe =>
-        (recipe.lunarPhaseInfluences || []).some(influence =>
+      const filtered = (allRecipes || []).filter(recipe =>;
+        (recipe.lunarPhaseInfluences || []).some(influence =>;
           influence.toLowerCase().includes(lunarPhase.toLowerCase().replace(' ', '')),
         ),
       );
@@ -210,7 +210,7 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe type assertion for service access
       const serviceData = unifiedRecipeService as unknown as any;
       // ✅ Pattern GG-6: Safe method call with proper typing
-      const mealMethod = serviceData.getRecipesByMealType as
+      const mealMethod = serviceData.getRecipesByMealType as;
         | ((mealType: string) => Promise<Recipe[]>)
         | undefined;
       if (mealMethod) {
@@ -222,7 +222,7 @@ export class LegacyRecipeAdapter {
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
-      logger.error(`Error in getRecipesByMealType for "${mealType}":`, error);
+      logger.error(`Error in getRecipesByMealType for '${mealType}':`, error);
       // Fall back to LocalRecipeService if needed
       const recipes = await LocalRecipeService.getRecipesByMealType(mealType);
       return recipes as unknown as Recipe[];
@@ -243,7 +243,7 @@ export class LegacyRecipeAdapter {
       elementalFocus?: Element;
       maxResults?: number;
     },
-    limit: number = 10,
+    limit: number = 10,;
   ): Promise<ScoredRecipe[]> {
     try {
       // Add limit to criteria if needed
@@ -264,7 +264,7 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe type assertion for service access
       const serviceData = unifiedRecipeService as unknown as any;
       // ✅ Pattern GG-6: Safe method call with proper typing
-      const generateMethod = serviceData.generateRecipe as
+      const generateMethod = serviceData.generateRecipe as;
         | ((criteria: RecipeSearchCriteria) => Promise<Recipe>)
         | undefined;
       if (generateMethod) {
@@ -294,7 +294,7 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe type assertion for service access
       const serviceData = unifiedRecipeService as unknown as any;
       // ✅ Pattern GG-6: Safe method call with proper typing
-      const calculateMethod = serviceData.calculateElementalProperties as
+      const calculateMethod = serviceData.calculateElementalProperties as;
         | ((recipe: Partial<Recipe>) => ElementalProperties)
         | undefined;
       if (calculateMethod) {
@@ -304,7 +304,7 @@ export class LegacyRecipeAdapter {
       const defaultProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       // Basic calculation based on recipe properties if available
-      if (recipe.elementalState && typeof recipe.elementalState === 'object') {
+      if (recipe.elementalState && typeof recipe.elementalState === 'object') {;
         // Ensure it has all required properties
         const state = recipe.elementalState as any;
         if (
@@ -320,7 +320,7 @@ export class LegacyRecipeAdapter {
       return defaultProperties;
     } catch (error) {
       logger.error(
-        `Error in calculateElementalProperties for "${recipe.name || 'unknown'}":`,
+        `Error in calculateElementalProperties for '${recipe.name || 'unknown'}':`,
         error,
       );
       // Default elemental properties as fallback

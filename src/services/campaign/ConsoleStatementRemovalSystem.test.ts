@@ -12,7 +12,7 @@ import {
     ConsoleStatementRemovalSystem,
     type ConsoleRemovalConfig,
     type ConsoleRemovalResult,
-    type ConsoleStatement,
+    type ConsoleStatement
 } from './ConsoleStatementRemovalSystem';
 
 // Mock dependencies
@@ -43,7 +43,7 @@ describe('ConsoleStatementRemovalSystem', () => {
       const config: Partial<ConsoleRemovalConfig> = { maxFiles: 15,
         dryRun: false,
         preserveDebugCritical: false,
-        selectiveRemoval: false,
+        selectiveRemoval: false
       };
 
       const system: any = new ConsoleStatementRemovalSystem(config);
@@ -77,7 +77,7 @@ console.debug('debug message');
       const content: any = `;
 const test: any = 'value';
 console.log('test message');
-const another: any = 'value';
+const _another: any = 'value';
       `;
 
       const statements: any = (;
@@ -86,20 +86,20 @@ const another: any = 'value';
 
       expect(statements).toHaveLength(1);
       expect((statements)[0].line).toBe(3);
-      expect((statements)[0].content).toBe("console.log('test message')");
+      expect((statements)[0].content).toBe('console.log('test message')');
     });
   });
 
   describe('isConsoleStatementCritical', () => {
     it('should mark error statements as critical', () => {
-      const isCritical: any = (
+      const isCritical: any = (;
         removalSystem as unknown as {
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean;
         }
       ).isConsoleStatementCritical(
         '/test/file.ts',
-        'console.error("Something went wrong")',
-        'try { } catch (e) : any { console.error("Something went wrong"); }',
+        'console.error('Something went wrong')',
+        'try { } catch (e) : any { console.error('Something went wrong'); }',
         'error',
       );
 
@@ -107,10 +107,10 @@ const another: any = 'value';
     });
 
     it('should mark statements in debug files as critical', () => {
-      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(;
         '/test/debug.ts',
-        'console.log("Debug info")',
-        'console.log("Debug info");',
+        'console.log('Debug info')',
+        'console.log('Debug info');',
         'log',
       );
 
@@ -118,10 +118,10 @@ const another: any = 'value';
     });
 
     it('should mark statements in test files as critical', () => {
-      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(;
         '/test/file.test.ts',
-        'console.log("Test output")',
-        'console.log("Test output");',
+        'console.log('Test output')',
+        'console.log('Test output');',
         'log',
       );
 
@@ -129,32 +129,32 @@ const another: any = 'value';
     });
 
     it('should mark statements with error handling context as critical', () => {
-      const context: any = `
+      const context: any = `;
         try {
           doSomething();
         } catch (error) : any {
-          console.log("Error occurred");
+          console.log('Error occurred');
         }
       `;
 
-      const isCritical: any = (
+      const isCritical: any = (;
         removalSystem as unknown as {
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean;
         }
-      ).isConsoleStatementCritical('/test/file.ts', 'console.log("Error occurred")', context, 'log');
+      ).isConsoleStatementCritical('/test/file.ts', 'console.log('Error occurred')', context, 'log');
 
       expect(isCritical).toBe(true);
     });
 
     it('should mark statements with important patterns as critical', () => {
-      const isCritical: any = (
+      const isCritical: any = (;
         removalSystem as unknown as {
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean;
         }
       ).isConsoleStatementCritical(
         '/test/file.ts',
-        'console.log("API request failed")',
-        'console.log("API request failed");',
+        'console.log('API request failed')',
+        'console.log('API request failed');',
         'log',
       );
 
@@ -162,10 +162,10 @@ const another: any = 'value';
     });
 
     it('should mark warn statements in production code as critical', () => {
-      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(;
         '/src/components/Component.ts',
-        'console.warn("Deprecated feature")',
-        'console.warn("Deprecated feature");',
+        'console.warn('Deprecated feature')',
+        'console.warn('Deprecated feature');',
         'warn',
       );
 
@@ -173,10 +173,10 @@ const another: any = 'value';
     });
 
     it('should not mark simple log statements as critical', () => {
-      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical: any = (removalSystem as any).isConsoleStatementCritical(;
         '/src/components/Component.ts',
-        'console.log("Simple debug")',
-        'console.log("Simple debug");',
+        'console.log('Simple debug')',
+        'console.log('Simple debug');',
         'log',
       );
 
@@ -212,8 +212,8 @@ const another: any = 'value';
       ).createSafetyStash();
 
       expect(stashId).toContain('console-removal-');
-      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -m "console-removal-'), {
-        encoding: 'utf-8',
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -m 'console-removal-'), {
+        encoding: 'utf-8'
       });
     });
 
@@ -240,11 +240,11 @@ const another: any = 'value';
           line: 1,
           column: 1,
           type: 'log',
-          content: 'console.log("test")',
-          context: 'console.log("test");',
+          content: 'console.log('test')',
+          context: 'console.log('test');',
           isCritical: false,
-          shouldPreserve: false,
-        },
+          shouldPreserve: false
+        }
       ];
 
       mockExecSync.mockReturnValue('Files processed: 5\nTotal console statements fixe, d: 10');
@@ -270,21 +270,21 @@ const another: any = 'value';
           line: 1,
           column: 1,
           type: 'error',
-          content: 'console.error("critical")',
-          context: 'console.error("critical");',
+          content: 'console.error('critical')',
+          context: 'console.error('critical');',
           isCritical: true,
-          shouldPreserve: true,
+          shouldPreserve: true
         },
         {
           file: '/test/file.ts',
           line: 2,
           column: 1,
           type: 'log',
-          content: 'console.log("normal")',
-          context: 'console.log("normal");',
+          content: 'console.log('normal')',
+          context: 'console.log('normal');',
           isCritical: false,
-          shouldPreserve: false,
-        },
+          shouldPreserve: false
+        }
       ];
 
       mockExecSync.mockReturnValue('Files processed: 1\nTotal console statements fixe, d: 1');
@@ -309,7 +309,7 @@ const another: any = 'value';
     });
 
     it('should parse warnings and errors from output', async () => {
-      const output: any = `
+      const output: any = `;
         Files processed: 5
         ⚠️ Warning: Some statements preserved
         ❌ Error: Failed to process file;
@@ -329,14 +329,14 @@ const another: any = 'value';
 
   describe('generateReport', () => {
     it('should generate single execution report', () => {
-      const result: ConsoleRemovalResult = { success: true,
+      const result: ConsoleRemovalResult = { success: true,;
         filesProcessed: 10,
         consoleStatementsRemoved: 25,
         consoleStatementsPreserved: 5,
         buildTime: 2000,
         errors: [],
         warnings: ['Test warning'],
-        preservedFiles: ['/test/debug.ts'],
+        preservedFiles: ['/test/debug.ts']
       };
 
       const report: any = removalSystem.generateReport(result);
@@ -352,14 +352,14 @@ const another: any = 'value';
     });
 
     it('should generate failure report', () => {
-      const result: ConsoleRemovalResult = { success: false,
+      const result: ConsoleRemovalResult = { success: false,;
         filesProcessed: 0,
         consoleStatementsRemoved: 0,
         consoleStatementsPreserved: 0,
         buildTime: 0,
         errors: ['Test error'],
         warnings: [],
-        preservedFiles: [],
+        preservedFiles: []
       };
 
       const report: any = removalSystem.generateReport(result);
@@ -387,14 +387,14 @@ const another: any = 'value';
 
   describe('saveMetrics', () => {
     it('should save metrics to file', async () => {
-      const result: ConsoleRemovalResult = { success: true,
+      const result: ConsoleRemovalResult = { success: true,;
         filesProcessed: 5,
         consoleStatementsRemoved: 10,
         consoleStatementsPreserved: 2,
         buildTime: 1500,
         errors: [],
         warnings: [],
-        preservedFiles: ['/test/debug.ts'],
+        preservedFiles: ['/test/debug.ts']
       };
 
       mockFs.writeFileSync.mockImplementation(() => {});
@@ -405,19 +405,19 @@ const another: any = 'value';
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringContaining('.console-removal-metrics.json'),
-        expect.stringContaining('"success":true'),
+        expect.stringContaining(''success":true'),
       );
     });
 
     it('should handle save metrics errors gracefully', async () => {
-      const result: ConsoleRemovalResult = { success: true,
+      const result: ConsoleRemovalResult = { success: true,;
         filesProcessed: 5,
         consoleStatementsRemoved: 10,
         consoleStatementsPreserved: 2,
         buildTime: 1500,
         errors: [],
         warnings: [],
-        preservedFiles: [],
+        preservedFiles: []
       };
 
       mockFs.writeFileSync.mockImplementation(() => {

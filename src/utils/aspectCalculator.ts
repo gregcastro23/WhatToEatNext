@@ -49,11 +49,11 @@ export function calculateComprehensiveAspects(
     semisquare: { angle: 45, maxOrb: 3 },
     quintile: { angle: 72, maxOrb: 2 },
     biquintile: { angle: 144, maxOrb: 2 },
-    septile: { angle: 51.428, maxOrb: 2 },
+    septile: { angle: 51.428, maxOrb: 2 }
   };
 
   // Helper function to get longitude from sign and degree
-  const getLongitude = (position: PlanetaryPositionData): number => {
+  const getLongitude = (position: PlanetaryPositionData): number => {;
     // Use exactLongitude if available
     if (position.exactLongitude !== undefined) {
       return position.exactLongitude;
@@ -65,7 +65,7 @@ export function calculateComprehensiveAspects(
       return 0; // Return default value
     }
 
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -77,7 +77,7 @@ export function calculateComprehensiveAspects(
       'sagittarius',
       'capricorn',
       'aquarius',
-      'pisces',
+      'pisces'
     ];
     const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase());
     return signIndex * 30 + position.degree;
@@ -106,7 +106,7 @@ export function calculateComprehensiveAspects(
 
       // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
       let orbMultiplier = 1.0;
-      if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {
+      if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {;
         orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
       }
 
@@ -123,10 +123,10 @@ export function calculateComprehensiveAspects(
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {
-            bestAspect = {
+            bestAspect = {;
               type,
               orb,
-              strength,
+              strength
             };
           }
         }
@@ -137,9 +137,9 @@ export function calculateComprehensiveAspects(
         // Determine influence: positive for harmonious aspects, negative for challenging ones
         let influence = 0;
         const type = bestAspect.type;
-        if (type === 'conjunction' || type === 'trine' || type === 'sextile') {
+        if (type === 'conjunction' || type === 'trine' || type === 'sextile') {;
           influence = bestAspect.strength;
-        } else if (type === 'opposition' || type === 'square') {
+        } else if (type === 'opposition' || type === 'square') {;
           influence = -bestAspect.strength;
         }
 
@@ -149,7 +149,7 @@ export function calculateComprehensiveAspects(
           type: bestAspect.type as AspectType,
           orb: bestAspect.orb,
           strength: bestAspect.strength,
-          influence,
+          influence
         });
       }
     }
@@ -165,7 +165,7 @@ export function calculateComprehensiveAspects(
  * @returns Object with sign and degree
  */
 export function getSignAndDegreeFromLongitude(longitude: number): { sign: string; degree: number } {
-  const signs = [
+  const signs = [;
     'aries',
     'taurus',
     'gemini',
@@ -177,7 +177,7 @@ export function getSignAndDegreeFromLongitude(longitude: number): { sign: string
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
 
   // Normalize longitude to 0-360 range
@@ -191,6 +191,6 @@ export function getSignAndDegreeFromLongitude(longitude: number): { sign: string
 
   return {
     sign: signs[signIndex],
-    degree: parseFloat(degree.toFixed(2)),
+    degree: parseFloat(degree.toFixed(2))
   };
 }

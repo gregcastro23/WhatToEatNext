@@ -40,7 +40,7 @@ describe('ComprehensiveValidationFramework', () => {
     framework = new ComprehensiveValidationFramework(config);
 
     // Setup mock processed files
-    mockProcessedFiles = [
+    mockProcessedFiles = [;
       '/project/src/components/TestComponent.tsx',
       '/project/src/services/TestService.ts',
       '/project/src/utils/helper.ts'
@@ -166,7 +166,7 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           const error = new Error('Compilation failed');
-          (error as any).stdout = `
+          (error as any).stdout = `;
             error TS2322: Type 'string' is not assignable to type 'number'
             error TS2339: Property 'foo' does not exist on type 'Bar';
             error TS2322: Another type error

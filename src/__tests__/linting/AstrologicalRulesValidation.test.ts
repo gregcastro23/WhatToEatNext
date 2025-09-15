@@ -15,27 +15,27 @@ describe('Astrological ESLint Rules', () => {
 
   beforeAll(() => {
     // Create ESLint instance with our custom rules
-    eslint = new ESLint({
+    eslint = new ESLint({;
       baseConfig: { languageOptions: {
           ecmaVersion: 2022,
           sourceType: 'module',
           parser: require('@typescript-eslint/parser'),
           parserOptions: { ecmaFeatures: {
-              jsx: true,
-            },
-          },
+              jsx: true
+            }
+          }
         },
-        plugins: { astrological: require('../../eslint-plugins/astrological-rules.cjs'),
+        plugins: { astrological: require('../../eslint-plugins/astrological-rules.cjs')
         },
         rules: {
           'astrological/preserve-planetary-constants': 'error',
           'astrological/validate-planetary-position-structure': 'error',
           'astrological/validate-elemental-properties': 'error',
           'astrological/require-transit-date-validation': 'warn',
-          'astrological/preserve-fallback-values': 'error',
-        },
+          'astrological/preserve-fallback-values': 'error'
+        }
       },
-      useEslintrc: false,
+      useEslintrc: false
     });
   });
 
@@ -85,7 +85,7 @@ describe('Astrological ESLint Rules', () => {
     test('should allow using constants without modification', async () => {
       const code: any = `;
         const DEGREES_PER_SIGN: any = 30;
-        const angle: any = DEGREES_PER_SIGN * 2; // This should be fine
+        const _angle: any = DEGREES_PER_SIGN * 2; // This should be fine
         console.log(RELIABLE_POSITIONS.sun.sign); // This should be fine
       `;
 
@@ -98,8 +98,8 @@ describe('Astrological ESLint Rules', () => {
 
   describe('validate-planetary-position-structure rule', () => {
     test('should error when planetary position missing required properties', async () => {
-      const code: any = `
-        const position = {
+      const code: any = `;
+        const position = {;
           sign: 'aries',
           degree: 15
           // Missing exactLongitude and isRetrograde
@@ -117,8 +117,8 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should pass when planetary position has all required properties', async () => {
-      const code: any = `
-        const position = {
+      const code: any = `;
+        const position = {;
           sign: 'aries',
           degree: 15.5,
           exactLongitude: 15.5,
@@ -133,13 +133,13 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should not flag non-planetary objects', async () => {
-      const code: any = `
-        const UNUSED_config = {
+      const code: any = `;
+        const _UNUSED_config = {;
           timeout: 5000,
           retries: 3
         };
 
-        const UNUSED_user: any = {
+        const _UNUSED_user: any = {;
           name: 'John',
           age: 30
         };
@@ -154,8 +154,8 @@ describe('Astrological ESLint Rules', () => {
 
   describe('validate-elemental-properties rule', () => {
     test('should error when elemental properties missing required elements', async () => {
-      const code: any = `
-        const properties = {
+      const code: any = `;
+        const properties = {;
           Fire: 0.8,
           Water: 0.2
           // Missing Earth and Air
@@ -173,8 +173,8 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should error when using invalid element names', async () => {
-      const code: any = `
-        const properties = {
+      const code: any = `;
+        const properties = {;
           Fire: 0.5,
           Water: 0.3,
           Earth: 0.1,
@@ -192,8 +192,8 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should error when element values are out of range', async () => {
-      const code: any = `
-        const properties = {
+      const code: any = `;
+        const properties = {;
           Fire: 1.5, // Too high
           Water: -0.1, // Too low
           Earth: 0.3,
@@ -210,8 +210,8 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should pass when elemental properties are valid', async () => {
-      const code: any = `
-        const properties = {
+      const code: any = `;
+        const properties = {;
           Fire: 0.7,
           Water: 0.1,
           Earth: 0.1,
@@ -228,15 +228,15 @@ describe('Astrological ESLint Rules', () => {
 
   describe('require-transit-date-validation rule', () => {
     test('should warn when astrological file lacks validation import', async () => {
-      const code: any = `
+      const code: any = `;
         // This is in a calculations file but has no validation
         function calculatePlanetaryInfluence(): any {
           return { influence: 0.8 };
         }
       `;
 
-      const results: any = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts',
+      const results: any = eslint.lintText(code, {;
+        filePath: 'src/calculations/planetary.ts'
       });
       const messages: any = results.[0].messages;
 
@@ -255,8 +255,8 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results: any = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts',
+      const results: any = eslint.lintText(code, {;
+        filePath: 'src/calculations/planetary.ts'
       });
       const messages: any = results.[0].messages;
 
@@ -275,8 +275,8 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results: any = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts',
+      const results: any = eslint.lintText(code, {;
+        filePath: 'src/calculations/planetary.ts'
       });
       const messages: any = results.[0].messages;
 
@@ -284,14 +284,14 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should not flag non-astrological files', async () => {
-      const code: any = `
+      const code: any = `;
         function regularFunction(): any {
           return { result: 'success' };
         }
       `;
 
-      const results: any = eslint.lintText(code, {
-        filePath: 'src/components/Button.tsx',
+      const results: any = eslint.lintText(code, {;
+        filePath: 'src/components/Button.tsx'
       });
       const messages: any = results.[0].messages;
 
@@ -331,8 +331,8 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should allow valid fallback assignments', async () => {
-      const code: any = `
-        const FALLBACK_POSITIONS = {
+      const code: any = `;
+        const FALLBACK_POSITIONS = {;
           sun: { sign: 'aries', degree: 8.5 }
         };
 
@@ -349,7 +349,7 @@ describe('Astrological ESLint Rules', () => {
     test('should not flag non-fallback variables', async () => {
       const code: any = `;
         let regularVariable: any = null;
-        const anotherVar: any = undefined;
+        const _anotherVar: any = undefined;
         regularVariable = null;
       `;
 
@@ -362,13 +362,13 @@ describe('Astrological ESLint Rules', () => {
 
   describe('Integration with existing ESLint configuration', () => {
     test('should work with TypeScript files', async () => {
-      const code: any = `
+      const code: any = `;
         interface PlanetaryPosition {
           sign: string;, degree: number;
           exactLongitude: number;, isRetrograde: boolean;
         }
 
-        const position: PlanetaryPosition = { sign: 'aries',
+        const position: PlanetaryPosition = { sign: 'aries',;
           degree: 15.5,
           exactLongitude: 15.5,
           isRetrograde: false
@@ -392,7 +392,7 @@ describe('Astrological ESLint Rules', () => {
           };
         }
 
-        const ElementalDisplay: React.FC<Props> = ({ elementalProperties }: any) => {
+        const _ElementalDisplay: React.FC<Props> = ({ elementalProperties }: any) => {
           return <div>Elemental display</div>;
         };
       `;
@@ -406,7 +406,7 @@ describe('Astrological ESLint Rules', () => {
 
   describe('Rule performance and edge cases', () => {
     test('should handle large files efficiently', async () => {
-      const largeCode: any = `
+      const largeCode: any = `;
         ${Array(100).fill(0).map((_: any, i: any) => `
           const position${i} = {
             sign: 'aries',
@@ -428,8 +428,8 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should handle malformed code gracefully', async () => {
-      const malformedCode: any = `
-        const incomplete = {
+      const malformedCode: any = `;
+        const _incomplete = {;
           sign: 'aries'
           // Missing comma and closing brace
       `;
@@ -442,8 +442,8 @@ describe('Astrological ESLint Rules', () => {
     });
 
     test('should handle nested objects correctly', async () => {
-      const code: any = `
-        const UNUSED_planetData = {
+      const code: any = `;
+        const _UNUSED_planetData = {;
           mercury: { position: {
               sign: 'gemini',
               degree: 10.5,

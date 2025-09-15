@@ -47,7 +47,7 @@ const nutritionReferenceValues: Record<string, unknown> = {
   sauce: { calories: 75, protein: 1.8, carbs: 7, fat: 4.5, fiber: 0.5, sugar: 3 },
   broth: { calories: 15, protein: 1, carbs: 1.5, fat: 0.5, fiber: 0, sugar: 0 },
   sugar: { calories: 387, protein: 0, carbs: 100, fat: 0, fiber: 0, sugar: 100 },
-  salt: { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0 },
+  salt: { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0 }
 };
 
 // Vitamins typically found in food categories
@@ -62,7 +62,7 @@ const vitaminsByCategory: Record<string, string[]> = {
   chicken: ['Vitamin B6'],
   egg: ['Vitamin B12', 'Vitamin D'],
   dairy: ['Vitamin D', 'Vitamin B12'],
-  nuts: ['Vitamin E'],
+  nuts: ['Vitamin E']
 };
 
 // Minerals typically found in food categories
@@ -75,16 +75,16 @@ const mineralsByCategory: Record<string, string[]> = {
   fish: ['Selenium'],
   dairy: ['Calcium'],
   nuts: ['Magnesium', 'Zinc'],
-  'whole grains': ['Magnesium', 'Selenium'],
+  'whole grains': ['Magnesium', 'Selenium']
 };
 
-export const calculateNutritionalScore = (nutrition: NutritionalProfile): number => {
+export const calculateNutritionalScore = (nutrition: NutritionalProfile): number => {;
   if (!nutrition) return 0;
 
   // Safe property access for macros
   const macros = (nutrition as unknown)?.macros || {};
   const baseScore =
-    (macros.protein || 0) * 0.4 +
+    (macros.protein || 0) * 0.4 +;
     (macros.fiber || 0) * 0.3 +
     (nutrition.vitamins?.vitaminC || 0) * 0.2 +
     (nutrition.minerals?.iron || 0) * 0.1;
@@ -92,16 +92,16 @@ export const calculateNutritionalScore = (nutrition: NutritionalProfile): number
   return Math.min(1, Math.max(0, baseScore / 100));
 };
 
-export const calculateNutritionalImpact = (
+export const _calculateNutritionalImpact = (;
   nutrition: NutritionalProfile,
   elements: ElementalProperties,
-): ElementalProperties => {
+): ElementalProperties => {;
   const score = calculateNutritionalScore(nutrition);
   return {
     Fire: elements.Fire * (1 + score * 0.2),
     Water: elements.Water * (1 + score * 0.15),
     Earth: elements.Earth * (1 + score * 0.25),
-    Air: elements.Air * (1 + score * 0.1),
+    Air: elements.Air * (1 + score * 0.1)
   };
 };
 
@@ -110,15 +110,15 @@ export const calculateNutritionalImpact = (
  * @param ingredients Array of ingredient objects or strings
  * @returns Nutrition object with estimated values
  */
-export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => {
+export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown => {;
   // Initialize nutrition totals
-  const totals = {
+  const totals = {;
     calories: 0,
     protein: 0,
     carbs: 0,
     fat: 0,
     fiber: 0,
-    sugar: 0,
+    sugar: 0
   };
 
   // Track which vitamins and minerals are present
@@ -126,19 +126,19 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
   const mineralsPresent = new Set<string>();
 
   // Process each ingredient
-  ingredients.forEach(ingredient => {
+  ingredients.forEach(ingredient => {;
     let ingredientName = '';
     let amount = 1; // Default to 1 unit if not specified
 
     // Extract ingredient name and amount based on type
-    if (typeof ingredient === 'string') {
+    if (typeof ingredient === 'string') {;
       ingredientName = ingredient.toLowerCase();
       // Try to extract amount from string
       const match = ingredient.match(/^([\d.]+)/);
       if (match?.[1]) {
         amount = parseFloat(match[1]) || 1;
       }
-    } else if (typeof ingredient === 'object') {
+    } else if (typeof ingredient === 'object') {;
       // Apply surgical type casting with variable extraction
       const ingredientData = ingredient as unknown;
       const name = ingredientData?.name;
@@ -153,7 +153,7 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
     let bestMatchKey = '';
 
     // Check for exact matches first
-    Object.keys(nutritionReferenceValues).forEach(key => {
+    Object.keys(nutritionReferenceValues).forEach(key => {;
       if (ingredientName.includes(key)) {
         // If we haven't found a match yet, or this is a longer (more specific) match
         if (!referenceItem || key.length > bestMatchKey.length) {
@@ -183,14 +183,14 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
     totals.sugar += referenceItem.sugar * adjustmentFactor;
 
     // Add vitamins and minerals based on food category
-    Object.keys(vitaminsByCategory).forEach(category => {
-      if (ingredientName.includes(category) || bestMatchKey === category) {
+    Object.keys(vitaminsByCategory).forEach(category => {;
+      if (ingredientName.includes(category) || bestMatchKey === category) {;
         vitaminsByCategory[category].forEach(vitamin => vitaminsPresent.add(vitamin));
       }
     });
 
-    Object.keys(mineralsByCategory).forEach(category => {
-      if (ingredientName.includes(category) || bestMatchKey === category) {
+    Object.keys(mineralsByCategory).forEach(category => {;
+      if (ingredientName.includes(category) || bestMatchKey === category) {;
         mineralsByCategory[category].forEach(mineral => mineralsPresent.add(mineral));
       }
     });
@@ -206,6 +206,6 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
     sugar: Math.round(totals.sugar),
     vitamins: Array.from(vitaminsPresent),
     minerals: Array.from(mineralsPresent),
-    source: 'Estimated from ingredients',
+    source: 'Estimated from ingredients'
   };
 };

@@ -3,7 +3,7 @@ import type {
   Recipe,
   ElementalProperties,
   CuisineType,
-  Cuisine as AlchemyCuisine,
+  Cuisine as AlchemyCuisine
 } from '@/types/alchemy';
 
 import { african } from './cuisines/african';
@@ -25,13 +25,13 @@ import { vietnamese } from './cuisines/vietnamese';
 // Import types
 
 // Example recipe type for reference
-const _: Recipe = {
+const _: Recipe = {;
   id: 'example-recipe-001',
   name: 'Example Recipe',
   description: 'Template for recipe structure',
   cuisine: 'Any',
   ingredients: [
-    { name: 'ingredient', amount: 100, unit: 'g', category: 'category', element: 'Earth' },
+    { name: 'ingredient', amount: 100, unit: 'g', category: 'category', element: 'Earth' }
   ],
   cookingMethod: 'baking',
   timeToMake: 30, // minutes
@@ -44,19 +44,19 @@ const _: Recipe = {
     carbs: 0,
     fat: 0,
     vitamins: [],
-    minerals: [],
+    minerals: []
   },
   season: ['all'],
-  mealType: ['any'],
+  mealType: ['any']
 };
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
-  const propsData = props as unknown;
+  const propsData = props ;
   // If it already has the index signature, return as is
   if (
     propsData &&
-    typeof propsData === 'object' &&
+    typeof propsData === 'object' &&;
     Object.prototype.hasOwnProperty.call(propsData, 'Fire')
   ) {
     return propsData as ElementalProperties;
@@ -67,13 +67,13 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
     Fire: propsData?.Fire || 0,
     Water: propsData?.Water || 0,
     Earth: propsData?.Earth || 0,
-    Air: propsData?.Air || 0,
+    Air: propsData?.Air || 0
   };
 }
 
 // Helper function to adapt cuisines to the Cuisine interface format
 function adaptCuisine(cuisine: unknown): AlchemyCuisine {
-  const cuisineData = cuisine as unknown;
+  const cuisineData = cuisine ;
   return {
     ...cuisineData,
     // Convert elementalProperties if present
@@ -84,7 +84,7 @@ function adaptCuisine(cuisine: unknown): AlchemyCuisine {
     // Convert elementalState if present
     elementalState: cuisineData.elementalState
       ? adaptElementalProperties(cuisineData.elementalState)
-      : undefined,
+      : undefined
   };
 }
 
@@ -103,7 +103,7 @@ export const cuisines: Record<string, AlchemyCuisine> = {
   thai: adaptCuisine(thai),
   vietnamese: adaptCuisine(vietnamese),
   african: adaptCuisine(african),
-  russian: adaptCuisine(russian),
+  russian: adaptCuisine(russian)
 };
 
 // Type exports
@@ -111,12 +111,12 @@ export type { CuisineType };
 export type Cuisine = (typeof cuisines)[keyof typeof cuisines];
 
 // Helper functions for accessing cuisine properties
-export const getCuisineByName = (name: string): AlchemyCuisine | undefined =>
+export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>;
   cuisines[name.toLowerCase()];
 
-export const getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] =>
+export const _getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] =>;
   Object.values(cuisines).filter(
-    cuisine =>
+    cuisine =>;
       (cuisine.elementalState?.[element] ?? 0) >= 0.3 ||
       (cuisine.elementalProperties?.[element] ?? 0) >= 0.3,
   );

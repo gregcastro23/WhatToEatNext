@@ -11,7 +11,7 @@ import {
   CapabilityComplexity,
   IntegrationMethod,
   IntegrationPriority,
-  GenerationComplexity,
+  GenerationComplexity
 } from './EnterpriseIntelligenceGenerator';
 import { FileAnalysis, FilePriority, FileCategory, TransformationComplexity } from './UnusedExportAnalyzer';
 
@@ -27,10 +27,10 @@ describe('EnterpriseIntelligenceGenerator', () => {
     jest.clearAllMocks();
 
     // Mock fs operations
-    mockFs.promises = {
+    mockFs.promises = {;
       access: jest.fn().mockRejectedValue(new Error('Directory does not exist')),
       mkdir: jest.fn().mockResolvedValue(undefined),
-      writeFile: jest.fn().mockResolvedValue(undefined),
+      writeFile: jest.fn().mockResolvedValue(undefined)
     } as any fs.promises;
   });
 
@@ -47,7 +47,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
   });
 
   describe('generateIntelligenceSystems', () => {
-    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',
+    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',;
       priority: FilePriority.HIGH,
       unusedExports: [
         {
@@ -57,8 +57,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
-        },
+          usageCount: 0
+        }
       ],
       safetyScore: 90,
       transformationCandidates: [
@@ -69,15 +69,15 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 5,
-            usageCount: 0,
+            usageCount: 0
           },
           intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
           transformationComplexity: TransformationComplexity.MODERATE,
           safetyScore: 85,
-          estimatedBenefit: 75,
-        },
+          estimatedBenefit: 75
+        }
       ],
-      category: FileCategory.CORE,
+      category: FileCategory.CORE
     };
 
     it('should generate intelligence systems from file analyses', async () => {
@@ -109,7 +109,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should handle generation errors gracefully', async () => {
-      const invalidAnalysis: any = {
+      const invalidAnalysis: any = {;
         ...mockFileAnalysis,
         transformationCandidates: [
           {
@@ -117,9 +117,9 @@ describe('EnterpriseIntelligenceGenerator', () => {
             export: {
               ...mockFileAnalysis.transformationCandidates.[0].export,
               exportName: null as unknown, // Invalid export name
-            },
-          },
-        ],
+            }
+          }
+        ]
       };
 
       const results: any = await generator.generateIntelligenceSystems([invalidAnalysis]);
@@ -129,19 +129,19 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('selectTemplate', () => {
     it('should select function template for function exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
+        estimatedBenefit: 75
       };
 
       const template: any = (;
@@ -151,19 +151,19 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should select class template for class exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TestClass',
           exportType: 'class' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 10,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
-        estimatedBenefit: 85,
+        estimatedBenefit: 85
       };
 
       const template: any = (;
@@ -173,19 +173,19 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should select type template for interface exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TestInterface',
           exportType: 'interface' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 3,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_INTERFACE_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 60,
+        estimatedBenefit: 60
       };
 
       const template: any = (;
@@ -195,19 +195,19 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should select data template for const exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TEST_CONSTANT',
           exportType: 'const' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 2,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_CONSTANT_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 90,
-        estimatedBenefit: 50,
+        estimatedBenefit: 50
       };
 
       const template: any = (;
@@ -219,25 +219,25 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateCapabilities', () => {
     it('should generate function-specific capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
+        estimatedBenefit: 75
       };
 
       const template: any = (;
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
       ).selectTemplate(candidate);
-      const capabilities: any = (
+      const capabilities: any = (;
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
@@ -250,25 +250,25 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should generate class-specific capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TestClass',
           exportType: 'class' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 10,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
-        estimatedBenefit: 85,
+        estimatedBenefit: 85
       };
 
       const template: any = (;
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
       ).selectTemplate(candidate);
-      const capabilities: any = (
+      const capabilities: any = (;
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
@@ -282,25 +282,25 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should add advanced capabilities for complex exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'complexFunction',
           exportType: 'function' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 25,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 70,
-        estimatedBenefit: 90,
+        estimatedBenefit: 90
       };
 
       const template: any = (;
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
       ).selectTemplate(candidate);
-      const capabilities: any = (
+      const capabilities: any = (;
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
@@ -309,29 +309,29 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ).generateCapabilities(candidate, template);
 
       expect(
-        (capabilities).some((cap: any) => cap.name === 'generateAdvancedInsights'),
+        (capabilities).some((cap: any) => cap.name === 'generateAdvancedInsights'),;
       ).toBe(true);
     });
   });
 
   describe('generateIntegrationPoints', () => {
     it('should generate integration points for intelligence systems', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
+        estimatedBenefit: 75
       };
 
-      const integrationPoints: any = (
+      const integrationPoints: any = (;
         generator as unknown as {
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>;
         }
@@ -339,30 +339,30 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       expect(integrationPoints.length).toBeGreaterThan(0);
       expect(
-        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT),
+        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT),;
       ).toBe(true);
       expect(
-        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT),
+        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT),;
       ).toBe(true);
     });
 
     it('should include original file integration for safe candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'safeFunction',
           exportType: 'function' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 3,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'SAFE_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 70,
+        estimatedBenefit: 70
       };
 
-      const integrationPoints: any = (
+      const integrationPoints: any = (;
         generator as unknown as {
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>;
         }
@@ -376,32 +376,32 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateCode', () => {
     it('should generate complete intelligence system code', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
+        estimatedBenefit: 75
       };
 
       const template: any = (;
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
       ).selectTemplate(candidate);
-      const capabilities: any = (
+      const capabilities: any = (;
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>;
         }
       ).generateCapabilities(candidate, template);
-      const code: any = (
+      const code: any = (;
         generator as unknown as {
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
@@ -419,32 +419,32 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should include original export information in comments', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'originalFunction',
           exportType: 'function' as const,
           lineNumber: 10,
           isDefault: false,
           complexity: 8,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'ORIGINAL_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 80,
-        estimatedBenefit: 70,
+        estimatedBenefit: 70
       };
 
       const template: any = (;
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
       ).selectTemplate(candidate);
-      const capabilities: any = (
+      const capabilities: any = (;
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>;
         }
       ).generateCapabilities(candidate, template);
-      const code: any = (
+      const code: any = (;
         generator as unknown as {
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
@@ -460,37 +460,37 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('calculateEstimatedValue', () => {
     it('should calculate value based on candidate benefit and capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 50,
+        estimatedBenefit: 50
       };
 
-      const capabilities: any = [
+      const capabilities: any = [;
         {
           name: 'basicCapability',
           description: 'Basic capability',
           implementation: 'return {};',
-          complexity: CapabilityComplexity.BASIC,
+          complexity: CapabilityComplexity.BASIC
         },
         {
           name: 'advancedCapability',
           description: 'Advanced capability',
           implementation: 'return {};',
-          complexity: CapabilityComplexity.ADVANCED,
-        },
+          complexity: CapabilityComplexity.ADVANCED
+        }
       ];
 
-      const value: any = (
+      const value: any = (;
         generator as unknown as {
           calculateEstimatedValue: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,
@@ -504,31 +504,31 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('assessGenerationComplexity', () => {
     it('should assess SIMPLE complexity for simple candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'simpleFunction',
           exportType: 'const' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 2,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'SIMPLE_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 40,
+        estimatedBenefit: 40
       };
 
-      const capabilities: any = [
+      const capabilities: any = [;
         {
           name: 'basicCapability',
           description: 'Basic capability',
           implementation: 'return {};',
-          complexity: CapabilityComplexity.BASIC,
-        },
+          complexity: CapabilityComplexity.BASIC
+        }
       ];
 
-      const complexity: any = (
+      const complexity: any = (;
         generator as unknown as {
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,
@@ -539,31 +539,31 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should assess VERY_COMPLEX complexity for complex candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'complexFunction',
           exportType: 'class' as const,
           lineNumber: 1,
           isDefault: false,
           complexity: 30,
-          usageCount: 0,
+          usageCount: 0
         },
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 60,
-        estimatedBenefit: 95,
+        estimatedBenefit: 95
       };
 
-      const capabilities: any = [
+      const capabilities: any = [;
         {
           name: 'expertCapability',
           description: 'Expert capability',
           implementation: 'return {};',
-          complexity: CapabilityComplexity.EXPERT,
-        },
+          complexity: CapabilityComplexity.EXPERT
+        }
       ];
 
-      const complexity: any = (
+      const complexity: any = (;
         generator as unknown as {
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,
@@ -576,7 +576,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateSummary', () => {
     it('should generate comprehensive summary of results', () => {
-      const mockResults: any = [
+      const mockResults: any = [;
         {
           systemName: 'SYSTEM_1',
           filePath: '/output/SYSTEM_1.ts',
@@ -586,7 +586,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 5,
-            usageCount: 0,
+            usageCount: 0
           },
           generatedCode: 'code1',
           capabilities: [
@@ -595,19 +595,19 @@ describe('EnterpriseIntelligenceGenerator', () => {
               name: 'cap2',
               description: 'desc2',
               implementation: 'impl2',
-              complexity: CapabilityComplexity.INTERMEDIATE,
-            },
+              complexity: CapabilityComplexity.INTERMEDIATE
+            }
           ],
           integrationPoints: [
             {
               target: 'target1',
               method: IntegrationMethod.DIRECT_IMPORT,
               code: 'code1',
-              priority: IntegrationPriority.HIGH,
-            },
+              priority: IntegrationPriority.HIGH
+            }
           ],
           estimatedValue: 75,
-          complexity: GenerationComplexity.MODERATE,
+          complexity: GenerationComplexity.MODERATE
         },
         {
           systemName: 'SYSTEM_2',
@@ -618,23 +618,23 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 10,
-            usageCount: 0,
+            usageCount: 0
           },
           generatedCode: 'code2',
           capabilities: [
-            { name: 'cap3', description: 'desc3', implementation: 'impl3', complexity: CapabilityComplexity.ADVANCED },
+            { name: 'cap3', description: 'desc3', implementation: 'impl3', complexity: CapabilityComplexity.ADVANCED }
           ],
           integrationPoints: [
             {
               target: 'target2',
               method: IntegrationMethod.API_ENDPOINT,
               code: 'code2',
-              priority: IntegrationPriority.MEDIUM,
-            },
+              priority: IntegrationPriority.MEDIUM
+            }
           ],
           estimatedValue: 85,
-          complexity: GenerationComplexity.COMPLEX,
-        },
+          complexity: GenerationComplexity.COMPLEX
+        }
       ];
 
       const summary: any = generator.generateSummary(mockResults);
@@ -650,7 +650,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateIntegrationGuide', () => {
     it('should generate comprehensive integration guide', () => {
-      const mockResults: any = [
+      const mockResults: any = [;
         {
           systemName: 'TEST_SYSTEM_INTELLIGENCE_SYSTEM',
           filePath: '/output/TEST_SYSTEM_INTELLIGENCE_SYSTEM.ts',
@@ -660,7 +660,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 5,
-            usageCount: 0,
+            usageCount: 0
           },
           generatedCode: 'code',
           capabilities: [],
@@ -669,12 +669,12 @@ describe('EnterpriseIntelligenceGenerator', () => {
               target: 'src/components/dashboard/IntelligenceDashboard.tsx',
               method: IntegrationMethod.DEPENDENCY_INJECTION,
               code: 'dashboard integration code',
-              priority: IntegrationPriority.MEDIUM,
-            },
+              priority: IntegrationPriority.MEDIUM
+            }
           ],
           estimatedValue: 75,
-          complexity: GenerationComplexity.MODERATE,
-        },
+          complexity: GenerationComplexity.MODERATE
+        }
       ];
 
       const guide: any = generator.generateIntegrationGuide(mockResults);

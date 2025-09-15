@@ -21,14 +21,14 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  userElemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },;
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
   const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });
 
   // Calculate simple similarity score
-  const similarity = recipeElementalService.calculateSimilarity(
+  const similarity = recipeElementalService.calculateSimilarity(;
     recipe.elementalProperties,
     user.elementalProperties,
   );
@@ -50,11 +50,11 @@ export async function calculateElementalCompatibility(
     compatibility: Math.min(1, Math.max(0, compatibility)),
     dominantPair: {
       recipe: recipeDominant,
-      user: userDominant,
+      user: userDominant
     },
     complementaryScore,
     balanceScore,
-    recommendation: generateRecommendation(compatibility, recipeDominant, userDominant),
+    recommendation: generateRecommendation(compatibility, recipeDominant, userDominant)
   };
 }
 
@@ -74,7 +74,7 @@ function calculateComplementaryScore(
   element2: keyof ElementalProperties,
 ): number {
   // All elements work together in various ways
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9; // Same element - highest compatibility (like reinforces like)
   } else {
     // All combinations of different elements are complementary
@@ -91,12 +91,12 @@ function calculateBalanceScore(
   userProps: ElementalProperties,
 ): number {
   // Find user's weakest element
-  const userWeakest = Object.entries(userProps).sort(
+  const userWeakest = Object.entries(userProps).sort(;
     ([, a], [, b]) => a - b,
   )[0][0] as keyof ElementalProperties;
 
   // Find user's strongest element
-  const userStrongest = Object.entries(userProps).sort(
+  const userStrongest = Object.entries(userProps).sort(;
     ([, a], [, b]) => b - a,
   )[0][0] as keyof ElementalProperties;
 

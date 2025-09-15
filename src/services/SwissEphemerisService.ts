@@ -17,7 +17,7 @@ export interface SwissEphemerisData {
   day: number;
   date: Date;
   sidereal_time: string;
-  // Planet codes: A=Sun, B=Moon, C=Mercury, D=Venus, E=Mars, F=Jupiter, G=Saturn, O=Uranus, I=Neptune, J=Pluto
+  // Planet codes: A=Sun, B=Moon, C=Mercury, D=Venus, E=Mars, F=Jupiter, G=Saturn, O=Uranus, I=Neptune, J=Pluto;
   A: number; // Sun
   B: number; // Moon
   C: number; // Mercury
@@ -86,7 +86,7 @@ export interface PlanetaryAspect {
 /**
  * Planet code mapping for Swiss Ephemeris data
  */
-const PLANET_MAPPING = {
+const PLANET_MAPPING = {;
   A: 'Sun',
   B: 'Moon',
   C: 'Mercury',
@@ -100,7 +100,7 @@ const PLANET_MAPPING = {
   L: 'NorthNode',
   K: 'SouthNode',
   M: 'Chiron',
-  N: 'Lilith',
+  N: 'Lilith'
 } as const;
 
 /**
@@ -118,13 +118,13 @@ const ZODIAC_SIGNS: any[] = [
   'sagittarius',
   'capricorn',
   'aquarius',
-  'pisces',
+  'pisces'
 ];
 
 /**
  * Element associations for zodiac signs
  */
-const SIGN_ELEMENTS: Record<ZodiacSign, string> = {
+const _SIGN_ELEMENTS: Record<ZodiacSign, string> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -136,7 +136,7 @@ const SIGN_ELEMENTS: Record<ZodiacSign, string> = {
   aquarius: 'Air',
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water',
+  pisces: 'Water'
 };
 
 /**
@@ -171,8 +171,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'pisces',
-      J_sign: 'capricorn',
-    },
+      J_sign: 'capricorn'
+    }
   ],
 
   // 2025 Data (June focus from your Python analysis)
@@ -202,7 +202,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 2,
@@ -229,7 +229,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 3,
@@ -256,7 +256,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 4,
@@ -283,7 +283,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 5,
@@ -310,7 +310,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 6,
@@ -337,7 +337,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 7,
@@ -364,7 +364,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 8,
@@ -391,7 +391,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 9,
@@ -418,7 +418,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
+      J_sign: 'aquarius'
     },
     {
       day: 10,
@@ -445,9 +445,9 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    },
-  ],
+      J_sign: 'aquarius'
+    }
+  ]
 };
 
 /**
@@ -468,23 +468,23 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'conjunction',
           orb: 2.5,
           influence: 0.9,
-          description: 'Dynamic fire energy, perfect for bold culinary experiments',
-        },
+          description: 'Dynamic fire energy, perfect for bold culinary experiments'
+        }
       ],
       planetaryPlacements: {
         Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false },
         Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
         Mercury: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: true },
         Venus: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: true },
-        Mars: { sign: 'cancer', degree: 24, exactLongitude: 114, isRetrograde: false },
+        Mars: { sign: 'cancer', degree: 24, exactLongitude: 114, isRetrograde: false }
       },
       seasonalThemes: ['New beginnings', 'Dynamic energy', 'Bold flavors', 'Spicy dishes'],
       culinaryInfluences: [
         'Fire element cooking',
         'Spicy ingredients',
         'Quick preparation methods',
-        'Bold seasoning',
-      ],
+        'Bold seasoning'
+      ]
     },
     {
       season: 'Late Spring (Taurus)',
@@ -499,24 +499,24 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'trine',
           orb: 1.2,
           influence: 0.8,
-          description: 'Harmonious earth energy, ideal for grounding comfort foods',
-        },
+          description: 'Harmonious earth energy, ideal for grounding comfort foods'
+        }
       ],
       planetaryPlacements: {
         Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false },
         Moon: { sign: 'leo', degree: 15, exactLongitude: 135, isRetrograde: false },
         Mercury: { sign: 'aries', degree: 8, exactLongitude: 38, isRetrograde: false },
         Venus: { sign: 'aries', degree: 22, exactLongitude: 52, isRetrograde: false },
-        Mars: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false },
+        Mars: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false }
       },
       seasonalThemes: ['Stability', 'Sensual pleasures', 'Comfort foods', 'Rich flavors'],
       culinaryInfluences: [
         'Slow cooking',
         'Rich sauces',
         'Comfort dishes',
-        'Earth element ingredients',
-      ],
-    },
+        'Earth element ingredients'
+      ]
+    }
   ],
 
   '2025': [
@@ -533,7 +533,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'conjunction',
           orb: 3.1,
           influence: 0.85,
-          description: 'Intellectual air energy, perfect for experimental and varied cuisine',
+          description: 'Intellectual air energy, perfect for experimental and varied cuisine'
         },
         {
           planet1: 'Sun',
@@ -541,8 +541,8 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'trine',
           orb: 2.8,
           influence: 0.75,
-          description: 'Harmonious communication between fire and earth elements',
-        },
+          description: 'Harmonious communication between fire and earth elements'
+        }
       ],
       planetaryPlacements: {
         Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
@@ -554,17 +554,17 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
         Saturn: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: false },
         Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false },
         Neptune: { sign: 'aries', degree: 5, exactLongitude: 5, isRetrograde: false },
-        Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true },
+        Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true }
       },
       seasonalThemes: ['Communication', 'Variety', 'Light dishes', 'Fresh ingredients'],
       culinaryInfluences: [
         'Quick cooking methods',
         'Fresh herbs',
         'Varied textures',
-        'Light sauces',
-      ],
-    },
-  ],
+        'Light sauces'
+      ]
+    }
+  ]
 };
 
 /**
@@ -583,7 +583,7 @@ export class SwissEphemerisService {
   /**
    * Get planetary positions for a specific date using Swiss Ephemeris data
    */
-  async getPlanetaryPositions(date: Date = new Date()): Promise<Record<string, CelestialPosition>> {
+  async getPlanetaryPositions(date: Date = new Date()): Promise<Record<string, CelestialPosition>> {;
     const cacheKey = date.toISOString().split('T')[0];
 
     if (this.cache.has(cacheKey)) {
@@ -649,9 +649,9 @@ export class SwissEphemerisService {
 
     // Collect all transits in the date range
     const years = this.getAvailableYears();
-    years.forEach(year => {
+    years.forEach(year => {;
       const yearTransits = this.getSeasonalTransits(year);
-      yearTransits.forEach(transit => {
+      yearTransits.forEach(transit => {;
         if (transit.startDate >= startDate && transit.endDate <= endDate) {
           seasonalTransits.push(transit);
 
@@ -669,7 +669,7 @@ export class SwissEphemerisService {
     // Normalize dominant elements
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(dominantElements).forEach(element => {
+      Object.keys(dominantElements).forEach(element => {;
         dominantElements[element] /= total;
       });
     }
@@ -678,7 +678,7 @@ export class SwissEphemerisService {
       seasonalTransits,
       keyAspects,
       dominantElements,
-      planetaryTrends,
+      planetaryTrends
     };
   }
 
@@ -703,7 +703,7 @@ export class SwissEphemerisService {
       const isRetrograde =
         (ephemerisEntry[`${code}_retrograde` as keyof SwissEphemerisData] as boolean) || false;
 
-      if (typeof longitude === 'number') {
+      if (typeof longitude === 'number') {;
         const { sign, degree } = this.longitudeToSignAndDegree(longitude);
 
         positions[planetName] = {
@@ -711,7 +711,7 @@ export class SwissEphemerisService {
           degree: degree,
           exactLongitude: longitude,
           isRetrograde: isRetrograde,
-          minutes: Math.round((degree % 1) * 60),
+          minutes: Math.round((degree % 1) * 60)
         };
       }
     });
@@ -734,8 +734,8 @@ export class SwissEphemerisService {
     const targetMonth = date.getMonth() + 1;
 
     // Find exact day or closest day
-    const dayEntry = yearData.find(
-      entry => entry.day === targetDay && entry.date.getMonth() + 1 === targetMonth,
+    const dayEntry = yearData.find(;
+      entry => entry.day === targetDay && entry.date.getMonth() + 1 === targetMonth,;
     );
 
     if (dayEntry) {
@@ -766,7 +766,7 @@ export class SwissEphemerisService {
 
     const daysDiff = (date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24);
 
-    const dailyMotion = {
+    const dailyMotion = {;
       A: 0.986,
       B: 13.2,
       C: 1.383,
@@ -778,20 +778,20 @@ export class SwissEphemerisService {
       I: 0.006,
       J: 0.004,
       L: -0.053,
-      K: -0.053,
+      K: -0.053
     };
 
-    const approximatedEntry: SwissEphemerisData = {
+    const approximatedEntry: SwissEphemerisData = {;
       ...baseEntry,
       day: date.getDate(),
-      date: new Date(date),
+      date: new Date(date)
     };
 
-    Object.keys(dailyMotion).forEach(planetCode => {
+    Object.keys(dailyMotion).forEach(planetCode => {;
       const currentLongitude = baseEntry[planetCode as keyof SwissEphemerisData] as number;
       const motion = dailyMotion[planetCode as keyof typeof dailyMotion];
 
-      if (typeof currentLongitude === 'number') {
+      if (typeof currentLongitude === 'number') {;
         let newLongitude = currentLongitude + motion * daysDiff;
         newLongitude = ((newLongitude % 360) + 360) % 360;
 
@@ -815,7 +815,7 @@ export class SwissEphemerisService {
 
     return {
       sign: ZODIAC_SIGNS[signIndex],
-      degree: degree,
+      degree: degree
     };
   }
 
@@ -844,7 +844,7 @@ export class SwissEphemerisService {
     const sortedData = allData.sort((a, b) => a.date.getTime() - b.date.getTime());
     return {
       start: sortedData[0].date,
-      end: sortedData[sortedData.length - 1].date,
+      end: sortedData[sortedData.length - 1].date
     };
   }
 
@@ -868,7 +868,7 @@ export class SwissEphemerisService {
    * Export planetary positions in astrologize API compatible format
    */
   async getPositionsInAstrologizeFormat(
-    date: Date = new Date(),
+    date: Date = new Date(),;
   ): Promise<Record<string, PlanetaryPosition>> {
     const positions = await this.getPlanetaryPositions(date);
     const astrologizeFormat: Record<string, PlanetaryPosition> = {};
@@ -879,7 +879,7 @@ export class SwissEphemerisService {
         degree: position.degree || 0,
         minute: position.minutes || 0,
         exactLongitude: position.exactLongitude || 0,
-        isRetrograde: position.isRetrograde || false,
+        isRetrograde: position.isRetrograde || false
       };
     });
 
@@ -891,11 +891,11 @@ export class SwissEphemerisService {
 export const swissEphemerisService = new SwissEphemerisService();
 
 // Export convenience functions
-export const getSwissEphemerisPositions = (date?: Date) =>
+export const _getSwissEphemerisPositions = (date?: Date) =>;
   swissEphemerisService.getPlanetaryPositions(date);
-export const getSwissEphemerisInAstrologizeFormat = (date?: Date) =>
+export const _getSwissEphemerisInAstrologizeFormat = (date?: Date) =>;
   swissEphemerisService.getPositionsInAstrologizeFormat(date);
-export const getSeasonalTransits = (year: string) =>
+export const getSeasonalTransits = (year: string) =>;
   swissEphemerisService.getSeasonalTransits(year);
-export const getSeasonalTransitForDate = (date: Date) =>
+export const getSeasonalTransitForDate = (date: Date) =>;
   swissEphemerisService.getSeasonalTransitForDate(date);

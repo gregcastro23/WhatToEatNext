@@ -5,7 +5,7 @@
 
 // Basic lunar phase types with different formats
 export type LunarPhase =
-  | 'NEW_MOON'
+  | 'NEW_MOON';
   | 'WAXING_CRESCENT'
   | 'FIRST_QUARTER'
   | 'WAXING_GIBBOUS'
@@ -15,7 +15,7 @@ export type LunarPhase =
   | 'WANING_CRESCENT';
 
 export type LunarPhaseWithSpaces =
-  | 'New Moon'
+  | 'New Moon';
   | 'Waxing Crescent'
   | 'First Quarter'
   | 'Waxing Gibbous'
@@ -25,7 +25,7 @@ export type LunarPhaseWithSpaces =
   | 'Waning Crescent';
 
 export type LunarPhaseWithUnderscores =
-  | 'new_moon'
+  | 'new_moon';
   | 'waxing_crescent'
   | 'first_quarter'
   | 'waxing_gibbous'
@@ -65,7 +65,7 @@ export interface LunarInfluence {
 export type LunarPhaseMap = Record<LunarPhase, LunarPhaseModifier>;
 
 // Mapping between different lunar phase formats
-export const LUNAR_PHASE_MAP: Record<LunarPhaseWithUnderscores, LunarPhase> = {
+export const _LUNAR_PHASE_MAP: Record<LunarPhaseWithUnderscores, LunarPhase> = {
   new_moon: 'NEW_MOON',
   waxing_crescent: 'WAXING_CRESCENT',
   first_quarter: 'FIRST_QUARTER',
@@ -73,11 +73,11 @@ export const LUNAR_PHASE_MAP: Record<LunarPhaseWithUnderscores, LunarPhase> = {
   full_moon: 'FULL_MOON',
   waning_gibbous: 'WANING_GIBBOUS',
   last_quarter: 'LAST_QUARTER',
-  waning_crescent: 'WANING_CRESCENT',
+  waning_crescent: 'WANING_CRESCENT'
 };
 
 // Mapping from LunarPhase to LunarPhaseWithSpaces
-export const LUNAR_PHASE_TO_DISPLAY: Record<LunarPhase, LunarPhaseWithSpaces> = {
+export const _LUNAR_PHASE_TO_DISPLAY: Record<LunarPhase, LunarPhaseWithSpaces> = {
   NEW_MOON: 'New Moon',
   WAXING_CRESCENT: 'Waxing Crescent',
   FIRST_QUARTER: 'First Quarter',
@@ -85,11 +85,11 @@ export const LUNAR_PHASE_TO_DISPLAY: Record<LunarPhase, LunarPhaseWithSpaces> = 
   FULL_MOON: 'Full Moon',
   WANING_GIBBOUS: 'Waning Gibbous',
   LAST_QUARTER: 'Last Quarter',
-  WANING_CRESCENT: 'Waning Crescent',
+  WANING_CRESCENT: 'Waning Crescent'
 };
 
 // Reverse mapping from LunarPhaseWithSpaces to LunarPhase
-export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhase> = {
+export const _LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhase> = {
   'New Moon': 'NEW_MOON',
   'Waxing Crescent': 'WAXING_CRESCENT',
   'First Quarter': 'FIRST_QUARTER',
@@ -97,11 +97,11 @@ export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhas
   'Full Moon': 'FULL_MOON',
   'Waning Gibbous': 'WANING_GIBBOUS',
   'Last Quarter': 'LAST_QUARTER',
-  'Waning Crescent': 'WANING_CRESCENT',
+  'Waning Crescent': 'WANING_CRESCENT'
 };
 
 // Array of all lunar phases
-export const LUNAR_PHASES: LunarPhase[] = [
+export const _LUNAR_PHASES: LunarPhase[] = [
   'NEW_MOON',
   'WAXING_CRESCENT',
   'FIRST_QUARTER',
@@ -109,5 +109,5 @@ export const LUNAR_PHASES: LunarPhase[] = [
   'FULL_MOON',
   'WANING_GIBBOUS',
   'LAST_QUARTER',
-  'WANING_CRESCENT',
+  'WANING_CRESCENT'
 ];

@@ -18,11 +18,11 @@ export type Environment = 'development' | 'production' | 'testing';
 export function getCurrentEnvironment(): Environment {
   const env = process.env.NODE_ENV?.toLowerCase();
 
-  if (env === 'production' || env === 'prod') {
+  if (env === 'production' || env === 'prod') {;
     return 'production';
   }
 
-  if (env === 'test' || env === 'testing') {
+  if (env === 'test' || env === 'testing') {;
     return 'testing';
   }
 
@@ -149,20 +149,20 @@ export function validateEnvironmentConfig(environment: Environment): {
   errors.push(...validation.errors);
 
   return {
-    isValid: errors.length === 0,
+    isValid: errors.length === 0,;
     errors,
-    warnings,
+    warnings
   };
 }
 
 /**
  * Export environment-specific configuration managers
  */
-export const developmentConfigManager = () => createEnvironmentConfigManager('development');
-export const productionConfigManager = () => createEnvironmentConfigManager('production');
-export const testingConfigManager = () => createEnvironmentConfigManager('testing');
+export const _developmentConfigManager = () => createEnvironmentConfigManager('development');
+export const _productionConfigManager = () => createEnvironmentConfigManager('production');
+export const _testingConfigManager = () => createEnvironmentConfigManager('testing');
 
 /**
  * Default configuration manager for current environment
  */
-export const environmentConfigManager = createEnvironmentConfigManager();
+export const _environmentConfigManager = createEnvironmentConfigManager();

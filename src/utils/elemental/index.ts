@@ -32,7 +32,7 @@ export {
   getStrengtheningElement,
   normalizeProperties,
   standardizeRecipeElements,
-  validateElementalProperties,
+  validateElementalProperties
 } from './core';
 
 export {
@@ -43,7 +43,7 @@ export {
   transformCookingMethods,
   transformCuisines,
   transformIngredients,
-  transformSingleItem,
+  transformSingleItem
 } from './transformations';
 
 // Type exports
@@ -51,11 +51,11 @@ export type {
   ElementalCharacteristics,
   ElementalColor,
   ElementalCompatibility,
-  ElementalProfile,
+  ElementalProfile
 } from './core';
 
 export type {
   AlchemicalTransformation,
   PlanetaryInfluence,
-  TransformationContext,
+  TransformationContext
 } from './transformations';

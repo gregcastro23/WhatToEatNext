@@ -110,20 +110,20 @@ export class ResolutionStrategyGenerator {
     const baseStrategy = this.getBaseStrategy(errorClassification.ruleId);
 
     // Enhance with domain-specific considerations
-    const domainEnhancedStrategy = this.enhanceWithDomainContext(
+    const domainEnhancedStrategy = this.enhanceWithDomainContext(;
       baseStrategy,
       domainContext,
       fileAnalysis,
     );
 
     // Adjust for project context
-    const projectAdjustedStrategy = this.adjustForProjectContext(
+    const projectAdjustedStrategy = this.adjustForProjectContext(;
       domainEnhancedStrategy,
       projectContext,
     );
 
     // Generate final strategy with all components
-    const strategy = this.finalizeStrategy(
+    const strategy = this.finalizeStrategy(;
       projectAdjustedStrategy,
       errorClassification,
       domainContext,
@@ -170,19 +170,19 @@ export class ResolutionStrategyGenerator {
       enhanced.steps = [...(enhanced.steps || []), ...(domainStrategy.steps || [])];
 
       // Merge prerequisites
-      enhanced.prerequisites = [
+      enhanced.prerequisites = [;
         ...(enhanced.prerequisites || []),
-        ...(domainStrategy.prerequisites || []),
+        ...(domainStrategy.prerequisites || [])
       ];
 
       // Merge validation requirements
-      enhanced.validationRequirements = [
+      enhanced.validationRequirements = [;
         ...(enhanced.validationRequirements || []),
-        ...(domainStrategy.validationRequirements || []),
+        ...(domainStrategy.validationRequirements || [])
       ];
 
       // Adjust complexity and time based on domain
-      if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+      if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
         enhanced.complexity = 'expert-required';
         enhanced.estimatedTime = (enhanced.estimatedTime || 0) * 2; // Double time for domain expertise
       }
@@ -195,7 +195,7 @@ export class ResolutionStrategyGenerator {
         type: 'manual-review',
         description: `Verify preservation of ${requirement.element}: ${requirement.reason}`,
         automated: false,
-        criticalPath: requirement.strictness === 'absolute',
+        criticalPath: requirement.strictness === 'absolute',;
       });
     }
 
@@ -212,16 +212,16 @@ export class ResolutionStrategyGenerator {
     const adjusted = { ...strategy };
 
     // Adjust based on risk tolerance
-    if (projectContext.riskTolerance === 'conservative') {
+    if (projectContext.riskTolerance === 'conservative') {;
       adjusted.type = 'manual'; // Force manual review for conservative projects
       adjusted.validationRequirements = adjusted.validationRequirements || [];
       adjusted.validationRequirements.push({
         type: 'manual-review',
         description: 'Conservative project requires manual review of all changes',
         automated: false,
-        criticalPath: true,
+        criticalPath: true
       });
-    } else if (projectContext.riskTolerance === 'aggressive') {
+    } else if (projectContext.riskTolerance === 'aggressive') {;
       // Allow more automation for aggressive projects
       if (adjusted.confidence && adjusted.confidence > 0.7) {
         adjusted.type = 'automated';
@@ -229,25 +229,25 @@ export class ResolutionStrategyGenerator {
     }
 
     // Adjust based on team size
-    if (projectContext.teamSize === 'solo') {
+    if (projectContext.teamSize === 'solo') {;
       // Solo developers need more automation
-      adjusted.steps = (adjusted.steps || []).map(step => ({
+      adjusted.steps = (adjusted.steps || []).map(step => ({;
         ...step,
-        automatable: step.automatable || step.action === 'execute-command',
+        automatable: step.automatable || step.action === 'execute-command',;
       }));
-    } else if (projectContext.teamSize === 'large') {
+    } else if (projectContext.teamSize === 'large') {;
       // Large teams can handle more manual processes
       adjusted.validationRequirements = adjusted.validationRequirements || [];
       adjusted.validationRequirements.push({
         type: 'manual-review',
         description: 'Large team code review process',
         automated: false,
-        criticalPath: false,
+        criticalPath: false
       });
     }
 
     // Adjust based on time constraints
-    if (projectContext.timeConstraints === 'tight') {
+    if (projectContext.timeConstraints === 'tight') {;
       adjusted.priority = adjusted.priority === 'low' ? 'medium' : adjusted.priority;
       adjusted.type =
         adjusted.confidence && adjusted.confidence > 0.6 ? 'automated' : 'semi-automated';
@@ -282,7 +282,7 @@ export class ResolutionStrategyGenerator {
         strategy.validationRequirements || this.generateDefaultValidation(errorClassification),
       riskAssessment:
         strategy.riskAssessment || this.assessStrategyRisk(errorClassification, domainContext),
-      alternatives: strategy.alternatives || this.generateAlternatives(errorClassification),
+      alternatives: strategy.alternatives || this.generateAlternatives(errorClassification)
     };
   }
 
@@ -333,7 +333,7 @@ export class ResolutionStrategyGenerator {
     }
 
     // Adjust for domain context
-    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
       baseTime *= 2; // Domain expertise required
     }
 
@@ -347,12 +347,12 @@ export class ResolutionStrategyGenerator {
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
   ): ResolutionStrategy['complexity'] {
-    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
       return 'expert-required';
     }
 
     const complexity = errorClassification.autoFixCapability.complexity;
-    if (complexity === 'manual-only') {
+    if (complexity === 'manual-only') {;
       return 'expert-required';
     }
 
@@ -362,7 +362,7 @@ export class ResolutionStrategyGenerator {
       'simple',
       'moderate',
       'complex',
-      'expert-required',
+      'expert-required'
     ];
     return validComplexities.includes(complexity as ResolutionStrategy['complexity'])
       ? (complexity as ResolutionStrategy['complexity'])
@@ -381,11 +381,11 @@ export class ResolutionStrategyGenerator {
         description: 'Apply automatic fix',
         action: 'execute-command',
         details: {
-          command: `npx eslint --fix --rule ${errorClassification.ruleId}`,
+          command: `npx eslint --fix --rule ${errorClassification.ruleId}`
         },
         automatable: true,
         estimatedTime: 1,
-        dependencies: [],
+        dependencies: []
       });
     } else {
       steps.push({
@@ -396,12 +396,12 @@ export class ResolutionStrategyGenerator {
           reviewCriteria: [
             'Understand the root cause of the issue',
             'Implement appropriate fix',
-            'Ensure fix aligns with project standards',
-          ],
+            'Ensure fix aligns with project standards'
+          ]
         },
         automatable: false,
         estimatedTime: 10,
-        dependencies: [],
+        dependencies: []
       });
     }
 
@@ -411,11 +411,11 @@ export class ResolutionStrategyGenerator {
       description: 'Validate the fix',
       action: 'validate-build',
       details: {
-        validationChecks: ['Build passes', 'Tests pass', 'Linting passes'],
+        validationChecks: ['Build passes', 'Tests pass', 'Linting passes']
       },
       automatable: true,
       estimatedTime: 2,
-      dependencies: [steps[0].id],
+      dependencies: [steps[0].id]
     });
 
     return steps;
@@ -432,19 +432,19 @@ export class ResolutionStrategyGenerator {
         type: 'build',
         description: 'Verify build still passes',
         automated: true,
-        criticalPath: true,
-      },
+        criticalPath: true
+      }
     ];
 
     if (
-      errorClassification.severity.level === 'high' ||
-      errorClassification.severity.level === 'critical'
+      errorClassification.severity.level === 'high' ||;
+      errorClassification.severity.level === 'critical';
     ) {
       requirements.push({
         type: 'test',
         description: 'Run relevant tests',
         automated: true,
-        criticalPath: true,
+        criticalPath: true
       });
     }
 
@@ -453,7 +453,7 @@ export class ResolutionStrategyGenerator {
         type: 'type-check',
         description: 'Verify TypeScript compilation',
         automated: true,
-        criticalPath: true,
+        criticalPath: true
       });
     }
 
@@ -473,31 +473,31 @@ export class ResolutionStrategyGenerator {
     let performanceImpactProbability = 0.1;
 
     // Adjust based on error classification
-    if (errorClassification.severity.level === 'critical') {
+    if (errorClassification.severity.level === 'critical') {;
       overall = 'high';
       breakingChangeProbability = 0.3;
-    } else if (errorClassification.severity.level === 'high') {
+    } else if (errorClassification.severity.level === 'high') {;
       overall = 'medium';
       breakingChangeProbability = 0.2;
     }
 
     // Adjust based on domain context
-    if (domainContext.type === 'astrological') {
+    if (domainContext.type === 'astrological') {;
       overall = 'high';
       dataLossProbability = 0.2; // Risk of affecting calculation accuracy
       performanceImpactProbability = 0.1;
-    } else if (domainContext.type === 'campaign') {
+    } else if (domainContext.type === 'campaign') {;
       overall = 'medium';
       performanceImpactProbability = 0.2; // Risk of affecting automation performance
     }
 
-    const mitigationStrategies = [
+    const mitigationStrategies = [;
       'Create backup before making changes',
       'Test thoroughly in development environment',
-      'Monitor system behavior after deployment',
+      'Monitor system behavior after deployment'
     ];
 
-    if (domainContext.type === 'astrological') {
+    if (domainContext.type === 'astrological') {;
       mitigationStrategies.push('Validate astronomical calculations against known data');
     }
 
@@ -507,7 +507,7 @@ export class ResolutionStrategyGenerator {
       dataLossProbability,
       performanceImpactProbability,
       mitigationStrategies,
-      rollbackPlan: 'Git revert to previous commit if issues detected',
+      rollbackPlan: 'Git revert to previous commit if issues detected'
     };
   }
 
@@ -524,9 +524,9 @@ export class ResolutionStrategyGenerator {
         tradeoffs: [
           'More time-consuming',
           'Better understanding of the fix',
-          'Lower risk of unintended changes',
+          'Lower risk of unintended changes'
         ],
-        whenToUse: 'When auto-fix confidence is low or domain expertise is required',
+        whenToUse: 'When auto-fix confidence is low or domain expertise is required'
       });
     }
 
@@ -534,19 +534,19 @@ export class ResolutionStrategyGenerator {
       name: 'Rule Suppression',
       description: 'Suppress the rule for this specific case',
       tradeoffs: ['Quick solution', 'Technical debt accumulation', 'May hide real issues'],
-      whenToUse: 'When the rule is not applicable or fixing would require significant refactoring',
+      whenToUse: 'When the rule is not applicable or fixing would require significant refactoring'
     });
 
-    if (errorClassification.severity.level === 'low') {
+    if (errorClassification.severity.level === 'low') {;
       alternatives.push({
         name: 'Defer Fix',
         description: 'Add to technical debt backlog for later resolution',
         tradeoffs: [
           'Immediate progress',
           'Accumulating technical debt',
-          'May become harder to fix later',
+          'May become harder to fix later'
         ],
-        whenToUse: 'When under time pressure and issue is not critical',
+        whenToUse: 'When under time pressure and issue is not critical'
       });
     }
 
@@ -568,8 +568,8 @@ export class ResolutionStrategyGenerator {
     const totalSteps = strategies.reduce((sum, s) => sum + s.steps.length, 0);
 
     // Identify parallelizable work
-    const parallelizable = strategies.filter(
-      s => s.type === 'automated' && s.riskAssessment.overall === 'low',
+    const parallelizable = strategies.filter(;
+      s => s.type === 'automated' && s.riskAssessment.overall === 'low',;
     );
 
     return {
@@ -579,7 +579,7 @@ export class ResolutionStrategyGenerator {
       executionOrder,
       parallelizableWork: parallelizable.length,
       riskDistribution: this.calculateRiskDistribution(strategies),
-      recommendations: this.generatePlanRecommendations(strategies, grouped),
+      recommendations: this.generatePlanRecommendations(strategies, grouped)
     };
   }
 
@@ -592,7 +592,7 @@ export class ResolutionStrategyGenerator {
       manual: [],
       critical: [],
       lowRisk: [],
-      domainSpecific: [],
+      domainSpecific: []
     };
 
     for (const strategy of strategies) {
@@ -611,7 +611,7 @@ export class ResolutionStrategyGenerator {
    */
   private determineExecutionOrder(strategies: ResolutionStrategy[]): string[] {
     // Sort by priority first, then by risk level, then by estimated time
-    const sorted = [...strategies].sort((a, b) => {
+    const sorted = [...strategies].sort((a, b) => {;
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       const riskOrder = { low: 0, medium: 1, high: 2, critical: 3 };
 
@@ -693,9 +693,9 @@ export class ResolutionStrategyGenerator {
           details: { command: 'npx eslint --fix --rule import/order' },
           automatable: true,
           estimatedTime: 1,
-          dependencies: [],
-        },
-      ],
+          dependencies: []
+        }
+      ]
     });
 
     // No explicit any strategy
@@ -714,12 +714,12 @@ export class ResolutionStrategyGenerator {
             reviewCriteria: [
               'Understand the data structure',
               'Identify proper type definition',
-              'Consider union types or generics',
-            ],
+              'Consider union types or generics'
+            ]
           },
           automatable: false,
           estimatedTime: 10,
-          dependencies: [],
+          dependencies: []
         },
         {
           id: 'implement-proper-typing',
@@ -728,9 +728,9 @@ export class ResolutionStrategyGenerator {
           details: { changes: 'Replace any with specific type definitions' },
           automatable: false,
           estimatedTime: 5,
-          dependencies: ['analyze-any-usage'],
-        },
-      ],
+          dependencies: ['analyze-any-usage']
+        }
+      ]
     });
 
     // Default strategy
@@ -739,7 +739,7 @@ export class ResolutionStrategyGenerator {
       priority: 'medium',
       confidence: 0.5,
       complexity: 'moderate',
-      estimatedTime: 10,
+      estimatedTime: 10
     });
   }
 
@@ -753,28 +753,28 @@ export class ResolutionStrategyGenerator {
         {
           type: 'knowledge',
           description: 'Understanding of astronomical calculations',
-          required: true,
+          required: true
         },
         {
           type: 'access',
           description: 'Access to astronomical validation data',
-          required: true,
-        },
+          required: true
+        }
       ],
       validationRequirements: [
         {
           type: 'domain-expert',
           description: 'Astrological domain expert review',
           automated: false,
-          criticalPath: true,
+          criticalPath: true
         },
         {
           type: 'manual-review',
           description: 'Validate against known astronomical data',
           automated: false,
-          criticalPath: true,
-        },
-      ],
+          criticalPath: true
+        }
+      ]
     });
 
     // Campaign system domain strategy
@@ -783,17 +783,17 @@ export class ResolutionStrategyGenerator {
         {
           type: 'knowledge',
           description: 'Understanding of campaign system architecture',
-          required: true,
-        },
+          required: true
+        }
       ],
       validationRequirements: [
         {
           type: 'test',
           description: 'Run campaign system integration tests',
           automated: true,
-          criticalPath: true,
-        },
-      ],
+          criticalPath: true
+        }
+      ]
     });
   }
 }

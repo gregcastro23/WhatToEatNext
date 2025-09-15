@@ -6,7 +6,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Biological transformation of food through microbial activity
  */
-export const fermentation: CookingMethodData = {
+export const fermentation: CookingMethodData = {;
   name: 'fermentation',
   description:
     'Biological transformation of food through controlled microbial activity, creating complex flavors, preserving foods, and enhancing nutritional value',
@@ -14,7 +14,7 @@ export const fermentation: CookingMethodData = {
     Water: 0.3,
     Earth: 0.3,
     Air: 0.3,
-    Fire: 0.1,
+    Fire: 0.1
   },
   duration: {
     min: 1440, // 24 hours
@@ -40,7 +40,7 @@ export const fermentation: CookingMethodData = {
     'nuts',
     'seeds',
     'root vegetables',
-    'eggs',
+    'eggs'
   ],
   benefits: [
     'probiotic development',
@@ -58,7 +58,7 @@ export const fermentation: CookingMethodData = {
     'efficient preservation without refrigeration',
     'sustainable food processing',
     'increased vitamin content',
-    'antimicrobial compound production',
+    'antimicrobial compound production'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['virgo', 'taurus', 'capricorn'] as any[],
@@ -69,7 +69,7 @@ export const fermentation: CookingMethodData = {
       full_moon: 0.8, // Reduced activity
       waxing_crescent: 1.1, // Good phase to begin fermentation
       waning_gibbous: 0.9, // Slowed activity
-    },
+    }
   },
   toolsRequired: [
     'Fermentation vessels (glass/ceramic)',
@@ -91,7 +91,7 @@ export const fermentation: CookingMethodData = {
     'Brewing hydrometer',
     'Mandoline (for even vegetable slicing)',
     'Food processor',
-    'Ceramic crocks with water seal',
+    'Ceramic crocks with water seal'
   ],
   commonMistakes: [
     'inadequate sterilization',
@@ -111,7 +111,7 @@ export const fermentation: CookingMethodData = {
     'inadequate vessel sealing',
     'improper vegetable preparation',
     'neglecting to burp containers',
-    'using antibacterial soaps near ferments',
+    'using antibacterial soaps near ferments'
   ],
   pairingSuggestions: [
     'Fresh, raw elements for contrast',
@@ -128,7 +128,7 @@ export const fermentation: CookingMethodData = {
     'Neutral starches with intensely fermented foods',
     'Crisp vegetables with creamy fermented products',
     'Fresh seafood with grain-based ferments',
-    'Pungent spices with mild ferments',
+    'Pungent spices with mild ferments'
   ],
   nutrientRetention: {
     probiotics: 1.2, // Increased through fermentation
@@ -167,7 +167,7 @@ export const fermentation: CookingMethodData = {
     koji: 85,
     traditional_pickles: 68,
     cheese: 55,
-    salami: 58,
+    salami: 58
   },
   regionalVariations: {
     korean: ['kimchi', 'gochujang', 'doenjang'],
@@ -182,7 +182,7 @@ export const fermentation: CookingMethodData = {
     central_american: ['tepache', 'pulque', 'pozol'],
     eastern_european: ['kvass', 'beet kvass', 'kiseli kupus'],
     caucasian: ['matsoni', 'tarhana', 'boza'],
-    south_american: ['chicha', 'kefir de agua', 'manioc beer'],
+    south_american: ['chicha', 'kefir de agua', 'manioc beer']
   },
   chemicalChanges: {
     lactic_acid_production: true,
@@ -199,7 +199,7 @@ export const fermentation: CookingMethodData = {
     vitamin_synthesis: true,
     'anti-nutrient_reduction': true,
     bacteriocin_production: true,
-    melanoidin_formation: true,
+    melanoidin_formation: true
   },
   safetyFeatures: [
     'pH monitoring',
@@ -217,7 +217,7 @@ export const fermentation: CookingMethodData = {
     'Absence of metal contamination',
     'Appropriate vessel pressure management',
     'Avoiding excessive fermentation times',
-    'Using food-grade ingredients',
+    'Using food-grade ingredients'
   ],
   thermodynamicProperties: {
     heat: 0.2, // Low heat, often ambient temperature
@@ -228,7 +228,7 @@ export const fermentation: CookingMethodData = {
 
   // Additional metadata
   history:
-    "Fermentation is one of humanity's oldest food preservation methods, dating back at least 10,000 years. Every culture developed fermentation techniques, from wine and beer to bread, cheese, and preserved vegetables. It was critical for food security before refrigeration. Archaeological evidence suggests that fermented beverages predate agriculture, with fermented honey drinks (mead) possibly being one of the earliest alcoholic beverages. The scientific understanding of fermentation began with Antonie van Leeuwenhoek's microscopic observations in the 17th century, followed by Louis Pasteur's groundbreaking work in the 19th century that identified microorganisms as the agents of fermentation. The 20th century saw industrialization of many fermentation processes, while the 21st century has brought renewed interest in traditional fermentation techniques and their health benefits.",
+    'Fermentation is one of humanity's oldest food preservation methods, dating back at least 10,000 years. Every culture developed fermentation techniques, from wine and beer to bread, cheese, and preserved vegetables. It was critical for food security before refrigeration. Archaeological evidence suggests that fermented beverages predate agriculture, with fermented honey drinks (mead) possibly being one of the earliest alcoholic beverages. The scientific understanding of fermentation began with Antonie van Leeuwenhoek's microscopic observations in the 17th century, followed by Louis Pasteur's groundbreaking work in the 19th century that identified microorganisms as the agents of fermentation. The 20th century saw industrialization of many fermentation processes, while the 21st century has brought renewed interest in traditional fermentation techniques and their health benefits.',
 
   scientificPrinciples: [
     'Microbial conversion of sugars to acids, alcohols, or gases',
@@ -247,7 +247,7 @@ export const fermentation: CookingMethodData = {
     'Biofilm formation in microbial communities',
     'Cross-feeding between microbial species',
     'Enzymatic conversion of phenolic compounds',
-    'Symbiotic relationships between yeasts and bacteria',
+    'Symbiotic relationships between yeasts and bacteria'
   ],
 
   modernVariations: [
@@ -267,7 +267,7 @@ export const fermentation: CookingMethodData = {
     'Integration with other preservation techniques',
     'Continuous fermentation systems',
     'Vacuum-sealed fermentation',
-    'Pressure-regulated fermentation vessels',
+    'Pressure-regulated fermentation vessels'
   ],
 
   sustainabilityRating: 0.95, // Very high - low energy, traditional preservation method
@@ -290,7 +290,7 @@ export const fermentation: CookingMethodData = {
     'Can help regulate appetite and satiety',
     'Potential role in brain-gut axis communication',
     'May reduce foodborne pathogens in properly fermented foods',
-    'Can contribute to reduced glycemic response',
+    'Can contribute to reduced glycemic response'
   ],
 
   expertTips: [
@@ -310,7 +310,7 @@ export const fermentation: CookingMethodData = {
     'Use wooden rather than plastic tools for sourdough to nurture beneficial microbial environment',
     'For yogurt, pre-heat milk to 180°F (82°C) before cooling to incubation temperature to denature proteins',
     'When making sauerkraut, core removal and fine shredding promote better juice extraction',
-    'For koji, maintain 80-85% humidity for optimal enzyme development',
+    'For koji, maintain 80-85% humidity for optimal enzyme development'
   ],
 
   ingredientPreparation: {
@@ -329,7 +329,7 @@ export const fermentation: CookingMethodData = {
     legumes:
       'For tempeh, boil beans, cool, add vinegar to acidify, inoculate with Rhizopus cultures. For miso, cook beans until soft, combine with koji and salt (5-12% depending on intended aging time). For doenjang, form blocks first, allow to grow mold, then soak in brine.',
     sourdough:
-      'Maintain starter at peak activity (doubled in size, domed top). Use 20% starter in dough for balanced flavor. Autolyse flour and water before adding starter and salt. Cold fermentation (38-42°F/3-6°C) for 12-24 hours develops flavor complexity without excessive acidity.',
+      'Maintain starter at peak activity (doubled in size, domed top). Use 20% starter in dough for balanced flavor. Autolyse flour and water before adding starter and salt. Cold fermentation (38-42°F/3-6°C) for 12-24 hours develops flavor complexity without excessive acidity.'
   },
 
   timingConsiderations: {
@@ -344,7 +344,7 @@ export const fermentation: CookingMethodData = {
     maturation_periods:
       'Miso: 3 months to 3+ years; soy sauce: 6 months to 3+ years; vinegar: 2-6 months; aged salami: 1-6 months. Long maturation at cool temperatures develops deeper, more complex flavors through slow enzymatic activity. Accelerated high-temperature fermentation often results in simpler flavor profiles.',
     seasonal_considerations:
-      'Spring and fall offer moderate temperatures ideal for many fermentations. Summer requires more cooling control; winter may require warming. Humidity impacts evaporation rate and mold development, particularly for surface-ripened ferments. Traditional timing often aligned with harvest seasons for optimal ingredient quality.',
+      'Spring and fall offer moderate temperatures ideal for many fermentations. Summer requires more cooling control; winter may require warming. Humidity impacts evaporation rate and mold development, particularly for surface-ripened ferments. Traditional timing often aligned with harvest seasons for optimal ingredient quality.'
   },
 
   doneness_indicators: {
@@ -361,7 +361,7 @@ export const fermentation: CookingMethodData = {
     acidity_balance:
       'Lactic acid provides roundness and depth, acetic acid provides sharpness and higher notes, butyric acid (when appropriate) provides richness. Balance depends on ferment type and regional preferences.',
     microbial_succession:
-      'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.',
+      'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.'
   },
 
   ingredientInteractions: {
@@ -384,7 +384,7 @@ export const fermentation: CookingMethodData = {
     oxygen_exposure:
       'Determines whether aerobic or anaerobic processes dominate. Surface yeasts and molds require oxygen; lactic acid bacteria are facultative anaerobes; acetobacter requires oxygen for converting alcohol to acetic acid.',
     phenolic_compounds:
-      'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.',
+      'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.'
   },
 
   technicalNotes: {
@@ -398,7 +398,7 @@ export const fermentation: CookingMethodData = {
       molds:
         'Aspergillus, Penicillium, Rhizopus, and others grow on surfaces providing enzymatic activity. Critical for koji, cheese (blue, Camembert), tempeh, traditional meat curing. Some produce mycotoxins, so specific food-safe strains are essential.',
       bacillus:
-        'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.',
+        'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.'
     },
     equipment_considerations: {
       vessel_materials:
@@ -410,7 +410,7 @@ export const fermentation: CookingMethodData = {
       humidity_regulation:
         'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves; modern approaches use humidity-controlled chambers.',
       measuring_tools:
-        'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.',
+        'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.'
     },
     fermentation_phases: {
       initiation:
@@ -420,7 +420,7 @@ export const fermentation: CookingMethodData = {
       secondary_fermentation:
         'Slower phase after initial nutrient sources depleted. More subtle flavor development through enzymatic activity and microbial byproduct reactions. Can last weeks to months.',
       maturation:
-        'Final phase with minimal active fermentation but continued enzymatic activity and flavor compound development. Critical for complexity in aged products. Months to years depending on product.',
+        'Final phase with minimal active fermentation but continued enzymatic activity and flavor compound development. Critical for complexity in aged products. Months to years depending on product.'
     },
     safety_parameters: {
       acidity_control:
@@ -432,7 +432,7 @@ export const fermentation: CookingMethodData = {
       salt_concentration:
         'Minimum inhibitory levels: 2% for most vegetables, 3.5% for most protein-rich substrates. Traditional ranges established empirically over centuries for each food type.',
       cross_contamination:
-        'Physical separation of raw ingredients from active ferments. Dedicated utensils and equipment. Proper cleaning protocols between batches.',
+        'Physical separation of raw ingredients from active ferments. Dedicated utensils and equipment. Proper cleaning protocols between batches.'
     },
     preserving_cultures: {
       mother_cultures:
@@ -444,7 +444,7 @@ export const fermentation: CookingMethodData = {
       rotation_system:
         'Maintaining multiple backups of important cultures, regularly refreshing each. Common in professional and traditional settings.',
       commercial_starters:
-        'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.',
-    },
-  },
+        'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.'
+    }
+  }
 };

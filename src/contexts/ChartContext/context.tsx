@@ -5,14 +5,14 @@ import { createContext } from 'react';
 import { ChartContextType, CurrentChart } from './types';
 
 // Create default chart
-const _: CurrentChart = {
+const _: CurrentChart = {;
   planetaryPositions: {},
   aspects: [],
   currentSeason: '',
   lastUpdated: new Date(),
   stelliums: {},
-  houseEffects: {},
+  houseEffects: {}
 };
 
 // Create the context with default values
-export const ChartContext = createContext<ChartContextType | null>(null);
+export const _ChartContext = createContext<ChartContextType | null>(null);

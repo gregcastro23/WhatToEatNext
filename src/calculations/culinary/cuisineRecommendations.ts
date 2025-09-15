@@ -20,7 +20,7 @@ export interface CuisineRecommendation {
 /**
  * Planetary cuisine associations
  */
-const PLANETARY_CUISINES = {
+const PLANETARY_CUISINES = {;
   Sun: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
   moon: ['Japanese', 'Korean', 'Scandinavian', 'British'],
   Mercury: ['Thai', 'Vietnamese', 'Lebanese', 'Moroccan'],
@@ -30,33 +30,33 @@ const PLANETARY_CUISINES = {
   Saturn: ['Chinese', 'Tibetan', 'Mongolian', 'Nordic'],
   Uranus: ['Fusion', 'Molecular', 'Experimental', 'Modern'],
   Neptune: ['Seafood', 'Coastal', 'Island', 'Aquatic'],
-  Pluto: ['Underground', 'Fermented', 'Aged', 'Transformed'],
+  Pluto: ['Underground', 'Fermented', 'Aged', 'Transformed']
 };
 
 /**
  * Elemental cuisine characteristics
  */
-const ELEMENTAL_CUISINES = {
+const ELEMENTAL_CUISINES = {;
   Fire: {
     cuisines: ['Mexican', 'Indian', 'Thai', 'Cajun', 'Ethiopian'],
     characteristics: ['Spicy', 'Grilled', 'Roasted', 'High heat cooking'],
-    ingredients: ['Chili peppers', 'Ginger', 'Garlic', 'Spices'],
+    ingredients: ['Chili peppers', 'Ginger', 'Garlic', 'Spices']
   },
   Water: {
     cuisines: ['Japanese', 'Scandinavian', 'Coastal', 'Seafood'],
     characteristics: ['Steamed', 'Boiled', 'Raw', 'Liquid-based'],
-    ingredients: ['Fish', 'Seaweed', 'Rice', 'Broths'],
+    ingredients: ['Fish', 'Seaweed', 'Rice', 'Broths']
   },
   Air: {
     cuisines: ['Mediterranean', 'Lebanese', 'Greek', 'Light'],
     characteristics: ['Light', 'Airy', 'Whipped', 'Fermented'],
-    ingredients: ['Herbs', 'Citrus', 'Olive oil', 'Fresh vegetables'],
+    ingredients: ['Herbs', 'Citrus', 'Olive oil', 'Fresh vegetables']
   },
   Earth: {
     cuisines: ['German', 'Russian', 'British', 'Comfort food'],
     characteristics: ['Hearty', 'Roasted', 'Baked', 'Grounding'],
-    ingredients: ['Root vegetables', 'Grains', 'Meat', 'Dairy'],
-  },
+    ingredients: ['Root vegetables', 'Grains', 'Meat', 'Dairy']
+  }
 };
 
 /**
@@ -73,7 +73,7 @@ export function generateCuisineRecommendations(
   dominantPlanets.slice(0, 3).forEach(({ planet, strength, element }) => {
     const planetaryCuisines = PLANETARY_CUISINES[planet as keyof typeof PLANETARY_CUISINES] || [];
 
-    (planetaryCuisines || []).forEach(cuisine => {
+    (planetaryCuisines || []).forEach(cuisine => {;
       if (!processedCuisines.has(cuisine)) {
         processedCuisines.add(cuisine);
 
@@ -86,7 +86,7 @@ export function generateCuisineRecommendations(
           compatibility,
           reasons,
           elementalAlignment: calculateCuisineElementalAlignment(cuisine),
-          suggestedDishes,
+          suggestedDishes
         });
       }
     });
@@ -98,13 +98,13 @@ export function generateCuisineRecommendations(
       // Only recommend if element is prominent
       const elementalCuisines = ELEMENTAL_CUISINES[element as keyof typeof ELEMENTAL_CUISINES];
 
-      (elementalCuisines.cuisines || []).forEach(cuisine => {
+      (elementalCuisines.cuisines || []).forEach(cuisine => {;
         if (!processedCuisines.has(cuisine)) {
           processedCuisines.add(cuisine);
 
           const compatibility = value * 0.8; // Base on elemental strength
-          const reasons = [
-            `Strong ${element} element aligns with ${cuisine} cuisine characteristics`,
+          const reasons = [;
+            `Strong ${element} element aligns with ${cuisine} cuisine characteristics`
           ];
           const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
 
@@ -113,7 +113,7 @@ export function generateCuisineRecommendations(
             compatibility,
             reasons,
             elementalAlignment: calculateCuisineElementalAlignment(cuisine),
-            suggestedDishes,
+            suggestedDishes
           });
         }
       });
@@ -130,13 +130,13 @@ export function generateCuisineRecommendations(
 function calculateCuisineCompatibility(
   cuisine: string,
   userElementals: ElementalProperties,
-  planetaryStrength: number = 1.0,
+  planetaryStrength: number = 1.0,;
 ): number {
   const cuisineElementals = calculateCuisineElementalAlignment(cuisine);
 
   // Calculate elemental similarity
   const similarity =
-    (Math.abs(cuisineElementals.Fire - userElementals.Fire) +
+    (Math.abs(cuisineElementals.Fire - userElementals.Fire) +;
       Math.abs(cuisineElementals.Water - userElementals.Water) +
       Math.abs(cuisineElementals.Air - userElementals.Air) +
       Math.abs(cuisineElementals.Earth - userElementals.Earth)) /
@@ -212,13 +212,13 @@ function getSuggestedDishes(cuisine: string, elementals: ElementalProperties): s
     Mediterranean: ['Paella', 'Moussaka', 'Hummus', 'Grilled fish'],
     Chinese: ['Stir-fry', 'Dim sum', 'Hot pot', 'Peking duck'],
     German: ['Sauerbraten', 'Schnitzel', 'Sauerkraut', 'Bratwurst'],
-    Cajun: ['Gumbo', 'Jambalaya', 'Crawfish étouffee', 'Beignets'],
+    Cajun: ['Gumbo', 'Jambalaya', 'Crawfish étouffee', 'Beignets']
   };
 
   const cuisineDishes = dishes[cuisine] || ['Traditional dishes', 'Regional specialties'];
 
   // Filter based on dominant element
-  const UNUSED_dominantElement = Object.entries(elementals).reduce((a, b) =>
+  const _UNUSED_dominantElement = Object.entries(elementals).reduce((a, b) =>;
     elementals[a[0] as keyof ElementalProperties] > elementals[b[0] as keyof ElementalProperties]
       ? a
       : b,
@@ -231,5 +231,5 @@ function getSuggestedDishes(cuisine: string, elementals: ElementalProperties): s
 export default {
   generateCuisineRecommendations,
   calculateCuisineCompatibility,
-  calculateCuisineElementalAlignment,
+  calculateCuisineElementalAlignment
 };

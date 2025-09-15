@@ -9,7 +9,7 @@ import { getZodiacElement } from './astrologyUtils';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {;
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -38,7 +38,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 10,
-    ruling_planet: 'Mars',
+    ruling_planet: 'Mars'
   },
   2: {
     number: 2,
@@ -47,7 +47,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Venus',
+    ruling_planet: 'Venus'
   },
   3: {
     number: 3,
@@ -56,7 +56,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 6,
-    ruling_planet: 'Mercury',
+    ruling_planet: 'Mercury'
   },
   4: {
     number: 4,
@@ -65,7 +65,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 9,
-    ruling_planet: 'Moon',
+    ruling_planet: 'Moon'
   },
   5: {
     number: 5,
@@ -74,7 +74,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Sun',
+    ruling_planet: 'Sun'
   },
   6: {
     number: 6,
@@ -83,7 +83,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 6,
-    ruling_planet: 'Mercury',
+    ruling_planet: 'Mercury'
   },
   7: {
     number: 7,
@@ -92,7 +92,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 9,
-    ruling_planet: 'Venus',
+    ruling_planet: 'Venus'
   },
   8: {
     number: 8,
@@ -101,7 +101,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 8,
-    ruling_planet: 'Pluto',
+    ruling_planet: 'Pluto'
   },
   9: {
     number: 9,
@@ -110,7 +110,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 7,
-    ruling_planet: 'Jupiter',
+    ruling_planet: 'Jupiter'
   },
   10: {
     number: 10,
@@ -119,7 +119,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 10,
-    ruling_planet: 'Saturn',
+    ruling_planet: 'Saturn'
   },
   11: {
     number: 11,
@@ -128,7 +128,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Uranus',
+    ruling_planet: 'Uranus'
   },
   12: {
     number: 12,
@@ -137,8 +137,8 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 8,
-    ruling_planet: 'Neptune',
-  },
+    ruling_planet: 'Neptune'
+  }
 };
 
 /**
@@ -167,7 +167,7 @@ export function calculateHouseEffect(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
+    Water: 0
   };
 
   // Get house data
@@ -188,20 +188,20 @@ export function calculateHouseEffect(
   effects[houseElement] += houseStrength;
 
   // Add synergy effect if sign element matches house element
-  if (signElement === houseElement) {
+  if (signElement === houseElement) {;
     effects[houseElement] += 0.5; // Bonus for matching element
     debugLog(`Element synergy bonus for ${planet} in house ${house}: ${signElement}`);
   }
 
   // Add special effects for certain houses and planets
   // House 1 (Ascendant) bonus
-  if (house === 1) {
+  if (house === 1) {;
     effects[signElement] += 1.0; // Strong effect for 1st house placements
     debugLog(`House 1 bonus applied for ${planet}: +1.0 to ${signElement}`);
   }
 
   // House 10 (Midheaven) bonus
-  if (house === 10) {
+  if (house === 10) {;
     effects[signElement] += 0.8; // Strong effect for 10th house placements
     debugLog(`House 10 bonus applied for ${planet}: +0.8 to ${signElement}`);
   }
@@ -230,7 +230,7 @@ export function calculateAllHouseEffects(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
+    Water: 0
   };
 
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`);

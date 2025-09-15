@@ -1,7 +1,7 @@
 // src/data/cuisines/russian.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const russian: Cuisine = {
+export const russian: Cuisine = {;
   id: 'russian',
   name: 'Russian',
   description:
@@ -11,7 +11,7 @@ export const russian: Cuisine = {
       all: [
         {
           name: 'Syrniki',
-          description: "Farmer's cheese pancakes",
+          description: 'Farmer's cheese pancakes',
           cuisine: 'Russian',
           cookingMethods: ['frying', 'mixing'],
           tools: ['mixing bowl', 'frying pan', 'spatula', 'cheese grater', 'measuring cups'],
@@ -21,7 +21,7 @@ export const russian: Cuisine = {
             'Add flour and vanilla',
             'Form into small pancakes',
             'Fry until golden brown',
-            'Serve with sour cream and jam',
+            'Serve with sour cream and jam'
           ],
           ingredients: [
             { name: 'tvorog', amount: '500', unit: 'g', category: 'dairy', swaps: ['firm tofu'] },
@@ -31,7 +31,7 @@ export const russian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
             { name: 'vanilla extract', amount: '1', unit: 'tsp', category: 'flavoring' },
@@ -40,20 +40,20 @@ export const russian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'dairy',
-              swaps: ['coconut yogurt'],
-            },
+              swaps: ['coconut yogurt']
+            }
           ],
           substitutions: {
             tvorog: ['cottage cheese', 'firm tofu'],
             'sour cream': ['greek yogurt', 'coconut yogurt'],
-            flour: ['gluten-free flour blend', 'almond flour'],
+            flour: ['gluten-free flour blend', 'almond flour']
           },
           servingSize: 4,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '15 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            "A beloved breakfast dish that transforms humble farmer's cheese into delicate pancakes. Often served during traditional Russian celebrations",
+            'A beloved breakfast dish that transforms humble farmer's cheese into delicate pancakes. Often served during traditional Russian celebrations',
           pairingSuggestions: ['berry jam', 'honey', 'fresh berries', 'sour cream'],
           dietaryInfo: ['vegetarian', 'adaptable to gluten-free'],
           spiceLevel: 'none',
@@ -63,7 +63,7 @@ export const russian: Cuisine = {
             carbs: 32,
             fat: 18,
             vitamins: ['B12', 'D'],
-            minerals: ['Calcium', 'Phosphorus'],
+            minerals: ['Calcium', 'Phosphorus']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -71,8 +71,8 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Water: 0.2,
             Fire: 0.2,
-            Air: 0.2,
-          },
+            Air: 0.2
+          }
         },
         {
           name: 'Kasha',
@@ -86,30 +86,30 @@ export const russian: Cuisine = {
             'Simmer until tender',
             'Let rest covered',
             'Add butter and stir',
-            'Serve hot',
+            'Serve hot'
           ],
           ingredients: [
             { name: 'buckwheat groats', amount: '200', unit: 'g', category: 'grain' },
             { name: 'milk', amount: '500', unit: 'ml', category: 'dairy', swaps: ['oat milk'] },
             { name: 'butter', amount: '30', unit: 'g', category: 'fat', swaps: ['plant butter'] },
-            { name: 'salt', amount: '1', unit: 'tsp', category: 'seasoning' },
+            { name: 'salt', amount: '1', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
             milk: ['oat milk', 'almond milk', 'soy milk'],
             butter: ['plant-based butter', 'coconut oil'],
-            'buckwheat groats': ['steel-cut oats', 'quinoa'],
+            'buckwheat groats': ['steel-cut oats', 'quinoa']
           },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '5 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            "A fundamental Russian breakfast dish that symbolizes prosperity and health. The word 'kasha' is so central to Russian cuisine that it's used as a general term for all grain porridges",
+            'A fundamental Russian breakfast dish that symbolizes prosperity and health. The word 'kasha' is so central to Russian cuisine that it's used as a general term for all grain porridges',
           pairingSuggestions: [
             'fried mushrooms',
             'soft-boiled egg',
             'green onions',
-            'crispy onions',
+            'crispy onions'
           ],
           dietaryInfo: ['vegetarian', 'adaptable to vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -119,7 +119,7 @@ export const russian: Cuisine = {
             carbs: 58,
             fat: 8,
             vitamins: ['B1', 'B2'],
-            minerals: ['Iron', 'Magnesium'],
+            minerals: ['Iron', 'Magnesium']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -127,8 +127,8 @@ export const russian: Cuisine = {
             Earth: 0.5,
             Water: 0.3,
             Fire: 0.1,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Blini',
@@ -141,7 +141,7 @@ export const russian: Cuisine = {
             'ladle',
             'crepe pan or skillet',
             'spatula',
-            'measuring cups',
+            'measuring cups'
           ],
           preparationSteps: [
             'Activate yeast with warm milk',
@@ -150,7 +150,7 @@ export const russian: Cuisine = {
             'Pour thin layer of batter',
             'Cook until bubbles form',
             'Flip and finish cooking',
-            'Keep warm while making more',
+            'Keep warm while making more'
           ],
           ingredients: [
             {
@@ -158,7 +158,7 @@ export const russian: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             { name: 'milk', amount: '600', unit: 'ml', category: 'dairy', swaps: ['almond milk'] },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
@@ -169,13 +169,13 @@ export const russian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'dairy',
-              swaps: ['coconut yogurt'],
-            },
+              swaps: ['coconut yogurt']
+            }
           ],
           substitutions: {
             flour: ['gluten-free flour blend', 'buckwheat flour'],
             milk: ['almond milk', 'oat milk'],
-            'sour cream': ['coconut yogurt', 'cashew cream'],
+            'sour cream': ['coconut yogurt', 'cashew cream']
           },
           servingSize: 6,
           allergens: ['dairy', 'eggs', 'gluten'],
@@ -189,7 +189,7 @@ export const russian: Cuisine = {
             'smoked salmon',
             'mushroom filling',
             'sweet condensed milk',
-            'berry preserves',
+            'berry preserves'
           ],
           dietaryInfo: ['vegetarian', 'adaptable to vegan', 'adaptable to gluten-free'],
           spiceLevel: 'none',
@@ -199,7 +199,7 @@ export const russian: Cuisine = {
             carbs: 35,
             fat: 6,
             vitamins: ['A', 'D'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
           mealType: ['breakfast', 'dessert'],
@@ -207,8 +207,8 @@ export const russian: Cuisine = {
             Air: 0.4,
             Earth: 0.2,
             Water: 0.2,
-            Fire: 0.2,
-          },
+            Fire: 0.2
+          }
         },
         {
           name: 'Oladi',
@@ -221,7 +221,7 @@ export const russian: Cuisine = {
             'Combine wet ingredients',
             'Let batter rest',
             'Fry in small batches',
-            'Keep warm until serving',
+            'Keep warm until serving'
           ],
           ingredients: [
             {
@@ -229,23 +229,23 @@ export const russian: Cuisine = {
               amount: '500',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['plant-based buttermilk'],
+              swaps: ['plant-based buttermilk']
             },
             {
               name: 'flour',
               amount: '300',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
-            { name: 'baking soda', amount: '1', unit: 'tsp', category: 'leavening' },
+            { name: 'baking soda', amount: '1', unit: 'tsp', category: 'leavening' }
           ],
           substitutions: {
             buttermilk: ['almond milk + vinegar', 'soy milk + lemon juice'],
             flour: ['gluten-free flour blend', 'buckwheat flour'],
-            eggs: ['flax eggs', 'commercial egg replacer'],
+            eggs: ['flax eggs', 'commercial egg replacer']
           },
           servingSize: 4,
           allergens: ['dairy', 'eggs', 'gluten'],
@@ -263,7 +263,7 @@ export const russian: Cuisine = {
             carbs: 42,
             fat: 9,
             vitamins: ['B12', 'D'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -271,10 +271,10 @@ export const russian: Cuisine = {
             Air: 0.4,
             Earth: 0.3,
             Water: 0.2,
-            Fire: 0.1,
-          },
-        },
-      ],
+            Fire: 0.1
+          }
+        }
+      ]
     },
     lunch: {
       all: [
@@ -291,7 +291,7 @@ export const russian: Cuisine = {
             'Combine ingredients',
             'Simmer until flavors meld',
             'Season to taste',
-            'Serve with sour cream',
+            'Serve with sour cream'
           ],
           ingredients: [
             { name: 'beef', amount: '500', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
@@ -306,13 +306,13 @@ export const russian: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['cashew cream'],
-            },
+              swaps: ['cashew cream']
+            }
           ],
           substitutions: {
             beef: ['mushrooms', 'seitan', 'tempeh'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
-            'beef broth': ['mushroom broth', 'vegetable broth'],
+            'beef broth': ['mushroom broth', 'vegetable broth']
           },
           servingSize: 8,
           allergens: ['dairy'],
@@ -329,7 +329,7 @@ export const russian: Cuisine = {
             carbs: 42,
             fat: 18,
             vitamins: ['A', 'C', 'B12'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['winter', 'autumn'],
           mealType: ['lunch', 'dinner'],
@@ -337,8 +337,8 @@ export const russian: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Pelmeni',
@@ -353,7 +353,7 @@ export const russian: Cuisine = {
             'Fill and shape dumplings',
             'Freeze or cook immediately',
             'Boil until floating',
-            'Serve with butter and sour cream',
+            'Serve with butter and sour cream'
           ],
           ingredients: [
             {
@@ -361,14 +361,14 @@ export const russian: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             {
               name: 'ground meat mix',
               amount: '400',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushroom mix'],
+              swaps: ['mushroom mix']
             },
             { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
@@ -378,13 +378,13 @@ export const russian: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['cashew cream'],
-            },
+              swaps: ['cashew cream']
+            }
           ],
           substitutions: {
             'ground meat mix': ['mushroom mix', 'lentil mix'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
-            butter: ['olive oil', 'vegan butter'],
+            butter: ['olive oil', 'vegan butter']
           },
           servingSize: 6,
           allergens: ['gluten', 'eggs', 'dairy'],
@@ -401,7 +401,7 @@ export const russian: Cuisine = {
             carbs: 42,
             fat: 16,
             vitamins: ['B12', 'B6'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['winter'],
           mealType: ['dinner'],
@@ -409,8 +409,8 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Shchi',
@@ -425,7 +425,7 @@ export const russian: Cuisine = {
             'Add cabbage and potatoes',
             'Simmer until tender',
             'Season with herbs',
-            'Serve with sour cream',
+            'Serve with sour cream'
           ],
           ingredients: [
             {
@@ -433,7 +433,7 @@ export const russian: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms'],
+              swaps: ['mushrooms']
             },
             { name: 'cabbage', amount: '600', unit: 'g', category: 'vegetable' },
             { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
@@ -445,13 +445,13 @@ export const russian: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['cashew cream'],
-            },
+              swaps: ['cashew cream']
+            }
           ],
           substitutions: {
             'pork or beef': ['mushrooms', 'tempeh'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
-            'meat broth': ['vegetable broth', 'mushroom broth'],
+            'meat broth': ['vegetable broth', 'mushroom broth']
           },
           servingSize: 6,
           allergens: ['dairy'],
@@ -468,7 +468,7 @@ export const russian: Cuisine = {
             carbs: 38,
             fat: 16,
             vitamins: ['C', 'K', 'B12'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -476,8 +476,8 @@ export const russian: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Ukha',
@@ -491,7 +491,7 @@ export const russian: Cuisine = {
             'Cook vegetables',
             'Add fish pieces',
             'Season with herbs',
-            'Clarify if desired',
+            'Clarify if desired'
           ],
           ingredients: [
             { name: 'white fish', amount: '800', unit: 'g', category: 'protein' },
@@ -499,12 +499,12 @@ export const russian: Cuisine = {
             { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'bay leaves', amount: '2', unit: 'pieces', category: 'herb' },
-            { name: 'black peppercorns', amount: '6', unit: 'pieces', category: 'spice' },
+            { name: 'black peppercorns', amount: '6', unit: 'pieces', category: 'spice' }
           ],
           substitutions: {
             'white fish': ['salmon', 'trout'],
             potatoes: ['parsnips', 'celery root'],
-            'fresh dill': ['parsley', 'chives'],
+            'fresh dill': ['parsley', 'chives']
           },
           servingSize: 6,
           allergens: ['fish'],
@@ -521,7 +521,7 @@ export const russian: Cuisine = {
             carbs: 18,
             fat: 6,
             vitamins: ['B12', 'D'],
-            minerals: ['Omega-3', 'Selenium'],
+            minerals: ['Omega-3', 'Selenium']
           },
           season: ['all'],
           mealType: ['lunch'],
@@ -529,9 +529,9 @@ export const russian: Cuisine = {
             Water: 0.5,
             Earth: 0.2,
             Air: 0.2,
-            Fire: 0.1,
-          },
-        },
+            Fire: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -544,7 +544,7 @@ export const russian: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'protein',
-              swaps: ['seitan mix'],
+              swaps: ['seitan mix']
             },
             { name: 'pickles', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
@@ -555,8 +555,8 @@ export const russian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'dairy',
-              swaps: ['cashew cream'],
-            },
+              swaps: ['cashew cream']
+            }
           ],
           nutrition: {
             calories: 420,
@@ -564,13 +564,13 @@ export const russian: Cuisine = {
             carbs: 18,
             fat: 28,
             vitamins: ['B12', 'C'],
-            minerals: ['Iron', 'Sodium'],
+            minerals: ['Iron', 'Sodium']
           },
           timeToMake: '90 minutes',
           season: ['winter'],
-          mealType: ['lunch'],
-        },
-      ],
+          mealType: ['lunch']
+        }
+      ]
     },
     dinner: {
       all: [
@@ -584,7 +584,7 @@ export const russian: Cuisine = {
             'sharp knife',
             'cutting board',
             'measuring cups',
-            'wooden spoon',
+            'wooden spoon'
           ],
           preparationSteps: [
             'Slice beef thinly',
@@ -592,7 +592,7 @@ export const russian: Cuisine = {
             'Brown beef quickly',
             'Make sauce with sour cream',
             'Combine ingredients',
-            'Serve over noodles',
+            'Serve over noodles'
           ],
           ingredients: [
             {
@@ -600,7 +600,7 @@ export const russian: Cuisine = {
               amount: '800',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms'],
+              swaps: ['mushrooms']
             },
             { name: 'mushrooms', amount: '400', unit: 'g', category: 'vegetable' },
             { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
@@ -609,7 +609,7 @@ export const russian: Cuisine = {
               amount: '300',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['cashew cream'],
+              swaps: ['cashew cream']
             },
             { name: 'mustard', amount: '2', unit: 'tbsp', category: 'condiment' },
             {
@@ -617,13 +617,13 @@ export const russian: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free pasta'],
-            },
+              swaps: ['gluten-free pasta']
+            }
           ],
           substitutions: {
             'beef tenderloin': ['portobello mushrooms', 'seitan'],
             'sour cream': ['cashew cream', 'coconut cream'],
-            'egg noodles': ['gluten-free pasta', 'rice'],
+            'egg noodles': ['gluten-free pasta', 'rice']
           },
           servingSize: 6,
           allergens: ['dairy', 'gluten', 'eggs'],
@@ -635,7 +635,7 @@ export const russian: Cuisine = {
             'buckwheat kasha',
             'pickled vegetables',
             'fresh dill',
-            'black bread',
+            'black bread'
           ],
           dietaryInfo: ['adaptable to vegetarian/vegan', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -645,7 +645,7 @@ export const russian: Cuisine = {
             carbs: 45,
             fat: 28,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
           mealType: ['dinner'],
@@ -653,8 +653,8 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Golubtsy',
@@ -668,7 +668,7 @@ export const russian: Cuisine = {
             'Roll cabbage leaves',
             'Make tomato sauce',
             'Braise until tender',
-            'Serve with sour cream',
+            'Serve with sour cream'
           ],
           ingredients: [
             { name: 'cabbage', amount: '1', unit: 'head', category: 'vegetable' },
@@ -677,7 +677,7 @@ export const russian: Cuisine = {
               amount: '600',
               unit: 'g',
               category: 'protein',
-              swaps: ['lentils'],
+              swaps: ['lentils']
             },
             { name: 'rice', amount: '200', unit: 'g', category: 'grain' },
             { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' },
@@ -687,13 +687,13 @@ export const russian: Cuisine = {
               amount: '200',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['cashew cream'],
-            },
+              swaps: ['cashew cream']
+            }
           ],
           substitutions: {
             'ground meat': ['lentils', 'mushroom mix', 'beyond meat'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
-            'white rice': ['brown rice', 'quinoa'],
+            'white rice': ['brown rice', 'quinoa']
           },
           servingSize: 6,
           allergens: ['dairy'],
@@ -705,7 +705,7 @@ export const russian: Cuisine = {
             'mashed potatoes',
             'fresh herbs',
             'black bread',
-            'pickled vegetables',
+            'pickled vegetables'
           ],
           dietaryInfo: ['adaptable to vegetarian/vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -715,7 +715,7 @@ export const russian: Cuisine = {
             carbs: 48,
             fat: 18,
             vitamins: ['C', 'B12'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
           mealType: ['dinner'],
@@ -723,8 +723,8 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Kotlety',
@@ -736,7 +736,7 @@ export const russian: Cuisine = {
             'mixing bowl',
             'frying pan',
             'spatula',
-            'measuring cups',
+            'measuring cups'
           ],
           preparationSteps: [
             'Soak bread in milk',
@@ -744,7 +744,7 @@ export const russian: Cuisine = {
             'Mix ingredients',
             'Form into patties',
             'Fry until golden',
-            'Rest before serving',
+            'Rest before serving'
           ],
           ingredients: [
             {
@@ -752,23 +752,23 @@ export const russian: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushroom mix'],
+              swaps: ['mushroom mix']
             },
             {
               name: 'bread',
               amount: '100',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free bread'],
+              swaps: ['gluten-free bread']
             },
             { name: 'milk', amount: '100', unit: 'ml', category: 'dairy', swaps: ['oat milk'] },
             { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
-            { name: 'butter', amount: '50', unit: 'g', category: 'fat', swaps: ['oil'] },
+            { name: 'butter', amount: '50', unit: 'g', category: 'fat', swaps: ['oil'] }
           ],
           substitutions: {
             'ground meat mix': ['mushroom mix', 'beyond meat', 'impossible meat'],
             bread: ['gluten-free bread', 'breadcrumbs'],
-            milk: ['plant-based milk', 'broth'],
+            milk: ['plant-based milk', 'broth']
           },
           servingSize: 6,
           allergens: ['dairy', 'gluten'],
@@ -780,7 +780,7 @@ export const russian: Cuisine = {
             'mashed potatoes',
             'buckwheat',
             'mushroom sauce',
-            'pickled vegetables',
+            'pickled vegetables'
           ],
           dietaryInfo: ['adaptable to vegetarian/vegan', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -790,7 +790,7 @@ export const russian: Cuisine = {
             carbs: 22,
             fat: 24,
             vitamins: ['B12', 'B6'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
           mealType: ['dinner'],
@@ -798,8 +798,8 @@ export const russian: Cuisine = {
             Earth: 0.5,
             Fire: 0.3,
             Water: 0.1,
-            Air: 0.1,
-          },
+            Air: 0.1
+          }
         },
         {
           name: 'Olivier Salad',
@@ -813,7 +813,7 @@ export const russian: Cuisine = {
             'Mix with mayonnaise',
             'Season to taste',
             'Chill before serving',
-            'Garnish with herbs',
+            'Garnish with herbs'
           ],
           ingredients: [
             { name: 'potatoes', amount: '500', unit: 'g', category: 'vegetable' },
@@ -827,13 +827,13 @@ export const russian: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'condiment',
-              swaps: ['vegan mayo'],
-            },
+              swaps: ['vegan mayo']
+            }
           ],
           substitutions: {
             bologna: ['ham', 'tofu', 'tempeh'],
             mayonnaise: ['vegan mayonnaise', 'cashew dressing'],
-            eggs: ['tofu', 'chickpeas'],
+            eggs: ['tofu', 'chickpeas']
           },
           servingSize: 8,
           allergens: ['eggs', 'dairy'],
@@ -841,7 +841,7 @@ export const russian: Cuisine = {
           cookTime: '30 minutes',
           chillTime: '60 minutes',
           culturalNotes:
-            "Also known as 'Russian Salad' internationally, this is a must-have dish at New Year's celebrations and other festive occasions",
+            'Also known as 'Russian Salad' internationally, this is a must-have dish at New Year's celebrations and other festive occasions',
           pairingSuggestions: ['black bread', 'cold cuts', 'pickled vegetables'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'none',
@@ -851,7 +851,7 @@ export const russian: Cuisine = {
             carbs: 28,
             fat: 18,
             vitamins: ['A', 'C', 'B12'],
-            minerals: ['Potassium', 'Iron'],
+            minerals: ['Potassium', 'Iron']
           },
           season: ['winter', 'all'],
           mealType: ['dinner', 'appetizer'],
@@ -859,9 +859,9 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          },
-        },
+            Fire: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -876,7 +876,7 @@ export const russian: Cuisine = {
             'Add potatoes',
             'Pour in broth',
             'Simmer until tender',
-            'Season to taste',
+            'Season to taste'
           ],
           ingredients: [
             { name: 'beef', amount: '800', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
@@ -884,19 +884,19 @@ export const russian: Cuisine = {
             { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
-            { name: 'bay leaves', amount: '2', unit: 'pieces', category: 'herb' },
+            { name: 'bay leaves', amount: '2', unit: 'pieces', category: 'herb' }
           ],
           substitutions: {
             beef: ['mushrooms', 'seitan', 'jackfruit'],
             'beef broth': ['mushroom broth', 'vegetable broth'],
-            potatoes: ['parsnips', 'turnips'],
+            potatoes: ['parsnips', 'turnips']
           },
           servingSize: 6,
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '120 minutes',
           culturalNotes:
-            "A hearty winter dish that exemplifies Russian cooking's focus on simple, filling ingredients. Traditionally cooked in a clay pot in a Russian oven",
+            'A hearty winter dish that exemplifies Russian cooking's focus on simple, filling ingredients. Traditionally cooked in a clay pot in a Russian oven',
           pairingSuggestions: ['rye bread', 'sauerkraut', 'pickled vegetables', 'kvass'],
           dietaryInfo: ['gluten-free', 'adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -906,7 +906,7 @@ export const russian: Cuisine = {
             carbs: 42,
             fat: 24,
             vitamins: ['A', 'B12'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['winter'],
           mealType: ['dinner'],
@@ -914,16 +914,16 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
-        },
-      ],
+            Air: 0.1
+          }
+        }
+      ]
     },
     dessert: {
       all: [
         {
           name: 'Pashka',
-          description: "Traditional Easter dessert with farmer's cheese",
+          description: 'Traditional Easter dessert with farmer's cheese',
           cuisine: 'Russian',
           cookingMethods: ['mixing', 'molding', 'chilling'],
           tools: [
@@ -931,7 +931,7 @@ export const russian: Cuisine = {
             'cheesecloth',
             'mixing bowl',
             'food processor',
-            'strainer',
+            'strainer'
           ],
           preparationSteps: [
             'Strain tvorog',
@@ -939,7 +939,7 @@ export const russian: Cuisine = {
             'Add dried fruits and nuts',
             'Mix in flavorings',
             'Press into mold',
-            'Chill overnight',
+            'Chill overnight'
           ],
           ingredients: [
             {
@@ -947,24 +947,24 @@ export const russian: Cuisine = {
               amount: '1',
               unit: 'kg',
               category: 'dairy',
-              swaps: ['cashew cheese'],
+              swaps: ['cashew cheese']
             },
             { name: 'butter', amount: '200', unit: 'g', category: 'dairy', swaps: ['coconut oil'] },
             { name: 'dried fruit', amount: '200', unit: 'g', category: 'fruit' },
             { name: 'nuts', amount: '100', unit: 'g', category: 'nuts' },
-            { name: 'vanilla', amount: '1', unit: 'pod', category: 'spice' },
+            { name: 'vanilla', amount: '1', unit: 'pod', category: 'spice' }
           ],
           substitutions: {
             tvorog: ['cashew cheese', 'silken tofu blend'],
             butter: ['coconut oil', 'vegan butter'],
-            'dried fruit': ['candied fruit', 'fresh berries'],
+            'dried fruit': ['candied fruit', 'fresh berries']
           },
           servingSize: 12,
           allergens: ['dairy', 'nuts'],
           prepTime: '30 minutes',
           chillTime: '24 hours',
           culturalNotes:
-            "A traditional Easter dessert symbolizing the Paschal pyramid. The mold often has the letters XB, meaning 'Christ is Risen' in Church Slavonic",
+            'A traditional Easter dessert symbolizing the Paschal pyramid. The mold often has the letters XB, meaning 'Christ is Risen' in Church Slavonic',
           pairingSuggestions: ['kulich', 'Easter bread', 'tea'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',
@@ -974,7 +974,7 @@ export const russian: Cuisine = {
             carbs: 28,
             fat: 32,
             vitamins: ['A', 'D'],
-            minerals: ['Calcium', 'Phosphorus'],
+            minerals: ['Calcium', 'Phosphorus']
           },
           season: ['spring'],
           mealType: ['dessert'],
@@ -982,8 +982,8 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Sochnik',
@@ -997,7 +997,7 @@ export const russian: Cuisine = {
             'Roll out dough',
             'Fill and shape',
             'Brush with egg wash',
-            'Bake until golden',
+            'Bake until golden'
           ],
           ingredients: [
             {
@@ -1005,29 +1005,29 @@ export const russian: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             {
               name: 'tvorog',
               amount: '500',
               unit: 'g',
               category: 'dairy',
-              swaps: ['cashew cheese'],
+              swaps: ['cashew cheese']
             },
             {
               name: 'butter',
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['vegan butter'],
+              swaps: ['vegan butter']
             },
             { name: 'sugar', amount: '150', unit: 'g', category: 'sweetener' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
           ],
           substitutions: {
             flour: ['gluten-free flour blend', 'almond flour'],
             tvorog: ['cashew cheese', 'tofu blend'],
-            butter: ['vegan butter', 'coconut oil'],
+            butter: ['vegan butter', 'coconut oil']
           },
           servingSize: 8,
           allergens: ['dairy', 'eggs', 'gluten'],
@@ -1044,7 +1044,7 @@ export const russian: Cuisine = {
             carbs: 42,
             fat: 22,
             vitamins: ['A', 'D', 'B12'],
-            minerals: ['Calcium'],
+            minerals: ['Calcium']
           },
           season: ['all'],
           mealType: ['dessert', 'snack'],
@@ -1052,8 +1052,8 @@ export const russian: Cuisine = {
             Earth: 0.3,
             Air: 0.3,
             Fire: 0.2,
-            Water: 0.2,
-          },
+            Water: 0.2
+          }
         },
         {
           name: 'Vareniki s Vishney',
@@ -1066,7 +1066,7 @@ export const russian: Cuisine = {
             'large pot',
             'slotted spoon',
             'knife',
-            'round cutter',
+            'round cutter'
           ],
           preparationSteps: [
             'Make dough',
@@ -1075,7 +1075,7 @@ export const russian: Cuisine = {
             'Cut circles',
             'Fill and seal dumplings',
             'Boil until floating',
-            'Serve with sour cream',
+            'Serve with sour cream'
           ],
           ingredients: [
             {
@@ -1083,7 +1083,7 @@ export const russian: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             { name: 'cherries', amount: '500', unit: 'g', category: 'fruit' },
             { name: 'sugar', amount: '100', unit: 'g', category: 'sweetener' },
@@ -1093,13 +1093,13 @@ export const russian: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['coconut cream'],
-            },
+              swaps: ['coconut cream']
+            }
           ],
           substitutions: {
             flour: ['gluten-free flour blend', 'rice flour mix'],
             'sour cream': ['coconut cream', 'cashew cream'],
-            eggs: ['flax eggs', 'commercial egg replacer'],
+            eggs: ['flax eggs', 'commercial egg replacer']
           },
           servingSize: 6,
           allergens: ['gluten', 'eggs', 'dairy'],
@@ -1116,7 +1116,7 @@ export const russian: Cuisine = {
             carbs: 58,
             fat: 8,
             vitamins: ['C', 'A'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['summer'],
           mealType: ['dessert'],
@@ -1124,8 +1124,8 @@ export const russian: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Air: 0.3,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Pryaniki',
@@ -1138,7 +1138,7 @@ export const russian: Cuisine = {
             'baking sheets',
             'cookie cutters',
             'pastry brush',
-            'cooling rack',
+            'cooling rack'
           ],
           preparationSteps: [
             'Heat honey with spices',
@@ -1146,7 +1146,7 @@ export const russian: Cuisine = {
             'Chill dough',
             'Roll and cut shapes',
             'Bake until firm',
-            'Glaze while warm',
+            'Glaze while warm'
           ],
           ingredients: [
             {
@@ -1154,7 +1154,7 @@ export const russian: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             { name: 'honey', amount: '200', unit: 'g', category: 'sweetener', swaps: ['agave'] },
             {
@@ -1162,15 +1162,15 @@ export const russian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'dairy',
-              swaps: ['vegan butter'],
+              swaps: ['vegan butter']
             },
             { name: 'spice mix', amount: '2', unit: 'tbsp', category: 'spice' },
-            { name: 'eggs', amount: '1', unit: 'large', category: 'protein' },
+            { name: 'eggs', amount: '1', unit: 'large', category: 'protein' }
           ],
           substitutions: {
             flour: ['gluten-free flour blend', 'spelt flour'],
             honey: ['agave nectar', 'maple syrup'],
-            butter: ['coconut oil', 'vegan butter'],
+            butter: ['coconut oil', 'vegan butter']
           },
           servingSize: 24,
           allergens: ['gluten', 'eggs', 'dairy'],
@@ -1188,7 +1188,7 @@ export const russian: Cuisine = {
             carbs: 22,
             fat: 3,
             vitamins: ['B1', 'B2'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['winter', 'autumn'],
           mealType: ['dessert', 'snack'],
@@ -1196,9 +1196,9 @@ export const russian: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1,
-          },
-        },
+            Water: 0.1
+          }
+        }
       ],
       winter: [
         {
@@ -1211,7 +1211,7 @@ export const russian: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour'],
+              swaps: ['gluten-free flour']
             },
             { name: 'honey', amount: '200', unit: 'g', category: 'sweetener' },
             { name: 'spice mix', amount: '2', unit: 'tbsp', category: 'spice' },
@@ -1220,8 +1220,8 @@ export const russian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'dairy',
-              swaps: ['vegan butter'],
-            },
+              swaps: ['vegan butter']
+            }
           ],
           nutrition: {
             calories: 280,
@@ -1229,14 +1229,14 @@ export const russian: Cuisine = {
             carbs: 52,
             fat: 8,
             vitamins: ['B1', 'B2'],
-            minerals: ['Iron'],
+            minerals: ['Iron']
           },
           timeToMake: '120 minutes',
           season: ['winter'],
-          mealType: ['dessert'],
-        },
-      ],
-    },
+          mealType: ['dessert']
+        }
+      ]
+    }
   },
   traditionalSauces: {
     smetana: {
@@ -1249,27 +1249,27 @@ export const russian: Cuisine = {
         'sauce base',
         'baking ingredient',
         'dressing',
-        'dollop on savory dishes',
+        'dollop on savory dishes'
       ],
       variants: [
         'Homestyle thick',
         'Commercial lighter',
         'Reduced fat',
         'Infused with herbs',
-        'Fermented longer',
+        'Fermented longer'
       ],
       elementalProperties: {
         Water: 0.4,
         Earth: 0.3,
         Air: 0.2,
-        Fire: 0.1,
+        Fire: 0.1
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally fermented at room temperature for 24-48 hours to develop flavor and texture',
       technicalTips:
-        'Use as a finishing touch, adding after cooking to preserve its probiotic properties',
+        'Use as a finishing touch, adding after cooking to preserve its probiotic properties'
     },
     adjika: {
       name: 'Adjika',
@@ -1281,20 +1281,20 @@ export const russian: Cuisine = {
         'flavor enhancer',
         'bread spread',
         'vegetable seasoning',
-        'stew base',
+        'stew base'
       ],
       variants: ['Abkhazian', 'Georgian', 'Russian style', 'Green adjika', 'Preserved version'],
       elementalProperties: {
         Fire: 0.6,
         Earth: 0.2,
         Air: 0.1,
-        Water: 0.1,
+        Water: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer preparation, year-round use',
       preparationNotes:
         'Traditionally ground with stone mortar and pestle, then fermented in clay pots',
-      technicalTips: 'Can be used raw or cooked; intensity mellows with cooking',
+      technicalTips: 'Can be used raw or cooked; intensity mellows with cooking'
     },
     khrenovina: {
       name: 'Khrenovina',
@@ -1306,21 +1306,21 @@ export const russian: Cuisine = {
         'sandwich spread',
         'appetizer dip',
         'zakuski component',
-        'sauce for fatty foods',
+        'sauce for fatty foods'
       ],
       variants: ['Siberian', 'With beets', 'Extra hot', 'Tomato-forward', 'With apples'],
       elementalProperties: {
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'made in autumn, consumed year-round',
       preparationNotes:
         'Often prepared during harvest season when horseradish is at its most pungent',
       technicalTips:
-        'Grate horseradish in well-ventilated area or underwater to prevent eye irritation',
+        'Grate horseradish in well-ventilated area or underwater to prevent eye irritation'
     },
     gribnoj_soys: {
       name: 'Gribnoj Sous',
@@ -1332,21 +1332,21 @@ export const russian: Cuisine = {
         'meat sauce',
         'dumpling accompaniment',
         'grain topping',
-        'casserole base',
+        'casserole base'
       ],
       variants: ['Wild mushroom', 'White mushroom', 'Creamy', 'Clear stock version', 'With wine'],
       elementalProperties: {
         Earth: 0.5,
         Water: 0.3,
         Air: 0.1,
-        Fire: 0.1,
+        Fire: 0.1
       },
       astrologicalInfluences: ['Saturn', 'Neptune', 'Virgo'],
       seasonality: 'autumn mushroom harvest, preserved for year-round use',
       preparationNotes:
         'Traditionally made with foraged wild mushrooms; dried mushrooms are reconstituted in winter',
       technicalTips:
-        'Brown mushrooms thoroughly to develop full umami flavor before adding liquids',
+        'Brown mushrooms thoroughly to develop full umami flavor before adding liquids'
     },
     ikra: {
       name: 'Ikra Baklazhanaya',
@@ -1359,14 +1359,14 @@ export const russian: Cuisine = {
         Earth: 0.4,
         Fire: 0.3,
         Water: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Venus', 'Mars', 'Taurus'],
       seasonality: 'summer preparation, preserved for winter use',
       preparationNotes:
         'Traditional preparation involves roasting eggplants over open flame for smoky flavor',
-      technicalTips: 'Let flavors marry overnight for best taste; serve at room temperature',
-    },
+      technicalTips: 'Let flavors marry overnight for best taste; serve at room temperature'
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1375,36 +1375,36 @@ export const russian: Cuisine = {
         'smetana with dill',
         'mustard sauce',
         'horseradish',
-        'black pepper sauce',
+        'black pepper sauce'
       ],
       pork: [
         'mustard sauce',
         'prune sauce',
         'apple-horseradish',
         'sour cherry sauce',
-        'garlic sauce',
+        'garlic sauce'
       ],
       poultry: [
         'sour cream sauce',
         'mushroom sauce',
         'cranberry sauce',
         'adjika marinade',
-        'garlic butter',
+        'garlic butter'
       ],
       fish: [
         'ukha reduction',
         'sorrel sauce',
         'smetana with chives',
         'mustard-dill',
-        'white wine sauce',
+        'white wine sauce'
       ],
       game: [
         'lingonberry sauce',
         'juniper sauce',
         'sour cream with mushrooms',
         'blackcurrant sauce',
-        'adjika',
-      ],
+        'adjika'
+      ]
     },
     forVegetable: {
       root: ['smetana', 'brown butter', 'dill sauce', 'mushroom gravy', 'beet sauce'],
@@ -1413,11 +1413,11 @@ export const russian: Cuisine = {
         'sunflower oil dressing',
         'mustard vinaigrette',
         'kvas reduction',
-        'sour cream with herbs',
+        'sour cream with herbs'
       ],
       mushroom: ['sour cream', 'garlic butter', 'dill sauce', 'wine reduction', 'walnut oil'],
       pickled: ['honey drizzle', 'sunflower oil', 'mustard sauce', 'smetana', 'herb oil'],
-      preserved: ['horseradish cream', 'mustard sauce', 'herb oil', 'garlic sauce', 'sour cream'],
+      preserved: ['horseradish cream', 'mustard sauce', 'herb oil', 'garlic sauce', 'sour cream']
     },
     forCookingMethod: {
       baking: ['smetana glaze', 'egg wash', 'honey glaze', 'mushroom sauce', 'garlic butter'],
@@ -1426,7 +1426,7 @@ export const russian: Cuisine = {
         'sour cream',
         'mustard sauce',
         'vinegar reduction',
-        'horseradish cream',
+        'horseradish cream'
       ],
       frying: ['mushroom sauce', 'garlic sauce', 'adjika', 'sour cream', 'berry sauce'],
       stewing: [
@@ -1434,15 +1434,15 @@ export const russian: Cuisine = {
         'sour cream finish',
         'dill sauce',
         'wine sauce',
-        'tomato-pepper sauce',
+        'tomato-pepper sauce'
       ],
       smoking: [
         'horseradish cream',
         'mustard sauce',
         'lingonberry sauce',
         'kvas reduction',
-        'sour pickle sauce',
-      ],
+        'sour pickle sauce'
+      ]
     },
     byAstrological: {
       fire: ['adjika', 'hot mustard', 'pepper sauce', 'horseradish cream', 'spicy tomato'],
@@ -1453,8 +1453,8 @@ export const russian: Cuisine = {
         'vinaigrettes',
         'whipped smetana',
         'honey-herb dressing',
-        'berry vinegar',
-      ],
+        'berry vinegar'
+      ]
     },
     byRegion: {
       northern: ['mushroom sauce', 'fish broth', 'berry sauce', 'herb butter', 'sour milk sauce'],
@@ -1464,16 +1464,16 @@ export const russian: Cuisine = {
         'game reductions',
         'sea buckthorn sauce',
         'wild herb oil',
-        'cedar infusions',
+        'cedar infusions'
       ],
       ural: [
         'mushroom gravy',
         'root vegetable sauce',
         'black pepper sauce',
         'honey-herb',
-        'berry reductions',
+        'berry reductions'
       ],
-      volga: ['fish sauce', 'mustard sauce', 'sour cream', 'dill sauce', 'horseradish cream'],
+      volga: ['fish sauce', 'mustard sauce', 'sour cream', 'dill sauce', 'horseradish cream']
     },
     byDietary: {
       vegetarian: ['mushroom sauce', 'berry sauce', 'herb oil', 'smetana', 'vegetable reductions'],
@@ -1484,9 +1484,9 @@ export const russian: Cuisine = {
         'vegetable broth',
         'berry reduction',
         'kvass sauce',
-        'tomato-based sauce',
-      ],
-    },
+        'tomato-based sauce'
+      ]
+    }
   },
   cookingTechniques: [
     {
@@ -1496,7 +1496,7 @@ export const russian: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       toolsRequired: ['clay pots', 'wooden tools', 'brine', 'glass jars', 'weights'],
       bestFor: ['cabbage', 'cucumbers', 'beets', 'milk', 'bread starter'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Russian Oven Cooking',
@@ -1505,7 +1505,7 @@ export const russian: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       toolsRequired: ['pech (Russian oven)', 'clay pots', 'long wooden paddles', 'cast iron pots'],
       bestFor: ['stews', 'porridges', 'breads', 'slow-roasted meats', 'pies'],
-      difficulty: 'hard',
+      difficulty: 'hard'
     },
     {
       name: 'Solenije',
@@ -1514,7 +1514,7 @@ export const russian: Cuisine = {
       elementalProperties: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['wooden barrels', 'salt', 'heavy weights', 'herbs', 'glass jars'],
       bestFor: ['mushrooms', 'vegetables', 'fish', 'pork fat', 'herbs'],
-      difficulty: 'easy',
+      difficulty: 'easy'
     },
     {
       name: 'Smokehouse Methods',
@@ -1522,7 +1522,7 @@ export const russian: Cuisine = {
       elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
       toolsRequired: ['smoke house', 'wood chips', 'hooks', 'racks', 'temperature control'],
       bestFor: ['fish', 'game', 'sausages', 'pork fat', 'cheese'],
-      difficulty: 'hard',
+      difficulty: 'hard'
     },
     {
       name: 'Томление (Tomlenie)',
@@ -1530,8 +1530,8 @@ export const russian: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['cast iron pot', 'heat diffuser', 'slow heat source', 'wooden spoon'],
       bestFor: ['porridges', 'milk dishes', 'stews', 'root vegetables', 'grains'],
-      difficulty: 'medium',
-    },
+      difficulty: 'medium'
+    }
   ],
   regionalCuisines: {
     northern: {
@@ -1543,11 +1543,11 @@ export const russian: Cuisine = {
         'pies with fish',
         'lingonberry dishes',
         'mushroom preparations',
-        'grain porridges',
+        'grain porridges'
       ],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Moon', 'Saturn', 'Pisces'],
-      seasonality: 'strongly seasonal with emphasis on preservation',
+      seasonality: 'strongly seasonal with emphasis on preservation'
     },
     central: {
       name: 'Central Russian Cuisine',
@@ -1555,7 +1555,7 @@ export const russian: Cuisine = {
       signature: ['shchi', 'kasha', 'olivier salad', 'kotlety', 'black bread'],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Venus', 'Taurus'],
-      seasonality: 'four distinct seasonal variations with preservation techniques',
+      seasonality: 'four distinct seasonal variations with preservation techniques'
     },
     siberian: {
       name: 'Siberian Cuisine',
@@ -1564,7 +1564,7 @@ export const russian: Cuisine = {
       signature: ['pelmeni', 'stroganina', 'cedar nuts', 'game meats', 'fish pie'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
-      seasonality: 'short growing season with extensive preservation',
+      seasonality: 'short growing season with extensive preservation'
     },
     caucasian: {
       name: 'Caucasian-Influenced Russian Cuisine',
@@ -1575,11 +1575,11 @@ export const russian: Cuisine = {
         'adjika',
         'khachapuri adaptations',
         'herb-forward dishes',
-        'fruit preserves',
+        'fruit preserves'
       ],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
-      seasonality: 'longer growing season with more fresh produce',
+      seasonality: 'longer growing season with more fresh produce'
     },
     volga: {
       name: 'Volga Region Cuisine',
@@ -1588,15 +1588,15 @@ export const russian: Cuisine = {
       signature: ['belish', 'ukha', 'river fish dishes', 'pastries', 'honey-based desserts'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Moon', 'Cancer'],
-      seasonality: 'river-influenced with seasonal fishing patterns',
-    },
+      seasonality: 'river-influenced with seasonal fishing patterns'
+    }
   },
   elementalProperties: {
     Earth: 0.5,
     Water: 0.3,
     Fire: 0.1,
-    Air: 0.1,
-  },
+    Air: 0.1
+  }
 };
 
 export default russian;

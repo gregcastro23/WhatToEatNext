@@ -1,7 +1,7 @@
 // src/data/cuisines/korean.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const korean: Cuisine = {
+export const korean: Cuisine = {;
   id: 'korean',
   name: 'Korean',
   description:
@@ -21,7 +21,7 @@ export const korean: Cuisine = {
             'Season with sesame oil',
             'Mix with hot rice',
             'Top with seaweed',
-            'Garnish with green onion',
+            'Garnish with green onion'
           ],
           ingredients: [
             { name: 'steamed rice', amount: '1', unit: 'cup', category: 'grain' },
@@ -30,17 +30,17 @@ export const korean: Cuisine = {
               amount: '2',
               unit: 'large',
               category: 'protein',
-              swaps: ['tofu scramble'],
+              swaps: ['tofu scramble']
             },
             { name: 'sesame oil', amount: '1', unit: 'tsp', category: 'oil' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' },
             { name: 'seaweed', amount: '1', unit: 'sheet', category: 'garnish' },
-            { name: 'green onion', amount: '1', unit: 'stalk', category: 'vegetable' },
+            { name: 'green onion', amount: '1', unit: 'stalk', category: 'vegetable' }
           ],
           substitutions: {
             eggs: ['soft tofu', 'Just Egg'],
             'white rice': ['brown rice', 'quinoa'],
-            seaweed: ['furikake', 'sesame seeds'],
+            seaweed: ['furikake', 'sesame seeds']
           },
           servingSize: 1,
           allergens: ['egg', 'soy'],
@@ -57,7 +57,7 @@ export const korean: Cuisine = {
             carbs: 62,
             fat: 10,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Selenium'],
+            minerals: ['Iron', 'Selenium']
           },
           timeToMake: '15 minutes',
           season: ['all'],
@@ -66,8 +66,8 @@ export const korean: Cuisine = {
             Fire: 0.2,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.2,
-          },
+            Air: 0.2
+          }
         },
         {
           name: 'Juk',
@@ -81,7 +81,7 @@ export const korean: Cuisine = {
             'Stir occasionally',
             'Add seasonings',
             'Cook until creamy',
-            'Add toppings',
+            'Add toppings'
           ],
           ingredients: [
             { name: 'short grain rice', amount: '1', unit: 'cup', category: 'grain' },
@@ -90,16 +90,16 @@ export const korean: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'vegetable',
-              swaps: ['other vegetables'],
+              swaps: ['other vegetables']
             },
             { name: 'carrots', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice' },
-            { name: 'kimchi', amount: '100', unit: 'g', category: 'fermented', optional: true },
+            { name: 'kimchi', amount: '100', unit: 'g', category: 'fermented', optional: true }
           ],
           substitutions: {
             'short grain rice': ['brown rice', 'mixed grains'],
             mushrooms: ['zucchini', 'squash'],
-            kimchi: ['pickled vegetables'],
+            kimchi: ['pickled vegetables']
           },
           servingSize: 2,
           allergens: ['none'],
@@ -116,11 +116,11 @@ export const korean: Cuisine = {
             carbs: 68,
             fat: 4,
             vitamins: ['B6', 'C'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['winter', 'all'],
-          mealType: ['breakfast', 'light meal'],
-        },
+          mealType: ['breakfast', 'light meal']
+        }
       ],
       summer: [
         {
@@ -135,7 +135,7 @@ export const korean: Cuisine = {
             'Strain milk mixture',
             'Cook noodles',
             'Chill broth',
-            'Assemble with toppings',
+            'Assemble with toppings'
           ],
           ingredients: [
             { name: 'soybeans', amount: '200', unit: 'g', category: 'legume' },
@@ -144,16 +144,16 @@ export const korean: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'grain',
-              swaps: ['rice noodles'],
+              swaps: ['rice noodles']
             },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'tomato', amount: '1', unit: 'medium', category: 'vegetable' },
-            { name: 'sesame seeds', amount: '1', unit: 'tbsp', category: 'garnish' },
+            { name: 'sesame seeds', amount: '1', unit: 'tbsp', category: 'garnish' }
           ],
           substitutions: {
             soybeans: ['store-bought soy milk'],
             somyeon: ['somen', 'rice noodles'],
-            cucumber: ['zucchini', 'summer squash'],
+            cucumber: ['zucchini', 'summer squash']
           },
           servingSize: 2,
           allergens: ['soy', 'wheat'],
@@ -170,12 +170,12 @@ export const korean: Cuisine = {
             carbs: 65,
             fat: 12,
             vitamins: ['C', 'K'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['summer'],
-          mealType: ['lunch'],
-        },
-      ],
+          mealType: ['lunch']
+        }
+      ]
     },
     lunch: {
       all: [
@@ -189,7 +189,7 @@ export const korean: Cuisine = {
             'multiple small pans',
             'stone bowl (optional)',
             'mixing bowls',
-            'sharp knife',
+            'sharp knife'
           ],
           preparationSteps: [
             'Cook rice',
@@ -198,7 +198,7 @@ export const korean: Cuisine = {
             'Cook egg sunny-side up',
             'Arrange in bowl',
             'Add gochujang',
-            'Mix before eating',
+            'Mix before eating'
           ],
           ingredients: [
             { name: 'steamed rice', amount: '2', unit: 'cups', category: 'grain' },
@@ -207,26 +207,26 @@ export const korean: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms', 'tofu'],
+              swaps: ['mushrooms', 'tofu']
             },
             { name: 'spinach', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'bean sprouts', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein', swaps: ['tofu'] },
             { name: 'gochujang', amount: '2', unit: 'tbsp', category: 'sauce' },
-            { name: 'sesame oil', amount: '1', unit: 'tbsp', category: 'oil' },
+            { name: 'sesame oil', amount: '1', unit: 'tbsp', category: 'oil' }
           ],
           substitutions: {
             bulgogi: ['marinated mushrooms', 'tofu', 'tempeh'],
             gochujang: ['sriracha + miso paste'],
-            egg: ['fried tofu', 'avocado'],
+            egg: ['fried tofu', 'avocado']
           },
           servingSize: 2,
           allergens: ['egg', 'soy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            "Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means 'mixed rice'",
+            'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means 'mixed rice'',
           pairingSuggestions: ['kimchi', 'doenjang soup', 'korean tea'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'adjustable',
@@ -236,10 +236,10 @@ export const korean: Cuisine = {
             carbs: 82,
             fat: 18,
             vitamins: ['A', 'C', 'B12'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Kimchi Jjigae',
@@ -253,7 +253,7 @@ export const korean: Cuisine = {
             'Simmer until meat is tender',
             'Add tofu',
             'Finish with green onions',
-            'Serve bubbling hot',
+            'Serve bubbling hot'
           ],
           ingredients: [
             { name: 'aged kimchi', amount: '300', unit: 'g', category: 'fermented' },
@@ -262,16 +262,16 @@ export const korean: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms'],
+              swaps: ['mushrooms']
             },
             { name: 'tofu', amount: '200', unit: 'g', category: 'protein' },
             { name: 'gochugaru', amount: '1', unit: 'tbsp', category: 'spice' },
-            { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
+            { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
           ],
           substitutions: {
             'pork belly': ['mushrooms', 'firm tofu'],
             gochugaru: ['red pepper flakes'],
-            'aged kimchi': ['fresh kimchi + fish sauce'],
+            'aged kimchi': ['fresh kimchi + fish sauce']
           },
           servingSize: 4,
           allergens: ['soy'],
@@ -288,11 +288,11 @@ export const korean: Cuisine = {
             carbs: 18,
             fat: 28,
             vitamins: ['C', 'B12', 'K'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['autumn', 'winter', 'all'],
-          mealType: ['lunch', 'dinner'],
-        },
+          mealType: ['lunch', 'dinner']
+        }
       ],
       summer: [
         {
@@ -308,7 +308,7 @@ export const korean: Cuisine = {
             'Boil and slice egg',
             'Assemble in bowls',
             'Add ice cubes',
-            'Serve immediately',
+            'Serve immediately'
           ],
           ingredients: [
             {
@@ -316,24 +316,24 @@ export const korean: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'grain',
-              swaps: ['sweet potato noodles'],
+              swaps: ['sweet potato noodles']
             },
             {
               name: 'beef broth',
               amount: '500',
               unit: 'ml',
               category: 'broth',
-              swaps: ['vegetable broth'],
+              swaps: ['vegetable broth']
             },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'pear', amount: '1/2', unit: 'medium', category: 'fruit' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
-            { name: 'mustard sauce', amount: '2', unit: 'tbsp', category: 'sauce' },
+            { name: 'mustard sauce', amount: '2', unit: 'tbsp', category: 'sauce' }
           ],
           substitutions: {
             'beef broth': ['vegetable broth', 'mushroom broth'],
             'buckwheat noodles': ['sweet potato noodles', 'soba'],
-            pear: ['asian pear', 'apple'],
+            pear: ['asian pear', 'apple']
           },
           servingSize: 2,
           allergens: ['wheat', 'egg'],
@@ -350,16 +350,16 @@ export const korean: Cuisine = {
             carbs: 72,
             fat: 4,
             vitamins: ['C', 'B1'],
-            minerals: ['Iron', 'Manganese'],
+            minerals: ['Iron', 'Manganese']
           },
           season: ['summer'],
-          mealType: ['lunch', 'dinner'],
-        },
+          mealType: ['lunch', 'dinner']
+        }
       ],
       winter: [
         {
           name: 'Tteokguk',
-          description: "Rice cake soup traditionally eaten on New Year's Day",
+          description: 'Rice cake soup traditionally eaten on New Year's Day',
           cuisine: 'Korean',
           cookingMethods: ['simmering', 'slicing', 'garnishing'],
           tools: ['large pot', 'knife', 'strainer', 'ladle', 'serving bowls'],
@@ -369,7 +369,7 @@ export const korean: Cuisine = {
             'Cook rice cakes in broth',
             'Season to taste',
             'Add egg garnish',
-            'Top with seaweed',
+            'Top with seaweed'
           ],
           ingredients: [
             { name: 'sliced rice cakes', amount: '300', unit: 'g', category: 'grain' },
@@ -378,23 +378,23 @@ export const korean: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'protein',
-              swaps: ['mushrooms'],
+              swaps: ['mushrooms']
             },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
-            { name: 'seaweed', amount: '2', unit: 'sheets', category: 'garnish' },
+            { name: 'seaweed', amount: '2', unit: 'sheets', category: 'garnish' }
           ],
           substitutions: {
             beef: ['mushrooms', 'vegetable broth'],
             eggs: ['tofu', 'vegan egg substitute'],
-            seaweed: ['spinach', 'other greens'],
+            seaweed: ['spinach', 'other greens']
           },
           servingSize: 4,
           allergens: ['egg'],
           prepTime: '20 minutes',
           cookTime: '40 minutes',
           culturalNotes:
-            "Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start",
+            'Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start',
           pairingSuggestions: ['kimchi', 'japchae', 'Korean tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -404,12 +404,12 @@ export const korean: Cuisine = {
             carbs: 52,
             fat: 8,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['winter'],
-          mealType: ['holiday', 'lunch', 'dinner'],
-        },
-      ],
+          mealType: ['holiday', 'lunch', 'dinner']
+        }
+      ]
     },
     dinner: {
       all: [
@@ -425,7 +425,7 @@ export const korean: Cuisine = {
             'Heat grill',
             'Cook pork belly',
             'Prepare dipping sauces',
-            'Assemble wraps as eating',
+            'Assemble wraps as eating'
           ],
           ingredients: [
             { name: 'pork belly', amount: '600', unit: 'g', category: 'protein' },
@@ -433,12 +433,12 @@ export const korean: Cuisine = {
             { name: 'perilla leaves', amount: '20', unit: 'leaves', category: 'herb' },
             { name: 'garlic', amount: '1', unit: 'head', category: 'vegetable' },
             { name: 'ssamjang', amount: '4', unit: 'tbsp', category: 'sauce' },
-            { name: 'kimchi', amount: '200', unit: 'g', category: 'side dish' },
+            { name: 'kimchi', amount: '200', unit: 'g', category: 'side dish' }
           ],
           substitutions: {
             'pork belly': ['mushrooms', 'tofu steaks'],
             'perilla leaves': ['sesame leaves', 'mint leaves'],
-            ssamjang: ['gochujang + doenjang'],
+            ssamjang: ['gochujang + doenjang']
           },
           servingSize: 4,
           allergens: ['soy'],
@@ -455,10 +455,10 @@ export const korean: Cuisine = {
             carbs: 15,
             fat: 52,
             vitamins: ['B1', 'K'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['dinner', 'social dining'],
+          mealType: ['dinner', 'social dining']
         },
         {
           name: 'Sundubu Jjigae',
@@ -472,7 +472,7 @@ export const korean: Cuisine = {
             'Simmer ingredients',
             'Add soft tofu',
             'Crack egg on top',
-            'Serve bubbling hot',
+            'Serve bubbling hot'
           ],
           ingredients: [
             { name: 'soft tofu', amount: '400', unit: 'g', category: 'protein' },
@@ -480,12 +480,12 @@ export const korean: Cuisine = {
             { name: 'gochugaru', amount: '2', unit: 'tbsp', category: 'seasoning' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'aromatic' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
-            { name: 'mushrooms', amount: '100', unit: 'g', category: 'vegetable' },
+            { name: 'mushrooms', amount: '100', unit: 'g', category: 'vegetable' }
           ],
           substitutions: {
             clams: ['mushrooms', 'vegetables'],
             egg: ['vegan egg substitute'],
-            gochugaru: ['red pepper flakes'],
+            gochugaru: ['red pepper flakes']
           },
           servingSize: 2,
           allergens: ['shellfish', 'soy', 'egg'],
@@ -502,10 +502,10 @@ export const korean: Cuisine = {
             carbs: 12,
             fat: 22,
             vitamins: ['B12', 'D', 'K'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Bulgogi',
@@ -519,7 +519,7 @@ export const korean: Cuisine = {
             'Marinate meat',
             'Heat grill or pan',
             'Cook in batches',
-            'Garnish and serve',
+            'Garnish and serve'
           ],
           ingredients: [
             { name: 'beef sirloin', amount: '500', unit: 'g', category: 'protein' },
@@ -527,12 +527,12 @@ export const korean: Cuisine = {
             { name: 'soy sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'sesame oil', amount: '2', unit: 'tbsp', category: 'oil' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'aromatic' },
-            { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
+            { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
           ],
           substitutions: {
             'beef sirloin': ['mushrooms', 'firm tofu', 'seitan'],
             'asian pear': ['apple', 'kiwi'],
-            'soy sauce': ['coconut aminos'],
+            'soy sauce': ['coconut aminos']
           },
           servingSize: 4,
           allergens: ['soy'],
@@ -549,10 +549,10 @@ export const korean: Cuisine = {
             carbs: 12,
             fat: 28,
             vitamins: ['B12', 'B6'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Dakgalbi',
@@ -564,7 +564,7 @@ export const korean: Cuisine = {
             'tongs',
             'knife',
             'mixing bowls',
-            'measuring spoons',
+            'measuring spoons'
           ],
           preparationSteps: [
             'Marinate chicken',
@@ -573,7 +573,7 @@ export const korean: Cuisine = {
             'Cook chicken partially',
             'Add vegetables and rice cakes',
             'Stir-fry until done',
-            'Optional: Add rice for bokkeumbap',
+            'Optional: Add rice for bokkeumbap'
           ],
           ingredients: [
             { name: 'chicken thigh', amount: '600', unit: 'g', category: 'protein' },
@@ -581,12 +581,12 @@ export const korean: Cuisine = {
             { name: 'cabbage', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'sweet potato', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'gochugaru', amount: '3', unit: 'tbsp', category: 'seasoning' },
-            { name: 'gochujang', amount: '3', unit: 'tbsp', category: 'sauce' },
+            { name: 'gochujang', amount: '3', unit: 'tbsp', category: 'sauce' }
           ],
           substitutions: {
             'chicken thigh': ['tofu', 'mushrooms', 'cauliflower'],
             'rice cakes': ['sliced rice noodles'],
-            gochujang: ['miso paste + chili sauce'],
+            gochujang: ['miso paste + chili sauce']
           },
           servingSize: 4,
           allergens: ['soy', 'wheat'],
@@ -603,10 +603,10 @@ export const korean: Cuisine = {
             carbs: 45,
             fat: 26,
             vitamins: ['A', 'C', 'B6'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['all'],
-          mealType: ['dinner', 'social dining'],
+          mealType: ['dinner', 'social dining']
         },
         {
           name: 'Haemul Pajeon',
@@ -621,7 +621,7 @@ export const korean: Cuisine = {
             'Heat pan with oil',
             'Pour and spread batter',
             'Add toppings',
-            'Flip and cook until crispy',
+            'Flip and cook until crispy'
           ],
           ingredients: [
             { name: 'flour', amount: '2', unit: 'cups', category: 'grain' },
@@ -632,15 +632,15 @@ export const korean: Cuisine = {
               amount: '150',
               unit: 'g',
               category: 'seafood',
-              swaps: ['vegetables'],
+              swaps: ['vegetables']
             },
             { name: 'eggs', amount: '1', unit: 'large', category: 'protein' },
-            { name: 'kimchi', amount: '100', unit: 'g', category: 'vegetable', optional: true },
+            { name: 'kimchi', amount: '100', unit: 'g', category: 'vegetable', optional: true }
           ],
           substitutions: {
             seafood: ['mushrooms', 'vegetables', 'tofu'],
             eggs: ['chickpea flour batter'],
-            'wheat flour': ['rice flour', 'gluten-free mix'],
+            'wheat flour': ['rice flour', 'gluten-free mix']
           },
           servingSize: 4,
           allergens: ['wheat', 'shellfish', 'egg'],
@@ -657,10 +657,10 @@ export const korean: Cuisine = {
             carbs: 52,
             fat: 14,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all', 'rainy days'],
-          mealType: ['snack', 'dinner'],
+          mealType: ['snack', 'dinner']
         },
         {
           name: 'Gamjatang',
@@ -674,7 +674,7 @@ export const korean: Cuisine = {
             'Cook potatoes',
             'Add seasonings',
             'Simmer until meat tender',
-            'Add perilla leaves',
+            'Add perilla leaves'
           ],
           ingredients: [
             { name: 'pork spine', amount: '1', unit: 'kg', category: 'protein' },
@@ -682,19 +682,19 @@ export const korean: Cuisine = {
             { name: 'perilla leaves', amount: '10', unit: 'leaves', category: 'herb' },
             { name: 'gochugaru', amount: '3', unit: 'tbsp', category: 'seasoning' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
-            { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' },
+            { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' }
           ],
           substitutions: {
             'pork spine': ['mushrooms', 'firm tofu'],
             'perilla leaves': ['basil', 'mint'],
-            gochugaru: ['red pepper flakes'],
+            gochugaru: ['red pepper flakes']
           },
           servingSize: 4,
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '2 hours',
           culturalNotes:
-            "A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure",
+            'A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure',
           pairingSuggestions: ['rice', 'kimchi', 'soju'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -704,10 +704,10 @@ export const korean: Cuisine = {
             carbs: 32,
             fat: 24,
             vitamins: ['B12', 'A', 'C'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['autumn', 'winter'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Bossam',
@@ -721,7 +721,7 @@ export const korean: Cuisine = {
             'Slice cooked pork',
             'Make sauces',
             'Arrange components',
-            'Wrap and eat',
+            'Wrap and eat'
           ],
           ingredients: [
             { name: 'pork belly', amount: '1', unit: 'kg', category: 'protein' },
@@ -729,12 +729,12 @@ export const korean: Cuisine = {
             { name: 'garlic', amount: '10', unit: 'cloves', category: 'aromatic' },
             { name: 'ginger', amount: '50', unit: 'g', category: 'aromatic' },
             { name: 'saeujeot', amount: '100', unit: 'g', category: 'sauce', optional: true },
-            { name: 'radish kimchi', amount: '200', unit: 'g', category: 'side dish' },
+            { name: 'radish kimchi', amount: '200', unit: 'g', category: 'side dish' }
           ],
           substitutions: {
             'pork belly': ['mushrooms', 'tofu'],
             saeujeot: ['soybean paste'],
-            'napa cabbage': ['lettuce', 'perilla leaves'],
+            'napa cabbage': ['lettuce', 'perilla leaves']
           },
           servingSize: 6,
           allergens: ['fish', 'shellfish'],
@@ -751,11 +751,11 @@ export const korean: Cuisine = {
             carbs: 15,
             fat: 48,
             vitamins: ['B1', 'B12'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['winter', 'all'],
-          mealType: ['dinner', 'social dining'],
-        },
+          mealType: ['dinner', 'social dining']
+        }
       ],
       winter: [
         {
@@ -769,12 +769,12 @@ export const korean: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'protein',
-              swaps: ['vegetarian sausage'],
+              swaps: ['vegetarian sausage']
             },
             { name: 'kimchi', amount: '200', unit: 'g', category: 'fermented' },
             { name: 'ramen noodles', amount: '2', unit: 'packs', category: 'grain' },
             { name: 'rice cakes', amount: '200', unit: 'g', category: 'grain' },
-            { name: 'gochugaru', amount: '2', unit: 'tbsp', category: 'spice' },
+            { name: 'gochugaru', amount: '2', unit: 'tbsp', category: 'spice' }
           ],
           nutrition: {
             calories: 720,
@@ -782,12 +782,12 @@ export const korean: Cuisine = {
             carbs: 82,
             fat: 32,
             vitamins: ['B12', 'C'],
-            minerals: ['Iron', 'Sodium'],
+            minerals: ['Iron', 'Sodium']
           },
           timeToMake: '40 minutes',
           season: ['winter'],
-          mealType: ['dinner'],
-        },
+          mealType: ['dinner']
+        }
       ],
       summer: [
         {
@@ -800,12 +800,12 @@ export const korean: Cuisine = {
               amount: '1',
               unit: 'small',
               category: 'protein',
-              swaps: ['seitan chicken'],
+              swaps: ['seitan chicken']
             },
             { name: 'ginseng', amount: '1', unit: 'root', category: 'herb' },
             { name: 'glutinous rice', amount: '100', unit: 'g', category: 'grain' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' },
-            { name: 'jujubes', amount: '4', unit: 'pieces', category: 'fruit' },
+            { name: 'jujubes', amount: '4', unit: 'pieces', category: 'fruit' }
           ],
           nutrition: {
             calories: 520,
@@ -813,13 +813,13 @@ export const korean: Cuisine = {
             carbs: 42,
             fat: 22,
             vitamins: ['B12', 'B6'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           timeToMake: '90 minutes',
           season: ['summer'],
-          mealType: ['dinner'],
-        },
-      ],
+          mealType: ['dinner']
+        }
+      ]
     },
     dessert: {
       summer: [
@@ -835,10 +835,10 @@ export const korean: Cuisine = {
               amount: '60',
               unit: 'ml',
               category: 'dairy',
-              swaps: ['coconut condensed milk'],
+              swaps: ['coconut condensed milk']
             },
             { name: 'rice cakes', amount: '100', unit: 'g', category: 'grain' },
-            { name: 'fruit', amount: '200', unit: 'g', category: 'fruit' },
+            { name: 'fruit', amount: '200', unit: 'g', category: 'fruit' }
           ],
           nutrition: {
             calories: 320,
@@ -846,12 +846,12 @@ export const korean: Cuisine = {
             carbs: 65,
             fat: 4,
             vitamins: ['C', 'A'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           timeToMake: '15 minutes',
           season: ['summer'],
-          mealType: ['dessert'],
-        },
+          mealType: ['dessert']
+        }
       ],
       winter: [
         {
@@ -864,11 +864,11 @@ export const korean: Cuisine = {
               amount: '300',
               unit: 'g',
               category: 'grain',
-              swaps: ['gluten-free flour blend'],
+              swaps: ['gluten-free flour blend']
             },
             { name: 'brown sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'nuts', amount: '50', unit: 'g', category: 'nuts' },
-            { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice' },
+            { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice' }
           ],
           nutrition: {
             calories: 280,
@@ -876,12 +876,12 @@ export const korean: Cuisine = {
             carbs: 52,
             fat: 8,
             vitamins: ['B1', 'E'],
-            minerals: ['Iron'],
+            minerals: ['Iron']
           },
           timeToMake: '45 minutes',
           season: ['winter'],
-          mealType: ['dessert'],
-        },
+          mealType: ['dessert']
+        }
       ],
       all: [
         {
@@ -892,7 +892,7 @@ export const korean: Cuisine = {
             { name: 'rice flour', amount: '400', unit: 'g', category: 'grain' },
             { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' },
             { name: 'honey', amount: '60', unit: 'ml', category: 'sweetener' },
-            { name: 'pine needles', amount: '2', unit: 'cups', category: 'herb' },
+            { name: 'pine needles', amount: '2', unit: 'cups', category: 'herb' }
           ],
           nutrition: {
             calories: 220,
@@ -900,11 +900,11 @@ export const korean: Cuisine = {
             carbs: 45,
             fat: 4,
             vitamins: ['B1', 'E'],
-            minerals: ['Iron', 'Magnesium'],
+            minerals: ['Iron', 'Magnesium']
           },
           timeToMake: '60 minutes',
           season: ['all'],
-          mealType: ['dessert'],
+          mealType: ['dessert']
         },
         {
           name: 'Japchae',
@@ -919,7 +919,7 @@ export const korean: Cuisine = {
             'Stir-fry noodles',
             'Combine ingredients',
             'Season and toss',
-            'Garnish with sesame',
+            'Garnish with sesame'
           ],
           ingredients: [
             { name: 'sweet potato noodles', amount: '250', unit: 'g', category: 'grain' },
@@ -929,12 +929,12 @@ export const korean: Cuisine = {
             { name: 'mushrooms', amount: '150', unit: 'g', category: 'vegetable' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'soy sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
-            { name: 'sesame oil', amount: '2', unit: 'tbsp', category: 'oil' },
+            { name: 'sesame oil', amount: '2', unit: 'tbsp', category: 'oil' }
           ],
           substitutions: {
             beef: ['tofu', 'seitan', 'mushrooms'],
             eggs: ['tofu scramble'],
-            'sweet potato noodles': ['rice noodles', 'kelp noodles'],
+            'sweet potato noodles': ['rice noodles', 'kelp noodles']
           },
           servingSize: 4,
           allergens: ['soy', 'egg'],
@@ -951,13 +951,13 @@ export const korean: Cuisine = {
             carbs: 58,
             fat: 12,
             vitamins: ['A', 'B12', 'K'],
-            minerals: ['Iron', 'Selenium'],
+            minerals: ['Iron', 'Selenium']
           },
           season: ['all'],
-          mealType: ['lunch', 'dinner', 'celebration'],
-        },
-      ],
-    },
+          mealType: ['lunch', 'dinner', 'celebration']
+        }
+      ]
+    }
   },
   traditionalSauces: {
     gochujang: {
@@ -971,12 +971,12 @@ export const korean: Cuisine = {
         Fire: 0.6,
         Earth: 0.3,
         Water: 0.1,
-        Air: 0.0,
+        Air: 0.0
       },
       astrologicalInfluences: ['Mars', 'Aries', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months in earthenware pots called onggi',
-      technicalTips: 'Balance with sweeteners like honey or sugar to mellow its intensity',
+      technicalTips: 'Balance with sweeteners like honey or sugar to mellow its intensity'
     },
     doenjang: {
       name: 'Doenjang',
@@ -987,19 +987,19 @@ export const korean: Cuisine = {
         'soup base',
         'stew seasoning',
         'vegetable dipping sauce',
-        'marinade component',
+        'marinade component'
       ],
       variants: ['Homemade', 'Commercial', 'Aged', 'Premium'],
       elementalProperties: {
         Earth: 0.7,
         Water: 0.2,
         Fire: 0.1,
-        Air: 0.0,
+        Air: 0.0
       },
       astrologicalInfluences: ['Saturn', 'Taurus', 'Capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from soy sauce during fermentation of meju',
-      technicalTips: 'Add at the beginning of cooking to develop depth of flavor',
+      technicalTips: 'Add at the beginning of cooking to develop depth of flavor'
     },
     ssamjang: {
       name: 'Ssamjang',
@@ -1012,12 +1012,12 @@ export const korean: Cuisine = {
         Earth: 0.4,
         Fire: 0.4,
         Water: 0.1,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Mix ingredients fresh before serving for best flavor',
-      technicalTips: 'Balance sweet, savory, and spicy elements to complement the main dish',
+      technicalTips: 'Balance sweet, savory, and spicy elements to complement the main dish'
     },
     ganjang: {
       name: 'Ganjang (Korean Soy Sauce)',
@@ -1031,12 +1031,12 @@ export const korean: Cuisine = {
         Water: 0.4,
         Earth: 0.4,
         Air: 0.1,
-        Fire: 0.1,
+        Fire: 0.1
       },
       astrologicalInfluences: ['Neptune', 'Pisces', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from doenjang during fermentation',
-      technicalTips: 'Use premium varieties for dipping sauces and everyday ones for cooking',
+      technicalTips: 'Use premium varieties for dipping sauces and everyday ones for cooking'
     },
     chogochujang: {
       name: 'Chogochujang',
@@ -1047,19 +1047,19 @@ export const korean: Cuisine = {
         'raw fish dipping',
         'cold noodle sauce',
         'blanched vegetable dressing',
-        'rice cake topping',
+        'rice cake topping'
       ],
       variants: ['Sweet', 'Sour', 'Spicy', 'Fruity (with pear juice)'],
       elementalProperties: {
         Fire: 0.4,
         Air: 0.3,
         Water: 0.2,
-        Earth: 0.1,
+        Earth: 0.1
       },
       astrologicalInfluences: ['Mercury', 'Gemini', 'Sagittarius'],
       seasonality: 'summer',
       preparationNotes: 'Best made fresh rather than stored long-term',
-      technicalTips: 'Adjust vinegar and sugar ratio to complement the dish being served',
+      technicalTips: 'Adjust vinegar and sugar ratio to complement the dish being served'
     },
     yangnyeom: {
       name: 'Yangnyeom Sauce',
@@ -1072,12 +1072,12 @@ export const korean: Cuisine = {
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Mix thoroughly and cook briefly to develop flavors',
-      technicalTips: 'The sauce should coat the back of a spoon but still be pourable',
+      technicalTips: 'The sauce should coat the back of a spoon but still be pourable'
     },
     bulgogi: {
       name: 'Bulgogi Marinade',
@@ -1090,13 +1090,13 @@ export const korean: Cuisine = {
         Water: 0.3,
         Earth: 0.3,
         Fire: 0.2,
-        Air: 0.2,
+        Air: 0.2
       },
       astrologicalInfluences: ['Venus', 'Taurus', 'Libra'],
       seasonality: 'all',
       preparationNotes: 'Asian pear helps tenderize meat while adding subtle sweetness',
       technicalTips:
-        'Marinate beef for at least 2 hours, preferably overnight for best flavor penetration',
+        'Marinate beef for at least 2 hours, preferably overnight for best flavor penetration'
     },
     sesameOil: {
       name: 'Chamgireum (Sesame Oil Dressing)',
@@ -1107,20 +1107,20 @@ export const korean: Cuisine = {
         'vegetable seasoning',
         'meat finishing sauce',
         'bibimbap component',
-        'dipping sauce',
+        'dipping sauce'
       ],
       variants: ['Plain', 'With garlic', 'With chili', 'With perilla oil'],
       elementalProperties: {
         Air: 0.4,
         Earth: 0.4,
         Fire: 0.1,
-        Water: 0.1,
+        Water: 0.1
       },
       astrologicalInfluences: ['Mercury', 'Gemini', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use high-quality freshly toasted sesame oil for best flavor',
-      technicalTips: 'Add at the end of cooking to preserve volatile aromatics',
-    },
+      technicalTips: 'Add at the end of cooking to preserve volatile aromatics'
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1128,21 +1128,21 @@ export const korean: Cuisine = {
       pork: ['ssamjang', 'gochujang', 'doenjang', 'spicy chili sauce'],
       chicken: ['gochujang-based sauce', 'doenjang', 'soy garlic sauce', 'ganjang'],
       seafood: ['chogochujang', 'soy garlic', 'sesame oil with salt', 'citrus soy'],
-      tofu: ['doenjang', 'gochujang', 'ganjang', 'sesame sauce'],
+      tofu: ['doenjang', 'gochujang', 'ganjang', 'sesame sauce']
     },
     forVegetable: {
       leafy: ['ssamjang', 'sesame oil and salt', 'doenjang-based dressing'],
       root: ['chogochujang', 'yangnyeom sauce', 'doenjang-based'],
       mushroom: ['bulgogi sauce', 'sesame oil', 'doenjang soup base'],
       fermented: ['gochujang-based dressing', 'garlic soy', 'chili oil'],
-      freshCrunch: ['gochujang vinaigrette', 'chogochujang', 'sesame dressing'],
+      freshCrunch: ['gochujang vinaigrette', 'chogochujang', 'sesame dressing']
     },
     forCookingMethod: {
       grilling: ['ssamjang', 'gochujang glaze', 'doenjang marinade', 'bulgogi sauce'],
       stewing: ['doenjang jjigae base', 'kimchi jjigae base', 'sundubu base'],
       steaming: ['sesame oil dipping sauce', 'vinegar soy', 'chili oil'],
       panFrying: ['yangnyeom sauce', 'ganjang-based', 'sweet soy glaze'],
-      raw: ['chogochujang', 'sesame oil and salt', 'gojuchang vinaigrette'],
+      raw: ['chogochujang', 'sesame oil and salt', 'gojuchang vinaigrette']
     },
     byAstrological: {
       fire: [
@@ -1150,29 +1150,29 @@ export const korean: Cuisine = {
         'spicy tteokbokki sauce',
         'chili oil',
         'yangnyeom sauce',
-        'maewoon sauce',
+        'maewoon sauce'
       ],
       earth: [
         'doenjang',
         'aged ganjang',
         'fermented bean paste sauces',
         'perilla oil',
-        'wild sesame sauce',
+        'wild sesame sauce'
       ],
       air: [
         'vinegar-based sauces',
         'citrus soy',
         'light sesame dressings',
         'yuzu dressing',
-        'tangerine soy',
+        'tangerine soy'
       ],
       water: [
         'clear soups',
         'mild doenjang',
         'anchovy broth bases',
         'seaweed-infused dipping sauce',
-        'jeotgal sauce',
-      ],
+        'jeotgal sauce'
+      ]
     },
     byRegion: {
       seoul: [
@@ -1180,29 +1180,29 @@ export const korean: Cuisine = {
         'refined doenjang',
         'mild heat',
         'bulgogi sauce',
-        'modern fusion sauces',
+        'modern fusion sauces'
       ],
       jeonju: [
         'rich ganjang',
         'artisanal doenjang',
         'complex fermented flavors',
         'bibimbap sauce',
-        'traditional herb oils',
+        'traditional herb oils'
       ],
       busan: [
         'seafood-focused sauces',
         'spicier profiles',
         'anchovy-based',
         'haemul broth',
-        'dried fish sauces',
+        'dried fish sauces'
       ],
       jeju: [
         'citrus notes',
         'fresh seafood pairings',
         'lighter preparations',
         'hallabong dressing',
-        'black pork marinades',
-      ],
+        'black pork marinades'
+      ]
     },
     byDietary: {
       vegan: ['doenjang', 'gochujang', 'ganjang', 'sesame-based sauces', 'mushroom-based sauces'],
@@ -1211,30 +1211,30 @@ export const korean: Cuisine = {
         'gochujang',
         'vegetable-based sauces',
         'herb-infused oils',
-        'perilla seed sauce',
+        'perilla seed sauce'
       ],
       glutenFree: [
         'rice-based sauces',
         'pure gochujang',
         'traditional doenjang',
         'sesame oil blends',
-        'citrus dressings',
+        'citrus dressings'
       ],
       dairyFree: [
         'most traditional Korean sauces',
         'vinegar-based dips',
         'chili oils',
         'sesame dressings',
-        'fruit reductions',
+        'fruit reductions'
       ],
       lowCarb: [
         'sesame oil dressings',
         'vinegar soy dips',
         'garlic chili oil',
         'perilla oil',
-        'citrus-infused oils',
-      ],
-    },
+        'citrus-infused oils'
+      ]
+    }
   },
   cookingTechniques: [
     {
@@ -1243,7 +1243,7 @@ export const korean: Cuisine = {
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['stone pot', 'steamer', 'heavy pot with lid'],
       bestFor: ['meats', 'whole fish', 'root vegetables', 'egg dishes'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Gui (구이)',
@@ -1251,7 +1251,7 @@ export const korean: Cuisine = {
       elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
       toolsRequired: ['tabletop grill', 'charcoal', 'tongs', 'scissors'],
       bestFor: ['marinated meats', 'fresh pork belly', 'vegetables', 'mushrooms'],
-      difficulty: 'easy',
+      difficulty: 'easy'
     },
     {
       name: 'Jjigae (찌개)',
@@ -1259,7 +1259,7 @@ export const korean: Cuisine = {
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ['earthenware pot', 'ladle', 'heavy-bottomed pot'],
       bestFor: ['kimchi stews', 'tofu dishes', 'seafood', 'vegetable medleys'],
-      difficulty: 'easy',
+      difficulty: 'easy'
     },
     {
       name: 'Namul (나물)',
@@ -1267,7 +1267,7 @@ export const korean: Cuisine = {
       elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.2, Fire: 0.1 },
       toolsRequired: ['blanching pot', 'mixing bowls', 'dipping basket'],
       bestFor: ['wild greens', 'sprouts', 'seaweed', 'root vegetables'],
-      difficulty: 'easy',
+      difficulty: 'easy'
     },
     {
       name: 'Jeongol (전골)',
@@ -1275,8 +1275,8 @@ export const korean: Cuisine = {
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ['jeongol pot', 'portable burner', 'ladle', 'chopsticks'],
       bestFor: ['thinly sliced meats', 'seafood', 'tofu', 'vegetables'],
-      difficulty: 'medium',
-    },
+      difficulty: 'medium'
+    }
   ],
   regionalCuisines: {
     seoul: {
@@ -1285,16 +1285,16 @@ export const korean: Cuisine = {
       signature: ['royal court dishes', 'japchae', 'bulgogi', 'refined banchan'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'Libra'],
-      seasonality: 'moderately seasonal',
+      seasonality: 'moderately seasonal'
     },
     jeonju: {
       name: 'Jeonju (Southwest) Cuisine',
       description:
-        "Known as Korea's food capital, with emphasis on quality ingredients and tradition",
+        'Known as Korea's food capital, with emphasis on quality ingredients and tradition',
       signature: ['bibimbap', 'kongnamul gukbap', 'makgeolli', 'traditional banchan'],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Taurus'],
-      seasonality: 'highly seasonal',
+      seasonality: 'highly seasonal'
     },
     gyeongsang: {
       name: 'Gyeongsang (Southeast) Cuisine',
@@ -1302,7 +1302,7 @@ export const korean: Cuisine = {
       signature: ['dwaeji gukbap', 'milmyeon', 'agujjim', 'spicy seafood soups'],
       elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
-      seasonality: 'coastal seasonal',
+      seasonality: 'coastal seasonal'
     },
     jeju: {
       name: 'Jeju Island Cuisine',
@@ -1310,15 +1310,15 @@ export const korean: Cuisine = {
       signature: ['black pork', 'haemul dishes', 'abalone porridge', 'hallabong citrus'],
       elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Jupiter', 'Pisces'],
-      seasonality: 'island seasonal cycle',
-    },
+      seasonality: 'island seasonal cycle'
+    }
   },
   elementalProperties: {
     Fire: 0.3, // Represents spicy elements and grilling
     Earth: 0.3, // Represents fermented foods and root vegetables
     Water: 0.2, // Represents soups and stews
     Air: 0.2, // Represents light broths and garnishes
-  },
+  }
 };
 
 export default korean;

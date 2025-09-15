@@ -30,7 +30,7 @@ export function generateCuisineRecommendation(
       cuisine: 'Mexican',
       score: ((elementalProperties as any)?.Fire || 0) * 0.2,
       reasoning: 'High Fire element matches spicy Mexican cuisine',
-      elementalMatch: elementalProperties.Fire,
+      elementalMatch: elementalProperties.Fire
     });
   }
 
@@ -40,7 +40,7 @@ export function generateCuisineRecommendation(
       cuisine: 'Mediterranean',
       score: ((elementalProperties as any)?.Water || 0) * 0.2,
       reasoning: 'High Water element matches Mediterranean freshness',
-      elementalMatch: elementalProperties.Water,
+      elementalMatch: elementalProperties.Water
     });
   }
 
@@ -50,7 +50,7 @@ export function generateCuisineRecommendation(
       cuisine: 'Italian',
       score: ((elementalProperties as any)?.Earth || 0) * 0.2,
       reasoning: 'High Earth element matches hearty Italian cuisine',
-      elementalMatch: elementalProperties.Earth,
+      elementalMatch: elementalProperties.Earth
     });
   }
 
@@ -60,7 +60,7 @@ export function generateCuisineRecommendation(
       cuisine: 'Asian',
       score: ((elementalProperties as any)?.Air || 0) * 0.2,
       reasoning: 'High Air element matches light Asian cuisine',
-      elementalMatch: elementalProperties.Air,
+      elementalMatch: elementalProperties.Air
     });
   }
 
@@ -74,7 +74,7 @@ export function getCuisineElementalProfile(cuisine: string): ElementalProperties
     Mediterranean: { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 },
     Asian: { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 },
     Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 },
-    Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 },
+    Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 }
   };
 
   return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
@@ -115,7 +115,7 @@ export function calculateElementalProfileFromZodiac(zodiacSign: string): Element
     // Water signs
     cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 },
     scorpio: { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 },
-    pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 },
+    pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 }
   };
 
   return (
@@ -136,7 +136,7 @@ export function calculateElementalContributionsFromPlanets(
     venus: { Fire: 0, Water: 0.7, Earth: 0.3, Air: 0 },
     mars: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
     jupiter: { Fire: 0.5, Water: 0, Earth: 0, Air: 0.5 },
-    saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 },
+    saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 }
   };
 
   Object.entries(planetaryPositions).forEach(([planet, position]) => {

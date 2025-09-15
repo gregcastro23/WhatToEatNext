@@ -8,7 +8,7 @@ import {
   ExportTransformationEngine,
   BatchPriority,
   TransformationErrorType,
-  ErrorSeverity,
+  ErrorSeverity
 } from './ExportTransformationEngine';
 import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
@@ -33,7 +33,7 @@ describe('ExportTransformationEngine', () => {
     jest.clearAllMocks();
 
     // Mock analyzer
-    mockAnalyzer.prototype.analyzeUnusedExports = jest.fn().mockResolvedValue({
+    mockAnalyzer.prototype.analyzeUnusedExports = jest.fn().mockResolvedValue({;
       totalFiles: 10,
       totalUnusedExports: 25,
       highPriorityFiles: [
@@ -48,11 +48,11 @@ describe('ExportTransformationEngine', () => {
               intelligenceSystemName: 'TEST_EXPORT_1_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'MODERATE',
               safetyScore: 85,
-              estimatedBenefit: 75,
-            },
+              estimatedBenefit: 75
+            }
           ],
-          category: 'CORE',
-        },
+          category: 'CORE'
+        }
       ],
       mediumPriorityFiles: [
         {
@@ -66,11 +66,11 @@ describe('ExportTransformationEngine', () => {
               intelligenceSystemName: 'TEST_EXPORT_2_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'COMPLEX',
               safetyScore: 80,
-              estimatedBenefit: 80,
-            },
+              estimatedBenefit: 80
+            }
           ],
-          category: 'CORE',
-        },
+          category: 'CORE'
+        }
       ],
       lowPriorityFiles: [],
       summary: { recipeFiles: 2,
@@ -78,12 +78,12 @@ describe('ExportTransformationEngine', () => {
         externalFiles: 0,
         totalTransformationCandidates: 2,
         averageSafetyScore: 87.5,
-        estimatedIntelligenceSystems: 2,
-      },
+        estimatedIntelligenceSystems: 2
+      }
     });
 
     // Mock generator
-    mockGenerator.prototype.generateIntelligenceSystems = jest.fn().mockResolvedValue([
+    mockGenerator.prototype.generateIntelligenceSystems = jest.fn().mockResolvedValue([;
       {
         systemName: 'TEST_SYSTEM_1',
         filePath: '/output/TEST_SYSTEM_1.ts',
@@ -92,21 +92,21 @@ describe('ExportTransformationEngine', () => {
         capabilities: [],
         integrationPoints: [],
         estimatedValue: 75,
-        complexity: 'MODERATE',
-      },
+        complexity: 'MODERATE'
+      }
     ]);
 
-    mockGenerator.prototype.generateSummary = jest.fn().mockReturnValue({
+    mockGenerator.prototype.generateSummary = jest.fn().mockReturnValue({;
       totalSystemsGenerated: 1,
       totalCapabilitiesAdded: 3,
       totalIntegrationPoints: 2,
       averageComplexity: 2.5,
       estimatedTotalValue: 75,
-      generationsByCategory: { functio, n: 1 },
+      generationsByCategory: { functio, n: 1 }
     });
 
     // Mock safety protocol
-    const safetyProtocolMethods: any = mockSafetyProtocol as unknown as {
+    const safetyProtocolMethods: any = mockSafetyProtocol as unknown as {;
       prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>>;
         rollbackToCheckpoint: jest.MockedFunction<() => Promise<any>>;, emergencyRollback: jest.MockedFunction<() => Promise<any>>;
         createStash: jest.MockedFunction<() => Promise<string>>;, createCheckpointStash: jest.MockedFunction<() => Promise<string>>;
@@ -121,7 +121,7 @@ describe('ExportTransformationEngine', () => {
     safetyProtocolMethods.prototype.getSafetyEvents = jest.fn().mockResolvedValue([]);
 
     // Mock progress tracker
-    const progressTrackerMethods: any = mockProgressTracker as unknown as {
+    const progressTrackerMethods: any = mockProgressTracker as unknown as {;
       prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>;
         getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>;, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>;
         resetMetricsHistory: jest.MockedFunction<() => Promise<any>>;
@@ -132,7 +132,7 @@ describe('ExportTransformationEngine', () => {
     progressTrackerMethods.prototype.getTypeScriptErrorBreakdown = jest.fn().mockResolvedValue({});
     progressTrackerMethods.prototype.resetMetricsHistory = jest.fn().mockResolvedValue(undefined);
 
-    engine = new ExportTransformationEngine({
+    engine = new ExportTransformationEngine({;
       batchSize: 5,
       safetyThreshold: 80,
       dryRun: true, // Use dry run for tests
@@ -152,10 +152,10 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should initialize with custom configuration', () => {
-      const customEngine: any = new ExportTransformationEngine({
+      const customEngine: any = new ExportTransformationEngine({;
         batchSize: 15,
         safetyThreshold: 90,
-        dryRun: true,
+        dryRun: true
       });
 
       const config: any = customEngine.getConfig();
@@ -218,9 +218,9 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should respect batch size configuration', async () => {
-      const smallBatchEngine: any = new ExportTransformationEngine({
+      const smallBatchEngine: any = new ExportTransformationEngine({;
         batchSize: 1,
-        dryRun: true,
+        dryRun: true
       });
 
       const summary: any = await smallBatchEngine.executeTransformation();
@@ -239,9 +239,9 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should handle batch failures with rollback', async () => {
-      const failingEngine: any = new ExportTransformationEngine({
+      const failingEngine: any = new ExportTransformationEngine({;
         dryRun: false,
-        rollbackOnFailure: true,
+        rollbackOnFailure: true
       });
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Generation failed'));
@@ -259,9 +259,9 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should skip rollback when disabled', async () => {
-      const noRollbackEngine: any = new ExportTransformationEngine({
+      const noRollbackEngine: any = new ExportTransformationEngine({;
         dryRun: false,
-        rollbackOnFailure: false,
+        rollbackOnFailure: false
       });
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Generation failed'));
@@ -274,9 +274,9 @@ describe('ExportTransformationEngine', () => {
 
   describe('safety validation', () => {
     it('should enforce safety threshold', async () => {
-      const strictEngine: any = new ExportTransformationEngine({
+      const strictEngine: any = new ExportTransformationEngine({;
         safetyThreshold: 95, // Higher than mock data;
-        dryRun: false,
+        dryRun: false
       });
 
       const summary: any = await strictEngine.executeTransformation();
@@ -301,8 +301,8 @@ describe('ExportTransformationEngine', () => {
 
   describe('error handling', () => {
     it('should log transformation errors', async () => {
-      const errorEngine: any = new ExportTransformationEngine({
-        dryRun: false,
+      const errorEngine: any = new ExportTransformationEngine({;
+        dryRun: false
       });
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Test error'));
@@ -325,9 +325,9 @@ describe('ExportTransformationEngine', () => {
 
   describe('batch safety scoring', () => {
     it('should calculate batch safety scores correctly', () => {
-      const mockFiles: any = [
+      const mockFiles: any = [;
         { safetyScore: 90, transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }] },
-        { safetyScore: 80, transformationCandidates: [{ transformationComplexit, y: 'COMPLEX' }] },
+        { safetyScore: 80, transformationCandidates: [{ transformationComplexit, y: 'COMPLEX' }] }
       ];
 
       const score: any = (;
@@ -346,10 +346,10 @@ describe('ExportTransformationEngine', () => {
 
   describe('duration estimation', () => {
     it('should estimate batch duration based on complexity', () => {
-      const mockFiles: any = [
+      const mockFiles: any = [;
         {
-          transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }, { transformationComplexity: 'COMPLEX' }],
-        },
+          transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }, { transformationComplexity: 'COMPLEX' }]
+        }
       ];
 
       const duration: any = (;
@@ -397,7 +397,7 @@ describe('ExportTransformationEngine', () => {
     });
 
     it('should handle empty results', () => {
-      const summary: any = (
+      const summary: any = (;
         engine as unknown as {
           generateTransformationSummary: (result, s: any[], duration: number) => Record<string, unknown>;
         }

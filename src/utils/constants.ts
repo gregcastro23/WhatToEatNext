@@ -11,7 +11,7 @@ export * from './constants/lunar';
 export * from './constants/seasons';
 
 // Type-safe threshold constants with explicit type declarations
-export const THRESHOLD: {
+export const _THRESHOLD: {
   LOW: number;
   MEDIUM: number;
   HIGH: number;
@@ -20,12 +20,12 @@ export const THRESHOLD: {
   LOW: 0.33,
   MEDIUM: 0.66,
   HIGH: 0.9,
-  MAXIMUM: 1.0,
+  MAXIMUM: 1.0
 };
 
 // Export common constants that might be needed across multiple files
 // with explicit type declarations
-export const DEFAULT_MATCH_THRESHOLD: number = 0.6;
-export const DEFAULT_COMPATIBILITY_THRESHOLD: number = 0.7;
-export const DEFAULT_LIMIT: number = 10;
-export const DEFAULT_PRECISION: number = 2;
+export const _DEFAULT_MATCH_THRESHOLD: number = 0.6;
+export const _DEFAULT_COMPATIBILITY_THRESHOLD: number = 0.7;
+export const _DEFAULT_LIMIT: number = 10;
+export const _DEFAULT_PRECISION: number = 2;

@@ -41,7 +41,7 @@ export class DomainContextAnalyzer {
       subDomain,
       intentionalityHints,
       suggestedTypes,
-      preservationReasons,
+      preservationReasons
     };
   }
 
@@ -60,7 +60,7 @@ export class DomainContextAnalyzer {
         ...variableNameSuggestions, // Then variable name suggestions
         ...patternBasedSuggestions, // Then pattern-based suggestions
         ...baseSuggestions, // Finally base suggestions
-      ]),
+      ])
     ];
   }
 
@@ -286,19 +286,19 @@ export class DomainContextAnalyzer {
     const normalizedPath = filePath.toLowerCase().replace(/\\/g, '/');
 
     // Check in priority order (test files first, then components, etc.)
-    const orderedDomains = [
+    const orderedDomains = [;
       CodeDomain.TEST,
       CodeDomain.COMPONENT,
       CodeDomain.ASTROLOGICAL,
       CodeDomain.CAMPAIGN,
       CodeDomain.RECIPE,
       CodeDomain.SERVICE,
-      CodeDomain.UTILITY,
+      CodeDomain.UTILITY
     ];
 
     for (const domain of orderedDomains) {
       const patterns = this.pathPatterns.get(domain) || [];
-      if (patterns.some(pattern => pattern.test(normalizedPath))) {
+      if (patterns.some(pattern => pattern.test(normalizedPath))) {;
         return domain;
       }
     }
@@ -344,8 +344,8 @@ export class DomainContextAnalyzer {
     const codeContent = [context.codeSnippet, ...context.surroundingLines].join('\n');
 
     // Look for import patterns
-    const importMatches = codeContent.match(/import.*from\s+['"`]([^'"`]+)['"`]/g) || [];
-    const requireMatches = codeContent.match(/require\(['"`]([^'"`]+)['"`]\)/g) || [];
+    const importMatches = codeContent.match(/import.*from\s+[''`]([^''`]+)[''`]/g) || [];
+    const requireMatches = codeContent.match(/require\([''`]([^''`]+)[''`]\)/g) || [];
 
     const allImports = [...importMatches, ...requireMatches].join(' ').toLowerCase();
 
@@ -457,7 +457,7 @@ export class DomainContextAnalyzer {
           reason:
             'Astrological calculations often require flexible typing for external astronomical data',
           confidence: 0.8,
-          suggestedAction: 'preserve',
+          suggestedAction: 'preserve'
         });
 
         if (context.codeSnippet.includes('position') || context.codeSnippet.includes('planetary')) {
@@ -465,7 +465,7 @@ export class DomainContextAnalyzer {
             reason:
               'Planetary position data from external APIs may need any type for compatibility',
             confidence: 0.9,
-            suggestedAction: 'document',
+            suggestedAction: 'document'
           });
         }
         break;
@@ -475,7 +475,7 @@ export class DomainContextAnalyzer {
           hints.push({
             reason: 'Recipe and ingredient data can often use specific types',
             confidence: 0.7,
-            suggestedAction: 'replace',
+            suggestedAction: 'replace'
           });
         }
         break;
@@ -484,14 +484,14 @@ export class DomainContextAnalyzer {
         hints.push({
           reason: 'Campaign system requires flexibility for dynamic configurations and metrics',
           confidence: 0.85,
-          suggestedAction: 'preserve',
+          suggestedAction: 'preserve'
         });
 
         if (context.codeSnippet.includes('metrics') || context.codeSnippet.includes('config')) {
           hints.push({
             reason: 'Dynamic campaign configurations benefit from flexible typing',
             confidence: 0.9,
-            suggestedAction: 'document',
+            suggestedAction: 'document'
           });
         }
         break;
@@ -500,7 +500,7 @@ export class DomainContextAnalyzer {
         hints.push({
           reason: 'Test files often need flexible typing for mocks and test data',
           confidence: 0.8,
-          suggestedAction: 'preserve',
+          suggestedAction: 'preserve'
         });
         break;
 
@@ -509,13 +509,13 @@ export class DomainContextAnalyzer {
           hints.push({
             reason: 'API responses may require any type for external service compatibility',
             confidence: 0.8,
-            suggestedAction: 'document',
+            suggestedAction: 'document'
           });
         } else {
           hints.push({
             reason: 'Service layer can often use more specific types',
             confidence: 0.6,
-            suggestedAction: 'review',
+            suggestedAction: 'review'
           });
         }
         break;
@@ -524,7 +524,7 @@ export class DomainContextAnalyzer {
         hints.push({
           reason: 'No domain-specific patterns detected, consider replacement',
           confidence: 0.5,
-          suggestedAction: 'review',
+          suggestedAction: 'review'
         });
     }
 
@@ -989,19 +989,19 @@ export class DomainContextAnalyzer {
   private getPreservationReasons(context: ClassificationContext, domain: CodeDomain): string[] {
     const reasons: string[] = [];
 
-    if (domain === CodeDomain.ASTROLOGICAL) {
+    if (domain === CodeDomain.ASTROLOGICAL) {;
       reasons.push(
         'Astrological calculations require compatibility with external astronomical libraries',
       );
       reasons.push('Planetary position data structures vary between different API sources');
     }
 
-    if (domain === CodeDomain.CAMPAIGN) {
+    if (domain === CodeDomain.CAMPAIGN) {;
       reasons.push('Campaign system needs flexibility for evolving metrics and configurations');
       reasons.push('Dynamic tool integration requires adaptable type structures');
     }
 
-    if (domain === CodeDomain.TEST) {
+    if (domain === CodeDomain.TEST) {;
       reasons.push('Test flexibility for mocking and test data generation');
       reasons.push('Jest and testing library compatibility requirements');
     }
@@ -1026,7 +1026,7 @@ export class DomainContextAnalyzer {
       [CodeDomain.TEST, [/__tests__/i, /\.test\./i, /\.spec\./i, /\/test/i, /\/spec/i]],
       [
         CodeDomain.COMPONENT,
-        [/\/component/i, /\.tsx$/i, /\.jsx$/i, /\/ui\//i, /\/pages\//i, /\/app\//i],
+        [/\/component/i, /\.tsx$/i, /\.jsx$/i, /\/ui\//i, /\/pages\//i, /\/app\//i]
       ],
       [
         CodeDomain.ASTROLOGICAL,
@@ -1038,8 +1038,8 @@ export class DomainContextAnalyzer {
           /lunar/i,
           /solar/i,
           /zodiac/i,
-          /ephemeris/i,
-        ],
+          /ephemeris/i
+        ]
       ],
       [
         CodeDomain.CAMPAIGN,
@@ -1050,8 +1050,8 @@ export class DomainContextAnalyzer {
           /linting/i,
           /validation/i,
           /metrics/i,
-          /progress/i,
-        ],
+          /progress/i
+        ]
       ],
       [
         CodeDomain.RECIPE,
@@ -1063,14 +1063,14 @@ export class DomainContextAnalyzer {
           /\/cooking/i,
           /\/nutrition/i,
           /\/data\/.*ingredient/i,
-          /\/data\/.*recipe/i,
-        ],
+          /\/data\/.*recipe/i
+        ]
       ],
       [
         CodeDomain.SERVICE,
-        [/\/service/i, /\/api/i, /\/client/i, /\/adapter/i, /recommendation.*service/i],
+        [/\/service/i, /\/api/i, /\/client/i, /\/adapter/i, /recommendation.*service/i]
       ],
-      [CodeDomain.UTILITY, [/\/utils/i, /\/helper/i, /\/common/i, /\/shared/i, /\/lib/i]],
+      [CodeDomain.UTILITY, [/\/utils/i, /\/helper/i, /\/common/i, /\/shared/i, /\/lib/i]]
     ]);
   }
 
@@ -1086,8 +1086,8 @@ export class DomainContextAnalyzer {
           /position|degree|longitude|latitude|ephemeris/gi,
           /fire|water|earth|air|elemental/gi,
           /astronomia|astronomy-engine|suncalc/gi,
-          /PlanetaryPosition|ElementalProperties|ZodiacSign/gi,
-        ],
+          /PlanetaryPosition|ElementalProperties|ZodiacSign/gi
+        ]
       ],
       [
         CodeDomain.RECIPE,
@@ -1095,8 +1095,8 @@ export class DomainContextAnalyzer {
           /recipe|ingredient|food|culinary|cooking|nutrition/gi,
           /flavor|taste|spice|herb|vegetable|fruit/gi,
           /meal|dish|cuisine|dietary/gi,
-          /Ingredient|Recipe|NutritionalInfo|CookingMethod/gi,
-        ],
+          /Ingredient|Recipe|NutritionalInfo|CookingMethod/gi
+        ]
       ],
       [
         CodeDomain.CAMPAIGN,
@@ -1104,24 +1104,24 @@ export class DomainContextAnalyzer {
           /campaign|metrics|progress|typescript|linting|error/gi,
           /validation|safety|rollback|checkpoint/gi,
           /intelligence|enterprise|automation/gi,
-          /CampaignConfig|ProgressMetrics|ValidationResult/gi,
-        ],
+          /CampaignConfig|ProgressMetrics|ValidationResult/gi
+        ]
       ],
       [
         CodeDomain.SERVICE,
         [
           /service|api|request|response|client|server/gi,
           /endpoint|http|fetch|axios|data/gi,
-          /ApiResponse|ServiceData|RequestConfig/gi,
-        ],
+          /ApiResponse|ServiceData|RequestConfig/gi
+        ]
       ],
       [
         CodeDomain.COMPONENT,
         [
           /component|props|state|render|jsx|tsx/gi,
           /react|hook|context|provider/gi,
-          /ComponentProps|React\.Component|JSX\.Element/gi,
-        ],
+          /ComponentProps|React\.Component|JSX\.Element/gi
+        ]
       ],
       [CodeDomain.UTILITY, [/util|helper|common|shared|lib/gi, /function|method|tool|format/gi]],
       [
@@ -1129,9 +1129,9 @@ export class DomainContextAnalyzer {
         [
           /test|spec|mock|jest|describe|it|expect/gi,
           /fixture|stub|spy|beforeEach|afterEach/gi,
-          /jest\.Mock|MockedFunction|TestData/gi,
-        ],
-      ],
+          /jest\.Mock|MockedFunction|TestData/gi
+        ]
+      ]
     ]);
   }
 
@@ -1151,11 +1151,11 @@ export class DomainContextAnalyzer {
             'zodiac',
             [
               /zodiac|sign/gi,
-              /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/gi,
-            ],
+              /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/gi
+            ]
           ],
-          ['calculations', [/calculation|compute|algorithm/gi, /ephemeris|transit/gi]],
-        ]),
+          ['calculations', [/calculation|compute|algorithm/gi, /ephemeris|transit/gi]]
+        ])
       ],
       [
         CodeDomain.RECIPE,
@@ -1164,8 +1164,8 @@ export class DomainContextAnalyzer {
           ['cooking-methods', [/cooking|method/gi, /bake|boil|fry|steam|grill/gi]],
           ['nutrition', [/nutrition|nutrient/gi, /calorie|vitamin|mineral/gi]],
           ['cuisines', [/cuisine|cultural/gi, /italian|chinese|mexican|indian/gi]],
-          ['recipes', [/recipe|dish|meal/gi, /preparation|instruction/gi]],
-        ]),
+          ['recipes', [/recipe|dish|meal/gi, /preparation|instruction/gi]]
+        ])
       ],
       [
         CodeDomain.CAMPAIGN,
@@ -1175,8 +1175,8 @@ export class DomainContextAnalyzer {
           ['performance', [/performance|optimization/gi, /memory|speed|bundle/gi]],
           ['metrics', [/metrics|progress/gi, /tracking|measurement/gi]],
           ['intelligence', [/intelligence|enterprise/gi, /analytics|insights/gi]],
-          ['safety', [/safety|validation/gi, /rollback|checkpoint/gi]],
-        ]),
+          ['safety', [/safety|validation/gi, /rollback|checkpoint/gi]]
+        ])
       ],
       [
         CodeDomain.SERVICE,
@@ -1184,8 +1184,8 @@ export class DomainContextAnalyzer {
           ['recommendation', [/recommendation|suggest/gi, /algorithm|matching/gi]],
           ['api-integration', [/api|integration/gi, /request|response|endpoint/gi]],
           ['data-processing', [/data|processing/gi, /transform|parse|validate/gi]],
-          ['caching', [/cache|storage/gi, /redis|memory/gi]],
-        ]),
+          ['caching', [/cache|storage/gi, /redis|memory/gi]]
+        ])
       ],
       [
         CodeDomain.COMPONENT,
@@ -1193,25 +1193,25 @@ export class DomainContextAnalyzer {
           ['ui-components', [/component|ui/gi, /button|input|modal/gi]],
           ['pages', [/page|route/gi, /navigation|layout/gi]],
           ['hooks', [/hook|use[A-Z]/gi, /state|effect|context/gi]],
-          ['forms', [/form|input/gi, /validation|submit/gi]],
-        ]),
+          ['forms', [/form|input/gi, /validation|submit/gi]]
+        ])
       ],
       [
         CodeDomain.TEST,
         new Map([
           ['unit-tests', [/unit|test/gi, /describe|it|expect/gi]],
           ['integration-tests', [/integration|e2e/gi, /workflow|scenario/gi]],
-          ['mocks', [/mock|stub|spy/gi, /jest\.mock|mockImplementation/gi]],
-        ]),
+          ['mocks', [/mock|stub|spy/gi, /jest\.mock|mockImplementation/gi]]
+        ])
       ],
       [
         CodeDomain.UTILITY,
         new Map([
           ['validation', [/validation|validate/gi, /schema|rule/gi]],
           ['formatting', [/format|transform/gi, /string|date|number/gi]],
-          ['helpers', [/helper|utility/gi, /common|shared/gi]],
-        ]),
-      ],
+          ['helpers', [/helper|utility/gi, /common|shared/gi]]
+        ])
+      ]
     ]);
   }
 
@@ -1257,8 +1257,8 @@ export class DomainContextAnalyzer {
           'ElementalCompatibility',
           'AstronomicalCalculation',
           'CoordinateSystem',
-          'unknown',
-        ],
+          'unknown'
+        ]
       ],
       [
         CodeDomain.RECIPE,
@@ -1286,8 +1286,8 @@ export class DomainContextAnalyzer {
           'CuisineType',
           'DietaryRestriction',
           'SeasonalAvailability',
-          'unknown',
-        ],
+          'unknown'
+        ]
       ],
       [
         CodeDomain.CAMPAIGN,
@@ -1317,8 +1317,8 @@ export class DomainContextAnalyzer {
           'IntelligenceData',
           'PatternAnalysis',
           'PredictiveMetrics',
-          'Record<string, unknown>',
-        ],
+          'Record<string, unknown>'
+        ]
       ],
       [
         CodeDomain.SERVICE,
@@ -1341,8 +1341,8 @@ export class DomainContextAnalyzer {
           'ValidationSchema',
           'CacheEntry',
           'ServiceError',
-          'unknown',
-        ],
+          'unknown'
+        ]
       ],
       [
         CodeDomain.COMPONENT,
@@ -1371,8 +1371,8 @@ export class DomainContextAnalyzer {
           'ChartProps',
           'RecipeCardProps',
           'IngredientCardProps',
-          'unknown',
-        ],
+          'unknown'
+        ]
       ],
       [
         CodeDomain.UTILITY,
@@ -1385,8 +1385,8 @@ export class DomainContextAnalyzer {
           'boolean',
           'Date',
           'Array<unknown>',
-          'Promise<unknown>',
-        ],
+          'Promise<unknown>'
+        ]
       ],
       [
         CodeDomain.TEST,
@@ -1406,9 +1406,9 @@ export class DomainContextAnalyzer {
           'TestFixture',
           'TestContext',
           'TestCase',
-          'unknown',
-        ],
-      ],
+          'unknown'
+        ]
+      ]
     ]);
   }
 }

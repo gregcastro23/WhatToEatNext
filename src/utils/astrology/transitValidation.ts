@@ -174,8 +174,8 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     }
 
     // Check for gaps or overlaps between signs
-    const sortedTransits = signs
-      .map(sign => ({
+    const sortedTransits = signs;
+      .map(sign => ({;
         sign,
         start: new Date(
           (
@@ -186,9 +186,9 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
           (
             transitDates[sign] as { Start: string | number | Date; End: string | number | Date }
           ).End,
-        ),
+        )
       }))
-      .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()))
+      .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()));
       .sort((a, b) => a.start.getTime() - b.start.getTime());
 
     for (let i = 0; i < sortedTransits.length - 1; i++) {
@@ -241,16 +241,16 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     }
 
     return {
-      isValid: errors.length === 0,
+      isValid: errors.length === 0,;
       errors,
-      warnings,
+      warnings
     };
   } catch (error) {
     errors.push(`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     return {
       isValid: false,
       errors,
-      warnings,
+      warnings
     };
   }
 }
@@ -296,7 +296,7 @@ export async function loadPlanetTransitDates(
 export async function validatePlanetaryPosition(
   planetName: string,
   position: { sign: string; degree: number; exactLongitude: number },
-  date: Date = new Date(),
+  date: Date = new Date(),;
 ): Promise<boolean> {
   try {
     const transitDates = await loadPlanetTransitDates(planetName);
@@ -324,7 +324,7 @@ export async function validatePlanetaryPosition(
 /**
  * Constants for transit validation
  */
-export const TRANSIT_CONSTANTS = {
+export const _TRANSIT_CONSTANTS = {;
   VALID_SIGNS: [
     'aries',
     'taurus',
@@ -337,7 +337,7 @@ export const TRANSIT_CONSTANTS = {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ],
   DEGREES_PER_SIGN: 30,
   MAX_LONGITUDE: 360,
@@ -350,8 +350,8 @@ export const TRANSIT_CONSTANTS = {
     'saturn',
     'uranus',
     'neptune',
-    'pluto',
+    'pluto'
   ],
   ALWAYS_DIRECT: ['sun', 'moon'],
-  ALWAYS_RETROGRADE: ['northNode', 'southNode'],
+  ALWAYS_RETROGRADE: ['northNode', 'southNode']
 } as const;

@@ -11,7 +11,7 @@ import { EmergencyRecoverySystem, EmergencyRecoveryOptions } from './EmergencyRe
 
 // Mock child_process for testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn(),
+  execSync: jest.fn()
 }));
 
 // Mock fs for testing
@@ -22,7 +22,7 @@ jest.mock('fs', () => ({
   mkdirSync: jest.fn(),
   unlinkSync: jest.fn(),
   rmSync: jest.fn(),
-  statSync: jest.fn(),
+  statSync: jest.fn()
 }));
 
 const { execSync } = require('child_process');
@@ -35,13 +35,13 @@ describe('Emergency Recovery System - Task 6.3', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    mockSettings = {
+    mockSettings = {;
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
+      stashRetentionDays: 7
     };
 
     // Mock git repository existence
@@ -56,7 +56,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     // Mock fs.statSync for directory checks
     mockFs.statSync.mockReturnValue({
-      isDirectory: () => true,
+      isDirectory: () => true
     } as any);
 
     // Mock fs.readFileSync to return empty JSON for stash tracking
@@ -109,8 +109,8 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash to rollback to
       await emergencyRecovery.createStash('Test stash for backup rollback');
 
-      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,
-        validateAfterRecovery: true,
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,;
+        validateAfterRecovery: true
       };
 
       const result: any = await emergencyRecovery.emergencyRollbackWithOptions(options);
@@ -123,7 +123,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash to rollback to
       await emergencyRecovery.createStash('Test stash for validation skip');
 
-      const options: EmergencyRecoveryOptions = { validateAfterRecovery: false,
+      const options: EmergencyRecoveryOptions = { validateAfterRecovery: false,;
       };
 
       const result: any = await emergencyRecovery.emergencyRollbackWithOptions(options);
@@ -174,7 +174,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should create backup before commit rollback when requested', async () => {
       const commitHash: any = 'abc123def456';
-      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,;
       };
 
       const result: any = await emergencyRecovery.rollbackToCommit(commitHash, options);
@@ -210,7 +210,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should preserve stashes when requested', async () => {
-      const options: EmergencyRecoveryOptions = { preserveStashes: true,
+      const options: EmergencyRecoveryOptions = { preserveStashes: true,;
       };
 
       const result: any = await emergencyRecovery.nuclearReset(options);
@@ -220,7 +220,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should preserve metrics when requested', async () => {
-      const options: EmergencyRecoveryOptions = { preserveMetrics: true,
+      const options: EmergencyRecoveryOptions = { preserveMetrics: true,;
       };
 
       const result: any = await emergencyRecovery.nuclearReset(options);
@@ -231,7 +231,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should reset to specific commit when provided', async () => {
       const specificCommit: any = 'def456abc789';
-      const options: EmergencyRecoveryOptions = { resetToCommit: specificCommit,
+      const options: EmergencyRecoveryOptions = { resetToCommit: specificCommit,;
       };
 
       const result: any = await emergencyRecovery.nuclearReset(options);
@@ -282,7 +282,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       expect(execSync).toHaveBeenCalledWith('git checkout -b temp-recovery-' + expect.any(String), expect.any(Object));
 
       for (const target of targets) {
-        expect(execSync).toHaveBeenCalledWith(`git checkout HEAD -- "${target}"`, expect.any(Object));
+        expect(execSync).toHaveBeenCalledWith(`git checkout HEAD -- '${target}'`, expect.any(Object));
       }
     });
 
@@ -392,7 +392,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         detectedFiles: ['corrupted-file.ts'],
         corruptionPatterns: [],
         severity: 'HIGH' as unknown,
-        recommendedAction: RecoveryAction.ROLLBACK,
+        recommendedAction: RecoveryAction.ROLLBACK
       });
 
       const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
@@ -503,7 +503,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash for the rollback operation
       await emergencyRecovery.createStash('Test stash for backup test');
 
-      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,;
       };
 
       await emergencyRecovery.emergencyRollbackWithOptions(options);

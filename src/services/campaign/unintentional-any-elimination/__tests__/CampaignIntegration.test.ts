@@ -27,7 +27,7 @@ describe('UnintentionalAnyCampaignController', () => {
   let mockUnintentionalAnyConfig: UnintentionalAnyConfig;
 
   beforeEach(() => {
-    mockConfig = {
+    mockConfig = {;
       phases: [],
       safetySettings: { maxFilesPerBatch: 15,
         buildValidationFrequency: 5,
@@ -48,7 +48,7 @@ describe('UnintentionalAnyCampaignController', () => {
       }
     };
 
-    mockUnintentionalAnyConfig = {
+    mockUnintentionalAnyConfig = {;
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -73,7 +73,7 @@ describe('UnintentionalAnyCampaignController', () => {
     });
 
     it('should merge custom configuration with defaults', () => {
-      const customConfig: any = {
+      const customConfig: any = {;
         maxFilesPerBatch: 10,
         targetReductionPercentage: 20
       };
@@ -101,7 +101,7 @@ describe('UnintentionalAnyCampaignController', () => {
     });
 
     it('should merge base configuration with unintentional any configuration', () => {
-      const baseConfig: any = {
+      const baseConfig: any = {;
         phases: [{ id: 'existing-phase',
           name: 'Existing Phase',
           description: 'Test phase',
@@ -133,7 +133,7 @@ describe('UnintentionalAnyCampaignController', () => {
 
   describe('updateUnintentionalAnyConfig', () => {
     it('should update configuration', () => {
-      const newConfig: any = {
+      const newConfig: any = {;
         maxFilesPerBatch: 20,
         targetReductionPercentage: 25
       };
@@ -148,7 +148,7 @@ describe('UnintentionalAnyCampaignController', () => {
 
   describe('validateUnintentionalAnyPhaseCompletion', () => {
     it('should validate analysis phase completion', async () => {
-      const mockPhase: CampaignPhase = { id: 'unintentional-any-analysis',
+      const mockPhase: CampaignPhase = { id: 'unintentional-any-analysis',;
         name: 'Analysis Phase',
         description: 'Test analysis phase',
         tools: [],
@@ -156,7 +156,7 @@ describe('UnintentionalAnyCampaignController', () => {
         safetyCheckpoints: []
       };
 
-      const mockMetrics: any = {
+      const mockMetrics: any = {;
         totalAnyTypes: 10,
         intentionalAnyTypes: 5,
         unintentionalAnyTypes: 5,
@@ -186,7 +186,7 @@ describe('createUnintentionalAnyCampaignController', () => {
   });
 
   it('should create controller with custom configuration', () => {
-    const customConfig: any = {
+    const customConfig: any = {;
       maxFilesPerBatch: 10,
       targetReductionPercentage: 20
     };
@@ -202,7 +202,7 @@ describe('createUnintentionalAnyCampaignController', () => {
 describe('UnintentionalAnyIntegrationHelper', () => {
   describe('addUnintentionalAnyPhases', () => {
     it('should add unintentional any phases to existing configuration', () => {
-      const existingConfig: CampaignConfig = { phases: [{
+      const existingConfig: CampaignConfig = { phases: [{;
           id: 'existing-phase',
           name: 'Existing Phase',
           description: 'Test phase',
@@ -251,7 +251,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
 
   describe('resolveCampaignPriorityConflicts', () => {
     it('should resolve conflicts between multiple campaigns', () => {
-      const campaign1: CampaignConfig = { phases: [{
+      const campaign1: CampaignConfig = { phases: [{;
           id: 'typescript-phase',
           name: 'TypeScript Phase',
           description: 'Test phase',
@@ -278,7 +278,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
         }
       };
 
-      const campaign2: CampaignConfig = { phases: [{
+      const campaign2: CampaignConfig = { phases: [{;
           id: 'linting-phase',
           name: 'Linting Phase',
           description: 'Test phase',
@@ -306,7 +306,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
       };
 
       const priorityOrder: any = ['typescript', 'linting'];
-      const mergedConfig: any = UnintentionalAnyIntegrationHelper.resolveCampaignPriorityConflicts(
+      const mergedConfig: any = UnintentionalAnyIntegrationHelper.resolveCampaignPriorityConflicts(;
         [campaign1, campaign2],
         priorityOrder
       );

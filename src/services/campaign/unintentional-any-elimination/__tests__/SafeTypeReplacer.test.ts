@@ -102,7 +102,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Single Replacement Operations', () => {
     test('successfully replaces array types', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -121,7 +121,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles low safety score rejection', async () => {
-      const replacement: TypeReplacement = { original: 'any',
+      const replacement: TypeReplacement = { original: 'any',;
         replacement: 'string',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -137,7 +137,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('rolls back on TypeScript compilation failure', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -160,7 +160,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles invalid line numbers', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 999, // Invalid line number
@@ -177,7 +177,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles pattern not found in line', async () => {
-      const replacement: TypeReplacement = { original: 'string[]',
+      const replacement: TypeReplacement = { original: 'string[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -190,7 +190,7 @@ describe('SafeTypeReplacer', () => {
       const result: any = await replacer.applyReplacement(replacement);
 
       expect(result.success).toBe(false);
-      expect(result.compilationErrors.[0]).toContain('Pattern "string[]" not found');
+      expect(result.compilationErrors.[0]).toContain('Pattern 'string[]' not found');
     });
   });
 
@@ -275,7 +275,7 @@ describe('SafeTypeReplacer', () => {
         }
       ];
 
-      mockFs.readFileSync.mockReturnValue('const x: any = 1;\nconst item, s: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const _x: any = 1;\nconst item, s: any[] = [];');
 
       const result: any = await replacer.processBatch(replacements);
 
@@ -286,7 +286,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Safety Score Calculation', () => {
     test('calculates higher scores for array replacements', () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -300,7 +300,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('calculates lower scores for error handling contexts', () => {
-      const replacement: TypeReplacement = { original: 'catch (error: any)',
+      const replacement: TypeReplacement = { original: 'catch (error: any)',;
         replacement: 'catch (erro, r: any)',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -313,7 +313,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('boosts scores for test files', () => {
-      const replacement: TypeReplacement = { original: 'any',
+      const replacement: TypeReplacement = { original: 'any',;
         replacement: 'unknown',
         filePath: 'test.test.ts',
         lineNumber: 1,
@@ -358,7 +358,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Strategy Management', () => {
     test('allows adding custom strategies', () => {
-      const customStrategy: any = {
+      const customStrategy: any = {;
         pattern: /custom_pattern/g,
         replacement: () => 'custom_replacement',
         validator: () => true,
@@ -423,7 +423,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Error Handling and Retries', () => {
     test('handles file system errors gracefully', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -443,7 +443,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles compilation errors with rollback', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -477,7 +477,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('extracts TypeScript errors from output', async () => {
-      const errorOutput: any = `
+      const errorOutput: any = `;
         src/test.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
         src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.;
         Found 2 errors.
@@ -514,9 +514,9 @@ describe('SafeTypeReplacer', () => {
 
   describe('Advanced Replacement Strategy Patterns', () => {
     test('infers array element types from context', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',
+      const context: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = ["hello", "world"];',
+        codeSnippet: 'const item, s: any[] = ['hello', 'world'];',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -533,7 +533,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles complex nested type inference', () => {
-      const complexContext: ClassificationContext = { filePath: 'test.ts',
+      const complexContext: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
         codeSnippet: 'const neste, d: Record<string, unknown[]> = { items: [1, 2, 3] };',
         surroundingLines: [],
@@ -555,11 +555,11 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers types from usage patterns in surrounding code', () => {
-      const usageContext: ClassificationContext = { filePath: 'test.ts',
+      const usageContext: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 2,
         codeSnippet: 'const dat, a: any = getValue();',
         surroundingLines: [
-          'function getValue() : any { return "test"; }',
+          'function getValue() : any { return 'test'; }',
           'console.log(data.toUpperCase());',
           'const length: any = data.length;'
         ],
@@ -577,9 +577,9 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers Record value types from object literals', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',
+      const context: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
-        codeSnippet: 'const confi, g: Record<string, unknown> = { name: "test", count: 42 };',
+        codeSnippet: 'const confi, g: Record<string, unknown> = { name: 'test', count: 42 };',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -595,7 +595,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers function parameter types from parameter names', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',
+      const context: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
         codeSnippet: 'function handleClick(even, t: any) : any { }',
         surroundingLines: [],
@@ -613,7 +613,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers return types from function context', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',
+      const context: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
         codeSnippet: 'function isValid(): any {',
         surroundingLines: ['  return true;'],
@@ -631,7 +631,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('detects error handling contexts correctly', () => {
-      const errorContext: ClassificationContext = { filePath: 'test.ts',
+      const errorContext: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
         codeSnippet: 'catch (erro, r: any) : any {',
         surroundingLines: [],
@@ -649,9 +649,9 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('detects external API contexts correctly', () => {
-      const apiContext: ClassificationContext = { filePath: 'test.ts',
+      const apiContext: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
-        codeSnippet: 'const respons, e: any = await fetch("/api/data");',
+        codeSnippet: 'const respons, e: any = await fetch('/api/data');',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -667,10 +667,10 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('applies domain-specific type inference for astrological context', () => {
-      const astroContext: ClassificationContext = { filePath: 'astrology.ts',
+      const astroContext: ClassificationContext = { filePath: 'astrology.ts',;
         lineNumber: 1,
         codeSnippet: 'const planetaryPosition, s: any[] = [];',
-        surroundingLines: ['positions.push("mars");'],
+        surroundingLines: ['positions.push('mars');'],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: { domain: CodeDomain.ASTROLOGICAL,
@@ -686,7 +686,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('applies domain-specific type inference for recipe context', () => {
-      const recipeContext: ClassificationContext = { filePath: 'recipe.ts',
+      const recipeContext: ClassificationContext = { filePath: 'recipe.ts',;
         lineNumber: 1,
         codeSnippet: 'function processIngredient(ingredien, t: any) : any {',
         surroundingLines: [],
@@ -704,7 +704,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles complex replacement patterns with validation', async () => {
-      const mockContext: ClassificationContext = { filePath: 'test.ts',
+      const mockContext: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
         codeSnippet: 'function process(dat, a: any): any { return data; }',
         surroundingLines: [],
@@ -764,7 +764,7 @@ describe('SafeTypeReplacer', () => {
         compilationCallCount++;
         if (compilationCallCount > 1) {
           const error: any = new Error('Compilation failed') as unknown;
-          (error as any).stdout = 'error TS2304: Cannot find name "InvalidType"';
+          (error as any).stdout = 'error TS2304: Cannot find name 'InvalidType'';
           throw error;
         }
         return '';
@@ -774,11 +774,11 @@ describe('SafeTypeReplacer', () => {
 
       expect(result.success).toBe(false);
       expect(result.rollbackPerformed).toBe(true);
-      expect(result.compilationErrors).toContain('error TS2304: Cannot find name "InvalidType"');
+      expect(result.compilationErrors).toContain('error TS2304: Cannot find name 'InvalidType'');
     });
 
     test('handles file system permission errors', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'readonly.ts',
         lineNumber: 1,
@@ -795,7 +795,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles corrupted backup files', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -815,7 +815,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles network timeouts during validation', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -841,7 +841,7 @@ describe('SafeTypeReplacer', () => {
   describe('Performance and Memory Management', () => {
     test('handles large file processing efficiently', async () => {
       const largeContent: any = 'const items: any[] = [];\n'.repeat(10000);
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'large.ts',
         lineNumber: 5000,
@@ -881,7 +881,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('cleans up resources after processing', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -904,7 +904,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Integration with Safety Validator', () => {
     test('integrates with safety validator for comprehensive validation', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',
+      const replacement: TypeReplacement = { original: 'unknown[]',;
         replacement: 'unknown[]',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -912,7 +912,7 @@ describe('SafeTypeReplacer', () => {
         validationRequired: true
       };
 
-      const context: ClassificationContext = { filePath: 'test.ts',
+      const context: ClassificationContext = { filePath: 'test.ts',;
         lineNumber: 1,
         codeSnippet: 'const item, s: any[] = [];',
         surroundingLines: [],
@@ -932,7 +932,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('respects safety validator recommendations', async () => {
-      const lowConfidenceReplacement: TypeReplacement = { original: 'any',
+      const lowConfidenceReplacement: TypeReplacement = { original: 'any',;
         replacement: 'string',
         filePath: 'test.ts',
         lineNumber: 1,

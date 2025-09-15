@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking by surrounding food with dry heat in an enclosed oven or similar environment
  */
-export const baking: CookingMethodData = {
+export const baking: CookingMethodData = {;
   name: 'baking',
   description:
     'Cooking food by exposing it to dry heat in an enclosed space, typically in an oven, producing even heat distribution and caramelization',
@@ -14,11 +14,11 @@ export const baking: CookingMethodData = {
     Fire: 0.4,
     Air: 0.3,
     Earth: 0.2,
-    Water: 0.1,
+    Water: 0.1
   },
   duration: {
     min: 20,
-    max: 180,
+    max: 180
   },
   suitable_for: ['breads', 'pastries', 'casseroles', 'meat', 'vegetables', 'desserts', 'gratins'],
   benefits: [
@@ -26,7 +26,7 @@ export const baking: CookingMethodData = {
     'develops flavors',
     'retains moisture',
     'creates textures',
-    'minimal attention required',
+    'minimal attention required'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['leo', 'aries', 'sagittarius'] as any[],
@@ -37,7 +37,7 @@ export const baking: CookingMethodData = {
       new_moon: 0.8, // Reduced rising
       waxing_gibbous: 1.1, // Moderate enhancement
       waning_gibbous: 0.9, // Slight reduction
-    },
+    }
   },
   toolsRequired: [
     'Oven',
@@ -48,7 +48,7 @@ export const baking: CookingMethodData = {
     'Oven thermometer',
     'Digital probe thermometer',
     'Silicone baking mats',
-    'Baking stone/steel (for bread and pizza)',
+    'Baking stone/steel (for bread and pizza)'
   ],
   commonMistakes: [
     'over-mixing dough (leads to tough gluten development)',
@@ -57,7 +57,7 @@ export const baking: CookingMethodData = {
     'improper rack positioning (affects browning and heat distribution)',
     'forgetting to preheat (critical for proper rise and texture)',
     'overcrowding the oven (restricts air circulation)',
-    'ignoring carryover cooking (food continues cooking after removal)',
+    'ignoring carryover cooking (food continues cooking after removal)'
   ],
   pairingSuggestions: [
     'Fermented fruit compotes with spiced cakes',
@@ -65,13 +65,13 @@ export const baking: CookingMethodData = {
     'Smoked salts on focaccia or roasted vegetables',
     'Compound butters with freshly baked breads',
     'Balsamic reduction with roasted root vegetables',
-    'Cultured crème fraîche with fruit cobblers',
+    'Cultured crème fraîche with fruit cobblers'
   ],
   nutrientRetention: {
     carbohydrates: 0.85,
     proteins: 0.75,
     vitamins: 0.65,
-    minerals: 0.8,
+    minerals: 0.8
   },
   optimalTemperatures: {
     bread: 425, // Begins at 450°F with steam, reduces to 400°F
@@ -92,25 +92,25 @@ export const baking: CookingMethodData = {
     french: [
       'bain-marie (water bath for custards)',
       'en papillote (wrapped in parchment)',
-      'pâte feuilletée (laminated doughs)',
+      'pâte feuilletée (laminated doughs)'
     ],
     middleEastern: [
       'tannur oven baking (clay oven)',
       'taboon (flatbread baking)',
-      'kunafa (syrup-soaked pastry technique)',
+      'kunafa (syrup-soaked pastry technique)'
     ],
     japanese: [
       'mushipan steaming (hybrid steamed cake)',
       'dorayaki (bean-filled pancake)',
-      'melon pan (textured sweet buns)',
+      'melon pan (textured sweet buns)'
     ],
     italian: [
       'wood-fired oven baking (for pizza and focaccia)',
       'panettone fermentation (enriched holiday bread)',
-      'biscotti (twice-baked cookies)',
+      'biscotti (twice-baked cookies)'
     ],
     nordic: ['rye bread techniques', 'slow fermentation methods', 'cardamom-infused pastries'],
-    american: ['sheet pan cooking', 'drop biscuits', 'deep dish pies'],
+    american: ['sheet pan cooking', 'drop biscuits', 'deep dish pies']
   },
   chemicalChanges: {
     maillard_reaction: true, // Occurs between 280°F-330°F with proteins and reducing sugars
@@ -127,7 +127,7 @@ export const baking: CookingMethodData = {
     'Allow for proper ventilation to avoid moisture buildup',
     'Position racks away from heating elements to prevent fires',
     'Use oven-safe containers and check temperature ratings of equipment',
-    'Never leave unattended for extended periods',
+    'Never leave unattended for extended periods'
   ],
   thermodynamicProperties: {
     heat: 0.65, // Moderate-high heat penetrating the food
@@ -151,7 +151,7 @@ export const baking: CookingMethodData = {
     'Leavening action from chemical agents (CO2 gas formation), yeast fermentation, or steam expansion',
     'Gelatinization of starches in flour creates structure as granules absorb water and swell',
     'Water evaporation creates steam that contributes to rising and texture development',
-    'Glass transition of sugar at varying temperatures affects texture and crispness',
+    'Glass transition of sugar at varying temperatures affects texture and crispness'
   ],
 
   modernVariations: [
@@ -165,7 +165,7 @@ export const baking: CookingMethodData = {
     'Pressure baking in specialized equipment for accelerated cooking',
     'Induction baking with specialized pans for direct energy transfer',
     'Smart ovens with temperature sensors and AI-controlled adjustments',
-    'Wood-fired ovens with thermal mass for extended heat retention and unique flavor',
+    'Wood-fired ovens with thermal mass for extended heat retention and unique flavor'
   ],
 
   sustainabilityRating: 0.75, // Relatively efficient in energy usage compared to other cooking methods
@@ -182,7 +182,7 @@ export const baking: CookingMethodData = {
     'Fat-soluble vitamin preservation (A, D, E, K) enhanced by proper temperature control',
     'Beneficial Maillard compounds provide antioxidant properties in crust formation',
     'Ability to use alternative flours and grains for increased nutritional value',
-    'Loss of heat-sensitive nutrients (particularly water-soluble vitamins) with extended baking times',
+    'Loss of heat-sensitive nutrients (particularly water-soluble vitamins) with extended baking times'
   ],
 
   expertTips: [
@@ -200,7 +200,7 @@ export const baking: CookingMethodData = {
     'For perfect browning, brush enriched dough with egg wash (whole egg for golden, yolk for deep golden, white for shine)',
     'Use a spray bottle of water for artisan bread to create steam during the first 10 minutes',
     'For cake doneness, press lightly with finger - it should spring back without leaving an impression',
-    'Use a baking stone or steel preheated for an hour to simulate brick oven conditions',
+    'Use a baking stone or steel preheated for an hour to simulate brick oven conditions'
   ],
 
   ingredientPreparation: {
@@ -218,7 +218,7 @@ export const baking: CookingMethodData = {
       'Test baking powder for activity in warm water; replace every 6 months. Baking soda requires acid to activate. Yeast proofing shows viability - bubbles should form within 10 minutes in warm water with sugar. Store yeast in freezer for extended life.',
     salt: 'Diamond Crystal kosher salt is half as dense as table salt; adjust measurements accordingly. Salt inhibits yeast activity in direct contact; add after initial fermentation begins for better rise. Fine sea salt distributes evenly in doughs.',
     sugar:
-      'Granulated for creaming, superfine for meringues, brown for moisture and molasses flavor. Hygroscopic properties affect texture and moisture retention. Invert sugar (honey, corn syrup) improves browning and extends shelf life.',
+      'Granulated for creaming, superfine for meringues, brown for moisture and molasses flavor. Hygroscopic properties affect texture and moisture retention. Invert sugar (honey, corn syrup) improves browning and extends shelf life.'
   },
 
   timingConsiderations: {
@@ -231,7 +231,7 @@ export const baking: CookingMethodData = {
     carryover_cooking:
       'Large roasts temperature will rise 5-15°F after removal from oven. For medium-rare beef, remove at 125-130°F to achieve 135-140°F final temperature. Poultry may rise 5-10°F. Custards continue setting as they cool.',
     resting_dough:
-      'Refrigerate cookie dough 24-36 hours for deeper flavor; pizza dough 2-5 days. Sourdough bread benefits from 12-24 hour cold fermentation. Enriched doughs require 8-12 hours refrigeration for flavor development. Pâte feuilletée (puff pastry) requires 30-minute rests between folds.',
+      'Refrigerate cookie dough 24-36 hours for deeper flavor; pizza dough 2-5 days. Sourdough bread benefits from 12-24 hour cold fermentation. Enriched doughs require 8-12 hours refrigeration for flavor development. Pâte feuilletée (puff pastry) requires 30-minute rests between folds.'
   },
 
   doneness_indicators: {
@@ -248,7 +248,7 @@ export const baking: CookingMethodData = {
     pastry:
       'Puff pastry should have visible layers and golden color. Pie crust golden brown with no translucent areas. Shortcrust pale golden with firm texture. Enriched doughs deep golden with hollow sound when tapped.',
     custards:
-      'Slight wobble in center but set edges. Will firm further upon cooling. Should reach internal temperature of 170-175°F for food safety. Visible thickening and coating the back of a spoon when using as sauce base.',
+      'Slight wobble in center but set edges. Will firm further upon cooling. Should reach internal temperature of 170-175°F for food safety. Visible thickening and coating the back of a spoon when using as sauce base.'
   },
 
   ingredientInteractions: {
@@ -261,7 +261,7 @@ export const baking: CookingMethodData = {
       'Set structure when heated; create browning reactions with sugars. Egg proteins coagulate at different temperatures: yolks 149-158°F, whites 140-149°F. Gluten development provides structure and chew, particularly in bread. Milk proteins contribute to browning.',
     starches:
       'Absorb moisture; provide structure; gelatinize when heated with moisture. Different starches gelatinize at different temperatures: wheat 140-158°F, cornstarch 155-158°F. Pre-gelatinized starches (modified) thicken without heat. Starch retrogradation causes staling.',
-    salt: 'Strengthens gluten; enhances flavor; controls yeast activity; affects browning. Salt tightens gluten structure for better gas retention in bread. Inhibits yeast activity when in direct contact. Contributes to flavor perception of sweetness without adding sugars.',
+    salt: 'Strengthens gluten; enhances flavor; controls yeast activity; affects browning. Salt tightens gluten structure for better gas retention in bread. Inhibits yeast activity when in direct contact. Contributes to flavor perception of sweetness without adding sugars.'
   },
 
   technicalNotes: {
@@ -278,7 +278,7 @@ export const baking: CookingMethodData = {
       wood_fired:
         'Thermal mass provides heat retention. Temperature gradient from back (hottest) to front. Radiant heat from dome produces rapid surface cooking.',
       steam_injected:
-        'Introduces humidity during initial baking phase. Critical for proper expansion and crust development in artisan breads.',
+        'Introduces humidity during initial baking phase. Critical for proper expansion and crust development in artisan breads.'
     },
     flour_types: {
       bread_flour: '12-14% protein content. High gluten formation for structure in yeasted breads.',
@@ -290,7 +290,7 @@ export const baking: CookingMethodData = {
       '00_flour':
         'Italian classification for finely ground flour. Variable protein content depending on type.',
       gluten_free_blends:
-        'Combinations of rice, tapioca, potato, and other non-wheat flours with stabilizers.',
+        'Combinations of rice, tapioca, potato, and other non-wheat flours with stabilizers.'
     },
     leavening_agents: {
       baking_soda:
@@ -301,7 +301,7 @@ export const baking: CookingMethodData = {
         'Living organism producing CO2 through fermentation. Contributes flavor through fermentation byproducts. Requires proofing time.',
       steam:
         'Physical leavening from water expanding as it converts to gas. Primary agent in puff pastry, choux paste, and popovers.',
-      eggs: 'Mechanical leavening from incorporated air, particularly in whipped whites or whole eggs.',
+      eggs: 'Mechanical leavening from incorporated air, particularly in whipped whites or whole eggs.'
     },
     mixing_methods: {
       creaming:
@@ -313,7 +313,7 @@ export const baking: CookingMethodData = {
       reverse_creaming:
         'Coating flour particles with fat before adding liquid. Creates fine, velvety texture with structural strength.',
       lamination:
-        'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.',
-    },
-  },
+        'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.'
+    }
+  }
 };

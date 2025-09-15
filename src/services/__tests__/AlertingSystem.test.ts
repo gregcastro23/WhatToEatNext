@@ -9,9 +9,9 @@ jest.mock('../BuildPerformanceMonitor', () => ({
       averageBundleSize: 3 * 1024 * 1024,
       averageMemoryUsage: 256 * 1024 * 1024,
       cacheEfficiency: 85,
-      performanceScore: 75,
-    })),
-  },
+      performanceScore: 75
+    }))
+  }
 }));
 
 jest.mock('../ErrorTrackingSystem', () => ({
@@ -20,20 +20,20 @@ jest.mock('../ErrorTrackingSystem', () => ({
       totalActiveLintViolations: 300,
       totalRecentFailures: 2,
       criticalIssues: 5,
-      automationOpportunities: 10,
+      automationOpportunities: 10
     })),
     getCurrentQualityMetrics: jest.fn(() => ({ codeQualityScore: 75,
       technicalDebtScore: 45,
       maintainabilityIndex: 80,
       errorRate: 0.05,
-      warningRate: 0.1,
-    })),
-  },
+      warningRate: 0.1
+    }))
+  }
 }));
 
 jest.mock('../QualityMetricsService', () => ({
-  qualityMetricsService: { subscribe: jest.fn(),
-  },
+  qualityMetricsService: { subscribe: jest.fn()
+  }
 }));
 
 describe('AlertingSystem', () => {
@@ -76,7 +76,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 30,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       };
 
       const ruleId: any = alertingSystem.addAlertRule(rule);
@@ -103,13 +103,13 @@ describe('AlertingSystem', () => {
         escalationMinutes: 30,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       };
 
       const ruleId: any = alertingSystem.addAlertRule(rule);
-      const updated: any = alertingSystem.updateAlertRule(ruleId, {
+      const updated: any = alertingSystem.updateAlertRule(ruleId, {;
         threshold: 90000,
-        severity: 'error',
+        severity: 'error'
       });
 
       expect(updated).toBe(true);
@@ -134,7 +134,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 30,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       };
 
       const ruleId: any = alertingSystem.addAlertRule(rule);
@@ -151,7 +151,7 @@ describe('AlertingSystem', () => {
   describe('Alert Generation', () => {
     test('should create alert when threshold is exceeded', () => {
       // Add a rule that should trigger based on mocked data
-      const ruleId: any = alertingSystem.addAlertRule({
+      const ruleId: any = alertingSystem.addAlertRule({;
         name: 'High Error Count',
         description: 'Too many TypeScript errors',
         type: 'error',
@@ -164,7 +164,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       });
 
       // Manually trigger rule evaluation (in real system this happens automatically)
@@ -186,7 +186,7 @@ describe('AlertingSystem', () => {
 
     test('should not create alert when threshold is not exceeded', () => {
       // Add a rule that should NOT trigger based on mocked data
-      const ruleId: any = alertingSystem.addAlertRule({
+      const ruleId: any = alertingSystem.addAlertRule({;
         name: 'Very High Error Count',
         description: 'Extremely high TypeScript errors',
         type: 'error',
@@ -199,7 +199,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       });
 
       // Manually trigger rule evaluation
@@ -215,7 +215,7 @@ describe('AlertingSystem', () => {
     });
 
     test('should respect cooldown period', () => {
-      const ruleId: any = alertingSystem.addAlertRule({
+      const ruleId: any = alertingSystem.addAlertRule({;
         name: 'Cooldown Test',
         description: 'Test cooldown functionality',
         type: 'error',
@@ -228,7 +228,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 120,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       });
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -250,7 +250,7 @@ describe('AlertingSystem', () => {
   describe('Alert Management', () => {
     test('should acknowledge alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystem.addAlertRule({
+      const ruleId: any = alertingSystem.addAlertRule({;
         name: 'Test Alert',
         description: 'Test alert for acknowledgment',
         type: 'error',
@@ -263,7 +263,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       });
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -288,7 +288,7 @@ describe('AlertingSystem', () => {
 
     test('should resolve alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystem.addAlertRule({
+      const ruleId: any = alertingSystem.addAlertRule({;
         name: 'Test Alert',
         description: 'Test alert for resolution',
         type: 'error',
@@ -301,7 +301,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       });
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -333,20 +333,20 @@ describe('AlertingSystem', () => {
   describe('Alert Filtering', () => {
     beforeEach(() => {
       // Create multiple alerts for testing
-      const rules: any = [
+      const rules: any = [;
         {
           name: 'Performance Alert',
           type: 'performance' as const,
           severity: 'warning' as const,
           metric: 'build_time',
-          threshold: 30000,
+          threshold: 30000
         },
         {
           name: 'Error Alert',
           type: 'error' as const,
           severity: 'error' as const,
           metric: 'typescript_errors',
-          threshold: 100,
+          threshold: 100
         },
         {
           name: 'Critical Quality Alert',
@@ -354,20 +354,20 @@ describe('AlertingSystem', () => {
           severity: 'critical' as const,
           metric: 'code_quality_score',
           threshold: 80, // Mock returns 75, so this should trigger with less_than condition
-        },
+        }
       ];
 
       for (const ruleConfig of rules) {
-        const ruleId: any = alertingSystem.addAlertRule({
+        const ruleId: any = alertingSystem.addAlertRule({;
           ...ruleConfig,
           description: `Test ${ruleConfig.name}`,
-          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',
+          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',;
           enabled: true,
           cooldownMinutes: 5,
           escalationMinutes: 15,
           autoResponse: false,
           responseActions: [],
-          notificationChannels: ['console'],
+          notificationChannels: ['console']
         });
 
         const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -406,7 +406,7 @@ describe('AlertingSystem', () => {
   describe('Alert Summary', () => {
     test('should provide accurate alert summary', () => {
       // Create some test alerts
-      const ruleId: any = alertingSystem.addAlertRule({
+      const ruleId: any = alertingSystem.addAlertRule({;
         name: 'Summary Test Alert',
         description: 'Test alert for summary',
         type: 'error',
@@ -419,7 +419,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       });
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
@@ -441,7 +441,7 @@ describe('AlertingSystem', () => {
 
   describe('Test Alert Functionality', () => {
     test('should create test alert', () => {
-      const ruleId: any = alertingSystem.addAlertRule({
+      const ruleId: any = alertingSystem.addAlertRule({;
         name: 'Test Rule for Testing',
         description: 'Rule to test alert creation',
         type: 'performance',
@@ -454,7 +454,7 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
+        notificationChannels: ['console']
       });
 
       const testResult: any = alertingSystem.testAlert(ruleId);

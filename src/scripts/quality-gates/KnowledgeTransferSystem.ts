@@ -73,9 +73,9 @@ class KnowledgeTransferSystem {
   constructor() {
     this.trainingModules = new Map();
     this.userProgress = new Map();
-    this.rl = readline.createInterface({
+    this.rl = readline.createInterface({;
       input: process.stdin,
-      output: process.stdout,
+      output: process.stdout
     });
 
     this.initializeTrainingModules();
@@ -115,7 +115,7 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
 - **Replacement Engine**: Safely replaces any types with better alternatives
 - **Safety Protocols**: Backup, validation, and rollback mechanisms
 - **Quality Gates**: Continuous monitoring and prevention systems
-          `,
+          `
         },
         {
           type: 'code',
@@ -125,20 +125,20 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
             {
               title: 'Intentional Any Type (External API)',
               before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response
-const apiResponse: any = await fetch('/api/data');`,
+const _apiResponse: any = await fetch('/api/data');`,
               after: `// This should be preserved - it's properly documented`,
               explanation:
-                'External API responses often require any types due to unknown structure',
+                'External API responses often require any types due to unknown structure'
             },
             {
               title: 'Unintentional Any Type (Array)',
               before: `const items: any[] = [];`,
               after: `const items: unknown[] = [];`,
               explanation:
-                'Array types can usually be made more specific with unknown or proper types',
-            },
-          ],
-        },
+                'Array types can usually be made more specific with unknown or proper types'
+            }
+          ]
+        }
       ],
       assessment: {
         passingScore: 80,
@@ -150,7 +150,7 @@ const apiResponse: any = await fetch('/api/data');`,
             options: ['25.5%', '36.78%', '42.1%', '50.0%'],
             correctAnswer: 1,
             explanation:
-              'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)',
+              'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)'
           },
           {
             id: 'q2',
@@ -160,13 +160,13 @@ const apiResponse: any = await fetch('/api/data');`,
               'const data: any[] = [];',
               '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response;',
               'function process(input: any) { return input; }',
-              'const config: Record<string, any> = {};',
+              'const config: Record<string, any> = {};'
             ],
             correctAnswer: 1,
-            explanation: 'Properly documented external API any types should be preserved',
-          },
-        ],
-      },
+            explanation: 'Properly documented external API any types should be preserved'
+          }
+        ]
+      }
     });
 
     // Module 2: Classification Rules
@@ -197,7 +197,7 @@ const apiResponse: any = await fetch('/api/data');`,
 3. **Variable Declarations** - : any → : unknown
 4. **Function Parameters** - (param: any) → (param: unknown)
 5. **Return Types** - (): any → (): unknown
-          `,
+          `
         },
         {
           type: 'interactive',
@@ -213,14 +213,14 @@ const apiResponse: any = await fetch('/api/data');`,
                 'Intentional - Dynamic Content',
                 'Unintentional - Variable Declaration',
                 'Intentional - External API',
-                'Unintentional - Array Type',
+                'Unintentional - Array Type'
               ],
               correctAnswer: 0,
               explanation:
-                'User input often has unknown structure, making this intentionally dynamic',
-            },
-          ],
-        },
+                'User input often has unknown structure, making this intentionally dynamic'
+            }
+          ]
+        }
       ],
       assessment: {
         passingScore: 85,
@@ -232,10 +232,10 @@ const apiResponse: any = await fetch('/api/data');`,
             options: ['3', '5', '7', '10'],
             correctAnswer: 1,
             explanation:
-              'There are 5 main intentional categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration',
-          },
-        ],
-      },
+              'There are 5 main intentional categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration'
+          }
+        ]
+      }
     });
 
     // Module 3: Replacement Patterns
@@ -282,7 +282,7 @@ const apiResponse: any = await fetch('/api/data');`,
 - **Pattern**: \`<T, any>\` → \`<T, unknown>\`
 - **Success Rate**: 80%
 - **Risk Level**: Medium
-          `,
+          `
         },
         {
           type: 'code',
@@ -292,10 +292,10 @@ const apiResponse: any = await fetch('/api/data');`,
             {
               title: 'Array Type Replacement',
               before: `const items: any[] = getData();
-items.forEach(item => console.log(item));`,
+items.forEach(item => // console.log(item));`,
               after: `const items: unknown[] = getData();
-items.forEach(item => console.log(item));`,
-              explanation: 'unknown[] maintains type safety while allowing array operations',
+items.forEach(item => // console.log(item));`,
+              explanation: 'unknown[] maintains type safety while allowing array operations'
             },
             {
               title: 'Record Type Replacement',
@@ -303,10 +303,10 @@ items.forEach(item => console.log(item));`,
 const value = config.someProperty;`,
               after: `const config: any = loadConfig();
 const value = config.someProperty;`,
-              explanation: 'unknown values require type checking before use, improving safety',
-            },
-          ],
-        },
+              explanation: 'unknown values require type checking before use, improving safety'
+            }
+          ]
+        }
       ],
       assessment: {
         passingScore: 85,
@@ -317,10 +317,10 @@ const value = config.someProperty;`,
             type: 'multiple_choice',
             options: ['85%', '90%', '95%', '100%'],
             correctAnswer: 3,
-            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate',
-          },
-        ],
-      },
+            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate'
+          }
+        ]
+      }
     });
 
     // Module 4: Safety Protocols
@@ -352,7 +352,7 @@ const value = config.someProperty;`,
 1. **Automatic Rollback** - On compilation failure
 2. **Manual Rollback** - Emergency recovery procedures
 3. **Selective Rollback** - File-by-file restoration
-          `,
+          `
         },
         {
           type: 'interactive',
@@ -363,11 +363,11 @@ const value = config.someProperty;`,
               id: 'emergency1',
               question: 'What is the first command to stop all running campaigns?',
               type: 'code_completion',
-              correctAnswer: 'pkill -f "unintentional-any"',
-              explanation: 'This command stops all processes related to the any elimination system',
-            },
-          ],
-        },
+              correctAnswer: 'pkill -f 'unintentional-any'',
+              explanation: 'This command stops all processes related to the any elimination system'
+            }
+          ]
+        }
       ],
       assessment: {
         passingScore: 90,
@@ -379,10 +379,10 @@ const value = config.someProperty;`,
             options: ['Every file', 'Every 3 files', 'Every 5 files', 'Every 10 files'],
             correctAnswer: 2,
             explanation:
-              'The system validates builds every 5 files to balance safety and performance',
-          },
-        ],
-      },
+              'The system validates builds every 5 files to balance safety and performance'
+          }
+        ]
+      }
     });
 
     // Module 5: Quality Gates
@@ -416,8 +416,8 @@ const value = config.someProperty;`,
 - **Pre-commit Hooks** - Prevent bad commits
 - **CI/CD Pipeline** - Continuous validation
 - **Developer Workflow** - Real-time feedback
-          `,
-        },
+          `
+        }
       ],
       assessment: {
         passingScore: 85,
@@ -428,24 +428,24 @@ const value = config.someProperty;`,
             type: 'multiple_choice',
             options: ['280', '300', '350', '400'],
             correctAnswer: 1,
-            explanation: 'The critical threshold is 300 any types, triggering immediate attention',
-          },
-        ],
-      },
+            explanation: 'The critical threshold is 300 any types, triggering immediate attention'
+          }
+        ]
+      }
     });
   }
 
   async startTraining(userId: string): Promise<void> {
-    console.log('🎓 Welcome to the Unintentional Any Elimination Training System!');
-    console.log('='.repeat(70));
+    // console.log('🎓 Welcome to the Unintentional Any Elimination Training System!');
+    // console.log('='.repeat(70));
 
     const progress = this.getUserProgress(userId);
 
-    if (progress.completedModules.length === 0) {
-      console.log('👋 New user detected. Starting with the basics...');
+    if (progress.completedModules.length === 0) {;
+      // console.log('👋 New user detected. Starting with the basics...');
       await this.showTrainingPath();
     } else {
-      console.log(`👤 Welcome back! You've completed ${progress.completedModules.length} modules.`);
+      // console.log(`👤 Welcome back! You've completed ${progress.completedModules.length} modules.`);
       await this.showProgressSummary(progress);
     }
 
@@ -453,47 +453,47 @@ const value = config.someProperty;`,
   }
 
   private async showTrainingPath(): Promise<void> {
-    console.log('\n📚 Training Path:');
-    console.log('1. System Overview (30 min) - Beginner');
-    console.log('2. Classification Rules (45 min) - Intermediate');
-    console.log('3. Replacement Patterns (60 min) - Intermediate');
-    console.log('4. Safety Protocols (40 min) - Advanced');
-    console.log('5. Quality Gates (35 min) - Advanced');
-    console.log('\nTotal estimated time: 3.5 hours');
+    // console.log('\n📚 Training Path:');
+    // console.log('1. System Overview (30 min) - Beginner');
+    // console.log('2. Classification Rules (45 min) - Intermediate');
+    // console.log('3. Replacement Patterns (60 min) - Intermediate');
+    // console.log('4. Safety Protocols (40 min) - Advanced');
+    // console.log('5. Quality Gates (35 min) - Advanced');
+    // console.log('\nTotal estimated time: 3.5 hours');
   }
 
   private async showProgressSummary(progress: UserProgress): Promise<void> {
-    console.log('\n📊 Your Progress:');
+    // console.log('\n📊 Your Progress:');
 
     const totalModules = this.trainingModules.size;
     const completedCount = progress.completedModules.length;
     const progressPercent = ((completedCount / totalModules) * 100).toFixed(1);
 
-    console.log(`Progress: ${completedCount}/${totalModules} modules (${progressPercent}%)`);
+    // console.log(`Progress: ${completedCount}/${totalModules} modules (${progressPercent}%)`);
 
     if (progress.scores && Object.keys(progress.scores).length > 0) {
-      console.log('\n🎯 Assessment Scores:');
+      // console.log('\n🎯 Assessment Scores:');
       Object.entries(progress.scores).forEach(([moduleId, score]) => {
         const module = this.trainingModules.get(moduleId);
-        console.log(`  ${module?.name}: ${score}%`);
+        // console.log(`  ${module?.name}: ${score}%`);
       });
     }
 
     if (progress.certifications.length > 0) {
-      console.log('\n🏆 Certifications:');
-      progress.certifications.forEach(cert => console.log(`  ✅ ${cert}`));
+      // console.log('\n🏆 Certifications:');
+      progress.certifications.forEach(cert => // console.log(`  ✅ ${cert}`));
     }
   }
 
   private async showMainMenu(userId: string): Promise<void> {
     while (true) {
-      console.log('\n🎯 Main Menu:');
-      console.log('1. Start/Continue Training');
-      console.log('2. Take Assessment');
-      console.log('3. View Progress');
-      console.log('4. Practice Exercises');
-      console.log('5. Generate Certificate');
-      console.log('6. Exit');
+      // console.log('\n🎯 Main Menu:');
+      // console.log('1. Start/Continue Training');
+      // console.log('2. Take Assessment');
+      // console.log('3. View Progress');
+      // console.log('4. Practice Exercises');
+      // console.log('5. Generate Certificate');
+      // console.log('6. Exit');
 
       const choice = await this.askQuestion('\nSelect an option (1-6): ');
 
@@ -514,11 +514,11 @@ const value = config.someProperty;`,
           await this.generateCertificate(userId);
           break;
         case '6':
-          console.log('👋 Thank you for using the training system!');
+          // console.log('👋 Thank you for using the training system!');
           this.rl.close();
           return;
         default:
-          console.log('❌ Invalid option. Please try again.');
+          // console.log('❌ Invalid option. Please try again.');
       }
     }
   }
@@ -527,15 +527,15 @@ const value = config.someProperty;`,
     const progress = this.getUserProgress(userId);
     const availableModules = this.getAvailableModules(progress);
 
-    if (availableModules.length === 0) {
-      console.log("🎉 Congratulations! You've completed all training modules.");
+    if (availableModules.length === 0) {;
+      // console.log('🎉 Congratulations! You've completed all training modules.');
       return;
     }
 
-    console.log('\n📚 Available Modules:');
+    // console.log('\n📚 Available Modules:');
     availableModules.forEach((module, index) => {
       const status = progress.completedModules.includes(module.id) ? '✅' : '📖';
-      console.log(
+      // console.log(
         `${index + 1}. ${status} ${module.name} (${module.duration} min, ${module.difficulty})`,
       );
     });
@@ -546,22 +546,22 @@ const value = config.someProperty;`,
     if (moduleIndex >= 0 && moduleIndex < availableModules.length) {
       await this.runModule(userId, availableModules[moduleIndex]);
     } else {
-      console.log('❌ Invalid module selection.');
+      // console.log('❌ Invalid module selection.');
     }
   }
 
   private getAvailableModules(progress: UserProgress): TrainingModule[] {
-    return Array.from(this.trainingModules.values()).filter(module => {
+    return Array.from(this.trainingModules.values()).filter(module => {;
       // Check if prerequisites are met
       return module.prerequisites.every(prereq => progress.completedModules.includes(prereq));
     });
   }
 
   private async runModule(userId: string, module: TrainingModule): Promise<void> {
-    console.log(`\n🎓 Starting Module: ${module.name}`);
-    console.log(`📖 ${module.description}`);
-    console.log(`⏱️ Estimated time: ${module.duration} minutes`);
-    console.log(`📊 Difficulty: ${module.difficulty}`);
+    // console.log(`\n🎓 Starting Module: ${module.name}`);
+    // console.log(`📖 ${module.description}`);
+    // console.log(`⏱️ Estimated time: ${module.duration} minutes`);
+    // console.log(`📊 Difficulty: ${module.difficulty}`);
 
     const proceed = await this.askQuestion('\nProceed with this module? (y/n): ');
     if (proceed.toLowerCase() !== 'y') {
@@ -571,7 +571,7 @@ const value = config.someProperty;`,
     // Run through module content
     for (let i = 0; i < module.content.length; i++) {
       const content = module.content[i];
-      console.log(`\n📄 Section ${i + 1}/${module.content.length}: ${content.title}`);
+      // console.log(`\n📄 Section ${i + 1}/${module.content.length}: ${content.title}`);
 
       await this.displayContent(content);
 
@@ -581,34 +581,34 @@ const value = config.someProperty;`,
     }
 
     // Offer assessment
-    console.log('\n🎯 Module content completed!');
+    // console.log('\n🎯 Module content completed!');
     const takeAssessment = await this.askQuestion('Take the assessment now? (y/n): ');
 
     if (takeAssessment.toLowerCase() === 'y') {
       const score = await this.runAssessment(module.assessment);
       await this.recordModuleCompletion(userId, module.id, score);
     } else {
-      console.log('You can take the assessment later from the main menu.');
+      // console.log('You can take the assessment later from the main menu.');
     }
   }
 
   private async displayContent(content: TrainingContent): Promise<void> {
-    console.log(content.content);
+    // console.log(content.content);
 
     if (content.examples) {
-      console.log('\n💡 Examples:');
+      // console.log('\n💡 Examples:');
       content.examples.forEach((example, index) => {
-        console.log(`\n${index + 1}. ${example.title}`);
-        console.log('Before:');
-        console.log(example.before);
-        console.log('\nAfter:');
-        console.log(example.after);
-        console.log(`\n📝 ${example.explanation}`);
+        // console.log(`\n${index + 1}. ${example.title}`);
+        // console.log('Before:');
+        // console.log(example.before);
+        // console.log('\nAfter:');
+        // console.log(example.after);
+        // console.log(`\n📝 ${example.explanation}`);
       });
     }
 
     if (content.exercises) {
-      console.log('\n🏋️ Practice Exercises:');
+      // console.log('\n🏋️ Practice Exercises:');
       for (const exercise of content.exercises) {
         await this.runExercise(exercise);
       }
@@ -616,40 +616,40 @@ const value = config.someProperty;`,
   }
 
   private async runExercise(exercise: Exercise): Promise<void> {
-    console.log(`\n❓ ${exercise.question}`);
+    // console.log(`\n❓ ${exercise.question}`);
 
-    if (exercise.type === 'multiple_choice' && exercise.options) {
+    if (exercise.type === 'multiple_choice' && exercise.options) {;
       exercise.options.forEach((option, index) => {
-        console.log(`${index + 1}. ${option}`);
+        // console.log(`${index + 1}. ${option}`);
       });
 
       const answer = await this.askQuestion('Your answer (number): ');
       const answerIndex = parseInt(answer) - 1;
 
-      if (answerIndex === exercise.correctAnswer) {
-        console.log('✅ Correct!');
+      if (answerIndex === exercise.correctAnswer) {;
+        // console.log('✅ Correct!');
       } else {
-        console.log('❌ Incorrect.');
+        // console.log('❌ Incorrect.');
       }
-      console.log(`💡 ${exercise.explanation}`);
-    } else if (exercise.type === 'code_completion') {
+      // console.log(`💡 ${exercise.explanation}`);
+    } else if (exercise.type === 'code_completion') {;
       const answer = await this.askQuestion('Your answer: ');
 
       if (answer.trim() === exercise.correctAnswer) {
-        console.log('✅ Correct!');
+        // console.log('✅ Correct!');
       } else {
-        console.log('❌ Incorrect.');
-        console.log(`Correct answer: ${exercise.correctAnswer}`);
+        // console.log('❌ Incorrect.');
+        // console.log(`Correct answer: ${exercise.correctAnswer}`);
       }
-      console.log(`💡 ${exercise.explanation}`);
+      // console.log(`💡 ${exercise.explanation}`);
     }
   }
 
   private async runAssessment(assessment: Assessment): Promise<number> {
-    console.log('\n🎯 Assessment Starting');
-    console.log(`📊 Passing score: ${assessment.passingScore}%`);
+    // console.log('\n🎯 Assessment Starting');
+    // console.log(`📊 Passing score: ${assessment.passingScore}%`);
     if (assessment.timeLimit) {
-      console.log(`⏱️ Time limit: ${assessment.timeLimit} minutes`);
+      // console.log(`⏱️ Time limit: ${assessment.timeLimit} minutes`);
     }
 
     let correctAnswers = 0;
@@ -657,7 +657,7 @@ const value = config.someProperty;`,
 
     for (let i = 0; i < assessment.questions.length; i++) {
       const question = assessment.questions[i];
-      console.log(`\n📝 Question ${i + 1}/${totalQuestions}`);
+      // console.log(`\n📝 Question ${i + 1}/${totalQuestions}`);
 
       const isCorrect = await this.askAssessmentQuestion(question);
       if (isCorrect) {
@@ -666,13 +666,13 @@ const value = config.someProperty;`,
     }
 
     const score = Math.round((correctAnswers / totalQuestions) * 100);
-    console.log(`\n🎯 Assessment Complete!`);
-    console.log(`📊 Score: ${score}% (${correctAnswers}/${totalQuestions})`);
+    // console.log(`\n🎯 Assessment Complete!`);
+    // console.log(`📊 Score: ${score}% (${correctAnswers}/${totalQuestions})`);
 
     if (score >= assessment.passingScore) {
-      console.log('🎉 Congratulations! You passed the assessment.');
+      // console.log('🎉 Congratulations! You passed the assessment.');
     } else {
-      console.log(
+      // console.log(
         `📚 You need ${assessment.passingScore}% to pass. Please review the material and try again.`,
       );
     }
@@ -681,11 +681,11 @@ const value = config.someProperty;`,
   }
 
   private async askAssessmentQuestion(question: Exercise): Promise<boolean> {
-    console.log(question.question);
+    // console.log(question.question);
 
-    if (question.type === 'multiple_choice' && question.options) {
+    if (question.type === 'multiple_choice' && question.options) {;
       question.options.forEach((option, index) => {
-        console.log(`${index + 1}. ${option}`);
+        // console.log(`${index + 1}. ${option}`);
       });
 
       const answer = await this.askQuestion('Your answer (number): ');
@@ -694,7 +694,7 @@ const value = config.someProperty;`,
       const isCorrect = answerIndex === question.correctAnswer;
 
       if (!isCorrect) {
-        console.log(`❌ Incorrect. ${question.explanation}`);
+        // console.log(`❌ Incorrect. ${question.explanation}`);
       }
 
       return isCorrect;
@@ -707,16 +707,16 @@ const value = config.someProperty;`,
     const progress = this.getUserProgress(userId);
     const completedModules = progress.completedModules;
 
-    if (completedModules.length === 0) {
-      console.log('📚 Please complete at least one training module before taking assessments.');
+    if (completedModules.length === 0) {;
+      // console.log('📚 Please complete at least one training module before taking assessments.');
       return;
     }
 
-    console.log('\n🎯 Available Assessments:');
+    // console.log('\n🎯 Available Assessments:');
     completedModules.forEach((moduleId, index) => {
       const module = this.trainingModules.get(moduleId);
       const previousScore = progress.scores[moduleId] || 'Not taken';
-      console.log(`${index + 1}. ${module?.name} (Previous score: ${previousScore})`);
+      // console.log(`${index + 1}. ${module?.name} (Previous score: ${previousScore})`);
     });
 
     const choice = await this.askQuestion('Select assessment (number): ');
@@ -737,14 +737,14 @@ const value = config.someProperty;`,
   private async generateCertificate(userId: string): Promise<void> {
     const progress = this.getUserProgress(userId);
     const allModulesCompleted = this.trainingModules.size === progress.completedModules.length;
-    const allAssessmentsPassed = progress.completedModules.every(moduleId => {
+    const allAssessmentsPassed = progress.completedModules.every(moduleId => {;
       const module = this.trainingModules.get(moduleId);
       const score = progress.scores[moduleId] || 0;
       return score >= (module?.assessment.passingScore || 80);
     });
 
     if (!allModulesCompleted || !allAssessmentsPassed) {
-      console.log('📚 Complete all modules and pass all assessments to earn certification.');
+      // console.log('📚 Complete all modules and pass all assessments to earn certification.');
       return;
     }
 
@@ -759,8 +759,8 @@ const value = config.someProperty;`,
 
     fs.writeFileSync(certificatePath, certificate);
 
-    console.log('🏆 Certificate generated successfully!');
-    console.log(`📄 Certificate saved to: ${certificatePath}`);
+    // console.log('🏆 Certificate generated successfully!');
+    // console.log(`📄 Certificate saved to: ${certificatePath}`);
 
     // Add certification to user progress
     const certificationName = 'Unintentional Any Elimination Specialist';
@@ -773,7 +773,7 @@ const value = config.someProperty;`,
   private createCertificate(userId: string, progress: UserProgress): string {
     const completionDate = new Date().toISOString().split('T')[0];
     const averageScore =
-      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /
+      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /;
       Object.values(progress.scores).length;
 
     return `# Certificate of Completion
@@ -820,7 +820,7 @@ const value = config.someProperty;`,
 ### Assessment Scores
 
 ${progress.completedModules
-  .map(moduleId => {
+  .map(moduleId => {;
     const module = this.trainingModules.get(moduleId);
     const score = progress.scores[moduleId] || 0;
     return `- **${module?.name}**: ${score}%`;
@@ -852,7 +852,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
         completedModules: [],
         scores: {},
         certifications: [],
-        lastActivity: new Date(),
+        lastActivity: new Date()
       });
     }
     return this.userProgress.get(userId)!;
@@ -874,7 +874,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 
     this.saveUserProgress(userId, progress);
 
-    console.log(`✅ Module "${moduleId}" completed with score: ${score}%`);
+    // console.log(`✅ Module '${moduleId}' completed with score: ${score}%`);
   }
 
   private saveUserProgress(userId: string, progress: UserProgress): void {
@@ -894,7 +894,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
     }
 
     const files = fs.readdirSync(progressDir);
-    files.forEach(file => {
+    files.forEach(file => {;
       if (file.endsWith('.json')) {
         try {
           const content = fs.readFileSync(path.join(progressDir, file), 'utf8');
@@ -910,56 +910,56 @@ This certificate is issued by the Unintentional Any Elimination System and certi
   private async viewDetailedProgress(userId: string): Promise<void> {
     const progress = this.getUserProgress(userId);
 
-    console.log('\n📊 Detailed Progress Report');
-    console.log('='.repeat(50));
+    // console.log('\n📊 Detailed Progress Report');
+    // console.log('='.repeat(50));
 
-    console.log(`👤 User: ${userId}`);
-    console.log(`📅 Last Activity: ${progress.lastActivity.toISOString().split('T')[0]}`);
+    // console.log(`👤 User: ${userId}`);
+    // console.log(`📅 Last Activity: ${progress.lastActivity.toISOString().split('T')[0]}`);
 
     const totalModules = this.trainingModules.size;
     const completedCount = progress.completedModules.length;
     const progressPercent = ((completedCount / totalModules) * 100).toFixed(1);
 
-    console.log(`\n📈 Overall Progress: ${completedCount}/${totalModules} (${progressPercent}%)`);
+    // console.log(`\n📈 Overall Progress: ${completedCount}/${totalModules} (${progressPercent}%)`);
 
-    console.log('\n📚 Module Status:');
-    Array.from(this.trainingModules.values()).forEach(module => {
+    // console.log('\n📚 Module Status:');
+    Array.from(this.trainingModules.values()).forEach(module => {;
       const isCompleted = progress.completedModules.includes(module.id);
       const score = progress.scores[module.id];
       const status = isCompleted ? '✅' : '⏳';
       const scoreText = score ? ` (${score}%)` : '';
 
-      console.log(`  ${status} ${module.name}${scoreText}`);
+      // console.log(`  ${status} ${module.name}${scoreText}`);
     });
 
     if (progress.certifications.length > 0) {
-      console.log('\n🏆 Certifications:');
-      progress.certifications.forEach(cert => {
-        console.log(`  🏅 ${cert}`);
+      // console.log('\n🏆 Certifications:');
+      progress.certifications.forEach(cert => {;
+        // console.log(`  🏅 ${cert}`);
       });
     }
 
-    const nextModules = this.getAvailableModules(progress).filter(
-      m => !progress.completedModules.includes(m.id),
+    const nextModules = this.getAvailableModules(progress).filter(;
+      m => !progress.completedModules.includes(m.id),;
     );
 
     if (nextModules.length > 0) {
-      console.log('\n📖 Next Available Modules:');
-      nextModules.forEach(module => {
-        console.log(`  📚 ${module.name} (${module.duration} min)`);
+      // console.log('\n📖 Next Available Modules:');
+      nextModules.forEach(module => {;
+        // console.log(`  📚 ${module.name} (${module.duration} min)`);
       });
     }
   }
 
   private async practiceExercises(userId: string): Promise<void> {
-    console.log('\n🏋️ Practice Exercises');
-    console.log('Coming soon: Interactive practice exercises for reinforcing learning.');
+    // console.log('\n🏋️ Practice Exercises');
+    // console.log('Coming soon: Interactive practice exercises for reinforcing learning.');
     // TODO: Implement practice exercises
   }
 
   private async askQuestion(question: string): Promise<string> {
-    return new Promise(resolve => {
-      this.rl.question(question, answer => {
+    return new Promise(resolve => {;
+      this.rl.question(question, answer => {;
         resolve(answer.trim());
       });
     });
@@ -967,11 +967,11 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 }
 
 // CLI Interface
-if (require.main === module) {
+if (require.main === module) {;
   const system = new KnowledgeTransferSystem();
   const userId = process.argv[2] || process.env.USER || 'anonymous';
 
-  system.startTraining(userId).catch(error => {
+  system.startTraining(userId).catch(error => {;
     console.error('Training system error:', error);
     process.exit(1);
   });

@@ -5,14 +5,14 @@ import type {
   LunarPhase,
   PlanetName,
   PlanetaryAspect,
-  ZodiacSign,
+  ZodiacSign
 } from '@/types/alchemy';
 import { CelestialPosition } from '@/types/celestial';
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const _debugLog = (_message: string, ..._args: unknown[]): void => {
+const _debugLog = (_message: string, ..._args: unknown[]): void => {;
   // No-op for production
 };
 
@@ -20,7 +20,7 @@ const _debugLog = (_message: string, ..._args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (_message: string, ..._args: unknown[]): void => {
+const errorLog = (_message: string, ..._args: unknown[]): void => {;
   // No-op for production
 };
 
@@ -68,68 +68,68 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
       sign: 'gemini',
       degree: 5.93,
       exactLongitude: 65.93,
-      isRetrograde: false,
+      isRetrograde: false
     },
     moon: {
       sign: 'gemini',
       degree: 3.57,
       exactLongitude: 63.57,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Mercury: {
       sign: 'gemini',
       degree: 1.98,
       exactLongitude: 61.98,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Venus: {
       sign: 'aries',
       degree: 20.17,
       exactLongitude: 20.17,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Mars: {
       sign: 'leo',
       degree: 18.38,
       exactLongitude: 138.38,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Jupiter: {
       sign: 'gemini',
       degree: 26.87,
       exactLongitude: 86.87,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Saturn: {
       sign: 'aries',
       degree: 0.13,
       exactLongitude: 0.13,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Uranus: {
       sign: 'taurus',
       degree: 27.82,
       exactLongitude: 57.82,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Neptune: {
       sign: 'aries',
       degree: 1.77,
       exactLongitude: 1.77,
-      isRetrograde: false,
+      isRetrograde: false
     },
     Pluto: {
       sign: 'aquarius',
       degree: 3.7,
       exactLongitude: 303.7,
-      isRetrograde: true,
-    },
+      isRetrograde: true
+    }
   };
 
   // Cache the results
-  reliablePositionsCache = {
+  reliablePositionsCache = {;
     data: positions,
-    timestamp: Date.now(),
+    timestamp: Date.now()
   };
 
   return positions;
@@ -205,7 +205,7 @@ export function getmoonIllumination(): number {
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export function calculateSunSign(date: Date = new Date()): any {
+export function calculateSunSign(date: Date = new Date()): any {;
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
@@ -243,7 +243,7 @@ export function getZodiacPositionInDegrees(sign: any, degree: number): number {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
 
   const signIndex = signs.indexOf(sign);
@@ -302,7 +302,7 @@ export function calculatePlanetaryAspects(positions: {
             type: aspect.type,
             orb: aspect.orb,
             strength,
-            planets: [planet1, planet2],
+            planets: [planet1, planet2]
           });
         }
       }
@@ -330,7 +330,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType; orb: numb
     semisquare: { angle: 45, maxOrb: 4 },
     sesquisquare: { angle: 135, maxOrb: 4 },
     quintile: { angle: 72, maxOrb: 3 },
-    biquintile: { angle: 144, maxOrb: 3 },
+    biquintile: { angle: 144, maxOrb: 3 }
   };
 
   // Check each aspect type
@@ -363,7 +363,7 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
     semisquare: 0.5,
     sesquisquare: 0.5,
     quintile: 0.4,
-    biquintile: 0.4,
+    biquintile: 0.4
   };
 
   // Get max orb for this aspect type
@@ -378,7 +378,7 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
     semisquare: { angle: 45, maxOrb: 4 },
     sesquisquare: { angle: 135, maxOrb: 4 },
     quintile: { angle: 72, maxOrb: 3 },
-    biquintile: { angle: 144, maxOrb: 3 },
+    biquintile: { angle: 144, maxOrb: 3 }
   };
 
   const maxOrb = aspectDefinitions[type].maxOrb;
@@ -407,8 +407,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const dominantElement = getDominantElement(elementCounts) as Element;
 
     // Map planets to names
-    const activePlanets = Object.keys(positions || {}).filter(
-      p => !['northNode', 'southNode', 'Chiron', 'Ascendant', 'MC'].includes(p),
+    const activePlanets = Object.keys(positions || {}).filter(;
+      p => !['northNode', 'southNode', 'Chiron', 'Ascendant', 'MC'].includes(p),;
     ) as PlanetName[];
 
     // Format lunar phase
@@ -427,7 +427,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       activePlanets,
       dominantElement,
       planetaryPositions: positions as Record<string, CelestialPosition>,
-      isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18,
+      isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18
     };
   } catch (error) {
     errorLog(
@@ -442,7 +442,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       lunarPhase: 'new moon',
       activePlanets: ['Sun', 'Moon', 'Jupiter'],
       dominantElement: 'Fire',
-      loading: false,
+      loading: false
     };
   }
 }
@@ -452,7 +452,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
  * @param sign Zodiac sign string (case insensitive)
  * @returns Normalized zodiac sign
  */
-export const normalizeZodiacSign = (sign: string): any => {
+export const normalizeZodiacSign = (sign: string): any => {;
   // Convert to lowercase and trim
   const normalizedSign = sign.toLowerCase().trim();
 
@@ -469,13 +469,13 @@ export const normalizeZodiacSign = (sign: string): any => {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
 
   if (
     Array.isArray(validSigns)
       ? validSigns.includes(normalizedSign as any)
-      : validSigns === (normalizedSign as any)
+      : validSigns === (normalizedSign as any);
   ) {
     return normalizedSign as any;
   }
@@ -496,7 +496,7 @@ export const normalizeZodiacSign = (sign: string): any => {
  * @param date Date to check
  * @returns Current zodiac sign
  */
-export function getCurrentTransitSign(planet: string, date: Date = new Date()): any | null {
+export function getCurrentTransitSign(planet: string, date: Date = new Date()): any | null {;
   try {
     // Get reliable positions
     const positions = getReliablePlanetaryPositions();
@@ -507,11 +507,11 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
     }
 
     // For common planets, calculate fallback
-    if (planet === 'Sun') {
+    if (planet === 'Sun') {;
       return calculateSunSign(date);
     }
 
-    if (planet === 'Moon') {
+    if (planet === 'Moon') {;
       const dayOfYear = getDayOfYear(date);
       return calculateApproximatemoonSign(dayOfYear);
     }
@@ -535,10 +535,10 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
  */
 export function validatePlanetaryPositions(
   positions: { [key: string]: unknown },
-  _date: Date = new Date(),
+  _date: Date = new Date(),;
 ): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
-  if (!positions || Object.keys(positions || {}).length === 0) {
+  if (!positions || Object.keys(positions || {}).length === 0) {;
     return getReliablePlanetaryPositions();
   }
 
@@ -561,17 +561,17 @@ export function validatePlanetaryPositions(
   const result: { [key: string]: CelestialPosition } = {};
 
   for (const [planet, data] of Object.entries(positions)) {
-    if (typeof data === 'object' && data !== null) {
+    if (typeof data === 'object' && data !== null) {;
       const src = data as unknown;
-      const position: CelestialPosition = {
+      const position: CelestialPosition = {;
         sign: String(src.sign || ''),
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
-        isRetrograde: Boolean(src.isRetrograde),
+        isRetrograde: Boolean(src.isRetrograde)
       };
 
       // Convert sign to lowercase if it exists
-      if (position.sign && typeof position.sign === 'string') {
+      if (position.sign && typeof position.sign === 'string') {;
         position.sign = position.sign?.toLowerCase();
       }
 
@@ -600,7 +600,7 @@ export function getBaseSignLongitude(sign: any): number {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
 
   const index = signs.indexOf(sign);
@@ -624,7 +624,7 @@ export function getCurrentTransitPositions(): {
     result[planet] = {
       sign: data.sign as any,
       degree: data.degree,
-      isRetrograde: data.isRetrograde || false,
+      isRetrograde: data.isRetrograde || false
     };
   }
 
@@ -685,7 +685,7 @@ function calculateApproximatemoonSign(dayOfYear: number): any {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces',
+    'pisces'
   ];
 
   return signs[moonCycle % 12];
@@ -701,7 +701,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
+    Water: 0
   };
 
   // Map signs to elements
@@ -717,7 +717,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
+    pisces: 'Water'
   };
 
   // Count elements
@@ -729,7 +729,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
 
     // Weigh Sun and Moon more heavily
     let weight = 1;
-    if (planet === 'Sun' || planet === 'Moon') {
+    if (planet === 'Sun' || planet === 'Moon') {;
       weight = 3;
     } else if (['Mercury', 'Venus', 'Mars'].includes(planet)) {
       weight = 2;

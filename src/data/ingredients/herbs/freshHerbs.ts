@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawFreshHerbs = {
+const rawFreshHerbs = {;
   basil: {
     name: 'Basil',
     category: 'culinary_herb',
@@ -18,28 +18,28 @@ const rawFreshHerbs = {
         protein: 0.2,
         carbs: 0.1,
         fat: 0.0,
-        fiber: 0.1,
+        fiber: 0.1
       },
       vitamins: {
         K: 0.13, // Values as percentage of RDA
         A: 0.03,
         C: 0.02,
         folate: 0.01,
-        B6: 0.01,
+        B6: 0.01
       },
       minerals: {
         manganese: 0.03,
         calcium: 0.01,
         iron: 0.01,
         magnesium: 0.01,
-        potassium: 0.01,
+        potassium: 0.01
       },
       antioxidants: {
         phenolics: 'high',
         flavonoids: 'high',
-        carotenoids: 'moderate',
+        carotenoids: 'moderate'
       },
-      source: 'USDA FoodData Central',
+      source: 'USDA FoodData Central'
     },
 
     // Sensory profile (standardized)
@@ -50,7 +50,7 @@ const rawFreshHerbs = {
         sour: 0.1,
         bitter: 0.2,
         umami: 0.0,
-        spicy: 0.2,
+        spicy: 0.2
       },
       aroma: {
         floral: 0.6,
@@ -58,7 +58,7 @@ const rawFreshHerbs = {
         herbal: 0.9,
         spicy: 0.3,
         earthy: 0.1,
-        woody: 0.0,
+        woody: 0.0
       },
       texture: {
         crisp: 0.3,
@@ -66,8 +66,8 @@ const rawFreshHerbs = {
         creamy: 0.0,
         chewy: 0.0,
         crunchy: 0.0,
-        silky: 0.1,
-      },
+        silky: 0.1
+      }
     },
 
     // Storage information (standardized)
@@ -79,8 +79,8 @@ const rawFreshHerbs = {
         'Do not refrigerate if possible - causes blackening',
         'Change water daily if storing in water',
         'Wrap in slightly damp paper towel if refrigerating',
-        'Freeze whole leaves in olive oil in ice cube trays',
-      ],
+        'Freeze whole leaves in olive oil in ice cube trays'
+      ]
     },
 
     // Preparation (standardized)
@@ -91,10 +91,10 @@ const rawFreshHerbs = {
         washing: 'gentle rinse, pat dry with paper towels',
         drying: 'air-dry or use lowest setting on dehydrator',
         chopping: 'tear by hand or cut with sharp knife just before using',
-        preserving: 'freeze in oil, infuse in vinegar or oil, dry',
+        preserving: 'freeze in oil, infuse in vinegar or oil, dry'
       },
       notes:
-        'Turns black when cut with dull knife or exposed to acid for too long; add at end of cooking to preserve flavor',
+        'Turns black when cut with dull knife or exposed to acid for too long; add at end of cooking to preserve flavor'
     },
 
     // Culinary applications (standardized)
@@ -106,7 +106,7 @@ const rawFreshHerbs = {
         'infused oils',
         'cocktails',
         'desserts',
-        'sauces',
+        'sauces'
       ],
       pairingRecommendations: {
         complementary: [
@@ -117,24 +117,24 @@ const rawFreshHerbs = {
           'lemon',
           'mozzarella',
           'pasta',
-          'eggplant',
+          'eggplant'
         ],
         contrasting: ['strawberry', 'peach', 'watermelon', 'balsamic vinegar', 'chocolate'],
-        toAvoid: ['strong spices', 'prolonged cooking', 'bitter greens'],
+        toAvoid: ['strong spices', 'prolonged cooking', 'bitter greens']
       },
       seasonalPeak: ['summer'],
       techniques: {
         pesto: {
           method: 'food processor or mortar and pestle',
           ingredients: ['olive oil', 'pine nuts', 'parmesan', 'garlic', 'salt'],
-          notes: 'Use only the leaves, adjust garlic to taste',
+          notes: 'Use only the leaves, adjust garlic to taste'
         },
         caprese: {
           method: 'layered or arranged',
           ingredients: ['tomato', 'mozzarella', 'olive oil', 'balsamic'],
-          notes: 'Use whole small leaves, add just before serving',
-        },
-      },
+          notes: 'Use whole small leaves, add just before serving'
+        }
+      }
     },
 
     // Health benefits (standardized)
@@ -145,7 +145,7 @@ const rawFreshHerbs = {
       'Supports digestive health',
       'Contains antimicrobial compounds',
       'May help reduce stress',
-      'Supports cardiovascular health',
+      'Supports cardiovascular health'
     ],
 
     // Varieties (standardized)
@@ -164,7 +164,7 @@ const rawFreshHerbs = {
         aroma: 'anise-like, spicy',
         flavor: 'more stable under high heat than sweet basil',
         uses: 'Southeast Asian cuisine, stir-fries, curries',
-        oil_content: 0.6,
+        oil_content: 0.6
       },
       holy_basil: {
         name: 'Holy Basil (Tulsi)',
@@ -172,15 +172,15 @@ const rawFreshHerbs = {
         aroma: 'spicy, complex',
         flavor: 'peppery, clove-like',
         uses: 'Indian cuisine, medicinal tea, stir-fries',
-        oil_content: 0.8,
+        oil_content: 0.8
       },
       lemon_basil: {
         name: 'Lemon Basil',
         appearance: 'light green, narrow leaves',
         aroma: 'strong citrus scent',
         flavor: 'lemony, lighter than sweet basil',
-        uses: 'Southeast Asian cuisine, seafood, desserts',
-      },
+        uses: 'Southeast Asian cuisine, seafood, desserts'
+      }
     },
 
     // Category-specific extension: herbs
@@ -188,7 +188,7 @@ const rawFreshHerbs = {
     aroma: {
       intensity: 8, // 1-10 scale
       volatility: 9, // How quickly aroma dissipates (1-10)
-      mainCompounds: ['linalool', 'eugenol', 'citral', 'limonene', 'methyl chavicol'],
+      mainCompounds: ['linalool', 'eugenol', 'citral', 'limonene', 'methyl chavicol']
     },
     drying: {
       methods: ['air-drying', 'dehydrator', 'microwave', 'oven'],
@@ -196,13 +196,13 @@ const rawFreshHerbs = {
       bestPractices: [
         'Harvest before flowering for best flavor',
         'Dry quickly in well-ventilated area',
-        'Store in airtight container away from light',
-      ],
+        'Store in airtight container away from light'
+      ]
     },
     timing: {
       addEarly: false,
       addLate: true,
-      notes: 'Add in last few minutes of cooking or after removing from heat',
+      notes: 'Add in last few minutes of cooking or after removing from heat'
     },
     substitutions: ['oregano', 'thyme', 'tarragon', 'mint'],
 
@@ -213,20 +213,20 @@ const rawFreshHerbs = {
         name: 'Linalool',
         percentage: 40,
         aroma: 'floral, fresh',
-        properties: ['calming', 'anti-inflammatory'],
+        properties: ['calming', 'anti-inflammatory']
       },
       {
         name: 'Eugenol',
         percentage: 15,
         aroma: 'clove-like, spicy',
-        properties: ['antiseptic', 'analgesic'],
+        properties: ['antiseptic', 'analgesic']
       },
       {
         name: 'Estragole (Methyl chavicol)',
         percentage: 30,
         aroma: 'anise-like',
-        properties: ['stimulant', 'digestive aid'],
-      },
+        properties: ['stimulant', 'digestive aid']
+      }
     ],
 
     // Herb usage by cuisine type
@@ -235,8 +235,8 @@ const rawFreshHerbs = {
         name: 'rau quế',
         usage: ['pho', 'spring rolls', 'bánh mì'],
         preparation: 'fresh, served raw',
-        regional_importance: 7,
-      },
+        regional_importance: 7
+      }
     },
 
     // Seasonal adjustments for herb growing
@@ -248,8 +248,8 @@ const rawFreshHerbs = {
         soil: 'well-draining, pH 6-7',
         sun: 'full sun',
         water: 'moderate, consistent moisture',
-        spacing: '8-12 inches apart',
-      },
+        spacing: '8-12 inches apart'
+      }
     },
 
     // Astrology / (elemental || 1) connections (standardized)
@@ -262,28 +262,28 @@ const rawFreshHerbs = {
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury' },
           second: { element: 'Fire', planet: 'Venus' },
-          third: { element: 'Water', planet: 'Jupiter' },
-        },
+          third: { element: 'Water', planet: 'Jupiter' }
+        }
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Air: 0.1, Water: 0.05 },
-          preparationTips: ['Harvest in morning', 'Gentle processing'],
+          preparationTips: ['Harvest in morning', 'Gentle processing']
         },
         fullMoon: {
           elementalBoost: { Air: 0.15, Fire: 0.1 },
-          preparationTips: ['Enhanced aroma when harvested', 'Good for infusions'],
-        },
+          preparationTips: ['Enhanced aroma when harvested', 'Good for infusions']
+        }
       },
-      aspectEnhancers: ['Mercury trine Venus', 'Jupiter in Libra'],
-    },
+      aspectEnhancers: ['Mercury trine Venus', 'Jupiter in Libra']
+    }
   },
 
   // More herbs would be added here...
 };
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const freshHerbs = fixIngredientMappings(
+export const freshHerbs = fixIngredientMappings(;
   rawFreshHerbs as unknown as Record<string, Partial<IngredientMapping>>,
 );
 

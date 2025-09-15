@@ -23,7 +23,7 @@ import {
   FinalReport,
   FullCampaignConfig,
   FullCampaignResult,
-  ReplacementResult,
+  ReplacementResult
 } from './types';
 
 export class FullCampaignExecutor {
@@ -39,7 +39,7 @@ export class FullCampaignExecutor {
   private metrics: CampaignMetrics;
 
   constructor(config: Partial<FullCampaignConfig> = {}) {
-    this.config = {
+    this.config = {;
       targetReductionPercentage: 17.5, // Target 15-20% reduction
       targetFixCount: 300, // Target 250-350 fixes
       maxBatchSize: 25,
@@ -53,7 +53,7 @@ export class FullCampaignExecutor {
       validatePerformanceImprovements: true,
       emergencyStopThreshold: 0.5,
       maxCampaignDuration: 4 * 60 * 60 * 1000, // 4 hours max
-      ...config,
+      ...config
     };
 
     this.classifier = new AnyTypeClassifier();
@@ -71,8 +71,8 @@ export class FullCampaignExecutor {
    * Execute the complete unintentional any elimination campaign
    */
   async executeFullCampaign(): Promise<FullCampaignResult> {
-    console.log('🚀 Starting Full Unintentional Any Elimination Campaign');
-    console.log(
+    // console.log('🚀 Starting Full Unintentional Any Elimination Campaign');
+    // console.log(
       `📊 Target: ${this.config.targetReductionPercentage}% reduction (${this.config.targetFixCount} fixes)`,
     );
 
@@ -95,7 +95,7 @@ export class FullCampaignExecutor {
       // Phase 6: Final Validation and Reporting
       const finalResult = await this.executePhase6_FinalValidationAndReporting();
 
-      const campaignResult: FullCampaignResult = {
+      const campaignResult: FullCampaignResult = {;
         success: true,
         totalFixesApplied: this.metrics.totalFixesApplied,
         reductionPercentage: this.calculateReductionPercentage(),
@@ -106,18 +106,18 @@ export class FullCampaignExecutor {
           mediumRiskResult,
           domainSpecificResult,
           documentationResult,
-          finalResult,
+          finalResult
         ],
         metrics: this.metrics,
         finalReport: await this.generateFinalReport(),
         duration: Date.now() - this.startTime.getTime(),
         buildStable: await this.validateBuildStability(),
-        performanceImproved: await this.validatePerformanceImprovements(),
+        performanceImproved: await this.validatePerformanceImprovements()
       };
 
-      console.log('✅ Full Campaign Completed Successfully');
-      console.log(`📈 Achieved: ${campaignResult.reductionPercentage.toFixed(1)}% reduction`);
-      console.log(`🎯 Target Met: ${campaignResult.targetAchieved ? 'YES' : 'NO'}`);
+      // console.log('✅ Full Campaign Completed Successfully');
+      // console.log(`📈 Achieved: ${campaignResult.reductionPercentage.toFixed(1)}% reduction`);
+      // console.log(`🎯 Target Met: ${campaignResult.targetAchieved ? 'YES' : 'NO'}`);
 
       return campaignResult;
     } catch (error) {
@@ -132,7 +132,7 @@ export class FullCampaignExecutor {
         metrics: this.metrics,
         duration: Date.now() - this.startTime.getTime(),
         buildStable: await this.validateBuildStability(),
-        performanceImproved: false,
+        performanceImproved: false
       };
     }
   }
@@ -141,7 +141,7 @@ export class FullCampaignExecutor {
    * Phase 1: Initial Analysis and Baseline Establishment
    */
   private async executePhase1_InitialAnalysis(): Promise<CampaignPhase> {
-    console.log('\n📋 Phase 1: Initial Analysis and Baseline');
+    // console.log('\n📋 Phase 1: Initial Analysis and Baseline');
 
     const phaseStart = Date.now();
 
@@ -150,8 +150,8 @@ export class FullCampaignExecutor {
       const initialErrorCount = await this.getCurrentErrorCount();
       const initialAnyCount = await this.getCurrentAnyCount();
 
-      console.log(`📊 Baseline - TypeScript Errors: ${initialErrorCount}`);
-      console.log(`📊 Baseline - Explicit Any Count: ${initialAnyCount}`);
+      // console.log(`📊 Baseline - TypeScript Errors: ${initialErrorCount}`);
+      // console.log(`📊 Baseline - Explicit Any Count: ${initialAnyCount}`);
 
       // Perform comprehensive analysis
       const analysisResult = await this.analysisTools.performComprehensiveAnalysis();
@@ -172,9 +172,9 @@ export class FullCampaignExecutor {
           analysisResult,
           baselineMetrics: {
             errorCount: initialErrorCount,
-            anyCount: initialAnyCount,
-          },
-        },
+            anyCount: initialAnyCount
+          }
+        }
       };
     } catch (error) {
       console.error('❌ Phase 1 failed:', error);
@@ -186,7 +186,7 @@ export class FullCampaignExecutor {
    * Phase 2: High-Confidence Replacements (Array types, simple Records)
    */
   private async executePhase2_HighConfidenceReplacements(): Promise<CampaignPhase> {
-    console.log('\n🎯 Phase 2: High-Confidence Replacements');
+    // console.log('\n🎯 Phase 2: High-Confidence Replacements');
 
     const phaseStart = Date.now();
     const errorsBefore = await this.getCurrentErrorCount();
@@ -200,18 +200,18 @@ export class FullCampaignExecutor {
         batchCount < maxBatches &&
         totalFixes < ((this.config as any)?.targetFixCount || 0) * 0.2
       ) {
-        console.log(`\n🔄 High-Confidence Batch ${batchCount + 1}`);
+        // console.log(`\n🔄 High-Confidence Batch ${batchCount + 1}`);
 
         // Find high-confidence cases
         const highConfidenceCases = await this.findHighConfidenceCases();
 
-        if (highConfidenceCases.length === 0) {
-          console.log('✅ No more high-confidence cases found');
+        if (highConfidenceCases.length === 0) {;
+          // console.log('✅ No more high-confidence cases found');
           break;
         }
 
         // Process batch with enhanced safety
-        const batchResult = await this.processBatchWithSafety(
+        const batchResult = await this.processBatchWithSafety(;
           highConfidenceCases.slice(0, this.config.maxBatchSize),
           'high-confidence',
         );
@@ -228,7 +228,7 @@ export class FullCampaignExecutor {
         batchCount++;
 
         // Progress update
-        console.log(`📈 Phase 2 Progress: ${totalFixes} fixes applied`);
+        // console.log(`📈 Phase 2 Progress: ${totalFixes} fixes applied`);
       }
 
       const errorsAfter = await this.getCurrentErrorCount();
@@ -242,8 +242,8 @@ export class FullCampaignExecutor {
         errorsAfter,
         details: {
           batchesProcessed: batchCount,
-          categories: ['ARRAY_TYPE', 'RECORD_TYPE'],
-        },
+          categories: ['ARRAY_TYPE', 'RECORD_TYPE']
+        }
       };
     } catch (error) {
       console.error('❌ Phase 2 failed:', error);
@@ -255,21 +255,21 @@ export class FullCampaignExecutor {
    * Phase 3: Medium-Risk Category Processing
    */
   private async executePhase3_MediumRiskProcessing(): Promise<CampaignPhase> {
-    console.log('\n⚖️ Phase 3: Medium-Risk Category Processing');
+    // console.log('\n⚖️ Phase 3: Medium-Risk Category Processing');
 
     const phaseStart = Date.now();
     const errorsBefore = await this.getCurrentErrorCount();
 
     try {
       let totalFixes = 0;
-      const mediumRiskCategories = [
+      const mediumRiskCategories = [;
         AnyTypeCategory.FUNCTION_PARAM,
         AnyTypeCategory.RETURN_TYPE,
-        AnyTypeCategory.TYPE_ASSERTION,
+        AnyTypeCategory.TYPE_ASSERTION
       ];
 
       for (const category of mediumRiskCategories) {
-        console.log(`\n🔍 Processing ${category} category`);
+        // console.log(`\n🔍 Processing ${category} category`);
 
         const categoryFixes = await this.processCategoryWithEnhancedSafety(category);
         totalFixes += categoryFixes;
@@ -281,7 +281,7 @@ export class FullCampaignExecutor {
           break;
         }
 
-        console.log(`✅ ${category}: ${categoryFixes} fixes applied`);
+        // console.log(`✅ ${category}: ${categoryFixes} fixes applied`);
       }
 
       const errorsAfter = await this.getCurrentErrorCount();
@@ -295,8 +295,8 @@ export class FullCampaignExecutor {
         errorsAfter,
         details: {
           categoriesProcessed: mediumRiskCategories,
-          enhancedSafetyProtocols: true,
-        },
+          enhancedSafetyProtocols: true
+        }
       };
     } catch (error) {
       console.error('❌ Phase 3 failed:', error);
@@ -308,7 +308,7 @@ export class FullCampaignExecutor {
    * Phase 4: Domain-Specific Processing
    */
   private async executePhase4_DomainSpecificProcessing(): Promise<CampaignPhase> {
-    console.log('\n🏗️ Phase 4: Domain-Specific Processing');
+    // console.log('\n🏗️ Phase 4: Domain-Specific Processing');
 
     const phaseStart = Date.now();
     const errorsBefore = await this.getCurrentErrorCount();
@@ -319,7 +319,7 @@ export class FullCampaignExecutor {
       let totalFixes = 0;
 
       for (const domain of domains) {
-        console.log(`\n🎯 Processing ${domain} domain`);
+        // console.log(`\n🎯 Processing ${domain} domain`);
 
         const domainFixes = await this.processDomainSpecific(domain);
         totalFixes += domainFixes.fixesApplied;
@@ -333,7 +333,7 @@ export class FullCampaignExecutor {
           break;
         }
 
-        console.log(`✅ ${domain} domain: ${domainFixes.fixesApplied} fixes applied`);
+        // console.log(`✅ ${domain} domain: ${domainFixes.fixesApplied} fixes applied`);
       }
 
       const errorsAfter = await this.getCurrentErrorCount();
@@ -347,8 +347,8 @@ export class FullCampaignExecutor {
         errorsAfter,
         details: {
           domainResults,
-          domainsProcessed: domains,
-        },
+          domainsProcessed: domains
+        }
       };
     } catch (error) {
       console.error('❌ Phase 4 failed:', error);
@@ -360,7 +360,7 @@ export class FullCampaignExecutor {
    * Phase 5: Documentation and Validation
    */
   private async executePhase5_DocumentationAndValidation(): Promise<CampaignPhase> {
-    console.log('\n📝 Phase 5: Documentation and Validation');
+    // console.log('\n📝 Phase 5: Documentation and Validation');
 
     const phaseStart = Date.now();
     const errorsBefore = await this.getCurrentErrorCount();
@@ -376,9 +376,9 @@ export class FullCampaignExecutor {
       // Validate documentation completeness
       const validationResult = await this.validateDocumentationCompleteness();
 
-      console.log(`📝 Documented ${documentationResult.documented} intentional any types`);
-      console.log(`🔧 Added ${eslintResult.added} ESLint disable comments`);
-      console.log(
+      // console.log(`📝 Documented ${documentationResult.documented} intentional any types`);
+      // console.log(`🔧 Added ${eslintResult.added} ESLint disable comments`);
+      // console.log(
         `✅ Documentation validation: ${validationResult.complete ? 'COMPLETE' : 'INCOMPLETE'}`,
       );
 
@@ -394,8 +394,8 @@ export class FullCampaignExecutor {
         details: {
           documentationResult,
           eslintResult,
-          validationResult,
-        },
+          validationResult
+        }
       };
     } catch (error) {
       console.error('❌ Phase 5 failed:', error);
@@ -407,7 +407,7 @@ export class FullCampaignExecutor {
    * Phase 6: Final Validation and Reporting
    */
   private async executePhase6_FinalValidationAndReporting(): Promise<CampaignPhase> {
-    console.log('\n📊 Phase 6: Final Validation and Reporting');
+    // console.log('\n📊 Phase 6: Final Validation and Reporting');
 
     const phaseStart = Date.now();
     const errorsBefore = await this.getCurrentErrorCount();
@@ -428,13 +428,13 @@ export class FullCampaignExecutor {
       this.metrics.finalAnyCount = finalAnyCount;
       this.metrics.campaignCompleted = true;
 
-      console.log(`📊 Final Metrics:`);
-      console.log(`   TypeScript Errors: ${this.metrics.initialErrorCount} → ${finalErrorCount}`);
-      console.log(`   Explicit Any Count: ${this.metrics.initialAnyCount} → ${finalAnyCount}`);
-      console.log(`   Total Fixes Applied: ${this.metrics.totalFixesApplied}`);
-      console.log(`   Reduction Percentage: ${this.calculateReductionPercentage().toFixed(1)}%`);
-      console.log(`   Target Achieved: ${this.isTargetAchieved() ? 'YES' : 'NO'}`);
-      console.log(`   Build Performance: ${performanceResult ? 'IMPROVED' : 'STABLE'}`);
+      // console.log(`📊 Final Metrics:`);
+      // console.log(`   TypeScript Errors: ${this.metrics.initialErrorCount} → ${finalErrorCount}`);
+      // console.log(`   Explicit Any Count: ${this.metrics.initialAnyCount} → ${finalAnyCount}`);
+      // console.log(`   Total Fixes Applied: ${this.metrics.totalFixesApplied}`);
+      // console.log(`   Reduction Percentage: ${this.calculateReductionPercentage().toFixed(1)}%`);
+      // console.log(`   Target Achieved: ${this.isTargetAchieved() ? 'YES' : 'NO'}`);
+      // console.log(`   Build Performance: ${performanceResult ? 'IMPROVED' : 'STABLE'}`);
 
       return {
         name: 'Final Validation and Reporting',
@@ -446,8 +446,8 @@ export class FullCampaignExecutor {
         details: {
           finalReport,
           performanceResult,
-          targetAchieved: this.isTargetAchieved(),
-        },
+          targetAchieved: this.isTargetAchieved()
+        }
       };
     } catch (error) {
       console.error('❌ Phase 6 failed:', error);
@@ -469,12 +469,12 @@ export class FullCampaignExecutor {
         const cases = await this.classifier.classifyFileContent(file, content);
 
         // Filter for high-confidence unintentional cases
-        const highConfidence = cases.filter(
-          c =>
+        const highConfidence = cases.filter(;
+          c =>;
             !c.isIntentional &&
             c.confidence >= 0.85 &&
-            (c.category === AnyTypeCategory.ARRAY_TYPE ||
-              c.category === AnyTypeCategory.RECORD_TYPE),
+            (c.category === AnyTypeCategory.ARRAY_TYPE ||;
+              c.category === AnyTypeCategory.RECORD_TYPE),;
         );
 
         highConfidenceCases.push(...highConfidence);
@@ -493,7 +493,7 @@ export class FullCampaignExecutor {
     cases: AnyTypeClassification[],
     batchType: string,
   ): Promise<ReplacementResult> {
-    console.log(`🔧 Processing ${cases.length} ${batchType} cases`);
+    // console.log(`🔧 Processing ${cases.length} ${batchType} cases`);
 
     // Create backup before processing
     const backupPath = await this.createBackup();
@@ -508,23 +508,23 @@ export class FullCampaignExecutor {
         return {
           success: false,
           appliedReplacements: [],
-          failedReplacements: cases.map(c => ({
+          failedReplacements: cases.map(c => ({;
             original: 'any',
             replacement: c.suggestedReplacement || 'unknown',
             filePath: c.filePath,
             lineNumber: c.lineNumber,
             confidence: c.confidence,
-            validationRequired: true,
+            validationRequired: true
           })),
           compilationErrors: ['Build instability after replacement'],
           rollbackPerformed: true,
           backupPath,
           successfulReplacements: 0,
-          totalAttempted: cases.length,
+          totalAttempted: cases.length
         };
       }
 
-      console.log(
+      // console.log(
         `✅ Batch completed: ${result.successfulReplacements}/${cases.length} successful`,
       );
       return result;
@@ -547,11 +547,11 @@ export class FullCampaignExecutor {
     while (batchCount < maxBatches) {
       const categoryCases = await this.findCategorySpecificCases(category, files);
 
-      if (categoryCases.length === 0) {
+      if (categoryCases.length === 0) {;
         break;
       }
 
-      const batchResult = await this.processBatchWithSafety(
+      const batchResult = await this.processBatchWithSafety(;
         categoryCases.slice(0, this.config.minBatchSize), // Smaller batches for medium-risk
         `${category}-batch-${batchCount + 1}`,
       );
@@ -560,7 +560,7 @@ export class FullCampaignExecutor {
       batchCount++;
 
       // More frequent validation for medium-risk
-      if (batchCount % 3 === 0) {
+      if (batchCount % 3 === 0) {;
         if (!(await this.validateBuildStability())) {
           console.warn(`⚠️ Stopping ${category} processing due to build instability`);
           break;
@@ -587,8 +587,8 @@ export class FullCampaignExecutor {
         const cases = await this.classifier.classifyFileContent(file, content);
 
         // Filter for domain-appropriate cases
-        const domainCases = cases.filter(
-          c =>
+        const domainCases = cases.filter(;
+          c =>;
             !c.isIntentional && c.confidence >= 0.7 && this.isDomainAppropriate(c, domainContext),
         );
 
@@ -606,7 +606,7 @@ export class FullCampaignExecutor {
       domain,
       fixesApplied,
       filesProcessed: processedFiles.length,
-      processedFiles,
+      processedFiles
     };
   }
 
@@ -625,7 +625,7 @@ export class FullCampaignExecutor {
         const intentionalCases = cases.filter(c => c.isIntentional);
 
         if (intentionalCases.length > 0) {
-          const updatedContent = await this.addESLintCommentsToFile(
+          const updatedContent = await this.addESLintCommentsToFile(;
             file,
             content,
             intentionalCases,
@@ -723,8 +723,8 @@ export class FullCampaignExecutor {
     }
 
     return {
-      complete: undocumented === 0,
-      undocumented,
+      complete: undocumented === 0,;
+      undocumented
     };
   }
 
@@ -765,17 +765,17 @@ export class FullCampaignExecutor {
       targetAchieved: this.isTargetAchieved(),
       initialMetrics: {
         errorCount: this.metrics.initialErrorCount,
-        anyCount: this.metrics.initialAnyCount,
+        anyCount: this.metrics.initialAnyCount
       },
       finalMetrics: {
         errorCount: this.metrics.finalErrorCount,
-        anyCount: this.metrics.finalAnyCount,
+        anyCount: this.metrics.finalAnyCount
       },
       buildStable: await this.validateBuildStability(),
       performanceImproved: await this.validatePerformanceImprovements(),
       recommendations: this.generateRecommendations(),
       achievements: this.generateAchievements(),
-      nextSteps: this.generateNextSteps(),
+      nextSteps: this.generateNextSteps()
     };
   }
 
@@ -793,7 +793,7 @@ export class FullCampaignExecutor {
       rollbacksPerformed: 0,
       buildValidationsPerformed: 0,
       baselineEstablished: false,
-      campaignCompleted: false,
+      campaignCompleted: false
     };
   }
 
@@ -810,11 +810,11 @@ export class FullCampaignExecutor {
 
   private async getCurrentErrorCount(): Promise<number> {
     try {
-      const output = execSync(
-        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"',
+      const output = execSync(;
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
+          stdio: 'pipe'
         },
       );
       return parseInt(output.trim()) || 0;
@@ -825,22 +825,22 @@ export class FullCampaignExecutor {
 
   private async getCurrentAnyCount(): Promise<number> {
     try {
-      const output = execSync(
-        'yarn lint --format=json 2>/dev/null | jq -r ".[].messages[] | select(.ruleId == \\"@typescript-eslint/no-explicit-any\\") | .ruleId" | wc -l || echo "0"',
+      const output = execSync(;
+        'yarn lint --format=json 2>/dev/null | jq -r '.[].messages[] | select(.ruleId == \\'@typescript-eslint/no-explicit-any\\') | .ruleId' | wc -l || echo '0'',;
         {
           encoding: 'utf8',
-          stdio: 'pipe',
+          stdio: 'pipe'
         },
       );
       return parseInt(output.trim()) || 0;
     } catch {
       // Fallback: count explicit any patterns in TypeScript files
       try {
-        const output = execSync(
-          'find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += 2} END {print sum}\' || echo "0"',
+        const output = execSync(;
+          'find src -name '*.ts' -o -name '*.tsx' | xargs grep -c ': any' | awk -F: \'{sum += 2} END {print sum}\' || echo '0'',
           {
             encoding: 'utf8',
-            stdio: 'pipe',
+            stdio: 'pipe'
           },
         );
         return parseInt(output.trim()) || 0;
@@ -867,10 +867,10 @@ export class FullCampaignExecutor {
 
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | head -200',
+      const output = execSync(;
+        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200',
         {
-          encoding: 'utf8',
+          encoding: 'utf8'
         },
       );
       return output
@@ -884,7 +884,7 @@ export class FullCampaignExecutor {
 
   private async getDomainFiles(domain: string): Promise<string[]> {
     const allFiles = await this.getTypeScriptFiles();
-    return allFiles.filter(file => {
+    return allFiles.filter(file => {;
       const lowerFile = file.toLowerCase();
       switch (domain) {
         case 'astrological':
@@ -922,8 +922,8 @@ export class FullCampaignExecutor {
         const content = fs.readFileSync(file, 'utf8');
         const fileCases = await this.classifier.classifyFileContent(file, content);
 
-        const categoryCases = fileCases.filter(
-          c => !c.isIntentional && c.category === category && c.confidence >= 0.6,
+        const categoryCases = fileCases.filter(;
+          c => !c.isIntentional && c.category === category && c.confidence >= 0.6,;
         );
 
         cases.push(...categoryCases);
@@ -963,7 +963,7 @@ export class FullCampaignExecutor {
     try {
       execSync(`rm -rf src`);
       execSync(`cp -r ${backupPath}/src .`);
-      console.log('✅ Backup restored successfully');
+      // console.log('✅ Backup restored successfully');
     } catch (error) {
       console.error('❌ Failed to restore backup:', error);
     }
@@ -1002,7 +1002,7 @@ export class FullCampaignExecutor {
       achievements.push('✅ Successfully met campaign targets');
     }
 
-    if (this.metrics.rollbacksPerformed === 0) {
+    if (this.metrics.rollbacksPerformed === 0) {;
       achievements.push('✅ Zero rollbacks - perfect safety record');
     }
 
@@ -1015,7 +1015,7 @@ export class FullCampaignExecutor {
       'Review any remaining intentional any types for potential improvements',
       'Consider implementing automated monitoring for new unintentional any types',
       'Document lessons learned for future campaigns',
-      'Plan follow-up campaigns for other code quality improvements',
+      'Plan follow-up campaigns for other code quality improvements'
     ];
   }
 }

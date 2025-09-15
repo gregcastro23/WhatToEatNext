@@ -86,12 +86,12 @@ export class MemoryOptimizationScript {
       const finalMemory = process.memoryUsage().heapUsed;
       const memoryFreed = initialMemory - finalMemory;
 
-      const result: OptimizationResult = {
+      const result: OptimizationResult = {;
         success: true,
         memoryFreed: memoryFreed / (1024 * 1024), // Convert to MB
         optimizationsApplied,
         warnings,
-        errors,
+        errors
       };
 
       this.logOptimizationResult(result);
@@ -103,7 +103,7 @@ export class MemoryOptimizationScript {
         memoryFreed: 0,
         optimizationsApplied,
         warnings,
-        errors,
+        errors
       };
     }
   }
@@ -126,16 +126,16 @@ export class MemoryOptimizationScript {
     let configContent = fs.readFileSync(jestConfigPath, 'utf8');
 
     // Apply memory optimizations if not already present
-    const optimizations = [
+    const optimizations = [;
       { key: 'maxWorkers', value: 'process.env.CI ? 1 : 2' },
-      { key: 'workerIdleMemoryLimit', value: "'512MB'" },
+      { key: 'workerIdleMemoryLimit', value: ''512MB'' },
       { key: 'logHeapUsage', value: 'true' },
       { key: 'detectOpenHandles', value: 'true' },
-      { key: 'forceExit', value: 'true' },
+      { key: 'forceExit', value: 'true' }
     ];
 
     let modified = false;
-    optimizations.forEach(opt => {
+    optimizations.forEach(opt => {;
       if (!configContent.includes(opt.key)) {
         // Add the optimization
         const insertion = `  ${opt.key}: ${opt.value},\n`;
@@ -160,7 +160,7 @@ export class MemoryOptimizationScript {
 
     // Clear test cache
     if (global.__TEST_CACHE__) {
-      if (typeof global.__TEST_CACHE__.clear === 'function') {
+      if (typeof global.__TEST_CACHE__.clear === 'function') {;
         global.__TEST_CACHE__.clear();
       } else {
         global.__TEST_CACHE__ = new Map();
@@ -316,17 +316,17 @@ export class MemoryOptimizationScript {
 }
 
 // CLI interface
-if (require.main === module) {
+if (require.main === module) {;
   const args = process.argv.slice(2);
 
   if (args.includes('--emergency')) {
     MemoryOptimizationScript.emergencyCleanup();
   } else {
     MemoryOptimizationScript.runQuickOptimization()
-      .then(result => {
+      .then(result => {;
         process.exit(result.success ? 0 : 1);
       })
-      .catch(error => {
+      .catch(error => {;
         console.error('Optimization failed:', error);
         process.exit(1);
       });

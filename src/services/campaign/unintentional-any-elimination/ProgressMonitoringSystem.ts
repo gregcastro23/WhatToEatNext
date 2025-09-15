@@ -22,13 +22,13 @@ export class ProgressMonitoringSystem extends EventEmitter {
   constructor(alertThresholds?: Partial<AlertThresholds>) {
     super();
     this.analysisTools = new AnalysisTools();
-    this.alertThresholds = {
+    this.alertThresholds = {;
       successRateThreshold: 70,
       buildFailureThreshold: 3,
       classificationAccuracyThreshold: 80,
       safetyEventThreshold: 5,
       progressStallThreshold: 24, // hours
-      ...alertThresholds,
+      ...alertThresholds
     };
 
     this.loadAlertHistory();
@@ -38,20 +38,20 @@ export class ProgressMonitoringSystem extends EventEmitter {
   /**
    * Start real-time progress monitoring
    */
-  startMonitoring(intervalMinutes: number = 5): void {
+  startMonitoring(intervalMinutes: number = 5): void {;
     if (this.isMonitoring) {
-      console.log('Progress monitoring is already running');
+      // console.log('Progress monitoring is already running');
       return;
     }
 
-    console.log(`Starting progress monitoring with ${intervalMinutes}-minute intervals`);
+    // console.log(`Starting progress monitoring with ${intervalMinutes}-minute intervals`);
     this.isMonitoring = true;
 
     // Initial update
     this.updateDashboard();
 
     // Set up periodic updates
-    this.monitoringInterval = setInterval(
+    this.monitoringInterval = setInterval(;
       async () => {
         try {
           await this.updateDashboard();
@@ -64,7 +64,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
             severity: 'high',
             message: `Monitoring system error: ${error.message}`,
             timestamp: new Date(),
-            data: { error: error.message },
+            data: { error: error.message }
           });
         }
       },
@@ -79,11 +79,11 @@ export class ProgressMonitoringSystem extends EventEmitter {
    */
   stopMonitoring(): void {
     if (!this.isMonitoring) {
-      console.log('Progress monitoring is not running');
+      // console.log('Progress monitoring is not running');
       return;
     }
 
-    console.log('Stopping progress monitoring');
+    // console.log('Stopping progress monitoring');
     this.isMonitoring = false;
 
     if (this.monitoringInterval) {
@@ -105,13 +105,13 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get real-time progress metrics
    */
   async getProgressMetrics(): Promise<UnintentionalAnyProgress> {
-    console.log('Collecting real-time progress metrics...');
+    // console.log('Collecting real-time progress metrics...');
 
     try {
       const currentReport = await this.analysisTools.generateComprehensiveReport();
       const buildStability = await this.getCurrentBuildStability();
 
-      const progress: UnintentionalAnyProgress = {
+      const progress: UnintentionalAnyProgress = {;
         totalAnyTypes: currentReport.domainDistribution?.totalAnyTypes || 0,
         classifiedIntentional:
           currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
@@ -136,7 +136,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         warningsFixed: 0,
         filesProcessed: 0,
         buildStable: buildStability.isStable,
-        lastUpdate: new Date(),
+        lastUpdate: new Date()
       };
 
       return progress;
@@ -159,7 +159,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         warningsFixed: 0,
         filesProcessed: 0,
         buildStable: buildStability.isStable,
-        lastUpdate: new Date(),
+        lastUpdate: new Date()
       };
     }
   }
@@ -188,13 +188,13 @@ export class ProgressMonitoringSystem extends EventEmitter {
         data: {
           buildTime: stability.buildTime,
           errorCount: stability.errorCount,
-          errorMessage: stability.errorMessage,
-        },
+          errorMessage: stability.errorMessage
+        }
       });
     }
 
     // Check for consecutive build failures
-    const recentFailures = this.buildStabilityHistory
+    const recentFailures = this.buildStabilityHistory;
       .slice(-this.alertThresholds.buildFailureThreshold)
       .filter(record => !record.isStable);
 
@@ -206,8 +206,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         timestamp: new Date(),
         data: {
           failureCount: recentFailures.length,
-          threshold: this.alertThresholds.buildFailureThreshold,
-        },
+          threshold: this.alertThresholds.buildFailureThreshold
+        }
       });
     }
 
@@ -230,8 +230,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         timestamp: currentTime,
         data: {
           currentRate: progress.averageSuccessRate,
-          threshold: this.alertThresholds.successRateThreshold,
-        },
+          threshold: this.alertThresholds.successRateThreshold
+        }
       });
     }
 
@@ -247,8 +247,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         timestamp: currentTime,
         data: {
           currentAccuracy: this.dashboardData.accuracyReport.overallAccuracy,
-          threshold: this.alertThresholds.classificationAccuracyThreshold,
-        },
+          threshold: this.alertThresholds.classificationAccuracyThreshold
+        }
       });
     }
 
@@ -266,8 +266,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
           data: {
             hoursSinceUpdate,
             threshold: this.alertThresholds.progressStallThreshold,
-            lastUpdate: lastProgressUpdate,
-          },
+            lastUpdate: lastProgressUpdate
+          }
         });
       }
     }
@@ -283,8 +283,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         data: {
           eventCount: recentSafetyEvents.length,
           threshold: this.alertThresholds.safetyEventThreshold,
-          events: recentSafetyEvents,
-        },
+          events: recentSafetyEvents
+        }
       });
     }
   }
@@ -293,22 +293,22 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Handle safety protocol activation
    */
   handleSafetyProtocolActivation(event: SafetyEvent): void {
-    console.log(`Safety protocol activated: ${event.type}`);
+    // console.log(`Safety protocol activated: ${event.type}`);
 
     this.emitAlert({
       type: 'safety_protocol_activation',
-      severity: event.severity === 'critical' ? 'critical' : 'high',
+      severity: event.severity === 'critical' ? 'critical' : 'high',;
       message: `Safety protocol activated: ${event.description}`,
       timestamp: new Date(),
       data: {
         safetyEvent: event,
         action: event.action,
-        affectedFiles: event.affectedFiles || [],
-      },
+        affectedFiles: event.affectedFiles || []
+      }
     });
 
     // If it's a critical safety event, consider stopping monitoring temporarily
-    if (event.severity === 'critical') {
+    if (event.severity === 'critical') {;
       this.emit('critical_safety_event', event);
     }
   }
@@ -357,29 +357,29 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private async updateDashboard(): Promise<void> {
     try {
-      console.log('Updating dashboard data...');
+      // console.log('Updating dashboard data...');
 
       const [analysisReport, progressMetrics, buildStability] = await Promise.all([
         this.analysisTools.generateComprehensiveReport(),
         this.getProgressMetrics(),
-        this.getCurrentBuildStability(),
+        this.getCurrentBuildStability()
       ]);
 
-      this.dashboardData = {
+      this.dashboardData = {;
         lastUpdate: new Date(),
         analysisReport,
         progressMetrics,
         buildStability,
         alertSummary: {
           totalAlerts: this.alertHistory.length,
-          criticalAlerts: this.alertHistory.filter(a => a.severity === 'critical').length,
-          highAlerts: this.alertHistory.filter(a => a.severity === 'high').length,
-          mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,
-          lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,
+          criticalAlerts: this.alertHistory.filter(a => a.severity === 'critical').length,;
+          highAlerts: this.alertHistory.filter(a => a.severity === 'high').length,;
+          mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,;
+          lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,;
           recentAlerts: this.getRecentAlerts(24), // Last 24 hours
         },
         trendingData: this.calculateTrendingData(),
-        systemHealth: this.calculateSystemHealth(),
+        systemHealth: this.calculateSystemHealth()
       };
 
       this.emit('dashboard_updated', this.dashboardData);
@@ -406,7 +406,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         isStable: true,
         buildTime,
         errorCount: 0,
-        errorMessage: null,
+        errorMessage: null
       };
     } catch (error) {
       const buildTime = Date.now() - startTime;
@@ -453,12 +453,12 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private emitAlert(alert: Alert): void {
     // Check if this is a duplicate alert (same type within last hour)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-    const recentSimilarAlerts = this.alertHistory.filter(
-      a => a.type === alert.type && a.timestamp > oneHourAgo,
+    const recentSimilarAlerts = this.alertHistory.filter(;
+      a => a.type === alert.type && a.timestamp > oneHourAgo,;
     );
 
     // Only emit if no similar alert in the last hour
-    if (recentSimilarAlerts.length === 0) {
+    if (recentSimilarAlerts.length === 0) {;
       this.alertHistory.push(alert);
 
       // Keep only last 1000 alerts
@@ -469,7 +469,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       this.saveAlertHistory();
       this.emit('alert', alert);
 
-      console.log(`Alert emitted: ${alert.type} (${alert.severity}) - ${alert.message}`);
+      // console.log(`Alert emitted: ${alert.type} (${alert.severity}) - ${alert.message}`);
     }
   }
 
@@ -532,14 +532,14 @@ export class ProgressMonitoringSystem extends EventEmitter {
       status,
       lastCheck: new Date(),
       issues: recentAlerts
-        .filter(a => a.severity === 'critical' || a.severity === 'high')
-        .map(a => a.message),
+        .filter(a => a.severity === 'critical' || a.severity === 'high');
+        .map(a => a.message),;
     };
   }
 
   private loadAlertHistory(): void {
     try {
-      const historyPath = path.join(
+      const historyPath = path.join(;
         process.cwd(),
         '.kiro',
         'campaign-reports',
@@ -547,9 +547,9 @@ export class ProgressMonitoringSystem extends EventEmitter {
       );
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
-        this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({
+        this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({;
           ...alert,
-          timestamp: new Date(alert.timestamp),
+          timestamp: new Date(alert.timestamp)
         }));
       }
     } catch (error) {
@@ -574,7 +574,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private loadBuildStabilityHistory(): void {
     try {
-      const historyPath = path.join(
+      const historyPath = path.join(;
         process.cwd(),
         '.kiro',
         'campaign-reports',
@@ -582,9 +582,9 @@ export class ProgressMonitoringSystem extends EventEmitter {
       );
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
-        this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({
+        this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({;
           ...record,
-          timestamp: new Date(record.timestamp),
+          timestamp: new Date(record.timestamp)
         }));
       }
     } catch (error) {
@@ -637,7 +637,7 @@ export interface Alert {
 }
 
 export type AlertType =
-  | 'low_success_rate'
+  | 'low_success_rate';
   | 'build_failure'
   | 'consecutive_build_failures'
   | 'low_classification_accuracy'

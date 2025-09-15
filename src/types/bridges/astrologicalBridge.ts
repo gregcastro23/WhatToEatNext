@@ -7,7 +7,7 @@ export interface AstrologicalBridge {
   validateElementalProperties(obj: unknown): obj is ElementalProperties;
 }
 
-export const createAstrologicalBridge = (): AstrologicalBridge => ({
+export const _createAstrologicalBridge = (): AstrologicalBridge => ({;
   legacyToModern<T>(legacy: unknown): T | null {
     if (!legacy || typeof legacy !== 'object') return null;
     return legacy as T;
@@ -32,5 +32,5 @@ export const createAstrologicalBridge = (): AstrologicalBridge => ({
     if (!obj || typeof obj !== 'object') return false;
     const props = obj as any;
     return ['Fire', 'Water', 'Earth', 'Air'].every(element => typeof props[element] === 'number');
-  },
+  }
 });

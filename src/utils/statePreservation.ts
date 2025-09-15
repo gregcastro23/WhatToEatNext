@@ -21,11 +21,11 @@ export interface NavigationState {
   scrollPosition: number;
 }
 
-const STATE_KEYS = {
+const STATE_KEYS = {;
   MAIN_PAGE_STATE: 'mainPageState',
   NAVIGATION_STATE: 'navigationState',
   COMPONENT_STATES: 'componentStates',
-  SCROLL_POSITIONS: 'scrollPositions',
+  SCROLL_POSITIONS: 'scrollPositions'
 } as const;
 
 // State expiration time (1 hour)
@@ -68,14 +68,14 @@ function safeSetItem(key: string, value: string): boolean {
  */
 export function saveNavigationState(state: Partial<NavigationState>): void {
   const currentState = getNavigationState();
-  const updatedState: NavigationState = {
+  const updatedState: NavigationState = {;
     ...currentState,
-    ...state,
+    ...state
   };
 
-  const stateWithTimestamp: ComponentState = {
+  const stateWithTimestamp: ComponentState = {;
     timestamp: Date.now(),
-    data: updatedState,
+    data: updatedState
   };
 
   safeSetItem(STATE_KEYS.NAVIGATION_STATE, JSON.stringify(stateWithTimestamp));
@@ -85,7 +85,7 @@ export function saveNavigationState(state: Partial<NavigationState>): void {
  * Get navigation state
  */
 export function getNavigationState(): NavigationState {
-  const defaultState: NavigationState = {
+  const defaultState: NavigationState = {;
     activeSection: null,
     navigationHistory: [],
     selectedIngredients: [],
@@ -95,7 +95,7 @@ export function getNavigationState(): NavigationState {
     selectedIngredientCategory: null,
     selectedIngredient: null,
     selectedCookingMethod: null,
-    scrollPosition: 0,
+    scrollPosition: 0
   };
 
   const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE);
@@ -121,7 +121,7 @@ export function saveComponentState(componentId: string, state: unknown): void {
   const allStates = getComponentStates();
   allStates[componentId] = {
     timestamp: Date.now(),
-    data: state,
+    data: state
   };
 
   safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
@@ -163,7 +163,7 @@ export function saveScrollPosition(sectionId: string, position: number): void {
   const positions = getScrollPositions();
   positions[sectionId] = {
     timestamp: Date.now(),
-    data: position,
+    data: position
   };
 
   safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(positions));
@@ -202,7 +202,7 @@ function getScrollPositions(): Record<string, ComponentState> {
  * Clear all stored state (useful for cleanup)
  */
 export function clearAllState(): void {
-  Object.values(STATE_KEYS).forEach(key => {
+  Object.values(STATE_KEYS).forEach(key => {;
     try {
       sessionStorage.removeItem(key);
     } catch (error) {
@@ -275,7 +275,7 @@ export function useStateCleanup(): (() => void) | void {
     const interval = setInterval(clearExpiredState, 10 * 60 * 1000);
 
     // Cleanup on page unload
-    const cleanup = () => {
+    const cleanup = () => {;
       clearInterval(interval);
       clearExpiredState();
     };
@@ -298,6 +298,6 @@ export function createStatePreservationHook(componentId: string) {
       const allStates = getComponentStates();
       delete allStates[componentId];
       safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
-    },
+    }
   };
 }

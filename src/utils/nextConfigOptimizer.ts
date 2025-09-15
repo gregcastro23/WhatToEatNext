@@ -9,8 +9,8 @@ export class NextConfigOptimizer {
   private readonly logger: (message: string, ...args: unknown[]) => void;
 
   constructor(
-    configPath = 'next.config.js',
-    logger: (message: string, ...args: unknown[]) => void = console.log,
+    configPath = 'next.config.js',;
+    logger: (message: string, ...args: unknown[]) => void = console.log,;
   ) {
     this.configPath = configPath;
     this.logger = logger;
@@ -32,8 +32,8 @@ export class NextConfigOptimizer {
 
       // Use the primary config file (next.config.js or next.config.mjs)
       const primaryConfig =
-        existingConfigs.find(file => file === 'next.config.js') ||
-        existingConfigs.find(file => file === 'next.config.mjs') ||
+        existingConfigs.find(file => file === 'next.config.js') ||;
+        existingConfigs.find(file => file === 'next.config.mjs') ||;
         existingConfigs[0];
 
       if (!primaryConfig) {
@@ -51,8 +51,8 @@ export class NextConfigOptimizer {
    * Creates a default optimized Next.js configuration
    */
   private createDefaultConfig(): void {
-    const defaultConfig = `/** @type {import('next').NextConfig} */
-const nextConfig = {
+    const defaultConfig = `/** @type {import('next').NextConfig} */;
+const nextConfig = {;
   reactStrictMode: true,
 
   // Build optimization for manifest generation
@@ -66,29 +66,29 @@ const nextConfig = {
   // ESLint configuration
   eslint: {
     ignoreDuringBuilds: false, // Enable for production stability
-    dirs: ['src'],
+    dirs: ['src']
   },
 
   // Experimental features for better build stability
   experimental: {
-    typedRoutes: true,
+    typedRoutes: true
   },
 
   // Webpack optimization for manifest generation
   webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
-    config.resolve.alias = {
+    config.resolve.alias = {;
       ...config.resolve.alias,
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src')
     };
 
     // Optimize for server-side rendering
     if (isServer) {
-      config.resolve.fallback = {
+      config.resolve.fallback = {;
         ...config.resolve.fallback,
         fs: false,
         path: false,
-        os: false,
+        os: false
       };
     }
 
@@ -98,7 +98,7 @@ const nextConfig = {
   // Generate proper build ID for consistent builds
   generateBuildId: async () => {
     return process.env.BUILD_ID || \`build-\${Date.now()}\`;
-  },
+  }
 };
 
   export default nextConfig;
@@ -115,23 +115,23 @@ const nextConfig = {
     const content = fs.readFileSync(configPath, 'utf8');
 
     // Check for essential configurations
-    const checks = [
+    const checks = [;
       {
         pattern: /output\s*:/,
-        recommendation: 'Add output: "standalone" for better build optimization',
+        recommendation: 'Add output: 'standalone' for better build optimization'
       },
       {
         pattern: /generateBuildId\s*:/,
-        recommendation: 'Add generateBuildId function for consistent builds',
+        recommendation: 'Add generateBuildId function for consistent builds'
       },
       {
         pattern: /typescript\s*:/,
-        recommendation: 'Add TypeScript configuration for build stability',
+        recommendation: 'Add TypeScript configuration for build stability'
       },
       {
         pattern: /eslint\s*:/,
-        recommendation: 'Add ESLint configuration for build validation',
-      },
+        recommendation: 'Add ESLint configuration for build validation'
+      }
     ];
 
     const recommendations: string[] = [];
@@ -167,17 +167,17 @@ const nextConfig = {
     let modified = false;
 
     // Fix common issues
-    const fixes = [
+    const fixes = [;
       {
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
-        description: 'Enable TypeScript error checking for build stability',
+        description: 'Enable TypeScript error checking for build stability'
       },
       {
         issue: /ignoreDuringBuilds\s*:\s*true/g,
         fix: 'ignoreDuringBuilds: false',
-        description: 'Enable ESLint checking for build stability',
-      },
+        description: 'Enable ESLint checking for build stability'
+      }
     ];
 
     for (const fix of fixes) {
@@ -198,4 +198,4 @@ const nextConfig = {
 }
 
 // Export default instance
-export const nextConfigOptimizer = new NextConfigOptimizer();
+export const _nextConfigOptimizer = new NextConfigOptimizer();

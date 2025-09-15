@@ -1,4 +1,4 @@
-// ===== UNIFIED TYPES SYSTEM =====
+// ===== UNIFIED TYPES SYSTEM =====;
 // This file defines type interfaces for the unified data system
 // with compatibility for existing type systems
 
@@ -14,7 +14,7 @@ import type {
   ThermodynamicMetrics,
   ThermodynamicProperties,
   FlavorProfile,
-  CookingMethod,
+  CookingMethod
 } from '@/types/alchemy';
 
 /**
@@ -37,7 +37,7 @@ export interface UnifiedIngredient {
   alchemicalProperties: AlchemicalProperties;
 
   // Kalchm Value (Intrinsic Alchemical Equilibrium)
-  kalchm?: number; // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
+  kalchm?: number; // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
   monica?: number;
 
   // Enhanced Properties
@@ -105,8 +105,8 @@ export function createUnifiedIngredient(name: string, category: string): Unified
       Spirit: 0,
       Essence: 0,
       Matter: 0,
-      Substance: 0,
-    },
+      Substance: 0
+    }
   };
 }
 
@@ -118,11 +118,11 @@ export function isUnifiedIngredient(obj: unknown): obj is UnifiedIngredient {
 
   const ingredient = obj as Partial<UnifiedIngredient>;
   return (
-    typeof ingredient.name === 'string' &&
-    typeof ingredient.category === 'string' &&
+    typeof ingredient.name === 'string' &&;
+    typeof ingredient.category === 'string' &&;
     ingredient.elementalPropertiesState !== undefined &&
-    typeof ingredient.elementalPropertiesState === 'object' &&
+    typeof ingredient.elementalPropertiesState === 'object' &&;
     ingredient.alchemicalProperties !== undefined &&
-    typeof ingredient.alchemicalProperties === 'object'
+    typeof ingredient.alchemicalProperties === 'object';
   );
 }

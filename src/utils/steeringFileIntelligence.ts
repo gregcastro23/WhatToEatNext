@@ -18,11 +18,11 @@ export interface ElementalCompatibilityMatrix {
 }
 
 // Self-reinforcement compatibility matrix from elemental-principles.md
-export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
+export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {;
   Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
   Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
   Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-  Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
+  Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
 };
 
 export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
@@ -99,12 +99,12 @@ export class SteeringFileIntelligence {
       // Apply performance optimizations
       const performanceOptimizations = this.getPerformanceGuidance();
 
-      this.cachedGuidance = {
+      this.cachedGuidance = {;
         planetaryPositions,
         dominantElement,
         elementalBalance,
         culturalSensitivity,
-        performanceOptimizations,
+        performanceOptimizations
       };
 
       this.lastUpdate = Date.now();
@@ -130,7 +130,7 @@ export class SteeringFileIntelligence {
     const targetDominant = this.getDominantElement(targetProps);
 
     // Self-reinforcement: same elements have highest compatibility (≥0.9)
-    if (sourceDominant === targetDominant) {
+    if (sourceDominant === targetDominant) {;
       return Math.max(0.9, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant]);
     }
 
@@ -208,26 +208,26 @@ export class SteeringFileIntelligence {
         'Use React.memo for expensive components',
         'Implement lazy loading for non-critical components',
         'Apply error boundaries with cosmic-aware error handling',
-        'Use context providers for astrological state sharing',
+        'Use context providers for astrological state sharing'
       ],
       stateManagement: [
         'Centralized astrological state with real-time updates',
         'Context consolidation to prevent provider nesting',
         'Performance optimization through selective subscriptions',
-        'Fallback state management for calculation failures',
+        'Fallback state management for calculation failures'
       ],
       errorHandling: [
         'Multi-layered error handling with graceful degradation',
         'Fallback mechanisms for API failures',
         'User-friendly error messages with cosmic context',
-        'Error recovery mechanisms with automatic retry',
+        'Error recovery mechanisms with automatic retry'
       ],
       performance: [
         'Bundle splitting for astrological features',
         'Intelligent caching with cosmic timing considerations',
         'Memory optimization for planetary calculations',
-        'Real-time monitoring and optimization',
-      ],
+        'Real-time monitoring and optimization'
+      ]
     };
   }
 
@@ -245,26 +245,26 @@ export class SteeringFileIntelligence {
         'Use strict typing for astrological calculations',
         'Domain-specific types for elemental properties',
         'Generic constraints for recommendation algorithms',
-        'Utility types for data transformations',
+        'Utility types for data transformations'
       ],
       react: [
         'Concurrent features for real-time astrological updates',
         'Suspense for graceful loading states',
         'Error boundaries with cosmic-aware error handling',
-        'Custom hooks for astrological calculations',
+        'Custom hooks for astrological calculations'
       ],
       nextjs: [
         'App Router architecture with route-based organization',
         'Server components for optimized rendering',
         'API routes for external service connections',
-        'Static generation for pre-rendered pages',
+        'Static generation for pre-rendered pages'
       ],
       testing: [
         'Unit tests for astrological calculation accuracy',
         'Integration tests for component interactions',
         'E2E tests for complete user workflows',
-        'Performance monitoring with Web Vitals',
-      ],
+        'Performance monitoring with Web Vitals'
+      ]
     };
   }
 
@@ -286,7 +286,7 @@ export class SteeringFileIntelligence {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water',
+      pisces: 'Water'
     };
 
     // Count elements from planetary positions
@@ -320,7 +320,7 @@ export class SteeringFileIntelligence {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water',
+      pisces: 'Water'
     };
 
     // Count elements from planetary positions
@@ -335,7 +335,7 @@ export class SteeringFileIntelligence {
       Fire: totalPlanets > 0 ? elementCounts.Fire / totalPlanets : 0.25,
       Water: totalPlanets > 0 ? elementCounts.Water / totalPlanets : 0.25,
       Earth: totalPlanets > 0 ? elementCounts.Earth / totalPlanets : 0.25,
-      Air: totalPlanets > 0 ? elementCounts.Air / totalPlanets : 0.25,
+      Air: totalPlanets > 0 ? elementCounts.Air / totalPlanets : 0.25
     };
   }
 
@@ -350,7 +350,7 @@ export class SteeringFileIntelligence {
       inclusiveDesign: true,
       respectfulRepresentation: true,
       diverseCulinaryTraditions: true,
-      accessibilityCompliant: true,
+      accessibilityCompliant: true
     };
   }
 
@@ -359,7 +359,7 @@ export class SteeringFileIntelligence {
       lazyLoading: true,
       memoization: true,
       contextOptimization: true,
-      bundleSplitting: true,
+      bundleSplitting: true
     };
   }
 
@@ -369,7 +369,7 @@ export class SteeringFileIntelligence {
       dominantElement: 'Fire',
       elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       culturalSensitivity: this.getCulturalGuidance(),
-      performanceOptimizations: this.getPerformanceGuidance(),
+      performanceOptimizations: this.getPerformanceGuidance()
     };
   }
 }
@@ -396,6 +396,6 @@ export function useSteeringFileIntelligence() {
     enhanceDominantElement: (props: ElementalProperties) =>
       intelligence.enhanceDominantElement(props),
     getArchitecturalGuidance: () => intelligence.getArchitecturalGuidance(),
-    getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance(),
+    getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance()
   };
 }

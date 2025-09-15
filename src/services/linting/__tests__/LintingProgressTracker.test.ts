@@ -17,8 +17,8 @@ jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn(),
-  },
+    debug: jest.fn()
+  }
 }));
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
@@ -36,18 +36,18 @@ describe('LintingProgressTracker', () => {
 
   describe('collectMetrics', () => {
     test('should collect and parse linting metrics successfully', async () => {
-      const mockLintOutput: any = JSON.stringify([
+      const mockLintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file1.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
-            { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },
-          ],
+            { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } }
+          ]
         },
         {
           filePath: '/test/file2.ts',
-          messages: [{ ruleI, d: 'prefer-const', severity: 1, fix: { rang, e: [0, 5], text: 'const' } }],
-        },
+          messages: [{ ruleI, d: 'prefer-const', severity: 1, fix: { rang, e: [0, 5], text: 'const' } }]
+        }
       ]);
 
       mockExecSync.mockReturnValue(mockLintOutput);
@@ -61,12 +61,12 @@ describe('LintingProgressTracker', () => {
         filesCovered: 2,
         fixableIssues: 2,
         errorsByCategory: {
-          'no-console': 1,
+          'no-console': 1
         },
         warningsByCategory: {
           'no-unused-vars': 1,
-          'prefer-const': 1,
-        },
+          'prefer-const': 1
+        }
       });
 
       expect(metrics.timestamp).toBeInstanceOf(Date);
@@ -99,7 +99,7 @@ describe('LintingProgressTracker', () => {
 
   describe('generateProgressReport', () => {
     test('should generate comprehensive progress report', async () => {
-      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -109,15 +109,15 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 30,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 0.8,
-        },
+          cacheHitRate: 0.8
+        }
       };
 
-      const mockPreviousMetrics: LintingMetrics = {
+      const mockPreviousMetrics: LintingMetrics = {;
         ...mockCurrentMetrics,
         totalIssues: 80,
         errors: 15,
-        warnings: 65,
+        warnings: 65
       };
 
       // Mock the collectMetrics method
@@ -138,14 +138,14 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 30,
         errorsReduced: 10,
         warningsReduced: 20,
-        percentageImprovement: 37.5,
+        percentageImprovement: 37.5
       });
       expect(report.qualityGates).toBeDefined();
       expect(report.trends).toBeDefined();
     });
 
     test('should handle missing previous metrics', async () => {
-      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -155,8 +155,8 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 30,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 0.8,
-        },
+          cacheHitRate: 0.8
+        }
       };
 
       jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics);
@@ -169,23 +169,23 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0,
+        percentageImprovement: 0
       });
     });
   });
 
   describe('integrateCampaignProgress', () => {
     test('should integrate with campaign system successfully', async () => {
-      const campaignData: any = {
+      const campaignData: any = {;
         campaignId: 'test-campaign',
         phase: 'phase-1',
         targetReduction: 100,
         currentProgress: 50,
         estimatedCompletion: new Date(),
-        safetyProtocols: ['backup', 'validate'],
+        safetyProtocols: ['backup', 'validate']
       };
 
-      const mockReport: LintingProgressReport = { currentMetrics: {
+      const mockReport: LintingProgressReport = { currentMetrics: {;
           timestamp: new Date(),
           totalIssues: 25,
           errors: 2,
@@ -196,22 +196,22 @@ describe('LintingProgressTracker', () => {
           fixableIssues: 15,
           performanceMetrics: { executionTime: 3000,
             memoryUsage: 128,
-            cacheHitRate: 0.9,
-          },
+            cacheHitRate: 0.9
+          }
         },
         improvement: { totalIssuesReduced: 25,
           errorsReduced: 8,
           warningsReduced: 17,
-          percentageImprovement: 50,
+          percentageImprovement: 50
         },
         trends: { last24Hours: 10,
           last7Days: 20,
-          last30Days: 30,
+          last30Days: 30
         },
         qualityGates: { zeroErrors: false,
           warningsUnderThreshold: true,
-          performanceAcceptable: true,
-        },
+          performanceAcceptable: true
+        }
       };
 
       jest.spyOn(tracker, 'generateProgressReport').mockResolvedValue(mockReport);
@@ -227,7 +227,7 @@ describe('LintingProgressTracker', () => {
 
   describe('createQualityGates', () => {
     test('should evaluate quality gates correctly', () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 10,
         errors: 0,
         warnings: 10,
@@ -237,8 +237,8 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 5,
         performanceMetrics: { executionTime: 30000,
           memoryUsage: 256,
-          cacheHitRate: 0.8,
-        },
+          cacheHitRate: 0.8
+        }
       };
 
       // Mock getLatestMetrics
@@ -246,10 +246,10 @@ describe('LintingProgressTracker', () => {
       // Intentionally any: Jest spy requires access to private method for testing
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
-        maxExecutionTime: 60000,
+        maxExecutionTime: 60000
       };
 
       const result: any = tracker.createQualityGates(thresholds);
@@ -258,7 +258,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should fail quality gates when thresholds exceeded', () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 100,
         errors: 5,
         warnings: 95,
@@ -268,16 +268,16 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 20,
         performanceMetrics: { executionTime: 90000,
           memoryUsage: 512,
-          cacheHitRate: 0.6,
-        },
+          cacheHitRate: 0.6
+        }
       };
 
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
-        maxExecutionTime: 60000,
+        maxExecutionTime: 60000
       };
 
       const result: any = tracker.createQualityGates(thresholds);
@@ -288,10 +288,10 @@ describe('LintingProgressTracker', () => {
     test('should handle missing metrics gracefully', () => {
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null);
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
-        maxExecutionTime: 60000,
+        maxExecutionTime: 60000
       };
 
       const result: any = tracker.createQualityGates(thresholds);
@@ -302,15 +302,15 @@ describe('LintingProgressTracker', () => {
 
   describe('private methods', () => {
     test('should parse linting output correctly', () => {
-      const mockOutput: any = JSON.stringify([
+      const mockOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },
             { ruleId: null, severity: 1, fix: null }, // Test unknown rule
-          ],
-        },
+          ]
+        }
       ]);
 
       const result: any = (tracker as any).parseLintingOutput(mockOutput);
@@ -322,17 +322,17 @@ describe('LintingProgressTracker', () => {
         filesCovered: 1,
         fixableIssues: 1,
         errorsByCategory: {
-          'no-console': 1,
+          'no-console': 1
         },
         warningsByCategory: {
           'no-unused-vars': 1,
-          unknown: 1,
-        },
+          unknown: 1
+        }
       });
     });
 
     test('should calculate improvement metrics correctly', () => {
-      const current: LintingMetrics = { timestamp: new Date(),
+      const current: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -342,15 +342,15 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 25,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 0.8,
-        },
+          cacheHitRate: 0.8
+        }
       };
 
-      const previous: LintingMetrics = {
+      const previous: LintingMetrics = {;
         ...current,
         totalIssues: 100,
         errors: 20,
-        warnings: 80,
+        warnings: 80
       };
 
       const improvement: any = (tracker as any).calculateImprovement(current, previous);
@@ -359,12 +359,12 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 50,
         errorsReduced: 15,
         warningsReduced: 35,
-        percentageImprovement: 50,
+        percentageImprovement: 50
       });
     });
 
     test('should handle improvement calculation with no previous metrics', () => {
-      const current: LintingMetrics = { timestamp: new Date(),
+      const current: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -374,8 +374,8 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 25,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 0.8,
-        },
+          cacheHitRate: 0.8
+        }
       };
 
       const improvement: any = (tracker as any).calculateImprovement(current, undefined);
@@ -384,12 +384,12 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0,
+        percentageImprovement: 0
       });
     });
 
     test('should evaluate quality gates correctly', () => {
-      const metrics: LintingMetrics = { timestamp: new Date(),
+      const metrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 50,
         errors: 0,
         warnings: 50,
@@ -399,8 +399,8 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 25,
         performanceMetrics: { executionTime: 30000,
           memoryUsage: 256,
-          cacheHitRate: 0.8,
-        },
+          cacheHitRate: 0.8
+        }
       };
 
       const gates: any = (tracker as any).evaluateQualityGates(metrics);
@@ -408,7 +408,7 @@ describe('LintingProgressTracker', () => {
       expect(gates).toEqual({
         zeroErrors: true,
         warningsUnderThreshold: true,
-        performanceAcceptable: true,
+        performanceAcceptable: true
       });
     });
   });

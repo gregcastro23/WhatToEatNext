@@ -102,7 +102,7 @@ export interface CulinaryProfile {
  * Broader geographical categories
  */
 export type ContinentalCuisineType =
-  | 'Asian'
+  | 'Asian';
   | 'European'
   | 'African'
   | 'American'
@@ -115,7 +115,7 @@ export type ContinentalCuisineType =
  * Specific regional variations within primary cuisines
  */
 export type RegionalCuisineType =
-  // Chinese Regional
+  // Chinese Regional;
   | 'Sichuan'
   | 'Cantonese'
   | 'Shanghai'
@@ -229,7 +229,7 @@ export type RegionalCuisineType =
  * Modern fusion and contemporary cuisine categories
  */
 export type FusionCuisineType =
-  | 'Asian-Fusion'
+  | 'Asian-Fusion';
   | 'Mediterranean-Fusion'
   | 'Latin-Fusion'
   | 'Modern-American'
@@ -247,7 +247,7 @@ export type FusionCuisineType =
  * Cuisine categories based on dietary preferences
  */
 export type DietaryCuisineType =
-  | 'Vegetarian'
+  | 'Vegetarian';
   | 'Vegan'
   | 'Raw-Food'
   | 'Gluten-Free'
@@ -265,7 +265,7 @@ export type DietaryCuisineType =
  * Cuisine categories based on historical periods
  */
 export type HistoricalCuisineType =
-  | 'Ancient-Roman'
+  | 'Ancient-Roman';
   | 'Medieval-European'
   | 'Renaissance-Italian'
   | 'Victorian-English'
@@ -281,7 +281,7 @@ export type HistoricalCuisineType =
  * Street food and casual dining categories
  */
 export type StreetFoodCuisineType =
-  | 'Street-Food-Asian'
+  | 'Street-Food-Asian';
   | 'Street-Food-Mexican'
   | 'Street-Food-Indian'
   | 'Street-Food-Middle-Eastern'
@@ -299,7 +299,7 @@ export type StreetFoodCuisineType =
  * All possible cuisine types in the system
  */
 export type CompleteCuisineType =
-  | PrimaryCuisineType
+  | PrimaryCuisineType;
   | ContinentalCuisineType
   | RegionalCuisineType
   | FusionCuisineType
@@ -311,7 +311,7 @@ export type CompleteCuisineType =
  * Cuisine Category Mapping
  * Maps cuisine types to their broader categories
  */
-export const CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
+export const _CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
   // Primary Cuisine Types
   Chinese: 'Asian',
   Japanese: 'Asian',
@@ -483,7 +483,7 @@ export const CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
   'Comfort-Food': 'Street-Food',
   'Pub-Food': 'Street-Food',
   'Diner-Food': 'Street-Food',
-  Barbecue: 'Street-Food',
+  Barbecue: 'Street-Food'
 };
 
 /**
@@ -491,7 +491,7 @@ export const CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
  * Uses PascalCase per project conventions
  */
 export type IngredientCategory =
-  | 'Vegetable'
+  | 'Vegetable';
   | 'Fruit'
   | 'Grain'
   | 'Protein'
@@ -507,7 +507,7 @@ export type IngredientCategory =
  * Subcategory types for better type safety
  */
 export type FruitSubCategory =
-  | 'Berry'
+  | 'Berry';
   | 'Citrus'
   | 'Pome'
   | 'Stone'
@@ -516,7 +516,7 @@ export type FruitSubCategory =
   | 'Other';
 
 export type VegetableSubCategory =
-  | 'Root'
+  | 'Root';
   | 'Starchy'
   | 'Leafy'
   | 'Nightshade'
@@ -526,7 +526,7 @@ export type VegetableSubCategory =
   | 'Other';
 
 export type ProteinSubCategory =
-  | 'Poultry'
+  | 'Poultry';
   | 'Seafood'
   | 'Meat'
   | 'Legume'
@@ -552,7 +552,7 @@ export type VinegarSubCategory = 'Wine' | 'Fruit' | 'Grain' | 'Specialty' | 'Oth
  * Union type for all subcategories
  */
 export type IngredientSubCategory =
-  | FruitSubCategory
+  | FruitSubCategory;
   | VegetableSubCategory
   | ProteinSubCategory
   | GrainSubCategory
@@ -598,7 +598,7 @@ export interface CuisinePairing {
   culturalNotes: string;
 }
 
-// ========== MISSING TYPE EXPORTS ==========
+// ========== MISSING TYPE EXPORTS ==========;
 
 /**
  * Cuisine Type - Primary Export
@@ -611,7 +611,7 @@ export type Cuisine = CompleteCuisineType;
  * Comprehensive cooking methods for recipe classification
  */
 export type CookingMethodType =
-  | 'grilling'
+  | 'grilling';
   | 'roasting'
   | 'baking'
   | 'braising'
@@ -649,7 +649,7 @@ export type FlavorIntensity = 'mild' | 'moderate' | 'strong' | 'intense';
  * Used for dietary restriction filtering
  */
 export type DietaryClassification =
-  | 'omnivore'
+  | 'omnivore';
   | 'vegetarian'
   | 'vegan'
   | 'pescatarian'
@@ -676,7 +676,7 @@ export type RecipeDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'exper
  * Used for time-based recipe recommendations
  */
 export type MealType =
-  | 'breakfast'
+  | 'breakfast';
   | 'brunch'
   | 'lunch'
   | 'dinner'
@@ -691,7 +691,7 @@ export type MealType =
  * Used for menu planning and recipe organization
  */
 export type CourseType =
-  | 'amuse-bouche'
+  | 'amuse-bouche';
   | 'appetizer'
   | 'soup'
   | 'salad'
@@ -708,7 +708,7 @@ export type CourseType =
  * Used for recipe classification and searching
  */
 export type DishType =
-  | 'soup'
+  | 'soup';
   | 'salad'
   | 'sandwich'
   | 'pasta'

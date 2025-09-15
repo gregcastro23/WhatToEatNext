@@ -9,7 +9,7 @@ import {
   saveComponentState,
   saveNavigationState,
   saveScrollPosition,
-  useStateCleanup,
+  useStateCleanup
 } from '@/utils/statePreservation';
 import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
@@ -20,17 +20,17 @@ export function useNavigationState() {
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Debounced save to prevent excessive storage writes
-  const saveState = useCallback((state: Partial<NavigationState>) => {
+  const saveState = useCallback((state: Partial<NavigationState>) => {;
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
 
-    saveTimeoutRef.current = setTimeout(() => {
+    saveTimeoutRef.current = setTimeout(() => {;
       saveNavigationState(state);
     }, 50); // 50ms debounce
   }, []);
 
-  const getState = useCallback(() => {
+  const getState = useCallback(() => {;
     return getNavigationState();
   }, []);
 
@@ -49,29 +49,29 @@ export function useNavigationState() {
 /**
  * Hook for preserving and restoring component state with performance optimizations
  */
-export function useComponentState<T = unknown>(componentId: string, initialState?: T) {
+export function useComponentState<T = unknown>(componentId: string, initialState?: T) {;
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Debounced save to prevent excessive storage writes
-  const saveState = useCallback(
+  const saveState = useCallback(;
     (state: T) => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
 
-      saveTimeoutRef.current = setTimeout(() => {
+      saveTimeoutRef.current = setTimeout(() => {;
         saveComponentState(componentId, state);
       }, 100); // 100ms debounce for component state
     },
     [componentId],
   );
 
-  const getState = useCallback((): T | null => {
+  const getState = useCallback((): T | null => {;
     const stored = getComponentState(componentId);
     return stored || initialState || null;
   }, [componentId, initialState]);
 
-  const restoreState = useCallback((): T | null => {
+  const restoreState = useCallback((): T | null => {;
     return getState();
   }, [getState]);
 
@@ -96,7 +96,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
 export function useScrollPreservation(sectionId: string) {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const saveScrollPositionInternal = useCallback(
+  const saveScrollPositionInternal = useCallback(;
     (position?: number) => {
       const pos = position !== undefined ? position : window.scrollY;
       saveScrollPosition(sectionId, pos);
@@ -104,7 +104,7 @@ export function useScrollPreservation(sectionId: string) {
     [sectionId],
   );
 
-  const restoreScrollPosition = useCallback(() => {
+  const restoreScrollPosition = useCallback(() => {;
     const position = getScrollPosition(sectionId);
     if (position > 0) {
       // Use requestAnimationFrame to ensure DOM is ready
@@ -114,13 +114,13 @@ export function useScrollPreservation(sectionId: string) {
     }
   }, [sectionId]);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = useCallback(() => {;
     // Debounce scroll saving to avoid excessive storage writes
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
 
-    scrollTimeoutRef.current = setTimeout(() => {
+    scrollTimeoutRef.current = setTimeout(() => {;
       saveScrollPositionInternal();
     }, 100);
   }, [saveScrollPositionInternal]);
@@ -159,7 +159,7 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
 ) {
   const { saveState, getState } = useComponentState(formId, initialValues);
 
-  const saveFormState = useCallback(
+  const saveFormState = useCallback(;
     (values: Partial<T>) => {
       const currentState = getState() || initialValues;
       const updatedState = { ...currentState, ...values };
@@ -168,12 +168,12 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
     [saveState, getState, initialValues],
   );
 
-  const restoreFormState = useCallback((): T => {
+  const restoreFormState = useCallback((): T => {;
     const stored = getState();
     return stored ? { ...initialValues, ...stored } : initialValues;
   }, [getState, initialValues]);
 
-  const clearFormState = useCallback(() => {
+  const clearFormState = useCallback(() => {;
     saveState(initialValues);
   }, [saveState, initialValues]);
 
@@ -183,21 +183,21 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
 /**
  * Hook for preserving selection state (like selected items, active tabs, etc.)
  */
-export function useSelectionState<T = unknown>(selectionId: string, initialSelection?: T) {
+export function useSelectionState<T = unknown>(selectionId: string, initialSelection?: T) {;
   const { saveState, getState } = useComponentState(selectionId, initialSelection);
 
-  const saveSelection = useCallback(
+  const saveSelection = useCallback(;
     (selection: T) => {
       saveState(selection);
     },
     [saveState],
   );
 
-  const restoreSelection = useCallback((): T | null => {
+  const restoreSelection = useCallback((): T | null => {;
     return getState();
   }, [getState]);
 
-  const clearSelection = useCallback(() => {
+  const clearSelection = useCallback(() => {;
     if (initialSelection !== undefined) {
       saveState(initialSelection);
     }
@@ -212,7 +212,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
 export function useNavigationContext() {
   const { saveState, getState } = useNavigationState();
 
-  const preserveContext = useCallback(
+  const preserveContext = useCallback(;
     (context: {
       fromPage?: string;
       selectedItems?: unknown[];
@@ -226,18 +226,18 @@ export function useNavigationContext() {
         ...context,
         navigationHistory: [
           ...(currentState.navigationHistory || []),
-          context.fromPage || 'unknown',
-        ].slice(-10),
+          context.fromPage || 'unknown'
+        ].slice(-10)
       });
     },
     [saveState, getState],
   );
 
-  const restoreContext = useCallback(() => {
+  const restoreContext = useCallback(() => {;
     return getState();
   }, [getState]);
 
-  const getLastPage = useCallback(() => {
+  const getLastPage = useCallback(() => {;
     const state = getState();
     const history = state.navigationHistory || [];
     return history[history.length - 1] || null;
@@ -252,7 +252,7 @@ export function useNavigationContext() {
 export function useAstrologicalStatePreservation(componentId: string) {
   const { saveState, getState } = useComponentState(componentId);
 
-  const saveAstrologicalState = useCallback(
+  const saveAstrologicalState = useCallback(;
     async (state: {
       elementalProperties?: ElementalProperties;
       selectedIngredients?: string[];
@@ -260,10 +260,10 @@ export function useAstrologicalStatePreservation(componentId: string) {
     }) => {
       try {
         // Simple state saving for now
-        const enhancedState = {
+        const enhancedState = {;
           ...state,
           timestamp: Date.now(),
-          componentId,
+          componentId
         };
 
         saveState(enhancedState);
@@ -277,7 +277,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
     [componentId, saveState],
   );
 
-  const restoreAstrologicalState = useCallback(() => {
+  const restoreAstrologicalState = useCallback(() => {;
     const stored = getState();
     if (stored) {
       logger.debug(`Restored astrological state for ${componentId}`);
@@ -285,7 +285,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
     return stored;
   }, [componentId, getState]);
 
-  const validateElementalCompatibility = useCallback(
+  const validateElementalCompatibility = useCallback(;
     (sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
       // Simple validation for now
       const compatibility = 0.8; // Default good compatibility
@@ -294,26 +294,26 @@ export function useAstrologicalStatePreservation(componentId: string) {
         compatibility,
         isValid: true,
         meetsMinimumThreshold: compatibility >= 0.7,
-        isSelfReinforcing: compatibility >= 0.9,
+        isSelfReinforcing: compatibility >= 0.9
       };
     },
     [],
   );
 
-  const getArchitecturalGuidance = useCallback(() => {
+  const getArchitecturalGuidance = useCallback(() => {;
     return {
       patterns: ['component-isolation', 'error-boundaries', 'performance-optimization'],
       recommendations: [
         'Use React.memo for expensive components',
-        'Implement proper error handling',
-      ],
+        'Implement proper error handling'
+      ]
     };
   }, []);
 
-  const getTechnologyStackGuidance = useCallback(() => {
+  const getTechnologyStackGuidance = useCallback(() => {;
     return {
       react: { version: '19.1.0', features: ['concurrent', 'suspense'] },
-      typescript: { version: '5.1.6', strictMode: true },
+      typescript: { version: '5.1.6', strictMode: true }
     };
   }, []);
 
@@ -322,7 +322,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
     restoreAstrologicalState,
     validateElementalCompatibility,
     getArchitecturalGuidance,
-    getTechnologyStackGuidance,
+    getTechnologyStackGuidance
   };
 }
 
@@ -332,18 +332,18 @@ export function useAstrologicalStatePreservation(componentId: string) {
 export function useCulturalSensitivityGuidance() {
   const intelligence = useSteeringFileIntelligence();
 
-  const validateCulturalContent = useCallback(
+  const validateCulturalContent = useCallback(;
     (content: {
       ingredientNames?: string[];
       cuisineDescriptions?: string[];
       culturalReferences?: string[];
     }) => {
       // Apply cultural sensitivity guidelines from product vision
-      const guidance = {
+      const guidance = {;
         inclusiveDesign: true,
         respectfulRepresentation: true,
         diverseCulinaryTraditions: true,
-        accessibilityCompliant: true,
+        accessibilityCompliant: true
       };
 
       const issues: string[] = [];
@@ -351,9 +351,9 @@ export function useCulturalSensitivityGuidance() {
 
       // Check ingredient names for cultural sensitivity
       if (content.ingredientNames) {
-        content.ingredientNames.forEach(name => {
+        content.ingredientNames.forEach(name => {;
           if (name.includes('exotic') || name.includes('ethnic')) {
-            issues.push(`Avoid terms like "exotic" or "ethnic" for ingredient: ${name}`);
+            issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`);
             recommendations.push(`Use specific cultural origin or descriptive terms instead`);
           }
         });
@@ -361,10 +361,10 @@ export function useCulturalSensitivityGuidance() {
 
       // Check cuisine descriptions for respectful representation
       if (content.cuisineDescriptions) {
-        content.cuisineDescriptions.forEach(desc => {
+        content.cuisineDescriptions.forEach(desc => {;
           if (desc.toLowerCase().includes('authentic') && !desc.includes('traditional')) {
             recommendations.push(
-              `Consider using "traditional" instead of "authentic" to be more inclusive`,
+              `Consider using 'traditional' instead of 'authentic' to be more inclusive`,
             );
           }
         });
@@ -374,38 +374,38 @@ export function useCulturalSensitivityGuidance() {
         guidance,
         issues,
         recommendations,
-        isCompliant: issues.length === 0,
+        isCompliant: issues.length === 0,;
       };
     },
     [intelligence],
   );
 
-  const getInclusiveLanguageGuidelines = useCallback(() => {
+  const getInclusiveLanguageGuidelines = useCallback(() => {;
     return {
       ingredientNaming: [
-        'Use specific cultural origins (e.g., "Mediterranean herbs" instead of "exotic herbs")',
+        'Use specific cultural origins (e.g., 'Mediterranean herbs' instead of 'exotic herbs')',
         'Respect traditional names while providing context',
         'Avoid appropriative or dismissive language',
-        'Include pronunciation guides when helpful',
+        'Include pronunciation guides when helpful'
       ],
       cuisineDescriptions: [
         'Honor the cultural significance of dishes',
         'Provide historical context respectfully',
         'Avoid oversimplification of complex culinary traditions',
-        'Acknowledge regional variations and diversity',
+        'Acknowledge regional variations and diversity'
       ],
       accessibility: [
         'Provide alternative text for all images',
         'Use high contrast colors for readability',
         'Support keyboard navigation',
-        'Include screen reader compatible content',
-      ],
+        'Include screen reader compatible content'
+      ]
     };
   }, []);
 
   return {
     validateCulturalContent,
-    getInclusiveLanguageGuidelines,
+    getInclusiveLanguageGuidelines
   };
 }
 
@@ -415,49 +415,49 @@ export function useCulturalSensitivityGuidance() {
 export function usePerformanceOptimizationGuidance() {
   const intelligence = useSteeringFileIntelligence();
 
-  const getOptimizationRecommendations = useCallback(
+  const getOptimizationRecommendations = useCallback(;
     (componentType: string) => {
       const techGuidance = intelligence.getTechnologyStackGuidance();
       const archGuidance = intelligence.getArchitecturalGuidance();
 
-      const recommendations = {
+      const recommendations = {;
         react: techGuidance.react,
         performance: archGuidance.performance,
-        specific: [] as string[],
+        specific: [] as string[]
       };
 
       // Component-specific recommendations
       switch (componentType) {
         case 'astrological-calculator':
-          recommendations.specific = [
+          recommendations.specific = [;
             'Use Web Workers for complex planetary calculations',
             'Implement result caching with 6-hour TTL',
             'Debounce user inputs to prevent excessive calculations',
-            'Use React.memo for expensive astrological components',
+            'Use React.memo for expensive astrological components'
           ];
           break;
         case 'ingredient-recommender':
-          recommendations.specific = [
+          recommendations.specific = [;
             'Implement virtual scrolling for large ingredient lists',
             'Use lazy loading for ingredient images',
             'Cache elemental compatibility calculations',
-            'Optimize search with debounced input',
+            'Optimize search with debounced input'
           ];
           break;
         case 'recipe-builder':
-          recommendations.specific = [
+          recommendations.specific = [;
             'Use React.useMemo for recipe calculations',
             'Implement auto-save with debounced state updates',
             'Lazy load recipe templates and suggestions',
-            'Optimize drag-and-drop with requestAnimationFrame',
+            'Optimize drag-and-drop with requestAnimationFrame'
           ];
           break;
         default:
-          recommendations.specific = [
+          recommendations.specific = [;
             'Apply general React performance best practices',
             'Use appropriate memoization strategies',
             'Implement lazy loading where beneficial',
-            'Monitor and optimize re-render patterns',
+            'Monitor and optimize re-render patterns'
           ];
       }
 
@@ -466,14 +466,14 @@ export function usePerformanceOptimizationGuidance() {
     [intelligence],
   );
 
-  const validatePerformanceMetrics = useCallback(
+  const validatePerformanceMetrics = useCallback(;
     (metrics: {
       renderTime?: number;
       memoryUsage?: number;
       bundleSize?: number;
       apiResponseTime?: number;
     }) => {
-      const thresholds = {
+      const thresholds = {;
         renderTime: 16, // 60fps target
         memoryUsage: 50, // MB
         bundleSize: 250, // KB for component chunks
@@ -510,8 +510,8 @@ export function usePerformanceOptimizationGuidance() {
       return {
         issues,
         recommendations,
-        isOptimal: issues.length === 0,
-        thresholds,
+        isOptimal: issues.length === 0,;
+        thresholds
       };
     },
     [],
@@ -519,6 +519,6 @@ export function usePerformanceOptimizationGuidance() {
 
   return {
     getOptimizationRecommendations,
-    validatePerformanceMetrics,
+    validatePerformanceMetrics
   };
 }

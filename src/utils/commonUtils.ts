@@ -4,7 +4,7 @@
  */
 
 // Number Utilities
-export const validateNumber = (value: unknown, defaultValue = 0): number => {
+export const validateNumber = (value: unknown, defaultValue = 0): number => {;
   // Handle various invalid input cases
   if (value === null || value === undefined) return defaultValue;
 
@@ -17,12 +17,12 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {
   return num;
 };
 
-export const formatPercentage = (value: unknown, decimals = 2): string => {
+export const _formatPercentage = (value: unknown, decimals = 2): string => {;
   const num = validateNumber(value, 0);
   return `${(num * 100).toFixed(decimals)}%`;
 };
 
-export const clamp = (value: number, min: number, max: number): number => {
+export const _clamp = (value: number, min: number, max: number): number => {;
   // Ensure value is a number first
   const validValue = validateNumber(value, min);
   return Math.min(Math.max(validValue, min), max);
@@ -57,7 +57,7 @@ export function formatToTitleCase(str: string): string {
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
     .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
     .join(' ')
     .trim();
 }

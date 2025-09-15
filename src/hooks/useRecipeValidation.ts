@@ -49,56 +49,56 @@ export interface RecipeComponents {
 
 export function useRecipeValidation() {
   // Analyze recipe components
-  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {
+  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {;
     return {
       hasProtein: ingredients.some(
-        ing =>
-          ing.category === 'protein' ||
+        ing =>;
+          ing.category === 'protein' ||;
           (((ing as unknown as any).qualities as string[]) || []).includes('protein-rich'),
       ),
-      hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),
-      hasGrains: ingredients.some(ing => ing.category === 'grain'),
+      hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),;
+      hasGrains: ingredients.some(ing => ing.category === 'grain'),;
       hasSeasonings: ingredients.some(
-        ing =>
-          ing.category === 'spice' ||
-          ing.category === 'culinary_herb' ||
-          ing.category === 'seasoning',
+        ing =>;
+          ing.category === 'spice' ||;
+          ing.category === 'culinary_herb' ||;
+          ing.category === 'seasoning',;
       ),
       hasLiquid: ingredients.some(
-        ing =>
+        ing =>;
           (((ing as unknown as any).qualities as string[]) || []).includes('liquid') ||
           ing.name.toLowerCase().includes('broth') ||
           ing.name.toLowerCase().includes('stock') ||
           ing.name.toLowerCase().includes('water'),
       ),
       hasFat: ingredients.some(
-        ing =>
-          ing.category === 'oil' ||
+        ing =>;
+          ing.category === 'oil' ||;
           (((ing as unknown as any).qualities as string[]) || []).includes('fat') ||
           ing.name.toLowerCase().includes('butter'),
-      ),
+      )
     };
   };
 
   // Calculate elemental balance
-  const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {
-    if (ingredients.length === 0) {
+  const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {;
+    if (ingredients.length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    const total = ingredients.reduce(
+    const total = ingredients.reduce(;
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || {
+        const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
+          Air: 0.25
         };
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
           Earth: acc.Earth + (props.Earth || 0),
-          Air: acc.Air + (props.Air || 0),
+          Air: acc.Air + (props.Air || 0)
         };
       },
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
@@ -109,25 +109,25 @@ export function useRecipeValidation() {
       Fire: total.Fire / count,
       Water: total.Water / count,
       Earth: total.Earth / count,
-      Air: total.Air / count,
+      Air: total.Air / count
     };
   };
 
   // Check for ingredient incompatibilities
-  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {
+  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {;
     const errors: ValidationError[] = [];
 
     // Check for known incompatible combinations
-    const acidic = ingredients.filter(
-      ing =>
+    const acidic = ingredients.filter(;
+      ing =>;
         (((ing as unknown as any).qualities as string[]) || []).includes('acidic') ||
         ing.name.toLowerCase().includes('vinegar') ||
         ing.name.toLowerCase().includes('lemon'),
     );
 
-    const dairy = ingredients.filter(
-      ing =>
-        ing.category === 'dairy' ||
+    const dairy = ingredients.filter(;
+      ing =>;
+        ing.category === 'dairy' ||;
         ing.name.toLowerCase().includes('milk') ||
         ing.name.toLowerCase().includes('cream'),
     );
@@ -137,7 +137,7 @@ export function useRecipeValidation() {
         type: 'incompatible_ingredients',
         message: 'Acidic ingredients may curdle dairy products',
         severity: 'medium',
-        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],
+        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],;
       });
     }
 
@@ -145,7 +145,7 @@ export function useRecipeValidation() {
   };
 
   // Generate smart suggestions
-  const generateSuggestions = (
+  const generateSuggestions = (;
     ingredients: Ingredient[],
     components: RecipeComponents,
     elementalBalance: ElementalProperties,
@@ -157,7 +157,7 @@ export function useRecipeValidation() {
       suggestions.push({
         type: 'ingredient',
         message: 'Consider adding a protein source for a more complete meal',
-        action: { type: 'add_ingredient', target: 'protein' },
+        action: { type: 'add_ingredient', target: 'protein' }
       });
     }
 
@@ -165,25 +165,25 @@ export function useRecipeValidation() {
       suggestions.push({
         type: 'seasoning',
         message: 'Add herbs or spices to enhance flavor',
-        action: { type: 'add_ingredient', target: 'seasoning' },
+        action: { type: 'add_ingredient', target: 'seasoning' }
       });
     }
 
     // Elemental balance suggestions
-    const dominantElement = Object.entries(elementalBalance).sort(
+    const dominantElement = Object.entries(elementalBalance).sort(;
       ([, a], [, b]) => b - a,
     )[0][0] as keyof ElementalProperties;
 
-    const weakestElement = Object.entries(elementalBalance).sort(
+    const _weakestElement = Object.entries(elementalBalance).sort(;
       ([, a], [, b]) => a - b,
     )[0][0] as keyof ElementalProperties;
 
     if (elementalBalance[dominantElement] > 0.5) {
-      const balancingElements = {
+      const balancingElements = {;
         Fire: 'Water',
         Water: 'Fire',
         Earth: 'Air',
-        Air: 'Earth',
+        Air: 'Earth'
       };
 
       suggestions.push({
@@ -191,23 +191,23 @@ export function useRecipeValidation() {
         message: `Recipe is ${dominantElement}-heavy. Consider adding ${balancingElements[dominantElement as keyof typeof balancingElements]} element ingredients`,
         action: {
           type: 'add_ingredient',
-          target: balancingElements[dominantElement as keyof typeof balancingElements],
-        },
+          target: balancingElements[dominantElement as keyof typeof balancingElements]
+        }
       });
     }
 
     // Cooking method suggestions based on ingredients
-    const hasDelicateIngredients = ingredients.some(
-      ing =>
+    const hasDelicateIngredients = ingredients.some(;
+      ing =>;
         (((ing as unknown as any).qualities as string[]) || []).includes('delicate') ||
-        ing.category === 'culinary_herb',
+        ing.category === 'culinary_herb',;
     );
 
     if (hasDelicateIngredients) {
       suggestions.push({
         type: 'cooking_method',
         message:
-          'Delicate ingredients detected. Consider gentle cooking methods like steaming or light sautéing',
+          'Delicate ingredients detected. Consider gentle cooking methods like steaming or light sautéing'
       });
     }
 
@@ -215,19 +215,19 @@ export function useRecipeValidation() {
   };
 
   // Main validation function
-  const validateRecipe = (
+  const validateRecipe = (;
     ingredients: Ingredient[],
     cookingMethods?: string[],
-  ): ValidationResult => {
+  ): ValidationResult => {;
     const errors: ValidationError[] = [];
     const warnings: ValidationWarning[] = [];
 
     // Basic validation
-    if (ingredients.length === 0) {
+    if (ingredients.length === 0) {;
       errors.push({
         type: 'missing_component',
         message: 'Recipe must have at least one ingredient',
-        severity: 'high',
+        severity: 'high'
       });
     }
 
@@ -240,7 +240,7 @@ export function useRecipeValidation() {
       warnings.push({
         type: 'preparation',
         message: 'Recipe may lack flavor without seasonings',
-        recommendation: 'Add herbs, spices, or salt',
+        recommendation: 'Add herbs, spices, or salt'
       });
     }
 
@@ -252,7 +252,7 @@ export function useRecipeValidation() {
       warnings.push({
         type: 'preparation',
         message: 'Recipe has significant elemental imbalance',
-        recommendation: 'Consider adding balancing ingredients',
+        recommendation: 'Consider adding balancing ingredients'
       });
     }
 
@@ -277,17 +277,17 @@ export function useRecipeValidation() {
     score = Math.max(0, Math.min(100, score));
 
     return {
-      isValid: errors.filter(e => e.severity === 'high').length === 0,
+      isValid: errors.filter(e => e.severity === 'high').length === 0,;
       errors,
       warnings,
       suggestions,
-      score,
+      score
     };
   };
 
   // Get nutritional analysis
-  const getNutritionalAnalysis = (ingredients: Ingredient[]) => {
-    const categories = ingredients.reduce(
+  const getNutritionalAnalysis = (ingredients: Ingredient[]) => {;
+    const categories = ingredients.reduce(;
       (acc, ingredient) => {
         const category = ingredient.category || 'other';
         acc[category] = (acc[category] || 0) + 1;
@@ -302,7 +302,7 @@ export function useRecipeValidation() {
       categories,
       elementalBalance,
       diversity: Object.keys(categories).length,
-      totalIngredients: ingredients.length,
+      totalIngredients: ingredients.length
     };
   };
 
@@ -312,6 +312,6 @@ export function useRecipeValidation() {
     calculateElementalBalance,
     getNutritionalAnalysis,
     checkIncompatibilities,
-    generateSuggestions,
+    generateSuggestions
   };
 }

@@ -8,7 +8,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Associated with the alchemical pillar of Calcination - the reduction of substances
  * through intense heat, increasing Essence and Matter while decreasing Spirit and Substance.
  */
-export const frying: CookingMethodData = {
+export const frying: CookingMethodData = {;
   name: 'frying',
   description:
     'Cooking food in hot oil or fat, creating a crispy exterior while keeping the interior moist and tender. The high-temperature process rapidly dehydrates the food surface through the expulsion of moisture, creating a protective barrier that seals in flavors while developing complex browning reactions that enhance taste and texture.',
@@ -20,7 +20,7 @@ export const frying: CookingMethodData = {
   },
   duration: {
     min: 2,
-    max: 15,
+    max: 15
   },
   suitable_for: [
     'vegetables',
@@ -51,7 +51,7 @@ export const frying: CookingMethodData = {
     'olives',
     'mushrooms',
     'shrimp',
-    'oysters',
+    'oysters'
   ],
   benefits: [
     'quick cooking',
@@ -73,7 +73,7 @@ export const frying: CookingMethodData = {
     'starch transformation',
     'flavor compound development',
     'consistent cooking temperature',
-    'scalability for quantity cooking',
+    'scalability for quantity cooking'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['leo', 'aries', 'sagittarius'] as any[], // Fire signs amplify the transformative heat
@@ -86,7 +86,7 @@ export const frying: CookingMethodData = {
       waning_crescent: 0.9, // Slightly reduced effectiveness
       first_quarter: 1.0, // Neutral effect
       last_quarter: 0.9, // Slightly diminished results
-    },
+    }
   },
   toolsRequired: [
     'Deep fryer or deep pan',
@@ -110,7 +110,7 @@ export const frying: CookingMethodData = {
     'Heat diffuser (for stovetop frying)',
     'Oil storage container',
     'Fryer hook tools (for commercial equipment)',
-    'Carbonation injector (for beer batter)',
+    'Carbonation injector (for beer batter)'
   ],
   commonMistakes: [
     'oil temperature too low (causes greasiness)',
@@ -135,7 +135,7 @@ export const frying: CookingMethodData = {
     'double-dipping partially cooked food in batter',
     'using reactive metal vessels with acidic foods',
     'sudden temperature changes in oil (adding frozen food)',
-    'improper storage of fried foods (traps steam, causes sogginess)',
+    'improper storage of fried foods (traps steam, causes sogginess)'
   ],
   pairingSuggestions: [
     'Acidic components (lemon, vinegar, pickles) to cut richness',
@@ -156,7 +156,7 @@ export const frying: CookingMethodData = {
     'Cultured dairy for temperature and flavor contrast',
     'Microgreens for visual appeal and freshness',
     'Umami-rich components to enhance savory notes',
-    'Citrus zest for aromatic brightness',
+    'Citrus zest for aromatic brightness'
   ],
   nutrientRetention: {
     proteins: 0.85, // Good protein retention but some denaturation
@@ -203,25 +203,25 @@ export const frying: CookingMethodData = {
     japanese: [
       'tempura (light, airy batter)',
       'karaage (double-fried chicken)',
-      'korokke (potato croquettes)',
+      'korokke (potato croquettes)'
     ],
     southern_us: ['deep-fried chicken', 'hushpuppies', 'chicken-fried steak', 'corn fritters'],
     indian: [
       'pakora (vegetable fritters)',
       'samosa (filled pastry)',
       'bhajji (spiced fritters)',
-      'puri (fried bread)',
+      'puri (fried bread)'
     ],
     mexican: [
       'churros (ridged dough pastry)',
       'chiles rellenos (stuffed peppers)',
       'flautas (rolled tacos)',
-      'sopapillas (fried dough)',
+      'sopapillas (fried dough)'
     ],
     middle_eastern: [
       'falafel (chickpea fritters)',
       'kibbeh (meat and bulgur croquettes)',
-      'sambousek (filled pastries)',
+      'sambousek (filled pastries)'
     ],
     italian: ['arancini (rice balls)', 'fritto misto (mixed fry)', 'panzerotti (filled pastries)'],
     spanish: ['croquetas (béchamel fritters)', 'calamares a la romana (battered squid)'],
@@ -231,25 +231,25 @@ export const frying: CookingMethodData = {
     dutch: [
       'bitterballen (meat ragout balls)',
       'kroketten (croquettes)',
-      'oliebollen (donut-like dumplings)',
+      'oliebollen (donut-like dumplings)'
     ],
     filipino: [
       'lumpia (spring rolls)',
       'ukoy (shrimp fritters)',
-      'camaron rebosado (battered shrimp)',
+      'camaron rebosado (battered shrimp)'
     ],
     vietnamese: ['banh goi (fried pastry)', 'cha gio (spring rolls)', 'banh xeo (crispy pancakes)'],
     nigerian: ['akara (bean fritters)', 'puff puff (fried dough)', 'chin chin (fried pastry)'],
     korean: [
       'kimchi jeon (kimchi pancake)',
       'twigim (various fritters)',
-      'korean fried chicken (double-fried)',
+      'korean fried chicken (double-fried)'
     ],
     brazilian: [
       'pastéis (filled pastries)',
       'acarajé (black-eyed pea fritters)',
-      'bolinho de bacalhau (cod fritters)',
-    ],
+      'bolinho de bacalhau (cod fritters)'
+    ]
   },
   chemicalChanges: {
     maillard_reaction: true, // Non-enzymatic browning between amino acids and sugars
@@ -294,7 +294,7 @@ export const frying: CookingMethodData = {
     'Use oils before they reach smoke point to prevent aerosolized toxins',
     'Keep children and pets away from frying area',
     'Have burn treatment supplies readily available',
-    'Never attempt to move hot oil containers',
+    'Never attempt to move hot oil containers'
   ],
   thermodynamicProperties: {
     heat: 0.85, // Very high heat transfer through oil conduction
@@ -319,7 +319,7 @@ export const frying: CookingMethodData = {
     'Viscosity of oil changes with temperature, affecting heat transfer rate',
     'Food with higher moisture content absorbs less oil due to stronger steam barrier',
     'Breading and batters create porous structures that absorb oil during cooling phase',
-    "Oil's higher boiling point than water allows temperatures above 212°F",
+    'Oil's higher boiling point than water allows temperatures above 212°F',
     'Fat polymerization creates networks that affect viscosity during repeated use',
     'Browning reactions accelerate exponentially with temperature increases',
     'Thermal conductivity of oil is approximately 10x that of air, resulting in faster heat transfer',
@@ -329,7 +329,7 @@ export const frying: CookingMethodData = {
     'Oil degradation accelerates with temperature, time, and presence of food particles',
     'Bubble formation and movement around food enhances heat and mass transfer',
     'Heat shock creates rapid expansion that affects cellular structures',
-    'Food moisture creates localized cooling effect around items being fried',
+    'Food moisture creates localized cooling effect around items being fried'
   ],
 
   modernVariations: [
@@ -352,7 +352,7 @@ export const frying: CookingMethodData = {
     'Enzyme-modified batters (improved adhesion and texture development)',
     'Infusion frying (incorporating flavors into the frying medium)',
     'Pulsed electric field pre-treatment (cellular modification before frying)',
-    'Nanoemulsion technologies (reduced oil uptake with modified interfaces)',
+    'Nanoemulsion technologies (reduced oil uptake with modified interfaces)'
   ],
 
   sustainabilityRating: 0.4, // Higher energy usage, oil disposal issues
@@ -363,7 +363,7 @@ export const frying: CookingMethodData = {
     'Higher fat content due to oil absorption (5-40% by weight)',
     'May create acrylamide at high temperatures (potential carcinogen)',
     'Can be modified with healthier oils (higher in unsaturated fats)',
-    'Proper temperature reduces oil absorption (too low = greasy food)',
+    'Proper temperature reduces oil absorption (too low = greasy food)',;
     'Minimal water-soluble nutrient loss compared to boiling',
     'Trans fat formation possible with repeated oil use at high temperatures',
     'Possible formation of advanced glycation end products (AGEs)',
@@ -379,7 +379,7 @@ export const frying: CookingMethodData = {
     'Effects on gut microbiome differ from other cooking methods',
     'Carotenoid bioavailability often increases through fat incorporation',
     'Oxidative stability of oil affects downstream health implications',
-    'Shorter frying times generally produce healthier outcomes',
+    'Shorter frying times generally produce healthier outcomes'
   ],
 
   /**
@@ -408,8 +408,8 @@ export const frying: CookingMethodData = {
       'Represents the purifying fire that burns away impurities and transforms raw materials into more refined substances, paralleling how frying transforms raw ingredients into more flavorful and texturally complex foods',
     associatedElements: {
       primary: 'Fire',
-      secondary: 'Earth',
-    },
+      secondary: 'Earth'
+    }
   } as unknown as Record<string, Record<string, string>>,
 
   expertTips: [
@@ -424,7 +424,7 @@ export const frying: CookingMethodData = {
     'For Korean-style double frying, cool items completely between fryings for structural reinforcement',
     'Pre-blanch starchy vegetables (potatoes) in water to remove excess starch before frying',
     'For delicate fish, dust with rice flour before battering to improve adhesion',
-    'Maintain proper "cold chain" in breading station (keep batter cold, work quickly with seafood)',
+    'Maintain proper 'cold chain' in breading station (keep batter cold, work quickly with seafood)',
     'Filter oil through fine mesh and cheesecloth after each use to remove particles',
     'Test oil readiness with wooden chopstick or bread cube (should bubble steadily, not violently)',
     'Drain fried items on wire racks instead of paper towels to prevent steam softening',
@@ -433,7 +433,7 @@ export const frying: CookingMethodData = {
     'When frying doughs, proof until just underproofed (they expand considerably during frying)',
     'For flavor infusion, filter and cool oil, then steep with herbs, spices, or aromatics',
     'Apply glazes or sauces immediately after draining for better adherence',
-    'For sweet batters, add a small amount of ground nori or MSG to enhance flavor dimensionality',
+    'For sweet batters, add a small amount of ground nori or MSG to enhance flavor dimensionality'
   ],
 
   ingredientPreparation: {
@@ -456,7 +456,7 @@ export const frying: CookingMethodData = {
     dairy:
       'For fried cheese, freeze briefly for 15-20 minutes before coating. For ice cream frying, freeze hard for at least 4 hours, then dip in batter with additional egg whites for quick-setting crust.',
     pre_cooking:
-      'For twice-cooked methods, par-fry at lower temperature (325-335°F) until items are cooked but not browned, cool completely, then finish at higher temperature (365-375°F) for service.',
+      'For twice-cooked methods, par-fry at lower temperature (325-335°F) until items are cooked but not browned, cool completely, then finish at higher temperature (365-375°F) for service.'
   },
 
   timingConsiderations: {
@@ -471,7 +471,7 @@ export const frying: CookingMethodData = {
     storage_considerations:
       'Most fried items deteriorate rapidly; consume within 15-30 minutes of cooking. For maintaining crispness during holding, use warming oven with rack (never covered or stacked). Some items (Korean fried chicken) can be refrigerated and refried successfully.',
     service_window:
-      'Optimal texture and flavor peak at 2-5 minutes after draining. Crispy coatings begin degrading immediately, accelerating after 15 minutes. Timing of sauce application affects texture duration (immediate saucing shortens crisp window).',
+      'Optimal texture and flavor peak at 2-5 minutes after draining. Crispy coatings begin degrading immediately, accelerating after 15 minutes. Timing of sauce application affects texture duration (immediate saucing shortens crisp window).'
   },
 
   doneness_indicators: {
@@ -490,7 +490,7 @@ export const frying: CookingMethodData = {
     visual_cues:
       'For tempura, batter turns semi-transparent and crisp. For breaded items, coating develops small surface bubbles when perfectly done. For churros, surface ridges develop golden highlights while valleys remain lighter.',
     structural_integrity:
-      'Properly fried items maintain shape when lifted from oil. Coatings adhere firmly without detachment. Battered items develop rigid shell that maintains form.',
+      'Properly fried items maintain shape when lifted from oil. Coatings adhere firmly without detachment. Battered items develop rigid shell that maintains form.'
   },
 
   ingredientInteractions: {
@@ -511,7 +511,7 @@ export const frying: CookingMethodData = {
     leavening_expansion:
       'Chemical leaveners (baking powder) or biological agents (yeast) create carbon dioxide bubbles that expand dramatically in hot oil. Pre-expansion through fermentation or whipping creates initial air cells that further expand during frying.',
     oil_quality_changes:
-      'Fresh oil has different frying characteristics than used oil. Moderate use (3-4 times) often improves flavor development in certain applications. High-polyunsaturated oils degrade faster than more saturated fats during repeated use.',
+      'Fresh oil has different frying characteristics than used oil. Moderate use (3-4 times) often improves flavor development in certain applications. High-polyunsaturated oils degrade faster than more saturated fats during repeated use.'
   },
 
   technicalNotes: {
@@ -525,7 +525,7 @@ export const frying: CookingMethodData = {
       cooling_rate:
         'Oils cool at different rates due to specific heat capacity differences. Higher viscosity oils (palm, coconut) maintain temperature longer than thinner oils.',
       oil_blending:
-        'Combining oils can optimize properties: high-heat tolerance oils with flavor-enhancing oils. Common commercial blend: 80% neutral oil with 20% flavor-enhancing oil.',
+        'Combining oils can optimize properties: high-heat tolerance oils with flavor-enhancing oils. Common commercial blend: 80% neutral oil with 20% flavor-enhancing oil.'
     },
     batter_science: {
       gluten_development:
@@ -537,7 +537,7 @@ export const frying: CookingMethodData = {
       viscosity:
         'Thicker batters create thicker coatings but may trap more steam; thinner batters create lacier, crispier coatings. Optimal viscosity depends on application: thin for tempura, moderate for fish, thick for fritters.',
       temperature_effects:
-        'Cold batter creates more contrast between exterior and interior temperatures, generating more steam pressure and creating crispier results.',
+        'Cold batter creates more contrast between exterior and interior temperatures, generating more steam pressure and creating crispier results.'
     },
     equipment_considerations: {
       thermal_mass:
@@ -549,7 +549,7 @@ export const frying: CookingMethodData = {
       vessel_shape:
         'Deeper vessels minimize oil surface area (reducing oxidation) but require more oil volume. Wider vessels improve capacity but increase surface oxidation.',
       filtration_capabilities:
-        'Integrated filtration systems extend oil life by removing food particles that accelerate degradation. Double-filtration (coarse then fine) most effective.',
+        'Integrated filtration systems extend oil life by removing food particles that accelerate degradation. Double-filtration (coarse then fine) most effective.'
     },
     physical_transformations: {
       moisture_barrier:
@@ -561,7 +561,7 @@ export const frying: CookingMethodData = {
       cooling_dynamics:
         'Rapid cooling after removal from oil creates increased oil absorption as vacuum effect draws oil into microstructure. Draining at higher temperature reduces final oil content.',
       structural_expansion:
-        'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture; too rapid causes structural failure.',
-    },
-  },
+        'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture; too rapid causes structural failure.'
+    }
+  }
 };

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+ 
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
 interface CustomProps {
@@ -8,10 +8,10 @@ interface CustomProps {
 
 type ButtonProps = ComponentProps<'button'> & CustomProps;
 
-export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
+export const _TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   title,
-  optional = false,
-  children,
+  optional = false,;
+  children
 }) => {
   return (
     <div>
@@ -22,6 +22,6 @@ export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   );
 };
 
-export const TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
+export const _TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
   return <button {...buttonProps}>{title}</button>;
 };

@@ -7,17 +7,17 @@ import { AstrologicalState } from '@/types/celestial';
 // Removed unused culinary type-only imports
 
 // Mock planetary data for calculations
-const _mockPlanetaryData = {
+const _mockPlanetaryData = {;
   flavorProfiles: {
     sweet: 0.7,
     sour: 0.4,
     salty: 0.5,
     bitter: 0.2,
     umami: 0.6,
-    spicy: 0.3,
+    spicy: 0.3
   },
   foodAssociations: ['vegetables', 'grains', 'fruits', 'proteins'],
-  herbalAssociations: { Herbs: ['basil', 'thyme', 'mint', 'rosemary'] },
+  herbalAssociations: { Herbs: ['basil', 'thyme', 'mint', 'rosemary'] }
 };
 
 /**
@@ -28,17 +28,17 @@ const _mockPlanetaryData = {
  */
 export function generateTopSauceRecommendations(
   currentElementalProfile: ElementalProperties | null,
-  count = 5,
+  count = 5,;
   astrologicalState?: Partial<AstrologicalState>,
 ) {
   // Sauce data from ESM import
 
   // Use provided elemental profile or a balanced default
-  const userProfile = currentElementalProfile || {
+  const userProfile = currentElementalProfile || {;
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
+    Air: 0.25
   };
 
   // Get current date for planetary calculations
@@ -53,7 +53,7 @@ export function generateTopSauceRecommendations(
     'Mercury',
     'Jupiter',
     'Venus',
-    'Saturn',
+    'Saturn'
   ];
   const currentPlanetaryDay = planetaryDays[dayOfWeek];
 
@@ -61,11 +61,11 @@ export function generateTopSauceRecommendations(
   const saucesArray: Sauce[] = Object.values(allSauces || {});
 
   // Map all sauces with enhanced scoring
-  const scoredSauces = saucesArray.map(sauce => {
+  const scoredSauces = saucesArray.map(sauce => {;
     const { elementalProperties, astrologicalInfluences: planetaryInfluences, name } = sauce;
 
     // 1. Elemental Match Score (50% weight)
-    const elementalMatchScore = calculateElementalMatch(
+    const elementalMatchScore = calculateElementalMatch(;
       elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       userProfile,
     );
@@ -97,8 +97,8 @@ export function generateTopSauceRecommendations(
 
       // Simple flavor matching based on ingredients
       if (planetaryFlavors.flavorProfiles) {
-        const matchingIngredients = sauce.keyIngredients.filter(ingredient =>
-          Object.keys(planetaryFlavors.flavorProfiles).some(flavor =>
+        const matchingIngredients = sauce.keyIngredients.filter(ingredient =>;
+          Object.keys(planetaryFlavors.flavorProfiles).some(flavor =>;
             ingredient.toLowerCase().includes(flavor),
           ),
         );
@@ -118,13 +118,13 @@ export function generateTopSauceRecommendations(
       scores: {
         elemental: Math.round(elementalMatchScore * 100),
         astrological: Math.round(astrologicalScore * 100),
-        flavor: Math.round(flavorMatchScore * 100),
+        flavor: Math.round(flavorMatchScore * 100)
       },
       reasoning: [
         `${Math.round(elementalMatchScore * 100)}% elemental compatibility.`,
         `Aligns with the energy of ${currentPlanetaryDay}.`,
-        `${Math.round(flavorMatchScore * 100)}% flavor harmony.`,
-      ],
+        `${Math.round(flavorMatchScore * 100)}% flavor harmony.`
+      ]
     };
   });
 
@@ -140,7 +140,7 @@ export function getMatchScoreClass(score: number): string {
   return score > 0.7 ? 'high' : score > 0.4 ? 'medium' : 'low';
 }
 
-// ========== Enhanced Functions with Cuisine Type Support ==========
+// ========== Enhanced Functions with Cuisine Type Support ==========;
 
 /**
  * Get enhanced cuisine recommendations with comprehensive scoring and data
@@ -157,21 +157,21 @@ export function getCuisineRecommendations(
   const { count = 10, includeRegional = true } = options;
 
   // Get all cuisines from flavor profiles, ensuring they are correctly typed
-  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({
+  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({;
     ...cuisine,
     id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown',
-    name: cuisine.name || 'Unknown Cuisine',
+    name: cuisine.name || 'Unknown Cuisine'
   }));
 
-  const scoredCuisines = cuisines.map(cuisine => {
+  const scoredCuisines = cuisines.map(cuisine => {;
     // Elemental Match Score (40% weight) - use default values if properties don't exist
-    const elementalMatch = calculateElementalMatch(
+    const elementalMatch = calculateElementalMatch(;
       ((cuisine as any).elementalAlignment ||
         (cuisine as any).elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
+          Air: 0.25
         }) as ElementalProperties,
       elementalState,
     );
@@ -203,7 +203,7 @@ export function getCuisineRecommendations(
       // Planetary Influence Score (10% weight) - safe property access
       const planetaryRulers = (cuisine as any).planetaryRulers;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
-        const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce(
+        const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce(;
           (acc, [planet]) => {
             if ((planetaryRulers as unknown as string[]).includes(planet)) {
               return acc + 0.05; // Small bonus for each ruling planet present
@@ -226,12 +226,12 @@ export function getCuisineRecommendations(
       name: cuisine.name,
       matchPercentage: Math.round(finalScore * 100),
       score: finalScore,
-      reasoning,
+      reasoning
     };
   });
 
   // Filter out regional variants if not requested - safe property access
-  const filteredCuisines = includeRegional
+  const filteredCuisines = includeRegional;
     ? scoredCuisines
     : scoredCuisines.filter(c => !(c as unknown as any).parentCuisine);
 
@@ -246,7 +246,7 @@ export function calculateElementalMatch(
   let totalMatch = 0;
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
 
-  elements.forEach(element => {
+  elements.forEach(element => {;
     const diff = Math.abs((profile1[element] || 0) - (profile2[element] || 0));
     const elementMatch = 1 - diff;
     totalMatch += elementMatch;
@@ -260,18 +260,18 @@ export function renderScoreBadge(score: number): string {
   const scoreClass = getMatchScoreClass(score);
   const percentage = Math.round(score * 100);
 
-  return `<span class="score-badge ${scoreClass}">${percentage}%</span>`;
+  return `<span class='score-badge ${scoreClass}'>${percentage}%</span>`;
 }
 
 // calculateElementalContributionsFromPlanets function (causing errors in debug components)
 export function calculateElementalContributionsFromPlanets(
   planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
-  const contributions: ElementalProperties = {
+  const contributions: ElementalProperties = {;
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
+    Air: 0
   };
 
   // Calculate contributions based on planetary positions
@@ -307,7 +307,7 @@ function getPlanetaryElementalContribution(planet: string): ElementalProperties 
     Venus: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 },
     Mars: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 },
     Jupiter: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 },
-    Saturn: { Fire: 0.05, Water: 0.1, Earth: 0.7, Air: 0.15 },
+    Saturn: { Fire: 0.05, Water: 0.1, Earth: 0.7, Air: 0.15 }
   };
 
   return planetaryElements[planet] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -326,7 +326,7 @@ function getSignElementalContribution(sign: string): ElementalProperties {
     Sagittarius: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
     Capricorn: { Fire: 0, Water: 0, Earth: 1, Air: 0 },
     Aquarius: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
-    Pisces: { Fire: 0, Water: 1, Earth: 0, Air: 0 },
+    Pisces: { Fire: 0, Water: 1, Earth: 0, Air: 0 }
   };
 
   return signElements[sign] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

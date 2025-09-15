@@ -1,4 +1,4 @@
-// ===== UNIFIED DATA SYSTEMS INDEX =====
+// ===== UNIFIED DATA SYSTEMS INDEX =====;
 // Central export point for all unified data systems
 // Phases 1, 2, and 3 consolidated systems
 
@@ -43,8 +43,8 @@ import { _Recipe } from '@/types/recipe';
 class UnifiedSeasonalSystem {}
 class UnifiedCuisineIntegrationSystem {}
 
-export const unifiedSeasonalSystem = new UnifiedSeasonalSystem();
-export const unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem();
+export const _unifiedSeasonalSystem = new UnifiedSeasonalSystem();
+export const _unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem();
 
 // Pattern OO-4: Integration Import Resolution - Export only existing functions
 export {
@@ -53,5 +53,5 @@ export {
   getIngredientsBySubcategory,
   getIngredientsByKalchmRange,
   getIngredientsByElement,
-  unifiedIngredients,
+  unifiedIngredients
 } from './ingredients';

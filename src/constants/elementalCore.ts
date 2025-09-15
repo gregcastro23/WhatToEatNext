@@ -5,7 +5,7 @@ import type { Element, _ZodiacSign, _, ElementalProperties } from '@/types/alche
  * This file replaces: elementalConstants.ts, elements.ts, and elemental parts of defaults.ts
  */
 
-// ===== CORE ELEMENT DEFINITIONS =====
+// ===== CORE ELEMENT DEFINITIONS =====;
 
 /**
  * List of all elemental types
@@ -15,50 +15,50 @@ export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
 /**
  * Default balanced elemental properties (25% each)
  */
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
-  Air: 0.25,
+  Air: 0.25
 };
 
-// ===== ELEMENTAL RELATIONSHIPS =====
+// ===== ELEMENTAL RELATIONSHIPS =====;
 
 /**
  * Element affinities based on traditional correspondences
  * Each element reinforces itself most strongly
  */
-export const ELEMENT_AFFINITIES = {
+export const ELEMENT_AFFINITIES = {;
   Fire: ['Fire', 'Air'],
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
-  Earth: ['Earth', 'Water'],
+  Earth: ['Earth', 'Water']
 };
 
 /**
  * Element combinations for compatibility calculations
  */
-export const ELEMENT_COMBINATIONS = {
+export const ELEMENT_COMBINATIONS = {;
   harmonious: [
     ['Fire', 'Fire'], // Same element has highest compatibility
     ['Water', 'Water'],
     ['Earth', 'Earth'],
     ['Air', 'Air'],
     ['Fire', 'Air'], // Traditional supportive pairs
-    ['Water', 'Earth'],
+    ['Water', 'Earth']
   ],
   complementary: [
     ['Fire', 'Earth'], // Different elements with good compatibility
-    ['Air', 'Water'],
-  ],
+    ['Air', 'Water']
+  ]
 };
 
-// ===== ZODIAC CORRESPONDENCES =====
+// ===== ZODIAC CORRESPONDENCES =====;
 
 /**
  * Zodiac sign to element mapping
  */
-export const ZODIAC_ELEMENTS = {
+export const ZODIAC_ELEMENTS = {;
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -70,94 +70,94 @@ export const ZODIAC_ELEMENTS = {
   aquarius: 'Air',
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water',
+  pisces: 'Water'
 } as const;
 
 /**
  * Decan rulers for each zodiac sign
  */
-export const DECANS = {
+export const DECANS = {;
   aries: [
     { ruler: 'Mars', element: 'Fire', degree: 0 },
     { ruler: 'Sun', element: 'Fire', degree: 10 },
-    { ruler: 'Jupiter', element: 'Fire', degree: 20 },
+    { ruler: 'Jupiter', element: 'Fire', degree: 20 }
   ],
   taurus: [
     { ruler: 'Venus', element: 'Earth', degree: 0 },
     { ruler: 'Mercury', element: 'Earth', degree: 10 },
-    { ruler: 'Saturn', element: 'Earth', degree: 20 },
+    { ruler: 'Saturn', element: 'Earth', degree: 20 }
   ],
   gemini: [
     { ruler: 'Mercury', element: 'Air', degree: 0 },
     { ruler: 'Venus', element: 'Air', degree: 10 },
-    { ruler: 'Uranus', element: 'Air', degree: 20 },
+    { ruler: 'Uranus', element: 'Air', degree: 20 }
   ],
   cancer: [
     { ruler: 'Moon', element: 'Water', degree: 0 },
     { ruler: 'Pluto', element: 'Water', degree: 10 },
-    { ruler: 'Neptune', element: 'Water', degree: 20 },
+    { ruler: 'Neptune', element: 'Water', degree: 20 }
   ],
   leo: [
     { ruler: 'Sun', element: 'Fire', degree: 0 },
     { ruler: 'Jupiter', element: 'Fire', degree: 10 },
-    { ruler: 'Mars', element: 'Fire', degree: 20 },
+    { ruler: 'Mars', element: 'Fire', degree: 20 }
   ],
   virgo: [
     { ruler: 'Mercury', element: 'Earth', degree: 0 },
     { ruler: 'Saturn', element: 'Earth', degree: 10 },
-    { ruler: 'Venus', element: 'Earth', degree: 20 },
+    { ruler: 'Venus', element: 'Earth', degree: 20 }
   ],
   libra: [
     { ruler: 'Venus', element: 'Air', degree: 0 },
     { ruler: 'Uranus', element: 'Air', degree: 10 },
-    { ruler: 'Mercury', element: 'Air', degree: 20 },
+    { ruler: 'Mercury', element: 'Air', degree: 20 }
   ],
   scorpio: [
     { ruler: 'Pluto', element: 'Water', degree: 0 },
     { ruler: 'Neptune', element: 'Water', degree: 10 },
-    { ruler: 'Moon', element: 'Water', degree: 20 },
+    { ruler: 'Moon', element: 'Water', degree: 20 }
   ],
   sagittarius: [
     { ruler: 'Jupiter', element: 'Fire', degree: 0 },
     { ruler: 'Mars', element: 'Fire', degree: 10 },
-    { ruler: 'Sun', element: 'Fire', degree: 20 },
+    { ruler: 'Sun', element: 'Fire', degree: 20 }
   ],
   capricorn: [
     { ruler: 'Saturn', element: 'Earth', degree: 0 },
     { ruler: 'Venus', element: 'Earth', degree: 10 },
-    { ruler: 'Mercury', element: 'Earth', degree: 20 },
+    { ruler: 'Mercury', element: 'Earth', degree: 20 }
   ],
   aquarius: [
     { ruler: 'Uranus', element: 'Air', degree: 0 },
     { ruler: 'Mercury', element: 'Air', degree: 10 },
-    { ruler: 'Venus', element: 'Air', degree: 20 },
+    { ruler: 'Venus', element: 'Air', degree: 20 }
   ],
   pisces: [
     { ruler: 'Neptune', element: 'Water', degree: 0 },
     { ruler: 'Moon', element: 'Water', degree: 10 },
-    { ruler: 'Pluto', element: 'Water', degree: 20 },
-  ],
+    { ruler: 'Pluto', element: 'Water', degree: 20 }
+  ]
 };
 
-// ===== VALIDATION AND THRESHOLDS =====
+// ===== VALIDATION AND THRESHOLDS =====;
 
 /**
  * Validation thresholds for elemental properties
  */
-export const VALIDATION_THRESHOLDS = {
+export const VALIDATION_THRESHOLDS = {;
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
-  BALANCE_PRECISION: 0.01,
+  BALANCE_PRECISION: 0.01
 };
 
 /**
  * Elemental significance thresholds
  */
-export const ELEMENTAL_THRESHOLDS = {
+export const ELEMENTAL_THRESHOLDS = {;
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,
-  trace: 0.05,
+  trace: 0.05
 };
 
 /**
@@ -165,12 +165,12 @@ export const ELEMENTAL_THRESHOLDS = {
  */
 export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1 };
 
-// ===== COMPREHENSIVE ELEMENTAL CHARACTERISTICS =====
+// ===== COMPREHENSIVE ELEMENTAL CHARACTERISTICS =====;
 
 /**
  * Enhanced elemental characteristics with comprehensive properties
  */
-export const ELEMENTAL_CHARACTERISTICS = {
+export const ELEMENTAL_CHARACTERISTICS = {;
   Fire: {
     // Basic properties
     qualities: ['hot', 'dry', 'active', 'energetic', 'expansive'],
@@ -196,7 +196,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     keywords: ['energy', 'passion', 'transformation', 'vitality', 'action'],
     healthBenefits: ['metabolism boost', 'circulation improvement', 'immune strengthening'],
     moodEffects: ['energizing', 'stimulating', 'uplifting', 'motivating', 'passionate'],
-    effects: ['stimulating', 'energizing', 'warming'],
+    effects: ['stimulating', 'energizing', 'warming']
   },
   Water: {
     // Basic properties
@@ -223,7 +223,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     keywords: ['emotional', 'intuitive', 'nurturing', 'healing', 'connecting'],
     healthBenefits: ['hydration', 'emotional balance', 'detoxification', 'cooling'],
     moodEffects: ['calming', 'soothing', 'introspective', 'healing', 'nurturing'],
-    effects: ['cooling', 'calming', 'hydrating'],
+    effects: ['cooling', 'calming', 'hydrating']
   },
   Earth: {
     // Basic properties
@@ -250,7 +250,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     keywords: ['grounding', 'practical', 'material', 'reliable', 'structured'],
     healthBenefits: ['digestive support', 'nutritional density', 'sustained energy'],
     moodEffects: ['stabilizing', 'grounding', 'comforting', 'satisfying', 'nourishing'],
-    effects: ['grounding', 'stabilizing', 'nourishing'],
+    effects: ['grounding', 'stabilizing', 'nourishing']
   },
   Air: {
     // Basic properties
@@ -268,7 +268,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
       'flash cooking',
       'raw preparations',
       'infusing',
-      'whipping',
+      'whipping'
     ],
     flavorProfiles: ['light', 'aromatic', 'herbaceous', 'bright', 'fresh'],
     complementaryIngredients: ['fresh herbs', 'citrus', 'sprouts', 'greens', 'aromatics'],
@@ -283,11 +283,11 @@ export const ELEMENTAL_CHARACTERISTICS = {
     keywords: ['intellectual', 'communication', 'social', 'movement', 'connection'],
     healthBenefits: ['mental clarity', 'respiratory support', 'digestive lightness'],
     moodEffects: ['uplifting', 'clarifying', 'refreshing', 'invigorating', 'inspiring'],
-    effects: ['lightening', 'clarifying', 'refreshing'],
-  },
+    effects: ['lightening', 'clarifying', 'refreshing']
+  }
 };
 
-// ===== UTILITY FUNCTIONS =====
+// ===== UTILITY FUNCTIONS =====;
 
 /**
  * Get the dominant element from elemental properties
@@ -305,7 +305,7 @@ export function getDominantElement(properties: ElementalProperties): Element {
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
   const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0);
 
-  if (total === 0) {
+  if (total === 0) {;
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -313,7 +313,7 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
     Fire: (properties.Fire || 0) / total,
     Water: (properties.Water || 0) / total,
     Earth: (properties.Earth || 0) / total,
-    Air: (properties.Air || 0) / total,
+    Air: (properties.Air || 0) / total
   };
 }
 
@@ -351,8 +351,8 @@ export function calculateElementalCompatibility(
  */
 export function validateElementalProperties(properties: ElementalProperties): boolean {
   const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
-  const isValidRange = Object.values(properties).every(
-    val =>
+  const isValidRange = Object.values(properties).every(;
+    val =>;
       val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT,
   );
   const isValidSum = Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;
@@ -374,5 +374,5 @@ export default {
   getDominantElement,
   normalizeElementalProperties,
   calculateElementalCompatibility,
-  validateElementalProperties,
+  validateElementalProperties
 };

@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 import type { _ } from '@/types/alchemy';
 
-export type ElementalInfluence = {
+export type ElementalInfluence = {;
   sunElement?: string;
   moonElement?: string;
   isHarmonious?: boolean;
@@ -12,13 +12,13 @@ export type ElementalInfluence = {
   secondaryElement?: string;
 };
 
-export type PopupMetadata = {
+export type PopupMetadata = {;
   sunSign?: string;
   moonSign?: string;
   season?: string;
 };
 
-export type PopupOptions = {
+export type PopupOptions = {;
   duration?: number;
   type?: string;
   position?: string;
@@ -30,7 +30,7 @@ export type PopupOptions = {
   elemental?: ElementalInfluence;
 };
 
-export type Popup = {
+export type Popup = {;
   id: number;
   message: string;
   type: string;
@@ -41,11 +41,11 @@ export type Popup = {
   metadata?: PopupMetadata;
 };
 
-export type PopupContextType = {
+export type PopupContextType = {;
   showPopup: (message: string, options?: PopupOptions) => number;
   closePopup: (id: number) => void;
 };
 
-export type PopupProviderProps = {
+export type PopupProviderProps = {;
   children: ReactNode;
 };

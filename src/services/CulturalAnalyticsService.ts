@@ -7,7 +7,7 @@ import { culturalRules, getCulturalRecommendations } from '@/data/culturalrules'
 import { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
-// ===== INTERFACES =====
+// ===== INTERFACES =====;
 
 export interface CulturalAnalytics {
   culturalSynergy: number;
@@ -48,39 +48,39 @@ export interface CulturalContext {
   globalAdaptations: string[];
 }
 
-// ===== CULTURAL GROUPS AND PROXIMITY =====
+// ===== CULTURAL GROUPS AND PROXIMITY =====;
 
-const CULTURAL_GROUPS = {
+const CULTURAL_GROUPS = {;
   east_asian: {
     cuisines: ['chinese', 'japanese', 'korean', 'vietnamese', 'thai', 'sichuanese'],
     characteristics: ['rice-based', 'umami-focused', 'balance-oriented', 'seasonal'],
-    sharedPrinciples: ['five elements', 'yin-yang balance', 'seasonal harmony'],
+    sharedPrinciples: ['five elements', 'yin-yang balance', 'seasonal harmony']
   },
   south_asian: {
     cuisines: ['indian'],
     characteristics: ['spice-complex', 'ayurvedic', 'vegetarian-friendly', 'medicinal'],
-    sharedPrinciples: ['six tastes', 'dosha balance', 'medicinal cooking'],
+    sharedPrinciples: ['six tastes', 'dosha balance', 'medicinal cooking']
   },
   mediterranean: {
     cuisines: ['italian', 'greek', 'spanish', 'middle-eastern', 'mediterranean'],
     characteristics: ['olive oil-based', 'herb-rich', 'seafood-focused', 'communal'],
-    sharedPrinciples: ['simplicity', 'fresh ingredients', 'social dining'],
+    sharedPrinciples: ['simplicity', 'fresh ingredients', 'social dining']
   },
   european: {
     cuisines: ['french', 'italian', 'spanish', 'greek'],
     characteristics: ['technique-focused', 'wine-paired', 'seasonal', 'refined'],
-    sharedPrinciples: ['culinary artistry', 'terroir', 'classical techniques'],
+    sharedPrinciples: ['culinary artistry', 'terroir', 'classical techniques']
   },
   latin_american: {
     cuisines: ['mexican'],
     characteristics: ['corn-based', 'chili-focused', 'indigenous-influenced', 'festive'],
-    sharedPrinciples: ['indigenous wisdom', 'celebration food', 'heat balance'],
+    sharedPrinciples: ['indigenous wisdom', 'celebration food', 'heat balance']
   },
   african: {
     cuisines: ['african'],
     characteristics: ['grain-based', 'communal', 'spice-rich', 'preservation-focused'],
-    sharedPrinciples: ['community sharing', 'spice mastery', 'resourcefulness'],
-  },
+    sharedPrinciples: ['community sharing', 'spice mastery', 'resourcefulness']
+  }
 };
 
 const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
@@ -91,11 +91,11 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'Buddhist philosophy',
       'Shinto traditions',
       'Chinese techniques',
-      'Portuguese tempura',
+      'Portuguese tempura'
     ],
     traditionalOccasions: ['tea ceremony', 'seasonal festivals', 'New Year celebrations'],
     modernEvolution: ['kaiseki refinement', 'bento culture', 'fusion innovations'],
-    globalAdaptations: ['sushi worldwide', 'ramen culture', 'Japanese-French fusion'],
+    globalAdaptations: ['sushi worldwide', 'ramen culture', 'Japanese-French fusion']
   },
   chinese: {
     origin: 'China',
@@ -103,7 +103,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     culturalInfluences: ['Confucian philosophy', 'Taoist principles', 'Silk Road trade'],
     traditionalOccasions: ['Chinese New Year', 'Mid-Autumn Festival', 'family gatherings'],
     modernEvolution: ['regional specialization', 'Cantonese refinement', 'Sichuan popularity'],
-    globalAdaptations: ['American Chinese', 'fusion techniques', 'dim sum culture'],
+    globalAdaptations: ['American Chinese', 'fusion techniques', 'dim sum culture']
   },
   indian: {
     origin: 'Indian subcontinent',
@@ -112,15 +112,15 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'Ayurvedic medicine',
       'Mughal empire',
       'British colonial',
-      'regional kingdoms',
+      'regional kingdoms'
     ],
     traditionalOccasions: ['Diwali feasts', 'wedding celebrations', 'religious festivals'],
     modernEvolution: [
       'regional cuisine recognition',
       'health-conscious adaptations',
-      'global spice trade',
+      'global spice trade'
     ],
-    globalAdaptations: ['curry houses worldwide', 'Indian-British fusion', 'vegetarian influence'],
+    globalAdaptations: ['curry houses worldwide', 'Indian-British fusion', 'vegetarian influence']
   },
   italian: {
     origin: 'Italy',
@@ -129,11 +129,11 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'Roman traditions',
       'Arab Sicily',
       'Renaissance refinement',
-      'regional diversity',
+      'regional diversity'
     ],
     traditionalOccasions: ['Sunday family meals', 'harvest festivals', 'religious celebrations'],
     modernEvolution: ['pasta perfection', 'pizza globalization', 'slow food movement'],
-    globalAdaptations: ['Italian-American', 'pizza worldwide', 'pasta culture'],
+    globalAdaptations: ['Italian-American', 'pizza worldwide', 'pasta culture']
   },
   french: {
     origin: 'France',
@@ -142,11 +142,11 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'Roman Gaul',
       'Medieval guilds',
       'Royal court cuisine',
-      'Revolutionary changes',
+      'Revolutionary changes'
     ],
     traditionalOccasions: ['harvest celebrations', 'religious feasts', 'family gatherings'],
     modernEvolution: ['haute cuisine development', 'nouvelle cuisine', 'bistro culture'],
-    globalAdaptations: ['French technique worldwide', 'culinary schools', 'fine dining standards'],
+    globalAdaptations: ['French technique worldwide', 'culinary schools', 'fine dining standards']
   },
   mexican: {
     origin: 'Mexico',
@@ -155,15 +155,15 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'Aztec traditions',
       'Mayan cuisine',
       'Spanish colonization',
-      'indigenous wisdom',
+      'indigenous wisdom'
     ],
     traditionalOccasions: ['Day of the Dead', 'harvest festivals', 'family celebrations'],
     modernEvolution: [
       'regional cuisine recognition',
       'street food culture',
-      'modern Mexican movement',
+      'modern Mexican movement'
     ],
-    globalAdaptations: ['Tex-Mex fusion', 'taco culture', 'Mexican-American cuisine'],
+    globalAdaptations: ['Tex-Mex fusion', 'taco culture', 'Mexican-American cuisine']
   },
   thai: {
     origin: 'Thailand',
@@ -172,11 +172,11 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'Khmer empire',
       'Chinese immigration',
       'Indian spices',
-      'Royal court refinement',
+      'Royal court refinement'
     ],
     traditionalOccasions: ['Songkran festival', 'Buddhist ceremonies', 'royal celebrations'],
     modernEvolution: ['street food culture', 'royal cuisine preservation', 'global popularity'],
-    globalAdaptations: ['Thai restaurants worldwide', 'pad thai popularity', 'curry adaptations'],
+    globalAdaptations: ['Thai restaurants worldwide', 'pad thai popularity', 'curry adaptations']
   },
   'middle-eastern': {
     origin: 'Middle East',
@@ -184,11 +184,11 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     culturalInfluences: ['Persian empire', 'Ottoman rule', 'Arab traditions', 'Spice route trade'],
     traditionalOccasions: ['Ramadan iftar', 'wedding feasts', 'hospitality traditions'],
     modernEvolution: ['regional specialization', 'health consciousness', 'diaspora influence'],
-    globalAdaptations: ['Mediterranean diet', 'hummus popularity', 'Middle Eastern fusion'],
-  },
+    globalAdaptations: ['Mediterranean diet', 'hummus popularity', 'Middle Eastern fusion']
+  }
 };
 
-// ===== CULTURAL ANALYTICS SERVICE =====
+// ===== CULTURAL ANALYTICS SERVICE =====;
 
 export class CulturalAnalyticsService {
   /**
@@ -214,8 +214,8 @@ export class CulturalAnalyticsService {
       const reasoning: string[] = [];
 
       // Calculate proximity bonus (same cultural group)
-      const sameGroupCuisines = secondaryCuisines.filter(
-        cuisine => this.getCulturalGroup(cuisine) === primaryGroup,
+      const sameGroupCuisines = secondaryCuisines.filter(;
+        cuisine => this.getCulturalGroup(cuisine) === primaryGroup,;
       );
 
       if (sameGroupCuisines.length > 0) {
@@ -253,7 +253,7 @@ export class CulturalAnalyticsService {
         reasoning,
         culturalGroup: primaryGroup,
         proximityBonus,
-        diversityBonus,
+        diversityBonus
       };
     } catch (error) {
       logger.error('Error calculating cultural synergy:', error);
@@ -262,7 +262,7 @@ export class CulturalAnalyticsService {
         reasoning: ['Default cultural synergy applied due to calculation error'],
         culturalGroup: 'unknown',
         proximityBonus: 0,
-        diversityBonus: 0,
+        diversityBonus: 0
       };
     }
   }
@@ -284,7 +284,7 @@ export class CulturalAnalyticsService {
       const historicalContext = HISTORICAL_CONTEXTS[cuisineName];
 
       // Calculate cultural compatibility with current astrological state
-      const culturalCompatibility = this.calculateAstrologicalCulturalCompatibility(
+      const culturalCompatibility = this.calculateAstrologicalCulturalCompatibility(;
         cuisineName,
         astrologicalState,
       );
@@ -293,7 +293,7 @@ export class CulturalAnalyticsService {
       const synergyData = this.calculateCulturalSynergy(cuisineName);
 
       // Generate historical significance
-      const historicalSignificance = this.generateHistoricalSignificance(
+      const historicalSignificance = this.generateHistoricalSignificance(;
         cuisineName,
         historicalContext,
       );
@@ -321,7 +321,7 @@ export class CulturalAnalyticsService {
         fusionPotential,
         culturalDiversityScore,
         traditionalPrinciples,
-        modernAdaptations,
+        modernAdaptations
       };
     } catch (error) {
       logger.error('Error generating cultural analytics:', error);
@@ -335,7 +335,7 @@ export class CulturalAnalyticsService {
   static generateFusionRecommendations(
     primaryCuisine: string,
     availableCuisines: string[],
-    maxRecommendations: number = 3,
+    maxRecommendations: number = 3,;
   ): FusionCuisineRecommendation[] {
     try {
       const fusionRecommendations: FusionCuisineRecommendation[] = [];
@@ -348,7 +348,7 @@ export class CulturalAnalyticsService {
 
         if (fusionData.fusionScore > 0.6) {
           // Only recommend good fusion potential
-          const fusionRecommendation: FusionCuisineRecommendation = {
+          const fusionRecommendation: FusionCuisineRecommendation = {;
             name: this.generateFusionName(primaryCuisine, secondaryCuisine),
             parentCuisines: [primaryCuisine, secondaryCuisine],
             fusionScore: fusionData.fusionScore,
@@ -359,7 +359,7 @@ export class CulturalAnalyticsService {
             seasonalOptimization: this.calculateSeasonalFusionOptimization(
               primaryCuisine,
               secondaryCuisine,
-            ),
+            )
           };
 
           fusionRecommendations.push(fusionRecommendation);
@@ -376,7 +376,7 @@ export class CulturalAnalyticsService {
     }
   }
 
-  // ===== PRIVATE HELPER METHODS =====
+  // ===== PRIVATE HELPER METHODS =====;
 
   private static getCulturalGroup(cuisine: string): string {
     for (const [groupName, groupData] of Object.entries(CULTURAL_GROUPS)) {
@@ -450,7 +450,7 @@ export class CulturalAnalyticsService {
     const culinaryTradition = culinaryTraditions[cuisine];
     if (!culinaryTradition) return 0.7;
 
-    // Calculate based on elemental balance - more balanced = higher fusion potential
+    // Calculate based on elemental balance - more balanced = higher fusion potential;
     const elementalValues = Object.values(elementalProfile);
     const balance = 1 - (Math.max(...elementalValues) - Math.min(...elementalValues));
 
@@ -475,7 +475,7 @@ export class CulturalAnalyticsService {
 
     return [
       ...context.modernEvolution,
-      ...context.globalAdaptations.map(adaptation => `Global: ${adaptation}`),
+      ...context.globalAdaptations.map(adaptation => `Global: ${adaptation}`),;
     ];
   }
 
@@ -495,15 +495,15 @@ export class CulturalAnalyticsService {
     const blendRatio = 0.5; // Default 50/50
 
     // Same cultural group - high harmony, moderate fusion potential
-    if (group1 === group2) {
+    if (group1 === group2) {;
       culturalHarmony = 0.9;
       fusionScore = 0.75;
     }
     // Different but compatible groups - high fusion potential
     else if (
-      (group1 === 'mediterranean' && group2 === 'european') ||
-      (group1 === 'european' && group2 === 'mediterranean') ||
-      (group1 === 'east_asian' && ['south_asian', 'mediterranean'].includes(group2))
+      (group1 === 'mediterranean' && group2 === 'european') ||;
+      (group1 === 'european' && group2 === 'mediterranean') ||;
+      (group1 === 'east_asian' && ['south_asian', 'mediterranean'].includes(group2));
     ) {
       fusionScore = 0.85;
       culturalHarmony = 0.8;
@@ -524,7 +524,7 @@ export class CulturalAnalyticsService {
       'indian-mexican': 'Indo-Mexican',
       'thai-mediterranean': 'Thai-Mediterranean',
       'korean-mexican': 'K-Mex',
-      'vietnamese-french': 'Franco-Vietnamese',
+      'vietnamese-french': 'Franco-Vietnamese'
     };
 
     const key1 = `${cuisine1}-${cuisine2}`;
@@ -539,7 +539,7 @@ export class CulturalAnalyticsService {
       'chinese-french': ['Five-Spice Duck Confit', 'Dim Sum Quiche', 'Soy-Glazed Coq au Vin'],
       'indian-mexican': ['Curry Tacos', 'Tandoori Quesadillas', 'Masala Burritos'],
       'thai-mediterranean': ['Tom Yum Pasta', 'Pad Thai Paella', 'Green Curry Risotto'],
-      'korean-mexican': ['Kimchi Tacos', 'Bulgogi Burritos', 'Korean BBQ Quesadillas'],
+      'korean-mexican': ['Kimchi Tacos', 'Bulgogi Burritos', 'Korean BBQ Quesadillas']
     };
 
     const key1 = `${cuisine1}-${cuisine2}`;
@@ -550,7 +550,7 @@ export class CulturalAnalyticsService {
       fusionDishes[key2] || [
         `${cuisine1}-style ${cuisine2} dish`,
         `${cuisine2}-inspired ${cuisine1} creation`,
-        `Fusion ${cuisine1}-${cuisine2} specialty`,
+        `Fusion ${cuisine1}-${cuisine2} specialty`
       ]
     );
   }
@@ -560,7 +560,7 @@ export class CulturalAnalyticsService {
       `Combines the traditional techniques of ${cuisine1} with the flavors of ${cuisine2}`,
       `Represents a harmonious blend of two distinct culinary traditions`,
       `Modern fusion approach respecting both cultural heritages`,
-      `Innovative interpretation suitable for contemporary dining`,
+      `Innovative interpretation suitable for contemporary dining`
     ];
   }
 
@@ -573,7 +573,7 @@ export class CulturalAnalyticsService {
       spring: 0.8,
       summer: 0.8,
       autumn: 0.8,
-      winter: 0.8,
+      winter: 0.8
     };
 
     // Adjust based on cuisine seasonal preferences
@@ -584,7 +584,7 @@ export class CulturalAnalyticsService {
       tradition1.seasonalPreferences?.includes('all') ||
       tradition2.seasonalPreferences?.includes('all')
     ) {
-      Object.keys(optimization).forEach(season => {
+      Object.keys(optimization).forEach(season => {;
         optimization[season] = 0.9;
       });
     }
@@ -603,9 +603,9 @@ export class CulturalAnalyticsService {
       traditionalPrinciples: [
         'Traditional cooking methods',
         'Cultural food combinations',
-        'Seasonal ingredients',
+        'Seasonal ingredients'
       ],
-      modernAdaptations: ['Contemporary techniques', 'Global influences', 'Modern presentations'],
+      modernAdaptations: ['Contemporary techniques', 'Global influences', 'Modern presentations']
     };
   }
 }

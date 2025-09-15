@@ -5,18 +5,18 @@ import { useEffect, useState } from 'react';
 import { errorHandler } from '@/services/errorHandler';
 import { logger } from '@/utils/logger';
 
-const Loading = ({
+const Loading = ({;
   fullScreen,
   variant,
-  text,
+  text
 }: {
   fullScreen?: boolean;
   variant?: string;
   text?: string;
 }) => (
-  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>
-    <div className='text-center text-gray-600'>
-      <div className='mb-2 animate-pulse'>⏳</div>
+  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>;
+    <div className='text-center text-gray-600'>;
+      <div className='mb-2 animate-pulse'>⏳</div>;
       <div>{text || 'Loading...'}</div>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default function Template({ children }: TemplateProps) {
       if (!document.getElementById('base-styles')) {
         const style = document.createElement('style');
         style.id = 'base-styles';
-        style.textContent = `
+        style.textContent = `;
           body {
             margin: 0;
             padding: 0;
@@ -63,7 +63,7 @@ export default function Template({ children }: TemplateProps) {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'Template',
-        action: 'hydration',
+        action: 'hydration'
       });
       setHasError(true);
     }
@@ -71,13 +71,13 @@ export default function Template({ children }: TemplateProps) {
 
   if (hasError) {
     return (
-      <div className='flex min-h-screen items-center justify-center p-4'>
-        <div className='text-center'>
-          <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>
-          <p className='mb-4'>Please try refreshing the page</p>
+      <div className='flex min-h-screen items-center justify-center p-4'>;
+        <div className='text-center'>;
+          <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>;
+          <p className='mb-4'>Please try refreshing the page</p>;
           <button
-            onClick={() => window.location.reload()}
-            className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
+            onClick={() => window.location.reload()};
+            className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600';
           >
             Refresh Page
           </button>
@@ -91,7 +91,7 @@ export default function Template({ children }: TemplateProps) {
   }
 
   return (
-    <div id='app-root' className='min-h-screen'>
+    <div id='app-root' className='min-h-screen'>;
       {children}
     </div>
   );

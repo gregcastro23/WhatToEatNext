@@ -11,7 +11,7 @@ import { logger } from '@/utils/logger';
 import {
   ELEMENTAL_CONSTANTS,
   normalizeElementalProperties,
-  validateElementalProperties,
+  validateElementalProperties
 } from './elementalValidation';
 import { TRANSIT_CONSTANTS, validatePlanetaryPosition } from './transitValidation';
 
@@ -50,7 +50,7 @@ export interface ValidationOptions {
  */
 export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
-  options: ValidationOptions = {},
+  options: ValidationOptions = {},;
 ): ValidationResult {
   const { strictMode = false, autoCorrect = false, logWarnings = true } = options;
   const errors: string[] = [];
@@ -129,10 +129,10 @@ export function validatePlanetaryPositions(
     }
 
     return {
-      isValid: errors.length === 0,
+      isValid: errors.length === 0,;
       errors,
       warnings,
-      correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined,
+      correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined
     };
   } catch (error) {
     const errorMessage = `Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`;
@@ -147,7 +147,7 @@ export function validatePlanetaryPositions(
 function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
-  strictMode: boolean = false,
+  strictMode: boolean = false,;
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -177,7 +177,7 @@ function validateSinglePlanetaryPosition(
     const sign = pos.sign;
     if (
       typeof sign !== 'string' ||
-      !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase() as string)
+      !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase() )
     ) {
       errors.push(`${planet} has invalid sign: ${sign}`);
     }
@@ -191,12 +191,12 @@ function validateSinglePlanetaryPosition(
       } else {
         warnings.push(message);
         // Auto-correct if possible
-        if (typeof degree === 'number') {
-          correctedData = {
+        if (typeof degree === 'number') {;
+          correctedData = {;
             sign: String(sign),
             degree: Math.max(0, Math.min(TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree)),
             exactLongitude: Number(pos.exactLongitude),
-            isRetrograde: Boolean(pos.isRetrograde),
+            isRetrograde: Boolean(pos.isRetrograde)
           };
         }
       }
@@ -215,16 +215,16 @@ function validateSinglePlanetaryPosition(
       } else {
         warnings.push(message);
         // Auto-correct if possible
-        if (typeof longitude === 'number') {
+        if (typeof longitude === 'number') {;
           const correctedLongitude =
-            ((longitude % TRANSIT_CONSTANTS.MAX_LONGITUDE) + TRANSIT_CONSTANTS.MAX_LONGITUDE) %
+            ((longitude % TRANSIT_CONSTANTS.MAX_LONGITUDE) + TRANSIT_CONSTANTS.MAX_LONGITUDE) %;
             TRANSIT_CONSTANTS.MAX_LONGITUDE;
           if (!correctedData) {
-            correctedData = {
+            correctedData = {;
               sign: String(sign),
               degree: Number(degree),
               exactLongitude: correctedLongitude,
-              isRetrograde: Boolean(pos.isRetrograde),
+              isRetrograde: Boolean(pos.isRetrograde)
             };
           } else {
             correctedData.exactLongitude = correctedLongitude;
@@ -238,11 +238,11 @@ function validateSinglePlanetaryPosition(
     if (typeof isRetrograde !== 'boolean') {
       warnings.push(`${planet} isRetrograde should be boolean, got ${typeof isRetrograde}`);
       if (!correctedData) {
-        correctedData = {
+        correctedData = {;
           sign: String(sign),
           degree: Number(degree),
           exactLongitude: Number(longitude),
-          isRetrograde: Boolean(isRetrograde),
+          isRetrograde: Boolean(isRetrograde)
         };
       } else {
         correctedData.isRetrograde = Boolean(isRetrograde);
@@ -250,7 +250,7 @@ function validateSinglePlanetaryPosition(
     }
 
     // Validate retrograde logic
-    if (TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(planet.toLowerCase() as string) && isRetrograde) {
+    if (TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(planet.toLowerCase() ) && isRetrograde) {
       warnings.push(`${planet} cannot be retrograde`);
       if (correctedData) {
         correctedData.isRetrograde = false;
@@ -268,10 +268,10 @@ function validateSinglePlanetaryPosition(
     }
 
     return {
-      isValid: errors.length === 0,
+      isValid: errors.length === 0,;
       errors,
       warnings,
-      correctedData,
+      correctedData
     };
   } catch (error) {
     errors.push(
@@ -297,7 +297,7 @@ export function validateAstrologicalElementalProperties(
       errors.push(`Invalid elemental properties${context ? ` in ${context}` : ''}`);
 
       // Try to normalize the properties
-      if (properties && typeof properties === 'object') {
+      if (properties && typeof properties === 'object') {;
         correctedData = normalizeElementalProperties(properties as Partial<ElementalProperties>);
         warnings.push('Elemental properties were normalized to valid values');
       }
@@ -316,7 +316,7 @@ export function validateAstrologicalElementalProperties(
     }
 
     // Check for self-reinforcement patterns
-    const dominant = Object.entries(props).reduce((max, current) =>
+    const dominant = Object.entries(props).reduce((max, current) =>;
       current[1] > max[1] ? current : max,
     );
 
@@ -329,7 +329,7 @@ export function validateAstrologicalElementalProperties(
     return {
       isValid: true,
       errors,
-      warnings,
+      warnings
     };
   } catch (error) {
     errors.push(
@@ -347,14 +347,14 @@ export function validateMathematicalConstants(constants: Record<string, number>)
   const warnings: string[] = [];
 
   try {
-    const expectedConstants = {
+    const expectedConstants = {;
       DEGREES_PER_SIGN: 30,
       SIGNS_PER_CIRCLE: 12,
       MAX_LONGITUDE: 360,
       MIN_ELEMENT_VALUE: 0.05,
       MAX_ELEMENT_VALUE: 1.0,
       SELF_REINFORCEMENT_THRESHOLD: 0.3,
-      HARMONY_THRESHOLD: 0.7,
+      HARMONY_THRESHOLD: 0.7
     };
 
     Object.entries(expectedConstants).forEach(([name, expectedValue]) => {
@@ -376,9 +376,9 @@ export function validateMathematicalConstants(constants: Record<string, number>)
     });
 
     return {
-      isValid: errors.length === 0,
+      isValid: errors.length === 0,;
       errors,
-      warnings,
+      warnings
     };
   } catch (error) {
     errors.push(
@@ -398,7 +398,7 @@ export async function validateAstrologicalCalculation(
     constants?: Record<string, number>;
     date?: Date;
   },
-  options: ValidationOptions = {},
+  options: ValidationOptions = {},;
 ): Promise<ValidationResult> {
   const { validateTransits = false } = options;
   const errors: string[] = [];
@@ -420,9 +420,9 @@ export async function validateAstrologicalCalculation(
       if (validateTransits && positionValidation.isValid && input.date) {
         for (const [planet, position] of Object.entries(input.planetaryPositions)) {
           try {
-            const isValid = await validatePlanetaryPosition(
+            const isValid = await validatePlanetaryPosition(;
               planet,
-              position as unknown,
+              position ,
               input.date,
             );
             if (!isValid) {
@@ -439,7 +439,7 @@ export async function validateAstrologicalCalculation(
 
     // Validate elemental properties
     if (input.elementalProperties) {
-      const elementalValidation = validateAstrologicalElementalProperties(
+      const elementalValidation = validateAstrologicalElementalProperties(;
         input.elementalProperties,
         'calculation input',
       );
@@ -459,10 +459,10 @@ export async function validateAstrologicalCalculation(
     }
 
     return {
-      isValid: errors.length === 0,
+      isValid: errors.length === 0,;
       errors,
       warnings,
-      correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined,
+      correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined
     };
   } catch (error) {
     errors.push(
@@ -498,10 +498,10 @@ export function quickValidate(
 /**
  * Export all validation constants
  */
-export const VALIDATION_CONSTANTS = {
+export const _VALIDATION_CONSTANTS = {;
   ...ELEMENTAL_CONSTANTS,
   ...TRANSIT_CONSTANTS,
   VALIDATION_TIMEOUT: 5000,
   MAX_VALIDATION_ERRORS: 50,
-  AUTO_CORRECT_THRESHOLD: 0.1,
+  AUTO_CORRECT_THRESHOLD: 0.1
 } as const;

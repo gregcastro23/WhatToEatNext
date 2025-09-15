@@ -13,21 +13,21 @@ export interface ElementalState {
 export function useElementalState() {
   const { planetaryPositions, isLoading } = useAlchemical();
 
-  const elementalState = useMemo((): ElementalProperties => {
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {
+  const elementalState = useMemo((): ElementalProperties => {;
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
       return {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25,
         dominant: 'Fire',
-        balance: 1.0,
+        balance: 1.0
       } as unknown as ElementalProperties;
     }
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const elementMap = {
+    const elementMap = {;
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -39,10 +39,10 @@ export function useElementalState() {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water',
+      pisces: 'Water'
     };
 
-    Object.values(planetaryPositions || {}).forEach(position => {
+    Object.values(planetaryPositions || {}).forEach(position => {;
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
@@ -52,15 +52,15 @@ export function useElementalState() {
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
 
     // Normalize to percentages
-    const normalized = {
+    const normalized = {;
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
-      Air: total > 0 ? elementCounts.Air / total : 0.25,
+      Air: total > 0 ? elementCounts.Air / total : 0.25
     };
 
     // Find dominant element
-    const dominant = Object.entries(normalized).reduce((a, b) =>
+    const dominant = Object.entries(normalized).reduce((a, b) =>;
       normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b,
     )[0] as keyof ElementalState;
 
@@ -74,12 +74,12 @@ export function useElementalState() {
     return {
       ...normalized,
       dominant,
-      balance,
+      balance
     } as unknown as ElementalProperties;
   }, [planetaryPositions]);
 
   return {
     ...elementalState,
-    isLoading,
+    isLoading
   };
 }

@@ -17,20 +17,20 @@ jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn(),
-  },
+    debug: jest.fn()
+  }
 }));
 
 describe('EnterpriseIntelligenceIntegration', () => {
   let service: EnterpriseIntelligenceIntegration;
 
-  const mockRecipeData: any = {
+  const mockRecipeData: any = {;
     id: 'test-recipe',
     name: 'Test Recipe',
     elementalProperties: { Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2,
+      Air: 0.2
     },
     // Enhanced Recipe interface compatibility
     ingredients: [],
@@ -38,18 +38,18 @@ describe('EnterpriseIntelligenceIntegration', () => {
     cookingMethods: [],
     season: ['all'],
     mealType: ['dinner'],
-    numberOfServings: 4,
+    numberOfServings: 4
   } as any('@/types/unified').Recipe;
 
-  const mockCuisineData: any = {
+  const mockCuisineData: any = {;
     name: 'Test Cuisine',
     type: 'fusion',
     region: 'global',
-    characteristics: ['spicy', 'aromatic'],
+    characteristics: ['spicy', 'aromatic']
   };
 
   beforeEach(() => {
-    service = new EnterpriseIntelligenceIntegration({
+    service = new EnterpriseIntelligenceIntegration({;
       enableRecipeIntelligence: true,
       enableIngredientIntelligence: true,
       enableValidationIntelligence: true,
@@ -61,7 +61,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
   });
 
   describe('performEnterpriseAnalysis', () => {
-    const mockIngredientData: any = {
+    const mockIngredientData: any = {;
       id: 'test-ingredients',
       ingredients: [
         {
@@ -70,30 +70,30 @@ describe('EnterpriseIntelligenceIntegration', () => {
           elementalProperties: { Fire: 0.2,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.2,
-          },
-        },
-      ],
+            Air: 0.2
+          }
+        }
+      ]
     };
 
-    const mockAstrologicalContext: any = {
+    const mockAstrologicalContext: any = {;
       zodiacSign: 'aries' as any,
       lunarPhase: 'new moon',
       season: 'spring',
       elementalProperties: { Fire: 0.4,
         Water: 0.2,
         Earth: 0.2,
-        Air: 0.2,
+        Air: 0.2
       } as ElementalProperties,
       planetaryPositions: {},
       userPreferences: { dietaryRestrictions: [],
         flavorPreferences: [],
-        culturalPreferences: [],
-      },
+        culturalPreferences: []
+      }
     };
 
     it('should perform comprehensive enterprise analysis', async () => {
-      const result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test;
@@ -112,7 +112,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should handle recipe intelligence analysis', async () => {
-      const result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test;
@@ -132,7 +132,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should handle ingredient intelligence analysis', async () => {
-      const result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test;
@@ -151,7 +151,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should perform validation intelligence', async () => {
-      const result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test;
@@ -169,7 +169,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should perform safety intelligence', async () => {
-      const result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test;
@@ -188,7 +188,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should generate optimization recommendations', async () => {
-      const result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
         mockIngredientData.ingredients,
         mockRecipeData, // Using recipeData as cuisineData for test;
@@ -206,7 +206,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should handle missing data gracefully', async () => {
-      const result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(;
         undefined,
         [],
         undefined, // cuisineData;
@@ -221,15 +221,15 @@ describe('EnterpriseIntelligenceIntegration', () => {
 
   describe('configuration', () => {
     it('should respect disabled features', async () => {
-      const disabledService: any = new EnterpriseIntelligenceIntegration({
+      const disabledService: any = new EnterpriseIntelligenceIntegration({;
         enableRecipeIntelligence: false,
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,
         enableSafetyIntelligence: false,
-        enableOptimizationRecommendations: false,
+        enableOptimizationRecommendations: false
       });
 
-      const result: any = await disabledService.performEnterpriseAnalysis(
+      const result: any = await disabledService.performEnterpriseAnalysis(;
         { ...mockRecipeData, id: 'test' } as any('@/types/unified').Recipe,
         [],
         mockCuisineData, // cuisineData
@@ -240,8 +240,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
           elementalProperties: { Fir, e: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
           userPreferences: { dietaryRestrictions: [],
             flavorPreferences: [],
-            culturalPreferences: [],
-          },
+            culturalPreferences: []
+          }
         } as unknown,
       );
 
@@ -252,7 +252,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should update configuration', () => {
       service.updateConfig({
         enableRecipeIntelligence: false,
-        logLevel: 'debug',
+        logLevel: 'debug'
       });
 
       // Configuration should be updated (we can't easily test this without exposing internal state)
@@ -290,8 +290,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
           elementalProperties: { Fir, e: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
           userPreferences: { dietaryRestrictions: [],
             flavorPreferences: [],
-            culturalPreferences: [],
-          },
+            culturalPreferences: []
+          }
         } as unknown,
       );
 

@@ -1,7 +1,7 @@
 // src/data/cuisines/greek.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const greek: Cuisine = {
+export const greek: Cuisine = {;
   id: 'greek',
   name: 'Greek',
   description:
@@ -21,7 +21,7 @@ export const greek: Cuisine = {
             'Spread custard filling',
             'Top with more phyllo layers',
             'Bake until golden',
-            'Dust with cinnamon and sugar',
+            'Dust with cinnamon and sugar'
           ],
           ingredients: [
             {
@@ -29,18 +29,18 @@ export const greek: Cuisine = {
               amount: '12',
               unit: 'sheets',
               category: 'pastry',
-              swaps: ['gluten-free phyllo'],
+              swaps: ['gluten-free phyllo']
             },
             { name: 'semolina', amount: '200', unit: 'g', category: 'grain' },
             { name: 'milk', amount: '750', unit: 'ml', category: 'dairy', swaps: ['almond milk'] },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
             { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['olive oil'] },
-            { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice' },
+            { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             phyllo: ['gluten-free phyllo'],
             milk: ['almond milk', 'soy milk'],
-            butter: ['olive oil'],
+            butter: ['olive oil']
           },
           servingSize: 8,
           allergens: ['gluten', 'dairy', 'eggs'],
@@ -57,7 +57,7 @@ export const greek: Cuisine = {
             carbs: 48,
             fat: 18,
             vitamins: ['A', 'D'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['all'],
           mealType: ['breakfast'],
@@ -65,8 +65,8 @@ export const greek: Cuisine = {
             Earth: 0.5,
             Water: 0.2,
             Air: 0.2,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Greek Yogurt with Honey',
@@ -79,7 +79,7 @@ export const greek: Cuisine = {
             'Drizzle with honey',
             'Top with crushed walnuts',
             'Add fresh figs or seasonal fruit',
-            'Optional: dust with cinnamon',
+            'Optional: dust with cinnamon'
           ],
           ingredients: [
             {
@@ -87,7 +87,7 @@ export const greek: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['coconut yogurt'],
+              swaps: ['coconut yogurt']
             },
             { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener' },
             { name: 'walnuts', amount: '30', unit: 'g', category: 'nuts' },
@@ -96,21 +96,21 @@ export const greek: Cuisine = {
               amount: '2',
               unit: 'whole',
               category: 'fruit',
-              swaps: ['any seasonal fruit'],
+              swaps: ['any seasonal fruit']
             },
-            { name: 'cinnamon', amount: '1/4', unit: 'tsp', category: 'spice', optional: true },
+            { name: 'cinnamon', amount: '1/4', unit: 'tsp', category: 'spice', optional: true }
           ],
           substitutions: {
             'Greek yogurt': ['coconut yogurt', 'almond yogurt'],
             honey: ['maple syrup', 'date syrup'],
-            walnuts: ['almonds', 'pistachios'],
+            walnuts: ['almonds', 'pistachios']
           },
           servingSize: 1,
           allergens: ['dairy', 'tree nuts'],
           prepTime: '5 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            "A traditional Greek breakfast that showcases the country's famous thick strained yogurt and local honey. Often served as a healthy dessert option as well",
+            'A traditional Greek breakfast that showcases the country's famous thick strained yogurt and local honey. Often served as a healthy dessert option as well',
           pairingSuggestions: ['Greek coffee', 'fresh fruit', 'rusks'],
           dietaryInfo: ['vegetarian', 'gluten-free', 'probiotic'],
           spiceLevel: 'none',
@@ -120,7 +120,7 @@ export const greek: Cuisine = {
             carbs: 32,
             fat: 12,
             vitamins: ['B12', 'D'],
-            minerals: ['Calcium', 'Potassium'],
+            minerals: ['Calcium', 'Potassium']
           },
           season: ['all'],
           mealType: ['breakfast', 'dessert'],
@@ -128,8 +128,8 @@ export const greek: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          },
+            Fire: 0.1
+          }
         },
         {
           name: 'Strapatsada',
@@ -144,7 +144,7 @@ export const greek: Cuisine = {
             'Add beaten eggs',
             'Scramble until just set',
             'Crumble feta on top',
-            'Finish with oregano',
+            'Finish with oregano'
           ],
           ingredients: [
             {
@@ -152,7 +152,7 @@ export const greek: Cuisine = {
               amount: '4',
               unit: 'large',
               category: 'protein',
-              swaps: ['tofu scramble'],
+              swaps: ['tofu scramble']
             },
             { name: 'ripe tomatoes', amount: '3', unit: 'medium', category: 'vegetable' },
             {
@@ -160,23 +160,23 @@ export const greek: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'dairy',
-              swaps: ['vegan feta'],
+              swaps: ['vegan feta']
             },
             { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' },
             { name: 'dried oregano', amount: '1', unit: 'tsp', category: 'herb' },
-            { name: 'black pepper', amount: '1/4', unit: 'tsp', category: 'seasoning' },
+            { name: 'black pepper', amount: '1/4', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
             eggs: ['tofu scramble', 'chickpea flour mixture'],
             feta: ['vegan feta', 'nutritional yeast'],
-            tomatoes: ['canned tomatoes', 'roasted red peppers'],
+            tomatoes: ['canned tomatoes', 'roasted red peppers']
           },
           servingSize: 2,
           allergens: ['eggs', 'dairy'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            "A rustic breakfast dish that makes use of Greece's abundant tomatoes and olive oil. Popular throughout the Peloponnese region",
+            'A rustic breakfast dish that makes use of Greece's abundant tomatoes and olive oil. Popular throughout the Peloponnese region',
           pairingSuggestions: ['crusty bread', 'olives', 'Greek coffee'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild',
@@ -186,7 +186,7 @@ export const greek: Cuisine = {
             carbs: 12,
             fat: 32,
             vitamins: ['A', 'C', 'D'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['summer', 'autumn'],
           mealType: ['breakfast', 'lunch'],
@@ -194,9 +194,9 @@ export const greek: Cuisine = {
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.2,
-          },
-        },
+            Water: 0.2
+          }
+        }
       ],
       summer: [
         {
@@ -209,11 +209,11 @@ export const greek: Cuisine = {
               amount: '4',
               unit: 'pieces',
               category: 'bread',
-              swaps: ['gluten-free rusks'],
+              swaps: ['gluten-free rusks']
             },
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'olive oil', amount: '4', unit: 'tbsp', category: 'oil' },
-            { name: 'oregano', amount: '2', unit: 'tsp', category: 'herb' },
+            { name: 'oregano', amount: '2', unit: 'tsp', category: 'herb' }
           ],
           nutrition: {
             calories: 320,
@@ -221,7 +221,7 @@ export const greek: Cuisine = {
             carbs: 42,
             fat: 16,
             vitamins: ['C', 'E'],
-            minerals: ['Iron', 'Fiber'],
+            minerals: ['Iron', 'Fiber']
           },
           timeToMake: '10 minutes',
           season: ['summer'],
@@ -232,11 +232,11 @@ export const greek: Cuisine = {
             'Grate tomatoes',
             'Drizzle rusks with olive oil',
             'Top with tomatoes',
-            'Sprinkle with oregano',
+            'Sprinkle with oregano'
           ],
           substitutions: {
             'barley rusks': ['gluten-free rusks', 'toasted bread'],
-            tomatoes: ['sun-dried tomatoes'],
+            tomatoes: ['sun-dried tomatoes']
           },
           servingSize: 2,
           allergens: ['gluten'],
@@ -250,10 +250,10 @@ export const greek: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1,
-          },
-        },
-      ],
+            Water: 0.1
+          }
+        }
+      ]
     },
     lunch: {
       all: [
@@ -269,7 +269,7 @@ export const greek: Cuisine = {
             'Marinate meat',
             'Thread onto skewers',
             'Grill until charred',
-            'Rest before serving',
+            'Rest before serving'
           ],
           ingredients: [
             { name: 'pork', amount: '1', unit: 'kg', category: 'protein' },
@@ -278,12 +278,12 @@ export const greek: Cuisine = {
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'oregano', amount: '2', unit: 'tbsp', category: 'herb' },
             { name: 'salt', amount: '1', unit: 'tbsp', category: 'seasoning' },
-            { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice' },
+            { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             pork: ['chicken', 'lamb', 'mushrooms'],
             'olive oil': ['vegetable oil'],
-            garlic: ['garlic powder'],
+            garlic: ['garlic powder']
           },
           servingSize: 6,
           allergens: [],
@@ -300,7 +300,7 @@ export const greek: Cuisine = {
             carbs: 5,
             fat: 28,
             vitamins: ['B12', 'D'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
           mealType: ['dinner'],
@@ -308,8 +308,8 @@ export const greek: Cuisine = {
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.2,
-          },
+            Water: 0.2
+          }
         },
         {
           name: 'Horiatiki',
@@ -323,7 +323,7 @@ export const greek: Cuisine = {
             'Combine ingredients',
             'Top with feta block',
             'Dress with oil and oregano',
-            'Serve immediately',
+            'Serve immediately'
           ],
           ingredients: [
             { name: 'tomatoes', amount: '4', unit: 'large', category: 'vegetable' },
@@ -335,23 +335,23 @@ export const greek: Cuisine = {
               amount: '200',
               unit: 'g',
               category: 'dairy',
-              swaps: ['vegan feta'],
+              swaps: ['vegan feta']
             },
             { name: 'Kalamata olives', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' },
-            { name: 'dried oregano', amount: '1', unit: 'tbsp', category: 'herb' },
+            { name: 'dried oregano', amount: '1', unit: 'tbsp', category: 'herb' }
           ],
           substitutions: {
             feta: ['vegan feta', 'tofu feta'],
             'Kalamata olives': ['black olives'],
-            'red onion': ['white onion', 'shallots'],
+            'red onion': ['white onion', 'shallots']
           },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '15 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            "The authentic Greek salad never includes lettuce. It's a summer dish that celebrates the ripeness of Mediterranean vegetables",
+            'The authentic Greek salad never includes lettuce. It's a summer dish that celebrates the ripeness of Mediterranean vegetables',
           pairingSuggestions: ['crusty bread', 'grilled meat', 'white wine'],
           dietaryInfo: ['vegetarian', 'gluten-free', 'low-carb'],
           spiceLevel: 'none',
@@ -361,11 +361,11 @@ export const greek: Cuisine = {
             carbs: 12,
             fat: 24,
             vitamins: ['C', 'A', 'K'],
-            minerals: ['Calcium', 'Potassium'],
+            minerals: ['Calcium', 'Potassium']
           },
           season: ['summer'],
-          mealType: ['lunch', 'dinner', 'side'],
-        },
+          mealType: ['lunch', 'dinner', 'side']
+        }
       ],
       summer: [
         {
@@ -378,7 +378,7 @@ export const greek: Cuisine = {
             'sharp knife',
             'spoon for stuffing',
             'mixing bowl',
-            'cutting board',
+            'cutting board'
           ],
           preparationSteps: [
             'Hollow out vegetables',
@@ -386,7 +386,7 @@ export const greek: Cuisine = {
             'Stuff vegetables',
             'Arrange in baking dish',
             'Add potato wedges',
-            'Bake until tender',
+            'Bake until tender'
           ],
           ingredients: [
             { name: 'tomatoes', amount: '6', unit: 'large', category: 'vegetable' },
@@ -396,12 +396,12 @@ export const greek: Cuisine = {
             { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'mint', amount: '1/2', unit: 'bunch', category: 'herb' },
             { name: 'olive oil', amount: '150', unit: 'ml', category: 'oil' },
-            { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' },
+            { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' }
           ],
           substitutions: {
             rice: ['quinoa', 'bulgur'],
             'bell peppers': ['zucchini', 'eggplant'],
-            potatoes: ['sweet potatoes'],
+            potatoes: ['sweet potatoes']
           },
           servingSize: 6,
           allergens: ['none'],
@@ -418,12 +418,12 @@ export const greek: Cuisine = {
             carbs: 52,
             fat: 18,
             vitamins: ['C', 'A', 'K'],
-            minerals: ['Potassium', 'Iron'],
+            minerals: ['Potassium', 'Iron']
           },
           season: ['summer'],
-          mealType: ['lunch', 'dinner'],
-        },
-      ],
+          mealType: ['lunch', 'dinner']
+        }
+      ]
     },
     dinner: {
       all: [
@@ -440,7 +440,7 @@ export const greek: Cuisine = {
             'Make béchamel sauce',
             'Layer ingredients',
             'Top with béchamel',
-            'Bake until golden',
+            'Bake until golden'
           ],
           ingredients: [
             { name: 'eggplants', amount: '3', unit: 'large', category: 'vegetable' },
@@ -449,7 +449,7 @@ export const greek: Cuisine = {
               amount: '750',
               unit: 'g',
               category: 'protein',
-              swaps: ['beef', 'plant-based meat'],
+              swaps: ['beef', 'plant-based meat']
             },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
             { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' },
@@ -458,12 +458,12 @@ export const greek: Cuisine = {
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice' },
-            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' },
+            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             'ground lamb': ['ground beef', 'plant-based meat', 'lentils'],
             milk: ['plant-based milk'],
-            butter: ['olive oil', 'vegan butter'],
+            butter: ['olive oil', 'vegan butter']
           },
           servingSize: 8,
           allergens: ['dairy', 'eggs', 'gluten'],
@@ -480,10 +480,10 @@ export const greek: Cuisine = {
             carbs: 32,
             fat: 35,
             vitamins: ['B12', 'A', 'D'],
-            minerals: ['Iron', 'Calcium', 'Zinc'],
+            minerals: ['Iron', 'Calcium', 'Zinc']
           },
           season: ['all'],
-          mealType: ['dinner'],
+          mealType: ['dinner']
         },
         {
           name: 'Spanakopita',
@@ -499,7 +499,7 @@ export const greek: Cuisine = {
             'Layer phyllo with oil',
             'Add filling',
             'Top with more phyllo',
-            'Score and bake',
+            'Score and bake'
           ],
           ingredients: [
             {
@@ -507,7 +507,7 @@ export const greek: Cuisine = {
               amount: '1',
               unit: 'package',
               category: 'pastry',
-              swaps: ['gluten-free phyllo'],
+              swaps: ['gluten-free phyllo']
             },
             { name: 'spinach', amount: '1', unit: 'kg', category: 'vegetable' },
             {
@@ -515,24 +515,24 @@ export const greek: Cuisine = {
               amount: '400',
               unit: 'g',
               category: 'dairy',
-              swaps: ['tofu feta'],
+              swaps: ['tofu feta']
             },
             { name: 'dill', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'green onions', amount: '6', unit: 'whole', category: 'vegetable' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', swaps: ['flax eggs'] },
-            { name: 'olive oil', amount: '200', unit: 'ml', category: 'oil' },
+            { name: 'olive oil', amount: '200', unit: 'ml', category: 'oil' }
           ],
           substitutions: {
             feta: ['tofu feta', 'cashew cheese'],
             eggs: ['flax eggs', 'chickpea water'],
-            phyllo: ['gluten-free phyllo'],
+            phyllo: ['gluten-free phyllo']
           },
           servingSize: 12,
           allergens: ['dairy', 'gluten', 'eggs'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            "A traditional pie that showcases Greece's love for wild greens and feta. Often made by village women using foraged greens",
+            'A traditional pie that showcases Greece's love for wild greens and feta. Often made by village women using foraged greens',
           pairingSuggestions: ['Greek white wine', 'tzatziki', 'village salad'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -542,10 +542,10 @@ export const greek: Cuisine = {
             carbs: 28,
             fat: 20,
             vitamins: ['A', 'K', 'C'],
-            minerals: ['Iron', 'Calcium'],
+            minerals: ['Iron', 'Calcium']
           },
           season: ['winter', 'spring'],
-          mealType: ['lunch', 'dinner', 'appetizer'],
+          mealType: ['lunch', 'dinner', 'appetizer']
         },
         {
           name: 'Pastitsio',
@@ -559,7 +559,7 @@ export const greek: Cuisine = {
             'Make béchamel sauce',
             'Layer pasta and meat',
             'Top with béchamel',
-            'Bake until golden',
+            'Bake until golden'
           ],
           ingredients: [
             {
@@ -567,14 +567,14 @@ export const greek: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'pasta',
-              swaps: ['penne', 'ziti'],
+              swaps: ['penne', 'ziti']
             },
             {
               name: 'ground beef',
               amount: '750',
               unit: 'g',
               category: 'protein',
-              swaps: ['lamb', 'plant-based meat'],
+              swaps: ['lamb', 'plant-based meat']
             },
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'tomato paste', amount: '70', unit: 'g', category: 'vegetable' },
@@ -583,19 +583,19 @@ export const greek: Cuisine = {
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy' },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
             { name: 'nutmeg', amount: '1/2', unit: 'tsp', category: 'spice' },
-            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' },
+            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             'ground beef': ['ground lamb', 'plant-based meat'],
             milk: ['plant-based milk'],
-            butter: ['olive oil', 'vegan butter'],
+            butter: ['olive oil', 'vegan butter']
           },
           servingSize: 8,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            "A Greek interpretation of Italian baked pasta, enriched with spices that reflect the country's position between East and West",
+            'A Greek interpretation of Italian baked pasta, enriched with spices that reflect the country's position between East and West',
           pairingSuggestions: ['Greek red wine', 'simple green salad', 'crusty bread'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -605,10 +605,10 @@ export const greek: Cuisine = {
             carbs: 45,
             fat: 28,
             vitamins: ['B12', 'D', 'A'],
-            minerals: ['Iron', 'Calcium', 'Zinc'],
+            minerals: ['Iron', 'Calcium', 'Zinc']
           },
           season: ['all'],
-          mealType: ['dinner'],
+          mealType: ['dinner']
         },
         {
           name: 'Dolmades',
@@ -622,7 +622,7 @@ export const greek: Cuisine = {
             'Roll leaves with filling',
             'Layer in pot',
             'Simmer until tender',
-            'Cool before serving',
+            'Cool before serving'
           ],
           ingredients: [
             { name: 'grape leaves', amount: '60', unit: 'pieces', category: 'vegetable' },
@@ -631,12 +631,12 @@ export const greek: Cuisine = {
             { name: 'dill', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'mint', amount: '1/2', unit: 'bunch', category: 'herb' },
             { name: 'lemon juice', amount: '60', unit: 'ml', category: 'acid' },
-            { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' },
+            { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' }
           ],
           substitutions: {
             'grape leaves': ['swiss chard leaves'],
             rice: ['quinoa', 'bulgur'],
-            dill: ['fennel fronds'],
+            dill: ['fennel fronds']
           },
           servingSize: 6,
           allergens: ['none'],
@@ -653,10 +653,10 @@ export const greek: Cuisine = {
             carbs: 35,
             fat: 8,
             vitamins: ['K', 'C'],
-            minerals: ['Iron', 'Magnesium'],
+            minerals: ['Iron', 'Magnesium']
           },
           season: ['spring', 'summer'],
-          mealType: ['appetizer', 'side'],
+          mealType: ['appetizer', 'side']
         },
         {
           name: 'Galaktoboureko',
@@ -671,7 +671,7 @@ export const greek: Cuisine = {
             'Add custard filling',
             'Top with more phyllo',
             'Bake until golden',
-            'Pour cool syrup over hot pastry',
+            'Pour cool syrup over hot pastry'
           ],
           ingredients: [
             { name: 'phyllo dough', amount: '1', unit: 'package', category: 'pastry' },
@@ -681,19 +681,19 @@ export const greek: Cuisine = {
             { name: 'butter', amount: '200', unit: 'g', category: 'dairy' },
             { name: 'sugar', amount: '400', unit: 'g', category: 'sweetener' },
             { name: 'orange zest', amount: '1', unit: 'orange', category: 'citrus' },
-            { name: 'vanilla extract', amount: '2', unit: 'tsp', category: 'flavoring' },
+            { name: 'vanilla extract', amount: '2', unit: 'tsp', category: 'flavoring' }
           ],
           substitutions: {
             milk: ['almond milk'],
             butter: ['vegan butter'],
-            eggs: ['cornstarch mixture'],
+            eggs: ['cornstarch mixture']
           },
           servingSize: 12,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            "A beloved dessert that showcases the Greek mastery of phyllo pastry and custard-making. The name literally means 'milk bourek'",
+            'A beloved dessert that showcases the Greek mastery of phyllo pastry and custard-making. The name literally means 'milk bourek'',
           pairingSuggestions: ['Greek coffee', 'tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -703,10 +703,10 @@ export const greek: Cuisine = {
             carbs: 58,
             fat: 18,
             vitamins: ['A', 'D'],
-            minerals: ['Calcium'],
+            minerals: ['Calcium']
           },
           season: ['all'],
-          mealType: ['dessert'],
+          mealType: ['dessert']
         },
         {
           name: 'Fasolada',
@@ -720,7 +720,7 @@ export const greek: Cuisine = {
             'Add beans and stock',
             'Simmer until tender',
             'Season to taste',
-            'Finish with olive oil',
+            'Finish with olive oil'
           ],
           ingredients: [
             { name: 'white beans', amount: '500', unit: 'g', category: 'legume' },
@@ -729,19 +729,19 @@ export const greek: Cuisine = {
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
             { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' },
-            { name: 'tomato paste', amount: '70', unit: 'g', category: 'vegetable' },
+            { name: 'tomato paste', amount: '70', unit: 'g', category: 'vegetable' }
           ],
           substitutions: {
             'white beans': ['navy beans', 'cannellini beans'],
             celery: ['fennel'],
-            'tomato paste': ['crushed tomatoes'],
+            'tomato paste': ['crushed tomatoes']
           },
           servingSize: 6,
           allergens: ['none'],
           prepTime: 'overnight + 20 minutes',
           cookTime: '90 minutes',
           culturalNotes:
-            "Often called Greece's national dish, this hearty soup has sustained generations through both prosperity and hardship",
+            'Often called Greece's national dish, this hearty soup has sustained generations through both prosperity and hardship',
           pairingSuggestions: ['crusty bread', 'olives', 'feta cheese', 'red wine'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -751,10 +751,10 @@ export const greek: Cuisine = {
             carbs: 45,
             fat: 12,
             vitamins: ['A', 'C', 'B6'],
-            minerals: ['Iron', 'Potassium', 'Magnesium'],
+            minerals: ['Iron', 'Potassium', 'Magnesium']
           },
           season: ['autumn', 'winter'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Youvetsi',
@@ -768,7 +768,7 @@ export const greek: Cuisine = {
             'Add tomatoes and stock',
             'Transfer to baking dish',
             'Add orzo and bake',
-            'Rest before serving',
+            'Rest before serving'
           ],
           ingredients: [
             {
@@ -776,19 +776,19 @@ export const greek: Cuisine = {
               amount: '1',
               unit: 'kg',
               category: 'protein',
-              swaps: ['beef'],
+              swaps: ['beef']
             },
             { name: 'orzo pasta', amount: '500', unit: 'g', category: 'pasta' },
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
             { name: 'tomatoes', amount: '800', unit: 'g', category: 'vegetable' },
             { name: 'cinnamon', amount: '1', unit: 'stick', category: 'spice' },
-            { name: 'olive oil', amount: '80', unit: 'ml', category: 'oil' },
+            { name: 'olive oil', amount: '80', unit: 'ml', category: 'oil' }
           ],
           substitutions: {
             lamb: ['beef chuck', 'mushrooms'],
             orzo: ['small pasta', 'rice'],
-            tomatoes: ['canned tomatoes'],
+            tomatoes: ['canned tomatoes']
           },
           servingSize: 6,
           allergens: ['gluten'],
@@ -805,10 +805,10 @@ export const greek: Cuisine = {
             carbs: 65,
             fat: 22,
             vitamins: ['B12', 'A'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['autumn', 'winter'],
-          mealType: ['dinner'],
+          mealType: ['dinner']
         },
         {
           name: 'Revithia',
@@ -822,7 +822,7 @@ export const greek: Cuisine = {
             'Sauté aromatics',
             'Add chickpeas and stock',
             'Simmer until tender',
-            'Season with lemon',
+            'Season with lemon'
           ],
           ingredients: [
             { name: 'chickpeas', amount: '500', unit: 'g', category: 'legume' },
@@ -831,12 +831,12 @@ export const greek: Cuisine = {
             { name: 'olive oil', amount: '80', unit: 'ml', category: 'oil' },
             { name: 'bay leaves', amount: '2', unit: 'whole', category: 'herb' },
             { name: 'lemons', amount: '2', unit: 'whole', category: 'citrus' },
-            { name: 'rosemary', amount: '2', unit: 'sprigs', category: 'herb' },
+            { name: 'rosemary', amount: '2', unit: 'sprigs', category: 'herb' }
           ],
           substitutions: {
             chickpeas: ['canned chickpeas'],
             rosemary: ['thyme'],
-            lemons: ['lemon juice'],
+            lemons: ['lemon juice']
           },
           servingSize: 6,
           allergens: ['none'],
@@ -853,10 +853,10 @@ export const greek: Cuisine = {
             carbs: 42,
             fat: 10,
             vitamins: ['B6', 'C'],
-            minerals: ['Iron', 'Folate', 'Magnesium'],
+            minerals: ['Iron', 'Folate', 'Magnesium']
           },
           season: ['autumn', 'winter'],
-          mealType: ['lunch', 'dinner'],
+          mealType: ['lunch', 'dinner']
         },
         {
           name: 'Gigantes Plaki',
@@ -870,7 +870,7 @@ export const greek: Cuisine = {
             'Prepare tomato sauce',
             'Combine beans and sauce',
             'Bake until thickened',
-            'Rest before serving',
+            'Rest before serving'
           ],
           ingredients: [
             {
@@ -878,26 +878,26 @@ export const greek: Cuisine = {
               amount: '500',
               unit: 'g',
               category: 'legume',
-              swaps: ['lima beans'],
+              swaps: ['lima beans']
             },
             { name: 'tomatoes', amount: '800', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'celery', amount: '2', unit: 'stalks', category: 'vegetable' },
             { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' },
-            { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', optional: true },
+            { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', optional: true }
           ],
           substitutions: {
             'giant beans': ['lima beans', 'butter beans'],
             'fresh tomatoes': ['canned tomatoes'],
-            honey: ['sugar', 'omit'],
+            honey: ['sugar', 'omit']
           },
           servingSize: 6,
           allergens: ['none'],
           prepTime: 'overnight + 20 minutes',
           cookTime: '2 hours',
           culturalNotes:
-            "A classic dish from Macedonia and northern Greece, showcasing the region's famous giant beans",
+            'A classic dish from Macedonia and northern Greece, showcasing the region's famous giant beans',
           pairingSuggestions: ['feta cheese', 'crusty bread', 'Greek wine'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -907,10 +907,10 @@ export const greek: Cuisine = {
             carbs: 45,
             fat: 12,
             vitamins: ['A', 'C', 'K'],
-            minerals: ['Iron', 'Potassium'],
+            minerals: ['Iron', 'Potassium']
           },
           season: ['all'],
-          mealType: ['main', 'meze'],
+          mealType: ['main', 'meze']
         },
         {
           name: 'Keftedes',
@@ -924,7 +924,7 @@ export const greek: Cuisine = {
             'Form small meatballs',
             'Chill for 30 minutes',
             'Fry until golden',
-            'Drain on paper towels',
+            'Drain on paper towels'
           ],
           ingredients: [
             { name: 'ground beef', amount: '500', unit: 'g', category: 'protein', swaps: ['lamb'] },
@@ -934,12 +934,12 @@ export const greek: Cuisine = {
             { name: 'mint', amount: '1/4', unit: 'cup', category: 'herb' },
             { name: 'bread', amount: '2', unit: 'slices', category: 'grain' },
             { name: 'milk', amount: '60', unit: 'ml', category: 'dairy' },
-            { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' },
+            { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' }
           ],
           substitutions: {
             'ground meat': ['plant-based meat'],
             bread: ['gluten-free bread'],
-            milk: ['plant-based milk'],
+            milk: ['plant-based milk']
           },
           servingSize: 6,
           allergens: ['gluten', 'dairy'],
@@ -956,10 +956,10 @@ export const greek: Cuisine = {
             carbs: 12,
             fat: 26,
             vitamins: ['B12', 'B6'],
-            minerals: ['Iron', 'Zinc'],
+            minerals: ['Iron', 'Zinc']
           },
           season: ['all'],
-          mealType: ['appetizer', 'main'],
+          mealType: ['appetizer', 'main']
         },
         {
           name: 'Galatopita',
@@ -973,7 +973,7 @@ export const greek: Cuisine = {
             'Pour custard mixture',
             'Top with phyllo',
             'Bake until golden',
-            'Cool completely',
+            'Cool completely'
           ],
           ingredients: [
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy' },
@@ -982,12 +982,12 @@ export const greek: Cuisine = {
             { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' },
             { name: 'vanilla extract', amount: '2', unit: 'tsp', category: 'flavoring' },
             { name: 'phyllo dough', amount: '8', unit: 'sheets', category: 'pastry' },
-            { name: 'butter', amount: '100', unit: 'g', category: 'dairy' },
+            { name: 'butter', amount: '100', unit: 'g', category: 'dairy' }
           ],
           substitutions: {
             milk: ['almond milk'],
             butter: ['vegan butter'],
-            eggs: ['cornstarch mixture'],
+            eggs: ['cornstarch mixture']
           },
           servingSize: 8,
           allergens: ['dairy', 'eggs', 'gluten'],
@@ -1004,10 +1004,10 @@ export const greek: Cuisine = {
             carbs: 48,
             fat: 14,
             vitamins: ['A', 'D', 'B12'],
-            minerals: ['Calcium', 'Iron'],
+            minerals: ['Calcium', 'Iron']
           },
           season: ['all'],
-          mealType: ['dessert'],
+          mealType: ['dessert']
         },
         {
           name: 'Skordalia',
@@ -1021,7 +1021,7 @@ export const greek: Cuisine = {
             'Crush garlic',
             'Gradually add oil',
             'Season to taste',
-            'Rest before serving',
+            'Rest before serving'
           ],
           ingredients: [
             { name: 'potatoes', amount: '500', unit: 'g', category: 'vegetable' },
@@ -1029,12 +1029,12 @@ export const greek: Cuisine = {
             { name: 'olive oil', amount: '200', unit: 'ml', category: 'oil' },
             { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' },
             { name: 'white wine vinegar', amount: '1', unit: 'tbsp', category: 'acid' },
-            { name: 'almonds', amount: '50', unit: 'g', category: 'nuts', optional: true },
+            { name: 'almonds', amount: '50', unit: 'g', category: 'nuts', optional: true }
           ],
           substitutions: {
             potatoes: ['bread', 'almonds'],
             garlic: ['roasted garlic'],
-            almonds: ['walnuts', 'omit'],
+            almonds: ['walnuts', 'omit']
           },
           servingSize: 6,
           allergens: ['nuts (if using)'],
@@ -1051,10 +1051,10 @@ export const greek: Cuisine = {
             carbs: 18,
             fat: 22,
             vitamins: ['C', 'B6'],
-            minerals: ['Potassium', 'Magnesium'],
+            minerals: ['Potassium', 'Magnesium']
           },
           season: ['all'],
-          mealType: ['appetizer', 'sauce'],
+          mealType: ['appetizer', 'sauce']
         },
         {
           name: 'Melitzanosalata',
@@ -1068,7 +1068,7 @@ export const greek: Cuisine = {
             'Remove skin',
             'Mash with garlic',
             'Add oil gradually',
-            'Season to taste',
+            'Season to taste'
           ],
           ingredients: [
             { name: 'eggplants', amount: '2', unit: 'large', category: 'vegetable' },
@@ -1081,13 +1081,13 @@ export const greek: Cuisine = {
               amount: '1/2',
               unit: 'small',
               category: 'vegetable',
-              optional: true,
-            },
+              optional: true
+            }
           ],
           substitutions: {
             eggplants: ['roasted red peppers'],
             'red onion': ['shallots', 'omit'],
-            parsley: ['dill'],
+            parsley: ['dill']
           },
           servingSize: 6,
           allergens: ['none'],
@@ -1104,18 +1104,18 @@ export const greek: Cuisine = {
             carbs: 8,
             fat: 10,
             vitamins: ['C', 'B6'],
-            minerals: ['Potassium', 'Manganese'],
+            minerals: ['Potassium', 'Manganese']
           },
           season: ['summer', 'autumn'],
-          mealType: ['appetizer', 'meze'],
-        },
-      ],
+          mealType: ['appetizer', 'meze']
+        }
+      ]
     },
     dessert: {
       all: [
         // ... dessert dishes
-      ],
-    },
+      ]
+    }
   },
   traditionalSauces: {
     tzatziki: {
@@ -1129,12 +1129,12 @@ export const greek: Cuisine = {
         Water: 0.6,
         Earth: 0.2,
         Air: 0.2,
-        Fire: 0.0,
+        Fire: 0.0
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Properly draining the cucumber is key to a thick consistency',
-      technicalTips: 'Salt and drain cucumbers for at least 30 minutes before mixing',
+      technicalTips: 'Salt and drain cucumbers for at least 30 minutes before mixing'
     },
     avgolemono: {
       name: 'Avgolemono',
@@ -1147,12 +1147,12 @@ export const greek: Cuisine = {
         Water: 0.4,
         Air: 0.3,
         Fire: 0.2,
-        Earth: 0.1,
+        Earth: 0.1
       },
       astrologicalInfluences: ['Mercury', 'Moon', 'Gemini'],
       seasonality: 'winter, spring',
       preparationNotes: 'The key is to temper the eggs properly to avoid curdling',
-      technicalTips: 'Add hot broth to eggs very slowly while whisking constantly',
+      technicalTips: 'Add hot broth to eggs very slowly while whisking constantly'
     },
     ladolemono: {
       name: 'Ladolemono',
@@ -1163,19 +1163,19 @@ export const greek: Cuisine = {
         'dressing for grilled foods',
         'marinade',
         'seafood sauce',
-        'vegetable dressing',
+        'vegetable dressing'
       ],
       variants: ['Mustard ladolemono', 'Herb-infused', 'Spicy version'],
       elementalProperties: {
         Air: 0.5,
         Fire: 0.2,
         Earth: 0.2,
-        Water: 0.1,
+        Water: 0.1
       },
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'The ratio is typically 3 parts oil to 1 part lemon juice',
-      technicalTips: 'Whisk vigorously or blend for proper emulsification',
+      technicalTips: 'Whisk vigorously or blend for proper emulsification'
     },
     skordalia: {
       name: 'Skordalia',
@@ -1188,12 +1188,12 @@ export const greek: Cuisine = {
         Earth: 0.4,
         Fire: 0.3,
         Air: 0.2,
-        Water: 0.1,
+        Water: 0.1
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Achieving the right balance of garlic is crucial - adjust to taste',
-      technicalTips: 'Slowly incorporate oil while blending for proper emulsification',
+      technicalTips: 'Slowly incorporate oil while blending for proper emulsification'
     },
     htipiti: {
       name: 'Htipiti',
@@ -1206,13 +1206,13 @@ export const greek: Cuisine = {
         Fire: 0.5,
         Earth: 0.3,
         Water: 0.1,
-        Air: 0.1,
+        Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'summer, autumn',
       preparationNotes: 'The smokiness of the peppers is essential for authentic flavor',
-      technicalTips: 'Roast peppers directly over flame for best smoky taste',
-    },
+      technicalTips: 'Roast peppers directly over flame for best smoky taste'
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1222,7 +1222,7 @@ export const greek: Cuisine = {
       beef: ['tomato-based sauce', 'yogurt-based sauce', 'red wine reduction'],
       vegetable: ['skordalia', 'tzatziki', 'tahini sauce'],
       seafood: ['ladolemono', 'skordalia', 'garlic oil', 'lemon sauce'],
-      pork: ['ladolemono', 'htipiti', 'mustard sauce'],
+      pork: ['ladolemono', 'htipiti', 'mustard sauce']
     },
     forVegetable: {
       leafy: ['ladolemono', 'tahini sauce', 'yogurt-based sauce'],
@@ -1230,7 +1230,7 @@ export const greek: Cuisine = {
       eggplant: ['tzatziki', 'tomato sauce', 'tahini sauce', 'garlic sauce'],
       legumes: ['olive oil and lemon', 'tomato sauce', 'herb oil', 'vinegar sauce'],
       squash: ['yogurt sauce', 'tahini', 'olive oil and herbs'],
-      zucchini: ['tzatziki', 'mint sauce', 'ladolemono'],
+      zucchini: ['tzatziki', 'mint sauce', 'ladolemono']
     },
     forCookingMethod: {
       grilling: ['tzatziki', 'ladolemono', 'herb oil', 'htipiti'],
@@ -1238,13 +1238,13 @@ export const greek: Cuisine = {
       braising: ['avgolemono', 'tomato sauce', 'olive oil finish', 'red wine sauce'],
       frying: ['tzatziki', 'skordalia', 'lemon wedges', 'garlic sauce'],
       stewing: ['avgolemono', 'olive oil finish', 'herb oil', 'red wine reduction'],
-      baking: ['ladolemono', 'yogurt sauce', 'lemon sauce'],
+      baking: ['ladolemono', 'yogurt sauce', 'lemon sauce']
     },
     byAstrological: {
       fire: ['spicy yogurt sauce', 'red pepper-based sauce', 'garlic oil', 'htipiti'],
       earth: ['skordalia', 'mushroom-based sauce', 'tahini sauce', 'olive tapenade'],
       air: ['ladolemono', 'herb-infused oil', 'light yogurt sauce', 'lemon vinaigrette'],
-      water: ['avgolemono', 'tzatziki', 'cucumber-based sauce', 'fish sauce'],
+      water: ['avgolemono', 'tzatziki', 'cucumber-based sauce', 'fish sauce']
     },
     byRegion: {
       mainland: ['skordalia', 'tomato-based sauces', 'avgolemono', 'htipiti'],
@@ -1254,18 +1254,18 @@ export const greek: Cuisine = {
         'herb-infused olive oil',
         'wine reductions',
         'dakos-style sauce',
-        'ancient grain sauces',
+        'ancient grain sauces'
       ],
       peloponnese: ['oil and lemon sauces', 'oregano-infused oils', 'wine reductions'],
-      cyclades: ['caper sauces', 'olive pastes', 'fresh herb oils', 'seafood reductions'],
+      cyclades: ['caper sauces', 'olive pastes', 'fresh herb oils', 'seafood reductions']
     },
     byDietary: {
       vegetarian: ['tahini sauce', 'skordalia', 'olive oil and lemon', 'htipiti'],
       vegan: ['ladolemono', 'tahini sauce', 'herb oil', 'olive tapenade'],
       glutenFree: ['tzatziki', 'ladolemono', 'herb oil', 'yogurt-based sauces'],
       dairyFree: ['ladolemono', 'tomato-based sauce', 'herb oil', 'garlic sauce'],
-      lowCarb: ['tzatziki', 'olive oil dips', 'lemon sauce', 'herb sauce'],
-    },
+      lowCarb: ['tzatziki', 'olive oil dips', 'lemon sauce', 'herb sauce']
+    }
   },
   cookingTechniques: [
     {
@@ -1274,7 +1274,7 @@ export const greek: Cuisine = {
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['charcoal grill', 'skewers', 'brush for oil', 'tongs'],
       bestFor: ['lamb', 'pork', 'chicken', 'seafood', 'vegetables'],
-      difficulty: 'easy',
+      difficulty: 'easy'
     },
     {
       name: 'Stifado',
@@ -1282,7 +1282,7 @@ export const greek: Cuisine = {
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['heavy pot', 'wooden spoon', 'sharp knife', 'measuring cups'],
       bestFor: ['beef', 'rabbit', 'game meat', 'octopus'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Sotirito',
@@ -1290,7 +1290,7 @@ export const greek: Cuisine = {
       elementalProperties: { Fire: 0.5, Air: 0.3, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['heavy-bottomed pan', 'slotted spoon', 'paper towels', 'thermometer'],
       bestFor: ['zucchini fritters', 'eggplant', 'fish', 'meatballs'],
-      difficulty: 'medium',
+      difficulty: 'medium'
     },
     {
       name: 'Yiachni',
@@ -1298,7 +1298,7 @@ export const greek: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['Dutch oven', 'wooden spoon', 'sharp knife', 'measuring spoons'],
       bestFor: ['green beans', 'okra', 'rabbit', 'beef'],
-      difficulty: 'easy',
+      difficulty: 'easy'
     },
     {
       name: 'Plasto',
@@ -1306,8 +1306,8 @@ export const greek: Cuisine = {
       elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
       toolsRequired: ['baking pan', 'pastry brush', 'rolling pin', 'sharp knife'],
       bestFor: ['spinach pie', 'cheese pie', 'meat pie', 'vegetable pie'],
-      difficulty: 'hard',
-    },
+      difficulty: 'hard'
+    }
   ],
   regionalCuisines: {
     crete: {
@@ -1317,7 +1317,7 @@ export const greek: Cuisine = {
       signature: ['dakos', 'gamopilafo', 'staka', 'sfakian pie'],
       elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
-      seasonality: 'all',
+      seasonality: 'all'
     },
     macedonia: {
       name: 'Macedonian Cuisine',
@@ -1325,7 +1325,7 @@ export const greek: Cuisine = {
       signature: ['bougatsa', 'pastitsada', 'gigantes plaki', 'trahana soup'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mars', 'Capricorn'],
-      seasonality: 'all',
+      seasonality: 'all'
     },
     cyclades: {
       name: 'Cycladic Cuisine',
@@ -1333,7 +1333,7 @@ export const greek: Cuisine = {
       signature: ['fava dip', 'kakavia fish soup', 'matsata pasta', 'louza cured pork'],
       elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
-      seasonality: 'all',
+      seasonality: 'all'
     },
     peloponnese: {
       name: 'Peloponnesian Cuisine',
@@ -1341,15 +1341,15 @@ export const greek: Cuisine = {
       signature: ['rooster kokkinisto', 'diples', 'kagianas', 'lagoto rabbit stew'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Venus', 'Aries'],
-      seasonality: 'all',
-    },
+      seasonality: 'all'
+    }
   },
   elementalProperties: {
     Earth: 0.4,
     Water: 0.3,
     Fire: 0.2,
-    Air: 0.1,
-  },
+    Air: 0.1
+  }
 };
 
 export default greek;

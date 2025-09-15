@@ -9,7 +9,7 @@ interface TimingResult {
   phases: Array<{ name: string; time: number }>;
 }
 
-export const timingUtils = {
+export const timingUtils = {;
   calculateOptimalTiming(
     ingredients: ElementalProperties[],
     cookingMethod: string,
@@ -19,7 +19,7 @@ export const timingUtils = {
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(
+      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(;
         ([, a], [, b]) => b - a,
       )[0][0];
 
@@ -29,33 +29,33 @@ export const timingUtils = {
   },
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
-    const modifiers = {
+    const modifiers = {;
       Fire: { duration: 0.8, mainPhase: 0.7 },
       Water: { duration: 1.2, mainPhase: 0.5 },
       Earth: { duration: 1.1, mainPhase: 0.6 },
-      Air: { duration: 0.9, mainPhase: 0.8 },
+      Air: { duration: 0.9, mainPhase: 0.8 }
     };
 
     return {
       duration: base.duration * modifiers[element as keyof typeof modifiers].duration,
-      phases: base.phases.map(p => ({
+      phases: base.phases.map(p => ({;
         name: p.name,
         time:
-          p.name === 'main_cooking'
+          p.name === 'main_cooking';
             ? p.time * modifiers[element as keyof typeof modifiers].mainPhase
-            : p.time,
-      })),
+            : p.time
+      }))
     };
   },
 
   calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
-    const baseProperties = ingredients.reduce(
+    const baseProperties = ingredients.reduce(;
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES,
     );
 
     // Implement getDominantElement directly
-    const dominantElement = Object.entries(baseProperties).reduce((a, b) =>
+    const dominantElement = Object.entries(baseProperties).reduce((a, b) =>;
       a[1] > b[1] ? a : b,
     )[0];
 
@@ -73,7 +73,7 @@ export const timingUtils = {
       steaming: 1.2,
       baking: 1.5,
       slow_cooking: 2.5,
-      raw: 0,
+      raw: 0
     };
 
     const baseTime = elementalTiming[dominantElement] || 30;
@@ -86,17 +86,17 @@ export const timingUtils = {
       phases: [
         {
           name: 'preparation',
-          time: totalTime * 0.2,
+          time: totalTime * 0.2
         },
         {
           name: 'main_cooking',
-          time: totalTime * 0.6,
+          time: totalTime * 0.6
         },
         {
           name: 'finishing',
-          time: totalTime * 0.2,
-        },
-      ],
+          time: totalTime * 0.2
+        }
+      ]
     };
   },
 
@@ -109,7 +109,7 @@ export const timingUtils = {
     };
 
     return baseTime * (seasonalModifiers[season.toLowerCase()] || 1.0);
-  },
+  }
 };
 
 export default timingUtils;

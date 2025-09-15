@@ -68,7 +68,7 @@ export type {
   LunarPhase,
   CookingMethod,
   ElementType as Element,
-  Planet as PlanetName,
+  Planet as PlanetName
 };
 
 // Type conversion utilities

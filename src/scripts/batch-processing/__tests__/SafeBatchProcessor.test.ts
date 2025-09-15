@@ -13,7 +13,7 @@ import { BatchProcessingConfig, FileProcessingInfo, SafeBatchProcessor } from '.
 jest.mock('fs');
 jest.mock('child_process');
 
-const mockFs: any = fs as jest.Mocked<typeof fs>;
+const _mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 
 describe('SafeBatchProcessor', () => {
@@ -36,7 +36,7 @@ describe('SafeBatchProcessor', () => {
     processor = new SafeBatchProcessor(config);
 
     // Setup mock files
-    mockFiles = [
+    mockFiles = [;
       {
         filePath: '/project/src/utils/helper.ts',
         relativePath: 'src/utils/helper.ts',
@@ -86,7 +86,7 @@ describe('SafeBatchProcessor', () => {
 
       // Should create multiple batches, each with max 15 files
       expect(results.length).toBeGreaterThan(1);
-      results.forEach(result => {
+      results.forEach(result => {;
         expect(result.files.length).toBeLessThanOrEqual(15);
       });
     });
@@ -105,7 +105,7 @@ describe('SafeBatchProcessor', () => {
       const results: any = await processor.processBatches(criticalFiles);
 
       // Critical files should be processed in smaller batches (max 5)
-      results.forEach(result => {
+      results.forEach(result => {;
         expect(result.files.length).toBeLessThanOrEqual(5);
       });
     });
@@ -208,7 +208,7 @@ describe('SafeBatchProcessor', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           callCount++;
-          if (callCount === 2) {
+          if (callCount === 2) {;
             throw new Error('Compilation failed');
           }
         }

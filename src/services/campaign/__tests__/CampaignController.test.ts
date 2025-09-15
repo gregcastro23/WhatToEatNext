@@ -13,7 +13,7 @@ import {
   ProgressTargets,
   ToolConfiguration,
   SafetyLevel,
-  PhaseStatus,
+  PhaseStatus
 } from '../../../types/campaign';
 import { CampaignController } from '../CampaignController';
 
@@ -27,7 +27,7 @@ describe('CampaignController', () => {
 
   beforeEach(() => {
     // Setup mock configuration
-    mockConfig = {
+    mockConfig = {;
       phases: [
         {
           id: 'phase1',
@@ -38,12 +38,12 @@ describe('CampaignController', () => {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFile, s: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
-              safetyLevel: SafetyLevel.MAXIMUM,
-            },
+              safetyLevel: SafetyLevel.MAXIMUM
+            }
           ],
-          successCriteria: { typeScriptErrors: 0,
+          successCriteria: { typeScriptErrors: 0
           },
-          safetyCheckpoints: [],
+          safetyCheckpoints: []
         },
         {
           id: 'phase2',
@@ -54,31 +54,31 @@ describe('CampaignController', () => {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFile, s: 25, autoFix: true },
               batchSize: 25,
-              safetyLevel: SafetyLevel.HIGH,
-            },
+              safetyLevel: SafetyLevel.HIGH
+            }
           ],
-          successCriteria: { lintingWarnings: 0,
+          successCriteria: { lintingWarnings: 0
           },
-          safetyCheckpoints: [],
-        },
+          safetyCheckpoints: []
+        }
       ],
       safetySettings: { maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7,
+        stashRetentionDays: 7
       },
       progressTargets: { typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200,
+        enterpriseSystems: 200
       },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      },
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+      }
     };
 
     controller = new CampaignController(mockConfig);
@@ -120,7 +120,7 @@ describe('CampaignController', () => {
           typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
         });
       jest
         .spyOn(
@@ -132,7 +132,7 @@ describe('CampaignController', () => {
         .mockResolvedValue({
           filesProcessed: ['file1.ts', 'file2.ts'],
           changesApplied: 5,
-          success: true,
+          success: true
         });
       jest
         .spyOn(
@@ -142,7 +142,7 @@ describe('CampaignController', () => {
         .mockResolvedValue({
           success: true,
           errors: [],
-          warnings: [],
+          warnings: []
         });
     });
 
@@ -197,7 +197,7 @@ describe('CampaignController', () => {
         .mockResolvedValue({
           success: false,
           errors: ['Validation failed'],
-          warnings: [],
+          warnings: []
         });
       jest.spyOn(controller, 'rollbackToCheckpoint').mockResolvedValue();
 
@@ -227,7 +227,7 @@ describe('CampaignController', () => {
           typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
         });
     });
 
@@ -246,7 +246,7 @@ describe('CampaignController', () => {
           typeScriptErrors: { curren, t: 5, target: 0, reduction: 81, percentage: 94 },
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
         });
 
       const result: any = await controller.validatePhaseCompletion(mockPhase);
@@ -256,9 +256,9 @@ describe('CampaignController', () => {
     });
 
     it('should detect linting warning validation failure', async () => {
-      const phaseWithLintingCriteria: any = {
+      const phaseWithLintingCriteria: any = {;
         ...mockPhase,
-        successCriteria: { lintingWarning, s: 0 },
+        successCriteria: { lintingWarning, s: 0 }
       };
 
       const result: any = await controller.validatePhaseCompletion(phaseWithLintingCriteria);
@@ -268,9 +268,9 @@ describe('CampaignController', () => {
     });
 
     it('should detect build time validation warning', async () => {
-      const phaseWithBuildTimeCriteria: any = {
+      const phaseWithBuildTimeCriteria: any = {;
         ...mockPhase,
-        successCriteria: { buildTim, e: 5 },
+        successCriteria: { buildTim, e: 5 }
       };
 
       const result: any = await controller.validatePhaseCompletion(phaseWithBuildTimeCriteria);
@@ -281,9 +281,9 @@ describe('CampaignController', () => {
 
     it('should execute custom validation when provided', async () => {
       const customValidation = jest.fn().mockResolvedValue(true);
-      const phaseWithCustomValidation: any = {
+      const phaseWithCustomValidation: any = {;
         ...mockPhase,
-        successCriteria: { customValidation },
+        successCriteria: { customValidation }
       };
 
       const result: any = await controller.validatePhaseCompletion(phaseWithCustomValidation);
@@ -334,11 +334,11 @@ describe('CampaignController', () => {
 
   describe('getProgressMetrics', () => {
     it('should return current metrics', async () => {
-      const mockMetrics: any = {
+      const mockMetrics: any = {;
         typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       };
 
       jest.spyOn(controller as unknown, 'getCurrentMetrics').mockResolvedValue(mockMetrics);
@@ -360,12 +360,12 @@ describe('CampaignController', () => {
           typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
         });
       jest.spyOn(controller, 'validatePhaseCompletion').mockResolvedValue({
         success: true,
         errors: [],
-        warnings: [],
+        warnings: []
       });
     });
 
@@ -383,7 +383,7 @@ describe('CampaignController', () => {
       jest.spyOn(controller, 'validatePhaseCompletion').mockResolvedValue({
         success: false,
         errors: ['TypeScript error, s: 5 > 0'],
-        warnings: [],
+        warnings: []
       });
 
       const report: any = await controller.generatePhaseReport(mockPhase);
@@ -429,7 +429,7 @@ describe('CampaignController', () => {
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: 'INFO',
-          action: 'TEST',
+          action: 'TEST'
         });
       }
 
@@ -445,7 +445,7 @@ describe('CampaignController', () => {
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: 'INFO',
-          action: 'TEST',
+          action: 'TEST'
         });
       }
 
@@ -458,21 +458,21 @@ describe('CampaignController', () => {
 
   describe('Metrics Improvement Calculation', () => {
     it('should calculate metrics improvement correctly', () => {
-      const initialMetrics: any = {
+      const initialMetrics: any = {;
         typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 10.5, targetTime: 10, cacheHitRate: 0.7, memoryUsage: 55 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       };
 
-      const finalMetrics: any = {
+      const finalMetrics: any = {;
         typeScriptErrors: { curren, t: 50, target: 0, reduction: 36, percentage: 42 },
         lintingWarnings: { curren, t: 3000, target: 0, reduction: 1506, percentage: 33 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 50, target: 200, transformedExports: 50 },
+        enterpriseSystems: { curren, t: 50, target: 200, transformedExports: 50 }
       };
 
-      const improvement: any = (
+      const improvement: any = (;
         controller as unknown as {
           calculateMetricsImprovement: (initia, l: ProgressMetrics, final: ProgressMetrics) => Record<string, unknown>;
         }
@@ -487,11 +487,11 @@ describe('CampaignController', () => {
 
   describe('Achievement Generation', () => {
     it('should generate achievements for zero TypeScript errors', () => {
-      const metrics: any = {
+      const metrics: any = {;
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       };
 
       const achievements: any = (;
@@ -503,11 +503,11 @@ describe('CampaignController', () => {
     });
 
     it('should generate achievements for zero linting warnings', () => {
-      const metrics: any = {
+      const metrics: any = {;
         typeScriptErrors: { curren, t: 5, target: 0, reduction: 81, percentage: 94 },
         lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       };
 
       const achievements: any = (controller as any).generateAchievements(mockConfig.phases.[1], metrics);
@@ -519,13 +519,13 @@ describe('CampaignController', () => {
 
   describe('Recommendation Generation', () => {
     it('should recommend addressing validation errors', () => {
-      const validation: any = {
+      const validation: any = {;
         success: false,
         errors: ['TypeScript error, s: 5 > 0'],
-        warnings: [],
+        warnings: []
       };
 
-      const recommendations: any = (
+      const recommendations: any = (;
         controller as unknown as {
           generateRecommendations: (phas, e: CampaignPhase, validation: ValidationResult) => string[];
         }
@@ -535,13 +535,13 @@ describe('CampaignController', () => {
     });
 
     it('should recommend addressing warnings', () => {
-      const validation: any = {
+      const validation: any = {;
         success: true,
         errors: [],
-        warnings: ['Build tim, e: 12s > 10s'],
+        warnings: ['Build tim, e: 12s > 10s']
       };
 
-      const recommendations: any = (
+      const recommendations: any = (;
         controller as unknown as {
           generateRecommendations: (phas, e: CampaignPhase, validation: ValidationResult) => string[];
         }

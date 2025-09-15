@@ -53,13 +53,13 @@ describe('ProgressReportingSystem', () => {
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
+          compilationSpeed: 25
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { tota, l: 8192, used: 4096, free: 4096, percentage: 50 },
-          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 },
+          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
-        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 },
+        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
       });
 
       // Mock successful phase validations
@@ -78,11 +78,11 @@ describe('ProgressReportingSystem', () => {
               metrics: {} as any,
               criteria: [],
               failureReasons: [],
-              recommendations: [],
-            },
+              recommendations: []
+            }
           ],
           criticalFailures: [],
-          nextSteps: ['Phase 1 complete - proceed to Phase 2'],
+          nextSteps: ['Phase 1 complete - proceed to Phase 2']
         },
         {
           phaseId: 'phase2',
@@ -98,11 +98,11 @@ describe('ProgressReportingSystem', () => {
               metrics: {} as any,
               criteria: [],
               failureReasons: [],
-              recommendations: [],
-            },
+              recommendations: []
+            }
           ],
           criticalFailures: [],
-          nextSteps: ['Phase 2 complete - proceed to Phase 3'],
+          nextSteps: ['Phase 2 complete - proceed to Phase 3']
         },
         {
           phaseId: 'phase3',
@@ -118,11 +118,11 @@ describe('ProgressReportingSystem', () => {
               metrics: {} as any,
               criteria: [],
               failureReasons: [],
-              recommendations: [],
-            },
+              recommendations: []
+            }
           ],
           criticalFailures: [],
-          nextSteps: ['Phase 3 complete - proceed to Phase 4'],
+          nextSteps: ['Phase 3 complete - proceed to Phase 4']
         },
         {
           phaseId: 'phase4',
@@ -138,12 +138,12 @@ describe('ProgressReportingSystem', () => {
               metrics: {} as any,
               criteria: [],
               failureReasons: [],
-              recommendations: [],
-            },
+              recommendations: []
+            }
           ],
           criticalFailures: [],
-          nextSteps: ['Perfect Codebase Campaign Complete! 🎉'],
-        },
+          nextSteps: ['Perfect Codebase Campaign Complete! 🎉']
+        }
       ]);
 
       const report: any = await reportingSystem.generateCampaignSummaryReport();
@@ -173,13 +173,13 @@ describe('ProgressReportingSystem', () => {
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
-          compilationSpeed: 20,
+          compilationSpeed: 20
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { tota, l: 8192, used: 5120, free: 3072, percentage: 62 },
-          diskSpace: { tota, l: 1000000, used: 600000, free: 400000, percentage: 60 },
+          diskSpace: { tota, l: 1000000, used: 600000, free: 400000, percentage: 60 }
         },
-        trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 },
+        trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 }
       });
 
       // Mock mixed phase validations
@@ -198,11 +198,11 @@ describe('ProgressReportingSystem', () => {
               metrics: {} as any,
               criteria: [],
               failureReasons: ['10 errors remaining'],
-              recommendations: [],
-            },
+              recommendations: []
+            }
           ],
           criticalFailures: ['TypeScript Error Coun, t: expected 0, got 10'],
-          nextSteps: ['Continue with Enhanced TypeScript Error Fixer v3.0'],
+          nextSteps: ['Continue with Enhanced TypeScript Error Fixer v3.0']
         },
         {
           phaseId: 'phase2',
@@ -211,7 +211,7 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 75,
           milestones: [],
           criticalFailures: ['Linting Warning Coun, t: expected 0, got 500'],
-          nextSteps: ['Continue with systematic linting fixes'],
+          nextSteps: ['Continue with systematic linting fixes']
         },
         {
           phaseId: 'phase3',
@@ -220,7 +220,7 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 60,
           milestones: [],
           criticalFailures: ['Enterprise System Coun, t: expected >= 200, got 150'],
-          nextSteps: ['Continue transforming exports to reach 200+ systems'],
+          nextSteps: ['Continue transforming exports to reach 200+ systems']
         },
         {
           phaseId: 'phase4',
@@ -229,8 +229,8 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 40,
           milestones: [],
           criticalFailures: ['Build Tim, e: expected <= 10s, got 12s'],
-          nextSteps: ['Optimize build performance with caching improvements'],
-        },
+          nextSteps: ['Optimize build performance with caching improvements']
+        }
       ]);
 
       const report: any = await reportingSystem.generateCampaignSummaryReport();
@@ -259,13 +259,13 @@ describe('ProgressReportingSystem', () => {
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
+          compilationSpeed: 25
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { tota, l: 8192, used: 4096, free: 4096, percentage: 50 },
-          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 },
+          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
-        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 },
+        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
       });
 
       mockValidationSystem.validatePhase1.mockResolvedValue({
@@ -282,11 +282,11 @@ describe('ProgressReportingSystem', () => {
             metrics: {} as any,
             criteria: [],
             failureReasons: [],
-            recommendations: [],
-          },
+            recommendations: []
+          }
         ],
         criticalFailures: [],
-        nextSteps: ['Phase 1 complete - proceed to Phase 2'],
+        nextSteps: ['Phase 1 complete - proceed to Phase 2']
       });
 
       const report: any = await reportingSystem.generatePhaseCompletionReport('phase1');
@@ -325,20 +325,20 @@ describe('ProgressReportingSystem', () => {
               memoryUsage: 60,
               cpuUsage: 30,
               diskUsage: 1500,
-              compilationSpeed: 15,
+              compilationSpeed: 15
             },
             resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
               systemMemory: { tota, l: 8192, used: 4915, free: 3277, percentage: 60 },
-              diskSpace: { tota, l: 1000000, used: 600000, free: 400000, percentage: 60 },
+              diskSpace: { tota, l: 1000000, used: 600000, free: 400000, percentage: 60 }
             },
             trendData: { errorReductionRate: 8,
               warningReductionRate: 40,
               buildTimeImprovement: 1.5,
-              systemGrowthRate: 4,
-            },
+              systemGrowthRate: 4
+            }
           },
-          phase: 'phase1',
-        },
+          phase: 'phase1'
+        }
       ]);
 
       mockValidationSystem.validateAllPhases.mockResolvedValue([
@@ -349,8 +349,8 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 75,
           milestones: [],
           criticalFailures: [],
-          nextSteps: [],
-        },
+          nextSteps: []
+        }
       ]);
 
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
@@ -367,13 +367,13 @@ describe('ProgressReportingSystem', () => {
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
-          compilationSpeed: 20,
+          compilationSpeed: 20
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { tota, l: 8192, used: 5120, free: 3072, percentage: 62 },
-          diskSpace: { tota, l: 1000000, used: 600000, free: 400000, percentage: 60 },
+          diskSpace: { tota, l: 1000000, used: 600000, free: 400000, percentage: 60 }
         },
-        trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 },
+        trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 }
       });
 
       const visualizationData: any = await reportingSystem.generateVisualizationData();
@@ -395,7 +395,7 @@ describe('ProgressReportingSystem', () => {
 
   describe('Report Export Functionality', () => {
     test('should export report in JSON format', async () => {
-      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',;
         generatedAt: new Date(),
         overallStatus: CampaignStatus.IN_PROGRESS,
         overallProgress: 75,
@@ -405,11 +405,11 @@ describe('ProgressReportingSystem', () => {
         performanceMetrics: { typeScriptErrors: { initial: 86, current: 20, reduction: 66, reductionRate: 5 },
           lintingWarnings: { initia, l: 4506, current: 1000, reduction: 3506, reductionRate: 25 },
           buildPerformance: { currentTim, e: 12, targetTime: 10, improvement: 1, cacheEfficiency: 0.75 },
-          enterpriseSystems: { initia, l: 0, current: 150, target: 200, growthRate: 3 },
+          enterpriseSystems: { initia, l: 0, current: 150, target: 200, growthRate: 3 }
         },
         recommendations: [],
         estimatedCompletion: new Date(),
-        executiveSummary: 'Campaign in progress',
+        executiveSummary: 'Campaign in progress'
       };
 
       mockFs.writeFileSync.mockImplementation();
@@ -420,12 +420,12 @@ describe('ProgressReportingSystem', () => {
       expect(exportedFiles.[0]).toMatch(/campaign-report-.*\.json$/);
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringMatching(/campaign-report-.*\.json$/),
-        expect.stringContaining('"campaignId": "perfect-codebase-campaign"'),
+        expect.stringContaining(''campaignId': 'perfect-codebase-campaign''),
       );
     });
 
     test('should export report in multiple formats', async () => {
-      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',;
         generatedAt: new Date(),
         overallStatus: CampaignStatus.COMPLETED,
         overallProgress: 100,
@@ -437,8 +437,8 @@ describe('ProgressReportingSystem', () => {
             progress: 100,
             keyMetrics: {},
             milestones: [],
-            blockers: [],
-          },
+            blockers: []
+          }
         ],
         keyAchievements: [
           {
@@ -447,18 +447,18 @@ describe('ProgressReportingSystem', () => {
             phase: 'phase1',
             achievedAt: new Date(),
             impact: 'CRITICAL' as unknown,
-            metrics: {},
-          },
+            metrics: {}
+          }
         ],
         criticalIssues: [],
         performanceMetrics: { typeScriptErrors: { initial: 86, current: 0, reduction: 86, reductionRate: 10 },
           lintingWarnings: { initia, l: 4506, current: 0, reduction: 4506, reductionRate: 50 },
           buildPerformance: { currentTim, e: 8, targetTime: 10, improvement: 2, cacheEfficiency: 0.85 },
-          enterpriseSystems: { initia, l: 0, current: 250, target: 200, growthRate: 5 },
+          enterpriseSystems: { initia, l: 0, current: 250, target: 200, growthRate: 5 }
         },
         recommendations: [],
         estimatedCompletion: new Date(),
-        executiveSummary: 'Campaign completed successfully',
+        executiveSummary: 'Campaign completed successfully'
       };
 
       mockFs.writeFileSync.mockImplementation();
@@ -491,13 +491,13 @@ describe('ProgressReportingSystem', () => {
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
+          compilationSpeed: 25
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { tota, l: 8192, used: 4096, free: 4096, percentage: 50 },
-          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 },
+          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
-        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 },
+        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
       });
 
       mockValidationSystem.validateAllPhases.mockResolvedValue([
@@ -508,8 +508,8 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 100,
           milestones: [],
           criticalFailures: [],
-          nextSteps: [],
-        },
+          nextSteps: []
+        }
       ]);
 
       mockMetricsCollector.getSnapshots.mockReturnValue([]);
@@ -539,13 +539,13 @@ describe('ProgressReportingSystem', () => {
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
+          compilationSpeed: 25
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { tota, l: 8192, used: 4096, free: 4096, percentage: 50 },
-          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 },
+          diskSpace: { tota, l: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
-        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 },
+        trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
       });
 
       mockValidationSystem.validateAllPhases.mockResolvedValue([]);

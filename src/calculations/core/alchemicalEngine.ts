@@ -17,7 +17,7 @@ interface NaturalInfluenceParams {
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
 
 // Zodiac sign names
-const signs = {
+const signs = {;
   0: 'aries',
   1: 'taurus',
   2: 'gemini',
@@ -29,7 +29,7 @@ const signs = {
   8: 'sagittarius',
   9: 'capricorn',
   10: 'aquarius',
-  11: 'pisces',
+  11: 'pisces'
 };
 
 // Planetary alchemy and element info
@@ -47,35 +47,35 @@ const planetInfo: Record<string, PlanetInfo> = {
     Elements: ['Fire', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
     'Diurnal Element': 'Fire',
-    'Nocturnal Element': 'Fire',
+    'Nocturnal Element': 'Fire'
   },
   moon: {
     'Dignity Effect': { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 },
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Water',
+    'Nocturnal Element': 'Water'
   },
   Mercury: {
     'Dignity Effect': { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 },
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 },
     'Diurnal Element': 'Air',
-    'Nocturnal Element': 'Earth',
+    'Nocturnal Element': 'Earth'
   },
   Venus: {
     'Dignity Effect': { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 },
     Elements: ['Water', 'Earth'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Earth',
+    'Nocturnal Element': 'Earth'
   },
   Mars: {
     'Dignity Effect': { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 },
     Elements: ['Fire', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Fire',
-    'Nocturnal Element': 'Water',
+    'Nocturnal Element': 'Water'
   },
   Jupiter: {
     'Dignity Effect': {
@@ -84,48 +84,48 @@ const planetInfo: Record<string, PlanetInfo> = {
       cancer: 2,
       gemini: -1,
       virgo: -1,
-      capricorn: -2,
+      capricorn: -2
     },
     Elements: ['Air', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 1, Matter: 0, Substance: 0 },
     'Diurnal Element': 'Air',
-    'Nocturnal Element': 'Fire',
+    'Nocturnal Element': 'Fire'
   },
   Saturn: {
     'Dignity Effect': { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 },
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Air',
-    'Nocturnal Element': 'Earth',
+    'Nocturnal Element': 'Earth'
   },
   Uranus: {
     'Dignity Effect': { aquarius: 1, scorpio: 2, taurus: -3 },
     Elements: ['Water', 'Air'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Air',
+    'Nocturnal Element': 'Air'
   },
   Neptune: {
     'Dignity Effect': { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 },
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Water',
+    'Nocturnal Element': 'Water'
   },
   Pluto: {
     'Dignity Effect': { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 },
     Elements: ['Earth', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Earth',
-    'Nocturnal Element': 'Water',
+    'Nocturnal Element': 'Water'
   },
   Ascendant: {
     'Dignity Effect': { leo: 0, aries: 0, aquarius: 0, libra: 0 },
     Elements: ['Earth'],
     Alchemy: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Earth',
-    'Nocturnal Element': 'Earth',
-  },
+    'Nocturnal Element': 'Earth'
+  }
 };
 
 // Zodiac sign info (abbreviated for brevity, expand as needed)
@@ -145,11 +145,11 @@ const signInfo: Record<string, SignInfo> = {
   sagittarius: { Element: 'Fire' },
   capricorn: { Element: 'Earth' },
   aquarius: { Element: 'Air' },
-  pisces: { Element: 'Water' },
+  pisces: { Element: 'Water' }
 };
 
 // --- Types ---
-type AlchemyTotals = {
+type AlchemyTotals = {;
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -160,7 +160,7 @@ type AlchemyTotals = {
   Earth: number;
 };
 
-type ThermodynamicMetrics = {
+type ThermodynamicMetrics = {;
   heat: number;
   entropy: number;
   reactivity: number;
@@ -172,7 +172,7 @@ type ThermodynamicMetrics = {
 // --- Core Calculation Function ---
 function alchemize(planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
   // 1. Aggregate alchemical and elemental properties
-  const totals: AlchemyTotals = {
+  const totals: AlchemyTotals = {;
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -180,7 +180,7 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0,
+    Earth: 0
   };
 
   for (const planet in planetaryPositions) {
@@ -216,7 +216,7 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
 
   // Reactivity
   const reactivityNum =
-    Math.pow(Spirit, 2) +
+    Math.pow(Spirit, 2) +;
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
@@ -230,7 +230,7 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
 
   // Kalchm (K_alchm)
   const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
 
   // Monica constant
@@ -330,12 +330,12 @@ export class AlchemicalEngine {
     weight2?: number,
   ) {
     // If weights are provided, combine with weights; else, sum
-    if (typeof weight1 === 'number' && typeof weight2 === 'number') {
+    if (typeof weight1 === 'number' && typeof weight2 === 'number') {;
       return {
         Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2,
         Water: elementObject1.Water * weight1 + elementObject2.Water * weight2,
         Air: elementObject1.Air * weight1 + elementObject2.Air * weight2,
-        Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2,
+        Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2
       };
     }
     return this.advanced.combineElementObjects(elementObject1, elementObject2);

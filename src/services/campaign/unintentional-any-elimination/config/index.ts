@@ -89,7 +89,7 @@ export interface UnintentionalAnyConfig {
 /**
  * Default configuration values
  */
-export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
+export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
   classification: {
     intentionalThreshold: 0.8,
     unintentionalThreshold: 0.7,
@@ -103,7 +103,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       'third-party',
       'mock',
       'test',
-      'compatibility',
+      'compatibility'
     ],
     testFilePatterns: [
       '**/*.test.ts',
@@ -112,7 +112,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       '**/*.spec.tsx',
       '**/test/**',
       '**/tests/**',
-      '**/__tests__/**',
+      '**/__tests__/**'
     ],
     categoryDefaults: {
       [AnyTypeCategory.ERROR_HANDLING]: 0.9,
@@ -124,8 +124,8 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       [AnyTypeCategory.RECORD_TYPE]: 0.4,
       [AnyTypeCategory.FUNCTION_PARAM]: 0.5,
       [AnyTypeCategory.RETURN_TYPE]: 0.4,
-      [AnyTypeCategory.TYPE_ASSERTION]: 0.6,
-    },
+      [AnyTypeCategory.TYPE_ASSERTION]: 0.6
+    }
   },
   domain: {
     typeSuggestions: {
@@ -134,7 +134,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       campaign: ['CampaignConfig', 'MetricsData', 'ProgressReport'],
       service: ['ApiResponse', 'ServiceConfig', 'ErrorResponse'],
       component: ['ComponentProps', 'ComponentState', 'EventHandler'],
-      utility: ['UtilityFunction', 'HelperType', 'GenericType'],
+      utility: ['UtilityFunction', 'HelperType', 'GenericType']
     },
     pathPatterns: {
       astrological: ['**/calculations/**', '**/astrology/**', '**/planetary/**'],
@@ -142,7 +142,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       campaign: ['**/campaign/**', '**/metrics/**', '**/progress/**'],
       service: ['**/services/**', '**/api/**', '**/client/**'],
       component: ['**/components/**', '**/ui/**', '**/pages/**'],
-      utility: ['**/utils/**', '**/helpers/**', '**/lib/**'],
+      utility: ['**/utils/**', '**/helpers/**', '**/lib/**']
     },
     contentPatterns: {
       astrological: ['planetary', 'elemental', 'zodiac', 'transit', 'retrograde'],
@@ -150,7 +150,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       campaign: ['campaign', 'metrics', 'progress', 'tracking', 'analysis'],
       service: ['service', 'api', 'client', 'request', 'response'],
       component: ['component', 'props', 'state', 'render', 'jsx'],
-      utility: ['util', 'helper', 'function', 'type', 'generic'],
+      utility: ['util', 'helper', 'function', 'type', 'generic']
     },
     elementalAssociations: {
       astrological: ['Fire', 'Water', 'Earth', 'Air'],
@@ -158,8 +158,8 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       campaign: ['Earth', 'Air'],
       service: ['Water', 'Air'],
       component: ['Air', 'Fire'],
-      utility: ['Air', 'Earth'],
-    },
+      utility: ['Air', 'Earth']
+    }
   },
   safety: {
     maxBatchSize: 25,
@@ -170,9 +170,9 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       classification: 'HIGH',
       replacement: 'MAXIMUM',
       documentation: 'MEDIUM',
-      batch_processing: 'MAXIMUM',
+      batch_processing: 'MAXIMUM'
     },
-    backupRetentionDays: 7,
+    backupRetentionDays: 7
   },
   targets: {
     targetReductionPercentage: 18,
@@ -181,17 +181,17 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
     trackingIntervals: {
       metrics: 5,
       reports: 1,
-      checkpoints: 10,
+      checkpoints: 10
     },
     milestones: [
       { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' },
       { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' },
       { name: 'Progressive Phase', targetReduction: 12, timeframe: '1 week' },
-      { name: 'Target Achievement', targetReduction: 18, timeframe: '2 weeks' },
-    ],
+      { name: 'Target Achievement', targetReduction: 18, timeframe: '2 weeks' }
+    ]
   },
   version: '1.0.0',
-  lastUpdated: new Date().toISOString(),
+  lastUpdated: new Date().toISOString()
 };
 
 /**
@@ -203,7 +203,7 @@ export class ConfigurationManager {
 
   constructor(configPath?: string) {
     this.configPath =
-      configPath ||
+      configPath ||;
       join(process.cwd(), '.kiro', 'campaign-configs', 'unintentional-any-elimination.json');
     this.config = this.loadConfig();
   }
@@ -238,7 +238,7 @@ export class ConfigurationManager {
       safety: { ...DEFAULT_CONFIG.safety, ...loadedConfig.safety },
       targets: { ...DEFAULT_CONFIG.targets, ...loadedConfig.targets },
       version: loadedConfig.version || DEFAULT_CONFIG.version,
-      lastUpdated: loadedConfig.lastUpdated || DEFAULT_CONFIG.lastUpdated,
+      lastUpdated: loadedConfig.lastUpdated || DEFAULT_CONFIG.lastUpdated
     };
   }
 
@@ -382,8 +382,8 @@ export class ConfigurationManager {
     }
 
     return {
-      isValid: errors.length === 0,
-      errors,
+      isValid: errors.length === 0,;
+      errors
     };
   }
 }

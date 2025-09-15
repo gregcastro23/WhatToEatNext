@@ -49,7 +49,7 @@ describe('ProgressTracker', () => {
 
       expect(count).toBe(5);
       expect(mockExecSync).toHaveBeenCalledWith(
-        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'',
         expect.any(Object),
       );
     });
@@ -130,7 +130,7 @@ describe('ProgressTracker', () => {
       const count: any = await progressTracker.getLintingWarningCount();
 
       expect(count).toBe(42);
-      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c "warning"', expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c 'warning'', expect.any(Object));
     });
 
     it('should return 0 when no warnings found', async () => {
@@ -225,7 +225,7 @@ describe('ProgressTracker', () => {
       const count: any = await progressTracker.getEnterpriseSystemCount();
 
       expect(count).toBe(25);
-      expect(mockExecSync).toHaveBeenCalledWith('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l', expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', expect.any(Object));
     });
 
     it('should return 0 when no systems found', async () => {
@@ -269,12 +269,12 @@ describe('ProgressTracker', () => {
   describe('getMemoryUsage', () => {
     it('should return current memory usage', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockReturnValue({
+      process.memoryUsage = jest.fn().mockReturnValue({;
         heapUsed: 50 * 1024 * 1024, // 50MB
         heapTotal: 100 * 1024 * 1024,
         external: 0,
         rss: 60 * 1024 * 1024,
-        arrayBuffers: 0,
+        arrayBuffers: 0
       }) as unknown;
 
       const memory: any = await progressTracker.getMemoryUsage();
@@ -286,7 +286,7 @@ describe('ProgressTracker', () => {
 
     it('should handle memory measurement errors', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         throw new Error('Memory measurement failed');
       }) as unknown;
 
@@ -300,11 +300,11 @@ describe('ProgressTracker', () => {
 
   describe('getBundleSize', () => {
     it('should calculate bundle size from build directories', async () => {
-      mockFs.existsSync.mockImplementation(path => {
+      mockFs.existsSync.mockImplementation(path => {;
         return path === '.next' || path === 'dist';
       });
 
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('du -sk .next')) {
           return '300';
         }
@@ -406,7 +406,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 42 },
-        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 },
+        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 }
       });
     });
 
@@ -447,7 +447,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { curren, t: 5, target: 0, reduction: 81, percentage: 94 },
         lintingWarnings: { curren, t: 100, target: 0, reduction: 4406, percentage: 98 },
         buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.6, memoryUsage: 60 },
-        enterpriseSystems: { curren, t: 150, target: 200, transformedExports: 150 },
+        enterpriseSystems: { curren, t: 150, target: 200, transformedExports: 150 }
       });
 
       const tsErrors: any = await progressTracker.validateMilestone('zero-typescript-errors');
@@ -473,7 +473,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { curren, t: 25, target: 0, reduction: 61, percentage: 71 },
         lintingWarnings: { curren, t: 1000, target: 0, reduction: 3506, percentage: 78 },
         buildPerformance: { currentTim, e: 9, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 150, target: 200, transformedExports: 150 },
+        enterpriseSystems: { curren, t: 150, target: 200, transformedExports: 150 }
       });
     });
 
@@ -514,7 +514,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 },
+        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 }
       });
 
       const report: any = await progressTracker.generateProgressReport();
@@ -536,7 +536,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.7, memoryUsage: 60 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
       });
       await progressTracker.getProgressMetrics();
 
@@ -545,7 +545,7 @@ describe('ProgressTracker', () => {
         typeScriptErrors: { curren, t: 50, target: 0, reduction: 36, percentage: 42 },
         lintingWarnings: { curren, t: 3000, target: 0, reduction: 1506, percentage: 33 },
         buildPerformance: { currentTim, e: 9, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 100, target: 200, transformedExports: 100 },
+        enterpriseSystems: { curren, t: 100, target: 200, transformedExports: 100 }
       });
       await progressTracker.getProgressMetrics();
 
@@ -575,7 +575,7 @@ describe('ProgressTracker', () => {
         phases: [],
         currentMetrics: {} as ProgressMetrics,
         targetMetrics: {} as ProgressMetrics,
-        estimatedCompletion: new Date(),
+        estimatedCompletion: new Date()
       });
     });
 
@@ -584,7 +584,7 @@ describe('ProgressTracker', () => {
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         'test-metrics.json',
-        expect.stringContaining('"campaignId": "perfect-codebase-campaign"'),
+        expect.stringContaining(''campaignId': 'perfect-codebase-campaign''),
         undefined,
       );
     });

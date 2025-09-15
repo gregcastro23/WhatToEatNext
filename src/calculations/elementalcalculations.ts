@@ -49,7 +49,7 @@ export class ElementalCalculator {
    * @returns A score from 0-100 representing the effectiveness
    */
   static calculateSeasonalEffectiveness(recipe: unknown, season: string): number {
-    const recipeData = recipe as unknown;
+    const recipeData = recipe ;
     if (!recipeData?.elementalProperties) return 0;
 
     const seasonalModifiers = this.getSeasonalModifiers(season as Season);
@@ -63,7 +63,7 @@ export class ElementalCalculator {
 
     // Apply seasonal bonuses/penalties
     if ((recipeData as any)?.season) {
-      const seasons = Array.isArray((recipeData as any)?.season)
+      const seasons = Array.isArray((recipeData as any)?.season);
         ? (recipeData as any)?.season
         : [(recipeData as any)?.season];
       if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
@@ -156,8 +156,8 @@ export class ElementalCalculator {
    */
   calculateElementalState(
     baseProperties: ElementalProperties,
-    _phase = 'default',
-    time = 'neutral',
+    _phase = 'default',;
+    time = 'neutral',;
   ): {
     properties: ElementalProperties;
     seasonalInfluence: ElementalProperties;
@@ -166,18 +166,18 @@ export class ElementalCalculator {
     const properties = { ...baseProperties };
 
     // Create default seasonal influence
-    const seasonalInfluence: ElementalProperties = {
+    const seasonalInfluence: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
 
     // Apply time-based modifiers
-    if (time === 'day') {
+    if (time === 'day') {;
       properties.Fire = properties.Fire * 1.1;
       properties.Air = properties.Air * 1.05;
-    } else if (time === 'night') {
+    } else if (time === 'night') {;
       properties.Water = properties.Water * 1.1;
       properties.Earth = properties.Earth * 1.05;
     }
@@ -186,7 +186,7 @@ export class ElementalCalculator {
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
 
     if (total > 0) {
-      Object.keys(properties).forEach(key => {
+      Object.keys(properties).forEach(key => {;
         properties[key] = properties[key] / total;
 
         // Update seasonal influence based on the normalized properties
@@ -196,7 +196,7 @@ export class ElementalCalculator {
 
     return {
       properties,
-      seasonalInfluence,
+      seasonalInfluence
     };
   }
 }
@@ -228,7 +228,7 @@ function getPlanetaryInfluencers(
 
   // Return only the planets that are actually present in the positions data
   return potentialInfluencers.filter(
-    planet => planetaryPositions[planet] && typeof planetaryPositions[planet] === 'object',
+    planet => planetaryPositions[planet] && typeof planetaryPositions[planet] === 'object',;
   );
 }
 
@@ -241,9 +241,9 @@ function getPlanetaryInfluencers(
  */
 export function calculateElementalEnergies(
   planetaryPositions: Record<string, unknown>,
-  isDaytime = true,
+  isDaytime = true,;
 ): ElementalEnergy[] {
-  if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
+  if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
     // console.warn('No planetary positions provided for elemental calculation');
     return getDefaultElementalEnergies();
   }
@@ -271,7 +271,7 @@ export function calculateElementalEnergies(
     saturn: 0.1,
     uranus: 0.05,
     neptune: 0.05,
-    pluto: 0.05,
+    pluto: 0.05
   };
 
   // Calculate element values based on planetary positions
@@ -281,7 +281,7 @@ export function calculateElementalEnergies(
     const weight = planetWeights[planet.toLowerCase()] || 0.05;
 
     // Skip if position doesn't have a sign
-    const positionData = position as unknown;
+    const positionData = position ;
     if (!positionData?.sign) continue;
 
     // Convert the sign to lowercase to ensure matching
@@ -318,7 +318,7 @@ export function calculateElementalEnergies(
     .map(([type, strength]) => ({
       type: type as ElementType,
       strength,
-      influence: getPlanetaryInfluencers(planetaryPositions, type as ElementType),
+      influence: getPlanetaryInfluencers(planetaryPositions, type as ElementType)
     }));
 
   return energies;
@@ -332,7 +332,7 @@ function getDefaultElementalEnergies(): ElementalEnergy[] {
     { type: 'Fire', strength: 0.25, influence: [] },
     { type: 'Water', strength: 0.25, influence: [] },
     { type: 'Earth', strength: 0.25, influence: [] },
-    { type: 'Air', strength: 0.25, influence: [] },
+    { type: 'Air', strength: 0.25, influence: [] }
   ];
 }
 

@@ -30,13 +30,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.3,
       bitter: 0.4,
       salty: 0.3,
-      umami: 0.2,
+      umami: 0.2
     },
     elementalInfluence: {
       Fire: 0.8,
       Air: 0.2,
       Water: 0.0,
-      Earth: 0.0,
+      Earth: 0.0
     },
     complementaryIngredients: [
       'saffron',
@@ -44,11 +44,11 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'turmeric',
       'honey',
       'sunflower seeds',
-      'gold leaf',
+      'gold leaf'
     ],
     cookingTechniques: ['grilling', 'roasting', 'flambé'],
     idealMealTypes: ['brunch', 'celebratory feasts', 'summer dishes'],
-    culinaryAffinity: ['mediterranean', 'mexican', 'indian'],
+    culinaryAffinity: ['mediterranean', 'mexican', 'indian']
   },
 
   Moon: {
@@ -61,18 +61,18 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.3,
       bitter: 0.1,
       salty: 0.2,
-      umami: 0.7,
+      umami: 0.7
     },
     elementalInfluence: {
       Water: 0.8,
       Earth: 0.2,
       Fire: 0.0,
-      Air: 0.0,
+      Air: 0.0
     },
     complementaryIngredients: ['milk', 'coconut', 'rice', 'white foods', 'silver', 'cucumber'],
     cookingTechniques: ['steaming', 'poaching', 'fermenting'],
     idealMealTypes: ['evening meals', 'comfort food', 'breakfast'],
-    culinaryAffinity: ['japanese', 'scandinavian', 'french'],
+    culinaryAffinity: ['japanese', 'scandinavian', 'french']
   },
 
   // Inner Planets
@@ -86,13 +86,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.7,
       bitter: 0.5,
       salty: 0.5,
-      umami: 0.3,
+      umami: 0.3
     },
     elementalInfluence: {
       Air: 0.6,
       Earth: 0.3,
       Water: 0.1,
-      Fire: 0.0,
+      Fire: 0.0
     },
     complementaryIngredients: [
       'mixed herbs',
@@ -100,11 +100,11 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'anise',
       'fennel',
       'variety plates',
-      'small bites',
+      'small bites'
     ],
     cookingTechniques: ['quick sautéing', 'flash frying', 'infusing'],
     idealMealTypes: ['appetizers', 'tapas', 'finger foods'],
-    culinaryAffinity: ['spanish', 'fusion', 'lebanese'],
+    culinaryAffinity: ['spanish', 'fusion', 'lebanese']
   },
 
   Venus: {
@@ -117,13 +117,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.3,
       bitter: 0.1,
       salty: 0.2,
-      umami: 0.5,
+      umami: 0.5
     },
     elementalInfluence: {
       Earth: 0.6,
       Water: 0.3,
       Air: 0.1,
-      Fire: 0.0,
+      Fire: 0.0
     },
     complementaryIngredients: [
       'vanilla',
@@ -131,11 +131,11 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'berries',
       'chocolate',
       'cream',
-      'edible flowers',
+      'edible flowers'
     ],
     cookingTechniques: ['baking', 'caramelizing', 'layering flavors'],
     idealMealTypes: ['desserts', 'romantic dinners', 'afternoon tea'],
-    culinaryAffinity: ['french', 'viennese', 'thai'],
+    culinaryAffinity: ['french', 'viennese', 'thai']
   },
 
   Mars: {
@@ -148,13 +148,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.2,
       bitter: 0.3,
       salty: 0.6,
-      umami: 0.4,
+      umami: 0.4
     },
     elementalInfluence: {
       Fire: 0.8,
       Earth: 0.2,
       Water: 0.0,
-      Air: 0.0,
+      Air: 0.0
     },
     complementaryIngredients: [
       'chili peppers',
@@ -162,11 +162,11 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'garlic',
       'black pepper',
       'mustard',
-      'red meats',
+      'red meats'
     ],
     cookingTechniques: ['grilling', 'broiling', 'smoking', 'high heat'],
     idealMealTypes: ['protein-rich meals', 'high-energy dishes', 'post-workout food'],
-    culinaryAffinity: ['korean', 'sichuanese', 'mexican'],
+    culinaryAffinity: ['korean', 'sichuanese', 'mexican']
   },
 
   // Outer Planets
@@ -180,13 +180,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.3,
       bitter: 0.2,
       salty: 0.4,
-      umami: 0.8,
+      umami: 0.8
     },
     elementalInfluence: {
       Fire: 0.4,
       Air: 0.4,
       Earth: 0.2,
-      Water: 0.0,
+      Water: 0.0
     },
     complementaryIngredients: [
       'nutmeg',
@@ -194,11 +194,11 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'truffle',
       'rich stocks',
       'expensive ingredients',
-      'generous portions',
+      'generous portions'
     ],
     cookingTechniques: ['slow cooking', 'braising', 'feast preparation'],
     idealMealTypes: ['holiday feasts', 'celebratory meals', 'banquets'],
-    culinaryAffinity: ['italian', 'moroccan', 'turkish'],
+    culinaryAffinity: ['italian', 'moroccan', 'turkish']
   },
 
   Saturn: {
@@ -211,13 +211,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.5,
       bitter: 0.7,
       salty: 0.7,
-      umami: 0.4,
+      umami: 0.4
     },
     elementalInfluence: {
       Earth: 0.8,
       Water: 0.1,
       Air: 0.1,
-      Fire: 0.0,
+      Fire: 0.0
     },
     complementaryIngredients: [
       'aged ingredients',
@@ -225,11 +225,11 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'preserved foods',
       'bone broths',
       'dark greens',
-      'ancient grains',
+      'ancient grains'
     ],
     cookingTechniques: ['fermenting', 'curing', 'aging', 'preservation methods'],
     idealMealTypes: ['traditional meals', 'winter dishes', 'practical nutrition'],
-    culinaryAffinity: ['german', 'nordic', 'russian'],
+    culinaryAffinity: ['german', 'nordic', 'russian']
   },
 
   // Transpersonal Planets
@@ -243,29 +243,29 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.6,
       bitter: 0.5,
       salty: 0.3,
-      umami: 0.6,
+      umami: 0.6
     },
     elementalInfluence: {
       Air: 0.7,
       Fire: 0.2,
       Earth: 0.1,
-      Water: 0.0,
+      Water: 0.0
     },
     complementaryIngredients: [
       'unusual combinations',
       'molecular gastronomy',
       'unexpected textures',
       'novel ingredients',
-      'fusion elements',
+      'fusion elements'
     ],
     cookingTechniques: [
       'sous vide',
       'molecular gastronomy',
       'liquid nitrogen',
-      'deconstructed preparations',
+      'deconstructed preparations'
     ],
     idealMealTypes: ['avant-garde dining', 'food experiences', 'conceptual dishes'],
-    culinaryAffinity: ['molecular', 'fusion', 'experimental'],
+    culinaryAffinity: ['molecular', 'fusion', 'experimental']
   },
 
   Neptune: {
@@ -278,13 +278,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.3,
       bitter: 0.2,
       salty: 0.5,
-      umami: 0.8,
+      umami: 0.8
     },
     elementalInfluence: {
       Water: 0.9,
       Air: 0.1,
       Earth: 0.0,
-      Fire: 0.0,
+      Fire: 0.0
     },
     complementaryIngredients: [
       'seafood',
@@ -292,11 +292,11 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'alcohol infusions',
       'blue foods',
       'iridescent garnishes',
-      'subtle spices',
+      'subtle spices'
     ],
     cookingTechniques: ['gentle poaching', 'infusion', 'misting', 'foam making'],
     idealMealTypes: ['seafood feasts', 'mystical dining experiences', 'ethereal desserts'],
-    culinaryAffinity: ['coastal mediterranean', 'pacific', 'scandinavian'],
+    culinaryAffinity: ['coastal mediterranean', 'pacific', 'scandinavian']
   },
 
   Pluto: {
@@ -309,13 +309,13 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       sour: 0.6,
       bitter: 0.8,
       salty: 0.5,
-      umami: 0.9,
+      umami: 0.9
     },
     elementalInfluence: {
       Water: 0.5,
       Earth: 0.5,
       Fire: 0.0,
-      Air: 0.0,
+      Air: 0.0
     },
     complementaryIngredients: [
       'black foods',
@@ -323,12 +323,12 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
       'very aged items',
       'strong flavors',
       'offal',
-      'strong alcohol',
+      'strong alcohol'
     ],
     cookingTechniques: ['fermentation', 'long aging', 'smoking', 'buried cooking'],
     idealMealTypes: ['regenerative foods', 'deeply satisfying meals', 'transformative dining'],
-    culinaryAffinity: ['korean', 'icelandic', 'peruvian'],
-  },
+    culinaryAffinity: ['korean', 'icelandic', 'peruvian']
+  }
 };
 
 // Helper functions for working with planetary flavor profiles
@@ -336,14 +336,14 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
 /**
  * Calculates the flavor profile for a dish based on its planetary influences
  */
-export const calculateFlavorProfile = (planetaryInfluences: Record<string, number>) => {
-  const flavorProfile = {
+export const calculateFlavorProfile = (planetaryInfluences: Record<string, number>) => {;
+  const flavorProfile = {;
     spicy: 0,
     sweet: 0,
     sour: 0,
     bitter: 0,
     salty: 0,
-    umami: 0,
+    umami: 0
   };
 
   let totalInfluence = 0;
@@ -360,7 +360,7 @@ export const calculateFlavorProfile = (planetaryInfluences: Record<string, numbe
 
   // Normalize values if there are influences
   if (totalInfluence > 0) {
-    Object.keys(flavorProfile).forEach(flavor => {
+    Object.keys(flavorProfile).forEach(flavor => {;
       flavorProfile[flavor as keyof typeof flavorProfile] /= totalInfluence;
     });
   }
@@ -371,13 +371,13 @@ export const calculateFlavorProfile = (planetaryInfluences: Record<string, numbe
 /**
  * Returns cuisine types that resonate with a given planetary configuration
  */
-export const getResonantCuisines = (planetaryInfluences: Record<string, number>): string[] => {
+export const _getResonantCuisines = (planetaryInfluences: Record<string, number>): string[] => {;
   const cuisineScores: Record<string, number> = {};
 
   // Calculate cuisine scores based on planetary influences
   Object.entries(planetaryInfluences).forEach(([planet, weight]) => {
     if (planetaryFlavorProfiles[planet]) {
-      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {
+      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {;
         if (!cuisineScores[cuisine]) cuisineScores[cuisine] = 0;
         cuisineScores[cuisine] += weight;
       });
@@ -393,7 +393,7 @@ export const getResonantCuisines = (planetaryInfluences: Record<string, number>)
 /**
  * Returns the dominant flavor in a planetary configuration
  */
-export const getDominantFlavor = (planetaryInfluences: Record<string, number>): string => {
+export const _getDominantFlavor = (planetaryInfluences: Record<string, number>): string => {;
   const flavorProfile = calculateFlavorProfile(planetaryInfluences);
 
   return Object.entries(flavorProfile).sort(([, valueA], [, valueB]) => valueB - valueA)[0][0];
@@ -402,10 +402,10 @@ export const getDominantFlavor = (planetaryInfluences: Record<string, number>): 
 /**
  * Enhances recipe match calculation using planetary influence on flavor profiles
  */
-export const calculatePlanetaryFlavorMatch = (
+export const _calculatePlanetaryFlavorMatch = (;
   recipeFlavors: Record<string, number>,
   planetaryInfluences: Record<string, number>,
-): number => {
+): number => {;
   const astrologicalFlavorProfile = calculateFlavorProfile(planetaryInfluences);
   let matchScore = 0;
   let totalWeight = 0;
@@ -433,7 +433,7 @@ export const calculatePlanetaryFlavorMatch = (
     // Check if any planets with strong influence emphasize this flavor
     Object.entries(planetaryInfluences).forEach(([planet, strength]) => {
       if (strength > 0.6 && planetaryFlavorProfiles[planet]) {
-        const planetaryEmphasis = planetaryFlavorProfiles[planet].flavorProfiles[
+        const planetaryEmphasis = planetaryFlavorProfiles[planet].flavorProfiles[;
           flavor as keyof (typeof planetaryFlavorProfiles)[typeof planet]['flavorProfiles']
         ] as unknown as number;
         if (planetaryEmphasis && planetaryEmphasis > 0.6) {
@@ -455,11 +455,11 @@ export const calculatePlanetaryFlavorMatch = (
     const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>;
 
     // Get the elemental profile from planetary influences
-    const elementalProfile = {
+    const elementalProfile = {;
       Fire: 0,
       Water: 0,
       Air: 0,
-      Earth: 0,
+      Earth: 0
     };
 
     // Calculate weighted elemental influence from planets
@@ -475,7 +475,7 @@ export const calculatePlanetaryFlavorMatch = (
     // Normalize elemental profile
     const elementalSum = Object.values(elementalProfile).reduce((sum, val) => sum + val, 0);
     if (elementalSum > 0) {
-      Object.keys(elementalProfile).forEach(element => {
+      Object.keys(elementalProfile).forEach(element => {;
         elementalProfile[element as keyof typeof elementalProfile] /= elementalSum;
       });
     }

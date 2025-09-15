@@ -8,7 +8,7 @@ export type {
   ZodiacSign,
   LunarPhase,
   Recipe,
-  Ingredient,
+  Ingredient
 } from '../alchemy';
 
 export type { Recipe as UnifiedRecipe } from '../recipe';

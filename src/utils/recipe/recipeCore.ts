@@ -7,43 +7,43 @@ import type {
   Season,
   TimeFactors,
   TimeOfDay,
-  WeekDay,
+  WeekDay
 } from '@/types/time';
 
 import {
   calculateDominantElement,
   calculateElementalCompatibility,
   calculateElementalProfile,
-  getZodiacElementalInfluence,
+  getZodiacElementalInfluence
 } from '../astrologyUtils';
 import { createLogger } from '../logger';
 
 const logger = createLogger('RecipeCore');
 
-// ===== RECIPE MATCHING UTILITIES =====
+// ===== RECIPE MATCHING UTILITIES =====;
 
 /**
  * Checks if a recipe is appropriate for the current time of day
  */
 export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): boolean {
-  const mealTypes = Array.isArray(recipe.mealType)
+  const mealTypes = Array.isArray(recipe.mealType);
     ? recipe.mealType
-    : typeof recipe.mealType === 'string'
+    : typeof recipe.mealType === 'string';
       ? [recipe.mealType]
       : [];
 
   switch (timeOfDay) {
     case 'night':
     case 'evening':
-      return (mealTypes || []).some(type =>
+      return (mealTypes || []).some(type =>;
         ['dinner', 'supper', 'evening', 'all'].includes(type.toLowerCase()),
       );
     case 'morning':
-      return (mealTypes || []).some(type =>
+      return (mealTypes || []).some(type =>;
         ['breakfast', 'brunch', 'all'].includes(type.toLowerCase()),
       );
     case 'afternoon':
-      return (mealTypes || []).some(type =>
+      return (mealTypes || []).some(type =>;
         ['lunch', 'brunch', 'all'].includes(type.toLowerCase()),
       );
     default:
@@ -101,14 +101,14 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0;
 
   try {
-    const baseScore = calculateElementalMatch(
+    const baseScore = calculateElementalMatch(;
       recipe.elementalState as { [key: string]: number },
       elementalState as { [key: string]: number },
     );
     let score = baseScore * 100;
 
     // Enhanced scoring factors
-    const bonusFactors = {
+    const bonusFactors = {;
       seasonMatch: 10, // Season matching bonus
       timeMatch: 15, // Perfect time of day match
       balancedNutrition: 8, // Well-balanced nutritional profile
@@ -117,18 +117,18 @@ export function calculateRecipeMatchScore(
     };
 
     // Season matching with more nuanced scoring
-    const seasons = Array.isArray(recipe.season)
+    const seasons = Array.isArray(recipe.season);
       ? recipe.season
-      : typeof recipe.season === 'string'
+      : typeof recipe.season === 'string';
         ? [recipe.season]
         : [];
 
     // Perfect season match
-    if ((seasons || []).some(s => s === elementalState.currentSeason)) {
+    if ((seasons || []).some(s => s === elementalState.currentSeason)) {;
       score += bonusFactors.seasonMatch;
     }
     // 'All' season partial bonus
-    else if ((seasons || []).some(s => s.toLowerCase() === 'all')) {
+    else if ((seasons || []).some(s => s.toLowerCase() === 'all')) {;
       score += ((bonusFactors as any)?.seasonMatch || 0) * 0.2;
     }
 
@@ -137,18 +137,18 @@ export function calculateRecipeMatchScore(
     const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
 
     if (
-      timeOfDay === 'morning' &&
-      (Array.isArray(mealTypes) ? mealTypes.includes('breakfast') : mealTypes === 'breakfast')
+      timeOfDay === 'morning' &&;
+      (Array.isArray(mealTypes) ? mealTypes.includes('breakfast') : mealTypes === 'breakfast');
     ) {
       score += bonusFactors.timeMatch;
     } else if (
-      timeOfDay === 'afternoon' &&
-      (Array.isArray(mealTypes) ? mealTypes.includes('lunch') : mealTypes === 'lunch')
+      timeOfDay === 'afternoon' &&;
+      (Array.isArray(mealTypes) ? mealTypes.includes('lunch') : mealTypes === 'lunch');
     ) {
       score += bonusFactors.timeMatch;
     } else if (
       ['evening', 'night'].includes(timeOfDay) &&
-      (Array.isArray(mealTypes) ? mealTypes.includes('dinner') : mealTypes === 'dinner')
+      (Array.isArray(mealTypes) ? mealTypes.includes('dinner') : mealTypes === 'dinner');
     ) {
       score += bonusFactors.timeMatch;
     }
@@ -157,7 +157,7 @@ export function calculateRecipeMatchScore(
     if (recipe.nutrition) {
       // Calculate nutrition ratios rather than absolute values
       const totalMacros =
-        (recipe.nutrition.protein ?? 0) +
+        (recipe.nutrition.protein ?? 0) +;
         (recipe.nutrition.carbs ?? 0) +
         (recipe.nutrition.fat ?? 0);
 
@@ -185,8 +185,8 @@ export function calculateRecipeMatchScore(
       // Caloric appropriateness
       const calories = recipe.nutrition.calories ?? 0;
       const isAppropriateCalories =
-        (timeOfDay === 'morning' && calories >= 300 && calories <= 500) ||
-        (timeOfDay === 'afternoon' && calories >= 400 && calories <= 700) ||
+        (timeOfDay === 'morning' && calories >= 300 && calories <= 500) ||;
+        (timeOfDay === 'afternoon' && calories >= 400 && calories <= 700) ||;
         (timeOfDay === 'evening' && calories >= 400 && calories <= 800);
 
       if (isAppropriateCalories) {
@@ -204,8 +204,8 @@ export function calculateRecipeMatchScore(
 
     // Traditional/Cultural appropriateness for time and season
     if (
-      recipe.traditional_time_of_day === elementalState.timeOfDay ||
-      recipe.traditional_season === elementalState.currentSeason
+      recipe.traditional_time_of_day === elementalState.timeOfDay ||;
+      recipe.traditional_season === elementalState.currentSeason;
     ) {
       score += bonusFactors.traditionalMatch;
     }
@@ -251,7 +251,7 @@ export function getMatchRating(score: number): { stars: string; tooltip: string 
   }
 }
 
-// ===== RECIPE RECOMMENDATION INTERFACES =====
+// ===== RECIPE RECOMMENDATION INTERFACES =====;
 
 export interface RecommendationScore {
   recipe: Recipe;
@@ -264,7 +264,7 @@ export interface RecommendationExplanation {
   explanation: string;
 }
 
-// ===== RECIPE RECOMMENDATION ENGINE =====
+// ===== RECIPE RECOMMENDATION ENGINE =====;
 
 /**
  * Get recommended recipes based on astrological state and time factors
@@ -272,19 +272,19 @@ export interface RecommendationExplanation {
 export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
-  limit = 3,
+  limit = 3,;
 ): RecommendationExplanation[] {
   // Get current time factors to enhance recipe scoring
   const timeFactors = getTimeFactors();
 
   // Score each recipe
-  const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {
+  const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {;
     const { score, reasons } = scoreRecipe(recipe, astrologicalState, timeFactors);
 
     return {
       recipe,
       score,
-      reasons,
+      reasons
     };
   });
 
@@ -295,9 +295,9 @@ export function getRecommendedRecipes(
   const topRecipes = sortedRecipes.slice(0, limit);
 
   // Generate human-readable explanations
-  return (topRecipes || []).map(scoredRecipe => ({
+  return (topRecipes || []).map(scoredRecipe => ({;
     recipe: scoredRecipe.recipe,
-    explanation: generateExplanation(scoredRecipe),
+    explanation: generateExplanation(scoredRecipe)
   }));
 }
 
@@ -319,20 +319,20 @@ function scoreRecipe(
     const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
 
     if (
-      timeOfDay === 'Morning' &&
-      (mealTypes || []).some(type => type.toLowerCase().includes('breakfast'))
+      timeOfDay === 'Morning' &&;
+      (mealTypes || []).some(type => type.toLowerCase().includes('breakfast'));
     ) {
       score += 15;
       reasons.push(`Perfect for morning meals`);
     } else if (
-      timeOfDay === 'Afternoon' &&
-      (mealTypes || []).some(type => type.toLowerCase().includes('lunch'))
+      timeOfDay === 'Afternoon' &&;
+      (mealTypes || []).some(type => type.toLowerCase().includes('lunch'));
     ) {
       score += 15;
       reasons.push(`Ideal for lunch time`);
     } else if (
-      timeOfDay === 'Evening' &&
-      (mealTypes || []).some(type => type.toLowerCase().includes('dinner'))
+      timeOfDay === 'Evening' &&;
+      (mealTypes || []).some(type => type.toLowerCase().includes('dinner'));
     ) {
       score += 15;
       reasons.push(`Great dinner option`);
@@ -344,7 +344,7 @@ function scoreRecipe(
   if (recipe.season) {
     const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
 
-    if ((seasons || []).some(season => season.toLowerCase() === currentSeason.toLowerCase())) {
+    if ((seasons || []).some(season => season.toLowerCase() === currentSeason.toLowerCase())) {;
       score += 15;
       reasons.push(`Perfect for ${currentSeason}`);
     }
@@ -363,7 +363,7 @@ function scoreRecipe(
 
   // Calculate planetary hour influence
   const planetaryHour = timeFactors.planetaryHour;
-  const planetaryHourInfluence = calculatePlanetaryHourInfluence(
+  const planetaryHourInfluence = calculatePlanetaryHourInfluence(;
     recipe,
     planetaryHour.planet,
     isDaytimeNow,
@@ -428,14 +428,14 @@ function scoreRecipe(
   if (
     recipe.zodiacInfluences &&
     (Array.isArray(recipe.zodiacInfluences)
-      ? recipe.zodiacInfluences.includes(sunSign as any)
-      : recipe.zodiacInfluences === sunSign)
+      ? recipe.zodiacInfluences.includes(sunSign )
+      : recipe.zodiacInfluences === sunSign);
   ) {
     score += 12;
     reasons.push(`Aligned with your Sun sign (${sunSign})`);
 
     // Add zodiac elemental influence check
-    const sunSignElement = getZodiacElementalInfluence(sunSign as any);
+    const sunSignElement = getZodiacElementalInfluence(sunSign );
 
     if (recipe.elementalState && recipe.elementalState[sunSignElement] > 0.5) {
       score += 8;
@@ -449,14 +449,14 @@ function scoreRecipe(
     moonSign &&
     recipe.zodiacInfluences &&
     (Array.isArray(recipe.zodiacInfluences)
-      ? recipe.zodiacInfluences.includes(moonSign as any)
-      : recipe.zodiacInfluences === moonSign)
+      ? recipe.zodiacInfluences.includes(moonSign )
+      : recipe.zodiacInfluences === moonSign);
   ) {
     score += 10;
     reasons.push(`Harmonious with your Moon sign (${moonSign})`);
 
     // Add zodiac elemental influence check for Moon sign
-    const moonSignElement = getZodiacElementalInfluence(moonSign as any);
+    const moonSignElement = getZodiacElementalInfluence(moonSign );
 
     if (recipe.elementalState && recipe.elementalState[moonSignElement] > 0.5) {
       score += 6;
@@ -470,7 +470,7 @@ function scoreRecipe(
     astrologicalState.lunarPhase &&
     (Array.isArray(recipe.lunarPhaseInfluences)
       ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase)
-      : recipe.lunarPhaseInfluences === astrologicalState.lunarPhase)
+      : recipe.lunarPhaseInfluences === astrologicalState.lunarPhase);
   ) {
     score += 10;
     reasons.push(`In sync with the current lunar phase (${astrologicalState.lunarPhase})`);
@@ -494,14 +494,14 @@ function scoreRecipe(
     const calculatedDominantElement = calculateDominantElement(astrologicalState, timeFactors);
 
     // Get recipe's dominant element
-    const recipeElements = Object.entries(recipe.elementalState)
+    const recipeElements = Object.entries(recipe.elementalState);
       .sort((a, b) => b[1] - a[1])
       .map(([element]) => element as 'Fire' | 'Water' | 'Earth' | 'Air');
 
     const recipeDominantElement = recipeElements[0];
 
     // Calculate compatibility between recipe's element and current dominant element
-    const compatibilityScore = calculateElementalCompatibility(
+    const compatibilityScore = calculateElementalCompatibility(;
       recipeDominantElement,
       calculatedDominantElement,
     );
@@ -527,7 +527,7 @@ function scoreRecipe(
     if (timeMatch) {
       prepTime = parseInt(timeMatch[1], 10);
     } else {
-      // If there's no explicit "min" pattern, try to parse just a number
+      // If there's no explicit 'min' pattern, try to parse just a number
       const justNumberMatch = recipe.timeToMake.match(/(\d+)/);
 
       if (justNumberMatch) {
@@ -585,7 +585,7 @@ function generateExplanation(scoredRecipe: RecommendationScore): string {
 /**
  * Helper function to determine if it's currently daytime (6 AM to 6 PM)
  */
-function isDaytime(date: Date = new Date()): boolean {
+function isDaytime(date: Date = new Date()): boolean {;
   const hour = date.getHours();
   return hour >= 6 && hour < 18; // Simple daytime check (6 AM to 6 PM)
 }
@@ -610,38 +610,38 @@ function calculatePlanetaryDayInfluence(
     Sun: {
       styles: ['roasting', 'grilling', 'baking'],
       ingredients: ['citrus', 'sunflower', 'saffron', 'cinnamon', 'honey'],
-      flavor: 'bright and vibrant',
+      flavor: 'bright and vibrant'
     },
     moon: {
       styles: ['steaming', 'poaching', 'simmering'],
       ingredients: ['dairy', 'coconut', 'cucumber', 'mushroom', 'vanilla'],
-      flavor: 'subtle and soothing',
+      flavor: 'subtle and soothing'
     },
     Mars: {
       styles: ['frying', 'searing', 'spicy'],
       ingredients: ['peppers', 'garlic', 'onion', 'red meat', 'ginger'],
-      flavor: 'bold and spicy',
+      flavor: 'bold and spicy'
     },
     Mercury: {
       styles: ['stir-frying', 'quick cooking', 'diverse'],
       ingredients: ['seeds', 'nuts', 'herbs', 'leafy greens', 'berries'],
-      flavor: 'complex and varied',
+      flavor: 'complex and varied'
     },
     Jupiter: {
       styles: ['slow cooking', 'feasting', 'abundance'],
       ingredients: ['fruits', 'rich meats', 'wine', 'sage', 'nutmeg'],
-      flavor: 'generous and expansive',
+      flavor: 'generous and expansive'
     },
     Venus: {
       styles: ['sweet', 'artistic', 'delicate'],
       ingredients: ['berries', 'flowers', 'chocolate', 'honey', 'butter'],
-      flavor: 'sweet and pleasing',
+      flavor: 'sweet and pleasing'
     },
     Saturn: {
       styles: ['traditional', 'preserved', 'aged'],
       ingredients: ['root vegetables', 'beans', 'aged cheese', 'dried fruits'],
-      flavor: 'structured and grounding',
-    },
+      flavor: 'structured and grounding'
+    }
   };
 
   // Get the associations for the current planetary day
@@ -652,7 +652,7 @@ function calculatePlanetaryDayInfluence(
   let styleMatch = false;
   if (recipe.cookingMethod) {
     const cookingMethodStr = recipe.cookingMethod as unknown as any;
-    if (typeof cookingMethodStr === 'string') {
+    if (typeof cookingMethodStr === 'string') {;
       for (const style of associations.styles) {
         if (String(cookingMethodStr).toLowerCase().includes(style.toLowerCase())) {
           styleMatch = true;
@@ -671,17 +671,17 @@ function calculatePlanetaryDayInfluence(
 
     if (Array.isArray(ingredientsData)) {
       // Handle array of ingredients
-      ingredientText = ingredientsData
-        .map(ingredient => {
-          if (typeof ingredient === 'string') {
+      ingredientText = ingredientsData;
+        .map(ingredient => {;
+          if (typeof ingredient === 'string') {;
             return ingredient.toLowerCase();
-          } else if (ingredient && typeof ingredient === 'object' && (ingredient as any).name) {
-            return String((ingredient as any).name).toLowerCase();
+          } else if (ingredient && typeof ingredient === 'object' && (ingredient ).name) {;
+            return String((ingredient ).name).toLowerCase();
           }
           return '';
         })
         .join(' ');
-    } else if (typeof ingredientsData === 'string') {
+    } else if (typeof ingredientsData === 'string') {;
       // Handle string ingredients
       ingredientText = String(ingredientsData).toLowerCase();
     }
@@ -734,38 +734,38 @@ function calculatePlanetaryHourInfluence(
     Sun: {
       daytime: ['energizing', 'warming', 'bright'],
       nighttime: ['comforting', 'golden', 'radiant'],
-      flavor: 'invigorating',
+      flavor: 'invigorating'
     },
     moon: {
       daytime: ['cooling', 'refreshing', 'hydrating'],
       nighttime: ['soothing', 'calming', 'comforting'],
-      flavor: 'nurturing',
+      flavor: 'nurturing'
     },
     Mars: {
       daytime: ['stimulating', 'spicy', 'lively'],
       nighttime: ['warming', 'passionate', 'deep'],
-      flavor: 'energetic',
+      flavor: 'energetic'
     },
     Mercury: {
       daytime: ['light', 'varied', 'clever'],
       nighttime: ['thoughtful', 'diverse', 'balanced'],
-      flavor: 'stimulating',
+      flavor: 'stimulating'
     },
     Jupiter: {
       daytime: ['abundant', 'expansive', 'celebratory'],
       nighttime: ['rich', 'festive', 'indulgent'],
-      flavor: 'abundant',
+      flavor: 'abundant'
     },
     Venus: {
       daytime: ['beautiful', 'harmonious', 'balanced'],
       nighttime: ['sensual', 'sweet', 'indulgent'],
-      flavor: 'pleasing',
+      flavor: 'pleasing'
     },
     Saturn: {
       daytime: ['structured', 'traditional', 'disciplined'],
       nighttime: ['grounding', 'earthy', 'practical'],
-      flavor: 'satisfying',
-    },
+      flavor: 'satisfying'
+    }
   };
 
   // Get the associations for the current planetary hour
@@ -789,7 +789,7 @@ function calculatePlanetaryHourInfluence(
   let score = 0.5; // Base score
   if (matchCount >= 2) {
     score = 0.8; // Strong match
-  } else if (matchCount === 1) {
+  } else if (matchCount === 1) {;
     score = 0.65; // Partial match
   }
 
@@ -814,7 +814,7 @@ function getTimeFactors(): TimeFactors {
 
   // Determine time of day
   const timeOfDay: TimeOfDay =
-    hour >= 5 && hour < 12
+    hour >= 5 && hour < 12;
       ? 'Morning'
       : hour >= 12 && hour < 17
         ? 'Afternoon'
@@ -833,20 +833,20 @@ function getTimeFactors(): TimeFactors {
     'Wednesday',
     'Thursday',
     'Friday',
-    'Saturday',
+    'Saturday'
   ];
   const weekDay = weekDays[dayOfWeek];
 
   // Create planetary day object
-  const planetaryDay: PlanetaryDay = {
+  const planetaryDay: PlanetaryDay = {;
     day: weekDay,
-    planet: getDayPlanet(dayOfWeek) as unknown as PlanetName,
+    planet: getDayPlanet(dayOfWeek) as unknown as PlanetName
   };
 
   // Create planetary hour object
-  const planetaryHour: PlanetaryHour = {
+  const planetaryHour: PlanetaryHour = {;
     planet: getHourPlanet(hour) as unknown as PlanetName,
-    hourOfDay: hour,
+    hourOfDay: hour
   };
 
   return {
@@ -855,7 +855,7 @@ function getTimeFactors(): TimeFactors {
     timeOfDay,
     planetaryDay,
     planetaryHour,
-    weekDay,
+    weekDay
   };
 }
 

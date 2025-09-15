@@ -11,7 +11,7 @@ import * as path from 'path';
 import {
   DEFAULT_DEPENDENCY_SECURITY_CONFIG,
   DependencySecurityConfig,
-  DependencySecurityMonitor,
+  DependencySecurityMonitor
 } from './DependencySecurityMonitor';
 
 interface CLIOptions {
@@ -29,13 +29,13 @@ interface CLIOptions {
 class DependencySecurityCLI {
   private options: CLIOptions;
 
-  constructor(options: CLIOptions = {}) {
+  constructor(options: CLIOptions = {}) {;
     this.options = options;
   }
 
   async run(): Promise<void> {
     try {
-      console.log('🔒 Starting Dependency Security Monitor...\n');
+      // console.log('🔒 Starting Dependency Security Monitor...\n');
 
       // Load configuration
       const config = await this.loadConfiguration();
@@ -44,7 +44,7 @@ class DependencySecurityCLI {
       const securityMonitor = new DependencySecurityMonitor(config);
 
       if (this.options.dryRun) {
-        console.log('🔍 DRY RUN MODE - No changes will be made\n');
+        // console.log('🔍 DRY RUN MODE - No changes will be made\n');
         await this.runDryRun(securityMonitor);
         return;
       }
@@ -58,7 +58,7 @@ class DependencySecurityCLI {
         await this.runFullMonitoring(securityMonitor);
       }
 
-      console.log('\n✅ Dependency security monitoring completed successfully!');
+      // console.log('\n✅ Dependency security monitoring completed successfully!');
     } catch (error: unknown) {
       console.error(
         '❌ Dependency security monitoring failed:',
@@ -89,11 +89,11 @@ class DependencySecurityCLI {
 
     if (this.options.severityThreshold) {
       // Adjust security thresholds based on severity level
-      const thresholds = {
+      const thresholds = {;
         critical: { autoFixCritical: true, autoFixHigh: false },
         high: { autoFixCritical: true, autoFixHigh: true },
         moderate: { autoFixCritical: true, autoFixHigh: true },
-        low: { autoFixCritical: true, autoFixHigh: true },
+        low: { autoFixCritical: true, autoFixHigh: true }
       };
 
       Object.assign(config.securityThresholds, thresholds[this.options.severityThreshold]);
@@ -105,172 +105,172 @@ class DependencySecurityCLI {
         const configPath = path.resolve(this.options.config);
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8'));
         config = { ...config, ...configFile };
-        console.log(`📋 Loaded configuration from ${configPath}`);
+        // console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error: unknown) {
         console.warn(`⚠️  Failed to load config file: ${(error as Error).message}`);
       }
     }
 
     if (this.options.verbose) {
-      console.log('Configuration:', JSON.stringify(config, null, 2));
-      console.log('');
+      // console.log('Configuration:', JSON.stringify(config, null, 2));
+      // console.log('');
     }
 
     return config;
   }
 
   private async runFullMonitoring(securityMonitor: DependencySecurityMonitor): Promise<void> {
-    console.log('🔄 Running full dependency security monitoring...');
+    // console.log('🔄 Running full dependency security monitoring...');
 
     const result = await securityMonitor.executeDependencySecurityMonitoring();
     this.printResults(result);
   }
 
   private async runSecurityScanOnly(securityMonitor: DependencySecurityMonitor): Promise<void> {
-    console.log('🔍 Running security vulnerability scan only...');
+    // console.log('🔍 Running security vulnerability scan only...');
 
     const securityReport = await securityMonitor.scanSecurityVulnerabilities();
     this.printSecurityReport(securityReport);
   }
 
   private async runUpdateCheckOnly(securityMonitor: DependencySecurityMonitor): Promise<void> {
-    console.log('📦 Running dependency update check only...');
+    // console.log('📦 Running dependency update check only...');
 
     const updateReport = await securityMonitor.checkDependencyUpdates();
     this.printUpdateReport(updateReport);
   }
 
   private async runDryRun(securityMonitor: DependencySecurityMonitor): Promise<void> {
-    console.log('📊 Dry Run Results:\n');
+    // console.log('📊 Dry Run Results:\n');
 
     // Run security scan
-    console.log('🔒 Security Scan:');
+    // console.log('🔒 Security Scan:');
     const securityReport = await securityMonitor.scanSecurityVulnerabilities();
     this.printSecuritySummary(securityReport);
 
-    console.log('\n📦 Dependency Updates:');
+    // console.log('\n📦 Dependency Updates:');
     const updateReport = await securityMonitor.checkDependencyUpdates();
     this.printUpdateSummary(updateReport);
 
     if (securityReport.summary.total > 0 || updateReport.summary.total > 0) {
-      console.log('\n💡 Recommendations:');
+      // console.log('\n💡 Recommendations:');
 
       if (securityReport.summary.critical > 0) {
-        console.log(
+        // console.log(
           '  🚨 Critical vulnerabilities found - run with --enable-auto-update to apply security patches',
         );
       }
 
       if (updateReport.summary.security > 0) {
-        console.log('  🔒 Security updates available - consider applying immediately');
+        // console.log('  🔒 Security updates available - consider applying immediately');
       }
 
       if (updateReport.summary.patch > 0) {
-        console.log('  🔧 Patch updates available - generally safe to apply');
+        // console.log('  🔧 Patch updates available - generally safe to apply');
       }
 
       if (updateReport.summary.major > 0) {
-        console.log('  ⚠️  Major updates available - review breaking changes before applying');
+        // console.log('  ⚠️  Major updates available - review breaking changes before applying');
       }
     }
   }
 
   private printResults(result: Record<string, unknown>): void {
-    console.log('\n📊 Dependency Security Monitoring Results:');
-    console.log(`  - Dependencies scanned: ${result.dependenciesScanned}`);
-    console.log(`  - Vulnerabilities found: ${result.vulnerabilitiesFound}`);
-    console.log(`  - Updates available: ${result.updatesAvailable}`);
-    console.log(`  - Updates applied: ${result.updatesApplied}`);
-    console.log(`  - Security patches applied: ${result.securityPatchesApplied}`);
-    console.log(
+    // console.log('\n📊 Dependency Security Monitoring Results:');
+    // console.log(`  - Dependencies scanned: ${result.dependenciesScanned}`);
+    // console.log(`  - Vulnerabilities found: ${result.vulnerabilitiesFound}`);
+    // console.log(`  - Updates available: ${result.updatesAvailable}`);
+    // console.log(`  - Updates applied: ${result.updatesApplied}`);
+    // console.log(`  - Security patches applied: ${result.securityPatchesApplied}`);
+    // console.log(
       `  - Compatibility tests: ${result.compatibilityTestsPassed ? '✅ Passed' : '❌ Failed'}`,
     );
 
     if ((result as any)?.(securityReport as any).summary.total > 0) {
-      console.log('\n🔒 Security Report:');
+      // console.log('\n🔒 Security Report:');
       this.printSecuritySummary(result.securityReport);
     }
 
     if ((result as any)?.(updateReport as any).summary.total > 0) {
-      console.log('\n📦 Update Report:');
+      // console.log('\n📦 Update Report:');
       this.printUpdateSummary(result.updateReport);
     }
 
     if ((result as any)?.(errors as any).length > 0) {
-      console.log('\n❌ Errors:');
-      (result as any)?.(errors as any).forEach((error: string) => console.log(`  - ${error}`));
+      // console.log('\n❌ Errors:');
+      (result as any)?.(errors as any).forEach((error: string) => // console.log(`  - ${error}`));
     }
 
     if ((result as any)?.(warnings as any).length > 0) {
-      console.log('\n⚠️  Warnings:');
+      // console.log('\n⚠️  Warnings:');
       (result as any)?.(warnings as any).forEach((warning: string) =>
-        console.log(`  - ${warning}`),
+        // console.log(`  - ${warning}`),
       );
     }
   }
 
   private printSecurityReport(securityReport: Record<string, unknown>): void {
-    console.log('\n🔒 Security Vulnerability Report:');
+    // console.log('\n🔒 Security Vulnerability Report:');
     this.printSecuritySummary(securityReport);
 
     if (this.options.verbose && (securityReport as any)?.vulnerabilities?.length > 0) {
-      console.log('\n📋 Detailed Vulnerabilities:');
+      // console.log('\n📋 Detailed Vulnerabilities:');
       (securityReport as any)?.vulnerabilities?.forEach((vuln: any) => {
         const severityIcon = this.getSeverityIcon(vuln.severity);
         const patchStatus = vuln?.patchAvailable ? '✅ Patch available' : '❌ No patch';
 
-        console.log(`\n${severityIcon} ${vuln.packageName}`);
-        console.log(`  Current: ${vuln.currentVersion}`);
-        console.log(`  CVE: ${vuln.cve}`);
-        console.log(`  Description: ${vuln.description}`);
-        console.log(`  ${patchStatus}`);
-        if ((vuln as any).fixedVersion) {
-          console.log(`  Fixed in: ${(vuln as any).fixedVersion}`);
+        // console.log(`\n${severityIcon} ${vuln.packageName}`);
+        // console.log(`  Current: ${vuln.currentVersion}`);
+        // console.log(`  CVE: ${vuln.cve}`);
+        // console.log(`  Description: ${vuln.description}`);
+        // console.log(`  ${patchStatus}`);
+        if ((vuln ).fixedVersion) {
+          // console.log(`  Fixed in: ${(vuln ).fixedVersion}`);
         }
       });
     }
 
     if ((securityReport as any)?.(recommendations as any).length > 0) {
-      console.log('\n💡 Recommendations:');
+      // console.log('\n💡 Recommendations:');
       (securityReport as any)?.(recommendations as any).forEach((rec: string) =>
-        console.log(`  ${rec}`),
+        // console.log(`  ${rec}`),
       );
     }
   }
 
   private printUpdateReport(updateReport: Record<string, unknown>): void {
-    console.log('\n📦 Dependency Update Report:');
+    // console.log('\n📦 Dependency Update Report:');
     this.printUpdateSummary(updateReport);
 
     if (this.options.verbose && (updateReport as any)?.availableUpdates?.length > 0) {
-      console.log('\n📋 Available Updates:');
+      // console.log('\n📋 Available Updates:');
       (updateReport as any)?.availableUpdates?.forEach((update: any) => {
         const updateIcon = this.getUpdateTypeIcon(update.updateType);
         const breakingIcon = update?.breakingChanges ? '⚠️' : '✅';
 
-        console.log(`\n${updateIcon} ${update.packageName}`);
-        console.log(`  Current: ${update.currentVersion}`);
-        console.log(`  Latest: ${update.latestVersion}`);
-        console.log(`  Type: ${update.updateType}`);
-        console.log(`  Breaking changes: ${breakingIcon} ${update.breakingChanges ? 'Yes' : 'No'}`);
-        console.log(`  Security fix: ${update.securityFix ? '🔒 Yes' : 'No'}`);
+        // console.log(`\n${updateIcon} ${update.packageName}`);
+        // console.log(`  Current: ${update.currentVersion}`);
+        // console.log(`  Latest: ${update.latestVersion}`);
+        // console.log(`  Type: ${update.updateType}`);
+        // console.log(`  Breaking changes: ${breakingIcon} ${update.breakingChanges ? 'Yes' : 'No'}`);
+        // console.log(`  Security fix: ${update.securityFix ? '🔒 Yes' : 'No'}`);
       });
     }
 
     if ((updateReport as any)?.appliedUpdates?.length > 0) {
-      console.log('\n✅ Applied Updates:');
+      // console.log('\n✅ Applied Updates:');
       (updateReport as any)?.appliedUpdates?.forEach((update: any) => {
         const securityIcon = update?.securityFix ? '🔒' : '📦';
-        console.log(
+        // console.log(
           `  ${securityIcon} ${update.packageName}: ${update?.currentVersion} → ${update.latestVersion}`,
         );
       });
     }
 
     if ((updateReport as any)?.failedUpdates?.length > 0) {
-      console.log('\n❌ Failed Updates:');
+      // console.log('\n❌ Failed Updates:');
       (updateReport as any)?.failedUpdates?.forEach((update: any) => {
-        console.log(
+        // console.log(
           `  - ${update?.packageName}: ${update?.currentVersion} → ${update?.latestVersion}`,
         );
       });
@@ -290,28 +290,28 @@ class DependencySecurityCLI {
 
   private printUpdateSummary(updateReport: Record<string, unknown>): void {
     const { summary } = updateReport;
-    console.log(`  - Major updates: ${(summary as any).major}`);
-    console.log(`  - Minor updates: ${(summary as any).minor}`);
-    console.log(`  - Patch updates: ${(summary as any).patch}`);
-    console.log(`  - Security updates: ${(summary as any).security}`);
-    console.log(`  - Total updates: ${(summary as any).total}`);
+    // console.log(`  - Major updates: ${(summary as any).major}`);
+    // console.log(`  - Minor updates: ${(summary as any).minor}`);
+    // console.log(`  - Patch updates: ${(summary as any).patch}`);
+    // console.log(`  - Security updates: ${(summary as any).security}`);
+    // console.log(`  - Total updates: ${(summary as any).total}`);
   }
 
   private getSeverityIcon(severity: string): string {
-    const icons = {
+    const icons = {;
       critical: '🚨',
       high: '⚠️',
       moderate: '📋',
-      low: 'ℹ️',
+      low: 'ℹ️'
     };
     return icons[severity] || '❓';
   }
 
   private getUpdateTypeIcon(updateType: string): string {
-    const icons = {
+    const icons = {;
       major: '🔴',
       minor: '🟡',
-      patch: '🟢',
+      patch: '🟢'
     };
     return icons[updateType] || '📦';
   }
@@ -371,7 +371,7 @@ function parseArguments(): CLIOptions {
 }
 
 function printHelp(): void {
-  console.log(`
+  // console.log(`
 🔒 Dependency Security Monitor CLI
 
 Usage: node run-dependency-security.ts [options]
@@ -408,7 +408,7 @@ Examples:
   node run-dependency-security.ts --enable-auto-update --severity-threshold high
 
   # Exclude specific packages from updates
-  node run-dependency-security.ts --exclude-packages "react,next,typescript"
+  node run-dependency-security.ts --exclude-packages 'react,next,typescript'
 
   # Use custom configuration file
   node run-dependency-security.ts --config ./dependency-security.config.json
@@ -419,10 +419,10 @@ Examples:
 }
 
 // Main execution
-if (require.main === module) {
+if (require.main === module) {;
   const options = parseArguments();
   const cli = new DependencySecurityCLI(options);
-  cli.run().catch(error => {
+  cli.run().catch(error => {;
     console.error('❌ CLI execution failed:', error);
     process.exit(1);
   });

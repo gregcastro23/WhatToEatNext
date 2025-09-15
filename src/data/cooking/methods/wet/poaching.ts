@@ -8,7 +8,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Coagulation - transforming delicate substances
  * with minimal disruption while preserving their essence.
  */
-export const poaching: CookingMethodData = {
+export const poaching: CookingMethodData = {;
   name: 'poaching',
   description:
     'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
@@ -20,7 +20,7 @@ export const poaching: CookingMethodData = {
   },
   duration: {
     min: 3,
-    max: 45,
+    max: 45
   },
   suitable_for: [
     'fish fillets',
@@ -42,7 +42,7 @@ export const poaching: CookingMethodData = {
     'fennel',
     'meatballs',
     'quenelles',
-    'terrines',
+    'terrines'
   ],
   benefits: [
     'preserves delicate textures',
@@ -59,7 +59,7 @@ export const poaching: CookingMethodData = {
     'facilitates subtle flavor absorption',
     'creates natural sauces',
     'maintains nutritional value',
-    'prevents food from drying out',
+    'prevents food from drying out'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'] as any[], // Water signs and balanced Libra
@@ -75,7 +75,7 @@ export const poaching: CookingMethodData = {
       third_quarter: 0.98, // Slight reduction
       waxing_crescent: 1.0, // Neutral
       waning_gibbous: 1.05, // Moderate enhancement
-    },
+    }
   },
   toolsRequired: [
     'Wide, shallow pan with lid',
@@ -90,7 +90,7 @@ export const poaching: CookingMethodData = {
     'Ladle',
     'Paper towels for draining',
     'Shallow serving dish',
-    'Heat diffuser (optional)',
+    'Heat diffuser (optional)'
   ],
   commonMistakes: [
     'liquid too hot (causes toughening and shrinkage)',
@@ -106,7 +106,7 @@ export const poaching: CookingMethodData = {
     'poaching frozen items without thawing (temperature inconsistency)',
     'not resting proteins after poaching (moisture loss)',
     'incorrect liquid selection for ingredient (flavor clash)',
-    'not saving poaching liquid for sauce (flavor waste)',
+    'not saving poaching liquid for sauce (flavor waste)'
   ],
   pairingSuggestions: [
     'Beurre blanc sauce (classic with fish)',
@@ -123,7 +123,7 @@ export const poaching: CookingMethodData = {
     'Compound butters (dill, tarragon, lemon)',
     'Crisp toast points or crostini',
     'Salsas verde or mild fruit salsas',
-    'Minimally dressed greens (contrasting bitterness)',
+    'Minimally dressed greens (contrasting bitterness)'
   ],
   nutrientRetention: {
     vitamins: 0.85, // Excellent preservation of heat-sensitive vitamins
@@ -161,7 +161,7 @@ export const poaching: CookingMethodData = {
       'pears poached in wine (poires au vin)',
       'court bouillon with white wine and herbs',
       'oeufs en meurette (eggs poached in red wine)',
-      'poisson au court-bouillon (fish in aromatic broth)',
+      'poisson au court-bouillon (fish in aromatic broth)'
     ],
     chinese: [
       'Cantonese steamed fish (subtle poaching)',
@@ -169,43 +169,43 @@ export const poaching: CookingMethodData = {
       'rice wine poached seafood',
       'ginger-scallion fish poaching',
       'chrysanthemum fish (chrysanthemum-infused poaching)',
-      'tea-poached fish',
+      'tea-poached fish'
     ],
     italian: [
       'poached seafood for insalata di mare',
       'pesce in carpione (poached then marinated fish)',
       'white wine and herb poaching for branzino',
       'fruit in moscato (peaches, apricots)',
-      'uova in camicia (poached eggs Italian style)',
+      'uova in camicia (poached eggs Italian style)'
     ],
     nordic: [
       'dill-poached salmon',
       'aquavit-infused poaching liquids',
       'cucumber poaching court bouillon',
       'buttermilk poached cod',
-      'spruce tip poaching liquid',
+      'spruce tip poaching liquid'
     ],
     japanese: [
       'nimono (simmered/poached dishes)',
       'sakamushi (sake-poached seafood)',
       'yudofu (hot-pot poached tofu)',
       'tamago onsen (hot spring eggs)',
-      'kombu-dashi poaching liquid',
+      'kombu-dashi poaching liquid'
     ],
     mexican: [
       'huevos ahogados (drowned eggs)',
       'pescado a la veracruzana (poached fish)',
       'poached fruit in cinnamon and piloncillo',
       'chile-infused poaching liquids',
-      'hibiscus flower fruit poaching',
+      'hibiscus flower fruit poaching'
     ],
     indian: [
       'coconut milk poached fish (South Indian)',
       'saffron and cardamom poached chicken',
       'poached fruit in chai tea',
       'yogurt-poached fish (Bengali tradition)',
-      'fragrant poaching with whole spices',
-    ],
+      'fragrant poaching with whole spices'
+    ]
   },
   chemicalChanges: {
     gentle_protein_denaturation: true, // Proteins unfold without toughening
@@ -238,7 +238,7 @@ export const poaching: CookingMethodData = {
     'Follow time guidelines for different ingredients',
     'Cool poached items quickly if not serving immediately',
     'Strain and reuse poaching liquid only once or twice (safety)',
-    'Be aware of allergens in aromatic poaching liquids',
+    'Be aware of allergens in aromatic poaching liquids'
   ],
   thermodynamicProperties: {
     heat: 0.4, // Gentle, low heat
@@ -257,7 +257,7 @@ export const poaching: CookingMethodData = {
     'Osmosis facilitates flavor exchange between poaching liquid and food',
     'Gentle temperature prevents rapid protein coagulation that causes toughening',
     'Constant temperature environment provides even cooking throughout food',
-    "Water's high specific heat capacity creates stable cooking environment",
+    'Water's high specific heat capacity creates stable cooking environment',
     'Aromatic compounds dissolve in poaching liquid creating flavor infusion',
     'Convection currents in liquid distribute heat evenly around food',
     'Acidic poaching liquids denature proteins more readily than neutral liquids',
@@ -266,7 +266,7 @@ export const poaching: CookingMethodData = {
     'Submersion ensures even heat distribution without temperature gradients',
     'Low temperature prevents excessive moisture loss from protein contraction',
     'Fat-soluble flavors remain in food while water-soluble flavors can migrate to liquid',
-    'Hydrophilic and hydrophobic interactions influence flavor transfer dynamics',
+    'Hydrophilic and hydrophobic interactions influence flavor transfer dynamics'
   ],
 
   modernVariations: [
@@ -284,7 +284,7 @@ export const poaching: CookingMethodData = {
     'Ultra-filtration of poaching liquids for reuse',
     'Centrifuged clarified poaching media',
     'Enzyme-modified poaching liquids for tenderization',
-    'Ultrasonic-assisted flavor infusion during poaching',
+    'Ultrasonic-assisted flavor infusion during poaching'
   ],
 
   sustainabilityRating: 0.8, // Highly efficient cooking method with liquid reuse potential
@@ -306,7 +306,7 @@ export const poaching: CookingMethodData = {
     'Allows natural flavors to predominate without additives',
     'Can incorporate aromatic herbs with medicinal properties',
     'Facilitates precise control of sodium and other additives',
-    'Creates easily digestible proteins for therapeutic nutrition',
+    'Creates easily digestible proteins for therapeutic nutrition'
   ],
 
   /**
@@ -335,7 +335,7 @@ export const poaching: CookingMethodData = {
     associatedElements: {
       primary: 'Water', // Fluidity, emotion, nourishment
       secondary: 'Air', // Subtlety, refinement, delicacy
-    },
+    }
   },
 
   /**
@@ -355,7 +355,7 @@ export const poaching: CookingMethodData = {
     'When poaching fish, a court bouillon with acid helps maintain firmness',
     'Let delicate items like fish rest in turned-off poaching liquid for 1-2 minutes',
     'Butter-baste poached items just before serving for added richness',
-    'Strain and freeze poaching liquid for future use (label with date and ingredients)',
+    'Strain and freeze poaching liquid for future use (label with date and ingredients)'
   ],
 
   timingConsiderations: {
@@ -369,7 +369,7 @@ export const poaching: CookingMethodData = {
     whole_fish: '8-10 minutes per pound at 170°F',
     rest_period: 'Fish: 2-3 minutes in liquid; Chicken: 5-10 minutes in liquid',
     custards: '25-35 minutes at 170°F (verify with jiggle test or thermometer)',
-    vegetables: 'Asparagus: 3-5 minutes; Artichokes: 20-30 minutes; test with knife',
+    vegetables: 'Asparagus: 3-5 minutes; Artichokes: 20-30 minutes; test with knife'
   },
 
   doneness_indicators: {
@@ -381,7 +381,7 @@ export const poaching: CookingMethodData = {
     pears: 'Knife pierces easily without resistance but fruit maintains shape',
     delicate_vegetables: 'Bright color, tender-crisp texture; slight resistance when bitten',
     custards: 'Set around edges but slight jiggle in center; knife inserted comes out clean',
-    meat: 'Reaches target internal temperature but remains juicy and tender',
+    meat: 'Reaches target internal temperature but remains juicy and tender'
   },
 
   poaching_liquids: {
@@ -394,7 +394,7 @@ export const poaching: CookingMethodData = {
     tea: 'Adds tannins and aromatics; excellent for fish and fruit',
     infused_water: 'Simple water base enhanced with aromatics (herbs, citrus, spices)',
     coconut_milk: 'Rich tropical medium for seafood and fruit',
-    oil: 'Low-temperature poaching in oil (confit method) for rich results',
+    oil: 'Low-temperature poaching in oil (confit method) for rich results'
   },
 
   presentation_techniques: {
@@ -408,6 +408,6 @@ export const poaching: CookingMethodData = {
     fluid_gel_technique: 'Modern application using poaching liquid as textural element',
     paired_temperatures: 'Contrasting warm poached item with cool accompaniments',
     negative_space: 'Contemporary plating with poached item as focal point',
-    herb_garnish: 'Fresh herbs that echo poaching aromatics for visual and flavor connection',
-  },
+    herb_garnish: 'Fresh herbs that echo poaching aromatics for visual and flavor connection'
+  }
 } as unknown as CookingMethodData;

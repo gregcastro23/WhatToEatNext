@@ -54,6 +54,6 @@ export function signVectorComponentsToArray(components: SignVectorComponents): n
     components.Water,
     components.Earth,
     components.Air,
-    components.seasonal,
+    components.seasonal
   ];
 }

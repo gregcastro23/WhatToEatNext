@@ -2,7 +2,7 @@ import { ZodiacSign, LunarPhase } from './alchemy';
 import {
   validateRecipe as validateAlchemyRecipe,
   validateIngredient as validateAlchemyIngredient,
-  validateElementalProperties as validateAlchemyElementalProps,
+  validateElementalProperties as validateAlchemyElementalProps
 } from './validators';
 
 // Primary elemental properties interface - used throughout the application
@@ -223,11 +223,11 @@ export interface ScoredRecipe extends Recipe {
 }
 
 // Validation utilities
-export const validateElementalProperties = (properties?: ElementalProperties): boolean => {
+export const validateElementalProperties = (properties?: ElementalProperties): boolean => {;
   if (!properties) return false;
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-  if (!requiredElements.every(element => typeof properties[element] === 'number')) {
+  if (!requiredElements.every(element => typeof properties[element] === 'number')) {;
     return false;
   }
 
@@ -235,23 +235,23 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
   return Math.abs(total - 1) < 0.01;
 };
 
-export const validateRecipe = (recipe: Partial<Recipe>): boolean => {
+export const validateRecipe = (recipe: Partial<Recipe>): boolean => {;
   if (!recipe) return false;
   if (!recipe.name || !recipe.id) return false;
   return true;
 };
 
-export const validateSeason = (season: string): boolean => {
+export const validateSeason = (season: string): boolean => {;
   const validSeasons = ['spring', 'summer', 'autumn', 'winter'];
   return validSeasons.includes(season.toLowerCase());
 };
 
-export const validateSeasonality = (seasonality: string[]): boolean => {
+export const validateSeasonality = (seasonality: string[]): boolean => {;
   if (!Array.isArray(seasonality)) return false;
   return seasonality.every(season => validateSeason(season));
 };
 
-export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {
+export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {;
   if (!ingredient) return false;
 
   // Required properties
@@ -269,9 +269,9 @@ export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boole
 };
 
 // Re-export validators with descriptive names
-export const validateElementalPropertiesExt = validateAlchemyElementalProps;
-export const validateIngredientExt = validateAlchemyIngredient;
-export const validateRecipeExt = validateAlchemyRecipe;
+export const _validateElementalPropertiesExt = validateAlchemyElementalProps;
+export const _validateIngredientExt = validateAlchemyIngredient;
+export const _validateRecipeExt = validateAlchemyRecipe;
 
 // Legacy interfaces for backward compatibility - all now extend unified Recipe
 export interface RecipeExtended extends Recipe {
@@ -293,42 +293,42 @@ export interface RecipeDetail {
   cuisine: string;
 
   // Time & Serving
-  prepTime: string; // e.g., "20 minutes"
-  cookTime: string; // e.g., "45 minutes"
+  prepTime: string; // e.g., '20 minutes'
+  cookTime: string; // e.g., '45 minutes'
   totalTime?: string; // Optional calculated total
   restTime?: string; // For recipes that need resting/marinating
   numberOfServings: number;
   yield?: string; // For recipes that produce specific amounts
 
   // Culinary Classifications
-  course: string[]; // e.g., ["appetizer", "main", "dessert"]
-  mealType: string[]; // e.g., ["breakfast", "lunch", "dinner"]
-  dishType: string[]; // e.g., ["soup", "stew", "salad", "sandwich"]
+  course: string[]; // e.g., ['appetizer', 'main', 'dessert']
+  mealType: string[]; // e.g., ['breakfast', 'lunch', 'dinner']
+  dishType: string[]; // e.g., ['soup', 'stew', 'salad', 'sandwich']
 
   // Technique Details
   cookingMethod: string[]; // Primary cooking methods used
   cookingTechniques: string[]; // Specific techniques employed
   equipmentNeeded: string[]; // Required kitchen equipment
-  skillsRequired: string[]; // e.g., "knife skills", "sauce making"
+  skillsRequired: string[]; // e.g., 'knife skills', 'sauce making'
 
   // Ingredients (enhanced)
   ingredients: {
     name: string;
     amount: string;
     unit: string;
-    preparation: string; // e.g., "finely diced", "julienned"
+    preparation: string; // e.g., 'finely diced', 'julienned'
     optional: boolean;
     substitutes?: string[]; // Possible substitutions
     notes?: string; // Special notes about the ingredient
-    category: string; // e.g., "protein", "vegetable", "spice"
-    function?: string; // Culinary function: "base", "seasoning", "garnish"
+    category: string; // e.g., 'protein', 'vegetable', 'spice'
+    function?: string; // Culinary function: 'base', 'seasoning', 'garnish'
     cookingPoint?: string; // When to add this ingredient
   }[];
 
   // Recipe Structure
   componentParts?: {
     // For complex recipes with multiple elements
-    name: string; // e.g., "sauce", "filling", "dough"
+    name: string; // e.g., 'sauce', 'filling', 'dough'
     ingredients: unknown[]; // Ingredients specific to this component
     instructions: string[]; // Instructions specific to this component
   }[];
@@ -355,7 +355,7 @@ export interface RecipeDetail {
     };
   };
 
-  texturalElements: string[]; // e.g., "crispy", "creamy", "chewy"
+  texturalElements: string[]; // e.g., 'crispy', 'creamy', 'chewy'
   aromatics: string[]; // Key aromatic components
   colorProfile: string[]; // Dominant colors
 
@@ -377,14 +377,14 @@ export interface RecipeDetail {
   cookingTemperature?: {
     value: number;
     unit: 'C' | 'F';
-    technique: string; // e.g., "roast", "simmer"
+    technique: string; // e.g., 'roast', 'simmer'
   }[];
 
   internalTemperature?: {
     // For proteins
     value: number;
     unit: 'C' | 'F';
-    doneness: string; // e.g., "rare", "medium", "well-done"
+    doneness: string; // e.g., 'rare', 'medium', 'well-done'
   };
 
   // Nutrition (expanded)
@@ -471,7 +471,7 @@ export interface RecipeProps {
   dominantElements?: [string, number][];
 }
 
-// ========== MISSING TYPES FOR TS2305 FIXES ==========
+// ========== MISSING TYPES FOR TS2305 FIXES ==========;
 
 // RecipeSearchCriteria (causing error in LegacyRecipeAdapter.ts)
 export interface RecipeSearchCriteria {

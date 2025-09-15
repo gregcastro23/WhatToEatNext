@@ -32,7 +32,7 @@ export function useAstrologicalInfluence() {
     void fetchAstrologicalState();
   }, []);
 
-  const influence = useMemo((): AstrologicalInfluence => {
+  const influence = useMemo((): AstrologicalInfluence => {;
     if (!astrologicalState || !planetaryPositions) {
       return {
         planetaryDay: 'Sun',
@@ -40,13 +40,13 @@ export function useAstrologicalInfluence() {
         lunarPhase: 'new moon',
         dominantElement: 'Fire',
         aspectStrength: 0.5,
-        overallInfluence: 0.5,
+        overallInfluence: 0.5
       };
     }
 
     // Calculate dominant element from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const elementMap = {
+    const elementMap = {;
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -58,17 +58,17 @@ export function useAstrologicalInfluence() {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water',
+      pisces: 'Water'
     };
 
-    Object.values(planetaryPositions || {}).forEach(position => {
+    Object.values(planetaryPositions || {}).forEach(position => {;
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }
     });
 
-    const dominantElement = Object.entries(elementCounts).reduce((a, b) =>
+    const dominantElement = Object.entries(elementCounts).reduce((a, b) =>;
       elementCounts[a[0] as keyof typeof elementCounts] >
       elementCounts[b[0] as keyof typeof elementCounts]
         ? a
@@ -76,15 +76,15 @@ export function useAstrologicalInfluence() {
     )[0];
 
     // Calculate aspect strength (simplified)
-    const aspectStrength = astrologicalState.aspects
+    const aspectStrength = astrologicalState.aspects;
       ? Math.min(1, astrologicalState.aspects || [].length / 10)
       : 0.5;
 
     // Calculate overall influence
     const lunarPhaseStrength =
-      astrologicalState.lunarPhase === 'full moon'
+      astrologicalState.lunarPhase === 'full moon';
         ? 1.0
-        : astrologicalState.lunarPhase === 'new moon'
+        : astrologicalState.lunarPhase === 'new moon';
           ? 0.3
           : 0.6;
 
@@ -96,13 +96,13 @@ export function useAstrologicalInfluence() {
       lunarPhase: astrologicalState.lunarPhase || 'new moon',
       dominantElement,
       aspectStrength,
-      overallInfluence,
+      overallInfluence
     };
   }, [astrologicalState, planetaryPositions]);
 
   return {
     ...influence,
     isLoading: isLoading || !astrologicalState,
-    astrologicalState,
+    astrologicalState
   };
 }

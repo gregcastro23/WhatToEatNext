@@ -6,7 +6,7 @@
  * Represents the ruling planets in Wiccan traditions
  */
 export type RulingPlanet =
-  | 'Sun'
+  | 'Sun';
   | 'Moon'
   | 'Mercury'
   | 'Venus'
@@ -26,7 +26,7 @@ export type ElementalCharacter = 'Fire' | 'Earth' | 'Air' | 'Water' | 'Spirit' |
  * Represents the seasons in Wiccan traditions
  */
 export type Season =
-  | 'spring'
+  | 'spring';
   | 'summer'
   | 'autumn'
   | 'fall'

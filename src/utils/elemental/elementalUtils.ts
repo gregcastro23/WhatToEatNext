@@ -10,7 +10,7 @@ export function createElementalProperties(
     Fire: props?.Fire ?? 0,
     Water: props?.Water ?? 0,
     Earth: props?.Earth ?? 0,
-    Air: props?.Air ?? 0,
+    Air: props?.Air ?? 0
   };
 }
 
@@ -20,10 +20,10 @@ export function createElementalProperties(
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {
   if (!obj || typeof obj !== 'object') return false;
   return (
-    typeof (obj as ElementalProperties).Fire === 'number' &&
-    typeof (obj as ElementalProperties).Water === 'number' &&
-    typeof (obj as ElementalProperties).Earth === 'number' &&
-    typeof (obj as ElementalProperties).Air === 'number'
+    typeof (obj as ElementalProperties).Fire === 'number' &&;
+    typeof (obj as ElementalProperties).Water === 'number' &&;
+    typeof (obj as ElementalProperties).Earth === 'number' &&;
+    typeof (obj as ElementalProperties).Air === 'number';
   );
 }
 
@@ -49,7 +49,7 @@ export function mergeElementalProperties(
     Fire: (base?.Fire ?? 0) + (override?.Fire ?? 0),
     Water: (base?.Water ?? 0) + (override?.Water ?? 0),
     Earth: (base?.Earth ?? 0) + (override?.Earth ?? 0),
-    Air: (base?.Air ?? 0) + (override?.Air ?? 0),
+    Air: (base?.Air ?? 0) + (override?.Air ?? 0)
   });
 }
 
@@ -66,7 +66,7 @@ export function scaleElementalProperties(
     Fire: (props.Fire ?? 0) * factor,
     Water: (props.Water ?? 0) * factor,
     Earth: (props.Earth ?? 0) * factor,
-    Air: (props.Air ?? 0) * factor,
+    Air: (props.Air ?? 0) * factor
   });
 }
 
@@ -93,11 +93,11 @@ export function calculateElementalCompatibility(
   const targetProps = createElementalProperties(target);
 
   // Define element compatibility scores (same elements have highest compatibility)
-  const compatibilityScores = {
+  const compatibilityScores = {;
     Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
     Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-    Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
+    Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
   };
 
   // Get dominant elements for each profile

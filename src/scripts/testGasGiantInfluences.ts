@@ -20,8 +20,8 @@ async function testGasGiantInfluences() {
   const influences = celestialCalculator.calculateCurrentInfluences();
 
   // Find Jupiter and Saturn in dominant planets
-  const jupiter = influences.dominantPlanets?.find(p => p.name === 'Jupiter');
-  const saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn');
+  const _jupiter = influences.dominantPlanets?.find(p => p.name === 'Jupiter');
+  const _saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn');
 
   console.log('Current Influences:');
   console.log(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`);
@@ -30,9 +30,9 @@ async function testGasGiantInfluences() {
   console.log('\nDominant Planets:');
   if (influences.dominantPlanets) {
     for (const planet of influences.dominantPlanets) {
-      if (planet.name === 'Jupiter' || planet.name === 'Saturn') {
+      if (planet.name === 'Jupiter' || planet.name === 'Saturn') {;
         console.log(
-          `${planet.name}: influence = ${planet.influence}, effect = ${planet.effect || 'balanced'}`,
+          `${planet.name}: influence = ${planet.influence}, effect = ${planet.effect || 'balanced'}`,;
         );
       }
     }
@@ -43,8 +43,8 @@ async function testGasGiantInfluences() {
   const aspects = influences.aspectInfluences || [];
   for (const aspect of aspects) {
     if (
-      (aspect.planet1 === 'Jupiter' || aspect.planet1 === 'Saturn') &&
-      (aspect.planet2 === 'Jupiter' || aspect.planet2 === 'Saturn')
+      (aspect.planet1 === 'Jupiter' || aspect.planet1 === 'Saturn') &&;
+      (aspect.planet2 === 'Jupiter' || aspect.planet2 === 'Saturn');
     ) {
       console.log(
         `${aspect.planet1} ${aspect.type} ${aspect.planet2}, strength: ${aspect.strength || aspect.orb}`,

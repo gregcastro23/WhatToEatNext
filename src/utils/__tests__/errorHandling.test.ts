@@ -10,7 +10,7 @@ import {
   ErrorHandler,
   globalErrorHandler,
   handleAsyncError,
-  handleSyncError,
+  handleSyncError
 } from '../errorHandling';
 
 // Mock logger
@@ -18,8 +18,8 @@ jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn(),
-  },
+    debug: jest.fn()
+  }
 }));
 
 describe('Error Classification', () => {
@@ -110,7 +110,7 @@ describe('Enhanced Error Creation', () => {
 
   it('preserves original error stack', () => {
     const originalError: any = new Error('Original error');
-    const enhancedError: any = createEnhancedError(
+    const enhancedError: any = createEnhancedError(;
       'Enhanced error',
       ErrorType.UNKNOWN,
       ErrorSeverity.MEDIUM,
@@ -146,10 +146,10 @@ describe('ErrorHandler', () => {
   });
 
   it('attempts recovery with registered strategies', async () => {
-    const mockRecoveryStrategy = {
+    const mockRecoveryStrategy = {;
       canRecover: jest.fn(() => true),
       recover: jest.fn(() => Promise.resolve('recovered data')),
-      fallback: jest.fn(() => 'fallback data'),
+      fallback: jest.fn(() => 'fallback data')
     };
 
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy);
@@ -163,10 +163,10 @@ describe('ErrorHandler', () => {
   });
 
   it('uses fallback when recovery fails', async () => {
-    const mockRecoveryStrategy = {
+    const mockRecoveryStrategy = {;
       canRecover: jest.fn(() => true),
       recover: jest.fn(() => Promise.reject(new Error('Recovery failed'))),
-      fallback: jest.fn(() => 'fallback data'),
+      fallback: jest.fn(() => 'fallback data')
     };
 
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy);
@@ -247,9 +247,9 @@ describe('Global Error Handler', () => {
     const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
 
     // Mock localStorage
-    const mockLocalStorage = {
+    const mockLocalStorage = {;
       getItem: jest.fn(() => JSON.stringify({ zodiacSig, n: 'aries' })),
-      setItem: jest.fn(),
+      setItem: jest.fn()
     };
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
@@ -261,9 +261,9 @@ describe('Global Error Handler', () => {
     const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
 
     // Mock localStorage with no cached data
-    const mockLocalStorage = {
+    const mockLocalStorage = {;
       getItem: jest.fn(() => null),
-      setItem: jest.fn(),
+      setItem: jest.fn()
     };
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
@@ -271,7 +271,7 @@ describe('Global Error Handler', () => {
     expect(result).toEqual({
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
-      elementalState: { Fir, e: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalState: { Fir, e: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     });
   });
 });
@@ -295,7 +295,7 @@ describe('Utility Functions', () => {
     const result: any = handleSyncError(successFn);
     expect(result).toBe('success');
 
-    const failureFn: any = () => {
+    const failureFn: any = () => {;
       throw new Error('sync error');
     };
     expect(() => handleSyncError(failureFn)).toThrow();
@@ -316,7 +316,7 @@ describe('Utility Functions', () => {
 
   it('handleSyncError passes context to error handler', () => {
     const context: any = { operation: 'test' };
-    const failureFn: any = () => {
+    const failureFn: any = () => {;
       throw new Error('sync error');
     };
 

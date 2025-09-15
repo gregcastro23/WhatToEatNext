@@ -82,9 +82,9 @@ export interface SimpleIngredient {
 export function validateIngredient(obj: unknown): obj is RecipeIngredient {
   return Boolean(
     obj &&
-      typeof (obj as any).name === 'string' &&
-      typeof (obj as any).amount === 'number' &&
-      typeof (obj as any).unit === 'string',
+      typeof (obj as any).name === 'string' &&;
+      typeof (obj as any).amount === 'number' &&;
+      typeof (obj as any).unit === 'string',;
   );
 }
 
@@ -96,7 +96,7 @@ export function createRecipeIngredient(
 ): RecipeIngredient {
   return {
     optional: false,
-    ...partial,
+    ...partial
   };
 }
 

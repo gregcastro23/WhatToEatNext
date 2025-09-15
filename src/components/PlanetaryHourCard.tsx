@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 
-type Props = {
+type Props = {;
   latitude?: number;
   longitude?: number;
   className?: string;
 };
 
 export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
-  const calculator = useMemo(
+  const calculator = useMemo(;
     () => new PlanetaryHourCalculator(latitude, longitude),
     [latitude, longitude],
   );
@@ -28,12 +28,12 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
       timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
       nextPlanet,
       start: detailed.start,
-      end: detailed.end,
+      end: detailed.end
     };
   });
 
   useEffect(() => {
-    const tick = () => {
+    const tick = () => {;
       const now = new Date();
       const detailed = calculator.getCurrentPlanetaryHourDetailed(now);
       const next = calculator.getNextPlanetaryHourTransition(now);
@@ -47,7 +47,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
         timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
         nextPlanet,
         start: detailed.start,
-        end: detailed.end,
+        end: detailed.end
       });
     };
 
@@ -60,11 +60,11 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
   const seconds = Math.floor((state.timeRemainingMs % 60000) / 1000);
 
   return (
-    <div className={className || ''}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <div style={{ fontWeight: 700 }}>Current Planetary Hour</div>
+    <div className={className || ''}>;
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>;
+        <div style={{ fontWeight: 700 }}>Current Planetary Hour</div>;
         <div>
-          <span style={{ fontWeight: 600 }}>{state.planet}</span>{' '}
+          <span style={{ fontWeight: 600 }}>{state.planet}</span>{' '};
           <span>({state.isDaytime ? 'Day' : 'Night'})</span>
         </div>
         <div>

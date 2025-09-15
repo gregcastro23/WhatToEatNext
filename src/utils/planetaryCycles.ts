@@ -2,7 +2,7 @@
  * Planetary Cycles Configuration
  * Defines the fundamental cycles that govern token behavior
  */
-export const planetaryCycles = {
+export const planetaryCycles = {;
   Spirit: {
     primary: {
       period: 1.88, // Mars cycle
@@ -18,7 +18,7 @@ export const planetaryCycles = {
       period: 0.62, // Venus cycle
       phase: 0, // No phase offset
       amplitude: 0.2, // Tertiary influence strength
-    },
+    }
   },
 
   Essence: {
@@ -36,7 +36,7 @@ export const planetaryCycles = {
       period: 1.88, // Mars cycle
       phase: 0, // No phase offset
       amplitude: 0.3, // Tertiary influence strength
-    },
+    }
   },
 
   Matter: {
@@ -54,7 +54,7 @@ export const planetaryCycles = {
       period: 0.62, // Venus cycle
       phase: 0, // No phase offset
       amplitude: 0.3, // Tertiary influence strength
-    },
+    }
   },
 
   Substance: {
@@ -72,8 +72,8 @@ export const planetaryCycles = {
       period: 0.24, // Mercury cycle
       phase: 0, // No phase offset
       amplitude: 0.2, // Tertiary influence strength
-    },
-  },
+    }
+  }
 };
 
 /**
@@ -81,7 +81,7 @@ export const planetaryCycles = {
  * Defines how each planet affects elemental and token energies
  * Values represent percentage modifications to base values
  */
-export const planetaryModifiers: Record<string, Record<string, number>> = {
+export const _planetaryModifiers: Record<string, Record<string, number>> = {
   Sun: {
     Fire: 0.3,
     Water: -0.1,
@@ -90,7 +90,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0,
     Matter: -0.1,
-    Substance: 0,
+    Substance: 0
   },
   Moon: {
     Fire: -0.1,
@@ -100,7 +100,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0.1,
-    Substance: 0,
+    Substance: 0
   },
   Mercury: {
     Fire: 0,
@@ -110,7 +110,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0,
     Matter: 0,
-    Substance: 0.2,
+    Substance: 0.2
   },
   Venus: {
     Fire: -0.1,
@@ -120,7 +120,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0,
-    Substance: 0.1,
+    Substance: 0.1
   },
   Mars: {
     Fire: 0.3,
@@ -130,7 +130,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.1,
     Matter: 0.2,
-    Substance: -0.1,
+    Substance: -0.1
   },
   Jupiter: {
     Fire: 0.1,
@@ -140,7 +140,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0.1,
     Matter: 0,
-    Substance: 0,
+    Substance: 0
   },
   Saturn: {
     Fire: -0.1,
@@ -150,7 +150,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: -0.1,
     Essence: 0,
     Matter: 0.3,
-    Substance: 0.1,
+    Substance: 0.1
   },
   Uranus: {
     Fire: 0.1,
@@ -160,7 +160,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0.1,
     Matter: 0.1,
-    Substance: 0.3,
+    Substance: 0.3
   },
   Neptune: {
     Fire: -0.1,
@@ -170,7 +170,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.3,
     Matter: 0,
-    Substance: 0.3,
+    Substance: 0.3
   },
   Pluto: {
     Fire: 0.2,
@@ -180,8 +180,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0.3,
-    Substance: 0.1,
-  },
+    Substance: 0.1
+  }
 };
 
 /**
@@ -189,7 +189,7 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
  * @param date The date to calculate for
  * @returns Object containing token values
  */
-export function calculateTokenizedValues(date: Date = new Date()): {
+export function calculateTokenizedValues(date: Date = new Date()): {;
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -199,11 +199,11 @@ export function calculateTokenizedValues(date: Date = new Date()): {
   const daysSinceEpoch = date.getTime() / (24 * 60 * 60 * 1000);
 
   // Calculate each token's value based on its cycles
-  const values = {
+  const values = {;
     Spirit: calculateTokenValue('Spirit', daysSinceEpoch),
     Essence: calculateTokenValue('Essence', daysSinceEpoch),
     Matter: calculateTokenValue('Matter', daysSinceEpoch),
-    Substance: calculateTokenValue('Substance', daysSinceEpoch),
+    Substance: calculateTokenValue('Substance', daysSinceEpoch)
   };
 
   return values;
@@ -223,15 +223,15 @@ function calculateTokenValue(
 
   // Calculate influence from each cycle
   const primaryInfluence =
-    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.primary.period + cycles.primary.phase) *
+    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.primary.period + cycles.primary.phase) *;
     cycles.primary.amplitude;
 
   const secondaryInfluence =
-    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.secondary.period + cycles.secondary.phase) *
+    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.secondary.period + cycles.secondary.phase) *;
     cycles.secondary.amplitude;
 
   const tertiaryInfluence =
-    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.tertiary.period + cycles.tertiary.phase) *
+    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.tertiary.period + cycles.tertiary.phase) *;
     cycles.tertiary.amplitude;
 
   // Combine influences and normalize to a value between 0.1 and 1

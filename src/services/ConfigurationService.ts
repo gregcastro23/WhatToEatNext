@@ -5,7 +5,7 @@ import { config } from '@/config';
 export interface ConfigurationUpdate {
   section: 'api' | 'astrology' | 'debug';
   key: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   value: any;
@@ -82,7 +82,7 @@ class ConfigurationServiceImpl {
     return {
       api: { ...config.api },
       astrology: { ...config.astrology },
-      debug: config.debug,
+      debug: config.debug
     };
   }
 
@@ -91,8 +91,8 @@ class ConfigurationServiceImpl {
    */
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
     const storedApi = (stored.api as any) || {};
-    const storedAstrology = (stored.astrology as unknown) || {};
-    const celestialUpdateInterval = Number(
+    const storedAstrology = (stored.astrology ) || {};
+    const celestialUpdateInterval = Number(;
       storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
     );
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
@@ -101,15 +101,15 @@ class ConfigurationServiceImpl {
       typeof storedApi.baseUrl === 'string' ? (storedApi.baseUrl) : config.api.baseUrl;
 
     const defaultTimezoneName =
-      typeof storedAstrology.defaultTimezoneName === 'string'
+      typeof storedAstrology.defaultTimezoneName === 'string';
         ? (storedAstrology.defaultTimezoneName)
         : config.astrology.defaultTimezoneName;
-    const retrogradeThreshold = Number(
+    const retrogradeThreshold = Number(;
       storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold,
     );
-    const aspectOrbs = {
+    const aspectOrbs = {;
       ...config.astrology.aspectOrbs,
-      ...((storedAstrology.aspectOrbs as Record<string, number>) || {}),
+      ...((storedAstrology.aspectOrbs as Record<string, number>) || {})
     };
 
     const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug) : config.debug;
@@ -117,7 +117,7 @@ class ConfigurationServiceImpl {
     return {
       api: { celestialUpdateInterval, timeout, retryCount, baseUrl },
       astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs },
-      debug: debugFlag,
+      debug: debugFlag
     };
   }
 
@@ -171,7 +171,7 @@ class ConfigurationServiceImpl {
    */
   public getSection<K extends keyof ConfigurationState>(section: K): ConfigurationState[K] {
     const sectionData = this.currentConfig[section];
-    if (typeof sectionData === 'object' && sectionData !== null) {
+    if (typeof sectionData === 'object' && sectionData !== null) {;
       return { ...sectionData } as ConfigurationState[K];
     }
     return sectionData;
@@ -180,14 +180,14 @@ class ConfigurationServiceImpl {
   /**
    * Update configuration
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Configuration values have multiple valid types
   public updateConfiguration(
     section: keyof ConfigurationState,
     key: string,
     value: unknown,
   ): Promise<boolean> {
-    return new Promise(resolve => {
+    return new Promise(resolve => {;
       try {
         // Validate the update
         const validation = this.validateUpdate(section, key, value);
@@ -198,15 +198,15 @@ class ConfigurationServiceImpl {
         }
 
         // Apply the update
-        const oldValue = (this.currentConfig[section] as Record<string, unknown>)[key];
+        const _oldValue = (this.currentConfig[section] as Record<string, unknown>)[key];
         (this.currentConfig[section] as Record<string, unknown>)[key] = value;
 
         // Create update record
-        const update: ConfigurationUpdate = {
+        const update: ConfigurationUpdate = {;
           section: section as ConfigurationUpdate['section'],
           key,
           value,
-          timestamp: Date.now(),
+          timestamp: Date.now()
         };
 
         // Add to history
@@ -222,11 +222,11 @@ class ConfigurationServiceImpl {
         this.notifyListeners(update);
 
         // Update global config if it's a live system
-        if (section === 'api') {
+        if (section === 'api') {;
           (config.api as unknown as any)[key] = value;
-        } else if (section === 'astrology') {
+        } else if (section === 'astrology') {;
           (config.astrology as unknown as any)[key] = value;
-        } else if (section === 'debug' && key === 'debug') {
+        } else if (section === 'debug' && key === 'debug') {;
           config.debug = Boolean(value);
         }
 
@@ -241,7 +241,7 @@ class ConfigurationServiceImpl {
   /**
    * Validate configuration update
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   // Intentionally any: Validation must handle any incoming configuration value type
   private validateUpdate(
     section: keyof ConfigurationState,
@@ -250,7 +250,7 @@ class ConfigurationServiceImpl {
   ): ConfigurationValidation {
     const errors: ConfigurationValidation['errors'] = [];
 
-    if (section === 'api') {
+    if (section === 'api') {;
       switch (key) {
         case 'celestialUpdateInterval':
           if (typeof value !== 'number' || value < 60000 || value > 86400000) {
@@ -258,7 +258,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Update interval must be between 1 minute and 24 hours',
-              severity: 'error',
+              severity: 'error'
             });
           }
           break;
@@ -268,7 +268,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Timeout must be between 1 second and 5 minutes',
-              severity: 'error',
+              severity: 'error'
             });
           }
           break;
@@ -278,7 +278,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Retry count must be between 0 and 10',
-              severity: 'error',
+              severity: 'error'
             });
           }
           break;
@@ -291,12 +291,12 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Base URL must be a valid HTTP/HTTPS URL',
-              severity: 'error',
+              severity: 'error'
             });
           }
           break;
       }
-    } else if (section === 'astrology') {
+    } else if (section === 'astrology') {;
       switch (key) {
         case 'retrogradeThreshold':
           if (typeof value !== 'number' || value < -5 || value > 5) {
@@ -304,13 +304,13 @@ class ConfigurationServiceImpl {
               section: 'astrology',
               key,
               message: 'Retrograde threshold should be between -5 and 5 degrees/day',
-              severity: 'warning',
+              severity: 'warning'
             });
           }
           break;
         case 'defaultTimezoneName':
           // Basic timezone validation
-          const validTimezones = [
+          const validTimezones = [;
             'UTC',
             'America/New_York',
             'America/Chicago',
@@ -318,14 +318,14 @@ class ConfigurationServiceImpl {
             'America/Los_Angeles',
             'Europe/London',
             'Europe/Paris',
-            'Asia/Tokyo',
+            'Asia/Tokyo'
           ];
           if (!validTimezones.includes(value)) {
             errors.push({
               section: 'astrology',
               key,
               message: 'Unknown timezone identifier',
-              severity: 'warning',
+              severity: 'warning'
             });
           }
           break;
@@ -333,15 +333,15 @@ class ConfigurationServiceImpl {
     }
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,
-      errors,
+      isValid: errors.filter(e => e.severity === 'error').length === 0,;
+      errors
     };
   }
 
   /**
    * Bulk update configuration
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   public async updateBulk(
     updates: Array<{
       section: keyof ConfigurationState;
@@ -376,20 +376,20 @@ class ConfigurationServiceImpl {
    * Reset configuration to defaults
    */
   public resetToDefaults(): Promise<boolean> {
-    return new Promise(resolve => {
+    return new Promise(resolve => {;
       try {
-        this.currentConfig = {
+        this.currentConfig = {;
           api: { ...config.api },
           astrology: { ...config.astrology },
-          debug: config.debug,
+          debug: config.debug
         };
 
         // Create reset record
-        const update: ConfigurationUpdate = {
+        const update: ConfigurationUpdate = {;
           section: 'debug',
           key: 'reset',
           value: 'defaults',
-          timestamp: Date.now(),
+          timestamp: Date.now()
         };
         this.configHistory.push(update);
 
@@ -412,7 +412,7 @@ class ConfigurationServiceImpl {
       {
         configuration: this.currentConfig,
         timestamp: Date.now(),
-        version: '1.0.0',
+        version: '1.0.0'
       },
       null,
       2,
@@ -443,11 +443,11 @@ class ConfigurationServiceImpl {
       this.saveConfiguration();
 
       // Create import record
-      const update: ConfigurationUpdate = {
+      const update: ConfigurationUpdate = {;
         section: 'debug',
         key: 'import',
         value: 'configuration',
-        timestamp: Date.now(),
+        timestamp: Date.now()
       };
       this.configHistory.push(update);
       this.notifyListeners(update);
@@ -480,8 +480,8 @@ class ConfigurationServiceImpl {
     });
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,
-      errors,
+      isValid: errors.filter(e => e.severity === 'error').length === 0,;
+      errors
     };
   }
 
@@ -503,7 +503,7 @@ class ConfigurationServiceImpl {
    * Notify all listeners of configuration changes
    */
   private notifyListeners(update: ConfigurationUpdate): void {
-    this.listeners.forEach(listener => {
+    this.listeners.forEach(listener => {;
       if (!listener.sections || listener.sections.includes(update.section)) {
         try {
           listener.callback(update);
@@ -554,7 +554,7 @@ class ConfigurationServiceImpl {
     }
 
     // Check astrology configuration
-    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(
+    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(;
       (sum, orb) => sum + orb,
       0,
     );
@@ -568,13 +568,13 @@ class ConfigurationServiceImpl {
       issues,
       lastUpdate:
         this.configHistory.length > 0
-          ? Math.max(...this.configHistory.map(h => h.timestamp))
-          : null,
+          ? Math.max(...this.configHistory.map(h => h.timestamp));
+          : null
     };
   }
 }
 
 // Export singleton instance
-export const ConfigurationService = ConfigurationServiceImpl.getInstance();
+export const _ConfigurationService = ConfigurationServiceImpl.getInstance();
 
 // Export additional types for external use

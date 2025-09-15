@@ -18,53 +18,53 @@ const planetaryElements: Record<
   Sun: {
     diurnal: 'Fire',
     nocturnal: 'Fire',
-    dignityEffect: { leo: 1, aries: 2, aquarius: -1, libra: -2 },
+    dignityEffect: { leo: 1, aries: 2, aquarius: -1, libra: -2 }
   },
   Moon: {
     diurnal: 'Water',
     nocturnal: 'Water',
-    dignityEffect: { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 },
+    dignityEffect: { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 }
   },
   Mercury: {
     diurnal: 'Air',
     nocturnal: 'Earth',
-    dignityEffect: { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 },
+    dignityEffect: { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 }
   },
   Venus: {
     diurnal: 'Water',
     nocturnal: 'Earth',
-    dignityEffect: { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 },
+    dignityEffect: { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 }
   },
   Mars: {
     diurnal: 'Fire',
     nocturnal: 'Water',
-    dignityEffect: { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 },
+    dignityEffect: { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 }
   },
   Jupiter: {
     diurnal: 'Air',
     nocturnal: 'Fire',
-    dignityEffect: { pisces: 1, sagittarius: 1, cancer: 2, gemini: -1, virgo: -1, capricorn: -2 },
+    dignityEffect: { pisces: 1, sagittarius: 1, cancer: 2, gemini: -1, virgo: -1, capricorn: -2 }
   },
   Saturn: {
     diurnal: 'Air',
     nocturnal: 'Earth',
-    dignityEffect: { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 },
+    dignityEffect: { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 }
   },
   Uranus: {
     diurnal: 'Water',
     nocturnal: 'Air',
-    dignityEffect: { aquarius: 1, scorpio: 2, taurus: -3 },
+    dignityEffect: { aquarius: 1, scorpio: 2, taurus: -3 }
   },
   Neptune: {
     diurnal: 'Water',
     nocturnal: 'Water',
-    dignityEffect: { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 },
+    dignityEffect: { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 }
   },
   Pluto: {
     diurnal: 'Earth',
     nocturnal: 'Water',
-    dignityEffect: { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 },
-  },
+    dignityEffect: { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
+  }
 };
 
 /**
@@ -86,8 +86,8 @@ const signInfo: Record<
       Venus: [7, 14],
       Mars: [22, 26],
       Jupiter: [1, 6],
-      Saturn: [27, 30],
-    },
+      Saturn: [27, 30]
+    }
   },
   taurus: {
     element: 'Earth',
@@ -97,38 +97,38 @@ const signInfo: Record<
       Venus: [1, 8],
       Mars: [27, 30],
       Jupiter: [16, 22],
-      Saturn: [23, 26],
-    },
+      Saturn: [23, 26]
+    }
   },
   gemini: {
     element: 'Air',
     decanEffects: {
       '1st Decan': ['Jupiter'],
       '2nd Decan': ['Mars'],
-      '3rd Decan': ['Uranus', 'Sun'],
+      '3rd Decan': ['Uranus', 'Sun']
     },
     degreeEffects: {
       Mercury: [1, 7],
       Venus: [15, 20],
       Mars: [26, 30],
       Jupiter: [8, 14],
-      Saturn: [22, 25],
-    },
+      Saturn: [22, 25]
+    }
   },
   cancer: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Venus'],
       '2nd Decan': ['Mercury', 'Pluto'],
-      '3rd Decan': ['Neptune', 'Moon'],
+      '3rd Decan': ['Neptune', 'Moon']
     },
     degreeEffects: {
       Mercury: [14, 20],
       Venus: [21, 27],
       Mars: [1, 6],
       Jupiter: [7, 13],
-      Saturn: [28, 30],
-    },
+      Saturn: [28, 30]
+    }
   },
   leo: {
     element: 'Fire',
@@ -138,53 +138,53 @@ const signInfo: Record<
       Venus: [14, 19],
       Mars: [26, 30],
       Jupiter: [20, 25],
-      Saturn: [1, 6],
-    },
+      Saturn: [1, 6]
+    }
   },
   virgo: {
     element: 'Earth',
     decanEffects: {
       '1st Decan': ['Mars', 'Sun'],
       '2nd Decan': ['Venus'],
-      '3rd Decan': ['Mercury'],
+      '3rd Decan': ['Mercury']
     },
     degreeEffects: {
       Mercury: [1, 7],
       Venus: [8, 13],
       Mars: [25, 30],
       Jupiter: [14, 18],
-      Saturn: [19, 24],
-    },
+      Saturn: [19, 24]
+    }
   },
   libra: {
     element: 'Air',
     decanEffects: {
       '1st Decan': ['Moon'],
       '2nd Decan': ['Saturn', 'Uranus'],
-      '3rd Decan': ['Jupiter'],
+      '3rd Decan': ['Jupiter']
     },
     degreeEffects: {
       Mercury: [20, 24],
       Venus: [7, 11],
       Mars: [],
       Jupiter: [12, 19],
-      Saturn: [1, 6],
-    },
+      Saturn: [1, 6]
+    }
   },
   scorpio: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Pluto'],
       '2nd Decan': ['Neptune', 'Sun'],
-      '3rd Decan': ['Venus'],
+      '3rd Decan': ['Venus']
     },
     degreeEffects: {
       Mercury: [22, 27],
       Venus: [15, 21],
       Mars: [1, 6],
       Jupiter: [7, 14],
-      Saturn: [28, 30],
-    },
+      Saturn: [28, 30]
+    }
   },
   sagittarius: {
     element: 'Fire',
@@ -194,8 +194,8 @@ const signInfo: Record<
       Venus: [9, 14],
       Mars: [],
       Jupiter: [1, 8],
-      Saturn: [21, 25],
-    },
+      Saturn: [21, 25]
+    }
   },
   capricorn: {
     element: 'Earth',
@@ -205,8 +205,8 @@ const signInfo: Record<
       Venus: [1, 6],
       Mars: [],
       Jupiter: [13, 19],
-      Saturn: [26, 30],
-    },
+      Saturn: [26, 30]
+    }
   },
   aquarius: {
     element: 'Air',
@@ -216,24 +216,24 @@ const signInfo: Record<
       Venus: [13, 20],
       Mars: [26, 30],
       Jupiter: [21, 25],
-      Saturn: [1, 6],
-    },
+      Saturn: [1, 6]
+    }
   },
   pisces: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Saturn', 'Neptune', 'Venus'],
       '2nd Decan': ['Jupiter'],
-      '3rd Decan': ['Pisces', 'Mars'],
+      '3rd Decan': ['Pisces', 'Mars']
     },
     degreeEffects: {
       Mercury: [15, 20],
       Venus: [1, 8],
       Mars: [21, 26],
       Jupiter: [9, 14],
-      Saturn: [27, 30],
-    },
-  },
+      Saturn: [27, 30]
+    }
+  }
 };
 
 export interface FoodCorrespondence {
@@ -321,13 +321,13 @@ export class FoodAlchemySystem {
         planet: 'Mars',
         alchemy: {
           day: [0.8, 0.4, 0.6],
-          night: [0.6, 0.3, 0.5],
+          night: [0.6, 0.3, 0.5]
         },
         energyValues: {
           heat: 0.8,
           entropy: 0.4,
-          reactivity: 0.6,
-        },
+          reactivity: 0.6
+        }
       },
       {
         food: 'Ginger',
@@ -337,13 +337,13 @@ export class FoodAlchemySystem {
         planet: 'Mars',
         alchemy: {
           day: [0.7, 0.5, 0.6],
-          night: [0.5, 0.4, 0.5],
+          night: [0.5, 0.4, 0.5]
         },
         energyValues: {
           heat: 0.7,
           entropy: 0.5,
-          reactivity: 0.6,
-        },
+          reactivity: 0.6
+        }
       },
       // Add more foods as needed
     ];
@@ -361,13 +361,13 @@ export class FoodAlchemySystem {
         energyEffects: {
           heat: 0.8,
           entropy: 0.4,
-          reactivity: 0.6,
+          reactivity: 0.6
         },
         timing: {
           optimal: ['Sun', 'Mars'],
           acceptable: ['Jupiter'],
-          avoid: ['Moon', 'Saturn'],
-        },
+          avoid: ['Moon', 'Saturn']
+        }
       },
       {
         name: 'Steaming',
@@ -376,13 +376,13 @@ export class FoodAlchemySystem {
         energyEffects: {
           heat: 0.3,
           entropy: 0.5,
-          reactivity: 0.4,
+          reactivity: 0.4
         },
         timing: {
           optimal: ['Moon', 'Venus'],
           acceptable: ['Mercury'],
-          avoid: ['Mars', 'Sun'],
-        },
+          avoid: ['Mars', 'Sun']
+        }
       },
       // Add more methods as needed
     ];
@@ -402,9 +402,9 @@ export class FoodAlchemySystem {
     const rawPlanetaryDay = planetaryCalculator.calculatePlanetaryHour(time);
 
     // Convert the planet names to the uppercase format used in this module
-    const planetaryHour = (rawPlanetaryHour.charAt(0).toUpperCase() +
+    const planetaryHour = (rawPlanetaryHour.charAt(0).toUpperCase() +;
       rawPlanetaryHour.slice(1)) as Planet;
-    const planetaryDay = (rawPlanetaryDay.charAt(0).toUpperCase() +
+    const planetaryDay = (rawPlanetaryDay.charAt(0).toUpperCase() +;
       rawPlanetaryDay.slice(1)) as Planet;
     const isDaytimeNow = planetaryCalculator.isDaytime(time);
 
@@ -415,14 +415,14 @@ export class FoodAlchemySystem {
     const {
       score: planetaryDayMatch,
       dignityBonus: dayDignityBonus,
-      decanBonus: dayDecanBonus,
+      decanBonus: dayDecanBonus
     } = this.calculatePlanetaryDayInfluence(food, planetaryDay, state.planetaryPositions);
 
     // Calculate planetary hour influence with enhanced dignity and aspect effects (20% weight)
     const {
       score: planetaryHourMatch,
       dignityBonus: hourDignityBonus,
-      aspectBonus,
+      aspectBonus
     } = this.calculatePlanetaryHourInfluence(food, planetaryHour, isDaytimeNow, state);
 
     // Apply standardized weighting
@@ -437,7 +437,7 @@ export class FoodAlchemySystem {
         planetaryHourMatch: planetaryHourMatch * 0.2,
         dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
         decanBonus: dayDecanBonus,
-        aspectBonus,
+        aspectBonus
       },
       recommendations: this.generateRecommendations(
         food,
@@ -448,7 +448,7 @@ export class FoodAlchemySystem {
         isDaytimeNow,
       ),
       warnings: this.generateWarnings(food, state),
-      preparationMethods: this.getPreparationMethods(food, time),
+      preparationMethods: this.getPreparationMethods(food, time)
     };
   }
 
@@ -472,11 +472,11 @@ export class FoodAlchemySystem {
     const { Fire, Water, Air, Earth } = state.elements;
 
     // Calculate the dominant and weakest elements
-    const elementValues = [
+    const elementValues = [;
       { element: 'Fire', value: Fire },
       { element: 'Water', value: Water },
       { element: 'Air', value: Air },
-      { element: 'Earth', value: Earth },
+      { element: 'Earth', value: Earth }
     ];
     elementValues.sort((a, b) => b.value - a.value);
 
@@ -487,7 +487,7 @@ export class FoodAlchemySystem {
     let matchScore = 0.5; // Start with neutral
 
     // If the system needs more of this element (it's the weakest), give high score
-    if (foodElement === weakestElement) {
+    if (foodElement === weakestElement) {;
       matchScore = 0.9;
     }
     // If element is not the dominant but has good presence, give good score
@@ -495,7 +495,7 @@ export class FoodAlchemySystem {
       matchScore = 0.7;
     }
     // If the element is already dominant, give a moderate score
-    else if (foodElement === dominantElement) {
+    else if (foodElement === dominantElement) {;
       matchScore = 0.6;
     }
 
@@ -558,7 +558,7 @@ export class FoodAlchemySystem {
       if (
         signInfo[planetSign] &&
         signInfo[planetSign].degreeEffects[planetaryDay] &&
-        signInfo[planetSign].degreeEffects[planetaryDay].length === 2
+        signInfo[planetSign].degreeEffects[planetaryDay].length === 2;
       ) {
         const [minDegree, maxDegree] = signInfo[planetSign].degreeEffects[planetaryDay];
         if (planetDegree >= minDegree && planetDegree <= maxDegree) {
@@ -569,7 +569,7 @@ export class FoodAlchemySystem {
     }
 
     // If the food's planet is the same as the day's planet, give bonus points
-    if (food.planet === planetaryDay) {
+    if (food.planet === planetaryDay) {;
       elementalScore = Math.min(1.0, elementalScore + 0.3);
     }
 
@@ -645,7 +645,7 @@ export class FoodAlchemySystem {
         }
 
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect
-        if (food.planet === otherPlanet) {
+        if (food.planet === otherPlanet) {;
           aspectBonus = (aspectBonus || 0) + aspectModifier;
           elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + aspectModifier));
         }
@@ -653,7 +653,7 @@ export class FoodAlchemySystem {
     }
 
     // If the food's planet is the same as the hour's planet, give bonus points
-    if (food.planet === planetaryHour) {
+    if (food.planet === planetaryHour) {;
       elementalScore = Math.min(1.0, elementalScore + 0.3);
     }
 
@@ -679,19 +679,19 @@ export class FoodAlchemySystem {
 
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
-      if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {
+      if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {;
         recommendations.push(
           `${food.food} is best prepared with high-heat cooking methods like grilling or roasting today.`,
         );
-      } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {
+      } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {;
         recommendations.push(
           `Consider moist cooking methods like steaming or braising for ${food.food} today.`,
         );
-      } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {
+      } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {;
         recommendations.push(
           `${food.food} performs well with light cooking methods or raw preparations today.`,
         );
-      } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {
+      } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {;
         recommendations.push(
           `Slow, methodical cooking methods like baking are ideal for ${food.food} today.`,
         );
@@ -699,19 +699,19 @@ export class FoodAlchemySystem {
 
       // Add time-specific recommendation based on the hour's element
       const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
-      if (hourElement === 'Fire') {
+      if (hourElement === 'Fire') {;
         recommendations.push(
           `${food.food} is best utilized in the current ${isDaytime ? 'day' : 'night'} hours with quick, energetic preparation.`,
         );
-      } else if (hourElement === 'Water') {
+      } else if (hourElement === 'Water') {;
         recommendations.push(
           `During these ${isDaytime ? 'day' : 'night'} hours, focus on bringing out ${food.food}'s aromatic qualities.`,
         );
-      } else if (hourElement === 'Air') {
+      } else if (hourElement === 'Air') {;
         recommendations.push(
           `The current ${isDaytime ? 'day' : 'night'} hours favor highlighting ${food.food}'s delicate flavors.`,
         );
-      } else if (hourElement === 'Earth') {
+      } else if (hourElement === 'Earth') {;
         recommendations.push(
           `These ${isDaytime ? 'day' : 'night'} hours are perfect for enhancing ${food.food}'s grounding properties.`,
         );
@@ -727,11 +727,11 @@ export class FoodAlchemySystem {
           const daySign = state.planetaryPositions[planetaryDay].sign;
           const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
 
-          if (dayDignity && dayDignity > 0 && food.planet === planetaryDay) {
+          if (dayDignity && dayDignity > 0 && food.planet === planetaryDay) {;
             recommendations.push(
               `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified'} in ${daySign}, strengthening ${food.food}'s properties.`,
             );
-          } else if (dayDignity && dayDignity < 0 && food.planet === planetaryDay) {
+          } else if (dayDignity && dayDignity < 0 && food.planet === planetaryDay) {;
             recommendations.push(
               `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment'} in ${daySign}, requiring careful preparation of ${food.food}.`,
             );
@@ -746,7 +746,7 @@ export class FoodAlchemySystem {
           const hourSign = state.planetaryPositions[planetaryHour].sign;
           const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
 
-          if (hourDignity && hourDignity > 0 && food.planet === planetaryHour) {
+          if (hourDignity && hourDignity > 0 && food.planet === planetaryHour) {;
             recommendations.push(
               `During this hour, ${planetaryHour}'s dignity in ${hourSign} enhances ${food.food}'s flavor profile.`,
             );
@@ -774,12 +774,12 @@ export class FoodAlchemySystem {
 
       // Add aspect-based recommendations
       if (state.aspects && state.aspects.length > 0) {
-        const relevantAspects = state.aspects.filter(
-          aspect => aspect.planets.includes(planetaryDay) || aspect.planets.includes(planetaryHour),
+        const relevantAspects = state.aspects.filter(;
+          aspect => aspect.planets.includes(planetaryDay) || aspect.planets.includes(planetaryHour),;
         );
 
         for (const aspect of relevantAspects) {
-          if (aspect.type === 'Conjunction') {
+          if (aspect.type === 'Conjunction') {;
             if (aspect.planets.includes(food.planet)) {
               const otherPlanet =
                 aspect.planets[0] === food.planet ? aspect.planets[1] : aspect.planets[0];
@@ -787,7 +787,7 @@ export class FoodAlchemySystem {
                 `The conjunction between ${aspect.planets[0]} and ${aspect.planets[1]} powerfully enhances ${food.food}'s qualities.`,
               );
             }
-          } else if (aspect.type === 'Trine') {
+          } else if (aspect.type === 'Trine') {;
             if (aspect.planets.includes(food.planet)) {
               recommendations.push(
                 `The harmonious trine involving ${food.planet} brings out ${food.food}'s best qualities.`,
@@ -798,13 +798,13 @@ export class FoodAlchemySystem {
       }
 
       // Add planetary affinity recommendations
-      if (food.planet === planetaryDay) {
+      if (food.planet === planetaryDay) {;
         recommendations.push(
           `Today is especially favorable for ${food.food} as it's ruled by ${planetaryDay}.`,
         );
       }
 
-      if (food.planet === planetaryHour) {
+      if (food.planet === planetaryHour) {;
         recommendations.push(
           `The current hour enhances ${food.food}'s ${hourElement.toLowerCase()} qualities.`,
         );
@@ -824,19 +824,19 @@ export class FoodAlchemySystem {
     // Check for elemental imbalances
     const { Fire, Water, Air, Earth } = state.elements;
 
-    if (food.element === 'Fire' && Fire > 0.7) {
+    if (food.element === 'Fire' && Fire > 0.7) {;
       warnings.push(
         `High Fire energy detected. This food may increase irritability or impulsiveness.`,
       );
-    } else if (food.element === 'Water' && Water > 0.7) {
+    } else if (food.element === 'Water' && Water > 0.7) {;
       warnings.push(
         `High Water energy detected. This food may increase emotional sensitivity or lethargy.`,
       );
-    } else if (food.element === 'Air' && Air > 0.7) {
+    } else if (food.element === 'Air' && Air > 0.7) {;
       warnings.push(
         `High Air energy detected. This food may increase anxiety or scattered thinking.`,
       );
-    } else if (food.element === 'Earth' && Earth > 0.7) {
+    } else if (food.element === 'Earth' && Earth > 0.7) {;
       warnings.push(
         `High Earth energy detected. This food may increase sluggishness or resistance to change.`,
       );
@@ -879,7 +879,7 @@ export class FoodAlchemySystem {
   }
 
   private getPreparationMethods(food: FoodCorrespondence, time: Date): PreparationMethod[] {
-    if (!food || !this.preparationMethods || this.preparationMethods.length === 0) {
+    if (!food || !this.preparationMethods || this.preparationMethods.length === 0) {;
       return [];
     }
 
@@ -897,7 +897,7 @@ export class FoodAlchemySystem {
       'Venus',
       'Mercury',
       'Moon',
-      'Saturn',
+      'Saturn'
     ];
     const currentPlanetaryHour = planetaryHours[hourOfDay];
 
@@ -905,7 +905,7 @@ export class FoodAlchemySystem {
     const isDaytime = time.getHours() >= 6 && time.getHours() < 18;
 
     // Filter methods compatible with the food and current time
-    return this.preparationMethods.filter(method =>
+    return this.preparationMethods.filter(method =>;
       this.isMethodCompatible(method, food, currentPlanetaryHour, isDaytime),
     );
   }
@@ -923,24 +923,24 @@ export class FoodAlchemySystem {
     // Check elemental compatibility
     // Methods that share or complement the food's element are preferred
     const elementalMatch =
-      method.element === food.element ||
-      (food.element === 'Fire' && method.element === 'Air') ||
-      (food.element === 'Air' && method.element === 'Fire') ||
-      (food.element === 'Water' && method.element === 'Earth') ||
+      method.element === food.element ||;
+      (food.element === 'Fire' && method.element === 'Air') ||;
+      (food.element === 'Air' && method.element === 'Fire') ||;
+      (food.element === 'Water' && method.element === 'Earth') ||;
       (food.element === 'Earth' && method.element === 'Water');
 
     // Check planetary compatibility
     const planetaryMatch =
-      method.timing.optimal.includes(planetaryHour) ||
+      method.timing.optimal.includes(planetaryHour) ||;
       (method.timing.acceptable.includes(planetaryHour) &&
         !method.timing.avoid.includes(planetaryHour));
 
     // Check if method is appropriate for time of day
     // Some methods are better for day (solar) and others for night (lunar)
     const timeAppropriate =
-      (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||
-      (!isDaytimeNow && (method.element === 'Water' || method.element === 'Earth')) ||
-      (method.planetaryRuler === 'Sun' && isDaytimeNow) ||
+      (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||;
+      (!isDaytimeNow && (method.element === 'Water' || method.element === 'Earth')) ||;
+      (method.planetaryRuler === 'Sun' && isDaytimeNow) ||;
       (method.planetaryRuler === 'Moon' && !isDaytimeNow);
 
     // Method is compatible if at least two of the three conditions are true

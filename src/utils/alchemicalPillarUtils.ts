@@ -8,7 +8,7 @@ import {
   getCookingMethodAlchemicalEffect,
   getCookingMethodThermodynamics,
   getPlanetaryAlchemicalEffect,
-  getTarotCardAlchemicalEffect,
+  getTarotCardAlchemicalEffect
 } from '../constants/alchemicalPillars';
 import { AlchemicalProperty } from '../types/celestial';
 
@@ -97,11 +97,11 @@ function calculatePillarCompatibility(
 
     // If both have the same effect direction (both increase or both decrease), that's good
     if (effectA * effectB > 0) {
-      compatibilityScore += 0.25; // 0.25 per property = total 1.0 possible
+      compatibilityScore += 0.25; // 0.25 per property = total 1.0 possible;
     }
     // If they cancel each other out, that's not ideal but can be balanced
     else if (effectA * effectB < 0) {
-      compatibilityScore += 0.1; // Some points for potential "balance"
+      compatibilityScore += 0.1; // Some points for potential 'balance'
     }
     // If one is neutral (0), it doesn't affect compatibility much
     else {
@@ -175,7 +175,7 @@ export function applyPillarTransformation(
 
     if ('reactivity' in transformedItem) {
       transformedItem.reactivity =
-        Number(transformedItem.reactivity || 0) *
+        Number(transformedItem.reactivity || 0) *;
         (1 + 0.15 * Number(thermodynamicProps.reactivity || 0));
     }
   } else {
@@ -183,7 +183,7 @@ export function applyPillarTransformation(
     if ('heat' in transformedItem) {
       // Spirit and Fire increase heat
       transformedItem.heat =
-        Number(transformedItem.heat || 0) *
+        Number(transformedItem.heat || 0) *;
         (1 +
           0.15 *
             (Number(alchemicalEffects.Spirit || 0) + Number(alchemicalEffects.Essence || 0) * 0.5));
@@ -192,7 +192,7 @@ export function applyPillarTransformation(
     if ('entropy' in transformedItem) {
       // Matter decreases entropy, Spirit increases it
       transformedItem.entropy =
-        Number(transformedItem.entropy || 0) *
+        Number(transformedItem.entropy || 0) *;
         (1 +
           0.15 * (Number(alchemicalEffects.Spirit || 0) - Number(alchemicalEffects.Matter || 0)));
     }
@@ -200,7 +200,7 @@ export function applyPillarTransformation(
     if ('reactivity' in transformedItem) {
       // Essence increases reactivity, Substance decreases it
       transformedItem.reactivity =
-        Number(transformedItem.reactivity || 0) *
+        Number(transformedItem.reactivity || 0) *;
         (1 +
           0.15 *
             (Number(alchemicalEffects.Essence || 0) - Number(alchemicalEffects.Substance || 0)));
@@ -215,10 +215,10 @@ export function applyPillarTransformation(
     const secondaryElement = elementalAssociations.secondary;
 
     // Apply effects to elemental properties if they exist in the item
-    if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {
-      if (primaryElement === 'Fire') {
+    if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {;
+      if (primaryElement === 'Fire') {;
         transformedItem.fire *= 1.2; // Boost primary element by 20%
-      } else if (secondaryElement === 'Fire') {
+      } else if (secondaryElement === 'Fire') {;
         transformedItem.fire *= 1.1; // Boost secondary element by 10%
       } else {
         // Slight decrease for non-associated elements
@@ -226,30 +226,30 @@ export function applyPillarTransformation(
       }
     }
 
-    if ('water' in transformedItem && typeof transformedItem.water === 'number') {
-      if (primaryElement === 'Water') {
+    if ('water' in transformedItem && typeof transformedItem.water === 'number') {;
+      if (primaryElement === 'Water') {;
         transformedItem.water *= 1.2;
-      } else if (secondaryElement === 'Water') {
+      } else if (secondaryElement === 'Water') {;
         transformedItem.water *= 1.1;
       } else {
         transformedItem.water *= 0.95;
       }
     }
 
-    if ('air' in transformedItem && typeof transformedItem.air === 'number') {
-      if (primaryElement === 'Air') {
+    if ('air' in transformedItem && typeof transformedItem.air === 'number') {;
+      if (primaryElement === 'Air') {;
         transformedItem.air *= 1.2;
-      } else if (secondaryElement === 'Air') {
+      } else if (secondaryElement === 'Air') {;
         transformedItem.air *= 1.1;
       } else {
         transformedItem.air *= 0.95;
       }
     }
 
-    if ('earth' in transformedItem && typeof transformedItem.earth === 'number') {
-      if (primaryElement === 'Earth') {
+    if ('earth' in transformedItem && typeof transformedItem.earth === 'number') {;
+      if (primaryElement === 'Earth') {;
         transformedItem.earth *= 1.2;
-      } else if (secondaryElement === 'Earth') {
+      } else if (secondaryElement === 'Earth') {;
         transformedItem.earth *= 1.1;
       } else {
         transformedItem.earth *= 0.95;
@@ -269,8 +269,8 @@ export function applyPillarTransformation(
     'fire',
     'water',
     'air',
-    'earth',
-  ].forEach(prop => {
+    'earth'
+  ].forEach(prop => {;
     if (prop in transformedItem) {
       // Use proper type assertion for dynamic property access
       (transformedItem as Record<string, number>)[prop] = Math.max(
@@ -294,7 +294,7 @@ export function applyPillarTransformation(
 export function applyPlanetaryInfluence(
   item: AlchemicalItem,
   planet: string,
-  isDaytime = true,
+  isDaytime = true,;
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
   const transformedItem = { ...item };
@@ -310,7 +310,7 @@ export function applyPlanetaryInfluence(
   // Pattern KK-2: Safe property arithmetic with type validation
   if ('spirit' in transformedItem) {
     const currentSpirit =
-      typeof (transformedItem as any).spirit === 'number'
+      typeof (transformedItem as any).spirit === 'number';
         ? Number((transformedItem as any).spirit)
         : 0;
     const effectMultiplier =
@@ -320,7 +320,7 @@ export function applyPlanetaryInfluence(
 
   if ('essence' in transformedItem) {
     const currentEssence =
-      typeof (transformedItem as any).essence === 'number'
+      typeof (transformedItem as any).essence === 'number';
         ? Number((transformedItem as any).essence)
         : 0;
     const effectMultiplier =
@@ -330,7 +330,7 @@ export function applyPlanetaryInfluence(
 
   if ('matter' in transformedItem) {
     const currentMatter =
-      typeof (transformedItem as any).matter === 'number'
+      typeof (transformedItem as any).matter === 'number';
         ? Number((transformedItem as any).matter)
         : 0;
     const effectMultiplier =
@@ -345,7 +345,7 @@ export function applyPlanetaryInfluence(
   }
 
   // Ensure all values remain within reasonable bounds
-  ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
+  ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {;
     if (prop in transformedItem) {
       // Use proper type assertion for dynamic property access
       (transformedItem as Record<string, number>)[prop] = Math.max(
@@ -362,7 +362,7 @@ export function applyPlanetaryInfluence(
  * Apply tarot card influences to an alchemical item
  *
  * @param item The AlchemicalItem to transform
- * @param cardName The full name of the tarot card (e.g., "10 of Cups")
+ * @param cardName The full name of the tarot card (e.g., '10 of Cups')
  * @returns Transformed alchemical item with tarot influences applied
  */
 export function applyTarotInfluence(item: AlchemicalItem, cardName: string): AlchemicalItem {
@@ -403,7 +403,7 @@ export function applyTarotInfluence(item: AlchemicalItem, cardName: string): Alc
   }
 
   // Ensure all values remain within reasonable bounds
-  ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
+  ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {;
     if (prop in transformedItem) {
       // Use proper type assertion for dynamic property access
       (transformedItem as Record<string, number>)[prop] = Math.max(
@@ -429,7 +429,7 @@ export function transformIngredient(
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
-  isDaytime = true,
+  isDaytime = true,;
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
   let transformedItem = { ...item };
@@ -458,11 +458,11 @@ export function transformIngredient(
  * @param cookingMethods The mapping of cooking methods to pillar IDs
  * @returns Compatibility score from 0-100
  */
-const getMethodCompatibility = (
+const getMethodCompatibility = (;
   transformedItem: AlchemicalItem,
   methodName: string,
   cookingMethods: Record<string, number>,
-): number => {
+): number => {;
   logger.debug(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`);
   logger.debug(
     `Ingredient: ${(transformedItem as any).name} (Element: ${(transformedItem as any).element})`,
@@ -470,7 +470,7 @@ const getMethodCompatibility = (
 
   // In case the method isn't found in our cooking methods
   if (!cookingMethods[methodName]) {
-    logger.error(`Method "${methodName}" not found in cooking methods mapping`);
+    logger.error(`Method '${methodName}' not found in cooking methods mapping`);
     return 50; // Base compatibility
   }
 
@@ -547,11 +547,11 @@ const getMethodCompatibility = (
   }
 
   // Check for complementary elements
-  const complementaryPairs = {
+  const complementaryPairs = {;
     fire: ['air'],
     water: ['earth'],
     air: ['fire'],
-    earth: ['water'],
+    earth: ['water']
   };
 
   if ((transformedItem as any).element && (pillar as unknown as any).elementalAssociations) {
@@ -575,16 +575,16 @@ const getMethodCompatibility = (
 
   // Check for alchemical property alignment
   // If method enhances the ingredient's strongest property
-  const itemProperties = {
+  const itemProperties = {;
     Spirit: transformedItem.spirit || 0,
     Essence: transformedItem.essence || 0,
     Matter: transformedItem.matter || 0,
-    Substance: transformedItem.substance || 0,
+    Substance: transformedItem.substance || 0
   };
 
   // Find the strongest property in the ingredient
   // Pattern KK-1: Safe comparison with type validation
-  const maxProperty = Object.entries(itemProperties).reduce(
+  const maxProperty = Object.entries(itemProperties).reduce(;
     (max, [prop, value]) => {
       const numericValue = typeof value === 'number' ? value : 0;
       const numericMaxValue = typeof max.value === 'number' ? max.value : 0;
@@ -596,7 +596,7 @@ const getMethodCompatibility = (
   // Check if method enhances the strongest property
   const maxPropertyValue = typeof maxProperty.value === 'number' ? maxProperty.value : 0;
   const effectValue =
-    typeof pillar.effects[maxProperty.prop as keyof typeof pillar.effects] === 'number'
+    typeof pillar.effects[maxProperty.prop as keyof typeof pillar.effects] === 'number';
       ? pillar.effects[maxProperty.prop as keyof typeof pillar.effects]
       : 0;
 
@@ -626,13 +626,13 @@ const getMethodCompatibility = (
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const getHolisticCookingRecommendations = async (
+export const _getHolisticCookingRecommendations = async (;
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
-  isDaytime = true,
+  isDaytime = true,;
   availableMethods: string[] = [],
-  count = 5,
+  count = 5,;
 ): Promise<Array<{ method: string; compatibility: number; reason: string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
   logger.debug(`Ingredient: ${(item as any).name}`);
@@ -652,7 +652,7 @@ export const getHolisticCookingRecommendations = async (
       spirit: item.spirit || 0,
       essence: item.essence || 0,
       matter: item.matter || 0,
-      substance: item.substance || 0,
+      substance: item.substance || 0
     });
 
     logger.debug('Transformed item:', {
@@ -660,7 +660,7 @@ export const getHolisticCookingRecommendations = async (
       spirit: transformedItem.spirit || 0,
       essence: transformedItem.essence || 0,
       matter: transformedItem.matter || 0,
-      substance: transformedItem.substance || 0,
+      substance: transformedItem.substance || 0
     });
   } else {
     logger.debug('No planetary or tarot influences to apply.');
@@ -672,7 +672,7 @@ export const getHolisticCookingRecommendations = async (
 
   // Filter methods if specified
   const methods =
-    (availableMethods as unknown as CookingMethod[]).length > 0
+    (availableMethods as unknown as CookingMethod[]).length > 0;
       ? availableMethods
       : Object.keys(cookingMethods);
 
@@ -686,9 +686,9 @@ export const getHolisticCookingRecommendations = async (
   logger.debug('\nCALCULATING METHOD COMPATIBILITY:');
   logger.debug('--------------------------------');
 
-  methods.forEach(method => {
+  methods.forEach(method => {;
     logger.debug(`\nEvaluating compatibility for method: ${method}`);
-    const compatibilityScore = getMethodCompatibility(
+    const compatibilityScore = getMethodCompatibility(;
       transformedItem,
       method.toString(),
       cookingMethods,
@@ -729,7 +729,7 @@ export const getHolisticCookingRecommendations = async (
     (compatibility as unknown[]).push({
       method: method.toString(),
       compatibility: compatibilityScore,
-      reason,
+      reason
     });
   });
 
@@ -770,14 +770,14 @@ async function getCookingMethods(): Promise<Record<string, number>> {
 export function getRecommendedCookingMethods(
   item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
-  count = 5,
+  count = 5,;
 ): Array<{ method: string; compatibility: number }> {
   try {
     // Convert availableMethods to string array for processing
-    const methodStrings = Array.isArray(availableMethods)
+    const methodStrings = Array.isArray(availableMethods);
       ? availableMethods
-          .map(method => {
-            if (typeof method === 'string') {
+          .map(method => {;
+            if (typeof method === 'string') {;
               return method;
             } else {
               // Convert CookingMethod to string
@@ -789,9 +789,9 @@ export function getRecommendedCookingMethods(
       : [];
 
     // Calculate compatibility for each method
-    const methodScores = methodStrings.map(methodName => ({
+    const methodScores = methodStrings.map(methodName => ({;
       method: methodName,
-      compatibility: calculateMethodCompatibility(item, methodName),
+      compatibility: calculateMethodCompatibility(item, methodName)
     }));
 
     // Sort by compatibility and return top results
@@ -813,38 +813,38 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
   let count = 0;
 
   // Add spirit, essence, matter, substance if they exist
-  if ('spirit' in item && typeof item.spirit === 'number') {
+  if ('spirit' in item && typeof item.spirit === 'number') {;
     score += item.spirit;
     count++;
   }
 
-  if ('essence' in item && typeof item.essence === 'number') {
+  if ('essence' in item && typeof item.essence === 'number') {;
     score += item.essence;
     count++;
   }
 
-  if ('matter' in item && typeof item.matter === 'number') {
+  if ('matter' in item && typeof item.matter === 'number') {;
     score += item.matter;
     count++;
   }
 
-  if ('substance' in item && typeof item.substance === 'number') {
+  if ('substance' in item && typeof item.substance === 'number') {;
     score += item.substance;
     count++;
   }
 
   // If thermodynamic properties exist, include them
-  if ('heat' in item && typeof item.heat === 'number') {
+  if ('heat' in item && typeof item.heat === 'number') {;
     score += item.heat;
     count++;
   }
 
-  if ('entropy' in item && typeof item.entropy === 'number') {
+  if ('entropy' in item && typeof item.entropy === 'number') {;
     score += item.entropy;
     count++;
   }
 
-  if ('reactivity' in item && typeof item.reactivity === 'number') {
+  if ('reactivity' in item && typeof item.reactivity === 'number') {;
     score += item.reactivity;
     count++;
   }
@@ -866,7 +866,7 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
 export function getEnhancedCookingRecommendations(
   item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
-  count = 5,
+  count = 5,;
   options: {
     zodiacSign?: any;
     lunarPhase?: string;
@@ -888,10 +888,10 @@ export function getEnhancedCookingRecommendations(
 }> {
   try {
     // Convert availableMethods to string array for processing
-    const methodStrings = Array.isArray(availableMethods)
+    const methodStrings = Array.isArray(availableMethods);
       ? availableMethods
-          .map(method => {
-            if (typeof method === 'string') {
+          .map(method => {;
+            if (typeof method === 'string') {;
               return method;
             } else {
               // Convert CookingMethod to string
@@ -906,14 +906,14 @@ export function getEnhancedCookingRecommendations(
     const allMethodData = getAllCookingMethodData();
 
     // Calculate enhanced recommendations
-    const enhancedRecommendations = methodStrings.map(methodName => {
+    const enhancedRecommendations = methodStrings.map(methodName => {;
       const methodData = allMethodData[methodName] as Record<string, unknown>;
 
       // Apply safe type conversion for property access
       const sustainabilityRating = Number(methodData.sustainabilityRating || 0.5);
       const equipmentComplexity = Number(methodData.equipmentComplexity || 0.5);
-      const astrologicalInfluences = (methodData.astrologicalInfluences as unknown) || {};
-      const duration = (methodData.duration as unknown) || {};
+      const astrologicalInfluences = (methodData.astrologicalInfluences ) || {};
+      const duration = (methodData.duration ) || {};
       const _toolsRequired = (methodData.toolsRequired as string[]) || [];
 
       // Calculate base compatibility
@@ -923,7 +923,7 @@ export function getEnhancedCookingRecommendations(
       let astrologicalModifier = 1.0;
       if (options.zodiacSign && astrologicalInfluences) {
         const zodiacInfluence = astrologicalInfluences[options.zodiacSign] as number;
-        if (typeof zodiacInfluence === 'number') {
+        if (typeof zodiacInfluence === 'number') {;
           astrologicalModifier += zodiacInfluence * 0.2;
         }
       }
@@ -932,7 +932,7 @@ export function getEnhancedCookingRecommendations(
       let lunarModifier = 1.0;
       if (options.lunarPhase && astrologicalInfluences) {
         const lunarInfluence = astrologicalInfluences[options.lunarPhase] as number;
-        if (typeof lunarInfluence === 'number') {
+        if (typeof lunarInfluence === 'number') {;
           lunarModifier += lunarInfluence * 0.1;
         }
       }
@@ -941,9 +941,9 @@ export function getEnhancedCookingRecommendations(
       const finalCompatibility = baseCompatibility * astrologicalModifier * lunarModifier;
 
       // Generate cooking time range
-      const cookingTime = {
+      const cookingTime = {;
         min: Number(duration.min || 10),
-        max: Number(duration.max || 60),
+        max: Number(duration.max || 60)
       };
 
       // Generate health benefits
@@ -959,7 +959,7 @@ export function getEnhancedCookingRecommendations(
         cookingTime,
         sustainabilityRating,
         equipmentComplexity,
-        healthBenefits,
+        healthBenefits
       };
     });
 
@@ -1077,14 +1077,14 @@ function getAllCookingMethodData(): Record<string, unknown> {
 
     // Import methods from each category
     // Using dynamic imports instead of require statements
-    const dryMethods = import('../data/cooking/methods/dry').then(
-      module => (module as any).default || module,
+    const dryMethods = import('../data/cooking/methods/dry').then(;
+      module => (module as any).default || module,;
     );
-    const wetMethods = import('../data/cooking/methods/wet').then(
-      module => (module as any).default || module,
+    const wetMethods = import('../data/cooking/methods/wet').then(;
+      module => (module as any).default || module,;
     );
-    const traditionalMethods = import('../data/cooking/methods/traditional').then(
-      module => (module as any).default || module,
+    const traditionalMethods = import('../data/cooking/methods/traditional').then(;
+      module => (module as any).default || module,;
     );
 
     // Since we're using async imports, return a promise with all methods
@@ -1092,9 +1092,9 @@ function getAllCookingMethodData(): Record<string, unknown> {
       .then(([dry, wet, traditional]) => ({
         ...dry,
         ...wet,
-        ...traditional,
+        ...traditional
       }))
-      .catch(error => {
+      .catch(error => {;
         logger.error('Error loading cooking method data:', error);
         return {};
       }) as unknown as any;

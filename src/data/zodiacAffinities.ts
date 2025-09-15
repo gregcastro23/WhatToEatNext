@@ -3,7 +3,7 @@ import {
   ZodiacAffinity,
   createZodiacAffinity,
   ZODIAC_MODALITIES,
-  Modality,
+  Modality
 } from '@/types/zodiacAffinity';
 
 export type { ZodiacAffinity };
@@ -12,7 +12,7 @@ export { createZodiacAffinity };
 /**
  * Mapping of zodiac signs to culinary preferences and affinities
  */
-export const zodiacCulinaryPreferences: Record<
+export const _zodiacCulinaryPreferences: Record<
   ZodiacSign,
   {
     favoredCuisines: string[];
@@ -38,7 +38,7 @@ export const zodiacCulinaryPreferences: Record<
       'onions',
       'lamb',
       'cinnamon',
-      'cayenne',
+      'cayenne'
     ],
     favoredFlavors: ['spicy', 'bold', 'tangy', 'smoky', 'pungent', 'intense'],
     favoredCookingMethods: [
@@ -47,14 +47,14 @@ export const zodiacCulinaryPreferences: Record<
       'frying',
       'broiling',
       'high-heat searing',
-      'flambéing',
+      'flambéing'
     ],
     seasonalPreferences: ['summer', 'spring', 'harvest foods'],
     nutritionalFocus: ['protein', 'iron', 'vitamin B12', 'energizing foods'],
     cookingStyle: 'Impulsive, quick and energetic cooking with minimal preparation',
     diningStyle: 'Enthusiastic but impatient, may eat quickly and prefer casual settings',
     weakness: 'Rushing cooking process, not following recipes closely',
-    mealStructure: 'Protein-centered meals with immediate satisfaction',
+    mealStructure: 'Protein-centered meals with immediate satisfaction'
   },
   taurus: {
     favoredCuisines: [
@@ -64,7 +64,7 @@ export const zodiacCulinaryPreferences: Record<
       'Swiss',
       'Argentinian',
       'Provençal',
-      'Southern American',
+      'Southern American'
     ],
     favoredIngredients: [
       'cheese',
@@ -76,7 +76,7 @@ export const zodiacCulinaryPreferences: Record<
       'potatoes',
       'truffles',
       'chocolate',
-      'cream',
+      'cream'
     ],
     favoredFlavors: ['rich', 'sweet', 'earthy', 'umami', 'creamy', 'buttery', 'savory'],
     favoredCookingMethods: [
@@ -85,19 +85,19 @@ export const zodiacCulinaryPreferences: Record<
       'braising',
       'roasting',
       'confit',
-      'caramelizing',
+      'caramelizing'
     ],
     seasonalPreferences: [
       'autumn',
       'harvest foods',
       'aged delicacies',
-      'traditional seasonal staples',
+      'traditional seasonal staples'
     ],
     nutritionalFocus: ['quality proteins', 'calcium', 'healthy fats', 'sustainable energy foods'],
     cookingStyle: 'Patient, traditional cooking with attention to quality ingredients',
     diningStyle: 'Appreciates fine dining, takes time to savor every bite',
     weakness: 'Overindulgence, richness, and portion control',
-    mealStructure: 'Complete traditional courses with emphasis on quality',
+    mealStructure: 'Complete traditional courses with emphasis on quality'
   },
   gemini: {
     favoredCuisines: [
@@ -107,7 +107,7 @@ export const zodiacCulinaryPreferences: Record<
       'Tapas',
       'Street food',
       'Korean-Mexican',
-      'California cuisine',
+      'California cuisine'
     ],
     favoredIngredients: [
       'fresh herbs',
@@ -117,7 +117,7 @@ export const zodiacCulinaryPreferences: Record<
       'berries',
       'sprouts',
       'unusual combinations',
-      'edible flowers',
+      'edible flowers'
     ],
     favoredFlavors: [
       'light',
@@ -126,7 +126,7 @@ export const zodiacCulinaryPreferences: Record<
       'complex',
       'layered',
       'contrasting',
-      'surprising',
+      'surprising'
     ],
     favoredCookingMethods: [
       'stir-frying',
@@ -134,14 +134,14 @@ export const zodiacCulinaryPreferences: Record<
       'raw preparations',
       'quick sautéing',
       'mixing methods',
-      'pickling',
+      'pickling'
     ],
     seasonalPreferences: ['spring', 'early summer', 'changing seasonal offerings'],
     nutritionalFocus: ['variety', 'brain foods', 'omega-3', 'antioxidants'],
     cookingStyle: 'Experimental and playful, often cooking multiple dishes at once',
     diningStyle: 'Enjoys conversation while eating, prefers variety like tapas or shared plates',
     weakness: 'Getting distracted while cooking, inconsistent results',
-    mealStructure: 'Multiple small plates with diverse flavors and textures',
+    mealStructure: 'Multiple small plates with diverse flavors and textures'
   },
   cancer: {
     favoredCuisines: [
@@ -151,7 +151,7 @@ export const zodiacCulinaryPreferences: Record<
       'Coastal',
       'Polish',
       'Irish',
-      'Southern comfort food',
+      'Southern comfort food'
     ],
     favoredIngredients: [
       'seafood',
@@ -161,7 +161,7 @@ export const zodiacCulinaryPreferences: Record<
       'potatoes',
       'broths',
       'heritage grains',
-      'family recipes',
+      'family recipes'
     ],
     favoredFlavors: ['comforting', 'traditional', 'subtle', 'nostalgic', 'soothing', 'familiar'],
     favoredCookingMethods: [
@@ -170,14 +170,14 @@ export const zodiacCulinaryPreferences: Record<
       'slow cooking',
       'simmering',
       'poaching',
-      'baking',
+      'baking'
     ],
     seasonalPreferences: ['winter', 'comfort foods', 'family traditions'],
     nutritionalFocus: ['gut health', 'immunity', 'emotional wellbeing foods', 'hydration'],
     cookingStyle: 'Intuitive, nurturing cooking often connected to memories and traditions',
     diningStyle: 'Values family-style dining and emotional connections through food',
     weakness: 'Emotional eating, overfeeding others, comfort-focused rather than nutrition',
-    mealStructure: 'Nourishing main dishes with sides that evoke memory and comfort',
+    mealStructure: 'Nourishing main dishes with sides that evoke memory and comfort'
   },
   leo: {
     favoredCuisines: [
@@ -187,7 +187,7 @@ export const zodiacCulinaryPreferences: Record<
       'French fine dining',
       'Peruvian',
       'Lebanese',
-      'Luxury fusion',
+      'Luxury fusion'
     ],
     favoredIngredients: [
       'expensive cuts',
@@ -197,7 +197,7 @@ export const zodiacCulinaryPreferences: Record<
       'truffles',
       'wagyu beef',
       'foie gras',
-      'champagne',
+      'champagne'
     ],
     favoredFlavors: ['rich', 'indulgent', 'exotic', 'vibrant', 'memorable', 'impressive'],
     favoredCookingMethods: [
@@ -206,14 +206,14 @@ export const zodiacCulinaryPreferences: Record<
       'flambé',
       'tableside preparation',
       'showcase techniques',
-      'artistic plating',
+      'artistic plating'
     ],
     seasonalPreferences: ['midsummer', 'festival foods', 'celebration dishes'],
     nutritionalFocus: ['heart health', 'vitality', 'antioxidants', 'energy sustaining foods'],
     cookingStyle: 'Dramatic, impressive cooking with flair and presentation focus',
     diningStyle: 'Appreciates being the center of attention, enjoys dining as an event',
     weakness: 'Focusing too much on appearance over substance, extravagance',
-    mealStructure: 'Dramatic main course with theatrical elements and presentation',
+    mealStructure: 'Dramatic main course with theatrical elements and presentation'
   },
   virgo: {
     favoredCuisines: [
@@ -223,7 +223,7 @@ export const zodiacCulinaryPreferences: Record<
       'Nordic',
       'German',
       'Vegan',
-      'Health-focused',
+      'Health-focused'
     ],
     favoredIngredients: [
       'whole grains',
@@ -232,7 +232,7 @@ export const zodiacCulinaryPreferences: Record<
       'lean proteins',
       'seeds',
       'fermented foods',
-      'precise ingredients',
+      'precise ingredients'
     ],
     favoredFlavors: ['clean', 'precise', 'balanced', 'pure', 'refined', 'subtle'],
     favoredCookingMethods: [
@@ -241,19 +241,19 @@ export const zodiacCulinaryPreferences: Record<
       'precision cooking',
       'sous vide',
       'dehydrating',
-      'proper technique',
+      'proper technique'
     ],
     seasonalPreferences: ['late summer', 'harvest', 'precision seasonal eating'],
     nutritionalFocus: [
       'digestive health',
       'balanced nutrition',
       'medicinal foods',
-      'precise macronutrients',
+      'precise macronutrients'
     ],
     cookingStyle: 'Methodical, precise cooking following exact recipes and techniques',
     diningStyle: 'Appreciates quality, cleanliness and order in dining experiences',
     weakness: 'Overthinking recipes, perfectionism leading to stress',
-    mealStructure: 'Carefully balanced plate with proper nutritional proportions',
+    mealStructure: 'Carefully balanced plate with proper nutritional proportions'
   },
   libra: {
     favoredCuisines: [
@@ -263,7 +263,7 @@ export const zodiacCulinaryPreferences: Record<
       'New American',
       'Venetian',
       'Contemporary',
-      'Balanced fusion',
+      'Balanced fusion'
     ],
     favoredIngredients: [
       'artfully presented foods',
@@ -271,7 +271,7 @@ export const zodiacCulinaryPreferences: Record<
       'wine pairings',
       'edible flowers',
       'artisanal ingredients',
-      'harmonious combinations',
+      'harmonious combinations'
     ],
     favoredFlavors: [
       'balanced',
@@ -279,21 +279,21 @@ export const zodiacCulinaryPreferences: Record<
       'harmonious',
       'complementary',
       'sophisticated',
-      'refined',
+      'refined'
     ],
     favoredCookingMethods: [
       'sous vide',
       'careful sautéing',
       'artful plating',
       'balanced techniques',
-      'color-conscious preparation',
+      'color-conscious preparation'
     ],
     seasonalPreferences: ['fall', 'transitional foods', 'balanced seasonal elements'],
     nutritionalFocus: ['balanced macros', 'beauty foods', 'anti-inflammatory', 'skin health'],
     cookingStyle: 'Aesthetic, balanced cooking with attention to presentation and harmony',
     diningStyle: 'Values beautiful environments and well-paired flavors',
     weakness: 'Indecision about what to cook, prioritizing appearance over flavor',
-    mealStructure: 'Perfectly balanced plate with complementary flavors and visual appeal',
+    mealStructure: 'Perfectly balanced plate with complementary flavors and visual appeal'
   },
   scorpio: {
     favoredCuisines: [
@@ -303,7 +303,7 @@ export const zodiacCulinaryPreferences: Record<
       'North African',
       'Indonesian',
       'Caribbean',
-      'Scottish',
+      'Scottish'
     ],
     favoredIngredients: [
       'fermented foods',
@@ -313,7 +313,7 @@ export const zodiacCulinaryPreferences: Record<
       'game meats',
       'offal',
       'blood sausage',
-      'intense spices',
+      'intense spices'
     ],
     favoredFlavors: [
       'intense',
@@ -322,7 +322,7 @@ export const zodiacCulinaryPreferences: Record<
       'deep',
       'transformative',
       'fermented',
-      'aged',
+      'aged'
     ],
     favoredCookingMethods: [
       'smoking',
@@ -331,14 +331,14 @@ export const zodiacCulinaryPreferences: Record<
       'curing',
       'aging',
       'sous vide',
-      'charring',
+      'charring'
     ],
     seasonalPreferences: ['late autumn', 'winter', 'preserved foods', 'aged delicacies'],
     nutritionalFocus: ['gut microbiome', 'detoxification', 'regenerative foods', 'immune support'],
     cookingStyle: 'Intense, transformative cooking that changes ingredients significantly',
     diningStyle: 'Enjoys exploring unusual flavors and hidden food establishments',
     weakness: 'Making dishes too intense or complex for others to enjoy',
-    mealStructure: 'Deeply complex dishes with mysterious elements and surprising depth',
+    mealStructure: 'Deeply complex dishes with mysterious elements and surprising depth'
   },
   sagittarius: {
     favoredCuisines: [
@@ -348,7 +348,7 @@ export const zodiacCulinaryPreferences: Record<
       'Ethiopian',
       'Polynesian',
       'South American',
-      'Adventurous fusion',
+      'Adventurous fusion'
     ],
     favoredIngredients: [
       'exotic spices',
@@ -357,7 +357,7 @@ export const zodiacCulinaryPreferences: Record<
       'unusual fruits',
       'rare herbs',
       'diverse grains',
-      'global discoveries',
+      'global discoveries'
     ],
     favoredFlavors: [
       'bold',
@@ -366,26 +366,26 @@ export const zodiacCulinaryPreferences: Record<
       'global',
       'spiced',
       'expansive',
-      'cross-cultural',
+      'cross-cultural'
     ],
     favoredCookingMethods: [
       'grilling',
       'open fire cooking',
       'experimental techniques',
       'foreign methods',
-      'high-adventure cooking',
+      'high-adventure cooking'
     ],
     seasonalPreferences: ['global seasonal variations', 'cross-cultural seasonal celebrations'],
     nutritionalFocus: [
       'diverse nutrients',
       'superfoods',
       'travel-supporting nutrition',
-      'adaptogenic herbs',
+      'adaptogenic herbs'
     ],
     cookingStyle: 'Adventurous, spontaneous cooking often inspired by travels',
     diningStyle: 'Enjoys exploration of new cuisines and food traditions',
     weakness: 'Overambitious recipes, imprecise measurements, abandoned cooking projects',
-    mealStructure: 'Globally inspired plates with educational and philosophical elements',
+    mealStructure: 'Globally inspired plates with educational and philosophical elements'
   },
   capricorn: {
     favoredCuisines: [
@@ -395,7 +395,7 @@ export const zodiacCulinaryPreferences: Record<
       'British',
       'Alpine',
       'Russian',
-      'Classic steakhouse',
+      'Classic steakhouse'
     ],
     favoredIngredients: [
       'root vegetables',
@@ -404,7 +404,7 @@ export const zodiacCulinaryPreferences: Record<
       'traditional herbs',
       'quality staples',
       'bone broths',
-      'traditional preserves',
+      'traditional preserves'
     ],
     favoredFlavors: [
       'traditional',
@@ -413,7 +413,7 @@ export const zodiacCulinaryPreferences: Record<
       'time-tested',
       'authentic',
       'structured',
-      'classic',
+      'classic'
     ],
     favoredCookingMethods: [
       'slow cooking',
@@ -421,14 +421,14 @@ export const zodiacCulinaryPreferences: Record<
       'traditional methods',
       'braising',
       'classic techniques',
-      'aging',
+      'aging'
     ],
     seasonalPreferences: ['winter', 'traditional seasonal staples', 'preserved heritage foods'],
     nutritionalFocus: ['bone health', 'sustained energy', 'structural support', 'longevity foods'],
     cookingStyle: 'Traditional, disciplined cooking with respect for classic techniques',
     diningStyle: 'Appreciates quality establishments with history and reputation',
     weakness: 'Resistance to innovation, overreliance on tradition',
-    mealStructure: 'Traditional courses with proper progressions and heritage elements',
+    mealStructure: 'Traditional courses with proper progressions and heritage elements'
   },
   aquarius: {
     favoredCuisines: [
@@ -438,7 +438,7 @@ export const zodiacCulinaryPreferences: Record<
       'Molecular',
       'Future foods',
       'Sustainable cuisine',
-      'Technological food',
+      'Technological food'
     ],
     favoredIngredients: [
       'unusual ingredients',
@@ -447,7 +447,7 @@ export const zodiacCulinaryPreferences: Record<
       'sustainable proteins',
       'innovative substitutes',
       'food tech',
-      'rare plant varieties',
+      'rare plant varieties'
     ],
     favoredFlavors: [
       'unexpected',
@@ -456,26 +456,26 @@ export const zodiacCulinaryPreferences: Record<
       'futuristic',
       'progressive',
       'idealistic',
-      'cerebral',
+      'cerebral'
     ],
     favoredCookingMethods: [
       'molecular gastronomy',
       'innovative techniques',
       'unconventional pairings',
       'technological cooking',
-      'scientific methods',
+      'scientific methods'
     ],
     seasonalPreferences: ['future foods', 'climate-adaptive ingredients', 'sustainable options'],
     nutritionalFocus: [
       'cognitive function',
       'innovative supplements',
       'sustainability',
-      'ethical nutrition',
+      'ethical nutrition'
     ],
     cookingStyle: 'Innovative, experimental cooking that breaks traditions',
     diningStyle: 'Values unique concepts and intellectual approaches to food',
     weakness: 'Creating dishes that are too conceptual or detached from enjoyment',
-    mealStructure: 'Unconventional progressions that challenge dining norms',
+    mealStructure: 'Unconventional progressions that challenge dining norms'
   },
   pisces: {
     favoredCuisines: [
@@ -485,7 +485,7 @@ export const zodiacCulinaryPreferences: Record<
       'Island',
       'Scandinavian',
       'Pacific Rim',
-      'Seafood-focused',
+      'Seafood-focused'
     ],
     favoredIngredients: [
       'seafood',
@@ -495,7 +495,7 @@ export const zodiacCulinaryPreferences: Record<
       'edible flowers',
       'seaweed',
       'ethereal textures',
-      'aromatic wines',
+      'aromatic wines'
     ],
     favoredFlavors: [
       'subtle',
@@ -504,7 +504,7 @@ export const zodiacCulinaryPreferences: Record<
       'delicate',
       'mystical',
       'flowing',
-      'intuitive',
+      'intuitive'
     ],
     favoredCookingMethods: [
       'poaching',
@@ -512,21 +512,21 @@ export const zodiacCulinaryPreferences: Record<
       'gentle cooking methods',
       'infusing',
       'marinating',
-      'aromatic cooking',
+      'aromatic cooking'
     ],
     seasonalPreferences: ['early spring', 'transitional periods', 'liminal seasonal moments'],
     nutritionalFocus: ['omega-3', 'brain health', 'dream-enhancing foods', 'spiritual nutrition'],
     cookingStyle: 'Intuitive, flowing cooking often without precise recipes',
     diningStyle: 'Enjoys atmospheric dining with emotional and spiritual elements',
     weakness: 'Vagueness in recipes, inconsistent results, getting lost in process',
-    mealStructure: 'Fluid dining experiences that blur boundaries between courses',
-  },
+    mealStructure: 'Fluid dining experiences that blur boundaries between courses'
+  }
 };
 
 /**
  * Modality-based ingredient preferences
  */
-export const modalityIngredientPreferences: Record<
+export const _modalityIngredientPreferences: Record<
   Modality,
   {
     proteins: string[];
@@ -543,7 +543,7 @@ export const modalityIngredientPreferences: Record<
     fruits: ['apples', 'strawberries', 'pomegranate', 'citrus'],
     herbs: ['chives', 'cilantro', 'mint', 'ginger'],
     textures: ['crisp', 'crunchy', 'fresh', 'direct'],
-    preparations: ['quick cooking', 'raw', 'minimal processing', 'immediate flavor'],
+    preparations: ['quick cooking', 'raw', 'minimal processing', 'immediate flavor']
   },
   fixed: {
     proteins: ['slow-cooked meats', 'aged beef', 'cured meats', 'baked proteins'],
@@ -551,7 +551,7 @@ export const modalityIngredientPreferences: Record<
     fruits: ['apples', 'pears', 'dried fruits', 'preserved fruits'],
     herbs: ['rosemary', 'sage', 'thyme', 'bay leaf'],
     textures: ['dense', 'substantial', 'hearty', 'lasting'],
-    preparations: ['slow cooking', 'roasting', 'preserving', 'aging'],
+    preparations: ['slow cooking', 'roasting', 'preserving', 'aging']
   },
   mutable: {
     proteins: ['seafood', 'versatile proteins', 'plant-based proteins', 'varied preparations'],
@@ -563,15 +563,15 @@ export const modalityIngredientPreferences: Record<
       'multiple techniques',
       'fusion methods',
       'variable cooking times',
-      'adaptive recipes',
-    ],
-  },
+      'adaptive recipes'
+    ]
+  }
 };
 
 /**
  * Seasonal affinities by zodiac sign
  */
-export const zodiacSeasonalAffinities: Record<
+export const _zodiacSeasonalAffinities: Record<
   ZodiacSign,
   {
     spring: number;
@@ -591,8 +591,8 @@ export const zodiacSeasonalAffinities: Record<
       'asparagus',
       'radishes',
       'spring onions',
-      'fresh herbs',
-    ],
+      'fresh herbs'
+    ]
   },
   taurus: {
     spring: 0.7,
@@ -603,22 +603,22 @@ export const zodiacSeasonalAffinities: Record<
       'spring vegetables',
       'strawberries',
       'fresh cheeses',
-      'early root vegetables',
-    ],
+      'early root vegetables'
+    ]
   },
   gemini: {
     spring: 0.8,
     summer: 0.7,
     autumn: 0.5,
     winter: 0.4,
-    bestSeasonalIngredients: ['spring peas', 'leafy greens', 'berries', 'versatile produce'],
+    bestSeasonalIngredients: ['spring peas', 'leafy greens', 'berries', 'versatile produce']
   },
   cancer: {
     spring: 0.5,
     summer: 0.9,
     autumn: 0.6,
     winter: 0.4,
-    bestSeasonalIngredients: ['summer fruits', 'fresh seafood', 'zucchini', 'tomatoes', 'corn'],
+    bestSeasonalIngredients: ['summer fruits', 'fresh seafood', 'zucchini', 'tomatoes', 'corn']
   },
   leo: {
     spring: 0.4,
@@ -629,8 +629,8 @@ export const zodiacSeasonalAffinities: Record<
       'summer berries',
       'stone fruits',
       'heirloom tomatoes',
-      'grilling vegetables',
-    ],
+      'grilling vegetables'
+    ]
   },
   virgo: {
     spring: 0.5,
@@ -641,22 +641,22 @@ export const zodiacSeasonalAffinities: Record<
       'harvest grains',
       'late summer vegetables',
       'early apples',
-      'herbs at peak',
-    ],
+      'herbs at peak'
+    ]
   },
   libra: {
     spring: 0.5,
     summer: 0.6,
     autumn: 0.9,
     winter: 0.4,
-    bestSeasonalIngredients: ['apples', 'pears', 'nuts', 'squash', 'late harvest produce'],
+    bestSeasonalIngredients: ['apples', 'pears', 'nuts', 'squash', 'late harvest produce']
   },
   scorpio: {
     spring: 0.3,
     summer: 0.5,
     autumn: 0.8,
     winter: 0.7,
-    bestSeasonalIngredients: ['root vegetables', 'game meats', 'mushrooms', 'preserved foods'],
+    bestSeasonalIngredients: ['root vegetables', 'game meats', 'mushrooms', 'preserved foods']
   },
   sagittarius: {
     spring: 0.4,
@@ -667,8 +667,8 @@ export const zodiacSeasonalAffinities: Record<
       'winter spices',
       'exotic imports',
       'hearty vegetables',
-      'aged ingredients',
-    ],
+      'aged ingredients'
+    ]
   },
   capricorn: {
     spring: 0.3,
@@ -679,8 +679,8 @@ export const zodiacSeasonalAffinities: Record<
       'winter roots',
       'preserved items',
       'hearty greens',
-      'stored harvest goods',
-    ],
+      'stored harvest goods'
+    ]
   },
   aquarius: {
     spring: 0.5,
@@ -691,8 +691,8 @@ export const zodiacSeasonalAffinities: Record<
       'winter citrus',
       'greenhouse innovations',
       'stored technology foods',
-      'preserved rarities',
-    ],
+      'preserved rarities'
+    ]
   },
   pisces: {
     spring: 0.8,
@@ -703,9 +703,9 @@ export const zodiacSeasonalAffinities: Record<
       'early spring seafood',
       'snow peas',
       'delicate greens',
-      'transition seasonal items',
-    ],
-  },
+      'transition seasonal items'
+    ]
+  }
 };
 
 /**
@@ -720,7 +720,7 @@ export const modalityCookingTechniques: Record<Modality, string[]> = {
     'blanching',
     'broiling',
     'direct heat methods',
-    'initiative cooking',
+    'initiative cooking'
   ],
   fixed: [
     'slow roasting',
@@ -731,7 +731,7 @@ export const modalityCookingTechniques: Record<Modality, string[]> = {
     'fermenting',
     'aging',
     'preserving',
-    'endurance cooking',
+    'endurance cooking'
   ],
   mutable: [
     'steaming',
@@ -741,8 +741,8 @@ export const modalityCookingTechniques: Record<Modality, string[]> = {
     'variable methods',
     'combination cooking',
     'multi-step preparations',
-    'flexible timing',
-  ],
+    'flexible timing'
+  ]
 };
 
 /**
@@ -756,7 +756,7 @@ export function getCookingTechniquesForSign(sign: any): string[] {
 /**
  * Zodiac affinity for meal timing
  */
-export const zodiacMealTimingPreferences: Record<
+export const _zodiacMealTimingPreferences: Record<
   ZodiacSign,
   {
     breakfast: number;
@@ -771,85 +771,85 @@ export const zodiacMealTimingPreferences: Record<
     lunch: 0.6,
     dinner: 0.7,
     snacking: 0.4,
-    idealEatingHours: 'Early morning and midday when energy is highest',
+    idealEatingHours: 'Early morning and midday when energy is highest'
   },
   taurus: {
     breakfast: 0.6,
     lunch: 0.7,
     dinner: 0.9,
     snacking: 0.8,
-    idealEatingHours: 'Leisurely evening meals, appreciating dinner fully',
+    idealEatingHours: 'Leisurely evening meals, appreciating dinner fully'
   },
   gemini: {
     breakfast: 0.5,
     lunch: 0.7,
     dinner: 0.6,
     snacking: 0.9,
-    idealEatingHours: 'Multiple small meals throughout the day',
+    idealEatingHours: 'Multiple small meals throughout the day'
   },
   cancer: {
     breakfast: 0.7,
     lunch: 0.6,
     dinner: 0.9,
     snacking: 0.7,
-    idealEatingHours: 'Evening family meals, breakfast comfort foods',
+    idealEatingHours: 'Evening family meals, breakfast comfort foods'
   },
   leo: {
     breakfast: 0.5,
     lunch: 0.7,
     dinner: 0.9,
     snacking: 0.6,
-    idealEatingHours: 'Prime dinner time when attention can be focused',
+    idealEatingHours: 'Prime dinner time when attention can be focused'
   },
   virgo: {
     breakfast: 0.8,
     lunch: 0.7,
     dinner: 0.6,
     snacking: 0.5,
-    idealEatingHours: 'Regular, precisely timed meals throughout day',
+    idealEatingHours: 'Regular, precisely timed meals throughout day'
   },
   libra: {
     breakfast: 0.6,
     lunch: 0.8,
     dinner: 0.9,
     snacking: 0.5,
-    idealEatingHours: 'Social lunch and dinner times with company',
+    idealEatingHours: 'Social lunch and dinner times with company'
   },
   scorpio: {
     breakfast: 0.4,
     lunch: 0.6,
     dinner: 0.9,
     snacking: 0.7,
-    idealEatingHours: 'Evening and late night when atmosphere is intense',
+    idealEatingHours: 'Evening and late night when atmosphere is intense'
   },
   sagittarius: {
     breakfast: 0.7,
     lunch: 0.8,
     dinner: 0.7,
     snacking: 0.8,
-    idealEatingHours: 'Varied meal times, adaptable to adventure',
+    idealEatingHours: 'Varied meal times, adaptable to adventure'
   },
   capricorn: {
     breakfast: 0.8,
     lunch: 0.7,
     dinner: 0.8,
     snacking: 0.3,
-    idealEatingHours: 'Traditional meal times adhered to strictly',
+    idealEatingHours: 'Traditional meal times adhered to strictly'
   },
   aquarius: {
     breakfast: 0.6,
     lunch: 0.5,
     dinner: 0.7,
     snacking: 0.8,
-    idealEatingHours: 'Unconventional eating schedule, meal timing experiments',
+    idealEatingHours: 'Unconventional eating schedule, meal timing experiments'
   },
   pisces: {
     breakfast: 0.5,
     lunch: 0.6,
     dinner: 0.8,
     snacking: 0.7,
-    idealEatingHours: 'Flowing meal times that follow intuition rather than clock',
-  },
+    idealEatingHours: 'Flowing meal times that follow intuition rather than clock'
+  }
 };
 
 /**
@@ -859,7 +859,7 @@ export function getCompatibleFlavorsForModality(modality: Modality): string[] {
   const flavorMappings: Record<Modality, string[]> = {
     cardinal: ['spicy', 'bold', 'crisp', 'pronounced', 'direct', 'immediate', 'energetic'],
     fixed: ['rich', 'deep', 'complex', 'sustained', 'persistent', 'powerful', 'foundational'],
-    mutable: ['adaptable', 'layered', 'evolving', 'complementary', 'versatile', 'transforming'],
+    mutable: ['adaptable', 'layered', 'evolving', 'complementary', 'versatile', 'transforming']
   };
 
   return flavorMappings[modality];
@@ -889,7 +889,7 @@ export function calculateRecipeZodiacCompatibility(
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
+    pisces: 'Water'
   };
 
   const ingredientElement = elementMap[mainIngredientSign];
@@ -897,11 +897,11 @@ export function calculateRecipeZodiacCompatibility(
 
   // Calculate compatibility scores
   let modalityScore = 0;
-  if (ingredientModality === preparationModality) {
+  if (ingredientModality === preparationModality) {;
     modalityScore = 0.8; // Strong match
   } else if (
-    (ingredientModality === 'cardinal' && preparationModality === 'mutable') ||
-    (ingredientModality === 'mutable' && preparationModality === 'cardinal')
+    (ingredientModality === 'cardinal' && preparationModality === 'mutable') ||;
+    (ingredientModality === 'mutable' && preparationModality === 'cardinal');
   ) {
     modalityScore = 0.6; // Good match
   } else {
@@ -910,13 +910,13 @@ export function calculateRecipeZodiacCompatibility(
 
   // Element compatibility
   let elementScore = 0;
-  if (ingredientElement === preparationElement) {
+  if (ingredientElement === preparationElement) {;
     elementScore = 0.9; // Strong match
   } else if (
-    (ingredientElement === 'fire' && preparationElement === 'air') ||
-    (ingredientElement === 'air' && preparationElement === 'fire') ||
-    (ingredientElement === 'earth' && preparationElement === 'water') ||
-    (ingredientElement === 'water' && preparationElement === 'earth')
+    (ingredientElement === 'fire' && preparationElement === 'air') ||;
+    (ingredientElement === 'air' && preparationElement === 'fire') ||;
+    (ingredientElement === 'earth' && preparationElement === 'water') ||;
+    (ingredientElement === 'water' && preparationElement === 'earth');
   ) {
     elementScore = 0.7; // Good match
   } else {

@@ -13,7 +13,7 @@ import {
   normalizeCuisineName,
   CUISINE_ALIASES,
   type PrimaryCuisineType,
-  type AllCuisineTypes,
+  type AllCuisineTypes
 } from '@/types/cuisineAliases';
 
 /**
@@ -25,7 +25,7 @@ export function standardizeCuisine(cuisineName: string): PrimaryCuisineType {
   const resolved = resolveCuisineType(cuisineName);
 
   // If the resolved type is a primary cuisine, return it
-  if (typeof resolved === 'string' && !isRegionalCuisine(resolved)) {
+  if (typeof resolved === 'string' && !isRegionalCuisine(resolved)) {;
     return resolved as PrimaryCuisineType;
   }
 
@@ -68,7 +68,7 @@ export function areCuisinesRelated(cuisine1: string, cuisine2: string): boolean 
 export function groupCuisinesByType(cuisineNames: string[]): Record<PrimaryCuisineType, string[]> {
   const groups: Record<PrimaryCuisineType, string[]> = {} as Record<PrimaryCuisineType, string[]>;
 
-  cuisineNames.forEach(cuisineName => {
+  cuisineNames.forEach(cuisineName => {;
     const primary = standardizeCuisine(cuisineName);
     if (!groups[primary]) {
       groups[primary] = [];
@@ -86,7 +86,7 @@ export function groupCuisinesByType(cuisineNames: string[]): Record<PrimaryCuisi
  */
 export function filterPrimaryCuisines(cuisineNames: string[]): PrimaryCuisineType[] {
   return cuisineNames
-    .map(cuisine => standardizeCuisine(cuisine))
+    .map(cuisine => standardizeCuisine(cuisine));
     .filter((cuisine, index, array) => array.indexOf(cuisine) === index); // Remove duplicates
 }
 
@@ -138,7 +138,7 @@ export function isSupportedCuisine(cuisineName: string): boolean {
     'Middle-Eastern',
     'Mediterranean',
     'Russian',
-    'Fusion',
+    'Fusion'
   ];
 
   return primaryCuisines.includes(cuisineName as PrimaryCuisineType);
@@ -169,12 +169,12 @@ export function getCuisineSuggestions(partialName: string): string[] {
     'Middle-Eastern',
     'Mediterranean',
     'Russian',
-    'Fusion',
+    'Fusion'
   ];
 
-  const suggestions = [
-    ...allCuisines.filter(cuisine => cuisine.includes(normalized)),
-    ...primaryCuisines.filter(cuisine => cuisine.toLowerCase().includes(normalized)),
+  const suggestions = [;
+    ...allCuisines.filter(cuisine => cuisine.includes(normalized)),;
+    ...primaryCuisines.filter(cuisine => cuisine.toLowerCase().includes(normalized)),;
   ];
 
   return [...new Set(suggestions)]; // Remove duplicates

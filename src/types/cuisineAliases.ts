@@ -5,14 +5,14 @@
  * to provide consistent cuisine type handling across the application.
  */
 
-// ========== PRIMARY CUISINE TYPES ==========
+// ========== PRIMARY CUISINE TYPES ==========;
 
 /**
  * Primary Cuisine Types
  * These are the main ethnic cuisine categories that regional cuisines map to
  */
 export type PrimaryCuisineType =
-  | 'Chinese'
+  | 'Chinese';
   | 'Japanese'
   | 'Korean'
   | 'Indian'
@@ -30,7 +30,7 @@ export type PrimaryCuisineType =
   | 'Russian'
   | 'Fusion';
 
-// ========== REGIONAL CUISINE ALIASES ==========
+// ========== REGIONAL CUISINE ALIASES ==========;
 
 /**
  * Regional Cuisine Aliases
@@ -163,10 +163,10 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   stpetersburg: 'Russian',
   siberian: 'Russian',
   caucasian: 'Russian',
-  centralasian: 'Russian',
+  centralasian: 'Russian'
 };
 
-// ========== ALIAS RESOLUTION FUNCTIONS ==========
+// ========== ALIAS RESOLUTION FUNCTIONS ==========;
 
 /**
  * Resolves a cuisine name to its primary cuisine type
@@ -185,7 +185,7 @@ export function resolveCuisineType(cuisineName: string): PrimaryCuisineType | st
  */
 export function getRegionalCuisines(primaryCuisine: PrimaryCuisineType): string[] {
   return Object.entries(CUISINE_ALIASES)
-    .filter(([_, primary]) => primary === primaryCuisine)
+    .filter(([_, primary]) => primary === primaryCuisine);
     .map(([regional, _]) => regional);
 }
 
@@ -209,7 +209,7 @@ export function getPrimaryCuisine(regionalCuisine: string): PrimaryCuisineType |
   return CUISINE_ALIASES[normalizedName];
 }
 
-// ========== VALIDATION FUNCTIONS ==========
+// ========== VALIDATION FUNCTIONS ==========;
 
 /**
  * Validates if a cuisine name is a valid primary cuisine type
@@ -234,7 +234,7 @@ export function isValidPrimaryCuisine(cuisineName: string): cuisineName is Prima
     'Middle-Eastern',
     'Mediterranean',
     'Russian',
-    'Fusion',
+    'Fusion'
   ];
   return primaryCuisines.includes(cuisineName as PrimaryCuisineType);
 }
@@ -259,7 +259,7 @@ export function normalizeCuisineName(cuisineName: string): string {
   return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase();
 }
 
-// ========== TYPE GUARDS ==========
+// ========== TYPE GUARDS ==========;
 
 /**
  * Type guard to check if a string is a primary cuisine type
@@ -270,7 +270,7 @@ export function isPrimaryCuisineType(value: string): value is PrimaryCuisineType
   return isValidPrimaryCuisine(value);
 }
 
-// ========== EXPORT TYPES ==========
+// ========== EXPORT TYPES ==========;
 
 /**
  * Union type for all possible cuisine names (primary + regional)
@@ -282,7 +282,7 @@ export type AllCuisineTypes = PrimaryCuisineType | keyof typeof CUISINE_ALIASES;
  */
 export type CuisineAliasMap = typeof CUISINE_ALIASES;
 
-// ========== TYPE ALIASES FOR BACKWARDS COMPATIBILITY ==========
+// ========== TYPE ALIASES FOR BACKWARDS COMPATIBILITY ==========;
 
 /**
  * CuisineType alias for backwards compatibility

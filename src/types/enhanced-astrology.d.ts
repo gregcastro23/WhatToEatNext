@@ -10,7 +10,7 @@ declare global {
   namespace Astrology {
     // Zodiac signs with enhanced documentation
     type ZodiacSign =
-      | 'aries' // ♈ Fire - Cardinal - Mars
+      | 'aries' // ♈ Fire - Cardinal - Mars;
       | 'taurus' // ♉ Earth - Fixed - Venus
       | 'gemini' // ♊ Air - Mutable - Mercury
       | 'cancer' // ♋ Water - Cardinal - Moon
@@ -25,7 +25,7 @@ declare global {
 
     // Planetary bodies with enhanced documentation
     type Planet =
-      | 'sun' // ☉ Vitality, ego, life force
+      | 'sun' // ☉ Vitality, ego, life force;
       | 'moon' // ☽ Emotions, intuition, cycles
       | 'mercury' // ☿ Communication, intellect, travel
       | 'venus' // ♀ Love, beauty, harmony, values
@@ -40,14 +40,14 @@ declare global {
 
     // Elements with enhanced documentation
     type Element =
-      | 'Fire' // Energy, enthusiasm, action, creativity
+      | 'Fire' // Energy, enthusiasm, action, creativity;
       | 'Water' // Emotion, intuition, flow, healing
       | 'Earth' // Stability, practicality, material, grounding
       | 'Air'; // Intellect, communication, ideas, movement
 
     // Modalities with enhanced documentation
     type Modality =
-      | 'Cardinal' // Initiation, leadership, new beginnings
+      | 'Cardinal' // Initiation, leadership, new beginnings;
       | 'Fixed' // Stability, persistence, determination
       | 'Mutable'; // Adaptability, flexibility, change
 
@@ -348,14 +348,14 @@ export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData;
 export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe };
 
 // Utility type for component props that use astrological data
-export type WithAstrologicalData<T = {}> = T & {
+export type WithAstrologicalData<T = {}> = T & {;
   astrologicalState?: Astrology.AstrologicalState;
   elementalProperties?: Astrology.ElementalProperties;
   onAstrologicalUpdate?: (state: Astrology.AstrologicalState) => void;
 };
 
 // Utility type for components that can be culturally sensitive
-export type WithCulturalSensitivity<T = {}> = T & {
+export type WithCulturalSensitivity<T = {}> = T & {;
   culturalContext?: {
     respectTraditionalUses: boolean;
     acknowledgeOrigins: boolean;
@@ -364,7 +364,7 @@ export type WithCulturalSensitivity<T = {}> = T & {
 };
 
 // Utility type for performance-optimized components
-export type WithPerformanceOptimization<T = {}> = T & {
+export type WithPerformanceOptimization<T = {}> = T & {;
   performanceConfig?: {
     enableMemoization: boolean;
     enableLazyLoading: boolean;

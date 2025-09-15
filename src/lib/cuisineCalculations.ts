@@ -24,7 +24,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
     // Convert culinary traditions to CuisineRecommendation format
     const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map(
       ([id, tradition]) => {
-        const traditionData = tradition as unknown as {
+        const traditionData = tradition as unknown as {;
           description?: string;
           elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
           authenticity?: number;
@@ -41,13 +41,13 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
+            Air: 0.25
           },
           elementalProperties: traditionData?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
+            Air: 0.25
           },
           astrologicalInfluences: deriveAstrologicalInfluences(tradition),
           compatibilityScore: 0.8, // Default compatibility score
@@ -55,8 +55,8 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          },
+            Air: 0.25
+          }
         };
       },
     );
@@ -70,7 +70,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
 
 // Helper function to derive meaningful astrological influences from regional cuisines
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
-  const traditionData = tradition as unknown as {
+  const traditionData = tradition  as {;
     description?: string;
     elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
     regions?: unknown[];
@@ -98,7 +98,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const regionalCuisines = traditionData?.regionalCuisines;
   if (regionalCuisines) {
     Object.values(regionalCuisines).forEach((region: unknown) => {
-      const regionData = region as unknown as {
+      const regionData = region  as {;
         name?: string;
         characteristics?: string[];
         seasonality?: unknown;

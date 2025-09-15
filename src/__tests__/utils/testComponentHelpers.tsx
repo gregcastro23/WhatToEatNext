@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+ 
 /**
  * Test Component Helpers
  *
@@ -17,26 +17,26 @@ export const MockAlchemicalProvider: React.FC<AlchemicalProviderProps> = ({ chil
 // Mock MainPageLayout with proper props
 export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
   children,
-  debugMode = false,
-  loading = false,
-  onSectionNavigate: _onSectionNavigate,
+  debugMode = false,;
+  loading = false,;
+  onSectionNavigate: _onSectionNavigate
 }) => {
   return (
-    <div data-testid='mock-main-page-layout'>
-      <div data-testid='debug-mode'>{debugMode ? 'debug' : 'production'}</div>
-      <div data-testid='loading-state'>{loading ? 'loading' : 'loaded'}</div>
+    <div data-testid='mock-main-page-layout'>;
+      <div data-testid='debug-mode'>{debugMode ? 'debug' : 'production'}</div>;
+      <div data-testid='loading-state'>{loading ? 'loading' : 'loaded'}</div>;
       {children}
     </div>
   );
 };
 
 // Type-safe component wrapper for testing
-export const createTestWrapper = <P extends object>(Component: React.ComponentType<P>) => {
+export const _createTestWrapper = <P extends object>(Component: React.ComponentType<P>) => {;
   return (props: P) => <Component {...props} />;
 };
 
 // Safe render helper that handles async components
-export const renderWithProviders = (
+export const _renderWithProviders = (;
   component: React.ReactElement,
   options?: {
     withAlchemicalProvider?: boolean;
@@ -49,7 +49,7 @@ export const renderWithProviders = (
   if (withAlchemicalProvider) {
     return (
       <MockAlchemicalProvider>
-        <MockMainPageLayout debugMode={debugMode} loading={loading}>
+        <MockMainPageLayout debugMode={debugMode} loading={loading}>;
           {component}
         </MockMainPageLayout>
       </MockAlchemicalProvider>
@@ -60,13 +60,13 @@ export const renderWithProviders = (
 };
 
 // Mock component factory with proper typing
-export const createMockComponent = <P extends object>(name: string, defaultProps?: Partial<P>) => {
-  const MockComponent: React.FC<P> = props => {
+export const _createMockComponent = <P extends object>(name: string, defaultProps?: Partial<P>) => {;
+  const MockComponent: React.FC<P> = props => {;
     const mergedProps = { ...defaultProps, ...props };
     return (
-      <div data-testid={`mock-${name.toLowerCase()}`}>
+      <div data-testid={`mock-${name.toLowerCase()}`}>;
         Mock {name}
-        <pre data-testid={`${name.toLowerCase()}-props`}>
+        <pre data-testid={`${name.toLowerCase()}-props`}>;
           {JSON.stringify(mergedProps, null, 2)}
         </pre>
       </div>
@@ -98,7 +98,7 @@ export class TestErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div data-testid='test-error-boundary'>
+        <div data-testid='test-error-boundary'>;
           <h2>Test Error Boundary</h2>
           <p>Error: {this.state.error?.message}</p>
         </div>
@@ -110,12 +110,12 @@ export class TestErrorBoundary extends React.Component<
 }
 
 // Async component wrapper for testing
-export const AsyncTestWrapper: React.FC<{
+export const _AsyncTestWrapper: React.FC<{
   children: React.ReactNode;
   fallback?: React.ReactNode;
-}> = ({ children, fallback = <div>Loading...</div> }) => {
+}> = ({ children, fallback = <div>Loading...</div> }) => {;
   return (
-    <React.Suspense fallback={fallback}>
+    <React.Suspense fallback={fallback}>;
       <TestErrorBoundary>{children}</TestErrorBoundary>
     </React.Suspense>
   );

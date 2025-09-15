@@ -18,7 +18,7 @@ export const _proteins: Record<string, IngredientMapping> = fixIngredientMapping
   ...meats,
   ...legumes,
   ...eggs,
-  ...dairy,
+  ...dairy
 });
 
 // Export individual categories
@@ -26,7 +26,7 @@ export { seafood, poultry, plantBased, meats, legumes, eggs, dairy };
 
 // Types
 export type ProteinCategory =
-  | 'meat'
+  | 'meat';
   | 'seafood'
   | 'poultry'
   | 'egg'
@@ -34,7 +34,7 @@ export type ProteinCategory =
   | 'dairy'
   | 'plant_based';
 export type CookingMethod =
-  | 'grill'
+  | 'grill';
   | 'roast'
   | 'braise'
   | 'fry'
@@ -47,19 +47,19 @@ export type ProteinCut = 'whole' | 'fillet' | 'ground' | 'diced' | 'sliced' | 'p
 export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well_done';
 
 // Implemented helper functions
-export const getProteinsBySeasonality = (season: string): IngredientMapping => {
+export const _getProteinsBySeasonality = (season: string): IngredientMapping => {;
   return Object.entries(_proteins)
     .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const getProteinsBySustainability = (minScore: number): IngredientMapping => {
+export const _getProteinsBySustainability = (minScore: number): IngredientMapping => {;
   return Object.entries(_proteins)
     .filter(([_, value]) => Number(value.sustainabilityScore) >= Number(minScore))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const getProteinsByRegionalCuisine = (region: string): IngredientMapping => {
+export const _getProteinsByRegionalCuisine = (region: string): IngredientMapping => {;
   return Object.entries(_proteins)
     .filter(
       ([_, value]) =>
@@ -69,13 +69,13 @@ export const getProteinsByRegionalCuisine = (region: string): IngredientMapping 
 };
 
 // Helper functions
-export const getProteinsByCategory = (category: ProteinCategory): IngredientMapping => {
+export const _getProteinsByCategory = (category: ProteinCategory): IngredientMapping => {;
   return Object.entries(_proteins)
-    .filter(([_, value]) => value.category === category)
+    .filter(([_, value]) => value.category === category);
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const getProteinsByCookingMethod = (_method: string): IngredientMapping => {
+export const _getProteinsByCookingMethod = (_method: string): IngredientMapping => {;
   return Object.entries(_proteins)
     .filter(
       ([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(_method),
@@ -83,17 +83,17 @@ export const getProteinsByCookingMethod = (_method: string): IngredientMapping =
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const getProteinsByNutrition = (minProtein = 0, maxFat?: number): IngredientMapping => {
+export const _getProteinsByNutrition = (minProtein = 0, maxFat?: number): IngredientMapping => {;
   return Object.entries(_proteins)
     .filter(([_, value]) => {
-      const meetsProtein = (value.nutritionalContent as unknown)?.protein >= minProtein;
-      const meetsFat = maxFat ? (value.nutritionalContent as unknown)?.fat <= maxFat : true;
+      const meetsProtein = (value.nutritionalContent )?.protein >= minProtein;
+      const meetsFat = maxFat ? (value.nutritionalContent )?.fat <= maxFat : true;
       return meetsProtein && meetsFat;
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const getCompatibleProteins = (_proteinName: string): string[] => {
+export const _getCompatibleProteins = (_proteinName: string): string[] => {;
   const protein = _proteins[_proteinName];
   if (!protein) return [];
 
@@ -110,7 +110,7 @@ export const getCompatibleProteins = (_proteinName: string): string[] => {
     .map(([key, _]) => key);
 };
 
-export const getProteinSubstitutes = (_proteinName: string): Record<string, number> => {
+export const _getProteinSubstitutes = (_proteinName: string): Record<string, number> => {;
   const protein = _proteins[_proteinName];
   if (!protein || !protein.qualities) return {};
 
@@ -120,25 +120,25 @@ export const getProteinSubstitutes = (_proteinName: string): Record<string, numb
     .filter(([key, _]) => key !== _proteinName)
     .forEach(([key, value]) => {
       // Calculate similarity score based on cooking methods, nutrition, and texture
-      const methodScore = value.culinaryApplications
+      const methodScore = value.culinaryApplications;
         ? Object.keys(value.culinaryApplications).filter(
-            _method =>
+            _method =>;
               protein.culinaryApplications &&
               Object.keys(protein.culinaryApplications).includes(_method),
           ).length / Object.keys(protein.culinaryApplications || {}).length
         : 0;
 
-      const nutritionScore = Math.abs(
-        ((value.nutritionalContent as unknown)?.protein -
-          (protein.nutritionalContent as unknown)?.protein) /
-          (protein.nutritionalContent as unknown)?.protein,
+      const nutritionScore = Math.abs(;
+        ((value.nutritionalContent )?.protein -
+          (protein.nutritionalContent )?.protein) /
+          (protein.nutritionalContent )?.protein,
       );
 
       // Using proper null check instead of non-null assertion
       const proteinQualities = protein.qualities || [];
 
-      const textureScore = Array.isArray(value.qualities)
-        ? value.qualities.filter(q => proteinQualities.includes(q)).length /
+      const textureScore = Array.isArray(value.qualities);
+        ? value.qualities.filter(q => proteinQualities.includes(q)).length /;
           (proteinQualities.length || 1)
         : 0;
 
@@ -149,15 +149,15 @@ export const getProteinSubstitutes = (_proteinName: string): Record<string, numb
 };
 
 // Helper functions for calculateCookingTime
-const getBaseTime = (
+const getBaseTime = (;
   protein: Ingredient,
   _method: CookingMethod,
   weight: number,
   thickness: number,
-): number => {
+): number => {;
   // Simple stub implementation - in a real app, this would have actual logic
   // based on the protein type, cooking method, weight and thickness
-  const baseTimes = {
+  const baseTimes = {;
     grill: 5 * thickness * (weight / (100 || 1)),
     roast: 10 * thickness * (weight / (100 || 1)),
     braise: 15 * thickness * (weight / (100 || 1)),
@@ -172,27 +172,27 @@ const getBaseTime = (
   return baseTimes[_method] || 10 * thickness * (weight / (100 || 1));
 };
 
-const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number => {
+const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number => {;
   // Stub implementation
-  const donenessFactors = {
+  const donenessFactors = {;
     rare: 0.7,
     medium_rare: 0.85,
     medium: 1.0,
     medium_well: 1.15,
-    well_done: 1.3,
+    well_done: 1.3
   };
 
   return donenessFactors[doneness] || 1.0;
 };
 
-const getSeasonalAdjustment = (
+const getSeasonalAdjustment = (;
   protein: Ingredient,
   environmentalFactors: {
     season: 'summer' | 'winter';
     humidity: number;
     altitude: number;
   },
-): number => {
+): number => {;
   // Stub implementation
   const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1;
   const humidityFactor = 1 + (environmentalFactors.humidity - 50) / 100;
@@ -200,12 +200,12 @@ const getSeasonalAdjustment = (
   return seasonalFactor * humidityFactor;
 };
 
-const calculateAltitudeAdjustment = (altitude: number): number => {
+const calculateAltitudeAdjustment = (altitude: number): number => {;
   // Stub implementation - cooking takes longer at higher altitudes
   return 1 + (altitude / (1000 || 1)) * 0.05;
 };
 
-const calculateAdjustedTemperature = (
+const calculateAdjustedTemperature = (;
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
@@ -213,9 +213,9 @@ const calculateAdjustedTemperature = (
     humidity: number;
     altitude: number;
   },
-): Temperature => {
+): Temperature => {;
   // Stub implementation
-  const baseTemp = {
+  const baseTemp = {;
     grill: { fahrenheit: 400, celsius: 204 },
     roast: { fahrenheit: 350, celsius: 177 },
     braise: { fahrenheit: 300, celsius: 149 },
@@ -224,7 +224,7 @@ const calculateAdjustedTemperature = (
     steam: { fahrenheit: 212, celsius: 100 },
     raw: { fahrenheit: 40, celsius: 4 }, // refrigeration temp
     cure: { fahrenheit: 40, celsius: 4 },
-    smoke: { fahrenheit: 225, celsius: 107 },
+    smoke: { fahrenheit: 225, celsius: 107 }
   };
 
   const temp = baseTemp[_method] || { fahrenheit: 350, celsius: 177 };
@@ -234,11 +234,11 @@ const calculateAdjustedTemperature = (
 
   return {
     fahrenheit: temp.fahrenheit + altitudeAdjustment,
-    celsius: temp.celsius + altitudeAdjustment / 1.8,
+    celsius: temp.celsius + altitudeAdjustment / 1.8
   };
 };
 
-const generateCookingNotes = (
+const generateCookingNotes = (;
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
@@ -261,7 +261,7 @@ const generateCookingNotes = (
   return notes;
 };
 
-export const calculateCookingTime = (
+export const calculateCookingTime = (;
   _proteinName: string,
   _method: CookingMethod,
   weight: number,
@@ -288,32 +288,32 @@ export const calculateCookingTime = (
   return {
     time: baseTime * donenessAdjustment * seasonalAdjustment * altitudeAdjustment,
     adjustedTemp: calculateAdjustedTemperature(protein, _method, environmentalFactors),
-    notes: generateCookingNotes(protein, _method, environmentalFactors),
+    notes: generateCookingNotes(protein, _method, environmentalFactors)
   };
 };
 
 // Validation functions
-export const validateProteinCombination = (_proteinList: string[]): boolean => {
+export const _validateProteinCombination = (_proteinList: string[]): boolean => {;
   // Implementation for validating if proteins work well together
   return true; // Placeholder
 };
 
-export const validateCookingMethod = (
+export const _validateCookingMethod = (;
   _proteinName: string,
   _method: CookingMethod,
   _cut: ProteinCut,
-): boolean => {
+): boolean => {;
   // Implementation for validating if cooking method is appropriate
   return true; // Placeholder
 };
 
 // Extended Type Definitions
-export type Temperature = {
+export type Temperature = {;
   fahrenheit: number;
   celsius: number;
 };
 
-export type TemperatureRange = {
+export type TemperatureRange = {;
   min: Temperature;
   max: Temperature;
   ideal: Temperature;
@@ -374,13 +374,13 @@ export interface SeasonalAdjustment {
 }
 
 // Helper functions
-export const getProteinsBySubCategory = (subCategory: string): IngredientMapping => {
+export const _getProteinsBySubCategory = (subCategory: string): IngredientMapping => {;
   return Object.entries(_proteins)
-    .filter(([_, value]) => value.subCategory === subCategory)
+    .filter(([_, value]) => value.subCategory === subCategory);
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const getVeganProteins = (): IngredientMapping => {
+export const _getVeganProteins = (): IngredientMapping => {;
   return Object.entries(_proteins)
     .filter(([_, value]) => Array.isArray(value.dietaryInfo) && value.dietaryInfo.includes('vegan'))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);

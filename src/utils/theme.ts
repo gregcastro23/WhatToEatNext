@@ -30,7 +30,7 @@ export class ThemeManager {
 
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
-        accent: savedAccent,
+        accent: savedAccent
       };
     } catch (error) {
       logger.error('Error getting theme:', error);

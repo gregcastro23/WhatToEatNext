@@ -15,7 +15,7 @@ export function useIngredientMapping() {
   /**
    * Map ingredients for a specific recipe
    */
-  const mapRecipeIngredients = useCallback((recipe: Recipe) => {
+  const mapRecipeIngredients = useCallback((recipe: Recipe) => {;
     try {
       setIsLoading(true);
       setError(null);
@@ -33,7 +33,7 @@ export function useIngredientMapping() {
   /**
    * Find recipes matching the given criteria
    */
-  const findMatchingRecipes = useCallback(
+  const findMatchingRecipes = useCallback(;
     (
       options: {
         elementalTarget?: ElementalProperties;
@@ -65,11 +65,11 @@ export function useIngredientMapping() {
   /**
    * Suggest alternative ingredients with similar properties
    */
-  const suggestAlternatives = useCallback((ingredientName: string, options = {}) => {
+  const suggestAlternatives = useCallback((ingredientName: string, options = {}) => {;
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.suggestAlternativeIngredients(
+      const result = ingredientMappingService.suggestAlternativeIngredients(;
         ingredientName,
         options,
       );
@@ -80,7 +80,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        suggestions: [],
+        suggestions: []
       };
     } finally {
       setIsLoading(false);
@@ -90,7 +90,7 @@ export function useIngredientMapping() {
   /**
    * Calculate compatibility between two ingredients
    */
-  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {
+  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {;
     try {
       setIsLoading(true);
       setError(null);
@@ -102,7 +102,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        compatibility: 0,
+        compatibility: 0
       };
     } finally {
       setIsLoading(false);
@@ -112,7 +112,7 @@ export function useIngredientMapping() {
   /**
    * Analyze ingredient combinations in a recipe
    */
-  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {
+  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {;
     try {
       setIsLoading(true);
       setError(null);
@@ -124,7 +124,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        mappingQuality: 0,
+        mappingQuality: 0
       };
     } finally {
       setIsLoading(false);
@@ -138,6 +138,6 @@ export function useIngredientMapping() {
     findMatchingRecipes,
     suggestAlternatives,
     calculateCompatibility,
-    analyzeRecipeCombinations,
+    analyzeRecipeCombinations
   };
 }

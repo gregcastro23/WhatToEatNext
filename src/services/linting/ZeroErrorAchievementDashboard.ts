@@ -15,7 +15,7 @@ import {
   LintingValidationDashboard,
   LintingMetrics,
   Alert,
-  ValidationResult,
+  ValidationResult
 } from './LintingValidationDashboard';
 
 export interface ZeroErrorTarget {
@@ -94,7 +94,7 @@ export class ZeroErrorAchievementDashboard {
    * Generate comprehensive zero-error achievement dashboard
    */
   async generateDashboard(): Promise<void> {
-    console.log('🎯 Generating Zero-Error Achievement Dashboard...\n');
+    // console.log('🎯 Generating Zero-Error Achievement Dashboard...\n');
 
     const startTime = Date.now();
 
@@ -120,7 +120,7 @@ export class ZeroErrorAchievementDashboard {
       targets,
       qualityGates,
       maintenanceResults,
-      generationTime: Date.now() - startTime,
+      generationTime: Date.now() - startTime
     });
 
     // Process alerts
@@ -128,18 +128,18 @@ export class ZeroErrorAchievementDashboard {
       await this.alertingSystem.processAlerts(validationResult.alerts, validationResult.metrics);
     }
 
-    console.log(`✅ Dashboard generated in ${Date.now() - startTime}ms`);
+    // console.log(`✅ Dashboard generated in ${Date.now() - startTime}ms`);
   }
 
   /**
    * Real-time monitoring with continuous updates
    */
-  async startRealTimeMonitoring(intervalMinutes: number = 5): Promise<void> {
-    console.log(`👀 Starting real-time monitoring (${intervalMinutes} minute intervals)...\n`);
+  async startRealTimeMonitoring(intervalMinutes: number = 5): Promise<void> {;
+    // console.log(`👀 Starting real-time monitoring (${intervalMinutes} minute intervals)...\n`);
 
     let lastMetrics: LintingMetrics | null = null;
 
-    const monitoringLoop = async () => {
+    const monitoringLoop = async () => {;
       try {
         const validationResult = await this.validationDashboard.runComprehensiveValidation();
         const currentMetrics = validationResult.metrics;
@@ -149,9 +149,9 @@ export class ZeroErrorAchievementDashboard {
           const significantChanges = this.detectSignificantChanges(lastMetrics, currentMetrics);
 
           if (significantChanges.length > 0) {
-            console.log(`\n⚠️  [${new Date().toISOString()}] Significant changes detected:`);
+            // console.log(`\n⚠️  [${new Date().toISOString()}] Significant changes detected:`);
             for (const change of significantChanges) {
-              console.log(`   ${change}`);
+              // console.log(`   ${change}`);
             }
 
             // Trigger immediate dashboard update
@@ -162,9 +162,9 @@ export class ZeroErrorAchievementDashboard {
         // Check for critical issues
         const criticalIssues = this.identifyCriticalIssues(currentMetrics);
         if (criticalIssues.length > 0) {
-          console.log(`\n🚨 [${new Date().toISOString()}] CRITICAL ISSUES:`);
+          // console.log(`\n🚨 [${new Date().toISOString()}] CRITICAL ISSUES:`);
           for (const issue of criticalIssues) {
-            console.log(`   ${issue}`);
+            // console.log(`   ${issue}`);
           }
         }
 
@@ -183,7 +183,7 @@ export class ZeroErrorAchievementDashboard {
     // Schedule periodic runs
     setInterval(monitoringLoop, intervalMinutes * 60 * 1000);
 
-    console.log('✅ Real-time monitoring started');
+    // console.log('✅ Real-time monitoring started');
   }
 
   /**
@@ -197,12 +197,12 @@ export class ZeroErrorAchievementDashboard {
     }
 
     const trends: TrendAnalysis[] = [];
-    const metricsToAnalyze = [
+    const metricsToAnalyze = [;
       'totalIssues',
       'errors',
       'parserErrors',
       'explicitAnyErrors',
-      'qualityScore',
+      'qualityScore'
     ];
 
     for (const metric of metricsToAnalyze) {
@@ -214,7 +214,7 @@ export class ZeroErrorAchievementDashboard {
         trend: trend.direction,
         velocity: trend.velocity,
         projection: this.projectFuture(trend.velocity, this.getMetricValue(currentMetrics, metric)),
-        confidence: trend.confidence,
+        confidence: trend.confidence
       });
     }
 
@@ -231,47 +231,47 @@ export class ZeroErrorAchievementDashboard {
     const existingTargets = this.loadTargets();
     const updatedTargets: ZeroErrorTarget[] = [];
 
-    const defaultTargets = [
+    const defaultTargets = [;
       {
         metric: 'parserErrors',
         targetValue: 0,
         deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week
         priority: 'critical' as const,
-        strategy: 'Immediate syntax error fixes with TypeScript compiler validation',
+        strategy: 'Immediate syntax error fixes with TypeScript compiler validation'
       },
       {
         metric: 'explicitAnyErrors',
         targetValue: 0,
         deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 1 month
         priority: 'high' as const,
-        strategy: 'Systematic type inference and interface generation',
+        strategy: 'Systematic type inference and interface generation'
       },
       {
         metric: 'totalIssues',
         targetValue: 500,
         deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 3 months
         priority: 'medium' as const,
-        strategy: 'Comprehensive automated fixing with domain-specific preservation',
+        strategy: 'Comprehensive automated fixing with domain-specific preservation'
       },
       {
         metric: 'qualityScore',
         targetValue: 95,
         deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000), // 2 months
         priority: 'high' as const,
-        strategy: 'Multi-phase quality improvement with performance optimization',
-      },
+        strategy: 'Multi-phase quality improvement with performance optimization'
+      }
     ];
 
     for (const defaultTarget of defaultTargets) {
       const currentValue = this.getMetricValue(currentMetrics, defaultTarget.metric);
       const existingTarget = existingTargets.find(t => t.metric === defaultTarget.metric);
 
-      const progress = this.calculateProgress(
+      const progress = this.calculateProgress(;
         currentValue,
         defaultTarget.targetValue,
         defaultTarget.metric,
       );
-      const estimatedCompletion = this.estimateCompletion(
+      const estimatedCompletion = this.estimateCompletion(;
         currentValue,
         defaultTarget.targetValue,
         defaultTarget.deadline,
@@ -300,11 +300,11 @@ export class ZeroErrorAchievementDashboard {
       {
         id: 'no-parser-errors',
         name: 'Zero Parser Errors',
-        condition: 'parserErrors === 0',
+        condition: 'parserErrors === 0',;
         threshold: 0,
         status: 'passing',
         blocksDeployment: true,
-        lastCheck: new Date(),
+        lastCheck: new Date()
       },
       {
         id: 'explicit-any-limit',
@@ -313,7 +313,7 @@ export class ZeroErrorAchievementDashboard {
         threshold: 100,
         status: 'passing',
         blocksDeployment: true,
-        lastCheck: new Date(),
+        lastCheck: new Date()
       },
       {
         id: 'quality-score-minimum',
@@ -322,7 +322,7 @@ export class ZeroErrorAchievementDashboard {
         threshold: 80,
         status: 'passing',
         blocksDeployment: false,
-        lastCheck: new Date(),
+        lastCheck: new Date()
       },
       {
         id: 'performance-threshold',
@@ -331,13 +331,13 @@ export class ZeroErrorAchievementDashboard {
         threshold: 30000,
         status: 'passing',
         blocksDeployment: false,
-        lastCheck: new Date(),
-      },
+        lastCheck: new Date()
+      }
     ];
 
     // Evaluate each gate
     for (const gate of gates) {
-      const metricValue = this.getMetricValue(currentMetrics, gate.condition.split(' ')[0]);
+      const _metricValue = this.getMetricValue(currentMetrics, gate.condition.split(' ')[0]);
 
       switch (gate.id) {
         case 'no-parser-errors':
@@ -345,7 +345,7 @@ export class ZeroErrorAchievementDashboard {
           break;
         case 'explicit-any-limit':
           gate.status =
-            currentMetrics.explicitAnyErrors <= 100
+            currentMetrics.explicitAnyErrors <= 100;
               ? 'passing'
               : currentMetrics.explicitAnyErrors <= 150
                 ? 'warning'
@@ -353,7 +353,7 @@ export class ZeroErrorAchievementDashboard {
           break;
         case 'quality-score-minimum':
           gate.status =
-            currentMetrics.qualityScore >= 80
+            currentMetrics.qualityScore >= 80;
               ? 'passing'
               : currentMetrics.qualityScore >= 70
                 ? 'warning'
@@ -361,7 +361,7 @@ export class ZeroErrorAchievementDashboard {
           break;
         case 'performance-threshold':
           gate.status =
-            currentMetrics.performanceMetrics.lintingDuration <= 30000
+            currentMetrics.performanceMetrics.lintingDuration <= 30000;
               ? 'passing'
               : currentMetrics.performanceMetrics.lintingDuration <= 45000
                 ? 'warning'
@@ -385,7 +385,7 @@ export class ZeroErrorAchievementDashboard {
 
     for (const [id, procedure] of this.maintenanceProcedures) {
       if (procedure.automated && now >= procedure.nextRun) {
-        console.log(`🔧 Running maintenance: ${procedure.name}...`);
+        // console.log(`🔧 Running maintenance: ${procedure.name}...`);
 
         try {
           const result = await procedure.procedure();
@@ -395,7 +395,7 @@ export class ZeroErrorAchievementDashboard {
           procedure.lastRun = now;
           procedure.nextRun = this.calculateNextRun(now, procedure.frequency);
 
-          console.log(
+          // console.log(
             `   ${result.success ? '✅' : '❌'} ${procedure.name} (${result.duration}ms)`,
           );
         } catch (error) {
@@ -405,7 +405,7 @@ export class ZeroErrorAchievementDashboard {
             duration: 0,
             issues: [(error as Error).toString()],
             improvements: [],
-            nextActions: ['Investigate maintenance procedure failure'],
+            nextActions: ['Investigate maintenance procedure failure']
           });
         }
       }
@@ -427,7 +427,7 @@ export class ZeroErrorAchievementDashboard {
   }): Promise<void> {
     const reportPath = join(this.dashboardDir, 'zero-error-achievement-dashboard.md');
 
-    const report = `# 🎯 Zero-Error Achievement Dashboard
+    const report = `# 🎯 Zero-Error Achievement Dashboard;
 
 Generated: ${new Date().toISOString()}  
 Generation Time: ${data.generationTime}ms
@@ -437,14 +437,14 @@ Generation Time: ${data.generationTime}ms
 - **Overall Status**: ${this.getOverallStatus(data.validationResult, data.qualityGates)}
 - **Quality Score**: ${data.validationResult.metrics.qualityScore}/100 ${this.getScoreIcon(data.validationResult.metrics.qualityScore)}
 - **Zero-Error Progress**: ${this.calculateOverallProgress(data.targets)}%
-- **Quality Gates**: ${data.qualityGates.filter(g => g.status === 'passing').length}/${data.qualityGates.length} passing
+- **Quality Gates**: ${data.qualityGates.filter(g => g.status === 'passing').length}/${data.qualityGates.length} passing;
 - **Critical Issues**: ${this.identifyCriticalIssues(data.validationResult.metrics).length}
 
 ## 🎯 Zero-Error Targets
 
 ${data.targets
   .map(
-    target => `
+    target => `;
 ### ${target.metric.charAt(0).toUpperCase() + target.metric.slice(1)}
 - **Current**: ${target.currentValue}
 - **Target**: ${target.targetValue}
@@ -460,11 +460,11 @@ ${data.targets
 ## 📈 Trend Analysis
 
 ${
-  data.trendAnalysis.length === 0
+  data.trendAnalysis.length === 0;
     ? 'Insufficient data for trend analysis (need 3+ data points)'
     : data.trendAnalysis
         .map(
-          trend => `
+          trend => `;
 ### ${trend.metric}
 - **Trend**: ${trend.trend.toUpperCase()} ${this.getTrendIcon(trend.trend)}
 - **Velocity**: ${trend.velocity.toFixed(2)} per day
@@ -480,7 +480,7 @@ ${
 
 ${data.qualityGates
   .map(
-    gate => `
+    gate => `;
 ### ${gate.name}
 - **Status**: ${gate.status.toUpperCase()} ${this.getGateStatusIcon(gate.status)}
 - **Condition**: \`${gate.condition}\`
@@ -493,7 +493,7 @@ ${data.qualityGates
 ## 🔍 Current Metrics Breakdown
 
 ### Critical Issues
-- **Parser Errors**: ${data.validationResult.metrics.parserErrors} ${data.validationResult.metrics.parserErrors === 0 ? '✅' : '🚨'}
+- **Parser Errors**: ${data.validationResult.metrics.parserErrors} ${data.validationResult.metrics.parserErrors === 0 ? '✅' : '🚨'};
 - **TypeScript Errors**: ${data.validationResult.metrics.errors}
 - **Explicit Any Errors**: ${data.validationResult.metrics.explicitAnyErrors} ${data.validationResult.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}
 
@@ -517,11 +517,11 @@ ${data.qualityGates
 ## 🚨 Active Alerts
 
 ${
-  data.validationResult.alerts.length === 0
+  data.validationResult.alerts.length === 0;
     ? '✅ No active alerts'
     : data.validationResult.alerts
         .map(
-          alert =>
+          alert =>;
             `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue}/${alert.threshold})`,
         )
         .join('\n')
@@ -530,7 +530,7 @@ ${
 ## 🔧 Maintenance Status
 
 ${
-  data.maintenanceResults.size === 0
+  data.maintenanceResults.size === 0;
     ? 'No maintenance procedures run this cycle'
     : Array.from(data.maintenanceResults.entries())
         .map(
@@ -538,8 +538,8 @@ ${
 ### ${this.maintenanceProcedures.get(id)?.name || id}
 - **Status**: ${result.success ? '✅ SUCCESS' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-- **Issues**: ${result.issues.length === 0 ? 'None' : result.issues.join(', ')}
-- **Improvements**: ${result.improvements.length === 0 ? 'None' : result.improvements.join(', ')}
+- **Issues**: ${result.issues.length === 0 ? 'None' : result.issues.join(', ')};
+- **Improvements**: ${result.improvements.length === 0 ? 'None' : result.improvements.join(', ')};
 `,
         )
         .join('')
@@ -556,7 +556,7 @@ ${this.generateNextSteps(data.validationResult.metrics, data.targets, data.trend
 ## 🎯 Success Metrics Dashboard
 
 ### Current vs Target
-- **Parser Errors**: ${data.validationResult.metrics.parserErrors}/0 (${data.validationResult.metrics.parserErrors === 0 ? '✅ ACHIEVED' : '🎯 IN PROGRESS'})
+- **Parser Errors**: ${data.validationResult.metrics.parserErrors}/0 (${data.validationResult.metrics.parserErrors === 0 ? '✅ ACHIEVED' : '🎯 IN PROGRESS'});
 - **Explicit Any**: ${data.validationResult.metrics.explicitAnyErrors}/0 (${Math.round((1 - data.validationResult.metrics.explicitAnyErrors / Math.max(data.validationResult.metrics.explicitAnyErrors, 1000)) * 100)}% progress)
 - **Quality Score**: ${data.validationResult.metrics.qualityScore}/95 (${Math.round((data.validationResult.metrics.qualityScore / 95) * 100)}% progress)
 - **Total Issues**: ${data.validationResult.metrics.totalIssues}/500 (${Math.round((1 - data.validationResult.metrics.totalIssues / Math.max(data.validationResult.metrics.totalIssues, 10000)) * 100)}% progress)
@@ -572,7 +572,7 @@ ${this.generateNextSteps(data.validationResult.metrics, data.targets, data.trend
 
 - **Fix Parser Errors**: \`yarn tsc --noEmit && yarn lint:fix\`
 - **Explicit Any Campaign**: \`yarn lint:campaign explicit-any\`
-- **Import Organization**: \`yarn lint:fix --rule "import/order"\`
+- **Import Organization**: \`yarn lint:fix --rule 'import/order'\`
 - **Performance Optimization**: \`yarn lint:fast --cache\`
 - **Comprehensive Cleanup**: \`yarn lint:workflow-auto\`
 
@@ -599,23 +599,23 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     writeFileSync(reportPath, report, 'utf8');
 
     // Also generate JSON version for programmatic access
-    const jsonReport = {
+    const jsonReport = {;
       timestamp: new Date().toISOString(),
       generationTime: data.generationTime,
       summary: {
         overallStatus: this.getOverallStatus(data.validationResult, data.qualityGates),
         qualityScore: data.validationResult.metrics.qualityScore,
         zeroErrorProgress: this.calculateOverallProgress(data.targets),
-        qualityGatesPassing: data.qualityGates.filter(g => g.status === 'passing').length,
+        qualityGatesPassing: data.qualityGates.filter(g => g.status === 'passing').length,;
         totalQualityGates: data.qualityGates.length,
-        criticalIssues: this.identifyCriticalIssues(data.validationResult.metrics).length,
+        criticalIssues: this.identifyCriticalIssues(data.validationResult.metrics).length
       },
       metrics: data.validationResult.metrics,
       targets: data.targets,
       trends: data.trendAnalysis,
       qualityGates: data.qualityGates,
       alerts: data.validationResult.alerts,
-      maintenance: Object.fromEntries(data.maintenanceResults),
+      maintenance: Object.fromEntries(data.maintenanceResults)
     };
 
     writeFileSync(
@@ -623,7 +623,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       JSON.stringify(jsonReport, null, 2),
     );
 
-    console.log(`📊 Dashboard report generated: ${reportPath}`);
+    // console.log(`📊 Dashboard report generated: ${reportPath}`);
   }
 
   /**
@@ -646,8 +646,8 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
 
         try {
           // Check for parser errors
-          const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-            encoding: 'utf8',
+          const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {;
+            encoding: 'utf8'
           });
           const parserErrors = (tscOutput.match(/error TS/g) || []).length;
 
@@ -664,12 +664,12 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
           }
 
           return {
-            success: issues.length === 0,
+            success: issues.length === 0,;
             duration: Date.now() - startTime,
             issues,
             improvements,
             nextActions:
-              issues.length > 0 ? ['Run comprehensive validation', 'Fix critical issues'] : [],
+              issues.length > 0 ? ['Run comprehensive validation', 'Fix critical issues'] : []
           };
         } catch (error) {
           return {
@@ -677,10 +677,10 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             duration: Date.now() - startTime,
             issues: [(error as Error).toString()],
             improvements: [],
-            nextActions: ['Investigate health check failure'],
+            nextActions: ['Investigate health check failure']
           };
         }
-      },
+      }
     });
 
     // Weekly procedures
@@ -711,7 +711,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             duration: Date.now() - startTime,
             issues,
             improvements,
-            nextActions: [],
+            nextActions: []
           };
         } catch (error) {
           issues.push(`Cache optimization failed: ${error}`);
@@ -720,10 +720,10 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             duration: Date.now() - startTime,
             issues,
             improvements,
-            nextActions: ['Manual cache cleanup required'],
+            nextActions: ['Manual cache cleanup required']
           };
         }
-      },
+      }
     });
 
     // Monthly procedures
@@ -768,7 +768,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             duration: Date.now() - startTime,
             issues,
             improvements,
-            nextActions: [],
+            nextActions: []
           };
         } catch (error) {
           issues.push(`Metrics cleanup failed: ${error}`);
@@ -777,10 +777,10 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             duration: Date.now() - startTime,
             issues,
             improvements,
-            nextActions: ['Manual metrics cleanup required'],
+            nextActions: ['Manual metrics cleanup required']
           };
         }
-      },
+      }
     });
   }
 
@@ -793,11 +793,11 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
         {
           id: 'no-parser-errors',
           name: 'Zero Parser Errors',
-          condition: 'parserErrors === 0',
+          condition: 'parserErrors === 0',;
           threshold: 0,
           status: 'passing',
           blocksDeployment: true,
-          lastCheck: new Date(),
+          lastCheck: new Date()
         },
         {
           id: 'explicit-any-limit',
@@ -806,7 +806,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
           threshold: 100,
           status: 'passing',
           blocksDeployment: true,
-          lastCheck: new Date(),
+          lastCheck: new Date()
         },
         {
           id: 'quality-score-minimum',
@@ -815,8 +815,8 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
           threshold: 80,
           status: 'passing',
           blocksDeployment: false,
-          lastCheck: new Date(),
-        },
+          lastCheck: new Date()
+        }
       ];
 
       writeFileSync(this.qualityGatesFile, JSON.stringify(defaultGates, null, 2));
@@ -868,7 +868,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
   }
 
   private calculateProgress(current: number, target: number, metric: string): number {
-    if (metric === 'qualityScore') {
+    if (metric === 'qualityScore') {;
       return Math.min(100, (current / target) * 100);
     } else {
       // For error metrics, progress is reduction toward target
@@ -929,7 +929,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     return {
       sevenDays: Math.max(0, currentValue + velocity * 7),
       thirtyDays: Math.max(0, currentValue + velocity * 30),
-      ninetyDays: Math.max(0, currentValue + velocity * 90),
+      ninetyDays: Math.max(0, currentValue + velocity * 90)
     };
   }
 
@@ -956,11 +956,11 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     const changes: string[] = [];
     const threshold = 0.1; // 10% change threshold
 
-    const metricsToCheck = [
+    const metricsToCheck = [;
       { key: 'totalIssues', name: 'Total Issues' },
       { key: 'parserErrors', name: 'Parser Errors' },
       { key: 'explicitAnyErrors', name: 'Explicit Any Errors' },
-      { key: 'qualityScore', name: 'Quality Score' },
+      { key: 'qualityScore', name: 'Quality Score' }
     ];
 
     for (const metric of metricsToCheck) {
@@ -1009,14 +1009,14 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
 
   private async updateRealTimeStatus(metrics: LintingMetrics): Promise<void> {
     const statusFile = join(this.dashboardDir, 'real-time-status.json');
-    const status = {
+    const status = {;
       timestamp: new Date().toISOString(),
       status: this.getOverallStatusSimple(metrics),
       qualityScore: metrics.qualityScore,
       totalIssues: metrics.totalIssues,
       parserErrors: metrics.parserErrors,
       explicitAnyErrors: metrics.explicitAnyErrors,
-      criticalIssues: this.identifyCriticalIssues(metrics).length,
+      criticalIssues: this.identifyCriticalIssues(metrics).length
     };
 
     writeFileSync(statusFile, JSON.stringify(status, null, 2));
@@ -1134,7 +1134,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       actions.push('   - Target: Systematic type inference and interface generation');
     }
 
-    if (actions.length === 0) {
+    if (actions.length === 0) {;
       actions.push('✅ No immediate critical actions required');
       actions.push('Continue with systematic improvement using `yarn lint:workflow-auto`');
     }
@@ -1150,7 +1150,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     const steps: string[] = [];
 
     // Sort targets by priority and progress
-    const sortedTargets = targets.sort((a, b) => {
+    const sortedTargets = targets.sort((a, b) => {;
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       return priorityOrder[a.priority] - priorityOrder[b.priority] || a.progress - b.progress;
     });

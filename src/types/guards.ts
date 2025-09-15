@@ -1,5 +1,5 @@
 /*
- * Auto-generated on 2025-07-07 – Phase 9 "Guard & Clean"
+ * Auto-generated on 2025-07-07 – Phase 9 'Guard & Clean'
  * Reusable type-guard helpers used across high-traffic modules.
  *
  * These helpers allow safer property access and help us migrate away from
@@ -19,9 +19,9 @@ export function isNutritionalProfile(obj: unknown): obj is Nutrition {
   if (!obj || typeof obj !== 'object') return false;
   const maybe = obj as Partial<Nutrition>;
   return (
-    typeof maybe.calories === 'number' ||
-    typeof maybe.protein === 'number' ||
-    typeof maybe.carbs === 'number' ||
+    typeof maybe.calories === 'number' ||;
+    typeof maybe.protein === 'number' ||;
+    typeof maybe.carbs === 'number' ||;
     !!(maybe as any).vitamins ||
     !!(maybe as any).minerals
   );
@@ -32,9 +32,9 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   if (!obj || typeof obj !== 'object') return false;
   const maybe = obj as Partial<PlanetaryPosition>;
   return (
-    typeof maybe.degree === 'number' ||
-    typeof (maybe as any).exactLongitude === 'number' ||
-    typeof maybe.sign === 'string'
+    typeof maybe.degree === 'number' ||;
+    typeof (maybe as any).exactLongitude === 'number' ||;
+    typeof maybe.sign === 'string';
   );
 }
 
@@ -44,7 +44,7 @@ export function hasAstrologicalProfile(
 ): obj is { astrologicalProfile: AstrologicalProfile } {
   return (
     !!obj &&
-    typeof obj === 'object' &&
+    typeof obj === 'object' &&;
     'astrologicalProfile' in obj &&
     isAstrologicalProfile((obj as any).astrologicalProfile)
   );
@@ -67,9 +67,9 @@ export function isCookingMethod(obj: unknown): obj is CookingMethod {
   if (!obj || typeof obj !== 'object') return false;
   const maybe = obj as Partial<CookingMethod>;
   return (
-    typeof maybe.id === 'string' ||
-    typeof maybe.name === 'string' ||
-    typeof maybe.description === 'string' ||
+    typeof maybe.id === 'string' ||;
+    typeof maybe.name === 'string' ||;
+    typeof maybe.description === 'string' ||;
     Array.isArray(maybe.benefits) ||
     Array.isArray(maybe.variations) ||
     !!maybe.time_range
@@ -81,8 +81,8 @@ export function isIngredient(obj: unknown): obj is Ingredient {
   if (!obj || typeof obj !== 'object') return false;
   const maybe = obj as Partial<Ingredient>;
   return (
-    typeof maybe.name === 'string' ||
-    typeof maybe.category === 'string' ||
+    typeof maybe.name === 'string' ||;
+    typeof maybe.category === 'string' ||;
     Array.isArray(maybe.qualities) ||
     !!maybe.elementalProperties
   );

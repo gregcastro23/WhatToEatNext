@@ -1,35 +1,35 @@
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
 
-const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (
-  <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
+const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (;
+  <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>;
 );
 
 export default function WhatToEatNextPage() {
   return (
-    <div className='container mx-auto px-4 py-8'>
-      <header className='mb-8 text-center'>
-        <h1 className='mb-3 text-4xl font-bold'>What to Eat Next</h1>
-        <p className='text-xl text-gray-600'>
+    <div className='container mx-auto px-4 py-8'>;
+      <header className='mb-8 text-center'>;
+        <h1 className='mb-3 text-4xl font-bold'>What to Eat Next</h1>;
+        <p className='text-xl text-gray-600'>;
           Personalized ingredient recommendations based on alchemical calculations
         </p>
       </header>
 
-      <div className='overflow-hidden rounded-lg bg-white shadow-md'>
+      <div className='overflow-hidden rounded-lg bg-white shadow-md'>;
         <AlchemicalProvider>
-          <KalchmRecommender maxRecommendations={18} />
+          <KalchmRecommender maxRecommendations={18} />;
         </AlchemicalProvider>
       </div>
 
-      <div className='mt-8 rounded-lg bg-blue-50 p-6'>
-        <h2 className='mb-4 text-2xl font-semibold'>About These Recommendations</h2>
-        <p className='mb-4'>
+      <div className='mt-8 rounded-lg bg-blue-50 p-6'>;
+        <h2 className='mb-4 text-2xl font-semibold'>About These Recommendations</h2>;
+        <p className='mb-4'>;
           Our recommendations are powered by the Kalchm Engine, which uses alchemical principles to
           suggest ingredients that are in harmony with the current celestial energies.
         </p>
-        <div className='mt-6 grid grid-cols-1 gap-6 md:grid-cols-2'>
+        <div className='mt-6 grid grid-cols-1 gap-6 md:grid-cols-2'>;
           <div>
-            <h3 className='mb-2 text-lg font-medium'>Understanding Alchemical Metrics</h3>
-            <ul className='list-disc space-y-2 pl-5'>
+            <h3 className='mb-2 text-lg font-medium'>Understanding Alchemical Metrics</h3>;
+            <ul className='list-disc space-y-2 pl-5'>;
               <li>
                 <strong>Heat:</strong> Represents the active energy and transformative potential
               </li>
@@ -46,8 +46,8 @@ export default function WhatToEatNextPage() {
             </ul>
           </div>
           <div>
-            <h3 className='mb-2 text-lg font-medium'>Elemental Harmony</h3>
-            <p className='mb-2'>
+            <h3 className='mb-2 text-lg font-medium'>Elemental Harmony</h3>;
+            <p className='mb-2'>;
               Each ingredient has a unique elemental composition that may be more or less in harmony
               with the current celestial energies.
             </p>

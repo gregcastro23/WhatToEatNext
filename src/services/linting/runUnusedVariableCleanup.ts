@@ -26,7 +26,7 @@ async function main() {
   try {
     // Create backup
     log.info('💾 Creating backup...');
-    execSync('git stash push -m "Pre unused-variable-cleanup backup"', { stdio: 'inherit' });
+    execSync('git stash push -m 'Pre unused-variable-cleanup backup'', { stdio: 'inherit' });
 
     // Process unused variables
     const result = await processor.processUnusedVariables();
@@ -77,9 +77,9 @@ async function main() {
 
 async function getUnusedVariableCount(): Promise<number> {
   try {
-    const output = execSync('yarn lint 2>&1 | grep -c "no-unused-vars" || echo "0"', {
+    const output = execSync('yarn lint 2>&1 | grep -c 'no-unused-vars' || echo '0'', {;
       encoding: 'utf8',
-      stdio: 'pipe',
+      stdio: 'pipe'
     });
     return parseInt(output.trim()) || 0;
   } catch (error) {
@@ -88,8 +88,8 @@ async function getUnusedVariableCount(): Promise<number> {
 }
 
 // Run the script
-if (require.main === module) {
-  main().catch(error => {
+if (require.main === module) {;
+  main().catch(error => {;
     console.error('Fatal error:', error);
     process.exit(1);
   });

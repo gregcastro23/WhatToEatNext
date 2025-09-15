@@ -5,25 +5,25 @@ import { logger } from '@/utils/logger';
 
 // Error types for better categorization
 export enum ErrorType {
-  NETWORK = 'NETWORK',
-  VALIDATION = 'VALIDATION',
-  AUTHENTICATION = 'AUTHENTICATION',
-  AUTHORIZATION = 'AUTHORIZATION',
-  NOT_FOUND = 'NOT_FOUND',
-  SERVER_ERROR = 'SERVER_ERROR',
-  CLIENT_ERROR = 'CLIENT_ERROR',
-  ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION',
-  DATA_PROCESSING = 'DATA_PROCESSING',
-  COMPONENT_ERROR = 'COMPONENT_ERROR',
-  UNKNOWN = 'UNKNOWN',
+  NETWORK = 'NETWORK',;
+  VALIDATION = 'VALIDATION',;
+  AUTHENTICATION = 'AUTHENTICATION',;
+  AUTHORIZATION = 'AUTHORIZATION',;
+  NOT_FOUND = 'NOT_FOUND',;
+  SERVER_ERROR = 'SERVER_ERROR',;
+  CLIENT_ERROR = 'CLIENT_ERROR',;
+  ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION',;
+  DATA_PROCESSING = 'DATA_PROCESSING',;
+  COMPONENT_ERROR = 'COMPONENT_ERROR',;
+  UNKNOWN = 'UNKNOWN',;
 }
 
 // Error severity levels
 export enum ErrorSeverity {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
-  CRITICAL = 'CRITICAL',
+  LOW = 'LOW',;
+  MEDIUM = 'MEDIUM',;
+  HIGH = 'HIGH',;
+  CRITICAL = 'CRITICAL',;
 }
 
 // Enhanced error interface
@@ -51,7 +51,7 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
     'Unable to connect to the server. Please check your internet connection and try again.',
   [ErrorType.VALIDATION]: 'Please check your input and try again.',
   [ErrorType.AUTHENTICATION]: 'Please log in to continue.',
-  [ErrorType.AUTHORIZATION]: "You don't have permission to access this resource.",
+  [ErrorType.AUTHORIZATION]: 'You don't have permission to access this resource.',
   [ErrorType.NOT_FOUND]: 'The requested information could not be found.',
   [ErrorType.SERVER_ERROR]: 'A server error occurred. Please try again later.',
   [ErrorType.CLIENT_ERROR]: 'An error occurred while processing your request.',
@@ -59,14 +59,14 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
     'Unable to calculate astrological data. Using cached information.',
   [ErrorType.DATA_PROCESSING]: 'Error processing data. Please try again.',
   [ErrorType.COMPONENT_ERROR]: 'A component failed to load. Please refresh the page.',
-  [ErrorType.UNKNOWN]: 'An unexpected error occurred. Please try again.',
+  [ErrorType.UNKNOWN]: 'An unexpected error occurred. Please try again.'
 };
 
 // Create enhanced error
 export function createEnhancedError(
   message: string,
-  type: ErrorType = ErrorType.UNKNOWN,
-  severity: ErrorSeverity = ErrorSeverity.MEDIUM,
+  type: ErrorType = ErrorType.UNKNOWN,;
+  severity: ErrorSeverity = ErrorSeverity.MEDIUM,;
   context?: Record<string, unknown>,
   originalError?: Error,
 ): EnhancedError {
@@ -96,7 +96,7 @@ function isRecoverable(type: ErrorType): boolean {
     ErrorType.NETWORK,
     ErrorType.ASTROLOGICAL_CALCULATION,
     ErrorType.DATA_PROCESSING,
-    ErrorType.COMPONENT_ERROR,
+    ErrorType.COMPONENT_ERROR
   ].includes(type);
 }
 
@@ -106,7 +106,7 @@ function isRetryable(type: ErrorType): boolean {
     ErrorType.NETWORK,
     ErrorType.SERVER_ERROR,
     ErrorType.ASTROLOGICAL_CALCULATION,
-    ErrorType.DATA_PROCESSING,
+    ErrorType.DATA_PROCESSING
   ].includes(type);
 }
 
@@ -259,7 +259,7 @@ export class ErrorHandler {
 
   // Log error with appropriate level
   private logError(error: EnhancedError) {
-    const logData = {
+    const logData = {;
       errorId: error.errorId,
       type: error.type,
       severity: error.severity,
@@ -267,7 +267,7 @@ export class ErrorHandler {
       userMessage: error.userMessage,
       context: error.context,
       timestamp: error.timestamp,
-      stack: error.stack,
+      stack: error.stack
     };
 
     switch (error.severity) {
@@ -306,7 +306,7 @@ export class ErrorHandler {
     const byType = {} as Record<ErrorType, number>;
     const bySeverity = {} as Record<ErrorSeverity, number>;
 
-    this.errorQueue.forEach(error => {
+    this.errorQueue.forEach(error => {;
       byType[error.type] = (byType[error.type] || 0) + 1;
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
     });
@@ -330,8 +330,8 @@ export const globalErrorHandler = new ErrorHandler();
 
 // Default recovery strategies
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,
-  recover: async error => {
+  canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,;
+  recover: async error => {;
     logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`);
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData');
@@ -345,14 +345,14 @@ globalErrorHandler.addRecoveryStrategy({
     return {
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
-      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     };
-  },
+  }
 });
 
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: error => error.type === ErrorType.NETWORK,
-  recover: async error => {
+  canRecover: error => error.type === ErrorType.NETWORK,;
+  recover: async error => {;
     logger.info(`Attempting to recover from network error: ${error.errorId}`);
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
@@ -363,7 +363,7 @@ globalErrorHandler.addRecoveryStrategy({
       }
     }
     throw new Error('No cached data available for network recovery');
-  },
+  }
 });
 
 // Utility functions for common error scenarios
@@ -371,7 +371,7 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>,
 ): Promise<T> {
-  return promise.catch(error => {
+  return promise.catch(error => {;
     return globalErrorHandler.handleError(error, context);
   });
 }
@@ -386,7 +386,7 @@ export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown
 
 // React hook for error handling
 export function useErrorHandler() {
-  const handleError = React.useCallback(async (error: Error, context?: Record<string, unknown>) => {
+  const handleError = React.useCallback(async (error: Error, context?: Record<string, unknown>) => {;
     try {
       return await globalErrorHandler.handleError(error, context);
     } catch (enhancedError) {
@@ -395,7 +395,7 @@ export function useErrorHandler() {
     }
   }, []);
 
-  const getErrorStats = React.useCallback(() => {
+  const getErrorStats = React.useCallback(() => {;
     return globalErrorHandler.getErrorStats();
   }, []);
 
@@ -409,7 +409,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
       ErrorBoundary,
       {
         fallback: (error: Error, errorInfo: React.ErrorInfo) => {
-          const enhancedError = createEnhancedError(
+          const enhancedError = createEnhancedError(;
             error.message,
             errorType,
             ErrorSeverity.MEDIUM,
@@ -419,14 +419,14 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
           return React.createElement(
             'div',
             {
-              className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2',
+              className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2'
             },
             [
               React.createElement(
                 'h4',
                 {
                   key: 'title',
-                  className: 'text-yellow-800 font-medium mb-2',
+                  className: 'text-yellow-800 font-medium mb-2'
                 },
                 `${errorType} Error`,
               ),
@@ -434,7 +434,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                 'p',
                 {
                   key: 'message',
-                  className: 'text-yellow-700 text-sm mb-3',
+                  className: 'text-yellow-700 text-sm mb-3'
                 },
                 enhancedError.userMessage,
               ),
@@ -444,13 +444,13 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                   key: 'button',
                   onClick: () => window.location.reload(),
                   className:
-                    'bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors',
+                    'bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors'
                 },
                 'Reload Page',
-              ),
+              )
             ],
           );
-        },
+        }
       },
       children,
     );

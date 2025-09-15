@@ -15,7 +15,7 @@ describe('signVectors', () => {
   let mockPlanetaryPositions: Record<string, PlanetaryPosition>;
   let mockAspects: PlanetaryAspect[0], 
   beforeEach(() => {
-    mockPlanetaryPositions = {
+    mockPlanetaryPositions = {;
       Sun: { sign: 'aries', degree: 15, isRetrograde: false },
       Moon: { sign: 'cancer', degree: 10, isRetrograde: false },
       Mercury: { sign: 'gemini', degree: 20, isRetrograde: false },
@@ -23,7 +23,7 @@ describe('signVectors', () => {
       Mars: { sign: 'scorpio', degree: 25, isRetrograde: false }
     };
 
-    mockAspects = [
+    mockAspects = [;
       {
         planet1: 'Sun';
         planet2: 'Moon';
@@ -43,7 +43,7 @@ describe('signVectors', () => {
 
   describe('calculateSignVectors', () => {
     it('should calculate sign vectors for all zodiac signs', () => {
-      const input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {;
   planetaryPositions: mockPlanetaryPositions,
         aspects: mockAspects,
         season: 'spring'
@@ -61,7 +61,7 @@ describe('signVectors', () => {
     });
 
     it('should handle empty planetary positions', () => {
-      const input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {;
   planetaryPositions: {};
         aspects: [0]
       };
@@ -69,14 +69,14 @@ describe('signVectors', () => {
       const result = calculateSignVectors(input);
 
       expect(result).toBeDefined();
-      Object.values(result).forEach(vector => {
+      Object.values(result).forEach(vector => {;
         expect(vector.magnitude).toBeGreaterThanOrEqual(0);
-        expect(vector.magnitude).toBeLessThanOrEqual(1),
+        expect(vector.magnitude).toBeLessThanOrEqual(1)
       });
     });
 
     it('should handle malformed planetary data gracefully', () => {
-      const input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {;
   planetaryPositions: {
           Sun: { sign: null as any, degree: NaN, isRetrograde: undefined as any },
           Moon: { sign: 'invalid' as any, degree: -100, isRetrograde: false }
@@ -91,12 +91,12 @@ describe('signVectors', () => {
     });
 
     it('should apply seasonal alignment correctly', () => {
-      const springInput: SignVectorCalculationInput = {
+      const springInput: SignVectorCalculationInput = {;
   planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
         season: 'spring'
       };
 
-      const winterInput: SignVectorCalculationInput = {
+      const winterInput: SignVectorCalculationInput = {;
   planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
         season: 'winter'
       };
@@ -108,7 +108,7 @@ describe('signVectors', () => {
     });
 
     it('should apply aspect modifiers correctly', () => {
-      const withConjunction: SignVectorCalculationInput = {
+      const withConjunction: SignVectorCalculationInput = {;
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false },
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
@@ -124,7 +124,7 @@ describe('signVectors', () => {
         ]
       };
 
-      const withoutAspects: SignVectorCalculationInput = {
+      const withoutAspects: SignVectorCalculationInput = {;
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false },
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
@@ -139,13 +139,13 @@ describe('signVectors', () => {
     });
 
     it('should handle retrograde planets correctly', () => {
-      const withRetrograde: SignVectorCalculationInput = {
+      const withRetrograde: SignVectorCalculationInput = {;
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: true }
         }
       };
 
-      const withoutRetrograde: SignVectorCalculationInput = {
+      const withoutRetrograde: SignVectorCalculationInput = {;
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: false }
         }
@@ -158,27 +158,27 @@ describe('signVectors', () => {
     });
 
     it('should normalize modality and elemental vectors correctly', () => {
-      const input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {;
   planetaryPositions: mockPlanetaryPositions
       };
 
       const result = calculateSignVectors(input);
 
-      Object.values(result).forEach(vector => {
-        const modalityMagnitude = Math.sqrt(,
+      Object.values(result).forEach(vector => {;
+        const modalityMagnitude = Math.sqrt(,;
           vector.components.cardinal ** 2 +
           vector.components.fixed ** 2 +
           vector.components.mutable ** 2;
         );
         expect(modalityMagnitude).toBeCloseTo(15);
 
-        const elementalMagnitude = Math.sqrt(,
+        const elementalMagnitude = Math.sqrt(,;
           vector.components.Fire ** 2 +
           vector.components.Water ** 2 +
           vector.components.Earth ** 2 +
           vector.components.Air ** 2;
         );
-        expect(elementalMagnitude).toBeCloseTo(15),
+        expect(elementalMagnitude).toBeCloseTo(15)
       });
     });
   });
@@ -187,25 +187,25 @@ describe('signVectors', () => {
     it('should calculate similarity correctly for identical vectors', () => {
       const a = [10, 0];
       const b = [10, 0];
-      expect(cosineSimilarity(ab)).toBe(1),
+      expect(cosineSimilarity(ab)).toBe(1)
     });
 
     it('should calculate similarity correctly for orthogonal vectors', () => {
       const a = [10, 0];
       const b = [1, 0];
-      expect(cosineSimilarity(ab)).toBe(0),
+      expect(cosineSimilarity(ab)).toBe(0)
     });
 
     it('should calculate similarity correctly for opposite vectors', () => {
       const a = [10, 0];
       const b = [-10, 0];
-      expect(cosineSimilarity(ab)).toBe(-1),
+      expect(cosineSimilarity(ab)).toBe(-1)
     });
 
     it('should handle zero vectors', () => {
       const a = [0, 0];
       const b = [11, 1];
-      expect(cosineSimilarity(ab)).toBe(0),
+      expect(cosineSimilarity(ab)).toBe(0)
     });
 
     it('should handle vectors of different lengths', () => {
@@ -213,7 +213,7 @@ describe('signVectors', () => {
       const b = [12, 3];
       const result = cosineSimilarity(ab);
       expect(result).toBeGreaterThan(0);
-      expect(result).toBeLessThan(1),
+      expect(result).toBeLessThan(1)
     });
   });
 
@@ -369,7 +369,7 @@ describe('signVectors', () => {
 
   describe('blendESMS', () => {
     it('should blend ESMS properties correctly with default alpha', () => {
-      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 }, 
+      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 }, ;
       const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 }, ;
       const result = blendESMS(base, contribution);
 
@@ -381,7 +381,7 @@ describe('signVectors', () => {
     });
 
     it('should handle custom alpha values', () => {
-      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 }, 
+      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 }, ;
       const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 }, ;
       const result0 = blendESMS(base, contribution, 0);
       const result1 = blendESMS(base, contribution, 1);
@@ -422,7 +422,7 @@ describe('signVectors', () => {
     });
 
     it('should calculate with moon governing', () => {
-      const input = {
+      const input = {;
         planetaryPositions: mockPlanetaryPositions,
         governing: 'moon' as const;
       };
@@ -433,7 +433,7 @@ describe('signVectors', () => {
     });
 
     it('should calculate with dominant governing (default)', () => {
-      const input = {
+      const input = {;
         planetaryPositions: mockPlanetaryPositions;
       };
 
@@ -446,7 +446,7 @@ describe('signVectors', () => {
     });
 
     it('should handle ensemble governing mode', () => {
-      const input = {
+      const input = {;
         planetaryPositions: {
           ...mockPlanetaryPositions,
           Ascendant: { sign: 'libra', degree: 0, isRetrograde: false }
@@ -473,7 +473,7 @@ describe('signVectors', () => {
     });
 
     it('should handle invalid governing mode by falling back to dominant', () => {
-      const input = {
+      const input = {;
         planetaryPositions: {
   Sun: undefined as any,
           Moon: undefined as any;
@@ -487,13 +487,13 @@ describe('signVectors', () => {
     });
 
     it('should produce normalized ESMS values', () => {
-      const input = {
+      const input = {;
         planetaryPositions: mockPlanetaryPositions;
       };
 
       const result = getAlchemicalStateWithVectors(input);
 
-      const sum = result.blendedAlchemical.Spirit +
+      const sum = result.blendedAlchemical.Spirit +;
                   result.blendedAlchemical.Essence +
                   result.blendedAlchemical.Matter +;
                   result.blendedAlchemical.Substance;
@@ -502,7 +502,7 @@ describe('signVectors', () => {
     });
 
     it('should handle extreme edge cases', () => {
-      const input = {
+      const input = {;
         planetaryPositions: {
   Sun: { sign: '' as any, degree: Infinity, isRetrograde: null as any }
         },

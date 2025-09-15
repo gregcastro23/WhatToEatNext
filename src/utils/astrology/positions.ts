@@ -7,13 +7,13 @@ import type { ZodiacSign } from '@/types/alchemy';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {;
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
 
 // Updated reference data for July 2, 2025 at 10:45 PM EDT (Cancer season)
-const REFERENCE_POSITIONS = {
+const REFERENCE_POSITIONS = {;
   // Planet: [degrees, minutes, seconds, currentZodiacSign]
   Sun: [10, 45, 0, 'cancer'],
   moon: [18, 19, 0, 'libra'],
@@ -28,14 +28,14 @@ const REFERENCE_POSITIONS = {
   NorthNode: [23, 46, 0, 'pisces'],
   Chiron: [22, 25, 0, 'aries'],
   Ascendant: [22, 19, 0, 'scorpio'],
-  MC: [6, 57, 0, 'leo'],
+  MC: [6, 57, 0, 'leo']
 };
 
 // Reference date for July 2, 2025 at 10:45 PM EDT
 const REFERENCE_DATE = new Date('2025-07-02T22:45:00-04:00'); // Cancer season reference
 
 // Approximate daily motion of planets in degrees - more accurate values from ephemeris
-const DAILY_MOTION = {
+const DAILY_MOTION = {;
   Sun: 0.986,
   moon: 13.2,
   Mercury: 1.383,
@@ -53,7 +53,7 @@ const DAILY_MOTION = {
 };
 
 // Retrograde status for July 2, 2025 positions
-const RETROGRADE_STATUS = {
+const RETROGRADE_STATUS = {;
   Sun: false,
   moon: false,
   Mercury: false, // Direct in Leo
@@ -68,7 +68,7 @@ const RETROGRADE_STATUS = {
   southNode: true,
   Chiron: false,
   Ascendant: false,
-  MC: false,
+  MC: false
 };
 
 /**
@@ -101,7 +101,7 @@ const PLANET_MAPPING: Record<string, Astronomy.Body> = {
   Saturn: Astronomy.Body.Saturn,
   Uranus: Astronomy.Body.Uranus,
   Neptune: Astronomy.Body.Neptune,
-  Pluto: Astronomy.Body.Pluto,
+  Pluto: Astronomy.Body.Pluto
 };
 
 // Cache for planetary positions to avoid frequent recalculations
@@ -111,7 +111,7 @@ let positionsCache: PositionsCache | null = null;
 const CACHE_EXPIRATION = 15 * 60 * 1000;
 
 // Zodiac signs in order
-const ZODIAC_SIGNS = [
+const ZODIAC_SIGNS = [;
   'aries',
   'taurus',
   'gemini',
@@ -123,7 +123,7 @@ const ZODIAC_SIGNS = [
   'sagittarius',
   'capricorn',
   'aquarius',
-  'pisces',
+  'pisces'
 ];
 
 /**
@@ -193,7 +193,7 @@ export function getFallbackPlanetaryPositions(date: Date): { [key: string]: unkn
       sign: sign.toLowerCase(),
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
-      isRetrograde,
+      isRetrograde
     };
   }
 
@@ -259,7 +259,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
     for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
       try {
         // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
-        if (planet === 'Sun') {
+        if (planet === 'Sun') {;
           // For the Sun, we'll use a different approach - get ecliptic coordinates directly
           // The Sun is always at the opposite ecliptic longitude from earth's heliocentric longitude
           const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime);
@@ -276,7 +276,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
             sign: sign.toLowerCase() as any,
             degree,
             exactLongitude: sunLong,
-            isRetrograde,
+            isRetrograde
           };
         } else {
           // For other planets, use ecliptic longitude and motion direction
@@ -290,7 +290,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
             sign: sign.toLowerCase() as any,
             degree,
             exactLongitude: longitude,
-            isRetrograde,
+            isRetrograde
           };
         }
       } catch (error) {
@@ -304,10 +304,10 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
         if (fallbackData[planet]) {
           const fallback = fallbackData[planet];
           positions[planet] = {
-            sign: (fallback.sign || 'aries') as any,
+            sign: (fallback.sign || 'aries'),
             degree: fallback.degree || 0,
             exactLongitude: fallback.exactLongitude || 0,
-            isRetrograde: fallback.isRetrograde || false,
+            isRetrograde: fallback.isRetrograde || false
           };
         }
       }
@@ -331,10 +331,10 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
     }
 
     // Update cache
-    positionsCache = {
+    positionsCache = {;
       positions,
       timestamp: Date.now(),
-      date: new Date(date),
+      date: new Date(date)
     };
 
     return positions;
@@ -350,10 +350,10 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
 
     for (const [planet, data] of Object.entries(fallbackData)) {
       convertedPositions[planet] = {
-        sign: (data.sign || 'aries') as any,
+        sign: (data.sign || 'aries'),
         degree: data.degree || 0,
         exactLongitude: data.exactLongitude || 0,
-        isRetrograde: data.isRetrograde || false,
+        isRetrograde: data.isRetrograde || false
       };
     }
 
@@ -366,7 +366,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
  * @param date Date to calculate for
  * @returns Object with north node position and retrograde status
  */
-export function calculateLunarNodes(date: Date = new Date()): {
+export function calculateLunarNodes(date: Date = new Date()): {;
   NorthNode: number;
   isRetrograde: boolean;
 } {
@@ -445,7 +445,7 @@ export function validatePositionsStructure(positions: { [key: string]: unknown }
     }
 
     const pos = positions[planet];
-    if (typeof pos !== 'object' || pos === null) {
+    if (typeof pos !== 'object' || pos === null) {;
       return false;
     }
 
@@ -489,7 +489,7 @@ export function getLongitudeToZodiacPosition(longitude: number): { sign: string;
 function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   try {
     // Skip for Sun and Moon as they don't have retrograde motion
-    if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {
+    if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {;
       return false;
     }
 
@@ -514,7 +514,7 @@ function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
       error instanceof Error ? error.message : String(error),
     );
     // Default retrograde status for common retrograde planets
-    if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {
+    if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {;
       return Math.random() < 0.4; // 40% chance of retrograde (rough approximation)
     }
     return false;

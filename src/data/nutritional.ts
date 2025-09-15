@@ -17,7 +17,7 @@ interface NutritionalProfile {
   micronutrients?: Record<string, number>;
 }
 
-// ========== BASIC NUTRITIONAL PROFILES ==========
+// ========== BASIC NUTRITIONAL PROFILES ==========;
 export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
   vegetables: {
     calories: 50,
@@ -25,25 +25,25 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 2,
       carbs: 10,
       fat: 0.5,
-      fiber: 3,
+      fiber: 3
     },
     vitamins: {
       A: 0.2,
       C: 0.3,
       K: 0.25,
       E: 0.1,
-      B6: 0.1,
+      B6: 0.1
     },
     minerals: {
       potassium: 0.2,
       magnesium: 0.15,
       iron: 0.1,
-      calcium: 0.1,
+      calcium: 0.1
     },
     phytonutrients: {
       antioxidants: 0.3,
-      flavonoids: 0.25,
-    },
+      flavonoids: 0.25
+    }
   },
   fruits: {
     calories: 75,
@@ -51,24 +51,24 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 1,
       carbs: 20,
       fat: 0.2,
-      fiber: 3,
+      fiber: 3
     },
     vitamins: {
       A: 0.1,
       C: 0.4,
       E: 0.1,
-      B6: 0.1,
+      B6: 0.1
     },
     minerals: {
       potassium: 0.2,
       magnesium: 0.1,
       iron: 0.05,
-      calcium: 0.05,
+      calcium: 0.05
     },
     phytonutrients: {
       antioxidants: 0.35,
-      flavonoids: 0.3,
-    },
+      flavonoids: 0.3
+    }
   },
   grains: {
     calories: 150,
@@ -76,20 +76,20 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 5,
       carbs: 30,
       fat: 1,
-      fiber: 4,
+      fiber: 4
     },
     vitamins: {
       B1: 0.2,
       B3: 0.2,
       B6: 0.1,
-      E: 0.1,
+      E: 0.1
     },
     minerals: {
       iron: 0.15,
       magnesium: 0.15,
       zinc: 0.1,
-      selenium: 0.1,
-    },
+      selenium: 0.1
+    }
   },
   legumes: {
     calories: 120,
@@ -97,23 +97,23 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 8,
       carbs: 20,
       fat: 1,
-      fiber: 7,
+      fiber: 7
     },
     vitamins: {
       B1: 0.1,
       B6: 0.1,
       K: 0.1,
-      folate: 0.2,
+      folate: 0.2
     },
     minerals: {
       iron: 0.2,
       magnesium: 0.15,
       zinc: 0.1,
-      potassium: 0.15,
+      potassium: 0.15
     },
     phytonutrients: {
-      isoflavones: 0.3,
-    },
+      isoflavones: 0.3
+    }
   },
   nuts: {
     calories: 180,
@@ -121,21 +121,21 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 6,
       carbs: 6,
       fat: 16,
-      fiber: 3,
+      fiber: 3
     },
     vitamins: {
       E: 0.3,
-      B6: 0.1,
+      B6: 0.1
     },
     minerals: {
       magnesium: 0.2,
       zinc: 0.15,
       selenium: 0.2,
-      copper: 0.2,
+      copper: 0.2
     },
     phytonutrients: {
-      phytosterols: 0.25,
-    },
+      phytosterols: 0.25
+    }
   },
   dairy: {
     calories: 120,
@@ -143,20 +143,20 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 8,
       carbs: 12,
       fat: 5,
-      fiber: 0,
+      fiber: 0
     },
     vitamins: {
       A: 0.1,
       D: 0.15,
       B12: 0.2,
-      riboflavin: 0.25,
+      riboflavin: 0.25
     },
     minerals: {
       calcium: 0.3,
       phosphorus: 0.2,
       selenium: 0.1,
-      zinc: 0.1,
-    },
+      zinc: 0.1
+    }
   },
   meat: {
     calories: 200,
@@ -164,20 +164,20 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 25,
       carbs: 0,
       fat: 10,
-      fiber: 0,
+      fiber: 0
     },
     vitamins: {
       B12: 0.4,
       B6: 0.2,
       niacin: 0.25,
-      riboflavin: 0.15,
+      riboflavin: 0.15
     },
     minerals: {
       iron: 0.2,
       zinc: 0.3,
       phosphorus: 0.2,
-      selenium: 0.2,
-    },
+      selenium: 0.2
+    }
   },
   fish: {
     calories: 150,
@@ -185,24 +185,24 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 22,
       carbs: 0,
       fat: 6,
-      fiber: 0,
+      fiber: 0
     },
     vitamins: {
       D: 0.3,
       B12: 0.3,
       niacin: 0.2,
-      B6: 0.15,
+      B6: 0.15
     },
     minerals: {
       selenium: 0.3,
       phosphorus: 0.2,
       iodine: 0.2,
-      magnesium: 0.1,
-    },
-  },
+      magnesium: 0.1
+    }
+  }
 };
 
-// ========== ASTROLOGICAL NUTRITION CORRELATIONS ==========
+// ========== ASTROLOGICAL NUTRITION CORRELATIONS ==========;
 
 // Planetary rulership of macronutrients
 export const planetaryNutrientRulership: Record<string, string> = {
@@ -227,7 +227,7 @@ export const elementalFoodAffinities: Record<string, string[]> = {
     'tomatoes',
     'red meat',
     'alcohol',
-    'coffee',
+    'coffee'
   ],
   Water: [
     'seafood',
@@ -239,7 +239,7 @@ export const elementalFoodAffinities: Record<string, string[]> = {
     'berries',
     'tea',
     'soup',
-    'algae',
+    'algae'
   ],
   Earth: [
     'root vegetables',
@@ -251,7 +251,7 @@ export const elementalFoodAffinities: Record<string, string[]> = {
     'legumes',
     'chocolate',
     'earthy herbs',
-    'dairy',
+    'dairy'
   ],
   Air: [
     'leafy greens',
@@ -263,8 +263,8 @@ export const elementalFoodAffinities: Record<string, string[]> = {
     'light fruits',
     'honey',
     'olive oil',
-    'seeds',
-  ],
+    'seeds'
+  ]
 };
 
 // Zodiac sign nutritional affinities
@@ -281,43 +281,43 @@ export const zodiacNutritionalNeeds: Record<
     elementalNeeds: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     nutritionalFocus: ['protein', 'iron', 'vitamin B12', 'magnesium'],
     beneficialFoods: ['lean meats', 'spinach', 'peppers', 'garlic', 'spices'],
-    challengeFoods: ['excessive dairy', 'processed foods', 'alcohol'],
+    challengeFoods: ['excessive dairy', 'processed foods', 'alcohol']
   },
   taurus: {
     elementalNeeds: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     nutritionalFocus: ['calcium', 'vitamin D', 'zinc', 'healthy fats'],
     beneficialFoods: ['leafy greens', 'nuts', 'dairy', 'root vegetables', 'berries'],
-    challengeFoods: ['refined sugar', 'processed carbs', 'excess caffeine'],
+    challengeFoods: ['refined sugar', 'processed carbs', 'excess caffeine']
   },
   gemini: {
     elementalNeeds: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
     nutritionalFocus: ['omega-3', 'B vitamins', 'antioxidants', 'magnesium'],
     beneficialFoods: ['fish', 'nuts', 'seeds', 'berries', 'citrus fruits'],
-    challengeFoods: ['excessive stimulants', 'artificial additives', 'heavy meals'],
+    challengeFoods: ['excessive stimulants', 'artificial additives', 'heavy meals']
   },
   cancer: {
     elementalNeeds: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     nutritionalFocus: ['calcium', 'selenium', 'B vitamins', 'protein'],
     beneficialFoods: ['seafood', 'dairy', 'seaweed', 'watermelon', 'cucumber'],
-    challengeFoods: ['spicy foods', 'alcohol', 'excessive salt'],
+    challengeFoods: ['spicy foods', 'alcohol', 'excessive salt']
   },
   leo: {
     elementalNeeds: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalFocus: ['vitamin D', 'CoQ10', 'magnesium', 'potassium'],
     beneficialFoods: ['citrus fruits', 'olive oil', 'walnuts', 'sunflower seeds', 'bell peppers'],
-    challengeFoods: ['excessive fats', 'refined carbs', 'too much red meat'],
+    challengeFoods: ['excessive fats', 'refined carbs', 'too much red meat']
   },
   virgo: {
     elementalNeeds: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     nutritionalFocus: ['fiber', 'probiotics', 'digestive enzymes', 'B vitamins'],
     beneficialFoods: ['fermented foods', 'whole grains', 'leafy greens', 'herbs', 'seeds'],
-    challengeFoods: ['processed foods', 'artificial additives', 'gluten (for many)'],
+    challengeFoods: ['processed foods', 'artificial additives', 'gluten (for many)']
   },
   libra: {
     elementalNeeds: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
     nutritionalFocus: ['vitamin E', 'antioxidants', 'omega-3', 'vitamin C'],
     beneficialFoods: ['apples', 'berries', 'leafy greens', 'fish', 'olive oil'],
-    challengeFoods: ['excessive sugar', 'fried foods', 'artificial sweeteners'],
+    challengeFoods: ['excessive sugar', 'fried foods', 'artificial sweeteners']
   },
   scorpio: {
     elementalNeeds: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
@@ -327,34 +327,34 @@ export const zodiacNutritionalNeeds: Record<
       'berries',
       'fermented foods',
       'mushrooms',
-      'dark chocolate',
+      'dark chocolate'
     ],
-    challengeFoods: ['processed meats', 'excessive alcohol', 'artificial preservatives'],
+    challengeFoods: ['processed meats', 'excessive alcohol', 'artificial preservatives']
   },
   sagittarius: {
     elementalNeeds: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 },
     nutritionalFocus: ['protein', 'B vitamins', 'magnesium', 'antioxidants'],
     beneficialFoods: ['lean proteins', 'berries', 'citrus fruits', 'nuts', 'spices'],
-    challengeFoods: ['excessive sugars', 'processed snacks', 'fried foods'],
+    challengeFoods: ['excessive sugars', 'processed snacks', 'fried foods']
   },
   capricorn: {
     elementalNeeds: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
     nutritionalFocus: ['calcium', 'vitamin D', 'magnesium', 'collagen'],
     beneficialFoods: ['dark leafy greens', 'nuts', 'seeds', 'bone broth', 'root vegetables'],
-    challengeFoods: ['excessive caffeine', 'alcohol', 'refined carbs'],
+    challengeFoods: ['excessive caffeine', 'alcohol', 'refined carbs']
   },
   aquarius: {
     elementalNeeds: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     nutritionalFocus: ['vitamin B12', 'omega-3', 'antioxidants', 'trace minerals'],
     beneficialFoods: ['sprouts', 'blue/purple foods', 'fermented foods', 'herbs', 'seeds'],
-    challengeFoods: ['excessive processed foods', 'artificial ingredients', 'traditional dairy'],
+    challengeFoods: ['excessive processed foods', 'artificial ingredients', 'traditional dairy']
   },
   pisces: {
     elementalNeeds: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     nutritionalFocus: ['omega-3', 'vitamin D', 'magnesium', 'zinc'],
     beneficialFoods: ['seafood', 'seaweed', 'berries', 'herbal teas', 'coconut'],
-    challengeFoods: ['alcohol', 'caffeine', 'artificial additives', 'processed foods'],
-  },
+    challengeFoods: ['alcohol', 'caffeine', 'artificial additives', 'processed foods']
+  }
 };
 
 // Planets and corresponding nutrients/health areas
@@ -369,53 +369,53 @@ export const planetaryNutritionInfluence: Record<
   sun: {
     nutrientRulership: ['vitamin D', 'potassium', 'magnesium'],
     healthDomain: ['heart health', 'vitality', 'immunity'],
-    beneficialFoods: ['citrus fruits', 'sunflower seeds', 'orange vegetables', 'olive oil'],
+    beneficialFoods: ['citrus fruits', 'sunflower seeds', 'orange vegetables', 'olive oil']
   },
   moon: {
     nutrientRulership: ['calcium', 'selenium', 'electrolytes'],
     healthDomain: ['hydration', 'digestion', 'emotional balance'],
-    beneficialFoods: ['leafy greens', 'dairy', 'coconut', 'melons', 'cucumber'],
+    beneficialFoods: ['leafy greens', 'dairy', 'coconut', 'melons', 'cucumber']
   },
   mercury: {
     nutrientRulership: ['B vitamins', 'antioxidants', 'zinc'],
     healthDomain: ['nervous system', 'cognitive function', 'communication'],
-    beneficialFoods: ['nuts', 'seeds', 'fish', 'dark leafy greens', 'berries'],
+    beneficialFoods: ['nuts', 'seeds', 'fish', 'dark leafy greens', 'berries']
   },
   venus: {
     nutrientRulership: ['vitamin E', 'copper', 'essential fatty acids'],
     healthDomain: ['skin health', 'hormone balance', 'sensory pleasure'],
-    beneficialFoods: ['berries', 'avocados', 'nuts', 'chocolate', 'apples'],
+    beneficialFoods: ['berries', 'avocados', 'nuts', 'chocolate', 'apples']
   },
   mars: {
     nutrientRulership: ['iron', 'protein', 'vitamin B12'],
     healthDomain: ['energy', 'muscle function', 'circulation'],
-    beneficialFoods: ['red meat', 'spinach', 'legumes', 'peppers', 'garlic'],
+    beneficialFoods: ['red meat', 'spinach', 'legumes', 'peppers', 'garlic']
   },
   jupiter: {
     nutrientRulership: ['zinc', 'selenium', 'healthy fats'],
     healthDomain: ['liver function', 'growth', 'optimism'],
-    beneficialFoods: ['nuts', 'whole grains', 'eggs', 'berries', 'leafy greens'],
+    beneficialFoods: ['nuts', 'whole grains', 'eggs', 'berries', 'leafy greens']
   },
   saturn: {
     nutrientRulership: ['calcium', 'vitamin D', 'minerals'],
     healthDomain: ['bone health', 'structure', 'longevity'],
-    beneficialFoods: ['dark leafy greens', 'sesame seeds', 'beans', 'root vegetables'],
+    beneficialFoods: ['dark leafy greens', 'sesame seeds', 'beans', 'root vegetables']
   },
   uranus: {
     nutrientRulership: ['antioxidants', 'electrolytes', 'trace minerals'],
     healthDomain: ['electrical impulses', 'innovation', 'circulation'],
-    beneficialFoods: ['fermented foods', 'blue/purple foods', 'sprouts', 'seaweed'],
+    beneficialFoods: ['fermented foods', 'blue/purple foods', 'sprouts', 'seaweed']
   },
   neptune: {
     nutrientRulership: ['omega-3', 'vitamin B12', 'iodine'],
     healthDomain: ['immune system', 'intuition', 'pineal function'],
-    beneficialFoods: ['seafood', 'seaweed', 'purple fruits', 'mushrooms'],
+    beneficialFoods: ['seafood', 'seaweed', 'purple fruits', 'mushrooms']
   },
   pluto: {
     nutrientRulership: ['antioxidants', 'sulfur compounds', 'selenium'],
     healthDomain: ['detoxification', 'transformation', 'cellular regeneration'],
-    beneficialFoods: ['fermented foods', 'cruciferous vegetables', 'garlic', 'berries'],
-  },
+    beneficialFoods: ['fermented foods', 'cruciferous vegetables', 'garlic', 'berries']
+  }
 };
 
 // Seasonal Nutrition Influences
@@ -430,23 +430,23 @@ export const seasonalNutritionFocus: Record<
   spring: {
     elementalEmphasis: 'Air',
     nutritionalFocus: ['antioxidants', 'cleansing compounds', 'bitter compounds'],
-    recommendedFoods: ['leafy greens', 'sprouts', 'herbs', 'berries', 'citrus', 'asparagus'],
+    recommendedFoods: ['leafy greens', 'sprouts', 'herbs', 'berries', 'citrus', 'asparagus']
   },
   summer: {
     elementalEmphasis: 'Fire',
     nutritionalFocus: ['electrolytes', 'carotenoids', 'vitamin C'],
-    recommendedFoods: ['berries', 'stone fruits', 'peppers', 'tomatoes', 'cucumber', 'watermelon'],
+    recommendedFoods: ['berries', 'stone fruits', 'peppers', 'tomatoes', 'cucumber', 'watermelon']
   },
   fall: {
     // Also for autumn
     elementalEmphasis: 'Earth',
     nutritionalFocus: ['fiber', 'antioxidants', 'vitamins A and C'],
-    recommendedFoods: ['root vegetables', 'squash', 'apples', 'pears', 'nuts', 'whole grains'],
+    recommendedFoods: ['root vegetables', 'squash', 'apples', 'pears', 'nuts', 'whole grains']
   },
   autumn: {
     elementalEmphasis: 'Earth',
     nutritionalFocus: ['fiber', 'antioxidants', 'vitamins A and C'],
-    recommendedFoods: ['root vegetables', 'squash', 'apples', 'pears', 'nuts', 'whole grains'],
+    recommendedFoods: ['root vegetables', 'squash', 'apples', 'pears', 'nuts', 'whole grains']
   },
   winter: {
     elementalEmphasis: 'Water',
@@ -457,12 +457,12 @@ export const seasonalNutritionFocus: Record<
       'winter squash',
       'hearty soups',
       'nuts',
-      'seeds',
-    ],
-  },
+      'seeds'
+    ]
+  }
 };
 
-// ========== LOCAL NUTRITIONAL DATA INTEGRATION ==========
+// ========== LOCAL NUTRITIONAL DATA INTEGRATION ==========;
 
 /**
  * Fetch nutritional data from local database
@@ -478,56 +478,56 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     // Map food names to categories
     if (
       normalizedName.includes('vegetable') ||
-      ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v))
+      ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v));
     ) {
       return baseNutritionalProfiles.vegetables;
     }
 
     if (
       normalizedName.includes('fruit') ||
-      ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f))
+      ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f));
     ) {
       return baseNutritionalProfiles.fruits;
     }
 
     if (
       normalizedName.includes('grain') ||
-      ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g))
+      ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g));
     ) {
       return baseNutritionalProfiles.grains;
     }
 
     if (
       normalizedName.includes('legume') ||
-      ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l))
+      ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l));
     ) {
       return baseNutritionalProfiles.legumes;
     }
 
     if (
       normalizedName.includes('nut') ||
-      ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n))
+      ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n));
     ) {
       return baseNutritionalProfiles.nuts;
     }
 
     if (
       normalizedName.includes('dairy') ||
-      ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d))
+      ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d));
     ) {
       return baseNutritionalProfiles.dairy;
     }
 
     if (
       normalizedName.includes('meat') ||
-      ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m))
+      ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m));
     ) {
       return baseNutritionalProfiles.meat;
     }
 
     if (
       normalizedName.includes('fish') ||
-      ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f))
+      ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f));
     ) {
       return baseNutritionalProfiles.fish;
     }
@@ -541,7 +541,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
   }
 }
 
-// ========== NUTRITION CALCULATION FUNCTIONS ==========
+// ========== NUTRITION CALCULATION FUNCTIONS ==========;
 
 // Interface for ingredients with nutritional profiles
 interface IngredientWithNutrition {
@@ -556,20 +556,20 @@ interface IngredientWithNutrition {
 export function calculateNutritionalBalance(
   ingredients: IngredientWithNutrition[],
 ): NutritionalProfile {
-  const defaultProfile: NutritionalProfile = {
+  const defaultProfile: NutritionalProfile = {;
     calories: 0,
     macros: {
       protein: 0,
       carbs: 0,
       fat: 0,
-      fiber: 0,
+      fiber: 0
     },
     vitamins: {},
     minerals: {},
-    phytonutrients: {},
+    phytonutrients: {}
   };
 
-  if (!ingredients || ingredients.length === 0) {
+  if (!ingredients || ingredients.length === 0) {;
     return defaultProfile;
   }
 
@@ -669,7 +669,7 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
     Fire: fire / total,
     Water: water / total,
     Earth: earth / total,
-    Air: air / total,
+    Air: air / total
   };
 }
 
@@ -689,7 +689,7 @@ export function getZodiacNutritionalRecommendations(sign: string): {
       (signData as { elementalNeeds?: Record<string, number> })?.elementalNeeds ?? {},
     focusNutrients: (signData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
     recommendedFoods: signData.beneficialFoods,
-    avoidFoods: signData.challengeFoods,
+    avoidFoods: signData.challengeFoods
   };
 }
 
@@ -706,13 +706,13 @@ const planetaryElements: Record<string, { diurnal: string; nocturnal: string }> 
   saturn: { diurnal: 'Air', nocturnal: 'Earth' },
   uranus: { diurnal: 'Water', nocturnal: 'Air' },
   neptune: { diurnal: 'Water', nocturnal: 'Water' },
-  pluto: { diurnal: 'Earth', nocturnal: 'Water' },
+  pluto: { diurnal: 'Earth', nocturnal: 'Water' }
 };
 
 /**
  * Helper function to determine if it's currently daytime (6am-6pm)
  */
-function isDaytime(date: Date = new Date()): boolean {
+function isDaytime(date: Date = new Date()): boolean {;
   const hour = date.getHours();
   return hour >= 6 && hour < 18;
 }
@@ -727,7 +727,7 @@ function isDaytime(date: Date = new Date()): boolean {
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),
+  currentTime: Date = new Date(),;
 ): {
   elements: Record<string, number>;
   focusNutrients: string[];
@@ -746,7 +746,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
+    Air: 0
   };
 
   // Get day planet influence (both diurnal and nocturnal elements all day)
@@ -791,7 +791,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   // Normalize elements to sum to 1.0
   const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (elementsTotal > 0) {
-    Object.keys(elements).forEach(element => {
+    Object.keys(elements).forEach(element => {;
       elements[element] = elements[element] / elementsTotal;
     });
   }
@@ -801,7 +801,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     elements,
     focusNutrients: [...new Set(focusNutrients)],
     healthAreas: [...new Set(healthAreas)],
-    recommendedFoods: [...new Set(recommendedFoods)],
+    recommendedFoods: [...new Set(recommendedFoods)]
   };
 }
 
@@ -819,7 +819,7 @@ export function getPlanetaryNutritionalRecommendations(planets: string[]): {
   const healthAreas: string[] = [];
   const recommendedFoods: string[] = [];
 
-  planets.forEach(planet => {
+  planets.forEach(planet => {;
     const influence = planetaryNutritionInfluence[planet];
     if (influence) {
       focusNutrients.push(...influence.nutrientRulership);
@@ -832,7 +832,7 @@ export function getPlanetaryNutritionalRecommendations(planets: string[]): {
   return {
     focusNutrients: [...new Set(focusNutrients)],
     healthAreas: [...new Set(healthAreas)],
-    recommendedFoods: [...new Set(recommendedFoods)],
+    recommendedFoods: [...new Set(recommendedFoods)]
   };
 }
 
@@ -847,7 +847,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   // Normalize season name
   const normalizedSeason = season.toLowerCase();
 
-  // Handle both "autumn" and "fall"
+  // Handle both 'autumn' and 'fall'
   const seasonKey =
     normalizedSeason === 'fall' || normalizedSeason === 'autumn' ? 'autumn' : normalizedSeason;
 
@@ -856,7 +856,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   return {
     element: (seasonData as { elementalEmphasis?: string })?.elementalEmphasis ?? 'Earth',
     focusNutrients: (seasonData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
-    seasonalFoods: seasonData.recommendedFoods,
+    seasonalFoods: seasonData.recommendedFoods
   };
 }
 
@@ -874,11 +874,11 @@ export function evaluateNutritionalElementalBalance(
   const currentElements = nutritionalToElemental(profile);
 
   // Calculate difference between current and target
-  const differences = {
+  const differences = {;
     Fire: Math.abs(currentElements.Fire - targetElements.Fire),
     Water: Math.abs(currentElements.Water - targetElements.Water),
     Earth: Math.abs(currentElements.Earth - targetElements.Earth),
-    Air: Math.abs(currentElements.Air - targetElements.Air),
+    Air: Math.abs(currentElements.Air - targetElements.Air)
   };
 
   // Calculate average difference (lower is better)
@@ -935,7 +935,7 @@ export function evaluateNutritionalElementalBalance(
   return {
     score,
     imbalances,
-    recommendations,
+    recommendations
   };
 }
 
@@ -953,5 +953,5 @@ export default {
   getPlanetaryNutritionalRecommendations,
   getEnhancedPlanetaryNutritionalRecommendations,
   getSeasonalNutritionalRecommendations,
-  evaluateNutritionalElementalBalance,
+  evaluateNutritionalElementalBalance
 };

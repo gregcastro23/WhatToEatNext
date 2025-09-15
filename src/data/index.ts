@@ -4,44 +4,44 @@ import {
   seasonalPatterns,
   flavorProfiles,
   textureProfiles,
-  temperatureEffects,
+  temperatureEffects
 } from './integrations';
 import nutritional, {
   baseNutritionalProfiles,
   calculateNutritionalBalance,
-  nutritionalToElemental,
+  nutritionalToElemental
 } from './nutritional';
 import { allRecipes, getAllRecipes, getBestRecipeMatches } from './recipes/index';
 import sauces, { allSauces, sauceRecommendations, italianSauces, mexicanSauces } from './sauces';
 
-export const FoodData = {
+export const FoodData = {;
   cuisines,
   cooking: {
-    methods: allCookingMethods,
+    methods: allCookingMethods
   },
   recipes: {
     all: allRecipes,
-    getAll: getAllRecipes,
+    getAll: getAllRecipes
   },
   patterns: {
     seasonal: seasonalPatterns,
     flavors: flavorProfiles,
     textures: textureProfiles,
-    temperature: temperatureEffects,
+    temperature: temperatureEffects
   },
   sauces: {
     all: allSauces,
     recommendations: sauceRecommendations,
     byRegion: {
       italian: italianSauces,
-      mexican: mexicanSauces,
-    },
+      mexican: mexicanSauces
+    }
   },
   nutrition: {
     profiles: baseNutritionalProfiles,
     calculateBalance: calculateNutritionalBalance,
-    toElemental: nutritionalToElemental,
-  },
+    toElemental: nutritionalToElemental
+  }
 };
 
 export type {
@@ -49,7 +49,7 @@ export type {
   Recipe,
   Ingredient,
   CookingMethod,
-  ElementalProperties,
+  ElementalProperties
 } from '@/types/alchemy';
 
 export {
@@ -69,7 +69,7 @@ export {
   nutritional,
   baseNutritionalProfiles,
   calculateNutritionalBalance,
-  nutritionalToElemental,
+  nutritionalToElemental
 };
 
 export default FoodData;

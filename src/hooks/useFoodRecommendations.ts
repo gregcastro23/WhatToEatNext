@@ -8,7 +8,7 @@ import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecom
  * Hook to get ingredient recommendations based on current astrological state
  * This replaces the deprecated useIngredientRecommendations hook
  */
-export const useFoodRecommendations = (options?: {
+export const _useFoodRecommendations = (options?: {;
   limit?: number;
   filter?: (ingredient: EnhancedIngredient) => boolean;
 }) => {
@@ -18,7 +18,7 @@ export const useFoodRecommendations = (options?: {
   const [error, setError] = useState<string | null>(null);
 
   // Memoize the astrological state to prevent unnecessary re-renders
-  const astroState = useMemo<AstrologicalState>(() => {
+  const astroState = useMemo<AstrologicalState>(() => {;
     // Provide fallback values to ensure the object is always complete
     return {
       // Required fields from the type definition
@@ -44,11 +44,11 @@ export const useFoodRecommendations = (options?: {
     state.astrologicalState.aspects,
     state.astrologicalState.tarotElementBoosts,
     state.astrologicalState.tarotPlanetaryBoosts,
-    planetaryPositions,
+    planetaryPositions
   ]);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = async () => {;
       try {
         setLoading(true);
         setError(null);
@@ -60,7 +60,7 @@ export const useFoodRecommendations = (options?: {
         const filteredResults = options?.filter ? results.filter(options.filter) : results;
 
         // Apply limit if specified
-        const limitedResults = options?.limit
+        const limitedResults = options?.limit;
           ? filteredResults.slice(0, options.limit)
           : filteredResults;
 
@@ -79,7 +79,7 @@ export const useFoodRecommendations = (options?: {
   }, [astroState, options?.filter, options?.limit]);
 
   // Get the current season
-  const currentSeason = useMemo<Season>(() => {
+  const currentSeason = useMemo<Season>(() => {;
     const date = new Date();
     const month = date.getMonth();
 
@@ -90,7 +90,7 @@ export const useFoodRecommendations = (options?: {
   }, []);
 
   // Create a refresh function that can be called to force a refresh
-  const refreshRecommendations = useCallback(async () => {
+  const refreshRecommendations = useCallback(async () => {;
     try {
       setLoading(true);
 
@@ -100,7 +100,7 @@ export const useFoodRecommendations = (options?: {
       // Apply filtering and limits
       const filteredResults = options?.filter ? results.filter(options.filter) : results;
 
-      const limitedResults = options?.limit
+      const limitedResults = options?.limit;
         ? filteredResults.slice(0, options.limit)
         : filteredResults;
 
@@ -122,6 +122,6 @@ export const useFoodRecommendations = (options?: {
     currentSeason,
     currentZodiac: astroState.zodiacSign || 'aries',
     lunarPhase: astroState.lunarPhase,
-    activePlanets: astroState.activePlanets || [],
+    activePlanets: astroState.activePlanets || []
   };
 };

@@ -3,7 +3,7 @@ import {
   DECAN_TO_TAROT,
   MAJOR_ARCANA,
   PLANET_TO_MAJOR_ARCANA,
-  TAROT_CARDS,
+  TAROT_CARDS
 } from '@/constants/tarotCards';
 import { log } from '@/services/LoggingService';
 
@@ -17,7 +17,7 @@ export function getCurrentDecan(
   date: Date,
   sunPosition?: { sign: string; degree: number },
 ): DecanKey {
-  if (sunPosition?.sign && typeof sunPosition.degree === 'number') {
+  if (sunPosition?.sign && typeof sunPosition.degree === 'number') {;
     // Calculate the absolute degree in the zodiac (0-360)
     const signToStartDegree: Record<string, number> = {
       aries: 0,
@@ -31,7 +31,7 @@ export function getCurrentDecan(
       sagittarius: 240,
       capricorn: 270,
       aquarius: 300,
-      pisces: 330,
+      pisces: 330
     };
 
     // Get the starting degree for the sun's sign
@@ -74,7 +74,7 @@ export function getTarotCardForDate(date: Date) {
 export function getRecipesForTarotCard(card: unknown): string[] {
   if (!card) return [];
   // Apply safe type casting for card access
-  const cardData = card as unknown as {
+  const cardData = card as unknown as {;
     name?: string;
     element?: string;
     associatedRecipes?: string[];
@@ -91,7 +91,7 @@ export function getMajorArcanaForDecan(decan: DecanKey) {
 }
 
 // Minor arcana cards (numbered cards + court cards)
-const minorArcana = [
+const minorArcana = [;
   // Wands (Fire)
   'Ace of Wands',
   'Two of Wands',
@@ -154,11 +154,11 @@ const minorArcana = [
   'Page of Swords',
   'Knight of Swords',
   'Queen of Swords',
-  'King of Swords',
+  'King of Swords'
 ];
 
 // Major arcana cards
-const UNUSED_majorArcana = [
+const _UNUSED_majorArcana = [;
   'The Fool',
   'The Magician',
   'The High Priestess',
@@ -180,11 +180,11 @@ const UNUSED_majorArcana = [
   'The Moon',
   'The Sun',
   'Judgement',
-  'The World',
+  'The World'
 ];
 
 // Keywords for minor arcana
-const UNUSED_minorArcanaKeywords: Record<string, string[]> = {
+const _UNUSED_minorArcanaKeywords: Record<string, string[]> = {
   'Ace of Wands': ['inspiration', 'new energy', 'spark', 'potential'],
   'Two of Wands': ['planning', 'discovery', 'future vision', 'choice'],
   'Three of Wands': ['expansion', 'foresight', 'overseas opportunities'],
@@ -246,7 +246,7 @@ const UNUSED_minorArcanaKeywords: Record<string, string[]> = {
   'Page of Swords': ['curiosity', 'restlessness', 'mental energy', 'new ideas'],
   'Knight of Swords': ['action', 'impulsiveness', 'defending beliefs', 'rushing in'],
   'Queen of Swords': ['independent', 'unbiased judgment', 'clear boundaries', 'direct'],
-  'King of Swords': ['intellectual', 'authority', 'truth', 'ethical'],
+  'King of Swords': ['intellectual', 'authority', 'truth', 'ethical']
 };
 
 // Keywords for major arcana
@@ -272,11 +272,11 @@ const majorArcanaKeywords: Record<string, string[]> = {
   'The Moon': ['illusion', 'fear', 'anxiety', 'subconscious'],
   'The Sun': ['positivity', 'fun', 'warmth', 'success'],
   Judgement: ['reflection', 'reckoning', 'awakening', 'rebirth'],
-  'The World': ['completion', 'accomplishment', 'travel', 'harmony'],
+  'The World': ['completion', 'accomplishment', 'travel', 'harmony']
 };
 
 // Map major arcana to planets
-const majorArcanaPlanets: Record<string, string> = {
+const _majorArcanaPlanets: Record<string, string> = {
   'The Magician': 'Mercury',
   'The High Priestess': 'Moon',
   'The Empress': 'Venus',
@@ -298,14 +298,14 @@ const majorArcanaPlanets: Record<string, string> = {
   'The Sun': 'Sun',
   Judgement: 'Pluto',
   'The World': 'Saturn',
-  'The Fool': 'Uranus',
+  'The Fool': 'Uranus'
 };
 
 // Map minor arcana to elements
 const minorArcanaElements: Record<string, string> = {};
 
 // Fill in the elements for all minor arcana cards
-minorArcana.forEach(card => {
+minorArcana.forEach(card => {;
   if (card.includes('Wands')) {
     minorArcanaElements[card] = 'Fire';
   } else if (card.includes('Cups')) {
@@ -348,7 +348,7 @@ interface MajorArcanaCard {
  * Get the tarot cards for a specific date
  * Each date corresponds to a specific minor and major arcana card
  */
-export const getTarotCardsForDate = (
+export const getTarotCardsForDate = (;
   date: Date,
   sunPosition?: { sign: string; degree: number },
 ): { minorCard: TarotCard; majorCard: MajorArcanaCard } => {
@@ -380,29 +380,29 @@ export const getTarotCardsForDate = (
 
   // Convert number string to actual number
   let number;
-  if (numberStr === 'Ace') {
+  if (numberStr === 'Ace') {;
     number = 1;
-  } else if (numberStr === 'Page') {
+  } else if (numberStr === 'Page') {;
     number = 11;
-  } else if (numberStr === 'Knight') {
+  } else if (numberStr === 'Knight') {;
     number = 12;
-  } else if (numberStr === 'Queen') {
+  } else if (numberStr === 'Queen') {;
     number = 13;
-  } else if (numberStr === 'King') {
+  } else if (numberStr === 'King') {;
     number = 14;
   } else {
     number = parseInt(numberStr, 10);
   }
 
   // Create the minor card object with element
-  const minorCard: TarotCard = {
+  const minorCard: TarotCard = {;
     name: tarotCard.name,
     suit,
     number,
     keywords: 'keywords' in tarotCard ? tarotCard.keywords : [],
     quantum: number, // Using the card number as quantum value
     element: tarotCard.element || '',
-    associatedRecipes: 'associatedRecipes' in tarotCard ? tarotCard.associatedRecipes : [],
+    associatedRecipes: 'associatedRecipes' in tarotCard ? tarotCard.associatedRecipes : []
   };
 
   // For major arcana, get the planet ruling the current decan
@@ -413,7 +413,7 @@ export const getTarotCardsForDate = (
     (PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey) || ('The Fool' as MajorArcanaKey); // Default
 
   // Create the major card object
-  const majorCard: MajorArcanaCard = {
+  const majorCard: MajorArcanaCard = {;
     name: majorArcanaName,
     planet: decanRuler || 'Sun', // Default to Sun if no planet found
     keywords: majorArcanaKeywords[majorArcanaName] || [],
@@ -425,7 +425,7 @@ export const getTarotCardsForDate = (
 
 export function getQuantumValueForCard(card: unknown): number {
   // Apply safe type casting for card access
-  const cardData = card as unknown as {
+  const cardData = card  as {;
     name?: string;
     element?: string;
     associatedRecipes?: string[];
@@ -434,7 +434,7 @@ export function getQuantumValueForCard(card: unknown): number {
   };
   const quantum = cardData?.quantum;
 
-  if (typeof quantum === 'number') {
+  if (typeof quantum === 'number') {;
     return quantum;
   }
 
@@ -453,7 +453,7 @@ export function getElementalQuantum(card: unknown) {
   if (!card) return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   // Apply safe type casting for card access
-  const cardData = card as unknown as {
+  const cardData = card as unknown as {;
     name?: string;
     element?: string;
     associatedRecipes?: string[];
@@ -464,10 +464,10 @@ export function getElementalQuantum(card: unknown) {
   const quantum = cardData?.quantum || 1;
 
   return {
-    Fire: element === 'Fire' ? quantum : 0,
-    Water: element === 'Water' ? quantum : 0,
-    Earth: element === 'Earth' ? quantum : 0,
-    Air: element === 'Air' ? quantum : 0,
+    Fire: element === 'Fire' ? quantum : 0,;
+    Water: element === 'Water' ? quantum : 0,;
+    Earth: element === 'Earth' ? quantum : 0,;
+    Air: element === 'Air' ? quantum : 0,;
   };
 }
 
@@ -475,10 +475,10 @@ export function getRecipeFiltersFromTarot(tarotCards: {
   minorCard: TarotCard;
   majorCard: MajorArcanaCard;
 }) {
-  const filters = {
+  const filters = {;
     elementalProperties: {} as Record<string, number>,
     keywords: [] as string[],
-    associatedRecipes: [] as string[],
+    associatedRecipes: [] as string[]
   };
 
   if (tarotCards.minorCard) {
@@ -512,7 +512,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
  * @param date The date to get recommendations for
  * @returns Object with food recommendations and insights
  */
-export const getTarotFoodRecommendations = (
+export const _getTarotFoodRecommendations = (;
   date: Date,
 ): {
   dailyCard: string; // ← Pattern GG-6: Added missing dailyCard property
@@ -546,11 +546,11 @@ export const getTarotFoodRecommendations = (
 
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(TAROT_CARDS).find(
-    key => TAROT_CARDS[key as TarotCardKey].name === cardName,
+  const cardNameAsKey = Object.keys(TAROT_CARDS).find(;
+    key => TAROT_CARDS[key as TarotCardKey].name === cardName,;
   ) as TarotCardKey;
 
-  const tarotCard: TarotCardBase = cardNameAsKey
+  const tarotCard: TarotCardBase = cardNameAsKey;
     ? TAROT_CARDS[cardNameAsKey]
     : {
         id: '',
@@ -560,7 +560,7 @@ export const getTarotFoodRecommendations = (
         quantum: 1,
         description: '',
         keywords: [],
-        associatedRecipes: [],
+        associatedRecipes: []
       };
 
   const recommendedRecipes = tarotCard.associatedRecipes || [];
@@ -578,7 +578,7 @@ export const getTarotFoodRecommendations = (
     recommendedRecipes,
     cookingApproach,
     flavors,
-    insights,
+    insights
   };
 };
 
@@ -588,7 +588,7 @@ function complementaryElement(element: string): string {
     Fire: 'Water',
     Water: 'Fire',
     Earth: 'Air',
-    Air: 'Earth',
+    Air: 'Earth'
   };
 
   return complementaryMap[element] || element;
@@ -601,26 +601,26 @@ function getFlavorProfile(element: string, foodElement: string): string[] {
       Water: ['sweet and spicy', 'balanced heat', 'warm comfort foods'],
       Air: ['aromatic and spicy', 'crispy textures', 'exotic spices'],
       Earth: ['hearty and warm', 'grilled flavors', 'bold seasonings'],
-      Fire: ['intense heat', 'bold spices', 'smoky flavors'],
+      Fire: ['intense heat', 'bold spices', 'smoky flavors']
     },
     Water: {
       Fire: ['sweet and savory', 'caramelized', 'complex flavors'],
       Air: ['light and refreshing', 'herbal notes', 'delicate sauces'],
       Earth: ['rich and creamy', 'subtle herbs', 'nourishing broths'],
-      Water: ['subtle sweetness', 'gentle flavors', 'soothing elements'],
+      Water: ['subtle sweetness', 'gentle flavors', 'soothing elements']
     },
     Earth: {
       Fire: ['robust and hearty', 'slow-cooked', 'deeply satisfying'],
       Air: ['layered flavors', 'mixed textures', 'aromatic herbs'],
       Water: ['umami rich', 'nutritious broths', 'comforting stews'],
-      Earth: ['grounding flavors', 'root vegetables', 'earthy herbs'],
+      Earth: ['grounding flavors', 'root vegetables', 'earthy herbs']
     },
     Air: {
       Fire: ['crispy and light', 'quick cooking', 'bright flavors'],
       Water: ['light and refreshing', 'citrus notes', 'creative pairings'],
       Earth: ['diverse textures', 'balanced seasoning', 'complex aromas'],
-      Air: ['delicate herbs', 'subtle infusions', 'ethereal presentation'],
-    },
+      Air: ['delicate herbs', 'subtle infusions', 'ethereal presentation']
+    }
   };
 
   return flavorProfiles[element][foodElement] || ['balanced flavors', 'harmonious combinations'];

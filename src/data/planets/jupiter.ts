@@ -1,20 +1,20 @@
 import { PlanetData } from './types';
 
-const jupiterData: PlanetData = {
+const jupiterData: PlanetData = {;
   'Dignity Effect': {
     pisces: 1,
     sagittarius: 1,
     cancer: 2,
     gemini: -1,
     virgo: -1,
-    capricorn: -2,
+    capricorn: -2
   },
   Elements: ['Air', 'Fire'],
   Alchemy: {
     Spirit: 1,
     Essence: 1,
     Matter: 0,
-    Substance: 0,
+    Substance: 0
   },
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Fire',
@@ -22,7 +22,7 @@ const jupiterData: PlanetData = {
     DistanceFromSun: '484 million miles (778 million kilometers)',
     DistanceFromEarth: {
       Minimum: '365 million miles (588 million kilometers)',
-      Maximum: '601 million miles (968 million kilometers)',
+      Maximum: '601 million miles (968 million kilometers)'
     },
     Diameter: '86,881 miles (139,820 kilometers)',
     SurfaceTemperature: '-234 degrees Fahrenheit (-145 Celsius) cloud tops',
@@ -39,20 +39,20 @@ const jupiterData: PlanetData = {
       MagneticField: 'Strongest magnetic field of any planet in the solar system',
       Composition: 'Mostly hydrogen and helium, possibly with a rocky core',
       NotableFeatures:
-        'Largest planet in our solar system, 79 known moons, visible rings, Great Red Spot (giant storm)',
-    },
+        'Largest planet in our solar system, 79 known moons, visible rings, Great Red Spot (giant storm)'
+    }
   },
   AstrologicalProperties: {
     AlchemicalName: 'Zeus',
     BeneficType: 'Greater benefic',
     DualDomicile: {
       Spring: 'Pisces (yin)',
-      Autumn: 'Sagittarius (yang)',
+      Autumn: 'Sagittarius (yang)'
     },
     HouseJoy: 9,
     CyclePeriod: {
       Return: '12 years',
-      Retrograde: '4 months yearly',
+      Retrograde: '4 months yearly'
     },
     Exaltation: 'Cancer',
     Fall: 'Capricorn',
@@ -66,22 +66,22 @@ const jupiterData: PlanetData = {
       'Wisdom',
       'Philosophy',
       'Teaching',
-      'Travel',
+      'Travel'
     ],
     Colors: ['Royal Purple', 'Deep Blue', 'Indigo', 'Gold', 'Yellow', 'Royal Blue'],
     Day: 'Thursday',
     Metal: 'Tin',
     BodyParts: ['Liver', 'Thighs', 'Hips', 'Blood', 'Fat tissues', 'Growth mechanisms'],
     Animals: ['Eagle', 'Elephant', 'Deer', 'Horse', 'Dolphin'],
-    Stones: ['Sapphire', 'Lapis Lazuli', 'Amethyst', 'Turquoise', 'Blue Topaz'],
+    Stones: ['Sapphire', 'Lapis Lazuli', 'Amethyst', 'Turquoise', 'Blue Topaz']
   },
   ElementalConnections: {
-    DayEmission: 'Spirit - "that which animates"',
-    NightEmission: 'Essence - "that which an object cannot exist without"',
+    DayEmission: 'Spirit - 'that which animates'',
+    NightEmission: 'Essence - 'that which an object cannot exist without'',
     ElementalBridges: ['Connects Air and Fire', 'Bridges intellect and passion'],
     SharedElements: {
       Air: ['Mercury', 'Saturn'],
-      Fire: ['Mars', 'Sun'],
+      Fire: ['Mars', 'Sun']
     },
     AssociatedQualities: [
       'Expansive',
@@ -93,8 +93,8 @@ const jupiterData: PlanetData = {
       'Educational',
       'Philosophical',
       'Benevolent',
-      'Growth-oriented',
-    ],
+      'Growth-oriented'
+    ]
   },
   HerbalAssociations: {
     Herbs: [
@@ -115,7 +115,7 @@ const jupiterData: PlanetData = {
       'Chicory',
       'Fenugreek',
       'Licorice Root',
-      'Burdock',
+      'Burdock'
     ],
     Flowers: [
       'Dandelion',
@@ -127,7 +127,7 @@ const jupiterData: PlanetData = {
       'Blue Flag',
       'Clematis',
       'Purple Amaranth',
-      'Blue Salvia',
+      'Blue Salvia'
     ],
     Woods: ['Oak', 'Pine', 'Cedar', 'Fig', 'Ash'],
     Scents: [
@@ -140,8 +140,8 @@ const jupiterData: PlanetData = {
       'Clove',
       'Sandalwood',
       'Benzoin',
-      'Vanilla',
-    ],
+      'Vanilla'
+    ]
   },
   FoodAssociations: [
     'rich and abundant foods',
@@ -170,7 +170,7 @@ const jupiterData: PlanetData = {
     'multi-course meals',
     'lavish banquet foods',
     'wholesome breads',
-    'holiday foods',
+    'holiday foods'
   ],
   FlavorProfiles: {
     Sweet: 0.7,
@@ -178,7 +178,7 @@ const jupiterData: PlanetData = {
     Salty: 0.4,
     Bitter: 0.2,
     Umami: 0.7,
-    Spicy: 0.5,
+    Spicy: 0.5
   },
   CulinaryInfluences: [
     'Expands and enhances flavors',
@@ -192,7 +192,7 @@ const jupiterData: PlanetData = {
     'Promotes abundance and prosperity',
     'Facilitates celebratory and festive meals',
     'Encourages educational cooking experiences',
-    'Inspires culinary wisdom and tradition',
+    'Inspires culinary wisdom and tradition'
   ],
   AspectsEffect: {
     Sun: {
@@ -200,43 +200,43 @@ const jupiterData: PlanetData = {
       Opposition: 0.4,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5,
+      Sextile: 0.5
     },
     Moon: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.4,
+      Sextile: 0.4
     },
     Mercury: {
       Conjunction: 0.5,
       Opposition: 0.1,
       Trine: 0.4,
       Square: 0.0,
-      Sextile: 0.3,
+      Sextile: 0.3
     },
     Saturn: {
       Conjunction: 0.3,
       Opposition: -0.2,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2,
+      Sextile: 0.2
     },
     Venus: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5,
+      Sextile: 0.5
     },
     Mars: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+    }
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -246,7 +246,7 @@ const jupiterData: PlanetData = {
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.4,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'international spices',
@@ -254,8 +254,8 @@ const jupiterData: PlanetData = {
           'exotic fruits',
           'hearty stews',
           'celebratory dishes',
-          'festive breads',
-        ],
+          'festive breads'
+        ]
       },
       pisces: {
         FoodFocus: 'Spiritual and healing foods, seafood, and dishes with subtle, complex flavors',
@@ -263,7 +263,7 @@ const jupiterData: PlanetData = {
           Fire: 0.2,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.9,
+          Water: 0.9
         },
         Ingredients: [
           'seafood',
@@ -271,8 +271,8 @@ const jupiterData: PlanetData = {
           'infused oils',
           'mead',
           'fermented foods',
-          'sacred recipes',
-        ],
+          'sacred recipes'
+        ]
       },
       aries: {
         FoodFocus:
@@ -281,15 +281,15 @@ const jupiterData: PlanetData = {
           Fire: 0.9,
           Earth: 0.1,
           Air: 0.4,
-          Water: 0.1,
+          Water: 0.1
         },
         Ingredients: [
           'chili peppers',
           'global spice blends',
           'large roasted meats',
           'abundant platters',
-          'adventurous combinations',
-        ],
+          'adventurous combinations'
+        ]
       },
       taurus: {
         FoodFocus: 'Rich, indulgent comfort foods with emphasis on quality and luxury ingredients',
@@ -297,7 +297,7 @@ const jupiterData: PlanetData = {
           Fire: 0.3,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.2,
+          Water: 0.2
         },
         Ingredients: [
           'truffles',
@@ -305,9 +305,9 @@ const jupiterData: PlanetData = {
           'fine chocolate',
           'rich desserts',
           'quality meats',
-          'decadent sauces',
-        ],
-      },
+          'decadent sauces'
+        ]
+      }
     },
     Retrograde: {
       CulinaryEffect:
@@ -316,8 +316,8 @@ const jupiterData: PlanetData = {
         Spirit: 0.8,
         Essence: 0.6,
         Matter: 0.2,
-        Substance: 0.1,
-      },
+        Substance: 0.1
+      }
     },
     CulinaryTemperament: {
       FireJupiter: {
@@ -327,15 +327,15 @@ const jupiterData: PlanetData = {
           Fire: 0.9,
           Earth: 0.3,
           Air: 0.4,
-          Water: 0.2,
+          Water: 0.2
         },
         Recommendations: [
           'feast-style service',
           'multicultural fusion',
           'generous portions',
           'celebratory ingredients',
-          'culinary education',
-        ],
+          'culinary education'
+        ]
       },
       AirJupiter: {
         FoodFocus:
@@ -344,25 +344,25 @@ const jupiterData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.9,
-          Water: 0.3,
+          Water: 0.3
         },
         Recommendations: [
           'cuisine theory',
           'innovative presentations',
           'culinary storytelling',
           'educational dining',
-          'historical influences',
-        ],
-      },
+          'historical influences'
+        ]
+      }
     },
     CulinaryTechniques: {
       Abundance: 0.9,
       'Cultural Fusion': 0.8,
       'Educational Dining': 0.7,
       'Festive Preparation': 0.9,
-      'Generous Hospitality': 0.9,
-    },
-  },
+      'Generous Hospitality': 0.9
+    }
+  }
 };
 
 export default jupiterData;

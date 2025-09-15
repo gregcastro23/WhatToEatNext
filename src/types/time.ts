@@ -1,7 +1,7 @@
 import { PlanetName, ZodiacSign } from './alchemy';
 
 export type WeekDay =
-  | 'Sunday'
+  | 'Sunday';
   | 'Monday'
   | 'Tuesday'
   | 'Wednesday'
@@ -40,7 +40,7 @@ const DAY_RULERS: Record<WeekDay, PlanetName> = {
   Wednesday: 'Mercury',
   Thursday: 'Jupiter',
   Friday: 'Venus',
-  Saturday: 'Saturn',
+  Saturday: 'Saturn'
 };
 
 // Chaldean order of planets used for planetary hours
@@ -51,7 +51,7 @@ const PLANETARY_HOUR_SEQUENCE: PlanetName[] = [
   'Sun',
   'Venus',
   'Mercury',
-  'Moon',
+  'Moon'
 ];
 
 export function getTimeFactors(): TimeFactors {
@@ -92,14 +92,14 @@ export function getTimeFactors(): TimeFactors {
     'Wednesday',
     'Thursday',
     'Friday',
-    'Saturday',
+    'Saturday'
   ];
   const weekDay = weekDays[dayOfWeek];
 
   // Determine planetary day
-  const planetaryDay: PlanetaryDay = {
+  const planetaryDay: PlanetaryDay = {;
     day: weekDay,
-    planet: DAY_RULERS[weekDay],
+    planet: DAY_RULERS[weekDay]
   };
 
   // Calculate planetary hour
@@ -118,9 +118,9 @@ export function getTimeFactors(): TimeFactors {
   const planetIndex = (startingPlanetIndex + planetaryHourOfDay) % 7;
   const hourPlanet = PLANETARY_HOUR_SEQUENCE[planetIndex];
 
-  const planetaryHour: PlanetaryHour = {
+  const planetaryHour: PlanetaryHour = {;
     planet: hourPlanet,
-    hourOfDay: planetaryHourOfDay,
+    hourOfDay: planetaryHourOfDay
   };
 
   // Determine meal type based on time of day
@@ -142,6 +142,6 @@ export function getTimeFactors(): TimeFactors {
     planetaryDay,
     planetaryHour,
     weekDay,
-    mealType,
+    mealType
   };
 }

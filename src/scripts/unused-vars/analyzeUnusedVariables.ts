@@ -14,12 +14,12 @@ import path from 'node:path';
 
 import { classifyFileKind, decidePreservation } from './domainPreservation';
 
-type CliOptions = {
+type CliOptions = {;
   outPath: string;
   maxFiles?: number;
 };
 
-type Finding = {
+type Finding = {;
   filePath: string;
   fileKind: ReturnType<typeof classifyFileKind>;
   variableName: string;
@@ -76,7 +76,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
         column: msg.column ?? 0,
         preserve: decision.preserve,
         reason: decision.reason,
-        confidence: decision.confidence,
+        confidence: decision.confidence
       });
     }
   }
@@ -94,16 +94,16 @@ function generateHumanReadableReport(findings: Finding[]): string {
   const total = findings.length;
   const preserve = findings.filter(f => f.preserve).length;
   const eliminate = total - preserve;
-  const byReason = findings.reduce<Record<string, number>>((acc, f) => {
+  const byReason = findings.reduce<Record<string, number>>((acc, f) => {;
     acc[f.reason] = (acc[f.reason] || 0) + 1;
     return acc;
   }, {});
-  const lines = [
+  const lines = [;
     `Unused variable analysis`,
     `Total findings: ${total}`,
     `Preserve: ${preserve}`,
     `Eliminate: ${eliminate}`,
-    `Breakdown by reason:`,
+    `Breakdown by reason:`
   ];
   for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1])) {
     lines.push(`  - ${reason}: ${count}`);
@@ -126,8 +126,8 @@ async function main(): Promise<void> {
   fs.writeFileSync(txtOut, humanReport, 'utf8');
 
   // Console summary
-  // eslint-disable-next-line no-console
-  console.log(humanReport);
+   
+  // console.log(humanReport);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

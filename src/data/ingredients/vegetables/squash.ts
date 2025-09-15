@@ -1,14 +1,14 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawSquash = {
+const rawSquash = {;
   'butternut squash': {
     name: 'Butternut squash',
     elementalProperties: {
       Earth: 0.4,
       Water: 0.3,
       Fire: 0.2,
-      Air: 0.1,
+      Air: 0.1
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
@@ -18,18 +18,18 @@ const rawSquash = {
         decanModifiers: {
           first: {
             element: 'Earth',
-            planet: 'Venus',
+            planet: 'Venus'
           },
           second: {
             element: 'Water',
-            planet: 'Saturn',
+            planet: 'Saturn'
           },
           third: {
             element: 'Fire',
-            planet: 'Sun',
-          },
-        },
-      },
+            planet: 'Sun'
+          }
+        }
+      }
     },
     qualities: ['warming', 'nourishing', 'grounding'],
     season: ['fall', 'winter'],
@@ -48,18 +48,18 @@ const rawSquash = {
       minerals: ['magnesium', 'potassium', 'manganese'],
       antioxidants: ['beta-carotene'],
       glycemic_index: 51,
-      notes: 'High in beta-carotene and vitamin A',
+      notes: 'High in beta-carotene and vitamin A'
     },
     preparation: {
       peeling: 'required',
       cutting: 'halve, remove seeds',
-      notes: 'Can be pre-cut and roasted',
+      notes: 'Can be pre-cut and roasted'
     },
     storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months',
-      notes: 'Once cut, refrigerate',
-    },
+      notes: 'Once cut, refrigerate'
+    }
   },
   zucchini: {
     name: 'zucchini',
@@ -67,7 +67,7 @@ const rawSquash = {
       Fire: 0.4204917086683852,
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
-      Air: 0.034665845869724134,
+      Air: 0.034665845869724134
     },
     astrologicalProfile: {},
     category: 'vegetable',
@@ -78,7 +78,7 @@ const rawSquash = {
       fiber_g: 1,
       protein_g: 1.21,
       vitamins: ['a', 'c', 'k', 'b6', 'folate'],
-      minerals: ['potassium', 'manganese', 'magnesium'],
+      minerals: ['potassium', 'manganese', 'magnesium']
     },
     season: ['summer'],
     cookingMethods: ['saute', 'roast', 'grill', 'raw', 'steam', 'bake'],
@@ -87,24 +87,24 @@ const rawSquash = {
       sauteed: {
         method: 'Slice or dice, sauté with olive oil until tender-crisp',
         timing: '3-5 minutes',
-        pairings: ['garlic', 'basil', 'tomatoes', 'parmesan'],
+        pairings: ['garlic', 'basil', 'tomatoes', 'parmesan']
       },
       grilled: {
         method: 'Slice lengthwise, brush with oil, grill until charred',
         timing: '2-3 minutes per side',
-        pairings: ['lemon', 'herbs', 'feta', 'balsamic'],
+        pairings: ['lemon', 'herbs', 'feta', 'balsamic']
       },
       baked: {
         method: 'Hollow out and stuff with fillings, bake until tender',
         timing: '20-25 minutes at 375°F',
-        pairings: ['ground meat', 'rice', 'tomato sauce', 'cheese'],
+        pairings: ['ground meat', 'rice', 'tomato sauce', 'cheese']
       },
       spiralized: {
         method: 'Use spiralizer to create noodle-like strands',
         timing: 'Cook 1-3 minutes or serve raw',
-        pairings: ['pasta sauce', 'pesto', 'olive oil', 'lemon'],
-      },
-    },
+        pairings: ['pasta sauce', 'pesto', 'olive oil', 'lemon']
+      }
+    }
   },
   pumpkin: {
     name: 'Pumpkin',
@@ -112,7 +112,7 @@ const rawSquash = {
       Earth: 0.5,
       Water: 0.2,
       Fire: 0.2,
-      Air: 0.1,
+      Air: 0.1
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
@@ -122,18 +122,18 @@ const rawSquash = {
         decanModifiers: {
           first: {
             element: 'Earth',
-            planet: 'Venus',
+            planet: 'Venus'
           },
           second: {
             element: 'Water',
-            planet: 'Moon',
+            planet: 'Moon'
           },
           third: {
             element: 'Fire',
-            planet: 'Sun',
-          },
-        },
-      },
+            planet: 'Sun'
+          }
+        }
+      }
     },
     qualities: ['warming', 'grounding', 'nourishing'],
     season: ['fall'],
@@ -152,18 +152,18 @@ const rawSquash = {
       fat_g: 0.1,
       antioxidants: ['beta-carotene', 'lutein', 'zeaxanthin'],
       glycemic_index: 75,
-      notes: 'Excellent source of vitamin A and beta-carotene',
+      notes: 'Excellent source of vitamin A and beta-carotene'
     },
     preparation: {
       cutting: 'quarter, remove seeds',
       peeling: 'after cooking easier',
-      notes: 'Save seeds for roasting',
+      notes: 'Save seeds for roasting'
     },
     storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months whole',
-      notes: 'Cooked purée freezes well',
-    },
+      notes: 'Cooked purée freezes well'
+    }
   },
   'acorn squash': {
     name: 'Acorn squash',
@@ -171,7 +171,7 @@ const rawSquash = {
       Earth: 0.4,
       Water: 0.3,
       Fire: 0.2,
-      Air: 0.1,
+      Air: 0.1
     },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
@@ -181,18 +181,18 @@ const rawSquash = {
         decanModifiers: {
           first: {
             element: 'Earth',
-            planet: 'Saturn',
+            planet: 'Saturn'
           },
           second: {
             element: 'Water',
-            planet: 'Venus',
+            planet: 'Venus'
           },
           third: {
             element: 'Fire',
-            planet: 'Mars',
-          },
-        },
-      },
+            planet: 'Mars'
+          }
+        }
+      }
     },
     qualities: ['warming', 'grounding'],
     season: ['fall', 'winter'],
@@ -211,19 +211,19 @@ const rawSquash = {
       fat_g: 0.1,
       sugar_g: 0,
       glycemic_index: 40,
-      notes: 'Good source of vitamin C and potassium',
+      notes: 'Good source of vitamin C and potassium'
     },
     preparation: {
       washing: true,
       cutting: 'halve, remove seeds',
-      notes: 'No need to peel',
+      notes: 'No need to peel'
     },
     storage: {
       temperature: 'cool, dry place',
       duration: '1-2 months',
-      notes: 'Store away from apples / (pears || 1)',
-    },
-  },
+      notes: 'Store away from apples / (pears || 1)'
+    }
+  }
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

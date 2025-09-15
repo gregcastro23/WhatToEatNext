@@ -13,7 +13,7 @@ import type {
   KiroCampaignControlPanel,
   SystemHealthStatus,
   CampaignExecutionRequest,
-  CampaignSchedule,
+  CampaignSchedule
 } from '../services/KiroCampaignIntegration';
 
 export interface CampaignMonitoringState {
@@ -53,16 +53,16 @@ export interface UseCampaignMonitoringReturn {
 /**
  * Custom hook for campaign monitoring and control
  */
-export const useCampaignMonitoring = (
-  options: UseCampaignMonitoringOptions = {},
-): UseCampaignMonitoringReturn => {
+export const useCampaignMonitoring = (;
+  options: UseCampaignMonitoringOptions = {},;
+): UseCampaignMonitoringReturn => {;
   const {
-    autoRefresh = true,
-    refreshInterval = 30000, // 30 seconds
+    autoRefresh = true,;
+    refreshInterval = 30000, // 30 seconds;
     onCampaignStart,
     onCampaignComplete,
     onCampaignFailed,
-    onSystemHealthChange,
+    onSystemHealthChange
   } = options;
 
   // State
@@ -72,7 +72,7 @@ export const useCampaignMonitoring = (
     systemHealth: null,
     loading: true,
     error: null,
-    lastUpdate: null,
+    lastUpdate: null
   });
 
   // Refs for tracking
@@ -81,19 +81,19 @@ export const useCampaignMonitoring = (
   const campaignStatusRef = useRef<Map<string, string>>(new Map());
 
   // Refresh data from campaign integration service
-  const refreshData = useCallback(async () => {
+  const refreshData = useCallback(async () => {;
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
       const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel();
 
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         controlPanel,
         activeCampaigns: controlPanel.activeCampaigns,
         systemHealth: controlPanel.systemHealth,
         loading: false,
-        lastUpdate: new Date(),
+        lastUpdate: new Date()
       }));
 
       // Check for system health changes
@@ -106,18 +106,18 @@ export const useCampaignMonitoring = (
       }
 
       // Check for campaign status changes
-      controlPanel.activeCampaigns.forEach(campaign => {
+      controlPanel.activeCampaigns.forEach(campaign => {;
         const prevStatus = campaignStatusRef.current.get(campaign.campaignId);
         const currentStatus = campaign.status;
 
         if (prevStatus && prevStatus !== currentStatus) {
-          if (currentStatus === 'completed') {
+          if (currentStatus === 'completed') {;
             onCampaignComplete?.(campaign.campaignId);
-          } else if (currentStatus === 'failed') {
+          } else if (currentStatus === 'failed') {;
             const errorMessage =
-              campaign.safetyEvents
-                .filter(e => e.severity === 'ERROR')
-                .map(e => e.description)
+              campaign.safetyEvents;
+                .filter(e => e.severity === 'ERROR');
+                .map(e => e.description);
                 .join(', ') || 'Campaign failed';
             onCampaignFailed?.(campaign.campaignId, errorMessage);
           }
@@ -128,16 +128,16 @@ export const useCampaignMonitoring = (
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to refresh campaign data';
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         loading: false,
-        error: errorMessage,
+        error: errorMessage
       }));
     }
   }, [onSystemHealthChange, onCampaignComplete, onCampaignFailed]);
 
   // Start a new campaign
-  const startCampaign = useCallback(
+  const startCampaign = useCallback(;
     async (request: CampaignExecutionRequest): Promise<string> => {
       try {
         const campaignId = await kiroCampaignIntegration.startCampaign(request);
@@ -157,7 +157,7 @@ export const useCampaignMonitoring = (
   );
 
   // Pause a campaign
-  const pauseCampaign = useCallback(
+  const pauseCampaign = useCallback(;
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.pauseCampaign(campaignId);
@@ -175,7 +175,7 @@ export const useCampaignMonitoring = (
   );
 
   // Resume a campaign
-  const resumeCampaign = useCallback(
+  const resumeCampaign = useCallback(;
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.resumeCampaign(campaignId);
@@ -193,7 +193,7 @@ export const useCampaignMonitoring = (
   );
 
   // Stop a campaign
-  const stopCampaign = useCallback(
+  const stopCampaign = useCallback(;
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.stopCampaign(campaignId);
@@ -212,7 +212,7 @@ export const useCampaignMonitoring = (
   );
 
   // Get specific campaign status
-  const getCampaignStatus = useCallback(
+  const getCampaignStatus = useCallback(;
     async (campaignId: string): Promise<KiroCampaignStatus | null> => {
       try {
         return await kiroCampaignIntegration.getCampaignStatus(campaignId);
@@ -227,7 +227,7 @@ export const useCampaignMonitoring = (
   );
 
   // Schedule a campaign
-  const scheduleCampaign = useCallback(
+  const scheduleCampaign = useCallback(;
     async (schedule: Omit<CampaignSchedule, 'id'>): Promise<string> => {
       try {
         return await kiroCampaignIntegration.scheduleCampaign(schedule);
@@ -241,7 +241,7 @@ export const useCampaignMonitoring = (
   );
 
   // Get scheduled campaigns
-  const getScheduledCampaigns = useCallback((): CampaignSchedule[] => {
+  const getScheduledCampaigns = useCallback((): CampaignSchedule[] => {;
     return kiroCampaignIntegration.getScheduledCampaigns();
   }, []);
 
@@ -273,7 +273,7 @@ export const useCampaignMonitoring = (
   }, []);
 
   // Actions object
-  const actions: CampaignMonitoringActions = {
+  const actions: CampaignMonitoringActions = {;
     refreshData,
     startCampaign,
     pauseCampaign,
@@ -281,7 +281,7 @@ export const useCampaignMonitoring = (
     stopCampaign,
     getCampaignStatus,
     scheduleCampaign,
-    getScheduledCampaigns,
+    getScheduledCampaigns
   };
 
   return { state, actions };
@@ -290,12 +290,12 @@ export const useCampaignMonitoring = (
 /**
  * Hook for monitoring a specific campaign
  */
-export const useCampaignStatus = (campaignId: string) => {
+export const _useCampaignStatus = (campaignId: string) => {;
   const [status, setStatus] = useState<KiroCampaignStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const refreshStatus = useCallback(async () => {
+  const refreshStatus = useCallback(async () => {;
     try {
       setLoading(true);
       setError(null);
@@ -322,12 +322,12 @@ export const useCampaignStatus = (campaignId: string) => {
 /**
  * Hook for system health monitoring
  */
-export const useSystemHealth = () => {
+export const _useSystemHealth = () => {;
   const [health, setHealth] = useState<SystemHealthStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const refreshHealth = useCallback(async () => {
+  const refreshHealth = useCallback(async () => {;
     try {
       setLoading(true);
       setError(null);

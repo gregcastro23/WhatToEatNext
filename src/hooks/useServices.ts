@@ -34,7 +34,7 @@ export function useServices() {
 
     let isMounted = true;
 
-    const initializeServices = async () => {
+    const initializeServices = async () => {;
       try {
         setIsLoading(true);
         setStatus(InitializationStatus.IN_PROGRESS);
@@ -82,7 +82,7 @@ export function useServices() {
     ingredientService: services?.ingredientService,
     recipeService: services?.recipeService,
     recommendationService: services?.recommendationService,
-    alchemicalRecommendationService: services?.alchemicalRecommendationService,
+    alchemicalRecommendationService: services?.alchemicalRecommendationService
   };
 }
 

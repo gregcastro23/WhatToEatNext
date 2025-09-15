@@ -87,14 +87,14 @@ export class AstronomicalCalculations {
    * Calculate solar elevation angle for a given location and time
    */
   static getSolarElevation(coords: GeographicCoordinates, date: Date): number {
-    const dayOfYear = Math.floor(
+    const dayOfYear = Math.floor(;
       (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000,
     );
     const declination = 23.45 * Math.sin((((360 * (284 + dayOfYear)) / 365) * Math.PI) / 180);
 
     const hourAngle = 15 * (date.getHours() - 12);
     const elevation =
-      (Math.asin(
+      (Math.asin(;
         Math.sin((declination * Math.PI) / 180) * Math.sin((coords.latitude * Math.PI) / 180) +
           Math.cos((declination * Math.PI) / 180) *
             Math.cos((coords.latitude * Math.PI) / 180) *
@@ -177,8 +177,8 @@ export class AstronomicalCalculations {
     const planetaryHours: Record<string, { start: Date; end: Date; influence: string }> = {};
 
     // Start with day of week offset
-    const dayOfWeek = date.getDay(); // 0 = Sunday
-    const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.
+    const dayOfWeek = date.getDay(); // 0 = Sunday;
+    const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.;
 
     for (let i = 0; i < 12; i++) {
       const planetIndex = (startPlanetIndex + i) % 7;
@@ -190,7 +190,7 @@ export class AstronomicalCalculations {
       planetaryHours[`hour_${i + 1}_${planet}`] = {
         start,
         end,
-        influence: this.getPlanetaryHourInfluence(planet),
+        influence: this.getPlanetaryHourInfluence(planet)
       };
     }
 
@@ -205,7 +205,7 @@ export class AstronomicalCalculations {
       Venus: 'Pleasure cooking, desserts and indulgences, beautiful presentation',
       Mars: 'Spicy foods, meat preparation, aggressive cooking techniques',
       Jupiter: 'Abundant meals, expansion of recipes, foreign cuisines',
-      Saturn: 'Traditional methods, slow cooking, structured meal planning',
+      Saturn: 'Traditional methods, slow cooking, structured meal planning'
     };
 
     return influences[planet] || 'Balanced cooking approach';
@@ -224,21 +224,21 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       'Roasting',
       'Olive oil cooking',
       'Sun-drying',
-      'Stone cooking',
+      'Stone cooking'
     ],
     seasonalIngredients: {
       spring: ['Artichokes', 'Fava beans', 'Fresh herbs', 'Lamb', 'New olive oil'],
       summer: ['Tomatoes', 'Eggplant', 'Zucchini', 'Fresh fish', 'Melons'],
       autumn: ['Grapes', 'Olives', 'Nuts', 'Mushrooms', 'Root vegetables'],
-      winter: ['Citrus', 'Preserved foods', 'Legumes', 'Cabbage', 'Cured meats'],
+      winter: ['Citrus', 'Preserved foods', 'Legumes', 'Cabbage', 'Cured meats']
     },
     culturalInfluences: ['Greek', 'Italian', 'Spanish', 'Turkish', 'Moroccan'],
     planetaryAffinities: { Sun: 0.8, Venus: 0.7, Jupiter: 0.6, Mars: 0.5 },
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
-      seasonality: 'moderate',
-    },
+      seasonality: 'moderate'
+    }
   },
 
   Nordic: {
@@ -249,7 +249,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       'Curing',
       'Fermentation',
       'Slow braising',
-      'Root cellaring',
+      'Root cellaring'
     ],
     seasonalIngredients: {
       spring: ['Wild herbs', 'Young vegetables', 'Fresh fish', 'Birch syrup', 'Ramp-like plants'],
@@ -260,16 +260,16 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Fermented vegetables',
         'Dried fish',
         'Hearty grains',
-        'Stored roots',
-      ],
+        'Stored roots'
+      ]
     },
     culturalInfluences: ['Danish', 'Swedish', 'Norwegian', 'Finnish', 'Icelandic'],
     planetaryAffinities: { Moon: 0.8, Saturn: 0.7, Neptune: 0.6, Mercury: 0.5 },
     climateConsiderations: {
       temperature: 'cold',
       humidity: 'moderate',
-      seasonality: 'extreme',
-    },
+      seasonality: 'extreme'
+    }
   },
 
   Tropical: {
@@ -280,7 +280,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       'Grilling over wood',
       'Coconut oil cooking',
       'Raw preparations',
-      'Quick stir-frying',
+      'Quick stir-frying'
     ],
     seasonalIngredients: {
       spring: [
@@ -288,19 +288,19 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Tropical fruits',
         'Fresh fish',
         'Tender vegetables',
-        'New spices',
+        'New spices'
       ],
       summer: ['Mangoes', 'Chilies', 'Lemongrass', 'Lime', 'Cooling herbs'],
       autumn: ['Rice harvest', 'Nuts', 'Dried spices', 'Preserved fish', 'Root vegetables'],
-      winter: ['Citrus', 'Dried fruits', 'Fermented items', 'Preserved vegetables', 'Aged spices'],
+      winter: ['Citrus', 'Dried fruits', 'Fermented items', 'Preserved vegetables', 'Aged spices']
     },
     culturalInfluences: ['Thai', 'Vietnamese', 'Indian', 'Caribbean', 'Pacific Islander'],
     planetaryAffinities: { Sun: 0.9, Mars: 0.7, Venus: 0.6, Mercury: 0.8 },
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'humid',
-      seasonality: 'mild',
-    },
+      seasonality: 'mild'
+    }
   },
 
   Continental: {
@@ -311,7 +311,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       'Stewing',
       'Bread baking',
       'Meat preservation',
-      'Grain cooking',
+      'Grain cooking'
     ],
     seasonalIngredients: {
       spring: ['Early greens', 'Fresh dairy', 'Young animals', 'Maple syrup', 'Wild plants'],
@@ -322,16 +322,16 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Root vegetables',
         'Preserved meats',
         'Dairy products',
-        'Hearty stews',
-      ],
+        'Hearty stews'
+      ]
     },
     culturalInfluences: ['German', 'Polish', 'Russian', 'Hungarian', 'Czech'],
     planetaryAffinities: { Saturn: 0.8, Jupiter: 0.7, Earth: 0.6, Mars: 0.5 },
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
-      seasonality: 'extreme',
-    },
+      seasonality: 'extreme'
+    }
   },
 
   Desert: {
@@ -342,7 +342,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       'Solar cooking',
       'Spice preservation',
       'Dried food preparation',
-      'Underground cooking',
+      'Underground cooking'
     ],
     seasonalIngredients: {
       spring: [
@@ -350,14 +350,14 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Early fruits',
         'Fresh water sources',
         'Young animals',
-        'Wild herbs',
+        'Wild herbs'
       ],
       summer: [
         'Drought-resistant crops',
         'Preserved foods',
         'Spices',
         'Dried fruits',
-        'Minimal fresh foods',
+        'Minimal fresh foods'
       ],
       autumn: ['Date harvest', 'Nuts', 'Late fruits', 'Grain storage', 'Animal products'],
       winter: [
@@ -365,23 +365,23 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Preserved meats',
         'Dried vegetables',
         'Spice blends',
-        'Warming foods',
-      ],
+        'Warming foods'
+      ]
     },
     culturalInfluences: [
       'Middle Eastern',
       'North African',
       'Southwestern US',
       'Australian Aboriginal',
-      'Bedouin',
+      'Bedouin'
     ],
     planetaryAffinities: { Sun: 0.9, Mars: 0.8, Saturn: 0.6, Mercury: 0.5 },
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'arid',
-      seasonality: 'mild',
-    },
-  },
+      seasonality: 'mild'
+    }
+  }
 };
 
 /**
@@ -393,7 +393,7 @@ export class PlanetaryLocationService {
    */
   static getLocationCulinaryRecommendations(
     coordinates: GeographicCoordinates,
-    date: Date = new Date(),
+    date: Date = new Date(),;
   ): LocationCulinaryRecommendation {
     const regionalProfile = this.getRegionalProfile(coordinates);
     const activeInfluences = this.calculateLocationPlanetaryInfluences(coordinates, date);
@@ -401,7 +401,7 @@ export class PlanetaryLocationService {
     const planetaryHours = AstronomicalCalculations.getPlanetaryHours(coordinates, date);
 
     // Generate seasonal recommendations based on location and planetary influences
-    const seasonalRecommendations = this.generateSeasonalRecommendations(
+    const seasonalRecommendations = this.generateSeasonalRecommendations(;
       coordinates,
       date,
       regionalProfile,
@@ -409,12 +409,12 @@ export class PlanetaryLocationService {
     );
 
     // Calculate optimal timing for different cooking activities
-    const localOptimalTiming = {
+    const localOptimalTiming = {;
       solarCooking: this.getSolarCookingTimes(coordinates, date),
       moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] },
       planetaryHours: Object.fromEntries(
         Object.entries(planetaryHours).map(([key, value]) => [key, [value.influence]]),
-      ),
+      )
     };
 
     // Weather-based considerations
@@ -426,7 +426,7 @@ export class PlanetaryLocationService {
       regionalProfile,
       seasonalRecommendations,
       localOptimalTiming,
-      weatherConsiderations,
+      weatherConsiderations
     };
   }
 
@@ -442,10 +442,10 @@ export class PlanetaryLocationService {
     Object.entries(planetInfo).forEach(([planetName, planetData]) => {
       const baseInfluence = 1.0; // Base planetary influence
 
-      // Location modifier based on latitude (closer to equator = more solar influence)
+      // Location modifier based on latitude (closer to equator = more solar influence);
       const latitudeEffect = this.calculateLatitudeEffect(planetName, coordinates.latitude);
 
-      // Altitude effect (higher altitude = more intense solar effects)
+      // Altitude effect (higher altitude = more intense solar effects);
       const altitudeEffect = this.calculateAltitudeEffect(planetName, coordinates.elevation || 0);
 
       // Seasonal adjustment based on date and hemisphere
@@ -469,7 +469,7 @@ export class PlanetaryLocationService {
           planetName,
           finalInfluence,
           planetData,
-        ),
+        )
       });
     });
 
@@ -536,7 +536,7 @@ export class PlanetaryLocationService {
 
     switch (planet) {
       case 'Sun':
-        // Higher altitude = more intense solar effects
+        // Higher altitude = more intense solar effects;
         return 1.0 + altitudeKm * 0.1;
       case 'Moon':
         // Slight increase at altitude (clearer nights)
@@ -601,7 +601,7 @@ export class PlanetaryLocationService {
       return [
         ...baseRecommendations,
         `Emphasize ${planet.toLowerCase()}-associated foods`,
-        ...foodAssociations.slice(0, 3),
+        ...foodAssociations.slice(0, 3)
       ];
     } else if (influence < 0.8) {
       return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(0, 2)];
@@ -622,7 +622,7 @@ export class PlanetaryLocationService {
     nutritionalFocus: string[];
   } {
     const month = date.getMonth();
-    const season = [
+    const season = [;
       'winter',
       'winter',
       'spring',
@@ -634,7 +634,7 @@ export class PlanetaryLocationService {
       'autumn',
       'autumn',
       'autumn',
-      'winter',
+      'winter'
     ][month];
 
     const seasonalIngredients = regionalProfile.seasonalIngredients[season] || [];
@@ -643,17 +643,17 @@ export class PlanetaryLocationService {
     return {
       ingredients: [
         ...seasonalIngredients,
-        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(0, 2)),
+        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(0, 2)),;
       ].slice(0, 12),
       cookingMethods: [
         ...regionalProfile.traditionalCookingMethods,
-        ...this.getMethodsForClimate(regionalProfile.climateConsiderations, season),
+        ...this.getMethodsForClimate(regionalProfile.climateConsiderations, season)
       ].slice(0, 8),
       flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences),
       nutritionalFocus: this.getNutritionalFocusForSeason(
         season,
         regionalProfile.climateConsiderations,
-      ),
+      )
     };
   }
 
@@ -664,7 +664,7 @@ export class PlanetaryLocationService {
       return [
         'Peak solar cooking time',
         'Excellent for grilling and roasting',
-        'Solar oven cooking optimal',
+        'Solar oven cooking optimal'
       ];
     } else if (solarElevation > 20) {
       return ['Good solar cooking conditions', 'Moderate grilling recommended'];
@@ -683,22 +683,22 @@ export class PlanetaryLocationService {
 
     return {
       hotWeather:
-        temperature === 'tropical'
+        temperature === 'tropical';
           ? ['Cooling foods', 'Raw preparations', 'Hydrating ingredients', 'Quick cooking methods']
           : ['Light cooking', 'Cold soups', 'Fresh salads', 'Minimal heat cooking'],
       coldWeather:
-        temperature === 'cold'
+        temperature === 'cold';
           ? ['Warming spices', 'Hot broths', 'Slow-cooked stews', 'Calorie-dense foods']
           : ['Moderate warming foods', 'Cooked vegetables', 'Warm beverages'],
       humidity:
-        humidity === 'humid'
+        humidity === 'humid';
           ? ['Light, non-greasy foods', 'Fresh preparations', 'Cooling herbs']
           : ['Moistening foods', 'Broths and soups', 'Oil-rich preparations'],
       pressure: [
         'Monitor fermentation rates',
         'Adjust rising times',
-        'Consider altitude cooking modifications',
-      ],
+        'Consider altitude cooking modifications'
+      ]
     };
   }
 
@@ -706,9 +706,9 @@ export class PlanetaryLocationService {
     climate: RegionalCulinaryProfile['climateConsiderations'],
     season: string,
   ): string[] {
-    if (climate.temperature === 'tropical') {
+    if (climate.temperature === 'tropical') {;
       return ['Quick steaming', 'Raw preparations', 'Light grilling'];
-    } else if (climate.temperature === 'cold') {
+    } else if (climate.temperature === 'cold') {;
       return ['Slow braising', 'Roasting', 'Hot soup making'];
     } else {
       return season === 'summer' ? ['Grilling', 'Light cooking'] : ['Roasting', 'Stewing'];
@@ -718,7 +718,7 @@ export class PlanetaryLocationService {
   private static getFlavorProfilesForInfluences(
     influences: LocationPlanetaryInfluence[],
   ): string[] {
-    return influences.map(inf => {
+    return influences.map(inf => {;
       switch (inf.planet) {
         case 'Sun':
           return 'Bold and bright';
@@ -744,17 +744,17 @@ export class PlanetaryLocationService {
     season: string,
     climate: RegionalCulinaryProfile['climateConsiderations'],
   ): string[] {
-    const baseNutrition = {
+    const baseNutrition = {;
       spring: ['Detoxification', 'Fresh vitamins', 'Light proteins'],
       summer: ['Hydration', 'Cooling foods', 'Fresh minerals'],
       autumn: ['Building reserves', 'Immune support', 'Grounding foods'],
-      winter: ['Warming foods', 'Dense nutrition', 'Stored energy'],
+      winter: ['Warming foods', 'Dense nutrition', 'Stored energy']
     };
 
     const climateModifications =
-      climate.temperature === 'tropical'
+      climate.temperature === 'tropical';
         ? ['Electrolyte balance', 'Cooling nutrition']
-        : climate.temperature === 'cold'
+        : climate.temperature === 'cold';
           ? ['Warming spices', 'Dense calories']
           : [];
 
@@ -763,11 +763,11 @@ export class PlanetaryLocationService {
 }
 
 // Export convenience functions
-export const getLocationCulinaryRecommendations = (coords: GeographicCoordinates, date?: Date) =>
+export const getLocationCulinaryRecommendations = (coords: GeographicCoordinates, date?: Date) =>;
   PlanetaryLocationService.getLocationCulinaryRecommendations(coords, date);
 
-export const calculateLocationPlanetaryInfluences = (coords: GeographicCoordinates, date?: Date) =>
+export const calculateLocationPlanetaryInfluences = (coords: GeographicCoordinates, date?: Date) =>;
   PlanetaryLocationService.calculateLocationPlanetaryInfluences(coords, date || new Date());
 
-export const getRegionalProfile = (coords: GeographicCoordinates) =>
+export const getRegionalProfile = (coords: GeographicCoordinates) =>;
   PlanetaryLocationService.getRegionalProfile(coords);

@@ -59,14 +59,14 @@ export class EnhancedSafetyProtocols {
   private validationHistory: Map<string, ValidationResult[]> = new Map();
 
   constructor(config: Partial<HighImpactFileConfig> = {}) {
-    this.config = {
+    this.config = {;
       maxVariablesAutoProcess: 20,
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
       requireManualReview: true,
       enhancedValidation: true,
       createDetailedBackups: true,
-      ...config,
+      ...config
     };
   }
 
@@ -145,7 +145,7 @@ export class EnhancedSafetyProtocols {
       requiresEnhancedValidation,
       recommendedBatchSize,
       riskFactors,
-      mitigationStrategies,
+      mitigationStrategies
     };
   }
 
@@ -180,12 +180,12 @@ export class EnhancedSafetyProtocols {
     reviewInstructions.push('Verify TypeScript compilation passes');
     reviewInstructions.push('Check that no runtime errors are introduced');
 
-    const request: ManualReviewRequest = {
+    const request: ManualReviewRequest = {;
       filePath: assessment.filePath,
       unusedVariableCount: assessment.unusedVariableCount,
       riskFactors: assessment.riskFactors,
       reviewInstructions,
-      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,
+      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,;
     };
 
     this.manualReviewQueue.push(request);
@@ -196,12 +196,12 @@ export class EnhancedSafetyProtocols {
    * Perform enhanced validation for high-impact files
    */
   async performEnhancedValidation(filePath: string, changes: string[]): Promise<ValidationResult> {
-    const result: ValidationResult = {
+    const result: ValidationResult = {;
       passed: true,
       errors: [],
       warnings: [],
       recommendations: [],
-      requiresRollback: false,
+      requiresRollback: false
     };
 
     try {
@@ -278,14 +278,14 @@ export class EnhancedSafetyProtocols {
    */
   approveManualReview(filePath: string, reviewerNotes?: string): boolean {
     const index = this.manualReviewQueue.findIndex(req => req.filePath === filePath);
-    if (index === -1) {
+    if (index === -1) {;
       return false;
     }
 
     this.manualReviewQueue.splice(index, 1);
-    console.log(`✅ Manual review approved for ${path.relative(process.cwd(), filePath)}`);
+    // console.log(`✅ Manual review approved for ${path.relative(process.cwd(), filePath)}`);
     if (reviewerNotes) {
-      console.log(`   Reviewer notes: ${reviewerNotes}`);
+      // console.log(`   Reviewer notes: ${reviewerNotes}`);
     }
     return true;
   }
@@ -295,13 +295,13 @@ export class EnhancedSafetyProtocols {
    */
   rejectManualReview(filePath: string, reason: string): boolean {
     const index = this.manualReviewQueue.findIndex(req => req.filePath === filePath);
-    if (index === -1) {
+    if (index === -1) {;
       return false;
     }
 
     this.manualReviewQueue.splice(index, 1);
-    console.log(`❌ Manual review rejected for ${path.relative(process.cwd(), filePath)}`);
-    console.log(`   Reason: ${reason}`);
+    // console.log(`❌ Manual review rejected for ${path.relative(process.cwd(), filePath)}`);
+    // console.log(`   Reason: ${reason}`);
     return true;
   }
 
@@ -370,7 +370,7 @@ export class EnhancedSafetyProtocols {
 
   private escalateRiskLevel(
     currentLevel: FileRiskAssessment['riskLevel'],
-    steps: number = 2,
+    steps: number = 2,;
   ): FileRiskAssessment['riskLevel'] {
     const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'];
     const currentIndex = levels.indexOf(currentLevel);
@@ -385,8 +385,8 @@ export class EnhancedSafetyProtocols {
     if (!this.config.requireManualReview) return false;
     return (
       unusedVariableCount > this.config.maxVariablesAutoProcess ||
-      riskLevel === 'critical' ||
-      riskLevel === 'high'
+      riskLevel === 'critical' ||;
+      riskLevel === 'high';
     );
   }
 
@@ -396,10 +396,10 @@ export class EnhancedSafetyProtocols {
   ): boolean {
     if (!this.config.enhancedValidation) return false;
     return (
-      riskLevel === 'critical' ||
-      riskLevel === 'high' ||
-      fileType === 'service' ||
-      fileType === 'calculation'
+      riskLevel === 'critical' ||;
+      riskLevel === 'high' ||;
+      fileType === 'service' ||;
+      fileType === 'calculation';
     );
   }
 
@@ -407,10 +407,10 @@ export class EnhancedSafetyProtocols {
     riskLevel: FileRiskAssessment['riskLevel'],
     fileType: FileRiskAssessment['fileType'],
   ): number {
-    if (riskLevel === 'critical' || fileType === 'calculation') {
+    if (riskLevel === 'critical' || fileType === 'calculation') {;
       return this.config.criticalFileBatchSize;
     }
-    if (riskLevel === 'high' || fileType === 'service') {
+    if (riskLevel === 'high' || fileType === 'service') {;
       return this.config.serviceLayerBatchSize;
     }
     return 15; // Default batch size
@@ -423,7 +423,7 @@ export class EnhancedSafetyProtocols {
     } catch (error) {
       return {
         passed: false,
-        errors: [`TypeScript compilation failed: ${error}`],
+        errors: [`TypeScript compilation failed: ${error}`]
       };
     }
   }

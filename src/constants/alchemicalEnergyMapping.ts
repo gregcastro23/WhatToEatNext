@@ -2,7 +2,7 @@ import type { ElementalProperties } from '@/types/alchemy';
 import {
   CelestialPosition,
   AlchemicalProperties,
-  ThermodynamicProperties,
+  ThermodynamicProperties
 } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
@@ -24,7 +24,7 @@ export interface AlchemicalEnergyState {
 }
 
 // Alchemical energy states based on the provided table
-export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
+export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
   {
     name: 'Spirit',
     level: 'Highest',
@@ -32,14 +32,14 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     chakra: 'Crown Chakra',
     planets: {
       daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
-      nighttime: [],
+      nighttime: []
     },
     elements: ['Fire', 'Air'],
     properties: {
       heat: '+',
       entropy: '+',
-      reactivity: '+',
-    },
+      reactivity: '+'
+    }
   },
   {
     name: 'Substance',
@@ -48,14 +48,14 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     chakra: 'Throat Chakra',
     planets: {
       daytime: [],
-      nighttime: ['Mercury', 'Neptune'],
+      nighttime: ['Mercury', 'Neptune']
     },
     elements: ['Air', 'Earth'],
     properties: {
       heat: '-',
       entropy: '+',
-      reactivity: '+',
-    },
+      reactivity: '+'
+    }
   },
   {
     name: 'Essence',
@@ -64,14 +64,14 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     chakra: 'Brow, Solar Plexus, Sacral Chakras',
     planets: {
       daytime: ['Venus', 'Mars'],
-      nighttime: ['Jupiter', 'Neptune'],
+      nighttime: ['Jupiter', 'Neptune']
     },
     elements: ['Fire', 'Water'],
     properties: {
       heat: '-',
       entropy: '-',
-      reactivity: '+',
-    },
+      reactivity: '+'
+    }
   },
   {
     name: 'Matter',
@@ -80,27 +80,27 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     chakra: 'Root Chakra',
     planets: {
       daytime: [],
-      nighttime: ['Venus', 'Saturn', 'Mars', 'Uranus'],
+      nighttime: ['Venus', 'Saturn', 'Mars', 'Uranus']
     },
     elements: ['Water', 'Earth'],
     properties: {
       heat: '-',
       entropy: '-',
-      reactivity: '-',
-    },
-  },
+      reactivity: '-'
+    }
+  }
 ];
 
 // The Moon appears in both Essence and Matter states
-export const SHARED_PLANETS = {
-  Moon: ['Essence', 'Matter'],
+export const _SHARED_PLANETS = {;
+  Moon: ['Essence', 'Matter']
 };
 
 // Create a component-specific logger
 const logger = createLogger('alchemicalEnergyMapping');
 
 // Define day/night element maps for all planets
-export const planetElementMap = (isDaytime: boolean): Record<string, string> => ({
+export const _planetElementMap = (isDaytime: boolean): Record<string, string> => ({;
   sun: 'Fire', // Sun is always Fire
   moon: 'Water', // Moon is always Water
   mercury: isDaytime ? 'Air' : 'Earth',
@@ -114,11 +114,11 @@ export const planetElementMap = (isDaytime: boolean): Record<string, string> => 
   northnode: 'Fire',
   southnode: 'Earth',
   chiron: 'Water',
-  ascendant: 'Earth',
+  ascendant: 'Earth'
 });
 
 // Define day/night alchemical property maps
-export const planetPropertyMap = (isDaytime: boolean): Record<string, string> => ({
+export const planetPropertyMap = (isDaytime: boolean): Record<string, string> => ({;
   sun: 'Spirit', // Always Spirit
   moon: 'Essence', // Always Essence
   mercury: isDaytime ? 'Spirit' : 'Matter',
@@ -132,7 +132,7 @@ export const planetPropertyMap = (isDaytime: boolean): Record<string, string> =>
   northnode: 'Spirit',
   southnode: 'Matter',
   chiron: 'Essence',
-  ascendant: 'Matter',
+  ascendant: 'Matter'
 });
 
 // Direct mapping from alchemical properties to elements
@@ -140,7 +140,7 @@ const _: Record<string, string> = {
   Spirit: 'Fire',
   Essence: 'Water',
   Matter: 'Earth',
-  Substance: 'Air',
+  Substance: 'Air'
 };
 
 /**
@@ -152,15 +152,15 @@ export function calculateAlchemicalDistribution(
 ): AlchemicalProperties {
   try {
     // Initialize with balanced values
-    const distribution: AlchemicalProperties = {
+    const distribution: AlchemicalProperties = {;
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25,
+      Substance: 0.25
     };
 
     // Skip calculation if no positions provided
-    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
+    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
       return distribution;
     }
 
@@ -173,7 +173,7 @@ export function calculateAlchemicalDistribution(
       Spirit: 0,
       Essence: 0,
       Matter: 0,
-      Substance: 0,
+      Substance: 0
     };
 
     // Calculate the influence of each planet
@@ -212,7 +212,7 @@ export function calculateAlchemicalDistribution(
 
     // Normalize the influences to sum to 1
     if (totalInfluence > 0) {
-      Object.keys(influences).forEach(property => {
+      Object.keys(influences).forEach(property => {;
         distribution[property as keyof AlchemicalProperties] =
           influences[property] / totalInfluence;
       });
@@ -225,7 +225,7 @@ export function calculateAlchemicalDistribution(
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25,
+      Substance: 0.25
     };
   }
 }
@@ -237,11 +237,11 @@ export function convertToElementalProperties(
   alchemicalProps: AlchemicalProperties,
 ): ElementalProperties {
   try {
-    const elementalProps: ElementalProperties = {
+    const elementalProps: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
 
     // Map alchemical properties to elemental properties
@@ -257,7 +257,7 @@ export function convertToElementalProperties(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     };
   }
 }
@@ -288,7 +288,7 @@ export function calculateThermodynamicProperties(
       heat,
       entropy,
       reactivity,
-      gregsEnergy,
+      gregsEnergy
     };
   } catch (error) {
     logger.error('Error calculating thermodynamic properties:', error);

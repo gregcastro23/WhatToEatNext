@@ -27,25 +27,25 @@ export const molecularCookingMethods: Record<
     commonErrors: [
       'Incorrect chemical ratios causing improper gelation',
       'pH imbalance preventing proper spherification',
-      'Improper dropping height affecting sphere shape',
+      'Improper dropping height affecting sphere shape'
     ],
     advancedEquipment: [
       'Pipettes',
       'Digital scale (0.01g precision)',
       'pH meter',
-      'Calcium bath containers',
+      'Calcium bath containers'
     ],
     texturalOutcomes: [
       'Liquid-filled spheres with thin membranes',
       'Caviar-like pearls',
-      'Controlled-burst sensation',
+      'Controlled-burst sensation'
     ],
     thermodynamicProperties: {
       heat: 0.2,
       entropy: 0.4,
       reactivity: 0.8,
-      gregsEnergy: 0.2 - 0.4 * 0.2,
-    },
+      gregsEnergy: 0.2 - 0.4 * 0.2
+    }
   },
   gelification: {
     name: 'Gelification',
@@ -58,21 +58,21 @@ export const molecularCookingMethods: Record<
     commonErrors: [
       'Overheating causing hydrocolloid degradation',
       'Improper hydration of gelling agents',
-      'Using gelling agents with incompatible ingredients',
+      'Using gelling agents with incompatible ingredients'
     ],
     advancedEquipment: [
       'Water bath with precise temperature control',
       'Digital thermometer',
       'Silicon molds',
-      'Blast chiller',
+      'Blast chiller'
     ],
     texturalOutcomes: ['Elastic gels', 'Firm jellies', 'Soft gel sheets', 'Flexible noodles'],
     thermodynamicProperties: {
       heat: 0.5,
       entropy: 0.3,
       reactivity: 0.6,
-      gregsEnergy: 0.5 - 0.3 * 0.2,
-    },
+      gregsEnergy: 0.5 - 0.3 * 0.2
+    }
   },
   emulsification: {
     name: 'Emulsification',
@@ -85,21 +85,21 @@ export const molecularCookingMethods: Record<
     commonErrors: [
       'Insufficient emulsifier causing separation',
       'Overblending breaking emulsion',
-      'Temperature fluctuations destabilizing the mixture',
+      'Temperature fluctuations destabilizing the mixture'
     ],
     advancedEquipment: ['High-speed blender', 'Immersion blender', 'Homogenizer', 'Vacuum chamber'],
     texturalOutcomes: [
       'Light foams',
       'Airy mousses',
       'Stable sauces',
-      'Creamy textures with no visible separation',
+      'Creamy textures with no visible separation'
     ],
     thermodynamicProperties: {
       heat: 0.3,
       entropy: 0.7,
       reactivity: 0.5,
-      gregsEnergy: 0.3 - 0.7 * 0.2,
-    },
+      gregsEnergy: 0.3 - 0.7 * 0.2
+    }
   },
   cryo_cooking: {
     name: 'Cryo-Cooking',
@@ -112,27 +112,27 @@ export const molecularCookingMethods: Record<
     commonErrors: [
       'Overexposure causing excessive freezing and texture damage',
       'Safety hazards from improper handling',
-      'Uneven application creating inconsistent results',
+      'Uneven application creating inconsistent results'
     ],
     advancedEquipment: [
       'Liquid nitrogen container',
       'Insulated gloves',
       'Safety goggles',
-      'Special tongs and dipping tools',
+      'Special tongs and dipping tools'
     ],
     texturalOutcomes: [
       'Shatter-crisp exteriors',
       'Ultra-smooth ice creams',
       'Frozen powders that melt instantly',
-      'Crisp shells with soft interiors',
+      'Crisp shells with soft interiors'
     ],
     thermodynamicProperties: {
       heat: 0.1,
       entropy: 0.6,
       reactivity: 0.3,
-      gregsEnergy: 0.1 - 0.6 * 0.2,
-    },
-  },
+      gregsEnergy: 0.1 - 0.6 * 0.2
+    }
+  }
 };
 
 export default molecularCookingMethods;

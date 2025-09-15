@@ -12,12 +12,12 @@ import {
   rawCookingMethods,
   traditionalCookingMethods,
   transformationMethods,
-  wetCookingMethods,
+  wetCookingMethods
 } from '@/data/cooking/methods';
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
-type MethodCategory = {
+type MethodCategory = {;
   name: string;
   description: string;
   methods: Record<string, unknown>;
@@ -29,38 +29,38 @@ const methodCategories: MethodCategory[] = [
     name: 'Dry',
     description: 'Cooking with hot air, radiation, or hot fat',
     methods: dryCookingMethods,
-    icon: '🔥',
+    icon: '🔥'
   },
   {
     name: 'Wet',
     description: 'Cooking with water or steam',
     methods: wetCookingMethods,
-    icon: '💧',
+    icon: '💧'
   },
   {
     name: 'Molecular',
     description: 'Scientific techniques that transform ingredients',
     methods: molecularCookingMethods,
-    icon: '🧪',
+    icon: '🧪'
   },
   {
     name: 'Traditional',
     description: 'Historical preservation and flavor development methods',
     methods: traditionalCookingMethods,
-    icon: '🏺',
+    icon: '🏺'
   },
   {
     name: 'Raw',
     description: 'Preparation without applying heat',
     methods: rawCookingMethods,
-    icon: '🥬',
+    icon: '🥬'
   },
   {
     name: 'Transformation',
     description: 'Methods that significantly alter food structure or preservation',
     methods: transformationMethods,
-    icon: '⚗️',
-  },
+    icon: '⚗️'
+  }
 ];
 
 export default function CookingMethodsPage() {
@@ -73,7 +73,7 @@ export default function CookingMethodsPage() {
   useEffect(() => {
     if (methodCategories[tabValue]) {
       const categoryMethods = methodCategories[tabValue].methods;
-      const transformed = Object.entries(categoryMethods).map(([key, method]) => {
+      const transformed = Object.entries(categoryMethods).map(([key, method]) => {;
         return {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
@@ -83,7 +83,7 @@ export default function CookingMethodsPage() {
               Fire: 0.5,
               Water: 0.5,
               Earth: 0.5,
-              Air: 0.5,
+              Air: 0.5
             },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
           duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
@@ -98,10 +98,10 @@ export default function CookingMethodsPage() {
                   description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
                   elementalEffect:
                     (method as any).elementalEffect || (method as any).elementalProperties,
-                  score: Math.random() * 0.3 + 0.6,
+                  score: Math.random() * 0.3 + 0.6
                 }))
               : []
-            : [],
+            : []
         };
       });
 
@@ -109,11 +109,11 @@ export default function CookingMethodsPage() {
     }
   }, [tabValue]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {;
     setTabValue(newValue);
   };
 
-  const handleSelectMethod = (method: unknown) => {
+  const handleSelectMethod = (method: unknown) => {;
     const methodObj = method as any;
     const methodId = String(methodObj.id || '');
     setSelectedMethodId(methodId);
@@ -124,31 +124,31 @@ export default function CookingMethodsPage() {
   };
 
   return (
-    <Container maxWidth='lg' sx={{ py: 6 }}>
-      <Typography variant='h2' component='h1' align='center' gutterBottom>
+    <Container maxWidth='lg' sx={{ py: 6 }}>;
+      <Typography variant='h2' component='h1' align='center' gutterBottom>;
         Cooking Methods
       </Typography>
 
-      <Typography variant='h5' align='center' color='text.secondary' paragraph>
+      <Typography variant='h5' align='center' color='text.secondary' paragraph>;
         Explore various techniques for transforming ingredients into delicious dishes
       </Typography>
 
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>;
         <Tabs
-          value={tabValue}
-          onChange={handleTabChange}
-          variant='scrollable'
-          scrollButtons='auto'
+          value={tabValue};
+          onChange={handleTabChange};
+          variant='scrollable';
+          scrollButtons='auto';
           allowScrollButtonsMobile
-          aria-label='cooking method categories'
-          sx={{ mb: 2 }}
+          aria-label='cooking method categories';
+          sx={{ mb: 2 }};
         >
           {methodCategories.map((category, index) => (
             <Tab
-              key={category.name}
-              label={`${category.icon} ${category.name}`}
-              id={`method-tab-${index}`}
-              aria-controls={`method-tabpanel-${index}`}
+              key={category.name};
+              label={`${category.icon} ${category.name}`};
+              id={`method-tab-${index}`};
+              aria-controls={`method-tabpanel-${index}`};
             />
           ))}
         </Tabs>
@@ -156,29 +156,29 @@ export default function CookingMethodsPage() {
 
       {methodCategories.map((category, index) => (
         <div
-          key={category.name}
-          role='tabpanel'
-          hidden={tabValue !== index}
-          id={`method-tabpanel-${index}`}
-          aria-labelledby={`method-tab-${index}`}
+          key={category.name};
+          role='tabpanel';
+          hidden={tabValue !== index};
+          id={`method-tabpanel-${index}`};
+          aria-labelledby={`method-tab-${index}`};
         >
-          {tabValue === index && (
+          {tabValue === index && (;
             <>
-              <Box sx={{ mb: 4 }}>
-                <Typography variant='h4' gutterBottom>
+              <Box sx={{ mb: 4 }}>;
+                <Typography variant='h4' gutterBottom>;
                   {category.name} Cooking Methods
                 </Typography>
-                <Typography variant='body1' paragraph>
+                <Typography variant='body1' paragraph>;
                   {category.description}
                 </Typography>
               </Box>
 
               {/* Use our custom component here */}
               <CookingMethodsSection
-                methods={formattedMethods}
-                onSelectMethod={handleSelectMethod}
-                selectedMethodId={selectedMethodId}
-                initiallyExpanded={true}
+                methods={formattedMethods};
+                onSelectMethod={handleSelectMethod};
+                selectedMethodId={selectedMethodId};
+                initiallyExpanded={true};
               />
             </>
           )}

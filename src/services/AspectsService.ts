@@ -1,5 +1,5 @@
-import { calculateAspects } from '@/utils/astrologyUtils';
 import type { PlanetaryPosition } from '@/types/celestial';
+import { calculateAspects } from '@/utils/astrologyUtils';
 
 export type MinimalPositions = Record<string, { sign: string; degree: number }>;
 
@@ -17,6 +17,6 @@ export class AspectsService {
   }
 }
 
-export const aspectsService = AspectsService;
+export const _aspectsService = AspectsService;
 
 

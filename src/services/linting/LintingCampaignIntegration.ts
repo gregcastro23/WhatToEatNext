@@ -133,7 +133,7 @@ export class LintingCampaignIntegration {
       // Evaluate success criteria
       const success = this.evaluatePhaseSuccess(phase, prePhaseReport, postPhaseReport);
 
-      const result: CampaignExecutionResult = {
+      const result: CampaignExecutionResult = {;
         campaignId: config.campaignId,
         phase: phase.id,
         success,
@@ -142,11 +142,11 @@ export class LintingCampaignIntegration {
           errorsAfter: postPhaseReport.currentMetrics.errors,
           warningsBefore: prePhaseReport.currentMetrics.warnings,
           warningsAfter: postPhaseReport.currentMetrics.warnings,
-          improvementPercentage: postPhaseReport.improvement.percentageImprovement,
+          improvementPercentage: postPhaseReport.improvement.percentageImprovement
         },
         executionTime: Date.now() - startTime,
         issues: toolResults.issues,
-        recommendations: toolResults.recommendations,
+        recommendations: toolResults.recommendations
       };
 
       // Update campaign progress
@@ -159,7 +159,7 @@ export class LintingCampaignIntegration {
 
       logger.info(`Phase ${phase.name} completed:`, {
         success,
-        improvement: result.metricsImprovement.improvementPercentage,
+        improvement: result.metricsImprovement.improvementPercentage
       });
 
       return result;
@@ -301,7 +301,7 @@ export class LintingCampaignIntegration {
     const errorReduction = preReport.currentMetrics.errors - postReport.currentMetrics.errors;
     const warningReduction = preReport.currentMetrics.warnings - postReport.currentMetrics.warnings;
     const performanceAcceptable =
-      postReport.currentMetrics.performanceMetrics.executionTime <=
+      postReport.currentMetrics.performanceMetrics.executionTime <=;
       phase.successCriteria.performanceThreshold;
 
     return (
@@ -314,7 +314,7 @@ export class LintingCampaignIntegration {
   /**
    * Generate comprehensive campaign report
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   async generateCampaignReport(campaignId: string): Promise<Record<string, unknown>> {
     try {
       const config = this.getCampaignConfig(campaignId);
@@ -325,7 +325,7 @@ export class LintingCampaignIntegration {
         throw new Error('Campaign data not found');
       }
 
-      const report = {
+      const report = {;
         campaignId,
         name: config.name,
         startTime: (activeCampaign as any)?.startTime,
@@ -338,14 +338,14 @@ export class LintingCampaignIntegration {
           warningReduction:
             (activeCampaign as any)?.baselineMetrics.warnings -
             currentReport.currentMetrics.warnings,
-          percentageImprovement: currentReport.improvement.percentageImprovement,
+          percentageImprovement: currentReport.improvement.percentageImprovement
         },
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
         qualityGatesStatus: currentReport.qualityGates,
         recommendations:
           currentReport.improvement.percentageImprovement > 0
             ? ['Continue monitoring for regressions', 'Consider additional optimization phases']
-            : ['Investigate why improvements were not achieved', 'Review tool configurations'],
+            : ['Investigate why improvements were not achieved', 'Review tool configurations']
       };
 
       // Save final report
@@ -376,9 +376,9 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 50,
               warningReduction: 100,
-              performanceThreshold: 60000,
+              performanceThreshold: 60000
             },
-            estimatedDuration: 15,
+            estimatedDuration: 15
           },
           {
             id: 'phase-2-imports',
@@ -388,9 +388,9 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 20,
               warningReduction: 200,
-              performanceThreshold: 60000,
+              performanceThreshold: 60000
             },
-            estimatedDuration: 30,
+            estimatedDuration: 30
           },
           {
             id: 'phase-3-types',
@@ -400,9 +400,9 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 10,
               warningReduction: 50,
-              performanceThreshold: 60000,
+              performanceThreshold: 60000
             },
-            estimatedDuration: 45,
+            estimatedDuration: 45
           },
           {
             id: 'phase-4-cleanup',
@@ -412,23 +412,23 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 5,
               warningReduction: 30,
-              performanceThreshold: 60000,
+              performanceThreshold: 60000
             },
-            estimatedDuration: 20,
-          },
+            estimatedDuration: 20
+          }
         ],
         targets: {
           maxErrors: 0,
           maxWarnings: 100,
-          targetReduction: 80,
+          targetReduction: 80
         },
         safetyProtocols: ['backup-before-changes', 'validate-build', 'rollback-on-failure'],
         notifications: {
           onProgress: true,
           onCompletion: true,
-          onRegression: true,
-        },
-      },
+          onRegression: true
+        }
+      }
     ];
   }
 
@@ -477,11 +477,11 @@ export class LintingCampaignIntegration {
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
     try {
-      const activeCampaign = {
+      const activeCampaign = {;
         campaignId,
         startTime: new Date(),
         baselineMetrics: baselineReport.currentMetrics,
-        phasesExecuted: [],
+        phasesExecuted: []
       };
       writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2));
     } catch (error) {
@@ -508,12 +508,12 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     try {
       const activeCampaign = this.getActiveCampaign();
-      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {
+      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {;
         (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || [];
         (activeCampaign as any)?.phasesExecuted.push({
           phaseId,
           result,
-          timestamp: new Date(),
+          timestamp: new Date()
         });
         writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2));
       }
@@ -530,7 +530,7 @@ export class LintingCampaignIntegration {
     logger.info(`Campaign ${config.name} progress notification:`, {
       phase: result.phase,
       success: result.success,
-      improvement: result.metricsImprovement.improvementPercentage,
+      improvement: result.metricsImprovement.improvementPercentage
     });
   }
 

@@ -44,63 +44,63 @@ class FullCampaignExecutor {
 
   constructor() {
     this.startTime = new Date();
-    this.campaignPhases = [
+    this.campaignPhases = [;
       {
         phase: 'Phase 1: High-Confidence Array Types',
         description: 'Replace any[] with unknown[] - highest success rate',
         targetFiles: 30,
         expectedReduction: 80,
-        safetyLevel: 'maximum',
+        safetyLevel: 'maximum'
       },
       {
         phase: 'Phase 2: Record Types',
         description: 'Replace Record<string, any> with Record<string, unknown>',
         targetFiles: 25,
         expectedReduction: 60,
-        safetyLevel: 'high',
+        safetyLevel: 'high'
       },
       {
         phase: 'Phase 3: Variable Declarations',
         description: 'Replace simple variable any types with unknown',
         targetFiles: 20,
         expectedReduction: 50,
-        safetyLevel: 'high',
+        safetyLevel: 'high'
       },
       {
         phase: 'Phase 4: Documentation Pass',
         description: 'Document remaining intentional any types',
         targetFiles: 40,
         expectedReduction: 0,
-        safetyLevel: 'maximum',
+        safetyLevel: 'maximum'
       },
       {
         phase: 'Phase 5: Medium-Risk Categories',
         description: 'Process remaining medium-risk categories with enhanced safety',
         targetFiles: 15,
         expectedReduction: 30,
-        safetyLevel: 'maximum',
-      },
+        safetyLevel: 'maximum'
+      }
     ];
   }
 
   private log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString();
-    const prefix = {
+    const prefix = {;
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅',
+      success: '✅'
     }[level];
 
-    console.log(`[${timestamp}] ${prefix} ${message}`);
+    // console.log(`[${timestamp}] ${prefix} ${message}`);
   }
 
   private getCurrentExplicitAnyCount(): number {
     try {
-      const lintOutput = execSync(
-        'yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any" || echo "0"',
+      const lintOutput = execSync(;
+        'yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any' || echo '0'',
         {
-          encoding: 'utf8',
+          encoding: 'utf8'
         },
       );
       return parseInt(lintOutput.trim()) || 0;
@@ -167,7 +167,7 @@ class FullCampaignExecutor {
         testFiles,
         estimatedUnintentional,
         targetReduction,
-        confidenceScore: 0.85,
+        confidenceScore: 0.85
       };
     } catch (error) {
       this.log(`Error analyzing codebase: ${error}`, 'error');
@@ -177,7 +177,7 @@ class FullCampaignExecutor {
         testFiles: 0,
         estimatedUnintentional: Math.floor(totalExplicitAny * 0.5),
         targetReduction: Math.floor(totalExplicitAny * 0.1),
-        confidenceScore: 0.5,
+        confidenceScore: 0.5
       };
     }
   }
@@ -185,63 +185,63 @@ class FullCampaignExecutor {
   private analyzeDomains(): DomainAnalysis[] {
     this.log('🔍 Analyzing domain-specific any type usage...', 'info');
 
-    const domains = [
+    const domains = [;
       {
         domain: 'Astrological Calculations',
         patterns: ['astro', 'planetary', 'celestial', 'lunar'],
         riskLevel: 'high' as const,
-        recommendedStrategy: 'Conservative - preserve flexibility for astronomical data',
+        recommendedStrategy: 'Conservative - preserve flexibility for astronomical data'
       },
       {
         domain: 'Recipe & Ingredient System',
         patterns: ['recipe', 'ingredient', 'food', 'culinary'],
         riskLevel: 'medium' as const,
-        recommendedStrategy: 'Moderate - replace simple types, preserve complex structures',
+        recommendedStrategy: 'Moderate - replace simple types, preserve complex structures'
       },
       {
         domain: 'Campaign System',
         patterns: ['campaign', 'intelligence', 'batch'],
         riskLevel: 'high' as const,
-        recommendedStrategy: 'Conservative - preserve dynamic configuration capabilities',
+        recommendedStrategy: 'Conservative - preserve dynamic configuration capabilities'
       },
       {
         domain: 'Service Layer',
         patterns: ['service', 'api', 'client'],
         riskLevel: 'medium' as const,
-        recommendedStrategy: 'Moderate - focus on interface improvements',
+        recommendedStrategy: 'Moderate - focus on interface improvements'
       },
       {
         domain: 'React Components',
         patterns: ['component', 'jsx', 'tsx'],
         riskLevel: 'low' as const,
-        recommendedStrategy: 'Aggressive - improve prop type safety',
+        recommendedStrategy: 'Aggressive - improve prop type safety'
       },
       {
         domain: 'Utility Functions',
         patterns: ['util', 'helper', 'common'],
         riskLevel: 'low' as const,
-        recommendedStrategy: 'Aggressive - replace with generic types',
-      },
+        recommendedStrategy: 'Aggressive - replace with generic types'
+      }
     ];
 
-    return domains.map(domain => ({
+    return domains.map(domain => ({;
       domain: domain.domain,
       fileCount: 0, // Would need file system analysis
       anyTypeCount: 0, // Would need detailed analysis
       riskLevel: domain.riskLevel,
-      recommendedStrategy: domain.recommendedStrategy,
+      recommendedStrategy: domain.recommendedStrategy
     }));
   }
 
   private executePhase1(): Promise<number> {
     this.log('\n🚀 Phase 1: High-Confidence Array Types', 'info');
 
-    return new Promise(resolve => {
+    return new Promise(resolve => {;
       try {
         // Use existing script for array type fixes
-        const result = execSync('node fix-non-test-explicit-any.cjs', {
+        const result = execSync('node fix-non-test-explicit-any.cjs', {;
           encoding: 'utf8',
-          stdio: 'pipe',
+          stdio: 'pipe'
         });
 
         this.log('Phase 1 completed - checking results...', 'info');
@@ -261,10 +261,10 @@ class FullCampaignExecutor {
   private executeAdvancedReplacements(): Promise<number> {
     this.log('\n🔧 Executing advanced type replacements...', 'info');
 
-    return new Promise(resolve => {
+    return new Promise(resolve => {;
       try {
         // Create and execute advanced replacement script
-        const advancedScript = `
+        const advancedScript = `;
 const { execSync } = require('child_process');
 const fs = require('fs');
 
@@ -302,7 +302,7 @@ function processAdvancedReplacements() {
         let fileFixes = 0;
 
         // Advanced Record type replacements
-        content = content.replace(/Record<(\\w+),\\s*any>/g, (match, keyType) => {
+        content = content.replace(/Record<(\\w+),\\s*any>/g, (match, keyType) => {;
           fileFixes++;
           return \`Record<\${keyType}, unknown>\`;
         });
@@ -324,29 +324,29 @@ function processAdvancedReplacements() {
           // Validate
           try {
             execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-            console.log(\`✅ Applied \${fileFixes} advanced fixes to \${filePath}\`);
+            // console.log(\`✅ Applied \${fileFixes} advanced fixes to \${filePath}\`);
             totalFixes += fileFixes;
             fs.unlinkSync(backupPath); // Remove backup on success
           } catch (error) {
             // Rollback on failure
             fs.writeFileSync(filePath, originalContent);
             fs.unlinkSync(backupPath);
-            console.log(\`❌ Rolled back \${filePath} due to compilation error\`);
+            // console.log(\`❌ Rolled back \${filePath} due to compilation error\`);
           }
         }
       } catch (error) {
-        console.log(\`Error processing \${filePath}: \${error.message}\`);
+        // console.log(\`Error processing \${filePath}: \${error.message}\`);
       }
     }
 
     return totalFixes;
   } catch (error) {
-    console.log(\`Advanced replacement error: \${error.message}\`);
+    // console.log(\`Advanced replacement error: \${error.message}\`);
     return 0;
   }
 }
 
-console.log(processAdvancedReplacements());
+// console.log(processAdvancedReplacements());
 `;
 
         fs.writeFileSync('temp-advanced-replacements.js', advancedScript);
@@ -367,9 +367,9 @@ console.log(processAdvancedReplacements());
   private documentIntentionalTypes(): Promise<number> {
     this.log('\n📝 Documenting intentional any types...', 'info');
 
-    return new Promise(resolve => {
+    return new Promise(resolve => {;
       try {
-        const documentationScript = `
+        const documentationScript = `;
 const fs = require('fs');
 const { execSync } = require('child_process');
 
@@ -400,7 +400,7 @@ function documentIntentionalAny() {
 
     // Group by file
     const fileGroups = {};
-    anyLocations.forEach(loc => {
+    anyLocations.forEach(loc => {;
       if (!fileGroups[loc.file]) fileGroups[loc.file] = [];
       fileGroups[loc.file].push(loc);
     });
@@ -450,22 +450,22 @@ function documentIntentionalAny() {
 
         if (addedComments > 0) {
           fs.writeFileSync(filePath, lines.join('\\n'));
-          console.log(\`📝 Added \${addedComments} documentation comments to \${filePath}\`);
+          // console.log(\`📝 Added \${addedComments} documentation comments to \${filePath}\`);
           totalDocumented += addedComments;
         }
       } catch (error) {
-        console.log(\`Error documenting \${filePath}: \${error.message}\`);
+        // console.log(\`Error documenting \${filePath}: \${error.message}\`);
       }
     }
 
     return totalDocumented;
   } catch (error) {
-    console.log(\`Documentation error: \${error.message}\`);
+    // console.log(\`Documentation error: \${error.message}\`);
     return 0;
   }
 }
 
-console.log(documentIntentionalAny());
+// console.log(documentIntentionalAny());
 `;
 
         fs.writeFileSync('temp-documentation.js', documentationScript);
@@ -489,9 +489,9 @@ console.log(documentIntentionalAny());
 
     // Pre-campaign analysis
     const analysis = this.analyzeCodebase();
-    this.initialMetrics = {
+    this.initialMetrics = {;
       initialCount: analysis.totalExplicitAny,
-      targetReduction: analysis.targetReduction,
+      targetReduction: analysis.targetReduction
     };
 
     this.log(`📊 Pre-Campaign Analysis:`, 'info');
@@ -505,7 +505,7 @@ console.log(documentIntentionalAny());
     // Domain analysis
     const domains = this.analyzeDomains();
     this.log(`\n🔍 Domain Analysis:`, 'info');
-    domains.forEach(domain => {
+    domains.forEach(domain => {;
       this.log(
         `   ${domain.domain}: ${domain.riskLevel} risk - ${domain.recommendedStrategy}`,
         'info',
@@ -567,7 +567,7 @@ console.log(documentIntentionalAny());
     const actualReduction = this.initialMetrics.initialCount - finalCount;
     const reductionPercentage = (actualReduction / this.initialMetrics.initialCount) * 100;
 
-    const report = `# Unintentional Any Elimination Campaign - Final Report
+    const report = `# Unintentional Any Elimination Campaign - Final Report;
 
 ## Executive Summary
 
@@ -735,16 +735,16 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
 }
 
 // Execute the campaign
-if (require.main === module) {
+if (require.main === module) {;
   const executor = new FullCampaignExecutor();
 
   executor
     .executeFullCampaign()
     .then(() => {
-      console.log('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!');
+      // console.log('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!');
       process.exit(0);
     })
-    .catch(error => {
+    .catch(error => {;
       console.error('\n❌ Campaign execution failed:', error.message);
       process.exit(1);
     });

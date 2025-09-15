@@ -16,7 +16,7 @@ import {
   getAllRecipes,
   getRecipesForPlanetaryAlignment,
   getRecipesForFlavorProfile,
-  getBestRecipeMatches,
+  getBestRecipeMatches
 } from '@/data/recipes';
 import type {
   Element,
@@ -24,7 +24,7 @@ import type {
   ZodiacSign,
   LunarPhase,
   PlanetName,
-  ElementalProperties,
+  ElementalProperties
 } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
 import { ErrorHandler } from '@/utils/errorHandler';
@@ -36,7 +36,7 @@ import { logger } from '../utils/logger';
 import type {
   RecipeServiceInterface,
   RecipeSearchCriteria,
-  RecipeRecommendationOptions,
+  RecipeRecommendationOptions
 } from './interfaces/RecipeServiceInterface';
 import { LocalRecipeService } from './LocalRecipeService';
 import { recipeElementalService } from './RecipeElementalService';
@@ -78,7 +78,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getAllRecipes' },
+        context: { action: 'getAllRecipes' }
       });
       return [];
     }
@@ -89,11 +89,11 @@ export class ConsolidatedRecipeService {
    */
   async searchRecipes(
     criteria: RecipeSearchCriteria,
-    options: RecipeRecommendationOptions = {},
+    options: RecipeRecommendationOptions = {},;
   ): Promise<Recipe[]> {
     try {
       // Convert our criteria to UnifiedRecipeService format
-      const serviceObj = unifiedRecipeService as unknown as {
+      const serviceObj = unifiedRecipeService as unknown as {;
         searchRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const unifiedResults = await serviceObj.searchRecipes(criteria as unknown);
@@ -106,7 +106,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'searchRecipes', criteria },
+        context: { action: 'searchRecipes', criteria }
       });
       return [];
     }
@@ -121,7 +121,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesByCuisine', cuisine },
+        context: { action: 'getRecipesByCuisine', cuisine }
       });
       return [];
     }
@@ -137,7 +137,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesByZodiac', currentZodiacSign },
+        context: { action: 'getRecipesByZodiac', currentZodiacSign }
       });
       return [];
     }
@@ -153,7 +153,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesBySeason', season },
+        context: { action: 'getRecipesBySeason', season }
       });
       return [];
     }
@@ -169,7 +169,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesByLunarPhase', lunarPhase },
+        context: { action: 'getRecipesByLunarPhase', lunarPhase }
       });
       return [];
     }
@@ -184,7 +184,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesByMealType', mealType },
+        context: { action: 'getRecipesByMealType', mealType }
       });
       return [];
     }
@@ -195,7 +195,7 @@ export class ConsolidatedRecipeService {
    */
   async getRecipesForPlanetaryAlignment(
     planetaryInfluences: { [key: string]: number },
-    minMatchScore: number = 0.6,
+    minMatchScore: number = 0.6,;
   ): Promise<Recipe[]> {
     try {
       return (await getRecipesForPlanetaryAlignment(
@@ -205,7 +205,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesForPlanetaryAlignment' },
+        context: { action: 'getRecipesForPlanetaryAlignment' }
       });
       return [];
     }
@@ -216,7 +216,7 @@ export class ConsolidatedRecipeService {
    */
   async getRecipesForFlavorProfile(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7,
+    minMatchScore: number = 0.7,;
   ): Promise<Recipe[]> {
     try {
       return (await getRecipesForFlavorProfile(
@@ -226,7 +226,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesForFlavorProfile' },
+        context: { action: 'getRecipesForFlavorProfile' }
       });
       return [];
     }
@@ -246,14 +246,14 @@ export class ConsolidatedRecipeService {
       elementalFocus?: Element;
       maxResults?: number;
     },
-    limit: number = 10,
+    limit: number = 10,;
   ): Promise<Recipe[]> {
     try {
       return (await getBestRecipeMatches(criteria, limit)) as unknown as Recipe[];
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getBestRecipeMatches', criteria },
+        context: { action: 'getBestRecipeMatches', criteria }
       });
       return [];
     }
@@ -265,7 +265,7 @@ export class ConsolidatedRecipeService {
   async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown as {
+      const serviceData = unifiedRecipeService as unknown as {;
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const generateRecipeMethod = serviceData?.generateRecipe;
@@ -274,7 +274,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'generateRecipe', criteria },
+        context: { action: 'generateRecipe', criteria }
       });
       throw error;
     }
@@ -286,18 +286,18 @@ export class ConsolidatedRecipeService {
   async generateFusionRecipe(cuisines: string[], criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown as {
+      const serviceData = unifiedRecipeService as unknown as {;
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const generateFusionRecipeMethod = serviceData?.generateFusionRecipe;
-      const unifiedResult = generateFusionRecipeMethod
+      const unifiedResult = generateFusionRecipeMethod;
         ? await generateFusionRecipeMethod(cuisines, criteria)
         : null;
       return unifiedResult?.recipe || null;
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'generateFusionRecipe', cuisines, criteria },
+        context: { action: 'generateFusionRecipe', cuisines, criteria }
       });
       throw error;
     }
@@ -309,7 +309,7 @@ export class ConsolidatedRecipeService {
   async adaptRecipeForSeason(recipe: Recipe, season?: Season): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown as {
+      const serviceData = unifiedRecipeService as unknown as {;
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const adaptRecipeMethod = serviceData?.adaptRecipeForCurrentSeason;
@@ -318,7 +318,7 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'adaptRecipeForSeason', recipe, season },
+        context: { action: 'adaptRecipeForSeason', recipe, season }
       });
       return recipe; // Return original recipe on error
     }
@@ -379,4 +379,4 @@ export class ConsolidatedRecipeService {
 
 // Export singleton instance
 
-export const consolidatedRecipeService = ConsolidatedRecipeService.getInstance();
+export const _consolidatedRecipeService = ConsolidatedRecipeService.getInstance();

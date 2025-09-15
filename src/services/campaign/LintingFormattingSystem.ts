@@ -96,7 +96,7 @@ export class LintingFormattingSystem {
       const filesToProcess = targetFiles || (await this.getSourceFiles());
       const batchedFiles = this.batchFiles(filesToProcess);
 
-      let totalResult: LintingFormattingResult = {
+      let totalResult: LintingFormattingResult = {;
         filesProcessed: [],
         lintingViolationsFixed: 0,
         formattingIssuesFixed: 0,
@@ -109,8 +109,8 @@ export class LintingFormattingSystem {
           reactViolations: 0,
           importViolations: 0,
           formattingIssues: 0,
-          customPatternFixes: 0,
-        },
+          customPatternFixes: 0
+        }
       };
 
       // Process files in batches
@@ -124,7 +124,7 @@ export class LintingFormattingSystem {
         // Validate build after each batch if enabled
         if (
           this.config.safetyValidationEnabled &&
-          (i + 1) % this.config.buildValidationFrequency === 0
+          (i + 1) % this.config.buildValidationFrequency === 0;
         ) {
           const buildValid = await this.validateBuild();
           if (!buildValid) {
@@ -139,7 +139,7 @@ export class LintingFormattingSystem {
       logger.info(`Linting and formatting completed in ${executionTime}ms`, {
         filesProcessed: totalResult.filesProcessed.length,
         violationsFixed: totalResult.lintingViolationsFixed,
-        formattingFixed: totalResult.formattingIssuesFixed,
+        formattingFixed: totalResult.formattingIssuesFixed
       });
 
       return totalResult;
@@ -158,8 +158,8 @@ export class LintingFormattingSystem {
           reactViolations: 0,
           importViolations: 0,
           formattingIssues: 0,
-          customPatternFixes: 0,
-        },
+          customPatternFixes: 0
+        }
       };
     }
   }
@@ -277,7 +277,7 @@ export class LintingFormattingSystem {
   // Private implementation methods
 
   private async processBatch(filePaths: string[]): Promise<LintingFormattingResult> {
-    const result: LintingFormattingResult = {
+    const result: LintingFormattingResult = {;
       filesProcessed: [],
       lintingViolationsFixed: 0,
       formattingIssuesFixed: 0,
@@ -290,8 +290,8 @@ export class LintingFormattingSystem {
         reactViolations: 0,
         importViolations: 0,
         formattingIssues: 0,
-        customPatternFixes: 0,
-      },
+        customPatternFixes: 0
+      }
     };
 
     // Step 1: Fix linting violations
@@ -332,7 +332,7 @@ export class LintingFormattingSystem {
     return result;
   }
 
-  private async runESLint(filePaths: string[], fix: boolean = false): Promise<string> {
+  private async runESLint(filePaths: string[], fix: boolean = false): Promise<string> {;
     const fixFlag = fix ? '--fix' : '';
     const filesArg = filePaths.join(' ');
 
@@ -341,7 +341,7 @@ export class LintingFormattingSystem {
       return execSync(command, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000,
+        timeout: 60000
       });
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
@@ -366,8 +366,8 @@ export class LintingFormattingSystem {
             column: message.column,
             ruleId: message.ruleId,
             message: message.message,
-            severity: message.severity === 2 ? 'error' : 'warning',
-            fixable: message.fix !== undefined,
+            severity: message.severity === 2 ? 'error' : 'warning',;
+            fixable: message.fix !== undefined
           });
         }
       }
@@ -384,9 +384,9 @@ export class LintingFormattingSystem {
       const originalContent = fs.readFileSync(filePath, 'utf8');
 
       // Run Prettier
-      const formattedContent = execSync(`npx prettier --write ${filePath}`, {
+      const _formattedContent = execSync(`npx prettier --write ${filePath}`, {;
         encoding: 'utf8',
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       // Check if file was actually changed
@@ -404,8 +404,8 @@ export class LintingFormattingSystem {
     let fixesApplied = 0;
 
     const fileExtension = path.extname(filePath);
-    const enabledPatterns = this.config.patternBasedFixes.filter(
-      pattern => pattern.enabled && pattern.fileExtensions.includes(fileExtension),
+    const enabledPatterns = this.config.patternBasedFixes.filter(;
+      pattern => pattern.enabled && pattern.fileExtensions.includes(fileExtension),;
     );
 
     for (const pattern of enabledPatterns) {
@@ -414,7 +414,7 @@ export class LintingFormattingSystem {
         modifiedContent = modifiedContent.replace(pattern.pattern, pattern.replacement);
         fixesApplied += matches.length;
         logger.info(
-          `Applied pattern fix "${pattern.name}" to ${filePath}: ${matches.length} occurrences`,
+          `Applied pattern fix '${pattern.name}' to ${filePath}: ${matches.length} occurrences`,
         );
       }
     }
@@ -485,8 +485,8 @@ export class LintingFormattingSystem {
 
     // Enforce quote style
     if (formattingRules.enforceQuoteStyle !== 'consistent') {
-      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? "'" : '"';
-      const sourceQuote = formattingRules.enforceQuoteStyle === 'single' ? '"' : "'";
+      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
+      const sourceQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
 
       for (let i = 0; i < modifiedLines.length; i++) {
         const line = modifiedLines[i];
@@ -532,12 +532,12 @@ export class LintingFormattingSystem {
   private async getViolationBreakdown(filePaths: string[]): Promise<ViolationBreakdown> {
     const violations = await this.detectLintingViolations(filePaths);
 
-    const breakdown: ViolationBreakdown = {
+    const breakdown: ViolationBreakdown = {;
       typeScriptErrors: 0,
       reactViolations: 0,
       importViolations: 0,
       formattingIssues: 0,
-      customPatternFixes: 0,
+      customPatternFixes: 0
     };
 
     for (const violation of violations) {
@@ -557,8 +557,8 @@ export class LintingFormattingSystem {
 
   private async getSourceFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
+      const output = execSync(;
+        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' },
       );
       return output.trim().split('\n').filter(Boolean);
@@ -581,7 +581,7 @@ export class LintingFormattingSystem {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 30000,
+        timeout: 30000
       });
       return true;
     } catch (error) {
@@ -612,8 +612,8 @@ export class LintingFormattingSystem {
         formattingIssues:
           total.violationBreakdown.formattingIssues + batch.violationBreakdown.formattingIssues,
         customPatternFixes:
-          total.violationBreakdown.customPatternFixes + batch.violationBreakdown.customPatternFixes,
-      },
+          total.violationBreakdown.customPatternFixes + batch.violationBreakdown.customPatternFixes
+      }
     };
   }
 }
@@ -621,7 +621,7 @@ export class LintingFormattingSystem {
 /**
  * Default configuration for linting and formatting
  */
-export const DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
+export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {;
   maxFilesPerBatch: 25,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,
@@ -632,7 +632,7 @@ export const DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
     enforceReactRules: true,
     enforceImportRules: true,
     maxWarningsThreshold: 1000,
-    customRuleOverrides: {},
+    customRuleOverrides: {}
   },
   formattingRules: {
     enforceConsistentIndentation: true,
@@ -640,7 +640,7 @@ export const DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
     enforceSemicolons: true,
     enforceQuoteStyle: 'single',
     enforceLineLength: 100,
-    enforceSpacing: true,
+    enforceSpacing: true
   },
   patternBasedFixes: [
     {
@@ -657,7 +657,7 @@ export const DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       pattern: /;;/g,
       replacement: ';',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-      enabled: true,
+      enabled: true
     },
     {
       name: 'Remove trailing whitespace',
@@ -665,7 +665,7 @@ export const DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       pattern: /[ \t]+$/gm,
       replacement: '',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-      enabled: true,
+      enabled: true
     },
     {
       name: 'Fix multiple empty lines',
@@ -673,7 +673,7 @@ export const DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       pattern: /\n\s*\n\s*\n/g,
       replacement: '\n\n',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-      enabled: true,
-    },
-  ],
+      enabled: true
+    }
+  ]
 };

@@ -35,7 +35,7 @@ function getElementalChakraMap(): Record<keyof ElementalProperties, Array<keyof 
     Fire: ['solarPlexus', 'root'] as Array<keyof ChakraEnergies>,
     Water: ['sacral', 'heart'] as Array<keyof ChakraEnergies>,
     Earth: ['root'] as Array<keyof ChakraEnergies>,
-    Air: ['throat', 'heart', 'crown'] as Array<keyof ChakraEnergies>,
+    Air: ['throat', 'heart', 'crown'] as Array<keyof ChakraEnergies>
   };
 }
 
@@ -109,14 +109,14 @@ export class ChakraRecipeEnhancer {
     let planetaryHour: Planet = 'Sun' as unknown as Planet;
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
-      if (hourInfo && typeof hourInfo.planet === 'string') {
+      if (hourInfo && typeof hourInfo.planet === 'string') {;
         const planetName = hourInfo.planet as unknown as string;
         // Ensure the planet name is a valid Planet type (capitalize first letter)
         const capitalizedName =
           planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
 
         // Create Planet type validation with enhanced safety
-        const planetValidator = (name: string): Planet | null => {
+        const planetValidator = (name: string): Planet | null => {;
           const validPlanets: string[] = [
             'Sun',
             'Moon',
@@ -124,7 +124,7 @@ export class ChakraRecipeEnhancer {
             'Mercury',
             'Jupiter',
             'Venus',
-            'Saturn',
+            'Saturn'
           ];
           return validPlanets.includes(name) ? (name as unknown as Planet) : null;
         };
@@ -139,7 +139,7 @@ export class ChakraRecipeEnhancer {
     }
 
     // Calculate current chakra energies
-    const chakraEnergies = this.chakraService.calculateChakraEnergies(
+    const chakraEnergies = this.chakraService.calculateChakraEnergies(;
       sunSign,
       moonSign,
       dominantPlanets,
@@ -148,7 +148,7 @@ export class ChakraRecipeEnhancer {
 
     // Enhance each recipe
     return recipes
-      .map(recipe => {
+      .map(recipe => {;
         if (!recipe.elementalProperties) {
           recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         }
@@ -159,7 +159,7 @@ export class ChakraRecipeEnhancer {
         // Calculate planetary alignment
         let planetaryAlignment = 0;
         // Apply surgical type casting with variable extraction
-        const astrologicalAffinities = recipe.astrologicalAffinities as unknown;
+        const astrologicalAffinities = recipe.astrologicalAffinities ;
         const planets = astrologicalAffinities?.planets;
 
         if (planets) {
@@ -167,7 +167,7 @@ export class ChakraRecipeEnhancer {
             planetaryAlignment = 1.0;
           } else {
             const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
-            const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>
+            const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>;
               this.chakraService.getChakrasByPlanet(planet),
             );
 
@@ -189,8 +189,8 @@ export class ChakraRecipeEnhancer {
         }
 
         // Get tarot recommendations for the dominant chakra
-        const recommendations = this.chakraService.getTarotRecommendationsForChakra(
-          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),
+        const recommendations = this.chakraService.getTarotRecommendationsForChakra(;
+          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),;
           chakraEnergies[dominantChakra],
         );
 
@@ -205,7 +205,7 @@ export class ChakraRecipeEnhancer {
           planetaryAlignment,
           totalScore,
           dominantChakra,
-          recommendations,
+          recommendations
         };
       })
       .sort((a, b) => b.totalScore - a.totalScore);

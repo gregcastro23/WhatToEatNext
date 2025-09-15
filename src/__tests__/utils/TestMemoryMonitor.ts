@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-any -- Campaign/test file with intentional patterns */
 /**
  * Test Memory Monitor Utility
  *
@@ -43,12 +43,12 @@ export class TestMemoryMonitor {
 
   constructor(limits?: Partial<TestMemoryMonitor['memoryLimits']>) {
     this.startTime = Date.now();
-    this.memoryLimits = {
+    this.memoryLimits = {;
       heapUsed: 200 * 1024 * 1024, // 200MB
       heapTotal: 300 * 1024 * 1024, // 300MB
       external: 50 * 1024 * 1024, // 50MB
       rss: 400 * 1024 * 1024, // 400MB
-      ...limits,
+      ...limits
     };
   }
 
@@ -76,14 +76,14 @@ export class TestMemoryMonitor {
    */
   takeSnapshot(testName: string): MemorySnapshot {
     const usage = process.memoryUsage();
-    const snapshot: MemorySnapshot = {
+    const snapshot: MemorySnapshot = {;
       timestamp: new Date(),
       testName,
       heapUsed: usage.heapUsed,
       heapTotal: usage.heapTotal,
       external: usage.external,
       arrayBuffers: usage.arrayBuffers,
-      rss: usage.rss,
+      rss: usage.rss
     };
 
     this.snapshots.push(snapshot);
@@ -137,10 +137,10 @@ export class TestMemoryMonitor {
     }
 
     return {
-      isWithinLimits: errors.length === 0,
+      isWithinLimits: errors.length === 0,;
       currentUsage,
       warnings,
-      errors,
+      errors
     };
   }
 
@@ -148,14 +148,14 @@ export class TestMemoryMonitor {
    * Get memory usage summary since monitoring started
    */
   getMemorySummary(): MemorySummary {
-    if (this.snapshots.length === 0) {
+    if (this.snapshots.length === 0) {;
       const current = this.getCurrentMemoryUsage();
       return {
         initialMemory: current.heapUsed / 1024 / 1024,
         currentMemory: current.heapUsed / 1024 / 1024,
         peakMemory: current.heapUsed / 1024 / 1024,
         totalIncrease: 0,
-        testDuration: Date.now() - this.startTime,
+        testDuration: Date.now() - this.startTime
       };
     }
 
@@ -168,7 +168,7 @@ export class TestMemoryMonitor {
       currentMemory: currentUsage.heapUsed / 1024 / 1024,
       peakMemory: peakMemory / 1024 / 1024,
       totalIncrease: (currentUsage.heapUsed - initialSnapshot.heapUsed) / 1024 / 1024,
-      testDuration: Date.now() - this.startTime,
+      testDuration: Date.now() - this.startTime
     };
   }
 
@@ -184,7 +184,7 @@ export class TestMemoryMonitor {
       return {
         isIncreasing: false,
         averageIncrease: 0,
-        concerningTrend: false,
+        concerningTrend: false
       };
     }
 
@@ -203,7 +203,7 @@ export class TestMemoryMonitor {
     return {
       isIncreasing,
       averageIncrease: averageIncrease / 1024 / 1024, // Convert to MB
-      concerningTrend,
+      concerningTrend
     };
   }
 
@@ -221,7 +221,7 @@ export class TestMemoryMonitor {
     try {
       // Clear any test-specific caches
       if (global.__TEST_CACHE__) {
-        if (typeof global.__TEST_CACHE__.clear === 'function') {
+        if (typeof global.__TEST_CACHE__.clear === 'function') {;
           global.__TEST_CACHE__.clear();
           actions.push('Cleared test cache');
         }
@@ -259,14 +259,14 @@ export class TestMemoryMonitor {
       return {
         success: true,
         freedMemory: `${freedMemory.toFixed(2)}MB`,
-        actions,
+        actions
       };
     } catch (error) {
       console.error('Memory cleanup failed:', error);
       return {
         success: false,
         freedMemory: '0MB',
-        actions: [...actions, `Cleanup failed: ${(error as Error).message}`],
+        actions: [...actions, `Cleanup failed: ${(error as Error).message}`]
       };
     }
   }
@@ -305,7 +305,7 @@ export class TestMemoryMonitor {
       summary,
       trend,
       snapshots: this.snapshots,
-      recommendations,
+      recommendations
     };
   }
 
@@ -335,10 +335,10 @@ export class TestMemoryMonitor {
         startTime: this.startTime,
         endTime: Date.now(),
         duration: Date.now() - this.startTime,
-        snapshotCount: this.snapshots.length,
+        snapshotCount: this.snapshots.length
       },
       snapshots: this.snapshots,
-      summary: this.getMemorySummary(),
+      summary: this.getMemorySummary()
     };
   }
 }

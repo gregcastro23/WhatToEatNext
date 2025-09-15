@@ -6,7 +6,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking food with dry heat in an oven or over fire, creating caramelization and browning
  */
-export const roasting: CookingMethodData = {
+export const roasting: CookingMethodData = {;
   name: 'roasting',
   description:
     'Cooking food with dry heat in an oven or over a fire, typically uncovered, creating flavorful browning and caramelization on the exterior while keeping the interior moist',
@@ -14,11 +14,11 @@ export const roasting: CookingMethodData = {
     Fire: 0.6,
     Air: 0.2,
     Earth: 0.2,
-    Water: 0.0,
+    Water: 0.0
   },
   duration: {
     min: 15,
-    max: 240,
+    max: 240
   },
   suitable_for: [
     'meat',
@@ -28,7 +28,7 @@ export const roasting: CookingMethodData = {
     'nuts',
     'seeds',
     'fruits',
-    'coffee beans',
+    'coffee beans'
   ],
   benefits: [
     'enhances flavor through browning',
@@ -36,7 +36,7 @@ export const roasting: CookingMethodData = {
     'renders fat',
     'tenderizes tough cuts',
     'concentrates flavors',
-    'creates appetizing aromas',
+    'creates appetizing aromas'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
@@ -48,7 +48,7 @@ export const roasting: CookingMethodData = {
       waning_gibbous: 1.2, // Enhanced browning
       waxing_crescent: 0.8, // Reduced flavor development
     },
-    rulingPlanets: ['Mars', 'Sun'],
+    rulingPlanets: ['Mars', 'Sun']
   },
   toolsRequired: [
     'Oven or fire source',
@@ -65,7 +65,7 @@ export const roasting: CookingMethodData = {
     'Basting spoon (for continuous flavor addition)',
     'Butcher paper (for resting large cuts)',
     'Probe thermometer with alarm function',
-    'Culinary torch (for finishing and spot caramelization)',
+    'Culinary torch (for finishing and spot caramelization)'
   ],
   commonMistakes: [
     'Oven too hot (causing outer burning before interior cooks)',
@@ -79,10 +79,10 @@ export const roasting: CookingMethodData = {
     'Improper seasoning timing (salt too close to cooking time)',
     'Neglecting to truss irregular shapes (causing uneven cooking)',
     'Basting too frequently (cooling the oven/food)',
-    "Using a pan that's too small (restricting airflow)",
+    'Using a pan that's too small (restricting airflow)',
     'Placing food directly on pan without rack (preventing heat circulation)',
     'Adding vegetables too early (causing overcooking)',
-    'Cutting into meat without proper resting period',
+    'Cutting into meat without proper resting period'
   ],
   pairingSuggestions: [
     'Herb-infused pan sauces from deglazed drippings',
@@ -97,7 +97,7 @@ export const roasting: CookingMethodData = {
     'Fermented accompaniments for probiotic contrast',
     'Fresh herb oils drizzled post-roasting',
     'Contrasting temperatures (cold sauces with hot roast)',
-    'Textural variations (crispy elements with tender roast)',
+    'Textural variations (crispy elements with tender roast)'
   ],
   nutrientRetention: {
     proteins: 0.85,
@@ -143,63 +143,63 @@ export const roasting: CookingMethodData = {
     mediterranean: [
       'herb-infused olive oil roasting',
       'spit roasting with lemon and oregano',
-      'clay pot roasting',
+      'clay pot roasting'
     ],
     french: [
       'high-temperature poultry roasting (poulet rôti)',
       'en cocotte with aromatics',
-      "gigot d'agneau (leg of lamb with garlic)",
+      'gigot d'agneau (leg of lamb with garlic)'
     ],
     chinese: [
       'char siu technique with honey glaze',
       'Peking duck roasting with air-dried skin',
-      'clay oven roasting',
+      'clay oven roasting'
     ],
     south_american: [
       'churrasco with rock salt crust',
       'pachamanca earth oven roasting',
-      'chicha-marinated roasts',
+      'chicha-marinated roasts'
     ],
     middle_eastern: [
-      "slow roasted lamb with sumac and za'atar",
+      'slow roasted lamb with sumac and za'atar',
       'pomegranate-glazed poultry',
-      'saffron-infused roasting',
+      'saffron-infused roasting'
     ],
     northern_european: [
       'beer-basted pork roasts',
       'juniper and caraway seed crusting',
-      'apple-stuffed game birds',
+      'apple-stuffed game birds'
     ],
     indian: [
       'tandoor roasting with yogurt marinades',
       'whole spice crusting',
-      'ghee-basted roasting',
+      'ghee-basted roasting'
     ],
     japanese: [
       'houba-yaki (magnolia leaf-wrapped roasting)',
       'shichirin charcoal roasting',
-      'fish salt-crusting',
+      'fish salt-crusting'
     ],
     korean: [
       'ttukbaegi bulgogi (ceramic pot roasting)',
       'gochujang-glazed meats',
-      'ssam-style leaf wrapping',
+      'ssam-style leaf wrapping'
     ],
     southeast_asian: [
       'banana leaf wrapped roasting',
       'lemongrass stuffed proteins',
-      'coconut shell smoking-roasting',
+      'coconut shell smoking-roasting'
     ],
     african: [
       'berbere-spiced slow roasting',
       'piri-piri fire roasting',
-      'mechoui (pit roasting whole animals)',
+      'mechoui (pit roasting whole animals)'
     ],
     caribbean: [
       'jerk technique with pimento wood',
       'rum-soaked fruit roasting',
-      'citrus-marinated pit roasting',
-    ],
+      'citrus-marinated pit roasting'
+    ]
   },
   chemicalChanges: {
     maillard_reaction: true, // Non-enzymatic browning between amino acids and reducing sugars
@@ -229,7 +229,7 @@ export const roasting: CookingMethodData = {
     'Regular oven maintenance to prevent carbon monoxide issues',
     'Using dedicated cutting boards for raw and cooked proteins',
     'Sanitizing thermometers between temperature checks',
-    'Ensuring sufficient clearance around heating equipment',
+    'Ensuring sufficient clearance around heating equipment'
   ],
   thermodynamicProperties: {
     heat: 0.75, // High heat application
@@ -240,7 +240,7 @@ export const roasting: CookingMethodData = {
 
   // Additional metadata
   history:
-    "Roasting is one of humanity's oldest cooking methods, dating back to the discovery of fire approximately 1.8 million years ago. Archaeological evidence shows spit roasting was common in ancient civilizations throughout Mesopotamia, Egypt, and China. Medieval Europe developed sophisticated roasting techniques, including specialized turnspits operated by servants or even dogs. The 18th century saw innovations like the tin reflector oven, while the 19th century brought reliable temperature-controlled roasting in cast iron stoves. The development of gas and electric ovens in the 20th century standardized roasting temperatures, while the late 20th and early 21st centuries have seen a renewed interest in traditional methods including wood-fired ovens, rotisserie cooking, and precision temperature control with digital technology.",
+    'Roasting is one of humanity's oldest cooking methods, dating back to the discovery of fire approximately 1.8 million years ago. Archaeological evidence shows spit roasting was common in ancient civilizations throughout Mesopotamia, Egypt, and China. Medieval Europe developed sophisticated roasting techniques, including specialized turnspits operated by servants or even dogs. The 18th century saw innovations like the tin reflector oven, while the 19th century brought reliable temperature-controlled roasting in cast iron stoves. The development of gas and electric ovens in the 20th century standardized roasting temperatures, while the late 20th and early 21st centuries have seen a renewed interest in traditional methods including wood-fired ovens, rotisserie cooking, and precision temperature control with digital technology.',
 
   scientificPrinciples: [
     'Maillard reaction creates hundreds of flavor compounds at 280°F-330°F through amino acid-sugar interactions',
@@ -256,7 +256,7 @@ export const roasting: CookingMethodData = {
     'Water activity reduction through evaporation concentrates flavor compounds',
     'Protein coagulation occurs at different temperatures: myosin at 122°F, collagen at 160°F, actin at 180°F',
     'Surface dehydration creates moisture barrier, trapping interior moisture',
-    'Enzymatic activity accelerates until deactivation at specific temperature thresholds',
+    'Enzymatic activity accelerates until deactivation at specific temperature thresholds'
   ],
 
   modernVariations: [
@@ -274,7 +274,7 @@ export const roasting: CookingMethodData = {
     'Flash roasting at extremely high temperatures (700°F+) for rapid exterior development',
     'Dry-aged roasting leveraging enzymatic pre-tenderization',
     'Ultrasonic tenderization before roasting for improved texture',
-    'Liquid nitrogen pre-treatment for crisp exterior development',
+    'Liquid nitrogen pre-treatment for crisp exterior development'
   ],
 
   sustainabilityRating: 0.6, // Moderate energy usage over extended periods
@@ -295,7 +295,7 @@ export const roasting: CookingMethodData = {
     'Enhanced mineral bioavailability in some vegetables through matrix breakdown',
     'Phytochemical changes can either enhance or reduce health benefits',
     'Reduced need for sodium compared to other cooking methods due to flavor development',
-    'Fat-soluble vitamin preservation better than water-soluble vitamins',
+    'Fat-soluble vitamin preservation better than water-soluble vitamins'
   ],
 
   expertTips: [
@@ -318,7 +318,7 @@ export const roasting: CookingMethodData = {
     'When roasting vegetables, preheat the baking sheet for enhanced browning',
     'Apply different herbs at different stages: woody herbs (rosemary, thyme) from the beginning, tender herbs (parsley, basil) after cooking',
     'Use a torch for finishing under-browned areas without additional cooking',
-    'For juicier meat, roast bone-in and skin-on whenever possible',
+    'For juicier meat, roast bone-in and skin-on whenever possible'
   ],
 
   ingredientPreparation: {
@@ -332,14 +332,14 @@ export const roasting: CookingMethodData = {
     lamb: 'Make incisions and insert garlic slivers and herb sprigs; season with salt and allow to rest uncovered for 2-4 hours before cooking. For leg, tunnel bone for even cooking or butterfly for faster roasting. For rack, french the bones and create uniform thickness. For shoulder, consider slow roasting at 275°F for 4-5 hours.',
     fish: 'Score skin to prevent curling; stuff cavity with aromatics; brush with oil; use parchment or foil sling for easy removal. For whole fish, ensure scales and gills are removed. For fillets, place skin-side down on preheated pan. For delicate white fish, create herb crust for protection. For oily fish, reduce oven temperature by at least 25°F.',
     fruits:
-      'Remove pits or cores; cut into uniform pieces; toss with small amount of sugar and spices to enhance caramelization. For apples and pears, treat with lemon water to prevent browning. For stone fruits, roast cut-side up initially, then flip for final caramelization. For citrus, leave peel on for aromatic oils. For bananas, leave in peel and slit one side.',
+      'Remove pits or cores; cut into uniform pieces; toss with small amount of sugar and spices to enhance caramelization. For apples and pears, treat with lemon water to prevent browning. For stone fruits, roast cut-side up initially, then flip for final caramelization. For citrus, leave peel on for aromatic oils. For bananas, leave in peel and slit one side.'
   },
 
   timingConsiderations: {
     rest_before:
       'Bring refrigerated meats to room temperature for 30-60 minutes; season 1-48 hours in advance depending on size. Whole poultry: 1 hour per 4 pounds. Roasts: 1 hour per 5 pounds. Vegetables and fruits require no rest period before roasting.',
     rest_after:
-      "Rest beef and lamb 10-20 minutes; poultry 15-30 minutes; pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don't seal completely to prevent steam softening the crust.",
+      'Rest beef and lamb 10-20 minutes; poultry 15-30 minutes; pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don't seal completely to prevent steam softening the crust.',
     carryover_cooking:
       'Internal temperature will rise 5-10°F for small cuts, 10-15°F for large roasts during resting period. Poultry breasts: 5-10°F rise. Beef rib roast: 10-15°F rise. Pork loin: 5-10°F rise. Fish: minimal rise of 2-5°F. Account for this by removing from heat when temperature reads 5-15°F below target.',
     temperature_adjustment:
@@ -347,16 +347,16 @@ export const roasting: CookingMethodData = {
     timing_by_weight:
       'Calculate roasting time by weight: beef (rare) 15 min/lb, poultry 20 min/lb, pork 20 min/lb at standard temperatures. Precise timing varies by thickness rather than weight: 2-inch thick cuts require different timing than thin, flat cuts of same weight.',
     seasonal_adjustment:
-      'Reduce cooking time for summer vegetables by 15%; increase for winter vegetables by 10%. Adjust for humidity: drier environments may require lower temperatures or shorter times. Higher ambient humidity may require extended cooking times.',
+      'Reduce cooking time for summer vegetables by 15%; increase for winter vegetables by 10%. Adjust for humidity: drier environments may require lower temperatures or shorter times. Higher ambient humidity may require extended cooking times.'
   },
 
   doneness_indicators: {
     beef_rare:
-      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an "OK" sign. Color is purple-red and warm rather than cool.',
+      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an 'OK' sign. Color is purple-red and warm rather than cool.',
     beef_medium:
-      'Internal temperature 135°F; slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an "OK" sign. Color is rosy pink throughout with barely visible fibers.',
+      'Internal temperature 135°F; slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an 'OK' sign. Color is rosy pink throughout with barely visible fibers.',
     beef_well:
-      'Internal temperature 150°F; firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an "OK" sign. No pink visible and meat fibers are clearly defined.',
+      'Internal temperature 150°F; firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an 'OK' sign. No pink visible and meat fibers are clearly defined.',
     poultry:
       'Internal temperature 165°F in thigh; juices run clear; leg moves easily in socket. Probe inserted between thigh and body should meet minimal resistance. For breast, 155°F with rest will achieve safety while maintaining juiciness.',
     pork: 'Internal temperature 145°F with 3-minute rest; slightly pink center is safe and optimal. Modern pork is safe at lower temperatures than historically recommended. Texture should be firm but yield to gentle pressure.',
@@ -371,7 +371,7 @@ export const roasting: CookingMethodData = {
     liver:
       'Internal temperature 140-145°F; center slightly pink; firm but not rigid texture. Overcooked liver becomes grainy and bitter.',
     duck_breast:
-      'Internal temperature 135°F; rendered fat on skin side; crisp skin with cross-hatch scoring. Should have visible rendering of subcutaneous fat layer and minimal resistance when sliced.',
+      'Internal temperature 135°F; rendered fat on skin side; crisp skin with cross-hatch scoring. Should have visible rendering of subcutaneous fat layer and minimal resistance when sliced.'
   },
 
   ingredientInteractions: {
@@ -396,7 +396,7 @@ export const roasting: CookingMethodData = {
     fat_cap_positioning:
       'Place fat cap up for self-basting effect on lean cuts; place cap down on fatty cuts to render into pan for later use. Shield lean areas with bacon or fatback to prevent drying during extended roasting.',
     aromatic_intensity:
-      'Dried herbs should be applied before cooking; fresh herbs partition into early additions (woody types) and finishing herbs (tender varieties). Garlic bitter compounds develop after prolonged high-heat exposure; add halfway through for optimal flavor.',
+      'Dried herbs should be applied before cooking; fresh herbs partition into early additions (woody types) and finishing herbs (tender varieties). Garlic bitter compounds develop after prolonged high-heat exposure; add halfway through for optimal flavor.'
   },
 
   technicalNotes: {
@@ -412,7 +412,7 @@ export const roasting: CookingMethodData = {
       rubbing:
         'Oil provides better heat transfer than dry surface; helps seasonings adhere; creates vapor barrier that retains moisture.',
       torch_finishing:
-        'Provides intense surface heat without additional cooking; targets under-developed areas; uses fat as fuel for flavor.',
+        'Provides intense surface heat without additional cooking; targets under-developed areas; uses fat as fuel for flavor.'
     },
     meat_science: {
       collagen_conversion:
@@ -426,7 +426,7 @@ export const roasting: CookingMethodData = {
       myoglobin_states:
         'Deoxymyoglobin (purple-red, raw), oxymyoglobin (bright red, minimal cooking), metmyoglobin (brown, well done).',
       water_binding:
-        'Proteins hold water until heated to specific temperatures, after which they contract and release moisture.',
+        'Proteins hold water until heated to specific temperatures, after which they contract and release moisture.'
     },
     oven_dynamics: {
       conventional:
@@ -440,7 +440,7 @@ export const roasting: CookingMethodData = {
       thermal_mass:
         'Heavy pans moderate temperature fluctuations, creating more stable cooking environment.',
       hood_ventilation:
-        'Proper ventilation removes smoke and steam, improving ambient cooking conditions and preventing off-flavors.',
+        'Proper ventilation removes smoke and steam, improving ambient cooking conditions and preventing off-flavors.'
     },
     flavor_development: {
       maillard_byproducts:
@@ -454,7 +454,7 @@ export const roasting: CookingMethodData = {
       umami_development:
         'Glutamates concentrate through moisture loss, enhancing savory perception.',
       flavor_precursors:
-        'Certain molecules require heat transformation to become perceivable flavors; inosinate in meat converts to recognizable "meaty" flavors.',
+        'Certain molecules require heat transformation to become perceivable flavors; inosinate in meat converts to recognizable 'meaty' flavors.'
     },
     equipment_selection: {
       roasting_pans:
@@ -468,7 +468,7 @@ export const roasting: CookingMethodData = {
       specialized_equipment:
         'Vertical roasters for poultry maximize skin exposure; rotisseries provide continuous basting action.',
       spit_roasting:
-        'Continuous rotation creates self-basting effect; proximity to heat source creates unique flavor development.',
-    },
-  },
+        'Continuous rotation creates self-basting effect; proximity to heat source creates unique flavor development.'
+    }
+  }
 };

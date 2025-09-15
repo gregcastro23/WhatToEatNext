@@ -46,12 +46,12 @@ export default function ModernComponent(): any {
 
       // Should not have react/react-in-jsx-scope error
       expect(result.output).not.toContain('react/react-in-jsx-scope');
-      expect(result.output).not.toContain("'React' must be in scope when using JSX");
+      expect(result.output).not.toContain(''React' must be in scope when using JSX');
     });
 
     test('should handle JSX without React import in components', () => {
       const testFile: any = path.join(testFilesDir, 'jsx-component.tsx');
-      const content: any = `
+      const content: any = `;
 interface Props {
   title: string;,
   children: React.ReactNode;
@@ -77,13 +77,13 @@ export function JSXComponent(: any : any { title, children }: Props) {
 
     test('should validate JSX key prop usage', () => {
       const testFile: any = path.join(testFilesDir, 'jsx-key-validation.tsx');
-      const content: any = `
+      const content: any = `;
 export function ListComponent(): any {
   const items: any = ['a', 'b', 'c'];
 
   return (
     <ul>
-      {items.map(item => (
+      {items.map(item => (;
         <li>{item}</li>
       ))}
     </ul>
@@ -107,7 +107,7 @@ export function ConcurrentComponent(): any {
   const [isPending, startTransition] = useTransition()
   const deferredValue: any = useDeferredValue('test');
 
-  const handleClick: any = () => {
+  const handleClick: any = () => {;
     startTransition(() => {
       // Non-urgent update;
       console.log('Transition started');
@@ -115,9 +115,9 @@ export function ConcurrentComponent(): any {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>;
       <div>
-        <button onClick={() => void handleClick()} disabled={isPending}>
+        <button onClick={() => void handleClick()} disabled={isPending}>;
           {isPending ? 'Loading...' : 'Click me'}
         </button>
         <p>Deferred: {deferredValue}</p>
@@ -138,7 +138,7 @@ export function ConcurrentComponent(): any {
   describe('Next.js 15 App Router Support', () => {
     test('should handle App Router page components', () => {
       const testFile: any = path.join(testFilesDir, 'app-page.tsx');
-      const content: any = `
+      const content: any = `;
 // Next.js 15 App Router page component
 export default function Page(): any {
   return (
@@ -165,15 +165,15 @@ export function generateMetadata(): any {
 
     test('should handle App Router layout components', () => {
       const testFile: any = path.join(testFilesDir, 'app-layout.tsx');
-      const content: any = `
+      const content: any = `;
 // Next.js 15 App Router layout component
 export default function RootLayout(: any : any {
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>;
       <body>
         <nav>Navigation</nav>
         {children}
@@ -193,11 +193,11 @@ export default function RootLayout(: any : any {
 
     test('should handle Server Components', () => {
       const testFile: any = path.join(testFilesDir, 'server-component.tsx');
-      const _content: any = `
+      const _content: any = `;
 // Next.js 15 Server Component
 async function ServerComponent(): any {
   const data = fetch;
-  const json = await data.json()
+  const json = await data.json();
 ;
   return (
     <div>
@@ -217,7 +217,7 @@ export default ServerComponent;
 
     test('should handle Client Components with use client directive', () => {
       const testFile: any = path.join(testFilesDir, 'client-component.tsx');
-      const content: any = `
+      const content: any = `;
 'use client';
 
 import { useState } from 'react';
@@ -260,7 +260,7 @@ export function EnhancedHooksComponent(): any {
   }, []); // Missing dependency
 
   // Recoil callback hook
-  const recoilCallback: any = useRecoilCallback(({ set }: any) => () => {
+  const _recoilCallback: any = useRecoilCallback(({ set }: any) => () => {;
     console.log(value);
   }, []); // Missing dependency
 
@@ -337,7 +337,7 @@ const LazyComponent = lazy(() => import('./LazyComponent'));
 
 export function SuspenseBoundary(): any {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>;
       <LazyComponent />
     </Suspense>
   );
@@ -409,8 +409,8 @@ interface CustomProps {
 
 type ButtonProps = ComponentProps<'button'> & CustomProps;
 
-export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
-  title: any, optional = false: any, children
+export const _TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
+  title: any, optional = false: any, children;
 }: any) => {
   return (
     <div>
@@ -421,7 +421,7 @@ export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   );
 };
 
-export const TypedButton: FC<ButtonProps> = ({ title: any,  ...buttonProps }) => {
+export const _TypedButton: FC<ButtonProps> = ({ title: any,  ...buttonProps }) => {
   return (
     <button {...buttonProps}>
       {title}
@@ -439,7 +439,7 @@ export const TypedButton: FC<ButtonProps> = ({ title: any,  ...buttonProps }) =>
 
     test('should validate prop types with TypeScript', () => {
       const testFile: any = path.join(testFilesDir, 'prop-validation.tsx');
-      const content: any = `
+      const content: any = `;
 interface Props {
   required: string;
   optional?: number;,
@@ -447,14 +447,14 @@ interface Props {
 }
 
 export function PropValidationComponent(: any : any { required, optional, callback }: Props) {
-  const handleClick: any = () => {
+  const handleClick: any = () => {;
     callback(required);
   };
 
   return (<div>
       <p>{required}</p>
       {optional && <p>{optional}</p>}
-      <button onClick={() => void handleClick()}>Click</button>
+      <button onClick={() => void handleClick()}>Click</button>;
     </div>
   );
 }
@@ -495,7 +495,7 @@ export function PropValidationComponent(: any : any { required, optional, callba
       const eslintConfig = require('../../../eslint.(config as any).cjs');
 
       // Find React hooks configuration
-      const hooksConfig = eslintConfig.find(
+      const hooksConfig = eslintConfig.find(;
         (config: any) => (config as any).rules && (config).rules['react-hooks/exhaustive-deps'],
       );
 
@@ -503,8 +503,8 @@ export function PropValidationComponent(: any : any { required, optional, callba
       expect(hooksConfig.rules['react-hooks/exhaustive-deps']).toEqual([
         'warn',
         {
-          additionalHooks: '(useRecoilCallback|useRecoilTransaction_UNSTABLE)',
-        },
+          additionalHooks: '(useRecoilCallback|useRecoilTransaction_UNSTABLE)'
+        }
       ]);
     });
 
@@ -536,36 +536,36 @@ interface ItemProps {
   onClick: (i, d: number) => void;
 }
 
-const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {
-  const handleClick = useCallback(() => {
+const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {;
+  const handleClick = useCallback(() => {;
     onClick_(id);
   }, [id, onClick]);
 
-  return (<div onClick={() => void handleClick()}>
+  return (<div onClick={() => void handleClick()}>;
       {name}
     </div>
   );
 });
 
 export function LargeComponentTree(): any {
-  const items: any = useMemo(() =>
+  const items: any = useMemo(() =>;
     Array.from({ length: 1000 }, (_, i) => ({
   id: i,
       name: \`Item \${i}\`
     }))
   , []);
 
-  const handleItemClick: any = useCallback((id: number) => {
+  const handleItemClick: any = useCallback((id: number) => {;
     console.log('Clicked item:', id);
   }, []);
 
   return (<div>
-      {items.map(item => (
+      {items.map(item => (;
         <MemoizedItem
-          key={item.id}
-          id={item.id}
+          key={item.id};
+          id={item.id};
           name={item.name};
-          onClick={() => void handleItemClick()}
+          onClick={() => void handleItemClick()};
         />
       ))}
     </div>
@@ -591,11 +591,11 @@ import { useCustomHook } from '@/hooks/useCustomHook';
 
 import './styles.css';
 
-const ImportOrganizationPage: NextPage = () => {
+const ImportOrganizationPage: NextPage = () => {;
   const [state, setState] = useState('');
-  const customValue: any = useCustomHook()
+  const customValue: any = useCustomHook();
 
-  const memoizedValue = useMemo(() => {
+  const memoizedValue = useMemo(() => {;
     return state.toUpperCase()
   }, [state]);
 
@@ -605,7 +605,7 @@ const ImportOrganizationPage: NextPage = () => {
 
   return (
     <div>
-      <CustomComponent value={memoizedValue} />
+      <CustomComponent value={memoizedValue} />;
       <p>{customValue}</p>
     </div>
   );
@@ -628,16 +628,16 @@ export default ImportOrganizationPage;
  */
 function runESLintOnFile(filePath: string): { exitCode: number; outpu, t: string } {
   try {
-    const output = execSync(`npx eslint --config eslint.(config).cjs "${filePath}" --format=compact`, {
+    const output = execSync(`npx eslint --config eslint.(config).cjs '${filePath}' --format=compact`, {;
       encoding: 'utf8',
-      stdio: 'pipe',
+      stdio: 'pipe'
     });
     return { exitCode: 0, output };
   } catch (error: any) {
     const err = error;
     return {
       exitCode: err.status || 1,
-      output: err.stdout || err.message || '',
+      output: err.stdout || err.message || ''
     };
   }
 }

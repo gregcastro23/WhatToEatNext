@@ -15,7 +15,7 @@ import {
   DomainDistribution,
   ManualReviewRecommendation,
   SuccessRateAnalysis,
-  TrendingData,
+  TrendingData
 } from './types';
 
 /**
@@ -38,7 +38,7 @@ export class AnalysisTools {
    * Analyze current any type distribution by domain
    */
   async analyzeDomainDistribution(): Promise<DomainDistribution> {
-    console.log('Analyzing any type distribution by domain...');
+    // console.log('Analyzing any type distribution by domain...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
     const domainDistribution: Record<CodeDomain, number> = {
@@ -49,7 +49,7 @@ export class AnalysisTools {
       [CodeDomain.SERVICE]: 0,
       [CodeDomain.COMPONENT]: 0,
       [CodeDomain.UTILITY]: 0,
-      [CodeDomain.TEST]: 0,
+      [CodeDomain.TEST]: 0
     };
 
     const categoryDistribution: Record<AnyTypeCategory, number> = {
@@ -62,7 +62,7 @@ export class AnalysisTools {
       [AnyTypeCategory.RECORD_TYPE]: 0,
       [AnyTypeCategory.FUNCTION_PARAM]: 0,
       [AnyTypeCategory.RETURN_TYPE]: 0,
-      [AnyTypeCategory.TYPE_ASSERTION]: 0,
+      [AnyTypeCategory.TYPE_ASSERTION]: 0
     };
 
     const intentionalCount = { count: 0 };
@@ -88,32 +88,32 @@ export class AnalysisTools {
     }
 
     const totalCount = anyTypeOccurrences.length;
-    const distribution: DomainDistribution = {
+    const distribution: DomainDistribution = {;
       totalAnyTypes: totalCount,
       byDomain: Object.entries(domainDistribution).map(([domain, count]) => ({
         domain: domain as CodeDomain,
         count,
-        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0,
+        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0
       })),
       byCategory: Object.entries(categoryDistribution).map(([category, count]) => ({
         category: category as AnyTypeCategory,
         count,
-        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0,
+        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0
       })),
       intentionalVsUnintentional: {
         intentional: {
           count: intentionalCount.count,
-          percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0,
+          percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0
         },
         unintentional: {
           count: unintentionalCount.count,
-          percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0,
-        },
+          percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0
+        }
       },
-      analysisDate: new Date(),
+      analysisDate: new Date()
     };
 
-    console.log(`Domain distribution analysis complete: ${totalCount} any types found`);
+    // console.log(`Domain distribution analysis complete: ${totalCount} any types found`);
     return distribution;
   }
 
@@ -121,7 +121,7 @@ export class AnalysisTools {
    * Implement classification accuracy reporting
    */
   async generateClassificationAccuracyReport(): Promise<ClassificationAccuracyReport> {
-    console.log('Generating classification accuracy report...');
+    // console.log('Generating classification accuracy report...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
     const sampleSize = Math.min(100, anyTypeOccurrences.length); // Sample for accuracy testing
@@ -140,7 +140,7 @@ export class AnalysisTools {
       [AnyTypeCategory.RECORD_TYPE]: { correct: 0, total: 0 },
       [AnyTypeCategory.FUNCTION_PARAM]: { correct: 0, total: 0 },
       [AnyTypeCategory.RETURN_TYPE]: { correct: 0, total: 0 },
-      [AnyTypeCategory.TYPE_ASSERTION]: { correct: 0, total: 0 },
+      [AnyTypeCategory.TYPE_ASSERTION]: { correct: 0, total: 0 }
     };
 
     for (const occurrence of sample) {
@@ -162,24 +162,24 @@ export class AnalysisTools {
     const overallAccuracy =
       totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0;
     const averageConfidence =
-      confidenceScores.length > 0
+      confidenceScores.length > 0;
         ? confidenceScores.reduce((sum, score) => sum + score, 0) / confidenceScores.length
         : 0;
 
-    const report: ClassificationAccuracyReport = {
+    const report: ClassificationAccuracyReport = {;
       overallAccuracy,
       averageConfidence,
       sampleSize,
       categoryAccuracy: Object.entries(categoryAccuracy).map(([category, stats]) => ({
         category: category as AnyTypeCategory,
         accuracy: stats.total > 0 ? (stats.correct / stats.total) * 100 : 0,
-        sampleCount: stats.total,
+        sampleCount: stats.total
       })),
       confidenceDistribution: this.calculateConfidenceDistribution(confidenceScores),
-      reportDate: new Date(),
+      reportDate: new Date()
     };
 
-    console.log(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`);
+    // console.log(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`);
     return report;
   }
 
@@ -187,7 +187,7 @@ export class AnalysisTools {
    * Add success rate analysis and trending
    */
   async generateSuccessRateAnalysis(): Promise<SuccessRateAnalysis> {
-    console.log('Generating success rate analysis and trending...');
+    // console.log('Generating success rate analysis and trending...');
 
     const currentMetrics = await this.getCurrentMetrics();
     const historicalData = this.getHistoricalTrendingData();
@@ -198,7 +198,7 @@ export class AnalysisTools {
     // Calculate trending data
     const trendingData = this.calculateTrendingMetrics(historicalData);
 
-    const analysis: SuccessRateAnalysis = {
+    const analysis: SuccessRateAnalysis = {;
       currentSuccessRate: currentMetrics.overallSuccessRate,
       targetSuccessRate: 85, // Target 85% success rate
       improvementNeeded: Math.max(0, 85 - currentMetrics.overallSuccessRate),
@@ -206,10 +206,10 @@ export class AnalysisTools {
       trendingData,
       projectedCompletion: this.calculateProjectedCompletion(trendingData),
       recommendations: await this.generateSuccessRateRecommendations(categorySuccessRates),
-      analysisDate: new Date(),
+      analysisDate: new Date()
     };
 
-    console.log(
+    // console.log(
       `Success rate analysis complete: ${currentMetrics.overallSuccessRate.toFixed(1)}% current success rate`,
     );
     return analysis;
@@ -219,7 +219,7 @@ export class AnalysisTools {
    * Create recommendations for manual review cases
    */
   async generateManualReviewRecommendations(): Promise<ManualReviewRecommendation[]> {
-    console.log('Generating manual review recommendations...');
+    // console.log('Generating manual review recommendations...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
     const recommendations: ManualReviewRecommendation[] = [];
@@ -230,7 +230,7 @@ export class AnalysisTools {
 
       // Identify cases that need manual review
       if (this.requiresManualReview(classification, context)) {
-        const recommendation: ManualReviewRecommendation = {
+        const recommendation: ManualReviewRecommendation = {;
           filePath: occurrence.filePath,
           lineNumber: occurrence.lineNumber,
           codeSnippet: occurrence.codeSnippet,
@@ -239,7 +239,7 @@ export class AnalysisTools {
           priority: this.calculateReviewPriority(classification, context),
           suggestedActions: await this.generateSuggestedActions(classification, context),
           estimatedEffort: this.estimateReviewEffort(classification, context),
-          relatedOccurrences: await this.findRelatedOccurrences(occurrence),
+          relatedOccurrences: await this.findRelatedOccurrences(occurrence)
         };
 
         recommendations.push(recommendation);
@@ -252,7 +252,7 @@ export class AnalysisTools {
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
 
-    console.log(
+    // console.log(
       `Manual review recommendations complete: ${recommendations.length} cases identified`,
     );
     return recommendations;
@@ -262,17 +262,17 @@ export class AnalysisTools {
    * Generate comprehensive analysis report
    */
   async generateComprehensiveReport(): Promise<AnalysisReport> {
-    console.log('Generating comprehensive analysis report...');
+    // console.log('Generating comprehensive analysis report...');
 
     const [domainDistribution, accuracyReport, successRateAnalysis, manualReviewRecommendations] =
       await Promise.all([
         this.analyzeDomainDistribution(),
         this.generateClassificationAccuracyReport(),
         this.generateSuccessRateAnalysis(),
-        this.generateManualReviewRecommendations(),
+        this.generateManualReviewRecommendations()
       ]);
 
-    const report: AnalysisReport = {
+    const report: AnalysisReport = {;
       id: `analysis-${Date.now()}`,
       timestamp: new Date(),
       domainDistribution,
@@ -286,15 +286,15 @@ export class AnalysisTools {
         currentSuccessRate: successRateAnalysis.currentSuccessRate,
         manualReviewCases: manualReviewRecommendations.length,
         topDomain: this.getTopDomain(domainDistribution),
-        topCategory: this.getTopCategory(domainDistribution),
-      },
+        topCategory: this.getTopCategory(domainDistribution)
+      }
     };
 
     // Save report to history
     this.analysisHistory.push(report);
     await this.saveAnalysisHistory();
 
-    console.log('Comprehensive analysis report generated successfully');
+    // console.log('Comprehensive analysis report generated successfully');
     return report;
   }
 
@@ -307,10 +307,10 @@ export class AnalysisTools {
 
     try {
       // Use grep to find all explicit any types
-      const grepCommand = `grep -rn "\\bany\\b" src --include="*.ts" --include="*.tsx" | head -1000`;
+      const grepCommand = `grep -rn '\\bany\\b' src --include='*.ts' --include='*.tsx' | head -1000`;
       const output = execSync(grepCommand, { encoding: 'utf8', stdio: 'pipe' });
 
-      const lines = output
+      const lines = output;
         .trim()
         .split('\n')
         .filter(line => line.trim());
@@ -322,7 +322,7 @@ export class AnalysisTools {
           occurrences.push({
             filePath: filePath.trim(),
             lineNumber: parseInt(lineNumber),
-            codeSnippet: codeSnippet.trim(),
+            codeSnippet: codeSnippet.trim()
           });
         }
       }
@@ -338,12 +338,12 @@ export class AnalysisTools {
     lineNumber: number;
     codeSnippet: string;
   }): Promise<ClassificationContext> {
-    const surroundingLines = await this.getSurroundingLines(
+    const surroundingLines = await this.getSurroundingLines(;
       occurrence.filePath,
       occurrence.lineNumber,
     );
     const hasExistingComment = this.hasExistingComment(surroundingLines);
-    const domainContext = await this.domainAnalyzer.analyzeDomain({
+    const domainContext = await this.domainAnalyzer.analyzeDomain({;
       filePath: occurrence.filePath,
       lineNumber: occurrence.lineNumber,
       codeSnippet: occurrence.codeSnippet,
@@ -355,8 +355,8 @@ export class AnalysisTools {
         domain: CodeDomain.UTILITY,
         intentionalityHints: [],
         suggestedTypes: [],
-        preservationReasons: [],
-      },
+        preservationReasons: []
+      }
     });
 
     return {
@@ -368,7 +368,7 @@ export class AnalysisTools {
       existingComment: hasExistingComment ? this.extractComment(surroundingLines) : undefined,
       isInTestFile:
         occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
-      domainContext,
+      domainContext
     };
   }
 
@@ -386,14 +386,14 @@ export class AnalysisTools {
 
   private hasExistingComment(surroundingLines: string[]): boolean {
     return surroundingLines.some(
-      line =>
+      line =>;
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*'),
     );
   }
 
   private extractComment(surroundingLines: string[]): string {
-    const commentLines = surroundingLines.filter(
-      line =>
+    const commentLines = surroundingLines.filter(;
+      line =>;
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*'),
     );
     return commentLines.join(' ').trim();
@@ -406,24 +406,24 @@ export class AnalysisTools {
     // Heuristic validation based on context
 
     // Error handling should be in catch blocks
-    if (classification.category === AnyTypeCategory.ERROR_HANDLING) {
+    if (classification.category === AnyTypeCategory.ERROR_HANDLING) {;
       return context.codeSnippet.includes('catch') || context.codeSnippet.includes('error');
     }
 
     // Test mocks should be in test files
-    if (classification.category === AnyTypeCategory.TEST_MOCK) {
+    if (classification.category === AnyTypeCategory.TEST_MOCK) {;
       return context.isInTestFile;
     }
 
     // Array types should contain array syntax
-    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
+    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {;
       return (
         context.codeSnippet.includes('any[]') || context.codeSnippet.includes('Array<unknown>')
       );
     }
 
     // Record types should contain Record syntax
-    if (classification.category === AnyTypeCategory.RECORD_TYPE) {
+    if (classification.category === AnyTypeCategory.RECORD_TYPE) {;
       return context.codeSnippet.includes('Record<') && context.codeSnippet.includes('any');
     }
 
@@ -434,20 +434,20 @@ export class AnalysisTools {
   private calculateConfidenceDistribution(
     scores: number[],
   ): { range: string; count: number; percentage: number }[] {
-    const ranges = [
+    const ranges = [;
       { min: 0.9, max: 1.0, label: '90-100%' },
       { min: 0.8, max: 0.9, label: '80-90%' },
       { min: 0.7, max: 0.8, label: '70-80%' },
       { min: 0.6, max: 0.7, label: '60-70%' },
-      { min: 0.0, max: 0.6, label: '0-60%' },
+      { min: 0.0, max: 0.6, label: '0-60%' }
     ];
 
-    return ranges.map(range => {
+    return ranges.map(range => {;
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
         range: range.label,
         count,
-        percentage: scores.length > 0 ? (count / scores.length) * 100 : 0,
+        percentage: scores.length > 0 ? (count / scores.length) * 100 : 0
       };
     });
   }
@@ -459,7 +459,7 @@ export class AnalysisTools {
       totalProcessed: 1250,
       successfulReplacements: 982,
       failedReplacements: 268,
-      averageConfidence: 0.82,
+      averageConfidence: 0.82
     };
   }
 
@@ -469,14 +469,14 @@ export class AnalysisTools {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     return this.analysisHistory
-      .filter(report => report.timestamp >= thirtyDaysAgo)
-      .map(report => ({
+      .filter(report => report.timestamp >= thirtyDaysAgo);
+      .map(report => ({;
         date: report.timestamp,
         successRate: report.successRateAnalysis.currentSuccessRate,
         totalAnyTypes: report.domainDistribution.totalAnyTypes,
         unintentionalCount:
           report.domainDistribution.intentionalVsUnintentional.unintentional.count,
-        classificationAccuracy: report.accuracyReport.overallAccuracy,
+        classificationAccuracy: report.accuracyReport.overallAccuracy
       }));
   }
 
@@ -494,18 +494,18 @@ export class AnalysisTools {
       { category: AnyTypeCategory.EXTERNAL_API, successRate: 52.3, sampleSize: 76 },
       { category: AnyTypeCategory.TEST_MOCK, successRate: 89.7, sampleSize: 134 },
       { category: AnyTypeCategory.DYNAMIC_CONFIG, successRate: 38.9, sampleSize: 67 },
-      { category: AnyTypeCategory.LEGACY_COMPATIBILITY, successRate: 41.2, sampleSize: 45 },
+      { category: AnyTypeCategory.LEGACY_COMPATIBILITY, successRate: 41.2, sampleSize: 45 }
     ];
   }
 
   private calculateTrendingMetrics(historicalData: TrendingData[]): TrendingData {
-    if (historicalData.length === 0) {
+    if (historicalData.length === 0) {;
       return {
         date: new Date(),
         successRate: 0,
         totalAnyTypes: 0,
         unintentionalCount: 0,
-        classificationAccuracy: 0,
+        classificationAccuracy: 0
       };
     }
 
@@ -523,8 +523,8 @@ export class AnalysisTools {
         totalAnyTypesChange: latest.totalAnyTypes - previous.totalAnyTypes,
         unintentionalCountChange: latest.unintentionalCount - previous.unintentionalCount,
         classificationAccuracyChange:
-          latest.classificationAccuracy - previous.classificationAccuracy,
-      },
+          latest.classificationAccuracy - previous.classificationAccuracy
+      }
     };
   }
 
@@ -589,7 +589,7 @@ export class AnalysisTools {
 
     if (highSuccessCategories.length > 0) {
       recommendations.push(
-        `Prioritize ${highSuccessCategories.map(cat => cat.category).join(', ')} categories for quick wins`,
+        `Prioritize ${highSuccessCategories.map(cat => cat.category).join(', ')} categories for quick wins`,;
       );
     }
 
@@ -616,10 +616,10 @@ export class AnalysisTools {
     }
 
     // High-risk categories need manual review
-    const highRiskCategories = [
+    const highRiskCategories = [;
       AnyTypeCategory.EXTERNAL_API,
       AnyTypeCategory.DYNAMIC_CONFIG,
-      AnyTypeCategory.LEGACY_COMPATIBILITY,
+      AnyTypeCategory.LEGACY_COMPATIBILITY
     ];
 
     return highRiskCategories.includes(classification.category);
@@ -721,10 +721,10 @@ export class AnalysisTools {
     const relatedOccurrences: Array<{ filePath: string; lineNumber: number }> = [];
 
     try {
-      const grepCommand = `grep -n "\\bany\\b" "${occurrence.filePath}"`;
+      const grepCommand = `grep -n '\\bany\\b' '${occurrence.filePath}'`;
       const output = execSync(grepCommand, { encoding: 'utf8', stdio: 'pipe' });
 
-      const lines = output
+      const lines = output;
         .trim()
         .split('\n')
         .filter(line => line.trim());
@@ -736,7 +736,7 @@ export class AnalysisTools {
           if (lineNumber !== occurrence.lineNumber) {
             relatedOccurrences.push({
               filePath: occurrence.filePath,
-              lineNumber,
+              lineNumber
             });
           }
         }
@@ -749,14 +749,14 @@ export class AnalysisTools {
   }
 
   private getTopDomain(distribution: DomainDistribution): CodeDomain {
-    const topDomain = distribution.byDomain.reduce((max, current) =>
+    const topDomain = distribution.byDomain.reduce((max, current) =>;
       current.count > max.count ? current : max,
     );
     return topDomain.domain;
   }
 
   private getTopCategory(distribution: DomainDistribution): AnyTypeCategory {
-    const topCategory = distribution.byCategory.reduce((max, current) =>
+    const topCategory = distribution.byCategory.reduce((max, current) =>;
       current.count > max.count ? current : max,
     );
     return topCategory.category;
@@ -764,7 +764,7 @@ export class AnalysisTools {
 
   private loadAnalysisHistory(): void {
     try {
-      const historyPath = path.join(
+      const historyPath = path.join(;
         process.cwd(),
         '.kiro',
         'campaign-reports',

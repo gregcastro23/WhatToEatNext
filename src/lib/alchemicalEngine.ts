@@ -7,7 +7,7 @@ import type {
   Ingredient,
   LunarPhase,
   Recipe,
-  ZodiacSign,
+  ZodiacSign
 } from '@/types/alchemy';
 // SpoonacularRecipe import removed with Spoonacular service cleanup
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
@@ -52,14 +52,14 @@ export class AlchemicalEngineBase {
     Fire: ['Air'],
     Air: ['Water'],
     Water: ['Earth'],
-    Earth: ['Fire'],
+    Earth: ['Fire']
   };
 
   private readonly elementalStrengths: Record<string, number> = {
     Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1,
+    Earth: 1
   };
 
   private readonly zodiacElements: Record<
@@ -78,97 +78,97 @@ export class AlchemicalEngineBase {
       decans: [
         { degrees: [0, 10], element: 'Fire', ruler: 'Mars' },
         { degrees: [10, 20], element: 'Fire', ruler: 'Sun' },
-        { degrees: [20, 30], element: 'Fire', ruler: 'Jupiter' },
-      ],
+        { degrees: [20, 30], element: 'Fire', ruler: 'Jupiter' }
+      ]
     },
     taurus: {
       baseElement: 'Earth',
       decans: [
         { degrees: [0, 10], element: 'Earth', ruler: 'Venus' },
         { degrees: [10, 20], element: 'Earth', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Earth', ruler: 'Saturn' },
-      ],
+        { degrees: [20, 30], element: 'Earth', ruler: 'Saturn' }
+      ]
     },
     leo: {
       baseElement: 'Fire',
       decans: [
         { degrees: [0, 10], element: 'Fire', ruler: 'Mars' },
         { degrees: [10, 20], element: 'Fire', ruler: 'Sun' },
-        { degrees: [20, 30], element: 'Fire', ruler: 'Jupiter' },
-      ],
+        { degrees: [20, 30], element: 'Fire', ruler: 'Jupiter' }
+      ]
     },
     sagittarius: {
       baseElement: 'Fire',
       decans: [
         { degrees: [0, 10], element: 'Fire', ruler: 'Mars' },
         { degrees: [10, 20], element: 'Fire', ruler: 'Sun' },
-        { degrees: [20, 30], element: 'Fire', ruler: 'Jupiter' },
-      ],
+        { degrees: [20, 30], element: 'Fire', ruler: 'Jupiter' }
+      ]
     },
     virgo: {
       baseElement: 'Earth',
       decans: [
         { degrees: [0, 10], element: 'Earth', ruler: 'Venus' },
         { degrees: [10, 20], element: 'Earth', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Earth', ruler: 'Saturn' },
-      ],
+        { degrees: [20, 30], element: 'Earth', ruler: 'Saturn' }
+      ]
     },
     capricorn: {
       baseElement: 'Earth',
       decans: [
         { degrees: [0, 10], element: 'Earth', ruler: 'Venus' },
         { degrees: [10, 20], element: 'Earth', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Earth', ruler: 'Saturn' },
-      ],
+        { degrees: [20, 30], element: 'Earth', ruler: 'Saturn' }
+      ]
     },
     gemini: {
       baseElement: 'Air',
       decans: [
         { degrees: [0, 10], element: 'Air', ruler: 'Mercury' },
         { degrees: [10, 20], element: 'Air', ruler: 'Sun' },
-        { degrees: [20, 30], element: 'Air', ruler: 'Jupiter' },
-      ],
+        { degrees: [20, 30], element: 'Air', ruler: 'Jupiter' }
+      ]
     },
     libra: {
       baseElement: 'Air',
       decans: [
         { degrees: [0, 10], element: 'Air', ruler: 'Mercury' },
         { degrees: [10, 20], element: 'Air', ruler: 'Sun' },
-        { degrees: [20, 30], element: 'Air', ruler: 'Jupiter' },
-      ],
+        { degrees: [20, 30], element: 'Air', ruler: 'Jupiter' }
+      ]
     },
     aquarius: {
       baseElement: 'Air',
       decans: [
         { degrees: [0, 10], element: 'Air', ruler: 'Mercury' },
         { degrees: [10, 20], element: 'Air', ruler: 'Sun' },
-        { degrees: [20, 30], element: 'Air', ruler: 'Jupiter' },
-      ],
+        { degrees: [20, 30], element: 'Air', ruler: 'Jupiter' }
+      ]
     },
     cancer: {
       baseElement: 'Water',
       decans: [
         { degrees: [0, 10], element: 'Water', ruler: 'Moon' },
         { degrees: [10, 20], element: 'Water', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Water', ruler: 'Saturn' },
-      ],
+        { degrees: [20, 30], element: 'Water', ruler: 'Saturn' }
+      ]
     },
     scorpio: {
       baseElement: 'Water',
       decans: [
         { degrees: [0, 10], element: 'Water', ruler: 'Moon' },
         { degrees: [10, 20], element: 'Water', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Water', ruler: 'Saturn' },
-      ],
+        { degrees: [20, 30], element: 'Water', ruler: 'Saturn' }
+      ]
     },
     pisces: {
       baseElement: 'Water',
       decans: [
         { degrees: [0, 10], element: 'Water', ruler: 'Moon' },
         { degrees: [10, 20], element: 'Water', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Water', ruler: 'Saturn' },
-      ],
-    },
+        { degrees: [20, 30], element: 'Water', ruler: 'Saturn' }
+      ]
+    }
   };
 
   private readonly lunarPhaseModifiers: Record<LunarPhase, ElementalProperties> = {
@@ -179,7 +179,7 @@ export class AlchemicalEngineBase {
     'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
     'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
     'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
-    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
+    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
   private readonly seasonalModifiers: Record<string, ElementalProperties> = {
@@ -187,7 +187,7 @@ export class AlchemicalEngineBase {
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
-    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
+    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
   private calculator: ElementalCalculator;
@@ -227,7 +227,7 @@ export class AlchemicalEngineBase {
   }
 
   calculateAstrologicalPower(recipeSunSign: any, astrologicalState: AstrologicalState): number {
-    const getCurrentDecan = (degree: number): number => {
+    const getCurrentDecan = (degree: number): number => {;
       if (degree < 10) return 0;
       if (degree < 20) return 1;
       return 2;
@@ -257,7 +257,7 @@ export class AlchemicalEngineBase {
   private calculateIngredientPlanetAlignment(ingredients: string[], planet: string): number {
     if (!ingredients || ingredients.length === 0) return 0;
 
-    const matchCount = ingredients.filter(ingredient =>
+    const matchCount = ingredients.filter(ingredient =>;
       proteins[ingredient].astrologicalProfile?.rulingPlanets?.includes(planet),
     ).length;
 
@@ -269,11 +269,11 @@ export class AlchemicalEngineBase {
     const moonElement = this.zodiacElements[astrologicalState.moonSign || 'aries'].baseElement;
     const lunarModifiers = this.lunarPhaseModifiers[astrologicalState.lunarPhase || 'new_moon'];
 
-    const baseModifiers: ElementalProperties = {
+    const baseModifiers: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
+      Earth: 0.25
     };
 
     baseModifiers[sunElement] += 0.2;
@@ -284,7 +284,7 @@ export class AlchemicalEngineBase {
     });
 
     const total = Object.values(baseModifiers).reduce((sum, val) => sum + val, 0);
-    Object.keys(baseModifiers).forEach(element => {
+    Object.keys(baseModifiers).forEach(element => {;
       baseModifiers[element as unknown] /= total;
     });
 
@@ -305,11 +305,11 @@ export class AlchemicalEngineBase {
   }
 
   getSeasonalInfluence(season: string, element: keyof ElementalProperties): number {
-    const seasonalModifiersData = this.calculator.calculateElementalState({
+    const seasonalModifiersData = this.calculator.calculateElementalState({;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     }) as unknown;
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {};
     return seasonalInfluence[element] || 0.25;
@@ -319,17 +319,17 @@ export class AlchemicalEngineBase {
     if (!recipe.elementalProperties) return 0;
 
     const dominantElements = this.getDominantElements(recipe);
-    const interactions = this.calculateIngredientInteractions(
+    const interactions = this.calculateIngredientInteractions(;
       recipe.ingredients as unknown as Ingredient[], // Pattern VVV: Array Type Interface Resolution (RecipeIngredient[] to Ingredient[])
     );
 
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony
     const baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties);
     const interactionScore =
-      ((interactions.synergies as any)?.length || 0) * 0.2 -
+      ((interactions.synergies as any)?.length || 0) * 0.2 -;
       ((interactions.conflicts as any)?.length || 0) * 0.2;
     const dominanceScore =
-      dominantElements.length > 0
+      dominantElements.length > 0;
         ? dominantElements.reduce((sum, { strength }) => sum + strength, 0) /
           dominantElements.length
         : 0;
@@ -338,17 +338,17 @@ export class AlchemicalEngineBase {
   }
 
   getDominantElements(recipe: Recipe): Array<{ element: string; strength: number }> {
-    const elements = recipe.elementalProperties || {
+    const elements = recipe.elementalProperties || {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
+      Air: 0.25
     }; // Fallback elemental balance
 
     return Object.entries(elements)
       .map(([element, value]) => ({
         element,
-        strength: value || 0,
+        strength: value || 0
       }))
       .sort((a, b) => b.strength - a.strength)
       .slice(0, 2);
@@ -362,7 +362,7 @@ export class AlchemicalEngineBase {
       for (let j = i + 1; j < ingredients.length; j++) {
         const ingA = ingredients[i] as any;
         const ingB = ingredients[j] as any;
-        const harmony = this.calculateHarmonyBetween(
+        const harmony = this.calculateHarmonyBetween(;
           ingA?.elementalProperties, // Pattern VVV: Array Type Interface Resolution
           ingB?.elementalProperties, // Pattern VVV: Array Type Interface Resolution
         );
@@ -370,12 +370,12 @@ export class AlchemicalEngineBase {
         if (harmony > 0.7) {
           synergies.push({
             ingredients: [ingredients[i], ingredients[j]],
-            score: harmony,
+            score: harmony
           });
         } else if (harmony < 0.3) {
           conflicts.push({
             ingredients: [ingredients[i], ingredients[j]],
-            score: harmony,
+            score: harmony
           });
         }
       }
@@ -395,7 +395,7 @@ export class AlchemicalEngineBase {
       .map(([element, value]) => ({
         element,
         deviation: value - ideal,
-        severity: Math.abs(value - ideal),
+        severity: Math.abs(value - ideal)
       }));
   }
 
@@ -405,17 +405,17 @@ export class AlchemicalEngineBase {
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(_recipe => ({
+      .map(_recipe => ({;
         ..._recipe,
         seasonalScore: (() => {
           const calculatorData = ElementalCalculator as any;
           if (calculatorData?.calculateSeasonalEffectiveness) {
-            return (calculatorData as any)?.calculateSeasonalEffectiveness(_recipe, season);
+            return (calculatorData )?.calculateSeasonalEffectiveness(_recipe, season);
           }
           // Fallback calculation using recipe's elemental properties
           const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');
           return (_recipe.elementalProperties.Fire || 0.25) * seasonalBonus;
-        })(),
+        })()
       }))
       .sort((a, b) => b.seasonalScore - a.seasonalScore);
   }
@@ -442,15 +442,15 @@ export class AlchemicalEngineBase {
     return Object.entries(properties).reduce(
       (acc, [element, value]) => ({
         ...acc,
-        [element]: 1 - value,
+        [element]: 1 - value
       }),
       {} as ElementalProperties,
     );
   }
 
   setAvailableRecipes(recipes: Recipe[]) {
-    this.availableRecipes = recipes.filter(
-      _recipe =>
+    this.availableRecipes = recipes.filter(;
+      _recipe =>;
         _recipe.elementalProperties && validateElementalProperties(_recipe.elementalProperties),
     );
   }
@@ -504,20 +504,20 @@ export class AlchemicalEngineBase {
   findOptimalRecipes(
     recipes: unknown[],
   ): { recipe: unknown; score: number; elements: ElementalProperties }[] {
-    if (!recipes || recipes.length === 0) {
+    if (!recipes || recipes.length === 0) {;
       return [];
     }
 
     // Simple implementation - return recipes with default scores
-    return recipes.slice(0, 3).map(_recipe => ({
+    return recipes.slice(0, 3).map(_recipe => ({;
       recipe: _recipe,
       score: 80, // Default score
       elements: {
         Fire: 0.25,
         Water: 0.25,
         Air: 0.25,
-        Earth: 0.25,
-      },
+        Earth: 0.25
+      }
     }));
   }
 

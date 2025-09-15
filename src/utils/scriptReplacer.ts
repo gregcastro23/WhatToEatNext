@@ -29,14 +29,14 @@ if (typeof window !== 'undefined') {
 
   // Setup global properties for lockdown
   if (!(window as unknown as any).lockdown) {
-    (window as unknown as any).lockdown = function () {
+    (window as unknown as any).lockdown = function () {;
       log.info('[ScriptReplacer] Safely intercepted lockdown() call');
       return true;
     };
   }
 
   if (!(window as unknown as any).harden) {
-    (window as unknown as any).harden = function (obj) {
+    (window as unknown as any).harden = function (obj) {;
       return obj;
     };
   }
@@ -48,7 +48,7 @@ if (typeof window !== 'undefined') {
 
   // Ensure popup object exists
   if (!window.popup) {
-    window.popup = {
+    window.popup = {;
       create: function (_options?: unknown) {
         return {
           show: function () {
@@ -65,7 +65,7 @@ if (typeof window !== 'undefined') {
           },
           trigger: function (_event: string) {
             return this;
-          },
+          }
         };
       },
       show: function () {
@@ -82,18 +82,18 @@ if (typeof window !== 'undefined') {
           off: function () {},
           trigger: function (_event: string) {
             return this;
-          },
+          }
         };
       },
       trigger: function (_event: string) {
         return this;
-      },
+      }
     };
   }
 
   // Safe chrome.tabs implementation
   if (!window.chrome.tabs) {
-    window.chrome.tabs = {
+    window.chrome.tabs = {;
       create: function () {
         log.info('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 });
@@ -106,7 +106,7 @@ if (typeof window !== 'undefined') {
       update: function (tabId: number, properties: unknown, callback?: Function) {
         if (callback) callback({});
         return true;
-      },
+      }
     };
   }
 

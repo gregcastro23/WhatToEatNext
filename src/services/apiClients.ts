@@ -25,10 +25,10 @@ export class FoodDataCentral {
    */
   static async getFood(fdcId: string): Promise<FoodData> {
     try {
-      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
+      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {;
         params: {
-          api_key: this.apiKey,
-        },
+          api_key: this.apiKey
+        }
       });
 
       return response.data;
@@ -38,7 +38,7 @@ export class FoodDataCentral {
       return {
         fdcId,
         description: 'Data unavailable',
-        foodNutrients: [],
+        foodNutrients: []
       };
     }
   }
@@ -46,19 +46,19 @@ export class FoodDataCentral {
   /**
    * Search for foods matching a query
    */
-  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
+  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {;
     try {
-      const response = await axios.post(
+      const response = await axios.post(;
         `${this.baseUrl}/foods/search`,
         {
           query,
           pageSize,
-          dataType: ['Foundation', 'SR Legacy', 'Survey (FNDDS)'],
+          dataType: ['Foundation', 'SR Legacy', 'Survey (FNDDS)']
         },
         {
           params: {
-            api_key: this.apiKey,
-          },
+            api_key: this.apiKey
+          }
         },
       );
 

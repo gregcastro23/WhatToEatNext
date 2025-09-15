@@ -10,10 +10,10 @@ import { Element, ZodiacSign, Planet } from '@/types/celestial';
 import {
   ElementalProperties,
   isElementalProperties,
-  DEFAULT_ELEMENTAL_PROPERTIES,
+  DEFAULT_ELEMENTAL_PROPERTIES
 } from './elemental';
 
-// ========== ELEMENTAL TYPES ==========
+// ========== ELEMENTAL TYPES ==========;
 
 /**
  * The four primary elements in our system
@@ -28,7 +28,7 @@ export { isElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES };
 // Re-export celestial types that are commonly needed
 export type { Element, ZodiacSign, Planet };
 
-// ========== CELESTIAL TYPES ==========
+// ========== CELESTIAL TYPES ==========;
 
 /**
  * Celestial position type
@@ -59,13 +59,13 @@ export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Ne
  */
 // Planet type imported from @/types/celestial
 
-// ========== LUNAR TYPES ==========
+// ========== LUNAR TYPES ==========;
 
 /**
  * Lunar phases with spaces (UI friendly)
  */
 export type LunarPhaseWithSpaces =
-  | 'new moon'
+  | 'new moon';
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
@@ -84,7 +84,7 @@ export type LunarPhase = LunarPhaseWithSpaces;
  * This includes all possible moon phase values in uppercase format.
  */
 export type MoonPhase =
-  | 'NEW_MOON'
+  | 'NEW_MOON';
   | 'WAXING_CRESCENT'
   | 'FIRST_QUARTER'
   | 'WAXING_GIBBOUS'
@@ -97,7 +97,7 @@ export type MoonPhase =
  * MoonPhase with spaces format for display purposes
  */
 export type MoonPhaseWithSpaces =
-  | 'New Moon'
+  | 'New Moon';
   | 'Waxing Crescent'
   | 'First Quarter'
   | 'Waxing Gibbous'
@@ -110,7 +110,7 @@ export type MoonPhaseWithSpaces =
  * MoonPhase with underscores format for storage and API purposes
  */
 export type MoonPhaseWithUnderscores =
-  | 'new_moon'
+  | 'new_moon';
   | 'waxing_crescent'
   | 'first_quarter'
   | 'waxing_gibbous'
@@ -123,7 +123,7 @@ export type MoonPhaseWithUnderscores =
  * Lowercase moon phases with spaces for backward compatibility
  */
 export type LowercaseMoonPhaseWithSpaces =
-  | 'new moon'
+  | 'new moon';
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
@@ -135,7 +135,7 @@ export type LowercaseMoonPhaseWithSpaces =
 /**
  * Mapping between different lunar phase formats
  */
-export const MOON_PHASE_MAP: Record<MoonPhaseWithUnderscores, MoonPhase> = {
+export const _MOON_PHASE_MAP: Record<MoonPhaseWithUnderscores, MoonPhase> = {
   new_moon: 'NEW_MOON',
   waxing_crescent: 'WAXING_CRESCENT',
   first_quarter: 'FIRST_QUARTER',
@@ -143,13 +143,13 @@ export const MOON_PHASE_MAP: Record<MoonPhaseWithUnderscores, MoonPhase> = {
   full_moon: 'FULL_MOON',
   waning_gibbous: 'WANING_GIBBOUS',
   last_quarter: 'LAST_QUARTER',
-  waning_crescent: 'WANING_CRESCENT',
+  waning_crescent: 'WANING_CRESCENT'
 };
 
 /**
  * Mapping from MoonPhase to MoonPhaseWithSpaces for display
  */
-export const MOON_PHASE_TO_DISPLAY: Record<MoonPhase, MoonPhaseWithSpaces> = {
+export const _MOON_PHASE_TO_DISPLAY: Record<MoonPhase, MoonPhaseWithSpaces> = {
   NEW_MOON: 'New Moon',
   WAXING_CRESCENT: 'Waxing Crescent',
   FIRST_QUARTER: 'First Quarter',
@@ -157,13 +157,13 @@ export const MOON_PHASE_TO_DISPLAY: Record<MoonPhase, MoonPhaseWithSpaces> = {
   FULL_MOON: 'Full Moon',
   WANING_GIBBOUS: 'Waning Gibbous',
   LAST_QUARTER: 'Last Quarter',
-  WANING_CRESCENT: 'Waning Crescent',
+  WANING_CRESCENT: 'Waning Crescent'
 };
 
 /**
  * Mapping from MoonPhase to lowercase moon phases with spaces
  */
-export const MOON_PHASE_TO_LOWERCASE: Record<MoonPhase, LowercaseMoonPhaseWithSpaces> = {
+export const _MOON_PHASE_TO_LOWERCASE: Record<MoonPhase, LowercaseMoonPhaseWithSpaces> = {
   NEW_MOON: 'new moon',
   WAXING_CRESCENT: 'waxing crescent',
   FIRST_QUARTER: 'first quarter',
@@ -171,13 +171,13 @@ export const MOON_PHASE_TO_LOWERCASE: Record<MoonPhase, LowercaseMoonPhaseWithSp
   FULL_MOON: 'full moon',
   WANING_GIBBOUS: 'waning gibbous',
   LAST_QUARTER: 'last quarter',
-  WANING_CRESCENT: 'waning crescent',
+  WANING_CRESCENT: 'waning crescent'
 };
 
 /**
  * Mapping from lowercase moon phases with spaces to MoonPhase
  */
-export const LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, MoonPhase> = {
+export const _LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, MoonPhase> = {
   'new moon': 'NEW_MOON',
   'waxing crescent': 'WAXING_CRESCENT',
   'first quarter': 'FIRST_QUARTER',
@@ -185,7 +185,7 @@ export const LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, MoonP
   'full moon': 'FULL_MOON',
   'waning gibbous': 'WANING_GIBBOUS',
   'last quarter': 'LAST_QUARTER',
-  'waning crescent': 'WANING_CRESCENT',
+  'waning crescent': 'WANING_CRESCENT'
 };
 
 /**
@@ -196,7 +196,7 @@ export interface ElementalScore {
   score: number;
 }
 
-// ========== SEASONAL TYPES ==========
+// ========== SEASONAL TYPES ==========;
 
 /**
  * Seasons of the year
@@ -204,7 +204,7 @@ export interface ElementalScore {
  */
 export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter';
 
-// ========== UI COMPONENT TYPES ==========
+// ========== UI COMPONENT TYPES ==========;
 
 /**
  * View options for recipe displays
@@ -216,7 +216,7 @@ export type ViewOption = 'grid' | 'list' | 'compact';
  */
 export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
 
-// ========== THERMODYNAMIC TYPES ==========
+// ========== THERMODYNAMIC TYPES ==========;
 
 /**
  * Thermodynamic properties for cooking methods and ingredients
@@ -228,13 +228,13 @@ export interface ThermodynamicProperties {
   gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
 }
 
-// ========== COOKING TYPES ==========
+// ========== COOKING TYPES ==========;
 
 /**
  * Comprehensive cooking methods including traditional, modern, and molecular techniques
  */
 export type CookingMethod =
-  // Basic/Traditional methods
+  // Basic/Traditional methods;
   | 'baking'
   | 'boiling'
   | 'roasting'

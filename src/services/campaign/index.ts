@@ -25,7 +25,7 @@ export type {
   SafetyEvent,
   SafetySettings,
   StashId,
-  ValidationResult,
+  ValidationResult
 } from '../../types/campaign';
 
 export {
@@ -35,5 +35,5 @@ export {
   RecoveryAction,
   SafetyEventSeverity,
   SafetyEventType,
-  SafetyLevel,
+  SafetyLevel
 } from '../../types/campaign';

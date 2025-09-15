@@ -77,15 +77,15 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should execute script with custom options', async () => {
-      const options: ScriptExecutionOptions = { maxFiles: 10,
+      const options: ScriptExecutionOptions = { maxFiles: 10,;
         autoFix: true,
-        dryRun: false,
+        dryRun: false
       };
 
       await scriptSystem.executeScript('typescript-enhanced-v3', options);
 
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('--max-files=10 --auto-fix'),
+        expect.stringContaining('--max-files=10 --auto-fix'),;
         expect.any(Object),
       );
     });
@@ -117,15 +117,15 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should parse JSON output correctly', async () => {
-      const jsonOutput: any = JSON.stringify({
+      const jsonOutput: any = JSON.stringify({;
         safetyMetrics: { totalRuns: 10,
           successfulRuns: 8,
           filesProcessed: 50,
           errorsFixed: 25,
           safetyScore: 0.85,
           recommendedBatchSize: 15,
-          lastRunTime: '2025-01-01T00:0, 0:00Z',
-        },
+          lastRunTime: '2025-01-01T00:0, 0:00Z'
+        }
       });
       mockExecSync.mockReturnValue(jsonOutput);
 
@@ -137,7 +137,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should parse safety events from output', async () => {
-      const output: any = `
+      const output: any = `;
         Processing files...
         🚨 Corruption detected in file.ts;
         Build validation failed
@@ -161,11 +161,11 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should return metrics from script execution', async () => {
-      const jsonOutput: any = JSON.stringify({
+      const jsonOutput: any = JSON.stringify({;
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
-          safetyScore: 0.8,
-        },
+          safetyScore: 0.8
+        }
       });
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValue(jsonOutput);
@@ -187,7 +187,7 @@ describe('ScriptIntegrationSystem', () => {
         JSON.stringify({
           totalRuns: 3,
           successfulRuns: 2,
-          safetyScore: 0.7,
+          safetyScore: 0.7
         }),
       );
 
@@ -208,10 +208,10 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should parse safety validation from script output', async () => {
-      const jsonOutput: any = JSON.stringify({
+      const jsonOutput: any = JSON.stringify({;
         safe: true,
         issues: [],
-        recommendedBatchSize: 10,
+        recommendedBatchSize: 10
       });
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValue(jsonOutput);
@@ -228,8 +228,8 @@ describe('ScriptIntegrationSystem', () => {
       mockExecSync.mockReturnValueOnce('No safety validation output').mockReturnValueOnce(
         JSON.stringify({
           safetyMetrics: { totalRuns: 5,
-            safetyScore: 0.3,
-          },
+            safetyScore: 0.3
+          }
         }),
       );
 
@@ -268,7 +268,7 @@ describe('ScriptIntegrationSystem', () => {
 
   describe('buildCommandArguments', () => {
     it('should build correct arguments for all options', async () => {
-      const options: ScriptExecutionOptions = { maxFiles: 15,
+      const options: ScriptExecutionOptions = { maxFiles: 15,;
         autoFix: true,
         validateSafety: true,
         dryRun: true,
@@ -277,7 +277,7 @@ describe('ScriptIntegrationSystem', () => {
         showMetrics: true,
         json: true,
         silent: true,
-        resetMetrics: true,
+        resetMetrics: true
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -285,8 +285,8 @@ describe('ScriptIntegrationSystem', () => {
 
       await scriptSystem.executeScript('typescript-enhanced-v3', options);
 
-      const expectedArgs: any = [
-        '--max-files=15',
+      const expectedArgs: any = [;
+        '--max-files=15',;
         '--auto-fix',
         '--validate-safety',
         '--dry-run',
@@ -295,7 +295,7 @@ describe('ScriptIntegrationSystem', () => {
         '--show-metrics',
         '--json',
         '--silent',
-        '--reset-metrics',
+        '--reset-metrics'
       ];
 
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining(expectedArgs.join(' ')), expect.any(Object));

@@ -15,7 +15,7 @@ describe('TypeScriptErrorAnalyzer', () => {
 
   describe('parseErrorsFromOutput', () => {
     it('should parse TypeScript compiler output correctly', () => {
-      const mockOutput: any = `
+      const mockOutput: any = `;
 src/components/test.tsx(10,5): error TS2352: Conversion of type 'string' to type 'number' may be a mistake.
 src/services/api.ts(25,12): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.;
 src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
@@ -33,7 +33,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 5,
         code: 'TS2352',
         category: ErrorCategory.TS2352_TYPE_CONVERSION,
-        severity: ErrorSeverity.HIGH,
+        severity: ErrorSeverity.HIGH
       });
 
       expect(errors.[1]).toMatchObject({
@@ -42,7 +42,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 12,
         code: 'TS2345',
         category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
-        severity: ErrorSeverity.HIGH,
+        severity: ErrorSeverity.HIGH
       });
 
       expect(errors.[2]).toMatchObject({
@@ -51,7 +51,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 1,
         code: 'TS2304',
         category: ErrorCategory.TS2304_CANNOT_FIND_NAME,
-        severity: ErrorSeverity.HIGH,
+        severity: ErrorSeverity.HIGH
       });
     });
   });
@@ -97,7 +97,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
 
   describe('createErrorDistribution', () => {
     it('should create proper error distribution', () => {
-      const mockErrors: any = [
+      const mockErrors: any = [;
         {
           filePath: 'src/test1.ts',
           line: 1,
@@ -106,7 +106,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 20,
-          severity: ErrorSeverity.HIGH,
+          severity: ErrorSeverity.HIGH
         },
         {
           filePath: 'src/test1.ts',
@@ -116,7 +116,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
           priority: 18,
-          severity: ErrorSeverity.HIGH,
+          severity: ErrorSeverity.HIGH
         },
         {
           filePath: 'src/test2.ts',
@@ -126,8 +126,8 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 15,
-          severity: ErrorSeverity.HIGH,
-        },
+          severity: ErrorSeverity.HIGH
+        }
       ];
 
       const distributionMethod: any = (analyzer as any).createErrorDistribution.bind(analyzer);
@@ -144,7 +144,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
 
   describe('generateRecommendations', () => {
     it('should generate recommendations in priority order', () => {
-      const mockDistribution: any = {
+      const mockDistribution: any = {;
         totalErrors: 3,
         errorsByCategory: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: [{ code: 'TS2352' }, { code: 'TS2352' }],
@@ -152,11 +152,11 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           [ErrorCategory.TS2698_SPREAD_TYPE]: [],
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
-          [ErrorCategory.OTHER]: [],
+          [ErrorCategory.OTHER]: []
         },
         errorsByFile: {},
         priorityRanking: [],
-        highImpactFiles: [],
+        highImpactFiles: []
       };
 
       const recommendMethod: any = (analyzer as any).generateRecommendations.bind(analyzer);
@@ -186,7 +186,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
     it('should return 0 when no errors found', async () => {
       // Mock execSync to throw (grep returns exit code 1 when no matches)
       const originalExecSync = require('child_process').execSync;
-      require('child_process').execSync = jest.fn().mockImplementation(() => {
+      require('child_process').execSync = jest.fn().mockImplementation(() => {;
         throw new Error('No matches found');
       });
 

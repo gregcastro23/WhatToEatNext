@@ -11,7 +11,7 @@ import {
   CAMPAIGN_INTELLIGENCE_DEMO,
   CampaignIntelligenceMetrics,
   ErrorPatternIntelligence,
-  CampaignProgressIntelligence,
+  CampaignProgressIntelligence
 } from './CampaignIntelligenceSystem';
 import { FixerResult } from './EnhancedErrorFixerIntegration';
 import { CampaignProgress } from './ExplicitAnyEliminationSystem';
@@ -20,11 +20,11 @@ import { ErrorCategory } from './TypeScriptErrorAnalyzer';
 describe('Campaign Intelligence System', () => {
   describe('ERROR_PATTERN_INTELLIGENCE', () => {
     it('should analyze error patterns correctly', () => {
-      const sampleErrors: any = [
+      const sampleErrors: any = [;
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 },
         { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 },
-        { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 },
+        { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 }
       ];
 
       const patterns: any = ERROR_PATTERN_INTELLIGENCE.analyzeErrorPatterns(sampleErrors);
@@ -46,7 +46,7 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should generate error intelligence report', () => {
-      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
+      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },;
         fixSuccessRates: { TS2352_TYPE_CONVERSIO, N: 0.92, TS2345_ARGUMENT_MISMATCH: 0.87 },
         errorCategoryTrends: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: 10,
@@ -54,13 +54,13 @@ describe('Campaign Intelligence System', () => {
           [ErrorCategory.TS2698_SPREAD_TYPE]: 0,
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: 0,
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: 0,
-          [ErrorCategory.OTHER]: 0,
+          [ErrorCategory.OTHER]: 0
         },
         priorityOptimization: { TS2352_TYPE_CONVERSIO, N: 9.2, TS2345_ARGUMENT_MISMATCH: 4.35 },
         predictiveAnalytics: { errorReductionPotential: 0.85,
           campaignDurationEstimate: 30,
-          buildStabilityPrediction: 0.94,
-        },
+          buildStabilityPrediction: 0.94
+        }
       };
 
       const report: any = ERROR_PATTERN_INTELLIGENCE.generateErrorIntelligenceReport(patterns);
@@ -84,7 +84,7 @@ describe('Campaign Intelligence System', () => {
           executionTime: 60000, // 1 minute
           safetyScore: 0.85,
           warnings: [],
-          errors: [],
+          errors: []
         },
         {
           success: true,
@@ -95,19 +95,19 @@ describe('Campaign Intelligence System', () => {
           executionTime: 45000, // 45 seconds
           safetyScore: 0.9,
           warnings: [],
-          errors: [],
-        },
+          errors: []
+        }
       ];
 
-      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,
+      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,;
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
         campaignTarget: 75.5,
-        isTargetMet: true,
+        isTargetMet: true
       };
 
-      const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(
+      const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(;
         2420,
         2500,
         sampleFixerResults,
@@ -130,22 +130,22 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should generate progress intelligence report', () => {
-      const progress: CampaignProgressIntelligence = { velocityAnalysis: {
+      const progress: CampaignProgressIntelligence = { velocityAnalysis: {;
           currentVelocity: 1.5,
           projectedCompletion: new Date('2025-02-01'),
           efficiencyTrends: [1.2, 1.5, 1.8],
-          bottleneckIdentification: ['Low error fixing velocity'],
+          bottleneckIdentification: ['Low error fixing velocity']
         },
         qualityMetrics: { codeHealthScore: 0.85,
           maintainabilityIndex: 0.8,
           technicalDebtRatio: 0.15,
-          buildReliability: 0.95,
+          buildReliability: 0.95
         },
         strategicInsights: { recommendedActions: ['Increase batch size for higher throughput'],
           riskAssessment: ['Build stability risk detected'],
           opportunityIdentification: ['High success rate - consider aggressive mode'],
-          resourceOptimization: ['Focus on remaining high-impact errors'],
-        },
+          resourceOptimization: ['Focus on remaining high-impact errors']
+        }
       };
 
       const report: any = CAMPAIGN_PROGRESS_INTELLIGENCE.generateProgressIntelligenceReport(progress);
@@ -162,28 +162,28 @@ describe('Campaign Intelligence System', () => {
   describe('CAMPAIGN_ENTERPRISE_INTELLIGENCE', () => {
     it('should generate comprehensive intelligence', async () => {
       // Mock the analyzer methods to avoid actual system calls
-      const mockErrorAnalyzer = {
+      const mockErrorAnalyzer = {;
         analyzeErrors: jest.fn().mockResolvedValue({ distribution: {
             totalErrors: 2500,
-            priorityRanking: [{ cod, e: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }],
-          },
+            priorityRanking: [{ cod, e: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }]
+          }
         }),
-        getCurrentErrorCount: jest.fn().mockResolvedValue(2500),
+        getCurrentErrorCount: jest.fn().mockResolvedValue(2500)
       };
 
       const mockFixerIntegration: any = {};
 
-      const mockAnyElimination = {
+      const mockAnyElimination = {;
         showCampaignProgress: jest.fn().mockResolvedValue({ totalExplicitAnyStart: 1000,
           totalExplicitAnyRemaining: 250,
           reductionAchieved: 750,
           reductionPercentage: 75,
           campaignTarget: 75.5,
-          isTargetMet: false,
-        }),
+          isTargetMet: false
+        })
       };
 
-      const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(
+      const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(;
         mockErrorAnalyzer as unknown,
         mockFixerIntegration as unknown,
         mockAnyElimination as unknown,
@@ -212,7 +212,7 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should display enterprise intelligence correctly', () => {
-      const mockIntelligence: any = {
+      const mockIntelligence: any = {;
         campaignMetrics: { errorReductionVelocity: 1.5,
           codeQualityImprovement: 0.85,
           buildStabilityScore: 0.95,
@@ -220,34 +220,34 @@ describe('Campaign Intelligence System', () => {
           enterpriseReadiness: 0.88,
           systemComplexity: 0.6,
           intelligenceDepth: 'advanced' as const,
-          campaignEffectiveness: 0.82,
+          campaignEffectiveness: 0.82
         },
         errorPatterns: { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
           fixSuccessRates: {},
           errorCategoryTrends: {} as unknown,
           priorityOptimization: {},
-          predictiveAnalytics: {},
+          predictiveAnalytics: {}
         },
         progressAnalysis: { velocityAnalysis: {
             currentVelocity: 1.5,
             projectedCompletion: new Date('2025-02-01'),
             efficiencyTrends: [],
-            bottleneckIdentification: [],
+            bottleneckIdentification: []
           },
           qualityMetrics: { codeHealthScore: 0.85,
             maintainabilityIndex: 0.8,
             technicalDebtRatio: 0.15,
-            buildReliability: 0.95,
+            buildReliability: 0.95
           },
           strategicInsights: { recommendedActions: [],
             riskAssessment: [],
             opportunityIdentification: [],
-            resourceOptimization: [],
-          },
+            resourceOptimization: []
+          }
         },
         systemIntegration: { overallSystemIntegratio, n: 0.92 },
         intelligenceRecommendations: ['Test recommendation'],
-        enterpriseReadinessScore: 0.88,
+        enterpriseReadinessScore: 0.88
       };
 
       const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();

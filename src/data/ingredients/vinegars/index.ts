@@ -10,24 +10,24 @@ export default vinegars;
 // Don't re-import vinegars - use the one already imported
 export const processedVinegars: Record<string, IngredientMapping> = fixIngredientMappings(vinegars);
 
-export const wineVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
-  .filter(([_, value]) => value.subCategory === 'wine')
+export const _wineVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
+  .filter(([_, value]) => value.subCategory === 'wine');
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const fruitVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
-  .filter(([_, value]) => value.subCategory === 'fruit')
+export const _fruitVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
+  .filter(([_, value]) => value.subCategory === 'fruit');
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const grainVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
-  .filter(([_, value]) => value.subCategory === 'grain')
+export const _grainVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
+  .filter(([_, value]) => value.subCategory === 'grain');
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const specialtyVinegars: Record<string, IngredientMapping> = Object.entries(
+export const _specialtyVinegars: Record<string, IngredientMapping> = Object.entries(
   processedVinegars,
 )
   .filter(
     ([_, value]) =>
-      value.subCategory === 'specialty' ||
+      value.subCategory === 'specialty' ||;
       (value.subCategory !== 'wine' &&
         value.subCategory !== 'fruit' &&
         value.subCategory !== 'grain'),

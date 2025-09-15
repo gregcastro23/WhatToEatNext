@@ -49,13 +49,13 @@ export class PerformanceMonitoringService {
   private alerts: PerformanceAlert[] = [];
 
   constructor(thresholds?: Partial<PerformanceThresholds>) {
-    this.thresholds = {
+    this.thresholds = {;
       maxExecutionTime: 30000, // 30 seconds
       maxMemoryUsage: 4096 * 1024 * 1024, // 4GB
       minCacheHitRate: 70, // 70%
       maxIncrementalTime: 10000, // 10 seconds
       minPerformanceImprovement: 60, // 60%
-      ...thresholds,
+      ...thresholds
     };
 
     this.loadExistingMetrics();
@@ -78,7 +78,7 @@ export class PerformanceMonitoringService {
     let peakMemoryUsage = startMemory.heapUsed;
 
     // Monitor memory usage during execution
-    const memoryMonitor = setInterval(() => {
+    const memoryMonitor = setInterval(() => {;
       const currentMemory = process.memoryUsage().heapUsed;
       peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory);
     }, 100);
@@ -88,7 +88,7 @@ export class PerformanceMonitoringService {
     let warningCount = 0;
 
     try {
-      output = execSync(command, {
+      output = execSync(command, {;
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: this.thresholds.maxExecutionTime + 30000, // Extra buffer
@@ -112,7 +112,7 @@ export class PerformanceMonitoringService {
     const endTime = Date.now();
     const executionTime = endTime - startTime;
 
-    const metrics: PerformanceMetrics = {
+    const metrics: PerformanceMetrics = {;
       timestamp: new Date(),
       executionTime,
       memoryUsage: peakMemoryUsage - startMemory.heapUsed,
@@ -121,7 +121,7 @@ export class PerformanceMonitoringService {
       parallelProcesses: options.parallel ? this.getParallelProcessCount() : 1,
       incrementalTime: options.incremental ? executionTime : undefined,
       errorCount,
-      warningCount,
+      warningCount
     };
 
     // Record metrics
@@ -147,7 +147,7 @@ export class PerformanceMonitoringService {
         improvement: 0,
         passed: false,
         baseline: null,
-        current: null,
+        current: null
       };
     }
 
@@ -166,7 +166,7 @@ export class PerformanceMonitoringService {
       improvement,
       passed,
       baseline,
-      current,
+      current
     };
   }
 
@@ -183,7 +183,7 @@ export class PerformanceMonitoringService {
       return {
         filesPerProcess: 0,
         optimalDistribution: false,
-        processCount: 0,
+        processCount: 0
       };
     }
 
@@ -193,7 +193,7 @@ export class PerformanceMonitoringService {
     return {
       filesPerProcess,
       optimalDistribution,
-      processCount: latestMetrics.parallelProcesses,
+      processCount: latestMetrics.parallelProcesses
     };
   }
 
@@ -210,7 +210,7 @@ export class PerformanceMonitoringService {
       return {
         peakMemoryMB: 0,
         withinLimit: false,
-        memoryEfficient: false,
+        memoryEfficient: false
       };
     }
 
@@ -221,7 +221,7 @@ export class PerformanceMonitoringService {
     return {
       peakMemoryMB,
       withinLimit,
-      memoryEfficient,
+      memoryEfficient
     };
   }
 
@@ -235,28 +235,28 @@ export class PerformanceMonitoringService {
   } {
     const incrementalMetrics = this.metrics.filter(m => m.incrementalTime !== undefined);
 
-    if (incrementalMetrics.length === 0) {
+    if (incrementalMetrics.length === 0) {;
       return {
         averageIncrementalTime: 0,
         subTenSecond: false,
-        consistentPerformance: false,
+        consistentPerformance: false
       };
     }
 
     const averageIncrementalTime =
-      incrementalMetrics.reduce((sum, m) => sum + (m.incrementalTime || 0), 0) /
+      incrementalMetrics.reduce((sum, m) => sum + (m.incrementalTime || 0), 0) /;
       incrementalMetrics.length;
     const subTenSecond = averageIncrementalTime < this.thresholds.maxIncrementalTime;
 
     // Check consistency (all incremental runs should be under threshold)
-    const consistentPerformance = incrementalMetrics.every(
-      m => (m.incrementalTime || 0) < this.thresholds.maxIncrementalTime,
+    const consistentPerformance = incrementalMetrics.every(;
+      m => (m.incrementalTime || 0) < this.thresholds.maxIncrementalTime,;
     );
 
     return {
       averageIncrementalTime,
       subTenSecond,
-      consistentPerformance,
+      consistentPerformance
     };
   }
 
@@ -278,7 +278,7 @@ export class PerformanceMonitoringService {
     recentAlerts: PerformanceAlert[];
     recommendations: string[];
   } {
-    const summary = {
+    const summary = {;
       totalMeasurements: this.metrics.length,
       averageExecutionTime:
         this.metrics.reduce((sum, m) => sum + m.executionTime, 0) / this.metrics.length || 0,
@@ -286,7 +286,7 @@ export class PerformanceMonitoringService {
         this.metrics.reduce((sum, m) => sum + m.memoryUsage, 0) / this.metrics.length || 0,
       averageCacheHitRate:
         this.metrics.reduce((sum, m) => sum + m.cacheHitRate, 0) / this.metrics.length || 0,
-      totalAlerts: this.alerts.length,
+      totalAlerts: this.alerts.length
     };
 
     const performanceImprovement = this.validatePerformanceImprovement();
@@ -296,7 +296,7 @@ export class PerformanceMonitoringService {
 
     const recentAlerts = this.alerts.slice(-10); // Last 10 alerts
 
-    const recommendations = this.generateRecommendations(
+    const recommendations = this.generateRecommendations(;
       performanceImprovement,
       parallelProcessing,
       memoryOptimization,
@@ -310,7 +310,7 @@ export class PerformanceMonitoringService {
       memoryOptimization,
       incrementalPerformance,
       recentAlerts,
-      recommendations,
+      recommendations
     };
   }
 
@@ -324,7 +324,7 @@ export class PerformanceMonitoringService {
   /**
    * Get performance trend over time
    */
-  getPerformanceTrend(days: number = 7): {
+  getPerformanceTrend(days: number = 7): {;
     executionTimeTrend: 'improving' | 'degrading' | 'stable';
     memoryUsageTrend: 'improving' | 'degrading' | 'stable';
     cacheHitRateTrend: 'improving' | 'degrading' | 'stable';
@@ -336,7 +336,7 @@ export class PerformanceMonitoringService {
       return {
         executionTimeTrend: 'stable',
         memoryUsageTrend: 'stable',
-        cacheHitRateTrend: 'stable',
+        cacheHitRateTrend: 'stable'
       };
     }
 
@@ -406,7 +406,7 @@ export class PerformanceMonitoringService {
         threshold: this.thresholds.maxExecutionTime,
         actual: metrics.executionTime,
         timestamp: new Date(),
-        message: `Linting execution time (${metrics.executionTime}ms) exceeded threshold (${this.thresholds.maxExecutionTime}ms)`,
+        message: `Linting execution time (${metrics.executionTime}ms) exceeded threshold (${this.thresholds.maxExecutionTime}ms)`
       });
     }
 
@@ -418,7 +418,7 @@ export class PerformanceMonitoringService {
         threshold: this.thresholds.maxMemoryUsage,
         actual: metrics.memoryUsage,
         timestamp: new Date(),
-        message: `Memory usage (${Math.round(metrics.memoryUsage / 1024 / 1024)}MB) exceeded limit (${Math.round(this.thresholds.maxMemoryUsage / 1024 / 1024)}MB)`,
+        message: `Memory usage (${Math.round(metrics.memoryUsage / 1024 / 1024)}MB) exceeded limit (${Math.round(this.thresholds.maxMemoryUsage / 1024 / 1024)}MB)`
       });
     }
 
@@ -430,7 +430,7 @@ export class PerformanceMonitoringService {
         threshold: this.thresholds.minCacheHitRate,
         actual: metrics.cacheHitRate,
         timestamp: new Date(),
-        message: `Cache hit rate (${metrics.cacheHitRate}%) below optimal threshold (${this.thresholds.minCacheHitRate}%)`,
+        message: `Cache hit rate (${metrics.cacheHitRate}%) below optimal threshold (${this.thresholds.minCacheHitRate}%)`
       });
     }
 
@@ -442,7 +442,7 @@ export class PerformanceMonitoringService {
         threshold: this.thresholds.maxIncrementalTime,
         actual: metrics.incrementalTime,
         timestamp: new Date(),
-        message: `Incremental linting time (${metrics.incrementalTime}ms) exceeded sub-10 second target (${this.thresholds.maxIncrementalTime}ms)`,
+        message: `Incremental linting time (${metrics.incrementalTime}ms) exceeded sub-10 second target (${this.thresholds.maxIncrementalTime}ms)`
       });
     }
 
@@ -485,8 +485,8 @@ export class PerformanceMonitoringService {
 
     // Fallback: count lines that look like file paths
     const lines = output.split('\n');
-    const fileLines = lines.filter(
-      line =>
+    const fileLines = lines.filter(;
+      line =>;
         line.includes('.ts') ||
         line.includes('.tsx') ||
         line.includes('.js') ||
@@ -547,7 +547,7 @@ export class PerformanceMonitoringService {
       );
     }
 
-    if (recommendations.length === 0) {
+    if (recommendations.length === 0) {;
       recommendations.push('All performance optimizations are working within expected parameters');
     }
 
@@ -559,9 +559,9 @@ export class PerformanceMonitoringService {
       if (existsSync(this.metricsFile)) {
         const data = readFileSync(this.metricsFile, 'utf8');
         const parsed = JSON.parse(data);
-        this.metrics = parsed.map((m: unknown) => ({
+        this.metrics = parsed.map((m: unknown) => ({;
           ...m,
-          timestamp: new Date(m.timestamp),
+          timestamp: new Date(m.timestamp)
         }));
       }
     } catch (error) {
@@ -575,9 +575,9 @@ export class PerformanceMonitoringService {
       if (existsSync(this.alertsFile)) {
         const data = readFileSync(this.alertsFile, 'utf8');
         const parsed = JSON.parse(data);
-        this.alerts = parsed.map((a: unknown) => ({
+        this.alerts = parsed.map((a: unknown) => ({;
           ...a,
-          timestamp: new Date(a.timestamp),
+          timestamp: new Date(a.timestamp)
         }));
       }
     } catch (error) {

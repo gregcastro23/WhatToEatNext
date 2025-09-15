@@ -20,7 +20,7 @@ import fs from 'fs';
 
 import { log } from '@/services/LoggingService';
 
-// ========== PERFORMANCE METRICS INTERFACES ==========
+// ========== PERFORMANCE METRICS INTERFACES ==========;
 
 export interface SystemMetrics {
   cpu: {
@@ -175,7 +175,7 @@ export interface PerformanceRecommendation {
   resources: string[];
 }
 
-// ========== PERFORMANCE METRICS ANALYTICS SYSTEM ==========
+// ========== PERFORMANCE METRICS ANALYTICS SYSTEM ==========;
 
 export class PerformanceMetricsAnalytics extends EventEmitter {
   private snapshots: PerformanceSnapshot[] = [];
@@ -188,13 +188,13 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   private readonly ALERTS_FILE = '.performance-alerts.json';
 
   // Performance thresholds
-  private readonly THRESHOLDS = {
+  private readonly THRESHOLDS = {;
     cpu: { warning: 70, error: 85, critical: 95 },
     memory: { warning: 70, error: 85, critical: 95 },
     disk: { warning: 80, error: 90, critical: 95 },
     buildTime: { warning: 30000, error: 60000, critical: 120000 },
     errorCount: { warning: 100, error: 500, critical: 1000 },
-    testCoverage: { warning: 70, error: 60, critical: 50 },
+    testCoverage: { warning: 70, error: 60, critical: 50 }
   };
 
   constructor() {
@@ -203,12 +203,12 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     this.setupEventHandlers();
   }
 
-  // ========== MONITORING CONTROL ==========
+  // ========== MONITORING CONTROL ==========;
 
   /**
    * Start performance monitoring
    */
-  startMonitoring(intervalMinutes: number = 5): void {
+  startMonitoring(intervalMinutes: number = 5): void {;
     if (this.isMonitoring) {
       log.info('⚠️  Performance monitoring already active');
       return;
@@ -217,7 +217,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     this.isMonitoring = true;
     log.info(`🔄 Starting performance monitoring (${intervalMinutes}min intervals)`);
 
-    this.monitoringInterval = setInterval(
+    this.monitoringInterval = setInterval(;
       () => {
         void (async () => {
           try {
@@ -254,7 +254,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     this.emit('monitoring-stopped');
   }
 
-  // ========== METRICS COLLECTION ==========
+  // ========== METRICS COLLECTION ==========;
 
   /**
    * Capture comprehensive performance snapshot
@@ -269,10 +269,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         this.collectProcessMetrics(),
         this.collectBuildMetrics(),
         this.collectTypeScriptMetrics(),
-        this.collectTestMetrics(),
+        this.collectTestMetrics()
       ]);
 
-    const snapshot: PerformanceSnapshot = {
+    const snapshot: PerformanceSnapshot = {;
       snapshotId: `snap_${Date.now()}`,
       systemMetrics,
       processMetrics,
@@ -286,7 +286,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         typeScriptMetrics,
         testMetrics,
       ),
-      alerts: [],
+      alerts: []
     };
 
     // Generate alerts
@@ -329,11 +329,11 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const diskInfo = await this.getDiskInfo();
 
       // Get network info (basic)
-      const networkInfo = {
+      const networkInfo = {;
         bytesIn: 0,
         bytesOut: 0,
         packetsIn: 0,
-        packetsOut: 0,
+        packetsOut: 0
       };
 
       return {
@@ -341,7 +341,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         memory: memoryInfo,
         disk: diskInfo,
         network: networkInfo,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     } catch (error) {
       console.warn('⚠️  Failed to collect system metrics:', error);
@@ -361,14 +361,14 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         usage: cpuUsage,
         loadAverage,
         cores: (await import('os')).cpus().length,
-        model: (await import('os')).cpus()[0]?.model || 'Unknown',
+        model: (await import('os')).cpus()[0]?.model || 'Unknown'
       };
     } catch (error) {
       return {
         usage: 0,
         loadAverage: [0, 0, 0],
         cores: 1,
-        model: 'Unknown',
+        model: 'Unknown'
       };
     }
   }
@@ -423,14 +423,14 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         used: usedMemory,
         total: totalMemory,
         free: freeMemory,
-        usage: (usedMemory / totalMemory) * 100,
+        usage: (usedMemory / totalMemory) * 100
       };
     } catch (error) {
       return {
         used: 0,
         total: 0,
         free: 0,
-        usage: 0,
+        usage: 0
       };
     }
   }
@@ -455,7 +455,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           used,
           total,
           free,
-          usage: (used / total) * 100,
+          usage: (used / total) * 100
         };
       }
 
@@ -497,7 +497,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         uptime: process.uptime(),
         threads: 1, // Node.js is single-threaded
         fileDescriptors: 0, // Would need platform-specific code
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     } catch (error) {
       return {
@@ -508,7 +508,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         uptime: 0,
         threads: 1,
         fileDescriptors: 0,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     }
   }
@@ -521,10 +521,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const buildStart = Date.now();
 
       // Run build command
-      const buildOutput = execSync('yarn build', {
+      const buildOutput = execSync('yarn build', {;
         encoding: 'utf8',
         timeout: 120000,
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       const buildTime = Date.now() - buildStart;
@@ -539,7 +539,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         errors: buildStats.errors,
         warnings: buildStats.warnings,
         success: true,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     } catch (error) {
       return {
@@ -551,7 +551,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         errors: 1,
         warnings: 0,
         success: false,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     }
   }
@@ -583,9 +583,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           const value = parseFloat(sizeMatch[1]);
           const unit = sizeMatch[2];
           bundleSize =
-            unit === 'MB'
+            unit === 'MB';
               ? value * 1024 * 1024
-              : unit === 'GB'
+              : unit === 'GB';
                 ? value * 1024 * 1024 * 1024
                 : value * 1024;
         }
@@ -608,10 +608,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const tsStart = Date.now();
 
       // Run TypeScript compiler
-      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
+      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {;
         encoding: 'utf8',
         timeout: 60000,
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       const compilationTime = Date.now() - tsStart;
@@ -626,7 +626,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         complexity: tsStats.complexity,
         maintainabilityIndex: tsStats.maintainabilityIndex,
         technicalDebt: tsStats.technicalDebt,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const tsStats = this.parseTypeScriptOutput(error.stdout || error.stderr || '');
@@ -640,7 +640,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         complexity: tsStats.complexity,
         maintainabilityIndex: tsStats.maintainabilityIndex,
         technicalDebt: tsStats.technicalDebt,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     }
   }
@@ -680,7 +680,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       linesOfCode,
       complexity,
       maintainabilityIndex,
-      technicalDebt,
+      technicalDebt
     };
   }
 
@@ -689,9 +689,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private countTypeScriptFiles(): number {
     try {
-      const output = execSync('find . -name "*.ts" -o -name "*.tsx" | wc -l', {
+      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | wc -l', {;
         encoding: 'utf8',
-        timeout: 10000,
+        timeout: 10000
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -704,9 +704,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private estimateLinesOfCode(): number {
     try {
-      const output = execSync('find . -name "*.ts" -o -name "*.tsx" | xargs wc -l', {
+      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | xargs wc -l', {;
         encoding: 'utf8',
-        timeout: 10000,
+        timeout: 10000
       });
       const lines = output.split('\n');
       const totalLine = lines[lines.length - 2]; // Last line with total
@@ -751,10 +751,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const testStart = Date.now();
 
       // Run test command
-      const testOutput = execSync('yarn test --coverage --passWithNoTests', {
+      const testOutput = execSync('yarn test --coverage --passWithNoTests', {;
         encoding: 'utf8',
         timeout: 120000,
-        stdio: 'pipe',
+        stdio: 'pipe'
       });
 
       const duration = Date.now() - testStart;
@@ -767,7 +767,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         skippedTests: testStats.skippedTests,
         coverage: testStats.coverage,
         duration,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const testStats = this.parseTestOutput(error.stdout || error.stderr || '');
@@ -779,7 +779,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         skippedTests: testStats.skippedTests,
         coverage: testStats.coverage,
         duration: 0,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     }
   }
@@ -831,7 +831,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     return { totalTests, passedTests, failedTests, skippedTests, coverage };
   }
 
-  // ========== HEALTH SCORE CALCULATION ==========
+  // ========== HEALTH SCORE CALCULATION ==========;
 
   /**
    * Calculate overall health score
@@ -842,18 +842,18 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     typescript: TypeScriptMetrics,
     test: TestMetrics,
   ): number {
-    const weights = {
+    const weights = {;
       system: 0.2,
       build: 0.3,
       typescript: 0.3,
-      test: 0.2,
+      test: 0.2
     };
 
     // System health (0-100)
     const systemHealth = 100 - Math.max(system.cpu.usage, system.memory.usage, system.disk.usage);
 
     // Build health (0-100)
-    const buildHealth = build.success
+    const buildHealth = build.success;
       ? Math.max(0, 100 - build.buildTime / 1000 - build.errors * 10)
       : 0;
 
@@ -871,7 +871,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     );
   }
 
-  // ========== ALERT GENERATION ==========
+  // ========== ALERT GENERATION ==========;
 
   /**
    * Generate performance alerts
@@ -1046,7 +1046,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Test coverage alerts
     const avgCoverage =
-      (snapshot.testMetrics.coverage.lines +
+      (snapshot.testMetrics.coverage.lines +;
         snapshot.testMetrics.coverage.branches +
         snapshot.testMetrics.coverage.functions +
         snapshot.testMetrics.coverage.statements) /
@@ -1105,23 +1105,23 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       threshold,
       currentValue,
       timestamp: new Date(),
-      resolved: false,
+      resolved: false
     };
   }
 
-  // ========== TREND ANALYSIS ==========
+  // ========== TREND ANALYSIS ==========;
 
   /**
    * Update performance trends
    */
   private updateTrends(snapshot: PerformanceSnapshot): void {
-    const metrics = {
+    const metrics = {;
       cpu_usage: snapshot.systemMetrics.cpu.usage,
       memory_usage: snapshot.systemMetrics.memory.usage,
       disk_usage: snapshot.systemMetrics.disk.usage,
       build_time: snapshot.buildMetrics.buildTime,
       error_count: snapshot.typeScriptMetrics.errorCount,
-      health_score: snapshot.healthScore,
+      health_score: snapshot.healthScore
     };
 
     Object.entries(metrics).forEach(([metricName, value]) => {
@@ -1145,7 +1145,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         valueDiff > 0.1 ? 'degrading' : valueDiff < -0.1 ? 'improving' : 'stable';
       existingTrend.dataPoints++;
       existingTrend.endDate = new Date();
-      existingTrend.prediction = this.calculatePrediction(
+      existingTrend.prediction = this.calculatePrediction(;
         metricName,
         value,
         existingTrend.changeRate,
@@ -1154,7 +1154,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       this.trends.set(metricName, existingTrend);
     } else {
       // Create new trend
-      const trend: PerformanceTrend = {
+      const trend: PerformanceTrend = {;
         trendId: `trend_${metricName}_${Date.now()}`,
         metric: metricName,
         direction: 'stable',
@@ -1163,7 +1163,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         dataPoints: 1,
         startDate: new Date(),
         endDate: new Date(),
-        prediction: this.calculatePrediction(metricName, value, 0),
+        prediction: this.calculatePrediction(metricName, value, 0)
       };
 
       this.trends.set(metricName, trend);
@@ -1191,11 +1191,11 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     return {
       nextValue: Math.max(0, nextValue),
       confidence,
-      timeframe,
+      timeframe
     };
   }
 
-  // ========== REPORTING ==========
+  // ========== REPORTING ==========;
 
   /**
    * Generate performance report
@@ -1207,22 +1207,22 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const startTime = new Date(endTime);
 
     // Calculate start time based on timeframe
-    const timeframeMs = {
+    const timeframeMs = {;
       '1h': 60 * 60 * 1000,
       '6h': 6 * 60 * 60 * 1000,
       '24h': 24 * 60 * 60 * 1000,
       '7d': 7 * 24 * 60 * 60 * 1000,
-      '30d': 30 * 24 * 60 * 60 * 1000,
+      '30d': 30 * 24 * 60 * 60 * 1000
     };
 
     startTime.setTime(startTime.getTime() - timeframeMs[timeframe]);
 
     // Filter snapshots by timeframe
-    const timeframeSnapshots = this.snapshots.filter(
-      snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime,
+    const timeframeSnapshots = this.snapshots.filter(;
+      snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime,;
     );
 
-    if (timeframeSnapshots.length === 0) {
+    if (timeframeSnapshots.length === 0) {;
       return this.generateEmptyReport(timeframe);
     }
 
@@ -1248,9 +1248,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         system: latestSnapshot.systemMetrics,
         build: latestSnapshot.buildMetrics,
         typescript: latestSnapshot.typeScriptMetrics,
-        test: latestSnapshot.testMetrics,
+        test: latestSnapshot.testMetrics
       },
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   }
 
@@ -1264,7 +1264,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Calculate performance grade
     const performanceGrade =
-      avgHealthScore >= 90
+      avgHealthScore >= 90;
         ? 'A'
         : avgHealthScore >= 80
           ? 'B'
@@ -1276,12 +1276,12 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Identify top issues
     const issueCount = new Map<string, number>();
-    allAlerts.forEach(alert => {
+    allAlerts.forEach(alert => {;
       const key = `${alert.category}_${alert.type}`;
       issueCount.set(key, (issueCount.get(key) || 0) + 1);
     });
 
-    const topIssues = Array.from(issueCount.entries())
+    const topIssues = Array.from(issueCount.entries());
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
       .map(([issue, count]) => `${issue}: ${count}`);
@@ -1295,7 +1295,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       criticalAlerts,
       performanceGrade,
       topIssues,
-      improvements,
+      improvements
     };
   }
 
@@ -1352,16 +1352,16 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         implementation: [
           'Address critical alerts',
           'Optimize resource usage',
-          'Improve error handling',
+          'Improve error handling'
         ],
         dependencies: ['system_monitoring', 'error_tracking'],
-        resources: ['Performance Guide', 'Optimization Checklist'],
+        resources: ['Performance Guide', 'Optimization Checklist']
       });
     }
 
     // Build time recommendations
     const buildTimeTrend = trends.find(t => t.metric === 'build_time');
-    if (buildTimeTrend && buildTimeTrend.direction === 'degrading') {
+    if (buildTimeTrend && buildTimeTrend.direction === 'degrading') {;
       recommendations.push({
         recommendationId: `rec_build_${Date.now()}`,
         priority: 'medium',
@@ -1373,13 +1373,13 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         estimatedImprovement: 15,
         implementation: ['Analyze bundle size', 'Optimize imports', 'Enable build caching'],
         dependencies: ['build_analysis'],
-        resources: ['Build Optimization Guide'],
+        resources: ['Build Optimization Guide']
       });
     }
 
     // TypeScript error recommendations
     const errorTrend = trends.find(t => t.metric === 'error_count');
-    if (errorTrend && errorTrend.direction === 'degrading') {
+    if (errorTrend && errorTrend.direction === 'degrading') {;
       recommendations.push({
         recommendationId: `rec_typescript_${Date.now()}`,
         priority: 'high',
@@ -1391,7 +1391,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         estimatedImprovement: 30,
         implementation: ['Run error analysis', 'Implement fixes', 'Add type safety measures'],
         dependencies: ['typescript_analysis'],
-        resources: ['TypeScript Error Fixer', 'Type Safety Guide'],
+        resources: ['TypeScript Error Fixer', 'Type Safety Guide']
       });
     }
 
@@ -1414,7 +1414,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         criticalAlerts: 0,
         performanceGrade: 'F',
         topIssues: [],
-        improvements: [],
+        improvements: []
       },
       trends: [],
       recommendations: [],
@@ -1422,13 +1422,13 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         system: this.getDefaultSystemMetrics(),
         build: this.getDefaultBuildMetrics(),
         typescript: this.getDefaultTypeScriptMetrics(),
-        test: this.getDefaultTestMetrics(),
+        test: this.getDefaultTestMetrics()
       },
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   }
 
-  // ========== DEFAULT METRICS ==========
+  // ========== DEFAULT METRICS ==========;
 
   private getDefaultSystemMetrics(): SystemMetrics {
     return {
@@ -1436,7 +1436,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       memory: { used: 0, total: 0, free: 0, usage: 0 },
       disk: { used: 0, total: 0, free: 0, usage: 0 },
       network: { bytesIn: 0, bytesOut: 0, packetsIn: 0, packetsOut: 0 },
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   }
 
@@ -1454,7 +1454,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       errors: 0,
       warnings: 0,
       success: false,
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   }
 
@@ -1468,7 +1468,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       complexity: 0,
       maintainabilityIndex: 0,
       technicalDebt: 0,
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   }
 
@@ -1480,11 +1480,11 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       skippedTests: 0,
       coverage: { lines: 0, branches: 0, functions: 0, statements: 0 },
       duration: 0,
-      timestamp: new Date(),
+      timestamp: new Date()
     };
   }
 
-  // ========== EVENT HANDLERS ==========
+  // ========== EVENT HANDLERS ==========;
 
   private setupEventHandlers(): void {
     this.on('alert-generated', (alert: PerformanceAlert) => {
@@ -1498,7 +1498,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     });
   }
 
-  // ========== DATA PERSISTENCE ==========
+  // ========== DATA PERSISTENCE ==========;
 
   private async persistData(): Promise<void> {
     try {
@@ -1517,18 +1517,18 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Load snapshots
       if (fs.existsSync(this.METRICS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8'));
-        this.snapshots = data.map((item: unknown) => ({
+        this.snapshots = data.map((item: unknown) => ({;
           ...item,
-          timestamp: new Date(item.timestamp),
+          timestamp: new Date(item.timestamp)
         }));
       }
 
       // Load alerts
       if (fs.existsSync(this.ALERTS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.ALERTS_FILE, 'utf8'));
-        this.alerts = data.map((item: unknown) => ({
+        this.alerts = data.map((item: unknown) => ({;
           ...item,
-          timestamp: new Date(item.timestamp),
+          timestamp: new Date(item.timestamp)
         }));
       }
     } catch (error) {
@@ -1536,7 +1536,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     }
   }
 
-  // ========== PUBLIC API ==========
+  // ========== PUBLIC API ==========;
 
   getStatus(): {
     isMonitoring: boolean;
@@ -1552,7 +1552,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       snapshotCount: this.snapshots.length,
       alertCount: this.alerts.length,
       trendCount: this.trends.size,
-      latestHealthScore: latestSnapshot.healthScore || 0,
+      latestHealthScore: latestSnapshot.healthScore || 0
     };
   }
 
@@ -1560,7 +1560,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     return this.snapshots[this.snapshots.length - 1] || null;
   }
 
-  getAlerts(resolved: boolean = false): PerformanceAlert[] {
+  getAlerts(resolved: boolean = false): PerformanceAlert[] {;
     return this.alerts.filter(alert => alert.resolved === resolved);
   }
 
@@ -1576,7 +1576,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     }
   }
 
-  clearOldData(daysToKeep: number = 30): void {
+  clearOldData(daysToKeep: number = 30): void {;
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
 
@@ -1594,10 +1594,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   }
 }
 
-// ========== SINGLETON INSTANCE ==========
+// ========== SINGLETON INSTANCE ==========;
 
-export const performanceMetricsAnalytics = new PerformanceMetricsAnalytics();
+export const _performanceMetricsAnalytics = new PerformanceMetricsAnalytics();
 
-// ========== EXPORT FACTORY ==========
+// ========== EXPORT FACTORY ==========;
 
-export const createPerformanceMetrics = () => new PerformanceMetricsAnalytics();
+export const _createPerformanceMetrics = () => new PerformanceMetricsAnalytics();

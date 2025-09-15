@@ -7,7 +7,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Cooking food by immersing it in water or liquid that has reached its boiling point (212°F/100°C at sea level)
  * One of the fundamental wet cooking techniques with applications across world cuisines
  */
-export const boiling: CookingMethodData = {
+export const boiling: CookingMethodData = {;
   name: 'boiling',
   description:
     'Cooking food by immersing it in water or other liquid that has reached a rapid, rolling boil, quickly transferring heat and creating fast, even cooking. The rapid bubbling action and convection currents ensure consistent temperature throughout the cooking medium.',
@@ -15,11 +15,11 @@ export const boiling: CookingMethodData = {
     Water: 0.7,
     Fire: 0.2,
     Air: 0.1,
-    Earth: 0.0,
+    Earth: 0.0
   },
   duration: {
     min: 3,
-    max: 120,
+    max: 120
   },
   suitable_for: [
     'pasta',
@@ -37,7 +37,7 @@ export const boiling: CookingMethodData = {
     'certain meat cuts',
     'noodles',
     'gnocchi',
-    'corn',
+    'corn'
   ],
   benefits: [
     'quick cooking',
@@ -52,7 +52,7 @@ export const boiling: CookingMethodData = {
     'gelatinizes starches efficiently',
     'removes astringency from certain ingredients',
     'can concentrate flavors (reduction)',
-    'creates natural thickening agents through starch release',
+    'creates natural thickening agents through starch release'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
@@ -68,7 +68,7 @@ export const boiling: CookingMethodData = {
       third_quarter: 0.95, // Minor reduction
       waxing_crescent: 1.0, // Neutral
       waning_gibbous: 1.0, // Neutral
-    },
+    }
   },
   toolsRequired: [
     'Large pot or stockpot',
@@ -81,7 +81,7 @@ export const boiling: CookingMethodData = {
     'Spider strainer',
     'Skimmer',
     'Wooden spoon (to prevent boil-overs)',
-    'Heat-resistant gloves',
+    'Heat-resistant gloves'
   ],
   commonMistakes: [
     'overcooking vegetables',
@@ -96,7 +96,7 @@ export const boiling: CookingMethodData = {
     'stirring pasta too frequently',
     'not shocking vegetables after blanching',
     'starting with cold water for some items that require hot water start',
-    'adding food before water reaches full boil',
+    'adding food before water reaches full boil'
   ],
   pairingSuggestions: [
     'Herb-infused finishing oils',
@@ -108,7 +108,7 @@ export const boiling: CookingMethodData = {
     'Crunchy toppings (breadcrumbs, nuts) for texture contrast',
     'Fermented accompaniments for flavor complexity',
     'Smoked ingredients for depth',
-    'Pickled elements for brightness',
+    'Pickled elements for brightness'
   ],
   nutrientRetention: {
     vitamins: 0.5, // Water-soluble vitamins leach into cooking water
@@ -118,7 +118,7 @@ export const boiling: CookingMethodData = {
     fat_soluble_vitamins: 0.85,
     antioxidants: 0.4,
     phytonutrients: 0.45,
-    fiber: 0.85,
+    fiber: 0.85
   },
   optimalTemperatures: {
     rolling_boil: 212, // 212°F/100°C at sea level
@@ -140,7 +140,7 @@ export const boiling: CookingMethodData = {
       'pasta al dente technique',
       'risotto absorption method',
       'salt concentration for pasta (as salty as the Mediterranean)',
-      'double boiler for zabaglione',
+      'double boiler for zabaglione'
     ],
     asian: [
       'quick blanching for vegetables',
@@ -148,31 +148,31 @@ export const boiling: CookingMethodData = {
       'noodle cooking with cold shock',
       'controlling doneness with ice baths',
       'alkaline water for ramen noodles',
-      'rice washing and soaking before boiling',
+      'rice washing and soaking before boiling'
     ],
     middle_eastern: [
       'rice pilaf technique',
       'legume cooking',
       'grain absorption methods',
-      'aromatic broths for couscous',
+      'aromatic broths for couscous'
     ],
     french: [
       'blanch and shock method',
       'court bouillon for seafood',
       'bain-marie for delicate sauces',
-      'varying boiling temperatures for different custards',
+      'varying boiling temperatures for different custards'
     ],
     latin_american: [
       'corn nixtamalization',
       'sofrito base for bean cooking',
-      'yuca and plantain preparation',
+      'yuca and plantain preparation'
     ],
     indian: [
       'parallel spice infusion methods',
       'layered cooking for biryanis',
-      'precise timing for various lentil types',
+      'precise timing for various lentil types'
     ],
-    african: ['fufu preparation techniques', 'pounded yam methods', 'bean cake preparation'],
+    african: ['fufu preparation techniques', 'pounded yam methods', 'bean cake preparation']
   },
   chemicalChanges: {
     starch_gelatinization: true,
@@ -186,7 +186,7 @@ export const boiling: CookingMethodData = {
     tannin_extraction: true,
     flavor_compound_volatilization: true,
     mineral_release: true,
-    collagen_conversion: true,
+    collagen_conversion: true
   },
   safetyFeatures: [
     'Water boils at a consistent temperature (100°C at sea level)',
@@ -202,18 +202,18 @@ export const boiling: CookingMethodData = {
     'Respect the capacity limits of pots (no more than 2/3 full)',
     'Use timers to prevent overcooking and boil-overs',
     'Have fire safety equipment nearby',
-    'Be aware of altitude effects on boiling point and cooking times',
+    'Be aware of altitude effects on boiling point and cooking times'
   ],
   thermodynamicProperties: {
     heat: 0.8, // High heat transfer rate
     entropy: 0.65, // Moderate-high structural disruption
     reactivity: 0.45, // Moderate chemical reactions (no Maillard)
-    gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity)
+    gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity);
   } as ThermodynamicProperties,
 
   // Additional metadata
   history:
-    'Boiling is one of humanity\'s oldest cooking methods, dating back to the discovery of fire-resistant containers around 5000 BCE. Evidence of boiling has been found in archaeological sites worldwide, with specialized pottery for boiling developed in many cultures. The advent of pottery and the hearth revolutionized human nutrition by making grains, legumes, and tough plant materials digestible. In ancient Rome, the "foculus" was specifically designed for boiling. Medieval cooking heavily relied on boiling, as evidenced in cookbooks like "The Forme of Cury." Industrial revolution brought standardized cooking equipment, and the development of pressure cooking in the 17th century by Denis Papin revolutionized boiling by raising the boiling point of water through pressure.',
+    'Boiling is one of humanity\'s oldest cooking methods, dating back to the discovery of fire-resistant containers around 5000 BCE. Evidence of boiling has been found in archaeological sites worldwide, with specialized pottery for boiling developed in many cultures. The advent of pottery and the hearth revolutionized human nutrition by making grains, legumes, and tough plant materials digestible. In ancient Rome, the 'foculus' was specifically designed for boiling. Medieval cooking heavily relied on boiling, as evidenced in cookbooks like 'The Forme of Cury.' Industrial revolution brought standardized cooking equipment, and the development of pressure cooking in the 17th century by Denis Papin revolutionized boiling by raising the boiling point of water through pressure.',
 
   scientificPrinciples: [
     'Water maintains consistent 100°C temperature while boiling at sea level',
@@ -228,8 +228,8 @@ export const boiling: CookingMethodData = {
     'Nucleation sites affect bubble formation dynamics',
     'Surface tension changes with temperature and additives',
     'Polarity of water enables dissolution of hydrophilic compounds',
-    "Boiling point elevation follows Raoult's law with dissolved solutes",
-    'Heat transfer efficiency varies with food surface area and composition',
+    'Boiling point elevation follows Raoult's law with dissolved solutes',
+    'Heat transfer efficiency varies with food surface area and composition'
   ],
 
   modernVariations: [
@@ -244,7 +244,7 @@ export const boiling: CookingMethodData = {
     'Herbal and aromatic infusions during boiling',
     'Ultrasonic-assisted boiling for improved efficiency',
     'Molecular gastronomy applications (spherification of boiled flavors)',
-    'Microwave-assisted boiling for energy efficiency',
+    'Microwave-assisted boiling for energy efficiency'
   ],
 
   advancedTechniques: [
@@ -258,7 +258,7 @@ export const boiling: CookingMethodData = {
     'Mineral water boiling for subtle flavor enhancement',
     'Pressure regulation for altitude compensation',
     'Salt percentage gradients for different applications',
-    'Flavor stratification in stocks and broths',
+    'Flavor stratification in stocks and broths'
   ],
 
   culturalSignificance: [
@@ -267,7 +267,7 @@ export const boiling: CookingMethodData = {
     'Medicinal broths and decoctions in traditional medicine systems',
     'Symbol of hearth and home in many societies',
     'Preservation of cultural heritage through specific boiling techniques',
-    'Foundational cooking method for many cultural staples and comfort foods',
+    'Foundational cooking method for many cultural staples and comfort foods'
   ],
 
   sustainabilityRating: 0.65, // Moderate energy usage, but can be efficient with lid use
@@ -286,6 +286,6 @@ export const boiling: CookingMethodData = {
     'May reduce oxalates in leafy greens',
     'Cooking water from vegetables makes mineral-rich base for soups',
     'Can reduce pesticide residues on produce surface',
-    'Blanching helps preserve nutrient content for freezing',
-  ],
+    'Blanching helps preserve nutrient content for freezing'
+  ]
 } as CookingMethodData;

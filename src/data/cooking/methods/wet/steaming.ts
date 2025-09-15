@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Cooking food by surrounding it with hot water vapor, allowing gentle, moisture-rich heat transfer
  */
-export const steaming: CookingMethodData = {
+export const steaming: CookingMethodData = {;
   name: 'steaming',
   description:
     'Cooking food by suspending it above simmering water where rising vapor gently cooks the food, preserving nutrients and moisture',
@@ -14,11 +14,11 @@ export const steaming: CookingMethodData = {
     Water: 0.6,
     Air: 0.3,
     Fire: 0.1,
-    Earth: 0.0,
+    Earth: 0.0
   },
   duration: {
     min: 5,
-    max: 45,
+    max: 45
   },
   suitable_for: [
     'vegetables',
@@ -36,7 +36,7 @@ export const steaming: CookingMethodData = {
     'meat',
     'tofu',
     'seitan',
-    'tempeh',
+    'tempeh'
   ],
   benefits: [
     'nutrient retention',
@@ -48,7 +48,7 @@ export const steaming: CookingMethodData = {
     'preserves delicate textures',
     'natural flavor enhancement',
     'reduced risk of overcooking',
-    'consistent results',
+    'consistent results'
   ],
   astrologicalInfluences: {
     favorableZodiac: ['cancer', 'pisces', 'libra'] as any[],
@@ -59,7 +59,7 @@ export const steaming: CookingMethodData = {
       new_moon: 0.85, // Diminished vapor production
       waxing_crescent: 1.1, // Slight enhancement
       waning_gibbous: 0.9, // Slight reduction
-    },
+    }
   },
   toolsRequired: [
     'Steamer basket/insert (stainless steel or silicone)',
@@ -73,7 +73,7 @@ export const steaming: CookingMethodData = {
     'Tongs or spider for removal',
     'Lid with steam vents',
     'Steamer mats (silicone or cloth)',
-    'Steamer liners (for delicate foods)',
+    'Steamer liners (for delicate foods)'
   ],
   commonMistakes: [
     'Letting water boil away (causing scorching and damage to equipment)',
@@ -86,7 +86,7 @@ export const steaming: CookingMethodData = {
     'Steaming incompatible foods together (flavors can transfer)',
     'Allowing condensation to drip back onto food (can cause waterlogging)',
     'Using salt directly on vegetables before steaming (draws out moisture)',
-    'Not considering altitude adjustments (higher altitudes require longer times)',
+    'Not considering altitude adjustments (higher altitudes require longer times)'
   ],
   pairingSuggestions: [
     'Infused dipping sauces (soy-ginger, garlic-chili, citrus-herb)',
@@ -98,7 +98,7 @@ export const steaming: CookingMethodData = {
     'Cold sesame sauce for dumplings and vegetables',
     'Fragrant teas as steaming medium (jasmine, earl grey, lapsang souchong)',
     'Fermented bean sauces for Asian steamed dishes',
-    'Yogurt-based sauces for steamed vegetables',
+    'Yogurt-based sauces for steamed vegetables'
   ],
   nutrientRetention: {
     vitamins: 0.9, // Excellent retention of water-soluble vitamins
@@ -129,43 +129,43 @@ export const steaming: CookingMethodData = {
       'bamboo steamer techniques (stacked for multiple items)',
       'dim sum preparation (har gow, siu mai)',
       'lotus leaf wrapping (lo mai gai)',
-      'whole fish steaming with ginger and scallion',
+      'whole fish steaming with ginger and scallion'
     ],
     french: [
       'en papillote style steaming (parchment packets)',
       'bain-marie for custards (crème caramel)',
-      'fish en papillote (with herbs and wine)',
+      'fish en papillote (with herbs and wine)'
     ],
     southeast_asian: [
       'banana leaf wrapping (Malaysian otak-otak, Thai hor mok)',
       'sticky rice steaming in cone-shaped baskets',
       'Vietnamese banh cuon (rice rolls)',
-      'Indonesian tumpeng rice cones',
+      'Indonesian tumpeng rice cones'
     ],
     nordic: [
       'fish steaming with herbs (dill, fennel)',
       'root vegetable steam-roasting',
-      'steamed berry puddings',
+      'steamed berry puddings'
     ],
     japanese: [
       'chawanmushi (savory egg custard)',
       'mushimono technique',
       'rice cake steaming',
       'tea-steamed fish',
-      'koimo steamed taro',
+      'koimo steamed taro'
     ],
     indian: [
       'idli (fermented rice cakes)',
       'dhokla (fermented gram flour cakes)',
       'patra (colocasia leaf rolls)',
-      'momo dumplings',
+      'momo dumplings'
     ],
     middle_eastern: ['couscous steaming', 'stuffed vegetable steaming', 'fish with aromatic herbs'],
     south_american: [
       'tamales in corn husks',
       'humitas (fresh corn dumplings)',
-      'Chilean curanto (pit steaming)',
-    ],
+      'Chilean curanto (pit steaming)'
+    ]
   },
   chemicalChanges: {
     gentle_protein_denaturation: true, // Proteins unfold without toughening at 140-165°F
@@ -187,18 +187,18 @@ export const steaming: CookingMethodData = {
     'Ensure adequate ventilation to prevent excess condensation',
     'Use heat-resistant gloves when removing lid to prevent steam burns',
     'Allow sufficient cooling time before handling steamer components',
-    'Ensure food reaches proper internal temperature (especially poultry at 165°F)',
+    'Ensure food reaches proper internal temperature (especially poultry at 165°F)'
   ],
   thermodynamicProperties: {
     heat: 0.6, // Moderate heat transfer rate
     entropy: 0.45, // Gentle structural transformations
     reactivity: 0.3, // Low chemical reactivity (minimal browning)
-    gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity)
+    gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity);
   } as ThermodynamicProperties,
 
   // Additional metadata
   history:
-    'Steaming dates back to ancient Chinese cooking techniques from at least 5000 BCE, where bamboo steamers were developed for rice and dumplings. Archaeological evidence shows pottery steamers from the Banpo Neolithic settlement (4800-4200 BCE) in China\'s Yellow River Valley. The technique spread throughout Asia and eventually worldwide. In 18th century Europe, "bain-marie" steaming became fashionable in French cuisine. Modern pressure steamers were developed in the early 20th century, while contemporary high-tech combi-ovens with precision steam control represent the latest evolution.',
+    'Steaming dates back to ancient Chinese cooking techniques from at least 5000 BCE, where bamboo steamers were developed for rice and dumplings. Archaeological evidence shows pottery steamers from the Banpo Neolithic settlement (4800-4200 BCE) in China\'s Yellow River Valley. The technique spread throughout Asia and eventually worldwide. In 18th century Europe, 'bain-marie' steaming became fashionable in French cuisine. Modern pressure steamers were developed in the early 20th century, while contemporary high-tech combi-ovens with precision steam control represent the latest evolution.',
 
   scientificPrinciples: [
     'Latent heat of vaporization releases 540 cal/g of energy when steam condenses on food surface',
@@ -210,7 +210,7 @@ export const steaming: CookingMethodData = {
     'Convection currents in steam ensure even heat distribution',
     'Vacuum effect when cooling draws flavors deeper into food',
     'Hydration of starches occurs efficiently in steam environment',
-    'Proteins denature without excessive contraction that causes toughness',
+    'Proteins denature without excessive contraction that causes toughness'
   ],
 
   modernVariations: [
@@ -223,7 +223,7 @@ export const steaming: CookingMethodData = {
     'Specialized electric steamers with programmable settings',
     'Microwave steam containers for quick results',
     'Industrial steam-injection ovens for commercial baking',
-    'Flash-steaming for vegetables to maintain crispness',
+    'Flash-steaming for vegetables to maintain crispness'
   ],
 
   sustainabilityRating: 0.85, // Highly efficient energy and water usage
@@ -240,7 +240,7 @@ export const steaming: CookingMethodData = {
     'Beneficial for easier digestion of certain foods (particularly legumes and grains)',
     'Preserves antioxidant content better than high-heat methods',
     'Reduces AGE (Advanced Glycation End-products) formation compared to dry heat methods',
-    'Beneficial for low-sodium cooking approach',
+    'Beneficial for low-sodium cooking approach'
   ],
 
   expertTips: [
@@ -256,7 +256,7 @@ export const steaming: CookingMethodData = {
     'For whole fish, score the thickest parts to ensure even cooking',
     'Maintain at least 1 inch of water in the steaming pot at all times to prevent burning',
     'For perfect steamed eggs, strain the beaten eggs before steaming to remove chalaza',
-    'Use a needle to poke small holes in sausages before steaming to prevent bursting',
+    'Use a needle to poke small holes in sausages before steaming to prevent bursting'
   ],
 
   ingredientPreparation: {
@@ -279,7 +279,7 @@ export const steaming: CookingMethodData = {
     roots_tubers:
       'Peel if necessary; cut to uniform sizes (1-2 inch pieces); pre-soak very dense vegetables for 10-15 minutes',
     greens:
-      'Wash thoroughly; remove tough stems; leave whole for easy removal or chop for inclusion in dishes',
+      'Wash thoroughly; remove tough stems; leave whole for easy removal or chop for inclusion in dishes'
   },
 
   timingConsiderations: {
@@ -302,7 +302,7 @@ export const steaming: CookingMethodData = {
     eggs: 'Soft-cooked: 6-7 minutes; medium: 8-9 minutes; hard-cooked: 10-12 minutes; custards: 30-35 minutes',
     rice: 'White rice: 30-35 minutes; glutinous/sticky rice: 25-30 minutes; brown rice: 45-50 minutes',
     rest_after:
-      'Fish: 2-3 minutes; chicken: 5-10 minutes; vegetables: serve immediately; rice: 5-10 minutes',
+      'Fish: 2-3 minutes; chicken: 5-10 minutes; vegetables: serve immediately; rice: 5-10 minutes'
   },
 
   doneness_indicators: {
@@ -318,7 +318,7 @@ export const steaming: CookingMethodData = {
     dumplings:
       'Wrappers become translucent; filling reaches appropriate temperature (meat 165°F); dough not sticky',
     bao_buns:
-      'Dough springs back when touched lightly; increase in size by 50%; no raw dough in center',
+      'Dough springs back when touched lightly; increase in size by 50%; no raw dough in center'
   },
 
   ingredientInteractions: {
@@ -341,6 +341,6 @@ export const steaming: CookingMethodData = {
     oil_applications:
       'Light oil on food surface prevents sticking and carries fat-soluble flavors; apply before steaming',
     alcohol_evaporation:
-      'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates; use in well-ventilated area',
-  },
+      'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates; use in well-ventilated area'
+  }
 };

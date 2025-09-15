@@ -17,7 +17,7 @@ interface UseErrorHandlerReturn {
   foodError: Error | null;
   foodLoading: boolean;
   foodRecommendations: unknown[] | null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   setFoodRecommendations: React.Dispatch<React.SetStateAction<unknown[] | null>>;
 }
 
@@ -25,11 +25,11 @@ interface UseErrorHandlerReturn {
  * Custom hook for handling errors in a component
  */
 export default function useErrorHandler({
-  componentName,
+  componentName
 }: UseErrorHandlerProps): UseErrorHandlerReturn {
   const [foodError, setFoodError] = useState<Error | null>(null);
   const [foodLoading, setFoodLoading] = useState<boolean>(true);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   const [foodRecommendations, setFoodRecommendations] = useState<unknown[] | null>(null);
 
   // Use effect to initialize and cleanup
@@ -44,11 +44,11 @@ export default function useErrorHandler({
   }, []);
 
   // Capture and handle errors
-  const captureError = useCallback(
+  const captureError = useCallback(;
+     
+     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
-    (error: Error | string, context: any = {}) => {
+    (error: Error | string, context: any = {}) => {;
       // Create error object if string was passed
       const errorObj = typeof error === 'string' ? new Error(error) : error;
 
@@ -56,7 +56,7 @@ export default function useErrorHandler({
       logger.error(`Error in ${componentName}:`, {
         error: errorObj.message,
         stack: errorObj.stack,
-        context,
+        context
       });
 
       // Handle the error through the error system
@@ -64,7 +64,7 @@ export default function useErrorHandler({
         component: componentName,
         severity: ErrorSeverity.WARNING,
         type: ErrorType.DATA,
-        context: { details: context },
+        context: { details: context }
       });
 
       // Update state
@@ -79,6 +79,6 @@ export default function useErrorHandler({
     foodError,
     foodLoading,
     foodRecommendations,
-    setFoodRecommendations,
+    setFoodRecommendations
   };
 }

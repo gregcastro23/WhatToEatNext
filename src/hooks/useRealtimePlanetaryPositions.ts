@@ -25,13 +25,13 @@ interface UseRealtimePlanetaryPositionsOptions {
   testConnection?: boolean;
 }
 
-export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPositionsOptions = {}) {
+export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPositionsOptions = {}) {;
   const {
-    refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load
+    refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load;
     location,
-    autoStart = false, // Disabled by default to prevent unnecessary API calls
-    zodiacSystem = 'tropical',
-    testConnection = false,
+    autoStart = false, // Disabled by default to prevent unnecessary API calls;
+    zodiacSystem = 'tropical',;
+    testConnection = false,;
   } = options;
 
   const [state, setState] = useState<PlanetaryPositionsState>({
@@ -39,10 +39,10 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
     loading: false,
     error: null,
     lastUpdated: null,
-    source: null,
+    source: null
   });
 
-  const fetchPositions = useCallback(async () => {
+  const fetchPositions = useCallback(async () => {;
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
@@ -58,21 +58,21 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
         loading: false,
         error: null,
         lastUpdated: new Date(),
-        source,
+        source
       });
 
       log.info('🌟 Updated planetary positions from:', { source });
     } catch (error) {
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : 'Unknown error'
       }));
       console.error('Failed to fetch planetary positions:', error);
     }
   }, [location, zodiacSystem]);
 
-  const forceRefresh = useCallback(() => {
+  const forceRefresh = useCallback(() => {;
     void fetchPositions();
   }, [fetchPositions]);
 
@@ -94,8 +94,8 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
   return {
     ...state,
     refresh: forceRefresh,
-    isRealtime: state.source === 'astrologize-api-realtime',
-    isConnected: state.source?.includes('astrologize-api') ?? false,
+    isRealtime: state.source === 'astrologize-api-realtime',;
+    isConnected: state.source?.includes('astrologize-api') ?? false
   };
 }
 
@@ -110,10 +110,10 @@ export function usePlanetaryPositionsForDate(
     loading: false,
     error: null,
     lastUpdated: null,
-    source: null,
+    source: null
   });
 
-  const fetchPositions = useCallback(async () => {
+  const fetchPositions = useCallback(async () => {;
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
@@ -130,13 +130,13 @@ export function usePlanetaryPositionsForDate(
         loading: false,
         error: null,
         lastUpdated: new Date(),
-        source,
+        source
       });
     } catch (error) {
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : 'Unknown error'
       }));
     }
   }, [date, location, zodiacSystem]);
@@ -149,6 +149,6 @@ export function usePlanetaryPositionsForDate(
     ...state,
     refresh: fetchPositions,
     isRealtime: false,
-    isConnected: state.source?.includes('astrologize-api') ?? false,
+    isConnected: state.source?.includes('astrologize-api') ?? false
   };
 }

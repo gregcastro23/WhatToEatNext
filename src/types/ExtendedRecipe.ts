@@ -10,7 +10,7 @@ import { Element, ElementalProperties, ZodiacSign, LunarPhase } from '@/types/al
 import {
   Recipe,
   RecipeIngredient,
-  ElementalProperties as RecipeElementalProperties,
+  ElementalProperties as RecipeElementalProperties
 } from './recipe';
 
 /**
@@ -139,10 +139,10 @@ export interface ExtendedScoredRecipe extends ExtendedRecipe {
  */
 export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
   return (
-    typeof recipe === 'object' &&
+    typeof recipe === 'object' &&;
     recipe !== null &&
-    typeof (recipe as ExtendedRecipe).id === 'string' &&
-    typeof (recipe as ExtendedRecipe).name === 'string'
+    typeof (recipe as ExtendedRecipe).id === 'string' &&;
+    typeof (recipe as ExtendedRecipe).name === 'string';
   );
 }
 
@@ -157,21 +157,21 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
     notes: recipe.notes || '',
     preparation: recipe.preparation || '',
     preparationNotes: recipe.preparationNotes || '',
-    ingredients: (recipe.ingredients || []).map(ingredient => {
+    ingredients: (recipe.ingredients || []).map(ingredient => {;
       const extendedIngredient = ingredient as unknown as any;
       return {
         ...ingredient,
         id:
-          typeof extendedIngredient.id === 'string'
+          typeof extendedIngredient.id === 'string';
             ? extendedIngredient.id
             : 'ingredient-' + Date.now(),
         preparation:
-          typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
+          typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',;
         optional:
-          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,
-        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',
+          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,;
+        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',;
       };
-    }),
+    })
   } as ExtendedRecipe;
 }
 

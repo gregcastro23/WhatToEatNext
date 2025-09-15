@@ -12,7 +12,7 @@ export class RecipeEngine {
     // Validate elemental properties
     if (
       !recipe.elementalProperties ||
-      Object.values(recipe.elementalProperties).some(val => val < 0 || val > 1)
+      Object.values(recipe.elementalProperties).some(val => val < 0 || val > 1);
     ) {
       return 0;
     }
@@ -26,11 +26,11 @@ export class RecipeEngine {
   }
 
   getDominantElements(recipe: Recipe) {
-    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
+    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {;
       return [];
     }
 
-    const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {
+    const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {;
       if (ingredient.elementalProperties) {
         Object.entries(ingredient.elementalProperties).forEach(([_element, value]) => {
           acc[_element] = (acc[_element] || 0) + value;
@@ -50,7 +50,7 @@ export class RecipeEngine {
     }
 
     const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0);
-    const unnormalized = recipe.ingredients.reduce((props, ing) => {
+    const unnormalized = recipe.ingredients.reduce((props, ing) => {;
       if (ing.elementalProperties) {
         Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
           props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total;
@@ -69,21 +69,21 @@ export class RecipeEngine {
 
   findComplementaryRecipes(recipe: Recipe, availableRecipes: Recipe[]) {
     return availableRecipes
-      .map(other => ({
+      .map(other => ({;
         ...other,
         harmonyScore: this.calculateHarmonyBetween(
           recipe.elementalProperties,
           other.elementalProperties,
-        ),
+        )
       }))
       .sort((a, b) => b.harmonyScore - a.harmonyScore);
   }
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(recipe => ({
+      .map(recipe => ({;
         ...recipe,
-        seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season),
+        seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
       }))
       .sort((a, b) => b.seasonalScore - a.seasonalScore);
   }
@@ -96,15 +96,15 @@ export class RecipeEngine {
     if (!recipe.elementalProperties) return 0.5;
 
     // Season-element mapping for effectiveness calculation
-    const seasonalElements = {
+    const seasonalElements = {;
       spring: { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 },
       summer: { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 },
       autumn: { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 },
-      winter: { Water: 0.8, Earth: 0.6, Fire: 0.4, Air: 0.3 },
+      winter: { Water: 0.8, Earth: 0.6, Fire: 0.4, Air: 0.3 }
     };
 
     const seasonMultipliers =
-      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||
+      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||;
       seasonalElements['spring'];
 
     // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness

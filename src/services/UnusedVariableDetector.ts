@@ -21,7 +21,7 @@ import path from 'path';
 
 import { log } from '@/services/LoggingService';
 
-// ========== UNUSED VARIABLE INTERFACES ==========
+// ========== UNUSED VARIABLE INTERFACES ==========;
 
 export interface UnusedVariable {
   variableId: string;
@@ -155,7 +155,7 @@ export interface DetectionOptions {
   safetyChecks: boolean;
 }
 
-// ========== UNUSED VARIABLE DETECTOR ==========
+// ========== UNUSED VARIABLE DETECTOR ==========;
 
 export class UnusedVariableDetector extends EventEmitter {
   private detectionResults: Map<string, DetectionResult> = new Map();
@@ -163,7 +163,7 @@ export class UnusedVariableDetector extends EventEmitter {
   private crossFileReferences: Map<string, Set<string>> = new Map();
   private isAnalyzing: boolean = false;
   private readonly RESULTS_FILE = '.unused-variable-results.json';
-  private readonly EXCLUSION_PATTERNS = [
+  private readonly EXCLUSION_PATTERNS = [;
     'node_modules',
     '.git',
     'dist',
@@ -173,11 +173,11 @@ export class UnusedVariableDetector extends EventEmitter {
     '__tests__',
     'test',
     'spec',
-    '.d.ts',
+    '.d.ts'
   ];
 
   // Detection configuration
-  private readonly DEFAULT_OPTIONS: DetectionOptions = {
+  private readonly DEFAULT_OPTIONS: DetectionOptions = {;
     includeVariables: true,
     includeImports: true,
     includeExports: true,
@@ -188,7 +188,7 @@ export class UnusedVariableDetector extends EventEmitter {
     riskThreshold: 'medium',
     confidenceThreshold: 0.7,
     enableAutomation: false,
-    safetyChecks: true,
+    safetyChecks: true
   };
 
   constructor() {
@@ -196,13 +196,13 @@ export class UnusedVariableDetector extends EventEmitter {
     this.loadPersistedData();
   }
 
-  // ========== MAIN DETECTION METHODS ==========
+  // ========== MAIN DETECTION METHODS ==========;
 
   /**
    * Perform comprehensive unused variable detection
    */
   async detectUnusedVariables(
-    targetPath: string = '.',
+    targetPath: string = '.',;
     options: Partial<DetectionOptions> = {},
   ): Promise<DetectionResult[]> {
     const mergedOptions = { ...this.DEFAULT_OPTIONS, ...options };
@@ -262,21 +262,21 @@ export class UnusedVariableDetector extends EventEmitter {
 
     try {
       // Use find command to get TypeScript files
-      const excludePaths = options.excludeDirectories
-        .map(dir => `-not -path "*/${dir}/*"`)
+      const excludePaths = options.excludeDirectories;
+        .map(dir => `-not -path '*/${dir}/*'`);
         .join(' ');
-      const findCommand = `find ${targetPath} -type f \\( -name "*.ts" -o -name "*.tsx" \\) ${excludePaths}`;
+      const findCommand = `find ${targetPath} -type f \\( -name '*.ts' -o -name '*.tsx' \\) ${excludePaths}`;
 
       const output = execSync(findCommand, { encoding: 'utf8', timeout: 30000 });
-      const foundFiles = output
+      const foundFiles = output;
         .trim()
         .split('\n')
         .filter(f => f.trim());
 
       // Filter out excluded patterns
       for (const file of foundFiles) {
-        const shouldExclude = options.excludePatterns.some(
-          pattern => file.includes(pattern) || file.endsWith(pattern),
+        const shouldExclude = options.excludePatterns.some(;
+          pattern => file.includes(pattern) || file.endsWith(pattern),;
         );
 
         if (!shouldExclude && fs.existsSync(file)) {
@@ -323,18 +323,18 @@ export class UnusedVariableDetector extends EventEmitter {
     const symbols = new Set<string>();
 
     // Extract variable declarations
-    const variablePatterns = [
+    const variablePatterns = [;
       /\b(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
       /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
       /\bclass\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
       /\binterface\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
       /\btype\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
-      /\benum\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
+      /\benum\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g
     ];
 
     for (const pattern of variablePatterns) {
       let match;
-      while ((match = pattern.exec(content)) !== null) {
+      while ((match = pattern.exec(content)) !== null) {;
         symbols.add(match[1]);
       }
     }
@@ -349,15 +349,15 @@ export class UnusedVariableDetector extends EventEmitter {
     const references = new Set<string>();
 
     // Extract import statements
-    const importPatterns = [
-      /import\s+[^'"`]+['"`]([^'"`]+)['"`]/g,
-      /import\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g,
-      /require\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g,
+    const importPatterns = [;
+      /import\s+[^''`]+[''`]([^''`]+)[''`]/g,
+      /import\s*\(\s*[''`]([^''`]+)[''`]\s*\)/g,
+      /require\s*\(\s*[''`]([^''`]+)[''`]\s*\)/g
     ];
 
     for (const pattern of importPatterns) {
       let match;
-      while ((match = pattern.exec(content)) !== null) {
+      while ((match = pattern.exec(content)) !== null) {;
         references.add(match[1]);
       }
     }
@@ -375,29 +375,29 @@ export class UnusedVariableDetector extends EventEmitter {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
 
-      const unusedVariables = options.includeVariables
+      const unusedVariables = options.includeVariables;
         ? this.detectUnusedVariablesInFile(content, filePath)
         : [];
 
-      const unusedImports = options.includeImports
+      const unusedImports = options.includeImports;
         ? this.detectUnusedImportsInFile(content, filePath)
         : [];
 
-      const unusedExports = options.includeExports
+      const unusedExports = options.includeExports;
         ? this.detectUnusedExportsInFile(content, filePath)
         : [];
 
-      const deadCodeBlocks = options.includeDeadCode
+      const deadCodeBlocks = options.includeDeadCode;
         ? this.detectDeadCodeInFile(content, filePath)
         : [];
 
       // Filter by confidence threshold
-      const filteredVariables = unusedVariables.filter(
-        v => v.confidence >= options.confidenceThreshold,
+      const filteredVariables = unusedVariables.filter(;
+        v => v.confidence >= options.confidenceThreshold,;
       );
 
       // Generate recommendations
-      const recommendations = this.generateRecommendations(
+      const recommendations = this.generateRecommendations(;
         filteredVariables,
         unusedImports,
         unusedExports,
@@ -406,16 +406,16 @@ export class UnusedVariableDetector extends EventEmitter {
       );
 
       const totalUnused =
-        filteredVariables.length +
+        filteredVariables.length +;
         unusedImports.length +
         unusedExports.length +
         deadCodeBlocks.length;
 
-      if (totalUnused === 0) {
+      if (totalUnused === 0) {;
         return null; // No unused variables found
       }
 
-      const result: DetectionResult = {
+      const result: DetectionResult = {;
         resultId: `result_${filePath}_${Date.now()}`,
         filePath,
         unusedVariables: filteredVariables,
@@ -432,9 +432,9 @@ export class UnusedVariableDetector extends EventEmitter {
             deadCodeBlocks,
           ),
           riskLevel: this.calculateRiskLevel(filteredVariables, unusedImports, unusedExports),
-          automationPotential: this.calculateAutomationPotential(recommendations),
+          automationPotential: this.calculateAutomationPotential(recommendations)
         },
-        timestamp: new Date(),
+        timestamp: new Date()
       };
 
       return result;
@@ -458,7 +458,7 @@ export class UnusedVariableDetector extends EventEmitter {
       const usage = this.analyzeVariableUsage(declaration, content);
 
       if (!usage.read && !usage.called && !usage.exported) {
-        const unusedVar: UnusedVariable = {
+        const unusedVar: UnusedVariable = {;
           variableId: `var_${declaration.name}_${declaration.line}`,
           name: declaration.name,
           type: declaration.type,
@@ -472,12 +472,12 @@ export class UnusedVariableDetector extends EventEmitter {
             nearbyCode: this.getNearbyCode(lines, declaration.line),
             containingFunction: this.getContainingFunction(declaration, content),
             containingClass: this.getContainingClass(declaration, content),
-            containingModule: path.basename(filePath),
+            containingModule: path.basename(filePath)
           },
           riskLevel: this.calculateVariableRisk(declaration, usage),
           confidence: this.calculateVariableConfidence(declaration, usage, content),
           estimatedImpact: this.calculateVariableImpact(declaration, usage),
-          lastModified: new Date(),
+          lastModified: new Date()
         };
 
         unusedVariables.push(unusedVar);
@@ -521,7 +521,7 @@ export class UnusedVariableDetector extends EventEmitter {
           type: 'variable',
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[2]),
-          declarationType: match[1] as UnusedVariable['declarationType'],
+          declarationType: match[1] as UnusedVariable['declarationType']
         });
       }
 
@@ -533,7 +533,7 @@ export class UnusedVariableDetector extends EventEmitter {
           type: 'function',
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[1]),
-          declarationType: 'function',
+          declarationType: 'function'
         });
       }
 
@@ -545,7 +545,7 @@ export class UnusedVariableDetector extends EventEmitter {
           type: 'class',
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[1]),
-          declarationType: 'class',
+          declarationType: 'class'
         });
       }
 
@@ -557,7 +557,7 @@ export class UnusedVariableDetector extends EventEmitter {
           type: 'interface',
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[1]),
-          declarationType: 'interface',
+          declarationType: 'interface'
         });
       }
     }
@@ -576,8 +576,8 @@ export class UnusedVariableDetector extends EventEmitter {
 
     // Remove the declaration line to avoid false positives
     const lines = content.split('\n');
-    const contentWithoutDeclaration = lines
-      .map((line, index) => (index === declaration.line - 1 ? '' : line))
+    const contentWithoutDeclaration = lines;
+      .map((line, index) => (index === declaration.line - 1 ? '' : line));
       .join('\n');
 
     // Check for different types of usage
@@ -593,7 +593,7 @@ export class UnusedVariableDetector extends EventEmitter {
       read,
       called,
       exported,
-      imported,
+      imported
     };
   }
 
@@ -601,7 +601,7 @@ export class UnusedVariableDetector extends EventEmitter {
    * Check if variable is assigned
    */
   private checkAssignment(name: string, content: string): boolean {
-    const assignmentPatterns = [
+    const assignmentPatterns = [;
       new RegExp(`\\b${name}\\s*=`, 'g'),
       new RegExp(`\\b${name}\\s*\\+=`, 'g'),
       new RegExp(`\\b${name}\\s*-=`, 'g'),
@@ -610,7 +610,7 @@ export class UnusedVariableDetector extends EventEmitter {
       new RegExp(`\\b${name}\\+\\+`, 'g'),
       new RegExp(`\\+\\+${name}\\b`, 'g'),
       new RegExp(`\\b${name}--`, 'g'),
-      new RegExp(`--${name}\\b`, 'g'),
+      new RegExp(`--${name}\\b`, 'g')
     ];
 
     return assignmentPatterns.some(pattern => pattern.test(content));
@@ -621,7 +621,7 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   private checkRead(name: string, content: string): boolean {
     // Look for variable usage in expressions, but not in declarations
-    const readPatterns = [
+    const readPatterns = [;
       new RegExp(`\\b${name}\\b(?!\\s*[=:])`), // Used but not assigned
       new RegExp(`\\b${name}\\[`), // Array access
       new RegExp(`\\b${name}\\.`), // Property access
@@ -645,7 +645,7 @@ export class UnusedVariableDetector extends EventEmitter {
    * Check if function is called
    */
   private checkFunctionCall(name: string, content: string): boolean {
-    const callPatterns = [
+    const callPatterns = [;
       new RegExp(`\\b${name}\\s*\\(`, 'g'), // Function call
       new RegExp(`\\b${name}\\s*\\.apply\\s*\\(`, 'g'), // Apply call
       new RegExp(`\\b${name}\\s*\\.call\\s*\\(`, 'g'), // Call method
@@ -660,13 +660,13 @@ export class UnusedVariableDetector extends EventEmitter {
    * Check if variable is exported
    */
   private checkExported(name: string, content: string): boolean {
-    const exportPatterns = [
+    const exportPatterns = [;
       new RegExp(`export\\s+\\{[^}]*\\b${name}\\b[^}]*\\}`, 'g'),
       new RegExp(`export\\s+${name}\\b`, 'g'),
       new RegExp(`export\\s+default\\s+${name}\\b`, 'g'),
       new RegExp(`module\\.exports\\s*=\\s*[^;]*\\b${name}\\b`, 'g'),
       new RegExp(`module\\.exports\\.${name}\\b`, 'g'),
-      new RegExp(`exports\\.${name}\\b`, 'g'),
+      new RegExp(`exports\\.${name}\\b`, 'g')
     ];
 
     return exportPatterns.some(pattern => pattern.test(content));
@@ -676,12 +676,12 @@ export class UnusedVariableDetector extends EventEmitter {
    * Check if variable is imported
    */
   private checkImported(name: string, content: string): boolean {
-    const importPatterns = [
+    const importPatterns = [;
       new RegExp(`import\\s+\\{[^}]*\\b${name}\\b[^}]*\\}`, 'g'),
       new RegExp(`import\\s+${name}\\b`, 'g'),
       new RegExp(`import\\s+\\*\\s+as\\s+${name}\\b`, 'g'),
       new RegExp(`const\\s+${name}\\s*=\\s*require\\s*\\(`, 'g'),
-      new RegExp(`const\\s+\\{[^}]*\\b${name}\\b[^}]*\\}\\s*=\\s*require\\s*\\(`, 'g'),
+      new RegExp(`const\\s+\\{[^}]*\\b${name}\\b[^}]*\\}\\s*=\\s*require\\s*\\(`, 'g')
     ];
 
     return importPatterns.some(pattern => pattern.test(content));
@@ -699,8 +699,8 @@ export class UnusedVariableDetector extends EventEmitter {
       const lineNumber = i + 1;
 
       // Match import statements
-      const importMatches = line.matchAll(
-        /import\s+(?:(\w+)|(?:\{([^}]+)\})|(?:\*\s+as\s+(\w+)))(?:\s+from\s+)?['"`]([^'"`]+)['"`]/g,
+      const importMatches = line.matchAll(;
+        /import\s+(?:(\w+)|(?:\{([^}]+)\})|(?:\*\s+as\s+(\w+)))(?:\s+from\s+)?[''`]([^''`]+)[''`]/g,
       );
 
       for (const match of importMatches) {
@@ -709,7 +709,7 @@ export class UnusedVariableDetector extends EventEmitter {
         if (defaultImport) {
           // Default import
           const usageCount = this.countUsage(defaultImport, content, lineNumber);
-          if (usageCount === 0) {
+          if (usageCount === 0) {;
             unusedImports.push(
               this.createUnusedImport(
                 defaultImport,
@@ -729,7 +729,7 @@ export class UnusedVariableDetector extends EventEmitter {
           for (const imp of imports) {
             const importName = imp.includes(' as ') ? imp.split(' as ')[1].trim() : imp;
             const usageCount = this.countUsage(importName, content, lineNumber);
-            if (usageCount === 0) {
+            if (usageCount === 0) {;
               unusedImports.push(
                 this.createUnusedImport(
                   importName,
@@ -747,7 +747,7 @@ export class UnusedVariableDetector extends EventEmitter {
         if (namespaceImport) {
           // Namespace import
           const usageCount = this.countUsage(namespaceImport, content, lineNumber);
-          if (usageCount === 0) {
+          if (usageCount === 0) {;
             unusedImports.push(
               this.createUnusedImport(
                 namespaceImport,
@@ -788,7 +788,7 @@ export class UnusedVariableDetector extends EventEmitter {
       isTypeOnly: this.isTypeOnlyImport(importName, importPath),
       isDevelopmentOnly: this.isDevelopmentOnlyImport(importPath),
       relatedExports: [],
-      estimatedSavings: this.calculateImportSavings(importPath),
+      estimatedSavings: this.calculateImportSavings(importPath)
     };
   }
 
@@ -797,8 +797,8 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   private countUsage(identifier: string, content: string, declarationLine: number): number {
     const lines = content.split('\n');
-    const contentWithoutDeclaration = lines
-      .map((line, index) => (index === declarationLine - 1 ? '' : line))
+    const contentWithoutDeclaration = lines;
+      .map((line, index) => (index === declarationLine - 1 ? '' : line));
       .join('\n');
 
     const usageRegex = new RegExp(`\\b${identifier}\\b`, 'g');
@@ -818,7 +818,7 @@ export class UnusedVariableDetector extends EventEmitter {
       const lineNumber = i + 1;
 
       // Match export statements
-      const exportMatches = line.matchAll(
+      const exportMatches = line.matchAll(;
         /export\s+(?:default\s+)?(?:(?:const|let|var|function|class|interface|type)\s+)?(\w+)/g,
       );
 
@@ -829,7 +829,7 @@ export class UnusedVariableDetector extends EventEmitter {
         // Check if export is used elsewhere
         const usageCount = this.countExportUsage(exportName, filePath);
 
-        if (usageCount === 0) {
+        if (usageCount === 0) {;
           unusedExports.push({
             exportId: `export_${exportName}_${lineNumber}`,
             exportName,
@@ -839,7 +839,7 @@ export class UnusedVariableDetector extends EventEmitter {
             isPublicAPI: this.isPublicAPI(exportName, filePath),
             usageCount,
             potentialUsers: [],
-            removalSafety: this.calculateRemovalSafety(exportName, filePath),
+            removalSafety: this.calculateRemovalSafety(exportName, filePath)
           });
         }
       }
@@ -859,8 +859,8 @@ export class UnusedVariableDetector extends EventEmitter {
 
       try {
         const content = fs.readFileSync(otherFilePath, 'utf8');
-        const importPattern = new RegExp(
-          `import\\s+[^'"]*\\b${exportName}\\b[^'"]*['"][^'"]*${path.basename(filePath, path.extname(filePath))}`,
+        const importPattern = new RegExp(;
+          `import\\s+[^'']*\\b${exportName}\\b[^'']*[''][^'"]*${path.basename(filePath, path.extname(filePath))}`,
         );
 
         if (importPattern.test(content)) {
@@ -900,7 +900,7 @@ export class UnusedVariableDetector extends EventEmitter {
             complexity: 1,
             dependencies: [],
             isReachable: false,
-            estimatedRemovalBenefit: 0.3,
+            estimatedRemovalBenefit: 0.3
           });
         }
       }
@@ -919,7 +919,7 @@ export class UnusedVariableDetector extends EventEmitter {
           complexity: 2,
           dependencies: [],
           isReachable: false,
-          estimatedRemovalBenefit: 0.5,
+          estimatedRemovalBenefit: 0.5
         });
       }
     }
@@ -944,7 +944,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
       if (line.includes('}')) {
         braceCount--;
-        if (inBlock && braceCount === 0) {
+        if (inBlock && braceCount === 0) {;
           return i + 1;
         }
       }
@@ -953,22 +953,22 @@ export class UnusedVariableDetector extends EventEmitter {
     return Math.min(startIndex + 10, lines.length);
   }
 
-  // ========== HELPER METHODS ==========
+  // ========== HELPER METHODS ==========;
 
   private determineScope(
     declaration: { line: number; [key: string]: unknown },
     _content: string,
   ): UnusedVariable['scope'] {
-    if (declaration.type === 'import' || declaration.type === 'export') {
+    if (declaration.type === 'import' || declaration.type === 'export') {;
       return 'module';
     }
 
     // Simple heuristic based on declaration type
-    if (declaration.declarationType === 'const' || declaration.declarationType === 'let') {
+    if (declaration.declarationType === 'const' || declaration.declarationType === 'let') {;
       return 'local';
     }
 
-    if (declaration.declarationType === 'var') {
+    if (declaration.declarationType === 'var') {;
       return 'global';
     }
 
@@ -1023,11 +1023,11 @@ export class UnusedVariableDetector extends EventEmitter {
     declaration: { name: string; [key: string]: unknown },
     usage: UnusedVariable['usage'],
   ): UnusedVariable['riskLevel'] {
-    if (declaration.type === 'interface' || declaration.type === 'type') {
+    if (declaration.type === 'interface' || declaration.type === 'type') {;
       return 'low'; // Types are generally safe to remove
     }
 
-    if (declaration.type === 'export') {
+    if (declaration.type === 'export') {;
       return 'high'; // Exports might be used by other modules
     }
 
@@ -1051,7 +1051,7 @@ export class UnusedVariableDetector extends EventEmitter {
     }
 
     // Lower confidence for complex declarations
-    if (declaration.type === 'function' || declaration.type === 'class') {
+    if (declaration.type === 'function' || declaration.type === 'class') {;
       confidence -= 0.1;
     }
 
@@ -1067,11 +1067,11 @@ export class UnusedVariableDetector extends EventEmitter {
     declaration: { [key: string]: unknown },
     usage: UnusedVariable['usage'],
   ): UnusedVariable['estimatedImpact'] {
-    if (declaration.type === 'interface' || declaration.type === 'type') {
+    if (declaration.type === 'interface' || declaration.type === 'type') {;
       return 'none';
     }
 
-    if (declaration.type === 'function' || declaration.type === 'class') {
+    if (declaration.type === 'function' || declaration.type === 'class') {;
       return 'medium';
     }
 
@@ -1097,7 +1097,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
   private calculateImportSavings(importPath: string): UnusedImport['estimatedSavings'] {
     // Simple heuristic for import savings
-    const isLargeLibrary = ['lodash', 'moment', 'rxjs', 'react'].some(lib =>
+    const isLargeLibrary = ['lodash', 'moment', 'rxjs', 'react'].some(lib =>;
       importPath.includes(lib),
     );
 
@@ -1138,7 +1138,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const variableSavings = variables.length * 50; // 50 bytes per variable
     const importSavings = imports.reduce((sum, imp) => sum + imp.estimatedSavings.bundleSize, 0);
     const exportSavings = exports.length * 30; // 30 bytes per export
-    const blockSavings = blocks.reduce(
+    const blockSavings = blocks.reduce(;
       (sum, block) => sum + (block.endLine - block.startLine) * 20,
       0,
     );
@@ -1152,7 +1152,7 @@ export class UnusedVariableDetector extends EventEmitter {
     exports: UnusedExport[],
   ): 'low' | 'medium' | 'high' {
     const highRiskCount =
-      variables.filter(v => v.riskLevel === 'high').length +
+      variables.filter(v => v.riskLevel === 'high').length +;
       exports.filter(e => e.removalSafety === 'dangerous').length;
 
     if (highRiskCount > 5) return 'high';
@@ -1167,7 +1167,7 @@ export class UnusedVariableDetector extends EventEmitter {
     return total > 0 ? automatable / total : 0;
   }
 
-  // ========== RECOMMENDATION GENERATION ==========
+  // ========== RECOMMENDATION GENERATION ==========;
 
   private generateRecommendations(
     variables: UnusedVariable[],
@@ -1180,7 +1180,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
     // Variable recommendations
     for (const variable of variables) {
-      if (variable.riskLevel === 'low' && variable.confidence > 0.8) {
+      if (variable.riskLevel === 'low' && variable.confidence > 0.8) {;
         recommendations.push({
           recommendationId: `rec_var_${variable.variableId}`,
           type: 'variable',
@@ -1192,13 +1192,13 @@ export class UnusedVariableDetector extends EventEmitter {
           estimatedBenefit: {
             bundleSize: 50,
             performance: 0.1,
-            maintainability: 0.3,
+            maintainability: 0.3
           },
           risks:
             (variable.riskLevel as string) === 'high' ? ['May break external dependencies'] : [],
-          automationPossible: variable.riskLevel === 'low' && variable.confidence > 0.9,
+          automationPossible: variable.riskLevel === 'low' && variable.confidence > 0.9,;
           dependencies: [],
-          implementation: [`Remove line ${variable.line} in ${variable.filePath}`],
+          implementation: [`Remove line ${variable.line} in ${variable.filePath}`]
         });
       }
     }
@@ -1216,12 +1216,12 @@ export class UnusedVariableDetector extends EventEmitter {
         estimatedBenefit: {
           bundleSize: importItem.estimatedSavings.bundleSize,
           performance: importItem.estimatedSavings.loadTime / 1000,
-          maintainability: 0.2,
+          maintainability: 0.2
         },
         risks: importItem.isDevelopmentOnly ? [] : ['May be used for side effects'],
         automationPossible: true,
         dependencies: [],
-        implementation: [`Remove import on line ${importItem.line} in ${importItem.filePath}`],
+        implementation: [`Remove import on line ${importItem.line} in ${importItem.filePath}`]
       });
     }
 
@@ -1231,7 +1231,7 @@ export class UnusedVariableDetector extends EventEmitter {
         recommendations.push({
           recommendationId: `rec_export_${exportItem.exportId}`,
           type: 'export',
-          priority: exportItem.removalSafety === 'safe' ? 'medium' : 'low',
+          priority: exportItem.removalSafety === 'safe' ? 'medium' : 'low',;
           action: 'remove',
           target: exportItem.exportName,
           filePath: exportItem.filePath,
@@ -1239,13 +1239,13 @@ export class UnusedVariableDetector extends EventEmitter {
           estimatedBenefit: {
             bundleSize: 30,
             performance: 0.05,
-            maintainability: 0.2,
+            maintainability: 0.2
           },
           risks:
-            exportItem.removalSafety === 'warning' ? ['May be used by external consumers'] : [],
-          automationPossible: exportItem.removalSafety === 'safe',
+            exportItem.removalSafety === 'warning' ? ['May be used by external consumers'] : [],;
+          automationPossible: exportItem.removalSafety === 'safe',;
           dependencies: [],
-          implementation: [`Remove export on line ${exportItem.line} in ${exportItem.filePath}`],
+          implementation: [`Remove export on line ${exportItem.line} in ${exportItem.filePath}`]
         });
       }
     }
@@ -1263,12 +1263,12 @@ export class UnusedVariableDetector extends EventEmitter {
         estimatedBenefit: {
           bundleSize: (block.endLine - block.startLine) * 20,
           performance: block.estimatedRemovalBenefit,
-          maintainability: 0.5,
+          maintainability: 0.5
         },
         risks: block.isReachable ? ['Code might be reachable in some scenarios'] : [],
         automationPossible: !block.isReachable,
         dependencies: block.dependencies,
-        implementation: [`Remove lines ${block.startLine}-${block.endLine} in ${block.filePath}`],
+        implementation: [`Remove lines ${block.startLine}-${block.endLine} in ${block.filePath}`]
       });
     }
 
@@ -1280,11 +1280,11 @@ export class UnusedVariableDetector extends EventEmitter {
       if (priorityDiff !== 0) return priorityDiff;
 
       const totalBenefitA =
-        a.estimatedBenefit.bundleSize +
+        a.estimatedBenefit.bundleSize +;
         a.estimatedBenefit.performance +
         a.estimatedBenefit.maintainability;
       const totalBenefitB =
-        b.estimatedBenefit.bundleSize +
+        b.estimatedBenefit.bundleSize +;
         b.estimatedBenefit.performance +
         b.estimatedBenefit.maintainability;
 
@@ -1292,7 +1292,7 @@ export class UnusedVariableDetector extends EventEmitter {
     });
   }
 
-  // ========== CROSS-FILE ANALYSIS ==========
+  // ========== CROSS-FILE ANALYSIS ==========;
 
   private async performCrossFileAnalysis(
     results: DetectionResult[],
@@ -1326,7 +1326,7 @@ export class UnusedVariableDetector extends EventEmitter {
     // For now, individual file recommendations are sufficient
   }
 
-  // ========== AUTOMATION CAPABILITIES ==========
+  // ========== AUTOMATION CAPABILITIES ==========;
 
   /**
    * Automatically clean up unused variables
@@ -1354,8 +1354,8 @@ export class UnusedVariableDetector extends EventEmitter {
       const lines = content.split('\n');
 
       // Process recommendations in reverse order to avoid line number shifts
-      const automatable = result.recommendations
-        .filter(r => r.automationPossible && (!options.safeOnly || r.risks.length === 0))
+      const automatable = result.recommendations;
+        .filter(r => r.automationPossible && (!options.safeOnly || r.risks.length === 0));
         .sort((a, b) => {
           const aLine = this.extractLineNumber(a.implementation[0]);
           const bLine = this.extractLineNumber(b.implementation[0]);
@@ -1387,8 +1387,8 @@ export class UnusedVariableDetector extends EventEmitter {
         success: false,
         changes,
         warnings: [
-          `Failed to perform cleanup: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        ],
+          `Failed to perform cleanup: ${error instanceof Error ? error.message : 'Unknown error'}`
+        ]
       };
     }
   }
@@ -1398,15 +1398,15 @@ export class UnusedVariableDetector extends EventEmitter {
     return match ? parseInt(match[1]) : 0;
   }
 
-  // ========== DATA PERSISTENCE ==========
+  // ========== DATA PERSISTENCE ==========;
 
   private async persistResults(): Promise<void> {
     try {
-      const data = {
+      const data = {;
         results: Array.from(this.detectionResults.entries()),
         globalSymbolTable: Array.from(this.globalSymbolTable.entries()),
         crossFileReferences: Array.from(this.crossFileReferences.entries()),
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       };
 
       await fs.promises.writeFile(this.RESULTS_FILE, JSON.stringify(data, null, 2));
@@ -1429,7 +1429,7 @@ export class UnusedVariableDetector extends EventEmitter {
     }
   }
 
-  // ========== PUBLIC API ==========
+  // ========== PUBLIC API ==========;
 
   getDetectionResults(): DetectionResult[] {
     return Array.from(this.detectionResults.values());
@@ -1458,7 +1458,7 @@ export class UnusedVariableDetector extends EventEmitter {
       totalDeadCodeBlocks: results.reduce((sum, r) => sum + r.deadCodeBlocks.length, 0),
       estimatedSavings: results.reduce((sum, r) => sum + r.summary.totalSavings, 0),
       automationPotential:
-        results.reduce((sum, r) => sum + r.summary.automationPotential, 0) / results.length,
+        results.reduce((sum, r) => sum + r.summary.automationPotential, 0) / results.length
     };
   }
 
@@ -1479,22 +1479,22 @@ export class UnusedVariableDetector extends EventEmitter {
   } {
     const results = this.getDetectionResults();
     const lastAnalysis =
-      results.length > 0
-        ? new Date(Math.max(...results.map(r => r.timestamp.getTime())))
+      results.length > 0;
+        ? new Date(Math.max(...results.map(r => r.timestamp.getTime())));
         : undefined;
 
     return {
       isAnalyzing: this.isAnalyzing,
       resultsCount: results.length,
-      lastAnalysis,
+      lastAnalysis
     };
   }
 }
 
-// ========== SINGLETON INSTANCE ==========
+// ========== SINGLETON INSTANCE ==========;
 
-export const unusedVariableDetector = new UnusedVariableDetector();
+export const _unusedVariableDetector = new UnusedVariableDetector();
 
-// ========== EXPORT FACTORY ==========
+// ========== EXPORT FACTORY ==========;
 
-export const createUnusedVariableDetector = () => new UnusedVariableDetector();
+export const _createUnusedVariableDetector = () => new UnusedVariableDetector();

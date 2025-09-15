@@ -4,7 +4,7 @@ import { ElementalCharacter } from './planetaryElements';
  * Zodiac sign types
  */
 export type ZodiacSign =
-  | 'aries'
+  | 'aries';
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -32,16 +32,16 @@ export const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
   sagittarius: 'Fire',
   capricorn: 'Earth',
   aquarius: 'Air',
-  pisces: 'Water',
+  pisces: 'Water'
 };
 
 // Export zodiac elements directly for easier imports
-export const ZODIAC_ELEMENTS = zodiacElementMap;
+export const _ZODIAC_ELEMENTS = zodiacElementMap;
 
 /**
  * Planetary rulerships - which planets rule which signs
  */
-export const PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
+export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
   sun: ['leo'],
   moon: ['cancer'],
   mercury: ['gemini', 'virgo'],
@@ -57,7 +57,7 @@ export const PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
 /**
  * Planetary exaltations - where planets have extra strength
  */
-export const PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
+export const _PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
   sun: 'aries',
   moon: 'taurus',
   mercury: 'virgo',
@@ -73,25 +73,25 @@ export const PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
 /**
  * Triplicity rulers - planets that rule elements
  */
-export const TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
+export const _TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
   Fire: ['sun', 'jupiter', 'mars'],
   Earth: ['venus', 'saturn', 'mercury'],
   Air: ['saturn', 'mercury', 'jupiter'],
-  Water: ['venus', 'mars', 'moon'],
+  Water: ['venus', 'mars', 'moon']
 };
 
 /**
  * Converts a zodiac sign to its corresponding element
  */
-export const getElementFromZodiac = (sign: any): ElementalCharacter => {
+export const _getElementFromZodiac = (sign: any): ElementalCharacter => {;
   return zodiacElementMap[sign];
 };
 
 /**
  * Gets all zodiac signs associated with a specific element
  */
-export const getZodiacSignsByElement = (element: ElementalCharacter): any[] => {
+export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => {;
   return Object.entries(zodiacElementMap)
-    .filter(([_, signElement]) => signElement === element)
+    .filter(([_, signElement]) => signElement === element);
     .map(([sign, _]) => sign as unknown);
 };

@@ -6,8 +6,8 @@ const mockRecipe: Partial<Recipe> = { name: 'Test Recipe',
   seasonality: { Spring: 0.7,
     Summer: 0.9,
     Fall: 0.5,
-    Winter: 0.3,
-  },
+    Winter: 0.3
+  }
 };
 
 // Function to calculate seasonal effectiveness

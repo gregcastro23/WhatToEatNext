@@ -77,21 +77,21 @@ export interface ElementalTransformation {
 }
 
 // Default ElementalProperties
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
-  Air: 0.25,
+  Air: 0.25
 };
 
 // Type guard function for ElementalProperties
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {
   return Boolean(
     obj &&
-      typeof obj === 'object' &&
-      typeof (obj as ElementalProperties).Fire === 'number' &&
-      typeof (obj as ElementalProperties).Water === 'number' &&
-      typeof (obj as ElementalProperties).Earth === 'number' &&
-      typeof (obj as ElementalProperties).Air === 'number',
+      typeof obj === 'object' &&;
+      typeof (obj as ElementalProperties).Fire === 'number' &&;
+      typeof (obj as ElementalProperties).Water === 'number' &&;
+      typeof (obj as ElementalProperties).Earth === 'number' &&;
+      typeof (obj as ElementalProperties).Air === 'number',;
   );
 }

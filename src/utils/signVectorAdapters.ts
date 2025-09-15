@@ -6,45 +6,45 @@ import type { PlanetaryPosition } from '@/types/celestial';
  */
 export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | null {
   if (!position || typeof position !== 'object') {
-    return null,
+    return null
   }
 
   const pos = position as Record<string, unknown>;
   
   // Extract and validate required fields
-  const sign = typeof pos.sign === 'string' ? pos.sign : null, 
-  const degree = typeof pos.degree === 'number' ? pos.degree :  , 
-                 typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0, 
+  const sign = typeof pos.sign === 'string' ? pos.sign : null, ;
+  const degree = typeof pos.degree === 'number' ? pos.degree :  , ;
+                 typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0, ;
   if (!sign) {
-    return null,
+    return null
   }
 
   // Build the adapted position object
-  const adapted: PlanetaryPosition = {
+  const adapted: PlanetaryPosition = {;
   sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
     degree: Number.isFinite(degree) ? degree : 0,
     isRetrograde: Boolean(pos.isRetrograde)
   };
 
   // Add optional fields if present
-  if (typeof pos.house === 'number') {
-    adapted.house = pos.house,
+  if (typeof pos.house === 'number') {;
+    adapted.house = pos.house,;
   }
   
-  if (typeof pos.speed === 'number') {
-    adapted.speed = pos.speed,
+  if (typeof pos.speed === 'number') {;
+    adapted.speed = pos.speed,;
   }
 
-  if (typeof pos.longitude === 'number') {
-    adapted.longitude = pos.longitude,
+  if (typeof pos.longitude === 'number') {;
+    adapted.longitude = pos.longitude,;
   }
 
-  if (typeof pos.latitude === 'number') {
-    adapted.latitude = pos.latitude,
+  if (typeof pos.latitude === 'number') {;
+    adapted.latitude = pos.latitude,;
   }
 
-  if (typeof pos.distance === 'number') {
-    adapted.distance = pos.distance,
+  if (typeof pos.distance === 'number') {;
+    adapted.distance = pos.distance,;
   }
 
   return adapted;
@@ -57,7 +57,7 @@ export function adaptPlanetaryPositions(
   positions: unknown
 ): Record<string, PlanetaryPosition> | null {
   if (!positions || typeof positions !== 'object') {
-    return null,
+    return null
   }
 
   const adapted: Record<string, PlanetaryPosition> = {};
@@ -67,11 +67,11 @@ export function adaptPlanetaryPositions(
     const adaptedPosition = adaptPlanetaryPosition(position);
     if (adaptedPosition) {
       adapted[planet] = adaptedPosition;
-      hasValidData = true,
+      hasValidData = true,;
     }
   }
 
-  return hasValidData ? adapted : null, 
+  return hasValidData ? adapted : null 
 }
 
 /**
@@ -79,14 +79,14 @@ export function adaptPlanetaryPositions(
  */
 export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
   if (!obj || typeof obj !== 'object') {
-    return false,
+    return false
   }
 
   const pos = obj as Record<string, unknown>;
   return (
     typeof pos.sign === 'string' &&;
     typeof pos.degree === 'number' &&;
-    typeof pos.isRetrograde === 'boolean',
+    typeof pos.isRetrograde === 'boolean',;
   );
 }
 
@@ -97,7 +97,7 @@ export function isPlanetaryPositionsMap(
   obj: unknown
 ): obj is Record<string, PlanetaryPosition> {
   if (!obj || typeof obj !== 'object') {
-    return false,
+    return false
   }
 
   const positions = obj as Record<string, unknown>;
@@ -109,14 +109,14 @@ export function isPlanetaryPositionsMap(
  */
 export function getSignFromPosition(_position: unknown): string | null {
   if (!position || typeof position !== 'object') {
-    return null,
+    return null
   }
 
   const pos = position as Record<string, unknown>;
   const sign = pos.sign;
 
-  if (typeof sign === 'string' && sign.length > 0) {
-    return sign.toLowerCase(),
+  if (typeof sign === 'string' && sign.length > 0) {;
+    return sign.toLowerCase()
   }
 
   return null;
@@ -127,19 +127,19 @@ export function getSignFromPosition(_position: unknown): string | null {
  */
 export function getDegreeFromPosition(_position: unknown): number {
   if (!position || typeof position !== 'object') {
-    return 0,
+    return 0
   }
 
   const pos = position as Record<string, unknown>;
   const degree = pos.degree;
 
-  if (typeof degree === 'number') {
-    return Number.isFinite(degree) ? degree : 0, 
+  if (typeof degree === 'number') {;
+    return Number.isFinite(degree) ? degree : 0 
   }
 
-  if (typeof degree === 'string') {
-    const parsed = parseFloat(degree),
-    return Number.isFinite(parsed) ? parsed : 0, 
+  if (typeof degree === 'string') {;
+    const parsed = parseFloat(degree),;
+    return Number.isFinite(parsed) ? parsed : 0 
   }
 
   return 0;
